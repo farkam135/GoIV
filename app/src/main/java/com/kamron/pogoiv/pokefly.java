@@ -698,12 +698,12 @@ public class pokefly extends Service {
         pokemon = new ArrayList<Pokemon>();
 
         String[] names = getPokemonNames();
-        int[] defences = getResources().getIntArray(R.array.defence);
-        int[] staminas = getResources().getIntArray(R.array.stamina);
-        int[] attacks = getResources().getIntArray(R.array.attack);
+        int[] attack = getResources().getIntArray(R.array.attack);
+        int[] defense = getResources().getIntArray(R.array.defense);
+        int[] stamina = getResources().getIntArray(R.array.stamina);
 
         for (int i = 0; i <= 150; i++){
-            pokemon.add(new Pokemon(names[i], defences[i], staminas[i], attacks[i]));
+            pokemon.add(new Pokemon(names[i], attack[i], defense[i], stamina[i]));
         }
     }
 

@@ -35,6 +35,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.googlecode.tesseract.android.TessBaseAPI;
@@ -93,6 +94,13 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
         //System.out.println(Build.VERSION_CODES.M);
+
+        TextView tvVersionNumber = (TextView) findViewById(R.id.version_number);
+        try {
+            tvVersionNumber.setText(getPackageManager().getPackageInfo(getPackageName(), 0).versionName);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
 
         final SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
         trainerLevel = sharedPref.getInt("level", 1);

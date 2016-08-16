@@ -152,5 +152,5 @@
     <string name="pokemon150">Mewtu</string>
     <string name="pokemon151">Mew</string>
 
-    <string name="welcome_message">Willkommen bei GoIV!\n\nAnleitung:\n1. Geben Sie Ihr Trainer Level unter ein\n2. Drücken Sie die Start-Taste und akzeptieren Sie die Berechtigungen\n3. Schauen Sie sich Ihr Pokémon in 'Pokémon Go' an\n4. Tippen Sie auf die IV Taste, um das Pokémon zu scannen\n5. Passen Sie die gescannten Daten bei Bedarf an\n6. Überprüfen Sie die IV!</string>
+    <string name="welcome_message">Willkommen bei GoIV!\n\nAnleitung:\n1. Geben Sie Ihr Trainer Level unter ein\n2. Drücken Sie die Start-Taste und akzeptieren Sie die Berechtigungen\n3. Schauen Sie sich Ihr Pokémon in \'Pokémon Go\' an\n4. Tippen Sie auf die IV Taste, um das Pokémon zu scannen\n5. Passen Sie die gescannten Daten bei Bedarf an\n6. Überprüfen Sie die IV!</string>
 </resources>

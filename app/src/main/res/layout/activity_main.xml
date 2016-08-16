@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="16dp"
-        android:text="Welcome to GoIV!\n\nInstructions:\n1. Enter your trainer level below\n2. Press the start button and allow screen capture\n3. Open up your desired pokemon in Pokemon GO\n4. Tap the IV Button to scan the pokemon\n5. Adjust the scanned data if necessary\n6. Check IV! "
+        android:text="@string/welcome_message"
         android:textAlignment="center"
         app:layout_constraintLeft_toLeftOf="@+id/activity_main"
         app:layout_constraintRight_toRightOf="@+id/activity_main"

@@ -28,6 +28,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
+import android.text.method.LinkMovementMethod;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.View;
@@ -35,6 +36,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.googlecode.tesseract.android.TessBaseAPI;
@@ -93,6 +95,9 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
         //System.out.println(Build.VERSION_CODES.M);
+
+        TextView goIvInfo = (TextView) findViewById(R.id.goiv_info);
+        goIvInfo.setMovementMethod(LinkMovementMethod.getInstance());
 
         final SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
         trainerLevel = sharedPref.getInt("level", 1);

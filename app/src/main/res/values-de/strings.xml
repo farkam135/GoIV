@@ -151,4 +151,6 @@
     <string name="pokemon149">Dragoran</string>
     <string name="pokemon150">Mewtu</string>
     <string name="pokemon151">Mew</string>
+
+    <string name="goiv_is_open_source">GoIV ist open source!\ngithub.com/farkam135/GoIV\nreddit.com/r/GoIV</string>
 </resources>

@@ -181,7 +181,7 @@ public class pokefly extends Service {
         Notification.Builder builder = new Notification.Builder(context)
                 .setContentTitle("GoIV Running - Level " + trainerLevel)
                 .setContentText("Tap to open")
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.drawable.notification_icon)
                 .setContentIntent(pendingIntent);
         Notification n = builder.build();
 

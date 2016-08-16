@@ -8,15 +8,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Color;
 import android.graphics.PixelFormat;
-import android.graphics.Typeface;
 import android.os.IBinder;
 import android.support.v4.content.LocalBroadcastManager;
-import android.text.InputType;
 import android.util.DisplayMetrics;
-import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -33,6 +30,10 @@ import android.widget.Toast;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by Kamron on 7/25/2016.
@@ -53,19 +54,15 @@ public class pokefly extends Service {
     private ImageView IVButton;
     private ImageView arcPointer;
     private LinearLayout infoLayout;
-    private Spinner pokemonList;
-    private EditText pokemonCPEdit;
-    private EditText pokemonHPEdit;
-    private SeekBar arcAdjustBar;
-    private Button pokemonGetIVButton;
-    private Button cancelInfoButton;
-    private TextView ivText;
-    private TextView nameText;
-    private TextView cpText;
-    private TextView hpText;
-    private TextView arcAdjustText;
-    private Button decrementLevelButton;
-    private Button incrementLevelButton;
+
+    @BindView(R.id.tvIvInfo) TextView ivText;
+    @BindView(R.id.spnPokemonName) Spinner pokemonList;
+    @BindView(R.id.etCp) EditText pokemonCPEdit;
+    @BindView(R.id.etHp) EditText pokemonHPEdit;
+    @BindView(R.id.sbArcAdjust) SeekBar arcAdjustBar;
+    @BindView(R.id.btnCheckIv) Button pokemonGetIVButton;
+    @BindView(R.id.btnCancelInfo) Button cancelInfoButton;
+    @BindView(R.id.llPokemonInfo) LinearLayout pokemonInfoLayout;
 
     private String pokemonName;
     private int pokemonCP;
@@ -121,7 +118,6 @@ public class pokefly extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-
         windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
         //Display disp = windowManager.getDefaultDisplay();
         //disp.getRealMetrics(displayMetrics);
@@ -139,10 +135,10 @@ public class pokefly extends Service {
             statusBarHeight = intent.getIntExtra("statusBarHeight", 0);
             makeNotification(pokefly.this);
             displayMetrics = this.getResources().getDisplayMetrics();
+            createInfoLayout();
             createIVButton();
             createArcPointer();
             createArcAdjuster();
-            createInfoLayout();
         }
         return START_STICKY;
     }
@@ -241,8 +237,6 @@ public class pokefly extends Service {
      * Creates the arc adjuster used to move the arc pointer in the scan screen
      */
     private void createArcAdjuster() {
-        arcAdjustBar = new SeekBar(this);
-        arcAdjustBar.setPadding(32, 0, 32, 0);
         arcAdjustBar.setMax(Math.min(trainerLevel * 2 + 1, 79));
 
         arcAdjustBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -313,181 +307,52 @@ public class pokefly extends Service {
      * creates the info layout which contains all the scanned data views and allows for correction.
      */
     private void createInfoLayout() {
+        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        infoLayout = (LinearLayout) inflater.inflate(R.layout.dialog_info_window, null);
         layoutParams.gravity = Gravity.CENTER | Gravity.BOTTOM;
+        ButterKnife.bind(this, infoLayout);
 
-        LinearLayout.LayoutParams horizParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT, 1.0f);
-
-
-        infoLayout = new LinearLayout(this);
-        infoLayout.setPadding(64, 64, 64, 64);
-        infoLayout.setOrientation(LinearLayout.VERTICAL);
-        infoLayout.setBackground(getDrawable(android.R.drawable.alert_light_frame));
-        infoLayout.getBackground().setAlpha(225);
-
-
-        ivText = new TextView(this);
-        ivText.setVisibility(View.GONE);
-        ivText.setTextSize(18);
-        ivText.setTextColor(Color.BLACK);
-        ivText.setPadding(16, 0, 0, 0);
-        infoLayout.addView(ivText);
-
-        LinearLayout pokeNameHorizontal = new LinearLayout(this);
-        pokeNameHorizontal.setGravity(Gravity.CENTER_HORIZONTAL);
-
-        nameText = new TextView(this);
-        nameText.setText("Pokemon Name: ");
-        nameText.setTextColor(Color.BLACK);
-        nameText.setTypeface(Typeface.DEFAULT_BOLD);
-        nameText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
-        pokeNameHorizontal.addView(nameText);
-
-        pokemonList = new Spinner(this);
         pokeAdapter = new ArrayAdapter<Pokemon>(this, R.layout.spinner_pokemon, pokemon);
         pokemonList.setAdapter(pokeAdapter);
-        pokemonList.setPopupBackgroundResource(R.drawable.spinner);
-        pokeNameHorizontal.addView(pokemonList);
+    }
 
-        infoLayout.addView(pokeNameHorizontal);
+    @OnClick(R.id.btnDecrementLevel)
+    public void decrementLevel() {
+        if (estimatedPokemonLevel > 1.0) {
+            estimatedPokemonLevel -= 0.5;
+        }
+        setArcPointer((CpM[(int) (estimatedPokemonLevel * 2 - 2)] - 0.094) * 202.037116 / CpM[trainerLevel * 2 - 2]);
+        arcAdjustBar.setProgress((int) ((estimatedPokemonLevel - 1) * 2));
+    }
 
-        LinearLayout cphpHorizontal = new LinearLayout(this);
+    @OnClick(R.id.btnIncrementLevel)
+    public void incrementLevel() {
+        if (estimatedPokemonLevel < trainerLevel + 1.5 && estimatedPokemonLevel < 40.5) {
+            estimatedPokemonLevel += 0.5;
+        }
+        setArcPointer((CpM[(int) (estimatedPokemonLevel * 2 - 2)] - 0.094) * 202.037116 / CpM[trainerLevel * 2 - 2]);
+        arcAdjustBar.setProgress((int) ((estimatedPokemonLevel - 1) * 2));
+    }
 
-        LinearLayout cpLayout = new LinearLayout(this);
-        cpLayout.setOrientation(LinearLayout.VERTICAL);
-        cpLayout.setGravity(Gravity.CENTER);
-        cpText = new TextView(this);
-        cpText.setText("CP");
-        cpText.setTextColor(Color.BLACK);
-        cpText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
-        cpText.setTypeface(Typeface.DEFAULT_BOLD);
-        cpText.setGravity(Gravity.CENTER);
-        cpLayout.addView(cpText);
+    @OnClick(R.id.btnCheckIv)
+    public void checkIv() {
+        pokemonHP = Integer.parseInt(pokemonHPEdit.getText().toString());
+        pokemonCP = Integer.parseInt(pokemonCPEdit.getText().toString());
+        ivText.setVisibility(View.VISIBLE);
+        pokemonInfoLayout.setVisibility(View.GONE);
+        ivText.setText(getIVText());
+        pokemonGetIVButton.setVisibility(View.GONE);
+        cancelInfoButton.setText("Close");
+    }
 
-        pokemonCPEdit = new EditText(this);
-        pokemonCPEdit.setWidth(250);
-        pokemonCPEdit.setTextColor(Color.RED);
-        pokemonCPEdit.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-        pokemonCPEdit.setInputType(InputType.TYPE_CLASS_NUMBER);
-        cpLayout.addView(pokemonCPEdit);
-
-        LinearLayout hpLayout = new LinearLayout(this);
-        hpLayout.setOrientation(LinearLayout.VERTICAL);
-        hpLayout.setGravity(Gravity.CENTER);
-        hpText = new TextView(this);
-        hpText.setText("HP");
-        hpText.setTextColor(Color.BLACK);
-        hpText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
-        hpText.setTypeface(Typeface.DEFAULT_BOLD);
-        hpText.setGravity(Gravity.CENTER_HORIZONTAL);
-        hpLayout.addView(hpText);
-
-        pokemonHPEdit = new EditText(this);
-        pokemonHPEdit.setWidth(250);
-        pokemonHPEdit.setTextColor(Color.RED);
-        pokemonHPEdit.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-        pokemonHPEdit.setInputType(InputType.TYPE_CLASS_NUMBER);
-        hpLayout.addView(pokemonHPEdit);
-
-        cphpHorizontal.addView(cpLayout, horizParams);
-        cphpHorizontal.addView(hpLayout, horizParams);
-        infoLayout.addView(cphpHorizontal);
-
-        arcAdjustText = new TextView(this);
-        arcAdjustText.setText("Use the slider below to align the arc");
-        arcAdjustText.setTextColor(Color.BLACK);
-        arcAdjustText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
-        arcAdjustText.setTypeface(Typeface.DEFAULT_BOLD);
-        arcAdjustText.setGravity(Gravity.CENTER);
-        infoLayout.addView(arcAdjustText);
-
-        LinearLayout arcAdjustLayout = new LinearLayout(this);
-        arcAdjustLayout.setGravity(Gravity.CENTER);
-        decrementLevelButton = new Button(this);
-        decrementLevelButton.setText("-");
-        decrementLevelButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, 26.0f);
-        decrementLevelButton.setTextColor(Color.RED);
-        decrementLevelButton.setBackgroundColor(Color.TRANSPARENT);
-        decrementLevelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (estimatedPokemonLevel > 1.0) {
-                    estimatedPokemonLevel -= 0.5;
-                }
-                setArcPointer((CpM[(int) (estimatedPokemonLevel * 2 - 2)] - 0.094) * 202.037116 / CpM[trainerLevel * 2 - 2]);
-                arcAdjustBar.setProgress((int) ((estimatedPokemonLevel - 1) * 2));
-            }
-        });
-        incrementLevelButton = new Button(this);
-        incrementLevelButton.setText("+");
-        incrementLevelButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, 22.0f);
-        incrementLevelButton.setTextColor(Color.RED);
-        incrementLevelButton.setBackgroundColor(Color.TRANSPARENT);
-        incrementLevelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (estimatedPokemonLevel < trainerLevel + 1.5 && estimatedPokemonLevel < 40.5) {
-                    estimatedPokemonLevel += 0.5;
-                }
-                setArcPointer((CpM[(int) (estimatedPokemonLevel * 2 - 2)] - 0.094) * 202.037116 / CpM[trainerLevel * 2 - 2]);
-                arcAdjustBar.setProgress((int) ((estimatedPokemonLevel - 1) * 2));
-            }
-        });
-        arcAdjustLayout.addView(decrementLevelButton, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, 0.05f));
-        arcAdjustLayout.addView(arcAdjustBar, horizParams);
-        arcAdjustLayout.addView(incrementLevelButton, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, 0.05f));
-
-        infoLayout.addView(arcAdjustLayout);
-
-        LinearLayout horizontalButtonLayout = new LinearLayout(this);
-
-        pokemonGetIVButton = new Button(this);
-        pokemonGetIVButton.setText("Check IV");
-        pokemonGetIVButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                pokemonHP = Integer.parseInt(pokemonHPEdit.getText().toString());
-                pokemonCP = Integer.parseInt(pokemonCPEdit.getText().toString());
-                //windowManager.removeView(infoLayout);
-                ivText.setText(getIVText());
-                ivText.setVisibility(View.VISIBLE);
-                nameText.setVisibility(View.GONE);
-                pokemonList.setVisibility(View.GONE);
-                cpText.setVisibility(View.GONE);
-                pokemonCPEdit.setVisibility(View.GONE);
-                hpText.setVisibility(View.GONE);
-                pokemonHPEdit.setVisibility(View.GONE);
-                arcAdjustText.setVisibility(View.GONE);
-                arcAdjustBar.setVisibility(View.GONE);
-                pokemonGetIVButton.setVisibility(View.GONE);
-                decrementLevelButton.setVisibility(View.GONE);
-                incrementLevelButton.setVisibility(View.GONE);
-                cancelInfoButton.setText("Close");
-            }
-        });
-
-        cancelInfoButton = new Button(this);
-        cancelInfoButton.setText("Cancel");
-        cancelInfoButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                windowManager.removeView(infoLayout);
-                windowManager.removeView(arcPointer);
-                windowManager.addView(IVButton, IVButonParams);
-                receivedInfo = false;
-                infoShown = false;
-                IVButtonShown = true;
-            }
-        });
-
-        horizontalButtonLayout.addView(cancelInfoButton, horizParams);
-        horizontalButtonLayout.addView(pokemonGetIVButton, horizParams);
-        horizontalButtonLayout.setPadding(0, 16, 0, 0);
-
-        infoLayout.addView(horizontalButtonLayout);
+    @OnClick(R.id.btnCancelInfo)
+    public void cancelInfoDialog() {
+        windowManager.removeView(infoLayout);
+        windowManager.removeView(arcPointer);
+        windowManager.addView(IVButton, IVButonParams);
+        receivedInfo = false;
+        infoShown = false;
+        IVButtonShown = true;
     }
 
     /**
@@ -507,22 +372,14 @@ public class pokefly extends Service {
                     bestMatch = similarity;
                 }
             }
+            ivText.setVisibility(View.GONE);
+            pokemonInfoLayout.setVisibility(View.VISIBLE);
+            pokemonGetIVButton.setVisibility(View.VISIBLE);
+
             pokemonName = pokemon.get(pokeNumber).name;
             pokemonList.setSelection(pokeNumber);
             pokemonHPEdit.setText(String.valueOf(pokemonHP));
             pokemonCPEdit.setText(String.valueOf(pokemonCP));
-            ivText.setVisibility(View.GONE);
-            nameText.setVisibility(View.VISIBLE);
-            pokemonList.setVisibility(View.VISIBLE);
-            cpText.setVisibility(View.VISIBLE);
-            pokemonCPEdit.setVisibility(View.VISIBLE);
-            hpText.setVisibility(View.VISIBLE);
-            pokemonHPEdit.setVisibility(View.VISIBLE);
-            arcAdjustText.setVisibility(View.VISIBLE);
-            arcAdjustBar.setVisibility(View.VISIBLE);
-            pokemonGetIVButton.setVisibility(View.VISIBLE);
-            decrementLevelButton.setVisibility(View.VISIBLE);
-            incrementLevelButton.setVisibility(View.VISIBLE);
             cancelInfoButton.setText("Cancel");
 
             windowManager.addView(arcPointer, arcParams);

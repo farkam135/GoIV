@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <integer-array name="defence">
+    <integer-array name="attack">
         <item>	126	</item>
         <item>	156	</item>
         <item>	198	</item>
@@ -155,7 +155,7 @@
         <item>	220	</item>
     </integer-array>
 
-    <integer-array name="stamina">
+    <integer-array name="defense">
         <item>	126	</item>
         <item>	158	</item>
         <item>	200	</item>
@@ -309,7 +309,7 @@
         <item>	220	</item>
     </integer-array>
 
-    <integer-array name="attack">
+    <integer-array name="stamina">
         <item>	90	</item>
         <item>	120	</item>
         <item>	160	</item>

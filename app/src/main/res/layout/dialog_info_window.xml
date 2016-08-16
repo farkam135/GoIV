@@ -160,17 +160,17 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/btnCheckIv"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Check IV"
-            android:layout_weight="1"/>
-
-        <Button
             android:id="@+id/btnCancelInfo"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Cancel"
+            android:layout_weight="1"/>
+
+        <Button
+            android:id="@+id/btnCheckIv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Check IV"
             android:layout_weight="1"/>
 
     </LinearLayout>

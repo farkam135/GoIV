@@ -28,6 +28,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
+import android.text.method.LinkMovementMethod;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.View;
@@ -51,9 +52,9 @@ import java.util.TimerTask;
 
 
 public class MainActivity extends AppCompatActivity {
-    private static int OVERLAY_PERMISSION_REQ_CODE = 1234;
-    private static int WRITE_STORAGE_REQ_CODE = 1236;
-    private static int SCREEN_CAPTURE_REQ_CODE = 1235;
+    private static final int OVERLAY_PERMISSION_REQ_CODE = 1234;
+    private static final int WRITE_STORAGE_REQ_CODE = 1236;
+    private static final int SCREEN_CAPTURE_REQ_CODE = 1235;
     private MediaProjection mProjection;
     private ImageReader mImageReader;
     private DisplayMetrics displayMetrics;
@@ -69,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
     private int pokemonHP;
     private boolean pokeFlyRunning = false;
     private int trainerLevel;
-    private double[] CpM = {0.0939999967813492, 0.135137432089339, 0.166397869586945, 0.192650913155325, 0.215732470154762, 0.236572651424822, 0.255720049142838, 0.273530372106572, 0.290249884128571, 0.306057381389863
+    private final double[] CpM = {0.0939999967813492, 0.135137432089339, 0.166397869586945, 0.192650913155325, 0.215732470154762, 0.236572651424822, 0.255720049142838, 0.273530372106572, 0.290249884128571, 0.306057381389863
             , 0.321087598800659, 0.335445031996451, 0.349212676286697, 0.362457736609939, 0.375235587358475, 0.387592407713878, 0.399567276239395, 0.4111935532161, 0.422500014305115, 0.432926420512509, 0.443107545375824
             , 0.453059948165049, 0.46279838681221, 0.472336085311278, 0.481684952974319, 0.490855807179549, 0.499858438968658, 0.5087017489616, 0.517393946647644, 0.525942516110322, 0.534354329109192, 0.542635753803599
             , 0.550792694091797, 0.558830584490385, 0.566754519939423, 0.57456912814537, 0.582278907299042, 0.589887907888945, 0.597400009632111, 0.604823648665171, 0.61215728521347, 0.619404107958234, 0.626567125320435
@@ -102,9 +103,12 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        TextView goIvInfo = (TextView) findViewById(R.id.goiv_info);
+        goIvInfo.setMovementMethod(LinkMovementMethod.getInstance());
+
         final SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
         trainerLevel = sharedPref.getInt("level", 1);
-        ((EditText) findViewById(R.id.trainerLevel)).setText(trainerLevel + "");
+        ((EditText) findViewById(R.id.trainerLevel)).setText(String.valueOf(trainerLevel));
         File newFile = new File(getExternalFilesDir(null) + "/tessdata/eng.traineddata");
 
         if (!newFile.exists()) {
@@ -190,16 +194,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //Check Permissions
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(this)) {
-            //Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-            //       Uri.parse("package:" + getPackageName()));
-            //startActivityForResult(intent, OVERLAY_PERMISSION_REQ_CODE);
-            launch.setText("Grant Permissions");
-            //startScreenService();
-        } else if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
-            launch.setText("Grant Permissions");
-        }
+        checkPermissions(launch);
 
 
         displayMetrics = this.getResources().getDisplayMetrics();
@@ -216,6 +211,19 @@ public class MainActivity extends AppCompatActivity {
 
         LocalBroadcastManager.getInstance(this).registerReceiver(resetScreenshot, new IntentFilter("reset-screenshot"));
         LocalBroadcastManager.getInstance(this).registerReceiver(takeScreenshot, new IntentFilter("screenshot"));
+    }
+
+    private void checkPermissions(Button launch) {
+        //Check Permissions
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(this)) {
+            //Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+            //       Uri.parse("package:" + getPackageName()));
+            //startActivityForResult(intent, OVERLAY_PERMISSION_REQ_CODE);
+            launch.setText("Grant Permissions");
+            //startScreenService();
+        } else if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+            launch.setText("Grant Permissions");
+        }
     }
 
     @Override
@@ -359,7 +367,7 @@ public class MainActivity extends AppCompatActivity {
                 //System.out.println(tesseract.getUTF8Text());
                 pokemonHP = Integer.parseInt(tesseract.getUTF8Text().split("/")[1].replace("Z", "2").replace("O", "0").replace("l", "1").replaceAll("[^0-9]", ""));
                 //SaveImage(hp, "hp");
-                Bitmap cp = Bitmap.createBitmap(bmp, (int) Math.round(displayMetrics.widthPixels / 3), (int) Math.round(displayMetrics.heightPixels / 15.5151515), (int) Math.round(displayMetrics.widthPixels / 3.84), (int) Math.round(displayMetrics.heightPixels / 21.333333333));
+                Bitmap cp = Bitmap.createBitmap(bmp, (int) Math.round(displayMetrics.widthPixels / 3.0), (int) Math.round(displayMetrics.heightPixels / 15.5151515), (int) Math.round(displayMetrics.widthPixels / 3.84), (int) Math.round(displayMetrics.heightPixels / 21.333333333));
                 cp = replaceColors(cp, 255, 255, 255, Color.BLACK, 1);
                 tesseract.setImage(cp);
                 String cpText = tesseract.getUTF8Text().replace("O", "0").replace("l", "1").replace("S", "3").replaceAll("[^0-9]", "");
@@ -408,22 +416,19 @@ public class MainActivity extends AppCompatActivity {
             int rowStride = planes[0].getRowStride();
             int rowPadding = rowStride - pixelStride * rawDisplayMetrics.widthPixels;
             // create bitmap
-            try {
-                image.close();
-                Bitmap bmp = Bitmap.createBitmap(rawDisplayMetrics.widthPixels + rowPadding / pixelStride, displayMetrics.heightPixels, Bitmap.Config.ARGB_8888); //+ rowPadding / pixelStride
-                bmp.copyPixelsFromBuffer(buffer);
-                Intent showIVButton = new Intent("display-ivButton");
-                if (bmp.getPixel(areaX1, areaY1) == Color.rgb(250, 250, 250) && bmp.getPixel(areaX2, areaY2) == Color.rgb(28, 135, 150)) {
-                    showIVButton.putExtra("show", true);
-                } else {
-                    showIVButton.putExtra("show", false);
-                }
-                bmp.recycle();
-                LocalBroadcastManager.getInstance(MainActivity.this).sendBroadcast(showIVButton);
-                //SaveImage(bmp,"everything");
-            } catch (Exception e) {
+            image.close();
+            Bitmap bmp = Bitmap.createBitmap(rawDisplayMetrics.widthPixels + rowPadding / pixelStride, displayMetrics.heightPixels, Bitmap.Config.ARGB_8888); //+ rowPadding / pixelStride
+            bmp.copyPixelsFromBuffer(buffer);
+            Intent showIVButton = new Intent("display-ivButton");
+            if (bmp.getPixel(areaX1, areaY1) == Color.rgb(250, 250, 250) && bmp.getPixel(areaX2, areaY2) == Color.rgb(28, 135, 150)) {
+                showIVButton.putExtra("show", true);
+            } else {
+                showIVButton.putExtra("show", false);
             }
-        }
+            bmp.recycle();
+            LocalBroadcastManager.getInstance(MainActivity.this).sendBroadcast(showIVButton);
+            //SaveImage(bmp,"everything");
+         }
     }
 
     /**
@@ -465,7 +470,7 @@ public class MainActivity extends AppCompatActivity {
      * takeScreenshot
      * IV Button was pressed, take screenshot and send back pokemon info.
      */
-    private BroadcastReceiver takeScreenshot = new BroadcastReceiver() {
+    private final BroadcastReceiver takeScreenshot = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (readyForNewScreenshot) {
@@ -480,7 +485,7 @@ public class MainActivity extends AppCompatActivity {
      * Used to notify a new request for screenshot can be made. Needed to prevent multiple
      * intents for some devices.
      */
-    private BroadcastReceiver resetScreenshot = new BroadcastReceiver() {
+    private final BroadcastReceiver resetScreenshot = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             readyForNewScreenshot = true;
@@ -497,7 +502,7 @@ public class MainActivity extends AppCompatActivity {
      * @param keepCb       The blue color to keep
      * @param replaceColor The color to replace mismatched colors with
      * @param similarity   The similarity buffer
-     * @return
+     * @return Bitmap with replaced colors
      */
     private Bitmap replaceColors(Bitmap myBitmap, int keepCr, int keepCg, int keepCb, int replaceColor, int similarity) {
         int[] allpixels = new int[myBitmap.getHeight() * myBitmap.getWidth()];

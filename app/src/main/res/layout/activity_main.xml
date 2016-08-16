@@ -60,10 +60,12 @@
         app:layout_constraintTop_toBottomOf="@id/trainerLevel" />
 
     <TextView
+        android:id="@+id/goiv_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:autoLink="web"
         android:padding="16dp"
-        android:text="GoIV is open source!\ngithub.com/farkam135/GoIV "
+        android:text="@string/goiv_is_open_source"
         app:layout_constraintBottom_toBottomOf="@id/activity_main" />
 
     <TextView

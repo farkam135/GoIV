@@ -96,6 +96,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         //System.out.println(Build.VERSION_CODES.M);
 
+        TextView tvVersionNumber = (TextView) findViewById(R.id.version_number);
+        try {
+            tvVersionNumber.setText(getPackageManager().getPackageInfo(getPackageName(), 0).versionName);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
         TextView goIvInfo = (TextView) findViewById(R.id.goiv_info);
         goIvInfo.setMovementMethod(LinkMovementMethod.getInstance());
 

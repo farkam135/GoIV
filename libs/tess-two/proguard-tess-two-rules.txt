@@ -1,0 +1,8 @@
+-dontoptimize
+-dontobfuscate
+-dontpreverify
+-dontshrink
+-dontskipnonpubliclibraryclasses
+-dontskipnonpubliclibraryclassmembers
+-dontusemixedcaseclassnames
+-dontnote

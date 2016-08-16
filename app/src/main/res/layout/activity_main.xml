@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:visibility="visible"
+    tools:context="com.kamron.pogoiv.MainActivity">
+
+    <TextView
+        android:id="@+id/main_instructions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:text="Welcome to GoIV!\n\nInstructions:\n1. Enter your trainer level below\n2. Press the start button and allow screen capture\n3. Open up your desired pokemon in Pokemon GO\n4. Tap the IV Button to scan the pokemon\n5. Adjust the scanned data if necessary\n6. Check IV! "
+        android:textAlignment="center"
+        app:layout_constraintLeft_toLeftOf="@+id/activity_main"
+        app:layout_constraintRight_toRightOf="@+id/activity_main"
+        app:layout_constraintTop_toTopOf="@+id/activity_main" />
+
+    <TextView
+        android:id="@+id/main_levelLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Trainer Level"
+        android:textSize="24sp"
+        app:layout_constraintLeft_toLeftOf="@id/activity_main"
+        app:layout_constraintRight_toRightOf="@id/activity_main"
+        app:layout_constraintTop_toBottomOf="@id/main_instructions" />
+
+    <EditText
+        android:id="@+id/trainerLevel"
+        android:layout_width="75dp"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:inputType="number"
+        android:text="1"
+        android:textAlignment="center"
+        app:layout_constraintLeft_toLeftOf="@id/activity_main"
+        app:layout_constraintRight_toRightOf="@id/activity_main"
+        app:layout_constraintTop_toBottomOf="@id/main_levelLabel" />
+
+    <Button
+        android:id="@+id/start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:paddingBottom="16dp"
+        android:paddingEnd="32dp"
+        android:paddingLeft="32dp"
+        android:paddingRight="32dp"
+        android:paddingStart="32dp"
+        android:paddingTop="16dp"
+        android:text="Start"
+        android:textSize="18sp"
+        app:layout_constraintLeft_toLeftOf="@id/activity_main"
+        app:layout_constraintRight_toRightOf="@id/activity_main"
+        app:layout_constraintTop_toBottomOf="@id/trainerLevel" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:text="GoIV is open source!\nGithub: "
+        app:layout_constraintBottom_toBottomOf="@id/activity_main" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:text="v1.3.0"
+        app:layout_constraintBottom_toBottomOf="@id/activity_main"
+        app:layout_constraintRight_toRightOf="@id/activity_main" />
+
+
+</android.support.constraint.ConstraintLayout>
+

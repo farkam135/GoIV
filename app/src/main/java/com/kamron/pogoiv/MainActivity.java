@@ -50,9 +50,9 @@ import java.util.TimerTask;
 
 
 public class MainActivity extends AppCompatActivity {
-    private static int OVERLAY_PERMISSION_REQ_CODE = 1234;
-    private static int WRITE_STORAGE_REQ_CODE = 1236;
-    private static int SCREEN_CAPTURE_REQ_CODE = 1235;
+    private static final int OVERLAY_PERMISSION_REQ_CODE = 1234;
+    private static final int WRITE_STORAGE_REQ_CODE = 1236;
+    private static final int SCREEN_CAPTURE_REQ_CODE = 1235;
     private MediaProjection mProjection;
     private ImageReader mImageReader;
     private DisplayMetrics displayMetrics;
@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
     private int pokemonHP;
     private boolean pokeFlyRunning = false;
     private int trainerLevel;
-    private double[] CpM = {0.0939999967813492, 0.135137432089339, 0.166397869586945, 0.192650913155325, 0.215732470154762, 0.236572651424822, 0.255720049142838, 0.273530372106572, 0.290249884128571, 0.306057381389863
+    private final double[] CpM = {0.0939999967813492, 0.135137432089339, 0.166397869586945, 0.192650913155325, 0.215732470154762, 0.236572651424822, 0.255720049142838, 0.273530372106572, 0.290249884128571, 0.306057381389863
             , 0.321087598800659, 0.335445031996451, 0.349212676286697, 0.362457736609939, 0.375235587358475, 0.387592407713878, 0.399567276239395, 0.4111935532161, 0.422500014305115, 0.432926420512509, 0.443107545375824
             , 0.453059948165049, 0.46279838681221, 0.472336085311278, 0.481684952974319, 0.490855807179549, 0.499858438968658, 0.5087017489616, 0.517393946647644, 0.525942516110322, 0.534354329109192, 0.542635753803599
             , 0.550792694091797, 0.558830584490385, 0.566754519939423, 0.57456912814537, 0.582278907299042, 0.589887907888945, 0.597400009632111, 0.604823648665171, 0.61215728521347, 0.619404107958234, 0.626567125320435
@@ -461,7 +461,7 @@ public class MainActivity extends AppCompatActivity {
      * takeScreenshot
      * IV Button was pressed, take screenshot and send back pokemon info.
      */
-    private BroadcastReceiver takeScreenshot = new BroadcastReceiver() {
+    private final BroadcastReceiver takeScreenshot = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (readyForNewScreenshot) {
@@ -476,7 +476,7 @@ public class MainActivity extends AppCompatActivity {
      * Used to notify a new request for screenshot can be made. Needed to prevent multiple
      * intents for some devices.
      */
-    private BroadcastReceiver resetScreenshot = new BroadcastReceiver() {
+    private final BroadcastReceiver resetScreenshot = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             readyForNewScreenshot = true;

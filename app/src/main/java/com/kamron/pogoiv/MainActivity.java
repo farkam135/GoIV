@@ -490,7 +490,7 @@ public class MainActivity extends AppCompatActivity {
      * @param keepCb       The blue color to keep
      * @param replaceColor The color to replace mismatched colors with
      * @param similarity   The similarity buffer
-     * @return
+     * @return Bitmap with replaced colors
      */
     private Bitmap replaceColors(Bitmap myBitmap, int keepCr, int keepCg, int keepCb, int replaceColor, int similarity) {
         int[] allpixels = new int[myBitmap.getHeight() * myBitmap.getWidth()];

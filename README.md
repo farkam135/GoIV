@@ -12,11 +12,11 @@ Checksum: 1779FA8166F1948044916F862E28A9A9
 
 Changelog:
 [1.3.0]  
--You now get to see how much candy / stardust it would cost to max the level of a pokemon you analyzed.  
--Non-working donate button removed, credits page removed.  
--App version text added.  
--GoIV is now open source!  
--Fixed visual bug where if you manually changed the pokemon type, the result would still say whatever pokemon was automatically detected.
+- You now get to see how much candy / stardust it would cost to max the level of a pokemon you analyzed.  
+- Non-working donate button removed, credits page removed.  
+- App version text added.  
+- GoIV is now open source!  
+- Fixed visual bug where if you manually changed the pokemon type, the result would still say whatever pokemon was automatically detected.
 
 #FAQ
 Coming soon...
@@ -26,7 +26,7 @@ Have feedback/questions/comments? Visit our subreddit: https://www.reddit.com/r/
 
 #Special Thanks
 GoIV would not have been possible without the help and support of the following people:  
-Johan Swanberg  
-Stuart Dorff  
-Kevin Do  
-Tommy Tran  
+ - Johan Swanberg  
+ - Stuart Dorff  
+ - Kevin Do  
+ - Tommy Tran  

@@ -182,16 +182,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //Check Permissions
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(this)) {
-            //Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-            //       Uri.parse("package:" + getPackageName()));
-            //startActivityForResult(intent, OVERLAY_PERMISSION_REQ_CODE);
-            launch.setText("Grant Permissions");
-            //startScreenService();
-        } else if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
-            launch.setText("Grant Permissions");
-        }
+        checkPermissions(launch);
 
 
         displayMetrics = this.getResources().getDisplayMetrics();
@@ -208,6 +199,19 @@ public class MainActivity extends AppCompatActivity {
 
         LocalBroadcastManager.getInstance(this).registerReceiver(resetScreenshot, new IntentFilter("reset-screenshot"));
         LocalBroadcastManager.getInstance(this).registerReceiver(takeScreenshot, new IntentFilter("screenshot"));
+    }
+
+    private void checkPermissions(Button launch) {
+        //Check Permissions
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(this)) {
+            //Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+            //       Uri.parse("package:" + getPackageName()));
+            //startActivityForResult(intent, OVERLAY_PERMISSION_REQ_CODE);
+            launch.setText("Grant Permissions");
+            //startScreenService();
+        } else if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+            launch.setText("Grant Permissions");
+        }
     }
 
     @Override

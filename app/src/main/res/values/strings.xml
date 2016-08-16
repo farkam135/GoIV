@@ -156,4 +156,5 @@
     <string name="pokemon151">Mew</string>
 
     <string name="welcome_message">Welcome to GoIV!\n\nInstructions:\n1. Enter your trainer level below\n2. Press the start button and allow screen capture\n3. Open up your desired Pokémon in \'Pokémon Go\'\n4. Tap the IV Button to scan the Pokémon\n5. Adjust the scanned data if necessary\n6. Check IV!</string>
+    <string name="trainer_level">Trainer Level</string>
 </resources>

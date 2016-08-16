@@ -24,7 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Trainer Level"
+        android:text="@string/trainer_level"
         android:textSize="24sp"
         app:layout_constraintLeft_toLeftOf="@id/activity_main"
         app:layout_constraintRight_toRightOf="@id/activity_main"

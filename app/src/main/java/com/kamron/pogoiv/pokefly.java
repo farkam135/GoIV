@@ -425,7 +425,7 @@ public class pokefly extends Service {
                             int cp = (int) Math.floor((baseAttack + attackIV) * Math.sqrt(baseDefense + defenseIV) * lvlScalarStamina);
                             if (cp == pokemonCP) {
                                 ++count;
-                                int percentPerfect = (int) Math.round((attackIV + defenseIV + staminaIV) / 4500.0);
+                                int percentPerfect = (int) Math.round(((attackIV + defenseIV + staminaIV) / 45.0) * 100);
                                 if (percentPerfect < lowPercent) {
                                     lowPercent = percentPerfect;
                                 }

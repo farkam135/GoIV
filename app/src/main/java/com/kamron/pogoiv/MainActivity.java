@@ -293,10 +293,17 @@ public class MainActivity extends AppCompatActivity {
                     }
                 };
                 timer.schedule(doAsynchronousTask, 0, 750);
+                openPokemonGoApp();
             } else {
                 ((Button) findViewById(R.id.start)).setText("Start");
             }
         }
+    }
+
+    private void openPokemonGoApp() {
+        Intent i = getPackageManager().getLaunchIntentForPackage("com.nianticlabs.pokemongo");
+        if(i != null)
+            startActivity(i);
     }
 
     @TargetApi(23)

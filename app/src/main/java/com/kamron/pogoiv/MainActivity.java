@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
 
         final SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
         trainerLevel = sharedPref.getInt("level", 1);
-        ((EditText) findViewById(R.id.trainerLevel)).setText(trainerLevel + "");
+        ((EditText) findViewById(R.id.trainerLevel)).setText(String.valueOf(trainerLevel));
         File newFile = new File(getExternalFilesDir(null) + "/tessdata/eng.traineddata");
 
         if (!newFile.exists()) {
@@ -355,7 +355,7 @@ public class MainActivity extends AppCompatActivity {
                 //System.out.println(tesseract.getUTF8Text());
                 pokemonHP = Integer.parseInt(tesseract.getUTF8Text().split("/")[1].replace("Z", "2").replace("O", "0").replace("l", "1").replaceAll("[^0-9]", ""));
                 //SaveImage(hp, "hp");
-                Bitmap cp = Bitmap.createBitmap(bmp, (int) Math.round(displayMetrics.widthPixels / 3), (int) Math.round(displayMetrics.heightPixels / 15.5151515), (int) Math.round(displayMetrics.widthPixels / 3.84), (int) Math.round(displayMetrics.heightPixels / 21.333333333));
+                Bitmap cp = Bitmap.createBitmap(bmp, (int) Math.round(displayMetrics.widthPixels / 3.0), (int) Math.round(displayMetrics.heightPixels / 15.5151515), (int) Math.round(displayMetrics.widthPixels / 3.84), (int) Math.round(displayMetrics.heightPixels / 21.333333333));
                 cp = replaceColors(cp, 255, 255, 255, Color.BLACK, 1);
                 tesseract.setImage(cp);
                 String cpText = tesseract.getUTF8Text().replace("O", "0").replace("l", "1").replace("S", "3").replaceAll("[^0-9]", "");
@@ -404,22 +404,19 @@ public class MainActivity extends AppCompatActivity {
             int rowStride = planes[0].getRowStride();
             int rowPadding = rowStride - pixelStride * rawDisplayMetrics.widthPixels;
             // create bitmap
-            try {
-                image.close();
-                Bitmap bmp = Bitmap.createBitmap(rawDisplayMetrics.widthPixels + rowPadding / pixelStride, displayMetrics.heightPixels, Bitmap.Config.ARGB_8888); //+ rowPadding / pixelStride
-                bmp.copyPixelsFromBuffer(buffer);
-                Intent showIVButton = new Intent("display-ivButton");
-                if (bmp.getPixel(areaX1, areaY1) == Color.rgb(250, 250, 250) && bmp.getPixel(areaX2, areaY2) == Color.rgb(28, 135, 150)) {
-                    showIVButton.putExtra("show", true);
-                } else {
-                    showIVButton.putExtra("show", false);
-                }
-                bmp.recycle();
-                LocalBroadcastManager.getInstance(MainActivity.this).sendBroadcast(showIVButton);
-                //SaveImage(bmp,"everything");
-            } catch (Exception e) {
+            image.close();
+            Bitmap bmp = Bitmap.createBitmap(rawDisplayMetrics.widthPixels + rowPadding / pixelStride, displayMetrics.heightPixels, Bitmap.Config.ARGB_8888); //+ rowPadding / pixelStride
+            bmp.copyPixelsFromBuffer(buffer);
+            Intent showIVButton = new Intent("display-ivButton");
+            if (bmp.getPixel(areaX1, areaY1) == Color.rgb(250, 250, 250) && bmp.getPixel(areaX2, areaY2) == Color.rgb(28, 135, 150)) {
+                showIVButton.putExtra("show", true);
+            } else {
+                showIVButton.putExtra("show", false);
             }
-        }
+            bmp.recycle();
+            LocalBroadcastManager.getInstance(MainActivity.this).sendBroadcast(showIVButton);
+            //SaveImage(bmp,"everything");
+         }
     }
 
     /**

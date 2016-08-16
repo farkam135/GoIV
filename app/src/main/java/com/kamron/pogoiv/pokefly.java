@@ -33,7 +33,6 @@ import android.widget.Toast;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Created by Kamron on 7/25/2016.

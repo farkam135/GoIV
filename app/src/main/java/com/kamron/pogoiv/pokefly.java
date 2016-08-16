@@ -546,6 +546,7 @@ public class pokefly extends Service {
         int baseDefense = pokemon.get(pokemonList.getSelectedItemPosition()).baseDefense;
         int baseStamina = pokemon.get(pokemonList.getSelectedItemPosition()).baseStamina;
         double lvlScalar = CpM[(int) (estimatedPokemonLevel * 2 - 2)];
+        double lvlScalarPow2 = Math.pow(lvlScalar, 2) * 0.1; // instead of computing again in every loop
 
         String returnVal = "Your LV" + estimatedPokemonLevel + " " + pokemonName + " can be: ";
 
@@ -559,14 +560,15 @@ public class pokefly extends Service {
             for (int staminaIV = 0; staminaIV < 16; staminaIV++) {
                 int hp = (int) Math.max(Math.floor((baseStamina + staminaIV) * lvlScalar), 10);
                 if (hp == pokemonHP) {
+                    double lvlScalarStamina = Math.sqrt(baseStamina + staminaIV) * lvlScalarPow2;
                     //Possible STA IV
                     //System.out.println("Checking sta: " + staminaIV + ", gives " + hp);
                     for (int defenseIV = 0; defenseIV < 16; defenseIV++) {
                         for (int attackIV = 0; attackIV < 16; attackIV++) {
-                            int cp = (int) Math.floor((baseAttack + attackIV) * Math.sqrt(baseDefense + defenseIV) * Math.sqrt(baseStamina + staminaIV) * Math.pow(lvlScalar, 2) * 0.1);
+                            int cp = (int) Math.floor((baseAttack + attackIV) * Math.sqrt(baseDefense + defenseIV) * lvlScalarStamina);
                             if (cp == pokemonCP) {
                                 ++count;
-                                int percentPerfect = (int) Math.round(((attackIV + defenseIV + staminaIV) / 45.0) * 100);
+                                int percentPerfect = (int) Math.round((attackIV + defenseIV + staminaIV) / 4500.0);
                                 if (percentPerfect < lowPercent) {
                                     lowPercent = percentPerfect;
                                 }
@@ -582,6 +584,9 @@ public class pokefly extends Service {
                             }
                         }
                     }
+                }
+                else if (hp > pokemonHP) {
+                    break;
                 }
             }
 

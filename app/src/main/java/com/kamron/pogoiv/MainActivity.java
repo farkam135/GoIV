@@ -89,11 +89,8 @@ public class MainActivity extends AppCompatActivity {
         //System.out.println(Build.VERSION_CODES.M);
 
         TextView tvVersionNumber = (TextView) findViewById(R.id.version_number);
-        try {
-            tvVersionNumber.setText(getPackageManager().getPackageInfo(getPackageName(), 0).versionName);
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
+        tvVersionNumber.setText(getVersionName());
+
 
         TextView goIvInfo = (TextView) findViewById(R.id.goiv_info);
         goIvInfo.setMovementMethod(LinkMovementMethod.getInstance());
@@ -179,6 +176,15 @@ public class MainActivity extends AppCompatActivity {
 
         LocalBroadcastManager.getInstance(this).registerReceiver(resetScreenshot, new IntentFilter("reset-screenshot"));
         LocalBroadcastManager.getInstance(this).registerReceiver(takeScreenshot, new IntentFilter("screenshot"));
+    }
+
+    private String getVersionName() {
+        try {
+            return getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return "Error while getting version name";
     }
 
     private void initTesseract() {

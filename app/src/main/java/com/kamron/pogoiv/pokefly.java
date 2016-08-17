@@ -145,6 +145,7 @@ public class pokefly extends Service {
                 //if(arcAdjustBar != null) windowManager.removeView(arcAdjustBar);
                 if (infoLayout != null) windowManager.removeView(infoLayout);
             } catch (Exception e) {
+                e.printStackTrace();
             }
         }
         stopForeground(true);
@@ -542,8 +543,7 @@ public class pokefly extends Service {
     };
 
     private int dpToPx(int dp) {
-        int px = Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
-        return px;
+        return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
     }
 
     private void populatePokemon() {

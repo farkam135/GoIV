@@ -143,7 +143,13 @@ public class MainActivity extends AppCompatActivity {
                         radius++;
                     }
 
-                    trainerLevel = Integer.parseInt(etTrainerLevel.getText().toString());
+                    if (isNumeric(etTrainerLevel.getText().toString())) {
+                        trainerLevel = Integer.parseInt(etTrainerLevel.getText().toString());
+                    } else {
+                        Toast.makeText(MainActivity.this, etTrainerLevel.getText().toString() + " is not a number", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
                     if (trainerLevel > 0 && trainerLevel <= 40) {
                         sharedPref.edit().putInt("level", trainerLevel).apply();
 
@@ -185,6 +191,15 @@ public class MainActivity extends AppCompatActivity {
 
         LocalBroadcastManager.getInstance(this).registerReceiver(resetScreenshot, new IntentFilter("reset-screenshot"));
         LocalBroadcastManager.getInstance(this).registerReceiver(takeScreenshot, new IntentFilter("screenshot"));
+    }
+
+    private boolean isNumeric(String str) {
+        try {
+            int number = Integer.parseInt(str);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
     }
 
     private String getVersionName() {

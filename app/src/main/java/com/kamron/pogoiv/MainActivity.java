@@ -101,20 +101,7 @@ public class MainActivity extends AppCompatActivity {
         final SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
         trainerLevel = sharedPref.getInt("level", 1);
         ((EditText) findViewById(R.id.trainerLevel)).setText(String.valueOf(trainerLevel));
-        File newFile = new File(getExternalFilesDir(null) + "/tessdata/eng.traineddata");
-
-        if (!newFile.exists()) {
-            copyAssetFolder(getAssets(), "tessdata", getExternalFilesDir(null) + "/tessdata");
-            tesseract = new TessBaseAPI();
-            tesseract.init(getExternalFilesDir(null) + "", "eng");
-            tesseract.setVariable(TessBaseAPI.VAR_CHAR_WHITELIST, "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789/♀♂");
-            tessInitiated = true;
-        } else {
-            tesseract = new TessBaseAPI();
-            tesseract.init(getExternalFilesDir(null) + "", "eng");
-            tesseract.setVariable(TessBaseAPI.VAR_CHAR_WHITELIST, "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789/♀♂");
-            tessInitiated = true;
-        }
+        initTesseract();
 
         Button launch = (Button) findViewById(R.id.start);
         launch.setOnClickListener(new View.OnClickListener() {
@@ -152,21 +139,10 @@ public class MainActivity extends AppCompatActivity {
                     trainerLevel = Integer.parseInt(((EditText) findViewById(R.id.trainerLevel)).getText().toString());
                     if (trainerLevel > 0 && trainerLevel <= 40) {
                         sharedPref.edit().putInt("level", trainerLevel).apply();
-                        File newFile = new File(getExternalFilesDir(null) + "/tessdata/eng.traineddata");
 
+                        // TODO is this really necessary?
                         if (!tessInitiated) {
-                            if (!newFile.exists()) {
-                                copyAssetFolder(getAssets(), "tessdata", getExternalFilesDir(null) + "/tessdata");
-                                tesseract = new TessBaseAPI();
-                                tesseract.init(getExternalFilesDir(null) + "", "eng");
-                                tesseract.setVariable(TessBaseAPI.VAR_CHAR_WHITELIST, "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789/♀♂");
-                                tessInitiated = true;
-                            } else {
-                                tesseract = new TessBaseAPI();
-                                tesseract.init(getExternalFilesDir(null) + "", "eng");
-                                tesseract.setVariable(TessBaseAPI.VAR_CHAR_WHITELIST, "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789/♀♂");
-                                tessInitiated = true;
-                            }
+                            initTesseract();
                         }
                         startScreenService();
                         ((Button) v).setText("Accept Screen Capture");
@@ -203,6 +179,17 @@ public class MainActivity extends AppCompatActivity {
 
         LocalBroadcastManager.getInstance(this).registerReceiver(resetScreenshot, new IntentFilter("reset-screenshot"));
         LocalBroadcastManager.getInstance(this).registerReceiver(takeScreenshot, new IntentFilter("screenshot"));
+    }
+
+    private void initTesseract() {
+        if (!new File(getExternalFilesDir(null) + "/tessdata/eng.traineddata").exists()) {
+            copyAssetFolder(getAssets(), "tessdata", getExternalFilesDir(null) + "/tessdata");
+        }
+
+        tesseract = new TessBaseAPI();
+        tesseract.init(getExternalFilesDir(null) + "", "eng");
+        tesseract.setVariable(TessBaseAPI.VAR_CHAR_WHITELIST, "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789/♀♂");
+        tessInitiated = true;
     }
 
     private void checkPermissions(Button launch) {
@@ -294,7 +281,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void openPokemonGoApp() {
         Intent i = getPackageManager().getLaunchIntentForPackage("com.nianticlabs.pokemongo");
-        if(i != null)
+        if (i != null)
             startActivity(i);
     }
 
@@ -427,7 +414,7 @@ public class MainActivity extends AppCompatActivity {
             bmp.recycle();
             LocalBroadcastManager.getInstance(MainActivity.this).sendBroadcast(showIVButton);
             //SaveImage(bmp,"everything");
-         }
+        }
     }
 
     /**

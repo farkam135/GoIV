@@ -412,6 +412,19 @@ public class pokefly extends Service {
         double lvlScalar = Data.CpM[(int) (estimatedPokemonLevel * 2 - 2)];
         double lvlScalarPow2 = Math.pow(lvlScalar, 2) * 0.1; // instead of computing again in every loop
 
+        int sumIV = 0; // new, better average precision
+        int averageSum = 0; // new, better average precision
+
+        int lowAttack = 15; // new for cp at cap and max
+        int lowDefense = 15; // new for cp at cap and max
+        int lowStamina = 15; // new for cp at cap and max
+        int highAttack = 0; // new for cp at cap and max
+        int highDefense = 0; // new for cp at cap and max
+        int highStamina = 0; // new for cp at cap and max
+
+        int cpMin = 0; // new for cp at cap and max
+        int cpMax = 0; // new for cp at cap and max
+
         String returnVal = "Your LV" + estimatedPokemonLevel + " " + pokemonName + " can be: ";
 
         int count = 0;
@@ -432,14 +445,22 @@ public class pokefly extends Service {
                             int cp = (int) Math.floor((baseAttack + attackIV) * Math.sqrt(baseDefense + defenseIV) * lvlScalarStamina);
                             if (cp == pokemonCP) {
                                 ++count;
-                                int percentPerfect = (int) Math.round(((attackIV + defenseIV + staminaIV) / 45.0) * 100);
-                                if (percentPerfect < lowPercent) {
+                                sumIV = attackIV + defenseIV + staminaIV; // new
+                                int percentPerfect = (int) Math.round(((sumIV) / 45.0) * 100); // changed to sumIV
+                                if ((percentPerfect < lowPercent) || ((percentPerfect == lowPercent) && (attackIV < lowAttack))) { // check for same percentage but lower atk
                                     lowPercent = percentPerfect;
+                                    lowAttack = attackIV;
+                                    lowDefense = defenseIV;
+                                    lowStamina = staminaIV;
                                 }
-                                if (percentPerfect > highPercent) {
+                                if ((percentPerfect > highPercent) || ((percentPerfect == highPercent) && (attackIV > highAttack))) { // check for same percentage but higher atk
                                     highPercent = percentPerfect;
+                                    highAttack = attackIV;
+                                    highDefense = defenseIV;
+                                    highStamina = staminaIV;
                                 }
-                                averagePercent += percentPerfect;
+                                averageSum += sumIV; //changed, more precise than rounded percentage
+                                //averagePercent += percentPerfect;
                                 if (count <= 8) {
                                     returnVal += "\n" + String.format("%-9s", "Atk: " + attackIV) + String.format("%-9s", "Def: " + defenseIV) + String.format("%-8s", "Sta: " + staminaIV) + "(" + percentPerfect + "%)";
                                     //returnVal += "\n" + String.format("%9s%9s%9s","Atk: " + attackIV,"Def: " + defenseIV,"Sta: " +staminaIV) + " (" + percentPerfect + "%)";
@@ -461,7 +482,38 @@ public class pokefly extends Service {
             if (count == 0) {
                 returnVal += "\nNo possibilities, please check your stats again!";
             } else {
-                returnVal += "\nMin: " + lowPercent + "%   Average: " + (averagePercent / count) + "%   Max: " + highPercent + "%";
+                averagePercent = ((averageSum * 100 / (45 * count))); // new
+                returnVal += "\nMin: " + lowPercent + "%   Average: " + averagePercent + "%   Max: " + highPercent + "%" + "\n"; // count removed
+
+                // for trainer level cp cap
+                if (estimatedPokemonLevel < trainerLevel + 1.5) {
+                    returnVal += getCpRangeAtLevel(pokemonList.getSelectedItemPosition(), lowAttack, lowDefense, lowStamina, highAttack, highDefense, highStamina, Math.min(trainerLevel + 1.5, 40.0));
+                }
+
+                ArrayList<Integer> evolutions = pokemon.get(pokemonList.getSelectedItemPosition()).evolutions;
+
+                //for each evolution of next stage (example, eevees thress evolutions jolteon, vaporeon and flareon)
+                for(int i = evolutions.size()-1; i>=0; i--){
+
+                    pokemonName = pokemon.get(evolutions.get(i)).name;
+                    returnVal += "\nCan be evolved into " + pokemonName + ":";
+                    //returnVal += getCpRangeAtLevel(evolutions.get(i), lowAttack, lowDefense, lowStamina, highAttack, highDefense, highStamina, estimatedPokemonLevel);
+                    //if (estimatedPokemonLevel < trainerLevel + 1.5) {
+                    returnVal += getCpRangeAtLevel(evolutions.get(i), lowAttack, lowDefense, lowStamina, highAttack, highDefense, highStamina, (trainerLevel + 1.5));
+                    //}
+                    //for following stage evolution (example, dratini, dragonair, dragonite)
+                    int nextEvolutionNbr = evolutions.get(i);
+                    if (pokemon.get(nextEvolutionNbr).evolutions.size() != 0) {
+                        int nextEvoStage = pokemon.get(nextEvolutionNbr).evolutions.get(0);
+                        pokemonName = pokemon.get(nextEvoStage).name;
+                        returnVal += "\nCan be further evolved into " + pokemonName + ":";
+                        //returnVal += getCpRangeAtLevel(nextEvoStage, lowAttack, lowDefense, lowStamina, highAttack, highDefense, highStamina, estimatedPokemonLevel);
+                        //if (estimatedPokemonLevel < trainerLevel + 1.5) {
+                        returnVal += getCpRangeAtLevel(nextEvoStage, lowAttack, lowDefense, lowStamina, highAttack, highDefense, highStamina, (trainerLevel + 1.5));
+                        break;
+                        //}
+                    }
+                }
                 ClipData clip = ClipData.newPlainText("iv",lowPercent + "-" + highPercent);
                 clipboard.setPrimaryClip(clip);
             }
@@ -470,11 +522,40 @@ public class pokefly extends Service {
         }
 
 
-        returnVal += "\nTo max level:\n" + getMaxReqText();
+        returnVal += "\n\nCost to reach level " + (trainerLevel + 1.5) + ":\n" + getMaxReqText();
         //returnVal += percentPerfect + "% perfect!\n";
         //returnVal += "Atk+Def: " + battleScore + "/30   Sta: " + stamScore + "/15";
         return returnVal;
     }
+
+    /**
+     * getCpAtRangeLevel
+     * Used to calculate CP ranges for a species at a specific level based on the lowest and highest
+     * IV combination.
+     *
+     * @param pokemonIndex the index of the pokemon species within the list
+     * @param lowAttack attack IV of the lowest combination
+     * @param lowDefense defense IV of the lowest combination
+     * @param lowStamina stamina IV of the lowest combination
+     * @param highAttack attack IV of the highest combination
+     * @param highDefense defense IV of the highest combination
+     * @param highStamina stamina IV of the highest combination
+     * @param level pokemon level for CP calculation
+     *
+     * @return String containing the CP range including the specified level.
+     */
+    private String getCpRangeAtLevel(int pokemonIndex, int lowAttack, int lowDefense, int lowStamina, int highAttack, int highDefense, int highStamina, double level) {
+
+        int baseAttack = pokemon.get(pokemonIndex).baseAttack;
+        int baseDefense = pokemon.get(pokemonIndex).baseDefense;
+        int baseStamina = pokemon.get(pokemonIndex).baseStamina;
+        double lvlScalar = Data.CpM[(int) (level * 2 - 2)];
+        int cpMin = (int) Math.floor((baseAttack + lowAttack) * Math.sqrt(baseDefense + lowDefense) * Math.sqrt(baseStamina + lowStamina) * Math.pow(lvlScalar, 2) * 0.1);
+        int cpMax = (int) Math.floor((baseAttack + highAttack) * Math.sqrt(baseDefense + highDefense) * Math.sqrt(baseStamina + highStamina) * Math.pow(lvlScalar, 2) * 0.1);
+        return "\nCP at lvl " + level + ": " + cpMin + " - " + cpMax;
+
+    }
+
 
     /**
      * getMaxReqText
@@ -500,10 +581,12 @@ public class pokefly extends Service {
             if (estimatedPokemonLevel <= 10.5) {
                 neededCandy++;
                 neededStarDust += rank * 200;
-            } else if (estimatedPokemonLevel > 10.5 && estimatedPokemonLevel <= 18.5) {
+            //} else if (estimatedPokemonLevel > 10.5 && estimatedPokemonLevel <= 18.5) {
+            } else if (estimatedPokemonLevel > 10.5 && estimatedPokemonLevel <= 20.5) {
                 neededCandy += 2;
                 neededStarDust += 1000 + (rank * 300);
-            } else if (estimatedPokemonLevel > 18.5 && estimatedPokemonLevel <= 30.5) {
+            //} else if (estimatedPokemonLevel > 18.5 && estimatedPokemonLevel <= 30.5) {
+            } else if (estimatedPokemonLevel > 20.5 && estimatedPokemonLevel <= 30.5) {
                 neededCandy += 3;
                 neededStarDust += 2500 + (rank * 500);
             } else if (estimatedPokemonLevel > 30.5) {
@@ -571,9 +654,11 @@ public class pokefly extends Service {
         int[] attack = getResources().getIntArray(R.array.attack);
         int[] defense = getResources().getIntArray(R.array.defense);
         int[] stamina = getResources().getIntArray(R.array.stamina);
+        int[] devolution = getResources().getIntArray(R.array.DevolutionNumber);
 
-        for (int i = 0; i <= 150; i++){
-            pokemon.add(new Pokemon(names[i], attack[i], defense[i], stamina[i]));
+        int pokeListSize = getResources().getIntArray(R.array.attack).length;
+        for (int i = 0; i <= pokeListSize-1; i++){
+            pokemon.add(new Pokemon(names[i], i, attack[i], defense[i], stamina[i], devolution[i]));
         }
 
         //Sort pokemon alphabetically (maybe just do this in the res files?)
@@ -584,6 +669,19 @@ public class pokefly extends Service {
                     }
                 }
         );
+
+        int devolNumber;
+        for (int i = 0; i <= pokeListSize-1; i++){ //for each pokemon get devolution number
+            devolNumber = pokemon.get(i).devolNumber;
+            if(devolNumber >= 0){ //if devolution is given, index >= 0
+                for (int j = 0; j <= pokeListSize-1; j++) { //check for devolution index in all pokemon
+                    if (pokemon.get(j).number == devolNumber) {
+                        pokemon.get(j).evolutions.add(i); // if found add sorted index of evolution (i) to devolution and break
+                        break;
+                    }
+                }
+            }
+        }
     }
 
     private String[] getPokemonNames() {

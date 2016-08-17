@@ -97,7 +97,10 @@ public class MainActivity extends AppCompatActivity {
 
         final SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
         trainerLevel = sharedPref.getInt("level", 1);
-        ((EditText) findViewById(R.id.trainerLevel)).setText(String.valueOf(trainerLevel));
+
+        final EditText etTrainerLevel = (EditText) findViewById(R.id.trainerLevel);
+        etTrainerLevel.setText(String.valueOf(trainerLevel));
+
         initTesseract();
 
         Button launch = (Button) findViewById(R.id.start);
@@ -133,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
                         radius++;
                     }
 
-                    trainerLevel = Integer.parseInt(((EditText) findViewById(R.id.trainerLevel)).getText().toString());
+                    trainerLevel = Integer.parseInt(etTrainerLevel.getText().toString());
                     if (trainerLevel > 0 && trainerLevel <= 40) {
                         sharedPref.edit().putInt("level", trainerLevel).apply();
 

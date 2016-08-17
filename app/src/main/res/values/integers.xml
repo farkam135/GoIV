@@ -2,465 +2,465 @@
 <resources>
 
     <integer-array name="attack">
-        <item>	126	</item>
-        <item>	156	</item>
-        <item>	198	</item>
-        <item>	128	</item>
-        <item>	160	</item>
-        <item>	212	</item>
-        <item>	112	</item>
-        <item>	144	</item>
-        <item>	186	</item>
-        <item>	62	</item>
-        <item>	56	</item>
-        <item>	144	</item>
-        <item>	68	</item>
-        <item>	62	</item>
-        <item>	144	</item>
-        <item>	94	</item>
-        <item>	126	</item>
-        <item>	170	</item>
-        <item>	92	</item>
-        <item>	146	</item>
-        <item>	102	</item>
-        <item>	168	</item>
-        <item>	112	</item>
-        <item>	166	</item>
-        <item>	124	</item>
-        <item>	200	</item>
-        <item>	90	</item>
-        <item>	150	</item>
-        <item>	100	</item>
-        <item>	132	</item>
-        <item>	184	</item>
-        <item>	110	</item>
-        <item>	142	</item>
-        <item>	204	</item>
-        <item>	116	</item>
-        <item>	178	</item>
-        <item>	106	</item>
-        <item>	176	</item>
-        <item>	98	</item>
-        <item>	168	</item>
-        <item>	88	</item>
-        <item>	164	</item>
-        <item>	134	</item>
-        <item>	162	</item>
-        <item>	202	</item>
-        <item>	122	</item>
-        <item>	162	</item>
-        <item>	108	</item>
-        <item>	172	</item>
-        <item>	108	</item>
-        <item>	148	</item>
-        <item>	104	</item>
-        <item>	156	</item>
-        <item>	132	</item>
-        <item>	194	</item>
-        <item>	122	</item>
-        <item>	178	</item>
-        <item>	156	</item>
-        <item>	230	</item>
-        <item>	108	</item>
-        <item>	132	</item>
-        <item>	180	</item>
-        <item>	110	</item>
-        <item>	150	</item>
-        <item>	186	</item>
-        <item>	118	</item>
-        <item>	154	</item>
-        <item>	198	</item>
-        <item>	158	</item>
-        <item>	190	</item>
-        <item>	222	</item>
-        <item>	106	</item>
-        <item>	170	</item>
-        <item>	106	</item>
-        <item>	142	</item>
-        <item>	176	</item>
-        <item>	168	</item>
-        <item>	200	</item>
-        <item>	110	</item>
-        <item>	184	</item>
-        <item>	128	</item>
-        <item>	186	</item>
-        <item>	138	</item>
-        <item>	126	</item>
-        <item>	182	</item>
-        <item>	104	</item>
-        <item>	156	</item>
-        <item>	124	</item>
-        <item>	180	</item>
-        <item>	120	</item>
-        <item>	196	</item>
-        <item>	136	</item>
-        <item>	172	</item>
-        <item>	204	</item>
-        <item>	90	</item>
-        <item>	104	</item>
-        <item>	162	</item>
-        <item>	116	</item>
-        <item>	178	</item>
-        <item>	102	</item>
-        <item>	150	</item>
-        <item>	110	</item>
-        <item>	232	</item>
-        <item>	102	</item>
-        <item>	140	</item>
-        <item>	148	</item>
-        <item>	138	</item>
-        <item>	126	</item>
-        <item>	136	</item>
-        <item>	190	</item>
-        <item>	110	</item>
-        <item>	166	</item>
-        <item>	40	</item>
-        <item>	164	</item>
-        <item>	142	</item>
-        <item>	122	</item>
-        <item>	176	</item>
-        <item>	112	</item>
-        <item>	172	</item>
-        <item>	130	</item>
-        <item>	194	</item>
-        <item>	154	</item>
-        <item>	176	</item>
-        <item>	172	</item>
-        <item>	198	</item>
-        <item>	214	</item>
-        <item>	184	</item>
-        <item>	148	</item>
-        <item>	42	</item>
-        <item>	192	</item>
-        <item>	186	</item>
-        <item>	110	</item>
-        <item>	114	</item>
-        <item>	186	</item>
-        <item>	192	</item>
-        <item>	238	</item>
-        <item>	156	</item>
-        <item>	132	</item>
-        <item>	180	</item>
-        <item>	148	</item>
-        <item>	190	</item>
-        <item>	182	</item>
-        <item>	180	</item>
-        <item>	198	</item>
-        <item>	232	</item>
-        <item>	242	</item>
-        <item>	128	</item>
-        <item>	170	</item>
-        <item>	250	</item>
-        <item>	284	</item>
-        <item>	220	</item>
+        <item>126</item>
+        <item>156</item>
+        <item>198</item>
+        <item>128</item>
+        <item>160</item>
+        <item>212</item>
+        <item>112</item>
+        <item>144</item>
+        <item>186</item>
+        <item>62</item>
+        <item>56</item>
+        <item>144</item>
+        <item>68</item>
+        <item>62</item>
+        <item>144</item>
+        <item>94</item>
+        <item>126</item>
+        <item>170</item>
+        <item>92</item>
+        <item>146</item>
+        <item>102</item>
+        <item>168</item>
+        <item>112</item>
+        <item>166</item>
+        <item>124</item>
+        <item>200</item>
+        <item>90</item>
+        <item>150</item>
+        <item>100</item>
+        <item>132</item>
+        <item>184</item>
+        <item>110</item>
+        <item>142</item>
+        <item>204</item>
+        <item>116</item>
+        <item>178</item>
+        <item>106</item>
+        <item>176</item>
+        <item>98</item>
+        <item>168</item>
+        <item>88</item>
+        <item>164</item>
+        <item>134</item>
+        <item>162</item>
+        <item>202</item>
+        <item>122</item>
+        <item>162</item>
+        <item>108</item>
+        <item>172</item>
+        <item>108</item>
+        <item>148</item>
+        <item>104</item>
+        <item>156</item>
+        <item>132</item>
+        <item>194</item>
+        <item>122</item>
+        <item>178</item>
+        <item>156</item>
+        <item>230</item>
+        <item>108</item>
+        <item>132</item>
+        <item>180</item>
+        <item>110</item>
+        <item>150</item>
+        <item>186</item>
+        <item>118</item>
+        <item>154</item>
+        <item>198</item>
+        <item>158</item>
+        <item>190</item>
+        <item>222</item>
+        <item>106</item>
+        <item>170</item>
+        <item>106</item>
+        <item>142</item>
+        <item>176</item>
+        <item>168</item>
+        <item>200</item>
+        <item>110</item>
+        <item>184</item>
+        <item>128</item>
+        <item>186</item>
+        <item>138</item>
+        <item>126</item>
+        <item>182</item>
+        <item>104</item>
+        <item>156</item>
+        <item>124</item>
+        <item>180</item>
+        <item>120</item>
+        <item>196</item>
+        <item>136</item>
+        <item>172</item>
+        <item>204</item>
+        <item>90</item>
+        <item>104</item>
+        <item>162</item>
+        <item>116</item>
+        <item>178</item>
+        <item>102</item>
+        <item>150</item>
+        <item>110</item>
+        <item>232</item>
+        <item>102</item>
+        <item>140</item>
+        <item>148</item>
+        <item>138</item>
+        <item>126</item>
+        <item>136</item>
+        <item>190</item>
+        <item>110</item>
+        <item>166</item>
+        <item>40</item>
+        <item>164</item>
+        <item>142</item>
+        <item>122</item>
+        <item>176</item>
+        <item>112</item>
+        <item>172</item>
+        <item>130</item>
+        <item>194</item>
+        <item>154</item>
+        <item>176</item>
+        <item>172</item>
+        <item>198</item>
+        <item>214</item>
+        <item>184</item>
+        <item>148</item>
+        <item>42</item>
+        <item>192</item>
+        <item>186</item>
+        <item>110</item>
+        <item>114</item>
+        <item>186</item>
+        <item>192</item>
+        <item>238</item>
+        <item>156</item>
+        <item>132</item>
+        <item>180</item>
+        <item>148</item>
+        <item>190</item>
+        <item>182</item>
+        <item>180</item>
+        <item>198</item>
+        <item>232</item>
+        <item>242</item>
+        <item>128</item>
+        <item>170</item>
+        <item>250</item>
+        <item>284</item>
+        <item>220</item>
     </integer-array>
 
     <integer-array name="defense">
-        <item>	126	</item>
-        <item>	158	</item>
-        <item>	200	</item>
-        <item>	108	</item>
-        <item>	140	</item>
-        <item>	182	</item>
-        <item>	142	</item>
-        <item>	176	</item>
-        <item>	222	</item>
-        <item>	66	</item>
-        <item>	86	</item>
-        <item>	144	</item>
-        <item>	64	</item>
-        <item>	82	</item>
-        <item>	130	</item>
-        <item>	90	</item>
-        <item>	122	</item>
-        <item>	166	</item>
-        <item>	86	</item>
-        <item>	150	</item>
-        <item>	78	</item>
-        <item>	146	</item>
-        <item>	112	</item>
-        <item>	166	</item>
-        <item>	108	</item>
-        <item>	154	</item>
-        <item>	114	</item>
-        <item>	172	</item>
-        <item>	104	</item>
-        <item>	136	</item>
-        <item>	190	</item>
-        <item>	94	</item>
-        <item>	128	</item>
-        <item>	170	</item>
-        <item>	124	</item>
-        <item>	178	</item>
-        <item>	118	</item>
-        <item>	194	</item>
-        <item>	54	</item>
-        <item>	108	</item>
-        <item>	90	</item>
-        <item>	164	</item>
-        <item>	130	</item>
-        <item>	158	</item>
-        <item>	190	</item>
-        <item>	120	</item>
-        <item>	170	</item>
-        <item>	118	</item>
-        <item>	154	</item>
-        <item>	86	</item>
-        <item>	140	</item>
-        <item>	94	</item>
-        <item>	146	</item>
-        <item>	112	</item>
-        <item>	176	</item>
-        <item>	96	</item>
-        <item>	150	</item>
-        <item>	110	</item>
-        <item>	180	</item>
-        <item>	98	</item>
-        <item>	132	</item>
-        <item>	202	</item>
-        <item>	76	</item>
-        <item>	112	</item>
-        <item>	152	</item>
-        <item>	96	</item>
-        <item>	144	</item>
-        <item>	180	</item>
-        <item>	78	</item>
-        <item>	110	</item>
-        <item>	152	</item>
-        <item>	136	</item>
-        <item>	196	</item>
-        <item>	118	</item>
-        <item>	156	</item>
-        <item>	198	</item>
-        <item>	138	</item>
-        <item>	170	</item>
-        <item>	110	</item>
-        <item>	198	</item>
-        <item>	138	</item>
-        <item>	180	</item>
-        <item>	132	</item>
-        <item>	96	</item>
-        <item>	150	</item>
-        <item>	138	</item>
-        <item>	192	</item>
-        <item>	110	</item>
-        <item>	188	</item>
-        <item>	112	</item>
-        <item>	196	</item>
-        <item>	82	</item>
-        <item>	118	</item>
-        <item>	156	</item>
-        <item>	186	</item>
-        <item>	140	</item>
-        <item>	196	</item>
-        <item>	110	</item>
-        <item>	168	</item>
-        <item>	124	</item>
-        <item>	174	</item>
-        <item>	132	</item>
-        <item>	164	</item>
-        <item>	150	</item>
-        <item>	202	</item>
-        <item>	172	</item>
-        <item>	204	</item>
-        <item>	160	</item>
-        <item>	142	</item>
-        <item>	198	</item>
-        <item>	116	</item>
-        <item>	160	</item>
-        <item>	60	</item>
-        <item>	152	</item>
-        <item>	178	</item>
-        <item>	100	</item>
-        <item>	150	</item>
-        <item>	126	</item>
-        <item>	160	</item>
-        <item>	128	</item>
-        <item>	192	</item>
-        <item>	196	</item>
-        <item>	180	</item>
-        <item>	134	</item>
-        <item>	160	</item>
-        <item>	158	</item>
-        <item>	186	</item>
-        <item>	184	</item>
-        <item>	84	</item>
-        <item>	196	</item>
-        <item>	190	</item>
-        <item>	110	</item>
-        <item>	128	</item>
-        <item>	168	</item>
-        <item>	174	</item>
-        <item>	178	</item>
-        <item>	158	</item>
-        <item>	160	</item>
-        <item>	202	</item>
-        <item>	142	</item>
-        <item>	190	</item>
-        <item>	162	</item>
-        <item>	180	</item>
-        <item>	242	</item>
-        <item>	194	</item>
-        <item>	194	</item>
-        <item>	110	</item>
-        <item>	152	</item>
-        <item>	212	</item>
-        <item>	202	</item>
-        <item>	220	</item>
+        <item>126</item>
+        <item>158</item>
+        <item>200</item>
+        <item>108</item>
+        <item>140</item>
+        <item>182</item>
+        <item>142</item>
+        <item>176</item>
+        <item>222</item>
+        <item>66</item>
+        <item>86</item>
+        <item>144</item>
+        <item>64</item>
+        <item>82</item>
+        <item>130</item>
+        <item>90</item>
+        <item>122</item>
+        <item>166</item>
+        <item>86</item>
+        <item>150</item>
+        <item>78</item>
+        <item>146</item>
+        <item>112</item>
+        <item>166</item>
+        <item>108</item>
+        <item>154</item>
+        <item>114</item>
+        <item>172</item>
+        <item>104</item>
+        <item>136</item>
+        <item>190</item>
+        <item>94</item>
+        <item>128</item>
+        <item>170</item>
+        <item>124</item>
+        <item>178</item>
+        <item>118</item>
+        <item>194</item>
+        <item>54</item>
+        <item>108</item>
+        <item>90</item>
+        <item>164</item>
+        <item>130</item>
+        <item>158</item>
+        <item>190</item>
+        <item>120</item>
+        <item>170</item>
+        <item>118</item>
+        <item>154</item>
+        <item>86</item>
+        <item>140</item>
+        <item>94</item>
+        <item>146</item>
+        <item>112</item>
+        <item>176</item>
+        <item>96</item>
+        <item>150</item>
+        <item>110</item>
+        <item>180</item>
+        <item>98</item>
+        <item>132</item>
+        <item>202</item>
+        <item>76</item>
+        <item>112</item>
+        <item>152</item>
+        <item>96</item>
+        <item>144</item>
+        <item>180</item>
+        <item>78</item>
+        <item>110</item>
+        <item>152</item>
+        <item>136</item>
+        <item>196</item>
+        <item>118</item>
+        <item>156</item>
+        <item>198</item>
+        <item>138</item>
+        <item>170</item>
+        <item>110</item>
+        <item>198</item>
+        <item>138</item>
+        <item>180</item>
+        <item>132</item>
+        <item>96</item>
+        <item>150</item>
+        <item>138</item>
+        <item>192</item>
+        <item>110</item>
+        <item>188</item>
+        <item>112</item>
+        <item>196</item>
+        <item>82</item>
+        <item>118</item>
+        <item>156</item>
+        <item>186</item>
+        <item>140</item>
+        <item>196</item>
+        <item>110</item>
+        <item>168</item>
+        <item>124</item>
+        <item>174</item>
+        <item>132</item>
+        <item>164</item>
+        <item>150</item>
+        <item>202</item>
+        <item>172</item>
+        <item>204</item>
+        <item>160</item>
+        <item>142</item>
+        <item>198</item>
+        <item>116</item>
+        <item>160</item>
+        <item>60</item>
+        <item>152</item>
+        <item>178</item>
+        <item>100</item>
+        <item>150</item>
+        <item>126</item>
+        <item>160</item>
+        <item>128</item>
+        <item>192</item>
+        <item>196</item>
+        <item>180</item>
+        <item>134</item>
+        <item>160</item>
+        <item>158</item>
+        <item>186</item>
+        <item>184</item>
+        <item>84</item>
+        <item>196</item>
+        <item>190</item>
+        <item>110</item>
+        <item>128</item>
+        <item>168</item>
+        <item>174</item>
+        <item>178</item>
+        <item>158</item>
+        <item>160</item>
+        <item>202</item>
+        <item>142</item>
+        <item>190</item>
+        <item>162</item>
+        <item>180</item>
+        <item>242</item>
+        <item>194</item>
+        <item>194</item>
+        <item>110</item>
+        <item>152</item>
+        <item>212</item>
+        <item>202</item>
+        <item>220</item>
     </integer-array>
 
     <integer-array name="stamina">
-        <item>	90	</item>
-        <item>	120	</item>
-        <item>	160	</item>
-        <item>	78	</item>
-        <item>	116	</item>
-        <item>	156	</item>
-        <item>	88	</item>
-        <item>	118	</item>
-        <item>	158	</item>
-        <item>	90	</item>
-        <item>	100	</item>
-        <item>	120	</item>
-        <item>	80	</item>
-        <item>	90	</item>
-        <item>	130	</item>
-        <item>	80	</item>
-        <item>	126	</item>
-        <item>	166	</item>
-        <item>	60	</item>
-        <item>	110	</item>
-        <item>	80	</item>
-        <item>	130	</item>
-        <item>	70	</item>
-        <item>	120	</item>
-        <item>	70	</item>
-        <item>	120	</item>
-        <item>	100	</item>
-        <item>	150	</item>
-        <item>	110	</item>
-        <item>	140	</item>
-        <item>	180	</item>
-        <item>	92	</item>
-        <item>	122	</item>
-        <item>	162	</item>
-        <item>	140	</item>
-        <item>	190	</item>
-        <item>	76	</item>
-        <item>	146	</item>
-        <item>	230	</item>
-        <item>	280	</item>
-        <item>	80	</item>
-        <item>	150	</item>
-        <item>	90	</item>
-        <item>	120	</item>
-        <item>	150	</item>
-        <item>	70	</item>
-        <item>	120	</item>
-        <item>	120	</item>
-        <item>	140	</item>
-        <item>	20	</item>
-        <item>	70	</item>
-        <item>	80	</item>
-        <item>	130	</item>
-        <item>	100	</item>
-        <item>	160	</item>
-        <item>	80	</item>
-        <item>	130	</item>
-        <item>	110	</item>
-        <item>	180	</item>
-        <item>	80	</item>
-        <item>	130	</item>
-        <item>	180	</item>
-        <item>	50	</item>
-        <item>	80	</item>
-        <item>	110	</item>
-        <item>	140	</item>
-        <item>	160	</item>
-        <item>	180	</item>
-        <item>	100	</item>
-        <item>	130	</item>
-        <item>	160	</item>
-        <item>	80	</item>
-        <item>	160	</item>
-        <item>	80	</item>
-        <item>	110	</item>
-        <item>	160	</item>
-        <item>	100	</item>
-        <item>	130	</item>
-        <item>	180	</item>
-        <item>	190	</item>
-        <item>	50	</item>
-        <item>	100	</item>
-        <item>	104	</item>
-        <item>	70	</item>
-        <item>	120	</item>
-        <item>	130	</item>
-        <item>	180	</item>
-        <item>	160	</item>
-        <item>	210	</item>
-        <item>	60	</item>
-        <item>	100	</item>
-        <item>	60	</item>
-        <item>	90	</item>
-        <item>	120	</item>
-        <item>	70	</item>
-        <item>	120	</item>
-        <item>	170	</item>
-        <item>	60	</item>
-        <item>	110	</item>
-        <item>	80	</item>
-        <item>	120	</item>
-        <item>	120	</item>
-        <item>	190	</item>
-        <item>	100	</item>
-        <item>	120	</item>
-        <item>	100	</item>
-        <item>	100	</item>
-        <item>	180	</item>
-        <item>	80	</item>
-        <item>	130	</item>
-        <item>	160	</item>
-        <item>	210	</item>
-        <item>	500	</item>
-        <item>	130	</item>
-        <item>	210	</item>
-        <item>	60	</item>
-        <item>	110	</item>
-        <item>	90	</item>
-        <item>	160	</item>
-        <item>	60	</item>
-        <item>	120	</item>
-        <item>	80	</item>
-        <item>	140	</item>
-        <item>	130	</item>
-        <item>	130	</item>
-        <item>	130	</item>
-        <item>	130	</item>
-        <item>	150	</item>
-        <item>	40	</item>
-        <item>	190	</item>
-        <item>	260	</item>
-        <item>	96	</item>
-        <item>	110	</item>
-        <item>	260	</item>
-        <item>	130	</item>
-        <item>	130	</item>
-        <item>	130	</item>
-        <item>	70	</item>
-        <item>	140	</item>
-        <item>	60	</item>
-        <item>	120	</item>
-        <item>	160	</item>
-        <item>	320	</item>
-        <item>	180	</item>
-        <item>	180	</item>
-        <item>	180	</item>
-        <item>	82	</item>
-        <item>	122	</item>
-        <item>	182	</item>
-        <item>	212	</item>
-        <item>	200	</item>
+        <item>90</item>
+        <item>120</item>
+        <item>160</item>
+        <item>78</item>
+        <item>116</item>
+        <item>156</item>
+        <item>88</item>
+        <item>118</item>
+        <item>158</item>
+        <item>90</item>
+        <item>100</item>
+        <item>120</item>
+        <item>80</item>
+        <item>90</item>
+        <item>130</item>
+        <item>80</item>
+        <item>126</item>
+        <item>166</item>
+        <item>60</item>
+        <item>110</item>
+        <item>80</item>
+        <item>130</item>
+        <item>70</item>
+        <item>120</item>
+        <item>70</item>
+        <item>120</item>
+        <item>100</item>
+        <item>150</item>
+        <item>110</item>
+        <item>140</item>
+        <item>180</item>
+        <item>92</item>
+        <item>122</item>
+        <item>162</item>
+        <item>140</item>
+        <item>190</item>
+        <item>76</item>
+        <item>146</item>
+        <item>230</item>
+        <item>280</item>
+        <item>80</item>
+        <item>150</item>
+        <item>90</item>
+        <item>120</item>
+        <item>150</item>
+        <item>70</item>
+        <item>120</item>
+        <item>120</item>
+        <item>140</item>
+        <item>20</item>
+        <item>70</item>
+        <item>80</item>
+        <item>130</item>
+        <item>100</item>
+        <item>160</item>
+        <item>80</item>
+        <item>130</item>
+        <item>110</item>
+        <item>180</item>
+        <item>80</item>
+        <item>130</item>
+        <item>180</item>
+        <item>50</item>
+        <item>80</item>
+        <item>110</item>
+        <item>140</item>
+        <item>160</item>
+        <item>180</item>
+        <item>100</item>
+        <item>130</item>
+        <item>160</item>
+        <item>80</item>
+        <item>160</item>
+        <item>80</item>
+        <item>110</item>
+        <item>160</item>
+        <item>100</item>
+        <item>130</item>
+        <item>180</item>
+        <item>190</item>
+        <item>50</item>
+        <item>100</item>
+        <item>104</item>
+        <item>70</item>
+        <item>120</item>
+        <item>130</item>
+        <item>180</item>
+        <item>160</item>
+        <item>210</item>
+        <item>60</item>
+        <item>100</item>
+        <item>60</item>
+        <item>90</item>
+        <item>120</item>
+        <item>70</item>
+        <item>120</item>
+        <item>170</item>
+        <item>60</item>
+        <item>110</item>
+        <item>80</item>
+        <item>120</item>
+        <item>120</item>
+        <item>190</item>
+        <item>100</item>
+        <item>120</item>
+        <item>100</item>
+        <item>100</item>
+        <item>180</item>
+        <item>80</item>
+        <item>130</item>
+        <item>160</item>
+        <item>210</item>
+        <item>500</item>
+        <item>130</item>
+        <item>210</item>
+        <item>60</item>
+        <item>110</item>
+        <item>90</item>
+        <item>160</item>
+        <item>60</item>
+        <item>120</item>
+        <item>80</item>
+        <item>140</item>
+        <item>130</item>
+        <item>130</item>
+        <item>130</item>
+        <item>130</item>
+        <item>150</item>
+        <item>40</item>
+        <item>190</item>
+        <item>260</item>
+        <item>96</item>
+        <item>110</item>
+        <item>260</item>
+        <item>130</item>
+        <item>130</item>
+        <item>130</item>
+        <item>70</item>
+        <item>140</item>
+        <item>60</item>
+        <item>120</item>
+        <item>160</item>
+        <item>320</item>
+        <item>180</item>
+        <item>180</item>
+        <item>180</item>
+        <item>82</item>
+        <item>122</item>
+        <item>182</item>
+        <item>212</item>
+        <item>200</item>
     </integer-array>
 
 </resources>

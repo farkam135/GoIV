@@ -24,6 +24,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
@@ -330,8 +331,7 @@ public class MainActivity extends AppCompatActivity {
             // create bitmap
             try {
                 image.close();
-                Bitmap bmp = Bitmap.createBitmap(displayMetrics.widthPixels + rowPadding / pixelStride, displayMetrics.heightPixels, Bitmap.Config.ARGB_8888);
-                bmp.copyPixelsFromBuffer(buffer);
+                Bitmap bmp = getBitmap(buffer, pixelStride, rowPadding);
 
                 estimatedPokemonLevel = trainerLevel + 1.5;
 
@@ -407,14 +407,12 @@ public class MainActivity extends AppCompatActivity {
         if (image != null) {
             final Image.Plane[] planes = image.getPlanes();
             final ByteBuffer buffer = planes[0].getBuffer();
-            int offset = 0;
             int pixelStride = planes[0].getPixelStride();
             int rowStride = planes[0].getRowStride();
             int rowPadding = rowStride - pixelStride * rawDisplayMetrics.widthPixels;
             // create bitmap
             image.close();
-            Bitmap bmp = Bitmap.createBitmap(rawDisplayMetrics.widthPixels + rowPadding / pixelStride, displayMetrics.heightPixels, Bitmap.Config.ARGB_8888); //+ rowPadding / pixelStride
-            bmp.copyPixelsFromBuffer(buffer);
+            Bitmap bmp = getBitmap(buffer, pixelStride, rowPadding);
             Intent showIVButton = new Intent("display-ivButton");
             if (bmp.getPixel(areaX1, areaY1) == Color.rgb(250, 250, 250) && bmp.getPixel(areaX2, areaY2) == Color.rgb(28, 135, 150)) {
                 showIVButton.putExtra("show", true);
@@ -425,6 +423,13 @@ public class MainActivity extends AppCompatActivity {
             LocalBroadcastManager.getInstance(MainActivity.this).sendBroadcast(showIVButton);
             //SaveImage(bmp,"everything");
         }
+    }
+
+    @NonNull
+    private Bitmap getBitmap(ByteBuffer buffer, int pixelStride, int rowPadding) {
+        Bitmap bmp = Bitmap.createBitmap(rawDisplayMetrics.widthPixels + rowPadding / pixelStride, displayMetrics.heightPixels, Bitmap.Config.ARGB_8888);
+        bmp.copyPixelsFromBuffer(buffer);
+        return bmp;
     }
 
     /**

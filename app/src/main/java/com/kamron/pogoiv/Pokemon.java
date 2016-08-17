@@ -1,5 +1,7 @@
 package com.kamron.pogoiv;
 
+import java.util.ArrayList;
+
 /**
  * Created by Kamron on 7/30/2016.
  */
@@ -10,12 +12,17 @@ public class Pokemon {
     public int baseAttack;
     public int baseDefense;
     public int baseStamina;
+    public int devolNumber;
+    public ArrayList<Integer> evolutions;
 
-    public Pokemon(String name, int baseAttack, int baseDefense, int baseStamina) {
+    public Pokemon(String name, int number, int baseAttack, int baseDefense, int baseStamina, int devolNumber) {
         this.name = name;
+        this.number = number;
         this.baseAttack = baseAttack;
         this.baseDefense = baseDefense;
         this.baseStamina = baseStamina;
+        this.devolNumber = devolNumber;
+        this.evolutions = new ArrayList<Integer>();
     }
 
     @Override

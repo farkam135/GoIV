@@ -45,6 +45,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.core.CrashlyticsCore;
 import com.googlecode.tesseract.android.TessBaseAPI;
 
 import java.io.File;
@@ -55,6 +57,8 @@ import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import io.fabric.sdk.android.Fabric;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -96,12 +100,26 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Set up Crashlytics, disabled for debug builds
+        Crashlytics crashlyticsKit = new Crashlytics.Builder()
+                .core(new CrashlyticsCore.Builder()
+                .disabled(BuildConfig.DEBUG).build())
+                .build();
+
+        // Initialize Fabric with the debug-disabled crashlytics.
+        Fabric.with(this, crashlyticsKit);
 
         setContentView(R.layout.activity_main);
 
         TextView tvVersionNumber = (TextView) findViewById(R.id.version_number);
         tvVersionNumber.setText(getVersionName());
-
+        try {
+            tvVersionNumber.setText(getPackageManager().getPackageInfo(getPackageName(), 0).versionName);
+        } catch (PackageManager.NameNotFoundException e) {
+            Crashlytics.log("Exception thrown while getting package name");
+            Crashlytics.logException(e);
+            e.printStackTrace();
+        }
 
         TextView goIvInfo = (TextView) findViewById(R.id.goiv_info);
         goIvInfo.setMovementMethod(LinkMovementMethod.getInstance());
@@ -330,10 +348,16 @@ public class MainActivity extends AppCompatActivity {
                     public void run() {
                         handler.post(new Runnable() {
                             public void run() {
-                                if (pokeFlyRunning) {
-                                    scanPokemonScreen();
-                                } else {
-                                    timer.cancel();
+                                try {
+                                    if (pokeFlyRunning) {
+                                        scanPokemonScreen();
+                                    } else {
+                                        timer.cancel();
+                                    }
+                                } catch (Exception e) {
+                                    Crashlytics.log("Exception thrown in TimerTask");
+                                    Crashlytics.logException(e);
+                                    // TODO Auto-generated catch block
                                 }
                             }
                         });
@@ -379,6 +403,8 @@ public class MainActivity extends AppCompatActivity {
             image = mImageReader.acquireLatestImage();
         } catch (Exception e) {
             Log.e(TAG, "Error while Scanning!", e);
+            Crashlytics.log("Error thrown in takeScreenshot() - acquireLatestImage()");
+            Crashlytics.logException(e);
             Toast.makeText(MainActivity.this, "Error Scanning! Please try again later!", Toast.LENGTH_SHORT).show();
         }
 
@@ -396,6 +422,8 @@ public class MainActivity extends AppCompatActivity {
                 scanPokemon(bmp);
                 //SaveImage(bmp,"Search");
             } catch (Exception e) {
+                Crashlytics.log("Exception thrown in takeScreenshot() - when creating bitmap");
+                Crashlytics.logException(e);
                 image.close();
             }
 
@@ -530,6 +558,9 @@ public class MainActivity extends AppCompatActivity {
 
         } catch (Exception e) {
             Log.e(TAG, "Error while saving the image.", e);
+            Crashlytics.log("Exception thrown in saveImage()");
+            Crashlytics.logException(e);
+            e.printStackTrace();
         }
     }
 
@@ -630,6 +661,8 @@ public class MainActivity extends AppCompatActivity {
             files = assetManager.list(fromAssetPath);
         } catch (IOException e) {
             Log.e(TAG, "Error while loading filenames.", e);
+            Crashlytics.log("Exception thrown in copyAssetFolder()");
+            Crashlytics.logException(e);
             return false;
         }
 
@@ -655,8 +688,9 @@ public class MainActivity extends AppCompatActivity {
             out.flush();
             out.close();
             return true;
-
         } catch (IOException e) {
+            Crashlytics.log("Exception thrown in copyAsset()");
+            Crashlytics.logException(e);
             Log.e(TAG, "Error while copying assets.", e);
             return false;
         }

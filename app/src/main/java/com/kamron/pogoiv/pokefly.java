@@ -304,7 +304,7 @@ public class pokefly extends Service {
         layoutParams.gravity = Gravity.CENTER | Gravity.BOTTOM;
         ButterKnife.bind(this, infoLayout);
 
-        pokeAdapter = new ArrayAdapter<Pokemon>(this, R.layout.spinner_pokemon, pokemon);
+        pokeAdapter = new ArrayAdapter<>(this, R.layout.spinner_pokemon, pokemon);
         pokemonList.setAdapter(pokeAdapter);
     }
 
@@ -548,7 +548,7 @@ public class pokefly extends Service {
 
     private void populatePokemon() {
 
-        pokemon = new ArrayList<Pokemon>();
+        pokemon = new ArrayList<>();
 
         String[] names = getPokemonNames();
         int[] attack = getResources().getIntArray(R.array.attack);

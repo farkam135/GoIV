@@ -12,6 +12,7 @@ import android.graphics.PixelFormat;
 import android.os.IBinder;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -140,13 +141,9 @@ public class pokefly extends Service {
         super.onDestroy();
         if (IVButton != null && IVButtonShown) windowManager.removeView(IVButton);
         if (infoShown) {
-            try {
-                if (arcPointer != null) windowManager.removeView(arcPointer);
-                //if(arcAdjustBar != null) windowManager.removeView(arcAdjustBar);
-                if (infoLayout != null) windowManager.removeView(infoLayout);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            if (arcPointer != null) windowManager.removeView(arcPointer);
+            //if(arcAdjustBar != null) windowManager.removeView(arcAdjustBar);
+            if (infoLayout != null) windowManager.removeView(infoLayout);
         }
         stopForeground(true);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(displayInfo);
@@ -262,34 +259,30 @@ public class pokefly extends Service {
         IVButonParams.x = dpToPx(20); //(int)Math.round(displayMetrics.widthPixels / 20.5714286);
         IVButonParams.y = dpToPx(15); //(int)Math.round(displayMetrics.heightPixels / 38.5714286);
 
-        try {
-            IVButton.setOnTouchListener(new View.OnTouchListener() {
-                //private WindowManager.LayoutParams paramsF = IVButonParams;
-                //private int initialX;
-                //private int initialY;
-                //private float initialTouchX;
-                //private float initialTouchY;
+        IVButton.setOnTouchListener(new View.OnTouchListener() {
+            //private WindowManager.LayoutParams paramsF = IVButonParams;
+            //private int initialX;
+            //private int initialY;
+            //private float initialTouchX;
+            //private float initialTouchY;
 
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    switch (event.getAction()) {
-                        case MotionEvent.ACTION_UP:
-                            Toast.makeText(pokefly.this, "Scanning...", Toast.LENGTH_SHORT).show();
-                            windowManager.removeView(IVButton);
-                            IVButtonShown = false;
-                            Intent intent = new Intent("screenshot");
-                            LocalBroadcastManager.getInstance(pokefly.this).sendBroadcast(intent);
-                            receivedInfo = false;
-                            infoShown = true;
-                            infoShownReceived = false;
-                            break;
-                    }
-                    return false;
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_UP:
+                        Toast.makeText(pokefly.this, "Scanning...", Toast.LENGTH_SHORT).show();
+                        windowManager.removeView(IVButton);
+                        IVButtonShown = false;
+                        Intent intent = new Intent("screenshot");
+                        LocalBroadcastManager.getInstance(pokefly.this).sendBroadcast(intent);
+                        receivedInfo = false;
+                        infoShown = true;
+                        infoShownReceived = false;
+                        break;
                 }
-            });
-        } catch (Exception e) {
-            // TODO: handle exception
-        }
+                return false;
+            }
+        });
 
         //windowManager.addView(IVButton, IVButonParams);
     }

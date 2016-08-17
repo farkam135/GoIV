@@ -31,6 +31,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.LinkMovementMethod;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.Window;
@@ -43,6 +44,7 @@ import android.widget.Toast;
 import com.googlecode.tesseract.android.TessBaseAPI;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -53,6 +55,8 @@ import java.util.TimerTask;
 
 
 public class MainActivity extends AppCompatActivity {
+    private final String TAG = "MainActivity";
+
     private static final int OVERLAY_PERMISSION_REQ_CODE = 1234;
     private static final int WRITE_STORAGE_REQ_CODE = 1236;
     private static final int SCREEN_CAPTURE_REQ_CODE = 1235;
@@ -187,7 +191,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             return getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
         } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
+            Log.e(TAG, "Error while getting version name", e);
         }
         return "Error while getting version name";
     }
@@ -267,16 +271,11 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         handler.post(new Runnable() {
-                            @SuppressWarnings("unchecked")
                             public void run() {
-                                try {
-                                    if (pokeFlyRunning) {
-                                        scanPokemonScreen();
-                                    } else {
-                                        timer.cancel();
-                                    }
-                                } catch (Exception e) {
-                                    // TODO Auto-generated catch block
+                                if (pokeFlyRunning) {
+                                    scanPokemonScreen();
+                                } else {
+                                    timer.cancel();
                                 }
                             }
                         });
@@ -318,6 +317,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             image = mImageReader.acquireLatestImage();
         } catch (Exception e) {
+            Log.e(TAG, "Error while Scanning!", e);
             Toast.makeText(MainActivity.this, "Error Scanning! Please try again later!", Toast.LENGTH_SHORT).show();
         }
 
@@ -384,6 +384,7 @@ public class MainActivity extends AppCompatActivity {
                 cp.recycle();
                 hp.recycle();
             } catch (Exception e) {
+                Log.e(TAG, "Error while analysing the image.", e);
                 image.close();
             }
 
@@ -454,7 +455,7 @@ public class MainActivity extends AppCompatActivity {
             out.close();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(TAG, "Error while saving the image.", e);
         }
     }
 
@@ -524,21 +525,26 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private static boolean copyAssetFolder(AssetManager assetManager, String fromAssetPath, String toPath) {
+
+        String[] files = new String[0];
+
         try {
-            String[] files = assetManager.list(fromAssetPath);
-            new File(toPath).mkdirs();
-            boolean res = true;
-            for (String file : files)
-                if (file.contains(".")) {
-                    res &= copyAsset(assetManager, fromAssetPath + "/" + file, toPath + "/" + file);
-                } else {
-                    res &= copyAssetFolder(assetManager, fromAssetPath + "/" + file, toPath + "/" + file);
-                }
-            return res;
-        } catch (Exception e) {
-            e.printStackTrace();
+            files = assetManager.list(fromAssetPath);
+        } catch (IOException e) {
+            Log.e(TAG, "Error while loading filenames.", e);
             return false;
         }
+
+        new File(toPath).mkdirs();
+        boolean res = true;
+        for (String file : files)
+            if (file.contains(".")) {
+                res &= copyAsset(assetManager, fromAssetPath + "/" + file, toPath + "/" + file);
+            } else {
+                res &= copyAssetFolder(assetManager, fromAssetPath + "/" + file, toPath + "/" + file);
+            }
+        return res;
+
     }
 
     private static boolean copyAsset(AssetManager assetManager, String fromAssetPath, String toPath) {
@@ -551,8 +557,9 @@ public class MainActivity extends AppCompatActivity {
             out.flush();
             out.close();
             return true;
-        } catch (Exception e) {
-            e.printStackTrace();
+
+        } catch (IOException e) {
+            Log.e(TAG, "Error while copying assets.", e);
             return false;
         }
     }

@@ -173,7 +173,6 @@ public class MainActivity extends AppCompatActivity {
         Display disp = windowManager.getDefaultDisplay();
         disp.getRealMetrics(rawDisplayMetrics);
 
-
         areaX1 = Math.round(displayMetrics.widthPixels / 24);  // these values used to get "white" left of "power up"
         areaY1 = (int) Math.round(displayMetrics.heightPixels / 1.24271845);
         areaX2 = (int) Math.round(displayMetrics.widthPixels / 1.15942029);  // these values used to get greenish color in transfer button
@@ -440,8 +439,8 @@ public class MainActivity extends AppCompatActivity {
         String root = Environment.getExternalStorageDirectory().toString();
         File myDir = new File(root + "/saved_images");
         myDir.mkdirs();
-        String fname = "Image-" + name + ".jpg";
-        File file = new File(myDir, fname);
+        String fileName = "Image-" + name + ".jpg";
+        File file = new File(myDir, fileName);
         if (file.exists()) file.delete();
         try {
             FileOutputStream out = new FileOutputStream(file);
@@ -519,21 +518,17 @@ public class MainActivity extends AppCompatActivity {
         return myBitmap;
     }
 
-    private static boolean copyAssetFolder(AssetManager assetManager,
-                                           String fromAssetPath, String toPath) {
+    private static boolean copyAssetFolder(AssetManager assetManager, String fromAssetPath, String toPath) {
         try {
             String[] files = assetManager.list(fromAssetPath);
             new File(toPath).mkdirs();
             boolean res = true;
             for (String file : files)
-                if (file.contains("."))
-                    res &= copyAsset(assetManager,
-                            fromAssetPath + "/" + file,
-                            toPath + "/" + file);
-                else
-                    res &= copyAssetFolder(assetManager,
-                            fromAssetPath + "/" + file,
-                            toPath + "/" + file);
+                if (file.contains(".")) {
+                    res &= copyAsset(assetManager, fromAssetPath + "/" + file, toPath + "/" + file);
+                } else {
+                    res &= copyAssetFolder(assetManager, fromAssetPath + "/" + file, toPath + "/" + file);
+                }
             return res;
         } catch (Exception e) {
             e.printStackTrace();
@@ -541,20 +536,15 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private static boolean copyAsset(AssetManager assetManager,
-                                     String fromAssetPath, String toPath) {
-        InputStream in = null;
-        OutputStream out = null;
+    private static boolean copyAsset(AssetManager assetManager, String fromAssetPath, String toPath) {
         try {
-            in = assetManager.open(fromAssetPath);
+            InputStream in = assetManager.open(fromAssetPath);
             new File(toPath).createNewFile();
-            out = new FileOutputStream(toPath);
+            OutputStream out = new FileOutputStream(toPath);
             copyFile(in, out);
             in.close();
-            in = null;
             out.flush();
             out.close();
-            out = null;
             return true;
         } catch (Exception e) {
             e.printStackTrace();

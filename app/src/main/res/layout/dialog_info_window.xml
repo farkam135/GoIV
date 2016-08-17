@@ -34,7 +34,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Pokemon Name:"
+                android:text="@string/pokemon_name"
                 android:textColor="@color/black"
                 android:textStyle="bold"
                 android:textSize="18sp"
@@ -66,7 +66,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="CP"
+                    android:text="@string/cp"
                     android:textColor="@color/black"
                     android:textSize="18sp"
                     android:textStyle="bold"
@@ -93,7 +93,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="HP"
+                    android:text="@string/hp"
                     android:textColor="@color/black"
                     android:textSize="18sp"
                     android:textStyle="bold"
@@ -115,7 +115,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Use the slider below to align the arc"
+            android:text="@string/use_the_slider_below_to_align_the_arc"
             android:textColor="@color/black"
             android:textSize="18sp"
             android:textStyle="bold"
@@ -164,14 +164,14 @@
             android:id="@+id/btnCancelInfo"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Cancel"
+            android:text="@string/cancel"
             android:layout_weight="1"/>
 
         <Button
             android:id="@+id/btnCheckIv"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Check IV"
+            android:text="@string/check_iv"
             android:layout_weight="1"/>
 
     </LinearLayout>

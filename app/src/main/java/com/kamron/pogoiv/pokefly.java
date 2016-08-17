@@ -5,14 +5,16 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.BroadcastReceiver;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.PixelFormat;
+import android.os.Build;
 import android.os.IBinder;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -42,11 +44,13 @@ import butterknife.OnClick;
 
 public class pokefly extends Service {
     private int trainerLevel = -1;
+    private boolean batterySaver = false;
 
     private boolean receivedInfo = false;
 
     private WindowManager windowManager;
     private DisplayMetrics displayMetrics;
+    ClipboardManager clipboard;
 
     private boolean infoShown = false;
     private boolean infoShownReceived = false;
@@ -111,6 +115,7 @@ public class pokefly extends Service {
     public void onCreate() {
         super.onCreate();
         windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
+        clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
         //Display disp = windowManager.getDefaultDisplay();
         //disp.getRealMetrics(displayMetrics);
         //System.out.println("New Device:" + displayMetrics.widthPixels + "," + displayMetrics.heightPixels + "," + displayMetrics.densityDpi + "," + displayMetrics.density);
@@ -122,9 +127,10 @@ public class pokefly extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        if (intent != null && intent.hasExtra("trainerLevel") && intent.hasExtra("statusBarHeight")) {
+        if (intent != null && intent.hasExtra("trainerLevel")) {
             trainerLevel = intent.getIntExtra("trainerLevel", 1);
             statusBarHeight = intent.getIntExtra("statusBarHeight", 0);
+            batterySaver = intent.getBooleanExtra("batterySaver",false);
             makeNotification(pokefly.this);
             displayMetrics = this.getResources().getDisplayMetrics();
             createInfoLayout();
@@ -184,9 +190,14 @@ public class pokefly extends Service {
         arcPointer = new ImageView(this);
         arcPointer.setImageResource(R.drawable.dot);
 
-
-        pointerHeight = getDrawable(R.drawable.dot).getIntrinsicHeight() / 2;
-        pointerWidth = getDrawable(R.drawable.dot).getIntrinsicWidth() / 2;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            pointerHeight = getDrawable(R.drawable.dot).getIntrinsicHeight() / 2;
+            pointerWidth = getDrawable(R.drawable.dot).getIntrinsicWidth() / 2;
+        }
+        else{
+            pointerHeight = getResources().getDrawable(R.drawable.dot).getIntrinsicHeight() / 2;
+            pointerWidth = getResources().getDrawable(R.drawable.dot).getIntrinsicWidth() / 2;
+        }
 
         arcCenter = (int) ((displayMetrics.widthPixels * 0.5) - pointerWidth);
         arcInitialY = (int) Math.floor(displayMetrics.heightPixels / 2.803943) - pointerHeight - statusBarHeight; // 913 - pointerHeight - statusBarHeight; //(int)Math.round(displayMetrics.heightPixels / 6.0952381) * -1; //dpToPx(113) * -1; //(int)Math.round(displayMetrics.heightPixels / 6.0952381) * -1; //-420;
@@ -209,9 +220,13 @@ public class pokefly extends Service {
      * @param angleInDegrees The degree to set the arc pointer to.
      */
     private void setArcPointer(double angleInDegrees) {
-        if (angleInDegrees > 1.0) {
+        if (angleInDegrees > 1.0 && trainerLevel < 30) {
             angleInDegrees -= 0.5;
         }
+        else if(trainerLevel >= 30){
+            angleInDegrees += 0.5;
+        }
+
         double angleInRadians = (angleInDegrees + 180) * Math.PI / 180.0;
         arcParams.x = (int) (arcCenter + (radius * Math.cos(angleInRadians)));
         arcParams.y = (int) (arcInitialY + (radius * Math.sin(angleInRadians)));
@@ -334,10 +349,14 @@ public class pokefly extends Service {
     public void cancelInfoDialog() {
         windowManager.removeView(infoLayout);
         windowManager.removeView(arcPointer);
-        windowManager.addView(IVButton, IVButonParams);
+        if(!batterySaver) {
+            windowManager.addView(IVButton, IVButonParams);
+            IVButtonShown = true;
+        }
         receivedInfo = false;
         infoShown = false;
-        IVButtonShown = true;
+        Intent resetIntent = new Intent("reset-screenshot");
+        LocalBroadcastManager.getInstance(pokefly.this).sendBroadcast(resetIntent);
     }
 
     /**
@@ -371,8 +390,10 @@ public class pokefly extends Service {
             windowManager.addView(infoLayout, layoutParams);
             setArcPointer((Data.CpM[(int) (estimatedPokemonLevel * 2 - 2)] - 0.094) * 202.037116 / Data.CpM[trainerLevel * 2 - 2]);
             arcAdjustBar.setProgress((int) ((estimatedPokemonLevel - 1) * 2));
-            Intent resetIntent = new Intent("reset-screenshot");
-            LocalBroadcastManager.getInstance(pokefly.this).sendBroadcast(resetIntent);
+
+            if(batterySaver){
+                infoShownReceived = false;
+            }
         }
     }
 
@@ -440,6 +461,8 @@ public class pokefly extends Service {
                 returnVal += "\nNo possibilities, please check your stats again!";
             } else {
                 returnVal += "\nMin: " + lowPercent + "%   Average: " + (averagePercent / count) + "%   Max: " + highPercent + "%";
+                ClipData clip = ClipData.newPlainText("iv",lowPercent + "-" + highPercent);
+                clipboard.setPrimaryClip(clip);
             }
         } else {
             returnVal += "\nThere are too many possibilities for this pokemon. Try powering it up!";

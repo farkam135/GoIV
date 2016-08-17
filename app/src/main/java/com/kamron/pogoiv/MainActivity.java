@@ -402,9 +402,9 @@ public class MainActivity extends AppCompatActivity {
         try {
             image = mImageReader.acquireLatestImage();
         } catch (Exception e) {
-            Log.e(TAG, "Error while Scanning!", e);
             Crashlytics.log("Error thrown in takeScreenshot() - acquireLatestImage()");
             Crashlytics.logException(e);
+            Log.e(TAG, "Error while Scanning!", e);
             Toast.makeText(MainActivity.this, "Error Scanning! Please try again later!", Toast.LENGTH_SHORT).show();
         }
 
@@ -557,10 +557,9 @@ public class MainActivity extends AppCompatActivity {
             out.close();
 
         } catch (Exception e) {
-            Log.e(TAG, "Error while saving the image.", e);
             Crashlytics.log("Exception thrown in saveImage()");
             Crashlytics.logException(e);
-            e.printStackTrace();
+            Log.e(TAG, "Error while saving the image.", e);
         }
     }
 
@@ -662,6 +661,21 @@ public class MainActivity extends AppCompatActivity {
         } catch (IOException e) {
             Log.e(TAG, "Error while loading filenames.", e);
             Crashlytics.log("Exception thrown in copyAssetFolder()");
+            Crashlytics.logException(e);
+            new File(toPath).mkdirs();
+            boolean res = true;
+            for (String file : files)
+                if (file.contains("."))
+                    res &= copyAsset(assetManager,
+                            fromAssetPath + "/" + file,
+                            toPath + "/" + file);
+                else
+                    res &= copyAssetFolder(assetManager,
+                            fromAssetPath + "/" + file,
+                            toPath + "/" + file);
+            return res;
+        } catch (Exception e) {
+            Crashlytics.log("Exception thrown in copyAsssetFolder()");
             Crashlytics.logException(e);
             return false;
         }

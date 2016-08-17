@@ -26,12 +26,16 @@ SHA1 BDB487CD2CD32B60B3CD328AEFC018DE919A7A1D
 SHA-256 B44712B7CE6C515A93D65B9C5941B2B9EC95885B2889BFE6A26872D311897C74   
 
 Changelog:
-[1.3.0]  
-- You now get to see how much candy / stardust it would cost to max the level of a pokemon you analyzed.  
-- Non-working donate button removed, credits page removed.  
-- App version text added.  
-- GoIV is now open source!  
-- Fixed visual bug where if you manually changed the pokemon type, the result would still say whatever pokemon was automatically detected.
+[2.0.0]  
+* Remove Billing Permission
+* Visual Updates
+* Performance Improvements
+* New notification icon
+* Now starts PoGo after starting GoIV
+* Android KitKat Support with Battery Saver
+* Fixed arc alignment for trainer's level >= 30
+* Now copies "lowpercent - highpercent" to clipboard after scan
+* Remove "Scanning" text
 
 
 #FAQ

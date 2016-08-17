@@ -42,6 +42,15 @@
         app:layout_constraintRight_toRightOf="@id/activity_main"
         app:layout_constraintTop_toBottomOf="@id/main_levelLabel" />
 
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Battery Saver (Screenshot to Scan)"
+        android:id="@+id/checkbox_batterySaver"
+        app:layout_constraintLeft_toLeftOf="@id/activity_main"
+        app:layout_constraintRight_toRightOf="@id/activity_main"
+        app:layout_constraintTop_toBottomOf="@id/trainerLevel" />
+
     <Button
         android:id="@+id/start"
         android:layout_width="wrap_content"
@@ -57,7 +66,7 @@
         android:textSize="18sp"
         app:layout_constraintLeft_toLeftOf="@id/activity_main"
         app:layout_constraintRight_toRightOf="@id/activity_main"
-        app:layout_constraintTop_toBottomOf="@id/trainerLevel" />
+        app:layout_constraintTop_toBottomOf="@id/checkbox_batterySaver" />
 
     <TextView
         android:id="@+id/goiv_info"

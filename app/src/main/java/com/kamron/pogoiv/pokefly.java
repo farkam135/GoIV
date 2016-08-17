@@ -32,6 +32,8 @@ import android.widget.Toast;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import butterknife.BindView;
@@ -285,7 +287,6 @@ public class pokefly extends Service {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_UP:
-                        Toast.makeText(pokefly.this, "Scanning...", Toast.LENGTH_SHORT).show();
                         windowManager.removeView(IVButton);
                         IVButtonShown = false;
                         Intent intent = new Intent("screenshot");
@@ -574,6 +575,15 @@ public class pokefly extends Service {
         for (int i = 0; i <= 150; i++){
             pokemon.add(new Pokemon(names[i], attack[i], defense[i], stamina[i]));
         }
+
+        //Sort pokemon alphabetically (maybe just do this in the res files?)
+        Collections.sort(pokemon, new Comparator<Pokemon>() {
+                    public int compare(Pokemon lhs, Pokemon rhs)
+                    {
+                        return lhs.name.compareTo(rhs.name);
+                    }
+                }
+        );
     }
 
     private String[] getPokemonNames() {

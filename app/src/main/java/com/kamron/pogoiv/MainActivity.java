@@ -218,6 +218,10 @@ public class MainActivity extends AppCompatActivity {
         LocalBroadcastManager.getInstance(this).registerReceiver(takeScreenshot, new IntentFilter("screenshot"));
     }
 
+    /**
+     * startPokeFly
+     * Starts the PokeFly background service which contains overlay logic
+     */
     private void startPokeyFly() {
         ((Button) findViewById(R.id.start)).setText("Stop");
         Intent PokeFly = new Intent(MainActivity.this, pokefly.class);
@@ -260,6 +264,13 @@ public class MainActivity extends AppCompatActivity {
         tessInitiated = true;
     }
 
+    /**
+     * checkPermissions
+     * Checks to see if all runtime permissions are granted,
+     * if not change button text to Grant Permissions.
+     *
+     * @param launch The start button to change the text of
+     */
     private void checkPermissions(Button launch) {
         //Check Permissions
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(this)) {
@@ -335,6 +346,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * openPokemonGoApp
+     * Runs a launch intent for Pokemon GO
+     */
     private void openPokemonGoApp() {
         Intent i = getPackageManager().getLaunchIntentForPackage("com.nianticlabs.pokemongo");
         if (i != null)
@@ -356,7 +371,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * takeScreenshot
-     * Called by intent from pokefly, captures the screen and performs OCR.
+     * Called by intent from pokefly, captures the screen and runs it through scanPokemon
      */
     private void takeScreenshot() {
         Image image = null;
@@ -388,6 +403,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * scanPokemon
+     * Performs OCR on an image of a pokemon and sends the pulled info to PokeFly to display.
+     *
+     * @param pokemonImage The image of the pokemon
+     */
     private void scanPokemon(Bitmap pokemonImage) {
         estimatedPokemonLevel = trainerLevel + 1.5;
 
@@ -522,6 +543,10 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(projectionManager.createScreenCaptureIntent(), SCREEN_CAPTURE_REQ_CODE);
     }
 
+    /**
+     * startScreenshotService
+     * Starts the screenshot service, which checks for a new screenshot to scan
+     */
     private void startScreenshotService() {
         final String screenshotPath = Environment.getExternalStorageDirectory() + File.separator + Environment.DIRECTORY_PICTURES + File.separator + "Screenshots";
         final Uri uri = MediaStore.Files.getContentUri("external");

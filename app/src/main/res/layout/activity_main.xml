@@ -34,7 +34,7 @@
         android:id="@+id/trainerLevel"
         android:layout_width="75dp"
         android:layout_height="wrap_content"
-        android:gravity="right"
+        android:gravity="end"
         android:inputType="number"
         android:text="1"
         android:textAlignment="center"

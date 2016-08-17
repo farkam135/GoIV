@@ -27,19 +27,20 @@ import android.os.FileObserver;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.LinkMovementMethod;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -57,6 +58,8 @@ import java.util.TimerTask;
 
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = "MainActivity";
+
     private static final int OVERLAY_PERMISSION_REQ_CODE = 1234;
     private static final int WRITE_STORAGE_REQ_CODE = 1236;
     private static final int SCREEN_CAPTURE_REQ_CODE = 1235;
@@ -79,14 +82,6 @@ public class MainActivity extends AppCompatActivity {
     private int pokemonHP;
     private boolean pokeFlyRunning = false;
     private int trainerLevel;
-    private final double[] CpM = {0.0939999967813492, 0.135137432089339, 0.166397869586945, 0.192650913155325, 0.215732470154762, 0.236572651424822, 0.255720049142838, 0.273530372106572, 0.290249884128571, 0.306057381389863
-            , 0.321087598800659, 0.335445031996451, 0.349212676286697, 0.362457736609939, 0.375235587358475, 0.387592407713878, 0.399567276239395, 0.4111935532161, 0.422500014305115, 0.432926420512509, 0.443107545375824
-            , 0.453059948165049, 0.46279838681221, 0.472336085311278, 0.481684952974319, 0.490855807179549, 0.499858438968658, 0.5087017489616, 0.517393946647644, 0.525942516110322, 0.534354329109192, 0.542635753803599
-            , 0.550792694091797, 0.558830584490385, 0.566754519939423, 0.57456912814537, 0.582278907299042, 0.589887907888945, 0.597400009632111, 0.604823648665171, 0.61215728521347, 0.619404107958234, 0.626567125320435
-            , 0.633649178748576, 0.6406529545784, 0.647580971386554, 0.654435634613037, 0.661219265805859, 0.667934000492096, 0.674581885647492, 0.681164920330048, 0.687684901255373, 0.694143652915955, 0.700542901033063
-            , 0.706884205341339, 0.713169074873823, 0.719399094581604, 0.725575586915154, 0.731700003147125, 0.734741038550429, 0.737769484519958, 0.740785579737136, 0.743789434432983, 0.746781197247765, 0.749761044979095
-            , 0.752729099732281, 0.75568550825119, 0.758630370209851, 0.761563837528229, 0.76448604959218, 0.767397165298462, 0.770297293677362, 0.773186504840851, 0.776064947064992, 0.778932750225067, 0.781790050767666
-            , 0.784636974334717, 0.787473608513275, 0.790300011634827};
 
     private int areaX1;
     private int areaY1;
@@ -105,43 +100,30 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         TextView tvVersionNumber = (TextView) findViewById(R.id.version_number);
-        try {
-            tvVersionNumber.setText(getPackageManager().getPackageInfo(getPackageName(), 0).versionName);
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
+        tvVersionNumber.setText(getVersionName());
+
 
         TextView goIvInfo = (TextView) findViewById(R.id.goiv_info);
         goIvInfo.setMovementMethod(LinkMovementMethod.getInstance());
 
         final SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
         trainerLevel = sharedPref.getInt("level", 1);
-        batterySaver = sharedPref.getBoolean("batterySaver",false);
-        ((EditText) findViewById(R.id.trainerLevel)).setText(String.valueOf(trainerLevel));
+        batterySaver = sharedPref.getBoolean("batterySaver", false);
 
+        final EditText etTrainerLevel = (EditText) findViewById(R.id.trainerLevel);
+        etTrainerLevel.setText(String.valueOf(trainerLevel));
+
+        initTesseract();
         final CheckBox CheckBox_BatterySaver = (CheckBox) findViewById(R.id.checkbox_batterySaver);
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
             CheckBox_BatterySaver.setChecked(true);
             CheckBox_BatterySaver.setEnabled(false);
             batterySaver = true;
-        }
-        else{
+        } else {
             CheckBox_BatterySaver.setChecked(batterySaver);
         }
 
         File newFile = new File(getExternalFilesDir(null) + "/tessdata/eng.traineddata");
-        if (!newFile.exists()) {
-            copyAssetFolder(getAssets(), "tessdata", getExternalFilesDir(null) + "/tessdata");
-            tesseract = new TessBaseAPI();
-            tesseract.init(getExternalFilesDir(null) + "", "eng");
-            tesseract.setVariable(TessBaseAPI.VAR_CHAR_WHITELIST, "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789/♀♂");
-            tessInitiated = true;
-        } else {
-            tesseract = new TessBaseAPI();
-            tesseract.init(getExternalFilesDir(null) + "", "eng");
-            tesseract.setVariable(TessBaseAPI.VAR_CHAR_WHITELIST, "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789/♀♂");
-            tessInitiated = true;
-        }
 
         Button launch = (Button) findViewById(R.id.start);
         launch.setOnClickListener(new View.OnClickListener() {
@@ -149,14 +131,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (((Button) v).getText().toString().equals("Grant Permissions")) {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(MainActivity.this)) {
-                            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-                                    Uri.parse("package:" + getPackageName()));
-                            startActivityForResult(intent, OVERLAY_PERMISSION_REQ_CODE);
-                        }
-                        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
-                            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_STORAGE_REQ_CODE);
-                        }
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(MainActivity.this)) {
+                        Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                                Uri.parse("package:" + getPackageName()));
+                        startActivityForResult(intent, OVERLAY_PERMISSION_REQ_CODE);
+                    }
+                    if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+                        ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_STORAGE_REQ_CODE);
+                    }
                 } else if (((Button) v).getText().toString().equals("Start")) {
                     batterySaver = CheckBox_BatterySaver.isChecked();
                     Rect rectangle = new Rect();
@@ -164,6 +146,7 @@ public class MainActivity extends AppCompatActivity {
                     window.getDecorView().getWindowVisibleDisplayFrame(rectangle);
                     statusBarHeight = rectangle.top;
 
+                    // TODO same calculation as in pokefly @line 193 with difference of "- pointerHeight - statusBarHeight" this should be outsource in a method
                     arcCenter = (int) ((displayMetrics.widthPixels * 0.5));
                     arcInitialY = (int) Math.floor(displayMetrics.heightPixels / 2.803943); // - pointerHeight - statusBarHeight; // 913 - pointerHeight - statusBarHeight; //(int)Math.round(displayMetrics.heightPixels / 6.0952381) * -1; //dpToPx(113) * -1; //(int)Math.round(displayMetrics.heightPixels / 6.0952381) * -1; //-420;
                     if (displayMetrics.heightPixels == 2392) {
@@ -172,35 +155,30 @@ public class MainActivity extends AppCompatActivity {
                         arcInitialY++;
                     }
 
+                    // TODO same calculation as in pokefly @line 201
                     radius = (int) Math.round(displayMetrics.heightPixels / 4.3760683); //dpToPx(157); //(int)Math.round(displayMetrics.heightPixels / 4.37606838); //(int)Math.round(displayMetrics.widthPixels / 2.46153846); //585;
                     if (displayMetrics.heightPixels == 1776 || displayMetrics.heightPixels == 960) {
                         radius++;
                     }
 
-                    trainerLevel = Integer.parseInt(((EditText) findViewById(R.id.trainerLevel)).getText().toString());
+                    if (isNumeric(etTrainerLevel.getText().toString())) {
+                        trainerLevel = Integer.parseInt(etTrainerLevel.getText().toString());
+                    } else {
+                        Toast.makeText(MainActivity.this, etTrainerLevel.getText().toString() + " is not a number", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
                     if (trainerLevel > 0 && trainerLevel <= 40) {
                         sharedPref.edit().putInt("level", trainerLevel).apply();
-                        sharedPref.edit().putBoolean("batterySaver",batterySaver).apply();
-                        File newFile = new File(getExternalFilesDir(null) + "/tessdata/eng.traineddata");
+                        sharedPref.edit().putBoolean("batterySaver", batterySaver).apply();
 
+                        // TODO is this really necessary?
                         if (!tessInitiated) {
-                            if (!newFile.exists()) {
-                                copyAssetFolder(getAssets(), "tessdata", getExternalFilesDir(null) + "/tessdata");
-                                tesseract = new TessBaseAPI();
-                                tesseract.init(getExternalFilesDir(null) + "", "eng");
-                                tesseract.setVariable(TessBaseAPI.VAR_CHAR_WHITELIST, "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789/♀♂");
-                                tessInitiated = true;
-                            } else {
-                                tesseract = new TessBaseAPI();
-                                tesseract.init(getExternalFilesDir(null) + "", "eng");
-                                tesseract.setVariable(TessBaseAPI.VAR_CHAR_WHITELIST, "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789/♀♂");
-                                tessInitiated = true;
-                            }
+                            initTesseract();
                         }
-                        if(batterySaver){
+                        if (batterySaver) {
                             startScreenshotService();
-                        }
-                        else {
+                        } else {
                             startScreenService();
                         }
                     } else {
@@ -212,8 +190,7 @@ public class MainActivity extends AppCompatActivity {
                         mProjection.stop();
                         mProjection = null;
                         mImageReader = null;
-                    }
-                    else if(screenShotObserver != null){
+                    } else if (screenShotObserver != null) {
                         screenShotObserver.stopWatching();
                         screenShotObserver = null;
                     }
@@ -232,7 +209,6 @@ public class MainActivity extends AppCompatActivity {
         Display disp = windowManager.getDefaultDisplay();
         disp.getRealMetrics(rawDisplayMetrics);
 
-
         areaX1 = Math.round(displayMetrics.widthPixels / 24);  // these values used to get "white" left of "power up"
         areaY1 = (int) Math.round(displayMetrics.heightPixels / 1.24271845);
         areaX2 = (int) Math.round(displayMetrics.widthPixels / 1.15942029);  // these values used to get greenish color in transfer button
@@ -246,12 +222,12 @@ public class MainActivity extends AppCompatActivity {
      * startPokeFly
      * Starts the PokeFly background service which contains overlay logic
      */
-    private void startPokeyFly(){
+    private void startPokeyFly() {
         ((Button) findViewById(R.id.start)).setText("Stop");
         Intent PokeFly = new Intent(MainActivity.this, pokefly.class);
         PokeFly.putExtra("trainerLevel", trainerLevel);
         PokeFly.putExtra("statusBarHeight", statusBarHeight);
-        PokeFly.putExtra("batterySaver",batterySaver);
+        PokeFly.putExtra("batterySaver", batterySaver);
         startService(PokeFly);
 
         pokeFlyRunning = true;
@@ -259,10 +235,40 @@ public class MainActivity extends AppCompatActivity {
         openPokemonGoApp();
     }
 
+    private boolean isNumeric(String str) {
+        try {
+            int number = Integer.parseInt(str);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
+    }
+
+    private String getVersionName() {
+        try {
+            return getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            Log.e(TAG, "Error while getting version name", e);
+        }
+        return "Error while getting version name";
+    }
+
+    private void initTesseract() {
+        if (!new File(getExternalFilesDir(null) + "/tessdata/eng.traineddata").exists()) {
+            copyAssetFolder(getAssets(), "tessdata", getExternalFilesDir(null) + "/tessdata");
+        }
+
+        tesseract = new TessBaseAPI();
+        tesseract.init(getExternalFilesDir(null) + "", "eng");
+        tesseract.setVariable(TessBaseAPI.VAR_CHAR_WHITELIST, "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789/♀♂");
+        tessInitiated = true;
+    }
+
     /**
      * checkPermissions
      * Checks to see if all runtime permissions are granted,
      * if not change button text to Grant Permissions.
+     *
      * @param launch The start button to change the text of
      */
     private void checkPermissions(Button launch) {
@@ -323,16 +329,11 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         handler.post(new Runnable() {
-                            @SuppressWarnings("unchecked")
                             public void run() {
-                                try {
-                                    if (pokeFlyRunning) {
-                                        scanPokemonScreen();
-                                    } else {
-                                        timer.cancel();
-                                    }
-                                } catch (Exception e) {
-                                    // TODO Auto-generated catch block
+                                if (pokeFlyRunning) {
+                                    scanPokemonScreen();
+                                } else {
+                                    timer.cancel();
                                 }
                             }
                         });
@@ -377,6 +378,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             image = mImageReader.acquireLatestImage();
         } catch (Exception e) {
+            Log.e(TAG, "Error while Scanning!", e);
             Toast.makeText(MainActivity.this, "Error Scanning! Please try again later!", Toast.LENGTH_SHORT).show();
         }
 
@@ -390,8 +392,7 @@ public class MainActivity extends AppCompatActivity {
             // create bitmap
             try {
                 image.close();
-                Bitmap bmp = Bitmap.createBitmap(displayMetrics.widthPixels + rowPadding / pixelStride, displayMetrics.heightPixels, Bitmap.Config.ARGB_8888);
-                bmp.copyPixelsFromBuffer(buffer);
+                Bitmap bmp = getBitmap(buffer, pixelStride, rowPadding);
                 scanPokemon(bmp);
                 //SaveImage(bmp,"Search");
             } catch (Exception e) {
@@ -405,17 +406,17 @@ public class MainActivity extends AppCompatActivity {
     /**
      * scanPokemon
      * Performs OCR on an image of a pokemon and sends the pulled info to PokeFly to display.
+     *
      * @param pokemonImage The image of the pokemon
      */
     private void scanPokemon(Bitmap pokemonImage) {
         estimatedPokemonLevel = trainerLevel + 1.5;
 
         for (double estPokemonLevel = estimatedPokemonLevel; estPokemonLevel >= 1.0; estPokemonLevel -= 0.5) {
-            double angleInDegrees = (CpM[(int) (estPokemonLevel * 2 - 2)] - 0.094) * 202.037116 / CpM[trainerLevel * 2 - 2];
+            double angleInDegrees = (Data.CpM[(int) (estPokemonLevel * 2 - 2)] - 0.094) * 202.037116 / Data.CpM[trainerLevel * 2 - 2];
             if (angleInDegrees > 1.0 && trainerLevel < 30) {
                 angleInDegrees -= 0.5;
-            }
-            else if(trainerLevel >= 30){
+            } else if (trainerLevel >= 30) {
                 angleInDegrees += 0.5;
             }
 
@@ -481,14 +482,12 @@ public class MainActivity extends AppCompatActivity {
         if (image != null) {
             final Image.Plane[] planes = image.getPlanes();
             final ByteBuffer buffer = planes[0].getBuffer();
-            int offset = 0;
             int pixelStride = planes[0].getPixelStride();
             int rowStride = planes[0].getRowStride();
             int rowPadding = rowStride - pixelStride * rawDisplayMetrics.widthPixels;
             // create bitmap
             image.close();
-            Bitmap bmp = Bitmap.createBitmap(rawDisplayMetrics.widthPixels + rowPadding / pixelStride, displayMetrics.heightPixels, Bitmap.Config.ARGB_8888); //+ rowPadding / pixelStride
-            bmp.copyPixelsFromBuffer(buffer);
+            Bitmap bmp = getBitmap(buffer, pixelStride, rowPadding);
             Intent showIVButton = new Intent("display-ivButton");
             if (bmp.getPixel(areaX1, areaY1) == Color.rgb(250, 250, 250) && bmp.getPixel(areaX2, areaY2) == Color.rgb(28, 135, 150)) {
                 showIVButton.putExtra("show", true);
@@ -499,6 +498,13 @@ public class MainActivity extends AppCompatActivity {
             LocalBroadcastManager.getInstance(MainActivity.this).sendBroadcast(showIVButton);
             //SaveImage(bmp,"everything");
         }
+    }
+
+    @NonNull
+    private Bitmap getBitmap(ByteBuffer buffer, int pixelStride, int rowPadding) {
+        Bitmap bmp = Bitmap.createBitmap(rawDisplayMetrics.widthPixels + rowPadding / pixelStride, displayMetrics.heightPixels, Bitmap.Config.ARGB_8888);
+        bmp.copyPixelsFromBuffer(buffer);
+        return bmp;
     }
 
     /**
@@ -513,8 +519,8 @@ public class MainActivity extends AppCompatActivity {
         String root = Environment.getExternalStorageDirectory().toString();
         File myDir = new File(root + "/saved_images");
         myDir.mkdirs();
-        String fname = "Image-" + name + ".jpg";
-        File file = new File(myDir, fname);
+        String fileName = "Image-" + name + ".jpg";
+        File file = new File(myDir, fileName);
         if (file.exists()) file.delete();
         try {
             FileOutputStream out = new FileOutputStream(file);
@@ -523,7 +529,7 @@ public class MainActivity extends AppCompatActivity {
             out.close();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(TAG, "Error while saving the image.", e);
         }
     }
 
@@ -532,7 +538,7 @@ public class MainActivity extends AppCompatActivity {
      * Starts the screen capture.
      */
     private void startScreenService() {
-        ((Button)findViewById(R.id.start)).setText("Accept Screen Capture");
+        ((Button) findViewById(R.id.start)).setText("Accept Screen Capture");
         MediaProjectionManager projectionManager = (MediaProjectionManager) getSystemService(Context.MEDIA_PROJECTION_SERVICE);
         startActivityForResult(projectionManager.createScreenCaptureIntent(), SCREEN_CAPTURE_REQ_CODE);
     }
@@ -541,7 +547,7 @@ public class MainActivity extends AppCompatActivity {
      * startScreenshotService
      * Starts the screenshot service, which checks for a new screenshot to scan
      */
-    private void startScreenshotService(){
+    private void startScreenshotService() {
         final String screenshotPath = Environment.getExternalStorageDirectory() + File.separator + Environment.DIRECTORY_PICTURES + File.separator + "Screenshots";
         final Uri uri = MediaStore.Files.getContentUri("external");
         screenShotObserver = new FileObserver(screenshotPath) {
@@ -616,45 +622,42 @@ public class MainActivity extends AppCompatActivity {
         return myBitmap;
     }
 
-    private static boolean copyAssetFolder(AssetManager assetManager,
-                                           String fromAssetPath, String toPath) {
+    private static boolean copyAssetFolder(AssetManager assetManager, String fromAssetPath, String toPath) {
+
+        String[] files = new String[0];
+
         try {
-            String[] files = assetManager.list(fromAssetPath);
-            new File(toPath).mkdirs();
-            boolean res = true;
-            for (String file : files)
-                if (file.contains("."))
-                    res &= copyAsset(assetManager,
-                            fromAssetPath + "/" + file,
-                            toPath + "/" + file);
-                else
-                    res &= copyAssetFolder(assetManager,
-                            fromAssetPath + "/" + file,
-                            toPath + "/" + file);
-            return res;
-        } catch (Exception e) {
-            e.printStackTrace();
+            files = assetManager.list(fromAssetPath);
+        } catch (IOException e) {
+            Log.e(TAG, "Error while loading filenames.", e);
             return false;
         }
+
+        new File(toPath).mkdirs();
+        boolean res = true;
+        for (String file : files)
+            if (file.contains(".")) {
+                res &= copyAsset(assetManager, fromAssetPath + "/" + file, toPath + "/" + file);
+            } else {
+                res &= copyAssetFolder(assetManager, fromAssetPath + "/" + file, toPath + "/" + file);
+            }
+        return res;
+
     }
 
-    private static boolean copyAsset(AssetManager assetManager,
-                                     String fromAssetPath, String toPath) {
-        InputStream in = null;
-        OutputStream out = null;
+    private static boolean copyAsset(AssetManager assetManager, String fromAssetPath, String toPath) {
         try {
-            in = assetManager.open(fromAssetPath);
+            InputStream in = assetManager.open(fromAssetPath);
             new File(toPath).createNewFile();
-            out = new FileOutputStream(toPath);
+            OutputStream out = new FileOutputStream(toPath);
             copyFile(in, out);
             in.close();
-            in = null;
             out.flush();
             out.close();
-            out = null;
             return true;
-        } catch (Exception e) {
-            e.printStackTrace();
+
+        } catch (IOException e) {
+            Log.e(TAG, "Error while copying assets.", e);
             return false;
         }
     }

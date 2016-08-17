@@ -113,13 +113,6 @@ public class MainActivity extends AppCompatActivity {
 
         TextView tvVersionNumber = (TextView) findViewById(R.id.version_number);
         tvVersionNumber.setText(getVersionName());
-        try {
-            tvVersionNumber.setText(getPackageManager().getPackageInfo(getPackageName(), 0).versionName);
-        } catch (PackageManager.NameNotFoundException e) {
-            Crashlytics.log("Exception thrown while getting package name");
-            Crashlytics.logException(e);
-            e.printStackTrace();
-        }
 
         TextView goIvInfo = (TextView) findViewById(R.id.goiv_info);
         goIvInfo.setMovementMethod(LinkMovementMethod.getInstance());
@@ -266,6 +259,8 @@ public class MainActivity extends AppCompatActivity {
         try {
             return getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
         } catch (PackageManager.NameNotFoundException e) {
+            Crashlytics.log("Exception thrown while getting version name");
+            Crashlytics.logException(e);
             Log.e(TAG, "Error while getting version name", e);
         }
         return "Error while getting version name";
@@ -348,16 +343,10 @@ public class MainActivity extends AppCompatActivity {
                     public void run() {
                         handler.post(new Runnable() {
                             public void run() {
-                                try {
-                                    if (pokeFlyRunning) {
-                                        scanPokemonScreen();
-                                    } else {
-                                        timer.cancel();
-                                    }
-                                } catch (Exception e) {
-                                    Crashlytics.log("Exception thrown in TimerTask");
-                                    Crashlytics.logException(e);
-                                    // TODO Auto-generated catch block
+                                if (pokeFlyRunning) {
+                                    scanPokemonScreen();
+                                } else {
+                                    timer.cancel();
                                 }
                             }
                         });
@@ -659,27 +648,10 @@ public class MainActivity extends AppCompatActivity {
         try {
             files = assetManager.list(fromAssetPath);
         } catch (IOException e) {
-            Log.e(TAG, "Error while loading filenames.", e);
             Crashlytics.log("Exception thrown in copyAssetFolder()");
             Crashlytics.logException(e);
-            new File(toPath).mkdirs();
-            boolean res = true;
-            for (String file : files)
-                if (file.contains("."))
-                    res &= copyAsset(assetManager,
-                            fromAssetPath + "/" + file,
-                            toPath + "/" + file);
-                else
-                    res &= copyAssetFolder(assetManager,
-                            fromAssetPath + "/" + file,
-                            toPath + "/" + file);
-            return res;
-        } catch (Exception e) {
-            Crashlytics.log("Exception thrown in copyAsssetFolder()");
-            Crashlytics.logException(e);
-            return false;
+            Log.e(TAG, "Error while loading filenames.", e);
         }
-
         new File(toPath).mkdirs();
         boolean res = true;
         for (String file : files)

@@ -30,8 +30,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.crashlytics.android.Crashlytics;
-
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -289,7 +287,6 @@ public class pokefly extends Service {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_UP:
-                        Toast.makeText(pokefly.this, "Scanning...", Toast.LENGTH_SHORT).show();
                         windowManager.removeView(IVButton);
                         IVButtonShown = false;
                         Intent intent = new Intent("screenshot");
@@ -302,6 +299,8 @@ public class pokefly extends Service {
                 return false;
             }
         });
+
+        //windowManager.addView(IVButton, IVButonParams);
     }
 
     /**

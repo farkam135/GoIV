@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.kamron.pogoiv" >
 
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <compatible-screens>
@@ -54,6 +55,11 @@
         <service
             android:name="com.kamron.pogoiv.pokefly"
             android:exported="true" />
+
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="PLACEHOLDER" />
+
     </application>
 
 </manifest>

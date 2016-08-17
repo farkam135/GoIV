@@ -27,6 +27,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
+
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -154,6 +156,8 @@ public class pokefly extends Service {
                 //if(arcAdjustBar != null) windowManager.removeView(arcAdjustBar);
                 if (infoLayout != null) windowManager.removeView(infoLayout);
             } catch (Exception e) {
+                Crashlytics.log("Exception thrown in service - during onDestroy()");
+                Crashlytics.logException(e);
             }
         }
         stopForeground(true);
@@ -296,6 +300,8 @@ public class pokefly extends Service {
                 }
             });
         } catch (Exception e) {
+            Crashlytics.log("Exception thrown in service - during createIVButton()");
+            Crashlytics.logException(e);
             // TODO: handle exception
         }
 

@@ -39,6 +39,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.core.CrashlyticsCore;
 import com.googlecode.tesseract.android.TessBaseAPI;
 
 import java.io.File;
@@ -49,6 +51,8 @@ import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import io.fabric.sdk.android.Fabric;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -92,6 +96,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Set up Crashlytics, disabled for debug builds
+        Crashlytics crashlyticsKit = new Crashlytics.Builder()
+                .core(new CrashlyticsCore.Builder()
+                .disabled(BuildConfig.DEBUG).build())
+                .build();
+
+        // Initialize Fabric with the debug-disabled crashlytics.
+        Fabric.with(this, crashlyticsKit);
 
         setContentView(R.layout.activity_main);
         //System.out.println(Build.VERSION_CODES.M);
@@ -100,6 +112,8 @@ public class MainActivity extends AppCompatActivity {
         try {
             tvVersionNumber.setText(getPackageManager().getPackageInfo(getPackageName(), 0).versionName);
         } catch (PackageManager.NameNotFoundException e) {
+            Crashlytics.log("Exception in getting package name");
+            Crashlytics.logException(e);
             e.printStackTrace();
         }
 
@@ -286,6 +300,8 @@ public class MainActivity extends AppCompatActivity {
                                         timer.cancel();
                                     }
                                 } catch (Exception e) {
+                                    Crashlytics.log("Exception thrown in TimerTask");
+                                    Crashlytics.logException(e);
                                     // TODO Auto-generated catch block
                                 }
                             }
@@ -321,6 +337,8 @@ public class MainActivity extends AppCompatActivity {
         try {
             image = mImageReader.acquireLatestImage();
         } catch (Exception e) {
+            Crashlytics.log("Error thrown in takeScreenshot() - acquireLatestImage()");
+            Crashlytics.logException(e);
             Toast.makeText(MainActivity.this, "Error Scanning! Please try again later!", Toast.LENGTH_SHORT).show();
         }
 
@@ -388,6 +406,8 @@ public class MainActivity extends AppCompatActivity {
                 cp.recycle();
                 hp.recycle();
             } catch (Exception e) {
+                Crashlytics.log("Exception thrown in takeScreenshot() - when creating bitmap");
+                Crashlytics.logException(e);
                 image.close();
             }
 
@@ -453,6 +473,8 @@ public class MainActivity extends AppCompatActivity {
             out.close();
 
         } catch (Exception e) {
+            Crashlytics.log("Exception thrown in saveImage()");
+            Crashlytics.logException(e);
             e.printStackTrace();
         }
     }
@@ -539,6 +561,8 @@ public class MainActivity extends AppCompatActivity {
                             toPath + "/" + file);
             return res;
         } catch (Exception e) {
+            Crashlytics.log("Exception thrown in copyAsssetFolder()");
+            Crashlytics.logException(e);
             e.printStackTrace();
             return false;
         }
@@ -560,6 +584,8 @@ public class MainActivity extends AppCompatActivity {
             out = null;
             return true;
         } catch (Exception e) {
+            Crashlytics.log("Exception thrown in copyAsset()");
+            Crashlytics.logException(e);
             e.printStackTrace();
             return false;
         }

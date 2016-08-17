@@ -151,15 +151,4 @@
     <string name="pokemon149">快龍</string>
     <string name="pokemon150">超夢</string>
     <string name="pokemon151">夢幻</string>
-
-    <string name="welcome_message">Welcome to GoIV!\n\nInstructions:\n1. Enter your trainer level below\n2. Press the start button and allow screen capture\n3. Open up your desired Pokémon in \'Pokémon Go\'\n4. Tap the IV Button to scan the Pokémon\n5. Adjust the scanned data if necessary\n6. Check IV!</string>
-    <string name="goiv_is_open_source">GoIV is open source!\ngithub.com/farkam135/GoIV\nreddit.com/r/GoIV</string>
-    <string name="trainer_level">Trainer Level</string>
-
-    <string name="pokemon_name">Pokémon name:</string>
-    <string name="cp">CP</string>
-    <string name="hp">HP</string>
-    <string name="use_the_slider_below_to_align_the_arc">Use the slider below to align the arc</string>
-    <string name="cancel">Cancel</string>
-    <string name="check_iv">Check IV</string>
 </resources>

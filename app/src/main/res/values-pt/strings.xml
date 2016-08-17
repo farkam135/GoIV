@@ -1,4 +1,7 @@
 <resources>
+    <string name="drawer_open">Abrir gaveta de navegação</string>
+    <string name="drawer_close">Fechar gaveta de navegação</string>
+
     <string name="pokemon001">Bulbasaur</string>
     <string name="pokemon002">Ivysaur</string>
     <string name="pokemon003">Venusaur</string>
@@ -154,11 +157,4 @@
     <string name="welcome_message">Bem-vindo ao GoIV!\n\nInstruções:\n1. Insere o nível de treinador em baixo\n2. Carrega em START e permite a captura de ecrã\n3. Abre o teu Pokemon na aplicação \'Pokémon Go\'\n4. Carrega no botão IV para iniciar o exame\n5. Ajusta os dados se necessário\n6. Observa o IV!</string>
     <string name="goiv_is_open_source">GoIV é agora em código aberto!\ngithub.com/farkam135/GoIV\nreddit.com/r/GoIV</string>
     <string name="trainer_level">Nível de Treinador</string>
-
-    <string name="pokemon_name">Pokémon name:</string>
-    <string name="cp">CP</string>
-    <string name="hp">HP</string>
-    <string name="use_the_slider_below_to_align_the_arc">Use the slider below to align the arc</string>
-    <string name="cancel">Cancel</string>
-    <string name="check_iv">Check IV</string>
 </resources>

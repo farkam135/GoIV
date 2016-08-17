@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">GoIV</string>
     <string name="drawer_open">Abrir gaveta de navegação</string>
     <string name="drawer_close">Fechar gaveta de navegação</string>
 
@@ -155,7 +154,7 @@
     <string name="pokemon150">Mewtwo</string>
     <string name="pokemon151">Mew</string>
 
-    <string name="welcome_message">Bem vindo ao GoIV!\n\nInstruções:\n1. Insere o nível de treinador em baixo\n2. Carrega em START e permite a captura de ecrã\n3. Abre o teu Pokemon na aplicação \'Pokémon Go\'\n4. Carrega no botão IV para iniciar o exame\n5. Ajusta os dados se necessário\n6. Observa o IV!</string>
+    <string name="welcome_message">Bem-vindo ao GoIV!\n\nInstruções:\n1. Insere o nível de treinador em baixo\n2. Carrega em START e permite a captura de ecrã\n3. Abre o teu Pokemon na aplicação \'Pokémon Go\'\n4. Carrega no botão IV para iniciar o exame\n5. Ajusta os dados se necessário\n6. Observa o IV!</string>
     <string name="goiv_is_open_source">GoIV é agora em código aberto!\ngithub.com/farkam135/GoIV\nreddit.com/r/GoIV</string>
     <string name="trainer_level">Nível de Treinador</string>
 </resources>

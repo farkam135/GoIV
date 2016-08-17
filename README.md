@@ -18,9 +18,12 @@ GoIV is an android app made for Pokemon GO that allows users to seamlessly calcu
 ![Alt text](https://i.imgur.com/aNHUEVI.jpg "Seamlessly Overlays an IV Button")
 
 #Download
-You can download GoIV apk here: https://drive.google.com/file/d/0B0Nazg34pSbpTzU2YkNFcndENDA/view  
-Latest Version: 1.3.0  
-Checksum: 1779FA8166F1948044916F862E28A9A9  
+You can download GoIV apk here: https://drive.google.com/file/d/0B0Nazg34pSbpdjh5dTd5azlRS2c/view?usp=sharing    
+Latest Version: 2.0.0  
+Checksum:  
+MD5 1AC4F43B1546C0AF1F057A36A7C8589E  
+SHA1 BDB487CD2CD32B60B3CD328AEFC018DE919A7A1D  
+SHA-256 B44712B7CE6C515A93D65B9C5941B2B9EC95885B2889BFE6A26872D311897C74   
 
 Changelog:
 [1.3.0]  

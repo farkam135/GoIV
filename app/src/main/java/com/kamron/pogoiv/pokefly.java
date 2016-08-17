@@ -183,7 +183,7 @@ public class pokefly extends Service {
      * pokemon go's arc pointer
      */
     private void createArcPointer() {
-        arcParams.gravity = Gravity.TOP | Gravity.LEFT;
+        arcParams.gravity = Gravity.TOP | Gravity.START;
         arcPointer = new ImageView(this);
         arcPointer.setImageResource(R.drawable.dot);
 
@@ -258,7 +258,7 @@ public class pokefly extends Service {
         IVButton = new ImageView(this);
         IVButton.setImageResource(R.drawable.button);
 
-        IVButonParams.gravity = Gravity.BOTTOM | Gravity.LEFT;
+        IVButonParams.gravity = Gravity.BOTTOM | Gravity.START;
         IVButonParams.x = dpToPx(20); //(int)Math.round(displayMetrics.widthPixels / 20.5714286);
         IVButonParams.y = dpToPx(15); //(int)Math.round(displayMetrics.heightPixels / 38.5714286);
 

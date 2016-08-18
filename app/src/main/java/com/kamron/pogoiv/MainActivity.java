@@ -83,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean readyForNewScreenshot = true;
 
     private String pokemonName;
+    private String candyName;
     private double estimatedPokemonLevel;
     private int pokemonCP;
     private int pokemonHP;
@@ -482,6 +483,13 @@ public class MainActivity extends AppCompatActivity {
         //System.out.println(tesseract.getUTF8Text());
         pokemonName = tesseract.getUTF8Text().replace(" ", "").replace("1", "l").replace("0", "o").replace("Sparky", getString(R.string.pokemon133)).replace("Rainer", getString(R.string.pokemon133)).replace("Pyro", getString(R.string.pokemon133));
         //SaveImage(name, "name");
+        Bitmap candy = Bitmap.createBitmap(pokemonImage, displayMetrics.widthPixels / 2, (int) Math.round(displayMetrics.heightPixels / 1.3714285), (int) Math.round(displayMetrics.widthPixels / 2.057), (int) Math.round(displayMetrics.heightPixels / 38.4));
+        candy = replaceColors(candy, 68, 105, 108, Color.WHITE, 200);
+        tesseract.setImage(candy);
+        //System.out.println(tesseract.getUTF8Text());
+        candyName = tesseract.getUTF8Text().trim().split(" ")[1].replace(" ", "").replace("1", "l").replace("0", "o");
+        //System.out.println(candyName);
+        //SaveImage(candy, "candy");
         Bitmap hp = Bitmap.createBitmap(pokemonImage, (int) Math.round(displayMetrics.widthPixels / 2.8), (int) Math.round(displayMetrics.heightPixels / 1.8962963), (int) Math.round(displayMetrics.widthPixels / 3.5), (int) Math.round(displayMetrics.heightPixels / 34.13333333));
         hp = replaceColors(hp, 55, 66, 61, Color.WHITE, 200);
         tesseract.setImage(hp);

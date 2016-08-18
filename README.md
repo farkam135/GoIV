@@ -33,6 +33,7 @@ Changelog:
 * Performance improvements
 * Added CP calculations
 * Fixed needed candy/stardust formula
+* No longer copies on scan
 
 
 #FAQ

@@ -554,6 +554,11 @@ public class pokefly extends Service {
         double lvlScalar = Data.CpM[(int) (level * 2 - 2)];
         int cpMin = (int) Math.floor((baseAttack + lowAttack) * Math.sqrt(baseDefense + lowDefense) * Math.sqrt(baseStamina + lowStamina) * Math.pow(lvlScalar, 2) * 0.1);
         int cpMax = (int) Math.floor((baseAttack + highAttack) * Math.sqrt(baseDefense + highDefense) * Math.sqrt(baseStamina + highStamina) * Math.pow(lvlScalar, 2) * 0.1);
+        if (cpMin > cpMax) {
+            int tmp = cpMax;
+            cpMax = cpMin;
+            cpMin = tmp;
+        }
         return "\nCP at lvl " + level + ": " + cpMin + " - " + cpMax;
 
     }

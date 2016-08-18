@@ -219,19 +219,20 @@ public class pokefly extends Service {
      * setArcPointer
      * Sets the arc pointer to the specified degree.
      *
-     * @param angleInDegrees The degree to set the arc pointer to.
+     * @param pokeLevel The pokemon level to set the arc pointer to.
      */
-    private void setArcPointer(double angleInDegrees) {
-        if (angleInDegrees > 1.0 && trainerLevel < 30) {
-            angleInDegrees -= 0.5;
-        }
-        else if(trainerLevel >= 30){
-            angleInDegrees += 0.5;
-        }
-
-        double angleInRadians = (angleInDegrees + 180) * Math.PI / 180.0;
-        arcParams.x = (int) (arcCenter + (radius * Math.cos(angleInRadians)));
-        arcParams.y = (int) (arcInitialY + (radius * Math.sin(angleInRadians)));
+    private void setArcPointer(double pokeLevel) {
+//        if (angleInDegrees > 1.0 && trainerLevel < 30) {
+//            angleInDegrees -= 0.5;
+//        }
+//        else if(trainerLevel >= 30){
+//            angleInDegrees += 0.5;
+//        }
+//
+//        double angleInRadians = (angleInDegrees + 180) * Math.PI / 180.0;
+        int index = Data.convertLevelToIndex(pokeLevel);
+        arcParams.x = Data.arcX[index] - pointerWidth; //(int) (arcCenter + (radius * Math.cos(angleInRadians)));
+        arcParams.y = Data.arcY[index] - pointerHeight - statusBarHeight; //(int) (arcInitialY + (radius * Math.sin(angleInRadians)));
         //System.out.println("Pointer X: "  + arcParams.x);
         //System.out.println("Pointer Y: "  + arcParams.y);
         //System.out.println(arcParams.x + "," + arcParams.y);
@@ -249,7 +250,8 @@ public class pokefly extends Service {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 estimatedPokemonLevel = 1 + (progress * 0.5);
-                setArcPointer((Data.CpM[(int) (estimatedPokemonLevel * 2 - 2)] - 0.094) * 202.037116 / Data.CpM[trainerLevel * 2 - 2]);
+                setArcPointer(estimatedPokemonLevel);
+                //setArcPointer((Data.CpM[(int) (estimatedPokemonLevel * 2 - 2)] - 0.094) * 202.037116 / Data.CpM[trainerLevel * 2 - 2]);
             }
 
             @Override
@@ -322,7 +324,8 @@ public class pokefly extends Service {
         if (estimatedPokemonLevel > 1.0) {
             estimatedPokemonLevel -= 0.5;
         }
-        setArcPointer((Data.CpM[(int) (estimatedPokemonLevel * 2 - 2)] - 0.094) * 202.037116 / Data.CpM[trainerLevel * 2 - 2]);
+        setArcPointer(estimatedPokemonLevel);
+        //setArcPointer((Data.CpM[(int) (estimatedPokemonLevel * 2 - 2)] - 0.094) * 202.037116 / Data.CpM[trainerLevel * 2 - 2]);
         arcAdjustBar.setProgress((int) ((estimatedPokemonLevel - 1) * 2));
     }
 
@@ -331,7 +334,8 @@ public class pokefly extends Service {
         if (estimatedPokemonLevel < trainerLevel + 1.5 && estimatedPokemonLevel < 40.5) {
             estimatedPokemonLevel += 0.5;
         }
-        setArcPointer((Data.CpM[(int) (estimatedPokemonLevel * 2 - 2)] - 0.094) * 202.037116 / Data.CpM[trainerLevel * 2 - 2]);
+        setArcPointer(estimatedPokemonLevel);
+        //setArcPointer((Data.CpM[(int) (estimatedPokemonLevel * 2 - 2)] - 0.094) * 202.037116 / Data.CpM[trainerLevel * 2 - 2]);
         arcAdjustBar.setProgress((int) ((estimatedPokemonLevel - 1) * 2));
     }
 
@@ -389,7 +393,8 @@ public class pokefly extends Service {
 
             windowManager.addView(arcPointer, arcParams);
             windowManager.addView(infoLayout, layoutParams);
-            setArcPointer((Data.CpM[(int) (estimatedPokemonLevel * 2 - 2)] - 0.094) * 202.037116 / Data.CpM[trainerLevel * 2 - 2]);
+            setArcPointer(estimatedPokemonLevel);
+            //setArcPointer((Data.CpM[(int) (estimatedPokemonLevel * 2 - 2)] - 0.094) * 202.037116 / Data.CpM[trainerLevel * 2 - 2]);
             arcAdjustBar.setProgress((int) ((estimatedPokemonLevel - 1) * 2));
 
             if(batterySaver){
@@ -411,28 +416,24 @@ public class pokefly extends Service {
         int baseStamina = pokemon.get(pokemonList.getSelectedItemPosition()).baseStamina;
         double lvlScalar = Data.CpM[(int) (estimatedPokemonLevel * 2 - 2)];
         double lvlScalarPow2 = Math.pow(lvlScalar, 2) * 0.1; // instead of computing again in every loop
+        //for averagePercent
+        int sumIV;
+        int averageSum = 0;
+        //IV vars for lower and upper end cp ranges
+        int lowAttack = 15;
+        int lowDefense = 15;
+        int lowStamina = 15;
+        int highAttack = 0;
+        int highDefense = 0;
+        int highStamina = 0;
 
-        int sumIV = 0; // new, better average precision
-        int averageSum = 0; // new, better average precision
-
-        int lowAttack = 15; // new for cp at cap and max
-        int lowDefense = 15; // new for cp at cap and max
-        int lowStamina = 15; // new for cp at cap and max
-        int highAttack = 0; // new for cp at cap and max
-        int highDefense = 0; // new for cp at cap and max
-        int highStamina = 0; // new for cp at cap and max
-
-        int cpMin = 0; // new for cp at cap and max
-        int cpMax = 0; // new for cp at cap and max
-
-        String returnVal = "Your LV" + estimatedPokemonLevel + " " + pokemonName + " can be: ";
+        String returnVal = "Your lvl " + estimatedPokemonLevel + " " + pokemonName + " can be: ";
 
         int count = 0;
         int lowPercent = 100;
-        int averagePercent = 0;
+        int averagePercent;
         int highPercent = 0;
-        int neededStardust = 0;
-        int neededCandy = 0;
+
         if (pokemonHP != 10 && pokemonCP != 10) {
             for (int staminaIV = 0; staminaIV < 16; staminaIV++) {
                 int hp = (int) Math.max(Math.floor((baseStamina + staminaIV) * lvlScalar), 10);
@@ -446,21 +447,22 @@ public class pokefly extends Service {
                             if (cp == pokemonCP) {
                                 ++count;
                                 sumIV = attackIV + defenseIV + staminaIV; // new
-                                int percentPerfect = (int) Math.round(((sumIV) / 45.0) * 100); // changed to sumIV
+                                int percentPerfect = (int) Math.round(((sumIV) / 45.0) * 100);
                                 if ((percentPerfect < lowPercent) || ((percentPerfect == lowPercent) && (attackIV < lowAttack))) { // check for same percentage but lower atk
                                     lowPercent = percentPerfect;
+                                    //save worst combination for lower end cp range
                                     lowAttack = attackIV;
                                     lowDefense = defenseIV;
                                     lowStamina = staminaIV;
                                 }
                                 if ((percentPerfect > highPercent) || ((percentPerfect == highPercent) && (attackIV > highAttack))) { // check for same percentage but higher atk
                                     highPercent = percentPerfect;
+                                    //save best combination for upper end cp range
                                     highAttack = attackIV;
                                     highDefense = defenseIV;
                                     highStamina = staminaIV;
                                 }
                                 averageSum += sumIV; //changed, more precise than rounded percentage
-                                //averagePercent += percentPerfect;
                                 if (count <= 8) {
                                     returnVal += "\n" + String.format("%-9s", "Atk: " + attackIV) + String.format("%-9s", "Def: " + defenseIV) + String.format("%-8s", "Sta: " + staminaIV) + "(" + percentPerfect + "%)";
                                     //returnVal += "\n" + String.format("%9s%9s%9s","Atk: " + attackIV,"Def: " + defenseIV,"Sta: " +staminaIV) + " (" + percentPerfect + "%)";
@@ -482,47 +484,42 @@ public class pokefly extends Service {
             if (count == 0) {
                 returnVal += "\nNo possibilities, please check your stats again!";
             } else {
-                averagePercent = ((averageSum * 100 / (45 * count))); // new
+                averagePercent = (int) Math.round(((averageSum * 100 / (45.0 * count)))); // new
                 returnVal += "\nMin: " + lowPercent + "%   Average: " + averagePercent + "%   Max: " + highPercent + "%" + "\n"; // count removed
 
-                // for trainer level cp cap
+                // for trainer level cp cap, if estimatedPokemonLevel is at cap do not print
                 if (estimatedPokemonLevel < trainerLevel + 1.5) {
                     returnVal += getCpRangeAtLevel(pokemonList.getSelectedItemPosition(), lowAttack, lowDefense, lowStamina, highAttack, highDefense, highStamina, Math.min(trainerLevel + 1.5, 40.0));
                 }
 
                 ArrayList<Integer> evolutions = pokemon.get(pokemonList.getSelectedItemPosition()).evolutions;
-
-                //for each evolution of next stage (example, eevees thress evolutions jolteon, vaporeon and flareon)
+                //for each evolution of next stage (example, eevees three evolutions jolteon, vaporeon and flareon)
                 for(int i = evolutions.size()-1; i>=0; i--){
-
                     pokemonName = pokemon.get(evolutions.get(i)).name;
                     returnVal += "\nCan be evolved into " + pokemonName + ":";
-                    //returnVal += getCpRangeAtLevel(evolutions.get(i), lowAttack, lowDefense, lowStamina, highAttack, highDefense, highStamina, estimatedPokemonLevel);
-                    //if (estimatedPokemonLevel < trainerLevel + 1.5) {
                     returnVal += getCpRangeAtLevel(evolutions.get(i), lowAttack, lowDefense, lowStamina, highAttack, highDefense, highStamina, (trainerLevel + 1.5));
-                    //}
-                    //for following stage evolution (example, dratini, dragonair, dragonite)
+                    //for following stage evolution (example, dratini - dragonair - dragonite)
                     int nextEvolutionNbr = evolutions.get(i);
+                    //if the current evolution has another evolution calculate its range and break
                     if (pokemon.get(nextEvolutionNbr).evolutions.size() != 0) {
                         int nextEvoStage = pokemon.get(nextEvolutionNbr).evolutions.get(0);
                         pokemonName = pokemon.get(nextEvoStage).name;
                         returnVal += "\nCan be further evolved into " + pokemonName + ":";
-                        //returnVal += getCpRangeAtLevel(nextEvoStage, lowAttack, lowDefense, lowStamina, highAttack, highDefense, highStamina, estimatedPokemonLevel);
-                        //if (estimatedPokemonLevel < trainerLevel + 1.5) {
                         returnVal += getCpRangeAtLevel(nextEvoStage, lowAttack, lowDefense, lowStamina, highAttack, highDefense, highStamina, (trainerLevel + 1.5));
                         break;
-                        //}
                     }
                 }
-                ClipData clip = ClipData.newPlainText("iv",lowPercent + "-" + highPercent);
-                clipboard.setPrimaryClip(clip);
+
+                //Temporary disable of copy until settings menu is up
+                //ClipData clip = ClipData.newPlainText("iv",lowPercent + "-" + highPercent);
+                //clipboard.setPrimaryClip(clip);
             }
         } else {
             returnVal += "\nThere are too many possibilities for this pokemon. Try powering it up!";
         }
 
 
-        returnVal += "\n\nCost to reach level " + (trainerLevel + 1.5) + ":\n" + getMaxReqText();
+        returnVal += "\n\nCost to reach lvl " + (trainerLevel + 1.5) + ":\n" + getMaxReqText();
         //returnVal += percentPerfect + "% perfect!\n";
         //returnVal += "Atk+Def: " + battleScore + "/30   Sta: " + stamScore + "/15";
         return returnVal;
@@ -533,7 +530,7 @@ public class pokefly extends Service {
      * Used to calculate CP ranges for a species at a specific level based on the lowest and highest
      * IV combination.
      *
-     * @param pokemonIndex the index of the pokemon species within the list
+     * @param pokemonIndex the index of the pokemon species within the pokemon list (sorted)
      * @param lowAttack attack IV of the lowest combination
      * @param lowDefense defense IV of the lowest combination
      * @param lowStamina stamina IV of the lowest combination
@@ -545,15 +542,18 @@ public class pokefly extends Service {
      * @return String containing the CP range including the specified level.
      */
     private String getCpRangeAtLevel(int pokemonIndex, int lowAttack, int lowDefense, int lowStamina, int highAttack, int highDefense, int highStamina, double level) {
-
         int baseAttack = pokemon.get(pokemonIndex).baseAttack;
         int baseDefense = pokemon.get(pokemonIndex).baseDefense;
         int baseStamina = pokemon.get(pokemonIndex).baseStamina;
         double lvlScalar = Data.CpM[(int) (level * 2 - 2)];
         int cpMin = (int) Math.floor((baseAttack + lowAttack) * Math.sqrt(baseDefense + lowDefense) * Math.sqrt(baseStamina + lowStamina) * Math.pow(lvlScalar, 2) * 0.1);
         int cpMax = (int) Math.floor((baseAttack + highAttack) * Math.sqrt(baseDefense + highDefense) * Math.sqrt(baseStamina + highStamina) * Math.pow(lvlScalar, 2) * 0.1);
+        if (cpMin > cpMax) {
+            int tmp = cpMax;
+            cpMax = cpMin;
+            cpMin = tmp;
+        }
         return "\nCP at lvl " + level + ": " + cpMin + " - " + cpMax;
-
     }
 
 
@@ -581,11 +581,9 @@ public class pokefly extends Service {
             if (estimatedPokemonLevel <= 10.5) {
                 neededCandy++;
                 neededStarDust += rank * 200;
-            //} else if (estimatedPokemonLevel > 10.5 && estimatedPokemonLevel <= 18.5) {
             } else if (estimatedPokemonLevel > 10.5 && estimatedPokemonLevel <= 20.5) {
                 neededCandy += 2;
                 neededStarDust += 1000 + (rank * 300);
-            //} else if (estimatedPokemonLevel > 18.5 && estimatedPokemonLevel <= 30.5) {
             } else if (estimatedPokemonLevel > 20.5 && estimatedPokemonLevel <= 30.5) {
                 neededCandy += 3;
                 neededStarDust += 2500 + (rank * 500);

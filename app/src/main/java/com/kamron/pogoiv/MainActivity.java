@@ -9,6 +9,8 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
+import android.database.ContentObserver;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -23,7 +25,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.FileObserver;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.provider.Settings;
@@ -45,6 +46,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.core.CrashlyticsCore;
 import com.googlecode.tesseract.android.TessBaseAPI;
 
 import java.io.File;
@@ -56,6 +59,8 @@ import java.nio.ByteBuffer;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import io.fabric.sdk.android.Fabric;
+
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
@@ -66,7 +71,8 @@ public class MainActivity extends AppCompatActivity {
 
     private MediaProjection mProjection;
     private ImageReader mImageReader;
-    private FileObserver screenShotObserver;
+    private ContentObserver screenShotObserver;
+    private boolean screenShotWriting= false;
 
     private DisplayMetrics displayMetrics;
     private DisplayMetrics rawDisplayMetrics;
@@ -96,12 +102,19 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Set up Crashlytics, disabled for debug builds
+        Crashlytics crashlyticsKit = new Crashlytics.Builder()
+                .core(new CrashlyticsCore.Builder()
+                .disabled(BuildConfig.DEBUG).build())
+                .build();
+
+        // Initialize Fabric with the debug-disabled crashlytics.
+        Fabric.with(this, crashlyticsKit);
 
         setContentView(R.layout.activity_main);
 
         TextView tvVersionNumber = (TextView) findViewById(R.id.version_number);
         tvVersionNumber.setText(getVersionName());
-
 
         TextView goIvInfo = (TextView) findViewById(R.id.goiv_info);
         goIvInfo.setMovementMethod(LinkMovementMethod.getInstance());
@@ -122,8 +135,6 @@ public class MainActivity extends AppCompatActivity {
         } else {
             CheckBox_BatterySaver.setChecked(batterySaver);
         }
-
-        File newFile = new File(getExternalFilesDir(null) + "/tessdata/eng.traineddata");
 
         Button launch = (Button) findViewById(R.id.start);
         launch.setOnClickListener(new View.OnClickListener() {
@@ -171,11 +182,8 @@ public class MainActivity extends AppCompatActivity {
                     if (trainerLevel > 0 && trainerLevel <= 40) {
                         sharedPref.edit().putInt("level", trainerLevel).apply();
                         sharedPref.edit().putBoolean("batterySaver", batterySaver).apply();
+                        setupArcPoints();
 
-                        // TODO is this really necessary?
-                        if (!tessInitiated) {
-                            initTesseract();
-                        }
                         if (batterySaver) {
                             startScreenshotService();
                         } else {
@@ -191,7 +199,7 @@ public class MainActivity extends AppCompatActivity {
                         mProjection = null;
                         mImageReader = null;
                     } else if (screenShotObserver != null) {
-                        screenShotObserver.stopWatching();
+                        getContentResolver().unregisterContentObserver(screenShotObserver);
                         screenShotObserver = null;
                     }
                     pokeFlyRunning = false;
@@ -216,6 +224,32 @@ public class MainActivity extends AppCompatActivity {
 
         LocalBroadcastManager.getInstance(this).registerReceiver(resetScreenshot, new IntentFilter("reset-screenshot"));
         LocalBroadcastManager.getInstance(this).registerReceiver(takeScreenshot, new IntentFilter("screenshot"));
+    }
+
+
+    /**
+     * setupArcPoints
+     * Sets up the x,y coordinates of the arc using the trainer level, stores it in Data.arcX/arcY
+     */
+    private void setupArcPoints(){
+        final int indices = Math.min((int)((trainerLevel + 1.5) * 2) - 1,79);
+        Data.arcX = new int[indices];
+        Data.arcY = new int[indices];
+
+        for (double pokeLevel = 1.0; pokeLevel <= trainerLevel + 1.5; pokeLevel += 0.5) {
+            double angleInDegrees = (Data.CpM[(int) (pokeLevel * 2 - 2)] - 0.094) * 202.037116 / Data.CpM[trainerLevel * 2 - 2];
+            if (angleInDegrees > 1.0 && trainerLevel < 30) {
+                angleInDegrees -= 0.5;
+            } else if (trainerLevel >= 30) {
+                angleInDegrees += 0.5;
+            }
+
+            double angleInRadians = (angleInDegrees + 180) * Math.PI / 180.0;
+
+            int index = Data.convertLevelToIndex(pokeLevel);
+            Data.arcX[index] = (int) (arcCenter + (radius * Math.cos(angleInRadians)));
+            Data.arcY[index] = (int) (arcInitialY + (radius * Math.sin(angleInRadians)));
+        }
     }
 
     /**
@@ -248,6 +282,8 @@ public class MainActivity extends AppCompatActivity {
         try {
             return getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
         } catch (PackageManager.NameNotFoundException e) {
+            Crashlytics.log("Exception thrown while getting version name");
+            Crashlytics.logException(e);
             Log.e(TAG, "Error while getting version name", e);
         }
         return "Error while getting version name";
@@ -293,6 +329,9 @@ public class MainActivity extends AppCompatActivity {
         }
         if (mProjection != null) {
             mProjection.stop();
+        }
+        else if(screenShotObserver != null){
+            getContentResolver().unregisterContentObserver(screenShotObserver);
         }
         tesseract.stop();
         tesseract.end();
@@ -378,6 +417,8 @@ public class MainActivity extends AppCompatActivity {
         try {
             image = mImageReader.acquireLatestImage();
         } catch (Exception e) {
+            Crashlytics.log("Error thrown in takeScreenshot() - acquireLatestImage()");
+            Crashlytics.logException(e);
             Log.e(TAG, "Error while Scanning!", e);
             Toast.makeText(MainActivity.this, "Error Scanning! Please try again later!", Toast.LENGTH_SHORT).show();
         }
@@ -396,6 +437,8 @@ public class MainActivity extends AppCompatActivity {
                 scanPokemon(bmp);
                 //SaveImage(bmp,"Search");
             } catch (Exception e) {
+                Crashlytics.log("Exception thrown in takeScreenshot() - when creating bitmap");
+                Crashlytics.logException(e);
                 image.close();
             }
 
@@ -413,17 +456,20 @@ public class MainActivity extends AppCompatActivity {
         estimatedPokemonLevel = trainerLevel + 1.5;
 
         for (double estPokemonLevel = estimatedPokemonLevel; estPokemonLevel >= 1.0; estPokemonLevel -= 0.5) {
-            double angleInDegrees = (Data.CpM[(int) (estPokemonLevel * 2 - 2)] - 0.094) * 202.037116 / Data.CpM[trainerLevel * 2 - 2];
-            if (angleInDegrees > 1.0 && trainerLevel < 30) {
-                angleInDegrees -= 0.5;
-            } else if (trainerLevel >= 30) {
-                angleInDegrees += 0.5;
-            }
+            //double angleInDegrees = (Data.CpM[(int) (estPokemonLevel * 2 - 2)] - 0.094) * 202.037116 / Data.CpM[trainerLevel * 2 - 2];
+            //if (angleInDegrees > 1.0 && trainerLevel < 30) {
+              //  angleInDegrees -= 0.5;
+            //} else if (trainerLevel >= 30) {
+             //   angleInDegrees += 0.5;
+            //}
 
-            double angleInRadians = (angleInDegrees + 180) * Math.PI / 180.0;
-            int x = (int) (arcCenter + (radius * Math.cos(angleInRadians)));
-            int y = (int) (arcInitialY + (radius * Math.sin(angleInRadians)));
+            //double angleInRadians = (angleInDegrees + 180) * Math.PI / 180.0;
+            //int x = (int) (arcCenter + (radius * Math.cos(angleInRadians)));
+            //int y = (int) (arcInitialY + (radius * Math.sin(angleInRadians)));
             //System.out.println("X: " + x + ", Y: " + y);
+            int index = Data.convertLevelToIndex(estPokemonLevel);
+            int x = Data.arcX[index];
+            int y = Data.arcY[index];
             if (pokemonImage.getPixel(x, y) == Color.rgb(255, 255, 255)) {
                 estimatedPokemonLevel = estPokemonLevel;
                 break;
@@ -529,6 +575,8 @@ public class MainActivity extends AppCompatActivity {
             out.close();
 
         } catch (Exception e) {
+            Crashlytics.log("Exception thrown in saveImage()");
+            Crashlytics.logException(e);
             Log.e(TAG, "Error while saving the image.", e);
         }
     }
@@ -537,6 +585,7 @@ public class MainActivity extends AppCompatActivity {
      * startScreenService
      * Starts the screen capture.
      */
+    @TargetApi(21)
     private void startScreenService() {
         ((Button) findViewById(R.id.start)).setText("Accept Screen Capture");
         MediaProjectionManager projectionManager = (MediaProjectionManager) getSystemService(Context.MEDIA_PROJECTION_SERVICE);
@@ -548,22 +597,64 @@ public class MainActivity extends AppCompatActivity {
      * Starts the screenshot service, which checks for a new screenshot to scan
      */
     private void startScreenshotService() {
-        final String screenshotPath = Environment.getExternalStorageDirectory() + File.separator + Environment.DIRECTORY_PICTURES + File.separator + "Screenshots";
-        final Uri uri = MediaStore.Files.getContentUri("external");
-        screenShotObserver = new FileObserver(screenshotPath) {
+//        System.out.println(MediaStore.Files.FileColumns.Me);
+//        final String screenshotPath = Environment.getExternalStorageDirectory() + File.separator + Environment.DIRECTORY_PICTURES + File.separator + "Screenshots";
+//        final Uri uri = MediaStore.Files.getContentUri("external");
+//        screenShotObserver = new FileObserver(screenshotPath) {
+//            @Override
+//            public void onEvent(int event, String file) {
+//                if (event == FileObserver.CLOSE_NOWRITE || event == FileObserver.CLOSE_WRITE) {
+//                    if (readyForNewScreenshot && file != null) {
+//                        readyForNewScreenshot = false;
+//                        scanPokemon(BitmapFactory.decodeFile(screenshotPath + File.separator + file));
+//                        getContentResolver().delete(uri, MediaStore.Files.FileColumns.DATA + "=?", new String[]{screenshotPath + File.separator + file});
+//                    }
+//                }
+//            }
+//        };
+//        screenShotObserver.startWatching();
+        screenShotObserver = new ContentObserver(new Handler()) {
             @Override
-            public void onEvent(int event, String file) {
-                if (event == FileObserver.CLOSE_NOWRITE || event == FileObserver.CLOSE_WRITE) {
-                    if (readyForNewScreenshot && file != null) {
-                        readyForNewScreenshot = false;
-                        scanPokemon(BitmapFactory.decodeFile(screenshotPath + File.separator + file));
-                        getContentResolver().delete(uri, MediaStore.Files.FileColumns.DATA + "=?", new String[]{screenshotPath + File.separator + file});
+            public void onChange(boolean selfChange, Uri uri) {
+                if(readyForNewScreenshot){
+                    final Uri fUri = uri;
+                    final String pathChange = getRealPathFromURI(MainActivity.this, fUri);
+                    if(pathChange.contains("Screenshot")){
+                        screenShotWriting = !screenShotWriting;
+                        if(!screenShotWriting) {
+                                readyForNewScreenshot = false;
+                            //TODO change scanPokemon to check to see if image is a pokemon instead of crashing
+                            try {
+                                scanPokemon(BitmapFactory.decodeFile(pathChange));
+                                getContentResolver().delete(fUri, MediaStore.Files.FileColumns.DATA + "=?", new String[]{pathChange});
+                            }catch(ArrayIndexOutOfBoundsException e){
+                                //HP was not detected so just ignore
+                                readyForNewScreenshot = true;
+                            }
+                        }
                     }
                 }
+                super.onChange(selfChange, uri);
             }
         };
-        screenShotObserver.startWatching();
+        getContentResolver().registerContentObserver(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, true,screenShotObserver);
         startPokeyFly();
+    }
+
+
+    private String getRealPathFromURI(Context context, Uri contentUri) {
+        Cursor cursor = null;
+        try {
+            String[] proj = { MediaStore.Images.Media.DATA };
+            cursor = context.getContentResolver().query(contentUri,  proj, null, null, MediaStore.Images.ImageColumns.DATE_TAKEN + " DESC");
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            return cursor.getString(column_index);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
     }
 
     /**
@@ -629,10 +720,10 @@ public class MainActivity extends AppCompatActivity {
         try {
             files = assetManager.list(fromAssetPath);
         } catch (IOException e) {
+            Crashlytics.log("Exception thrown in copyAssetFolder()");
+            Crashlytics.logException(e);
             Log.e(TAG, "Error while loading filenames.", e);
-            return false;
         }
-
         new File(toPath).mkdirs();
         boolean res = true;
         for (String file : files)
@@ -655,8 +746,9 @@ public class MainActivity extends AppCompatActivity {
             out.flush();
             out.close();
             return true;
-
         } catch (IOException e) {
+            Crashlytics.log("Exception thrown in copyAsset()");
+            Crashlytics.logException(e);
             Log.e(TAG, "Error while copying assets.", e);
             return false;
         }

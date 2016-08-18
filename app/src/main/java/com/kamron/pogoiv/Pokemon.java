@@ -8,12 +8,12 @@ import java.util.ArrayList;
 
 public class Pokemon {
     public String name;
-    public int number;
+    public int number; //indexnumber in ressources, pokedexnumber - 1
     public int baseAttack;
     public int baseDefense;
     public int baseStamina;
-    public int devolNumber;
-    public ArrayList<Integer> evolutions;
+    public int devolNumber; //indexnumber in ressources of devolution, pokedexnumber - 1
+    public ArrayList<Integer> evolutions; //evolutions sorted collection index, populated after sort
 
     public Pokemon(String name, int number, int baseAttack, int baseDefense, int baseStamina, int devolNumber) {
         this.name = name;

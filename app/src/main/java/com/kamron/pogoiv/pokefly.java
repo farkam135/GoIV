@@ -417,7 +417,7 @@ public class pokefly extends Service {
         double lvlScalar = Data.CpM[(int) (estimatedPokemonLevel * 2 - 2)];
         double lvlScalarPow2 = Math.pow(lvlScalar, 2) * 0.1; // instead of computing again in every loop
 
-        int sumIV = 0; // new, better average precision
+        int sumIV; // new, better average precision
         int averageSum = 0; // new, better average precision
 
         int lowAttack = 15; // new for cp at cap and max
@@ -427,17 +427,13 @@ public class pokefly extends Service {
         int highDefense = 0; // new for cp at cap and max
         int highStamina = 0; // new for cp at cap and max
 
-        int cpMin = 0; // new for cp at cap and max
-        int cpMax = 0; // new for cp at cap and max
-
-        String returnVal = "Your LV" + estimatedPokemonLevel + " " + pokemonName + " can be: ";
+        String returnVal = "Your lvl " + estimatedPokemonLevel + " " + pokemonName + " can be: ";
 
         int count = 0;
         int lowPercent = 100;
-        int averagePercent = 0;
+        int averagePercent;
         int highPercent = 0;
-        int neededStardust = 0;
-        int neededCandy = 0;
+
         if (pokemonHP != 10 && pokemonCP != 10) {
             for (int staminaIV = 0; staminaIV < 16; staminaIV++) {
                 int hp = (int) Math.max(Math.floor((baseStamina + staminaIV) * lvlScalar), 10);
@@ -465,7 +461,6 @@ public class pokefly extends Service {
                                     highStamina = staminaIV;
                                 }
                                 averageSum += sumIV; //changed, more precise than rounded percentage
-                                //averagePercent += percentPerfect;
                                 if (count <= 8) {
                                     returnVal += "\n" + String.format("%-9s", "Atk: " + attackIV) + String.format("%-9s", "Def: " + defenseIV) + String.format("%-8s", "Sta: " + staminaIV) + "(" + percentPerfect + "%)";
                                     //returnVal += "\n" + String.format("%9s%9s%9s","Atk: " + attackIV,"Def: " + defenseIV,"Sta: " +staminaIV) + " (" + percentPerfect + "%)";
@@ -487,7 +482,7 @@ public class pokefly extends Service {
             if (count == 0) {
                 returnVal += "\nNo possibilities, please check your stats again!";
             } else {
-                averagePercent = Math.round(((averageSum * 100 / (45 * count)))); // new
+                averagePercent = (int) Math.round(((averageSum * 100 / (45.0 * count)))); // new
                 returnVal += "\nMin: " + lowPercent + "%   Average: " + averagePercent + "%   Max: " + highPercent + "%" + "\n"; // count removed
 
                 // for trainer level cp cap
@@ -529,7 +524,7 @@ public class pokefly extends Service {
         }
 
 
-        returnVal += "\n\nCost to reach level " + (trainerLevel + 1.5) + ":\n" + getMaxReqText();
+        returnVal += "\n\nCost to reach lvl " + (trainerLevel + 1.5) + ":\n" + getMaxReqText();
         //returnVal += percentPerfect + "% perfect!\n";
         //returnVal += "Atk+Def: " + battleScore + "/30   Sta: " + stamScore + "/15";
         return returnVal;
@@ -593,11 +588,11 @@ public class pokefly extends Service {
             if (estimatedPokemonLevel <= 10.5) {
                 neededCandy++;
                 neededStarDust += rank * 200;
-            //} else if (estimatedPokemonLevel > 10.5 && estimatedPokemonLevel <= 18.5) {
+                //} else if (estimatedPokemonLevel > 10.5 && estimatedPokemonLevel <= 18.5) {
             } else if (estimatedPokemonLevel > 10.5 && estimatedPokemonLevel <= 20.5) {
                 neededCandy += 2;
                 neededStarDust += 1000 + (rank * 300);
-            //} else if (estimatedPokemonLevel > 18.5 && estimatedPokemonLevel <= 30.5) {
+                //} else if (estimatedPokemonLevel > 18.5 && estimatedPokemonLevel <= 30.5) {
             } else if (estimatedPokemonLevel > 20.5 && estimatedPokemonLevel <= 30.5) {
                 neededCandy += 3;
                 neededStarDust += 2500 + (rank * 500);

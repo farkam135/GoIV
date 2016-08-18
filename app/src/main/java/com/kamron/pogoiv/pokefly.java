@@ -482,7 +482,7 @@ public class pokefly extends Service {
             if (count == 0) {
                 returnVal += "\nNo possibilities, please check your stats again!";
             } else {
-                averagePercent = ((averageSum * 100 / (45 * count))); // new
+                averagePercent = Math.round(((averageSum * 100 / (45 * count)))); // new
                 returnVal += "\nMin: " + lowPercent + "%   Average: " + averagePercent + "%   Max: " + highPercent + "%" + "\n"; // count removed
 
                 // for trainer level cp cap
@@ -514,8 +514,10 @@ public class pokefly extends Service {
                         //}
                     }
                 }
-                ClipData clip = ClipData.newPlainText("iv",lowPercent + "-" + highPercent);
-                clipboard.setPrimaryClip(clip);
+
+                //Temporary disable of copy until settings menu is up
+                //ClipData clip = ClipData.newPlainText("iv",lowPercent + "-" + highPercent);
+                //clipboard.setPrimaryClip(clip);
             }
         } else {
             returnVal += "\nThere are too many possibilities for this pokemon. Try powering it up!";

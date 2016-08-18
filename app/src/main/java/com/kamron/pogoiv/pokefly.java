@@ -74,6 +74,7 @@ public class pokefly extends Service {
     @BindView(R.id.llPokemonInfo) LinearLayout pokemonInfoLayout;
 
     private String pokemonName;
+    private String candyName;
     private int pokemonCP;
     private int pokemonHP;
     private double estimatedPokemonLevel = 1.0;
@@ -374,21 +375,21 @@ public class pokefly extends Service {
     private void showInfoLayout() {
         if (!infoShownReceived) {
             infoShownReceived = true;
-            int pokeNumber = 0;
-            int bestMatch = 100;
-            for (int i = 0; i < pokemon.size(); i++) {
-                int similarity = pokemon.get(i).getSimilarity(pokemonName);
-                if (similarity < bestMatch) {
-                    pokeNumber = i;
-                    bestMatch = similarity;
-                }
-            }
+            int pokeNumber = getPossiblePokemon(pokemonName);
+            int candyPokeNumber = getPossiblePokemon(candyName);
             ivText.setVisibility(View.GONE);
             pokemonInfoLayout.setVisibility(View.VISIBLE);
             pokemonGetIVButton.setVisibility(View.VISIBLE);
 
+            // TODO : Allow more tolerance
+            boolean isScannedNamePerfect = pokemon.get(pokeNumber).name.equals(pokemonName);
             pokemonName = pokemon.get(pokeNumber).name;
-            pokemonList.setSelection(pokeNumber);
+            candyName = pokemon.get(candyPokeNumber).name;
+            if (isScannedNamePerfect) {
+                pokemonList.setSelection(pokeNumber);
+            } else {
+                pokemonList.setSelection(candyPokeNumber);
+            }
             pokemonHPEdit.setText(String.valueOf(pokemonHP));
             pokemonCPEdit.setText(String.valueOf(pokemonCP));
             cancelInfoButton.setText(getString(R.string.cancel));
@@ -403,6 +404,22 @@ public class pokefly extends Service {
                 infoShownReceived = false;
             }
         }
+    }
+
+    /**
+     * @return the likely pokemon number against the char sequence
+     */
+    private int getPossiblePokemon(CharSequence rhs) {
+        int pokeNumber = 0;
+        int bestMatch = 100;
+        for (int i = 0; i < pokemon.size(); i++) {
+            int similarity = pokemon.get(i).getSimilarity(rhs);
+            if (similarity < bestMatch) {
+                pokeNumber = i;
+                bestMatch = similarity;
+            }
+        }
+        return pokeNumber;
     }
 
     /**
@@ -610,6 +627,7 @@ public class pokefly extends Service {
             if (!receivedInfo && intent.hasExtra("name") && intent.hasExtra("cp") && intent.hasExtra("hp") && intent.hasExtra("level")) {
                 receivedInfo = true;
                 pokemonName = intent.getStringExtra("name");
+                candyName = intent.getStringExtra("candy");
                 pokemonCP = intent.getIntExtra("cp", 0);
                 pokemonHP = intent.getIntExtra("hp", 0);
                 estimatedPokemonLevel = intent.getDoubleExtra("level", estimatedPokemonLevel);

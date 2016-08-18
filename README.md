@@ -1,4 +1,4 @@
-GoIV, android project for Pokemong Go.
+GoIV, android project for Pokemon Go.
 =====================
 
 **Table of Contents**

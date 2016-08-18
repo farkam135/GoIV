@@ -3,12 +3,16 @@ package com.kamron.pogoiv;
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.content.BroadcastReceiver;
+import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
+import android.database.ContentObserver;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -66,7 +70,8 @@ public class MainActivity extends AppCompatActivity {
 
     private MediaProjection mProjection;
     private ImageReader mImageReader;
-    private FileObserver screenShotObserver;
+    private ContentObserver screenShotObserver;
+    private boolean screenShotWriting= false;
 
     private DisplayMetrics displayMetrics;
     private DisplayMetrics rawDisplayMetrics;
@@ -186,7 +191,7 @@ public class MainActivity extends AppCompatActivity {
                         mProjection = null;
                         mImageReader = null;
                     } else if (screenShotObserver != null) {
-                        screenShotObserver.stopWatching();
+                        getContentResolver().unregisterContentObserver(screenShotObserver);
                         screenShotObserver = null;
                     }
                     pokeFlyRunning = false;
@@ -314,6 +319,9 @@ public class MainActivity extends AppCompatActivity {
         }
         if (mProjection != null) {
             mProjection.stop();
+        }
+        else if(screenShotObserver != null){
+            getContentResolver().unregisterContentObserver(screenShotObserver);
         }
         tesseract.stop();
         tesseract.end();
@@ -573,22 +581,64 @@ public class MainActivity extends AppCompatActivity {
      * Starts the screenshot service, which checks for a new screenshot to scan
      */
     private void startScreenshotService() {
-        final String screenshotPath = Environment.getExternalStorageDirectory() + File.separator + Environment.DIRECTORY_PICTURES + File.separator + "Screenshots";
-        final Uri uri = MediaStore.Files.getContentUri("external");
-        screenShotObserver = new FileObserver(screenshotPath) {
+//        System.out.println(MediaStore.Files.FileColumns.Me);
+//        final String screenshotPath = Environment.getExternalStorageDirectory() + File.separator + Environment.DIRECTORY_PICTURES + File.separator + "Screenshots";
+//        final Uri uri = MediaStore.Files.getContentUri("external");
+//        screenShotObserver = new FileObserver(screenshotPath) {
+//            @Override
+//            public void onEvent(int event, String file) {
+//                if (event == FileObserver.CLOSE_NOWRITE || event == FileObserver.CLOSE_WRITE) {
+//                    if (readyForNewScreenshot && file != null) {
+//                        readyForNewScreenshot = false;
+//                        scanPokemon(BitmapFactory.decodeFile(screenshotPath + File.separator + file));
+//                        getContentResolver().delete(uri, MediaStore.Files.FileColumns.DATA + "=?", new String[]{screenshotPath + File.separator + file});
+//                    }
+//                }
+//            }
+//        };
+//        screenShotObserver.startWatching();
+        screenShotObserver = new ContentObserver(new Handler()) {
             @Override
-            public void onEvent(int event, String file) {
-                if (event == FileObserver.CLOSE_NOWRITE || event == FileObserver.CLOSE_WRITE) {
-                    if (readyForNewScreenshot && file != null) {
-                        readyForNewScreenshot = false;
-                        scanPokemon(BitmapFactory.decodeFile(screenshotPath + File.separator + file));
-                        getContentResolver().delete(uri, MediaStore.Files.FileColumns.DATA + "=?", new String[]{screenshotPath + File.separator + file});
+            public void onChange(boolean selfChange, Uri uri) {
+                if(readyForNewScreenshot){
+                    final Uri fUri = uri;
+                    final String pathChange = getRealPathFromURI(MainActivity.this, fUri);
+                    if(pathChange.contains("Screenshot")){
+                        screenShotWriting = !screenShotWriting;
+                        if(!screenShotWriting) {
+                                readyForNewScreenshot = false;
+                            //TODO change scanPokemon to check to see if image is a pokemon instead of crashing
+                            try {
+                                scanPokemon(BitmapFactory.decodeFile(pathChange));
+                                getContentResolver().delete(fUri, MediaStore.Files.FileColumns.DATA + "=?", new String[]{pathChange});
+                            }catch(ArrayIndexOutOfBoundsException e){
+                                //HP was not detected so just ignore
+                                readyForNewScreenshot = true;
+                            }
+                        }
                     }
                 }
+                super.onChange(selfChange, uri);
             }
         };
-        screenShotObserver.startWatching();
+        getContentResolver().registerContentObserver(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, true,screenShotObserver);
         startPokeyFly();
+    }
+
+
+    private String getRealPathFromURI(Context context, Uri contentUri) {
+        Cursor cursor = null;
+        try {
+            String[] proj = { MediaStore.Images.Media.DATA };
+            cursor = context.getContentResolver().query(contentUri,  proj, null, null, MediaStore.Images.ImageColumns.DATE_TAKEN + " DESC");
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            return cursor.getString(column_index);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
     }
 
     /**

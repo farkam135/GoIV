@@ -141,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                if (((Button) v).getText().toString().equals("Grant Permissions")) {
+                if (((Button) v).getText().toString().equals(getString(R.string.main_permission))) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(MainActivity.this)) {
                         Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
                                 Uri.parse("package:" + getPackageName()));
@@ -150,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
                     if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
                         ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_STORAGE_REQ_CODE);
                     }
-                } else if (((Button) v).getText().toString().equals("Start")) {
+                } else if (((Button) v).getText().toString().equals(getString(R.string.main_start))) {
                     batterySaver = CheckBox_BatterySaver.isChecked();
                     Rect rectangle = new Rect();
                     Window window = getWindow();
@@ -175,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
                     if (isNumeric(etTrainerLevel.getText().toString())) {
                         trainerLevel = Integer.parseInt(etTrainerLevel.getText().toString());
                     } else {
-                        Toast.makeText(MainActivity.this, etTrainerLevel.getText().toString() + " is not a number", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, String.format(getString(R.string.main_not_numeric), etTrainerLevel.getText().toString()), Toast.LENGTH_SHORT).show();
                         return;
                     }
 
@@ -190,7 +190,7 @@ public class MainActivity extends AppCompatActivity {
                             startScreenService();
                         }
                     } else {
-                        Toast.makeText(MainActivity.this, "Invalid Trainer Level!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, getString(R.string.main_invalide_trainerlvl), Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     stopService(new Intent(MainActivity.this, pokefly.class));
@@ -203,7 +203,7 @@ public class MainActivity extends AppCompatActivity {
                         screenShotObserver = null;
                     }
                     pokeFlyRunning = false;
-                    ((Button) v).setText("Start");
+                    ((Button) v).setText(getString(R.string.main_start));
                 }
             }
         });
@@ -313,10 +313,10 @@ public class MainActivity extends AppCompatActivity {
             //Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
             //       Uri.parse("package:" + getPackageName()));
             //startActivityForResult(intent, OVERLAY_PERMISSION_REQ_CODE);
-            launch.setText("Grant Permissions");
+            launch.setText(getString(R.string.main_permission));
             //startScreenService();
         } else if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
-            launch.setText("Grant Permissions");
+            launch.setText(getString(R.string.main_permission));
         }
     }
 
@@ -349,9 +349,9 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == OVERLAY_PERMISSION_REQ_CODE) {
             if (!Settings.canDrawOverlays(this)) {
                 // SYSTEM_ALERT_WINDOW permission not granted...
-                ((Button) findViewById(R.id.start)).setText("Grant Permissions");
+                ((Button) findViewById(R.id.start)).setText(getString(R.string.main_permission));
             } else if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                ((Button) findViewById(R.id.start)).setText("Start");
+                ((Button) findViewById(R.id.start)).setText(getString(R.string.main_start));
             }
         } else if (requestCode == SCREEN_CAPTURE_REQ_CODE) {
             if (resultCode == RESULT_OK) {
@@ -380,7 +380,7 @@ public class MainActivity extends AppCompatActivity {
                 };
                 timer.schedule(doAsynchronousTask, 0, 750);
             } else {
-                ((Button) findViewById(R.id.start)).setText("Start");
+                ((Button) findViewById(R.id.start)).setText(getString(R.string.main_start));
             }
         }
     }
@@ -402,7 +402,7 @@ public class MainActivity extends AppCompatActivity {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 if (Settings.canDrawOverlays(this) && ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                     // SYSTEM_ALERT_WINDOW permission not granted...
-                    ((Button) findViewById(R.id.start)).setText("Start");
+                    ((Button) findViewById(R.id.start)).setText(getString(R.string.main_start));
                 }
             }
         }
@@ -480,7 +480,7 @@ public class MainActivity extends AppCompatActivity {
         name = replaceColors(name, 68, 105, 108, Color.WHITE, 200);
         tesseract.setImage(name);
         //System.out.println(tesseract.getUTF8Text());
-        pokemonName = tesseract.getUTF8Text().replace(" ", "").replace("1", "l").replace("0", "o").replace("Sparky", "Jolteon").replace("Rainer", "Vaporeon").replace("Pyro", "Flareon");
+        pokemonName = tesseract.getUTF8Text().replace(" ", "").replace("1", "l").replace("0", "o").replace("Sparky", getString(R.string.pokemon133)).replace("Rainer", getString(R.string.pokemon133)).replace("Pyro", getString(R.string.pokemon133));
         //SaveImage(name, "name");
         Bitmap hp = Bitmap.createBitmap(pokemonImage, (int) Math.round(displayMetrics.widthPixels / 2.8), (int) Math.round(displayMetrics.heightPixels / 1.8962963), (int) Math.round(displayMetrics.widthPixels / 3.5), (int) Math.round(displayMetrics.heightPixels / 34.13333333));
         hp = replaceColors(hp, 55, 66, 61, Color.WHITE, 200);

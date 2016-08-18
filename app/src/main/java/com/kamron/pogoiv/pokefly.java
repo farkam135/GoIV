@@ -416,16 +416,16 @@ public class pokefly extends Service {
         int baseStamina = pokemon.get(pokemonList.getSelectedItemPosition()).baseStamina;
         double lvlScalar = Data.CpM[(int) (estimatedPokemonLevel * 2 - 2)];
         double lvlScalarPow2 = Math.pow(lvlScalar, 2) * 0.1; // instead of computing again in every loop
-
-        int sumIV; // new, better average precision
-        int averageSum = 0; // new, better average precision
-
-        int lowAttack = 15; // new for cp at cap and max
-        int lowDefense = 15; // new for cp at cap and max
-        int lowStamina = 15; // new for cp at cap and max
-        int highAttack = 0; // new for cp at cap and max
-        int highDefense = 0; // new for cp at cap and max
-        int highStamina = 0; // new for cp at cap and max
+        //for averagePercent
+        int sumIV;
+        int averageSum = 0;
+        //IV vars for lower and upper end cp ranges
+        int lowAttack = 15;
+        int lowDefense = 15;
+        int lowStamina = 15;
+        int highAttack = 0;
+        int highDefense = 0;
+        int highStamina = 0;
 
         String returnVal = "Your lvl " + estimatedPokemonLevel + " " + pokemonName + " can be: ";
 
@@ -447,15 +447,17 @@ public class pokefly extends Service {
                             if (cp == pokemonCP) {
                                 ++count;
                                 sumIV = attackIV + defenseIV + staminaIV; // new
-                                int percentPerfect = (int) Math.round(((sumIV) / 45.0) * 100); // changed to sumIV
+                                int percentPerfect = (int) Math.round(((sumIV) / 45.0) * 100);
                                 if ((percentPerfect < lowPercent) || ((percentPerfect == lowPercent) && (attackIV < lowAttack))) { // check for same percentage but lower atk
                                     lowPercent = percentPerfect;
+                                    //save worst combination for lower end cp range
                                     lowAttack = attackIV;
                                     lowDefense = defenseIV;
                                     lowStamina = staminaIV;
                                 }
                                 if ((percentPerfect > highPercent) || ((percentPerfect == highPercent) && (attackIV > highAttack))) { // check for same percentage but higher atk
                                     highPercent = percentPerfect;
+                                    //save best combination for upper end cp range
                                     highAttack = attackIV;
                                     highDefense = defenseIV;
                                     highStamina = staminaIV;
@@ -485,33 +487,26 @@ public class pokefly extends Service {
                 averagePercent = (int) Math.round(((averageSum * 100 / (45.0 * count)))); // new
                 returnVal += "\nMin: " + lowPercent + "%   Average: " + averagePercent + "%   Max: " + highPercent + "%" + "\n"; // count removed
 
-                // for trainer level cp cap
+                // for trainer level cp cap, if estimatedPokemonLevel is at cap do not print
                 if (estimatedPokemonLevel < trainerLevel + 1.5) {
                     returnVal += getCpRangeAtLevel(pokemonList.getSelectedItemPosition(), lowAttack, lowDefense, lowStamina, highAttack, highDefense, highStamina, Math.min(trainerLevel + 1.5, 40.0));
                 }
 
                 ArrayList<Integer> evolutions = pokemon.get(pokemonList.getSelectedItemPosition()).evolutions;
-
-                //for each evolution of next stage (example, eevees thress evolutions jolteon, vaporeon and flareon)
+                //for each evolution of next stage (example, eevees three evolutions jolteon, vaporeon and flareon)
                 for(int i = evolutions.size()-1; i>=0; i--){
-
                     pokemonName = pokemon.get(evolutions.get(i)).name;
                     returnVal += "\nCan be evolved into " + pokemonName + ":";
-                    //returnVal += getCpRangeAtLevel(evolutions.get(i), lowAttack, lowDefense, lowStamina, highAttack, highDefense, highStamina, estimatedPokemonLevel);
-                    //if (estimatedPokemonLevel < trainerLevel + 1.5) {
                     returnVal += getCpRangeAtLevel(evolutions.get(i), lowAttack, lowDefense, lowStamina, highAttack, highDefense, highStamina, (trainerLevel + 1.5));
-                    //}
-                    //for following stage evolution (example, dratini, dragonair, dragonite)
+                    //for following stage evolution (example, dratini - dragonair - dragonite)
                     int nextEvolutionNbr = evolutions.get(i);
+                    //if the current evolution has another evolution calculate its range and break
                     if (pokemon.get(nextEvolutionNbr).evolutions.size() != 0) {
                         int nextEvoStage = pokemon.get(nextEvolutionNbr).evolutions.get(0);
                         pokemonName = pokemon.get(nextEvoStage).name;
                         returnVal += "\nCan be further evolved into " + pokemonName + ":";
-                        //returnVal += getCpRangeAtLevel(nextEvoStage, lowAttack, lowDefense, lowStamina, highAttack, highDefense, highStamina, estimatedPokemonLevel);
-                        //if (estimatedPokemonLevel < trainerLevel + 1.5) {
                         returnVal += getCpRangeAtLevel(nextEvoStage, lowAttack, lowDefense, lowStamina, highAttack, highDefense, highStamina, (trainerLevel + 1.5));
                         break;
-                        //}
                     }
                 }
 
@@ -535,7 +530,7 @@ public class pokefly extends Service {
      * Used to calculate CP ranges for a species at a specific level based on the lowest and highest
      * IV combination.
      *
-     * @param pokemonIndex the index of the pokemon species within the list
+     * @param pokemonIndex the index of the pokemon species within the pokemon list (sorted)
      * @param lowAttack attack IV of the lowest combination
      * @param lowDefense defense IV of the lowest combination
      * @param lowStamina stamina IV of the lowest combination
@@ -547,7 +542,6 @@ public class pokefly extends Service {
      * @return String containing the CP range including the specified level.
      */
     private String getCpRangeAtLevel(int pokemonIndex, int lowAttack, int lowDefense, int lowStamina, int highAttack, int highDefense, int highStamina, double level) {
-
         int baseAttack = pokemon.get(pokemonIndex).baseAttack;
         int baseDefense = pokemon.get(pokemonIndex).baseDefense;
         int baseStamina = pokemon.get(pokemonIndex).baseStamina;
@@ -560,7 +554,6 @@ public class pokefly extends Service {
             cpMin = tmp;
         }
         return "\nCP at lvl " + level + ": " + cpMin + " - " + cpMax;
-
     }
 
 
@@ -588,11 +581,9 @@ public class pokefly extends Service {
             if (estimatedPokemonLevel <= 10.5) {
                 neededCandy++;
                 neededStarDust += rank * 200;
-                //} else if (estimatedPokemonLevel > 10.5 && estimatedPokemonLevel <= 18.5) {
             } else if (estimatedPokemonLevel > 10.5 && estimatedPokemonLevel <= 20.5) {
                 neededCandy += 2;
                 neededStarDust += 1000 + (rank * 300);
-                //} else if (estimatedPokemonLevel > 18.5 && estimatedPokemonLevel <= 30.5) {
             } else if (estimatedPokemonLevel > 20.5 && estimatedPokemonLevel <= 30.5) {
                 neededCandy += 3;
                 neededStarDust += 2500 + (rank * 500);

@@ -45,6 +45,8 @@ import butterknife.OnClick;
  */
 
 public class pokefly extends Service {
+    private final int MAX_POSSIBILITIES = 8;
+
     private int trainerLevel = -1;
     private boolean batterySaver = false;
 
@@ -172,8 +174,8 @@ public class pokefly extends Service {
                 8959, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         Notification.Builder builder = new Notification.Builder(context)
-                .setContentTitle("GoIV Running - Level " + trainerLevel)
-                .setContentText("Tap to open")
+                .setContentTitle(String.format(getString(R.string.notification_title), trainerLevel))
+                .setContentText(getString(R.string.notification_text))
                 .setSmallIcon(R.drawable.notification_icon)
                 .setContentIntent(pendingIntent);
         Notification n = builder.build();
@@ -347,7 +349,7 @@ public class pokefly extends Service {
         pokemonInfoLayout.setVisibility(View.GONE);
         ivText.setText(getIVText());
         pokemonGetIVButton.setVisibility(View.GONE);
-        cancelInfoButton.setText("Close");
+        cancelInfoButton.setText(getString(R.string.close));
     }
 
     @OnClick(R.id.btnCancelInfo)
@@ -389,7 +391,7 @@ public class pokefly extends Service {
             pokemonList.setSelection(pokeNumber);
             pokemonHPEdit.setText(String.valueOf(pokemonHP));
             pokemonCPEdit.setText(String.valueOf(pokemonCP));
-            cancelInfoButton.setText("Cancel");
+            cancelInfoButton.setText(getString(R.string.cancel));
 
             windowManager.addView(arcPointer, arcParams);
             windowManager.addView(infoLayout, layoutParams);
@@ -427,7 +429,7 @@ public class pokefly extends Service {
         int highDefense = 0;
         int highStamina = 0;
 
-        String returnVal = "Your lvl " + estimatedPokemonLevel + " " + pokemonName + " can be: ";
+        String returnVal = String.format(getString(R.string.ivtext_title), estimatedPokemonLevel, pokemonName);
 
         int count = 0;
         int lowPercent = 100;
@@ -463,8 +465,8 @@ public class pokefly extends Service {
                                     highStamina = staminaIV;
                                 }
                                 averageSum += sumIV; //changed, more precise than rounded percentage
-                                if (count <= 8) {
-                                    returnVal += "\n" + String.format("%-9s", "Atk: " + attackIV) + String.format("%-9s", "Def: " + defenseIV) + String.format("%-8s", "Sta: " + staminaIV) + "(" + percentPerfect + "%)";
+                                if (count <= MAX_POSSIBILITIES) {
+                                    returnVal += "\n" + String.format(getString(R.string.ivtext_stats), attackIV, defenseIV, staminaIV, percentPerfect); //String.format("%-9s", "Atk: " + attackIV) + String.format("%-9s", "Def: " + defenseIV) + String.format("%-8s", "Sta: " + staminaIV) + "(" + percentPerfect + "%)";
                                     //returnVal += "\n" + String.format("%9s%9s%9s","Atk: " + attackIV,"Def: " + defenseIV,"Sta: " +staminaIV) + " (" + percentPerfect + "%)";
                                     //returnVal += "\nAtk: " + attackIV + "   Def: " + defenseIV + "   Sta: " + staminaIV + " (" + percentPerfect  + "%)";
                                 }
@@ -477,15 +479,15 @@ public class pokefly extends Service {
                 }
             }
 
-            if (count > 8) {
-                returnVal += "\n" + (count - 8) + " more possibilities...";
+            if (count > MAX_POSSIBILITIES) {
+                returnVal += "\n" + String.format(getString(R.string.ivtext_possibilities), count - MAX_POSSIBILITIES);
             }
 
             if (count == 0) {
-                returnVal += "\nNo possibilities, please check your stats again!";
+                returnVal += "\n" + getString(R.string.ivtext_no_possibilities);
             } else {
                 averagePercent = (int) Math.round(((averageSum * 100 / (45.0 * count)))); // new
-                returnVal += "\nMin: " + lowPercent + "%   Average: " + averagePercent + "%   Max: " + highPercent + "%" + "\n"; // count removed
+                returnVal += "\n" + String.format(getString(R.string.ivtext_iv), lowPercent, averagePercent, highPercent); //"\nMin: " + lowPercent + "%   Average: " + averagePercent + "%   Max: " + highPercent + "%" + "\n"; // count removed
 
                 // for trainer level cp cap, if estimatedPokemonLevel is at cap do not print
                 if (estimatedPokemonLevel < trainerLevel + 1.5) {
@@ -496,7 +498,7 @@ public class pokefly extends Service {
                 //for each evolution of next stage (example, eevees three evolutions jolteon, vaporeon and flareon)
                 for(int i = evolutions.size()-1; i>=0; i--){
                     pokemonName = pokemon.get(evolutions.get(i)).name;
-                    returnVal += "\nCan be evolved into " + pokemonName + ":";
+                    returnVal += "\n" + String.format(getString(R.string.ivtext_evolve), pokemonName);
                     returnVal += getCpRangeAtLevel(evolutions.get(i), lowAttack, lowDefense, lowStamina, highAttack, highDefense, highStamina, (trainerLevel + 1.5));
                     //for following stage evolution (example, dratini - dragonair - dragonite)
                     int nextEvolutionNbr = evolutions.get(i);
@@ -504,7 +506,7 @@ public class pokefly extends Service {
                     if (pokemon.get(nextEvolutionNbr).evolutions.size() != 0) {
                         int nextEvoStage = pokemon.get(nextEvolutionNbr).evolutions.get(0);
                         pokemonName = pokemon.get(nextEvoStage).name;
-                        returnVal += "\nCan be further evolved into " + pokemonName + ":";
+                        returnVal += String.format(getString(R.string.ivtext_evolve_further), pokemonName);
                         returnVal += getCpRangeAtLevel(nextEvoStage, lowAttack, lowDefense, lowStamina, highAttack, highDefense, highStamina, (trainerLevel + 1.5));
                         break;
                     }
@@ -515,11 +517,11 @@ public class pokefly extends Service {
                 //clipboard.setPrimaryClip(clip);
             }
         } else {
-            returnVal += "\nThere are too many possibilities for this pokemon. Try powering it up!";
+            returnVal += "\n" + getString(R.string.ivtext_many_possibilities);
         }
 
 
-        returnVal += "\n\nCost to reach lvl " + (trainerLevel + 1.5) + ":\n" + getMaxReqText();
+        returnVal += "\n\n" + String.format(getString(R.string.ivtext_max_lvl_cost), trainerLevel + 1.5) + "\n" + getMaxReqText();
         //returnVal += percentPerfect + "% perfect!\n";
         //returnVal += "Atk+Def: " + battleScore + "/30   Sta: " + stamScore + "/15";
         return returnVal;
@@ -553,7 +555,7 @@ public class pokefly extends Service {
             cpMax = cpMin;
             cpMin = tmp;
         }
-        return "\nCP at lvl " + level + ": " + cpMin + " - " + cpMax;
+        return String.format(getString(R.string.ivtext_cp_lvl), level, cpMin, cpMax);
     }
 
 
@@ -594,7 +596,7 @@ public class pokefly extends Service {
 
             estimatedPokemonLevel += 0.5;
         }
-        return "Candy: " + neededCandy + " Stardust: " + NumberFormat.getInstance().format(neededStarDust);
+        return String.format(getString(R.string.ivtext_max_lvl_cost2), neededCandy, NumberFormat.getInstance().format(neededStarDust));
     }
 
     /**

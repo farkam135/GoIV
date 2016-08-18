@@ -71,7 +71,7 @@ Screen changing apps / features such as screen tinting and dynamic brightness le
 
 The phone you're running has a faulty screen capture api (Seems to occasionally affect Cyanogen and some lesser known phone brands)
 
-The application has not been granted permission to draw other other apps.
+The application has not been granted permission to draw over other apps.
 
 The application wasn't started.
 

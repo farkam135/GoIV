@@ -1,4 +1,4 @@
-GoIV, android project for Pokemong Go.
+GoIV, android project for Pokemon Go.
 =====================
 
 **Table of Contents**
@@ -18,24 +18,22 @@ GoIV is an android app made for Pokemon GO that allows users to seamlessly calcu
 ![Alt text](https://i.imgur.com/aNHUEVI.jpg "Seamlessly Overlays an IV Button")
 
 #Download
-You can download GoIV apk here: https://drive.google.com/file/d/0B0Nazg34pSbpdjh5dTd5azlRS2c/view?usp=sharing    
-Latest Version: 2.0.0  
+You can download GoIV apk here: https://drive.google.com/open?id=0B0Nazg34pSbpTFVXNVdzMC11em8    
+Latest Version: 2.1.0  
 Checksum:  
-MD5 1AC4F43B1546C0AF1F057A36A7C8589E  
-SHA1 BDB487CD2CD32B60B3CD328AEFC018DE919A7A1D  
-SHA-256 B44712B7CE6C515A93D65B9C5941B2B9EC95885B2889BFE6A26872D311897C74   
+MD5 C07C44CCDF75AB44B73030F6CC633E11  
+SHA1 40AE2706969D373FF4990E0094139FB64E965431  
+SHA-256 FE48B8EE6DE7CDFA001A33462AAF71436799D59290A17F6CC7B428296C51BF8B   
 
 Changelog:
-[2.0.0]  
-* Remove Billing Permission
-* Visual Updates
-* Performance Improvements
-* New notification icon
-* Now starts PoGo after starting GoIV
-* Android KitKat Support with Battery Saver
-* Fixed arc alignment for trainer's level >= 30
-* Now copies "lowpercent - highpercent" to clipboard after scan
-* Remove "Scanning" text
+[2.1.0]  
+* Reverted languages to only supported
+* Added Crashlytics to check for crashes (Internet permissions added)
+* Improved battery saver mode
+* Performance improvements
+* Added CP calculations
+* Fixed needed candy/stardust formula
+* No longer copies on scan
 
 
 #FAQ

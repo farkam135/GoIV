@@ -618,18 +618,20 @@ public class MainActivity extends AppCompatActivity {
             public void onChange(boolean selfChange, Uri uri) {
                 if(readyForNewScreenshot){
                     final Uri fUri = uri;
-                    final String pathChange = getRealPathFromURI(MainActivity.this, fUri);
-                    if(pathChange.contains("Screenshot")){
-                        screenShotWriting = !screenShotWriting;
-                        if(!screenShotWriting) {
+                    if(fUri.toString().contains("images")) {
+                        final String pathChange = getRealPathFromURI(MainActivity.this, fUri);
+                        if (pathChange.contains("Screenshot")) {
+                            screenShotWriting = !screenShotWriting;
+                            if (!screenShotWriting) {
                                 readyForNewScreenshot = false;
-                            //TODO change scanPokemon to check to see if image is a pokemon instead of crashing
-                            try {
-                                scanPokemon(BitmapFactory.decodeFile(pathChange));
-                                getContentResolver().delete(fUri, MediaStore.Files.FileColumns.DATA + "=?", new String[]{pathChange});
-                            }catch(ArrayIndexOutOfBoundsException e){
-                                //HP was not detected so just ignore
-                                readyForNewScreenshot = true;
+                                //TODO change scanPokemon to check to see if image is a pokemon instead of crashing
+                                try {
+                                    scanPokemon(BitmapFactory.decodeFile(pathChange));
+                                    getContentResolver().delete(fUri, MediaStore.Files.FileColumns.DATA + "=?", new String[]{pathChange});
+                                } catch (ArrayIndexOutOfBoundsException e) {
+                                    //HP was not detected so just ignore
+                                    readyForNewScreenshot = true;
+                                }
                             }
                         }
                     }

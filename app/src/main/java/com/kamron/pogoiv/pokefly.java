@@ -219,19 +219,20 @@ public class pokefly extends Service {
      * setArcPointer
      * Sets the arc pointer to the specified degree.
      *
-     * @param angleInDegrees The degree to set the arc pointer to.
+     * @param pokeLevel The pokemon level to set the arc pointer to.
      */
-    private void setArcPointer(double angleInDegrees) {
-        if (angleInDegrees > 1.0 && trainerLevel < 30) {
-            angleInDegrees -= 0.5;
-        }
-        else if(trainerLevel >= 30){
-            angleInDegrees += 0.5;
-        }
-
-        double angleInRadians = (angleInDegrees + 180) * Math.PI / 180.0;
-        arcParams.x = (int) (arcCenter + (radius * Math.cos(angleInRadians)));
-        arcParams.y = (int) (arcInitialY + (radius * Math.sin(angleInRadians)));
+    private void setArcPointer(double pokeLevel) {
+//        if (angleInDegrees > 1.0 && trainerLevel < 30) {
+//            angleInDegrees -= 0.5;
+//        }
+//        else if(trainerLevel >= 30){
+//            angleInDegrees += 0.5;
+//        }
+//
+//        double angleInRadians = (angleInDegrees + 180) * Math.PI / 180.0;
+        int index = Data.convertLevelToIndex(pokeLevel);
+        arcParams.x = Data.arcX[index] - pointerWidth; //(int) (arcCenter + (radius * Math.cos(angleInRadians)));
+        arcParams.y = Data.arcY[index] - pointerHeight - statusBarHeight; //(int) (arcInitialY + (radius * Math.sin(angleInRadians)));
         //System.out.println("Pointer X: "  + arcParams.x);
         //System.out.println("Pointer Y: "  + arcParams.y);
         //System.out.println(arcParams.x + "," + arcParams.y);
@@ -249,7 +250,8 @@ public class pokefly extends Service {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 estimatedPokemonLevel = 1 + (progress * 0.5);
-                setArcPointer((Data.CpM[(int) (estimatedPokemonLevel * 2 - 2)] - 0.094) * 202.037116 / Data.CpM[trainerLevel * 2 - 2]);
+                setArcPointer(estimatedPokemonLevel);
+                //setArcPointer((Data.CpM[(int) (estimatedPokemonLevel * 2 - 2)] - 0.094) * 202.037116 / Data.CpM[trainerLevel * 2 - 2]);
             }
 
             @Override
@@ -322,7 +324,8 @@ public class pokefly extends Service {
         if (estimatedPokemonLevel > 1.0) {
             estimatedPokemonLevel -= 0.5;
         }
-        setArcPointer((Data.CpM[(int) (estimatedPokemonLevel * 2 - 2)] - 0.094) * 202.037116 / Data.CpM[trainerLevel * 2 - 2]);
+        setArcPointer(estimatedPokemonLevel);
+        //setArcPointer((Data.CpM[(int) (estimatedPokemonLevel * 2 - 2)] - 0.094) * 202.037116 / Data.CpM[trainerLevel * 2 - 2]);
         arcAdjustBar.setProgress((int) ((estimatedPokemonLevel - 1) * 2));
     }
 
@@ -331,7 +334,8 @@ public class pokefly extends Service {
         if (estimatedPokemonLevel < trainerLevel + 1.5 && estimatedPokemonLevel < 40.5) {
             estimatedPokemonLevel += 0.5;
         }
-        setArcPointer((Data.CpM[(int) (estimatedPokemonLevel * 2 - 2)] - 0.094) * 202.037116 / Data.CpM[trainerLevel * 2 - 2]);
+        setArcPointer(estimatedPokemonLevel);
+        //setArcPointer((Data.CpM[(int) (estimatedPokemonLevel * 2 - 2)] - 0.094) * 202.037116 / Data.CpM[trainerLevel * 2 - 2]);
         arcAdjustBar.setProgress((int) ((estimatedPokemonLevel - 1) * 2));
     }
 
@@ -389,7 +393,8 @@ public class pokefly extends Service {
 
             windowManager.addView(arcPointer, arcParams);
             windowManager.addView(infoLayout, layoutParams);
-            setArcPointer((Data.CpM[(int) (estimatedPokemonLevel * 2 - 2)] - 0.094) * 202.037116 / Data.CpM[trainerLevel * 2 - 2]);
+            setArcPointer(estimatedPokemonLevel);
+            //setArcPointer((Data.CpM[(int) (estimatedPokemonLevel * 2 - 2)] - 0.094) * 202.037116 / Data.CpM[trainerLevel * 2 - 2]);
             arcAdjustBar.setProgress((int) ((estimatedPokemonLevel - 1) * 2));
 
             if(batterySaver){

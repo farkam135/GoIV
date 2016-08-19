@@ -23,8 +23,8 @@ android {
         applicationId "com.kamron.pogoiv"
         minSdkVersion 19
         targetSdkVersion 24
-        versionCode 13
-        versionName "2.1.0"
+        versionCode 12
+        versionName "2.0.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -48,6 +48,8 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha1'
     compile 'com.rmtheis:tess-two:6.0.3'
     compile 'com.jakewharton:butterknife:8.1.0'
+    compile 'com.squareup.okhttp3:okhttp:3.4.1'
+    compile 'org.greenrobot:eventbus:3.0.0'
     apt 'com.jakewharton:butterknife-compiler:8.1.0'
     testCompile 'junit:junit:4.12'
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'

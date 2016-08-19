@@ -601,6 +601,7 @@ public class MainActivity extends AppCompatActivity {
      */
     private void scanPokemonScreen() {
         //System.out.println("Checking...");
+    if(mImageReader != null){
         Image image = mImageReader.acquireLatestImage();
         if (image != null) {
             final Image.Plane[] planes = image.getPlanes();
@@ -621,6 +622,8 @@ public class MainActivity extends AppCompatActivity {
             LocalBroadcastManager.getInstance(MainActivity.this).sendBroadcast(showIVButton);
             //SaveImage(bmp,"everything");
         }
+        }
+
     }
 
     @NonNull

@@ -65,7 +65,8 @@ import timber.log.Timber;
 
 
 public class MainActivity extends AppCompatActivity {
-    private static final String TAG = "MainActivity";
+
+    private static final String TAG = MainActivity.class.getSimpleName();
 
     private SharedPreferences sharedPref;
 
@@ -202,7 +203,7 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this, getString(R.string.main_invalide_trainerlvl), Toast.LENGTH_SHORT).show();
                     }
                 } else if(((Button) v).getText().toString().equals(getString(R.string.main_stop))) {
-                    stopService(new Intent(MainActivity.this, pokefly.class));
+                    stopService(new Intent(MainActivity.this, Pokefly.class));
                     if (mProjection != null) {
                         mProjection.stop();
                         mProjection = null;
@@ -320,14 +321,9 @@ public class MainActivity extends AppCompatActivity {
      */
     private void startPokeyFly() {
         ((Button) findViewById(R.id.start)).setText("Stop");
-        Intent PokeFly = new Intent(MainActivity.this, pokefly.class);
-        PokeFly.putExtra("trainerLevel", trainerLevel);
-        PokeFly.putExtra("statusBarHeight", statusBarHeight);
-        PokeFly.putExtra("batterySaver", batterySaver);
-        if(!screenshotDir.isEmpty()) {
-            PokeFly.putExtra("screenshotUri", screenshotUri.toString());
-        }
-        startService(PokeFly);
+
+        Intent intent = Pokefly.createIntent(this, trainerLevel, statusBarHeight, batterySaver, screenshotDir, screenshotUri);
+        startService(intent);
 
         pokeFlyRunning = true;
 
@@ -389,7 +385,7 @@ public class MainActivity extends AppCompatActivity {
     public void onDestroy() {
         super.onDestroy();
         if (pokeFlyRunning) {
-            stopService(new Intent(MainActivity.this, pokefly.class));
+            stopService(new Intent(MainActivity.this, Pokefly.class));
             pokeFlyRunning = false;
         }
         if (mProjection != null) {
@@ -628,15 +624,7 @@ public class MainActivity extends AppCompatActivity {
             cp.recycle();
             hp.recycle();
 
-            Intent info = new Intent("pokemon-info");
-            info.putExtra("name", pokemonName);
-            info.putExtra("candy", candyName);
-            info.putExtra("hp", pokemonHP);
-            info.putExtra("cp", pokemonCP);
-            info.putExtra("level", estimatedPokemonLevel);
-            if (!filePath.isEmpty()) {
-                info.putExtra("screenshotDir", filePath);
-            }
+            Intent info = Pokefly.createInfoIntent(pokemonName, candyName, pokemonHP, pokemonCP, estimatedPokemonLevel, filePath);
             LocalBroadcastManager.getInstance(MainActivity.this).sendBroadcast(info);
         }
         else{
@@ -700,14 +688,10 @@ public class MainActivity extends AppCompatActivity {
                 Bitmap bmp = getBitmap(buffer, pixelStride, rowPadding);
 
                 if (bmp.getHeight() > bmp.getWidth()){
-                    Intent showIVButton = new Intent("display-ivButton");
-                    if (bmp.getPixel(areaX1, areaY1) == Color.rgb(250, 250, 250) && bmp.getPixel(areaX2, areaY2) == Color.rgb(28, 135, 150)) {
-                        showIVButton.putExtra("show", true);
-                    } else {
-                        showIVButton.putExtra("show", false);
-                    }
+                    boolean shouldShow = bmp.getPixel(areaX1, areaY1) == Color.rgb(250, 250, 250) && bmp.getPixel(areaX2, areaY2) == Color.rgb(28, 135, 150);
+                    Intent showIVButtonIntent = Pokefly.createIVButtonIntent(shouldShow);
                     bmp.recycle();
-                    LocalBroadcastManager.getInstance(MainActivity.this).sendBroadcast(showIVButton);
+                    LocalBroadcastManager.getInstance(MainActivity.this).sendBroadcast(showIVButtonIntent);
                     //SaveImage(bmp,"everything");
                 }
             }

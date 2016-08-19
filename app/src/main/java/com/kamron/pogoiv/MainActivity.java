@@ -59,6 +59,7 @@ import java.nio.ByteBuffer;
 import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.stream.IntStream;
 
 import io.fabric.sdk.android.Fabric;
 
@@ -491,6 +492,15 @@ public class MainActivity extends AppCompatActivity {
         tesseract.setImage(name);
         //System.out.println(tesseract.getUTF8Text());
         pokemonName = tesseract.getUTF8Text().replace(" ", "").replace("1", "l").replace("0", "o").replace("Sparky", getString(R.string.pokemon133)).replace("Rainer", getString(R.string.pokemon133)).replace("Pyro", getString(R.string.pokemon133));
+
+        if (pokemonName.toLowerCase().contains("nidora")){
+            boolean isFemale = isNidoranFemale(pokemonImage);
+            if(isFemale){
+                pokemonName = getResources().getString(R.string.pokemon029);
+            }else{
+                pokemonName = getResources().getString(R.string.pokemon032);
+            }
+        }
         //SaveImage(name, "name");
         // TODO : Check rectangle and color
         Bitmap candy = Bitmap.createBitmap(pokemonImage, displayMetrics.widthPixels / 2, (int) Math.round(displayMetrics.heightPixels / 1.3724285), (int) Math.round(displayMetrics.widthPixels / 2.057), (int) Math.round(displayMetrics.heightPixels / 38.4));
@@ -517,7 +527,6 @@ public class MainActivity extends AppCompatActivity {
         //String cpText = tesseract.getUTF8Text().replace("O", "0").replace("l", "1").replace("S", "3").replaceAll("[^0-9]", "");
         String cpText = tesseract.getUTF8Text().replace("O", "0").replace("l", "1");
         cpText = cpText.substring(2);
-        Log.d("CP Read: " + cpText, "Nahojjjen debug");
         if (cpText.length() > 4) {
             cpText = cpText.substring(cpText.length() - 4, cpText.length() - 1);
         }
@@ -548,6 +557,41 @@ public class MainActivity extends AppCompatActivity {
         info.putExtra("cp", pokemonCP);
         info.putExtra("level", estimatedPokemonLevel);
         LocalBroadcastManager.getInstance(MainActivity.this).sendBroadcast(info);
+    }
+
+    /**
+     * Dont missgender the poor nidorans.
+     *
+     * Takes a subportion of the screen, and averages the color to check the average values and compares to known male / female average
+     * @param pokemonImage The screenshot of the entire application
+     * @return True if the nidoran is female
+     */
+    private boolean isNidoranFemale(Bitmap pokemonImage) {
+        Bitmap pokemon = Bitmap.createBitmap(pokemonImage, displayMetrics.widthPixels / 3, (int) Math.round(displayMetrics.heightPixels / 4), (int) Math.round(displayMetrics.widthPixels / 3), (int) Math.round(displayMetrics.heightPixels / 5));
+        int[] pixelArray = new int[pokemon.getHeight() * pokemon.getWidth()];
+        pokemon.getPixels(pixelArray, 0, pokemon.getWidth(), 0, 0, pokemon.getWidth(), pokemon.getHeight());
+        int redSum =0;
+        int greenSum =0;
+        int blueSum=0;
+
+        // a loop that sums the color values of all the pixels in the image of the nidoran
+        for (int i=0; i<pixelArray.length; i++){
+            redSum += Color.red(pixelArray[i]);
+            blueSum += Color.green(pixelArray[i]);
+            greenSum += Color.blue(pixelArray[i]);
+        }
+        int redAverage = redSum/pixelArray.length;
+        int greenAverage = greenSum/pixelArray.length;
+        int blueAverage = blueSum/pixelArray.length;
+        //Average male nidoran has RGB value ~~ 136,165,117
+        //Average female nidoran has RGB value~ 135,190,140
+        int femaleGreenLimit = 175; //if average green is over 175, its probably female
+        int femaleBlueLimit = 130; //if average blue is over 130, its probably female
+        boolean isFemale = true;
+        if (greenAverage < femaleGreenLimit && blueAverage <femaleBlueLimit){
+            isFemale=false; //if neither average is above the female limit, then it's male.
+        }
+        return isFemale;
     }
 
     /**

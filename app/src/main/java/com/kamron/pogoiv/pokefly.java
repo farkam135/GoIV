@@ -433,6 +433,19 @@ public class pokefly extends Service {
         String returnVal = String.format(getString(R.string.ivtext_title), estimatedPokemonLevel, pokeCalculator.get(selectedPokemon).name);
         IVScanResult ivScanResult = pokeCalculator.getIVPossibilities(selectedPokemon,estimatedPokemonLevel, pokemonHP, pokemonCP);
 
+        //TODO if you wanna work on the placement of the refinement (issue #10) then un-comment this code!
+        /*
+        if (ivScanResult.are2LastScannedPokemonSame()) {
+            String tester = "Intersection: (test, empty on first scan)\n";
+            ArrayList<IVCombination> interseciton = ivScanResult.getLatestIVIntersection();
+            tester += "size: " + interseciton.size();
+            for (IVCombination comb : interseciton) {
+                tester += "\n" + comb.toString();
+            }
+
+            return tester;
+        }*/
+
         int counter = 0;
         for(IVCombination ivCombination:ivScanResult.iVCombinations){
             returnVal += "\n" + String.format(getString(R.string.ivtext_stats), ivCombination.att, ivCombination.def, ivCombination.sta, ivCombination.percentPerfect);

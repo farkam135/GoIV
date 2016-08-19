@@ -1,5 +1,7 @@
 package com.kamron.pogoiv;
 
+import android.util.ArraySet;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -138,7 +140,7 @@ public class PokeInfoCalculator {
      * @return An IVScanResult which contains the information calculated about the pokemon
      */
     public IVScanResult getIVPossibilities(int selectedPokemon, double estimatedPokemonLevel, int pokemonHP, int pokemonCP) {
-        IVScanResult returner = new IVScanResult();
+        IVScanResult returner = new IVScanResult(get(selectedPokemon), estimatedPokemonLevel);
 
         int baseAttack = get(selectedPokemon).baseAttack;
         int baseDefense = get(selectedPokemon).baseDefense;

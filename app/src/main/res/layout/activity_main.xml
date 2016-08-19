@@ -45,7 +45,7 @@
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Battery Saver (Screenshot to Scan)"
+        android:text="@string/main_battery_saver"
         android:id="@+id/checkbox_batterySaver"
         app:layout_constraintLeft_toLeftOf="@id/activity_main"
         app:layout_constraintRight_toRightOf="@id/activity_main"
@@ -62,7 +62,7 @@
         android:paddingRight="32dp"
         android:paddingStart="32dp"
         android:paddingTop="16dp"
-        android:text="Start"
+        android:text="@string/main_start"
         android:textSize="18sp"
         app:layout_constraintLeft_toLeftOf="@id/activity_main"
         app:layout_constraintRight_toRightOf="@id/activity_main"

@@ -5,7 +5,6 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.BroadcastReceiver;
-import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
@@ -28,7 +27,6 @@ import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -375,20 +373,18 @@ public class pokefly extends Service {
     private void showInfoLayout() {
         if (!infoShownReceived) {
             infoShownReceived = true;
-            int pokeNumber = getPossiblePokemon(pokemonName);
-            int candyPokeNumber = getPossiblePokemon(candyName);
+            int[] possiblePoke = getPossiblePokemon(pokemonName);
+            int[] possibleCandy = getPossiblePokemon(candyName);
             ivText.setVisibility(View.GONE);
             pokemonInfoLayout.setVisibility(View.VISIBLE);
             pokemonGetIVButton.setVisibility(View.VISIBLE);
 
-            // TODO : Allow more tolerance
-            boolean isScannedNamePerfect = pokemon.get(pokeNumber).name.equals(pokemonName);
-            pokemonName = pokemon.get(pokeNumber).name;
-            candyName = pokemon.get(candyPokeNumber).name;
-            if (isScannedNamePerfect) {
-                pokemonList.setSelection(pokeNumber);
+            pokemonName = pokemon.get(possiblePoke[0]).name;
+            candyName = pokemon.get(possibleCandy[0]).name;
+            if (possiblePoke[1] < 2) {
+                pokemonList.setSelection(possiblePoke[0]);
             } else {
-                pokemonList.setSelection(candyPokeNumber);
+                pokemonList.setSelection(possibleCandy[0]);
             }
             pokemonHPEdit.setText(String.valueOf(pokemonHP));
             pokemonCPEdit.setText(String.valueOf(pokemonCP));
@@ -407,9 +403,9 @@ public class pokefly extends Service {
     }
 
     /**
-     * @return the likely pokemon number against the char sequence
+     * @return the likely pokemon number against the char sequence as well as the similarity
      */
-    private int getPossiblePokemon(CharSequence rhs) {
+    private int[] getPossiblePokemon(CharSequence rhs) {
         int pokeNumber = 0;
         int bestMatch = 100;
         for (int i = 0; i < pokemon.size(); i++) {
@@ -419,7 +415,8 @@ public class pokefly extends Service {
                 bestMatch = similarity;
             }
         }
-        return pokeNumber;
+        int[] result = {pokeNumber,bestMatch};
+        return result;
     }
 
     /**

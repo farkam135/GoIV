@@ -1,6 +1,5 @@
 package com.kamron.pogoiv;
 
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -26,9 +25,10 @@ public class PokeInfoCalculator {
         populatePokemon(namesArray, attackArray, defenceArray, staminaArray, devolutionArray);
     }
 
-    public Pokemon get(int number){
+    public Pokemon get(int number) {
         return pokedex.get(number);
     }
+
     /**
      * Fills the list "pokemon" with the information of all pokemon by reading the
      * arrays in integers.xml and the names from the strings.xml resources.
@@ -49,7 +49,7 @@ public class PokeInfoCalculator {
     /**
      * Goes through all pokemon in the pokemon list, checks what devlutions they have registered,
      * and uses that information to populate each pokemon object evolutions list.
-     * <p>
+     * <p/>
      * So for example, Vaporeon can devolve into eevee, so eevee get vaporeon added to its evolution list. (and jolteon, and flareon)
      *
      * @param pokedex
@@ -128,23 +128,22 @@ public class PokeInfoCalculator {
     }
 
 
-
     /**
      * Adds rows with IV information (up to 8) in hte returnVal input string, and gives an IVscanResult object
      * with information about the pokemon
      *
      * @param estimatedPokemonLevel The estimated pokemon level
-     * @param pokemonHP THe pokemon hp
-     * @param pokemonCP The pokemonCP
+     * @param pokemonHP             THe pokemon hp
+     * @param pokemonCP             The pokemonCP
      * @return An IVScanResult which contains the information calculated about the pokemon
      */
-    public IVScanResult getIVPossibilities ( int selectedPokemon, double estimatedPokemonLevel, int pokemonHP, int pokemonCP) {
+    public IVScanResult getIVPossibilities(int selectedPokemon, double estimatedPokemonLevel, int pokemonHP, int pokemonCP) {
         IVScanResult returner = new IVScanResult();
 
         int baseAttack = get(selectedPokemon).baseAttack;
         int baseDefense = get(selectedPokemon).baseDefense;
         int baseStamina = get(selectedPokemon).baseStamina;
-        
+
         double lvlScalar = Data.CpM[(int) (estimatedPokemonLevel * 2 - 2)];
         double lvlScalarPow2 = Math.pow(lvlScalar, 2) * 0.1; // instead of computing again in every loop
         //for averagePercent
@@ -173,28 +172,26 @@ public class PokeInfoCalculator {
                 }
             }
         }
-        return  returner;
+        return returner;
 
     }
-
 
 
     /**
      * getCpAtRangeLeve
      * Used to calculate CP ranges for a species at a specific level based on the lowest and highest
      * IV combination.
-     * 
+     * <p/>
      * Returns a string on the form of "\n CP at lvl X: A - B" where x is the pokemon level, A is minCP and B is maxCP
      *
      * @param pokemonIndex the index of the pokemon species within the pokemon list (sorted)
-     * @param lowAttack attack IV of the lowest combination
-     * @param lowDefense defense IV of the lowest combination
-     * @param lowStamina stamina IV of the lowest combination
-     * @param highAttack attack IV of the highest combination
-     * @param highDefense defense IV of the highest combination
-     * @param highStamina stamina IV of the highest combination
-     * @param level pokemon level for CP calculation
-     *
+     * @param lowAttack    attack IV of the lowest combination
+     * @param lowDefense   defense IV of the lowest combination
+     * @param lowStamina   stamina IV of the lowest combination
+     * @param highAttack   attack IV of the highest combination
+     * @param highDefense  defense IV of the highest combination
+     * @param highStamina  stamina IV of the highest combination
+     * @param level        pokemon level for CP calculation
      * @return String containing the CP range including the specified level.
      */
     public CPRange getCpRangeAtLevel(int pokemonIndex, int lowAttack, int lowDefense, int lowStamina, int highAttack, int highDefense, int highStamina, double level) {

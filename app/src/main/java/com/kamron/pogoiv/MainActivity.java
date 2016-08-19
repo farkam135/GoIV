@@ -56,6 +56,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
+import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -83,6 +84,8 @@ public class MainActivity extends AppCompatActivity {
     private boolean readyForNewScreenshot = true;
 
     private String pokemonName;
+    private String candyName;
+    private int candyOrder = 0;
     private double estimatedPokemonLevel;
     private int pokemonCP;
     private int pokemonHP;
@@ -221,6 +224,11 @@ public class MainActivity extends AppCompatActivity {
         areaY1 = (int) Math.round(displayMetrics.heightPixels / 1.24271845);
         areaX2 = (int) Math.round(displayMetrics.widthPixels / 1.15942029);  // these values used to get greenish color in transfer button
         areaY2 = (int) Math.round(displayMetrics.heightPixels / 1.11062907);
+
+        //Check if language makes the pokemon name in candy second e.g. France is Bonbon pokeName
+        if(Locale.getDefault().getLanguage().equals("fr")){
+            candyOrder = 1;
+        }
 
         LocalBroadcastManager.getInstance(this).registerReceiver(resetScreenshot, new IntentFilter("reset-screenshot"));
         LocalBroadcastManager.getInstance(this).registerReceiver(takeScreenshot, new IntentFilter("screenshot"));
@@ -482,6 +490,14 @@ public class MainActivity extends AppCompatActivity {
         //System.out.println(tesseract.getUTF8Text());
         pokemonName = tesseract.getUTF8Text().replace(" ", "").replace("1", "l").replace("0", "o").replace("Sparky", getString(R.string.pokemon133)).replace("Rainer", getString(R.string.pokemon133)).replace("Pyro", getString(R.string.pokemon133));
         //SaveImage(name, "name");
+        // TODO : Check rectangle and color
+        Bitmap candy = Bitmap.createBitmap(pokemonImage, displayMetrics.widthPixels / 2, (int) Math.round(displayMetrics.heightPixels / 1.3724285), (int) Math.round(displayMetrics.widthPixels / 2.057), (int) Math.round(displayMetrics.heightPixels / 38.4));
+        candy = replaceColors(candy, 68, 105, 108, Color.WHITE, 200);
+        tesseract.setImage(candy);
+        //System.out.println(tesseract.getUTF8Text());
+        candyName = tesseract.getUTF8Text().trim().replace("-"," ").split(" ")[candyOrder].replace(" ", "").replace("1", "l").replace("0", "o");
+        candyName = new StringBuilder().append(candyName.substring(0, 1)).append(candyName.substring(1).toLowerCase()).toString();
+        //SaveImage(candy, "candy");
         Bitmap hp = Bitmap.createBitmap(pokemonImage, (int) Math.round(displayMetrics.widthPixels / 2.8), (int) Math.round(displayMetrics.heightPixels / 1.8962963), (int) Math.round(displayMetrics.widthPixels / 3.5), (int) Math.round(displayMetrics.heightPixels / 34.13333333));
         hp = replaceColors(hp, 55, 66, 61, Color.WHITE, 200);
         tesseract.setImage(hp);
@@ -506,11 +522,13 @@ public class MainActivity extends AppCompatActivity {
         //System.out.println("HP: " + pokemonHP);
         //System.out.println("CP: " + pokemonCP);
         name.recycle();
+        candy.recycle();
         cp.recycle();
         hp.recycle();
 
         Intent info = new Intent("pokemon-info");
         info.putExtra("name", pokemonName);
+        info.putExtra("candy", candyName);
         info.putExtra("hp", pokemonHP);
         info.putExtra("cp", pokemonCP);
         info.putExtra("level", estimatedPokemonLevel);

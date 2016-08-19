@@ -71,6 +71,7 @@ public class pokefly extends Service {
     @BindView(R.id.llPokemonInfo) LinearLayout pokemonInfoLayout;
 
     private String pokemonName;
+    private String candyName;
     private int pokemonCP;
     private int pokemonHP;
     private double estimatedPokemonLevel = 1.0;
@@ -376,21 +377,19 @@ public class pokefly extends Service {
     private void showInfoLayout() {
         if (!infoShownReceived) {
             infoShownReceived = true;
-            int pokeNumber = 0;
-            int bestMatch = 100;
-            for (int i = 0; i < pokeCalculator.pokedex.size(); i++) {
-                int similarity = pokeCalculator.pokedex.get(i).getSimilarity(pokemonName);
-                if (similarity < bestMatch) {
-                    pokeNumber = i;
-                    bestMatch = similarity;
-                }
-            }
+            int[] possiblePoke = getPossiblePokemon(pokemonName);
+            int[] possibleCandy = getPossiblePokemon(candyName);
             ivText.setVisibility(View.GONE);
             pokemonInfoLayout.setVisibility(View.VISIBLE);
             pokemonGetIVButton.setVisibility(View.VISIBLE);
 
-            pokemonName = pokeCalculator.pokedex.get(pokeNumber).name;
-            pokemonList.setSelection(pokeNumber);
+            pokemonName = pokeCalculator.get(possiblePoke[0]).name;
+            candyName = pokeCalculator.get(possibleCandy[0]).name;
+            if (possiblePoke[1] < 2) {
+                pokemonList.setSelection(possiblePoke[0]);
+            } else {
+                pokemonList.setSelection(possibleCandy[0]);
+            }
             pokemonHPEdit.setText(String.valueOf(pokemonHP));
             pokemonCPEdit.setText(String.valueOf(pokemonCP));
             cancelInfoButton.setText(getString(R.string.cancel));
@@ -405,6 +404,23 @@ public class pokefly extends Service {
                 infoShownReceived = false;
             }
         }
+    }
+
+    /**
+     * @return the likely pokemon number against the char sequence as well as the similarity
+     */
+    private int[] getPossiblePokemon(CharSequence rhs) {
+        int pokeNumber = 0;
+        int bestMatch = 100;
+        for (int i = 0; i < pokeCalculator.pokedex.size(); i++) {
+            int similarity = pokeCalculator.get(i).getSimilarity(rhs);
+            if (similarity < bestMatch) {
+                pokeNumber = i;
+                bestMatch = similarity;
+            }
+        }
+        int[] result = {pokeNumber,bestMatch};
+        return result;
     }
 
     /**
@@ -493,6 +509,7 @@ return returnVal;
             if (!receivedInfo && intent.hasExtra("name") && intent.hasExtra("cp") && intent.hasExtra("hp") && intent.hasExtra("level")) {
                 receivedInfo = true;
                 pokemonName = intent.getStringExtra("name");
+                candyName = intent.getStringExtra("candy");
                 pokemonCP = intent.getIntExtra("cp", 0);
                 pokemonHP = intent.getIntExtra("hp", 0);
                 estimatedPokemonLevel = intent.getDoubleExtra("level", estimatedPokemonLevel);
@@ -524,7 +541,6 @@ return returnVal;
             }
         }
     };
-
 
     private int dpToPx(int dp) {
         return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));

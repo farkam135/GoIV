@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.TargetApi;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -32,6 +33,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.LinkMovementMethod;
 import android.util.DisplayMetrics;
@@ -49,6 +51,14 @@ import android.widget.Toast;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.core.CrashlyticsCore;
 import com.googlecode.tesseract.android.TessBaseAPI;
+import com.kamron.pogoiv.updater.AppUpdate;
+import com.kamron.pogoiv.updater.AppUpdateDialog;
+import com.kamron.pogoiv.updater.AppUpdateEvent;
+import com.kamron.pogoiv.updater.AppUpdateLoader;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -101,10 +111,17 @@ public class MainActivity extends AppCompatActivity {
     private int arcInitialY;
     private int radius;
 
+    private boolean checkingForUpdate;
+    private AlertDialog.Builder builder;
+    private AlertDialog dialog;
+    private Context mContext;
+
     @TargetApi(23)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        checkingForUpdate = false;
+        mContext=MainActivity.this;
         // Set up Crashlytics, disabled for debug builds
         Crashlytics crashlyticsKit = new Crashlytics.Builder()
                 .core(new CrashlyticsCore.Builder()
@@ -232,9 +249,77 @@ public class MainActivity extends AppCompatActivity {
 
         LocalBroadcastManager.getInstance(this).registerReceiver(resetScreenshot, new IntentFilter("reset-screenshot"));
         LocalBroadcastManager.getInstance(this).registerReceiver(takeScreenshot, new IntentFilter("screenshot"));
+
+
+        builder = new AlertDialog.Builder(mContext);
+        dialog = builder.create();
     }
 
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        //if (BuildConfig.enableUpdater) {
+            //if (currentSettings.isUpdatesEnabled()) {
+                new AppUpdateLoader().start();
+                checkingForUpdate = true;
+    //}
+    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onAppUpdateEvent(AppUpdateEvent event) {
+        switch (event.getStatus()) {
+            case AppUpdateEvent.OK:
+                    showAppUpdateDialog(mContext, event.getAppUpdate());
+                    checkingForUpdate = false;
+                    System.out.println("Updating");
+                break;
+            case AppUpdateEvent.FAILED:
+                Toast.makeText(mContext, "Update check failed", Toast.LENGTH_SHORT).show();
+                checkingForUpdate = false;
+                break;
+            case AppUpdateEvent.UPTODATE:
+                checkingForUpdate = false;
+                break;
+        }
+    }
+    private void showAppUpdateDialog(final Context context, final AppUpdate update) {
+        if(!dialog.isShowing()) {
+            builder = new AlertDialog.Builder(context)
+                    .setTitle("Update available")
+                    .setMessage(context.getString(R.string.app_name) + " " + update.getVersion() + " " + "Update available" + "\n\n" + "Changes:" + "\n\n" + update.getChangelog())
+                    .setIcon(R.mipmap.ic_launcher)
+                    .setPositiveButton("Update", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                            AppUpdateDialog.downloadAndInstallAppUpdate(context, update);
+                        }
+                    })
+                    .setNegativeButton(context.getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    })
+                    .setCancelable(false);
+            dialog = builder.create();
+            dialog.show();
+        }
+    }
     /**
      * setupArcPoints
      * Sets up the x,y coordinates of the arc using the trainer level, stores it in Data.arcX/arcY
@@ -336,7 +421,9 @@ public class MainActivity extends AppCompatActivity {
             pokeFlyRunning = false;
         }
         if (mProjection != null) {
-            mProjection.stop();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                mProjection.stop();
+            }
         }
         else if(screenShotObserver != null){
             getContentResolver().unregisterContentObserver(screenShotObserver);

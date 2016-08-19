@@ -339,7 +339,7 @@ public class Pokefly extends Service {
                     case MotionEvent.ACTION_UP:
                         windowManager.removeView(IVButton);
                         IVButtonShown = false;
-                        Intent intent = new Intent("screenshot");
+                        Intent intent = MainActivity.createScreenshotIntent();
                         LocalBroadcastManager.getInstance(Pokefly.this).sendBroadcast(intent);
                         receivedInfo = false;
                         infoShown = true;
@@ -408,7 +408,7 @@ public class Pokefly extends Service {
         }
         receivedInfo = false;
         infoShown = false;
-        Intent resetIntent = new Intent("reset-screenshot");
+        Intent resetIntent = MainActivity.createResetScreenshotIntent();
         LocalBroadcastManager.getInstance(Pokefly.this).sendBroadcast(resetIntent);
     }
 

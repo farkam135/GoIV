@@ -5,7 +5,6 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.BroadcastReceiver;
-import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
@@ -28,7 +27,6 @@ import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -64,14 +62,22 @@ public class pokefly extends Service {
     private ImageView arcPointer;
     private LinearLayout infoLayout;
 
-    @BindView(R.id.tvIvInfo) TextView ivText;
-    @BindView(R.id.spnPokemonName) Spinner pokemonList;
-    @BindView(R.id.etCp) EditText pokemonCPEdit;
-    @BindView(R.id.etHp) EditText pokemonHPEdit;
-    @BindView(R.id.sbArcAdjust) SeekBar arcAdjustBar;
-    @BindView(R.id.btnCheckIv) Button pokemonGetIVButton;
-    @BindView(R.id.btnCancelInfo) Button cancelInfoButton;
-    @BindView(R.id.llPokemonInfo) LinearLayout pokemonInfoLayout;
+    @BindView(R.id.tvIvInfo)
+    TextView ivText;
+    @BindView(R.id.spnPokemonName)
+    Spinner pokemonList;
+    @BindView(R.id.etCp)
+    EditText pokemonCPEdit;
+    @BindView(R.id.etHp)
+    EditText pokemonHPEdit;
+    @BindView(R.id.sbArcAdjust)
+    SeekBar arcAdjustBar;
+    @BindView(R.id.btnCheckIv)
+    Button pokemonGetIVButton;
+    @BindView(R.id.btnCancelInfo)
+    Button cancelInfoButton;
+    @BindView(R.id.llPokemonInfo)
+    LinearLayout pokemonInfoLayout;
 
     private String pokemonName;
     private String candyName;
@@ -135,7 +141,7 @@ public class pokefly extends Service {
         if (intent != null && intent.hasExtra("trainerLevel")) {
             trainerLevel = intent.getIntExtra("trainerLevel", 1);
             statusBarHeight = intent.getIntExtra("statusBarHeight", 0);
-            batterySaver = intent.getBooleanExtra("batterySaver",false);
+            batterySaver = intent.getBooleanExtra("batterySaver", false);
             makeNotification(pokefly.this);
             displayMetrics = this.getResources().getDisplayMetrics();
             createInfoLayout();
@@ -198,8 +204,7 @@ public class pokefly extends Service {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             pointerHeight = getDrawable(R.drawable.dot).getIntrinsicHeight() / 2;
             pointerWidth = getDrawable(R.drawable.dot).getIntrinsicWidth() / 2;
-        }
-        else{
+        } else {
             pointerHeight = getResources().getDrawable(R.drawable.dot).getIntrinsicHeight() / 2;
             pointerWidth = getResources().getDrawable(R.drawable.dot).getIntrinsicWidth() / 2;
         }
@@ -357,7 +362,7 @@ public class pokefly extends Service {
     public void cancelInfoDialog() {
         windowManager.removeView(infoLayout);
         windowManager.removeView(arcPointer);
-        if(!batterySaver) {
+        if (!batterySaver) {
             windowManager.addView(IVButton, IVButonParams);
             IVButtonShown = true;
         }
@@ -400,7 +405,7 @@ public class pokefly extends Service {
             //setArcPointer((Data.CpM[(int) (estimatedPokemonLevel * 2 - 2)] - 0.094) * 202.037116 / Data.CpM[trainerLevel * 2 - 2]);
             arcAdjustBar.setProgress((int) ((estimatedPokemonLevel - 1) * 2));
 
-            if(batterySaver){
+            if (batterySaver) {
                 infoShownReceived = false;
             }
         }
@@ -490,8 +495,7 @@ public class pokefly extends Service {
                             }
                         }
                     }
-                }
-                else if (hp > pokemonHP) {
+                } else if (hp > pokemonHP) {
                     break;
                 }
             }
@@ -513,7 +517,7 @@ public class pokefly extends Service {
 
                 ArrayList<Integer> evolutions = pokemon.get(pokemonList.getSelectedItemPosition()).evolutions;
                 //for each evolution of next stage (example, eevees three evolutions jolteon, vaporeon and flareon)
-                for(int i = evolutions.size()-1; i>=0; i--){
+                for (int i = evolutions.size() - 1; i >= 0; i--) {
                     pokemonName = pokemon.get(evolutions.get(i)).name;
                     returnVal += "\n" + String.format(getString(R.string.ivtext_evolve), pokemonName);
                     returnVal += getCpRangeAtLevel(evolutions.get(i), lowAttack, lowDefense, lowStamina, highAttack, highDefense, highStamina, (trainerLevel + 1.5));
@@ -550,14 +554,13 @@ public class pokefly extends Service {
      * IV combination.
      *
      * @param pokemonIndex the index of the pokemon species within the pokemon list (sorted)
-     * @param lowAttack attack IV of the lowest combination
-     * @param lowDefense defense IV of the lowest combination
-     * @param lowStamina stamina IV of the lowest combination
-     * @param highAttack attack IV of the highest combination
-     * @param highDefense defense IV of the highest combination
-     * @param highStamina stamina IV of the highest combination
-     * @param level pokemon level for CP calculation
-     *
+     * @param lowAttack    attack IV of the lowest combination
+     * @param lowDefense   defense IV of the lowest combination
+     * @param lowStamina   stamina IV of the lowest combination
+     * @param highAttack   attack IV of the highest combination
+     * @param highDefense  defense IV of the highest combination
+     * @param highStamina  stamina IV of the highest combination
+     * @param level        pokemon level for CP calculation
      * @return String containing the CP range including the specified level.
      */
     private String getCpRangeAtLevel(int pokemonIndex, int lowAttack, int lowDefense, int lowStamina, int highAttack, int highDefense, int highStamina, double level) {
@@ -675,24 +678,23 @@ public class pokefly extends Service {
         int[] devolution = getResources().getIntArray(R.array.DevolutionNumber);
 
         int pokeListSize = getResources().getIntArray(R.array.attack).length;
-        for (int i = 0; i <= pokeListSize-1; i++){
+        for (int i = 0; i <= pokeListSize - 1; i++) {
             pokemon.add(new Pokemon(names[i], i, attack[i], defense[i], stamina[i], devolution[i]));
         }
 
         //Sort pokemon alphabetically (maybe just do this in the res files?)
         Collections.sort(pokemon, new Comparator<Pokemon>() {
-                    public int compare(Pokemon lhs, Pokemon rhs)
-                    {
+                    public int compare(Pokemon lhs, Pokemon rhs) {
                         return lhs.name.compareTo(rhs.name);
                     }
                 }
         );
 
         int devolNumber;
-        for (int i = 0; i <= pokeListSize-1; i++){ //for each pokemon get devolution number
+        for (int i = 0; i <= pokeListSize - 1; i++) { //for each pokemon get devolution number
             devolNumber = pokemon.get(i).devolNumber;
-            if(devolNumber >= 0){ //if devolution is given, index >= 0
-                for (int j = 0; j <= pokeListSize-1; j++) { //check for devolution index in all pokemon
+            if (devolNumber >= 0) { //if devolution is given, index >= 0
+                for (int j = 0; j <= pokeListSize - 1; j++) { //check for devolution index in all pokemon
                     if (pokemon.get(j).number == devolNumber) {
                         pokemon.get(j).evolutions.add(i); // if found add sorted index of evolution (i) to devolution and break
                         break;

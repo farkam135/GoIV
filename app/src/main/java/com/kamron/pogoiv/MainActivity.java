@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
     private MediaProjection mProjection;
     private ImageReader mImageReader;
     private ContentObserver screenShotObserver;
-    private boolean screenShotWriting= false;
+    private boolean screenShotWriting = false;
 
     private DisplayMetrics displayMetrics;
     private DisplayMetrics rawDisplayMetrics;
@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
         // Set up Crashlytics, disabled for debug builds
         Crashlytics crashlyticsKit = new Crashlytics.Builder()
                 .core(new CrashlyticsCore.Builder()
-                .disabled(BuildConfig.DEBUG).build())
+                        .disabled(BuildConfig.DEBUG).build())
                 .build();
 
         // Initialize Fabric with the debug-disabled crashlytics.
@@ -232,8 +232,8 @@ public class MainActivity extends AppCompatActivity {
      * setupArcPoints
      * Sets up the x,y coordinates of the arc using the trainer level, stores it in Data.arcX/arcY
      */
-    private void setupArcPoints(){
-        final int indices = Math.min((int)((trainerLevel + 1.5) * 2) - 1,79);
+    private void setupArcPoints() {
+        final int indices = Math.min((int) ((trainerLevel + 1.5) * 2) - 1, 79);
         Data.arcX = new int[indices];
         Data.arcY = new int[indices];
 
@@ -330,8 +330,7 @@ public class MainActivity extends AppCompatActivity {
         }
         if (mProjection != null) {
             mProjection.stop();
-        }
-        else if(screenShotObserver != null){
+        } else if (screenShotObserver != null) {
             getContentResolver().unregisterContentObserver(screenShotObserver);
         }
         tesseract.stop();
@@ -459,9 +458,9 @@ public class MainActivity extends AppCompatActivity {
         for (double estPokemonLevel = estimatedPokemonLevel; estPokemonLevel >= 1.0; estPokemonLevel -= 0.5) {
             //double angleInDegrees = (Data.CpM[(int) (estPokemonLevel * 2 - 2)] - 0.094) * 202.037116 / Data.CpM[trainerLevel * 2 - 2];
             //if (angleInDegrees > 1.0 && trainerLevel < 30) {
-              //  angleInDegrees -= 0.5;
+            //  angleInDegrees -= 0.5;
             //} else if (trainerLevel >= 30) {
-             //   angleInDegrees += 0.5;
+            //   angleInDegrees += 0.5;
             //}
 
             //double angleInRadians = (angleInDegrees + 180) * Math.PI / 180.0;
@@ -628,9 +627,9 @@ public class MainActivity extends AppCompatActivity {
         screenShotObserver = new ContentObserver(new Handler()) {
             @Override
             public void onChange(boolean selfChange, Uri uri) {
-                if(readyForNewScreenshot){
+                if (readyForNewScreenshot) {
                     final Uri fUri = uri;
-                    if(fUri.toString().contains("images")) {
+                    if (fUri.toString().contains("images")) {
                         final String pathChange = getRealPathFromURI(MainActivity.this, fUri);
                         if (pathChange.contains("Screenshot")) {
                             screenShotWriting = !screenShotWriting;
@@ -651,7 +650,7 @@ public class MainActivity extends AppCompatActivity {
                 super.onChange(selfChange, uri);
             }
         };
-        getContentResolver().registerContentObserver(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, true,screenShotObserver);
+        getContentResolver().registerContentObserver(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, true, screenShotObserver);
         startPokeyFly();
     }
 
@@ -659,8 +658,8 @@ public class MainActivity extends AppCompatActivity {
     private String getRealPathFromURI(Context context, Uri contentUri) {
         Cursor cursor = null;
         try {
-            String[] proj = { MediaStore.Images.Media.DATA };
-            cursor = context.getContentResolver().query(contentUri,  proj, null, null, MediaStore.Images.ImageColumns.DATE_TAKEN + " DESC");
+            String[] proj = {MediaStore.Images.Media.DATA};
+            cursor = context.getContentResolver().query(contentUri, proj, null, null, MediaStore.Images.ImageColumns.DATE_TAKEN + " DESC");
             int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
             cursor.moveToFirst();
             return cursor.getString(column_index);

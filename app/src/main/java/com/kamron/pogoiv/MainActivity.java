@@ -336,7 +336,9 @@ public class MainActivity extends AppCompatActivity {
             pokeFlyRunning = false;
         }
         if (mProjection != null) {
-            mProjection.stop();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                mProjection.stop();
+            }
         }
         else if(screenShotObserver != null){
             getContentResolver().unregisterContentObserver(screenShotObserver);
@@ -502,17 +504,30 @@ public class MainActivity extends AppCompatActivity {
         hp = replaceColors(hp, 55, 66, 61, Color.WHITE, 200);
         tesseract.setImage(hp);
         //System.out.println(tesseract.getUTF8Text());
-        pokemonHP = Integer.parseInt(tesseract.getUTF8Text().split("/")[1].replace("Z", "2").replace("O", "0").replace("l", "1").replaceAll("[^0-9]", ""));
+        try{
+            pokemonHP = Integer.parseInt(tesseract.getUTF8Text().split("/")[1].replace("Z", "2").replace("O", "0").replace("l", "1").replaceAll("[^0-9]", ""));
+        }catch(java.lang.NumberFormatException e){
+            pokemonHP=10;
+        }
+
         //SaveImage(hp, "hp");
         Bitmap cp = Bitmap.createBitmap(pokemonImage, (int) Math.round(displayMetrics.widthPixels / 3.0), (int) Math.round(displayMetrics.heightPixels / 15.5151515), (int) Math.round(displayMetrics.widthPixels / 3.84), (int) Math.round(displayMetrics.heightPixels / 21.333333333));
-        cp = replaceColors(cp, 255, 255, 255, Color.BLACK, 1);
+        cp = replaceColors(cp, 255, 255, 255, Color.BLACK, 30);
         tesseract.setImage(cp);
-        String cpText = tesseract.getUTF8Text().replace("O", "0").replace("l", "1").replace("S", "3").replaceAll("[^0-9]", "");
+        //String cpText = tesseract.getUTF8Text().replace("O", "0").replace("l", "1").replace("S", "3").replaceAll("[^0-9]", "");
+        String cpText = tesseract.getUTF8Text().replace("O", "0").replace("l", "1");
+        cpText = cpText.substring(2);
+        Log.d("CP Read: " + cpText, "Nahojjjen debug");
         if (cpText.length() > 4) {
             cpText = cpText.substring(cpText.length() - 4, cpText.length() - 1);
         }
         //System.out.println(cpText);
-        pokemonCP = Integer.parseInt(cpText);
+        try{
+            pokemonCP = Integer.parseInt(cpText);
+        }catch(java.lang.NumberFormatException e){
+            pokemonCP = 10;
+        }
+
         if (pokemonCP > 4500) {
             cpText = cpText.substring(1);
             pokemonCP = Integer.parseInt(cpText);

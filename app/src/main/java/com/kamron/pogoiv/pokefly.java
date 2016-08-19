@@ -1,5 +1,6 @@
 package com.kamron.pogoiv;
 
+import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -42,7 +43,23 @@ import butterknife.OnClick;
  * Created by Kamron on 7/25/2016.
  */
 
-public class pokefly extends Service {
+public class Pokefly extends Service {
+
+    private static final String ACTION_DISPLAY_IV_BUTTON = "action_display_iv_button";
+    private static final String ACTION_SEND_INFO = "action_send_info";
+
+    private static final String KEY_TRAINER_LEVEL = "key_trainer_level";
+    private static final String KEY_STATUS_BAR_HEIGHT = "key_status_bar_height";
+    private static final String KEY_BATTERY_SAVER = "key_battery_saver";
+
+    private static final String KEY_DISPLAY_IV_BUTTON_SHOW = "key_send_info_show";
+
+    private static final String KEY_SEND_INFO_NAME = "key_send_info_name";
+    private static final String KEY_SEND_INFO_CANDY = "key_send_info_candy";
+    private static final String KEY_SEND_INFO_HP = "key_send_info_hp";
+    private static final String KEY_SEND_INFO_CP = "key_send_info_cp";
+    private static final String KEY_SEND_INFO_LEVEL = "key_send_info_level";
+
     private final int MAX_POSSIBILITIES = 8;
 
     private int trainerLevel = -1;
@@ -62,14 +79,22 @@ public class pokefly extends Service {
     private ImageView arcPointer;
     private LinearLayout infoLayout;
 
-    @BindView(R.id.tvIvInfo) TextView ivText;
-    @BindView(R.id.spnPokemonName) Spinner pokemonList;
-    @BindView(R.id.etCp) EditText pokemonCPEdit;
-    @BindView(R.id.etHp) EditText pokemonHPEdit;
-    @BindView(R.id.sbArcAdjust) SeekBar arcAdjustBar;
-    @BindView(R.id.btnCheckIv) Button pokemonGetIVButton;
-    @BindView(R.id.btnCancelInfo) Button cancelInfoButton;
-    @BindView(R.id.llPokemonInfo) LinearLayout pokemonInfoLayout;
+    @BindView(R.id.tvIvInfo)
+    TextView ivText;
+    @BindView(R.id.spnPokemonName)
+    Spinner pokemonList;
+    @BindView(R.id.etCp)
+    EditText pokemonCPEdit;
+    @BindView(R.id.etHp)
+    EditText pokemonHPEdit;
+    @BindView(R.id.sbArcAdjust)
+    SeekBar arcAdjustBar;
+    @BindView(R.id.btnCheckIv)
+    Button pokemonGetIVButton;
+    @BindView(R.id.btnCancelInfo)
+    Button cancelInfoButton;
+    @BindView(R.id.llPokemonInfo)
+    LinearLayout pokemonInfoLayout;
 
     private String pokemonName;
     private String candyName;
@@ -107,6 +132,29 @@ public class pokefly extends Service {
             WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
             PixelFormat.TRANSLUCENT);
 
+    public static Intent createIntent(Activity activity, int trainerLevel, int statusBarHeight, boolean batterySaver) {
+        Intent intent = new Intent(activity, Pokefly.class);
+        intent.putExtra(KEY_TRAINER_LEVEL, trainerLevel);
+        intent.putExtra(KEY_STATUS_BAR_HEIGHT, statusBarHeight);
+        intent.putExtra(KEY_BATTERY_SAVER, batterySaver);
+        return intent;
+    }
+
+    public static Intent createIVButtonIntent(boolean shouldShow) {
+        Intent intent = new Intent(ACTION_DISPLAY_IV_BUTTON);
+        intent.putExtra(KEY_DISPLAY_IV_BUTTON_SHOW, shouldShow);
+        return intent;
+    }
+
+    public static Intent createInfoIntent(String pokemonName, String candyName, int pokemonHP, int pokemonCP, double estimatedPokemonLevel) {
+        Intent intent = new Intent(ACTION_SEND_INFO);
+        intent.putExtra(KEY_SEND_INFO_NAME, pokemonName);
+        intent.putExtra(KEY_SEND_INFO_CANDY, candyName);
+        intent.putExtra(KEY_SEND_INFO_HP, pokemonHP);
+        intent.putExtra(KEY_SEND_INFO_CP, pokemonCP);
+        intent.putExtra(KEY_SEND_INFO_LEVEL, estimatedPokemonLevel);
+        return intent;
+    }
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -123,18 +171,18 @@ public class pokefly extends Service {
         //disp.getRealMetrics(displayMetrics);
         //System.out.println("New Device:" + displayMetrics.widthPixels + "," + displayMetrics.heightPixels + "," + displayMetrics.densityDpi + "," + displayMetrics.density);
 
-        LocalBroadcastManager.getInstance(this).registerReceiver(displayInfo, new IntentFilter("pokemon-info"));
-        LocalBroadcastManager.getInstance(this).registerReceiver(setIVButtonDisplay, new IntentFilter("display-ivButton"));
+        LocalBroadcastManager.getInstance(this).registerReceiver(displayInfo, new IntentFilter(ACTION_SEND_INFO));
+        LocalBroadcastManager.getInstance(this).registerReceiver(setIVButtonDisplay, new IntentFilter(ACTION_DISPLAY_IV_BUTTON));
         populatePokemon();
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        if (intent != null && intent.hasExtra("trainerLevel")) {
-            trainerLevel = intent.getIntExtra("trainerLevel", 1);
-            statusBarHeight = intent.getIntExtra("statusBarHeight", 0);
-            batterySaver = intent.getBooleanExtra("batterySaver",false);
-            makeNotification(pokefly.this);
+        if (intent != null && intent.hasExtra(KEY_TRAINER_LEVEL)) {
+            trainerLevel = intent.getIntExtra(KEY_TRAINER_LEVEL, 1);
+            statusBarHeight = intent.getIntExtra(KEY_STATUS_BAR_HEIGHT, 0);
+            batterySaver = intent.getBooleanExtra(KEY_BATTERY_SAVER, false);
+            makeNotification(Pokefly.this);
             displayMetrics = this.getResources().getDisplayMetrics();
             createInfoLayout();
             createIVButton();
@@ -196,8 +244,7 @@ public class pokefly extends Service {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             pointerHeight = getDrawable(R.drawable.dot).getIntrinsicHeight() / 2;
             pointerWidth = getDrawable(R.drawable.dot).getIntrinsicWidth() / 2;
-        }
-        else{
+        } else {
             pointerHeight = getResources().getDrawable(R.drawable.dot).getIntrinsicHeight() / 2;
             pointerWidth = getResources().getDrawable(R.drawable.dot).getIntrinsicWidth() / 2;
         }
@@ -292,8 +339,8 @@ public class pokefly extends Service {
                     case MotionEvent.ACTION_UP:
                         windowManager.removeView(IVButton);
                         IVButtonShown = false;
-                        Intent intent = new Intent("screenshot");
-                        LocalBroadcastManager.getInstance(pokefly.this).sendBroadcast(intent);
+                        Intent intent = MainActivity.createScreenshotIntent();
+                        LocalBroadcastManager.getInstance(Pokefly.this).sendBroadcast(intent);
                         receivedInfo = false;
                         infoShown = true;
                         infoShownReceived = false;
@@ -355,14 +402,14 @@ public class pokefly extends Service {
     public void cancelInfoDialog() {
         windowManager.removeView(infoLayout);
         windowManager.removeView(arcPointer);
-        if(!batterySaver) {
+        if (!batterySaver) {
             windowManager.addView(IVButton, IVButonParams);
             IVButtonShown = true;
         }
         receivedInfo = false;
         infoShown = false;
-        Intent resetIntent = new Intent("reset-screenshot");
-        LocalBroadcastManager.getInstance(pokefly.this).sendBroadcast(resetIntent);
+        Intent resetIntent = MainActivity.createResetScreenshotIntent();
+        LocalBroadcastManager.getInstance(Pokefly.this).sendBroadcast(resetIntent);
     }
 
     /**
@@ -396,7 +443,7 @@ public class pokefly extends Service {
             //setArcPointer((Data.CpM[(int) (estimatedPokemonLevel * 2 - 2)] - 0.094) * 202.037116 / Data.CpM[trainerLevel * 2 - 2]);
             arcAdjustBar.setProgress((int) ((estimatedPokemonLevel - 1) * 2));
 
-            if(batterySaver){
+            if (batterySaver) {
                 infoShownReceived = false;
             }
         }
@@ -487,8 +534,7 @@ public class pokefly extends Service {
                             }
                         }
                     }
-                }
-                else if (hp > pokemonHP) {
+                } else if (hp > pokemonHP) {
                     break;
                 }
             }
@@ -510,7 +556,7 @@ public class pokefly extends Service {
 
                 ArrayList<Integer> evolutions = pokemon.get(pokemonList.getSelectedItemPosition()).evolutions;
                 //for each evolution of next stage (example, eevees three evolutions jolteon, vaporeon and flareon)
-                for(int i = evolutions.size()-1; i>=0; i--){
+                for (int i = evolutions.size() - 1; i >= 0; i--) {
                     pokemonName = pokemon.get(evolutions.get(i)).name;
                     returnVal += "\n" + String.format(getString(R.string.ivtext_evolve), pokemonName);
                     returnVal += getCpRangeAtLevel(evolutions.get(i), lowAttack, lowDefense, lowStamina, highAttack, highDefense, highStamina, (trainerLevel + 1.5));
@@ -547,14 +593,13 @@ public class pokefly extends Service {
      * IV combination.
      *
      * @param pokemonIndex the index of the pokemon species within the pokemon list (sorted)
-     * @param lowAttack attack IV of the lowest combination
-     * @param lowDefense defense IV of the lowest combination
-     * @param lowStamina stamina IV of the lowest combination
-     * @param highAttack attack IV of the highest combination
-     * @param highDefense defense IV of the highest combination
-     * @param highStamina stamina IV of the highest combination
-     * @param level pokemon level for CP calculation
-     *
+     * @param lowAttack    attack IV of the lowest combination
+     * @param lowDefense   defense IV of the lowest combination
+     * @param lowStamina   stamina IV of the lowest combination
+     * @param highAttack   attack IV of the highest combination
+     * @param highDefense  defense IV of the highest combination
+     * @param highStamina  stamina IV of the highest combination
+     * @param level        pokemon level for CP calculation
      * @return String containing the CP range including the specified level.
      */
     private String getCpRangeAtLevel(int pokemonIndex, int lowAttack, int lowDefense, int lowStamina, int highAttack, int highDefense, int highStamina, double level) {
@@ -621,13 +666,13 @@ public class pokefly extends Service {
     private BroadcastReceiver displayInfo = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (!receivedInfo && intent.hasExtra("name") && intent.hasExtra("cp") && intent.hasExtra("hp") && intent.hasExtra("level")) {
+            if (!receivedInfo && intent.hasExtra(KEY_SEND_INFO_NAME) && intent.hasExtra(KEY_SEND_INFO_CP) && intent.hasExtra(KEY_SEND_INFO_HP) && intent.hasExtra(KEY_SEND_INFO_LEVEL)) {
                 receivedInfo = true;
-                pokemonName = intent.getStringExtra("name");
-                candyName = intent.getStringExtra("candy");
-                pokemonCP = intent.getIntExtra("cp", 0);
-                pokemonHP = intent.getIntExtra("hp", 0);
-                estimatedPokemonLevel = intent.getDoubleExtra("level", estimatedPokemonLevel);
+                pokemonName = intent.getStringExtra(KEY_SEND_INFO_NAME);
+                candyName = intent.getStringExtra(KEY_SEND_INFO_CANDY);
+                pokemonCP = intent.getIntExtra(KEY_SEND_INFO_CP, 0);
+                pokemonHP = intent.getIntExtra(KEY_SEND_INFO_HP, 0);
+                estimatedPokemonLevel = intent.getDoubleExtra(KEY_SEND_INFO_LEVEL, estimatedPokemonLevel);
                 if (estimatedPokemonLevel < 1.0) {
                     estimatedPokemonLevel = 1.0;
                 }
@@ -644,7 +689,7 @@ public class pokefly extends Service {
     private BroadcastReceiver setIVButtonDisplay = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            boolean show = intent.getBooleanExtra("show", false);
+            boolean show = intent.getBooleanExtra(KEY_DISPLAY_IV_BUTTON_SHOW, false);
             if (show && !IVButtonShown && !infoShown) {
                 windowManager.addView(IVButton, IVButonParams);
                 IVButtonShown = true;
@@ -672,24 +717,23 @@ public class pokefly extends Service {
         int[] devolution = getResources().getIntArray(R.array.DevolutionNumber);
 
         int pokeListSize = getResources().getIntArray(R.array.attack).length;
-        for (int i = 0; i <= pokeListSize-1; i++){
+        for (int i = 0; i <= pokeListSize - 1; i++) {
             pokemon.add(new Pokemon(names[i], i, attack[i], defense[i], stamina[i], devolution[i]));
         }
 
         //Sort pokemon alphabetically (maybe just do this in the res files?)
         Collections.sort(pokemon, new Comparator<Pokemon>() {
-                    public int compare(Pokemon lhs, Pokemon rhs)
-                    {
+                    public int compare(Pokemon lhs, Pokemon rhs) {
                         return lhs.name.compareTo(rhs.name);
                     }
                 }
         );
 
         int devolNumber;
-        for (int i = 0; i <= pokeListSize-1; i++){ //for each pokemon get devolution number
+        for (int i = 0; i <= pokeListSize - 1; i++) { //for each pokemon get devolution number
             devolNumber = pokemon.get(i).devolNumber;
-            if(devolNumber >= 0){ //if devolution is given, index >= 0
-                for (int j = 0; j <= pokeListSize-1; j++) { //check for devolution index in all pokemon
+            if (devolNumber >= 0) { //if devolution is given, index >= 0
+                for (int j = 0; j <= pokeListSize - 1; j++) { //check for devolution index in all pokemon
                     if (pokemon.get(j).number == devolNumber) {
                         pokemon.get(j).evolutions.add(i); // if found add sorted index of evolution (i) to devolution and break
                         break;

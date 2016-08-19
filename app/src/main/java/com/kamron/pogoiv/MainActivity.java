@@ -64,16 +64,23 @@ import io.fabric.sdk.android.Fabric;
 
 
 public class MainActivity extends AppCompatActivity {
-    private static final String TAG = "MainActivity";
+
+    private static final String TAG = MainActivity.class.getSimpleName();
 
     private static final int OVERLAY_PERMISSION_REQ_CODE = 1234;
     private static final int WRITE_STORAGE_REQ_CODE = 1236;
     private static final int SCREEN_CAPTURE_REQ_CODE = 1235;
 
+    private static final String PREF_LEVEL = "level";
+    private static final String PREF_BATTERY_SAVER = "batterySaver";
+
+    private static final String ACTION_RESET_SCREENSHOT = "reset-screenshot";
+    private static final String ACTION_SCREENSHOT = "screenshot";
+
     private MediaProjection mProjection;
     private ImageReader mImageReader;
     private ContentObserver screenShotObserver;
-    private boolean screenShotWriting= false;
+    private boolean screenShotWriting = false;
 
     private DisplayMetrics displayMetrics;
     private DisplayMetrics rawDisplayMetrics;
@@ -101,6 +108,14 @@ public class MainActivity extends AppCompatActivity {
     private int arcInitialY;
     private int radius;
 
+    public static Intent createScreenshotIntent() {
+        return new Intent(ACTION_SCREENSHOT);
+    }
+
+    public static Intent createResetScreenshotIntent() {
+        return new Intent(ACTION_RESET_SCREENSHOT);
+    }
+
     @TargetApi(23)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
         // Set up Crashlytics, disabled for debug builds
         Crashlytics crashlyticsKit = new Crashlytics.Builder()
                 .core(new CrashlyticsCore.Builder()
-                .disabled(BuildConfig.DEBUG).build())
+                        .disabled(BuildConfig.DEBUG).build())
                 .build();
 
         // Initialize Fabric with the debug-disabled crashlytics.
@@ -123,8 +138,8 @@ public class MainActivity extends AppCompatActivity {
         goIvInfo.setMovementMethod(LinkMovementMethod.getInstance());
 
         final SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
-        trainerLevel = sharedPref.getInt("level", 1);
-        batterySaver = sharedPref.getBoolean("batterySaver", false);
+        trainerLevel = sharedPref.getInt(PREF_LEVEL, 1);
+        batterySaver = sharedPref.getBoolean(PREF_BATTERY_SAVER, false);
 
         final EditText etTrainerLevel = (EditText) findViewById(R.id.trainerLevel);
         etTrainerLevel.setText(String.valueOf(trainerLevel));
@@ -183,8 +198,8 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     if (trainerLevel > 0 && trainerLevel <= 40) {
-                        sharedPref.edit().putInt("level", trainerLevel).apply();
-                        sharedPref.edit().putBoolean("batterySaver", batterySaver).apply();
+                        sharedPref.edit().putInt(PREF_LEVEL, trainerLevel).apply();
+                        sharedPref.edit().putBoolean(PREF_BATTERY_SAVER, batterySaver).apply();
                         setupArcPoints();
 
                         if (batterySaver) {
@@ -196,7 +211,7 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this, getString(R.string.main_invalide_trainerlvl), Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    stopService(new Intent(MainActivity.this, pokefly.class));
+                    stopService(new Intent(MainActivity.this, Pokefly.class));
                     if (mProjection != null) {
                         mProjection.stop();
                         mProjection = null;
@@ -239,8 +254,8 @@ public class MainActivity extends AppCompatActivity {
      * setupArcPoints
      * Sets up the x,y coordinates of the arc using the trainer level, stores it in Data.arcX/arcY
      */
-    private void setupArcPoints(){
-        final int indices = Math.min((int)((trainerLevel + 1.5) * 2) - 1,79);
+    private void setupArcPoints() {
+        final int indices = Math.min((int) ((trainerLevel + 1.5) * 2) - 1, 79);
         Data.arcX = new int[indices];
         Data.arcY = new int[indices];
 
@@ -266,11 +281,9 @@ public class MainActivity extends AppCompatActivity {
      */
     private void startPokeyFly() {
         ((Button) findViewById(R.id.start)).setText("Stop");
-        Intent PokeFly = new Intent(MainActivity.this, pokefly.class);
-        PokeFly.putExtra("trainerLevel", trainerLevel);
-        PokeFly.putExtra("statusBarHeight", statusBarHeight);
-        PokeFly.putExtra("batterySaver", batterySaver);
-        startService(PokeFly);
+
+        Intent intent = Pokefly.createIntent(this, trainerLevel, statusBarHeight, batterySaver);
+        startService(intent);
 
         pokeFlyRunning = true;
 
@@ -332,13 +345,12 @@ public class MainActivity extends AppCompatActivity {
     public void onDestroy() {
         super.onDestroy();
         if (pokeFlyRunning) {
-            stopService(new Intent(MainActivity.this, pokefly.class));
+            stopService(new Intent(MainActivity.this, Pokefly.class));
             pokeFlyRunning = false;
         }
         if (mProjection != null) {
             mProjection.stop();
-        }
-        else if(screenShotObserver != null){
+        } else if (screenShotObserver != null) {
             getContentResolver().unregisterContentObserver(screenShotObserver);
         }
         tesseract.stop();
@@ -466,9 +478,9 @@ public class MainActivity extends AppCompatActivity {
         for (double estPokemonLevel = estimatedPokemonLevel; estPokemonLevel >= 1.0; estPokemonLevel -= 0.5) {
             //double angleInDegrees = (Data.CpM[(int) (estPokemonLevel * 2 - 2)] - 0.094) * 202.037116 / Data.CpM[trainerLevel * 2 - 2];
             //if (angleInDegrees > 1.0 && trainerLevel < 30) {
-              //  angleInDegrees -= 0.5;
+            //  angleInDegrees -= 0.5;
             //} else if (trainerLevel >= 30) {
-             //   angleInDegrees += 0.5;
+            //   angleInDegrees += 0.5;
             //}
 
             //double angleInRadians = (angleInDegrees + 180) * Math.PI / 180.0;
@@ -526,12 +538,7 @@ public class MainActivity extends AppCompatActivity {
         cp.recycle();
         hp.recycle();
 
-        Intent info = new Intent("pokemon-info");
-        info.putExtra("name", pokemonName);
-        info.putExtra("candy", candyName);
-        info.putExtra("hp", pokemonHP);
-        info.putExtra("cp", pokemonCP);
-        info.putExtra("level", estimatedPokemonLevel);
+        Intent info = Pokefly.createInfoIntent(pokemonName, candyName, pokemonHP, pokemonCP, estimatedPokemonLevel);
         LocalBroadcastManager.getInstance(MainActivity.this).sendBroadcast(info);
     }
 
@@ -552,14 +559,10 @@ public class MainActivity extends AppCompatActivity {
             // create bitmap
             image.close();
             Bitmap bmp = getBitmap(buffer, pixelStride, rowPadding);
-            Intent showIVButton = new Intent("display-ivButton");
-            if (bmp.getPixel(areaX1, areaY1) == Color.rgb(250, 250, 250) && bmp.getPixel(areaX2, areaY2) == Color.rgb(28, 135, 150)) {
-                showIVButton.putExtra("show", true);
-            } else {
-                showIVButton.putExtra("show", false);
-            }
+            boolean shouldShow = bmp.getPixel(areaX1, areaY1) == Color.rgb(250, 250, 250) && bmp.getPixel(areaX2, areaY2) == Color.rgb(28, 135, 150);
+            Intent showIVButtonIntent = Pokefly.createIVButtonIntent(shouldShow);
             bmp.recycle();
-            LocalBroadcastManager.getInstance(MainActivity.this).sendBroadcast(showIVButton);
+            LocalBroadcastManager.getInstance(MainActivity.this).sendBroadcast(showIVButtonIntent);
             //SaveImage(bmp,"everything");
         }
     }
@@ -634,9 +637,9 @@ public class MainActivity extends AppCompatActivity {
         screenShotObserver = new ContentObserver(new Handler()) {
             @Override
             public void onChange(boolean selfChange, Uri uri) {
-                if(readyForNewScreenshot){
+                if (readyForNewScreenshot) {
                     final Uri fUri = uri;
-                    if(fUri.toString().contains("images")) {
+                    if (fUri.toString().contains("images")) {
                         final String pathChange = getRealPathFromURI(MainActivity.this, fUri);
                         if (pathChange.contains("Screenshot")) {
                             screenShotWriting = !screenShotWriting;
@@ -657,7 +660,7 @@ public class MainActivity extends AppCompatActivity {
                 super.onChange(selfChange, uri);
             }
         };
-        getContentResolver().registerContentObserver(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, true,screenShotObserver);
+        getContentResolver().registerContentObserver(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, true, screenShotObserver);
         startPokeyFly();
     }
 
@@ -665,8 +668,8 @@ public class MainActivity extends AppCompatActivity {
     private String getRealPathFromURI(Context context, Uri contentUri) {
         Cursor cursor = null;
         try {
-            String[] proj = { MediaStore.Images.Media.DATA };
-            cursor = context.getContentResolver().query(contentUri,  proj, null, null, MediaStore.Images.ImageColumns.DATE_TAKEN + " DESC");
+            String[] proj = {MediaStore.Images.Media.DATA};
+            cursor = context.getContentResolver().query(contentUri, proj, null, null, MediaStore.Images.ImageColumns.DATE_TAKEN + " DESC");
             int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
             cursor.moveToFirst();
             return cursor.getString(column_index);

@@ -55,7 +55,7 @@
         </activity>
 
         <service
-            android:name="com.kamron.pogoiv.pokefly"
+            android:name="com.kamron.pogoiv.Pokefly"
             android:exported="true" />
 
         <meta-data

@@ -74,6 +74,14 @@ public class MainActivity extends AppCompatActivity {
     private static final int WRITE_STORAGE_REQ_CODE = 1236;
     private static final int SCREEN_CAPTURE_REQ_CODE = 1235;
 
+    private static final String PREF_LEVEL = "level";
+    private static final String PREF_BATTERY_SAVER = "batterySaver";
+    private static final String PREF_SCREENSHOT_DIR = "screenshotDir";
+    private static final String PREF_SCREENSHOT_URI = "screenshotUri";
+
+    private static final String ACTION_RESET_SCREENSHOT = "reset-screenshot";
+    private static final String ACTION_SCREENSHOT = "screenshot";
+
     private MediaProjection mProjection;
     private ImageReader mImageReader;
     private ContentObserver screenShotObserver;
@@ -108,6 +116,14 @@ public class MainActivity extends AppCompatActivity {
     private int arcInitialY;
     private int radius;
 
+    public static Intent createScreenshotIntent() {
+        return new Intent(ACTION_SCREENSHOT);
+    }
+
+    public static Intent createResetScreenshotIntent() {
+        return new Intent(ACTION_RESET_SCREENSHOT);
+    }
+
     @TargetApi(23)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,10 +139,10 @@ public class MainActivity extends AppCompatActivity {
         goIvInfo.setMovementMethod(LinkMovementMethod.getInstance());
 
         sharedPref = getPreferences(Context.MODE_PRIVATE);
-        trainerLevel = sharedPref.getInt("level", 1);
-        batterySaver = sharedPref.getBoolean("batterySaver", false);
-        screenshotDir = sharedPref.getString("screenshotDir","");
-        screenshotUri = Uri.parse(sharedPref.getString("screenshotUri",""));
+        trainerLevel = sharedPref.getInt(PREF_LEVEL, 1);
+        batterySaver = sharedPref.getBoolean(PREF_BATTERY_SAVER, false);
+        screenshotDir = sharedPref.getString(PREF_SCREENSHOT_DIR, "");
+        screenshotUri = Uri.parse(sharedPref.getString(PREF_SCREENSHOT_URI, ""));
 
         final EditText etTrainerLevel = (EditText) findViewById(R.id.trainerLevel);
         etTrainerLevel.setText(String.valueOf(trainerLevel));
@@ -185,8 +201,8 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     if (trainerLevel > 0 && trainerLevel <= 40) {
-                        sharedPref.edit().putInt("level", trainerLevel).apply();
-                        sharedPref.edit().putBoolean("batterySaver", batterySaver).apply();
+                        sharedPref.edit().putInt(PREF_LEVEL, trainerLevel).apply();
+                        sharedPref.edit().putBoolean(PREF_BATTERY_SAVER, batterySaver).apply();
                         setupArcPoints();
 
                         if (batterySaver) {

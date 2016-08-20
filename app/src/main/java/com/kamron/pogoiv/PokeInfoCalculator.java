@@ -39,37 +39,19 @@ public class PokeInfoCalculator {
         pokedex = new ArrayList<>();
         int pokeListSize = names.length;
         for (int i = 0; i <= pokeListSize - 1; i++) {
-            pokedex.add(new Pokemon(names[i], i, attack[i], defense[i], stamina[i], devolution[i]));
+            Pokemon p = new Pokemon(names[i], i, attack[i], defense[i], stamina[i], devolution[i]);
+            /* Add the pokemon to the devolution's evolution list */
+            if (devolution[i] != -1) {
+                Pokemon devo = pokedex.get(devolution[i]);
+                devo.evolutions.add(p);
+                sortPokedex(devo.evolutions);
+            }
+            pokedex.add(p);
         }
 
         sortPokedex(pokedex);
-        setEvolutions(pokedex);
-
     }
 
-
-    /**
-     * Goes through all pokemon in the pokemon list, checks what devlutions they have registered,
-     * and uses that information to populate each pokemon object evolutions list.
-     * <p/>
-     * So for example, Vaporeon can devolve into eevee, so eevee get vaporeon added to its evolution list. (and jolteon, and flareon)
-     *
-     * @param pokedex
-     */
-    private void setEvolutions(ArrayList<Pokemon> pokedex) {
-        int devolNumber = -1;
-        for (int i = 0; i <= pokedex.size() - 1; i++) { //for each pokemon get devolution number
-            devolNumber = pokedex.get(i).devolNumber;
-            if (devolNumber >= 0) { //if devolution is given, index >= 0
-                for (int j = 0; j <= pokedex.size() - 1; j++) { //check for devolution index in all pokemon
-                    if (pokedex.get(j).number == devolNumber) {
-                        pokedex.get(j).evolutions.add(i); // if found add sorted index of evolution (i) to devolution and break
-                        break;
-                    }
-                }
-            }
-        }
-    }
 
     /**
      * Sorts the pokemon in the pokedex by alphabetical order
@@ -186,7 +168,7 @@ public class PokeInfoCalculator {
      * <p/>
      * Returns a string on the form of "\n CP at lvl X: A - B" where x is the pokemon level, A is minCP and B is maxCP
      *
-     * @param pokemonIndex the index of the pokemon species within the pokemon list (sorted)
+     * @param pokemon the index of the pokemon species within the pokemon list (sorted)
      * @param lowAttack    attack IV of the lowest combination
      * @param lowDefense   defense IV of the lowest combination
      * @param lowStamina   stamina IV of the lowest combination
@@ -196,10 +178,10 @@ public class PokeInfoCalculator {
      * @param level        pokemon level for CP calculation
      * @return String containing the CP range including the specified level.
      */
-    public CPRange getCpRangeAtLevel(int pokemonIndex, int lowAttack, int lowDefense, int lowStamina, int highAttack, int highDefense, int highStamina, double level) {
-        int baseAttack = pokedex.get(pokemonIndex).baseAttack;
-        int baseDefense = pokedex.get(pokemonIndex).baseDefense;
-        int baseStamina = pokedex.get(pokemonIndex).baseStamina;
+    public CPRange getCpRangeAtLevel(Pokemon pokemon, int lowAttack, int lowDefense, int lowStamina, int highAttack, int highDefense, int highStamina, double level) {
+        int baseAttack = pokemon.baseAttack;
+        int baseDefense = pokemon.baseDefense;
+        int baseStamina = pokemon.baseStamina;
         double lvlScalar = Data.CpM[(int) (level * 2 - 2)];
         int cpMin = (int) Math.floor((baseAttack + lowAttack) * Math.sqrt(baseDefense + lowDefense) * Math.sqrt(baseStamina + lowStamina) * Math.pow(lvlScalar, 2) * 0.1);
         int cpMax = (int) Math.floor((baseAttack + highAttack) * Math.sqrt(baseDefense + highDefense) * Math.sqrt(baseStamina + highStamina) * Math.pow(lvlScalar, 2) * 0.1);

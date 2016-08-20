@@ -184,4 +184,11 @@
     <string name="close">Close</string>
     <string name="main_permission">Grant Permissions</string>
     <string name="main_start">Start</string>
+    <string name="main_stop">Stop</string>
+    <string name="battery_saver_setup">Battery Saver Setup</string>
+    <string name="battery_saver_instructions">Your screenshot directory cannot be found. In order to help GoIV detect your screenshot directory please follow the steps below:\n1.Tap \'Setup\' on this message\n2.Take a screenshot\n3.Wait for further notice.</string>
+    <string name="setup">Setup</string>
+    <string name="take_screenshot">Take a screenshot</string>
+    <string name="screenshot_dir_found">Screenshot Directory Set:\n%1$s</string>
+    <string name="done">Done</string>
 </resources>

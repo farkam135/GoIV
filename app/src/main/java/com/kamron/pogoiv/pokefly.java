@@ -10,8 +10,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.PixelFormat;
+import android.net.Uri;
 import android.os.Build;
 import android.os.IBinder;
+import android.provider.MediaStore;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
@@ -44,6 +46,8 @@ public class pokefly extends Service {
 
     private int trainerLevel = -1;
     private boolean batterySaver = false;
+    private Uri screenshotUri;
+    private String screenshotDir;
 
     private boolean receivedInfo = false;
 
@@ -138,6 +142,9 @@ public class pokefly extends Service {
             trainerLevel = intent.getIntExtra("trainerLevel", 1);
             statusBarHeight = intent.getIntExtra("statusBarHeight", 0);
             batterySaver = intent.getBooleanExtra("batterySaver",false);
+            if(intent.hasExtra("screenshotUri")){
+                screenshotUri = Uri.parse(intent.getStringExtra("screenshotUri"));
+            }
             makeNotification(pokefly.this);
             displayMetrics = this.getResources().getDisplayMetrics();
             createInfoLayout();
@@ -346,6 +353,9 @@ public class pokefly extends Service {
 
     @OnClick(R.id.btnCheckIv)
     public void checkIv() {
+        if(batterySaver) {
+            getContentResolver().delete(screenshotUri, MediaStore.Files.FileColumns.DATA + "=?", new String[]{screenshotDir});
+        }
         pokemonHP = Integer.parseInt(pokemonHPEdit.getText().toString());
         pokemonCP = Integer.parseInt(pokemonCPEdit.getText().toString());
         ivText.setVisibility(View.VISIBLE);
@@ -516,6 +526,10 @@ return returnVal;
                 if (estimatedPokemonLevel < 1.0) {
                     estimatedPokemonLevel = 1.0;
                 }
+                if(intent.hasExtra("screenshotDir")){
+                    screenshotDir = intent.getStringExtra("screenshotDir");
+                }
+
                 showInfoLayout();
             }
         }

@@ -333,6 +333,9 @@ public class MainActivity extends AppCompatActivity {
         PokeFly.putExtra("trainerLevel", trainerLevel);
         PokeFly.putExtra("statusBarHeight", statusBarHeight);
         PokeFly.putExtra("batterySaver", batterySaver);
+        if(!screenshotDir.isEmpty()) {
+            PokeFly.putExtra("screenshotUri", screenshotUri.toString());
+        }
         startService(PokeFly);
 
         pokeFlyRunning = true;
@@ -511,7 +514,7 @@ public class MainActivity extends AppCompatActivity {
             try {
                 image.close();
                 Bitmap bmp = getBitmap(buffer, pixelStride, rowPadding);
-                scanPokemon(bmp);
+                scanPokemon(bmp,"");
                 //SaveImage(bmp,"Search");
             } catch (Exception e) {
                 Crashlytics.log("Exception thrown in takeScreenshot() - when creating bitmap");
@@ -528,8 +531,9 @@ public class MainActivity extends AppCompatActivity {
      * Performs OCR on an image of a pokemon and sends the pulled info to PokeFly to display.
      *
      * @param pokemonImage The image of the pokemon
+     * @param filePath The screenshot path if it is a file, used to delete once checked
      */
-    private void scanPokemon(Bitmap pokemonImage) {
+    private void scanPokemon(Bitmap pokemonImage, String filePath) {
         estimatedPokemonLevel = trainerLevel + 1.5;
 
         for (double estPokemonLevel = estimatedPokemonLevel; estPokemonLevel >= 1.0; estPokemonLevel -= 0.5) {
@@ -622,6 +626,9 @@ public class MainActivity extends AppCompatActivity {
         info.putExtra("hp", pokemonHP);
         info.putExtra("cp", pokemonCP);
         info.putExtra("level", estimatedPokemonLevel);
+        if(!filePath.isEmpty()){
+            info.putExtra("screenshotDir",filePath);
+        }
         LocalBroadcastManager.getInstance(MainActivity.this).sendBroadcast(info);
     }
 
@@ -746,8 +753,7 @@ public class MainActivity extends AppCompatActivity {
                     if (readyForNewScreenshot && file != null) {
                         readyForNewScreenshot = false;
                         File pokemonScreenshot = new File(screenshotDir + File.separator + file);
-                        scanPokemon(BitmapFactory.decodeFile(pokemonScreenshot.getAbsolutePath()));
-                        getContentResolver().delete(screenshotUri, MediaStore.Files.FileColumns.DATA + "=?", new String[]{pokemonScreenshot.getAbsolutePath()});
+                        scanPokemon(BitmapFactory.decodeFile(pokemonScreenshot.getAbsolutePath()),pokemonScreenshot.getAbsolutePath());
                     }
             }
         };

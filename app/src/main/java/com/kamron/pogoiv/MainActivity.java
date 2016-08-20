@@ -553,7 +553,7 @@ public class MainActivity extends AppCompatActivity {
         name = replaceColors(name, 68, 105, 108, Color.WHITE, 200);
         tesseract.setImage(name);
         //System.out.println(tesseract.getUTF8Text());
-        pokemonName = tesseract.getUTF8Text().replace(" ", "").replace("1", "l").replace("0", "o").replaceAll("[^0-9]", "").replace("Sparky", getString(R.string.pokemon133)).replace("Rainer", getString(R.string.pokemon133)).replace("Pyro", getString(R.string.pokemon133));
+        pokemonName = tesseract.getUTF8Text().replace(" ", "").replace("1", "l").replace("0", "o").replace("Sparky", getString(R.string.pokemon133)).replace("Rainer", getString(R.string.pokemon133)).replace("Pyro", getString(R.string.pokemon133));
 
         if (pokemonName.toLowerCase().contains("nidora")){
             boolean isFemale = isNidoranFemale(pokemonImage);
@@ -736,9 +736,6 @@ public class MainActivity extends AppCompatActivity {
      * Starts the screenshot service, which checks for a new screenshot to scan
      */
     private void startScreenshotService() {
-//        System.out.println(MediaStore.Files.FileColumns.Me);
-        //final String screenshotPath = Environment.getExternalStorageDirectory() + File.separator + Environment.DIRECTORY_PICTURES + File.separator + "Screenshots";
-        //final Uri uri = MediaStore.Files.getContentUri("external");
         screenShotScanner = new FileObserver(screenshotDir, FileObserver.CLOSE_NOWRITE | FileObserver.CLOSE_WRITE) {
             @Override
             public void onEvent(int event, String file) {
@@ -751,33 +748,6 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         screenShotScanner.startWatching();
-//        screenShotObserver = new ContentObserver(new Handler()) {
-//            @Override
-//            public void onChange(boolean selfChange, Uri uri) {
-//                if(readyForNewScreenshot){
-//                    final Uri fUri = uri;
-//                    if(fUri.toString().contains("images")) {
-//                        final String pathChange = getRealPathFromURI(MainActivity.this, fUri);
-//                        if (pathChange.contains("Screenshot")) {
-//                            screenShotWriting = !screenShotWriting;
-//                            if (!screenShotWriting) {
-//                                readyForNewScreenshot = false;
-//                                //TODO change scanPokemon to check to see if image is a pokemon instead of crashing
-//                                try {
-//                                    scanPokemon(BitmapFactory.decodeFile(pathChange));
-//                                    getContentResolver().delete(fUri, MediaStore.Files.FileColumns.DATA + "=?", new String[]{pathChange});
-//                                } catch (ArrayIndexOutOfBoundsException e) {
-//                                    //HP was not detected so just ignore
-//                                    readyForNewScreenshot = true;
-//                                }
-//                            }
-//                        }
-//                    }
-//                }
-//                super.onChange(selfChange, uri);
-//            }
-//        };
-//        getContentResolver().registerContentObserver(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, true,screenShotObserver);
         startPokeyFly();
     }
 

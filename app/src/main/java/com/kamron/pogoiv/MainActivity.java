@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.TargetApi;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -25,6 +26,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.FileObserver;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.provider.Settings;
@@ -32,6 +34,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.LinkMovementMethod;
 import android.util.DisplayMetrics;
@@ -67,6 +70,8 @@ import io.fabric.sdk.android.Fabric;
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
 
+    private SharedPreferences sharedPref;
+
     private static final int OVERLAY_PERMISSION_REQ_CODE = 1234;
     private static final int WRITE_STORAGE_REQ_CODE = 1236;
     private static final int SCREEN_CAPTURE_REQ_CODE = 1235;
@@ -74,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
     private MediaProjection mProjection;
     private ImageReader mImageReader;
     private ContentObserver screenShotObserver;
+    private FileObserver screenShotScanner;
     private boolean screenShotWriting= false;
 
     private DisplayMetrics displayMetrics;
@@ -81,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
     private TessBaseAPI tesseract;
     private boolean tessInitiated = false;
     private boolean batterySaver = false;
+    private String screenshotDir;
 
     private boolean readyForNewScreenshot = true;
 
@@ -123,9 +130,10 @@ public class MainActivity extends AppCompatActivity {
         TextView goIvInfo = (TextView) findViewById(R.id.goiv_info);
         goIvInfo.setMovementMethod(LinkMovementMethod.getInstance());
 
-        final SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        sharedPref = getPreferences(Context.MODE_PRIVATE);
         trainerLevel = sharedPref.getInt("level", 1);
         batterySaver = sharedPref.getBoolean("batterySaver", false);
+        screenshotDir = sharedPref.getString("screenshotDir","");
 
         final EditText etTrainerLevel = (EditText) findViewById(R.id.trainerLevel);
         etTrainerLevel.setText(String.valueOf(trainerLevel));
@@ -189,22 +197,27 @@ public class MainActivity extends AppCompatActivity {
                         setupArcPoints();
 
                         if (batterySaver) {
-                            startScreenshotService();
+                            if(!screenshotDir.isEmpty()) {
+                                startScreenshotService();
+                            }
+                            else{
+                                getScreenshotDir();
+                            }
                         } else {
                             startScreenService();
                         }
                     } else {
                         Toast.makeText(MainActivity.this, getString(R.string.main_invalide_trainerlvl), Toast.LENGTH_SHORT).show();
                     }
-                } else {
+                } else if(((Button) v).getText().toString().equals(getString(R.string.main_stop))) {
                     stopService(new Intent(MainActivity.this, pokefly.class));
                     if (mProjection != null) {
                         mProjection.stop();
                         mProjection = null;
                         mImageReader = null;
-                    } else if (screenShotObserver != null) {
-                        getContentResolver().unregisterContentObserver(screenShotObserver);
-                        screenShotObserver = null;
+                    } else if (screenShotScanner != null) {
+                        screenShotScanner.stopWatching();
+                        screenShotScanner = null;
                     }
                     pokeFlyRunning = false;
                     ((Button) v).setText(getString(R.string.main_start));
@@ -235,6 +248,51 @@ public class MainActivity extends AppCompatActivity {
         LocalBroadcastManager.getInstance(this).registerReceiver(takeScreenshot, new IntentFilter("screenshot"));
     }
 
+    private void getScreenshotDir(){
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.battery_saver_setup)
+                .setMessage(R.string.battery_saver_instructions)
+                .setPositiveButton(R.string.setup, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        ((Button)findViewById(R.id.start)).setText(R.string.take_screenshot);
+                        screenShotObserver = new ContentObserver(new Handler()) {
+                            @Override
+                            public void onChange(boolean selfChange, Uri uri) {
+                                if(readyForNewScreenshot){
+                                    final Uri fUri = uri;
+                                    if(fUri.toString().contains("images")) {
+                                        final String pathChange = getRealPathFromURI(MainActivity.this, fUri);
+                                        if (pathChange.contains("Screenshot")) {
+                                            screenshotDir = pathChange.substring(0,pathChange.lastIndexOf(File.separator));
+                                            getContentResolver().unregisterContentObserver(screenShotObserver);
+                                            sharedPref.edit().putString("screenshotDir", screenshotDir).apply();
+                                            ((Button)findViewById(R.id.start)).setText(R.string.main_start);
+                                            new AlertDialog.Builder(MainActivity.this)
+                                                    .setTitle(R.string.battery_saver_setup)
+                                                    .setMessage(String.format(getString(R.string.screenshot_dir_found),screenshotDir))
+                                                    .setPositiveButton(R.string.done, new DialogInterface.OnClickListener() {
+                                                        public void onClick(DialogInterface dialog, int which) {
+                                                            screenShotObserver = null;
+                                                            getContentResolver().delete(fUri, MediaStore.Files.FileColumns.DATA + "=?", new String[]{pathChange});
+                                                        }
+                                                    })
+                                                    .show();
+                                        }
+                                    }
+                                }
+                                super.onChange(selfChange, uri);
+                            }
+                        };
+                        getContentResolver().registerContentObserver(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, true,screenShotObserver);
+                    }
+                })
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // do nothing
+                    }
+                })
+                .show();
+    }
 
     /**
      * setupArcPoints
@@ -275,7 +333,7 @@ public class MainActivity extends AppCompatActivity {
 
         pokeFlyRunning = true;
 
-        openPokemonGoApp();
+        //openPokemonGoApp();
     }
 
     private boolean isNumeric(String str) {
@@ -341,8 +399,12 @@ public class MainActivity extends AppCompatActivity {
                 mProjection.stop();
             }
         }
-        else if(screenShotObserver != null){
+        if(screenShotObserver != null){
             getContentResolver().unregisterContentObserver(screenShotObserver);
+        }
+        if(screenShotScanner != null){
+            screenShotScanner.stopWatching();
+            screenShotScanner = null;
         }
         tesseract.stop();
         tesseract.end();
@@ -491,7 +553,7 @@ public class MainActivity extends AppCompatActivity {
         name = replaceColors(name, 68, 105, 108, Color.WHITE, 200);
         tesseract.setImage(name);
         //System.out.println(tesseract.getUTF8Text());
-        pokemonName = tesseract.getUTF8Text().replace(" ", "").replace("1", "l").replace("0", "o").replace("Sparky", getString(R.string.pokemon133)).replace("Rainer", getString(R.string.pokemon133)).replace("Pyro", getString(R.string.pokemon133));
+        pokemonName = tesseract.getUTF8Text().replace(" ", "").replace("1", "l").replace("0", "o").replaceAll("[^0-9]", "").replace("Sparky", getString(R.string.pokemon133)).replace("Rainer", getString(R.string.pokemon133)).replace("Pyro", getString(R.string.pokemon133));
 
         if (pokemonName.toLowerCase().contains("nidora")){
             boolean isFemale = isNidoranFemale(pokemonImage);
@@ -675,48 +737,47 @@ public class MainActivity extends AppCompatActivity {
      */
     private void startScreenshotService() {
 //        System.out.println(MediaStore.Files.FileColumns.Me);
-//        final String screenshotPath = Environment.getExternalStorageDirectory() + File.separator + Environment.DIRECTORY_PICTURES + File.separator + "Screenshots";
-//        final Uri uri = MediaStore.Files.getContentUri("external");
-//        screenShotObserver = new FileObserver(screenshotPath) {
-//            @Override
-//            public void onEvent(int event, String file) {
-//                if (event == FileObserver.CLOSE_NOWRITE || event == FileObserver.CLOSE_WRITE) {
-//                    if (readyForNewScreenshot && file != null) {
-//                        readyForNewScreenshot = false;
-//                        scanPokemon(BitmapFactory.decodeFile(screenshotPath + File.separator + file));
-//                        getContentResolver().delete(uri, MediaStore.Files.FileColumns.DATA + "=?", new String[]{screenshotPath + File.separator + file});
-//                    }
-//                }
-//            }
-//        };
-//        screenShotObserver.startWatching();
-        screenShotObserver = new ContentObserver(new Handler()) {
+        //final String screenshotPath = Environment.getExternalStorageDirectory() + File.separator + Environment.DIRECTORY_PICTURES + File.separator + "Screenshots";
+        //final Uri uri = MediaStore.Files.getContentUri("external");
+        screenShotScanner = new FileObserver(screenshotDir, FileObserver.CLOSE_NOWRITE | FileObserver.CLOSE_WRITE) {
             @Override
-            public void onChange(boolean selfChange, Uri uri) {
-                if(readyForNewScreenshot){
-                    final Uri fUri = uri;
-                    if(fUri.toString().contains("images")) {
-                        final String pathChange = getRealPathFromURI(MainActivity.this, fUri);
-                        if (pathChange.contains("Screenshot")) {
-                            screenShotWriting = !screenShotWriting;
-                            if (!screenShotWriting) {
-                                readyForNewScreenshot = false;
-                                //TODO change scanPokemon to check to see if image is a pokemon instead of crashing
-                                try {
-                                    scanPokemon(BitmapFactory.decodeFile(pathChange));
-                                    getContentResolver().delete(fUri, MediaStore.Files.FileColumns.DATA + "=?", new String[]{pathChange});
-                                } catch (ArrayIndexOutOfBoundsException e) {
-                                    //HP was not detected so just ignore
-                                    readyForNewScreenshot = true;
-                                }
-                            }
-                        }
+            public void onEvent(int event, String file) {
+                    if (readyForNewScreenshot && file != null) {
+                        readyForNewScreenshot = false;
+                        File pokemonScreenshot = new File(screenshotDir + File.separator + file);
+                        scanPokemon(BitmapFactory.decodeFile(pokemonScreenshot.getAbsolutePath()));
+                        getContentResolver().delete(Uri.fromFile(pokemonScreenshot), MediaStore.Files.FileColumns.DATA + "=?", new String[]{pokemonScreenshot.getAbsolutePath()});
                     }
-                }
-                super.onChange(selfChange, uri);
             }
         };
-        getContentResolver().registerContentObserver(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, true,screenShotObserver);
+        screenShotScanner.startWatching();
+//        screenShotObserver = new ContentObserver(new Handler()) {
+//            @Override
+//            public void onChange(boolean selfChange, Uri uri) {
+//                if(readyForNewScreenshot){
+//                    final Uri fUri = uri;
+//                    if(fUri.toString().contains("images")) {
+//                        final String pathChange = getRealPathFromURI(MainActivity.this, fUri);
+//                        if (pathChange.contains("Screenshot")) {
+//                            screenShotWriting = !screenShotWriting;
+//                            if (!screenShotWriting) {
+//                                readyForNewScreenshot = false;
+//                                //TODO change scanPokemon to check to see if image is a pokemon instead of crashing
+//                                try {
+//                                    scanPokemon(BitmapFactory.decodeFile(pathChange));
+//                                    getContentResolver().delete(fUri, MediaStore.Files.FileColumns.DATA + "=?", new String[]{pathChange});
+//                                } catch (ArrayIndexOutOfBoundsException e) {
+//                                    //HP was not detected so just ignore
+//                                    readyForNewScreenshot = true;
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//                super.onChange(selfChange, uri);
+//            }
+//        };
+//        getContentResolver().registerContentObserver(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, true,screenShotObserver);
         startPokeyFly();
     }
 

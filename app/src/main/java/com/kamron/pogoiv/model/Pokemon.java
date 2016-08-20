@@ -1,4 +1,6 @@
-package com.kamron.pogoiv;
+package com.kamron.pogoiv.model;
+
+import com.kamron.pogoiv.Data;
 
 import java.util.ArrayList;
 

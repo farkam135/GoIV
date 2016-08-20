@@ -30,6 +30,12 @@ import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.kamron.pogoiv.model.CPRange;
+import com.kamron.pogoiv.model.IVCombination;
+import com.kamron.pogoiv.model.IVScanResult;
+import com.kamron.pogoiv.model.Pokemon;
+import com.kamron.pogoiv.model.UpgradeCost;
+
 import java.text.NumberFormat;
 import java.util.ArrayList;
 

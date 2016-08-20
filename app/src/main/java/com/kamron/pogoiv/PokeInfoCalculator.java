@@ -1,5 +1,10 @@
 package com.kamron.pogoiv;
 
+import com.kamron.pogoiv.model.CPRange;
+import com.kamron.pogoiv.model.IVScanResult;
+import com.kamron.pogoiv.model.Pokemon;
+import com.kamron.pogoiv.model.UpgradeCost;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;

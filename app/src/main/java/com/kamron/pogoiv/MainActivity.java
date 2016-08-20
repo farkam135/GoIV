@@ -88,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean tessInitiated = false;
     private boolean batterySaver = false;
     private String screenshotDir;
+    private Uri screenshotUri;
 
     private boolean readyForNewScreenshot = true;
 
@@ -134,6 +135,7 @@ public class MainActivity extends AppCompatActivity {
         trainerLevel = sharedPref.getInt("level", 1);
         batterySaver = sharedPref.getBoolean("batterySaver", false);
         screenshotDir = sharedPref.getString("screenshotDir","");
+        screenshotUri = Uri.parse(sharedPref.getString("screenshotUri",""));
 
         final EditText etTrainerLevel = (EditText) findViewById(R.id.trainerLevel);
         etTrainerLevel.setText(String.valueOf(trainerLevel));
@@ -264,8 +266,10 @@ public class MainActivity extends AppCompatActivity {
                                         final String pathChange = getRealPathFromURI(MainActivity.this, fUri);
                                         if (pathChange.contains("Screenshot")) {
                                             screenshotDir = pathChange.substring(0,pathChange.lastIndexOf(File.separator));
+                                            screenshotUri = fUri;
                                             getContentResolver().unregisterContentObserver(screenShotObserver);
                                             sharedPref.edit().putString("screenshotDir", screenshotDir).apply();
+                                            sharedPref.edit().putString("screenshotUri", fUri.toString()).apply();
                                             ((Button)findViewById(R.id.start)).setText(R.string.main_start);
                                             new AlertDialog.Builder(MainActivity.this)
                                                     .setTitle(R.string.battery_saver_setup)
@@ -273,7 +277,7 @@ public class MainActivity extends AppCompatActivity {
                                                     .setPositiveButton(R.string.done, new DialogInterface.OnClickListener() {
                                                         public void onClick(DialogInterface dialog, int which) {
                                                             screenShotObserver = null;
-                                                            getContentResolver().delete(fUri, MediaStore.Files.FileColumns.DATA + "=?", new String[]{pathChange});
+                                                            getContentResolver().delete(screenshotUri, MediaStore.Files.FileColumns.DATA + "=?", new String[]{pathChange});
                                                         }
                                                     })
                                                     .show();
@@ -743,7 +747,7 @@ public class MainActivity extends AppCompatActivity {
                         readyForNewScreenshot = false;
                         File pokemonScreenshot = new File(screenshotDir + File.separator + file);
                         scanPokemon(BitmapFactory.decodeFile(pokemonScreenshot.getAbsolutePath()));
-                        getContentResolver().delete(Uri.fromFile(pokemonScreenshot), MediaStore.Files.FileColumns.DATA + "=?", new String[]{pokemonScreenshot.getAbsolutePath()});
+                        getContentResolver().delete(screenshotUri, MediaStore.Files.FileColumns.DATA + "=?", new String[]{pokemonScreenshot.getAbsolutePath()});
                     }
             }
         };

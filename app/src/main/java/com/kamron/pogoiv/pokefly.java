@@ -353,7 +353,7 @@ public class pokefly extends Service {
 
     @OnClick(R.id.btnCheckIv)
     public void checkIv() {
-        if(batterySaver) {
+        if(batterySaver && !screenshotDir.isEmpty()) {
             getContentResolver().delete(screenshotUri, MediaStore.Files.FileColumns.DATA + "=?", new String[]{screenshotDir});
         }
         pokemonHP = Integer.parseInt(pokemonHPEdit.getText().toString());
@@ -523,6 +523,8 @@ return returnVal;
                 }
                 if(intent.hasExtra("screenshotDir")){
                     screenshotDir = intent.getStringExtra("screenshotDir");
+                } else {
+                    screenshotDir = "";
                 }
 
                 showInfoLayout();

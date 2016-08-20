@@ -174,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
                     // TODO same calculation as in pokefly @line 193 with difference of "- pointerHeight - statusBarHeight" this should be outsource in a method
                     arcCenter = (int) ((displayMetrics.widthPixels * 0.5));
                     arcInitialY = (int) Math.floor(displayMetrics.heightPixels / 2.803943); // - pointerHeight - statusBarHeight; // 913 - pointerHeight - statusBarHeight; //(int)Math.round(displayMetrics.heightPixels / 6.0952381) * -1; //dpToPx(113) * -1; //(int)Math.round(displayMetrics.heightPixels / 6.0952381) * -1; //-420;
-                    if (displayMetrics.heightPixels == 2392) {
+                    if (displayMetrics.heightPixels == 2392 || displayMetrics.heightPixels == 800) {
                         arcInitialY--;
                     } else if (displayMetrics.heightPixels == 1920) {
                         arcInitialY++;
@@ -182,7 +182,7 @@ public class MainActivity extends AppCompatActivity {
 
                     // TODO same calculation as in pokefly @line 201
                     radius = (int) Math.round(displayMetrics.heightPixels / 4.3760683); //dpToPx(157); //(int)Math.round(displayMetrics.heightPixels / 4.37606838); //(int)Math.round(displayMetrics.widthPixels / 2.46153846); //585;
-                    if (displayMetrics.heightPixels == 1776 || displayMetrics.heightPixels == 960) {
+                    if (displayMetrics.heightPixels == 1776 || displayMetrics.heightPixels == 960 || displayMetrics.heightPixels == 800) {
                         radius++;
                     }
 

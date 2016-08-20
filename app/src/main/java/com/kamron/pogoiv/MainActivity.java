@@ -686,29 +686,33 @@ public class MainActivity extends AppCompatActivity {
      */
     private void scanPokemonScreen() {
         //System.out.println("Checking...");
-    if(mImageReader != null){
-        Image image = mImageReader.acquireLatestImage();
-        if (image != null) {
-            final Image.Plane[] planes = image.getPlanes();
-            final ByteBuffer buffer = planes[0].getBuffer();
-            int pixelStride = planes[0].getPixelStride();
-            int rowStride = planes[0].getRowStride();
-            int rowPadding = rowStride - pixelStride * rawDisplayMetrics.widthPixels;
-            // create bitmap
-            image.close();
-            Bitmap bmp = getBitmap(buffer, pixelStride, rowPadding);
-            Intent showIVButton = new Intent("display-ivButton");
-            if (bmp.getPixel(areaX1, areaY1) == Color.rgb(250, 250, 250) && bmp.getPixel(areaX2, areaY2) == Color.rgb(28, 135, 150)) {
-                showIVButton.putExtra("show", true);
-            } else {
-                showIVButton.putExtra("show", false);
-            }
-            bmp.recycle();
-            LocalBroadcastManager.getInstance(MainActivity.this).sendBroadcast(showIVButton);
-            //SaveImage(bmp,"everything");
-        }
-        }
+        if (mImageReader != null) {
+            Image image = mImageReader.acquireLatestImage();
 
+            if (image != null) {
+                final Image.Plane[] planes = image.getPlanes();
+                final ByteBuffer buffer = planes[0].getBuffer();
+                int pixelStride = planes[0].getPixelStride();
+                int rowStride = planes[0].getRowStride();
+                int rowPadding = rowStride - pixelStride * rawDisplayMetrics.widthPixels;
+                // create bitmap
+                image.close();
+                Bitmap bmp = getBitmap(buffer, pixelStride, rowPadding);
+
+                if (bmp.getHeight() > bmp.getWidth()){
+                    Intent showIVButton = new Intent("display-ivButton");
+                    if (bmp.getPixel(areaX1, areaY1) == Color.rgb(250, 250, 250) && bmp.getPixel(areaX2, areaY2) == Color.rgb(28, 135, 150)) {
+                        showIVButton.putExtra("show", true);
+                    } else {
+                        showIVButton.putExtra("show", false);
+                    }
+                    bmp.recycle();
+                    LocalBroadcastManager.getInstance(MainActivity.this).sendBroadcast(showIVButton);
+                    //SaveImage(bmp,"everything");
+                }
+            }
+
+        }
     }
 
     @NonNull

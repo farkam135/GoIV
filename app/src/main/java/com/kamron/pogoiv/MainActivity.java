@@ -248,6 +248,7 @@ public class MainActivity extends AppCompatActivity {
 
         LocalBroadcastManager.getInstance(this).registerReceiver(resetScreenshot, new IntentFilter("reset-screenshot"));
         LocalBroadcastManager.getInstance(this).registerReceiver(takeScreenshot, new IntentFilter("screenshot"));
+        LocalBroadcastManager.getInstance(this).registerReceiver(processBitmap, new IntentFilter("process-bitmap"));
     }
 
     private void getScreenshotDir(){
@@ -420,6 +421,7 @@ public class MainActivity extends AppCompatActivity {
 
         LocalBroadcastManager.getInstance(this).unregisterReceiver(resetScreenshot);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(takeScreenshot);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(processBitmap);
     }
 
 
@@ -798,6 +800,21 @@ public class MainActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             if (readyForNewScreenshot) {
                 takeScreenshot();
+                readyForNewScreenshot = false;
+            }
+        }
+    };
+
+    /**
+     * A picture was shared and needs to be processed. Process it and initiate UI.
+     * IV Button was pressed, take screenshot and send back pokemon info.
+     */
+    private final BroadcastReceiver processBitmap = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (readyForNewScreenshot) {
+                Bitmap bitmap = (Bitmap) intent.getParcelableExtra("bitmap");
+                scanPokemon(bitmap, "");
                 readyForNewScreenshot = false;
             }
         }

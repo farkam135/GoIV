@@ -8,6 +8,7 @@ import com.kamron.pogoiv.model.UpgradeCost;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 /**
  * Created by Johan Swanberg on 2016-08-18.
@@ -79,7 +80,7 @@ public class PokeInfoCalculator {
      *
      * @param pokedex
      */
-    private void sortPokedex(ArrayList<Pokemon> pokedex) {
+    private void sortPokedex(List<Pokemon> pokedex) {
         //Sort pokemon alphabetically (maybe just do this in the res files?)
         Collections.sort(pokedex, new Comparator<Pokemon>() {
                     public int compare(Pokemon lhs, Pokemon rhs) {

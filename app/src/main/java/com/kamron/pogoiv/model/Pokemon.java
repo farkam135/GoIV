@@ -3,19 +3,20 @@ package com.kamron.pogoiv.model;
 import com.kamron.pogoiv.Data;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Kamron on 7/30/2016.
  */
 
 public class Pokemon {
-    public String name;
-    public int number; //indexnumber in ressources, pokedexnumber - 1
-    public int baseAttack;
-    public int baseDefense;
-    public int baseStamina;
-    public int devolNumber; //indexnumber in ressources of devolution, pokedexnumber - 1
-    public ArrayList<Integer> evolutions; //evolutions sorted collection index, populated after sort
+    public final List<Integer> evolutions; //evolutions sorted collection index, populated after sort
+    public final String name;
+    public final int number; //index number in resources, pokedex number - 1
+    public final int baseAttack;
+    public final int baseDefense;
+    public final int baseStamina;
+    public final int devolNumber; //index number in resources of devolution, pokedex number - 1
 
     public Pokemon(String name, int number, int baseAttack, int baseDefense, int baseStamina, int devolNumber) {
         this.name = name;
@@ -24,7 +25,7 @@ public class Pokemon {
         this.baseDefense = baseDefense;
         this.baseStamina = baseStamina;
         this.devolNumber = devolNumber;
-        this.evolutions = new ArrayList<Integer>();
+        this.evolutions = new ArrayList<>();
     }
 
     @Override

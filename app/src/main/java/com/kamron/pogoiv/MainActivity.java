@@ -577,59 +577,71 @@ public class MainActivity extends AppCompatActivity {
         candy = replaceColors(candy, 68, 105, 108, Color.WHITE, 200);
         tesseract.setImage(candy);
         //System.out.println(tesseract.getUTF8Text());
-        candyName = tesseract.getUTF8Text().trim().replace("-"," ").split(" ")[candyOrder].replace(" ", "").replace("1", "l").replace("0", "o");
-        candyName = new StringBuilder().append(candyName.substring(0, 1)).append(candyName.substring(1).toLowerCase()).toString();
         //SaveImage(candy, "candy");
+        try {
+            candyName = tesseract.getUTF8Text().trim().replace("-", " ").split(" ")[candyOrder].replace(" ", "").replace("1", "l").replace("0", "o");
+            candyName = new StringBuilder().append(candyName.substring(0, 1)).append(candyName.substring(1).toLowerCase()).toString();
+        }catch(StringIndexOutOfBoundsException e){
+            candyName = pokemonName; //Default for not finding candy name
+        }
         Bitmap hp = Bitmap.createBitmap(pokemonImage, (int) Math.round(displayMetrics.widthPixels / 2.8), (int) Math.round(displayMetrics.heightPixels / 1.8962963), (int) Math.round(displayMetrics.widthPixels / 3.5), (int) Math.round(displayMetrics.heightPixels / 34.13333333));
         hp = replaceColors(hp, 55, 66, 61, Color.WHITE, 200);
         tesseract.setImage(hp);
         //System.out.println(tesseract.getUTF8Text());
-        try{
-            pokemonHP = Integer.parseInt(tesseract.getUTF8Text().split("/")[1].replace("Z", "2").replace("O", "0").replace("l", "1").replaceAll("[^0-9]", ""));
-        }catch(java.lang.NumberFormatException e){
-            pokemonHP=10;
-        }
+        String pokemonHPStr = tesseract.getUTF8Text();
 
-        //SaveImage(hp, "hp");
-        Bitmap cp = Bitmap.createBitmap(pokemonImage, (int) Math.round(displayMetrics.widthPixels / 3.0), (int) Math.round(displayMetrics.heightPixels / 15.5151515), (int) Math.round(displayMetrics.widthPixels / 3.84), (int) Math.round(displayMetrics.heightPixels / 21.333333333));
-        cp = replaceColors(cp, 255, 255, 255, Color.BLACK, 30);
-        tesseract.setImage(cp);
-        //String cpText = tesseract.getUTF8Text().replace("O", "0").replace("l", "1").replace("S", "3").replaceAll("[^0-9]", "");
-        String cpText = tesseract.getUTF8Text().replace("O", "0").replace("l", "1");
-        cpText = cpText.substring(2);
-        if (cpText.length() > 4) {
-            cpText = cpText.substring(cpText.length() - 4, cpText.length() - 1);
-        }
-        //System.out.println(cpText);
-        try{
-            pokemonCP = Integer.parseInt(cpText);
-        }catch(java.lang.NumberFormatException e){
-            pokemonCP = 10;
-        }
+        //Check if valid pokemon TODO find a better method of determining whether or not this is a pokemon image
+        if(pokemonHPStr.contains("/")) {
+            try {
+                pokemonHP = Integer.parseInt(pokemonHPStr.split("/")[1].replace("Z", "2").replace("O", "0").replace("l", "1").replaceAll("[^0-9]", ""));
+            } catch (java.lang.NumberFormatException e) {
+                pokemonHP = 10;
+            }
 
-        if (pokemonCP > 4500) {
-            cpText = cpText.substring(1);
-            pokemonCP = Integer.parseInt(cpText);
-        }
-        //SaveImage(cp, "cp");
-        //System.out.println("Name: " + pokemonName);
-        //System.out.println("HP: " + pokemonHP);
-        //System.out.println("CP: " + pokemonCP);
-        name.recycle();
-        candy.recycle();
-        cp.recycle();
-        hp.recycle();
+            //SaveImage(hp, "hp");
+            Bitmap cp = Bitmap.createBitmap(pokemonImage, (int) Math.round(displayMetrics.widthPixels / 3.0), (int) Math.round(displayMetrics.heightPixels / 15.5151515), (int) Math.round(displayMetrics.widthPixels / 3.84), (int) Math.round(displayMetrics.heightPixels / 21.333333333));
+            cp = replaceColors(cp, 255, 255, 255, Color.BLACK, 30);
+            tesseract.setImage(cp);
+            //String cpText = tesseract.getUTF8Text().replace("O", "0").replace("l", "1").replace("S", "3").replaceAll("[^0-9]", "");
+            String cpText = tesseract.getUTF8Text().replace("O", "0").replace("l", "1");
+            cpText = cpText.substring(2);
+            if (cpText.length() > 4) {
+                cpText = cpText.substring(cpText.length() - 4, cpText.length() - 1);
+            }
+            //System.out.println(cpText);
+            try {
+                pokemonCP = Integer.parseInt(cpText);
+            } catch (java.lang.NumberFormatException e) {
+                pokemonCP = 10;
+            }
 
-        Intent info = new Intent("pokemon-info");
-        info.putExtra("name", pokemonName);
-        info.putExtra("candy", candyName);
-        info.putExtra("hp", pokemonHP);
-        info.putExtra("cp", pokemonCP);
-        info.putExtra("level", estimatedPokemonLevel);
-        if(!filePath.isEmpty()){
-            info.putExtra("screenshotDir",filePath);
+            if (pokemonCP > 4500) {
+                cpText = cpText.substring(1);
+                pokemonCP = Integer.parseInt(cpText);
+            }
+            //SaveImage(cp, "cp");
+            //System.out.println("Name: " + pokemonName);
+            //System.out.println("HP: " + pokemonHP);
+            //System.out.println("CP: " + pokemonCP);
+            name.recycle();
+            candy.recycle();
+            cp.recycle();
+            hp.recycle();
+
+            Intent info = new Intent("pokemon-info");
+            info.putExtra("name", pokemonName);
+            info.putExtra("candy", candyName);
+            info.putExtra("hp", pokemonHP);
+            info.putExtra("cp", pokemonCP);
+            info.putExtra("level", estimatedPokemonLevel);
+            if (!filePath.isEmpty()) {
+                info.putExtra("screenshotDir", filePath);
+            }
+            LocalBroadcastManager.getInstance(MainActivity.this).sendBroadcast(info);
         }
-        LocalBroadcastManager.getInstance(MainActivity.this).sendBroadcast(info);
+        else{
+            readyForNewScreenshot = true;
+        }
     }
 
     /**

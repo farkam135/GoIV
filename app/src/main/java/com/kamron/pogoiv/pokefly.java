@@ -9,6 +9,7 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.net.Uri;
 import android.os.Build;
@@ -392,6 +393,17 @@ public class pokefly extends Service {
             ivText.setVisibility(View.GONE);
             pokemonInfoLayout.setVisibility(View.VISIBLE);
             pokemonGetIVButton.setVisibility(View.VISIBLE);
+
+            // set color based on similarity
+            if (possiblePoke[1] == 0) {
+                pokemonList.setBackgroundColor(Color.parseColor("#ddffdd"));
+            }
+            else if (possiblePoke[1] < 2) {
+                pokemonList.setBackgroundColor(Color.parseColor("#ffffcc"));
+            }
+            else {
+                pokemonList.setBackgroundColor(Color.parseColor("#ffcccc"));
+            }
 
             pokemonName = pokeCalculator.get(possiblePoke[0]).name;
             candyName = pokeCalculator.get(possibleCandy[0]).name;

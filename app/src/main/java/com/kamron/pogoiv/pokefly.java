@@ -71,9 +71,9 @@ public class pokefly extends Service {
     @BindView(R.id.etCp) EditText pokemonCPEdit;
     @BindView(R.id.etHp) EditText pokemonHPEdit;
     @BindView(R.id.sbArcAdjust) SeekBar arcAdjustBar;
-    @BindView(R.id.btnCheckIv) Button pokemonGetIVButton;
-    @BindView(R.id.btnCancelInfo) Button cancelInfoButton;
     @BindView(R.id.llPokemonInfo) LinearLayout pokemonInfoLayout;
+    @BindView(R.id.llButtonsInitial) LinearLayout initialButtonsLayout;
+    @BindView(R.id.llButtonsOnCheck) LinearLayout onCheckButtonsLayout;
 
     private String pokemonName;
     private String candyName;
@@ -361,12 +361,20 @@ public class pokefly extends Service {
         pokemonCP = Integer.parseInt(pokemonCPEdit.getText().toString());
         ivText.setVisibility(View.VISIBLE);
         pokemonInfoLayout.setVisibility(View.GONE);
+        initialButtonsLayout.setVisibility(View.GONE);
+        onCheckButtonsLayout.setVisibility(View.VISIBLE);
         ivText.setText(getIVText());
-        pokemonGetIVButton.setVisibility(View.GONE);
-        cancelInfoButton.setText(getString(R.string.close));
     }
 
-    @OnClick(R.id.btnCancelInfo)
+    @OnClick(R.id.btnBackInfo)
+    public void backToIvForm() {
+        ivText.setVisibility(View.GONE);
+        pokemonInfoLayout.setVisibility(View.VISIBLE);
+        initialButtonsLayout.setVisibility(View.VISIBLE);
+        onCheckButtonsLayout.setVisibility(View.GONE);
+    }
+
+    @OnClick({ R.id.btnCancelInfo, R.id.btnCloseInfo })
     public void cancelInfoDialog() {
         windowManager.removeView(infoLayout);
         windowManager.removeView(arcPointer);
@@ -392,7 +400,8 @@ public class pokefly extends Service {
             int[] possibleCandy = getPossiblePokemon(candyName);
             ivText.setVisibility(View.GONE);
             pokemonInfoLayout.setVisibility(View.VISIBLE);
-            pokemonGetIVButton.setVisibility(View.VISIBLE);
+            initialButtonsLayout.setVisibility(View.VISIBLE);
+            onCheckButtonsLayout.setVisibility(View.GONE);
 
             // set color based on similarity
             if (possiblePoke[1] == 0) {
@@ -414,7 +423,6 @@ public class pokefly extends Service {
             }
             pokemonHPEdit.setText(String.valueOf(pokemonHP));
             pokemonCPEdit.setText(String.valueOf(pokemonCP));
-            cancelInfoButton.setText(getString(R.string.cancel));
 
             windowManager.addView(arcPointer, arcParams);
             windowManager.addView(infoLayout, layoutParams);

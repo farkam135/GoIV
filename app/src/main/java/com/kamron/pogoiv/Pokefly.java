@@ -509,7 +509,9 @@ public class Pokefly extends Service {
 
             return tester;
         }*/
-        if (ivScanResult.getCount() == 0) {
+        if (ivScanResult == null) {
+            returnVal += "\n" + getString(R.string.ivtext_many_possibilities);
+        } else if (ivScanResult.getCount() == 0) {
             returnVal += "\n" + getString(R.string.ivtext_no_possibilities);
         } else {
             int counter = 0;

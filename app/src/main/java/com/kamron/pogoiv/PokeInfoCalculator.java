@@ -120,11 +120,9 @@ public class PokeInfoCalculator {
      * @param estimatedPokemonLevel The estimated pokemon level
      * @param pokemonHP             THe pokemon hp
      * @param pokemonCP             The pokemonCP
-     * @return An IVScanResult which contains the information calculated about the pokemon
+     * @return An IVScanResult which contains the information calculated about the pokemon, or null if there are too many possibilities.
      */
     public IVScanResult getIVPossibilities(int selectedPokemon, double estimatedPokemonLevel, int pokemonHP, int pokemonCP) {
-        IVScanResult returner = new IVScanResult(get(selectedPokemon), estimatedPokemonLevel);
-
         int baseAttack = get(selectedPokemon).baseAttack;
         int baseDefense = get(selectedPokemon).baseDefense;
         int baseStamina = get(selectedPokemon).baseStamina;
@@ -138,6 +136,7 @@ public class PokeInfoCalculator {
 
 
         if (pokemonHP != 10 && pokemonCP != 10) {
+            IVScanResult returner = new IVScanResult(get(selectedPokemon), estimatedPokemonLevel);
             for (int staminaIV = 0; staminaIV < 16; staminaIV++) {
                 int hp = (int) Math.max(Math.floor((baseStamina + staminaIV) * lvlScalar), 10);
                 if (hp == pokemonHP) {
@@ -156,9 +155,10 @@ public class PokeInfoCalculator {
                     break;
                 }
             }
+            return returner;
+        } else {
+            return null;
         }
-        return returner;
-
     }
 
 

@@ -347,12 +347,11 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         settings = GoIVSettings.getSettings(MainActivity.this);
     }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onAppUpdateEvent(AppUpdateEvent event) {
         switch (event.getStatus()) {
             case AppUpdateEvent.OK:
-
-
         }
     }
 

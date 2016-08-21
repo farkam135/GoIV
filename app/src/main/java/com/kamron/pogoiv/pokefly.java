@@ -5,6 +5,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.BroadcastReceiver;
+import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
@@ -354,7 +355,8 @@ public class pokefly extends Service {
     @OnClick(R.id.btnCheckIv)
     public void checkIv() {
         if(batterySaver) {
-            getContentResolver().delete(screenshotUri, MediaStore.Files.FileColumns.DATA + "=?", new String[]{screenshotDir});
+            if(GoIVSettings.getSettings(getBaseContext()).getDeleteScreenshots())
+                getContentResolver().delete(screenshotUri, MediaStore.Files.FileColumns.DATA + "=?", new String[]{screenshotDir});
         }
         pokemonHP = Integer.parseInt(pokemonHPEdit.getText().toString());
         pokemonCP = Integer.parseInt(pokemonCPEdit.getText().toString());
@@ -386,6 +388,7 @@ public class pokefly extends Service {
      */
     private void showInfoLayout() {
         if (!infoShownReceived) {
+
             infoShownReceived = true;
             int[] possiblePoke = getPossiblePokemon(pokemonName);
             int[] possibleCandy = getPossiblePokemon(candyName);
@@ -413,6 +416,9 @@ public class pokefly extends Service {
             if(batterySaver){
                 infoShownReceived = false;
             }
+
+            if(!GoIVSettings.getSettings(getBaseContext()).getShowConfirmationDialog())
+                checkIv();
         }
     }
 
@@ -491,9 +497,10 @@ public class pokefly extends Service {
                 }
             }
 
-            //Temporary disable of copy until settings menu is up
-            //ClipData clip = ClipData.newPlainText("iv",ivScanResult.lowPercent + "-" + ivScanResult.highPercent);
-            //clipboard.setPrimaryClip(clip);
+            if(GoIVSettings.getSettings(getBaseContext()).getCopyToClipboard()) {
+                ClipData clip = ClipData.newPlainText("iv", ivScanResult.lowPercent + "-" + ivScanResult.highPercent);
+                clipboard.setPrimaryClip(clip);
+            }
         }
 
 return returnVal;

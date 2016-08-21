@@ -44,5 +44,20 @@ public class Pokemon {
         return 100;
     }
 
+    /**
+     * Checks if a pokemon is the same pokemon type as in a pokemons next Evolution
+     * Example -  charmander.isInNextEvolution(charmeleon) returns true
+     *              charmeleon.isInNextEvolution(charisard) returns fale (it has to be the NEXT evolution)
+     * @param otherPokemon the pokemon which is potentially an evolution of this
+     * @return true if evolution
+     */
+    public boolean isInNextEvolution(Pokemon otherPokemon){
+        int otherPokemonNumber = otherPokemon.number;
+
+        for (Pokemon evolution:evolutions){
+            if (otherPokemonNumber == evolution.number) return true;
+        }
+        return false;
+    }
 
 }

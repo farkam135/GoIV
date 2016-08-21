@@ -343,7 +343,7 @@ public class MainActivity extends AppCompatActivity {
 
         pokeFlyRunning = true;
 
-        //openPokemonGoApp();
+        openPokemonGoApp();
     }
 
     private boolean isNumeric(String str) {

@@ -353,7 +353,7 @@ public class pokefly extends Service {
 
     @OnClick(R.id.btnCheckIv)
     public void checkIv() {
-        if(batterySaver) {
+        if(batterySaver && !screenshotDir.isEmpty()) {
             getContentResolver().delete(screenshotUri, MediaStore.Files.FileColumns.DATA + "=?", new String[]{screenshotDir});
         }
         pokemonHP = Integer.parseInt(pokemonHPEdit.getText().toString());
@@ -440,7 +440,8 @@ public class pokefly extends Service {
      */
     private String getIVText() {
         int selectedPokemon = pokemonList.getSelectedItemPosition();
-        String returnVal = String.format(getString(R.string.ivtext_title), estimatedPokemonLevel, pokeCalculator.get(selectedPokemon).name);
+        Pokemon pokemon = pokeCalculator.get(selectedPokemon);
+        String returnVal = String.format(getString(R.string.ivtext_title), estimatedPokemonLevel, pokemonCP, pokemonHP, pokemon.name);
         IVScanResult ivScanResult = pokeCalculator.getIVPossibilities(selectedPokemon,estimatedPokemonLevel, pokemonHP, pokemonCP);
 
         int counter = 0;
@@ -464,33 +465,27 @@ public class pokefly extends Service {
 
             // for trainer level cp cap, if estimatedPokemonLevel is at cap do not print
             if (estimatedPokemonLevel < trainerLevel + 1.5) {
-
-
-                CPRange range = pokeCalculator.getCpRangeAtLevel(pokemonList.getSelectedItemPosition(), ivScanResult.lowAttack, ivScanResult.lowDefense, ivScanResult.lowStamina, ivScanResult.highAttack, ivScanResult.highDefense, ivScanResult.highStamina, Math.min(trainerLevel + 1.5, 40.0));
+                CPRange range = pokeCalculator.getCpRangeAtLevel(pokemon, ivScanResult.lowAttack, ivScanResult.lowDefense, ivScanResult.lowStamina, ivScanResult.highAttack, ivScanResult.highDefense, ivScanResult.highStamina, Math.min(trainerLevel + 1.5, 40.0));
                 returnVal += "\n" + String.format(getString(R.string.ivtext_cp_lvl), range.level, range.low, range.high);
                 returnVal += "\n" + String.format(getString(R.string.ivtext_max_lvl_cost), trainerLevel + 1.5);
                 UpgradeCost cost = pokeCalculator.getMaxReqText(trainerLevel, estimatedPokemonLevel);
                 returnVal += "\n" + String.format( getString(R.string.ivtext_max_lvl_cost2), cost.candy, NumberFormat.getInstance().format(cost.dust) + "\n");
             }
 
-            ArrayList<Integer> evolutions = pokeCalculator.get(pokemonList.getSelectedItemPosition()).evolutions;
+            ArrayList<Pokemon> evolutions = pokemon.evolutions;
             //for each evolution of next stage (example, eevees three evolutions jolteon, vaporeon and flareon)
-            for(int i = evolutions.size()-1; i>=0; i--){
-                pokemonName = pokeCalculator.get(evolutions.get(i)).name;
+            for(Pokemon evolution: evolutions){
+                pokemonName = evolution.name;
                 returnVal += "\n" + String.format(getString(R.string.ivtext_evolve), pokemonName);
 
-                CPRange range = pokeCalculator.getCpRangeAtLevel(evolutions.get(i), ivScanResult.lowAttack, ivScanResult.lowDefense, ivScanResult.lowStamina, ivScanResult.highAttack, ivScanResult.highDefense, ivScanResult.highStamina, Math.min(trainerLevel + 1.5, 40.0));
+                CPRange range = pokeCalculator.getCpRangeAtLevel(evolution, ivScanResult.lowAttack, ivScanResult.lowDefense, ivScanResult.lowStamina, ivScanResult.highAttack, ivScanResult.highDefense, ivScanResult.highStamina, Math.min(trainerLevel + 1.5, 40.0));
                 returnVal +=  String.format(getString(R.string.ivtext_cp_lvl), range.level, range.low, range.high);
                 //for following stage evolution (example, dratini - dragonair - dragonite)
-                int nextEvolutionNbr = evolutions.get(i);
                 //if the current evolution has another evolution calculate its range and break
-                if (pokeCalculator.get(nextEvolutionNbr).evolutions.size() != 0) {
-                    int nextEvoStage = pokeCalculator.get(nextEvolutionNbr).evolutions.get(0);
-                    pokemonName = pokeCalculator.get(nextEvoStage).name;
+                for(Pokemon nextEvo: evolution.evolutions) {
+                    pokemonName = nextEvo.name;
                     returnVal += "\n" + String.format(getString(R.string.ivtext_evolve_further), pokemonName);
-
-
-                    CPRange range2 = pokeCalculator.getCpRangeAtLevel(nextEvoStage, ivScanResult.lowAttack, ivScanResult.lowDefense, ivScanResult.lowStamina, ivScanResult.highAttack, ivScanResult.highDefense, ivScanResult.highStamina, Math.min(trainerLevel + 1.5, 40.0));
+                    CPRange range2 = pokeCalculator.getCpRangeAtLevel(nextEvo, ivScanResult.lowAttack, ivScanResult.lowDefense, ivScanResult.lowStamina, ivScanResult.highAttack, ivScanResult.highDefense, ivScanResult.highStamina, Math.min(trainerLevel + 1.5, 40.0));
                     returnVal += "\n" + String.format(getString(R.string.ivtext_cp_lvl), range2.level, range2.low, range2.high);
                     break;
                 }
@@ -528,6 +523,8 @@ return returnVal;
                 }
                 if(intent.hasExtra("screenshotDir")){
                     screenshotDir = intent.getStringExtra("screenshotDir");
+                } else {
+                    screenshotDir = "";
                 }
 
                 showInfoLayout();

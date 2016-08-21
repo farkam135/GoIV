@@ -164,7 +164,7 @@
     <string name="main_invalide_trainerlvl">Ungültiges Trainerlevel!</string>
     <string name="notification_title">GoIV läuft - Level %1$s</string>
     <string name="notification_text">Drücke zum Öffnen</string>
-    <string name="ivtext_title">Dein Lvl %1$s %2$s kann sein:</string>
+    <string name="ivtext_title">Dein Lvl %1$s WP %2$s, HP %3$s %4$s kann sein:</string>
     <string name="ivtext_possibilities">%1$s weitere Möglichkeiten...</string>
     <string name="ivtext_iv">Min: %1$s%% Ø: %2$s%% Max: %3$s%%\n</string>
     <string name="ivtext_evolve">Kann zu %1$s entwickelt werden:\n</string>

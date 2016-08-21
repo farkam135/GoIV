@@ -398,8 +398,8 @@ public class pokefly extends Service {
             pokemonName = pokeCalculator.get(possiblePoke[0]).name;
             candyName = pokeCalculator.get(possibleCandy[0]).name;
             //if distance of 1st pokemon < distance of the second.
-            //To understand, remember that possiblePoke[1] = pokeCalculator.get(possiblePoke[0]).getSimilarity(origPokemonName).
-            if (possiblePoke[1] < pokeCalculator.get(possibleCandy[0]).getSimilarity(origPokemonName)) {
+            //To understand, remember that possiblePoke[1] = pokeCalculator.get(possiblePoke[0]).getDistance(origPokemonName).
+            if (possiblePoke[1] < pokeCalculator.get(possibleCandy[0]).getDistance(origPokemonName)) {
                 pokemonList.setSelection(possiblePoke[0]);
             } else {
                 pokemonList.setSelection(possibleCandy[0]);
@@ -427,7 +427,7 @@ public class pokefly extends Service {
         int pokeNumber = 0;
         int bestMatch = 100;
         for (int i = 0; i < pokeCalculator.pokedex.size(); i++) {
-            int similarity = pokeCalculator.get(i).getSimilarity(rhs);
+            int similarity = pokeCalculator.get(i).getDistance(rhs);
             if (similarity < bestMatch) {
                 pokeNumber = i;
                 bestMatch = similarity;

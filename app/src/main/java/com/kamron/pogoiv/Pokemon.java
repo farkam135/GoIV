@@ -37,7 +37,7 @@ public class Pokemon {
         return difference < 2;
     }
 
-    public int getSimilarity(CharSequence rhs) {
+    public int getDistance(CharSequence rhs) {
         if (rhs != null) {
             return Data.levenshteinDistance(name, rhs);
         }

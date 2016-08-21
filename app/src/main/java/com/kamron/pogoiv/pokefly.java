@@ -32,6 +32,7 @@ import android.widget.TextView;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -472,7 +473,8 @@ public class pokefly extends Service {
                 returnVal += "\n" + String.format( getString(R.string.ivtext_max_lvl_cost2), cost.candy, NumberFormat.getInstance().format(cost.dust) + "\n");
             }
 
-            ArrayList<Pokemon> evolutions = pokemon.evolutions;
+            List<Pokemon> evolutions = pokemon.evolutions;
+
             //for each evolution of next stage (example, eevees three evolutions jolteon, vaporeon and flareon)
             for(Pokemon evolution: evolutions){
                 pokemonName = evolution.name;

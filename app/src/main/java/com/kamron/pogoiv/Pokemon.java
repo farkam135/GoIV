@@ -13,7 +13,7 @@ public class Pokemon {
     public int baseDefense;
     public int baseStamina;
     public int devolNumber; //indexnumber in ressources of devolution, pokedexnumber - 1
-    public ArrayList<Integer> evolutions; //evolutions sorted collection index, populated after sort
+    public ArrayList<Pokemon> evolutions; //evolutions sorted collection index, populated after sort
 
     public Pokemon(String name, int number, int baseAttack, int baseDefense, int baseStamina, int devolNumber) {
         this.name = name;
@@ -22,7 +22,7 @@ public class Pokemon {
         this.baseDefense = baseDefense;
         this.baseStamina = baseStamina;
         this.devolNumber = devolNumber;
-        this.evolutions = new ArrayList<Integer>();
+        this.evolutions = new ArrayList<Pokemon>();
     }
 
     @Override

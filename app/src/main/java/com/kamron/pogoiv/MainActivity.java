@@ -248,6 +248,7 @@ public class MainActivity extends AppCompatActivity {
 
         LocalBroadcastManager.getInstance(this).registerReceiver(resetScreenshot, new IntentFilter("reset-screenshot"));
         LocalBroadcastManager.getInstance(this).registerReceiver(takeScreenshot, new IntentFilter("screenshot"));
+        LocalBroadcastManager.getInstance(this).registerReceiver(processBitmap, new IntentFilter("process-bitmap"));
     }
 
     private void getScreenshotDir(){
@@ -420,6 +421,7 @@ public class MainActivity extends AppCompatActivity {
 
         LocalBroadcastManager.getInstance(this).unregisterReceiver(resetScreenshot);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(takeScreenshot);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(processBitmap);
     }
 
 
@@ -527,21 +529,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * scanPokemon
-     * Performs OCR on an image of a pokemon and sends the pulled info to PokeFly to display.
-     *
-     * @param pokemonImage The image of the pokemon
-     * @param filePath The screenshot path if it is a file, used to delete once checked
+     * scans the arc and tries to determine the pokemon level, returns 1 if nothing found
+     * @param pokemonImage The image of the entire screen
+     * @return the estimated pokemon level, or 1 if nothing found
      */
-    private void scanPokemon(Bitmap pokemonImage, String filePath) {
-        estimatedPokemonLevel = trainerLevel + 1.5;
-
+    private double getPokemonLevel(Bitmap pokemonImage){
         for (double estPokemonLevel = estimatedPokemonLevel; estPokemonLevel >= 1.0; estPokemonLevel -= 0.5) {
             //double angleInDegrees = (Data.CpM[(int) (estPokemonLevel * 2 - 2)] - 0.094) * 202.037116 / Data.CpM[trainerLevel * 2 - 2];
             //if (angleInDegrees > 1.0 && trainerLevel < 30) {
-              //  angleInDegrees -= 0.5;
+            //  angleInDegrees -= 0.5;
             //} else if (trainerLevel >= 30) {
-             //   angleInDegrees += 0.5;
+            //   angleInDegrees += 0.5;
             //}
 
             //double angleInRadians = (angleInDegrees + 180) * Math.PI / 180.0;
@@ -552,10 +550,24 @@ public class MainActivity extends AppCompatActivity {
             int x = Data.arcX[index];
             int y = Data.arcY[index];
             if (pokemonImage.getPixel(x, y) == Color.rgb(255, 255, 255)) {
-                estimatedPokemonLevel = estPokemonLevel;
-                break;
+                return estPokemonLevel;
+
             }
         }
+        return 1;
+    }
+    /**
+     * scanPokemon
+     * Performs OCR on an image of a pokemon and sends the pulled info to PokeFly to display.
+     *
+     * @param pokemonImage The image of the pokemon
+     * @param filePath The screenshot path if it is a file, used to delete once checked
+     */
+    private void scanPokemon(Bitmap pokemonImage, String filePath) {
+        estimatedPokemonLevel = trainerLevel + 1.5;
+
+        estimatedPokemonLevel= getPokemonLevel(pokemonImage);
+        Log.d("Estimated pokelevel: " + estimatedPokemonLevel, "nahojjjen debug ghastly crash");
 
         Bitmap name = Bitmap.createBitmap(pokemonImage, displayMetrics.widthPixels / 4, (int) Math.round(displayMetrics.heightPixels / 2.22608696), (int) Math.round(displayMetrics.widthPixels / 2.057), (int) Math.round(displayMetrics.heightPixels / 18.2857143));
         name = replaceColors(name, 68, 105, 108, Color.WHITE, 200);
@@ -604,9 +616,8 @@ public class MainActivity extends AppCompatActivity {
             tesseract.setImage(cp);
             //String cpText = tesseract.getUTF8Text().replace("O", "0").replace("l", "1").replace("S", "3").replaceAll("[^0-9]", "");
             String cpText = tesseract.getUTF8Text().replace("O", "0").replace("l", "1");
-            cpText = cpText.substring(2);
-            if (cpText.length() > 4) {
-                cpText = cpText.substring(cpText.length() - 4, cpText.length() - 1);
+            if (cpText.length() >=2){ //gastly can block the "cp" text, so its not visible...
+                cpText = cpText.substring(2);
             }
             //System.out.println(cpText);
             try {
@@ -686,25 +697,32 @@ public class MainActivity extends AppCompatActivity {
      */
     private void scanPokemonScreen() {
         //System.out.println("Checking...");
-        Image image = mImageReader.acquireLatestImage();
-        if (image != null) {
-            final Image.Plane[] planes = image.getPlanes();
-            final ByteBuffer buffer = planes[0].getBuffer();
-            int pixelStride = planes[0].getPixelStride();
-            int rowStride = planes[0].getRowStride();
-            int rowPadding = rowStride - pixelStride * rawDisplayMetrics.widthPixels;
-            // create bitmap
-            image.close();
-            Bitmap bmp = getBitmap(buffer, pixelStride, rowPadding);
-            Intent showIVButton = new Intent("display-ivButton");
-            if (bmp.getPixel(areaX1, areaY1) == Color.rgb(250, 250, 250) && bmp.getPixel(areaX2, areaY2) == Color.rgb(28, 135, 150)) {
-                showIVButton.putExtra("show", true);
-            } else {
-                showIVButton.putExtra("show", false);
+        if (mImageReader != null) {
+            Image image = mImageReader.acquireLatestImage();
+
+            if (image != null) {
+                final Image.Plane[] planes = image.getPlanes();
+                final ByteBuffer buffer = planes[0].getBuffer();
+                int pixelStride = planes[0].getPixelStride();
+                int rowStride = planes[0].getRowStride();
+                int rowPadding = rowStride - pixelStride * rawDisplayMetrics.widthPixels;
+                // create bitmap
+                image.close();
+                Bitmap bmp = getBitmap(buffer, pixelStride, rowPadding);
+
+                if (bmp.getHeight() > bmp.getWidth()){
+                    Intent showIVButton = new Intent("display-ivButton");
+                    if (bmp.getPixel(areaX1, areaY1) == Color.rgb(250, 250, 250) && bmp.getPixel(areaX2, areaY2) == Color.rgb(28, 135, 150)) {
+                        showIVButton.putExtra("show", true);
+                    } else {
+                        showIVButton.putExtra("show", false);
+                    }
+                    bmp.recycle();
+                    LocalBroadcastManager.getInstance(MainActivity.this).sendBroadcast(showIVButton);
+                    //SaveImage(bmp,"everything");
+                }
             }
-            bmp.recycle();
-            LocalBroadcastManager.getInstance(MainActivity.this).sendBroadcast(showIVButton);
-            //SaveImage(bmp,"everything");
+
         }
     }
 
@@ -798,6 +816,22 @@ public class MainActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             if (readyForNewScreenshot) {
                 takeScreenshot();
+                readyForNewScreenshot = false;
+            }
+        }
+    };
+
+
+    /**
+     * A picture was shared and needs to be processed. Process it and initiate UI.
+     * IV Button was pressed, take screenshot and send back pokemon info.
+     */
+    private final BroadcastReceiver processBitmap = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (readyForNewScreenshot) {
+                Bitmap bitmap = (Bitmap) intent.getParcelableExtra("bitmap");
+                scanPokemon(bitmap, "");
                 readyForNewScreenshot = false;
             }
         }

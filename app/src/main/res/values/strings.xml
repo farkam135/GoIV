@@ -169,7 +169,7 @@
     <string name="main_invalide_trainerlvl">Invalid Trainer Level!</string>
     <string name="notification_title">GoIV Running - Level %1$s</string>
     <string name="notification_text">Tap to open</string>
-    <string name="ivtext_title">Your lvl %1$s %2$s can be:</string>
+    <string name="ivtext_title">Your lvl %1$s, CP %2$s, HP %3$s %4$s can be:</string>
     <string name="ivtext_possibilities">%1$s more possibilities...</string>
     <string name="ivtext_no_possibilities">No possibilities, please check your stats again!</string>
     <string name="ivtext_iv">Min: %1$s%% Average: %2$s%% Max: %3$s%%\n</string>

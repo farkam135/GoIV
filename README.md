@@ -104,3 +104,7 @@ GoIV would not have been possible without the help and support of the following 
  - Stuart Dorff  
  - Kevin Do  
  - Tommy Tran  
+
+# Development
+
+For info on developing GoIV, see [DEVELOPMENT.md](DEVELOPMENT.md).

@@ -32,6 +32,7 @@ import android.widget.TextView;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -353,7 +354,7 @@ public class pokefly extends Service {
 
     @OnClick(R.id.btnCheckIv)
     public void checkIv() {
-        if(batterySaver) {
+        if(batterySaver && !screenshotDir.isEmpty()) {
             getContentResolver().delete(screenshotUri, MediaStore.Files.FileColumns.DATA + "=?", new String[]{screenshotDir});
         }
         pokemonHP = Integer.parseInt(pokemonHPEdit.getText().toString());
@@ -441,8 +442,23 @@ public class pokefly extends Service {
     private String getIVText() {
         int selectedPokemon = pokemonList.getSelectedItemPosition();
         Pokemon pokemon = pokeCalculator.get(selectedPokemon);
+        String returnVal = String.format(getString(R.string.ivtext_title), estimatedPokemonLevel, pokemonCP, pokemonHP, pokemon.name);
+        Pokemon pokemon = pokeCalculator.get(selectedPokemon);
         String returnVal = String.format(getString(R.string.ivtext_title), estimatedPokemonLevel, pokemon.name);
         IVScanResult ivScanResult = pokeCalculator.getIVPossibilities(selectedPokemon,estimatedPokemonLevel, pokemonHP, pokemonCP);
+
+        //TODO if you wanna work on the placement of the refinement (issue #10) then un-comment this code!
+        /*
+        if (ivScanResult.are2LastScannedPokemonSame()) {
+            String tester = "Intersection: (test, empty on first scan)\n";
+            ArrayList<IVCombination> interseciton = ivScanResult.getLatestIVIntersection();
+            tester += "size: " + interseciton.size();
+            for (IVCombination comb : interseciton) {
+                tester += "\n" + comb.toString();
+            }
+
+            return tester;
+        }*/
 
         int counter = 0;
         for(IVCombination ivCombination:ivScanResult.iVCombinations){
@@ -472,7 +488,8 @@ public class pokefly extends Service {
                 returnVal += "\n" + String.format( getString(R.string.ivtext_max_lvl_cost2), cost.candy, NumberFormat.getInstance().format(cost.dust) + "\n");
             }
 
-            ArrayList<Pokemon> evolutions = pokemon.evolutions;
+            List<Pokemon> evolutions = pokemon.evolutions;
+
             //for each evolution of next stage (example, eevees three evolutions jolteon, vaporeon and flareon)
             for(Pokemon evolution: evolutions){
                 pokemonName = evolution.name;
@@ -523,6 +540,8 @@ return returnVal;
                 }
                 if(intent.hasExtra("screenshotDir")){
                     screenshotDir = intent.getStringExtra("screenshotDir");
+                } else {
+                    screenshotDir = "";
                 }
 
                 showInfoLayout();

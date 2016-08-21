@@ -1,8 +1,11 @@
 package com.kamron.pogoiv;
 
+import android.util.ArraySet;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 /**
  * Created by Johan Swanberg on 2016-08-18.
@@ -37,14 +40,14 @@ public class PokeInfoCalculator {
         pokedex = new ArrayList<>();
         int pokeListSize = names.length;
         for (int i = 0; i <= pokeListSize - 1; i++) {
-            Pokemon p = new Pokemon(names[i], i, attack[i], defense[i], stamina[i], devolution[i]);
-            /* Add the pokemon to the devolution's evolution list */
+            pokedex.add(new Pokemon(names[i], i, attack[i], defense[i], stamina[i]));
+        }
+        for (int i = 0; i <= pokeListSize - 1; i++){
             if (devolution[i] != -1) {
                 Pokemon devo = pokedex.get(devolution[i]);
-                devo.evolutions.add(p);
+                devo.evolutions.add(pokedex.get(i));
                 sortPokedex(devo.evolutions);
             }
-            pokedex.add(p);
         }
 
         sortPokedex(pokedex);
@@ -56,7 +59,7 @@ public class PokeInfoCalculator {
      *
      * @param pokedex
      */
-    private void sortPokedex(ArrayList<Pokemon> pokedex) {
+    private void sortPokedex(List<Pokemon> pokedex) {
         //Sort pokemon alphabetically (maybe just do this in the res files?)
         Collections.sort(pokedex, new Comparator<Pokemon>() {
                     public int compare(Pokemon lhs, Pokemon rhs) {
@@ -120,7 +123,7 @@ public class PokeInfoCalculator {
      * @return An IVScanResult which contains the information calculated about the pokemon
      */
     public IVScanResult getIVPossibilities(int selectedPokemon, double estimatedPokemonLevel, int pokemonHP, int pokemonCP) {
-        IVScanResult returner = new IVScanResult();
+        IVScanResult returner = new IVScanResult(get(selectedPokemon), estimatedPokemonLevel);
 
         int baseAttack = get(selectedPokemon).baseAttack;
         int baseDefense = get(selectedPokemon).baseDefense;

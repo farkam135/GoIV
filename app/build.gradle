@@ -66,6 +66,9 @@ dependencies {
         transitive = true;
     }
 
+    compile 'com.github.clans:fab:1.6.4'
+    provided "org.projectlombok:lombok:1.16.10"
+    apt "org.projectlombok:lombok:1.16.10"
     testCompile 'junit:junit:4.12'
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
     androidTestCompile 'com.android.support.test:runner:0.5'

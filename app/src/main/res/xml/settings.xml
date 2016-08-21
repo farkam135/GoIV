@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <SwitchPreference
+        android:key="launchPokemonGo"
+        android:title="@string/launch_pokemon_go_setting_title"
+        android:summary="@string/launch_pokemon_go_setting_summary"
+        android:defaultValue="true"/>
+
+    <SwitchPreference
+        android:key="showConfirmationDialog"
+        android:title="@string/confirmation_dialog_setting_title"
+        android:summary="@string/confirmation_dialog_setting_summary"
+        android:defaultValue="true"/>
+
+    <SwitchPreference
+        android:key="deleteScreenshots"
+        android:title="@string/delete_screenshots_setting_title"
+        android:summary="@string/delete_screenshots_setting_summary"
+        android:defaultValue="true"/>
+
+    <SwitchPreference
+        android:key="copyToClipboard"
+        android:title="@string/copy_to_clipboard_setting_title"
+        android:summary="@string/copy_to_clipboard_setting_summary"
+        android:defaultValue="true"/>
+
+    <SwitchPreference
+        android:key="sendCrashReports"
+        android:title="@string/send_crash_reports_setting_title"
+        android:summary="@string/send_crash_reports_setting_summary"
+        android:defaultValue="true"/>
+
+    <SwitchPreference
+        android:key="autoUpdateEnabled"
+        android:title="@string/auto_update_setting_title"
+        android:summary="@string/auto_update_setting_summary"
+        android:defaultValue="true"/>
+
+    <Preference
+        android:key="checkForUpdate"
+        android:title="@string/check_for_update_setting_title"
+        android:summary="@string/check_for_update_setting_summary" />
+
+</PreferenceScreen>

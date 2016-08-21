@@ -49,8 +49,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.crashlytics.android.Crashlytics;
-import com.crashlytics.android.core.CrashlyticsCore;
 import com.googlecode.tesseract.android.TessBaseAPI;
 
 import java.io.File;
@@ -62,9 +60,8 @@ import java.nio.ByteBuffer;
 import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.stream.IntStream;
 
-import io.fabric.sdk.android.Fabric;
+import timber.log.Timber;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -114,14 +111,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Set up Crashlytics, disabled for debug builds
-        Crashlytics crashlyticsKit = new Crashlytics.Builder()
-                .core(new CrashlyticsCore.Builder()
-                .disabled(BuildConfig.DEBUG).build())
-                .build();
-
-        // Initialize Fabric with the debug-disabled crashlytics.
-        Fabric.with(this, crashlyticsKit);
+        Timber.tag(TAG);
 
         setContentView(R.layout.activity_main);
 
@@ -357,8 +347,8 @@ public class MainActivity extends AppCompatActivity {
         try {
             return getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
         } catch (PackageManager.NameNotFoundException e) {
-            Crashlytics.log("Exception thrown while getting version name");
-            Crashlytics.logException(e);
+            Timber.e("Exception thrown while getting version name");
+            Timber.e(e);
             Log.e(TAG, "Error while getting version name", e);
         }
         return "Error while getting version name";
@@ -498,10 +488,9 @@ public class MainActivity extends AppCompatActivity {
         Image image = null;
         try {
             image = mImageReader.acquireLatestImage();
-        } catch (Exception e) {
-            Crashlytics.log("Error thrown in takeScreenshot() - acquireLatestImage()");
-            Crashlytics.logException(e);
-            Log.e(TAG, "Error while Scanning!", e);
+        } catch (Exception exception) {
+            Timber.e("Error thrown in takeScreenshot() - acquireLatestImage()");
+            Timber.e(exception);
             Toast.makeText(MainActivity.this, "Error Scanning! Please try again later!", Toast.LENGTH_SHORT).show();
         }
 
@@ -518,9 +507,9 @@ public class MainActivity extends AppCompatActivity {
                 Bitmap bmp = getBitmap(buffer, pixelStride, rowPadding);
                 scanPokemon(bmp,"");
                 //SaveImage(bmp,"Search");
-            } catch (Exception e) {
-                Crashlytics.log("Exception thrown in takeScreenshot() - when creating bitmap");
-                Crashlytics.logException(e);
+            } catch (Exception exception) {
+                Timber.e("Exception thrown in takeScreenshot() - when creating bitmap");
+                Timber.e(exception);
                 image.close();
             }
 
@@ -754,10 +743,10 @@ public class MainActivity extends AppCompatActivity {
             out.flush();
             out.close();
 
-        } catch (Exception e) {
-            Crashlytics.log("Exception thrown in saveImage()");
-            Crashlytics.logException(e);
-            Log.e(TAG, "Error while saving the image.", e);
+        } catch (Exception exception) {
+            Timber.e("Exception thrown in saveImage()");
+            Timber.e(exception);
+            Log.e(TAG, "Error while saving the image.", exception);
         }
     }
 
@@ -885,10 +874,10 @@ public class MainActivity extends AppCompatActivity {
 
         try {
             files = assetManager.list(fromAssetPath);
-        } catch (IOException e) {
-            Crashlytics.log("Exception thrown in copyAssetFolder()");
-            Crashlytics.logException(e);
-            Log.e(TAG, "Error while loading filenames.", e);
+        } catch (IOException exception) {
+            Timber.e("Exception thrown in copyAssetFolder()");
+            Timber.e(exception);
+            Log.e(TAG, "Error while loading filenames.", exception);
         }
         new File(toPath).mkdirs();
         boolean res = true;
@@ -912,10 +901,10 @@ public class MainActivity extends AppCompatActivity {
             out.flush();
             out.close();
             return true;
-        } catch (IOException e) {
-            Crashlytics.log("Exception thrown in copyAsset()");
-            Crashlytics.logException(e);
-            Log.e(TAG, "Error while copying assets.", e);
+        } catch (IOException exception) {
+            Timber.e("Exception thrown in copyAsset()");
+            Timber.e(exception);
+            Log.e(TAG, "Error while copying assets.", exception);
             return false;
         }
     }

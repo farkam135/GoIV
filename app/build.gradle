@@ -40,6 +40,14 @@ android {
             }
         }
     }
+
+    productFlavors {
+        offline {
+            ext.enableCrashlytics = false
+        }
+
+        online {}
+    }
 }
 
 dependencies {
@@ -47,13 +55,17 @@ dependencies {
     compile 'com.android.support:appcompat-v7:24.0.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha1'
     compile 'com.rmtheis:tess-two:6.0.3'
+    compile 'com.jakewharton.timber:timber:4.3.0'
     compile 'com.jakewharton:butterknife:8.1.0'
     apt 'com.jakewharton:butterknife-compiler:8.1.0'
+
+    // only include crashlytics in the online build
+    onlineCompile('com.crashlytics.sdk.android:crashlytics:2.6.2@aar') {
+        transitive = true;
+    }
+
     testCompile 'junit:junit:4.12'
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
     androidTestCompile 'com.android.support.test:runner:0.5'
     androidTestCompile 'com.android.support:support-annotations:24.0.0'
-    compile('com.crashlytics.sdk.android:crashlytics:2.6.2@aar') {
-        transitive = true;
-    }
 }

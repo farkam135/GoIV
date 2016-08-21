@@ -441,7 +441,7 @@ public class pokefly extends Service {
     private String getIVText() {
         int selectedPokemon = pokemonList.getSelectedItemPosition();
         Pokemon pokemon = pokeCalculator.get(selectedPokemon);
-        String returnVal = String.format(getString(R.string.ivtext_title), estimatedPokemonLevel, pokemon.name);
+        String returnVal = String.format(getString(R.string.ivtext_title), estimatedPokemonLevel, pokemonCP, pokemonHP, pokemon.name);
         IVScanResult ivScanResult = pokeCalculator.getIVPossibilities(selectedPokemon,estimatedPokemonLevel, pokemonHP, pokemonCP);
 
         int counter = 0;

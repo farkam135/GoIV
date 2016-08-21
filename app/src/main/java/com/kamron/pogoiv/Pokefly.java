@@ -519,11 +519,11 @@ public class Pokefly extends Service {
             }
         }
 
-        if (ivScanResult.count > MAX_POSSIBILITIES) {
-            returnVal += "\n" + String.format(getString(R.string.ivtext_possibilities), ivScanResult.count - MAX_POSSIBILITIES);
+        if (ivScanResult.getCount() > MAX_POSSIBILITIES) {
+            returnVal += "\n" + String.format(getString(R.string.ivtext_possibilities), ivScanResult.getCount() - MAX_POSSIBILITIES);
         }
 
-        if (ivScanResult.count == 0) {
+        if (ivScanResult.getCount() == 0) {
             returnVal += "\n" + getString(R.string.ivtext_no_possibilities);
         } else {
 

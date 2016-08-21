@@ -706,10 +706,10 @@ public class MainActivity extends AppCompatActivity {
                 if (bmp.getHeight() > bmp.getWidth()){
                     boolean shouldShow = bmp.getPixel(areaX1, areaY1) == Color.rgb(250, 250, 250) && bmp.getPixel(areaX2, areaY2) == Color.rgb(28, 135, 150);
                     Intent showIVButtonIntent = Pokefly.createIVButtonIntent(shouldShow);
-                    bmp.recycle();
                     LocalBroadcastManager.getInstance(MainActivity.this).sendBroadcast(showIVButtonIntent);
                     //SaveImage(bmp,"everything");
                 }
+                bmp.recycle();
             }
 
         }

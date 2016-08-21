@@ -198,4 +198,19 @@
     <string name="screenshot_dir_found">Screenshot Directory Set:\n%1$s</string>
     <string name="done">Done</string>
     <string name="back">Back</string>
+
+    <string name="launch_pokemon_go_setting_title">Launch Pokemon Go</string>
+    <string name="launch_pokemon_go_setting_summary">Switch to Pokemon Go when the start button is clicked</string>
+    <string name="confirmation_dialog_setting_title">Confirmation dialog</string>
+    <string name="confirmation_dialog_setting_summary">Edit the pokemon information before calculating the IV</string>
+    <string name="delete_screenshots_setting_title">Delete screenshots</string>
+    <string name="delete_screenshots_setting_summary">Automatically delete screenshots taken by GoIV</string>
+    <string name="copy_to_clipboard_setting_title">Copy to clipboard</string>
+    <string name="copy_to_clipboard_setting_summary">Copy pokemon stats to clipboard upon scanning</string>
+    <string name="send_crash_reports_setting_title">Send crash reports</string>
+    <string name="send_crash_reports_setting_summary">Send anonymous crash-related information to the developers</string>
+    <string name="auto_update_setting_title">Auto-update</string>
+    <string name="auto_update_setting_summary">Automatically check for updates when the app starts up</string>
+    <string name="check_for_update_setting_title">Check for update</string>
+    <string name="check_for_update_setting_summary">See if an update is available</string>
 </resources>

@@ -28,6 +28,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.FileObserver;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
@@ -70,6 +71,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import timber.log.Timber;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -123,11 +126,8 @@ public class MainActivity extends AppCompatActivity {
     private int arcCenter;
     private int arcInitialY;
     private int radius;
-
-    private boolean checkingForUpdate;
-    private AlertDialog.Builder builder;
-    private AlertDialog dialog;
     private Context mContext;
+    private GoIVSettings settings;
 
     public static Intent createScreenshotIntent() {
         return new Intent(ACTION_SCREENSHOT);
@@ -142,10 +142,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Timber.tag(TAG);
-        checkingForUpdate = false;
         mContext=MainActivity.this;
 
         setContentView(R.layout.activity_main);
+
+        ButterKnife.bind(this);
+        PreferenceManager.setDefaultValues(this, R.xml.settings, false);
 
         TextView tvVersionNumber = (TextView) findViewById(R.id.version_number);
         tvVersionNumber.setText(getVersionName());
@@ -271,8 +273,12 @@ public class MainActivity extends AppCompatActivity {
         LocalBroadcastManager.getInstance(this).registerReceiver(resetScreenshot, new IntentFilter("reset-screenshot"));
         LocalBroadcastManager.getInstance(this).registerReceiver(takeScreenshot, new IntentFilter("screenshot"));
         LocalBroadcastManager.getInstance(this).registerReceiver(processBitmap, new IntentFilter("process-bitmap"));
-        builder = new AlertDialog.Builder(mContext);
-        dialog = builder.create();
+    }
+
+    @OnClick(R.id.btnSettings)
+    public void goToSettingsPage() {
+        Intent settingsIntent = new Intent(MainActivity.this, SettingsActivity.class);
+        startActivity(settingsIntent);
     }
 
     private void getScreenshotDir(){
@@ -339,53 +345,38 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
-        //if (BuildConfig.enableUpdater) {
-            //if (currentSettings.isUpdatesEnabled()) {
-                new AppUpdateLoader().start();
-                checkingForUpdate = true;
-    //}
+        settings = GoIVSettings.getSettings(MainActivity.this);
+        new AppUpdateLoader().start();
     }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onAppUpdateEvent(AppUpdateEvent event) {
         switch (event.getStatus()) {
             case AppUpdateEvent.OK:
                     showAppUpdateDialog(mContext, event.getAppUpdate());
-                    checkingForUpdate = false;
-                    System.out.println("Updating");
-                break;
-            case AppUpdateEvent.FAILED:
-                Toast.makeText(mContext, "Update check failed", Toast.LENGTH_SHORT).show();
-                checkingForUpdate = false;
-                break;
-            case AppUpdateEvent.UPTODATE:
-                checkingForUpdate = false;
-                break;
         }
     }
     private void showAppUpdateDialog(final Context context, final AppUpdate update) {
-        if(!dialog.isShowing()) {
-            builder = new AlertDialog.Builder(context)
-                    .setTitle("Update available")
-                    .setMessage(context.getString(R.string.app_name) + " " + update.getVersion() + " " + "Update available" + "\n\n" + "Changes:" + "\n\n" + update.getChangelog())
-                    .setIcon(R.mipmap.ic_launcher)
-                    .setPositiveButton("Update", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            dialogInterface.dismiss();
-                            AppUpdateDialog.downloadAndInstallAppUpdate(context, update);
-                        }
-                    })
-                    .setNegativeButton(context.getString(R.string.cancel), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            dialogInterface.dismiss();
-                        }
-                    })
-                    .setCancelable(false);
-            dialog = builder.create();
-            dialog.show();
-        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(context)
+                .setTitle("Update available")
+                .setMessage(context.getString(R.string.app_name) + " " + update.getVersion() + " " + "Update available" + "\n\n" + "Changes:" + "\n\n" + update.getChangelog())
+                .setIcon(R.mipmap.ic_launcher)
+                .setPositiveButton("Update", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                        AppUpdateDialog.downloadAndInstallAppUpdate(context, update);
+                    }
+                })
+                .setNegativeButton(context.getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                })
+                .setCancelable(false);
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
     /**
      * setupArcPoints

@@ -186,7 +186,7 @@
     <string name="ivtext_max_lvl_cost2">Candy: %1$s Stardust: %2$s</string>
     <string name="main_battery_saver">Battery Saver (Screenshot to Scan)</string>
     <string name="ivtext_cp_lvl">CP at lvl %1$s: %2$s - %3$s</string>
-    <string name="ivtext_stats">Atk: %1$02d Def: %2$02d Sta: %3$02d (%4$03d%%)</string>
+    <string name="ivtext_stats">Atk: %1$02d Def: %2$02d Sta: %3$02d — %4$3d%%</string>
     <string name="close">Close</string>
     <string name="main_permission">Grant Permissions</string>
     <string name="main_start">Start</string>

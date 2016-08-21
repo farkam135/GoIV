@@ -30,8 +30,15 @@ import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.kamron.pogoiv.model.CPRange;
+import com.kamron.pogoiv.model.IVCombination;
+import com.kamron.pogoiv.model.IVScanResult;
+import com.kamron.pogoiv.model.Pokemon;
+import com.kamron.pogoiv.model.UpgradeCost;
+
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -473,7 +480,8 @@ public class pokefly extends Service {
                 returnVal += "\n" + String.format( getString(R.string.ivtext_max_lvl_cost2), cost.candy, NumberFormat.getInstance().format(cost.dust) + "\n");
             }
 
-            ArrayList<Integer> evolutions = pokeCalculator.get(pokemonList.getSelectedItemPosition()).evolutions;
+            List<Integer> evolutions = pokeCalculator.get(pokemonList.getSelectedItemPosition()).evolutions;
+
             //for each evolution of next stage (example, eevees three evolutions jolteon, vaporeon and flareon)
             for(int i = evolutions.size()-1; i>=0; i--){
                 pokemonName = pokeCalculator.get(evolutions.get(i)).name;

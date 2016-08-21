@@ -28,6 +28,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.FileObserver;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
@@ -62,8 +63,9 @@ import java.nio.ByteBuffer;
 import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.stream.IntStream;
 
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import io.fabric.sdk.android.Fabric;
 
 
@@ -110,6 +112,8 @@ public class MainActivity extends AppCompatActivity {
     private int arcInitialY;
     private int radius;
 
+    private GoIVSettings settings;
+
     @TargetApi(23)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,6 +128,9 @@ public class MainActivity extends AppCompatActivity {
         Fabric.with(this, crashlyticsKit);
 
         setContentView(R.layout.activity_main);
+
+        ButterKnife.bind(this);
+        PreferenceManager.setDefaultValues(this, R.xml.settings, false);
 
         TextView tvVersionNumber = (TextView) findViewById(R.id.version_number);
         tvVersionNumber.setText(getVersionName());
@@ -248,6 +255,18 @@ public class MainActivity extends AppCompatActivity {
 
         LocalBroadcastManager.getInstance(this).registerReceiver(resetScreenshot, new IntentFilter("reset-screenshot"));
         LocalBroadcastManager.getInstance(this).registerReceiver(takeScreenshot, new IntentFilter("screenshot"));
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        settings = GoIVSettings.getSettings(MainActivity.this);
+    }
+
+    @OnClick(R.id.btnSettings)
+    public void goToSettingsPage() {
+        Intent settingsIntent = new Intent(MainActivity.this, SettingsActivity.class);
+        startActivity(settingsIntent);
     }
 
     private void getScreenshotDir(){

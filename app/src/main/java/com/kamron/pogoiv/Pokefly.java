@@ -509,23 +509,21 @@ public class Pokefly extends Service {
 
             return tester;
         }*/
-
-        int counter = 0;
-        for(IVCombination ivCombination:ivScanResult.iVCombinations){
-            returnVal += "\n" + String.format(getString(R.string.ivtext_stats), ivCombination.att, ivCombination.def, ivCombination.sta, ivCombination.percentPerfect);
-            counter++;
-            if (counter == MAX_POSSIBILITIES){
-                break;
-            }
-        }
-
-        if (ivScanResult.getCount() > MAX_POSSIBILITIES) {
-            returnVal += "\n" + String.format(getString(R.string.ivtext_possibilities), ivScanResult.getCount() - MAX_POSSIBILITIES);
-        }
-
         if (ivScanResult.getCount() == 0) {
             returnVal += "\n" + getString(R.string.ivtext_no_possibilities);
         } else {
+            int counter = 0;
+            for (IVCombination ivCombination: ivScanResult.iVCombinations) {
+                returnVal += "\n" + String.format(getString(R.string.ivtext_stats), ivCombination.att, ivCombination.def, ivCombination.sta, ivCombination.percentPerfect);
+                counter++;
+                if (counter == MAX_POSSIBILITIES){
+                    break;
+                }
+            }
+
+            if (ivScanResult.getCount() > MAX_POSSIBILITIES) {
+                returnVal += "\n" + String.format(getString(R.string.ivtext_possibilities), ivScanResult.getCount() - MAX_POSSIBILITIES);
+            }
 
             returnVal += "\n" + String.format(getString(R.string.ivtext_iv), ivScanResult.lowPercent, ivScanResult.getAveragePercent(), ivScanResult.highPercent);
 

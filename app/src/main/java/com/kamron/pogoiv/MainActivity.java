@@ -517,6 +517,8 @@ public class MainActivity extends AppCompatActivity {
                 mProjection.createVirtualDisplay("screen-mirror", rawDisplayMetrics.widthPixels, rawDisplayMetrics.heightPixels, rawDisplayMetrics.densityDpi, DisplayManager.VIRTUAL_DISPLAY_FLAG_PUBLIC, mImageReader.getSurface(), null, null);
 
                 startPokeyFly();
+                if(settings.getLaunchPokemonGo())
+                    openPokemonGoApp();
                 //showNotification();
                 final Handler handler = new Handler();
                 final Timer timer = new Timer();

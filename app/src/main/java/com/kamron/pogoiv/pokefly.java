@@ -129,7 +129,7 @@ public class pokefly extends Service {
         LocalBroadcastManager.getInstance(this).registerReceiver(displayInfo, new IntentFilter("pokemon-info"));
         LocalBroadcastManager.getInstance(this).registerReceiver(setIVButtonDisplay, new IntentFilter("display-ivButton"));
         pokeCalculator = new PokeInfoCalculator(
-                getPokemonNames(),
+                getResources().getStringArray(R.array.Pokemon),
                 getResources().getIntArray(R.array.attack),
                 getResources().getIntArray(R.array.defense) ,
                 getResources().getIntArray(R.array.stamina),
@@ -443,8 +443,6 @@ public class pokefly extends Service {
         int selectedPokemon = pokemonList.getSelectedItemPosition();
         Pokemon pokemon = pokeCalculator.get(selectedPokemon);
         String returnVal = String.format(getString(R.string.ivtext_title), estimatedPokemonLevel, pokemonCP, pokemonHP, pokemon.name);
-        Pokemon pokemon = pokeCalculator.get(selectedPokemon);
-        String returnVal = String.format(getString(R.string.ivtext_title), estimatedPokemonLevel, pokemon.name);
         IVScanResult ivScanResult = pokeCalculator.getIVPossibilities(selectedPokemon,estimatedPokemonLevel, pokemonHP, pokemonCP);
 
         //TODO if you wanna work on the placement of the refinement (issue #10) then un-comment this code!
@@ -573,163 +571,4 @@ return returnVal;
     private int dpToPx(int dp) {
         return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
     }
-
-
-
-    private String[] getPokemonNames() {
-        ArrayList<String> names = new ArrayList<>();
-        names.add(getResources().getString(R.string.pokemon001));
-        names.add(getResources().getString(R.string.pokemon002));
-        names.add(getResources().getString(R.string.pokemon003));
-        names.add(getResources().getString(R.string.pokemon004));
-        names.add(getResources().getString(R.string.pokemon005));
-        names.add(getResources().getString(R.string.pokemon006));
-        names.add(getResources().getString(R.string.pokemon007));
-        names.add(getResources().getString(R.string.pokemon008));
-        names.add(getResources().getString(R.string.pokemon009));
-        names.add(getResources().getString(R.string.pokemon010));
-        names.add(getResources().getString(R.string.pokemon011));
-        names.add(getResources().getString(R.string.pokemon012));
-        names.add(getResources().getString(R.string.pokemon013));
-        names.add(getResources().getString(R.string.pokemon014));
-        names.add(getResources().getString(R.string.pokemon015));
-        names.add(getResources().getString(R.string.pokemon016));
-        names.add(getResources().getString(R.string.pokemon017));
-        names.add(getResources().getString(R.string.pokemon018));
-        names.add(getResources().getString(R.string.pokemon019));
-        names.add(getResources().getString(R.string.pokemon020));
-        names.add(getResources().getString(R.string.pokemon021));
-        names.add(getResources().getString(R.string.pokemon022));
-        names.add(getResources().getString(R.string.pokemon023));
-        names.add(getResources().getString(R.string.pokemon024));
-        names.add(getResources().getString(R.string.pokemon025));
-        names.add(getResources().getString(R.string.pokemon026));
-        names.add(getResources().getString(R.string.pokemon027));
-        names.add(getResources().getString(R.string.pokemon028));
-        names.add(getResources().getString(R.string.pokemon029));
-        names.add(getResources().getString(R.string.pokemon030));
-        names.add(getResources().getString(R.string.pokemon031));
-        names.add(getResources().getString(R.string.pokemon032));
-        names.add(getResources().getString(R.string.pokemon033));
-        names.add(getResources().getString(R.string.pokemon034));
-        names.add(getResources().getString(R.string.pokemon035));
-        names.add(getResources().getString(R.string.pokemon036));
-        names.add(getResources().getString(R.string.pokemon037));
-        names.add(getResources().getString(R.string.pokemon038));
-        names.add(getResources().getString(R.string.pokemon039));
-        names.add(getResources().getString(R.string.pokemon040));
-        names.add(getResources().getString(R.string.pokemon041));
-        names.add(getResources().getString(R.string.pokemon042));
-        names.add(getResources().getString(R.string.pokemon043));
-        names.add(getResources().getString(R.string.pokemon044));
-        names.add(getResources().getString(R.string.pokemon045));
-        names.add(getResources().getString(R.string.pokemon046));
-        names.add(getResources().getString(R.string.pokemon047));
-        names.add(getResources().getString(R.string.pokemon048));
-        names.add(getResources().getString(R.string.pokemon049));
-        names.add(getResources().getString(R.string.pokemon050));
-        names.add(getResources().getString(R.string.pokemon051));
-        names.add(getResources().getString(R.string.pokemon052));
-        names.add(getResources().getString(R.string.pokemon053));
-        names.add(getResources().getString(R.string.pokemon054));
-        names.add(getResources().getString(R.string.pokemon055));
-        names.add(getResources().getString(R.string.pokemon056));
-        names.add(getResources().getString(R.string.pokemon057));
-        names.add(getResources().getString(R.string.pokemon058));
-        names.add(getResources().getString(R.string.pokemon059));
-        names.add(getResources().getString(R.string.pokemon060));
-        names.add(getResources().getString(R.string.pokemon061));
-        names.add(getResources().getString(R.string.pokemon062));
-        names.add(getResources().getString(R.string.pokemon063));
-        names.add(getResources().getString(R.string.pokemon064));
-        names.add(getResources().getString(R.string.pokemon065));
-        names.add(getResources().getString(R.string.pokemon066));
-        names.add(getResources().getString(R.string.pokemon067));
-        names.add(getResources().getString(R.string.pokemon068));
-        names.add(getResources().getString(R.string.pokemon069));
-        names.add(getResources().getString(R.string.pokemon070));
-        names.add(getResources().getString(R.string.pokemon071));
-        names.add(getResources().getString(R.string.pokemon072));
-        names.add(getResources().getString(R.string.pokemon073));
-        names.add(getResources().getString(R.string.pokemon074));
-        names.add(getResources().getString(R.string.pokemon075));
-        names.add(getResources().getString(R.string.pokemon076));
-        names.add(getResources().getString(R.string.pokemon077));
-        names.add(getResources().getString(R.string.pokemon078));
-        names.add(getResources().getString(R.string.pokemon079));
-        names.add(getResources().getString(R.string.pokemon080));
-        names.add(getResources().getString(R.string.pokemon081));
-        names.add(getResources().getString(R.string.pokemon082));
-        names.add(getResources().getString(R.string.pokemon083));
-        names.add(getResources().getString(R.string.pokemon084));
-        names.add(getResources().getString(R.string.pokemon085));
-        names.add(getResources().getString(R.string.pokemon086));
-        names.add(getResources().getString(R.string.pokemon087));
-        names.add(getResources().getString(R.string.pokemon088));
-        names.add(getResources().getString(R.string.pokemon089));
-        names.add(getResources().getString(R.string.pokemon090));
-        names.add(getResources().getString(R.string.pokemon091));
-        names.add(getResources().getString(R.string.pokemon092));
-        names.add(getResources().getString(R.string.pokemon093));
-        names.add(getResources().getString(R.string.pokemon094));
-        names.add(getResources().getString(R.string.pokemon095));
-        names.add(getResources().getString(R.string.pokemon096));
-        names.add(getResources().getString(R.string.pokemon097));
-        names.add(getResources().getString(R.string.pokemon098));
-        names.add(getResources().getString(R.string.pokemon099));
-        names.add(getResources().getString(R.string.pokemon100));
-        names.add(getResources().getString(R.string.pokemon101));
-        names.add(getResources().getString(R.string.pokemon102));
-        names.add(getResources().getString(R.string.pokemon103));
-        names.add(getResources().getString(R.string.pokemon104));
-        names.add(getResources().getString(R.string.pokemon105));
-        names.add(getResources().getString(R.string.pokemon106));
-        names.add(getResources().getString(R.string.pokemon107));
-        names.add(getResources().getString(R.string.pokemon108));
-        names.add(getResources().getString(R.string.pokemon109));
-        names.add(getResources().getString(R.string.pokemon110));
-        names.add(getResources().getString(R.string.pokemon111));
-        names.add(getResources().getString(R.string.pokemon112));
-        names.add(getResources().getString(R.string.pokemon113));
-        names.add(getResources().getString(R.string.pokemon114));
-        names.add(getResources().getString(R.string.pokemon115));
-        names.add(getResources().getString(R.string.pokemon116));
-        names.add(getResources().getString(R.string.pokemon117));
-        names.add(getResources().getString(R.string.pokemon118));
-        names.add(getResources().getString(R.string.pokemon119));
-        names.add(getResources().getString(R.string.pokemon120));
-        names.add(getResources().getString(R.string.pokemon121));
-        names.add(getResources().getString(R.string.pokemon122));
-        names.add(getResources().getString(R.string.pokemon123));
-        names.add(getResources().getString(R.string.pokemon124));
-        names.add(getResources().getString(R.string.pokemon125));
-        names.add(getResources().getString(R.string.pokemon126));
-        names.add(getResources().getString(R.string.pokemon127));
-        names.add(getResources().getString(R.string.pokemon128));
-        names.add(getResources().getString(R.string.pokemon129));
-        names.add(getResources().getString(R.string.pokemon130));
-        names.add(getResources().getString(R.string.pokemon131));
-        names.add(getResources().getString(R.string.pokemon132));
-        names.add(getResources().getString(R.string.pokemon133));
-        names.add(getResources().getString(R.string.pokemon134));
-        names.add(getResources().getString(R.string.pokemon135));
-        names.add(getResources().getString(R.string.pokemon136));
-        names.add(getResources().getString(R.string.pokemon137));
-        names.add(getResources().getString(R.string.pokemon138));
-        names.add(getResources().getString(R.string.pokemon139));
-        names.add(getResources().getString(R.string.pokemon140));
-        names.add(getResources().getString(R.string.pokemon141));
-        names.add(getResources().getString(R.string.pokemon142));
-        names.add(getResources().getString(R.string.pokemon143));
-        names.add(getResources().getString(R.string.pokemon144));
-        names.add(getResources().getString(R.string.pokemon145));
-        names.add(getResources().getString(R.string.pokemon146));
-        names.add(getResources().getString(R.string.pokemon147));
-        names.add(getResources().getString(R.string.pokemon148));
-        names.add(getResources().getString(R.string.pokemon149));
-        names.add(getResources().getString(R.string.pokemon150));
-        names.add(getResources().getString(R.string.pokemon151));
-        return names.toArray(new String[150]);
-    }
-
 }

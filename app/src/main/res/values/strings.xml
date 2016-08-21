@@ -3,157 +3,163 @@
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
 
-    <string name="pokemon001">Bulbasaur</string>
-    <string name="pokemon002">Ivysaur</string>
-    <string name="pokemon003">Venusaur</string>
-    <string name="pokemon004">Charmander</string>
-    <string name="pokemon005">Charmeleon</string>
-    <string name="pokemon006">Charizard</string>
-    <string name="pokemon007">Squirtle</string>
-    <string name="pokemon008">Wartortle</string>
-    <string name="pokemon009">Blastoise</string>
-    <string name="pokemon010">Caterpie</string>
-    <string name="pokemon011">Metapod</string>
-    <string name="pokemon012">Butterfree</string>
-    <string name="pokemon013">Weedle</string>
-    <string name="pokemon014">Kakuna</string>
-    <string name="pokemon015">Beedrill</string>
-    <string name="pokemon016">Pidgey</string>
-    <string name="pokemon017">Pidgeotto</string>
-    <string name="pokemon018">Pidgeot</string>
-    <string name="pokemon019">Rattata</string>
-    <string name="pokemon020">Raticate</string>
-    <string name="pokemon021">Spearow</string>
-    <string name="pokemon022">Fearow</string>
-    <string name="pokemon023">Ekans</string>
-    <string name="pokemon024">Arbok</string>
-    <string name="pokemon025">Pikachu</string>
-    <string name="pokemon026">Raichu</string>
-    <string name="pokemon027">Sandshrew</string>
-    <string name="pokemon028">Sandslash</string>
     <string name="pokemon029">Nidoran♀</string>
-    <string name="pokemon030">Nidorina</string>
-    <string name="pokemon031">Nidoqueen</string>
     <string name="pokemon032">Nidoran♂</string>
-    <string name="pokemon033">Nidorino</string>
-    <string name="pokemon034">Nidoking</string>
-    <string name="pokemon035">Clefairy</string>
-    <string name="pokemon036">Clefable</string>
-    <string name="pokemon037">Vulpix</string>
-    <string name="pokemon038">Ninetales</string>
-    <string name="pokemon039">Jigglypuff</string>
-    <string name="pokemon040">Wigglytuff</string>
-    <string name="pokemon041">Zubat</string>
-    <string name="pokemon042">Golbat</string>
-    <string name="pokemon043">Oddish</string>
-    <string name="pokemon044">Gloom</string>
-    <string name="pokemon045">Vileplume</string>
-    <string name="pokemon046">Paras</string>
-    <string name="pokemon047">Parasect</string>
-    <string name="pokemon048">Venonat</string>
-    <string name="pokemon049">Venomoth</string>
-    <string name="pokemon050">Diglett</string>
-    <string name="pokemon051">Dugtrio</string>
-    <string name="pokemon052">Meowth</string>
-    <string name="pokemon053">Persian</string>
-    <string name="pokemon054">Psyduck</string>
-    <string name="pokemon055">Golduck</string>
-    <string name="pokemon056">Mankey</string>
-    <string name="pokemon057">Primeape</string>
-    <string name="pokemon058">Growlithe</string>
-    <string name="pokemon059">Arcanine</string>
-    <string name="pokemon060">Poliwag</string>
-    <string name="pokemon061">Poliwhirl</string>
-    <string name="pokemon062">Poliwrath</string>
-    <string name="pokemon063">Abra</string>
-    <string name="pokemon064">Kadabra</string>
-    <string name="pokemon065">Alakazam</string>
-    <string name="pokemon066">Machop</string>
-    <string name="pokemon067">Machoke</string>
-    <string name="pokemon068">Machamp</string>
-    <string name="pokemon069">Bellsprout</string>
-    <string name="pokemon070">Weepinbell</string>
-    <string name="pokemon071">Victreebel</string>
-    <string name="pokemon072">Tentacool</string>
-    <string name="pokemon073">Tentacruel</string>
-    <string name="pokemon074">Geodude</string>
-    <string name="pokemon075">Graveler</string>
-    <string name="pokemon076">Golem</string>
-    <string name="pokemon077">Ponyta</string>
-    <string name="pokemon078">Rapidash</string>
-    <string name="pokemon079">Slowpoke</string>
-    <string name="pokemon080">Slowbro</string>
-    <string name="pokemon081">Magnemite</string>
-    <string name="pokemon082">Magneton</string>
-    <string name="pokemon083">Farfetch\'d</string>
-    <string name="pokemon084">Doduo</string>
-    <string name="pokemon085">Dodrio</string>
-    <string name="pokemon086">Seel</string>
-    <string name="pokemon087">Dewgong</string>
-    <string name="pokemon088">Grimer</string>
-    <string name="pokemon089">Muk</string>
-    <string name="pokemon090">Shellder</string>
-    <string name="pokemon091">Cloyster</string>
-    <string name="pokemon092">Gastly</string>
-    <string name="pokemon093">Haunter</string>
-    <string name="pokemon094">Gengar</string>
-    <string name="pokemon095">Onix</string>
-    <string name="pokemon096">Drowzee</string>
-    <string name="pokemon097">Hypno</string>
-    <string name="pokemon098">Krabby</string>
-    <string name="pokemon099">Kingler</string>
-    <string name="pokemon100">Voltorb</string>
-    <string name="pokemon101">Electrode</string>
-    <string name="pokemon102">Exeggcute</string>
-    <string name="pokemon103">Exeggutor</string>
-    <string name="pokemon104">Cubone</string>
-    <string name="pokemon105">Marowak</string>
-    <string name="pokemon106">Hitmonlee</string>
-    <string name="pokemon107">Hitmonchan</string>
-    <string name="pokemon108">Lickitung</string>
-    <string name="pokemon109">Koffing</string>
-    <string name="pokemon110">Weezing</string>
-    <string name="pokemon111">Rhyhorn</string>
-    <string name="pokemon112">Rhydon</string>
-    <string name="pokemon113">Chansey</string>
-    <string name="pokemon114">Tangela</string>
-    <string name="pokemon115">Kangaskhan</string>
-    <string name="pokemon116">Horsea</string>
-    <string name="pokemon117">Seadra</string>
-    <string name="pokemon118">Goldeen</string>
-    <string name="pokemon119">Seaking</string>
-    <string name="pokemon120">Staryu</string>
-    <string name="pokemon121">Starmie</string>
-    <string name="pokemon122">Mr. Mime</string>
-    <string name="pokemon123">Scyther</string>
-    <string name="pokemon124">Jynx</string>
-    <string name="pokemon125">Electabuzz</string>
-    <string name="pokemon126">Magmar</string>
-    <string name="pokemon127">Pinsir</string>
-    <string name="pokemon128">Tauros</string>
-    <string name="pokemon129">Magikarp</string>
-    <string name="pokemon130">Gyarados</string>
-    <string name="pokemon131">Lapras</string>
-    <string name="pokemon132">Ditto</string>
     <string name="pokemon133">Eevee</string>
-    <string name="pokemon134">Vaporeon</string>
-    <string name="pokemon135">Jolteon</string>
-    <string name="pokemon136">Flareon</string>
-    <string name="pokemon137">Porygon</string>
-    <string name="pokemon138">Omanyte</string>
-    <string name="pokemon139">Omastar</string>
-    <string name="pokemon140">Kabuto</string>
-    <string name="pokemon141">Kabutops</string>
-    <string name="pokemon142">Aerodactyl</string>
-    <string name="pokemon143">Snorlax</string>
-    <string name="pokemon144">Articuno</string>
-    <string name="pokemon145">Zapdos</string>
-    <string name="pokemon146">Moltres</string>
-    <string name="pokemon147">Dratini</string>
-    <string name="pokemon148">Dragonair</string>
-    <string name="pokemon149">Dragonite</string>
-    <string name="pokemon150">Mewtwo</string>
-    <string name="pokemon151">Mew</string>
+
+    <string-array name="Pokemon">
+        <item>Bulbasaur</item>
+        <item>Ivysaur</item>
+        <item>Venusaur</item>
+        <item>Charmander</item>
+        <item>Charmeleon</item>
+        <item>Charizard</item>
+        <item>Squirtle</item>
+        <item>Wartortle</item>
+        <item>Blastoise</item>
+        <item>Caterpie</item>
+        <item>Metapod</item>
+        <item>Butterfree</item>
+        <item>Weedle</item>
+        <item>Kakuna</item>
+        <item>Beedrill</item>
+        <item>Pidgey</item>
+        <item>Pidgeotto</item>
+        <item>Pidgeot</item>
+        <item>Rattata</item>
+        <item>Raticate</item>
+        <item>Spearow</item>
+        <item>Fearow</item>
+        <item>Ekans</item>
+        <item>Arbok</item>
+        <item>Pikachu</item>
+        <item>Raichu</item>
+        <item>Sandshrew</item>
+        <item>Sandslash</item>
+        <item>Nidoran♀</item>
+        <item>Nidorina</item>
+        <item>Nidoqueen</item>
+        <item>Nidoran♂</item>
+        <item>Nidorino</item>
+        <item>Nidoking</item>
+        <item>Clefairy</item>
+        <item>Clefable</item>
+        <item>Vulpix</item>
+        <item>Ninetales</item>
+        <item>Jigglypuff</item>
+        <item>Wigglytuff</item>
+        <item>Zubat</item>
+        <item>Golbat</item>
+        <item>Oddish</item>
+        <item>Gloom</item>
+        <item>Vileplume</item>
+        <item>Paras</item>
+        <item>Parasect</item>
+        <item>Venonat</item>
+        <item>Venomoth</item>
+        <item>Diglett</item>
+        <item>Dugtrio</item>
+        <item>Meowth</item>
+        <item>Persian</item>
+        <item>Psyduck</item>
+        <item>Golduck</item>
+        <item>Mankey</item>
+        <item>Primeape</item>
+        <item>Growlithe</item>
+        <item>Arcanine</item>
+        <item>Poliwag</item>
+        <item>Poliwhirl</item>
+        <item>Poliwrath</item>
+        <item>Abra</item>
+        <item>Kadabra</item>
+        <item>Alakazam</item>
+        <item>Machop</item>
+        <item>Machoke</item>
+        <item>Machamp</item>
+        <item>Bellsprout</item>
+        <item>Weepinbell</item>
+        <item>Victreebel</item>
+        <item>Tentacool</item>
+        <item>Tentacruel</item>
+        <item>Geodude</item>
+        <item>Graveler</item>
+        <item>Golem</item>
+        <item>Ponyta</item>
+        <item>Rapidash</item>
+        <item>Slowpoke</item>
+        <item>Slowbro</item>
+        <item>Magnemite</item>
+        <item>Magneton</item>
+        <item>Farfetch\'d</item>
+        <item>Doduo</item>
+        <item>Dodrio</item>
+        <item>Seel</item>
+        <item>Dewgong</item>
+        <item>Grimer</item>
+        <item>Muk</item>
+        <item>Shellder</item>
+        <item>Cloyster</item>
+        <item>Gastly</item>
+        <item>Haunter</item>
+        <item>Gengar</item>
+        <item>Onix</item>
+        <item>Drowzee</item>
+        <item>Hypno</item>
+        <item>Krabby</item>
+        <item>Kingler</item>
+        <item>Voltorb</item>
+        <item>Electrode</item>
+        <item>Exeggcute</item>
+        <item>Exeggutor</item>
+        <item>Cubone</item>
+        <item>Marowak</item>
+        <item>Hitmonlee</item>
+        <item>Hitmonchan</item>
+        <item>Lickitung</item>
+        <item>Koffing</item>
+        <item>Weezing</item>
+        <item>Rhyhorn</item>
+        <item>Rhydon</item>
+        <item>Chansey</item>
+        <item>Tangela</item>
+        <item>Kangaskhan</item>
+        <item>Horsea</item>
+        <item>Seadra</item>
+        <item>Goldeen</item>
+        <item>Seaking</item>
+        <item>Staryu</item>
+        <item>Starmie</item>
+        <item>Mr. Mime</item>
+        <item>Scyther</item>
+        <item>Jynx</item>
+        <item>Electabuzz</item>
+        <item>Magmar</item>
+        <item>Pinsir</item>
+        <item>Tauros</item>
+        <item>Magikarp</item>
+        <item>Gyarados</item>
+        <item>Lapras</item>
+        <item>Ditto</item>
+        <item>Eevee</item>
+        <item>Vaporeon</item>
+        <item name="pokemon135">Jolteon</item>
+        <item>Flareon</item>
+        <item>Porygon</item>
+        <item name="pokemon138">Omanyte</item>
+        <item>Omastar</item>
+        <item>Kabuto</item>
+        <item name="pokemon141">Kabutops</item>
+        <item>Aerodactyl</item>
+        <item>Snorlax</item>
+        <item>Articuno</item>
+        <item name="pokemon145">Zapdos</item>
+        <item>Moltres</item>
+        <item>Dratini</item>
+        <item>Dragonair</item>
+        <item name="pokemon149">Dragonite</item>
+        <item>Mewtwo</item>
+        <item>Mew</item>
+    </string-array>
 
     <string name="welcome_message">Welcome to GoIV!\n\nInstructions:\n1. Enter your trainer level below\n2. Press the start button and allow screen capture\n3. Open up your desired Pokémon in \'Pokémon Go\'\n4. Tap the IV Button to scan the Pokémon\n5. Adjust the scanned data if necessary\n6. Check IV!</string>
     <string name="goiv_is_open_source">GoIV is open source!\ngithub.com/farkam135/GoIV\nreddit.com/r/GoIV</string>

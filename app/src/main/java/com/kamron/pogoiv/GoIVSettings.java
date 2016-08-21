@@ -46,7 +46,7 @@ public class GoIVSettings {
         return new GoIVSettings(settingsPreferences.getBoolean(LAUNCH_POKEMON_GO, true),
                 settingsPreferences.getBoolean(SHOW_CONFIRMATION_DIALOG, true),
                 settingsPreferences.getBoolean(DELETE_SCREENSHOTS, true),
-                settingsPreferences.getBoolean(COPY_TO_CLIPBOARD, true),
+                settingsPreferences.getBoolean(COPY_TO_CLIPBOARD, false),
                 settingsPreferences.getBoolean(SEND_CRASH_REPORTS, true),
                 settingsPreferences.getBoolean(AUTO_UPDATE_ENABLED, true));
     }

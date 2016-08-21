@@ -27,7 +27,7 @@ public class SettingsActivity extends AppCompatActivity implements SharedPrefere
                 sharedPreferences.getBoolean(GoIVSettings.LAUNCH_POKEMON_GO, true),
                 sharedPreferences.getBoolean(GoIVSettings.SHOW_CONFIRMATION_DIALOG, true),
                 sharedPreferences.getBoolean(GoIVSettings.DELETE_SCREENSHOTS, true),
-                sharedPreferences.getBoolean(GoIVSettings.COPY_TO_CLIPBOARD, true),
+                sharedPreferences.getBoolean(GoIVSettings.COPY_TO_CLIPBOARD, false),
                 sharedPreferences.getBoolean(GoIVSettings.SEND_CRASH_REPORTS, true),
                 sharedPreferences.getBoolean(GoIVSettings.AUTO_UPDATE_ENABLED, true)));
     }

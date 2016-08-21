@@ -24,7 +24,7 @@
         android:key="copyToClipboard"
         android:title="@string/copy_to_clipboard_setting_title"
         android:summary="@string/copy_to_clipboard_setting_summary"
-        android:defaultValue="true"/>
+        android:defaultValue="false"/>
 
     <SwitchPreference
         android:key="sendCrashReports"

@@ -394,9 +394,12 @@ public class pokefly extends Service {
             pokemonInfoLayout.setVisibility(View.VISIBLE);
             pokemonGetIVButton.setVisibility(View.VISIBLE);
 
+            String origPokemonName = pokemonName;
             pokemonName = pokeCalculator.get(possiblePoke[0]).name;
             candyName = pokeCalculator.get(possibleCandy[0]).name;
-            if (possiblePoke[1] < 2) {
+            //if distance of 1st pokemon < distance of the second.
+            //To understand, remember that possiblePoke[1] = pokeCalculator.get(possiblePoke[0]).getSimilarity(origPokemonName).
+            if (possiblePoke[1] < pokeCalculator.get(possibleCandy[0]).getSimilarity(origPokemonName)) {
                 pokemonList.setSelection(possiblePoke[0]);
             } else {
                 pokemonList.setSelection(possibleCandy[0]);

@@ -1,4 +1,4 @@
-package com.kamron.pogoiv;
+﻿package com.kamron.pogoiv;
 
 import android.Manifest;
 import android.annotation.TargetApi;

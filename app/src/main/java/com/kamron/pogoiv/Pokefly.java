@@ -102,7 +102,7 @@ public class Pokefly extends Service {
     private int pokemonHP;
     private double estimatedPokemonLevel = 1.0;
 
-    private ArrayAdapter<Pokemon> pokeAdapter;
+    private PokemonSpinnerAdapter pokeAdapter;
 
     private final WindowManager.LayoutParams arcParams = new WindowManager.LayoutParams(
             WindowManager.LayoutParams.WRAP_CONTENT,
@@ -378,7 +378,7 @@ public class Pokefly extends Service {
         layoutParams.gravity = Gravity.CENTER | Gravity.BOTTOM;
         ButterKnife.bind(this, infoLayout);
 
-        pokeAdapter = new ArrayAdapter<>(this, R.layout.spinner_pokemon, pokeCalculator.pokedex);
+        pokeAdapter = new PokemonSpinnerAdapter(this, R.layout.spinner_pokemon, pokeCalculator.pokedex);
         pokemonList.setAdapter(pokeAdapter);
     }
 
@@ -467,9 +467,8 @@ public class Pokefly extends Service {
             String origPokemonName = pokemonName;
             pokemonName = pokeCalculator.get(possiblePoke[0]).name;
             candyName = pokeCalculator.get(possibleCandy[0]).name;
-            //if distance of 1st pokemon < distance of the second.
-            //To understand, remember that possiblePoke[1] = pokeCalculator.get(possiblePoke[0]).getDistance(origPokemonName).
-            if (possiblePoke[1] < pokeCalculator.get(possibleCandy[0]).getDistance(origPokemonName)) {
+            //if distance from found name to best pokemon match < distance from found candy name to best pokemon match.
+            if (possiblePoke[1] < possibleCandy[1]) {
                 pokemonList.setSelection(possiblePoke[0]);
             } else {
                 pokemonList.setSelection(possibleCandy[0]);

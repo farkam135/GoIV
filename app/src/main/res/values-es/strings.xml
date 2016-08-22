@@ -38,4 +38,5 @@
     <string name="trainer_level">Nivel de Entrenador</string>
     <string name="use_the_slider_below_to_align_the_arc">Use el slider para alinear el marcador en el arco</string>
     <string name="welcome_message">Bienvenido a GoIV!\n\nInstrucciones:\n1. Ingresar nivel de entrenador\n2. Presionar el botón de inicio y permitir la captura de pantalla\n3. Abrir el Pokémon deseado en \'Pokémon Go\'\n4. Presionar el botón IV para obtener los datos del Pokémon\n5. Ajustar los datos obtenidos en caso de ser necesario\n6. Obtener IV!</string>
+    <string name="accept_screen_capture">Acepta Captura de Pantalla</string>
 </resources>

@@ -51,10 +51,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.googlecode.tesseract.android.TessBaseAPI;
-import com.kamron.pogoiv.updater.AppUpdate;
-import com.kamron.pogoiv.updater.AppUpdateDialog;
 import com.kamron.pogoiv.updater.AppUpdateEvent;
 import com.kamron.pogoiv.updater.AppUpdateLoader;
+import com.kamron.pogoiv.updater.AppUpdateUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -70,10 +69,9 @@ import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import timber.log.Timber;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
+import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -142,6 +140,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Timber.tag(TAG);
+
         mContext=MainActivity.this;
 
         setContentView(R.layout.activity_main);
@@ -346,38 +345,20 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         settings = GoIVSettings.getSettings(MainActivity.this);
-        new AppUpdateLoader().start();
+        if(settings.getAutoUpdateEnabled())
+            new AppUpdateLoader().start();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onAppUpdateEvent(AppUpdateEvent event) {
         switch (event.getStatus()) {
             case AppUpdateEvent.OK:
-                    showAppUpdateDialog(mContext, event.getAppUpdate());
+                AlertDialog updateDialog = AppUpdateUtil.getAppUpdateDialog(mContext, event.getAppUpdate());
+                updateDialog.show();
+                break;
         }
     }
-    private void showAppUpdateDialog(final Context context, final AppUpdate update) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context)
-                .setTitle("Update available")
-                .setMessage(context.getString(R.string.app_name) + " " + update.getVersion() + " " + "Update available" + "\n\n" + "Changes:" + "\n\n" + update.getChangelog())
-                .setIcon(R.mipmap.ic_launcher)
-                .setPositiveButton("Update", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                        AppUpdateDialog.downloadAndInstallAppUpdate(context, update);
-                    }
-                })
-                .setNegativeButton(context.getString(R.string.cancel), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                })
-                .setCancelable(false);
-        AlertDialog dialog = builder.create();
-        dialog.show();
-    }
+
     /**
      * setupArcPoints
      * Sets up the x,y coordinates of the arc using the trainer level, stores it in Data.arcX/arcY
@@ -433,7 +414,6 @@ public class MainActivity extends AppCompatActivity {
         } catch (PackageManager.NameNotFoundException e) {
             Timber.e("Exception thrown while getting version name");
             Timber.e(e);
-            Log.e(TAG, "Error while getting version name", e);
         }
         return "Error while getting version name";
     }
@@ -821,7 +801,6 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception exception) {
             Timber.e("Exception thrown in saveImage()");
             Timber.e(exception);
-            Log.e(TAG, "Error while saving the image.", exception);
         }
     }
 
@@ -955,7 +934,6 @@ public class MainActivity extends AppCompatActivity {
         } catch (IOException exception) {
             Timber.e("Exception thrown in copyAssetFolder()");
             Timber.e(exception);
-            Log.e(TAG, "Error while loading filenames.", exception);
         }
         new File(toPath).mkdirs();
         boolean res = true;
@@ -982,7 +960,6 @@ public class MainActivity extends AppCompatActivity {
         } catch (IOException exception) {
             Timber.e("Exception thrown in copyAsset()");
             Timber.e(exception);
-            Log.e(TAG, "Error while copying assets.", exception);
             return false;
         }
     }

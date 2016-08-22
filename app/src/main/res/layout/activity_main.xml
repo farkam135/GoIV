@@ -86,16 +86,5 @@
         app:layout_constraintBottom_toBottomOf="@id/activity_main"
         app:layout_constraintRight_toRightOf="@id/activity_main" />
 
-    <com.github.clans.fab.FloatingActionButton
-        android:id="@+id/btnSettings"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        app:layout_constraintBottom_toTopOf="@id/version_number"
-        app:layout_constraintRight_toRightOf="@id/activity_main"
-        android:src="@drawable/ic_settings_white_24dp"
-        android:layout_margin="16dp"
-        app:fab_size="normal"/>
-
 </android.support.constraint.ConstraintLayout>
 

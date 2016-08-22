@@ -184,17 +184,17 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/btnCloseInfo"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/close"
-            android:layout_weight="1"/>
-
-        <Button
             android:id="@+id/btnBackInfo"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/back"
+            android:layout_weight="1"/>
+
+        <Button
+            android:id="@+id/btnCloseInfo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/close"
             android:layout_weight="1"/>
 
     </LinearLayout>

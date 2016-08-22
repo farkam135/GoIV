@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">GoIV</string>
     <string name="back">Atrás</string>
     <string name="battery_saver_instructions">Su directorio de capturas de pantalla no pudo ser encontrado. Por favor siga las siguientes instrucciones para ayudar a GoIV a detectarlo:\n1.Presione \'Configuración\' en este mensaje\n2.Tome una captura de pantalla\n3.Espere por más instrucciones.</string>
     <string name="battery_saver_setup">Configuración de Ahorro de Batería</string>
@@ -16,7 +15,7 @@
     <string name="ivtext_cp_lvl">PC a nivel %1$s: %2$s - %3$s</string>
     <string name="ivtext_evolve">Puede evolucionar a %1$s:\n</string>
     <string name="ivtext_evolve_further">Luego puede evolucionar a %1$s:</string>
-    <string name="ivtext_iv">Min: %1$s%% Promedio: %2$s%% Max: %3$s%%\n</string>
+    <string name="ivtext_iv">Min: %1$.2f%% Promedio: %2$.2f%% Max: %3$.2f%%\n</string>
     <string name="ivtext_many_possibilities">Existen demasiadas posibilidades para este Pokémon. Intenta darle más poder!</string>
     <string name="ivtext_max_lvl_cost">Costo para alcanzar nivel %1$s:</string>
     <string name="ivtext_max_lvl_cost2">Caramelos: %1$s Polvo Estelar: %2$s</string>

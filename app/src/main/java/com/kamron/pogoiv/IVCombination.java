@@ -8,13 +8,13 @@ public class IVCombination {
     public final int att;
     public final int def;
     public final int sta;
-    public final int percentPerfect;
+    public final double percentPerfect;
 
     public IVCombination(int att, int def, int sta) {
         this.att = att;
         this.def = def;
         this.sta = sta;
-        percentPerfect = (int) Math.round(((att + def + sta) / 45.0) * 100);
+        percentPerfect = (double) ((att + def + sta) / 45.0) * 100;
     }
 
     @Override
@@ -39,6 +39,6 @@ public class IVCombination {
     }
 
     public String toString(){
-        return "Att: " + this.att + " def: " + this.def + " sta: " + this.sta +" %: " + percentPerfect;
+        return "Att: " + this.att + " def: " + this.def + " sta: " + this.sta +" %: " + String.format("%.2f", percentPerfect);
     }
 }

@@ -51,6 +51,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.googlecode.tesseract.android.TessBaseAPI;
+import com.kamron.pogoiv.updater.AppUpdate;
+import com.kamron.pogoiv.updater.AppUpdateDialog;
+import com.kamron.pogoiv.updater.AppUpdateEvent;
+import com.kamron.pogoiv.updater.AppUpdateLoader;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -120,6 +128,10 @@ public class MainActivity extends AppCompatActivity {
     private int radius;
 
     private GoIVSettings settings;
+    private boolean checkingForUpdate;
+    private AlertDialog.Builder builder;
+    private AlertDialog dialog;
+    private Context mContext;
 
     public static Intent createScreenshotIntent() {
         return new Intent(ACTION_SCREENSHOT);
@@ -134,6 +146,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Timber.tag(TAG);
+        checkingForUpdate = false;
+        mContext=MainActivity.this;
 
         setContentView(R.layout.activity_main);
 
@@ -264,12 +278,8 @@ public class MainActivity extends AppCompatActivity {
         LocalBroadcastManager.getInstance(this).registerReceiver(resetScreenshot, new IntentFilter("reset-screenshot"));
         LocalBroadcastManager.getInstance(this).registerReceiver(takeScreenshot, new IntentFilter("screenshot"));
         LocalBroadcastManager.getInstance(this).registerReceiver(processBitmap, new IntentFilter("process-bitmap"));
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        settings = GoIVSettings.getSettings(MainActivity.this);
+        builder = new AlertDialog.Builder(mContext);
+        dialog = builder.create();
     }
 
     @OnClick(R.id.btnSettings)
@@ -326,6 +336,70 @@ public class MainActivity extends AppCompatActivity {
                 .show();
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        settings = GoIVSettings.getSettings(MainActivity.this);
+        //if (BuildConfig.enableUpdater) {
+            //if (currentSettings.isUpdatesEnabled()) {
+                new AppUpdateLoader().start();
+                checkingForUpdate = true;
+    //}
+    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onAppUpdateEvent(AppUpdateEvent event) {
+        switch (event.getStatus()) {
+            case AppUpdateEvent.OK:
+                    showAppUpdateDialog(mContext, event.getAppUpdate());
+                    checkingForUpdate = false;
+                    System.out.println("Updating");
+                break;
+            case AppUpdateEvent.FAILED:
+                Toast.makeText(mContext, "Update check failed", Toast.LENGTH_SHORT).show();
+                checkingForUpdate = false;
+                break;
+            case AppUpdateEvent.UPTODATE:
+                checkingForUpdate = false;
+                break;
+        }
+    }
+    private void showAppUpdateDialog(final Context context, final AppUpdate update) {
+        if(!dialog.isShowing()) {
+            builder = new AlertDialog.Builder(context)
+                    .setTitle("Update available")
+                    .setMessage(context.getString(R.string.app_name) + " " + update.getVersion() + " " + "Update available" + "\n\n" + "Changes:" + "\n\n" + update.getChangelog())
+                    .setIcon(R.mipmap.ic_launcher)
+                    .setPositiveButton("Update", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                            AppUpdateDialog.downloadAndInstallAppUpdate(context, update);
+                        }
+                    })
+                    .setNegativeButton(context.getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    })
+                    .setCancelable(false);
+            dialog = builder.create();
+            dialog.show();
+        }
+    }
     /**
      * setupArcPoints
      * Sets up the x,y coordinates of the arc using the trainer level, stores it in Data.arcX/arcY
@@ -540,6 +614,7 @@ public class MainActivity extends AppCompatActivity {
                 image.close();
                 Bitmap bmp = getBitmap(buffer, pixelStride, rowPadding);
                 scanPokemon(bmp,"");
+                bmp.recycle();
                 //SaveImage(bmp,"Search");
             } catch (Exception exception) {
                 Timber.e("Exception thrown in takeScreenshot() - when creating bitmap");
@@ -794,7 +869,9 @@ public class MainActivity extends AppCompatActivity {
                     if (readyForNewScreenshot && file != null) {
                         readyForNewScreenshot = false;
                         File pokemonScreenshot = new File(screenshotDir + File.separator + file);
-                        scanPokemon(BitmapFactory.decodeFile(pokemonScreenshot.getAbsolutePath()),pokemonScreenshot.getAbsolutePath());
+                        Bitmap bmp = BitmapFactory.decodeFile(pokemonScreenshot.getAbsolutePath());
+                        scanPokemon(bmp, pokemonScreenshot.getAbsolutePath());
+                        bmp.recycle();
                     }
             }
         };
@@ -843,6 +920,7 @@ public class MainActivity extends AppCompatActivity {
             if (readyForNewScreenshot) {
                 Bitmap bitmap = (Bitmap) intent.getParcelableExtra("bitmap");
                 scanPokemon(bitmap, "");
+                bitmap.recycle();
                 readyForNewScreenshot = false;
             }
         }

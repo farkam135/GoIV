@@ -4,7 +4,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'io.fabric.tools:gradle:1.+'
+        classpath 'io.fabric.tools:gradle:1.21.6'
     }
 }
 apply plugin: 'com.android.application'
@@ -52,11 +52,13 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:24.0.0'
+    compile 'com.android.support:appcompat-v7:24.2.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha1'
     compile 'com.rmtheis:tess-two:6.0.3'
     compile 'com.jakewharton.timber:timber:4.3.0'
     compile 'com.jakewharton:butterknife:8.1.0'
+    compile 'com.squareup.okhttp3:okhttp:3.4.1'
+    compile 'org.greenrobot:eventbus:3.0.0'
     apt 'com.jakewharton:butterknife-compiler:8.1.0'
     compile 'com.github.clans:fab:1.6.4'
     provided "org.projectlombok:lombok:1.16.10"
@@ -70,5 +72,5 @@ dependencies {
     testCompile 'junit:junit:4.12'
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
     androidTestCompile 'com.android.support.test:runner:0.5'
-    androidTestCompile 'com.android.support:support-annotations:24.0.0'
+    androidTestCompile 'com.android.support:support-annotations:24.2.0'
 }

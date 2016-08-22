@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">GoIV</string>
+    <string name="back">Atrás</string>
+    <string name="battery_saver_instructions">Su directorio de capturas de pantalla no pudo ser encontrado. Por favor siga las siguientes instrucciones para ayudar a GoIV a detectarlo:\n1.Presione \'Configuración\' en este mensaje\n2.Tome una captura de pantalla\n3.Espere por más instrucciones.</string>
+    <string name="battery_saver_setup">Configuración de Ahorro de Batería</string>
+    <string name="cancel">Cancelar</string>
+    <string name="check_iv">Obtener IV</string>
+    <string name="close">Cerrar</string>
+    <string name="cp">PC</string>
+    <string name="done">Listo</string>
+    <string name="drawer_close">Cerrar panel de navegación</string>
+    <string name="drawer_open">Abrir panel de navegación</string>
+    <string name="goiv_is_open_source">GoIV es código abierto!\ngithub.com/farkam135/GoIV\nreddit.com/r/GoIV</string>
+    <string name="hp">PS</string>
+    <string name="ivtext_cp_lvl">PC a nivel %1$s: %2$s - %3$s</string>
+    <string name="ivtext_evolve">Puede evolucionar a %1$s:\n</string>
+    <string name="ivtext_evolve_further">Luego puede evolucionar a %1$s:</string>
+    <string name="ivtext_iv">Min: %1$s%% Promedio: %2$s%% Max: %3$s%%\n</string>
+    <string name="ivtext_many_possibilities">Existen demasiadas posibilidades para este Pokémon. Intenta darle más poder!</string>
+    <string name="ivtext_max_lvl_cost">Costo para alcanzar nivel %1$s:</string>
+    <string name="ivtext_max_lvl_cost2">Caramelos: %1$s Polvo Estelar: %2$s</string>
+    <string name="ivtext_no_possibilities">No existen posibilidades, por favor vuelva a verificar los datos!</string>
+    <string name="ivtext_possibilities">%1$s posibilidades más...</string>
+    <string name="ivtext_title">Tu %4$s nivel %1$s, PC %2$s, PS %3$s puede ser:</string>
+    <string name="main_battery_saver">Ahorro de Batería (Captura de pantalla para obtener los datos)</string>
+    <string name="main_invalide_trainerlvl">Nivel de Entrenador inválido!</string>
+    <string name="main_not_numeric">%1$s no es un número.</string>
+    <string name="main_permission">Dar Permisos</string>
+    <string name="main_start">Iniciar</string>
+    <string name="main_stop">Detener</string>
+    <string name="notification_text">Presione para abrir</string>
+    <string name="notification_title">GoIV en Ejecución - Nivel %1$s</string>
+    <string name="pokemon_name">Nombre del Pokémon: </string>
+    <string name="screenshot_dir_found">Directorio de capturas de pantalla:\n%1$s</string>
+    <string name="setup">Configuración</string>
+    <string name="take_screenshot">Tomar captura de pantalla</string>
+    <string name="trainer_level">Nivel de Entrenador</string>
+    <string name="use_the_slider_below_to_align_the_arc">Use el slider para alinear el marcador en el arco</string>
+    <string name="welcome_message">Bienvenido a GoIV!\n\nInstrucciones:\n1. Ingresar nivel de entrenador\n2. Presionar el botón de inicio y permitir la captura de pantalla\n3. Abrir el Pokémon deseado en \'Pokémon Go\'\n4. Presionar el botón IV para obtener los datos del Pokémon\n5. Ajustar los datos obtenidos en caso de ser necesario\n6. Obtener IV!</string>
+</resources>

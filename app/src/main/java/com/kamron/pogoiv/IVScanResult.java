@@ -8,7 +8,6 @@ import java.util.ArrayList;
  * A class which represents all possible iv combinations for a pokemon
  */
 public class IVScanResult {
-    public  int count=0;
     public  int highPercent = 0;
     public  int lowPercent=100;
     public  int lowAttack=15 ;
@@ -38,6 +37,9 @@ public class IVScanResult {
         this.estimatedPokemonLevel =estimatedPokemonLevel;
     }
 
+    public int getCount() {
+        return iVCombinations.size();
+    }
     /**
      * Calculates and returns the average % of the possible IVs
      * @return
@@ -47,7 +49,7 @@ public class IVScanResult {
         for (IVCombination ivc : iVCombinations){
             averageSum += ivc.att + ivc.def + ivc.sta;
         }
-        return (int) Math.round(((averageSum * 100 / (45.0 * count)))); // new;
+        return (int) Math.round(((averageSum * 100 / (45.0 * getCount())))); // new;
     }
 
     /**
@@ -57,8 +59,6 @@ public class IVScanResult {
      * @param staminaIV the stamina iv
      */
     public void addIVCombination(int attackIV, int defenseIV, int staminaIV) {
-        count++;
-
         int sumIV = attackIV + defenseIV + staminaIV;
         int percentPerfect = (int) Math.round(((sumIV) / 45.0) * 100);
 

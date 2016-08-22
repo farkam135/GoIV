@@ -10,6 +10,7 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.net.Uri;
 import android.os.Build;
@@ -91,9 +92,9 @@ public class Pokefly extends Service {
     @BindView(R.id.etCp) EditText pokemonCPEdit;
     @BindView(R.id.etHp) EditText pokemonHPEdit;
     @BindView(R.id.sbArcAdjust) SeekBar arcAdjustBar;
-    @BindView(R.id.btnCheckIv) Button pokemonGetIVButton;
-    @BindView(R.id.btnCancelInfo) Button cancelInfoButton;
     @BindView(R.id.llPokemonInfo) LinearLayout pokemonInfoLayout;
+    @BindView(R.id.llButtonsInitial) LinearLayout initialButtonsLayout;
+    @BindView(R.id.llButtonsOnCheck) LinearLayout onCheckButtonsLayout;
 
     private String pokemonName;
     private String candyName;
@@ -101,7 +102,7 @@ public class Pokefly extends Service {
     private int pokemonHP;
     private double estimatedPokemonLevel = 1.0;
 
-    private ArrayAdapter<Pokemon> pokeAdapter;
+    private PokemonSpinnerAdapter pokeAdapter;
 
     private final WindowManager.LayoutParams arcParams = new WindowManager.LayoutParams(
             WindowManager.LayoutParams.WRAP_CONTENT,
@@ -377,7 +378,7 @@ public class Pokefly extends Service {
         layoutParams.gravity = Gravity.CENTER | Gravity.BOTTOM;
         ButterKnife.bind(this, infoLayout);
 
-        pokeAdapter = new ArrayAdapter<>(this, R.layout.spinner_pokemon, pokeCalculator.pokedex);
+        pokeAdapter = new PokemonSpinnerAdapter(this, R.layout.spinner_pokemon, pokeCalculator.pokedex);
         pokemonList.setAdapter(pokeAdapter);
     }
 
@@ -410,12 +411,12 @@ public class Pokefly extends Service {
         pokemonCP = Integer.parseInt(pokemonCPEdit.getText().toString());
         ivText.setVisibility(View.VISIBLE);
         pokemonInfoLayout.setVisibility(View.GONE);
+        initialButtonsLayout.setVisibility(View.GONE);
+        onCheckButtonsLayout.setVisibility(View.VISIBLE);
         ivText.setText(getIVText());
-        pokemonGetIVButton.setVisibility(View.GONE);
-        cancelInfoButton.setText(getString(R.string.close));
     }
 
-    @OnClick(R.id.btnCancelInfo)
+    @OnClick({ R.id.btnCancelInfo, R.id.btnCloseInfo })
     public void cancelInfoDialog() {
         windowManager.removeView(infoLayout);
         windowManager.removeView(arcPointer);
@@ -427,6 +428,14 @@ public class Pokefly extends Service {
         infoShown = false;
         Intent resetIntent = MainActivity.createResetScreenshotIntent();
         LocalBroadcastManager.getInstance(Pokefly.this).sendBroadcast(resetIntent);
+    }
+
+    @OnClick(R.id.btnBackInfo)
+    public void backToIvForm() {
+        ivText.setVisibility(View.GONE);
+        pokemonInfoLayout.setVisibility(View.VISIBLE);
+        initialButtonsLayout.setVisibility(View.VISIBLE);
+        onCheckButtonsLayout.setVisibility(View.GONE);
     }
 
     /**
@@ -441,21 +450,31 @@ public class Pokefly extends Service {
             int[] possibleCandy = getPossiblePokemon(candyName);
             ivText.setVisibility(View.GONE);
             pokemonInfoLayout.setVisibility(View.VISIBLE);
-            pokemonGetIVButton.setVisibility(View.VISIBLE);
+            initialButtonsLayout.setVisibility(View.VISIBLE);
+            onCheckButtonsLayout.setVisibility(View.GONE);
+
+            // set color based on similarity
+            if (possiblePoke[1] == 0) {
+                pokemonList.setBackgroundColor(Color.parseColor("#ddffdd"));
+            }
+            else if (possiblePoke[1] < 2) {
+                pokemonList.setBackgroundColor(Color.parseColor("#ffffcc"));
+            }
+            else {
+                pokemonList.setBackgroundColor(Color.parseColor("#ffcccc"));
+            }
 
             String origPokemonName = pokemonName;
             pokemonName = pokeCalculator.get(possiblePoke[0]).name;
             candyName = pokeCalculator.get(possibleCandy[0]).name;
-            //if distance of 1st pokemon < distance of the second.
-            //To understand, remember that possiblePoke[1] = pokeCalculator.get(possiblePoke[0]).getDistance(origPokemonName).
-            if (possiblePoke[1] < pokeCalculator.get(possibleCandy[0]).getDistance(origPokemonName)) {
+            //if distance from found name to best pokemon match < distance from found candy name to best pokemon match.
+            if (possiblePoke[1] < possibleCandy[1]) {
                 pokemonList.setSelection(possiblePoke[0]);
             } else {
                 pokemonList.setSelection(possibleCandy[0]);
             }
             pokemonHPEdit.setText(String.valueOf(pokemonHP));
             pokemonCPEdit.setText(String.valueOf(pokemonCP));
-            cancelInfoButton.setText(getString(R.string.cancel));
 
             windowManager.addView(arcPointer, arcParams);
             windowManager.addView(infoLayout, layoutParams);
@@ -509,23 +528,23 @@ public class Pokefly extends Service {
 
             return tester;
         }*/
-
-        int counter = 0;
-        for(IVCombination ivCombination:ivScanResult.iVCombinations){
-            returnVal += "\n" + String.format(getString(R.string.ivtext_stats), ivCombination.att, ivCombination.def, ivCombination.sta, ivCombination.percentPerfect);
-            counter++;
-            if (counter == MAX_POSSIBILITIES){
-                break;
-            }
-        }
-
-        if (ivScanResult.count > MAX_POSSIBILITIES) {
-            returnVal += "\n" + String.format(getString(R.string.ivtext_possibilities), ivScanResult.count - MAX_POSSIBILITIES);
-        }
-
-        if (ivScanResult.count == 0) {
+        if (ivScanResult == null) {
+            returnVal += "\n" + getString(R.string.ivtext_many_possibilities);
+        } else if (ivScanResult.getCount() == 0) {
             returnVal += "\n" + getString(R.string.ivtext_no_possibilities);
         } else {
+            int counter = 0;
+            for (IVCombination ivCombination: ivScanResult.iVCombinations) {
+                returnVal += "\n" + String.format(getString(R.string.ivtext_stats), ivCombination.att, ivCombination.def, ivCombination.sta, ivCombination.percentPerfect);
+                counter++;
+                if (counter == MAX_POSSIBILITIES){
+                    break;
+                }
+            }
+
+            if (ivScanResult.getCount() > MAX_POSSIBILITIES) {
+                returnVal += "\n" + String.format(getString(R.string.ivtext_possibilities), ivScanResult.getCount() - MAX_POSSIBILITIES);
+            }
 
             returnVal += "\n" + String.format(getString(R.string.ivtext_iv), ivScanResult.lowPercent, ivScanResult.getAveragePercent(), ivScanResult.highPercent);
 

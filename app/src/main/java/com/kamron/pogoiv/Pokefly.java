@@ -17,6 +17,7 @@ import android.os.Build;
 import android.os.IBinder;
 import android.provider.MediaStore;
 import android.support.v4.content.LocalBroadcastManager;
+import android.text.Html;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -413,7 +414,7 @@ public class Pokefly extends Service {
         pokemonInfoLayout.setVisibility(View.GONE);
         initialButtonsLayout.setVisibility(View.GONE);
         onCheckButtonsLayout.setVisibility(View.VISIBLE);
-        ivText.setText(getIVText());
+        ivText.setText(Html.fromHtml(getIVText()));
     }
 
     @OnClick({ R.id.btnCancelInfo, R.id.btnCloseInfo })
@@ -514,7 +515,8 @@ public class Pokefly extends Service {
         int selectedPokemon = pokemonList.getSelectedItemPosition();
         Pokemon pokemon = pokeCalculator.get(selectedPokemon);
         String returnVal = String.format(getString(R.string.ivtext_title), estimatedPokemonLevel, pokemonCP, pokemonHP, pokemon.name);
-        IVScanResult ivScanResult = pokeCalculator.getIVPossibilities(selectedPokemon,estimatedPokemonLevel, pokemonHP, pokemonCP);
+        returnVal += "<br>"; //breakline
+        IVScanResult ivScanResult = pokeCalculator.getIVPossibilities(selectedPokemon, estimatedPokemonLevel, pokemonHP, pokemonCP);
 
         //TODO if you wanna work on the placement of the refinement (issue #10) then un-comment this code!
         /*
@@ -532,47 +534,58 @@ public class Pokefly extends Service {
             returnVal += "\n" + getString(R.string.ivtext_many_possibilities);
         } else if (ivScanResult.getCount() == 0) {
             returnVal += "\n" + getString(R.string.ivtext_no_possibilities);
+            returnVal += "<br>"; //breakline
         } else {
             int counter = 0;
-            for (IVCombination ivCombination: ivScanResult.iVCombinations) {
+            for (IVCombination ivCombination : ivScanResult.iVCombinations) {
                 returnVal += "\n" + String.format(getString(R.string.ivtext_stats), ivCombination.att, ivCombination.def, ivCombination.sta, ivCombination.percentPerfect);
+                returnVal += "<br>"; //breakline
                 counter++;
-                if (counter == MAX_POSSIBILITIES){
+                if (counter == MAX_POSSIBILITIES) {
                     break;
                 }
             }
 
             if (ivScanResult.getCount() > MAX_POSSIBILITIES) {
                 returnVal += "\n" + String.format(getString(R.string.ivtext_possibilities), ivScanResult.getCount() - MAX_POSSIBILITIES);
+                returnVal += "<br>"; //breakline
             }
 
-            returnVal += "\n" + String.format(getString(R.string.ivtext_iv), ivScanResult.lowPercent, ivScanResult.getAveragePercent(), ivScanResult.highPercent);
+            returnVal += "\n" + "<b>" + (String.format(getString(R.string.ivtext_iv), ivScanResult.lowPercent, ivScanResult.getAveragePercent(), ivScanResult.highPercent) + "</b>");
+            returnVal += "<br><br>"; //breakline
 
             // for trainer level cp cap, if estimatedPokemonLevel is at cap do not print
             if (estimatedPokemonLevel < trainerLevel + 1.5) {
                 CPRange range = pokeCalculator.getCpRangeAtLevel(pokemon, ivScanResult.lowAttack, ivScanResult.lowDefense, ivScanResult.lowStamina, ivScanResult.highAttack, ivScanResult.highDefense, ivScanResult.highStamina, Math.min(trainerLevel + 1.5, 40.0));
                 returnVal += "\n" + String.format(getString(R.string.ivtext_cp_lvl), range.level, range.low, range.high);
+                returnVal += "<br>"; //breakline
                 returnVal += "\n" + String.format(getString(R.string.ivtext_max_lvl_cost), trainerLevel + 1.5);
+                returnVal += "<br>"; //breakline
                 UpgradeCost cost = pokeCalculator.getMaxReqText(trainerLevel, estimatedPokemonLevel);
-                returnVal += "\n" + String.format( getString(R.string.ivtext_max_lvl_cost2), cost.candy, NumberFormat.getInstance().format(cost.dust) + "\n");
+                returnVal += "\n" + String.format(getString(R.string.ivtext_max_lvl_cost2), cost.candy, NumberFormat.getInstance().format(cost.dust) + "\n");
+                returnVal += "<br>"; //breakline
             }
 
             List<Pokemon> evolutions = pokemon.evolutions;
 
             //for each evolution of next stage (example, eevees three evolutions jolteon, vaporeon and flareon)
-            for(Pokemon evolution: evolutions){
+            for (Pokemon evolution : evolutions) {
                 pokemonName = evolution.name;
                 returnVal += "\n" + String.format(getString(R.string.ivtext_evolve), pokemonName);
+                returnVal += "<br>"; //breakline
 
-                CPRange range = pokeCalculator.getCpRangeAtLevel(evolution, ivScanResult.lowAttack, ivScanResult.lowDefense, ivScanResult.lowStamina, ivScanResult.highAttack, ivScanResult.highDefense, ivScanResult.highStamina, estimatedPokemonLevel);
-                returnVal +=  String.format(getString(R.string.ivtext_cp_lvl), range.level, range.low, range.high);
+                CPRange range = pokeCalculator.getCpRangeAtLevel(evolution, ivScanResult.lowAttack, ivScanResult.lowDefense, ivScanResult.lowStamina, ivScanResult.highAttack, ivScanResult.highDefense, ivScanResult.highStamina, Math.min(trainerLevel + 1.5, 40.0));
+                returnVal += String.format(getString(R.string.ivtext_cp_lvl), range.level, range.low, range.high);
+                returnVal += "<br>"; //breakline
                 //for following stage evolution (example, dratini - dragonair - dragonite)
                 //if the current evolution has another evolution calculate its range and break
-                for(Pokemon nextEvo: evolution.evolutions) {
+                for (Pokemon nextEvo : evolution.evolutions) {
                     pokemonName = nextEvo.name;
                     returnVal += "\n" + String.format(getString(R.string.ivtext_evolve_further), pokemonName);
-                    CPRange range2 = pokeCalculator.getCpRangeAtLevel(nextEvo, ivScanResult.lowAttack, ivScanResult.lowDefense, ivScanResult.lowStamina, ivScanResult.highAttack, ivScanResult.highDefense, ivScanResult.highStamina, estimatedPokemonLevel);
+                    returnVal += "<br>"; //breakline
+                    CPRange range2 = pokeCalculator.getCpRangeAtLevel(nextEvo, ivScanResult.lowAttack, ivScanResult.lowDefense, ivScanResult.lowStamina, ivScanResult.highAttack, ivScanResult.highDefense, ivScanResult.highStamina, Math.min(trainerLevel + 1.5, 40.0));
                     returnVal += "\n" + String.format(getString(R.string.ivtext_cp_lvl), range2.level, range2.low, range2.high);
+                    returnVal += "<br>"; //breakline
                     break;
                 }
             }
@@ -581,11 +594,8 @@ public class Pokefly extends Service {
             //ClipData clip = ClipData.newPlainText("iv",ivScanResult.lowPercent + "-" + ivScanResult.highPercent);
             //clipboard.setPrimaryClip(clip);
         }
-
-return returnVal;
-
+        return returnVal;
     }
-
 
 
 

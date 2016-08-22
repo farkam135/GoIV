@@ -11,25 +11,36 @@ import timber.log.Timber;
 
 public class CrashlyticsWrapper {
 
-    public static void init(Context context) {
-        // Set up Crashlytics, disabled for debug builds
-        Crashlytics crashlyticsKit = new Crashlytics.Builder()
-                .core(new CrashlyticsCore.Builder()
-                        .disabled(BuildConfig.DEBUG).build())
-                .build();
+    private static Context mContext;
 
-        // Initialize Fabric with the debug-disabled crashlytics.
-        Fabric.with(context, crashlyticsKit);
+    public static void init(Context context) {
+
+        mContext = context;
+        if(BuildConfig.isInternetAvailable && GoIVSettings.getSettings(mContext).getSendCrashReports()) {
+            // Set up Crashlytics, disabled for debug builds
+            Crashlytics crashlyticsKit = new Crashlytics.Builder()
+                    .core(new CrashlyticsCore.Builder()
+                            .disabled(BuildConfig.DEBUG).build())
+                    .build();
+
+            // Initialize Fabric with the debug-disabled crashlytics.
+            Fabric.with(context, crashlyticsKit);
+        }
     }
 
     public static class CrashReportingTree extends Timber.Tree {
 
-        @Override protected void log(int priority, String tag, String message, Throwable t) {
-            if (t != null) {
-                Crashlytics.logException(t);
-            } else if (!TextUtils.isEmpty(message)) {
-                Crashlytics.log(message);
+        @Override
+        protected void log(int priority, String tag, String message, Throwable t) {
+
+            if(BuildConfig.isInternetAvailable && GoIVSettings.getSettings(mContext).getSendCrashReports()) {
+                if (t != null) {
+                    Crashlytics.logException(t);
+                } else if (!TextUtils.isEmpty(message)) {
+                    Crashlytics.log(message);
+                }
             }
+
         }
     }
 }

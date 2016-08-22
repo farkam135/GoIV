@@ -49,8 +49,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.crashlytics.android.Crashlytics;
-import com.crashlytics.android.core.CrashlyticsCore;
 import com.googlecode.tesseract.android.TessBaseAPI;
 
 import java.io.File;
@@ -62,19 +60,27 @@ import java.nio.ByteBuffer;
 import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.stream.IntStream;
 
-import io.fabric.sdk.android.Fabric;
+import timber.log.Timber;
 
 
 public class MainActivity extends AppCompatActivity {
-    private static final String TAG = "MainActivity";
+
+    private static final String TAG = MainActivity.class.getSimpleName();
 
     private SharedPreferences sharedPref;
 
     private static final int OVERLAY_PERMISSION_REQ_CODE = 1234;
     private static final int WRITE_STORAGE_REQ_CODE = 1236;
     private static final int SCREEN_CAPTURE_REQ_CODE = 1235;
+
+    private static final String PREF_LEVEL = "level";
+    private static final String PREF_BATTERY_SAVER = "batterySaver";
+    private static final String PREF_SCREENSHOT_DIR = "screenshotDir";
+    private static final String PREF_SCREENSHOT_URI = "screenshotUri";
+
+    private static final String ACTION_RESET_SCREENSHOT = "reset-screenshot";
+    private static final String ACTION_SCREENSHOT = "screenshot";
 
     private MediaProjection mProjection;
     private ImageReader mImageReader;
@@ -110,18 +116,19 @@ public class MainActivity extends AppCompatActivity {
     private int arcInitialY;
     private int radius;
 
+    public static Intent createScreenshotIntent() {
+        return new Intent(ACTION_SCREENSHOT);
+    }
+
+    public static Intent createResetScreenshotIntent() {
+        return new Intent(ACTION_RESET_SCREENSHOT);
+    }
+
     @TargetApi(23)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Set up Crashlytics, disabled for debug builds
-        Crashlytics crashlyticsKit = new Crashlytics.Builder()
-                .core(new CrashlyticsCore.Builder()
-                .disabled(BuildConfig.DEBUG).build())
-                .build();
-
-        // Initialize Fabric with the debug-disabled crashlytics.
-        Fabric.with(this, crashlyticsKit);
+        Timber.tag(TAG);
 
         setContentView(R.layout.activity_main);
 
@@ -132,10 +139,10 @@ public class MainActivity extends AppCompatActivity {
         goIvInfo.setMovementMethod(LinkMovementMethod.getInstance());
 
         sharedPref = getPreferences(Context.MODE_PRIVATE);
-        trainerLevel = sharedPref.getInt("level", 1);
-        batterySaver = sharedPref.getBoolean("batterySaver", false);
-        screenshotDir = sharedPref.getString("screenshotDir","");
-        screenshotUri = Uri.parse(sharedPref.getString("screenshotUri",""));
+        trainerLevel = sharedPref.getInt(PREF_LEVEL, 1);
+        batterySaver = sharedPref.getBoolean(PREF_BATTERY_SAVER, false);
+        screenshotDir = sharedPref.getString(PREF_SCREENSHOT_DIR, "");
+        screenshotUri = Uri.parse(sharedPref.getString(PREF_SCREENSHOT_URI, ""));
 
         final EditText etTrainerLevel = (EditText) findViewById(R.id.trainerLevel);
         etTrainerLevel.setText(String.valueOf(trainerLevel));
@@ -194,8 +201,8 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     if (trainerLevel > 0 && trainerLevel <= 40) {
-                        sharedPref.edit().putInt("level", trainerLevel).apply();
-                        sharedPref.edit().putBoolean("batterySaver", batterySaver).apply();
+                        sharedPref.edit().putInt(PREF_LEVEL, trainerLevel).apply();
+                        sharedPref.edit().putBoolean(PREF_BATTERY_SAVER, batterySaver).apply();
                         setupArcPoints();
 
                         if (batterySaver) {
@@ -212,7 +219,7 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this, getString(R.string.main_invalide_trainerlvl), Toast.LENGTH_SHORT).show();
                     }
                 } else if(((Button) v).getText().toString().equals(getString(R.string.main_stop))) {
-                    stopService(new Intent(MainActivity.this, pokefly.class));
+                    stopService(new Intent(MainActivity.this, Pokefly.class));
                     if (mProjection != null) {
                         mProjection.stop();
                         mProjection = null;
@@ -330,14 +337,9 @@ public class MainActivity extends AppCompatActivity {
      */
     private void startPokeyFly() {
         ((Button) findViewById(R.id.start)).setText("Stop");
-        Intent PokeFly = new Intent(MainActivity.this, pokefly.class);
-        PokeFly.putExtra("trainerLevel", trainerLevel);
-        PokeFly.putExtra("statusBarHeight", statusBarHeight);
-        PokeFly.putExtra("batterySaver", batterySaver);
-        if(!screenshotDir.isEmpty()) {
-            PokeFly.putExtra("screenshotUri", screenshotUri.toString());
-        }
-        startService(PokeFly);
+
+        Intent intent = Pokefly.createIntent(this, trainerLevel, statusBarHeight, batterySaver, screenshotDir, screenshotUri);
+        startService(intent);
 
         pokeFlyRunning = true;
 
@@ -357,8 +359,8 @@ public class MainActivity extends AppCompatActivity {
         try {
             return getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
         } catch (PackageManager.NameNotFoundException e) {
-            Crashlytics.log("Exception thrown while getting version name");
-            Crashlytics.logException(e);
+            Timber.e("Exception thrown while getting version name");
+            Timber.e(e);
             Log.e(TAG, "Error while getting version name", e);
         }
         return "Error while getting version name";
@@ -399,7 +401,7 @@ public class MainActivity extends AppCompatActivity {
     public void onDestroy() {
         super.onDestroy();
         if (pokeFlyRunning) {
-            stopService(new Intent(MainActivity.this, pokefly.class));
+            stopService(new Intent(MainActivity.this, Pokefly.class));
             pokeFlyRunning = false;
         }
         if (mProjection != null) {
@@ -498,10 +500,9 @@ public class MainActivity extends AppCompatActivity {
         Image image = null;
         try {
             image = mImageReader.acquireLatestImage();
-        } catch (Exception e) {
-            Crashlytics.log("Error thrown in takeScreenshot() - acquireLatestImage()");
-            Crashlytics.logException(e);
-            Log.e(TAG, "Error while Scanning!", e);
+        } catch (Exception exception) {
+            Timber.e("Error thrown in takeScreenshot() - acquireLatestImage()");
+            Timber.e(exception);
             Toast.makeText(MainActivity.this, "Error Scanning! Please try again later!", Toast.LENGTH_SHORT).show();
         }
 
@@ -518,9 +519,9 @@ public class MainActivity extends AppCompatActivity {
                 Bitmap bmp = getBitmap(buffer, pixelStride, rowPadding);
                 scanPokemon(bmp,"");
                 //SaveImage(bmp,"Search");
-            } catch (Exception e) {
-                Crashlytics.log("Exception thrown in takeScreenshot() - when creating bitmap");
-                Crashlytics.logException(e);
+            } catch (Exception exception) {
+                Timber.e("Exception thrown in takeScreenshot() - when creating bitmap");
+                Timber.e(exception);
                 image.close();
             }
 
@@ -639,15 +640,7 @@ public class MainActivity extends AppCompatActivity {
             cp.recycle();
             hp.recycle();
 
-            Intent info = new Intent("pokemon-info");
-            info.putExtra("name", pokemonName);
-            info.putExtra("candy", candyName);
-            info.putExtra("hp", pokemonHP);
-            info.putExtra("cp", pokemonCP);
-            info.putExtra("level", estimatedPokemonLevel);
-            if (!filePath.isEmpty()) {
-                info.putExtra("screenshotDir", filePath);
-            }
+            Intent info = Pokefly.createInfoIntent(pokemonName, candyName, pokemonHP, pokemonCP, estimatedPokemonLevel, filePath);
             LocalBroadcastManager.getInstance(MainActivity.this).sendBroadcast(info);
         }
         else{
@@ -711,14 +704,10 @@ public class MainActivity extends AppCompatActivity {
                 Bitmap bmp = getBitmap(buffer, pixelStride, rowPadding);
 
                 if (bmp.getHeight() > bmp.getWidth()){
-                    Intent showIVButton = new Intent("display-ivButton");
-                    if (bmp.getPixel(areaX1, areaY1) == Color.rgb(250, 250, 250) && bmp.getPixel(areaX2, areaY2) == Color.rgb(28, 135, 150)) {
-                        showIVButton.putExtra("show", true);
-                    } else {
-                        showIVButton.putExtra("show", false);
-                    }
+                    boolean shouldShow = bmp.getPixel(areaX1, areaY1) == Color.rgb(250, 250, 250) && bmp.getPixel(areaX2, areaY2) == Color.rgb(28, 135, 150);
+                    Intent showIVButtonIntent = Pokefly.createIVButtonIntent(shouldShow);
                     bmp.recycle();
-                    LocalBroadcastManager.getInstance(MainActivity.this).sendBroadcast(showIVButton);
+                    LocalBroadcastManager.getInstance(MainActivity.this).sendBroadcast(showIVButtonIntent);
                     //SaveImage(bmp,"everything");
                 }
             }
@@ -754,10 +743,10 @@ public class MainActivity extends AppCompatActivity {
             out.flush();
             out.close();
 
-        } catch (Exception e) {
-            Crashlytics.log("Exception thrown in saveImage()");
-            Crashlytics.logException(e);
-            Log.e(TAG, "Error while saving the image.", e);
+        } catch (Exception exception) {
+            Timber.e("Exception thrown in saveImage()");
+            Timber.e(exception);
+            Log.e(TAG, "Error while saving the image.", exception);
         }
     }
 
@@ -885,10 +874,10 @@ public class MainActivity extends AppCompatActivity {
 
         try {
             files = assetManager.list(fromAssetPath);
-        } catch (IOException e) {
-            Crashlytics.log("Exception thrown in copyAssetFolder()");
-            Crashlytics.logException(e);
-            Log.e(TAG, "Error while loading filenames.", e);
+        } catch (IOException exception) {
+            Timber.e("Exception thrown in copyAssetFolder()");
+            Timber.e(exception);
+            Log.e(TAG, "Error while loading filenames.", exception);
         }
         new File(toPath).mkdirs();
         boolean res = true;
@@ -912,10 +901,10 @@ public class MainActivity extends AppCompatActivity {
             out.flush();
             out.close();
             return true;
-        } catch (IOException e) {
-            Crashlytics.log("Exception thrown in copyAsset()");
-            Crashlytics.logException(e);
-            Log.e(TAG, "Error while copying assets.", e);
+        } catch (IOException exception) {
+            Timber.e("Exception thrown in copyAsset()");
+            Timber.e(exception);
+            Log.e(TAG, "Error while copying assets.", exception);
             return false;
         }
     }

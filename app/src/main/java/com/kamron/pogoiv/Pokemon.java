@@ -1,18 +1,21 @@
 package com.kamron.pogoiv;
 
+import com.kamron.pogoiv.Data;
+
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Kamron on 7/30/2016.
  */
 
 public class Pokemon {
-    public String name;
-    public int number; //indexnumber in ressources, pokedexnumber - 1
-    public int baseAttack;
-    public int baseDefense;
-    public int baseStamina;
-    public ArrayList<Pokemon> evolutions; //evolutions sorted collection
+    public final List<Pokemon> evolutions; //evolutions sorted collection index, populated after sort
+    public final String name;
+    public final int number; //index number in resources, pokedex number - 1
+    public final int baseAttack;
+    public final int baseDefense;
+    public final int baseStamina;
 
     public Pokemon(String name, int number, int baseAttack, int baseDefense, int baseStamina) {
         this.name = name;
@@ -20,7 +23,7 @@ public class Pokemon {
         this.baseAttack = baseAttack;
         this.baseDefense = baseDefense;
         this.baseStamina = baseStamina;
-        this.evolutions = new ArrayList<Pokemon>();
+        this.evolutions = new ArrayList<>();
     }
 
     @Override
@@ -34,7 +37,7 @@ public class Pokemon {
         return difference < 2;
     }
 
-    public int getSimilarity(CharSequence rhs) {
+    public int getDistance(CharSequence rhs) {
         if (rhs != null) {
             return Data.levenshteinDistance(name, rhs);
         }

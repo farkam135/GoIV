@@ -85,11 +85,9 @@ It's 'possible', but we don't think it will happen. Niantic could alter their ap
 
 ###Why does GoIV require X permission?
 
-Storage:
-To store the OCR module. (OCR - Optical character recognition, the thing that converts images of text to text.)
-
-Screen capture:
-To identify when to add the overlay, and to read the pokemon information.
+ - Storage - To store the OCR module (OCR - Optical character recognition, the thing that converts images of text to text);
+ - Screen capture - To identify when to add the overlay, and to read the pokemon information;
+ - Internet - send crash reports and self update. You can disable it in Android aplication settings section.
 
 ###What are IVs?
 

@@ -36,7 +36,6 @@ android {
             applicationId "com.kamron.pogoiv.nointernet"
             buildConfigField "boolean", "isInternetAvailable", "false"
             resValue "string", "app_name", "GoIV Offline"
-            versionName "2.1.0 (Offline)"
             ext.enableCrashlytics = false
         }
 
@@ -44,7 +43,6 @@ android {
             applicationId "com.kamron.pogoiv"
             buildConfigField "boolean", "isInternetAvailable", "true"
             resValue "string", "app_name", "GoIV"
-            versionName "2.1.0"
             ext.enableCrashlytics = true
         }
     }

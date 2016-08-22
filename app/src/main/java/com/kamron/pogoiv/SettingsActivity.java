@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.preference.PreferenceScreen;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
@@ -20,7 +21,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 public class SettingsActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener{
 
-    private Context mContext;
+    private static Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,14 +67,28 @@ public class SettingsActivity extends AppCompatActivity implements SharedPrefere
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.settings);
 
-            Preference checkForUpdatePreference = getPreferenceManager().findPreference("checkForUpdate");
-            checkForUpdatePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    new AppUpdateLoader().start();
-                    return true;
-                }
-            });
+            if(BuildConfig.isInternetAvailable) {
+                Preference checkForUpdatePreference = getPreferenceManager().findPreference("checkForUpdate");
+                checkForUpdatePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                    @Override
+                    public boolean onPreferenceClick(Preference preference) {
+                        Toast.makeText(mContext, "Checking for update... ", Toast.LENGTH_SHORT).show();
+                        new AppUpdateLoader().start();
+                        return true;
+                    }
+                });
+            }
+            else {
+                //Hide update and crash report related settings
+                Preference crashReportsPreference = getPreferenceManager().findPreference("sendCrashReports");
+                Preference autoUpdatePreference = getPreferenceManager().findPreference("autoUpdateEnabled");
+                Preference checkForUpdatePreference = getPreferenceManager().findPreference("checkForUpdate");
+
+                PreferenceScreen preferenceScreen = getPreferenceScreen();
+                preferenceScreen.removePreference(crashReportsPreference);
+                preferenceScreen.removePreference(autoUpdatePreference);
+                preferenceScreen.removePreference(checkForUpdatePreference);
+            }
         }
     }
 

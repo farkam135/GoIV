@@ -17,7 +17,7 @@ public class SemVer implements Comparable<SemVer> {
         String[] versionParts = versionString.split("\\.");
         int majorVersion = Integer.parseInt(versionParts[0]);
         int minorVersion = Integer.parseInt(versionParts[1]);
-        int patchVersion = Integer.parseInt(versionParts[2]);
+        int patchVersion = Integer.parseInt(versionParts[2].charAt(0) + "");
         return new SemVer(majorVersion, minorVersion, patchVersion);
     }
 

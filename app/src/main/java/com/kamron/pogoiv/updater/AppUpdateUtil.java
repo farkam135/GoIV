@@ -69,7 +69,7 @@ public class AppUpdateUtil {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder = new AlertDialog.Builder(context)
                 .setTitle("Update available")
-                .setMessage(context.getString(R.string.app_name) + " " + update.getVersion() + " " + "Update available" + "\n\n" + "Changes:" + "\n\n" + update.getChangelog())
+                .setMessage(context.getString(R.string.app_name) + " v" + update.getVersion() + " " + "is available" + "\n\n" + "Changes:" + "\n\n" + update.getChangelog())
                 .setIcon(R.mipmap.ic_launcher)
                 .setPositiveButton("Update", new DialogInterface.OnClickListener() {
                     @Override

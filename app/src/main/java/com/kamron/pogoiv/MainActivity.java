@@ -143,6 +143,10 @@ public class MainActivity extends AppCompatActivity {
 
         mContext=MainActivity.this;
 
+        settings = GoIVSettings.getSettings(MainActivity.this);
+        if(BuildConfig.isInternetAvailable && settings.getAutoUpdateEnabled())
+            new AppUpdateLoader().start();
+
         setContentView(R.layout.activity_main);
 
         ButterKnife.bind(this);
@@ -345,8 +349,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         settings = GoIVSettings.getSettings(MainActivity.this);
-        if(settings.getAutoUpdateEnabled())
-            new AppUpdateLoader().start();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -395,8 +397,6 @@ public class MainActivity extends AppCompatActivity {
         startService(intent);
 
         pokeFlyRunning = true;
-
-        openPokemonGoApp();
     }
 
     private boolean isNumeric(String str) {

@@ -17,16 +17,38 @@ repositories {
 apply plugin: 'android-apt'
 
 android {
+
     compileSdkVersion 24
     buildToolsVersion "24.0.1"
+
     defaultConfig {
+        resValue "string", "app_name", "GoIV"
         applicationId "com.kamron.pogoiv"
         minSdkVersion 19
         targetSdkVersion 24
         versionCode 13
-        versionName "2.0.0"
+        versionName "2.1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
+    productFlavors {
+        offline {
+            applicationId "com.kamron.pogoiv.nointernet"
+            buildConfigField "boolean", "isInternetAvailable", "false"
+            resValue "string", "app_name", "GoIV Offline"
+            versionName "2.1.0 (Offline)"
+            ext.enableCrashlytics = false
+        }
+
+        online {
+            applicationId "com.kamron.pogoiv"
+            buildConfigField "boolean", "isInternetAvailable", "true"
+            resValue "string", "app_name", "GoIV"
+            versionName "2.1.0"
+            ext.enableCrashlytics = true
+        }
+    }
+
     buildTypes {
         debug {
             // Disable fabric build ID generation for debug builds
@@ -39,14 +61,6 @@ android {
                 disable 'MissingTranslation'
             }
         }
-    }
-
-    productFlavors {
-        offline {
-            ext.enableCrashlytics = false
-        }
-
-        online {}
     }
 }
 

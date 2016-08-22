@@ -1,5 +1,6 @@
 package com.kamron.pogoiv;
 
+import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -10,6 +11,7 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.net.Uri;
 import android.os.Build;
@@ -33,6 +35,7 @@ import android.widget.TextView;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -42,7 +45,26 @@ import butterknife.OnClick;
  * Created by Kamron on 7/25/2016.
  */
 
-public class pokefly extends Service {
+public class Pokefly extends Service {
+
+    private static final String ACTION_DISPLAY_IV_BUTTON = "action_display_iv_button";
+    private static final String ACTION_SEND_INFO = "action_send_info";
+
+    private static final String KEY_TRAINER_LEVEL = "key_trainer_level";
+    private static final String KEY_STATUS_BAR_HEIGHT = "key_status_bar_height";
+    private static final String KEY_BATTERY_SAVER = "key_battery_saver";
+    private static final String KEY_SCREENSHOT_URI = "key_screenshot_uri";
+
+    private static final String KEY_DISPLAY_IV_BUTTON_SHOW = "key_send_info_show";
+
+    private static final String KEY_SEND_INFO_NAME = "key_send_info_name";
+    private static final String KEY_SEND_INFO_CANDY = "key_send_info_candy";
+    private static final String KEY_SEND_INFO_HP = "key_send_info_hp";
+    private static final String KEY_SEND_INFO_CP = "key_send_info_cp";
+    private static final String KEY_SEND_INFO_LEVEL = "key_send_info_level";
+    private static final String KEY_SEND_SCREENSHOT_DIR = "key_send_screenshot_dir";
+
+
     private final int MAX_POSSIBILITIES = 8;
 
     private int trainerLevel = -1;
@@ -71,9 +93,9 @@ public class pokefly extends Service {
     @BindView(R.id.etCp) EditText pokemonCPEdit;
     @BindView(R.id.etHp) EditText pokemonHPEdit;
     @BindView(R.id.sbArcAdjust) SeekBar arcAdjustBar;
-    @BindView(R.id.btnCheckIv) Button pokemonGetIVButton;
-    @BindView(R.id.btnCancelInfo) Button cancelInfoButton;
     @BindView(R.id.llPokemonInfo) LinearLayout pokemonInfoLayout;
+    @BindView(R.id.llButtonsInitial) LinearLayout initialButtonsLayout;
+    @BindView(R.id.llButtonsOnCheck) LinearLayout onCheckButtonsLayout;
 
     private String pokemonName;
     private String candyName;
@@ -81,7 +103,7 @@ public class pokefly extends Service {
     private int pokemonHP;
     private double estimatedPokemonLevel = 1.0;
 
-    private ArrayAdapter<Pokemon> pokeAdapter;
+    private PokemonSpinnerAdapter pokeAdapter;
 
     private final WindowManager.LayoutParams arcParams = new WindowManager.LayoutParams(
             WindowManager.LayoutParams.WRAP_CONTENT,
@@ -110,6 +132,35 @@ public class pokefly extends Service {
             WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
             PixelFormat.TRANSLUCENT);
 
+    public static Intent createIntent(Activity activity, int trainerLevel, int statusBarHeight, boolean batterySaver, String screenshotDir, Uri screenshotUri) {
+        Intent intent = new Intent(activity, Pokefly.class);
+        intent.putExtra(KEY_TRAINER_LEVEL, trainerLevel);
+        intent.putExtra(KEY_STATUS_BAR_HEIGHT, statusBarHeight);
+        intent.putExtra(KEY_BATTERY_SAVER, batterySaver);
+        if(!screenshotDir.isEmpty()) {
+            intent.putExtra(KEY_SCREENSHOT_URI, screenshotUri.toString());
+        }
+        return intent;
+    }
+
+    public static Intent createIVButtonIntent(boolean shouldShow) {
+        Intent intent = new Intent(ACTION_DISPLAY_IV_BUTTON);
+        intent.putExtra(KEY_DISPLAY_IV_BUTTON_SHOW, shouldShow);
+        return intent;
+    }
+
+    public static Intent createInfoIntent(String pokemonName, String candyName, int pokemonHP, int pokemonCP, double estimatedPokemonLevel, String filePath) {
+        Intent intent = new Intent(ACTION_SEND_INFO);
+        intent.putExtra(KEY_SEND_INFO_NAME, pokemonName);
+        intent.putExtra(KEY_SEND_INFO_CANDY, candyName);
+        intent.putExtra(KEY_SEND_INFO_HP, pokemonHP);
+        intent.putExtra(KEY_SEND_INFO_CP, pokemonCP);
+        intent.putExtra(KEY_SEND_INFO_LEVEL, estimatedPokemonLevel);
+        if (!filePath.isEmpty()) {
+            intent.putExtra(KEY_SEND_SCREENSHOT_DIR, filePath);
+        }
+        return intent;
+    }
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -126,10 +177,10 @@ public class pokefly extends Service {
         //disp.getRealMetrics(displayMetrics);
         //System.out.println("New Device:" + displayMetrics.widthPixels + "," + displayMetrics.heightPixels + "," + displayMetrics.densityDpi + "," + displayMetrics.density);
 
-        LocalBroadcastManager.getInstance(this).registerReceiver(displayInfo, new IntentFilter("pokemon-info"));
-        LocalBroadcastManager.getInstance(this).registerReceiver(setIVButtonDisplay, new IntentFilter("display-ivButton"));
+        LocalBroadcastManager.getInstance(this).registerReceiver(displayInfo, new IntentFilter(ACTION_SEND_INFO));
+        LocalBroadcastManager.getInstance(this).registerReceiver(setIVButtonDisplay, new IntentFilter(ACTION_DISPLAY_IV_BUTTON));
         pokeCalculator = new PokeInfoCalculator(
-                getPokemonNames(),
+                getResources().getStringArray(R.array.Pokemon),
                 getResources().getIntArray(R.array.attack),
                 getResources().getIntArray(R.array.defense) ,
                 getResources().getIntArray(R.array.stamina),
@@ -139,14 +190,14 @@ public class pokefly extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        if (intent != null && intent.hasExtra("trainerLevel")) {
-            trainerLevel = intent.getIntExtra("trainerLevel", 1);
-            statusBarHeight = intent.getIntExtra("statusBarHeight", 0);
-            batterySaver = intent.getBooleanExtra("batterySaver",false);
-            if(intent.hasExtra("screenshotUri")){
-                screenshotUri = Uri.parse(intent.getStringExtra("screenshotUri"));
+        if (intent != null && intent.hasExtra(KEY_TRAINER_LEVEL)) {
+            trainerLevel = intent.getIntExtra(KEY_TRAINER_LEVEL, 1);
+            statusBarHeight = intent.getIntExtra(KEY_STATUS_BAR_HEIGHT, 0);
+            batterySaver = intent.getBooleanExtra(KEY_BATTERY_SAVER, false);
+            if (intent.hasExtra(KEY_SCREENSHOT_URI)) {
+                screenshotUri = Uri.parse(intent.getStringExtra(KEY_SCREENSHOT_URI));
             }
-            makeNotification(pokefly.this);
+            makeNotification(Pokefly.this);
             displayMetrics = this.getResources().getDisplayMetrics();
             createInfoLayout();
             createIVButton();
@@ -304,8 +355,8 @@ public class pokefly extends Service {
                     case MotionEvent.ACTION_UP:
                         windowManager.removeView(IVButton);
                         IVButtonShown = false;
-                        Intent intent = new Intent("screenshot");
-                        LocalBroadcastManager.getInstance(pokefly.this).sendBroadcast(intent);
+                        Intent intent = MainActivity.createScreenshotIntent();
+                        LocalBroadcastManager.getInstance(Pokefly.this).sendBroadcast(intent);
                         receivedInfo = false;
                         infoShown = true;
                         infoShownReceived = false;
@@ -328,7 +379,7 @@ public class pokefly extends Service {
         layoutParams.gravity = Gravity.CENTER | Gravity.BOTTOM;
         ButterKnife.bind(this, infoLayout);
 
-        pokeAdapter = new ArrayAdapter<>(this, R.layout.spinner_pokemon, pokeCalculator.pokedex);
+        pokeAdapter = new PokemonSpinnerAdapter(this, R.layout.spinner_pokemon, pokeCalculator.pokedex);
         pokemonList.setAdapter(pokeAdapter);
     }
 
@@ -354,7 +405,7 @@ public class pokefly extends Service {
 
     @OnClick(R.id.btnCheckIv)
     public void checkIv() {
-        if(batterySaver) {
+        if(batterySaver && !screenshotDir.isEmpty()) {
             if(GoIVSettings.getSettings(getBaseContext()).getDeleteScreenshots())
                 getContentResolver().delete(screenshotUri, MediaStore.Files.FileColumns.DATA + "=?", new String[]{screenshotDir});
         }
@@ -362,12 +413,12 @@ public class pokefly extends Service {
         pokemonCP = Integer.parseInt(pokemonCPEdit.getText().toString());
         ivText.setVisibility(View.VISIBLE);
         pokemonInfoLayout.setVisibility(View.GONE);
+        initialButtonsLayout.setVisibility(View.GONE);
+        onCheckButtonsLayout.setVisibility(View.VISIBLE);
         ivText.setText(getIVText());
-        pokemonGetIVButton.setVisibility(View.GONE);
-        cancelInfoButton.setText(getString(R.string.close));
     }
 
-    @OnClick(R.id.btnCancelInfo)
+    @OnClick({ R.id.btnCancelInfo, R.id.btnCloseInfo })
     public void cancelInfoDialog() {
         windowManager.removeView(infoLayout);
         windowManager.removeView(arcPointer);
@@ -377,8 +428,16 @@ public class pokefly extends Service {
         }
         receivedInfo = false;
         infoShown = false;
-        Intent resetIntent = new Intent("reset-screenshot");
-        LocalBroadcastManager.getInstance(pokefly.this).sendBroadcast(resetIntent);
+        Intent resetIntent = MainActivity.createResetScreenshotIntent();
+        LocalBroadcastManager.getInstance(Pokefly.this).sendBroadcast(resetIntent);
+    }
+
+    @OnClick(R.id.btnBackInfo)
+    public void backToIvForm() {
+        ivText.setVisibility(View.GONE);
+        pokemonInfoLayout.setVisibility(View.VISIBLE);
+        initialButtonsLayout.setVisibility(View.VISIBLE);
+        onCheckButtonsLayout.setVisibility(View.GONE);
     }
 
     /**
@@ -394,18 +453,31 @@ public class pokefly extends Service {
             int[] possibleCandy = getPossiblePokemon(candyName);
             ivText.setVisibility(View.GONE);
             pokemonInfoLayout.setVisibility(View.VISIBLE);
-            pokemonGetIVButton.setVisibility(View.VISIBLE);
+            initialButtonsLayout.setVisibility(View.VISIBLE);
+            onCheckButtonsLayout.setVisibility(View.GONE);
 
+            // set color based on similarity
+            if (possiblePoke[1] == 0) {
+                pokemonList.setBackgroundColor(Color.parseColor("#ddffdd"));
+            }
+            else if (possiblePoke[1] < 2) {
+                pokemonList.setBackgroundColor(Color.parseColor("#ffffcc"));
+            }
+            else {
+                pokemonList.setBackgroundColor(Color.parseColor("#ffcccc"));
+            }
+
+            String origPokemonName = pokemonName;
             pokemonName = pokeCalculator.get(possiblePoke[0]).name;
             candyName = pokeCalculator.get(possibleCandy[0]).name;
-            if (possiblePoke[1] < 2) {
+            //if distance from found name to best pokemon match < distance from found candy name to best pokemon match.
+            if (possiblePoke[1] < possibleCandy[1]) {
                 pokemonList.setSelection(possiblePoke[0]);
             } else {
                 pokemonList.setSelection(possibleCandy[0]);
             }
             pokemonHPEdit.setText(String.valueOf(pokemonHP));
             pokemonCPEdit.setText(String.valueOf(pokemonCP));
-            cancelInfoButton.setText(getString(R.string.cancel));
 
             windowManager.addView(arcPointer, arcParams);
             windowManager.addView(infoLayout, layoutParams);
@@ -429,7 +501,7 @@ public class pokefly extends Service {
         int pokeNumber = 0;
         int bestMatch = 100;
         for (int i = 0; i < pokeCalculator.pokedex.size(); i++) {
-            int similarity = pokeCalculator.get(i).getSimilarity(rhs);
+            int similarity = pokeCalculator.get(i).getDistance(rhs);
             if (similarity < bestMatch) {
                 pokeNumber = i;
                 bestMatch = similarity;
@@ -447,25 +519,38 @@ public class pokefly extends Service {
     private String getIVText() {
         int selectedPokemon = pokemonList.getSelectedItemPosition();
         Pokemon pokemon = pokeCalculator.get(selectedPokemon);
-        String returnVal = String.format(getString(R.string.ivtext_title), estimatedPokemonLevel, pokemon.name);
+        String returnVal = String.format(getString(R.string.ivtext_title), estimatedPokemonLevel, pokemonCP, pokemonHP, pokemon.name);
         IVScanResult ivScanResult = pokeCalculator.getIVPossibilities(selectedPokemon,estimatedPokemonLevel, pokemonHP, pokemonCP);
 
-        int counter = 0;
-        for(IVCombination ivCombination:ivScanResult.iVCombinations){
-            returnVal += "\n" + String.format(getString(R.string.ivtext_stats), ivCombination.att, ivCombination.def, ivCombination.sta, ivCombination.percentPerfect);
-            counter++;
-            if (counter == MAX_POSSIBILITIES){
-                break;
+        //TODO if you wanna work on the placement of the refinement (issue #10) then un-comment this code!
+        /*
+        if (ivScanResult.are2LastScannedPokemonSame()) {
+            String tester = "Intersection: (test, empty on first scan)\n";
+            ArrayList<IVCombination> interseciton = ivScanResult.getLatestIVIntersection();
+            tester += "size: " + interseciton.size();
+            for (IVCombination comb : interseciton) {
+                tester += "\n" + comb.toString();
             }
-        }
 
-        if (ivScanResult.count > MAX_POSSIBILITIES) {
-            returnVal += "\n" + String.format(getString(R.string.ivtext_possibilities), ivScanResult.count - MAX_POSSIBILITIES);
-        }
-
-        if (ivScanResult.count == 0) {
+            return tester;
+        }*/
+        if (ivScanResult == null) {
+            returnVal += "\n" + getString(R.string.ivtext_many_possibilities);
+        } else if (ivScanResult.getCount() == 0) {
             returnVal += "\n" + getString(R.string.ivtext_no_possibilities);
         } else {
+            int counter = 0;
+            for (IVCombination ivCombination: ivScanResult.iVCombinations) {
+                returnVal += "\n" + String.format(getString(R.string.ivtext_stats), ivCombination.att, ivCombination.def, ivCombination.sta, ivCombination.percentPerfect);
+                counter++;
+                if (counter == MAX_POSSIBILITIES){
+                    break;
+                }
+            }
+
+            if (ivScanResult.getCount() > MAX_POSSIBILITIES) {
+                returnVal += "\n" + String.format(getString(R.string.ivtext_possibilities), ivScanResult.getCount() - MAX_POSSIBILITIES);
+            }
 
             returnVal += "\n" + String.format(getString(R.string.ivtext_iv), ivScanResult.lowPercent, ivScanResult.getAveragePercent(), ivScanResult.highPercent);
 
@@ -478,7 +563,8 @@ public class pokefly extends Service {
                 returnVal += "\n" + String.format( getString(R.string.ivtext_max_lvl_cost2), cost.candy, NumberFormat.getInstance().format(cost.dust) + "\n");
             }
 
-            ArrayList<Pokemon> evolutions = pokemon.evolutions;
+            List<Pokemon> evolutions = pokemon.evolutions;
+
             //for each evolution of next stage (example, eevees three evolutions jolteon, vaporeon and flareon)
             for(Pokemon evolution: evolutions){
                 pokemonName = evolution.name;
@@ -518,18 +604,20 @@ return returnVal;
     private BroadcastReceiver displayInfo = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (!receivedInfo && intent.hasExtra("name") && intent.hasExtra("cp") && intent.hasExtra("hp") && intent.hasExtra("level")) {
+            if (!receivedInfo && intent.hasExtra(KEY_SEND_INFO_NAME) && intent.hasExtra(KEY_SEND_INFO_CP) && intent.hasExtra(KEY_SEND_INFO_HP) && intent.hasExtra(KEY_SEND_INFO_LEVEL)) {
                 receivedInfo = true;
-                pokemonName = intent.getStringExtra("name");
-                candyName = intent.getStringExtra("candy");
-                pokemonCP = intent.getIntExtra("cp", 0);
-                pokemonHP = intent.getIntExtra("hp", 0);
-                estimatedPokemonLevel = intent.getDoubleExtra("level", estimatedPokemonLevel);
+                pokemonName = intent.getStringExtra(KEY_SEND_INFO_NAME);
+                candyName = intent.getStringExtra(KEY_SEND_INFO_CANDY);
+                pokemonCP = intent.getIntExtra(KEY_SEND_INFO_CP, 0);
+                pokemonHP = intent.getIntExtra(KEY_SEND_INFO_HP, 0);
+                estimatedPokemonLevel = intent.getDoubleExtra(KEY_SEND_INFO_LEVEL, estimatedPokemonLevel);
                 if (estimatedPokemonLevel < 1.0) {
                     estimatedPokemonLevel = 1.0;
                 }
-                if(intent.hasExtra("screenshotDir")){
-                    screenshotDir = intent.getStringExtra("screenshotDir");
+                if (intent.hasExtra(KEY_SEND_SCREENSHOT_DIR)) {
+                    screenshotDir = intent.getStringExtra(KEY_SEND_SCREENSHOT_DIR);
+                } else {
+                    screenshotDir = "";
                 }
 
                 showInfoLayout();
@@ -545,7 +633,7 @@ return returnVal;
     private BroadcastReceiver setIVButtonDisplay = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            boolean show = intent.getBooleanExtra("show", false);
+            boolean show = intent.getBooleanExtra(KEY_DISPLAY_IV_BUTTON_SHOW, false);
             if (show && !IVButtonShown && !infoShown) {
                 windowManager.addView(IVButton, IVButonParams);
                 IVButtonShown = true;
@@ -561,163 +649,4 @@ return returnVal;
     private int dpToPx(int dp) {
         return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
     }
-
-
-
-    private String[] getPokemonNames() {
-        ArrayList<String> names = new ArrayList<>();
-        names.add(getResources().getString(R.string.pokemon001));
-        names.add(getResources().getString(R.string.pokemon002));
-        names.add(getResources().getString(R.string.pokemon003));
-        names.add(getResources().getString(R.string.pokemon004));
-        names.add(getResources().getString(R.string.pokemon005));
-        names.add(getResources().getString(R.string.pokemon006));
-        names.add(getResources().getString(R.string.pokemon007));
-        names.add(getResources().getString(R.string.pokemon008));
-        names.add(getResources().getString(R.string.pokemon009));
-        names.add(getResources().getString(R.string.pokemon010));
-        names.add(getResources().getString(R.string.pokemon011));
-        names.add(getResources().getString(R.string.pokemon012));
-        names.add(getResources().getString(R.string.pokemon013));
-        names.add(getResources().getString(R.string.pokemon014));
-        names.add(getResources().getString(R.string.pokemon015));
-        names.add(getResources().getString(R.string.pokemon016));
-        names.add(getResources().getString(R.string.pokemon017));
-        names.add(getResources().getString(R.string.pokemon018));
-        names.add(getResources().getString(R.string.pokemon019));
-        names.add(getResources().getString(R.string.pokemon020));
-        names.add(getResources().getString(R.string.pokemon021));
-        names.add(getResources().getString(R.string.pokemon022));
-        names.add(getResources().getString(R.string.pokemon023));
-        names.add(getResources().getString(R.string.pokemon024));
-        names.add(getResources().getString(R.string.pokemon025));
-        names.add(getResources().getString(R.string.pokemon026));
-        names.add(getResources().getString(R.string.pokemon027));
-        names.add(getResources().getString(R.string.pokemon028));
-        names.add(getResources().getString(R.string.pokemon029));
-        names.add(getResources().getString(R.string.pokemon030));
-        names.add(getResources().getString(R.string.pokemon031));
-        names.add(getResources().getString(R.string.pokemon032));
-        names.add(getResources().getString(R.string.pokemon033));
-        names.add(getResources().getString(R.string.pokemon034));
-        names.add(getResources().getString(R.string.pokemon035));
-        names.add(getResources().getString(R.string.pokemon036));
-        names.add(getResources().getString(R.string.pokemon037));
-        names.add(getResources().getString(R.string.pokemon038));
-        names.add(getResources().getString(R.string.pokemon039));
-        names.add(getResources().getString(R.string.pokemon040));
-        names.add(getResources().getString(R.string.pokemon041));
-        names.add(getResources().getString(R.string.pokemon042));
-        names.add(getResources().getString(R.string.pokemon043));
-        names.add(getResources().getString(R.string.pokemon044));
-        names.add(getResources().getString(R.string.pokemon045));
-        names.add(getResources().getString(R.string.pokemon046));
-        names.add(getResources().getString(R.string.pokemon047));
-        names.add(getResources().getString(R.string.pokemon048));
-        names.add(getResources().getString(R.string.pokemon049));
-        names.add(getResources().getString(R.string.pokemon050));
-        names.add(getResources().getString(R.string.pokemon051));
-        names.add(getResources().getString(R.string.pokemon052));
-        names.add(getResources().getString(R.string.pokemon053));
-        names.add(getResources().getString(R.string.pokemon054));
-        names.add(getResources().getString(R.string.pokemon055));
-        names.add(getResources().getString(R.string.pokemon056));
-        names.add(getResources().getString(R.string.pokemon057));
-        names.add(getResources().getString(R.string.pokemon058));
-        names.add(getResources().getString(R.string.pokemon059));
-        names.add(getResources().getString(R.string.pokemon060));
-        names.add(getResources().getString(R.string.pokemon061));
-        names.add(getResources().getString(R.string.pokemon062));
-        names.add(getResources().getString(R.string.pokemon063));
-        names.add(getResources().getString(R.string.pokemon064));
-        names.add(getResources().getString(R.string.pokemon065));
-        names.add(getResources().getString(R.string.pokemon066));
-        names.add(getResources().getString(R.string.pokemon067));
-        names.add(getResources().getString(R.string.pokemon068));
-        names.add(getResources().getString(R.string.pokemon069));
-        names.add(getResources().getString(R.string.pokemon070));
-        names.add(getResources().getString(R.string.pokemon071));
-        names.add(getResources().getString(R.string.pokemon072));
-        names.add(getResources().getString(R.string.pokemon073));
-        names.add(getResources().getString(R.string.pokemon074));
-        names.add(getResources().getString(R.string.pokemon075));
-        names.add(getResources().getString(R.string.pokemon076));
-        names.add(getResources().getString(R.string.pokemon077));
-        names.add(getResources().getString(R.string.pokemon078));
-        names.add(getResources().getString(R.string.pokemon079));
-        names.add(getResources().getString(R.string.pokemon080));
-        names.add(getResources().getString(R.string.pokemon081));
-        names.add(getResources().getString(R.string.pokemon082));
-        names.add(getResources().getString(R.string.pokemon083));
-        names.add(getResources().getString(R.string.pokemon084));
-        names.add(getResources().getString(R.string.pokemon085));
-        names.add(getResources().getString(R.string.pokemon086));
-        names.add(getResources().getString(R.string.pokemon087));
-        names.add(getResources().getString(R.string.pokemon088));
-        names.add(getResources().getString(R.string.pokemon089));
-        names.add(getResources().getString(R.string.pokemon090));
-        names.add(getResources().getString(R.string.pokemon091));
-        names.add(getResources().getString(R.string.pokemon092));
-        names.add(getResources().getString(R.string.pokemon093));
-        names.add(getResources().getString(R.string.pokemon094));
-        names.add(getResources().getString(R.string.pokemon095));
-        names.add(getResources().getString(R.string.pokemon096));
-        names.add(getResources().getString(R.string.pokemon097));
-        names.add(getResources().getString(R.string.pokemon098));
-        names.add(getResources().getString(R.string.pokemon099));
-        names.add(getResources().getString(R.string.pokemon100));
-        names.add(getResources().getString(R.string.pokemon101));
-        names.add(getResources().getString(R.string.pokemon102));
-        names.add(getResources().getString(R.string.pokemon103));
-        names.add(getResources().getString(R.string.pokemon104));
-        names.add(getResources().getString(R.string.pokemon105));
-        names.add(getResources().getString(R.string.pokemon106));
-        names.add(getResources().getString(R.string.pokemon107));
-        names.add(getResources().getString(R.string.pokemon108));
-        names.add(getResources().getString(R.string.pokemon109));
-        names.add(getResources().getString(R.string.pokemon110));
-        names.add(getResources().getString(R.string.pokemon111));
-        names.add(getResources().getString(R.string.pokemon112));
-        names.add(getResources().getString(R.string.pokemon113));
-        names.add(getResources().getString(R.string.pokemon114));
-        names.add(getResources().getString(R.string.pokemon115));
-        names.add(getResources().getString(R.string.pokemon116));
-        names.add(getResources().getString(R.string.pokemon117));
-        names.add(getResources().getString(R.string.pokemon118));
-        names.add(getResources().getString(R.string.pokemon119));
-        names.add(getResources().getString(R.string.pokemon120));
-        names.add(getResources().getString(R.string.pokemon121));
-        names.add(getResources().getString(R.string.pokemon122));
-        names.add(getResources().getString(R.string.pokemon123));
-        names.add(getResources().getString(R.string.pokemon124));
-        names.add(getResources().getString(R.string.pokemon125));
-        names.add(getResources().getString(R.string.pokemon126));
-        names.add(getResources().getString(R.string.pokemon127));
-        names.add(getResources().getString(R.string.pokemon128));
-        names.add(getResources().getString(R.string.pokemon129));
-        names.add(getResources().getString(R.string.pokemon130));
-        names.add(getResources().getString(R.string.pokemon131));
-        names.add(getResources().getString(R.string.pokemon132));
-        names.add(getResources().getString(R.string.pokemon133));
-        names.add(getResources().getString(R.string.pokemon134));
-        names.add(getResources().getString(R.string.pokemon135));
-        names.add(getResources().getString(R.string.pokemon136));
-        names.add(getResources().getString(R.string.pokemon137));
-        names.add(getResources().getString(R.string.pokemon138));
-        names.add(getResources().getString(R.string.pokemon139));
-        names.add(getResources().getString(R.string.pokemon140));
-        names.add(getResources().getString(R.string.pokemon141));
-        names.add(getResources().getString(R.string.pokemon142));
-        names.add(getResources().getString(R.string.pokemon143));
-        names.add(getResources().getString(R.string.pokemon144));
-        names.add(getResources().getString(R.string.pokemon145));
-        names.add(getResources().getString(R.string.pokemon146));
-        names.add(getResources().getString(R.string.pokemon147));
-        names.add(getResources().getString(R.string.pokemon148));
-        names.add(getResources().getString(R.string.pokemon149));
-        names.add(getResources().getString(R.string.pokemon150));
-        names.add(getResources().getString(R.string.pokemon151));
-        return names.toArray(new String[150]);
-    }
-
 }

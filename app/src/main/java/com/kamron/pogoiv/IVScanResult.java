@@ -8,8 +8,8 @@ import java.util.ArrayList;
  * A class which represents all possible iv combinations for a pokemon
  */
 public class IVScanResult {
-    public  double highPercent = 0;
-    public  double lowPercent=100;
+    public  int highPercent = 0;
+    public  int lowPercent=100;
     public  int lowAttack=15 ;
     public  int lowDefense=15;
     public  int lowStamina=15;
@@ -60,7 +60,7 @@ public class IVScanResult {
      */
     public void addIVCombination(int attackIV, int defenseIV, int staminaIV) {
         int sumIV = attackIV + defenseIV + staminaIV;
-        double percentPerfect = (double) ((sumIV) / 45.0) * 100;
+        int percentPerfect = (int) Math.round(((sumIV) / 45.0) * 100);
 
         if ((percentPerfect < lowPercent) || ((percentPerfect == lowPercent) && (attackIV < lowAttack))) { // check for same percentage but lower atk
             lowPercent = percentPerfect;

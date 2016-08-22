@@ -518,6 +518,7 @@ public class MainActivity extends AppCompatActivity {
                 image.close();
                 Bitmap bmp = getBitmap(buffer, pixelStride, rowPadding);
                 scanPokemon(bmp,"");
+                bmp.recycle();
                 //SaveImage(bmp,"Search");
             } catch (Exception exception) {
                 Timber.e("Exception thrown in takeScreenshot() - when creating bitmap");
@@ -772,7 +773,9 @@ public class MainActivity extends AppCompatActivity {
                     if (readyForNewScreenshot && file != null) {
                         readyForNewScreenshot = false;
                         File pokemonScreenshot = new File(screenshotDir + File.separator + file);
-                        scanPokemon(BitmapFactory.decodeFile(pokemonScreenshot.getAbsolutePath()),pokemonScreenshot.getAbsolutePath());
+                        Bitmap bmp = BitmapFactory.decodeFile(pokemonScreenshot.getAbsolutePath());
+                        scanPokemon(bmp, pokemonScreenshot.getAbsolutePath());
+                        bmp.recycle();
                     }
             }
         };
@@ -821,6 +824,7 @@ public class MainActivity extends AppCompatActivity {
             if (readyForNewScreenshot) {
                 Bitmap bitmap = (Bitmap) intent.getParcelableExtra("bitmap");
                 scanPokemon(bitmap, "");
+                bitmap.recycle();
                 readyForNewScreenshot = false;
             }
         }

@@ -50,7 +50,8 @@ public class PokeInfoCalculator {
             }
         }
 
-        sortPokedex(pokedex);
+        // don't sort or otherwise we loose evolution-order of the list
+        //sortPokedex(pokedex);
     }
 
 

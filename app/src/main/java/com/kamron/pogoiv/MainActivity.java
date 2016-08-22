@@ -340,11 +340,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        //if (BuildConfig.enableUpdater) {
-            //if (currentSettings.isUpdatesEnabled()) {
-                new AppUpdateLoader().start();
-                checkingForUpdate = true;
-    //}
+        if(BuildConfig.FLAVOR.equals("offline"))
+        {
+            Toast.makeText(mContext, "Offline version does not auto update", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            new AppUpdateLoader().start();
+            checkingForUpdate = true;
+        }
     }
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onAppUpdateEvent(AppUpdateEvent event) {

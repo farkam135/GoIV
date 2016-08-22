@@ -564,14 +564,14 @@ public class Pokefly extends Service {
                 pokemonName = evolution.name;
                 returnVal += "\n" + String.format(getString(R.string.ivtext_evolve), pokemonName);
 
-                CPRange range = pokeCalculator.getCpRangeAtLevel(evolution, ivScanResult.lowAttack, ivScanResult.lowDefense, ivScanResult.lowStamina, ivScanResult.highAttack, ivScanResult.highDefense, ivScanResult.highStamina, Math.min(trainerLevel + 1.5, 40.0));
+                CPRange range = pokeCalculator.getCpRangeAtLevel(evolution, ivScanResult.lowAttack, ivScanResult.lowDefense, ivScanResult.lowStamina, ivScanResult.highAttack, ivScanResult.highDefense, ivScanResult.highStamina, estimatedPokemonLevel);
                 returnVal +=  String.format(getString(R.string.ivtext_cp_lvl), range.level, range.low, range.high);
                 //for following stage evolution (example, dratini - dragonair - dragonite)
                 //if the current evolution has another evolution calculate its range and break
                 for(Pokemon nextEvo: evolution.evolutions) {
                     pokemonName = nextEvo.name;
                     returnVal += "\n" + String.format(getString(R.string.ivtext_evolve_further), pokemonName);
-                    CPRange range2 = pokeCalculator.getCpRangeAtLevel(nextEvo, ivScanResult.lowAttack, ivScanResult.lowDefense, ivScanResult.lowStamina, ivScanResult.highAttack, ivScanResult.highDefense, ivScanResult.highStamina, Math.min(trainerLevel + 1.5, 40.0));
+                    CPRange range2 = pokeCalculator.getCpRangeAtLevel(nextEvo, ivScanResult.lowAttack, ivScanResult.lowDefense, ivScanResult.lowStamina, ivScanResult.highAttack, ivScanResult.highDefense, ivScanResult.highStamina, estimatedPokemonLevel);
                     returnVal += "\n" + String.format(getString(R.string.ivtext_cp_lvl), range2.level, range2.low, range2.high);
                     break;
                 }

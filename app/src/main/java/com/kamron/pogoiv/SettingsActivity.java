@@ -6,7 +6,17 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Toast;
+
+import com.kamron.pogoiv.updater.AppUpdateEvent;
+import com.kamron.pogoiv.updater.AppUpdateLoader;
+import com.kamron.pogoiv.updater.AppUpdateUtil;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 public class SettingsActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener{
 
@@ -32,6 +42,22 @@ public class SettingsActivity extends AppCompatActivity implements SharedPrefere
                 sharedPreferences.getBoolean(GoIVSettings.AUTO_UPDATE_ENABLED, true)));
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onAppUpdateEvent(AppUpdateEvent event) {
+        switch (event.getStatus()) {
+            case AppUpdateEvent.OK:
+                AlertDialog updateDialog = AppUpdateUtil.getAppUpdateDialog(mContext, event.getAppUpdate());
+                updateDialog.show();
+                break;
+            case AppUpdateEvent.FAILED:
+                Toast.makeText(mContext, "App update failed", Toast.LENGTH_SHORT).show();
+                break;
+            case AppUpdateEvent.UPTODATE:
+                Toast.makeText(mContext, "No updates available", Toast.LENGTH_SHORT).show();
+                break;
+        }
+    }
+
     public static class SettingsFragment extends PreferenceFragment {
 
         @Override
@@ -44,10 +70,22 @@ public class SettingsActivity extends AppCompatActivity implements SharedPrefere
             checkForUpdatePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    //Check for update
+                    new AppUpdateLoader().start();
                     return true;
                 }
             });
         }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
     }
 }

@@ -838,7 +838,7 @@ public class MainActivity extends AppCompatActivity {
      */
     @TargetApi(21)
     private void startScreenService() {
-        ((Button) findViewById(R.id.start)).setText("Accept Screen Capture");
+        ((Button) findViewById(R.id.start)).setText(R.string.accept_screen_capture);
         MediaProjectionManager projectionManager = (MediaProjectionManager) getSystemService(Context.MEDIA_PROJECTION_SERVICE);
         startActivityForResult(projectionManager.createScreenCaptureIntent(), SCREEN_CAPTURE_REQ_CODE);
     }

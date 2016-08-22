@@ -198,4 +198,5 @@
     <string name="screenshot_dir_found">Screenshot Directory Set:\n%1$s</string>
     <string name="done">Done</string>
     <string name="back">Back</string>
+    <string name="accept_screen_capture">Accept Screen Capture</string>
 </resources>

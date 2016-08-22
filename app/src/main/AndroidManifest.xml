@@ -57,6 +57,12 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".SettingsActivity"
+            android:label="Settings"
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait" />
+
         <activity android:name=".ShareHandlerActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />

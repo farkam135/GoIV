@@ -923,13 +923,14 @@ public class MainActivity extends AppCompatActivity {
     private Bitmap replaceColors(Bitmap myBitmap, int keepCr, int keepCg, int keepCb, int replaceColor, int similarity) {
         int[] allpixels = new int[myBitmap.getHeight() * myBitmap.getWidth()];
         myBitmap.getPixels(allpixels, 0, myBitmap.getWidth(), 0, 0, myBitmap.getWidth(), myBitmap.getHeight());
+        int similaritySq = similarity * similarity;
 
         for (int i = 0; i < allpixels.length; i++) {
             int rDiff = keepCr - Color.red(allpixels[i]);
             int gDiff = keepCg - Color.green(allpixels[i]);
             int bDiff = keepCb - Color.blue(allpixels[i]);
-            double d = Math.sqrt(Math.pow(rDiff, 2) + Math.pow(gDiff, 2) + Math.pow(bDiff, 2));
-            if (d > similarity) {
+            int dSq = rDiff * rDiff + gDiff * gDiff + bDiff * bDiff;
+            if (dSq > similaritySq) {
                 allpixels[i] = replaceColor;
             }
         }

@@ -40,7 +40,7 @@ public class PokeInfoCalculator {
         pokedex = new ArrayList<>();
         int pokeListSize = names.length;
         for (int i = 0; i <= pokeListSize - 1; i++) {
-            pokedex.add(new Pokemon(names[i], i, attack[i], defense[i], stamina[i]));
+            pokedex.add(new Pokemon(names[i], i, attack[i], defense[i], stamina[i], devolution[i]));
         }
         for (int i = 0; i <= pokeListSize - 1; i++){
             if (devolution[i] != -1) {

@@ -26,8 +26,7 @@ public class ShareHandlerActivity extends Activity {
             Uri imageUri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
-                Intent newintent = new Intent("process-bitmap");
-                newintent.putExtra("bitmap", bitmap);
+                Intent newintent = MainActivity.createProcessBitmapIntent(bitmap);
                 LocalBroadcastManager.getInstance(ShareHandlerActivity.this).sendBroadcast(newintent);
             } catch (IOException e) {
                 e.printStackTrace();

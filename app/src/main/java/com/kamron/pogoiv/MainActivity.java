@@ -89,6 +89,9 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String ACTION_RESET_SCREENSHOT = "reset-screenshot";
     private static final String ACTION_SCREENSHOT = "screenshot";
+    private static final String ACTION_PROCESS_BITMAP = "process-bitmap";
+
+    private static final String KEY_BITMAP = "bitmap";
 
     private MediaProjection mProjection;
     private ImageReader mImageReader;
@@ -132,6 +135,11 @@ public class MainActivity extends AppCompatActivity {
 
     public static Intent createResetScreenshotIntent() {
         return new Intent(ACTION_RESET_SCREENSHOT);
+    }
+    public static Intent createProcessBitmapIntent(Bitmap bitmap) {
+        Intent intent = new Intent(ACTION_PROCESS_BITMAP);
+        intent.putExtra(KEY_BITMAP, bitmap);
+        return intent;
     }
 
     @TargetApi(23)
@@ -262,9 +270,9 @@ public class MainActivity extends AppCompatActivity {
             candyOrder = 1;
         }
 
-        LocalBroadcastManager.getInstance(this).registerReceiver(resetScreenshot, new IntentFilter("reset-screenshot"));
-        LocalBroadcastManager.getInstance(this).registerReceiver(takeScreenshot, new IntentFilter("screenshot"));
-        LocalBroadcastManager.getInstance(this).registerReceiver(processBitmap, new IntentFilter("process-bitmap"));
+        LocalBroadcastManager.getInstance(this).registerReceiver(resetScreenshot, new IntentFilter(ACTION_RESET_SCREENSHOT));
+        LocalBroadcastManager.getInstance(this).registerReceiver(takeScreenshot, new IntentFilter(ACTION_SCREENSHOT));
+        LocalBroadcastManager.getInstance(this).registerReceiver(processBitmap, new IntentFilter(ACTION_PROCESS_BITMAP));
     }
 
     @Override
@@ -876,7 +884,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (readyForNewScreenshot) {
-                Bitmap bitmap = (Bitmap) intent.getParcelableExtra("bitmap");
+                Bitmap bitmap = (Bitmap) intent.getParcelableExtra(KEY_BITMAP);
                 scanPokemon(bitmap, "");
                 bitmap.recycle();
                 readyForNewScreenshot = false;

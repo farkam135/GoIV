@@ -447,6 +447,21 @@ public class Pokefly extends Service {
     }
 
     /**
+     * changes the spinner content to the scanned pokemon candy name evolution line
+     *
+     * if the candy evolution line is 0 (complete read error) the whole pokedex will instead be shown
+     */
+    private void populateSpinnerWithEvolutionLine(){
+        ArrayList<Pokemon> evolutionLine = pokeCalculator.getEvolutionLine(pokeCalculator.get(candyName));
+        if (evolutionLine.size() >0){
+            pokeAdapter.updatePokemonList(pokeCalculator.getEvolutionLine(pokeCalculator.get(candyName)));
+        }else{
+            pokeAdapter.updatePokemonList(pokeCalculator.pokedex);
+        }
+
+    }
+
+    /**
      * showInfoLayout
      * Shows the info layout once a scan is complete. Allows the user to change any data and then
      * shows the final results.
@@ -457,7 +472,7 @@ public class Pokefly extends Service {
             infoShownReceived = true;
             int[] possiblePoke = getPossiblePokemon(pokemonName, candyName);
 
-            pokeAdapter.updatePokemonList(pokeCalculator.getEvolutionLine(pokeCalculator.get(candyName)));
+           populateSpinnerWithEvolutionLine();
 
             ivText.setVisibility(View.GONE);
             pokemonInfoLayout.setVisibility(View.VISIBLE);

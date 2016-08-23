@@ -30,6 +30,14 @@ public class IVCombination {
 
     }
 
+    /**
+     * get attack + defence + stamina value
+     * @return
+     */
+    public int getTotal(){
+        return att+def+sta;
+    }
+
     @Override
     public int hashCode() {
         int result = att;

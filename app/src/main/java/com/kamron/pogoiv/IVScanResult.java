@@ -139,4 +139,33 @@ public class IVScanResult {
 
         return false;
     }
+
+
+    /**
+     * @return get the IV combination which has the highest sum of att+def+sta, or tied to equal
+     */
+    public IVCombination getHighestIVCombination() {
+        if (iVCombinations.size() == 0) return null;
+        IVCombination max = iVCombinations.get(0);
+        for (IVCombination ivCombination:iVCombinations){
+            if (ivCombination.getTotal() > max.getTotal()){
+                max = ivCombination;
+            }
+        }
+        return max;
+    }
+
+    /**
+     * @return get the IV combination which has the lowest sum of att+def+sta, or tied to equal
+     */
+    public IVCombination getLowestIVCombination() {
+        if (iVCombinations.size() == 0) return null;
+        IVCombination low = iVCombinations.get(0);
+        for (IVCombination ivCombination:iVCombinations){
+            if (ivCombination.getTotal() < low.getTotal()){
+                low = ivCombination;
+            }
+        }
+        return low;
+    }
 }

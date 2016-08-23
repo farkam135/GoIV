@@ -2,11 +2,13 @@ package com.kamron.pogoiv;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
+import android.preference.SwitchPreference;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
@@ -28,6 +30,7 @@ public class SettingsActivity extends AppCompatActivity implements SharedPrefere
         super.onCreate(savedInstanceState);
         mContext = SettingsActivity.this;
         getFragmentManager().beginTransaction().replace(android.R.id.content, new SettingsFragment()).commit();
+        getSupportActionBar().setTitle(getResources().getString(R.string.settings_page_title));
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         sharedPref.registerOnSharedPreferenceChangeListener(this);
@@ -37,6 +40,7 @@ public class SettingsActivity extends AppCompatActivity implements SharedPrefere
         GoIVSettings.saveSettings(mContext, new GoIVSettings(
                 sharedPreferences.getBoolean(GoIVSettings.LAUNCH_POKEMON_GO, true),
                 sharedPreferences.getBoolean(GoIVSettings.SHOW_CONFIRMATION_DIALOG, true),
+                sharedPreferences.getBoolean(GoIVSettings.MANUAL_SCREENSHOT_MODE, false),
                 sharedPreferences.getBoolean(GoIVSettings.DELETE_SCREENSHOTS, true),
                 sharedPreferences.getBoolean(GoIVSettings.COPY_TO_CLIPBOARD, false),
                 sharedPreferences.getBoolean(GoIVSettings.SEND_CRASH_REPORTS, true),
@@ -66,6 +70,7 @@ public class SettingsActivity extends AppCompatActivity implements SharedPrefere
         {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.settings);
+            PreferenceScreen preferenceScreen = getPreferenceScreen();
 
             if(BuildConfig.isInternetAvailable) {
                 Preference checkForUpdatePreference = getPreferenceManager().findPreference("checkForUpdate");
@@ -80,14 +85,21 @@ public class SettingsActivity extends AppCompatActivity implements SharedPrefere
             }
             else {
                 //Hide update and crash report related settings
-                Preference crashReportsPreference = getPreferenceManager().findPreference("sendCrashReports");
-                Preference autoUpdatePreference = getPreferenceManager().findPreference("autoUpdateEnabled");
+                Preference crashReportsPreference = getPreferenceManager().findPreference(GoIVSettings.SEND_CRASH_REPORTS);
+                Preference autoUpdatePreference = getPreferenceManager().findPreference(GoIVSettings.AUTO_UPDATE_ENABLED);
                 Preference checkForUpdatePreference = getPreferenceManager().findPreference("checkForUpdate");
 
-                PreferenceScreen preferenceScreen = getPreferenceScreen();
+
                 preferenceScreen.removePreference(crashReportsPreference);
                 preferenceScreen.removePreference(autoUpdatePreference);
                 preferenceScreen.removePreference(checkForUpdatePreference);
+            }
+
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
+                SwitchPreference manualScreenshotModePreference = (SwitchPreference) getPreferenceManager().findPreference(GoIVSettings.MANUAL_SCREENSHOT_MODE);
+                manualScreenshotModePreference.setDefaultValue(true);
+                manualScreenshotModePreference.setChecked(true);
+                manualScreenshotModePreference.setEnabled(false);
             }
         }
     }

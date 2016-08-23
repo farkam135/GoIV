@@ -160,7 +160,7 @@
         <item>Mew</item>
     </string-array>
 
-    <string name="welcome_message">Welcome to GoIV!\n\nInstructions:\n1. Enter your trainer level below\n2. Press the start button and allow screen capture\n3. Open up your desired Pokémon in \'Pokémon Go\'\n4. Tap the IV Button to scan the Pokémon\n5. Adjust the scanned data if necessary\n6. Check IV!</string>
+    <string name="welcome_message">Welcome to GoIV!\n\nInstructions:\n1. Enter your trainer level below\n2. Press the start button and allow screen capture\n3. Open up your desired Pokémon in \'Pokémon Go\'\n4. Tap the IV Button to scan the Pokémon or take a screenshot if you have the battery saver enabled/are on Android KitKat or lower\n5. Adjust the scanned data if necessary\n6. Check IV!</string>
     <string name="goiv_is_open_source">GoIV is open source!\ngithub.com/farkam135/GoIV\nreddit.com/r/GoIV</string>
     <string name="trainer_level">Trainer Level</string>
 
@@ -198,10 +198,13 @@
     <string name="done">Done</string>
     <string name="back">Back</string>
     <string name="accept_screen_capture">Accept Screen Capture</string>
+    <string name="settings_page_title">Settings</string>
     <string name="launch_pokemon_go_setting_title">Launch Pokemon Go</string>
     <string name="launch_pokemon_go_setting_summary">Switch to Pokemon Go when the start button is clicked</string>
     <string name="confirmation_dialog_setting_title">Confirmation dialog</string>
     <string name="confirmation_dialog_setting_summary">Allow editing of pokemon information before calculating IV</string>
+    <string name="manual_screenshot_mode_setting_title">Use screenshots calculate IV</string>
+    <string name="manual_screenshot_mode_setting_summary">Save battery life by scanning screenshots instead of autodetecting. This setting has to be enabled for Android KitKat and below</string>
     <string name="delete_screenshots_setting_title">Delete screenshots</string>
     <string name="delete_screenshots_setting_summary">Automatically delete screenshots taken by GoIV</string>
     <string name="copy_to_clipboard_setting_title">Copy to clipboard</string>

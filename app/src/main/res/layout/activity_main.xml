@@ -59,7 +59,6 @@
             android:text="@string/main_start"
             android:textSize="18sp"/>
 
-
         <TextView
             android:id="@+id/main_instructions"
             android:layout_width="wrap_content"

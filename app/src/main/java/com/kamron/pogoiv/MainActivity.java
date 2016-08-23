@@ -404,7 +404,7 @@ public class MainActivity extends AppCompatActivity {
      * Starts the PokeFly background service which contains overlay logic
      */
     private void startPokeyFly() {
-        ((Button) findViewById(R.id.start)).setText("Stop");
+        ((Button) findViewById(R.id.start)).setText(R.string.main_stop);
 
         Intent intent = Pokefly.createIntent(this, trainerLevel, statusBarHeight, batterySaver, screenshotDir, screenshotUri);
         startService(intent);
@@ -823,7 +823,7 @@ public class MainActivity extends AppCompatActivity {
      */
     @TargetApi(21)
     private void startScreenService() {
-        ((Button) findViewById(R.id.start)).setText("Accept Screen Capture");
+        ((Button) findViewById(R.id.start)).setText(R.string.accept_screen_capture);
         MediaProjectionManager projectionManager = (MediaProjectionManager) getSystemService(Context.MEDIA_PROJECTION_SERVICE);
         startActivityForResult(projectionManager.createScreenCaptureIntent(), SCREEN_CAPTURE_REQ_CODE);
     }

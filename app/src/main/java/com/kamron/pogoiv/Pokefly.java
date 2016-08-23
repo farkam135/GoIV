@@ -27,8 +27,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -82,7 +80,7 @@ public class Pokefly extends Service {
     private DisplayMetrics displayMetrics;
     ClipboardManager clipboard;
 
-    private boolean infoShown = false;
+    private boolean infoShownSent = false;
     private boolean infoShownReceived = false;
     private boolean IVButtonShown = false;
 
@@ -367,7 +365,7 @@ public class Pokefly extends Service {
                         Intent intent = MainActivity.createScreenshotIntent();
                         LocalBroadcastManager.getInstance(Pokefly.this).sendBroadcast(intent);
                         receivedInfo = false;
-                        infoShown = true;
+                        infoShownSent = true;
                         infoShownReceived = false;
                         break;
                 }
@@ -436,7 +434,7 @@ public class Pokefly extends Service {
             IVButtonShown = true;
         }
         receivedInfo = false;
-        infoShown = false;
+        infoShownSent = false;
         Intent resetIntent = MainActivity.createResetScreenshotIntent();
         LocalBroadcastManager.getInstance(Pokefly.this).sendBroadcast(resetIntent);
     }
@@ -730,7 +728,7 @@ public class Pokefly extends Service {
         @Override
         public void onReceive(Context context, Intent intent) {
             boolean show = intent.getBooleanExtra(KEY_DISPLAY_IV_BUTTON_SHOW, false);
-            if (show && !IVButtonShown && !infoShown) {
+            if (show && !IVButtonShown && !infoShownSent) {
                 windowManager.addView(IVButton, IVButonParams);
                 IVButtonShown = true;
             } else if (!show) {

@@ -15,6 +15,12 @@
         android:defaultValue="true"/>
 
     <SwitchPreference
+        android:key="manualScreenshotMode"
+        android:title="@string/manual_screenshot_mode_setting_title"
+        android:summary="@string/manual_screenshot_mode_setting_summary"
+        android:defaultValue="false" />
+
+    <SwitchPreference
         android:key="deleteScreenshots"
         android:title="@string/delete_screenshots_setting_title"
         android:summary="@string/delete_screenshots_setting_summary"

@@ -653,15 +653,13 @@ public class Pokefly extends Service {
                 returnVal += "<br>"; //breakline
                 //for following stage evolution (example, dratini - dragonair - dragonite)
                 //if the current evolution has another evolution calculate its range and break
-                for (Pokemon nextEvo : evolution.evolutions) {
-                    pokemonName = nextEvo.name;
-                    returnVal += "\n" + String.format(getString(R.string.ivtext_evolve_further), pokemonName);
-                    returnVal += "<br>"; //breakline
-                    CPRange range2 = pokeCalculator.getCpRangeAtLevel(nextEvo, ivScanResult.lowAttack, ivScanResult.lowDefense, ivScanResult.lowStamina, ivScanResult.highAttack, ivScanResult.highDefense, ivScanResult.highStamina, Math.min(trainerLevel + 1.5, 40.0));
-                    returnVal += "\n" + String.format(getString(R.string.ivtext_cp_lvl), range2.level, range2.low, range2.high);
-                    returnVal += "<br>"; //breakline
-                    break;
-                }
+                Pokemon nextEvo = evolution.evolutions.get(0);
+                pokemonName = nextEvo.name;
+                returnVal += "\n" + String.format(getString(R.string.ivtext_evolve_further), pokemonName);
+                returnVal += "<br>"; //breakline
+                CPRange range2 = pokeCalculator.getCpRangeAtLevel(nextEvo, ivScanResult.lowAttack, ivScanResult.lowDefense, ivScanResult.lowStamina, ivScanResult.highAttack, ivScanResult.highDefense, ivScanResult.highStamina, Math.min(trainerLevel + 1.5, 40.0));
+                returnVal += "\n" + String.format(getString(R.string.ivtext_cp_lvl), range2.level, range2.low, range2.high);
+                returnVal += "<br>"; //breakline
             }
 
             if(GoIVSettings.getSettings(getBaseContext()).getCopyToClipboard()) {

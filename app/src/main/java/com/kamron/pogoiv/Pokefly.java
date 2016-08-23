@@ -452,13 +452,12 @@ public class Pokefly extends Service {
      * if the candy evolution line is 0 (complete read error) the whole pokedex will instead be shown
      */
     private void populateSpinnerWithEvolutionLine(){
-        ArrayList<Pokemon> evolutionLine = pokeCalculator.getEvolutionLine(pokeCalculator.get(candyName));
+        ArrayList<Pokemon> evolutionLine = pokeCalculator.getFullEvolutionChain(pokeCalculator.get(candyName));
         if (evolutionLine.size() >0){
-            pokeAdapter.updatePokemonList(pokeCalculator.getEvolutionLine(pokeCalculator.get(candyName)));
+            pokeAdapter.updatePokemonList(evolutionLine);
         }else{
             pokeAdapter.updatePokemonList(pokeCalculator.pokedex);
         }
-
     }
 
     /**

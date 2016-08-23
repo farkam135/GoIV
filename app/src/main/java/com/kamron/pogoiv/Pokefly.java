@@ -668,7 +668,8 @@ public class Pokefly extends Service {
                 returnVal += "<br>"; //breakline
                 //for following stage evolution (example, dratini - dragonair - dragonite)
                 //if the current evolution has another evolution calculate its range and break
-                for (Pokemon nextEvo : evolution.evolutions) {
+                if(evolution.evolutions.size()>0) {
+                    Pokemon nextEvo=evolution.evolutions.get(0);
                     pokemonName = nextEvo.name;
                     returnVal += "\n" + String.format(getString(R.string.ivtext_evolve_further), pokemonName);
                     returnVal += "<br>"; //breakline

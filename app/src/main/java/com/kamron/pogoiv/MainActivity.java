@@ -28,6 +28,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.FileObserver;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
@@ -40,6 +41,9 @@ import android.text.method.LinkMovementMethod;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -50,10 +54,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.googlecode.tesseract.android.TessBaseAPI;
-import com.kamron.pogoiv.updater.AppUpdate;
-import com.kamron.pogoiv.updater.AppUpdateDialog;
 import com.kamron.pogoiv.updater.AppUpdateEvent;
 import com.kamron.pogoiv.updater.AppUpdateLoader;
+import com.kamron.pogoiv.updater.AppUpdateUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -70,7 +73,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import timber.log.Timber;
-
 
 public class MainActivity extends AppCompatActivity {
 
@@ -123,11 +125,8 @@ public class MainActivity extends AppCompatActivity {
     private int arcCenter;
     private int arcInitialY;
     private int radius;
-
-    private boolean checkingForUpdate;
-    private AlertDialog.Builder builder;
-    private AlertDialog dialog;
     private Context mContext;
+    private GoIVSettings settings;
 
     public static Intent createScreenshotIntent() {
         return new Intent(ACTION_SCREENSHOT);
@@ -142,10 +141,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Timber.tag(TAG);
-        checkingForUpdate = false;
+
         mContext=MainActivity.this;
 
+        settings = GoIVSettings.getSettings(MainActivity.this);
+        if(BuildConfig.isInternetAvailable && settings.getAutoUpdateEnabled())
+            new AppUpdateLoader().start();
+
         setContentView(R.layout.activity_main);
+
+        PreferenceManager.setDefaultValues(this, R.xml.settings, false);
 
         TextView tvVersionNumber = (TextView) findViewById(R.id.version_number);
         tvVersionNumber.setText(getVersionName());
@@ -271,8 +276,25 @@ public class MainActivity extends AppCompatActivity {
         LocalBroadcastManager.getInstance(this).registerReceiver(resetScreenshot, new IntentFilter("reset-screenshot"));
         LocalBroadcastManager.getInstance(this).registerReceiver(takeScreenshot, new IntentFilter("screenshot"));
         LocalBroadcastManager.getInstance(this).registerReceiver(processBitmap, new IntentFilter("process-bitmap"));
-        builder = new AlertDialog.Builder(mContext);
-        dialog = builder.create();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.settings:
+                Intent settingsIntent = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(settingsIntent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private void getScreenshotDir(){
@@ -339,54 +361,19 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
-        //if (BuildConfig.enableUpdater) {
-            //if (currentSettings.isUpdatesEnabled()) {
-                new AppUpdateLoader().start();
-                checkingForUpdate = true;
-    //}
+        settings = GoIVSettings.getSettings(MainActivity.this);
     }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onAppUpdateEvent(AppUpdateEvent event) {
         switch (event.getStatus()) {
             case AppUpdateEvent.OK:
-                    showAppUpdateDialog(mContext, event.getAppUpdate());
-                    checkingForUpdate = false;
-                    System.out.println("Updating");
-                break;
-            case AppUpdateEvent.FAILED:
-                Toast.makeText(mContext, "Update check failed", Toast.LENGTH_SHORT).show();
-                checkingForUpdate = false;
-                break;
-            case AppUpdateEvent.UPTODATE:
-                checkingForUpdate = false;
+                AlertDialog updateDialog = AppUpdateUtil.getAppUpdateDialog(mContext, event.getAppUpdate());
+                updateDialog.show();
                 break;
         }
     }
-    private void showAppUpdateDialog(final Context context, final AppUpdate update) {
-        if(!dialog.isShowing()) {
-            builder = new AlertDialog.Builder(context)
-                    .setTitle("Update available")
-                    .setMessage(context.getString(R.string.app_name) + " " + update.getVersion() + " " + "Update available" + "\n\n" + "Changes:" + "\n\n" + update.getChangelog())
-                    .setIcon(R.mipmap.ic_launcher)
-                    .setPositiveButton("Update", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            dialogInterface.dismiss();
-                            AppUpdateDialog.downloadAndInstallAppUpdate(context, update);
-                        }
-                    })
-                    .setNegativeButton(context.getString(R.string.cancel), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            dialogInterface.dismiss();
-                        }
-                    })
-                    .setCancelable(false);
-            dialog = builder.create();
-            dialog.show();
-        }
-    }
+
     /**
      * setupArcPoints
      * Sets up the x,y coordinates of the arc using the trainer level, stores it in Data.arcX/arcY
@@ -397,7 +384,7 @@ public class MainActivity extends AppCompatActivity {
         Data.arcY = new int[indices];
 
         for (double pokeLevel = 1.0; pokeLevel <= trainerLevel + 1.5; pokeLevel += 0.5) {
-            double angleInDegrees = (Data.CpM[(int) (pokeLevel * 2 - 2)] - Data.CpM[0]) * 202.037116 / Data.CpM[trainerLevel * 2 - 2];
+            double angleInDegrees = (Data.CpM[(int) (pokeLevel * 2 - 2)] - Data.CpM[0]) * 202.04 / Data.CpM[trainerLevel * 2 - 2];
             if (angleInDegrees > 1.0 && trainerLevel < 30) {
                 angleInDegrees -= 0.5;
             } else if (trainerLevel >= 30) {
@@ -417,14 +404,12 @@ public class MainActivity extends AppCompatActivity {
      * Starts the PokeFly background service which contains overlay logic
      */
     private void startPokeyFly() {
-        ((Button) findViewById(R.id.start)).setText("Stop");
+        ((Button) findViewById(R.id.start)).setText(R.string.main_stop);
 
         Intent intent = Pokefly.createIntent(this, trainerLevel, statusBarHeight, batterySaver, screenshotDir, screenshotUri);
         startService(intent);
 
         pokeFlyRunning = true;
-
-        openPokemonGoApp();
     }
 
     private boolean isNumeric(String str) {
@@ -442,7 +427,6 @@ public class MainActivity extends AppCompatActivity {
         } catch (PackageManager.NameNotFoundException e) {
             Timber.e("Exception thrown while getting version name");
             Timber.e(e);
-            Log.e(TAG, "Error while getting version name", e);
         }
         return "Error while getting version name";
     }
@@ -526,6 +510,8 @@ public class MainActivity extends AppCompatActivity {
                 mProjection.createVirtualDisplay("screen-mirror", rawDisplayMetrics.widthPixels, rawDisplayMetrics.heightPixels, rawDisplayMetrics.densityDpi, DisplayManager.VIRTUAL_DISPLAY_FLAG_PUBLIC, mImageReader.getSurface(), null, null);
 
                 startPokeyFly();
+                if(settings.getLaunchPokemonGo())
+                    openPokemonGoApp();
                 //showNotification();
                 final Handler handler = new Handler();
                 final Timer timer = new Timer();
@@ -828,7 +814,6 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception exception) {
             Timber.e("Exception thrown in saveImage()");
             Timber.e(exception);
-            Log.e(TAG, "Error while saving the image.", exception);
         }
     }
 
@@ -838,7 +823,7 @@ public class MainActivity extends AppCompatActivity {
      */
     @TargetApi(21)
     private void startScreenService() {
-        ((Button) findViewById(R.id.start)).setText("Accept Screen Capture");
+        ((Button) findViewById(R.id.start)).setText(R.string.accept_screen_capture);
         MediaProjectionManager projectionManager = (MediaProjectionManager) getSystemService(Context.MEDIA_PROJECTION_SERVICE);
         startActivityForResult(projectionManager.createScreenCaptureIntent(), SCREEN_CAPTURE_REQ_CODE);
     }
@@ -962,7 +947,6 @@ public class MainActivity extends AppCompatActivity {
         } catch (IOException exception) {
             Timber.e("Exception thrown in copyAssetFolder()");
             Timber.e(exception);
-            Log.e(TAG, "Error while loading filenames.", exception);
         }
         new File(toPath).mkdirs();
         boolean res = true;
@@ -989,7 +973,6 @@ public class MainActivity extends AppCompatActivity {
         } catch (IOException exception) {
             Timber.e("Exception thrown in copyAsset()");
             Timber.e(exception);
-            Log.e(TAG, "Error while copying assets.", exception);
             return false;
         }
     }

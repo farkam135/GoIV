@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name" translatable="false">GoIV</string>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
 
@@ -178,7 +177,7 @@
     <string name="ivtext_title">Your lvl %1$s, CP %2$s, HP %3$s %4$s can be:</string>
     <string name="ivtext_possibilities">%1$s more possibilities...</string>
     <string name="ivtext_no_possibilities">No possibilities, please check your stats again!</string>
-    <string name="ivtext_iv">Min: %1$s%% Average: %2$s%% Max: %3$s%%\n</string>
+    <string name="ivtext_iv">Min: %1$s%% Average: %2$.2f%% Max: %3$s%%\n</string>
     <string name="ivtext_evolve">Can be evolved into %1$s:\n</string>
     <string name="ivtext_evolve_further">Can be further evolved into %1$s:</string>
     <string name="ivtext_many_possibilities">There are too many possibilities for this pokemon. Try powering it up!</string>
@@ -198,4 +197,19 @@
     <string name="screenshot_dir_found">Screenshot Directory Set:\n%1$s</string>
     <string name="done">Done</string>
     <string name="back">Back</string>
+    <string name="accept_screen_capture">Accept Screen Capture</string>
+    <string name="launch_pokemon_go_setting_title">Launch Pokemon Go</string>
+    <string name="launch_pokemon_go_setting_summary">Switch to Pokemon Go when the start button is clicked</string>
+    <string name="confirmation_dialog_setting_title">Confirmation dialog</string>
+    <string name="confirmation_dialog_setting_summary">Allow editing of pokemon information before calculating IV</string>
+    <string name="delete_screenshots_setting_title">Delete screenshots</string>
+    <string name="delete_screenshots_setting_summary">Automatically delete screenshots taken by GoIV</string>
+    <string name="copy_to_clipboard_setting_title">Copy to clipboard</string>
+    <string formatted="false" name="copy_to_clipboard_setting_summary">Copy worst IV% - best IV% to clipboard when the check IV button is clicked</string>
+    <string name="send_crash_reports_setting_title">Send crash reports</string>
+    <string name="send_crash_reports_setting_summary">Help the developers improve the application by sending anonymous crash-related information to them</string>
+    <string name="auto_update_setting_title">Auto-update</string>
+    <string name="auto_update_setting_summary">Automatically check for updates when the app starts up</string>
+    <string name="check_for_update_setting_title">Check for update</string>
+    <string name="check_for_update_setting_summary">See if an update is available</string>
 </resources>

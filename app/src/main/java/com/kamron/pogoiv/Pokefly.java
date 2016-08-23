@@ -26,8 +26,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -458,6 +456,9 @@ public class Pokefly extends Service {
 
             infoShownReceived = true;
             int[] possiblePoke = getPossiblePokemon(pokemonName, candyName);
+
+            pokeAdapter.updatePokemonList(pokeCalculator.getEvolutionLine(pokeCalculator.get(candyName)));
+
             ivText.setVisibility(View.GONE);
             pokemonInfoLayout.setVisibility(View.VISIBLE);
             initialButtonsLayout.setVisibility(View.VISIBLE);

@@ -67,6 +67,23 @@ public class PokeInfoCalculator {
 
 
     /**
+     * returns the higher evolutions of a pokemon plus itself
+     * @param poke the pokemon to return itself and higher evolutions of itself
+     * @return a list with pokemon, input pokemon plus its evolutions
+     */
+    public ArrayList<Pokemon> getEvolutionLine(Pokemon poke){
+
+        ArrayList list = new ArrayList();
+        list.add(poke); //add self
+        list.addAll(poke.evolutions); //add all immediate evolutions
+        for (Pokemon evolution : poke.evolutions){
+                list.addAll(evolution.evolutions);
+        }
+
+        return list;
+    }
+
+    /**
      * Sorts the pokemon in the pokedex by alphabetical order
      *
      * @param pokedex

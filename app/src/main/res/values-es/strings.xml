@@ -15,7 +15,7 @@
     <string name="ivtext_cp_lvl">PC a nivel %1$s: %2$s - %3$s</string>
     <string name="ivtext_evolve">Puede evolucionar a %1$s:\n</string>
     <string name="ivtext_evolve_further">Luego puede evolucionar a %1$s:</string>
-    <string name="ivtext_iv">Min: %1$s%% Promedio: %2$.2f%% Max: %3$s%%\n</string>
+    <string name="ivtext_iv">Min: %1$s%% Promedio: %2$s%% Max: %3$s%%\n</string>
     <string name="ivtext_many_possibilities">Existen demasiadas posibilidades para este Pokémon. Intenta darle más poder!</string>
     <string name="ivtext_max_lvl_cost">Costo para alcanzar nivel %1$s:</string>
     <string name="ivtext_max_lvl_cost2">Caramelos: %1$s Polvo Estelar: %2$s</string>

@@ -20,6 +20,7 @@ import android.provider.MediaStore;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.Html;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.LruCache;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -611,6 +612,24 @@ public class Pokefly extends Service {
             returnVal += "<br>"; //breakline
         } else {
             int counter = 0;
+
+
+            IVCombination highest = ivScanResult.getHighestIVCombination();
+            IVCombination lowest = ivScanResult.getLowestIVCombination();
+            int shown = 1; //the number of IVs which is shown to the user, assume only highest will be shown
+            returnVal += "\n" + String.format(getString(R.string.ivtext_stats), highest.att, highest.def, highest.sta, highest.percentPerfect);
+            returnVal += "<br>"; //breakline
+            if (! (lowest.getTotal() == highest.getTotal())){ //if highest and lowest are the same, there's no reason to print both of them (they can be same IV)
+                returnVal += "\n" + String.format(getString(R.string.ivtext_stats), lowest.att, lowest.def, lowest.sta, lowest.percentPerfect);
+                returnVal += "<br>"; //breakline
+                shown +=1; //since this line is now shown, the "x more combinations" needs to take that into account
+            }
+
+            if (ivScanResult.iVCombinations.size() > shown){ //if all options havent been shown
+                returnVal += "\n" + String.format(getString(R.string.ivtext_possibilities), ivScanResult.getCount() - shown); //2 is for the best & worst line
+                returnVal += "<br>"; //breakline
+            }
+            /*
             for (IVCombination ivCombination : ivScanResult.iVCombinations) {
                 returnVal += "\n" + String.format(getString(R.string.ivtext_stats), ivCombination.att, ivCombination.def, ivCombination.sta, ivCombination.percentPerfect);
                 returnVal += "<br>"; //breakline
@@ -623,7 +642,7 @@ public class Pokefly extends Service {
             if (ivScanResult.getCount() > MAX_POSSIBILITIES) {
                 returnVal += "\n" + String.format(getString(R.string.ivtext_possibilities), ivScanResult.getCount() - MAX_POSSIBILITIES);
                 returnVal += "<br>"; //breakline
-            }
+            }*/
 
             returnVal += "\n" + "<b>" + (String.format(getString(R.string.ivtext_iv), ivScanResult.lowPercent, ivScanResult.getAveragePercent(), ivScanResult.highPercent) + "</b>");
             returnVal += "<br><br>"; //breakline
@@ -648,7 +667,7 @@ public class Pokefly extends Service {
                 returnVal += "\n" + String.format(getString(R.string.ivtext_evolve), pokemonName);
                 returnVal += "<br>"; //breakline
 
-                CPRange range = pokeCalculator.getCpRangeAtLevel(evolution, ivScanResult.lowAttack, ivScanResult.lowDefense, ivScanResult.lowStamina, ivScanResult.highAttack, ivScanResult.highDefense, ivScanResult.highStamina, Math.min(trainerLevel + 1.5, 40.0));
+                CPRange range = pokeCalculator.getCpRangeAtLevel(evolution, ivScanResult.lowAttack, ivScanResult.lowDefense, ivScanResult.lowStamina, ivScanResult.highAttack, ivScanResult.highDefense, ivScanResult.highStamina, estimatedPokemonLevel);
                 returnVal += String.format(getString(R.string.ivtext_cp_lvl), range.level, range.low, range.high);
                 returnVal += "<br>"; //breakline
                 //for following stage evolution (example, dratini - dragonair - dragonite)
@@ -657,7 +676,7 @@ public class Pokefly extends Service {
                     pokemonName = nextEvo.name;
                     returnVal += "\n" + String.format(getString(R.string.ivtext_evolve_further), pokemonName);
                     returnVal += "<br>"; //breakline
-                    CPRange range2 = pokeCalculator.getCpRangeAtLevel(nextEvo, ivScanResult.lowAttack, ivScanResult.lowDefense, ivScanResult.lowStamina, ivScanResult.highAttack, ivScanResult.highDefense, ivScanResult.highStamina, Math.min(trainerLevel + 1.5, 40.0));
+                    CPRange range2 = pokeCalculator.getCpRangeAtLevel(nextEvo, ivScanResult.lowAttack, ivScanResult.lowDefense, ivScanResult.lowStamina, ivScanResult.highAttack, ivScanResult.highDefense, ivScanResult.highStamina, estimatedPokemonLevel);
                     returnVal += "\n" + String.format(getString(R.string.ivtext_cp_lvl), range2.level, range2.low, range2.high);
                     returnVal += "<br>"; //breakline
                 }

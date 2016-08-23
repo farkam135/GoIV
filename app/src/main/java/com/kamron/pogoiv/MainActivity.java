@@ -925,10 +925,10 @@ public class MainActivity extends AppCompatActivity {
         myBitmap.getPixels(allpixels, 0, myBitmap.getWidth(), 0, 0, myBitmap.getWidth(), myBitmap.getHeight());
 
         for (int i = 0; i < allpixels.length; i++) {
-            int r = Color.red(allpixels[i]);
-            int g = Color.green(allpixels[i]);
-            int b = Color.blue(allpixels[i]);
-            double d = Math.sqrt(Math.pow(keepCr - r, 2) + Math.pow(keepCg - g, 2) + Math.pow(keepCb - b, 2));
+            int rDiff = keepCr - Color.red(allpixels[i]);
+            int gDiff = keepCg - Color.green(allpixels[i]);
+            int bDiff = keepCb - Color.blue(allpixels[i]);
+            double d = Math.sqrt(Math.pow(rDiff, 2) + Math.pow(gDiff, 2) + Math.pow(bDiff, 2));
             if (d > similarity) {
                 allpixels[i] = replaceColor;
             }

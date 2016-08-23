@@ -16,13 +16,15 @@ public class Pokemon {
     public final int baseAttack;
     public final int baseDefense;
     public final int baseStamina;
+    public final int devoNumber;
 
-    public Pokemon(String name, int number, int baseAttack, int baseDefense, int baseStamina) {
+    public Pokemon(String name, int number, int baseAttack, int baseDefense, int baseStamina, int devoNumber) {
         this.name = name;
         this.number = number;
         this.baseAttack = baseAttack;
         this.baseDefense = baseDefense;
         this.baseStamina = baseStamina;
+        this.devoNumber = devoNumber;
         this.evolutions = new ArrayList<>();
     }
 

@@ -39,6 +39,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.LinkMovementMethod;
 import android.util.DisplayMetrics;
+import android.util.LruCache;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -66,6 +67,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
+import java.util.Arrays;
 import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -105,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean batterySaver;
     private String screenshotDir;
     private Uri screenshotUri;
+    private LruCache<String, String> ocrCache = new LruCache<>(200);
 
     private boolean readyForNewScreenshot = true;
 
@@ -619,6 +622,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
+     * Get the hashcode for a bitmap
+     */
+    String hashBitmap(Bitmap bmp) {
+        int[] allpixels = new int[bmp.getHeight() * bmp.getWidth()];
+        bmp.getPixels(allpixels, 0, bmp.getWidth(), 0, 0, bmp.getWidth(), bmp.getHeight());
+        return Integer.toHexString(Arrays.hashCode(allpixels));
+    }
+
+    /**
      * get the pokemon name as analysed from a pokemon image
      *
      * @param pokemonImage the image of the whole screen
@@ -626,19 +638,25 @@ public class MainActivity extends AppCompatActivity {
      */
     private String getPokemonNameFromImg(Bitmap pokemonImage) {
         Bitmap name = Bitmap.createBitmap(pokemonImage, displayMetrics.widthPixels / 4, (int) Math.round(displayMetrics.heightPixels / 2.22608696), (int) Math.round(displayMetrics.widthPixels / 2.057), (int) Math.round(displayMetrics.heightPixels / 18.2857143));
-        name = replaceColors(name, 68, 105, 108, Color.WHITE, 200);
-        tesseract.setImage(name);
-        //System.out.println(tesseract.getUTF8Text());
-        String pokemonName = tesseract.getUTF8Text().replace(" ", "").replace("1", "l").replace("0", "o").replace("Sparky", getString(R.string.pokemon133)).replace("Rainer", getString(R.string.pokemon133)).replace("Pyro", getString(R.string.pokemon133));
-        if (pokemonName.toLowerCase().contains("nidora")) {
-            boolean isFemale = isNidoranFemale(pokemonImage);
-            if (isFemale) {
-                pokemonName = getResources().getString(R.string.pokemon029);
-            } else {
-                pokemonName = getResources().getString(R.string.pokemon032);
+        String hash = "name" + hashBitmap(name);
+        String pokemonName = ocrCache.get(hash);
+
+        if (pokemonName == null) {
+            name = replaceColors(name, 68, 105, 108, Color.WHITE, 200);
+            tesseract.setImage(name);
+            //System.out.println(tesseract.getUTF8Text());
+            pokemonName = tesseract.getUTF8Text().replace(" ", "").replace("1", "l").replace("0", "o").replace("Sparky", getString(R.string.pokemon133)).replace("Rainer", getString(R.string.pokemon133)).replace("Pyro", getString(R.string.pokemon133));
+            if (pokemonName.toLowerCase().contains("nidora")) {
+                boolean isFemale = isNidoranFemale(pokemonImage);
+                if (isFemale) {
+                    pokemonName = getResources().getString(R.string.pokemon029);
+                } else {
+                    pokemonName = getResources().getString(R.string.pokemon032);
+                }
             }
+            name.recycle();
+            ocrCache.put(hash, pokemonName);
         }
-        name.recycle();
         return pokemonName;
     }
 
@@ -650,18 +668,23 @@ public class MainActivity extends AppCompatActivity {
      */
     private String getCandyNameFromImg(Bitmap pokemonImage) {
         Bitmap candy = Bitmap.createBitmap(pokemonImage, displayMetrics.widthPixels / 2, (int) Math.round(displayMetrics.heightPixels / 1.3724285), (int) Math.round(displayMetrics.widthPixels / 2.057), (int) Math.round(displayMetrics.heightPixels / 38.4));
-        candy = replaceColors(candy, 68, 105, 108, Color.WHITE, 200);
-        tesseract.setImage(candy);
-        String candyName = "";
-        //System.out.println(tesseract.getUTF8Text());
-        //SaveImage(candy, "candy");
-        try {
-            candyName = tesseract.getUTF8Text().trim().replace("-", " ").split(" ")[candyOrder].replace(" ", "").replace("1", "l").replace("0", "o");
-            candyName = new StringBuilder().append(candyName.substring(0, 1)).append(candyName.substring(1).toLowerCase()).toString();
-        } catch (StringIndexOutOfBoundsException e) {
-            candyName = "";
+        String hash = "candy" + hashBitmap(candy);
+        String candyName = ocrCache.get(hash);
+
+        if (candyName == null) {
+            candy = replaceColors(candy, 68, 105, 108, Color.WHITE, 200);
+            tesseract.setImage(candy);
+            //System.out.println(tesseract.getUTF8Text());
+            //SaveImage(candy, "candy");
+            try {
+                candyName = tesseract.getUTF8Text().trim().replace("-", " ").split(" ")[candyOrder].replace(" ", "").replace("1", "l").replace("0", "o");
+                candyName = new StringBuilder().append(candyName.substring(0, 1)).append(candyName.substring(1).toLowerCase()).toString();
+            } catch (StringIndexOutOfBoundsException e) {
+                candyName = "";
+            }
+            candy.recycle();
+            ocrCache.put(hash, candyName);
         }
-        candy.recycle();
         return candyName;
     }
 
@@ -674,9 +697,17 @@ public class MainActivity extends AppCompatActivity {
     private int getPokemonHPFromImg(Bitmap pokemonImage) {
         int pokemonHP = 10;
         Bitmap hp = Bitmap.createBitmap(pokemonImage, (int) Math.round(displayMetrics.widthPixels / 2.8), (int) Math.round(displayMetrics.heightPixels / 1.8962963), (int) Math.round(displayMetrics.widthPixels / 3.5), (int) Math.round(displayMetrics.heightPixels / 34.13333333));
-        hp = replaceColors(hp, 55, 66, 61, Color.WHITE, 200);
-        tesseract.setImage(hp);
-        String pokemonHPStr = tesseract.getUTF8Text();
+        String hash = "hp" + hashBitmap(hp);
+        String pokemonHPStr = ocrCache.get(hash);
+
+        if (pokemonHPStr == null) {
+            hp = replaceColors(hp, 55, 66, 61, Color.WHITE, 200);
+            tesseract.setImage(hp);
+            pokemonHPStr = tesseract.getUTF8Text();
+            hp.recycle();
+            ocrCache.put(hash, pokemonHPStr);
+        }
+
         if (pokemonHPStr.contains("/")) {
             try {
                 pokemonHP = Integer.parseInt(pokemonHPStr.split("/")[1].replace("Z", "2").replace("O", "0").replace("l", "1").replaceAll("[^0-9]", ""));
@@ -684,7 +715,6 @@ public class MainActivity extends AppCompatActivity {
                 pokemonHP = 10;
             }
         }
-        hp.recycle();
         return pokemonHP;
     }
 

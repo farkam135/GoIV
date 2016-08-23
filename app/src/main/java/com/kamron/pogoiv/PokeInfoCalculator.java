@@ -5,6 +5,7 @@ import android.util.ArraySet;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -14,6 +15,7 @@ import java.util.List;
 public class PokeInfoCalculator {
 
     public ArrayList<Pokemon> pokedex = null;
+    public HashMap<String, Pokemon> pokemap = null;
 
     /**
      * creates a pokemon info calculator with the pokemon as argument
@@ -32,16 +34,25 @@ public class PokeInfoCalculator {
         return pokedex.get(number);
     }
 
+    public Pokemon get(String name) {
+        return pokemap.get(name);
+    }
+
     /**
      * Fills the list "pokemon" with the information of all pokemon by reading the
      * arrays in integers.xml and the names from the strings.xml resources.
      */
     private void populatePokemon(String[] names, int[] attack, int[] defense, int[] stamina, int[] devolution) {
         pokedex = new ArrayList<>();
+        pokemap = new HashMap<>();
+
         int pokeListSize = names.length;
         for (int i = 0; i <= pokeListSize - 1; i++) {
-            pokedex.add(new Pokemon(names[i], i, attack[i], defense[i], stamina[i], devolution[i]));
+            Pokemon p = new Pokemon(names[i], i, attack[i], defense[i], stamina[i], devolution[i]);
+            pokedex.add(p);
+            pokemap.put(names[i], p);
         }
+
         for (int i = 0; i <= pokeListSize - 1; i++){
             if (devolution[i] != -1) {
                 Pokemon devo = pokedex.get(devolution[i]);

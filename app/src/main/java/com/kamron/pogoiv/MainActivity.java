@@ -385,11 +385,6 @@ public class MainActivity extends AppCompatActivity {
 
         for (double pokeLevel = 1.0; pokeLevel <= trainerLevel + 1.5; pokeLevel += 0.5) {
             double angleInDegrees = (Data.CpM[(int) (pokeLevel * 2 - 2)] - Data.CpM[0]) * 200.00 / Data.CpM[trainerLevel * 2 - 2];
-            if (angleInDegrees > 1.0 && trainerLevel < 30) {
-                angleInDegrees -= 0.5;
-            } else if (trainerLevel >= 30) {
-                angleInDegrees += 0.5;
-            }
 
             double angleInRadians = (angleInDegrees + 180) * Math.PI / 180.0;
 

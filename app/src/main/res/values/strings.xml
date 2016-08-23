@@ -177,7 +177,7 @@
     <string name="ivtext_title">Your lvl %1$s, CP %2$s, HP %3$s %4$s can be:</string>
     <string name="ivtext_possibilities">%1$s more possibilities...</string>
     <string name="ivtext_no_possibilities">No possibilities, please check your stats again!</string>
-    <string name="ivtext_iv">Min: %1$s%% Average: %2$.2f%% Max: %3$s%%\n</string>
+    <string name="ivtext_iv">Min: %1$s%% Average: %2$s%% Max: %3$s%%\n</string>
     <string name="ivtext_evolve">Can be evolved into %1$s:\n</string>
     <string name="ivtext_evolve_further">Can be further evolved into %1$s:</string>
     <string name="ivtext_many_possibilities">There are too many possibilities for this pokemon. Try powering it up!</string>

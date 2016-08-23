@@ -214,16 +214,28 @@ public class Pokefly extends Service {
         return START_STICKY;
     }
 
+    private boolean infoLayoutArcPointerVisible = false;
+    private void showInfoLayoutArcPointer() {
+        if (!infoLayoutArcPointerVisible && arcPointer != null && infoLayout != null) {
+            infoLayoutArcPointerVisible = true;
+            windowManager.addView(arcPointer, arcParams);
+            windowManager.addView(infoLayout, layoutParams);
+        }
+    }
+
+    private void hideInfoLayoutArcPointer() {
+        if (infoLayoutArcPointerVisible) {
+            windowManager.removeView(arcPointer);
+            windowManager.removeView(infoLayout);
+            infoLayoutArcPointerVisible = false;
+        }
+    }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         if (IVButton != null && IVButtonShown) windowManager.removeView(IVButton);
-        if (infoShown) {
-            if (arcPointer != null) windowManager.removeView(arcPointer);
-            //if(arcAdjustBar != null) windowManager.removeView(arcAdjustBar);
-            if (infoLayout != null) windowManager.removeView(infoLayout);
-        }
+        hideInfoLayoutArcPointer();
         stopForeground(true);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(displayInfo);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(setIVButtonDisplay);
@@ -427,8 +439,7 @@ public class Pokefly extends Service {
 
     @OnClick({ R.id.btnCancelInfo, R.id.btnCloseInfo })
     public void cancelInfoDialog() {
-        windowManager.removeView(infoLayout);
-        windowManager.removeView(arcPointer);
+        hideInfoLayoutArcPointer();
         if(!batterySaver) {
             windowManager.addView(IVButton, IVButonParams);
             IVButtonShown = true;
@@ -477,8 +488,7 @@ public class Pokefly extends Service {
             pokemonHPEdit.setText(String.valueOf(pokemonHP));
             pokemonCPEdit.setText(String.valueOf(pokemonCP));
 
-            windowManager.addView(arcPointer, arcParams);
-            windowManager.addView(infoLayout, layoutParams);
+            showInfoLayoutArcPointer();
             setArcPointer(estimatedPokemonLevel);
             //setArcPointer((Data.CpM[(int) (estimatedPokemonLevel * 2 - 2)] - 0.094) * 202.037116 / Data.CpM[trainerLevel * 2 - 2]);
             arcAdjustBar.setProgress((int) ((estimatedPokemonLevel - 1) * 2));

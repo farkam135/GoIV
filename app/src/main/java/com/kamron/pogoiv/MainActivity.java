@@ -625,7 +625,6 @@ public class MainActivity extends AppCompatActivity {
         estimatedPokemonLevel = trainerLevel + 1.5;
 
         estimatedPokemonLevel= getPokemonLevel(pokemonImage);
-        Log.d("Estimated pokelevel: " + estimatedPokemonLevel, "nahojjjen debug ghastly crash");
 
         Bitmap name = Bitmap.createBitmap(pokemonImage, displayMetrics.widthPixels / 4, (int) Math.round(displayMetrics.heightPixels / 2.22608696), (int) Math.round(displayMetrics.widthPixels / 2.057), (int) Math.round(displayMetrics.heightPixels / 18.2857143));
         name = replaceColors(name, 68, 105, 108, Color.WHITE, 200);

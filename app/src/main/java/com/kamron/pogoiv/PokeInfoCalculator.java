@@ -67,6 +67,40 @@ public class PokeInfoCalculator {
 
 
     /**
+     * get the lowest evolution in the chain of a pokemon
+     * @param poke a pokemon, example charizard
+     * @return a pokemon, in the example would return charmander
+     */
+    public Pokemon getLowestEvolution(Pokemon poke){
+        if (poke.devoNumber <0) return poke; //already lowest evolution
+
+        Pokemon devoPoke = null;
+        while (devoPoke.devoNumber >=0){ //while devol
+            devoPoke = get(devoPoke.devoNumber);
+        }
+        return devoPoke;
+    }
+
+    /**
+     * returns the higher evolutions of a pokemon plus itself
+     * @param poke the pokemon to return itself and higher evolutions of itself
+     * @return a list with pokemon, input pokemon plus its evolutions
+     */
+    public ArrayList<Pokemon> getFullEvolutionChain(Pokemon poke){
+
+      poke = getLowestEvolution(poke); //go back to the roots to find all the branches
+
+        ArrayList list = new ArrayList();
+        list.add(poke); //add self
+        list.addAll(poke.evolutions); //add all immediate evolutions
+        for (Pokemon evolution : poke.evolutions){
+                list.addAll(evolution.evolutions);
+        }
+
+        return list;
+    }
+
+    /**
      * Sorts the pokemon in the pokedex by alphabetical order
      *
      * @param pokedex

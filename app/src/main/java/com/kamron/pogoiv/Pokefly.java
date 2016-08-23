@@ -26,8 +26,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -449,6 +447,20 @@ public class Pokefly extends Service {
     }
 
     /**
+     * changes the spinner content to the scanned pokemon candy name evolution line
+     *
+     * if the candy evolution line is 0 (complete read error) the whole pokedex will instead be shown
+     */
+    private void populateSpinnerWithEvolutionLine(){
+        ArrayList<Pokemon> evolutionLine = pokeCalculator.getFullEvolutionChain(pokeCalculator.get(candyName));
+        if (evolutionLine.size() >0){
+            pokeAdapter.updatePokemonList(evolutionLine);
+        }else{
+            pokeAdapter.updatePokemonList(pokeCalculator.pokedex);
+        }
+    }
+
+    /**
      * showInfoLayout
      * Shows the info layout once a scan is complete. Allows the user to change any data and then
      * shows the final results.
@@ -458,6 +470,9 @@ public class Pokefly extends Service {
 
             infoShownReceived = true;
             int[] possiblePoke = getPossiblePokemon(pokemonName, candyName);
+
+           populateSpinnerWithEvolutionLine();
+
             ivText.setVisibility(View.GONE);
             pokemonInfoLayout.setVisibility(View.VISIBLE);
             initialButtonsLayout.setVisibility(View.VISIBLE);

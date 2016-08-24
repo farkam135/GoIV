@@ -706,6 +706,8 @@ public class MainActivity extends AppCompatActivity {
                 hp.recycle();
 
                 Pokefly.populateInfoIntent(info, pokemonName, candyName, pokemonHP, pokemonCP, estimatedPokemonLevel, filePath);
+            } else {
+                Toast.makeText(this, R.string.scan_pokemon_failed, Toast.LENGTH_SHORT).show();
             }
         } finally {
             LocalBroadcastManager.getInstance(MainActivity.this).sendBroadcast(info);

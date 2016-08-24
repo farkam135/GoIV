@@ -630,6 +630,7 @@ public class MainActivity extends AppCompatActivity {
      * @param filePath The screenshot path if it is a file, used to delete once checked
      */
     private void scanPokemon(Bitmap pokemonImage, String filePath) {
+        //WARNING: this method *must* always send an intent at the end, no matter what, to avoid the application hanging.
         estimatedPokemonLevel = trainerLevel + 1.5;
 
         estimatedPokemonLevel= getPokemonLevel(pokemonImage);
@@ -706,9 +707,9 @@ public class MainActivity extends AppCompatActivity {
 
             Intent info = Pokefly.createInfoIntent(pokemonName, candyName, pokemonHP, pokemonCP, estimatedPokemonLevel, filePath);
             LocalBroadcastManager.getInstance(MainActivity.this).sendBroadcast(info);
-        }
-        else{
-            readyForNewScreenshot = true;
+        } else {
+            Intent info = Pokefly.createNoInfoIntent();
+            LocalBroadcastManager.getInstance(MainActivity.this).sendBroadcast(info);
         }
     }
 

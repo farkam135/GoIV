@@ -727,7 +727,7 @@ public class MainActivity extends AppCompatActivity {
             int pokemonHP = getPokemonHPFromImg(pokemonImage);
             int pokemonCP = getPokemonCPFromImg(pokemonImage);
             if (candyName.equals("") && pokemonHP == 10 && pokemonCP == 10){ //the default values for a failed scan, if all three fail, then probably scrolled down.
-                Toast.makeText(MainActivity.this, "Please scroll up and scan again", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, getString(R.string.scan_pokemon_failed), Toast.LENGTH_SHORT).show();
             }
             Pokefly.populateInfoIntent(info, pokemonName, candyName, pokemonHP, pokemonCP, estimatedPokemonLevel, filePath);
         }finally{

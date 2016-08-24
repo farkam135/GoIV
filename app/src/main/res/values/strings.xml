@@ -215,5 +215,5 @@
     <string name="auto_update_setting_summary">Automatically check for updates when the app starts up</string>
     <string name="check_for_update_setting_title">Check for update</string>
     <string name="check_for_update_setting_summary">See if an update is available</string>
-    <string name="scan_pokemon_failed">Scanning Pokémon failed, scroll to the top and try again!</string>
+    <string name="scan_pokemon_failed">Scanning failed, please scroll up and try again!</string>
 </resources>

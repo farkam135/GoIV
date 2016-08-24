@@ -30,20 +30,20 @@ SHA-256 - 2B4C3102ED9572E8194CDFE2D7B6E4AF28EE93B54CFE4E4921736B7645515D3D
 
 #Changelog
 
-**New features**
+###New features
 
 * In-app update checker! The application will check the github repo for any newer version, and ask if you want to download an update, if a new update comes. (This feature is only for the internet version of the app)
 * Settings menu! Toggle if pokemon go launches automatically on start, if you want the app to skip the input field and show results directly, delete screenshots in battery saver mode & if the app should copy info to clipboard.
 * Now on tap support - If you're running in battery saver mode, you can use now on tap instead of taking screenshots. Press the share button, and share with GoIV.
 
-**Improvements**
+###Improvements
 
 * Improved CP scanning accuracy (several fixes & tweaks, for example it no longer occasionally reads the p in cp as a 3)
 * Pokemon will be identified by the candy name if the pokemon has been renamed. (Seemingly less random recognition, the app will still use Names for recognition, so run scan on default name pokemon for best result)
 * You can now go back from the result screen to fix any input (works really well with the instant-scan setting)
 * Speed improvements (If you think "speed improvements" is obscure, look at the implementation improvements on Github!)
 
-**Bug fixes**
+###Bug fixes
 
 * GoIV no longer crashes if the CP value is covered when the scan is initiated. (Gastly caused so many crashes)
 * No longer crashes if a user exits portrait mode

@@ -15,7 +15,7 @@
     <string name="ivtext_cp_lvl">PC a nivel %1$s: %2$s - %3$s</string>
     <string name="ivtext_evolve">Puede evolucionar a %1$s:\n</string>
     <string name="ivtext_evolve_further">Luego puede evolucionar a %1$s:</string>
-    <string name="ivtext_iv">Min: %1$s%% Promedio: %2$.2f%% Max: %3$s%%\n</string>
+    <string name="ivtext_iv">Min: %1$s%% Promedio: %2$s%% Max: %3$s%%\n</string>
     <string name="ivtext_many_possibilities">Existen demasiadas posibilidades para este Pokémon. Intenta darle más poder!</string>
     <string name="ivtext_max_lvl_cost">Costo para alcanzar nivel %1$s:</string>
     <string name="ivtext_max_lvl_cost2">Caramelos: %1$s Polvo Estelar: %2$s</string>
@@ -52,4 +52,7 @@
     <string name="launch_pokemon_go_setting_title">Lanzar Pokemon Go</string>
     <string name="send_crash_reports_setting_summary">Ayudar a los desarrolladores a mejorar la aplicación enviándoles información anónima de errores</string>
     <string name="send_crash_reports_setting_title">Enviar informes de errores</string>
+    <string name="settings_page_title">Configuración</string>
+    <string name="manual_screenshot_mode_setting_title">Usar capturas de pantalla para calcular IV</string>
+    <string name="manual_screenshot_mode_setting_summary">Ahorrar batería obteniendo los datos mediante capturas de pantalla en lugar de hacerlo automáticamente. Esta opción debe estar activa para Android KitKat y versiones de Android más antiguas.</string>
 </resources>

@@ -59,7 +59,6 @@
 
         <activity
             android:name=".SettingsActivity"
-            android:label="Settings"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait" />
 

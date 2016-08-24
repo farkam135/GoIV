@@ -1,7 +1,5 @@
 package com.kamron.pogoiv;
 
-import com.kamron.pogoiv.Data;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +8,12 @@ import java.util.List;
  */
 
 public class Pokemon {
-    public final List<Pokemon> evolutions; //evolutions sorted collection index, populated after sort
+    /**
+     * Evolutions of this Pokemon, sorted in alphabetical order.
+     * Try to avoid assumptions that only hold for Gen. I Pokemon: evolutions can have smaller
+     * Pokedex number, not be consecutive, etc.
+     */
+    public final List<Pokemon> evolutions;
     public final String name;
     public final int number; //index number in resources, pokedex number - 1
     public final int baseAttack;

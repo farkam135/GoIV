@@ -14,6 +14,7 @@ public class GoIVSettings {
 
     private boolean launchPokemonGo;
     private boolean showConfirmationDialog;
+    private boolean manualScreenshotMode;
     private boolean deleteScreenshots;
     private boolean copyToClipboard;
     private boolean sendCrashReports;
@@ -21,6 +22,7 @@ public class GoIVSettings {
 
     public static final String LAUNCH_POKEMON_GO = "launchPokemonGo";
     public static final String SHOW_CONFIRMATION_DIALOG = "showConfirmationDialog";
+    public static final String MANUAL_SCREENSHOT_MODE = "manualScreenshotMode";
     public static final String DELETE_SCREENSHOTS = "deleteScreenshots";
     public static final String COPY_TO_CLIPBOARD = "copyToClipboard";
     public static final String SEND_CRASH_REPORTS = "sendCrashReports";
@@ -32,6 +34,7 @@ public class GoIVSettings {
 
         settingsEditor.putBoolean(LAUNCH_POKEMON_GO, newSettings.getLaunchPokemonGo());
         settingsEditor.putBoolean(SHOW_CONFIRMATION_DIALOG, newSettings.getShowConfirmationDialog());
+        settingsEditor.putBoolean(MANUAL_SCREENSHOT_MODE, newSettings.getManualScreenshotMode());
         settingsEditor.putBoolean(DELETE_SCREENSHOTS, newSettings.getDeleteScreenshots());
         settingsEditor.putBoolean(COPY_TO_CLIPBOARD, newSettings.getCopyToClipboard());
         settingsEditor.putBoolean(SEND_CRASH_REPORTS, newSettings.getSendCrashReports());
@@ -45,6 +48,7 @@ public class GoIVSettings {
 
         return new GoIVSettings(settingsPreferences.getBoolean(LAUNCH_POKEMON_GO, true),
                 settingsPreferences.getBoolean(SHOW_CONFIRMATION_DIALOG, true),
+                settingsPreferences.getBoolean(MANUAL_SCREENSHOT_MODE, false),
                 settingsPreferences.getBoolean(DELETE_SCREENSHOTS, true),
                 settingsPreferences.getBoolean(COPY_TO_CLIPBOARD, false),
                 settingsPreferences.getBoolean(SEND_CRASH_REPORTS, true),

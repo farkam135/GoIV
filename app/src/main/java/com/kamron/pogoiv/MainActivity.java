@@ -48,7 +48,6 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -85,7 +84,6 @@ public class MainActivity extends AppCompatActivity {
     private static final int SCREEN_CAPTURE_REQ_CODE = 1235;
 
     private static final String PREF_LEVEL = "level";
-    private static final String PREF_BATTERY_SAVER = "batterySaver";
     private static final String PREF_SCREENSHOT_DIR = "screenshotDir";
     private static final String PREF_SCREENSHOT_URI = "screenshotUri";
 
@@ -102,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
     private DisplayMetrics rawDisplayMetrics;
     private TessBaseAPI tesseract;
     private boolean tessInitiated = false;
-    private boolean batterySaver = false;
+    private boolean batterySaver;
     private String screenshotDir;
     private Uri screenshotUri;
 
@@ -160,22 +158,14 @@ public class MainActivity extends AppCompatActivity {
 
         sharedPref = getPreferences(Context.MODE_PRIVATE);
         trainerLevel = sharedPref.getInt(PREF_LEVEL, 1);
-        batterySaver = sharedPref.getBoolean(PREF_BATTERY_SAVER, false);
         screenshotDir = sharedPref.getString(PREF_SCREENSHOT_DIR, "");
         screenshotUri = Uri.parse(sharedPref.getString(PREF_SCREENSHOT_URI, ""));
+        batterySaver = settings.getManualScreenshotMode();
 
         final EditText etTrainerLevel = (EditText) findViewById(R.id.trainerLevel);
         etTrainerLevel.setText(String.valueOf(trainerLevel));
 
         initTesseract();
-        final CheckBox CheckBox_BatterySaver = (CheckBox) findViewById(R.id.checkbox_batterySaver);
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
-            CheckBox_BatterySaver.setChecked(true);
-            CheckBox_BatterySaver.setEnabled(false);
-            batterySaver = true;
-        } else {
-            CheckBox_BatterySaver.setChecked(batterySaver);
-        }
 
         Button launch = (Button) findViewById(R.id.start);
         launch.setOnClickListener(new View.OnClickListener() {
@@ -192,7 +182,7 @@ public class MainActivity extends AppCompatActivity {
                         ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_STORAGE_REQ_CODE);
                     }
                 } else if (((Button) v).getText().toString().equals(getString(R.string.main_start))) {
-                    batterySaver = CheckBox_BatterySaver.isChecked();
+                    batterySaver = settings.getManualScreenshotMode();
                     Rect rectangle = new Rect();
                     Window window = getWindow();
                     window.getDecorView().getWindowVisibleDisplayFrame(rectangle);
@@ -222,7 +212,6 @@ public class MainActivity extends AppCompatActivity {
 
                     if (trainerLevel > 0 && trainerLevel <= 40) {
                         sharedPref.edit().putInt(PREF_LEVEL, trainerLevel).apply();
-                        sharedPref.edit().putBoolean(PREF_BATTERY_SAVER, batterySaver).apply();
                         setupArcPoints();
 
                         if (batterySaver) {
@@ -383,13 +372,11 @@ public class MainActivity extends AppCompatActivity {
         Data.arcX = new int[indices];
         Data.arcY = new int[indices];
 
+        double maxAngle = 178.4;
+        double levelCoeff = maxAngle * Data.CpM[trainerLevel * 2 - 2] / ( Data.CpM[(int) ( (trainerLevel + 1.5)* 2 - 2 )] - Data.CpM[0] );
+
         for (double pokeLevel = 1.0; pokeLevel <= trainerLevel + 1.5; pokeLevel += 0.5) {
-            double angleInDegrees = (Data.CpM[(int) (pokeLevel * 2 - 2)] - Data.CpM[0]) * 202.04 / Data.CpM[trainerLevel * 2 - 2];
-            if (angleInDegrees > 1.0 && trainerLevel < 30) {
-                angleInDegrees -= 0.5;
-            } else if (trainerLevel >= 30) {
-                angleInDegrees += 0.5;
-            }
+            double angleInDegrees = (Data.CpM[(int) (pokeLevel * 2 - 2)] - Data.CpM[0]) * levelCoeff / Data.CpM[trainerLevel * 2 - 2];
 
             double angleInRadians = (angleInDegrees + 180) * Math.PI / 180.0;
 
@@ -636,7 +623,6 @@ public class MainActivity extends AppCompatActivity {
         estimatedPokemonLevel = trainerLevel + 1.5;
 
         estimatedPokemonLevel= getPokemonLevel(pokemonImage);
-        Log.d("Estimated pokelevel: " + estimatedPokemonLevel, "nahojjjen debug ghastly crash");
 
         Bitmap name = Bitmap.createBitmap(pokemonImage, displayMetrics.widthPixels / 4, (int) Math.round(displayMetrics.heightPixels / 2.22608696), (int) Math.round(displayMetrics.widthPixels / 2.057), (int) Math.round(displayMetrics.heightPixels / 18.2857143));
         name = replaceColors(name, 68, 105, 108, Color.WHITE, 200);

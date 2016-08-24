@@ -372,13 +372,11 @@ public class MainActivity extends AppCompatActivity {
         Data.arcX = new int[indices];
         Data.arcY = new int[indices];
 
+        double maxAngle = 178.4;
+        double levelCoeff = maxAngle * Data.CpM[trainerLevel * 2 - 2] / ( Data.CpM[(int) ( (trainerLevel + 1.5)* 2 - 2 )] - Data.CpM[0] );
+
         for (double pokeLevel = 1.0; pokeLevel <= trainerLevel + 1.5; pokeLevel += 0.5) {
-            double angleInDegrees = (Data.CpM[(int) (pokeLevel * 2 - 2)] - Data.CpM[0]) * 202.04 / Data.CpM[trainerLevel * 2 - 2];
-            if (angleInDegrees > 1.0 && trainerLevel < 30) {
-                angleInDegrees -= 0.5;
-            } else if (trainerLevel >= 30) {
-                angleInDegrees += 0.5;
-            }
+            double angleInDegrees = (Data.CpM[(int) (pokeLevel * 2 - 2)] - Data.CpM[0]) * levelCoeff / Data.CpM[trainerLevel * 2 - 2];
 
             double angleInRadians = (angleInDegrees + 180) * Math.PI / 180.0;
 

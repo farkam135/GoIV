@@ -158,9 +158,7 @@ public class Pokefly extends Service {
     public static Intent createNoInfoIntent() {
         return new Intent(ACTION_SEND_INFO);
     }
-
-    public static Intent createInfoIntent(String pokemonName, String candyName, int pokemonHP, int pokemonCP, double estimatedPokemonLevel, String filePath) {
-        Intent intent = createNoInfoIntent();
+    public static void populateInfoIntent(Intent intent, String pokemonName, String candyName, int pokemonHP, int pokemonCP, double estimatedPokemonLevel, String filePath) {
         intent.putExtra(KEY_SEND_INFO_NAME, pokemonName);
         intent.putExtra(KEY_SEND_INFO_CANDY, candyName);
         intent.putExtra(KEY_SEND_INFO_HP, pokemonHP);
@@ -169,7 +167,6 @@ public class Pokefly extends Service {
         if (!filePath.isEmpty()) {
             intent.putExtra(KEY_SEND_SCREENSHOT_DIR, filePath);
         }
-        return intent;
     }
 
     @Override

@@ -27,8 +27,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -82,7 +80,7 @@ public class Pokefly extends Service {
     private DisplayMetrics displayMetrics;
     ClipboardManager clipboard;
 
-    private boolean infoShown = false;
+    private boolean infoShownSent = false;
     private boolean infoShownReceived = false;
     private boolean IVButtonShown = false;
 
@@ -157,8 +155,10 @@ public class Pokefly extends Service {
         return intent;
     }
 
-    public static Intent createInfoIntent(String pokemonName, String candyName, int pokemonHP, int pokemonCP, double estimatedPokemonLevel, String filePath) {
-        Intent intent = new Intent(ACTION_SEND_INFO);
+    public static Intent createNoInfoIntent() {
+        return new Intent(ACTION_SEND_INFO);
+    }
+    public static void populateInfoIntent(Intent intent, String pokemonName, String candyName, int pokemonHP, int pokemonCP, double estimatedPokemonLevel, String filePath) {
         intent.putExtra(KEY_SEND_INFO_NAME, pokemonName);
         intent.putExtra(KEY_SEND_INFO_CANDY, candyName);
         intent.putExtra(KEY_SEND_INFO_HP, pokemonHP);
@@ -167,7 +167,6 @@ public class Pokefly extends Service {
         if (!filePath.isEmpty()) {
             intent.putExtra(KEY_SEND_SCREENSHOT_DIR, filePath);
         }
-        return intent;
     }
 
     @Override
@@ -216,16 +215,28 @@ public class Pokefly extends Service {
         return START_STICKY;
     }
 
+    private boolean infoLayoutArcPointerVisible = false;
+    private void showInfoLayoutArcPointer() {
+        if (!infoLayoutArcPointerVisible && arcPointer != null && infoLayout != null) {
+            infoLayoutArcPointerVisible = true;
+            windowManager.addView(arcPointer, arcParams);
+            windowManager.addView(infoLayout, layoutParams);
+        }
+    }
+
+    private void hideInfoLayoutArcPointer() {
+        if (infoLayoutArcPointerVisible) {
+            windowManager.removeView(arcPointer);
+            windowManager.removeView(infoLayout);
+            infoLayoutArcPointerVisible = false;
+        }
+    }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         if (IVButton != null && IVButtonShown) windowManager.removeView(IVButton);
-        if (infoShown) {
-            if (arcPointer != null) windowManager.removeView(arcPointer);
-            //if(arcAdjustBar != null) windowManager.removeView(arcAdjustBar);
-            if (infoLayout != null) windowManager.removeView(infoLayout);
-        }
+        hideInfoLayoutArcPointer();
         stopForeground(true);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(displayInfo);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(setIVButtonDisplay);
@@ -367,7 +378,7 @@ public class Pokefly extends Service {
                         Intent intent = MainActivity.createScreenshotIntent();
                         LocalBroadcastManager.getInstance(Pokefly.this).sendBroadcast(intent);
                         receivedInfo = false;
-                        infoShown = true;
+                        infoShownSent = true;
                         infoShownReceived = false;
                         break;
                 }
@@ -429,14 +440,20 @@ public class Pokefly extends Service {
 
     @OnClick({ R.id.btnCancelInfo, R.id.btnCloseInfo })
     public void cancelInfoDialog() {
-        windowManager.removeView(infoLayout);
-        windowManager.removeView(arcPointer);
+        hideInfoLayoutArcPointer();
         if(!batterySaver) {
             windowManager.addView(IVButton, IVButonParams);
             IVButtonShown = true;
         }
+        resetPokeflyStateMachine();
+    }
+
+    /**
+     * Reset service state so that a new pokemon info can be requested.
+     */
+    private void resetPokeflyStateMachine() {
         receivedInfo = false;
-        infoShown = false;
+        infoShownSent = false;
         Intent resetIntent = MainActivity.createResetScreenshotIntent();
         LocalBroadcastManager.getInstance(Pokefly.this).sendBroadcast(resetIntent);
     }
@@ -479,8 +496,7 @@ public class Pokefly extends Service {
             pokemonHPEdit.setText(String.valueOf(pokemonHP));
             pokemonCPEdit.setText(String.valueOf(pokemonCP));
 
-            windowManager.addView(arcPointer, arcParams);
-            windowManager.addView(infoLayout, layoutParams);
+            showInfoLayoutArcPointer();
             setArcPointer(estimatedPokemonLevel);
             //setArcPointer((Data.CpM[(int) (estimatedPokemonLevel * 2 - 2)] - 0.094) * 202.037116 / Data.CpM[trainerLevel * 2 - 2]);
             arcAdjustBar.setProgress((int) ((estimatedPokemonLevel - 1) * 2));
@@ -700,23 +716,27 @@ public class Pokefly extends Service {
     private BroadcastReceiver displayInfo = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (!receivedInfo && intent.hasExtra(KEY_SEND_INFO_NAME) && intent.hasExtra(KEY_SEND_INFO_CP) && intent.hasExtra(KEY_SEND_INFO_HP) && intent.hasExtra(KEY_SEND_INFO_LEVEL)) {
+            if (!receivedInfo) {
                 receivedInfo = true;
-                pokemonName = intent.getStringExtra(KEY_SEND_INFO_NAME);
-                candyName = intent.getStringExtra(KEY_SEND_INFO_CANDY);
-                pokemonCP = intent.getIntExtra(KEY_SEND_INFO_CP, 0);
-                pokemonHP = intent.getIntExtra(KEY_SEND_INFO_HP, 0);
-                estimatedPokemonLevel = intent.getDoubleExtra(KEY_SEND_INFO_LEVEL, estimatedPokemonLevel);
-                if (estimatedPokemonLevel < 1.0) {
-                    estimatedPokemonLevel = 1.0;
-                }
-                if (intent.hasExtra(KEY_SEND_SCREENSHOT_DIR)) {
-                    screenshotDir = intent.getStringExtra(KEY_SEND_SCREENSHOT_DIR);
-                } else {
-                    screenshotDir = "";
-                }
+                if (intent.hasExtra(KEY_SEND_INFO_NAME) && intent.hasExtra(KEY_SEND_INFO_CP) && intent.hasExtra(KEY_SEND_INFO_HP) && intent.hasExtra(KEY_SEND_INFO_LEVEL)) {
+                    pokemonName = intent.getStringExtra(KEY_SEND_INFO_NAME);
+                    candyName = intent.getStringExtra(KEY_SEND_INFO_CANDY);
+                    pokemonCP = intent.getIntExtra(KEY_SEND_INFO_CP, 0);
+                    pokemonHP = intent.getIntExtra(KEY_SEND_INFO_HP, 0);
+                    estimatedPokemonLevel = intent.getDoubleExtra(KEY_SEND_INFO_LEVEL, estimatedPokemonLevel);
+                    if (estimatedPokemonLevel < 1.0) {
+                        estimatedPokemonLevel = 1.0;
+                    }
+                    if (intent.hasExtra(KEY_SEND_SCREENSHOT_DIR)) {
+                        screenshotDir = intent.getStringExtra(KEY_SEND_SCREENSHOT_DIR);
+                    } else {
+                        screenshotDir = "";
+                    }
 
-                showInfoLayout();
+                    showInfoLayout();
+                } else {
+                    resetPokeflyStateMachine();
+                }
             }
         }
     };
@@ -730,7 +750,7 @@ public class Pokefly extends Service {
         @Override
         public void onReceive(Context context, Intent intent) {
             boolean show = intent.getBooleanExtra(KEY_DISPLAY_IV_BUTTON_SHOW, false);
-            if (show && !IVButtonShown && !infoShown) {
+            if (show && !IVButtonShown && !infoShownSent) {
                 windowManager.addView(IVButton, IVButonParams);
                 IVButtonShown = true;
             } else if (!show) {

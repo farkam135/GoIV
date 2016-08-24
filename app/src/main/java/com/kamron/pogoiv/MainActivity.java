@@ -109,7 +109,6 @@ public class MainActivity extends AppCompatActivity {
     private boolean readyForNewScreenshot = true;
 
     private int candyOrder = 0;
-    private double estimatedPokemonLevel;
     private boolean pokeFlyRunning = false;
     private int trainerLevel;
 
@@ -589,12 +588,14 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
     /**
      * scans the arc and tries to determine the pokemon level, returns 1 if nothing found
      * @param pokemonImage The image of the entire screen
      * @return the estimated pokemon level, or 1 if nothing found
      */
-    private double getPokemonLevel(Bitmap pokemonImage){
+    private double getPokemonLevelFromImg(Bitmap pokemonImage, double trainerLevel){
+        double estimatedPokemonLevel = trainerLevel + 1.5;
         for (double estPokemonLevel = estimatedPokemonLevel; estPokemonLevel >= 1.0; estPokemonLevel -= 0.5) {
             //double angleInDegrees = (Data.CpM[(int) (estPokemonLevel * 2 - 2)] - 0.094) * 202.037116 / Data.CpM[trainerLevel * 2 - 2];
             //if (angleInDegrees > 1.0 && trainerLevel < 30) {
@@ -688,7 +689,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * get the cp of a pokemon image
      * @param pokemonImage the image of the whole pokemon screen
-     * @return a CP of the pokeon
+     * @return a CP of the pokemon, 10 if scan failed
      */
     private int getPokemonCPFromImg(Bitmap pokemonImage) {
         int pokemonCP = 0;
@@ -719,18 +720,21 @@ public class MainActivity extends AppCompatActivity {
         //WARNING: this method *must* always send an intent at the end, no matter what, to avoid the application hanging.
         Intent info = Pokefly.createNoInfoIntent();
 
-        estimatedPokemonLevel = trainerLevel + 1.5;
-        estimatedPokemonLevel = getPokemonLevel(pokemonImage);
+        try {
+            double estimatedPokemonLevel = getPokemonLevelFromImg(pokemonImage, trainerLevel);
+            String pokemonName = getPokemonNameFromImg(pokemonImage);
+            String candyName = getCandyNameFromImg(pokemonImage);
+            int pokemonHP = getPokemonHPFromImg(pokemonImage);
+            int pokemonCP = getPokemonCPFromImg(pokemonImage);
+            if (candyName.equals("") && pokemonHP == 10 && pokemonCP == 10){ //the default values for a failed scan, if all three fail, then probably scrolled down.
+                Toast.makeText(MainActivity.this, "Please scroll up and scan again", Toast.LENGTH_SHORT).show();
+            }
+            Pokefly.populateInfoIntent(info, pokemonName, candyName, pokemonHP, pokemonCP, estimatedPokemonLevel, filePath);
+        }finally{
 
-        String pokemonName = getPokemonNameFromImg(pokemonImage);
-        String candyName = getCandyNameFromImg(pokemonImage);
-        int pokemonHP = getPokemonHPFromImg(pokemonImage);
-        int pokemonCP = getPokemonCPFromImg(pokemonImage);
-
-        Pokefly.populateInfoIntent(info, pokemonName, candyName, pokemonHP, pokemonCP, estimatedPokemonLevel, filePath);
-        LocalBroadcastManager.getInstance(MainActivity.this).sendBroadcast(info);
+            LocalBroadcastManager.getInstance(MainActivity.this).sendBroadcast(info);
+        }
     }
-
     /**
      * Dont missgender the poor nidorans.
      *

@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    android:gravity="center|bottom"
+    android:background="@android:drawable/alert_light_frame"
+    android:alpha="225">
+
+    <ScrollView
+        android:id="@+id/svAllMatches"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone">
+
+        <!-- This could be something better, like a ListView. Tapping "See All" should show this one and hide the rest-->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ATK:7 - DEF:13 - HP:0 (44.4%)
+ATK:7 - DEF:14 - HP:0 (46.7%)
+ATK:8 - DEF:11 - HP:0 (42.2%)
+ATK:9 - DEF:8 - HP:0 (37.8%)
+ATK:9 - DEF:9 - HP:0 (40.0%)
+ATK:10 - DEF:6 - HP:0 (35.6%)
+ATK:10 - DEF:7 - HP:0 (37.8%)
+ATK:11 - DEF:4 - HP:0 (33.3%)
+ATK:12 - DEF:2 - HP:0 (31.1%)
+ATK:13 - DEF:0 - HP:0 (28.9%)"
+            />
+
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12sp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dratini"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:gravity="bottom"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="level 19.5"
+            android:textSize="18sp"
+            android:textColor="#888"
+            android:layout_marginLeft="5sp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/skin_iv_linearlayout"
+            android:paddingLeft="12sp"
+            android:paddingRight="12sp"
+            android:paddingTop="6sp"
+            android:paddingBottom="6sp"
+            android:layout_margin="6sp"
+            android:gravity="center"
+            android:layout_gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:text="76%"
+                android:textColor="#222"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="MIN"
+                android:layout_margin="0dp"
+                android:textSize="12sp"
+                android:gravity="center"
+                android:textColor="#222"
+                android:layout_marginLeft="5sp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/skin_iv_linearlayout"
+            android:paddingLeft="12sp"
+            android:paddingRight="12sp"
+            android:paddingTop="6sp"
+            android:paddingBottom="6sp"
+            android:layout_margin="6sp"
+            android:gravity="center"
+            android:layout_gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:textColor="#222"
+                android:text="82%"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="AVG"
+                android:textSize="12sp"
+                android:layout_margin="0dp"
+                android:textColor="#222"
+                android:layout_marginLeft="5sp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/skin_iv_linearlayout"
+            android:paddingLeft="12sp"
+            android:paddingRight="12sp"
+            android:paddingTop="6sp"
+            android:paddingBottom="6sp"
+            android:layout_margin="6sp"
+            android:gravity="center"
+            android:layout_gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:textColor="#222"
+                android:text="88%"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="MAX"
+                android:textSize="12sp"
+                android:layout_margin="0dp"
+                android:textColor="#222"
+                android:layout_marginLeft="5sp"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12sp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="78 Possible Combinations"
+            android:layout_gravity="left"
+            android:textSize="18sp"
+            android:textColor="#888"/>
+
+        <TextView
+            android:id="@+id/tvIvInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="@color/colorPrimary"
+            android:text="See All"
+            android:gravity="right"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="12sp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="More Information"
+            android:layout_gravity="left"
+            android:textSize="18sp"
+            android:textColor="#888"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Powerup and evolution calculation"
+                android:layout_margin="6sp"
+                android:layout_gravity="center"/>
+
+            <!-- Here should be additional data. I'll take some rest now.-->
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnBackInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/back"
+            android:background="@drawable/skin_button"
+            android:paddingTop="12sp"
+            android:paddingBottom="12sp"
+            android:paddingLeft="18sp"
+            android:paddingRight="18sp"
+            android:textSize="18sp"
+            android:gravity="center"
+            android:layout_margin="5dp"/>
+
+        <Button
+            android:id="@+id/btnCloseInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/close"
+            android:background="@drawable/skin_button"
+            android:paddingTop="12sp"
+            android:paddingBottom="12sp"
+            android:paddingLeft="18sp"
+            android:paddingRight="18sp"
+            android:textSize="18sp"
+            android:gravity="center"
+            android:layout_margin="5dp"
+            android:layout_alignParentRight="true"/>
+
+    </RelativeLayout>
+</LinearLayout>

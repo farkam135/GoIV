@@ -92,16 +92,24 @@ public class Pokefly extends Service {
     private ImageView arcPointer;
     private LinearLayout infoLayout;
 
-    private PokeInfoCalculator  pokeCalculator = null;
+    private PokeInfoCalculator pokeCalculator = null;
 
-    @BindView(R.id.tvIvInfo) TextView ivText;
-    @BindView(R.id.spnPokemonName) Spinner pokemonList;
-    @BindView(R.id.etCp) EditText pokemonCPEdit;
-    @BindView(R.id.etHp) EditText pokemonHPEdit;
-    @BindView(R.id.sbArcAdjust) SeekBar arcAdjustBar;
-    @BindView(R.id.llPokemonInfo) LinearLayout pokemonInfoLayout;
-    @BindView(R.id.llButtonsInitial) LinearLayout initialButtonsLayout;
-    @BindView(R.id.llButtonsOnCheck) LinearLayout onCheckButtonsLayout;
+    @BindView(R.id.tvIvInfo)
+    TextView ivText;
+    @BindView(R.id.spnPokemonName)
+    Spinner pokemonList;
+    @BindView(R.id.etCp)
+    EditText pokemonCPEdit;
+    @BindView(R.id.etHp)
+    EditText pokemonHPEdit;
+    @BindView(R.id.sbArcAdjust)
+    SeekBar arcAdjustBar;
+    @BindView(R.id.llPokemonInfo)
+    LinearLayout pokemonInfoLayout;
+    @BindView(R.id.llButtonsInitial)
+    LinearLayout initialButtonsLayout;
+    @BindView(R.id.llButtonsOnCheck)
+    LinearLayout onCheckButtonsLayout;
 
     private String pokemonName;
     private String candyName;
@@ -147,7 +155,7 @@ public class Pokefly extends Service {
         intent.putExtra(KEY_TRAINER_LEVEL, trainerLevel);
         intent.putExtra(KEY_STATUS_BAR_HEIGHT, statusBarHeight);
         intent.putExtra(KEY_BATTERY_SAVER, batterySaver);
-        if(!screenshotDir.isEmpty()) {
+        if (!screenshotDir.isEmpty()) {
             intent.putExtra(KEY_SCREENSHOT_URI, screenshotUri.toString());
         }
         return intent;
@@ -162,6 +170,7 @@ public class Pokefly extends Service {
     public static Intent createNoInfoIntent() {
         return new Intent(ACTION_SEND_INFO);
     }
+
     public static void populateInfoIntent(Intent intent, String pokemonName, String candyName, int pokemonHP, int pokemonCP, double estimatedPokemonLevel, String filePath) {
         intent.putExtra(KEY_SEND_INFO_NAME, pokemonName);
         intent.putExtra(KEY_SEND_INFO_CANDY, candyName);
@@ -193,7 +202,7 @@ public class Pokefly extends Service {
         pokeCalculator = new PokeInfoCalculator(
                 getResources().getStringArray(R.array.Pokemon),
                 getResources().getIntArray(R.array.attack),
-                getResources().getIntArray(R.array.defense) ,
+                getResources().getIntArray(R.array.defense),
                 getResources().getIntArray(R.array.stamina),
                 getResources().getIntArray(R.array.DevolutionNumber));
         sharedPref = getSharedPreferences(PREF_USER_CORRECTIONS, Context.MODE_PRIVATE);
@@ -222,6 +231,7 @@ public class Pokefly extends Service {
     }
 
     private boolean infoLayoutArcPointerVisible = false;
+
     private void showInfoLayoutArcPointer() {
         if (!infoLayoutArcPointerVisible && arcPointer != null && infoLayout != null) {
             infoLayoutArcPointerVisible = true;
@@ -285,8 +295,7 @@ public class Pokefly extends Service {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             pointerHeight = getDrawable(R.drawable.dot).getIntrinsicHeight() / 2;
             pointerWidth = getDrawable(R.drawable.dot).getIntrinsicWidth() / 2;
-        }
-        else{
+        } else {
             pointerHeight = getResources().getDrawable(R.drawable.dot).getIntrinsicHeight() / 2;
             pointerWidth = getResources().getDrawable(R.drawable.dot).getIntrinsicWidth() / 2;
         }
@@ -431,8 +440,8 @@ public class Pokefly extends Service {
 
     @OnClick(R.id.btnCheckIv)
     public void checkIv() {
-        if(batterySaver && !screenshotDir.isEmpty()) {
-            if(GoIVSettings.getSettings(getBaseContext()).getDeleteScreenshots())
+        if (batterySaver && !screenshotDir.isEmpty()) {
+            if (GoIVSettings.getSettings(getBaseContext()).getDeleteScreenshots())
                 getContentResolver().delete(screenshotUri, MediaStore.Files.FileColumns.DATA + "=?", new String[]{screenshotDir});
         }
         pokemonHP = Integer.parseInt(pokemonHPEdit.getText().toString());
@@ -444,10 +453,10 @@ public class Pokefly extends Service {
         ivText.setText(Html.fromHtml(getIVText()));
     }
 
-    @OnClick({ R.id.btnCancelInfo, R.id.btnCloseInfo })
+    @OnClick({R.id.btnCancelInfo, R.id.btnCloseInfo})
     public void cancelInfoDialog() {
         hideInfoLayoutArcPointer();
-        if(!batterySaver) {
+        if (!batterySaver) {
             windowManager.addView(IVButton, IVButonParams);
             IVButtonShown = true;
         }
@@ -490,11 +499,9 @@ public class Pokefly extends Service {
             // set color based on similarity
             if (possiblePoke[1] == 0) {
                 pokemonList.setBackgroundColor(Color.parseColor("#ddffdd"));
-            }
-            else if (possiblePoke[1] < 2) {
+            } else if (possiblePoke[1] < 2) {
                 pokemonList.setBackgroundColor(Color.parseColor("#ffffcc"));
-            }
-            else {
+            } else {
                 pokemonList.setBackgroundColor(Color.parseColor("#ffcccc"));
             }
 
@@ -507,11 +514,11 @@ public class Pokefly extends Service {
             //setArcPointer((Data.CpM[(int) (estimatedPokemonLevel * 2 - 2)] - 0.094) * 202.037116 / Data.CpM[trainerLevel * 2 - 2]);
             arcAdjustBar.setProgress((int) ((estimatedPokemonLevel - 1) * 2));
 
-            if(batterySaver){
+            if (batterySaver) {
                 infoShownReceived = false;
             }
 
-            if(!GoIVSettings.getSettings(getBaseContext()).getShowConfirmationDialog())
+            if (!GoIVSettings.getSettings(getBaseContext()).getShowConfirmationDialog())
                 checkIv();
         }
     }
@@ -549,7 +556,7 @@ public class Pokefly extends Service {
 
         /* If we can't find perfect candy match, do a distance/similarity based match */
         if (p == null) {
-            for (Pokemon trypoke: pokeCalculator.pokedex) {
+            for (Pokemon trypoke : pokeCalculator.pokedex) {
                 /* Candy names won't match evolutions */
                 if (trypoke.devoNumber != -1) {
                     continue;
@@ -576,7 +583,7 @@ public class Pokefly extends Service {
         }
 
         bestMatch = 100;
-        for (Pokemon candyp: candylist) {
+        for (Pokemon candyp : candylist) {
             int dist = candyp.getDistance(poketext);
             if (dist < bestMatch) {
                 p = candyp;
@@ -642,13 +649,13 @@ public class Pokefly extends Service {
             int shown = 1; //the number of IVs which is shown to the user, assume only highest will be shown
             returnVal += "\n" + String.format(getString(R.string.ivtext_stats), highest.att, highest.def, highest.sta, highest.percentPerfect);
             returnVal += "<br>"; //breakline
-            if (! (lowest.getTotal() == highest.getTotal())){ //if highest and lowest are the same, there's no reason to print both of them (they can be same IV)
+            if (!(lowest.getTotal() == highest.getTotal())) { //if highest and lowest are the same, there's no reason to print both of them (they can be same IV)
                 returnVal += "\n" + String.format(getString(R.string.ivtext_stats), lowest.att, lowest.def, lowest.sta, lowest.percentPerfect);
                 returnVal += "<br>"; //breakline
-                shown +=1; //since this line is now shown, the "x more combinations" needs to take that into account
+                shown += 1; //since this line is now shown, the "x more combinations" needs to take that into account
             }
 
-            if (ivScanResult.iVCombinations.size() > shown){ //if all options havent been shown
+            if (ivScanResult.iVCombinations.size() > shown) { //if all options havent been shown
                 returnVal += "\n" + String.format(getString(R.string.ivtext_possibilities), ivScanResult.getCount() - shown); //2 is for the best & worst line
                 returnVal += "<br>"; //breakline
             }
@@ -705,14 +712,13 @@ public class Pokefly extends Service {
                 }
             }
 
-            if(GoIVSettings.getSettings(getBaseContext()).getCopyToClipboard()) {
+            if (GoIVSettings.getSettings(getBaseContext()).getCopyToClipboard()) {
                 ClipData clip = ClipData.newPlainText("iv", ivScanResult.lowPercent + "-" + ivScanResult.highPercent);
                 clipboard.setPrimaryClip(clip);
             }
         }
         return returnVal;
     }
-
 
 
     /**

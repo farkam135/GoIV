@@ -689,7 +689,7 @@ public class MainActivity extends AppCompatActivity {
             candy = replaceColors(candy, 68, 105, 108, Color.WHITE, 200);
             tesseract.setImage(candy);
             try {
-                candyName = fixOcr(tesseract.getUTF8Text().trim().replace("-", " ").split(" ")[candyOrder].replace(" ", ""));
+                candyName = fixOcr(tesseract.getUTF8Text().trim().replace("-", " ").split(" ")[candyOrder]);
                 candyName = new StringBuilder().append(candyName.substring(0, 1)).append(candyName.substring(1).toLowerCase()).toString();
             } catch (StringIndexOutOfBoundsException e) {
                 candyName = "";

@@ -11,6 +11,7 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.net.Uri;
@@ -38,6 +39,7 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -66,6 +68,7 @@ public class Pokefly extends Service {
     private static final String KEY_SEND_INFO_LEVEL = "key_send_info_level";
     private static final String KEY_SEND_SCREENSHOT_DIR = "key_send_screenshot_dir";
 
+    private static final String PREF_USER_CORRECTIONS = "com.kamron.pogoiv.USER_CORRECTIONS";
 
     private final int MAX_POSSIBILITIES = 8;
 
@@ -79,6 +82,7 @@ public class Pokefly extends Service {
     private WindowManager windowManager;
     private DisplayMetrics displayMetrics;
     ClipboardManager clipboard;
+    private SharedPreferences sharedPref;
 
     private boolean infoShownSent = false;
     private boolean infoShownReceived = false;
@@ -192,7 +196,9 @@ public class Pokefly extends Service {
                 getResources().getIntArray(R.array.defense) ,
                 getResources().getIntArray(R.array.stamina),
                 getResources().getIntArray(R.array.DevolutionNumber));
+        sharedPref = getSharedPreferences(PREF_USER_CORRECTIONS, Context.MODE_PRIVATE);
         userCorrections = new HashMap<>(pokeCalculator.pokedex.size());
+        userCorrections.putAll((Map<String, String>) sharedPref.getAll());
         cachedCorrections = new LruCache<>(pokeCalculator.pokedex.size() * 2);
     }
 
@@ -596,13 +602,14 @@ public class Pokefly extends Service {
         int selectedPokemon = pokemonList.getSelectedItemPosition();
         Pokemon pokemon = pokeCalculator.get(selectedPokemon);
 
-        /* TODO: Figure out the Android way to save the user corrections
-         * But we'll have to set a size limit on that and throw away LRU entries.
-         * We should add Google backup support if we do. */
+        /* TODO: Should we set a size limit on that and throw away LRU entries? */
         /* TODO: Move this into an event listener that triggers when the user
          * actually changes the selection. */
-        if (!pokemonName.equals(pokemon.name)) {
+        if (!pokemonName.equals(pokemon.name) && pokeCalculator.get(pokemonName) == null) {
             userCorrections.put(pokemonName, pokemon.name);
+            SharedPreferences.Editor edit = sharedPref.edit();
+            edit.putString(pokemonName, pokemon.name);
+            edit.commit();
         }
 
         String returnVal = String.format(getString(R.string.ivtext_title), estimatedPokemonLevel, pokemonCP, pokemonHP, pokemon.name);

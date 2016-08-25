@@ -21,7 +21,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-public class SettingsActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener{
+public class SettingsActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private static Context mContext;
 
@@ -66,13 +66,12 @@ public class SettingsActivity extends AppCompatActivity implements SharedPrefere
     public static class SettingsFragment extends PreferenceFragment {
 
         @Override
-        public void onCreate(Bundle savedInstanceState)
-        {
+        public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.settings);
             PreferenceScreen preferenceScreen = getPreferenceScreen();
 
-            if(BuildConfig.isInternetAvailable) {
+            if (BuildConfig.isInternetAvailable) {
                 Preference checkForUpdatePreference = getPreferenceManager().findPreference("checkForUpdate");
                 checkForUpdatePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                     @Override
@@ -82,8 +81,7 @@ public class SettingsActivity extends AppCompatActivity implements SharedPrefere
                         return true;
                     }
                 });
-            }
-            else {
+            } else {
                 //Hide update and crash report related settings
                 Preference crashReportsPreference = getPreferenceManager().findPreference(GoIVSettings.SEND_CRASH_REPORTS);
                 Preference autoUpdatePreference = getPreferenceManager().findPreference(GoIVSettings.AUTO_UPDATE_ENABLED);

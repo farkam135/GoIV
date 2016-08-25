@@ -10,17 +10,20 @@ public class AppUpdateEvent {
     AppUpdate appUpdate;
     int status;
 
-    public AppUpdateEvent(int status) { this.status = status; }
+    public AppUpdateEvent(int status) {
+        this.status = status;
+    }
+
     public AppUpdateEvent(int status, AppUpdate update) {
         this.status = status;
         this.appUpdate = update;
     }
-    public int getStatus()
-    {
+
+    public int getStatus() {
         return status;
     }
-    public AppUpdate getAppUpdate()
-    {
+
+    public AppUpdate getAppUpdate() {
         return appUpdate;
     }
 }

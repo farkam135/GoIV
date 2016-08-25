@@ -901,7 +901,7 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         screenShotScanner.startWatching();
-        startPokeyFly();
+        startPokeFly();
     }
 
 

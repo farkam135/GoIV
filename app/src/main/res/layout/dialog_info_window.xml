@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -9,144 +9,104 @@
     android:background="@android:drawable/alert_light_frame"
     android:alpha="225">
 
+    <TextView
+        android:id="@+id/tvIvInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textColor="@color/black"
+        android:text="IV Text"
+        android:gravity="center"/>
+
     <LinearLayout
-        android:id="@+id/llButtonsInitial"
+        android:id="@+id/llPokemonInfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <LinearLayout
-            android:id="@+id/llPokemonInfo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/pokemon_name"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"
-                    android:textSize="18sp"
-                    android:gravity="center"/>
-
-                <Spinner
-                    android:id="@+id/spnPokemonName"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/spinner"
-                    android:gravity="center"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:baselineAligned="false">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:gravity="center"
-                    android:layout_weight="1">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/cp"
-                        android:textColor="@color/black"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:gravity="center"/>
-
-                    <EditText
-                        android:id="@+id/etCp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/red"
-                        android:text="XX"
-                        android:textAlignment="center"
-                        android:inputType="number"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:gravity="center"
-                    android:layout_weight="1">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/hp"
-                        android:textColor="@color/black"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:gravity="center"/>
-
-                    <EditText
-                        android:id="@+id/etHp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/red"
-                        android:text="XX"
-                        android:textAlignment="center"
-                        android:inputType="number"/>
-
-                </LinearLayout>
-
-            </LinearLayout>
+            android:orientation="horizontal"
+            android:gravity="center">
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/use_the_slider_below_to_align_the_arc"
+                android:layout_weight="1"
+                android:text="@string/pokemon_name"
                 android:textColor="@color/black"
-                android:textSize="18sp"
                 android:textStyle="bold"
+                android:textSize="18sp"
                 android:gravity="center"/>
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <Spinner
+                android:id="@+id/spnPokemonName"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center">
+                android:layout_weight="1"
+                android:background="@drawable/spinner"
+                android:gravity="center"/>
 
-                <Button
-                    android:id="@+id/btnDecrementLevel"
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:baselineAligned="false">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_weight="1">
+
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="-"
-                    android:textSize="22sp"
-                    android:textColor="@color/red"
-                    android:background="@android:color/transparent"/>
+                    android:text="@string/cp"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:gravity="center"/>
 
-                <SeekBar
-                    android:id="@+id/sbArcAdjust"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"/>
-
-                <Button
-                    android:id="@+id/btnIncrementLevel"
+                <EditText
+                    android:id="@+id/etCp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="+"
-                    android:textSize="22sp"
                     android:textColor="@color/red"
-                    android:background="@android:color/transparent"/>
+                    android:text="XX"
+                    android:textAlignment="center"
+                    android:inputType="number"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_weight="1">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/hp"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:gravity="center"/>
+
+                <EditText
+                    android:id="@+id/etHp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/red"
+                    android:text="XX"
+                    android:textAlignment="center"
+                    android:inputType="number"/>
 
             </LinearLayout>
 
@@ -155,7 +115,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Filter by highest:"
+            android:text="@string/use_the_slider_below_to_align_the_arc"
             android:textColor="@color/black"
             android:textSize="18sp"
             android:textStyle="bold"
@@ -164,255 +124,79 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <ToggleButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/skin_button"
-                android:textOff="ATK"
-                android:textOn="ATK"
-                android:padding="5dp"
-                android:textSize="18sp"
-                android:layout_margin="5dp"
-                android:textColor="@color/buttonText"
-                android:layout_weight="1" />
-
-            <ToggleButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/skin_button"
-                android:textOff="DEF"
-                android:textOn="DEF"
-                android:padding="5dp"
-                android:textSize="18sp"
-                android:layout_margin="5dp"
-                android:textColor="@color/buttonText"
-                android:layout_weight="1" />
-
-            <ToggleButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/skin_button"
-                android:textOff="HP"
-                android:textOn="HP"
-                android:padding="5dp"
-                android:textSize="18sp"
-                android:layout_margin="5dp"
-                android:textColor="@color/buttonText"
-                android:layout_weight="1" />
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Team Leader said:"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:gravity="center"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Wow much stats, such pokemon"
-            android:layout_gravity="center"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:gravity="center">
 
             <Button
-                android:id="@+id/btnCancelInfo"
+                android:id="@+id/btnDecrementLevel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="-"
+                android:textSize="22sp"
+                android:textColor="@color/red"
+                android:background="@android:color/transparent"/>
+
+            <SeekBar
+                android:id="@+id/sbArcAdjust"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/cancel"
-                android:background="@drawable/skin_button"
-                android:padding="16dp"
-                android:textSize="18sp"
-                android:layout_margin="5dp"
                 android:layout_weight="1"/>
 
             <Button
-                android:id="@+id/btnCheckIv"
-                android:layout_width="0dp"
+                android:id="@+id/btnIncrementLevel"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/check_iv"
-                android:background="@drawable/skin_button"
-                android:padding="16dp"
-                android:textSize="18sp"
-                android:layout_margin="5dp"
-                android:layout_weight="1"/>
+                android:text="+"
+                android:textSize="22sp"
+                android:textColor="@color/red"
+                android:background="@android:color/transparent"/>
 
         </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llButtonsInitial"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnCancelInfo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/cancel"
+            android:layout_weight="1"/>
+
+        <Button
+            android:id="@+id/btnCheckIv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/check_iv"
+            android:layout_weight="1"/>
+
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/llButtonsOnCheck"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="12sp"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/btnBackInfo"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Dratini"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:textColor="@color/black"
-                android:gravity="bottom"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="level 19.5"
-                android:textSize="18sp"
-                android:textColor="#888"
-                android:layout_marginLeft="5sp"/>
-        </LinearLayout>
+            android:text="@string/back"
+            android:layout_weight="1"/>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
+        <Button
+            android:id="@+id/btnCloseInfo"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center">
+            android:text="@string/close"
+            android:layout_weight="1"/>
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="@drawable/skin_iv_linearlayout"
-                android:padding="6sp"
-                android:layout_margin="6sp"
-                android:gravity="center"
-                android:layout_gravity="center">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="24sp"
-                    android:textStyle="bold"
-                    android:text="76%"
-                    android:textColor="#222"
-                    />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="MIN"
-                    android:layout_margin="0dp"
-                    android:textSize="12sp"
-                    android:gravity="center"
-                    android:textColor="#222"
-                    android:layout_marginLeft="5sp"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="@drawable/skin_iv_linearlayout"
-                android:padding="6sp"
-                android:layout_margin="6sp"
-                android:gravity="center"
-                android:layout_gravity="center">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="24sp"
-                    android:textStyle="bold"
-                    android:textColor="#222"
-                    android:text="82%"
-                    />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="AVG"
-                    android:textSize="12sp"
-                    android:layout_margin="0dp"
-                    android:textColor="#222"
-                    android:layout_marginLeft="5sp"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="@drawable/skin_iv_linearlayout"
-                android:padding="6sp"
-                android:layout_margin="6sp"
-                android:gravity="center"
-                android:layout_gravity="center">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="24sp"
-                    android:textStyle="bold"
-                    android:textColor="#222"
-                    android:text="88%"
-                    />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="MAX"
-                    android:textSize="12sp"
-                    android:layout_margin="0dp"
-                    android:textColor="#222"
-                    android:layout_marginLeft="5sp"/>
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/tvIvInfo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:textColor="@color/black"
-            android:text="IV Text"
-            android:gravity="center"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/btnBackInfo"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="@string/back"
-                android:background="@drawable/skin_button"
-                android:padding="16dp"
-                android:textSize="18sp"
-                android:layout_margin="5dp"
-                android:layout_weight="1"/>
-
-            <Button
-                android:id="@+id/btnCloseInfo"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="@string/close"
-                android:background="@drawable/skin_button"
-                android:padding="16dp"
-                android:textSize="18sp"
-                android:layout_margin="5dp"
-                android:layout_weight="1"/>
-
-        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

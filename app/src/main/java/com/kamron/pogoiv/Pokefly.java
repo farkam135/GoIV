@@ -111,6 +111,23 @@ public class Pokefly extends Service {
     @BindView(R.id.llButtonsOnCheck)
     LinearLayout onCheckButtonsLayout;
 
+
+    @BindView(R.id.resultsBox) LinearLayout resultsBox;
+    @BindView(R.id.resultsMinPercentage) TextView resultsMinPercentage;
+    @BindView(R.id.resultsAvePercentage) TextView resultsAvePercentage;
+    @BindView(R.id.resultsMaxPercentage) TextView resultsMaxPercentage;
+    @BindView(R.id.resultsPokemonLevel) TextView resultsPokemonLevel;
+    @BindView(R.id.exResCandy) TextView exResCandy;
+    @BindView(R.id.exResLevel) TextView exResLevel;
+    @BindView(R.id.resultsPokemonName) TextView resultsPokemonName;
+    @BindView(R.id.resultsCombinations) TextView resultsCombinations;
+    @BindView(R.id.exResultCP) TextView exResultCP;
+    @BindView(R.id.exResStardust) TextView exResStardust;
+    @BindView(R.id.exResPrevScan) TextView exResPrevScan;
+
+
+    @BindView(R.id.inputBox) LinearLayout inputBox;
+
     private String pokemonName;
     private String candyName;
     private int pokemonCP;
@@ -446,11 +463,88 @@ public class Pokefly extends Service {
         }
         pokemonHP = Integer.parseInt(pokemonHPEdit.getText().toString());
         pokemonCP = Integer.parseInt(pokemonCPEdit.getText().toString());
-        ivText.setVisibility(View.VISIBLE);
+        //ivText.setVisibility(View.VISIBLE);
         pokemonInfoLayout.setVisibility(View.GONE);
         initialButtonsLayout.setVisibility(View.GONE);
         onCheckButtonsLayout.setVisibility(View.VISIBLE);
-        ivText.setText(Html.fromHtml(getIVText()));
+        //ivText.setText(Html.fromHtml(getIVText()));
+        populateResultsBox();
+        resultsBox.setVisibility(View.VISIBLE);
+        inputBox.setVisibility(View.GONE);
+
+    }
+
+    /**
+     * sets the information in the results box
+     */
+    private void populateResultsBox(){
+        int selectedPokemon = pokemonList.getSelectedItemPosition();
+        Pokemon pokemon = pokeCalculator.get(selectedPokemon);
+
+        /* TODO: Should we set a size limit on that and throw away LRU entries? */
+        /* TODO: Move this into an event listener that triggers when the user
+         * actually changes the selection. */
+        if (!pokemonName.equals(pokemon.name) && pokeCalculator.get(pokemonName) == null) {
+            userCorrections.put(pokemonName, pokemon.name);
+            SharedPreferences.Editor edit = sharedPref.edit();
+            edit.putString(pokemonName, pokemon.name);
+            edit.commit();
+        }
+        IVScanResult ivScanResult = pokeCalculator.getIVPossibilities(selectedPokemon, estimatedPokemonLevel, pokemonHP, pokemonCP);
+
+        resultsPokemonName.setText(ivScanResult.pokemon.name);
+        resultsCombinations.setText(ivScanResult.iVCombinations.size() + " Possible combinations.");
+        resultsPokemonLevel.setText("Level: " + ivScanResult.estimatedPokemonLevel);
+        setResultScreenPercentageRange(ivScanResult);
+
+
+        UpgradeCost cost = pokeCalculator.getMaxReqText(trainerLevel, estimatedPokemonLevel);
+        CPRange expectedRange = pokeCalculator.getCpRangeAtLevel(pokemon, ivScanResult.lowAttack, ivScanResult.lowDefense, ivScanResult.lowStamina, ivScanResult.highAttack, ivScanResult.highDefense, ivScanResult.highStamina, Math.min(trainerLevel + 1.5, 40.0));
+        int expectedAverage = (expectedRange.high+expectedRange.low)/2;
+        exResultCP.setText(expectedAverage + "");
+        exResCandy.setText("" + cost.candy);
+        exResStardust.setText("" + cost.dust);
+        exResLevel.setText("" + trainerLevel);
+        exResPrevScan.setText("Prev scan: " + ivScanResult.getPrevScanName());
+
+
+
+    }
+
+    /**
+     * fixes the three boxes that show iv range color and text
+     * @param ivScanResult the scan result used to populate the TextViews
+     */
+    private void setResultScreenPercentageRange(IVScanResult ivScanResult) {
+        int low = ivScanResult.getLowestIVCombination().percentPerfect;
+        int ave = ivScanResult.getAveragePercent();
+        int high = ivScanResult.getHighestIVCombination().percentPerfect;
+
+        setTextColorbyPercentage(resultsMinPercentage, low);
+        setTextColorbyPercentage(resultsAvePercentage, ave);
+        setTextColorbyPercentage(resultsMaxPercentage, high);
+        if (ivScanResult.iVCombinations.size() >0){
+            resultsMinPercentage.setText( low+ "%");
+            resultsAvePercentage.setText(ave + "%");
+            resultsMaxPercentage.setText(high + "%");
+        }else{
+            resultsMinPercentage.setText("?%");
+            resultsAvePercentage.setText("?%");
+            resultsMaxPercentage.setText("?%");
+        }
+    }
+
+    /**
+     * sets the text color to red if below 80, and green if above
+     * @param text the text that changes color
+     * @param value the value that is checked if its above 80
+     */
+    private void setTextColorbyPercentage(TextView text, int value) {
+        if (value >= 80){
+            text.setTextColor(Color.GREEN);
+        }else{
+            text.setTextColor(Color.RED);
+        }
     }
 
     @OnClick({R.id.btnCancelInfo, R.id.btnCloseInfo})
@@ -461,6 +555,15 @@ public class Pokefly extends Service {
             IVButtonShown = true;
         }
         resetPokeflyStateMachine();
+        resetInfoDialogue();
+    }
+
+    /**
+     * resets the floating window that contains the result and input dialogue
+     */
+    private void resetInfoDialogue() {
+        inputBox.setVisibility(View.VISIBLE);
+        resultsBox.setVisibility(View.GONE);
     }
 
     /**

@@ -68,6 +68,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -263,9 +264,9 @@ public class MainActivity extends AppCompatActivity {
         areaY2 = (int) Math.round(displayMetrics.heightPixels / 1.11062907);
 
         //Check if language makes the pokemon name in candy second; France/Spain have Bonbon/Caramelos pokeName.
-        //XXX We should use a set of languages rather than testing each.
         String language = Locale.getDefault().getLanguage();
-        if (language.equals("fr") || language.equals("es")) {
+        HashSet<String> specialCandyOrderLangs = new HashSet<>(Arrays.asList("fr", "es"));
+        if (specialCandyOrderLangs.contains(language)) {
             candyOrder = 1;
         }
 

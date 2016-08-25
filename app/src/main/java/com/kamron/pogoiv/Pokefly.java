@@ -21,7 +21,6 @@ import android.provider.MediaStore;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.Html;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.LruCache;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -31,6 +30,7 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -96,6 +96,8 @@ public class Pokefly extends Service {
 
     @BindView(R.id.tvIvInfo)
     TextView ivText;
+    @BindView(R.id.tvSeeAllPossibilities)
+    TextView seeAllPossibilities;
     @BindView(R.id.spnPokemonName)
     Spinner pokemonList;
     @BindView(R.id.etCp)
@@ -104,15 +106,18 @@ public class Pokefly extends Service {
     EditText pokemonHPEdit;
     @BindView(R.id.sbArcAdjust)
     SeekBar arcAdjustBar;
-    @BindView(R.id.llPokemonInfo)
-    LinearLayout pokemonInfoLayout;
     @BindView(R.id.llButtonsInitial)
     LinearLayout initialButtonsLayout;
     @BindView(R.id.llButtonsOnCheck)
     LinearLayout onCheckButtonsLayout;
 
-
+    // Layouts
+    @BindView(R.id.inputBox) LinearLayout inputBox;
     @BindView(R.id.resultsBox) LinearLayout resultsBox;
+    @BindView(R.id.expandedResultsBox) LinearLayout expandedResultsBox;
+    @BindView(R.id.allPossibilitiesBox) LinearLayout allPossibilitiesBox;
+
+    // Result data
     @BindView(R.id.resultsMinPercentage) TextView resultsMinPercentage;
     @BindView(R.id.resultsAvePercentage) TextView resultsAvePercentage;
     @BindView(R.id.resultsMaxPercentage) TextView resultsMaxPercentage;
@@ -124,9 +129,6 @@ public class Pokefly extends Service {
     @BindView(R.id.exResultCP) TextView exResultCP;
     @BindView(R.id.exResStardust) TextView exResStardust;
     @BindView(R.id.exResPrevScan) TextView exResPrevScan;
-
-
-    @BindView(R.id.inputBox) LinearLayout inputBox;
 
     private String pokemonName;
     private String candyName;
@@ -463,8 +465,6 @@ public class Pokefly extends Service {
         }
         pokemonHP = Integer.parseInt(pokemonHPEdit.getText().toString());
         pokemonCP = Integer.parseInt(pokemonCPEdit.getText().toString());
-        //ivText.setVisibility(View.VISIBLE);
-        pokemonInfoLayout.setVisibility(View.GONE);
         initialButtonsLayout.setVisibility(View.GONE);
         onCheckButtonsLayout.setVisibility(View.VISIBLE);
         //ivText.setText(Html.fromHtml(getIVText()));
@@ -488,26 +488,25 @@ public class Pokefly extends Service {
             userCorrections.put(pokemonName, pokemon.name);
             SharedPreferences.Editor edit = sharedPref.edit();
             edit.putString(pokemonName, pokemon.name);
-            edit.commit();
+            edit.apply();
         }
         IVScanResult ivScanResult = pokeCalculator.getIVPossibilities(selectedPokemon, estimatedPokemonLevel, pokemonHP, pokemonCP);
 
         resultsPokemonName.setText(ivScanResult.pokemon.name);
-        resultsCombinations.setText(ivScanResult.iVCombinations.size() + " Possible combinations.");
+        resultsCombinations.setText(String.format(getString(R.string.ivtext_possibilities), ivScanResult.iVCombinations.size()));
+        //TODO: Populate ivText in a better way.
+        ivText.setText(ivScanResult.iVCombinations.toString());
         resultsPokemonLevel.setText("Level: " + ivScanResult.estimatedPokemonLevel);
         setResultScreenPercentageRange(ivScanResult);
-
 
         UpgradeCost cost = pokeCalculator.getMaxReqText(trainerLevel, estimatedPokemonLevel);
         CPRange expectedRange = pokeCalculator.getCpRangeAtLevel(pokemon, ivScanResult.lowAttack, ivScanResult.lowDefense, ivScanResult.lowStamina, ivScanResult.highAttack, ivScanResult.highDefense, ivScanResult.highStamina, Math.min(trainerLevel + 1.5, 40.0));
         int expectedAverage = (expectedRange.high+expectedRange.low)/2;
-        exResultCP.setText(expectedAverage + "");
-        exResCandy.setText("" + cost.candy);
-        exResStardust.setText("" + cost.dust);
-        exResLevel.setText("" + trainerLevel);
-        exResPrevScan.setText("Prev scan: " + ivScanResult.getPrevScanName());
-
-
+        exResultCP.setText(String.valueOf(expectedAverage));
+        exResCandy.setText(String.valueOf(cost.candy));
+        exResStardust.setText(String.valueOf(cost.dust));
+        exResLevel.setText(String.valueOf(trainerLevel));
+        exResPrevScan.setText("Previous scan: " + ivScanResult.getPrevScanName());
 
     }
 
@@ -559,11 +558,21 @@ public class Pokefly extends Service {
     }
 
     /**
+     * Displays the all possibilities dialog
+     */
+    @OnClick(R.id.tvSeeAllPossibilities)
+    public void displayAllPossibilities() {
+        resultsBox.setVisibility(View.GONE);
+        allPossibilitiesBox.setVisibility(View.VISIBLE);
+    }
+
+    /**
      * resets the floating window that contains the result and input dialogue
      */
     private void resetInfoDialogue() {
         inputBox.setVisibility(View.VISIBLE);
         resultsBox.setVisibility(View.GONE);
+        expandedResultsBox.setVisibility(View.VISIBLE);
     }
 
     /**
@@ -576,12 +585,23 @@ public class Pokefly extends Service {
         LocalBroadcastManager.getInstance(Pokefly.this).sendBroadcast(resetIntent);
     }
 
+    /**
+     * Goes back a section
+     */
+    //TODO: Needs better implementation
     @OnClick(R.id.btnBackInfo)
     public void backToIvForm() {
-        ivText.setVisibility(View.GONE);
-        pokemonInfoLayout.setVisibility(View.VISIBLE);
-        initialButtonsLayout.setVisibility(View.VISIBLE);
-        onCheckButtonsLayout.setVisibility(View.GONE);
+        if(allPossibilitiesBox.getVisibility()==View.VISIBLE){
+            allPossibilitiesBox.setVisibility(View.GONE);
+            resultsBox.setVisibility(View.VISIBLE);
+        }else{
+            allPossibilitiesBox.setVisibility(View.GONE);
+            inputBox.setVisibility(View.VISIBLE);
+            resultsBox.setVisibility(View.GONE);
+
+            initialButtonsLayout.setVisibility(View.VISIBLE);
+            onCheckButtonsLayout.setVisibility(View.GONE);
+        }
     }
 
     /**
@@ -594,8 +614,6 @@ public class Pokefly extends Service {
 
             infoShownReceived = true;
             int[] possiblePoke = getPossiblePokemon(pokemonName, candyName);
-            ivText.setVisibility(View.GONE);
-            pokemonInfoLayout.setVisibility(View.VISIBLE);
             initialButtonsLayout.setVisibility(View.VISIBLE);
             onCheckButtonsLayout.setVisibility(View.GONE);
 
@@ -719,7 +737,7 @@ public class Pokefly extends Service {
             userCorrections.put(pokemonName, pokemon.name);
             SharedPreferences.Editor edit = sharedPref.edit();
             edit.putString(pokemonName, pokemon.name);
-            edit.commit();
+            edit.apply();
         }
 
         String returnVal = String.format(getString(R.string.ivtext_title), estimatedPokemonLevel, pokemonCP, pokemonHP, pokemon.name);
@@ -746,10 +764,9 @@ public class Pokefly extends Service {
         } else {
             int counter = 0;
 
-
             IVCombination highest = ivScanResult.getHighestIVCombination();
             IVCombination lowest = ivScanResult.getLowestIVCombination();
-            int shown = 1; //the number of IVs which is shown to the user, assume only highest will be shown
+            int shown = 10; //the number of IVs which is shown to the user, assume only highest will be shown
             returnVal += "\n" + String.format(getString(R.string.ivtext_stats), highest.att, highest.def, highest.sta, highest.percentPerfect);
             returnVal += "<br>"; //breakline
             if (!(lowest.getTotal() == highest.getTotal())) { //if highest and lowest are the same, there's no reason to print both of them (they can be same IV)

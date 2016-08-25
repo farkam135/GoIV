@@ -262,8 +262,10 @@ public class MainActivity extends AppCompatActivity {
         areaX2 = (int) Math.round(displayMetrics.widthPixels / 1.15942029);  // these values used to get greenish color in transfer button
         areaY2 = (int) Math.round(displayMetrics.heightPixels / 1.11062907);
 
-        //Check if language makes the pokemon name in candy second e.g. France is Bonbon pokeName
-        if (Locale.getDefault().getLanguage().equals("fr")) {
+        //Check if language makes the pokemon name in candy second; France/Spain have Bonbon/Caramelos pokeName.
+        //XXX We should use a set of languages rather than testing each.
+        String language = Locale.getDefault().getLanguage();
+        if (language.equals("fr") || language.equals("es")) {
             candyOrder = 1;
         }
 

@@ -265,7 +265,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Check if language makes the pokemon name in candy second; France/Spain have Bonbon/Caramelos pokeName.
         String language = Locale.getDefault().getLanguage();
-        HashSet<String> specialCandyOrderLangs = new HashSet<>(Arrays.asList("fr", "es"));
+        HashSet<String> specialCandyOrderLangs = new HashSet<>(Arrays.asList("fr", "es", "it"));
         if (specialCandyOrderLangs.contains(language)) {
             candyOrder = 1;
         }

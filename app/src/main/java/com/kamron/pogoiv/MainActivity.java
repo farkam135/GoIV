@@ -927,26 +927,28 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * replaceColors
-     * Replaces colors in a bitmap that are not the same as a specific color.
+     * Replaces colors in a bitmap that are not farther away from a specific color than a given
+     * threshold.
      *
      * @param myBitmap     The bitmap to check the colors for.
      * @param keepCr       The red color to keep
      * @param keepCg       The green color to keep
      * @param keepCb       The blue color to keep
      * @param replaceColor The color to replace mismatched colors with
-     * @param similarity   The similarity buffer
+     * @param distance     The distance threshold.
      * @return Bitmap with replaced colors
      */
-    private Bitmap replaceColors(Bitmap myBitmap, int keepCr, int keepCg, int keepCb, int replaceColor, int similarity) {
+    private Bitmap replaceColors(Bitmap myBitmap, int keepCr, int keepCg, int keepCb, int replaceColor, int distance) {
         int[] allpixels = new int[myBitmap.getHeight() * myBitmap.getWidth()];
         myBitmap.getPixels(allpixels, 0, myBitmap.getWidth(), 0, 0, myBitmap.getWidth(), myBitmap.getHeight());
+        int distanceSq = distance * distance;
 
         for (int i = 0; i < allpixels.length; i++) {
-            int r = Color.red(allpixels[i]);
-            int g = Color.green(allpixels[i]);
-            int b = Color.blue(allpixels[i]);
-            double d = Math.sqrt(Math.pow(keepCr - r, 2) + Math.pow(keepCg - g, 2) + Math.pow(keepCb - b, 2));
-            if (d > similarity) {
+            int rDiff = keepCr - Color.red(allpixels[i]);
+            int gDiff = keepCg - Color.green(allpixels[i]);
+            int bDiff = keepCb - Color.blue(allpixels[i]);
+            int dSq = rDiff * rDiff + gDiff * gDiff + bDiff * bDiff;
+            if (dSq > distanceSq) {
                 allpixels[i] = replaceColor;
             }
         }

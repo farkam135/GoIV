@@ -36,7 +36,7 @@
     <string name="take_screenshot">Tomar captura de pantalla</string>
     <string name="trainer_level">Nivel de Entrenador</string>
     <string name="use_the_slider_below_to_align_the_arc">Use el slider para alinear el marcador en el arco</string>
-    <string name="welcome_message">Bienvenido a GoIV!\n\nInstrucciones:\n1. Ingresar nivel de entrenador\n2. Presionar el botón de inicio y permitir la captura de pantalla\n3. Abrir el Pokémon deseado en \'Pokémon Go\'\n4. Presionar el botón IV para obtener los datos del Pokémon\n5. Ajustar los datos obtenidos en caso de ser necesario\n6. Obtener IV!</string>
+    <string name="welcome_message">Instrucciones:\n1. Ingresar nivel de entrenador\n2. Presionar el botón de inicio y permitir la captura de pantalla\n3. Abrir el Pokémon deseado en \'Pokémon Go\'\n4. Presionar el botón IV para obtener los datos del Pokémon\n5. Ajustar los datos obtenidos en caso de ser necesario\n6. Obtener IV!</string>
     <string name="accept_screen_capture">Acepta Captura de Pantalla</string>
     <string name="app_name">GoIV</string>
     <string name="auto_update_setting_summary">Buscar actualizaciones al iniciar la aplicación</string>
@@ -52,4 +52,7 @@
     <string name="launch_pokemon_go_setting_title">Lanzar Pokemon Go</string>
     <string name="send_crash_reports_setting_summary">Ayudar a los desarrolladores a mejorar la aplicación enviándoles información anónima de errores</string>
     <string name="send_crash_reports_setting_title">Enviar informes de errores</string>
+    <string name="settings_page_title">Configuración</string>
+    <string name="manual_screenshot_mode_setting_title">Usar capturas de pantalla para calcular IV</string>
+    <string name="manual_screenshot_mode_setting_summary">Ahorrar batería obteniendo los datos mediante capturas de pantalla en lugar de hacerlo automáticamente. Esta opción debe estar activa para Android KitKat y versiones de Android más antiguas.</string>
 </resources>

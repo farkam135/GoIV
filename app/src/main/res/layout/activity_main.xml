@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
@@ -8,74 +7,85 @@
     android:visibility="visible"
     tools:context="com.kamron.pogoiv.MainActivity">
 
-    <TextView
-        android:id="@+id/main_instructions"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:text="@string/welcome_message"
-        android:textAlignment="center"
-        app:layout_constraintLeft_toLeftOf="@+id/activity_main"
-        app:layout_constraintRight_toRightOf="@+id/activity_main"
-        app:layout_constraintTop_toTopOf="@+id/activity_main" />
+        android:orientation="vertical"
+        android:gravity="center">
 
-    <TextView
-        android:id="@+id/main_levelLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/trainer_level"
-        android:textSize="24sp"
-        app:layout_constraintLeft_toLeftOf="@id/activity_main"
-        app:layout_constraintRight_toRightOf="@id/activity_main"
-        app:layout_constraintTop_toBottomOf="@id/main_instructions" />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/header"
+            android:scaleType="fitCenter"
+            android:contentDescription="@string/app_name"
+            android:adjustViewBounds="true" />
 
-    <EditText
-        android:id="@+id/trainerLevel"
-        android:layout_width="75dp"
-        android:layout_height="wrap_content"
-        android:gravity="end"
-        android:inputType="number"
-        android:text="1"
-        android:textAlignment="center"
-        app:layout_constraintLeft_toLeftOf="@id/activity_main"
-        app:layout_constraintRight_toRightOf="@id/activity_main"
-        app:layout_constraintTop_toBottomOf="@id/main_levelLabel" />
+        <TextView
+            android:id="@+id/main_levelLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/trainer_level"
+            android:labelFor="@+id/trainerLevel"
+            android:textSize="24sp"/>
 
-    <Button
-        android:id="@+id/start"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:paddingBottom="16dp"
-        android:paddingEnd="32dp"
-        android:paddingLeft="32dp"
-        android:paddingRight="32dp"
-        android:paddingStart="32dp"
-        android:paddingTop="16dp"
-        android:text="@string/main_start"
-        android:textSize="18sp"
-        app:layout_constraintLeft_toLeftOf="@id/activity_main"
-        app:layout_constraintRight_toRightOf="@id/activity_main"
-        app:layout_constraintTop_toBottomOf="@id/trainerLevel" />
+        <EditText
+            android:id="@+id/trainerLevel"
+            android:layout_width="75dp"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:inputType="number"
+            android:text="1"
+            android:textAlignment="center"/>
 
-    <TextView
-        android:id="@+id/goiv_info"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:autoLink="web"
-        android:padding="16dp"
-        android:text="@string/goiv_is_open_source"
-        app:layout_constraintBottom_toBottomOf="@id/activity_main" />
+        <Button
+            android:id="@+id/start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:paddingBottom="16dp"
+            android:paddingEnd="32dp"
+            android:paddingLeft="32dp"
+            android:paddingRight="32dp"
+            android:paddingStart="32dp"
+            android:paddingTop="16dp"
+            android:text="@string/main_start"
+            android:textSize="18sp"/>
 
-    <TextView
-        android:id="@+id/version_number"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:text="VersionNumber"
-        app:layout_constraintBottom_toBottomOf="@id/activity_main"
-        app:layout_constraintRight_toRightOf="@id/activity_main" />
+        <TextView
+            android:id="@+id/main_instructions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:text="@string/welcome_message"
+            android:textAlignment="center"/>
 
-</android.support.constraint.ConstraintLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="bottom">
 
+            <TextView
+                android:id="@+id/goiv_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:autoLink="web"
+                android:padding="16dp"
+                android:text="@string/goiv_is_open_source"
+                android:layout_weight="1"/>
+
+            <TextView
+                android:id="@+id/version_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:textAlignment="textEnd"
+                android:layout_gravity="bottom|end"
+                android:layout_weight="1"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

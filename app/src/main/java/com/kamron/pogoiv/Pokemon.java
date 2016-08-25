@@ -1,7 +1,5 @@
 package com.kamron.pogoiv;
 
-import com.kamron.pogoiv.Data;
-
 import java.util.ArrayList;
 import java.util.List;
 

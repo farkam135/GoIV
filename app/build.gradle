@@ -21,10 +21,8 @@ android {
     compileSdkVersion 24
     buildToolsVersion "24.0.1"
 
-    //When making a new version, you need to update all three versionName variables below. Also,
-    //the string "(Offline)" should be present in two places :
-    //1) The versionName variable in the offline closure in this file and
-    //2) The tag name in the GitHub release of the offline version
+    //When making a new version, please ensure that the apk files for both online and offline flavors
+    //are in the same GitHub release and the offline apk filename has "Offline" in it.
 
     defaultConfig {
         resValue "string", "app_name", "GoIV"
@@ -42,7 +40,6 @@ android {
             buildConfigField "boolean", "isInternetAvailable", "false"
             resValue "string", "app_name", "GoIV Offline"
             ext.enableCrashlytics = false
-            versionName "2.2.0 (Offline)"
         }
 
         online {
@@ -50,7 +47,6 @@ android {
             buildConfigField "boolean", "isInternetAvailable", "true"
             resValue "string", "app_name", "GoIV"
             ext.enableCrashlytics = true
-            versionName "2.2.0"
         }
     }
 

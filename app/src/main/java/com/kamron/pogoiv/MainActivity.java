@@ -395,7 +395,7 @@ public class MainActivity extends AppCompatActivity {
      * startPokeFly
      * Starts the PokeFly background service which contains overlay logic
      */
-    private void startPokeyFly() {
+    private void startPokeFly() {
         ((Button) findViewById(R.id.start)).setText(R.string.main_stop);
 
         Intent intent = Pokefly.createIntent(this, trainerLevel, statusBarHeight, batterySaver, screenshotDir, screenshotUri);
@@ -504,7 +504,7 @@ public class MainActivity extends AppCompatActivity {
                 mImageReader = ImageReader.newInstance(rawDisplayMetrics.widthPixels, rawDisplayMetrics.heightPixels, PixelFormat.RGBA_8888, 2);
                 mProjection.createVirtualDisplay("screen-mirror", rawDisplayMetrics.widthPixels, rawDisplayMetrics.heightPixels, rawDisplayMetrics.densityDpi, DisplayManager.VIRTUAL_DISPLAY_FLAG_PUBLIC, mImageReader.getSurface(), null, null);
 
-                startPokeyFly();
+                startPokeFly();
                 //showNotification();
                 final Handler handler = new Handler();
                 final Timer timer = new Timer();

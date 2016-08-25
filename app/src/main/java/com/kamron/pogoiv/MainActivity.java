@@ -373,22 +373,28 @@ public class MainActivity extends AppCompatActivity {
      * Sets up the x,y coordinates of the arc using the trainer level, stores it in Data.arcX/arcY
      */
     private void setupArcPoints() {
-        final int indices = Math.min((int) ((trainerLevel + 1.5) * 2) - 1, 79);
+        /*
+         * Pokemon levels go from 1 to trainerLevel + 1.5, in increments of 0.5.
+         * Here we use dblLevelShifted for levels that are doubled and shifted by - 2; after this adjustment,
+         * the level can be used to index CpM, arcX and arcY.
+         */
+        int maxPokeDblLevelShifted = trainerLevel * 2 + 1; //= (trainerLevel + 1.5) * 2 - 2
+        final int indices = Math.min(maxPokeDblLevelShifted + 1, 79);
         Data.arcX = new int[indices];
         Data.arcY = new int[indices];
 
         double maxAngle = 178.4;
+        double baseCpM = Data.CpM[0];
+        double maxCpmDelta = Data.CpM[maxPokeDblLevelShifted] - baseCpM;
 
-        for (double pokeLevel = 1.0; pokeLevel <= trainerLevel + 1.5; pokeLevel += 0.5) {
-            double angleInDegrees = maxAngle *
-                    (Data.CpM[(int) (pokeLevel * 2 - 2)] - Data.CpM[0]) /
-                    (Data.CpM[(int) ((trainerLevel + 1.5) * 2 - 2)] - Data.CpM[0]);
+        for (int pokeDblLevelShifted = 0; pokeDblLevelShifted <= maxPokeDblLevelShifted; pokeDblLevelShifted++) {
+            double currCpMDelta = (Data.CpM[pokeDblLevelShifted] - baseCpM);
+            double angleInDegrees = maxAngle * currCpMDelta / maxCpmDelta;
 
             double angleInRadians = (angleInDegrees + 180) * Math.PI / 180.0;
 
-            int index = Data.convertLevelToIndex(pokeLevel);
-            Data.arcX[index] = (int) (arcCenter + (radius * Math.cos(angleInRadians)));
-            Data.arcY[index] = (int) (arcInitialY + (radius * Math.sin(angleInRadians)));
+            Data.arcX[pokeDblLevelShifted] = (int) (arcCenter + (radius * Math.cos(angleInRadians)));
+            Data.arcY[pokeDblLevelShifted] = (int) (arcInitialY + (radius * Math.sin(angleInRadians)));
         }
     }
 

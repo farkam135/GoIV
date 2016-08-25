@@ -17,8 +17,14 @@ public class Data {
     public static int[] arcX;
     public static int[] arcY;
 
-    public static int convertLevelToIndex(double pokemonLevel){
-        return (int)(pokemonLevel * 2 -2);
+    /**
+     * Pokemon levels go from 1 to trainerLevel + 1.5, in increments of 0.5.
+     * This method adjusts a level by doubling it and shifted by - 2; after this adjustment,
+     * the result goes from 0 to 2 * trainerLevel + 1 included, and can be used to index CpM and
+     * other arrays.
+     */
+    public static int convertLevelToIndex(double pokemonLevel) {
+        return (int) (pokemonLevel * 2 - 2);
     }
 
     // should be pretty fast https://en.wikibooks.org/wiki/Algorithm_Implementation/Strings/Levenshtein_distance#Java

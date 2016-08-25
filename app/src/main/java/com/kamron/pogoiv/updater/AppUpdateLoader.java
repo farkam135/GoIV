@@ -1,7 +1,6 @@
 package com.kamron.pogoiv.updater;
 
 import com.kamron.pogoiv.BuildConfig;
-import com.kamron.pogoiv.updater.AppUpdateEvent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
@@ -27,10 +26,19 @@ public class AppUpdateLoader extends Thread {
         try {
             Response response = httpClient.newCall(request).execute();
             JSONArray releaseInfo = new JSONArray(response.body().string());
-            JSONObject latestRelease = releaseInfo.getJSONObject(0);
-            JSONObject releaseAssets = latestRelease.getJSONArray("assets").getJSONObject(0);
 
-            AppUpdate update = new AppUpdate(releaseAssets.getString("browser_download_url"), latestRelease.getString("tag_name"), latestRelease.getString("body"));
+            //Loop through the releases till we get to the first online release
+            JSONObject latestOnlineRelease = releaseInfo.getJSONObject(0);
+            for(int i = 0;i < releaseInfo.length();i++){
+                JSONObject latestRelease = releaseInfo.getJSONObject(i);
+                if(!latestRelease.getString("tag_name").contains("(Offline)")) {
+                    latestOnlineRelease = latestRelease;
+                    break;
+                }
+            }
+            JSONObject releaseAssets = latestOnlineRelease.getJSONArray("assets").getJSONObject(0);
+
+            AppUpdate update = new AppUpdate(releaseAssets.getString("browser_download_url"), latestOnlineRelease.getString("tag_name"), latestOnlineRelease.getString("body"));
 
             SemVer currentVersion = SemVer.parse(BuildConfig.VERSION_NAME);
             SemVer remoteVersion = SemVer.parse(update.getVersion());

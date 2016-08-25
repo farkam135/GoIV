@@ -21,6 +21,9 @@ android {
     compileSdkVersion 24
     buildToolsVersion "24.0.1"
 
+    //When making a new version, please ensure that the apk files for both online and offline flavors
+    //are in the same GitHub release and the offline apk filename has "Offline" in it.
+
     defaultConfig {
         resValue "string", "app_name", "GoIV"
         applicationId "com.kamron.pogoiv"

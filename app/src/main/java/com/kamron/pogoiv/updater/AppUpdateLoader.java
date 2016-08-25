@@ -1,10 +1,8 @@
 package com.kamron.pogoiv.updater;
 
 import com.kamron.pogoiv.BuildConfig;
-import com.kamron.pogoiv.updater.AppUpdateEvent;
 
 import org.greenrobot.eventbus.EventBus;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -19,18 +17,19 @@ public class AppUpdateLoader extends Thread {
     @Override
     public void run() {
         OkHttpClient httpClient = new OkHttpClient();
-        String apiEndpoint = "https://api.github.com/repos/farkam135/GoIV/releases";
+        String apiEndpoint = "https://api.github.com/repos/farkam135/GoIV/releases/latest";
         Request request = new Request.Builder()
                 .url(apiEndpoint)
                 .build();
 
         try {
             Response response = httpClient.newCall(request).execute();
-            JSONArray releaseInfo = new JSONArray(response.body().string());
-            JSONObject latestRelease = releaseInfo.getJSONObject(0);
-            JSONObject releaseAssets = latestRelease.getJSONArray("assets").getJSONObject(0);
+            JSONObject releaseInfo = new JSONObject(response.body().string());
+            JSONObject releaseAssets = releaseInfo.getJSONArray("assets").getJSONObject(0);
+            if (releaseAssets.getString("name").contains("Offline"))
+                releaseAssets = releaseInfo.getJSONArray("assets").getJSONObject(1);
 
-            AppUpdate update = new AppUpdate(releaseAssets.getString("browser_download_url"), latestRelease.getString("tag_name"), latestRelease.getString("body"));
+            AppUpdate update = new AppUpdate(releaseAssets.getString("browser_download_url"), releaseInfo.getString("tag_name"), releaseInfo.getString("body"));
 
             SemVer currentVersion = SemVer.parse(BuildConfig.VERSION_NAME);
             SemVer remoteVersion = SemVer.parse(update.getVersion());

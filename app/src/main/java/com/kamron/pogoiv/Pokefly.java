@@ -111,6 +111,9 @@ public class Pokefly extends Service {
     @BindView(R.id.llButtonsOnCheck)
     LinearLayout onCheckButtonsLayout;
 
+    @BindView(R.id.resultsBox) LinearLayout resultsBox;
+    @BindView(R.id.inputBox) LinearLayout inputBox;
+
     private String pokemonName;
     private String candyName;
     private int pokemonCP;
@@ -446,11 +449,14 @@ public class Pokefly extends Service {
         }
         pokemonHP = Integer.parseInt(pokemonHPEdit.getText().toString());
         pokemonCP = Integer.parseInt(pokemonCPEdit.getText().toString());
-        ivText.setVisibility(View.VISIBLE);
+        //ivText.setVisibility(View.VISIBLE);
         pokemonInfoLayout.setVisibility(View.GONE);
         initialButtonsLayout.setVisibility(View.GONE);
         onCheckButtonsLayout.setVisibility(View.VISIBLE);
-        ivText.setText(Html.fromHtml(getIVText()));
+        //ivText.setText(Html.fromHtml(getIVText()));
+        resultsBox.setVisibility(View.VISIBLE);
+        inputBox.setVisibility(View.GONE);
+
     }
 
     @OnClick({R.id.btnCancelInfo, R.id.btnCloseInfo})

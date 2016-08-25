@@ -4,9 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="16dp"
     android:gravity="center|bottom"
-    android:background="@android:drawable/alert_light_frame"
     android:alpha="225">
 
     <ScrollView
@@ -205,52 +203,36 @@ ATK:13 - DEF:0 - HP:0 (28.9%)"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Powerup and evolution calculation"
-                android:layout_margin="6sp"
-                android:layout_gravity="center"/>
-
             <!-- Here should be additional data. I'll take some rest now.-->
 
         </LinearLayout>
 
+        <include layout="@layout/expanded_results_box"
+            android:id="@+id/resultsBox"
+            ></include>
+
     </LinearLayout>
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
+        android:id="@+id/llButtonsOnCheck"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/btnBackInfo"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/back"
-            android:background="@drawable/skin_button"
-            android:paddingTop="12sp"
-            android:paddingBottom="12sp"
-            android:paddingLeft="18sp"
-            android:paddingRight="18sp"
-            android:textSize="18sp"
-            android:gravity="center"
-            android:layout_margin="5dp"/>
+            android:layout_weight="1"/>
 
         <Button
             android:id="@+id/btnCloseInfo"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/close"
-            android:background="@drawable/skin_button"
-            android:paddingTop="12sp"
-            android:paddingBottom="12sp"
-            android:paddingLeft="18sp"
-            android:paddingRight="18sp"
-            android:textSize="18sp"
-            android:gravity="center"
-            android:layout_margin="5dp"
-            android:layout_alignParentRight="true"/>
+            android:layout_weight="1"/>
 
-    </RelativeLayout>
+    </LinearLayout>
+
 </LinearLayout>

@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/unimportantText"
+        android:text="Powerup and evolution calculation"
+        android:id="@+id/textView"
+        android:layout_gravity="center_horizontal" />
+
+    <Space
+        android:layout_width="1dp"
+        android:layout_height="20dp"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/importantText"
+            android:text="CP"
+            android:textSize="@dimen/resultExpandedTextSize"
+            android:id="@+id/textView1"
+            android:layout_gravity="left"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/importantText"
+            android:text="#ofCP"
+            android:textSize="@dimen/resultExpandedTextSize"
+            android:id="@+id/CPPrediction"
+            android:layout_gravity="right"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/importantText"
+            android:text="Candy Cost"
+            android:textSize="@dimen/resultExpandedTextSize"
+            android:id="@+id/textView4"
+            android:layout_gravity="left"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/importantText"
+            android:textSize="@dimen/resultExpandedTextSize"
+            android:text="#of candy"
+            android:id="@+id/CandyPrediction"
+            android:layout_gravity="right"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/importantText"
+            android:textSize="@dimen/resultExpandedTextSize"
+            android:text="Stardust Cost"
+            android:id="@+id/StardustCost"
+            android:layout_gravity="left"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/importantText"
+            android:textSize="@dimen/resultExpandedTextSize"
+            android:text="#of stardust"
+            android:id="@+id/StardustPrediction"
+            android:layout_gravity="right"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/resultExpandedTextSize"
+            android:textColor="@color/importantText"
+            android:text="Evolution"
+            android:id="@+id/textView5"
+            android:layout_gravity="left"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            />
+
+
+        <Spinner
+            android:id="@+id/extendedEvolutionSpinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/spinner"
+            android:gravity="center"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/resultExpandedTextSize"
+            android:textColor="@color/importantText"
+            android:text="CP"
+            android:id="@+id/textView2"
+            android:layout_gravity="left"/>
+
+        <SeekBar
+            android:id="@+id/expandedLevelSeekbar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="6sp"
+            android:layout_marginRight="6sp"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/resultExpandedTextSize"
+            android:textColor="@color/importantText"
+            android:text="#level"
+            android:id="@+id/sliderLevel"
+            android:layout_gravity="right"/>
+
+    </LinearLayout>
+
+    <Space
+        android:layout_width="1dp"
+        android:layout_height="10dp"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"/>
+    <Space
+        android:layout_width="1dp"
+        android:layout_height="10dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Increase IV calculation precision by leveling up and comparing two scans of the same Pokémon"
+        android:textColor="@color/unimportantText"
+        android:textAlignment="center"
+        android:id="@+id/textview11"
+        android:layout_gravity="center"/>
+
+    <Space
+        android:layout_width="1dp"
+        android:layout_height="14dp"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/resultExpandedTextSize"
+            android:textColor="@color/importantText"
+            android:text="Last scan: No previous scan"
+            android:id="@+id/extendedLastScan"
+            android:layout_gravity="left"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/resultExpandedTextSize"
+            android:textColor="@color/colorPrimary"
+            android:text="Compare"
+            android:id="@+id/expandedCompareText"
+            android:layout_gravity="right"/>
+
+    </LinearLayout>
+</LinearLayout>

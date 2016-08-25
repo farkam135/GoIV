@@ -174,4 +174,17 @@ public class IVScanResult {
         }
         return low;
     }
+
+    /**
+     * returns a string which is either the name of the previously scanned pokemon, or ""
+     * @return
+     */
+    public String getPrevScanName() {
+        if(scanContainer.twoScanAgo !=null){
+            return scanContainer.twoScanAgo.pokemon.name;
+        }else{
+            return "";
+        }
+
+    }
 }

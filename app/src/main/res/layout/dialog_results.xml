@@ -9,6 +9,30 @@
     android:background="@android:drawable/alert_light_frame"
     android:alpha="225">
 
+    <ScrollView
+        android:id="@+id/svAllMatches"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone">
+
+        <!-- This could be something better, like a ListView. Tapping "See All" should show this one and hide the rest-->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ATK:7 - DEF:13 - HP:0 (44.4%)
+ATK:7 - DEF:14 - HP:0 (46.7%)
+ATK:8 - DEF:11 - HP:0 (42.2%)
+ATK:9 - DEF:8 - HP:0 (37.8%)
+ATK:9 - DEF:9 - HP:0 (40.0%)
+ATK:10 - DEF:6 - HP:0 (35.6%)
+ATK:10 - DEF:7 - HP:0 (37.8%)
+ATK:11 - DEF:4 - HP:0 (33.3%)
+ATK:12 - DEF:2 - HP:0 (31.1%)
+ATK:13 - DEF:0 - HP:0 (28.9%)"
+            />
+
+    </ScrollView>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -165,6 +189,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:padding="12sp">
 
         <TextView
@@ -174,6 +199,22 @@
             android:layout_gravity="left"
             android:textSize="18sp"
             android:textColor="#888"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Powerup and evolution calculation"
+                android:layout_margin="6sp"
+                android:layout_gravity="center"/>
+
+            <!-- Here should be additional data. I'll take some rest now.-->
+
+        </LinearLayout>
 
     </LinearLayout>
 

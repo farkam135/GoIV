@@ -41,8 +41,7 @@ public class AppUpdateLoader extends Thread {
                 if (EventBus.getDefault().hasSubscriberForEvent(AppUpdateEvent.class)) {
                     EventBus.getDefault().post(new AppUpdateEvent(AppUpdateEvent.OK, update));
                 }
-            }else
-            {
+            } else {
                 if (EventBus.getDefault().hasSubscriberForEvent(AppUpdateEvent.class)) {
                     EventBus.getDefault().post(new AppUpdateEvent(AppUpdateEvent.UPTODATE, update));
                 }

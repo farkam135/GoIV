@@ -32,10 +32,11 @@ public class IVCombination {
 
     /**
      * get attack + defence + stamina value
+     *
      * @return
      */
-    public int getTotal(){
-        return att+def+sta;
+    public int getTotal() {
+        return att + def + sta;
     }
 
     @Override
@@ -46,7 +47,7 @@ public class IVCombination {
         return result;
     }
 
-    public String toString(){
-        return "Att: " + this.att + " def: " + this.def + " sta: " + this.sta +" %: " + percentPerfect;
+    public String toString() {
+        return "Att: " + this.att + " def: " + this.def + " sta: " + this.sta + " %: " + percentPerfect;
     }
 }

@@ -8,7 +8,8 @@ import timber.log.Timber;
 
 public class PoGoApplication extends Application {
 
-    @Override public void onCreate() {
+    @Override
+    public void onCreate() {
         super.onCreate();
 
         CrashlyticsWrapper.init(getApplicationContext());

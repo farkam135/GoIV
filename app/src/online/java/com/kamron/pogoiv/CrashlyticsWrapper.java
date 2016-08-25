@@ -16,7 +16,7 @@ public class CrashlyticsWrapper {
     public static void init(Context context) {
 
         mContext = context;
-        if(BuildConfig.isInternetAvailable && GoIVSettings.getSettings(mContext).getSendCrashReports()) {
+        if (BuildConfig.isInternetAvailable && GoIVSettings.getSettings(mContext).getSendCrashReports()) {
             // Set up Crashlytics, disabled for debug builds
             Crashlytics crashlyticsKit = new Crashlytics.Builder()
                     .core(new CrashlyticsCore.Builder()
@@ -33,7 +33,7 @@ public class CrashlyticsWrapper {
         @Override
         protected void log(int priority, String tag, String message, Throwable t) {
 
-            if(BuildConfig.isInternetAvailable && GoIVSettings.getSettings(mContext).getSendCrashReports()) {
+            if (BuildConfig.isInternetAvailable && GoIVSettings.getSettings(mContext).getSendCrashReports()) {
                 if (t != null) {
                     Crashlytics.logException(t);
                 } else if (!TextUtils.isEmpty(message)) {

@@ -39,7 +39,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.LinkMovementMethod;
 import android.util.DisplayMetrics;
-import android.util.Log;
+import android.util.LruCache;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -67,6 +67,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
+import java.util.Arrays;
 import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -89,12 +90,15 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String ACTION_RESET_SCREENSHOT = "reset-screenshot";
     private static final String ACTION_SCREENSHOT = "screenshot";
+    private static final String ACTION_PROCESS_BITMAP = "process-bitmap";
+
+    private static final String KEY_BITMAP = "bitmap";
 
     private MediaProjection mProjection;
     private ImageReader mImageReader;
     private ContentObserver screenShotObserver;
     private FileObserver screenShotScanner;
-    private boolean screenShotWriting= false;
+    private boolean screenShotWriting = false;
 
     private DisplayMetrics displayMetrics;
     private DisplayMetrics rawDisplayMetrics;
@@ -103,15 +107,11 @@ public class MainActivity extends AppCompatActivity {
     private boolean batterySaver;
     private String screenshotDir;
     private Uri screenshotUri;
+    private LruCache<String, String> ocrCache = new LruCache<>(200);
 
     private boolean readyForNewScreenshot = true;
 
-    private String pokemonName;
-    private String candyName;
     private int candyOrder = 0;
-    private double estimatedPokemonLevel;
-    private int pokemonCP;
-    private int pokemonHP;
     private boolean pokeFlyRunning = false;
     private int trainerLevel;
 
@@ -134,16 +134,22 @@ public class MainActivity extends AppCompatActivity {
         return new Intent(ACTION_RESET_SCREENSHOT);
     }
 
+    public static Intent createProcessBitmapIntent(Bitmap bitmap) {
+        Intent intent = new Intent(ACTION_PROCESS_BITMAP);
+        intent.putExtra(KEY_BITMAP, bitmap);
+        return intent;
+    }
+
     @TargetApi(23)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Timber.tag(TAG);
 
-        mContext=MainActivity.this;
+        mContext = MainActivity.this;
 
         settings = GoIVSettings.getSettings(MainActivity.this);
-        if(BuildConfig.isInternetAvailable && settings.getAutoUpdateEnabled())
+        if (BuildConfig.isInternetAvailable && settings.getAutoUpdateEnabled())
             new AppUpdateLoader().start();
 
         setContentView(R.layout.activity_main);
@@ -215,10 +221,9 @@ public class MainActivity extends AppCompatActivity {
                         setupArcPoints();
 
                         if (batterySaver) {
-                            if(!screenshotDir.isEmpty()) {
+                            if (!screenshotDir.isEmpty()) {
                                 startScreenshotService();
-                            }
-                            else{
+                            } else {
                                 getScreenshotDir();
                             }
                         } else {
@@ -227,7 +232,7 @@ public class MainActivity extends AppCompatActivity {
                     } else {
                         Toast.makeText(MainActivity.this, getString(R.string.main_invalide_trainerlvl), Toast.LENGTH_SHORT).show();
                     }
-                } else if(((Button) v).getText().toString().equals(getString(R.string.main_stop))) {
+                } else if (((Button) v).getText().toString().equals(getString(R.string.main_stop))) {
                     stopService(new Intent(MainActivity.this, Pokefly.class));
                     if (mProjection != null) {
                         mProjection.stop();
@@ -258,13 +263,13 @@ public class MainActivity extends AppCompatActivity {
         areaY2 = (int) Math.round(displayMetrics.heightPixels / 1.11062907);
 
         //Check if language makes the pokemon name in candy second e.g. France is Bonbon pokeName
-        if(Locale.getDefault().getLanguage().equals("fr")){
+        if (Locale.getDefault().getLanguage().equals("fr")) {
             candyOrder = 1;
         }
 
-        LocalBroadcastManager.getInstance(this).registerReceiver(resetScreenshot, new IntentFilter("reset-screenshot"));
-        LocalBroadcastManager.getInstance(this).registerReceiver(takeScreenshot, new IntentFilter("screenshot"));
-        LocalBroadcastManager.getInstance(this).registerReceiver(processBitmap, new IntentFilter("process-bitmap"));
+        LocalBroadcastManager.getInstance(this).registerReceiver(resetScreenshot, new IntentFilter(ACTION_RESET_SCREENSHOT));
+        LocalBroadcastManager.getInstance(this).registerReceiver(takeScreenshot, new IntentFilter(ACTION_SCREENSHOT));
+        LocalBroadcastManager.getInstance(this).registerReceiver(processBitmap, new IntentFilter(ACTION_PROCESS_BITMAP));
     }
 
     @Override
@@ -286,30 +291,30 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void getScreenshotDir(){
+    private void getScreenshotDir() {
         new AlertDialog.Builder(this)
                 .setTitle(R.string.battery_saver_setup)
                 .setMessage(R.string.battery_saver_instructions)
                 .setPositiveButton(R.string.setup, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        ((Button)findViewById(R.id.start)).setText(R.string.take_screenshot);
+                        ((Button) findViewById(R.id.start)).setText(R.string.take_screenshot);
                         screenShotObserver = new ContentObserver(new Handler()) {
                             @Override
                             public void onChange(boolean selfChange, Uri uri) {
-                                if(readyForNewScreenshot){
+                                if (readyForNewScreenshot) {
                                     final Uri fUri = uri;
-                                    if(fUri.toString().contains("images")) {
+                                    if (fUri.toString().contains("images")) {
                                         final String pathChange = getRealPathFromURI(MainActivity.this, fUri);
                                         if (pathChange.contains("Screenshot")) {
-                                            screenshotDir = pathChange.substring(0,pathChange.lastIndexOf(File.separator));
+                                            screenshotDir = pathChange.substring(0, pathChange.lastIndexOf(File.separator));
                                             screenshotUri = fUri;
                                             getContentResolver().unregisterContentObserver(screenShotObserver);
                                             sharedPref.edit().putString("screenshotDir", screenshotDir).apply();
                                             sharedPref.edit().putString("screenshotUri", fUri.toString()).apply();
-                                            ((Button)findViewById(R.id.start)).setText(R.string.main_start);
+                                            ((Button) findViewById(R.id.start)).setText(R.string.main_start);
                                             new AlertDialog.Builder(MainActivity.this)
                                                     .setTitle(R.string.battery_saver_setup)
-                                                    .setMessage(String.format(getString(R.string.screenshot_dir_found),screenshotDir))
+                                                    .setMessage(String.format(getString(R.string.screenshot_dir_found), screenshotDir))
                                                     .setPositiveButton(R.string.done, new DialogInterface.OnClickListener() {
                                                         public void onClick(DialogInterface dialog, int which) {
                                                             screenShotObserver = null;
@@ -323,7 +328,7 @@ public class MainActivity extends AppCompatActivity {
                                 super.onChange(selfChange, uri);
                             }
                         };
-                        getContentResolver().registerContentObserver(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, true,screenShotObserver);
+                        getContentResolver().registerContentObserver(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, true, screenShotObserver);
                     }
                 })
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -367,13 +372,13 @@ public class MainActivity extends AppCompatActivity {
      * setupArcPoints
      * Sets up the x,y coordinates of the arc using the trainer level, stores it in Data.arcX/arcY
      */
-    private void setupArcPoints(){
-        final int indices = Math.min((int)((trainerLevel + 1.5) * 2) - 1,79);
+    private void setupArcPoints() {
+        final int indices = Math.min((int) ((trainerLevel + 1.5) * 2) - 1, 79);
         Data.arcX = new int[indices];
         Data.arcY = new int[indices];
 
         double maxAngle = 178.4;
-        double levelCoeff = maxAngle * Data.CpM[trainerLevel * 2 - 2] / ( Data.CpM[(int) ( (trainerLevel + 1.5)* 2 - 2 )] - Data.CpM[0] );
+        double levelCoeff = maxAngle * Data.CpM[trainerLevel * 2 - 2] / (Data.CpM[(int) ((trainerLevel + 1.5) * 2 - 2)] - Data.CpM[0]);
 
         for (double pokeLevel = 1.0; pokeLevel <= trainerLevel + 1.5; pokeLevel += 0.5) {
             double angleInDegrees = (Data.CpM[(int) (pokeLevel * 2 - 2)] - Data.CpM[0]) * levelCoeff / Data.CpM[trainerLevel * 2 - 2];
@@ -397,6 +402,9 @@ public class MainActivity extends AppCompatActivity {
         startService(intent);
 
         pokeFlyRunning = true;
+
+        if (settings.getLaunchPokemonGo())
+            openPokemonGoApp();
     }
 
     private boolean isNumeric(String str) {
@@ -461,10 +469,10 @@ public class MainActivity extends AppCompatActivity {
                 mProjection.stop();
             }
         }
-        if(screenShotObserver != null){
+        if (screenShotObserver != null) {
             getContentResolver().unregisterContentObserver(screenShotObserver);
         }
-        if(screenShotScanner != null){
+        if (screenShotScanner != null) {
             screenShotScanner.stopWatching();
             screenShotScanner = null;
         }
@@ -497,8 +505,6 @@ public class MainActivity extends AppCompatActivity {
                 mProjection.createVirtualDisplay("screen-mirror", rawDisplayMetrics.widthPixels, rawDisplayMetrics.heightPixels, rawDisplayMetrics.densityDpi, DisplayManager.VIRTUAL_DISPLAY_FLAG_PUBLIC, mImageReader.getSurface(), null, null);
 
                 startPokeyFly();
-                if(settings.getLaunchPokemonGo())
-                    openPokemonGoApp();
                 //showNotification();
                 final Handler handler = new Handler();
                 final Timer timer = new Timer();
@@ -571,7 +577,7 @@ public class MainActivity extends AppCompatActivity {
             try {
                 image.close();
                 Bitmap bmp = getBitmap(buffer, pixelStride, rowPadding);
-                scanPokemon(bmp,"");
+                scanPokemon(bmp, "");
                 bmp.recycle();
                 //SaveImage(bmp,"Search");
             } catch (Exception exception) {
@@ -584,12 +590,15 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
     /**
      * scans the arc and tries to determine the pokemon level, returns 1 if nothing found
+     *
      * @param pokemonImage The image of the entire screen
      * @return the estimated pokemon level, or 1 if nothing found
      */
-    private double getPokemonLevel(Bitmap pokemonImage){
+    private double getPokemonLevelFromImg(Bitmap pokemonImage, double trainerLevel) {
+        double estimatedPokemonLevel = trainerLevel + 1.5;
         for (double estPokemonLevel = estimatedPokemonLevel; estPokemonLevel >= 1.0; estPokemonLevel -= 0.5) {
             //double angleInDegrees = (Data.CpM[(int) (estPokemonLevel * 2 - 2)] - 0.094) * 202.037116 / Data.CpM[trainerLevel * 2 - 2];
             //if (angleInDegrees > 1.0 && trainerLevel < 30) {
@@ -612,100 +621,160 @@ public class MainActivity extends AppCompatActivity {
         }
         return 1;
     }
+
     /**
-     * scanPokemon
-     * Performs OCR on an image of a pokemon and sends the pulled info to PokeFly to display.
-     *
-     * @param pokemonImage The image of the pokemon
-     * @param filePath The screenshot path if it is a file, used to delete once checked
+     * Get the hashcode for a bitmap
      */
-    private void scanPokemon(Bitmap pokemonImage, String filePath) {
-        estimatedPokemonLevel = trainerLevel + 1.5;
+    String hashBitmap(Bitmap bmp) {
+        int[] allpixels = new int[bmp.getHeight() * bmp.getWidth()];
+        bmp.getPixels(allpixels, 0, bmp.getWidth(), 0, 0, bmp.getWidth(), bmp.getHeight());
+        return Integer.toHexString(Arrays.hashCode(allpixels));
+    }
 
-        estimatedPokemonLevel= getPokemonLevel(pokemonImage);
-
+    /**
+     * get the pokemon name as analysed from a pokemon image
+     *
+     * @param pokemonImage the image of the whole screen
+     * @return A string resulting from the scan
+     */
+    private String getPokemonNameFromImg(Bitmap pokemonImage) {
         Bitmap name = Bitmap.createBitmap(pokemonImage, displayMetrics.widthPixels / 4, (int) Math.round(displayMetrics.heightPixels / 2.22608696), (int) Math.round(displayMetrics.widthPixels / 2.057), (int) Math.round(displayMetrics.heightPixels / 18.2857143));
-        name = replaceColors(name, 68, 105, 108, Color.WHITE, 200);
-        tesseract.setImage(name);
-        //System.out.println(tesseract.getUTF8Text());
-        pokemonName = tesseract.getUTF8Text().replace(" ", "").replace("1", "l").replace("0", "o").replace("Sparky", getString(R.string.pokemon133)).replace("Rainer", getString(R.string.pokemon133)).replace("Pyro", getString(R.string.pokemon133));
+        String hash = "name" + hashBitmap(name);
+        String pokemonName = ocrCache.get(hash);
 
-        if (pokemonName.toLowerCase().contains("nidora")){
-            boolean isFemale = isNidoranFemale(pokemonImage);
-            if(isFemale){
-                pokemonName = getResources().getString(R.string.pokemon029);
-            }else{
-                pokemonName = getResources().getString(R.string.pokemon032);
+        if (pokemonName == null) {
+            name = replaceColors(name, 68, 105, 108, Color.WHITE, 200);
+            tesseract.setImage(name);
+            //System.out.println(tesseract.getUTF8Text());
+            pokemonName = tesseract.getUTF8Text().replace(" ", "").replace("1", "l").replace("0", "o").replace("Sparky", getString(R.string.pokemon133)).replace("Rainer", getString(R.string.pokemon133)).replace("Pyro", getString(R.string.pokemon133));
+            if (pokemonName.toLowerCase().contains("nidora")) {
+                boolean isFemale = isNidoranFemale(pokemonImage);
+                if (isFemale) {
+                    pokemonName = getResources().getString(R.string.pokemon029);
+                } else {
+                    pokemonName = getResources().getString(R.string.pokemon032);
+                }
             }
+            name.recycle();
+            ocrCache.put(hash, pokemonName);
         }
-        //SaveImage(name, "name");
-        // TODO : Check rectangle and color
-        Bitmap candy = Bitmap.createBitmap(pokemonImage, displayMetrics.widthPixels / 2, (int) Math.round(displayMetrics.heightPixels / 1.3724285), (int) Math.round(displayMetrics.widthPixels / 2.057), (int) Math.round(displayMetrics.heightPixels / 38.4));
-        candy = replaceColors(candy, 68, 105, 108, Color.WHITE, 200);
-        tesseract.setImage(candy);
-        //System.out.println(tesseract.getUTF8Text());
-        //SaveImage(candy, "candy");
-        try {
-            candyName = tesseract.getUTF8Text().trim().replace("-", " ").split(" ")[candyOrder].replace(" ", "").replace("1", "l").replace("0", "o");
-            candyName = new StringBuilder().append(candyName.substring(0, 1)).append(candyName.substring(1).toLowerCase()).toString();
-        }catch(StringIndexOutOfBoundsException e){
-            candyName = pokemonName; //Default for not finding candy name
-        }
-        Bitmap hp = Bitmap.createBitmap(pokemonImage, (int) Math.round(displayMetrics.widthPixels / 2.8), (int) Math.round(displayMetrics.heightPixels / 1.8962963), (int) Math.round(displayMetrics.widthPixels / 3.5), (int) Math.round(displayMetrics.heightPixels / 34.13333333));
-        hp = replaceColors(hp, 55, 66, 61, Color.WHITE, 200);
-        tesseract.setImage(hp);
-        //System.out.println(tesseract.getUTF8Text());
-        String pokemonHPStr = tesseract.getUTF8Text();
+        return pokemonName;
+    }
 
-        //Check if valid pokemon TODO find a better method of determining whether or not this is a pokemon image
-        if(pokemonHPStr.contains("/")) {
+    /**
+     * gets the candy name from a pokenon image
+     *
+     * @param pokemonImage the image of the whole screen
+     * @return the candy name, or "" if nothing was found
+     */
+    private String getCandyNameFromImg(Bitmap pokemonImage) {
+        Bitmap candy = Bitmap.createBitmap(pokemonImage, displayMetrics.widthPixels / 2, (int) Math.round(displayMetrics.heightPixels / 1.3724285), (int) Math.round(displayMetrics.widthPixels / 2.057), (int) Math.round(displayMetrics.heightPixels / 38.4));
+        String hash = "candy" + hashBitmap(candy);
+        String candyName = ocrCache.get(hash);
+
+        if (candyName == null) {
+            candy = replaceColors(candy, 68, 105, 108, Color.WHITE, 200);
+            tesseract.setImage(candy);
+            //System.out.println(tesseract.getUTF8Text());
+            //SaveImage(candy, "candy");
+            try {
+                candyName = tesseract.getUTF8Text().trim().replace("-", " ").split(" ")[candyOrder].replace(" ", "").replace("1", "l").replace("0", "o");
+                candyName = new StringBuilder().append(candyName.substring(0, 1)).append(candyName.substring(1).toLowerCase()).toString();
+            } catch (StringIndexOutOfBoundsException e) {
+                candyName = "";
+            }
+            candy.recycle();
+            ocrCache.put(hash, candyName);
+        }
+        return candyName;
+    }
+
+    /**
+     * get the pokemon hp from a picture
+     *
+     * @param pokemonImage the image of the whole screen
+     * @return an integer of the interpreted pokemon name, 10 if scan failed
+     */
+    private int getPokemonHPFromImg(Bitmap pokemonImage) {
+        int pokemonHP = 10;
+        Bitmap hp = Bitmap.createBitmap(pokemonImage, (int) Math.round(displayMetrics.widthPixels / 2.8), (int) Math.round(displayMetrics.heightPixels / 1.8962963), (int) Math.round(displayMetrics.widthPixels / 3.5), (int) Math.round(displayMetrics.heightPixels / 34.13333333));
+        String hash = "hp" + hashBitmap(hp);
+        String pokemonHPStr = ocrCache.get(hash);
+
+        if (pokemonHPStr == null) {
+            hp = replaceColors(hp, 55, 66, 61, Color.WHITE, 200);
+            tesseract.setImage(hp);
+            pokemonHPStr = tesseract.getUTF8Text();
+            hp.recycle();
+            ocrCache.put(hash, pokemonHPStr);
+        }
+
+        if (pokemonHPStr.contains("/")) {
             try {
                 pokemonHP = Integer.parseInt(pokemonHPStr.split("/")[1].replace("Z", "2").replace("O", "0").replace("l", "1").replaceAll("[^0-9]", ""));
             } catch (java.lang.NumberFormatException e) {
                 pokemonHP = 10;
             }
-
-            //SaveImage(hp, "hp");
-            Bitmap cp = Bitmap.createBitmap(pokemonImage, (int) Math.round(displayMetrics.widthPixels / 3.0), (int) Math.round(displayMetrics.heightPixels / 15.5151515), (int) Math.round(displayMetrics.widthPixels / 3.84), (int) Math.round(displayMetrics.heightPixels / 21.333333333));
-            cp = replaceColors(cp, 255, 255, 255, Color.BLACK, 30);
-            tesseract.setImage(cp);
-            //String cpText = tesseract.getUTF8Text().replace("O", "0").replace("l", "1").replace("S", "3").replaceAll("[^0-9]", "");
-            String cpText = tesseract.getUTF8Text().replace("O", "0").replace("l", "1");
-            if (cpText.length() >=2){ //gastly can block the "cp" text, so its not visible...
-                cpText = cpText.substring(2);
-            }
-            //System.out.println(cpText);
-            try {
-                pokemonCP = Integer.parseInt(cpText);
-            } catch (java.lang.NumberFormatException e) {
-                pokemonCP = 10;
-            }
-
-            if (pokemonCP > 4500) {
-                cpText = cpText.substring(1);
-                pokemonCP = Integer.parseInt(cpText);
-            }
-            //SaveImage(cp, "cp");
-            //System.out.println("Name: " + pokemonName);
-            //System.out.println("HP: " + pokemonHP);
-            //System.out.println("CP: " + pokemonCP);
-            name.recycle();
-            candy.recycle();
-            cp.recycle();
-            hp.recycle();
-
-            Intent info = Pokefly.createInfoIntent(pokemonName, candyName, pokemonHP, pokemonCP, estimatedPokemonLevel, filePath);
-            LocalBroadcastManager.getInstance(MainActivity.this).sendBroadcast(info);
         }
-        else{
-            readyForNewScreenshot = true;
+        return pokemonHP;
+    }
+
+    /**
+     * get the cp of a pokemon image
+     *
+     * @param pokemonImage the image of the whole pokemon screen
+     * @return a CP of the pokemon, 10 if scan failed
+     */
+    private int getPokemonCPFromImg(Bitmap pokemonImage) {
+        int pokemonCP = 0;
+        Bitmap cp = Bitmap.createBitmap(pokemonImage, (int) Math.round(displayMetrics.widthPixels / 3.0), (int) Math.round(displayMetrics.heightPixels / 15.5151515), (int) Math.round(displayMetrics.widthPixels / 3.84), (int) Math.round(displayMetrics.heightPixels / 21.333333333));
+        cp = replaceColors(cp, 255, 255, 255, Color.BLACK, 30);
+        tesseract.setImage(cp);
+        String cpText = tesseract.getUTF8Text().replace("O", "0").replace("l", "1");
+        if (cpText.length() >= 2) { //gastly can block the "cp" text, so its not visible...
+            cpText = cpText.substring(2);
+        }
+        try {
+            pokemonCP = Integer.parseInt(cpText);
+        } catch (java.lang.NumberFormatException e) {
+            pokemonCP = 10;
+        }
+        cp.recycle();
+        return pokemonCP;
+    }
+
+    /**
+     * scanPokemon
+     * Performs OCR on an image of a pokemon and sends the pulled info to PokeFly to display.
+     *
+     * @param pokemonImage The image of the pokemon
+     * @param filePath     The screenshot path if it is a file, used to delete once checked
+     */
+    private void scanPokemon(Bitmap pokemonImage, String filePath) {
+        //WARNING: this method *must* always send an intent at the end, no matter what, to avoid the application hanging.
+        Intent info = Pokefly.createNoInfoIntent();
+
+        try {
+            double estimatedPokemonLevel = getPokemonLevelFromImg(pokemonImage, trainerLevel);
+            String pokemonName = getPokemonNameFromImg(pokemonImage);
+            String candyName = getCandyNameFromImg(pokemonImage);
+            int pokemonHP = getPokemonHPFromImg(pokemonImage);
+            int pokemonCP = getPokemonCPFromImg(pokemonImage);
+            if (candyName.equals("") && pokemonHP == 10 && pokemonCP == 10) { //the default values for a failed scan, if all three fail, then probably scrolled down.
+                Toast.makeText(MainActivity.this, getString(R.string.scan_pokemon_failed), Toast.LENGTH_SHORT).show();
+            }
+            Pokefly.populateInfoIntent(info, pokemonName, candyName, pokemonHP, pokemonCP, estimatedPokemonLevel, filePath);
+        } finally {
+
+            LocalBroadcastManager.getInstance(MainActivity.this).sendBroadcast(info);
         }
     }
 
     /**
      * Dont missgender the poor nidorans.
-     *
+     * <p/>
      * Takes a subportion of the screen, and averages the color to check the average values and compares to known male / female average
+     *
      * @param pokemonImage The screenshot of the entire application
      * @return True if the nidoran is female
      */
@@ -713,26 +782,26 @@ public class MainActivity extends AppCompatActivity {
         Bitmap pokemon = Bitmap.createBitmap(pokemonImage, displayMetrics.widthPixels / 3, (int) Math.round(displayMetrics.heightPixels / 4), (int) Math.round(displayMetrics.widthPixels / 3), (int) Math.round(displayMetrics.heightPixels / 5));
         int[] pixelArray = new int[pokemon.getHeight() * pokemon.getWidth()];
         pokemon.getPixels(pixelArray, 0, pokemon.getWidth(), 0, 0, pokemon.getWidth(), pokemon.getHeight());
-        int redSum =0;
-        int greenSum =0;
-        int blueSum=0;
+        int redSum = 0;
+        int greenSum = 0;
+        int blueSum = 0;
 
         // a loop that sums the color values of all the pixels in the image of the nidoran
-        for (int i=0; i<pixelArray.length; i++){
+        for (int i = 0; i < pixelArray.length; i++) {
             redSum += Color.red(pixelArray[i]);
             blueSum += Color.green(pixelArray[i]);
             greenSum += Color.blue(pixelArray[i]);
         }
-        int redAverage = redSum/pixelArray.length;
-        int greenAverage = greenSum/pixelArray.length;
-        int blueAverage = blueSum/pixelArray.length;
+        int redAverage = redSum / pixelArray.length;
+        int greenAverage = greenSum / pixelArray.length;
+        int blueAverage = blueSum / pixelArray.length;
         //Average male nidoran has RGB value ~~ 136,165,117
         //Average female nidoran has RGB value~ 135,190,140
         int femaleGreenLimit = 175; //if average green is over 175, its probably female
         int femaleBlueLimit = 130; //if average blue is over 130, its probably female
         boolean isFemale = true;
-        if (greenAverage < femaleGreenLimit && blueAverage <femaleBlueLimit){
-            isFemale=false; //if neither average is above the female limit, then it's male.
+        if (greenAverage < femaleGreenLimit && blueAverage < femaleBlueLimit) {
+            isFemale = false; //if neither average is above the female limit, then it's male.
         }
         return isFemale;
     }
@@ -757,7 +826,7 @@ public class MainActivity extends AppCompatActivity {
                 image.close();
                 Bitmap bmp = getBitmap(buffer, pixelStride, rowPadding);
 
-                if (bmp.getHeight() > bmp.getWidth()){
+                if (bmp.getHeight() > bmp.getWidth()) {
                     boolean shouldShow = bmp.getPixel(areaX1, areaY1) == Color.rgb(250, 250, 250) && bmp.getPixel(areaX2, areaY2) == Color.rgb(28, 135, 150);
                     Intent showIVButtonIntent = Pokefly.createIVButtonIntent(shouldShow);
                     LocalBroadcastManager.getInstance(MainActivity.this).sendBroadcast(showIVButtonIntent);
@@ -822,13 +891,13 @@ public class MainActivity extends AppCompatActivity {
         screenShotScanner = new FileObserver(screenshotDir, FileObserver.CLOSE_NOWRITE | FileObserver.CLOSE_WRITE) {
             @Override
             public void onEvent(int event, String file) {
-                    if (readyForNewScreenshot && file != null) {
-                        readyForNewScreenshot = false;
-                        File pokemonScreenshot = new File(screenshotDir + File.separator + file);
-                        Bitmap bmp = BitmapFactory.decodeFile(pokemonScreenshot.getAbsolutePath());
-                        scanPokemon(bmp, pokemonScreenshot.getAbsolutePath());
-                        bmp.recycle();
-                    }
+                if (readyForNewScreenshot && file != null) {
+                    readyForNewScreenshot = false;
+                    File pokemonScreenshot = new File(screenshotDir + File.separator + file);
+                    Bitmap bmp = BitmapFactory.decodeFile(pokemonScreenshot.getAbsolutePath());
+                    scanPokemon(bmp, pokemonScreenshot.getAbsolutePath());
+                    bmp.recycle();
+                }
             }
         };
         screenShotScanner.startWatching();
@@ -839,8 +908,8 @@ public class MainActivity extends AppCompatActivity {
     private String getRealPathFromURI(Context context, Uri contentUri) {
         Cursor cursor = null;
         try {
-            String[] proj = { MediaStore.Images.Media.DATA };
-            cursor = context.getContentResolver().query(contentUri,  proj, null, null, MediaStore.Images.ImageColumns.DATE_TAKEN + " DESC");
+            String[] proj = {MediaStore.Images.Media.DATA};
+            cursor = context.getContentResolver().query(contentUri, proj, null, null, MediaStore.Images.ImageColumns.DATE_TAKEN + " DESC");
             int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
             cursor.moveToFirst();
             return cursor.getString(column_index);
@@ -874,7 +943,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (readyForNewScreenshot) {
-                Bitmap bitmap = (Bitmap) intent.getParcelableExtra("bitmap");
+                Bitmap bitmap = (Bitmap) intent.getParcelableExtra(KEY_BITMAP);
                 scanPokemon(bitmap, "");
                 bitmap.recycle();
                 readyForNewScreenshot = false;
@@ -896,26 +965,28 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * replaceColors
-     * Replaces colors in a bitmap that are not the same as a specific color.
+     * Replaces colors in a bitmap that are not farther away from a specific color than a given
+     * threshold.
      *
      * @param myBitmap     The bitmap to check the colors for.
      * @param keepCr       The red color to keep
      * @param keepCg       The green color to keep
      * @param keepCb       The blue color to keep
      * @param replaceColor The color to replace mismatched colors with
-     * @param similarity   The similarity buffer
+     * @param distance     The distance threshold.
      * @return Bitmap with replaced colors
      */
-    private Bitmap replaceColors(Bitmap myBitmap, int keepCr, int keepCg, int keepCb, int replaceColor, int similarity) {
+    private Bitmap replaceColors(Bitmap myBitmap, int keepCr, int keepCg, int keepCb, int replaceColor, int distance) {
         int[] allpixels = new int[myBitmap.getHeight() * myBitmap.getWidth()];
         myBitmap.getPixels(allpixels, 0, myBitmap.getWidth(), 0, 0, myBitmap.getWidth(), myBitmap.getHeight());
+        int distanceSq = distance * distance;
 
         for (int i = 0; i < allpixels.length; i++) {
-            int r = Color.red(allpixels[i]);
-            int g = Color.green(allpixels[i]);
-            int b = Color.blue(allpixels[i]);
-            double d = Math.sqrt(Math.pow(keepCr - r, 2) + Math.pow(keepCg - g, 2) + Math.pow(keepCb - b, 2));
-            if (d > similarity) {
+            int rDiff = keepCr - Color.red(allpixels[i]);
+            int gDiff = keepCg - Color.green(allpixels[i]);
+            int bDiff = keepCb - Color.blue(allpixels[i]);
+            int dSq = rDiff * rDiff + gDiff * gDiff + bDiff * bDiff;
+            if (dSq > distanceSq) {
                 allpixels[i] = replaceColor;
             }
         }

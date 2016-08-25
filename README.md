@@ -18,23 +18,38 @@ GoIV is an android app made for Pokemon GO that allows users to seamlessly calcu
 ![Alt text](https://i.imgur.com/aNHUEVI.jpg "Seamlessly Overlays an IV Button")
 
 #Download
-You can download GoIV apk here: https://github.com/farkam135/GoIV/releases    
-Latest Version: 2.1.0  
-Checksum:  
-MD5 C07C44CCDF75AB44B73030F6CC633E11  
-SHA1 40AE2706969D373FF4990E0094139FB64E965431  
-SHA-256 FE48B8EE6DE7CDFA001A33462AAF71436799D59290A17F6CC7B428296C51BF8B   
+**Download GoIV (Online) APK: https://github.com/farkam135/GoIV/releases**  
+Latest Version: 2.2.0
 
-Changelog:
-[2.1.0]  
-* Reverted languages to only supported
-* Added Crashlytics to check for crashes (Internet permissions added)
-* Improved battery saver mode
-* Performance improvements
-* Added CP calculations
-* Fixed needed candy/stardust formula
-* No longer copies on scan
+**Checksums:**  
+MD5 - 57F2C9628389E787BA2F1B095C9261EC  
+SHA1 - 41CA160E5F7F59D84248A6916AE986F8C2E8C1BD  
+SHA-256 - 2B4C3102ED9572E8194CDFE2D7B6E4AF28EE93B54CFE4E4921736B7645515D3D  
 
+*Download GoIV (Offline) APK: https://www.reddit.com/r/GoIV/comments/4z5qxz/goiv_220_released/*
+
+#Changelog
+
+###New features
+
+* In-app update checker! The application will check the github repo for any newer version, and ask if you want to download an update, if a new update comes. (This feature is only for the internet version of the app)
+* Settings menu! Toggle if pokemon go launches automatically on start, if you want the app to skip the input field and show results directly, delete screenshots in battery saver mode & if the app should copy info to clipboard.
+* Now on tap support - If you're running in battery saver mode, you can use now on tap instead of taking screenshots. Press the share button, and share with GoIV.
+
+###Improvements
+
+* Improved CP scanning accuracy (several fixes & tweaks, for example it no longer occasionally reads the p in cp as a 3)
+* Pokemon will be identified by the candy name if the pokemon has been renamed. (Seemingly less random recognition, the app will still use Names for recognition, so run scan on default name pokemon for best result)
+* You can now go back from the result screen to fix any input (works really well with the instant-scan setting)
+* Speed improvements (If you think "speed improvements" is obscure, look at the implementation improvements on Github!)
+
+###Bug fixes
+
+* GoIV no longer crashes if the CP value is covered when the scan is initiated. (Gastly caused so many crashes)
+* No longer crashes if a user exits portrait mode
+* GoIV can now tell the difference between male and female nidoran. (scans the pokemon and checks if it's purple or white-ish)
+* Water pokemon no longer bug out the app when it tries to read the CP - No more 114833 CP vaporeons.
+* Arc detection support for 480p screens (the start button is still covered on some devices though, fix incoming soon)
 
 #FAQ
 

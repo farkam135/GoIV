@@ -41,7 +41,7 @@ public class PokemonSpinnerAdapter extends ArrayAdapter<Pokemon> {
 
         TextView row = (TextView) inflater.inflate(mTextViewResourceId, parent, false);
         Pokemon pokemon = pokemons.get(position);
-        String text = String.format("#%d %s", pokemon.number+1,  pokemon.name);
+        String text = String.format("#%d %s", pokemon.number + 1, pokemon.name);
         row.setText(text);
 
         return row;

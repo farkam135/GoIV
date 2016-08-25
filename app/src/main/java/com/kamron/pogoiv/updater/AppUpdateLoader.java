@@ -26,7 +26,7 @@ public class AppUpdateLoader extends Thread {
             Response response = httpClient.newCall(request).execute();
             JSONObject releaseInfo = new JSONObject(response.body().string());
             JSONObject releaseAssets = releaseInfo.getJSONArray("assets").getJSONObject(0);
-            if(releaseAssets.getString("name").contains("Offline"))
+            if (releaseAssets.getString("name").contains("Offline"))
                 releaseAssets = releaseInfo.getJSONArray("assets").getJSONObject(1);
 
             AppUpdate update = new AppUpdate(releaseAssets.getString("browser_download_url"), releaseInfo.getString("tag_name"), releaseInfo.getString("body"));

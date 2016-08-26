@@ -232,7 +232,7 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/resultExpandedTextSize"
             android:textColor="@color/colorPrimary"
-            android:text="Compare"
+            android:text="Refine"
             android:layout_gravity="right"/>
 
     </LinearLayout>

@@ -586,7 +586,7 @@ public class Pokefly extends Service {
     }
 
     private int getTrainerLevelShift() {
-        return 2 * trainerLevel + 3;
+        return (int) (2 * estimatedPokemonLevel) + 3;
     }
 
     private float seekbarProgressToLevel(int progress) {

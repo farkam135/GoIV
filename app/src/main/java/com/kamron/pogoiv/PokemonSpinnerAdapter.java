@@ -29,6 +29,19 @@ public class PokemonSpinnerAdapter extends ArrayAdapter<Pokemon> {
         return getCustomView(position, convertView, parent);
     }
 
+    /**
+     * updates the spinner with new information
+     *
+     * @param list the new list of pokemon to show in the spinner
+     */
+    public void updatePokemonList(ArrayList<Pokemon> list) {
+        pokemons = list;
+        clear();
+        addAll(pokemons);
+        notifyDataSetChanged();
+
+    }
+
     /*
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {

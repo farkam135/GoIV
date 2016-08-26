@@ -1,6 +1,4 @@
 <resources>
-    <string name="pokemon029">Nidoran♀</string>
-    <string name="pokemon032">Nidoran♂</string>
 
     <string-array name="Pokemon">
         <item>Bulbasaur</item>
@@ -170,17 +168,6 @@
     <string name="main_invalide_trainerlvl">Invalid Trainer Level!</string>
     <string name="notification_title">GoIV Running - Level %1$s</string>
     <string name="notification_text">Tap to open</string>
-    <string name="ivtext_title">Your lvl %1$s, CP %2$s, HP %3$s %4$s can be:</string>
-    <string name="ivtext_possibilities">%1$s more possibilities...</string>
-    <string name="ivtext_no_possibilities">No possibilities, please check your stats again!</string>
-    <string name="ivtext_iv">Min: %1$s%% Average: %2$s%% Max: %3$s%%\n</string>
-    <string name="ivtext_evolve">Can be evolved into %1$s:\n</string>
-    <string name="ivtext_evolve_further">Can be further evolved into %1$s:</string>
-    <string name="ivtext_many_possibilities">There are too many possibilities for this Pokémon. Try powering it up!</string>
-    <string name="ivtext_max_lvl_cost">Cost to reach lvl %1$s:</string>
-    <string name="ivtext_max_lvl_cost2">Candy: %1$s Stardust: %2$s</string>
-    <string name="main_battery_saver">Battery Saver (Screenshot to Scan)</string>
-    <string name="ivtext_cp_lvl">CP at lvl %1$s: %2$s - %3$s</string>
     <string name="ivtext_stats">Atk: %1$02d Def: %2$02d Sta: %3$02d — %4$3d%%</string>
     <string name="close">Close</string>
     <string name="main_permission">Grant Permissions</string>
@@ -193,7 +180,6 @@
     <string name="screenshot_dir_found">Screenshot Directory Set:\n%1$s</string>
     <string name="done">Done</string>
     <string name="back">Back</string>
-    <string name="accept_screen_capture">Accept Screen Capture</string>
     <string name="settings_page_title">Settings</string>
     <string name="launch_pokemon_go_setting_title">Launch Pokemon Go</string>
     <string name="launch_pokemon_go_setting_summary">Switch to Pokemon Go when the start button is clicked</string>
@@ -212,4 +198,20 @@
     <string name="check_for_update_setting_title">Check for update</string>
     <string name="check_for_update_setting_summary">See if an update is available</string>
     <string name="scan_pokemon_failed">Scanning failed, please scroll up and try again!</string>
+    <string name="see_all">See All</string>
+    <string name="advanced_information">Advanced information</string>
+    <string name="powerup_calc_instructions">Powerup and evolution calculation - \n Drag the level slider to view different predictions</string>
+    <string name="candy_cost">Candy Cost</string>
+    <string name="stardust_cost">Stardust Cost</string>
+    <string name="evolution">Evolution</string>
+    <string name="level">Level</string>
+    <string name="refine">Refine</string>
+    <string name="refine_no_progress">Refinement didn\'t improve results</string>
+    <string name="last_scan">Last scan: %1$s</string>
+    <string name="possible_iv_combinations">"%1$d Possible IV combinations"</string>
+    <string name="refining_instructions">Increase IV calculation precision by leveling up and comparing two scans of the same Pokémon</string>
+    <string name="appraisal_narrowing">Appraisal narrowing (optional)</string>
+    <string name="attack">Attack</string>
+    <string name="defense">Defense</string>
+    <string name="stamina_hp">HP</string>
 </resources>

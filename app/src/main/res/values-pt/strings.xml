@@ -1,165 +1,58 @@
 <resources>
-    <string name="drawer_open">Abrir gaveta de navegação</string>
-    <string name="drawer_close">Fechar gaveta de navegação</string>
-
-    <string name="pokemon029">Nidoran♀</string>
-    <string name="pokemon032">Nidoran♂</string>
-
-    <string-array name="Pokemon">
-        <item>Bulbasaur</item>
-        <item>Ivysaur</item>
-        <item>Venusaur</item>
-        <item>Charmander</item>
-        <item>Charmeleon</item>
-        <item>Charizard</item>
-        <item>Squirtle</item>
-        <item>Wartortle</item>
-        <item>Blastoise</item>
-        <item>Caterpie</item>
-        <item>Metapod</item>
-        <item>Butterfree</item>
-        <item>Weedle</item>
-        <item>Kakuna</item>
-        <item>Beedrill</item>
-        <item>Pidgey</item>
-        <item>Pidgeotto</item>
-        <item>Pidgeot</item>
-        <item>Rattata</item>
-        <item>Raticate</item>
-        <item>Spearow</item>
-        <item>Fearow</item>
-        <item>Ekans</item>
-        <item>Arbok</item>
-        <item>Pikachu</item>
-        <item>Raichu</item>
-        <item>Sandshrew</item>
-        <item>Sandslash</item>
-        <item>Nidoran♀</item>
-        <item>Nidorina</item>
-        <item>Nidoqueen</item>
-        <item>Nidoran♂</item>
-        <item>Nidorino</item>
-        <item>Nidoking</item>
-        <item>Clefairy</item>
-        <item>Clefable</item>
-        <item>Vulpix</item>
-        <item>Ninetales</item>
-        <item>Jigglypuff</item>
-        <item>Wigglytuff</item>
-        <item>Zubat</item>
-        <item>Golbat</item>
-        <item>Oddish</item>
-        <item>Gloom</item>
-        <item>Vileplume</item>
-        <item>Paras</item>
-        <item>Parasect</item>
-        <item>Venonat</item>
-        <item>Venomoth</item>
-        <item>Diglett</item>
-        <item>Dugtrio</item>
-        <item>Meowth</item>
-        <item>Persian</item>
-        <item>Psyduck</item>
-        <item>Golduck</item>
-        <item>Mankey</item>
-        <item>Primeape</item>
-        <item>Growlithe</item>
-        <item>Arcanine</item>
-        <item>Poliwag</item>
-        <item>Poliwhirl</item>
-        <item>Poliwrath</item>
-        <item>Abra</item>
-        <item>Kadabra</item>
-        <item>Alakazam</item>
-        <item>Machop</item>
-        <item>Machoke</item>
-        <item>Machamp</item>
-        <item>Bellsprout</item>
-        <item>Weepinbell</item>
-        <item>Victreebel</item>
-        <item>Tentacool</item>
-        <item>Tentacruel</item>
-        <item>Geodude</item>
-        <item>Graveler</item>
-        <item>Golem</item>
-        <item>Ponyta</item>
-        <item>Rapidash</item>
-        <item>Slowpoke</item>
-        <item>Slowbro</item>
-        <item>Magnemite</item>
-        <item>Magneton</item>
-        <item>Farfetch\'d</item>
-        <item>Doduo</item>
-        <item>Dodrio</item>
-        <item>Seel</item>
-        <item>Dewgong</item>
-        <item>Grimer</item>
-        <item>Muk</item>
-        <item>Shellder</item>
-        <item>Cloyster</item>
-        <item>Gastly</item>
-        <item>Haunter</item>
-        <item>Gengar</item>
-        <item>Onix</item>
-        <item>Drowzee</item>
-        <item>Hypno</item>
-        <item>Krabby</item>
-        <item>Kingler</item>
-        <item>Voltorb</item>
-        <item>Electrode</item>
-        <item>Exeggcute</item>
-        <item>Exeggutor</item>
-        <item>Cubone</item>
-        <item>Marowak</item>
-        <item>Hitmonlee</item>
-        <item>Hitmonchan</item>
-        <item>Lickitung</item>
-        <item>Koffing</item>
-        <item>Weezing</item>
-        <item>Rhyhorn</item>
-        <item>Rhydon</item>
-        <item>Chansey</item>
-        <item>Tangela</item>
-        <item>Kangaskhan</item>
-        <item>Horsea</item>
-        <item>Seadra</item>
-        <item>Goldeen</item>
-        <item>Seaking</item>
-        <item>Staryu</item>
-        <item>Starmie</item>
-        <item>Mr. Mime</item>
-        <item>Scyther</item>
-        <item>Jynx</item>
-        <item>Electabuzz</item>
-        <item>Magmar</item>
-        <item>Pinsir</item>
-        <item>Tauros</item>
-        <item>Magikarp</item>
-        <item>Gyarados</item>
-        <item>Lapras</item>
-        <item>Ditto</item>
-        <item>Eevee</item>
-        <item>Vaporeon</item>
-        <item>Jolteon</item>
-        <item>Flareon</item>
-        <item>Porygon</item>
-        <item>Omanyte</item>
-        <item>Omastar</item>
-        <item>Kabuto</item>
-        <item>Kabutops</item>
-        <item>Aerodactyl</item>
-        <item>Snorlax</item>
-        <item>Articuno</item>
-        <item>Zapdos</item>
-        <item>Moltres</item>
-        <item>Dratini</item>
-        <item>Dragonair</item>
-        <item>Dragonite</item>
-        <item>Mewtwo</item>
-        <item>Mew</item>
-    </string-array>
-
     <string name="welcome_message">Instruções:\n1. Insere o nível de treinador\n2. Carrega em START e permite a captura de ecrã\n3. Abre o teu Pokemon na aplicação \'Pokémon Go\'\n4. Carrega no botão IV para iniciar o exame\n5. Ajusta os dados se necessário\n6. Observa o IV!</string>
     <string name="goiv_is_open_source">GoIV é agora em código aberto!\ngithub.com/farkam135/GoIV\nreddit.com/r/GoIV</string>
     <string name="trainer_level">Nível de Treinador</string>
+	
+	<string name="pokemon_name">Nome do Pokémon:</string>
+    <string name="cp">CP</string>
+    <string name="hp">HP</string>
+    <string name="use_the_slider_below_to_align_the_arc">Deslize para alinhar o arco</string>
+    <string name="cancel">Cancelar</string>
+    <string name="check_iv">Verifica o IV</string>
+    <string name="main_not_numeric">%1$s não é um número.</string>
+    <string name="main_invalide_trainerlvl">Nível de treinador inválido!</string>
+    <string name="notification_title">GoIV funcionando - Nível %1$s</string>
+    <string name="notification_text">Toque para abrir</string>
+    <string name="ivtext_title">O teu nível %1$s, CP %2$s, HP %3$s %4$s pode ser:</string>
+    <string name="ivtext_possibilities">%1$s mais possibilidades...</string>
+    <string name="ivtext_no_possibilities">Não há possibilides, por favor verifique os dados!</string>
+    <string name="ivtext_iv">Min: %1$s%% Média: %2$s%% Max: %3$s%%\n</string>
+    <string name="ivtext_evolve">Pode evoluir para %1$s:\n</string>
+    <string name="ivtext_evolve_further">Pode ser ainda mais evoluído para %1$s:</string>
+    <string name="ivtext_many_possibilities">Há muitas possibilidades para este Pokémon. Tente usar o POWER UP!</string>
+    <string name="ivtext_max_lvl_cost">Custo para chegar ao nível %1$s:</string>
+    <string name="ivtext_max_lvl_cost2">Candy: %1$s Stardust: %2$s</string>
+    <string name="main_battery_saver">Poupança de bateria (Pesquiza por captura de ecrã)</string>
+    <string name="ivtext_cp_lvl">CP ao nivél %1$s: %2$s - %3$s</string>
+    <string name="ivtext_stats">Atk: %1$02d Def: %2$02d Sta: %3$02d — %4$3d%%</string>
+    <string name="close">Fechar</string>
+    <string name="main_permission">Grantir Permições</string>
+    <string name="main_start">Start</string>
+    <string name="main_stop">Parar</string>
+    <string name="battery_saver_setup">Configuração de Poupança de Bateria</string>
+    <string name="battery_saver_instructions">A tua captura de ecrã não foi encontrada. De modo a ajudar o GoIV detectar as suas capturas de ecrã siga os passos abaixo:\n1.Carrega em \'Setup\' nesta mensagem\n2.Tira uma captura de ecrã\n3.Espera por novo aviso.</string>
+    <string name="setup">Setup</string>
+    <string name="take_screenshot">Tirar uma captura de ecrã</string>
+    <string name="screenshot_dir_found">Definir pasta de capturas de ecrã:\n%1$s</string>
+    <string name="done">Feito</string>
+    <string name="back">Voltar</string>
+    <string name="accept_screen_capture">Aceitar captura de ecrã</string>
+    <string name="settings_page_title">Definições</string>
+    <string name="launch_pokemon_go_setting_title">Abrir Pokemon Go</string>
+    <string name="launch_pokemon_go_setting_summary">Mudar para o Pokemon Go quando o botão START é carregado</string>
+    <string name="confirmation_dialog_setting_title">Dialogo de Confirmação</string>
+    <string name="confirmation_dialog_setting_summary">Permitir a edição de informações dos Pokemons antes de calcular o IV</string>
+    <string name="manual_screenshot_mode_setting_title">Usar capturas de ecrã para calcular o IV</string>
+    <string name="manual_screenshot_mode_setting_summary">Poupa bateria ao analisar capturas de ecrã, em vez de autodetecção. Este modo tem de estar activado no Android KitKat(4.4) ou inferior</string>
+    <string name="delete_screenshots_setting_title">Apagar captura de ecrã</string>
+    <string name="delete_screenshots_setting_summary">Automaticamente apagar capturas de ecrã tiradas pelo GoIV</string>
+    <string name="copy_to_clipboard_setting_title">Copiar</string>
+    <string formatted="false" name="copy_to_clipboard_setting_summary">Copiar pior IV% - melhor IV% quando é calculado o IV</string>
+    <string name="send_crash_reports_setting_title">Enviar relatório de error</string>
+    <string name="send_crash_reports_setting_summary">Ajudar os desenvolvedores a melhorar a aplicação através do envio de informações anônimas relacionadas com erros</string>
+    <string name="auto_update_setting_title">Auto-actualização</string>
+    <string name="auto_update_setting_summary">Automaticamente procura por actualizações quando a aplicação é aberta</string>
+    <string name="check_for_update_setting_title">Procurar actualizações</string>
+    <string name="check_for_update_setting_summary">Verificar se alguma actualização está disponível</string>
+    <string name="scan_pokemon_failed">Pesquisa falhou, por favor deslize para cima e tente de novo!</string>
 </resources>

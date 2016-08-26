@@ -6,6 +6,15 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="android:typeface">sans</item>
+        <item name="android:buttonStyle">@style/appButton</item>
+    </style>
+
+    <style name="appButton">
+        <item name="android:textColor">@color/buttonText</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:background">@drawable/skin_button</item>
     </style>
 
 </resources>

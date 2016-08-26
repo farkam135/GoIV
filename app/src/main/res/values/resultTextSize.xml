@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="resultExpandedTextSize"
+        > 20sp</dimen>
+
+    <color name="unimportantText"> #d3d3d3</color>
+    <color name="importantText">#686868</color>
+</resources>

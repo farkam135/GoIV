@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
     <string-array name="Pokemon">
@@ -181,10 +182,10 @@
     <string name="done">Done</string>
     <string name="back">Back</string>
     <string name="settings_page_title">Settings</string>
-    <string name="launch_pokemon_go_setting_title">Launch Pokemon Go</string>
-    <string name="launch_pokemon_go_setting_summary">Switch to Pokemon Go when the start button is clicked</string>
+    <string name="launch_pokemon_go_setting_title">Launch Pokémon Go</string>
+    <string name="launch_pokemon_go_setting_summary">Switch to Pokémon Go when the start button is clicked</string>
     <string name="confirmation_dialog_setting_title">Confirmation dialog</string>
-    <string name="confirmation_dialog_setting_summary">Allow editing of pokemon information before calculating IV</string>
+    <string name="confirmation_dialog_setting_summary">Allow editing of Pokémon information before calculating IV</string>
     <string name="manual_screenshot_mode_setting_title">Use screenshots to calculate IV</string>
     <string name="manual_screenshot_mode_setting_summary">Save battery life by scanning screenshots instead of autodetecting. This setting has to be enabled for Android KitKat and below</string>
     <string name="delete_screenshots_setting_title">Delete screenshots</string>

@@ -35,7 +35,7 @@
     <string name="delete_screenshots_setting_summary">Eliminar automáticamente las capturas de pantalla tomadas por GoIV</string>
     <string name="delete_screenshots_setting_title">Eliminar Capturas de Pantalla</string>
     <string name="launch_pokemon_go_setting_summary">Abrir Pokémon Go al presionar el botón "Iniciar"</string>
-    <string name="launch_pokemon_go_setting_title">Lanzar Pokemon Go</string>
+    <string name="launch_pokemon_go_setting_title">Lanzar Pokémon Go</string>
     <string name="send_crash_reports_setting_summary">Ayudar a los desarrolladores a mejorar la aplicación enviándoles información anónima de errores</string>
     <string name="send_crash_reports_setting_title">Enviar informes de errores</string>
     <string name="settings_page_title">Configuración</string>

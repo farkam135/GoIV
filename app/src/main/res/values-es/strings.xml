@@ -67,7 +67,7 @@
     <string name="see_all">Ver Todas...</string>
     <string name="stardust_cost">Costo en Polvoestalar</string>
     <string name="refining_instructions">Refine la predicción de IV mejorando un Pokémon y comparando los resultados obtenidos</string>
-    <string name="appraisal_narrowing">Refinamiento por valoración</string>
+    <string name="appraisal_narrowing">Refinamiento por valoración (opcional)</string>
     <string name="attack">Ataque</string>
     <string name="defence">Defensa</string>
     <string name="stamina_hp">Salud (PS)</string>

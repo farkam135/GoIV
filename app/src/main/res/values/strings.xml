@@ -4,7 +4,6 @@
 
     <string name="pokemon029">Nidoran♀</string>
     <string name="pokemon032">Nidoran♂</string>
-    <string name="pokemon133">Eevee</string>
 
     <string-array name="Pokemon">
         <item>Bulbasaur</item>

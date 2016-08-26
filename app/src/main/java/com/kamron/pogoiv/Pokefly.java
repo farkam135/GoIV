@@ -208,6 +208,9 @@ public class Pokefly extends Service {
         sharedPref = getSharedPreferences(PREF_USER_CORRECTIONS, Context.MODE_PRIVATE);
         userCorrections = new HashMap<>(pokeCalculator.pokedex.size());
         userCorrections.putAll((Map<String, String>) sharedPref.getAll());
+        userCorrections.put("Sparky", pokeCalculator.get(132).name);
+        userCorrections.put("Rainer", pokeCalculator.get(132).name);
+        userCorrections.put("Pyro", pokeCalculator.get(132).name);
         cachedCorrections = new LruCache<>(pokeCalculator.pokedex.size() * 2);
     }
 

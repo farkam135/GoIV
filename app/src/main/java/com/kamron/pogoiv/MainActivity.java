@@ -641,10 +641,6 @@ public class MainActivity extends AppCompatActivity {
         return src.replace("1", "l").replace("0", "o");
     }
 
-    private String replaceRenamedEevee(String src) {
-        return src.replace("Sparky", getString(R.string.pokemon133)).replace("Rainer", getString(R.string.pokemon133)).replace("Pyro", getString(R.string.pokemon133));
-    }
-
     /**
      * get the pokemon name as analysed from a pokemon image
      *
@@ -659,7 +655,7 @@ public class MainActivity extends AppCompatActivity {
         if (pokemonName == null) {
             name = replaceColors(name, 68, 105, 108, Color.WHITE, 200);
             tesseract.setImage(name);
-            pokemonName = replaceRenamedEevee(fixOcr(tesseract.getUTF8Text().replace(" ", "")));
+            pokemonName = fixOcr(tesseract.getUTF8Text().replace(" ", ""));
             if (pokemonName.toLowerCase().contains("nidora")) {
                 boolean isFemale = isNidoranFemale(pokemonImage);
                 if (isFemale) {

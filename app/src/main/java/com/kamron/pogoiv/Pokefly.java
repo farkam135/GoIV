@@ -559,10 +559,22 @@ public class Pokefly extends Service {
         resultsPokemonLevel.setText("Level: " + ivScanResult.estimatedPokemonLevel);
         setResultScreenPercentageRange(ivScanResult);
 
-        expandedLevelSeekbar.setProgress(Math.min(trainerLevel+3, 80)); //3 because pokemon level is 1.5 higher than trainer max, and seekbar is int only so value is x2
+        //Preselect the maximum level we can reach currently, the user can move to higher or lower.
+        expandedLevelSeekbar.setProgress(levelToProgress(trainerLevel + 1.5f));
+        expandedLevelSeekbar.setMax(levelToProgress(40));
         updateCostFields(ivScanResult);
         exResPrevScan.setText("Previous scan: " + ivScanResult.getPrevScanName());
+    }
 
+    private int getTrainerLevelShift() {
+        return 2 * trainerLevel + 3;
+    }
+    private float seekbarProgressToLevel(int progress) {
+        return (progress + getTrainerLevelShift()) / 2.0f;  //seekbar only supports integers, so the seekbar works between 2 and 80.
+    }
+
+    private int levelToProgress(float level) {
+        return Math.min((int) (level * 2), 80) - getTrainerLevelShift();
     }
 
     /**
@@ -570,7 +582,7 @@ public class Pokefly extends Service {
      * pokemon evolution and level set by the user
      */
     public void updateCostFields(IVScanResult ivScanResult){
-        float goalLevel = expandedLevelSeekbar.getProgress()/2.0f; //seekbar only supports integers, so the seekbar works between 2 and 80.
+        float goalLevel = seekbarProgressToLevel(expandedLevelSeekbar.getProgress());
         int intSelectedPokemon = extendedEvolutionSpinner.getSelectedItemPosition(); //which pokemon is selected in the spinner
         ArrayList<Pokemon> evolutionLine = pokeCalculator.getEvolutionLine(ivScanResult.pokemon);
 
@@ -590,11 +602,6 @@ public class Pokefly extends Service {
             Log.d("Selected poke:" + selectedPokemon.name, "nahojjjen debug selected poke");
         }
 
-
-
-        if (goalLevel < estimatedPokemonLevel){//Lowest estimate is the pokemons current level
-            goalLevel = (float)estimatedPokemonLevel;
-        }
 
         CPRange expectedRange = pokeCalculator.getCpRangeAtLevel(selectedPokemon, ivScanResult.lowAttack, ivScanResult.lowDefense, ivScanResult.lowStamina, ivScanResult.highAttack, ivScanResult.highDefense, ivScanResult.highStamina, goalLevel);
         CPRange realRange = pokeCalculator.getCpRangeAtLevel(ivScanResult.pokemon, ivScanResult.lowAttack, ivScanResult.lowDefense, ivScanResult.lowStamina, ivScanResult.highAttack, ivScanResult.highDefense, ivScanResult.highStamina, estimatedPokemonLevel);

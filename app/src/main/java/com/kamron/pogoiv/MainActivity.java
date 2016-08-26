@@ -68,6 +68,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -263,9 +264,9 @@ public class MainActivity extends AppCompatActivity {
         areaY2 = (int) Math.round(displayMetrics.heightPixels / 1.11062907);
 
         //Check if language makes the pokemon name in candy second; France/Spain have Bonbon/Caramelos pokeName.
-        //XXX We should use a set of languages rather than testing each.
         String language = Locale.getDefault().getLanguage();
-        if (language.equals("fr") || language.equals("es")) {
+        HashSet<String> specialCandyOrderLangs = new HashSet<>(Arrays.asList("fr", "es", "it"));
+        if (specialCandyOrderLangs.contains(language)) {
             candyOrder = 1;
         }
 
@@ -634,6 +635,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
+     * Correct some OCR errors in argument.
+     */
+    private static String fixOcr(String src) {
+        return src.replace("1", "l").replace("0", "o");
+    }
+
+    private String replaceRenamedEevee(String src) {
+        return src.replace("Sparky", getString(R.string.pokemon133)).replace("Rainer", getString(R.string.pokemon133)).replace("Pyro", getString(R.string.pokemon133));
+    }
+
+    /**
      * get the pokemon name as analysed from a pokemon image
      *
      * @param pokemonImage the image of the whole screen
@@ -647,8 +659,7 @@ public class MainActivity extends AppCompatActivity {
         if (pokemonName == null) {
             name = replaceColors(name, 68, 105, 108, Color.WHITE, 200);
             tesseract.setImage(name);
-            //System.out.println(tesseract.getUTF8Text());
-            pokemonName = tesseract.getUTF8Text().replace(" ", "").replace("1", "l").replace("0", "o").replace("Sparky", getString(R.string.pokemon133)).replace("Rainer", getString(R.string.pokemon133)).replace("Pyro", getString(R.string.pokemon133));
+            pokemonName = replaceRenamedEevee(fixOcr(tesseract.getUTF8Text().replace(" ", "")));
             if (pokemonName.toLowerCase().contains("nidora")) {
                 boolean isFemale = isNidoranFemale(pokemonImage);
                 if (isFemale) {
@@ -677,10 +688,8 @@ public class MainActivity extends AppCompatActivity {
         if (candyName == null) {
             candy = replaceColors(candy, 68, 105, 108, Color.WHITE, 200);
             tesseract.setImage(candy);
-            //System.out.println(tesseract.getUTF8Text());
-            //SaveImage(candy, "candy");
             try {
-                candyName = tesseract.getUTF8Text().trim().replace("-", " ").split(" ")[candyOrder].replace(" ", "").replace("1", "l").replace("0", "o");
+                candyName = fixOcr(tesseract.getUTF8Text().trim().replace("-", " ").split(" ")[candyOrder]);
                 candyName = new StringBuilder().append(candyName.substring(0, 1)).append(candyName.substring(1).toLowerCase()).toString();
             } catch (StringIndexOutOfBoundsException e) {
                 candyName = "";

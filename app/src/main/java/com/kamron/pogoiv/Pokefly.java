@@ -483,19 +483,9 @@ public class Pokefly extends Service {
         initialButtonsLayout.setVisibility(View.GONE);
         onCheckButtonsLayout.setVisibility(View.VISIBLE);
         //ivText.setText(Html.fromHtml(getIVText()));
-        populateResultsBox();
-        resultsBox.setVisibility(View.VISIBLE);
-        inputBox.setVisibility(View.GONE);
 
-    }
-
-    /**
-     * sets the information in the results box
-     */
-    private void populateResultsBox(){
         int selectedPokemon = pokemonList.getSelectedItemPosition();
         Pokemon pokemon = pokeCalculator.get(selectedPokemon);
-
         /* TODO: Should we set a size limit on that and throw away LRU entries? */
         /* TODO: Move this into an event listener that triggers when the user
          * actually changes the selection. */
@@ -507,8 +497,19 @@ public class Pokefly extends Service {
         }
         IVScanResult ivScanResult = pokeCalculator.getIVPossibilities(selectedPokemon, estimatedPokemonLevel, pokemonHP, pokemonCP);
 
+        populateResultsBox(ivScanResult);
+        resultsBox.setVisibility(View.VISIBLE);
+        inputBox.setVisibility(View.GONE);
+
+    }
+
+    /**
+     * sets the information in the results box
+     */
+    private void populateResultsBox(IVScanResult ivScanResult){
+
         resultsPokemonName.setText(ivScanResult.pokemon.name);
-        resultsCombinations.setText(String.format(getString(R.string.ivtext_possibilities), ivScanResult.iVCombinations.size()));
+        resultsCombinations.setText(ivScanResult.iVCombinations.size() + " Possible IV combinations");
 
         //TODO: Populate ivText in a better way.
         String allIvs = "";
@@ -521,7 +522,7 @@ public class Pokefly extends Service {
         setResultScreenPercentageRange(ivScanResult);
 
         UpgradeCost cost = pokeCalculator.getMaxReqText(trainerLevel, estimatedPokemonLevel);
-        CPRange expectedRange = pokeCalculator.getCpRangeAtLevel(pokemon, ivScanResult.lowAttack, ivScanResult.lowDefense, ivScanResult.lowStamina, ivScanResult.highAttack, ivScanResult.highDefense, ivScanResult.highStamina, Math.min(trainerLevel + 1.5, 40.0));
+        CPRange expectedRange = pokeCalculator.getCpRangeAtLevel(ivScanResult.pokemon, ivScanResult.lowAttack, ivScanResult.lowDefense, ivScanResult.lowStamina, ivScanResult.highAttack, ivScanResult.highDefense, ivScanResult.highStamina, Math.min(trainerLevel + 1.5, 40.0));
         int expectedAverage = (expectedRange.high+expectedRange.low)/2;
         exResultCP.setText(String.valueOf(expectedAverage));
         exResCandy.setText(String.valueOf(cost.candy));
@@ -587,6 +588,18 @@ public class Pokefly extends Service {
         allPossibilitiesBox.setVisibility(View.VISIBLE);
     }
 
+    @OnClick (R.id.exResCompare)
+    public void reduceScanByComparison(){
+        IVScanResult thisScan = IVScanResult.scanContainer.oneScanAgo;
+        IVScanResult prevScan = IVScanResult.scanContainer.twoScanAgo;
+        if (prevScan != null){
+            ArrayList<IVCombination> newResult = thisScan.getLatestIVIntersection();
+            thisScan.iVCombinations = newResult;
+            populateResultsBox(thisScan);
+
+        }
+
+    }
     /**
      * resets the floating window that contains the result and input dialogue
      */

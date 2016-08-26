@@ -14,7 +14,6 @@
             android:textColor="@color/importantText"
             android:text="@string/cp"
             android:textSize="@dimen/resultExpandedTextSize"
-            android:id="@+id/textView1"
             android:layout_gravity="left"/>
 
         <View
@@ -45,7 +44,6 @@
             android:textColor="@color/importantText"
             android:text="@string/candy_cost"
             android:textSize="@dimen/resultExpandedTextSize"
-            android:id="@+id/textView4"
             android:layout_gravity="left"/>
 
         <View
@@ -76,7 +74,6 @@
             android:textColor="@color/importantText"
             android:textSize="@dimen/resultExpandedTextSize"
             android:text="@string/stardust_cost"
-            android:id="@+id/StardustCost"
             android:layout_gravity="left"/>
 
         <View
@@ -106,7 +103,6 @@
             android:textSize="@dimen/resultExpandedTextSize"
             android:textColor="@color/importantText"
             android:text="@string/evolution"
-            android:id="@+id/textView5"
             android:layout_gravity="left"/>
 
         <View
@@ -136,7 +132,6 @@
             android:textSize="@dimen/resultExpandedTextSize"
             android:textColor="@color/importantText"
             android:text="@string/level"
-            android:id="@+id/textView2"
             android:layout_gravity="left"/>
 
         <View
@@ -210,7 +205,6 @@
         android:textColor="@color/unimportantText"
         android:text="@string/powerup_calc_instructions"
         android:textAlignment="center"
-        android:id="@+id/textView"
         android:layout_gravity="center_horizontal" />
 
 </LinearLayout>

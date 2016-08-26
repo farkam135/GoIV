@@ -71,7 +71,6 @@ public class Pokefly extends Service {
 
     private static final String PREF_USER_CORRECTIONS = "com.kamron.pogoiv.USER_CORRECTIONS";
 
-    private final int MAX_POSSIBILITIES = 8;
 
     private int trainerLevel = -1;
     private boolean batterySaver = false;
@@ -538,6 +537,16 @@ public class Pokefly extends Service {
         arcAdjustBar.setProgress((int) ((estimatedPokemonLevel - 1) * 2));
     }
 
+    @OnClick(R.id.btnIncrementLevelExpanded)
+    public void incrementLevelExpanded() {
+        expandedLevelSeekbar.setProgress(expandedLevelSeekbar.getProgress()+1);
+    }
+
+    @OnClick(R.id.btnDecrementLevelExpanded)
+    public void decrementLevelExpanded() {
+        expandedLevelSeekbar.setProgress(expandedLevelSeekbar.getProgress()-1);
+    }
+
     @OnClick(R.id.btnCheckIv)
     public void checkIv() {
         if (batterySaver && !screenshotDir.isEmpty()) {
@@ -701,12 +710,18 @@ public class Pokefly extends Service {
     }
 
     @OnClick({R.id.btnCancelInfo, R.id.btnCloseInfo})
+    /**
+     * resets the info dialogue to its default state
+     */
     public void cancelInfoDialog() {
         hideInfoLayoutArcPointer();
         if (!batterySaver) {
             windowManager.addView(IVButton, IVButonParams);
             IVButtonShown = true;
         }
+        attCheckbox.setChecked(false);
+        defCheckbox.setChecked(false);
+        staCheckbox.setChecked(false);
         resetPokeflyStateMachine();
         resetInfoDialogue();
     }

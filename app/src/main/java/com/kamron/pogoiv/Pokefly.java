@@ -547,7 +547,6 @@ public class Pokefly extends Service {
         pokemonCP = Integer.parseInt(pokemonCPEdit.getText().toString());
         initialButtonsLayout.setVisibility(View.GONE);
         onCheckButtonsLayout.setVisibility(View.VISIBLE);
-        //ivText.setText(Html.fromHtml(getIVText()));
 
         int selectedPokemon = pokemonList.getSelectedItemPosition();
         Pokemon pokemon = pokeCalculator.get(selectedPokemon);
@@ -741,8 +740,6 @@ public class Pokefly extends Service {
         extendedEvolutionSpinner.setSelection(-1);
         resultsBox.setVisibility(View.GONE);
         allPossibilitiesBox.setVisibility(View.GONE);
-
-        //expandedResultsBox.setVisibility(View.VISIBLE);
     }
 
     /**
@@ -889,125 +886,6 @@ public class Pokefly extends Service {
          * guess is going on. */
         int[] result = {p.number, bestCandyMatch + bestMatch};
         return result;
-    }
-
-    /**
-     * getIVText of the selected pokemon
-     *
-     * @return The text to be shown, containing IVs and additional info on pokemon
-     */
-    private String getIVText() {
-        int selectedPokemon = pokemonList.getSelectedItemPosition();
-        Pokemon pokemon = pokeCalculator.get(selectedPokemon);
-
-        /* TODO: Should we set a size limit on that and throw away LRU entries? */
-        /* TODO: Move this into an event listener that triggers when the user
-         * actually changes the selection. */
-        if (!pokemonName.equals(pokemon.name) && pokeCalculator.get(pokemonName) == null) {
-            userCorrections.put(pokemonName, pokemon.name);
-            SharedPreferences.Editor edit = sharedPref.edit();
-            edit.putString(pokemonName, pokemon.name);
-            edit.apply();
-        }
-
-        String returnVal = String.format(getString(R.string.ivtext_title), estimatedPokemonLevel, pokemonCP, pokemonHP, pokemon.name);
-        returnVal += "<br>"; //breakline
-        IVScanResult ivScanResult = pokeCalculator.getIVPossibilities(selectedPokemon, estimatedPokemonLevel, pokemonHP, pokemonCP);
-
-        //TODO if you wanna work on the placement of the refinement (issue #10) then un-comment this code!
-        /*
-        if (ivScanResult.are2LastScannedPokemonSame()) {
-            String tester = "Intersection: (test, empty on first scan)\n";
-            ArrayList<IVCombination> interseciton = ivScanResult.getLatestIVIntersection();
-            tester += "size: " + interseciton.size();
-            for (IVCombination comb : interseciton) {
-                tester += "\n" + comb.toString();
-            }
-
-            return tester;
-        }*/
-        if (ivScanResult == null) {
-            returnVal += "\n" + getString(R.string.ivtext_many_possibilities);
-        } else if (ivScanResult.getCount() == 0) {
-            returnVal += "\n" + getString(R.string.ivtext_no_possibilities);
-            returnVal += "<br>"; //breakline
-        } else {
-            int counter = 0;
-
-            IVCombination highest = ivScanResult.getHighestIVCombination();
-            IVCombination lowest = ivScanResult.getLowestIVCombination();
-            int shown = 1; //the number of IVs which is shown to the user, assume only highest will be shown
-            returnVal += "\n" + String.format(getString(R.string.ivtext_stats), highest.att, highest.def, highest.sta, highest.percentPerfect);
-            returnVal += "<br>"; //breakline
-            if (!(lowest.getTotal() == highest.getTotal())) { //if highest and lowest are the same, there's no reason to print both of them (they can be same IV)
-                returnVal += "\n" + String.format(getString(R.string.ivtext_stats), lowest.att, lowest.def, lowest.sta, lowest.percentPerfect);
-                returnVal += "<br>"; //breakline
-                shown += 1; //since this line is now shown, the "x more combinations" needs to take that into account
-            }
-
-            if (ivScanResult.iVCombinations.size() > shown) { //if all options havent been shown
-                returnVal += "\n" + String.format(getString(R.string.ivtext_possibilities), ivScanResult.getCount() - shown); //2 is for the best & worst line
-                returnVal += "<br>"; //breakline
-            }
-            /*
-            for (IVCombination ivCombination : ivScanResult.iVCombinations) {
-                returnVal += "\n" + String.format(getString(R.string.ivtext_stats), ivCombination.att, ivCombination.def, ivCombination.sta, ivCombination.percentPerfect);
-                returnVal += "<br>"; //breakline
-                counter++;
-                if (counter == MAX_POSSIBILITIES) {
-                    break;
-                }
-            }
-
-            if (ivScanResult.getCount() > MAX_POSSIBILITIES) {
-                returnVal += "\n" + String.format(getString(R.string.ivtext_possibilities), ivScanResult.getCount() - MAX_POSSIBILITIES);
-                returnVal += "<br>"; //breakline
-            }*/
-
-            returnVal += "\n" + "<b>" + (String.format(getString(R.string.ivtext_iv), ivScanResult.lowPercent, ivScanResult.getAveragePercent(), ivScanResult.highPercent) + "</b>");
-            returnVal += "<br><br>"; //breakline
-
-            // for trainer level cp cap, if estimatedPokemonLevel is at cap do not print
-            if (estimatedPokemonLevel < trainerLevel + 1.5) {
-                CPRange range = pokeCalculator.getCpRangeAtLevel(pokemon, ivScanResult.lowAttack, ivScanResult.lowDefense, ivScanResult.lowStamina, ivScanResult.highAttack, ivScanResult.highDefense, ivScanResult.highStamina, Math.min(trainerLevel + 1.5, 40.0));
-                returnVal += "\n" + String.format(getString(R.string.ivtext_cp_lvl), range.level, range.low, range.high);
-                returnVal += "<br>"; //breakline
-                returnVal += "\n" + String.format(getString(R.string.ivtext_max_lvl_cost), trainerLevel + 1.5);
-                returnVal += "<br>"; //breakline
-                UpgradeCost cost = pokeCalculator.getUpgradeCost(trainerLevel, estimatedPokemonLevel);
-                returnVal += "\n" + String.format(getString(R.string.ivtext_max_lvl_cost2), cost.candy, NumberFormat.getInstance().format(cost.dust) + "\n");
-                returnVal += "<br>"; //breakline
-            }
-
-            List<Pokemon> evolutions = pokemon.evolutions;
-
-            //for each evolution of next stage (example, eevees three evolutions jolteon, vaporeon and flareon)
-            for (Pokemon evolution : evolutions) {
-                pokemonName = evolution.name;
-                returnVal += "\n" + String.format(getString(R.string.ivtext_evolve), pokemonName);
-                returnVal += "<br>"; //breakline
-
-                CPRange range = pokeCalculator.getCpRangeAtLevel(evolution, ivScanResult.lowAttack, ivScanResult.lowDefense, ivScanResult.lowStamina, ivScanResult.highAttack, ivScanResult.highDefense, ivScanResult.highStamina, estimatedPokemonLevel);
-                returnVal += String.format(getString(R.string.ivtext_cp_lvl), range.level, range.low, range.high);
-                returnVal += "<br>"; //breakline
-                //for following stage evolution (example, dratini - dragonair - dragonite)
-                //if the current evolution has another evolution calculate its range and break
-                for (Pokemon nextEvo : evolution.evolutions) {
-                    pokemonName = nextEvo.name;
-                    returnVal += "\n" + String.format(getString(R.string.ivtext_evolve_further), pokemonName);
-                    returnVal += "<br>"; //breakline
-                    CPRange range2 = pokeCalculator.getCpRangeAtLevel(nextEvo, ivScanResult.lowAttack, ivScanResult.lowDefense, ivScanResult.lowStamina, ivScanResult.highAttack, ivScanResult.highDefense, ivScanResult.highStamina, estimatedPokemonLevel);
-                    returnVal += "\n" + String.format(getString(R.string.ivtext_cp_lvl), range2.level, range2.low, range2.high);
-                    returnVal += "<br>"; //breakline
-                }
-            }
-
-            if (GoIVSettings.getSettings(getBaseContext()).getCopyToClipboard()) {
-                ClipData clip = ClipData.newPlainText("iv", ivScanResult.lowPercent + "-" + ivScanResult.highPercent);
-                clipboard.setPrimaryClip(clip);
-            }
-        }
-        return returnVal;
     }
 
 

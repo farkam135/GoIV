@@ -4,5 +4,5 @@
         > 20sp</dimen>
 
     <color name="unimportantText"> #d3d3d3</color>
-    <color name="importantText"> #000000</color>
+    <color name="importantText">#686868</color>
 </resources>

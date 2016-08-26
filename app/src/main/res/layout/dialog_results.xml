@@ -27,9 +27,9 @@
             android:id="@+id/resultsPokemonLevel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Level $1%f.2"
             android:textSize="18sp"
             android:textColor="#888"
+            android:text="@string/level"
             android:layout_marginLeft="5sp"/>
     </LinearLayout>
 
@@ -154,7 +154,7 @@
             android:id="@+id/resultsCombinations"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="78 Possible Combinations"
+            android:text="## Possible Combinations"
             android:layout_gravity="left"
             android:textSize="18sp"
             android:textColor="#888"/>
@@ -165,7 +165,7 @@
             android:layout_height="wrap_content"
             android:textSize="18sp"
             android:textColor="@color/colorPrimary"
-            android:text="See All..."
+            android:text="@string/see_all"
             android:clickable="true"
             android:gravity="right"/>
     </LinearLayout>
@@ -186,7 +186,7 @@
                 android:textColor="@color/colorPrimary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Advanced information  "
+                android:text="@string/advanced_information"
                 android:layout_gravity="center"
                 android:textSize="18sp"
                 android:clickable="true"/>

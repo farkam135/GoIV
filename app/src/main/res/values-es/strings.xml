@@ -55,4 +55,16 @@
     <string name="settings_page_title">Configuración</string>
     <string name="manual_screenshot_mode_setting_title">Usar capturas de pantalla para calcular IV</string>
     <string name="manual_screenshot_mode_setting_summary">Ahorrar batería obteniendo los datos mediante capturas de pantalla en lugar de hacerlo automáticamente. Esta opción debe estar activa para Android KitKat y versiones de Android más antiguas.</string>
+    <string name="advanced_information">Información Avanzada</string>
+    <string name="candy_cost">Costo en Caramelos</string>
+    <string name="evolution">Evolución</string>
+    <string name="last_scan">Último analizado: %1$s</string>
+    <string name="level">Nivel</string>
+    <string name="possible_iv_combinations">"%1$d Combinaciones de IV posibles"</string>
+    <string name="refine">Refinar</string>
+    <string name="powerup_calc_instructions">Cálculo de mejoras y evolución - \n Deslizar el slider para visualizar diferentes predicciones</string>
+    <string name="scan_pokemon_failed">Detección fallida, asegurese de estar en la cima de la ficha del Pokémon y vuelva a intentar!</string>
+    <string name="see_all">Ver Todas...</string>
+    <string name="stardust_cost">Costo en Polvoestalar</string>
+    <string name="refining_instructions">Refine la predicción de IV mejorando un Pokémon y comparando los resultados obtenidos</string>
 </resources>

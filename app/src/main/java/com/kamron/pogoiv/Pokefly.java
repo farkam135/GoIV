@@ -547,7 +547,7 @@ public class Pokefly extends Service {
     private void populateResultsBox(IVScanResult ivScanResult){
 
         resultsPokemonName.setText(ivScanResult.pokemon.name);
-        resultsCombinations.setText(ivScanResult.iVCombinations.size() + " Possible IV combinations");
+        resultsCombinations.setText(String.format(getString(R.string.possible_iv_combinations), ivScanResult.iVCombinations.size()));
 
         //TODO: Populate ivText in a better way.
         String allIvs = "";
@@ -556,12 +556,12 @@ public class Pokefly extends Service {
         }
         ivText.setText(allIvs);
 
-        resultsPokemonLevel.setText("Level: " + ivScanResult.estimatedPokemonLevel);
+        resultsPokemonLevel.setText(getString(R.string.level) + ": " + ivScanResult.estimatedPokemonLevel);
         setResultScreenPercentageRange(ivScanResult);
 
         expandedLevelSeekbar.setProgress(Math.min(trainerLevel+3, 80)); //3 because pokemon level is 1.5 higher than trainer max, and seekbar is int only so value is x2
         updateCostFields(ivScanResult);
-        exResPrevScan.setText("Previous scan: " + ivScanResult.getPrevScanName());
+        exResPrevScan.setText(String.format(getString(R.string.last_scan),ivScanResult.getPrevScanName()));
 
     }
 
@@ -577,6 +577,14 @@ public class Pokefly extends Service {
         Pokemon selectedPokemon;
         if (intSelectedPokemon == -1){
             selectedPokemon = ivScanResult.pokemon;//if initialising list, act as if scanned pokemon is marked
+            for (int i = 0; i < evolutionLine.size(); i++) {
+                if (evolutionLine.get(i).number == selectedPokemon.number) {
+                    intSelectedPokemon = i;
+                    extendedEvolutionSpinner.setSelection(intSelectedPokemon);
+                    break;
+                }
+
+            }
             Log.d("Selected poke:" + selectedPokemon.name, "nahojjjen debug selected poke");
         } else {
             selectedPokemon = evolutionLine.get(intSelectedPokemon);

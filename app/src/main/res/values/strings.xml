@@ -215,4 +215,15 @@
     <string name="check_for_update_setting_title">Check for update</string>
     <string name="check_for_update_setting_summary">See if an update is available</string>
     <string name="scan_pokemon_failed">Scanning failed, please scroll up and try again!</string>
+    <string name="see_all">See All...</string>
+    <string name="advanced_information">Advanced information</string>
+    <string name="powerup_calc_instructions">Powerup and evolution calculation - \n Drag the level slider to view different predictions</string>
+    <string name="candy_cost">Candy Cost</string>
+    <string name="stardust_cost">Stardust Cost</string>
+    <string name="evolution">Evolution</string>
+    <string name="level">Level</string>
+    <string name="refine">Refine</string>
+    <string name="last_scan">Last scan: %1$s</string>
+    <string name="possible_iv_combinations">"%1$d Possible IV combinations"</string>
+    <string name="refining_instructions">Increase IV calculation precision by leveling up and comparing two scans of the same Pokémon</string>
 </resources>

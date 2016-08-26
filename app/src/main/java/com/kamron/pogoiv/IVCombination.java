@@ -2,6 +2,9 @@ package com.kamron.pogoiv;
 
 import android.util.Log;
 
+import java.util.Arrays;
+import java.util.Collections;
+
 /**
  * Created by Johan on 2016-08-18.
  * A class which represents an IV value
@@ -39,10 +42,11 @@ public class IVCombination {
      */
     public Boolean[] getHighestStatSignature() {
         Boolean[] attDefSta = new Boolean[3];
+        int maxStat = Collections.max(Arrays.asList(att, def, sta));
 
-        attDefSta[0] = att >= def && att >= sta;
-        attDefSta[1] = def >= att && def >= sta;
-        attDefSta[2] = sta >= att && sta >= def;
+        attDefSta[0] = att >= maxStat;
+        attDefSta[1] = def >= maxStat;
+        attDefSta[2] = sta >= maxStat;
         Log.d(this.toString() + " -> attdefsta returned:" + attDefSta[0] + attDefSta[1] + attDefSta[2], "nahojjjen debug gethigheststatsignature");
         return attDefSta;
     }

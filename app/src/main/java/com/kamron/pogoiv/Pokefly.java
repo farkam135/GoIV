@@ -70,7 +70,6 @@ public class Pokefly extends Service {
 
     private static final String PREF_USER_CORRECTIONS = "com.kamron.pogoiv.USER_CORRECTIONS";
 
-    private final int MAX_POSSIBILITIES = 8;
 
     private int trainerLevel = -1;
     private boolean batterySaver = false;

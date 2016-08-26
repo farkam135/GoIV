@@ -3,25 +3,6 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@android:color/darker_gray"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/unimportantText"
-        android:text="@string/powerup_calc_instructions"
-        android:textAlignment="center"
-        android:id="@+id/textView"
-        android:layout_gravity="center_horizontal" />
-
-    <Space
-        android:layout_width="1dp"
-        android:layout_height="20dp"/>
-
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -210,63 +191,24 @@
             android:textColor="@color/red"
             android:background="@android:color/transparent"/>
 
-        
-
     </LinearLayout>
+
     <Space
         android:layout_width="1dp"
-        android:layout_height="10dp"/>
+        android:layout_height="20dp"/>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@android:color/darker_gray"/>
-    <Space
-        android:layout_width="1dp"
-        android:layout_height="10dp"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/refining_instructions"
         android:textColor="@color/unimportantText"
+        android:text="@string/powerup_calc_instructions"
         android:textAlignment="center"
-        android:id="@+id/textview11"
-        android:layout_gravity="center"/>
+        android:id="@+id/textView"
+        android:layout_gravity="center_horizontal" />
 
-    <Space
-        android:layout_width="1dp"
-        android:layout_height="14dp"/>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-
-            android:id="@+id/exResPrevScan"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/resultExpandedTextSize"
-            android:textColor="@color/importantText"
-            android:text="@string/last_scan"
-            android:layout_gravity="left"/>
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            />
-
-
-        <TextView
-            android:id="@+id/exResCompare"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/resultExpandedTextSize"
-            android:textColor="@color/colorPrimary"
-            android:text="@string/refine"
-            android:layout_gravity="right"/>
-
-    </LinearLayout>
 </LinearLayout>

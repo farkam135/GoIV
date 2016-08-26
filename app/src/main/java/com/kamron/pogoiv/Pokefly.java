@@ -577,6 +577,13 @@ public class Pokefly extends Service {
         Pokemon selectedPokemon;
         if (intSelectedPokemon == -1){
             selectedPokemon = ivScanResult.pokemon;//if initialising list, act as if scanned pokemon is marked
+            for (int i = 0; i < evolutionLine.size(); i++) {
+                if (evolutionLine.get(i).number == selectedPokemon.number) {
+                    intSelectedPokemon = i;
+                    extendedEvolutionSpinner.setSelection(intSelectedPokemon);
+                    break;
+                }
+            }
             Log.d("Selected poke:" + selectedPokemon.name, "nahojjjen debug selected poke");
         } else {
             selectedPokemon = evolutionLine.get(intSelectedPokemon);

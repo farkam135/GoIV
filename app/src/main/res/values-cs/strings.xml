@@ -49,4 +49,20 @@
     <string name="check_for_update_setting_title">Zkontrolovat aktualizace</string>
     <string name="check_for_update_setting_summary">Podívat se, jestli je dostupná aktualizace</string>
     <string name="scan_pokemon_failed">Načítání selhalo, prosím odscrolluj nahoru a zkus to znova!</string>
+    <string name="see_all">Zobrazit vše</string>
+    <string name="advanced_information">Pokročilé informace</string>
+    <string name="powerup_calc_instructions">Výpočty powerupů a evolucí - \n Posouvej táhlo levelu pro zobrazení odpovídajících odhadů</string>
+    <string name="candy_cost">Cena Candy</string>
+    <string name="stardust_cost">Cena Stardust</string>
+    <string name="evolution">Evoluce</string>
+    <string name="level">Level</string>
+    <string name="refine">Zlepšit</string>
+    <string name="refine_no_progress">Zlepšení nebylo úspěšné</string>
+    <string name="last_scan">Předchozí načtení: %1$s</string>
+    <string name="possible_iv_combinations">"%1$d Možné kombinace IV"</string>
+    <string name="refining_instructions">Zlepši přesnost výpočtu IV powerupováním a porovnáním dvou načtení stejného Pokémona</string>
+    <string name="appraisal_narrowing">Zpřesnění díky Appraisal (volitelné)</string>
+    <string name="attack">Útok</string>
+    <string name="defense">Obrana</string>
+    <string name="stamina_hp">HP</string>
 </resources>

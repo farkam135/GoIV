@@ -179,7 +179,7 @@
     <string name="ivtext_many_possibilities">Il y a trop de possibilités pour ce Pokémon. Restaurer avec bonbons et réessayer!</string>
     <string name="ivtext_max_lvl_cost">Coût pour atteindre %1$s:</string>
     <string name="ivtext_max_lvl_cost2">Bonbon: %1$s Poussière: %2$s</string>
-    <string name="main_battery_saver">Économisateur pile (Capture d'écran pour scanner)</string>
+    <string name="main_battery_saver">Économisateur pile (Capture d\'écran pour scanner)</string>
     <string name="ivtext_cp_lvl">PC au niveau %1$s: %2$s - %3$s</string>
     <string name="ivtext_stats">Atq: %1$02d Déf: %2$02d Vig: %3$02d — %4$3d%%</string>
     <string name="close">Fermer</string>
@@ -187,7 +187,7 @@
     <string name="main_start">GO</string>
     <string name="main_stop">Arrêt</string>
     <string name="battery_saver_setup">Config. Économisateur batterie</string>
-    <string name="battery_saver_instructions">Dossier de capture d\'écran introuvable. Pour que GoIV détecte votre dossier de capture suivre ces instructions:\n1.Tap \'Configuration\' sur ce message\n2.Prendre capture d'écran\n3.Attendre instruction.</string>
+    <string name="battery_saver_instructions">Dossier de capture d\'écran introuvable. Pour que GoIV détecte votre dossier de capture suivre ces instructions:\n1.Tap \'Configuration\' sur ce message\n2.Prendre capture d\'écran\n3.Attendre instruction.</string>
     <string name="setup">Configuration</string>
     <string name="take_screenshot">Prendre capture d\'écran</string>
     <string name="screenshot_dir_found">Dossier capture d\'écran:\n%1$s</string>

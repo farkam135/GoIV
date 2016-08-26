@@ -226,4 +226,8 @@
     <string name="last_scan">Last scan: %1$s</string>
     <string name="possible_iv_combinations">"%1$d Possible IV combinations"</string>
     <string name="refining_instructions">Increase IV calculation precision by leveling up and comparing two scans of the same Pokémon</string>
+    <string name="appraisal_narrowing">Appraisal narrowing</string>
+    <string name="attack">Attack</string>
+    <string name="defence">Defence</string>
+    <string name="stamina_hp">Stamina(HP)</string>
 </resources>

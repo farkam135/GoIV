@@ -134,20 +134,17 @@ public class OCRHelper {
      * @return True if the nidoran is female
      */
     private boolean isNidoranFemale(Bitmap pokemonImage) {
-        Bitmap pokemon = Bitmap.createBitmap(pokemonImage, widthPixels / 3, (int) Math.round(heightPixels / 4), (int) Math.round(widthPixels / 3), (int) Math.round(heightPixels / 5));
+        Bitmap pokemon = Bitmap.createBitmap(pokemonImage, widthPixels / 3, Math.round(heightPixels / 4), Math.round(widthPixels / 3), Math.round(heightPixels / 5));
         int[] pixelArray = new int[pokemon.getHeight() * pokemon.getWidth()];
         pokemon.getPixels(pixelArray, 0, pokemon.getWidth(), 0, 0, pokemon.getWidth(), pokemon.getHeight());
-        int redSum = 0;
         int greenSum = 0;
         int blueSum = 0;
 
         // a loop that sums the color values of all the pixels in the image of the nidoran
-        for (int i = 0; i < pixelArray.length; i++) {
-            redSum += Color.red(pixelArray[i]);
-            blueSum += Color.green(pixelArray[i]);
-            greenSum += Color.blue(pixelArray[i]);
+        for (int pixel: pixelArray) {
+            blueSum += Color.green(pixel);
+            greenSum += Color.blue(pixel);
         }
-        int redAverage = redSum / pixelArray.length;
         int greenAverage = greenSum / pixelArray.length;
         int blueAverage = blueSum / pixelArray.length;
         //Average male nidoran has RGB value ~~ 136,165,117
@@ -207,7 +204,7 @@ public class OCRHelper {
             tesseract.setImage(candy);
             try {
                 candyName = fixOcr(tesseract.getUTF8Text().trim().replace("-", " ").split(" ")[candyOrder]);
-                candyName = new StringBuilder().append(candyName.substring(0, 1)).append(candyName.substring(1).toLowerCase()).toString();
+                candyName = candyName.substring(0, 1) + candyName.substring(1).toLowerCase();
             } catch (StringIndexOutOfBoundsException e) {
                 candyName = "";
             }
@@ -254,7 +251,7 @@ public class OCRHelper {
      * @return a CP of the pokemon, 10 if scan failed
      */
     private int getPokemonCPFromImg(Bitmap pokemonImage) {
-        int pokemonCP = 0;
+        int pokemonCP;
         Bitmap cp = Bitmap.createBitmap(pokemonImage, (int) Math.round(widthPixels / 3.0), (int) Math.round(heightPixels / 15.5151515), (int) Math.round(widthPixels / 3.84), (int) Math.round(heightPixels / 21.333333333));
         cp = replaceColors(cp, 255, 255, 255, Color.BLACK, 30);
         tesseract.setImage(cp);

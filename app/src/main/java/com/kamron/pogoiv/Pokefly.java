@@ -144,6 +144,8 @@ public class Pokefly extends Service {
     TextView exResStardust;
     @BindView(R.id.exResPrevScan)
     TextView exResPrevScan;
+    @BindView(R.id.exResCompare)
+    TextView exResCompare;
     @BindView(R.id.resultsMoreInformationArrow)
     TextView resultsMoreInformationArrow;
     @BindView(R.id.resultsMoreInformationText)
@@ -576,6 +578,10 @@ public class Pokefly extends Service {
         }
 
         populateResultsBox(ivScanResult);
+        boolean enableCompare = IVScanResult.scanContainer.twoScanAgo != null;
+        //@color/unimportantText
+        exResCompare.setEnabled(enableCompare);
+        exResCompare.setTextColor(getResources().getColor(enableCompare ? R.color.colorPrimary : R.color.unimportantText));
         resultsBox.setVisibility(View.VISIBLE);
         inputBox.setVisibility(View.GONE);
 

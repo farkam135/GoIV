@@ -634,6 +634,12 @@ public class Pokefly extends Service {
         pokeEvolutionAdapter.updatePokemonList(evolutionLine);
         exResLevel.setText(String.valueOf(goalLevel));
 
+        // If goalLevel exeeds trainer capabilities then show text in orange
+        if(goalLevel>trainerLevel+1.5){
+            exResLevel.setTextColor(getResources().getColor(R.color.orange));
+        }else{
+            exResLevel.setTextColor(getResources().getColor(R.color.importantText));
+        }
     }
 
 

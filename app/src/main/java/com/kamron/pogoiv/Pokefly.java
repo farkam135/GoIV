@@ -28,6 +28,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -152,6 +153,13 @@ public class Pokefly extends Service {
     SeekBar expandedLevelSeekbar;
     @BindView(R.id.extendedEvolutionSpinner)
     Spinner extendedEvolutionSpinner;
+
+    @BindView(R.id.attCheckbox)
+    CheckBox attCheckbox;
+    @BindView(R.id.defCheckbox)
+    CheckBox defCheckbox;
+    @BindView(R.id.staCheckbox)
+    CheckBox staCheckbox;
 
     private String pokemonName;
     private String candyName;
@@ -554,6 +562,10 @@ public class Pokefly extends Service {
             edit.apply();
         }
         IVScanResult ivScanResult = pokeCalculator.getIVPossibilities(selectedPokemon, estimatedPokemonLevel, pokemonHP, pokemonCP);
+
+        if (attCheckbox.isChecked() || defCheckbox.isChecked() || staCheckbox.isChecked()){
+            ivScanResult.refineByHighest(attCheckbox.isChecked(), defCheckbox.isChecked(), staCheckbox.isChecked());
+        }
 
         populateResultsBox(ivScanResult);
         resultsBox.setVisibility(View.VISIBLE);

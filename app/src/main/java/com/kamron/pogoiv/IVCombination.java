@@ -1,5 +1,7 @@
 package com.kamron.pogoiv;
 
+import android.util.Log;
+
 /**
  * Created by Johan on 2016-08-18.
  * A class which represents an IV value
@@ -30,6 +32,21 @@ public class IVCombination {
 
     }
 
+    /**
+     * Returns a boolean array that represent which values are the highest in an iv,
+     * Examples: Iv 14-14-7 would be [true,true,false]
+     *              iv 4,6,1 would be [false, true, false]
+     */
+    public Boolean[] getHighestStatSignature(){
+        Boolean[] attDefSta = new Boolean[3];
+            
+            attDefSta[0] = att >= def && att >=def;
+            attDefSta[1] = def >= att && def >=sta;
+            attDefSta[2] = sta >= att && sta >=def;
+        Log.d(this.toString() + " -> attdefsta returned:" + attDefSta[0]+ attDefSta[1]+ attDefSta[2], "nahojjjen debug gethigheststatsignature");
+        return attDefSta;
+    }
+    
     /**
      * get attack + defence + stamina value
      *

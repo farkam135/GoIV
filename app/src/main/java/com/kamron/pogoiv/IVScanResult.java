@@ -1,6 +1,7 @@
 package com.kamron.pogoiv;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Created by Johan on 2016-08-18.
@@ -187,4 +188,24 @@ public class IVScanResult {
         }
 
     }
+
+    /**
+     * Removes all possible IV combinations where the boolean set to true stat isnt the highest
+     * Several stats can be highest if they're equal
+     * @param attIsHighest
+     * @param defIsHighest
+     * @param staIsHighest
+     */
+    public void refineByHighest(boolean attIsHighest, boolean defIsHighest, boolean staIsHighest){
+        ArrayList<IVCombination> refinedList = new ArrayList<>();
+
+        for (IVCombination comb : iVCombinations){
+            Boolean[] knownAttDefSta = {attIsHighest, defIsHighest, staIsHighest};
+            if (Arrays.equals(comb.getHighestStatSignature(),knownAttDefSta)){
+                refinedList.add(comb);
+            }
+        }
+        iVCombinations = refinedList;
+    }
+
 }

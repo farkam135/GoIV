@@ -578,7 +578,8 @@ public class Pokefly extends Service {
     private void resetInfoDialogue() {
         inputBox.setVisibility(View.VISIBLE);
         resultsBox.setVisibility(View.GONE);
-        expandedResultsBox.setVisibility(View.VISIBLE);
+        allPossibilitiesBox.setVisibility(View.GONE);
+        //expandedResultsBox.setVisibility(View.VISIBLE);
     }
 
     /**

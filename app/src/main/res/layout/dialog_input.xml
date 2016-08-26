@@ -137,8 +137,9 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Appraisal narrowing"
-        android:textColor="@color/unimportantText"
+        android:text="@string/appraisal_narrowing"
+        android:textColor="@color/importantText"
+        android:layout_marginStart="6sp"
         android:textAlignment="center"/>
 
     <Space
@@ -160,8 +161,8 @@
             android:id="@+id/attCheckbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/unimportantText"
-            android:text="Attack"/>
+            android:textColor="@color/importantText"
+            android:text="@string/attack"/>
         <View
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -171,8 +172,8 @@
             android:id="@+id/defCheckbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/unimportantText"
-            android:text="Defence"/>
+            android:textColor="@color/importantText"
+            android:text="@string/defence"/>
         <View
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -182,8 +183,8 @@
             android:id="@+id/staCheckbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/unimportantText"
-            android:text="Stamina(HP)"/>
+            android:textColor="@color/importantText"
+            android:text="@string/stamina_hp"/>
 
         <View
         android:layout_width="0dp"

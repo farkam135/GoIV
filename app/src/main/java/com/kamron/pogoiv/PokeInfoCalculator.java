@@ -51,7 +51,7 @@ public class PokeInfoCalculator {
             pokemap.put(names[i], p);
         }
 
-        for (int i = 0; i <= pokeListSize - 1; i++){
+        for (int i = 0; i <= pokeListSize - 1; i++) {
             if (devolution[i] != -1) {
                 Pokemon devo = pokedex.get(devolution[i]);
                 devo.evolutions.add(pokedex.get(i));
@@ -84,7 +84,7 @@ public class PokeInfoCalculator {
      * getUpgradeCost
      * Gets the needed required candy and stardust to hit max level (relative to trainer level)
      *
-     * @param goalLevel          The level to reach
+     * @param goalLevel             The level to reach
      * @param estimatedPokemonLevel The estimated level of hte pokemon
      * @return The text that shows the amount of candy and stardust needed.
      */
@@ -178,14 +178,14 @@ public class PokeInfoCalculator {
      * <p/>
      * Returns a string on the form of "\n CP at lvl X: A - B" where x is the pokemon level, A is minCP and B is maxCP
      *
-     * @param pokemon the index of the pokemon species within the pokemon list (sorted)
-     * @param lowAttack    attack IV of the lowest combination
-     * @param lowDefense   defense IV of the lowest combination
-     * @param lowStamina   stamina IV of the lowest combination
-     * @param highAttack   attack IV of the highest combination
-     * @param highDefense  defense IV of the highest combination
-     * @param highStamina  stamina IV of the highest combination
-     * @param level        pokemon level for CP calculation
+     * @param pokemon     the index of the pokemon species within the pokemon list (sorted)
+     * @param lowAttack   attack IV of the lowest combination
+     * @param lowDefense  defense IV of the lowest combination
+     * @param lowStamina  stamina IV of the lowest combination
+     * @param highAttack  attack IV of the highest combination
+     * @param highDefense defense IV of the highest combination
+     * @param highStamina stamina IV of the highest combination
+     * @param level       pokemon level for CP calculation
      * @return String containing the CP range including the specified level.
      */
     public CPRange getCpRangeAtLevel(Pokemon pokemon, int lowAttack, int lowDefense, int lowStamina, int highAttack, int highDefense, int highStamina, double level) {

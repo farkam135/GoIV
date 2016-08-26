@@ -83,15 +83,14 @@ public class PokeInfoCalculator {
 
 
     /**
-     * getMaxReqText
+     * getUpgradeCost
      * Gets the needed required candy and stardust to hit max level (relative to trainer level)
      *
-     * @param trainerLevel          The level of the trainer
+     * @param goalLevel          The level to reach
      * @param estimatedPokemonLevel The estimated level of hte pokemon
      * @return The text that shows the amount of candy and stardust needed.
      */
-    public UpgradeCost getMaxReqText(float trainerLevel, double estimatedPokemonLevel) {
-        double goalLevel = Math.min(trainerLevel + 1.5, 40.0);
+    public UpgradeCost getUpgradeCost(float goalLevel, double estimatedPokemonLevel) {
         int neededCandy = 0;
         int neededStarDust = 0;
         while (estimatedPokemonLevel != goalLevel) {

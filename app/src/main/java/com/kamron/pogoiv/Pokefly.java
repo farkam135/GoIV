@@ -19,7 +19,6 @@ import android.os.Build;
 import android.os.IBinder;
 import android.provider.MediaStore;
 import android.support.v4.content.LocalBroadcastManager;
-import android.text.Html;
 import android.util.DisplayMetrics;
 import android.util.LruCache;
 import android.view.Gravity;
@@ -30,7 +29,6 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -131,6 +129,7 @@ public class Pokefly extends Service {
     @BindView(R.id.exResPrevScan) TextView exResPrevScan;
     @BindView(R.id.resultsMoreInformationArrow) TextView resultsMoreInformationArrow;
     @BindView(R.id.resultsMoreInformationText) TextView resultsMoreInformationText;
+    @BindView(R.id.expandedLevelSeekbar) SeekBar expandedLevelSeekbar;
 
     private String pokemonName;
     private String candyName;
@@ -438,6 +437,18 @@ public class Pokefly extends Service {
 
         pokeAdapter = new PokemonSpinnerAdapter(this, R.layout.spinner_pokemon, pokeCalculator.pokedex);
         pokemonList.setAdapter(pokeAdapter);
+        expandedLevelSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                updateCostFields(IVScanResult.scanContainer.oneScanAgo);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {}
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {}
+        });
     }
 
 
@@ -521,29 +532,56 @@ public class Pokefly extends Service {
         resultsPokemonLevel.setText("Level: " + ivScanResult.estimatedPokemonLevel);
         setResultScreenPercentageRange(ivScanResult);
 
-        UpgradeCost cost = pokeCalculator.getMaxReqText(trainerLevel, estimatedPokemonLevel);
-        CPRange expectedRange = pokeCalculator.getCpRangeAtLevel(ivScanResult.pokemon, ivScanResult.lowAttack, ivScanResult.lowDefense, ivScanResult.lowStamina, ivScanResult.highAttack, ivScanResult.highDefense, ivScanResult.highStamina, Math.min(trainerLevel + 1.5, 40.0));
-        int expectedAverage = (expectedRange.high+expectedRange.low)/2;
-        exResultCP.setText(String.valueOf(expectedAverage));
-        exResCandy.setText(String.valueOf(cost.candy));
-        exResStardust.setText(String.valueOf(cost.dust));
-        exResLevel.setText(String.valueOf(trainerLevel));
+        expandedLevelSeekbar.setProgress(Math.min(trainerLevel+3, 80)); //3 because pokemon level is 1.5 higher than trainer max, and seekbar is int only so value is x2
+        updateCostFields(ivScanResult);
         exResPrevScan.setText("Previous scan: " + ivScanResult.getPrevScanName());
 
     }
+
+    /**
+     * sets the growth estimate text boxes to correpond to the
+     * pokemon evolution and level set by the user
+     */
+    public void updateCostFields(IVScanResult ivScanResult){
+        float goalLevel = expandedLevelSeekbar.getProgress()/2.0f; //seekbar only supports integers, so the seekbar works between 2 and 80.
+
+        if (goalLevel < estimatedPokemonLevel){//Lowest estimate is the pokemons current level
+            goalLevel = (float)estimatedPokemonLevel;
+        }
+
+        CPRange expectedRange = pokeCalculator.getCpRangeAtLevel(ivScanResult.pokemon, ivScanResult.lowAttack, ivScanResult.lowDefense, ivScanResult.lowStamina, ivScanResult.highAttack, ivScanResult.highDefense, ivScanResult.highStamina, goalLevel);
+        CPRange realRange = pokeCalculator.getCpRangeAtLevel(ivScanResult.pokemon, ivScanResult.lowAttack, ivScanResult.lowDefense, ivScanResult.lowStamina, ivScanResult.highAttack, ivScanResult.highDefense, ivScanResult.highStamina, estimatedPokemonLevel);
+        int expectedAverage = (expectedRange.high+expectedRange.low)/2;
+        exResultCP.setText(String.valueOf(expectedAverage) + " (+" + (expectedAverage-realRange.high) + ")");
+
+        UpgradeCost cost = pokeCalculator.getUpgradeCost(goalLevel, estimatedPokemonLevel);
+        exResCandy.setText(String.valueOf(cost.candy));
+        exResStardust.setText(String.valueOf(cost.dust));
+
+
+        exResLevel.setText(String.valueOf(goalLevel));
+
+    }
+
 
     /**
      * fixes the three boxes that show iv range color and text
      * @param ivScanResult the scan result used to populate the TextViews
      */
     private void setResultScreenPercentageRange(IVScanResult ivScanResult) {
-        int low = ivScanResult.getLowestIVCombination().percentPerfect;
-        int ave = ivScanResult.getAveragePercent();
-        int high = ivScanResult.getHighestIVCombination().percentPerfect;
-
+        int low=0;
+        int ave=0;
+        int high = 0;
+        if (ivScanResult.iVCombinations.size() != 0) {
+            low = ivScanResult.getLowestIVCombination().percentPerfect;
+            ave = ivScanResult.getAveragePercent();
+            high = ivScanResult.getHighestIVCombination().percentPerfect;
+        }
         setTextColorbyPercentage(resultsMinPercentage, low);
         setTextColorbyPercentage(resultsAvePercentage, ave);
         setTextColorbyPercentage(resultsMaxPercentage, high);
+
+
         if (ivScanResult.iVCombinations.size() >0){
             resultsMinPercentage.setText( low+ "%");
             resultsAvePercentage.setText(ave + "%");
@@ -839,7 +877,7 @@ public class Pokefly extends Service {
                 returnVal += "<br>"; //breakline
                 returnVal += "\n" + String.format(getString(R.string.ivtext_max_lvl_cost), trainerLevel + 1.5);
                 returnVal += "<br>"; //breakline
-                UpgradeCost cost = pokeCalculator.getMaxReqText(trainerLevel, estimatedPokemonLevel);
+                UpgradeCost cost = pokeCalculator.getUpgradeCost(trainerLevel, estimatedPokemonLevel);
                 returnVal += "\n" + String.format(getString(R.string.ivtext_max_lvl_cost2), cost.candy, NumberFormat.getInstance().format(cost.dust) + "\n");
                 returnVal += "<br>"; //breakline
             }

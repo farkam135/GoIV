@@ -586,7 +586,7 @@ public class Pokefly extends Service {
     }
 
     private int getSeekbarOffset() {
-        return (int) (2 * estimatedPokemonLevel) + 3;
+        return (int) (2 * estimatedPokemonLevel);
     }
 
     private float seekbarProgressToLevel(int progress) {

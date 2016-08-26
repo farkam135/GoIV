@@ -19,7 +19,6 @@ import android.os.Build;
 import android.os.IBinder;
 import android.provider.MediaStore;
 import android.support.v4.content.LocalBroadcastManager;
-import android.text.Html;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.LruCache;
@@ -28,12 +27,15 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -70,7 +72,6 @@ public class Pokefly extends Service {
 
     private static final String PREF_USER_CORRECTIONS = "com.kamron.pogoiv.USER_CORRECTIONS";
 
-    private final int MAX_POSSIBILITIES = 8;
 
     private int trainerLevel = -1;
     private boolean batterySaver = false;
@@ -96,6 +97,8 @@ public class Pokefly extends Service {
 
     @BindView(R.id.tvIvInfo)
     TextView ivText;
+    @BindView(R.id.tvSeeAllPossibilities)
+    TextView seeAllPossibilities;
     @BindView(R.id.spnPokemonName)
     Spinner pokemonList;
     @BindView(R.id.etCp)
@@ -104,12 +107,61 @@ public class Pokefly extends Service {
     EditText pokemonHPEdit;
     @BindView(R.id.sbArcAdjust)
     SeekBar arcAdjustBar;
-    @BindView(R.id.llPokemonInfo)
-    LinearLayout pokemonInfoLayout;
     @BindView(R.id.llButtonsInitial)
     LinearLayout initialButtonsLayout;
     @BindView(R.id.llButtonsOnCheck)
     LinearLayout onCheckButtonsLayout;
+
+    // Layouts
+    @BindView(R.id.inputBox)
+    LinearLayout inputBox;
+    @BindView(R.id.resultsBox)
+    LinearLayout resultsBox;
+    @BindView(R.id.expandedResultsBox)
+    LinearLayout expandedResultsBox;
+    @BindView(R.id.allPossibilitiesBox)
+    LinearLayout allPossibilitiesBox;
+
+    // Result data
+    @BindView(R.id.resultsMinPercentage)
+    TextView resultsMinPercentage;
+    @BindView(R.id.resultsAvePercentage)
+    TextView resultsAvePercentage;
+    @BindView(R.id.resultsMaxPercentage)
+    TextView resultsMaxPercentage;
+    @BindView(R.id.resultsPokemonLevel)
+    TextView resultsPokemonLevel;
+    @BindView(R.id.exResCandy)
+    TextView exResCandy;
+    @BindView(R.id.exResLevel)
+    TextView exResLevel;
+    @BindView(R.id.resultsPokemonName)
+    TextView resultsPokemonName;
+    @BindView(R.id.resultsCombinations)
+    TextView resultsCombinations;
+    @BindView(R.id.exResultCP)
+    TextView exResultCP;
+    @BindView(R.id.exResStardust)
+    TextView exResStardust;
+    @BindView(R.id.exResPrevScan)
+    TextView exResPrevScan;
+    @BindView(R.id.exResCompare)
+    TextView exResCompare;
+    @BindView(R.id.resultsMoreInformationArrow)
+    TextView resultsMoreInformationArrow;
+    @BindView(R.id.resultsMoreInformationText)
+    TextView resultsMoreInformationText;
+    @BindView(R.id.expandedLevelSeekbar)
+    SeekBar expandedLevelSeekbar;
+    @BindView(R.id.extendedEvolutionSpinner)
+    Spinner extendedEvolutionSpinner;
+
+    @BindView(R.id.attCheckbox)
+    CheckBox attCheckbox;
+    @BindView(R.id.defCheckbox)
+    CheckBox defCheckbox;
+    @BindView(R.id.staCheckbox)
+    CheckBox staCheckbox;
 
     private String pokemonName;
     private String candyName;
@@ -122,6 +174,7 @@ public class Pokefly extends Service {
     private LruCache<String, String> cachedCorrections;
 
     private PokemonSpinnerAdapter pokeAdapter;
+    private PokemonSpinnerAdapter pokeEvolutionAdapter;
 
     private final WindowManager.LayoutParams arcParams = new WindowManager.LayoutParams(
             WindowManager.LayoutParams.WRAP_CONTENT,
@@ -317,6 +370,7 @@ public class Pokefly extends Service {
         }
     }
 
+
     /**
      * setArcPointer
      * Sets the arc pointer to the specified degree.
@@ -419,6 +473,51 @@ public class Pokefly extends Service {
 
         pokeAdapter = new PokemonSpinnerAdapter(this, R.layout.spinner_pokemon, pokeCalculator.pokedex);
         pokemonList.setAdapter(pokeAdapter);
+
+        pokeEvolutionAdapter = new PokemonSpinnerAdapter(this, R.layout.spinner_evolution, new ArrayList<Pokemon>());
+        extendedEvolutionSpinner.setAdapter(pokeEvolutionAdapter);
+
+        expandedLevelSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                updateCostFields(IVScanResult.scanContainer.oneScanAgo);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+        });
+
+
+        extendedEvolutionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                updateCostFields(IVScanResult.scanContainer.oneScanAgo);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                updateCostFields(IVScanResult.scanContainer.oneScanAgo);
+            }
+
+        });
+    }
+
+
+    @OnClick({R.id.resultsMoreInformationText, R.id.resultsMoreInformationArrow})
+    public void toggleMoreResultsBox() {
+        if (expandedResultsBox.getVisibility() == View.VISIBLE) {
+            expandedResultsBox.setVisibility(View.GONE);
+            resultsMoreInformationArrow.setText("► ");
+        } else {
+            expandedResultsBox.setVisibility(View.VISIBLE);
+            resultsMoreInformationArrow.setText("▼ ");
+        }
+
     }
 
     @OnClick(R.id.btnDecrementLevel)
@@ -441,6 +540,16 @@ public class Pokefly extends Service {
         arcAdjustBar.setProgress((int) ((estimatedPokemonLevel - 1) * 2));
     }
 
+    @OnClick(R.id.btnIncrementLevelExpanded)
+    public void incrementLevelExpanded() {
+        expandedLevelSeekbar.setProgress(expandedLevelSeekbar.getProgress()+1);
+    }
+
+    @OnClick(R.id.btnDecrementLevelExpanded)
+    public void decrementLevelExpanded() {
+        expandedLevelSeekbar.setProgress(expandedLevelSeekbar.getProgress()-1);
+    }
+
     @OnClick(R.id.btnCheckIv)
     public void checkIv() {
         if (batterySaver && !screenshotDir.isEmpty()) {
@@ -449,21 +558,233 @@ public class Pokefly extends Service {
         }
         pokemonHP = Integer.parseInt(pokemonHPEdit.getText().toString());
         pokemonCP = Integer.parseInt(pokemonCPEdit.getText().toString());
-        ivText.setVisibility(View.VISIBLE);
-        pokemonInfoLayout.setVisibility(View.GONE);
         initialButtonsLayout.setVisibility(View.GONE);
         onCheckButtonsLayout.setVisibility(View.VISIBLE);
-        ivText.setText(Html.fromHtml(getIVText()));
+
+        int selectedPokemon = pokemonList.getSelectedItemPosition();
+        Pokemon pokemon = pokeCalculator.get(selectedPokemon);
+        /* TODO: Should we set a size limit on that and throw away LRU entries? */
+        /* TODO: Move this into an event listener that triggers when the user
+         * actually changes the selection. */
+        if (!pokemonName.equals(pokemon.name) && pokeCalculator.get(pokemonName) == null) {
+            userCorrections.put(pokemonName, pokemon.name);
+            SharedPreferences.Editor edit = sharedPref.edit();
+            edit.putString(pokemonName, pokemon.name);
+            edit.apply();
+        }
+        IVScanResult ivScanResult = pokeCalculator.getIVPossibilities(selectedPokemon, estimatedPokemonLevel, pokemonHP, pokemonCP);
+
+        if (attCheckbox.isChecked() || defCheckbox.isChecked() || staCheckbox.isChecked()){
+            ivScanResult.refineByHighest(attCheckbox.isChecked(), defCheckbox.isChecked(), staCheckbox.isChecked());
+        }
+
+        addToRangeToClipboardIfSettingOn(ivScanResult);
+        populateResultsBox(ivScanResult);
+        boolean enableCompare = IVScanResult.scanContainer.twoScanAgo != null;
+        //@color/unimportantText
+        exResCompare.setEnabled(enableCompare);
+        exResCompare.setTextColor(getResources().getColor(enableCompare ? R.color.colorPrimary : R.color.unimportantText));
+        resultsBox.setVisibility(View.VISIBLE);
+        inputBox.setVisibility(View.GONE);
+
+    }
+
+    /**
+     * Adds the iv range of the pokemon to the clipboard if the clipboard setting is on
+     */
+    private void addToRangeToClipboardIfSettingOn(IVScanResult ivScanResult){
+        GoIVSettings settings = GoIVSettings.getSettings(getApplicationContext());
+        if(settings.getCopyToClipboard()){
+            String clipText =  ivScanResult.getLowestIVCombination().percentPerfect + "-" +ivScanResult.getHighestIVCombination().percentPerfect;
+            ClipData clip =  ClipData.newPlainText(clipText,clipText);
+            clipboard.setPrimaryClip(clip);
+        }
+    }
+    /**
+     * sets the information in the results box
+     */
+    private void populateResultsBox(IVScanResult ivScanResult) {
+
+        resultsPokemonName.setText(ivScanResult.pokemon.name);
+        if (ivScanResult.tooManyPossibilities){
+            resultsCombinations.setText(String.format(getString(R.string.possible_iv_combinations), 4096));
+        }else{
+            resultsCombinations.setText(String.format(getString(R.string.possible_iv_combinations), ivScanResult.iVCombinations.size()));
+        }
+
+
+        //TODO: Populate ivText in a better way.
+        String allIvs = "";
+        for (IVCombination ivItem : ivScanResult.iVCombinations) {
+            allIvs += String.format(getString(R.string.ivtext_stats), ivItem.att, ivItem.def, ivItem.sta, ivItem.percentPerfect) + "\n";
+        }
+        ivText.setText(allIvs);
+
+        resultsPokemonLevel.setText(getString(R.string.level) + ": " + ivScanResult.estimatedPokemonLevel);
+        setResultScreenPercentageRange(ivScanResult);
+
+        //Preselect the maximum level we can reach currently, the user can move to higher or lower.
+        expandedLevelSeekbar.setProgress(levelToProgress(trainerLevel + 1.5f));
+        expandedLevelSeekbar.setMax(levelToProgress(40));
+        updateCostFields(ivScanResult);
+        exResPrevScan.setText(String.format(getString(R.string.last_scan),ivScanResult.getPrevScanName()));
+    }
+
+    private int getSeekbarOffset() {
+        return (int) (2 * estimatedPokemonLevel);
+    }
+
+    private float seekbarProgressToLevel(int progress) {
+        return (progress + getSeekbarOffset()) / 2.0f;  //seekbar only supports integers, so the seekbar works between 2 and 80.
+    }
+
+    private int levelToProgress(float level) {
+        return Math.min((int) (level * 2), 80) - getSeekbarOffset();
+    }
+
+    /**
+     * sets the growth estimate text boxes to correpond to the
+     * pokemon evolution and level set by the user
+     */
+    public void updateCostFields(IVScanResult ivScanResult) {
+        float goalLevel = seekbarProgressToLevel(expandedLevelSeekbar.getProgress());
+        int intSelectedPokemon = extendedEvolutionSpinner.getSelectedItemPosition(); //which pokemon is selected in the spinner
+        ArrayList<Pokemon> evolutionLine = pokeCalculator.getEvolutionLine(ivScanResult.pokemon);
+
+        Pokemon selectedPokemon;
+        if (intSelectedPokemon == -1) {
+            selectedPokemon = ivScanResult.pokemon;//if initialising list, act as if scanned pokemon is marked
+            for (int i = 0; i < evolutionLine.size(); i++) {
+                if (evolutionLine.get(i).number == selectedPokemon.number) {
+                    intSelectedPokemon = i;
+                    extendedEvolutionSpinner.setSelection(intSelectedPokemon);
+                    break;
+                }
+            }
+        } else {
+            selectedPokemon = evolutionLine.get(intSelectedPokemon);
+        }
+
+
+        CPRange expectedRange = pokeCalculator.getCpRangeAtLevel(selectedPokemon, ivScanResult.lowAttack, ivScanResult.lowDefense, ivScanResult.lowStamina, ivScanResult.highAttack, ivScanResult.highDefense, ivScanResult.highStamina, goalLevel);
+        CPRange realRange = pokeCalculator.getCpRangeAtLevel(ivScanResult.pokemon, ivScanResult.lowAttack, ivScanResult.lowDefense, ivScanResult.lowStamina, ivScanResult.highAttack, ivScanResult.highDefense, ivScanResult.highStamina, estimatedPokemonLevel);
+        int expectedAverage = (expectedRange.high + realRange.low) / 2;
+        exResultCP.setText(String.valueOf(expectedAverage) + " (+" + (expectedAverage - realRange.high) + ")");
+
+        UpgradeCost cost = pokeCalculator.getUpgradeCost(goalLevel, estimatedPokemonLevel);
+        exResCandy.setText(String.valueOf(cost.candy));
+        exResStardust.setText(String.valueOf(cost.dust));
+
+        pokeEvolutionAdapter.updatePokemonList(evolutionLine);
+        exResLevel.setText(String.valueOf(goalLevel));
+
+        // If goalLevel exeeds trainer capabilities then show text in orange
+        if(goalLevel>trainerLevel+1.5){
+            exResLevel.setTextColor(getResources().getColor(R.color.orange));
+        }else{
+            exResLevel.setTextColor(getResources().getColor(R.color.importantText));
+        }
+    }
+
+
+    /**
+     * fixes the three boxes that show iv range color and text
+     *
+     * @param ivScanResult the scan result used to populate the TextViews
+     */
+    private void setResultScreenPercentageRange(IVScanResult ivScanResult) {
+        int low = 0;
+        int ave = 0;
+        int high = 0;
+        if (ivScanResult.iVCombinations.size() != 0) {
+            low = ivScanResult.getLowestIVCombination().percentPerfect;
+            ave = ivScanResult.getAveragePercent();
+            high = ivScanResult.getHighestIVCombination().percentPerfect;
+        }
+        setTextColorbyPercentage(resultsMinPercentage, low);
+        setTextColorbyPercentage(resultsAvePercentage, ave);
+        setTextColorbyPercentage(resultsMaxPercentage, high);
+
+
+        if (ivScanResult.iVCombinations.size() > 0) {
+            resultsMinPercentage.setText(low + "%");
+            resultsAvePercentage.setText(ave + "%");
+            resultsMaxPercentage.setText(high + "%");
+        } else {
+            resultsMinPercentage.setText("?%");
+            resultsAvePercentage.setText("?%");
+            resultsMaxPercentage.setText("?%");
+        }
+    }
+
+    /**
+     * sets the text color to red if below 80, and green if above
+     *
+     * @param text  the text that changes color
+     * @param value the value that is checked if its above 80
+     */
+    private void setTextColorbyPercentage(TextView text, int value) {
+        if (value >= 80) {
+            text.setTextColor(Color.parseColor("#088A08")); //dark green
+        } else if (value >= 60) {
+            text.setTextColor(Color.parseColor("#DBA901"));//brownish orange
+        } else {
+            text.setTextColor(Color.parseColor("#8A0808")); //dark red
+        }
     }
 
     @OnClick({R.id.btnCancelInfo, R.id.btnCloseInfo})
+    /**
+     * resets the info dialogue to its default state
+     */
     public void cancelInfoDialog() {
         hideInfoLayoutArcPointer();
         if (!batterySaver) {
             windowManager.addView(IVButton, IVButonParams);
             IVButtonShown = true;
         }
+        attCheckbox.setChecked(false);
+        defCheckbox.setChecked(false);
+        staCheckbox.setChecked(false);
         resetPokeflyStateMachine();
+        resetInfoDialogue();
+    }
+
+    /**
+     * Displays the all possibilities dialog
+     */
+    @OnClick(R.id.tvSeeAllPossibilities)
+    public void displayAllPossibilities() {
+        resultsBox.setVisibility(View.GONE);
+        allPossibilitiesBox.setVisibility(View.VISIBLE);
+    }
+
+    @OnClick(R.id.exResCompare)
+    public void reduceScanByComparison() {
+        IVScanResult thisScan = IVScanResult.scanContainer.oneScanAgo;
+        IVScanResult prevScan = IVScanResult.scanContainer.twoScanAgo;
+        if (prevScan != null) {
+            ArrayList<IVCombination> newResult = thisScan.getLatestIVIntersection();
+            // Since the only change was an intersection, if the sizes are equal the content's also equal.
+            boolean changed = newResult.size() != thisScan.iVCombinations.size();
+            thisScan.iVCombinations = newResult;
+            if (changed)
+                populateResultsBox(thisScan);
+            else
+                Toast.makeText(this, R.string.refine_no_progress, Toast.LENGTH_SHORT).show();
+
+        }
+
+    }
+
+    /**
+     * resets the floating window that contains the result and input dialogue
+     */
+    private void resetInfoDialogue() {
+        inputBox.setVisibility(View.VISIBLE);
+        extendedEvolutionSpinner.setSelection(-1);
+        resultsBox.setVisibility(View.GONE);
+        allPossibilitiesBox.setVisibility(View.GONE);
     }
 
     /**
@@ -476,12 +797,23 @@ public class Pokefly extends Service {
         LocalBroadcastManager.getInstance(Pokefly.this).sendBroadcast(resetIntent);
     }
 
+    /**
+     * Goes back a section
+     */
+    //TODO: Needs better implementation
     @OnClick(R.id.btnBackInfo)
     public void backToIvForm() {
-        ivText.setVisibility(View.GONE);
-        pokemonInfoLayout.setVisibility(View.VISIBLE);
-        initialButtonsLayout.setVisibility(View.VISIBLE);
-        onCheckButtonsLayout.setVisibility(View.GONE);
+        if (allPossibilitiesBox.getVisibility() == View.VISIBLE) {
+            allPossibilitiesBox.setVisibility(View.GONE);
+            resultsBox.setVisibility(View.VISIBLE);
+        } else {
+            allPossibilitiesBox.setVisibility(View.GONE);
+            inputBox.setVisibility(View.VISIBLE);
+            resultsBox.setVisibility(View.GONE);
+
+            initialButtonsLayout.setVisibility(View.VISIBLE);
+            onCheckButtonsLayout.setVisibility(View.GONE);
+        }
     }
 
     /**
@@ -494,8 +826,6 @@ public class Pokefly extends Service {
 
             infoShownReceived = true;
             int[] possiblePoke = getPossiblePokemon(pokemonName, candyName);
-            ivText.setVisibility(View.GONE);
-            pokemonInfoLayout.setVisibility(View.VISIBLE);
             initialButtonsLayout.setVisibility(View.VISIBLE);
             onCheckButtonsLayout.setVisibility(View.GONE);
 
@@ -601,126 +931,6 @@ public class Pokefly extends Service {
          * guess is going on. */
         int[] result = {p.number, bestCandyMatch + bestMatch};
         return result;
-    }
-
-    /**
-     * getIVText of the selected pokemon
-     *
-     * @return The text to be shown, containing IVs and additional info on pokemon
-     */
-    private String getIVText() {
-        int selectedPokemon = pokemonList.getSelectedItemPosition();
-        Pokemon pokemon = pokeCalculator.get(selectedPokemon);
-
-        /* TODO: Should we set a size limit on that and throw away LRU entries? */
-        /* TODO: Move this into an event listener that triggers when the user
-         * actually changes the selection. */
-        if (!pokemonName.equals(pokemon.name) && pokeCalculator.get(pokemonName) == null) {
-            userCorrections.put(pokemonName, pokemon.name);
-            SharedPreferences.Editor edit = sharedPref.edit();
-            edit.putString(pokemonName, pokemon.name);
-            edit.commit();
-        }
-
-        String returnVal = String.format(getString(R.string.ivtext_title), estimatedPokemonLevel, pokemonCP, pokemonHP, pokemon.name);
-        returnVal += "<br>"; //breakline
-        IVScanResult ivScanResult = pokeCalculator.getIVPossibilities(selectedPokemon, estimatedPokemonLevel, pokemonHP, pokemonCP);
-
-        //TODO if you wanna work on the placement of the refinement (issue #10) then un-comment this code!
-        /*
-        if (ivScanResult.are2LastScannedPokemonSame()) {
-            String tester = "Intersection: (test, empty on first scan)\n";
-            ArrayList<IVCombination> interseciton = ivScanResult.getLatestIVIntersection();
-            tester += "size: " + interseciton.size();
-            for (IVCombination comb : interseciton) {
-                tester += "\n" + comb.toString();
-            }
-
-            return tester;
-        }*/
-        if (ivScanResult == null) {
-            returnVal += "\n" + getString(R.string.ivtext_many_possibilities);
-        } else if (ivScanResult.getCount() == 0) {
-            returnVal += "\n" + getString(R.string.ivtext_no_possibilities);
-            returnVal += "<br>"; //breakline
-        } else {
-            int counter = 0;
-
-
-            IVCombination highest = ivScanResult.getHighestIVCombination();
-            IVCombination lowest = ivScanResult.getLowestIVCombination();
-            int shown = 1; //the number of IVs which is shown to the user, assume only highest will be shown
-            returnVal += "\n" + String.format(getString(R.string.ivtext_stats), highest.att, highest.def, highest.sta, highest.percentPerfect);
-            returnVal += "<br>"; //breakline
-            if (!(lowest.getTotal() == highest.getTotal())) { //if highest and lowest are the same, there's no reason to print both of them (they can be same IV)
-                returnVal += "\n" + String.format(getString(R.string.ivtext_stats), lowest.att, lowest.def, lowest.sta, lowest.percentPerfect);
-                returnVal += "<br>"; //breakline
-                shown += 1; //since this line is now shown, the "x more combinations" needs to take that into account
-            }
-
-            if (ivScanResult.iVCombinations.size() > shown) { //if all options havent been shown
-                returnVal += "\n" + String.format(getString(R.string.ivtext_possibilities), ivScanResult.getCount() - shown); //2 is for the best & worst line
-                returnVal += "<br>"; //breakline
-            }
-            /*
-            for (IVCombination ivCombination : ivScanResult.iVCombinations) {
-                returnVal += "\n" + String.format(getString(R.string.ivtext_stats), ivCombination.att, ivCombination.def, ivCombination.sta, ivCombination.percentPerfect);
-                returnVal += "<br>"; //breakline
-                counter++;
-                if (counter == MAX_POSSIBILITIES) {
-                    break;
-                }
-            }
-
-            if (ivScanResult.getCount() > MAX_POSSIBILITIES) {
-                returnVal += "\n" + String.format(getString(R.string.ivtext_possibilities), ivScanResult.getCount() - MAX_POSSIBILITIES);
-                returnVal += "<br>"; //breakline
-            }*/
-
-            returnVal += "\n" + "<b>" + (String.format(getString(R.string.ivtext_iv), ivScanResult.lowPercent, ivScanResult.getAveragePercent(), ivScanResult.highPercent) + "</b>");
-            returnVal += "<br><br>"; //breakline
-
-            // for trainer level cp cap, if estimatedPokemonLevel is at cap do not print
-            if (estimatedPokemonLevel < trainerLevel + 1.5) {
-                CPRange range = pokeCalculator.getCpRangeAtLevel(pokemon, ivScanResult.lowAttack, ivScanResult.lowDefense, ivScanResult.lowStamina, ivScanResult.highAttack, ivScanResult.highDefense, ivScanResult.highStamina, Math.min(trainerLevel + 1.5, 40.0));
-                returnVal += "\n" + String.format(getString(R.string.ivtext_cp_lvl), range.level, range.low, range.high);
-                returnVal += "<br>"; //breakline
-                returnVal += "\n" + String.format(getString(R.string.ivtext_max_lvl_cost), trainerLevel + 1.5);
-                returnVal += "<br>"; //breakline
-                UpgradeCost cost = pokeCalculator.getMaxReqText(trainerLevel, estimatedPokemonLevel);
-                returnVal += "\n" + String.format(getString(R.string.ivtext_max_lvl_cost2), cost.candy, NumberFormat.getInstance().format(cost.dust) + "\n");
-                returnVal += "<br>"; //breakline
-            }
-
-            List<Pokemon> evolutions = pokemon.evolutions;
-
-            //for each evolution of next stage (example, eevees three evolutions jolteon, vaporeon and flareon)
-            for (Pokemon evolution : evolutions) {
-                pokemonName = evolution.name;
-                returnVal += "\n" + String.format(getString(R.string.ivtext_evolve), pokemonName);
-                returnVal += "<br>"; //breakline
-
-                CPRange range = pokeCalculator.getCpRangeAtLevel(evolution, ivScanResult.lowAttack, ivScanResult.lowDefense, ivScanResult.lowStamina, ivScanResult.highAttack, ivScanResult.highDefense, ivScanResult.highStamina, estimatedPokemonLevel);
-                returnVal += String.format(getString(R.string.ivtext_cp_lvl), range.level, range.low, range.high);
-                returnVal += "<br>"; //breakline
-                //for following stage evolution (example, dratini - dragonair - dragonite)
-                //if the current evolution has another evolution calculate its range and break
-                for (Pokemon nextEvo : evolution.evolutions) {
-                    pokemonName = nextEvo.name;
-                    returnVal += "\n" + String.format(getString(R.string.ivtext_evolve_further), pokemonName);
-                    returnVal += "<br>"; //breakline
-                    CPRange range2 = pokeCalculator.getCpRangeAtLevel(nextEvo, ivScanResult.lowAttack, ivScanResult.lowDefense, ivScanResult.lowStamina, ivScanResult.highAttack, ivScanResult.highDefense, ivScanResult.highStamina, estimatedPokemonLevel);
-                    returnVal += "\n" + String.format(getString(R.string.ivtext_cp_lvl), range2.level, range2.low, range2.high);
-                    returnVal += "<br>"; //breakline
-                }
-            }
-
-            if (GoIVSettings.getSettings(getBaseContext()).getCopyToClipboard()) {
-                ClipData clip = ClipData.newPlainText("iv", ivScanResult.lowPercent + "-" + ivScanResult.highPercent);
-                clipboard.setPrimaryClip(clip);
-            }
-        }
-        return returnVal;
     }
 
 

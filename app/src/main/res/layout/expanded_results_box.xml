@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/importantText"
+            android:text="@string/cp"
+            android:textSize="@dimen/resultExpandedTextSize"
+            android:layout_gravity="left"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            />
+
+        <TextView
+            android:id="@+id/exResultCP"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/importantText"
+            android:text="#ofCP"
+            android:textSize="@dimen/resultExpandedTextSize"
+            android:layout_gravity="right"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/importantText"
+            android:text="@string/candy_cost"
+            android:textSize="@dimen/resultExpandedTextSize"
+            android:layout_gravity="left"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            />
+
+        <TextView
+
+            android:id="@+id/exResCandy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/importantText"
+            android:textSize="@dimen/resultExpandedTextSize"
+            android:text="#of candy"
+            android:layout_gravity="right"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/importantText"
+            android:textSize="@dimen/resultExpandedTextSize"
+            android:text="@string/stardust_cost"
+            android:layout_gravity="left"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            />
+
+        <TextView
+            android:id="@+id/exResStardust"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/importantText"
+            android:textSize="@dimen/resultExpandedTextSize"
+            android:text="#of stardust"
+            android:layout_gravity="right"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/resultExpandedTextSize"
+            android:textColor="@color/importantText"
+            android:text="@string/evolution"
+            android:layout_gravity="left"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            />
+
+
+        <Spinner
+            android:id="@+id/extendedEvolutionSpinner"
+            android:layout_width="0dp"
+            android:background="@drawable/spinner"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/resultExpandedTextSize"
+            android:textColor="@color/importantText"
+            android:text="@string/level"
+            android:layout_gravity="left"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            />
+
+
+        <TextView
+            android:id="@+id/exResLevel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/resultExpandedTextSize"
+            android:textColor="@color/importantText"
+            android:text="#level"
+            android:layout_gravity="right"/>
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+
+
+        <Button
+            android:id="@+id/btnDecrementLevelExpanded"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".15"
+            android:text="-"
+            android:textSize="22sp"
+            android:textColor="@color/colorPrimary"
+            android:background="@android:color/transparent"/>
+
+        <SeekBar
+            android:id="@+id/expandedLevelSeekbar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.70"/>
+
+        <Button
+            android:id="@+id/btnIncrementLevelExpanded"
+            android:layout_width="0dp"
+            android:layout_weight="0.15"
+            android:layout_height="wrap_content"
+            android:text="+"
+            android:textSize="18sp"
+            android:textColor="@color/colorPrimary"
+            android:background="@android:color/transparent"/>
+
+    </LinearLayout>
+
+    <Space
+        android:layout_width="1dp"
+        android:layout_height="20dp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/unimportantText"
+        android:text="@string/powerup_calc_instructions"
+        android:textAlignment="center"
+        android:layout_gravity="center_horizontal" />
+
+</LinearLayout>

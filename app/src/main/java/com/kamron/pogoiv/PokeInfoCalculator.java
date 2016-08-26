@@ -1,7 +1,5 @@
 package com.kamron.pogoiv;
 
-import android.util.ArraySet;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -53,7 +51,7 @@ public class PokeInfoCalculator {
             pokemap.put(names[i], p);
         }
 
-        for (int i = 0; i <= pokeListSize - 1; i++){
+        for (int i = 0; i <= pokeListSize - 1; i++) {
             if (devolution[i] != -1) {
                 Pokemon devo = pokedex.get(devolution[i]);
                 devo.evolutions.add(pokedex.get(i));
@@ -83,15 +81,14 @@ public class PokeInfoCalculator {
 
 
     /**
-     * getMaxReqText
+     * getUpgradeCost
      * Gets the needed required candy and stardust to hit max level (relative to trainer level)
      *
-     * @param trainerLevel          The level of the trainer
+     * @param goalLevel             The level to reach
      * @param estimatedPokemonLevel The estimated level of hte pokemon
      * @return The text that shows the amount of candy and stardust needed.
      */
-    public UpgradeCost getMaxReqText(float trainerLevel, double estimatedPokemonLevel) {
-        double goalLevel = Math.min(trainerLevel + 1.5, 40.0);
+    public UpgradeCost getUpgradeCost(float goalLevel, double estimatedPokemonLevel) {
         int neededCandy = 0;
         int neededStarDust = 0;
         while (estimatedPokemonLevel != goalLevel) {
@@ -147,7 +144,7 @@ public class PokeInfoCalculator {
         //IV vars for lower and upper end cp ranges
 
 
-        if (pokemonHP != 10 || pokemonCP != 10) {
+        if (pokemonHP != 10 && pokemonCP != 10) {
             IVScanResult returner = new IVScanResult(get(selectedPokemon), estimatedPokemonLevel);
             for (int staminaIV = 0; staminaIV < 16; staminaIV++) {
                 int hp = (int) Math.max(Math.floor((baseStamina + staminaIV) * lvlScalar), 10);
@@ -169,7 +166,8 @@ public class PokeInfoCalculator {
             }
             return returner;
         } else {
-            return null;
+            return new IVScanResult(get(selectedPokemon), estimatedPokemonLevel,true);
+
         }
     }
 
@@ -181,14 +179,14 @@ public class PokeInfoCalculator {
      * <p/>
      * Returns a string on the form of "\n CP at lvl X: A - B" where x is the pokemon level, A is minCP and B is maxCP
      *
-     * @param pokemon the index of the pokemon species within the pokemon list (sorted)
-     * @param lowAttack    attack IV of the lowest combination
-     * @param lowDefense   defense IV of the lowest combination
-     * @param lowStamina   stamina IV of the lowest combination
-     * @param highAttack   attack IV of the highest combination
-     * @param highDefense  defense IV of the highest combination
-     * @param highStamina  stamina IV of the highest combination
-     * @param level        pokemon level for CP calculation
+     * @param pokemon     the index of the pokemon species within the pokemon list (sorted)
+     * @param lowAttack   attack IV of the lowest combination
+     * @param lowDefense  defense IV of the lowest combination
+     * @param lowStamina  stamina IV of the lowest combination
+     * @param highAttack  attack IV of the highest combination
+     * @param highDefense defense IV of the highest combination
+     * @param highStamina stamina IV of the highest combination
+     * @param level       pokemon level for CP calculation
      * @return String containing the CP range including the specified level.
      */
     public CPRange getCpRangeAtLevel(Pokemon pokemon, int lowAttack, int lowDefense, int lowStamina, int highAttack, int highDefense, int highStamina, double level) {
@@ -204,6 +202,41 @@ public class PokeInfoCalculator {
             cpMin = tmp;
         }
         return new CPRange(cpMax, cpMin, level);
+    }
+
+    /**
+     * get the lowest evolution in the chain of a pokemon
+     *
+     * @param poke a pokemon, example charizard
+     * @return a pokemon, in the example would return charmander
+     */
+    public Pokemon getLowestEvolution(Pokemon poke) {
+        if (poke.devoNumber < 0) return poke; //already lowest evolution
+
+        Pokemon devoPoke = get(poke.devoNumber);
+        while (devoPoke.devoNumber >= 0) { //while devol
+            devoPoke = get(devoPoke.devoNumber);
+        }
+        return devoPoke;
+    }
+
+    /**
+     * returns the higher evolutions of a pokemon plus itself
+     *
+     * @param poke the pokemon to return itself and higher evolutions of itself
+     * @return a list with pokemon, input pokemon plus its evolutions
+     */
+    public ArrayList<Pokemon> getEvolutionLine(Pokemon poke) {
+        poke = getLowestEvolution(poke);
+
+        ArrayList list = new ArrayList();
+        list.add(poke); //add self
+        list.addAll(poke.evolutions); //add all immediate evolutions
+        for (Pokemon evolution : poke.evolutions) {
+            list.addAll(evolution.evolutions);
+        }
+
+        return list;
     }
 
 }

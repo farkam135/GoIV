@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center|bottom"
+    android:alpha="225">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12sp"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/resultsPokemonName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pokename"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:gravity="bottom"
+            />
+        <TextView
+
+            android:id="@+id/resultsPokemonLevel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="#888"
+            android:text="@string/level"
+            android:layout_marginLeft="5sp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/skin_iv_linearlayout"
+            android:paddingLeft="12sp"
+            android:paddingRight="12sp"
+            android:paddingTop="6sp"
+            android:paddingBottom="6sp"
+            android:layout_margin="6sp"
+            android:gravity="center"
+            android:layout_gravity="center">
+
+            <TextView
+                android:id="@+id/resultsMinPercentage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:text="76%"
+                android:textColor="#222"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="MIN"
+                android:layout_margin="0dp"
+                android:textSize="12sp"
+                android:gravity="center"
+                android:textColor="#222"
+                android:layout_marginLeft="5sp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/skin_iv_linearlayout"
+            android:paddingLeft="12sp"
+            android:paddingRight="12sp"
+            android:paddingTop="6sp"
+            android:paddingBottom="6sp"
+            android:layout_margin="6sp"
+            android:gravity="center"
+            android:layout_gravity="center">
+
+            <TextView
+
+                android:id="@+id/resultsAvePercentage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:textColor="#222"
+                android:text="82%"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="AVG"
+                android:textSize="12sp"
+                android:layout_margin="0dp"
+                android:textColor="#222"
+                android:layout_marginLeft="5sp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/skin_iv_linearlayout"
+            android:paddingLeft="12sp"
+            android:paddingRight="12sp"
+            android:paddingTop="6sp"
+            android:paddingBottom="6sp"
+            android:layout_margin="6sp"
+            android:gravity="center"
+            android:layout_gravity="center">
+
+            <TextView
+
+                android:id="@+id/resultsMaxPercentage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:textColor="#222"
+                android:text="88%"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="MAX"
+                android:textSize="12sp"
+                android:layout_margin="0dp"
+                android:textColor="#222"
+                android:layout_marginLeft="5sp"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12sp">
+        <TextView
+            android:id="@+id/resultsCombinations"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="## Possible Combinations"
+            android:layout_gravity="left"
+            android:textSize="18sp"
+            android:textColor="#888"/>
+
+        <TextView
+            android:id="@+id/tvSeeAllPossibilities"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="@color/colorPrimary"
+            android:text="@string/see_all"
+            android:clickable="true"
+            android:gravity="right"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="12sp"
+        android:paddingRight="12sp">
+
+        <TextView
+
+            android:id="@+id/exResPrevScan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/last_scan"
+            android:textSize="18sp"
+            android:textColor="#888"
+            android:layout_gravity="left"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            />
+
+
+        <TextView
+            android:id="@+id/exResCompare"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="@color/colorPrimary"
+            android:text="@string/refine"
+            android:layout_gravity="right"/>
+
+    </LinearLayout>
+
+    <Space
+        android:layout_width="1dp"
+        android:layout_height="10dp"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"/>
+    <Space
+        android:layout_width="1dp"
+        android:layout_height="10dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/refining_instructions"
+        android:textColor="@color/unimportantText"
+        android:textAlignment="center"
+        android:layout_gravity="center"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="12sp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/resultsMoreInformationText"
+                android:textColor="@color/colorPrimary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/advanced_information"
+                android:layout_gravity="center"
+                android:textSize="18sp"
+                android:clickable="true"/>
+            <TextView
+                android:id="@+id/resultsMoreInformationArrow"
+                android:textColor="@color/colorPrimary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="▼ "
+                android:layout_gravity="center"
+                android:textSize="18sp"
+                android:clickable="true"/>
+
+        </LinearLayout>
+
+
+        <include layout="@layout/expanded_results_box"
+            android:id="@+id/expandedResultsBox"
+        />
+
+    </LinearLayout>
+
+</LinearLayout>

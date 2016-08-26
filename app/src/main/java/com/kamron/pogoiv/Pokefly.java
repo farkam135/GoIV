@@ -747,7 +747,7 @@ public class Pokefly extends Service {
             if (changed)
                 populateResultsBox(thisScan);
             else
-                Toast.makeText(this, R.string.refine_no_progress, Toast.LENGTH_SHORT);
+                Toast.makeText(this, R.string.refine_no_progress, Toast.LENGTH_SHORT).show();
 
         }
 

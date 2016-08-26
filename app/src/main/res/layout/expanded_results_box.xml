@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/unimportantText"
-        android:text="Powerup and evolution calculation - \n Drag the level slider to view different predictions"
+        android:text="@string/powerup_calc_instructions"
         android:textAlignment="center"
         android:id="@+id/textView"
         android:layout_gravity="center_horizontal" />
@@ -31,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/importantText"
-            android:text="CP"
+            android:text="@string/cp"
             android:textSize="@dimen/resultExpandedTextSize"
             android:id="@+id/textView1"
             android:layout_gravity="left"/>
@@ -62,7 +62,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/importantText"
-            android:text="Candy Cost"
+            android:text="@string/candy_cost"
             android:textSize="@dimen/resultExpandedTextSize"
             android:id="@+id/textView4"
             android:layout_gravity="left"/>
@@ -94,7 +94,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/importantText"
             android:textSize="@dimen/resultExpandedTextSize"
-            android:text="Stardust Cost"
+            android:text="@string/stardust_cost"
             android:id="@+id/StardustCost"
             android:layout_gravity="left"/>
 
@@ -124,7 +124,7 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/resultExpandedTextSize"
             android:textColor="@color/importantText"
-            android:text="Evolution"
+            android:text="@string/evolution"
             android:id="@+id/textView5"
             android:layout_gravity="left"/>
 
@@ -141,7 +141,7 @@
             android:background="@drawable/spinner"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center"/>
+            android:gravity="right"/>
 
     </LinearLayout>
     <LinearLayout
@@ -154,7 +154,7 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/resultExpandedTextSize"
             android:textColor="@color/importantText"
-            android:text="Level"
+            android:text="@string/level"
             android:id="@+id/textView2"
             android:layout_gravity="left"/>
 
@@ -194,7 +194,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Increase IV calculation precision by leveling up and comparing two scans of the same Pokémon"
+        android:text="@string/refining_instructions"
         android:textColor="@color/unimportantText"
         android:textAlignment="center"
         android:id="@+id/textview11"
@@ -216,7 +216,7 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/resultExpandedTextSize"
             android:textColor="@color/importantText"
-            android:text="Last scan: No previous scan"
+            android:text="@string/last_scan"
             android:layout_gravity="left"/>
 
         <View
@@ -232,7 +232,7 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/resultExpandedTextSize"
             android:textColor="@color/colorPrimary"
-            android:text="Refine"
+            android:text="@string/refine"
             android:layout_gravity="right"/>
 
     </LinearLayout>

@@ -20,6 +20,7 @@ import android.os.IBinder;
 import android.provider.MediaStore;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.LruCache;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -566,7 +567,7 @@ public class Pokefly extends Service {
     private void populateResultsBox(IVScanResult ivScanResult) {
 
         resultsPokemonName.setText(ivScanResult.pokemon.name);
-        resultsCombinations.setText(ivScanResult.iVCombinations.size() + " Possible IV combinations");
+        resultsCombinations.setText(String.format(getString(R.string.possible_iv_combinations), ivScanResult.iVCombinations.size()));
 
         //TODO: Populate ivText in a better way.
         String allIvs = "";
@@ -575,14 +576,14 @@ public class Pokefly extends Service {
         }
         ivText.setText(allIvs);
 
-        resultsPokemonLevel.setText("Level: " + ivScanResult.estimatedPokemonLevel);
+        resultsPokemonLevel.setText(getString(R.string.level) + ": " + ivScanResult.estimatedPokemonLevel);
         setResultScreenPercentageRange(ivScanResult);
 
         //Preselect the maximum level we can reach currently, the user can move to higher or lower.
         expandedLevelSeekbar.setProgress(levelToProgress(trainerLevel + 1.5f));
         expandedLevelSeekbar.setMax(levelToProgress(40));
         updateCostFields(ivScanResult);
-        exResPrevScan.setText("Previous scan: " + ivScanResult.getPrevScanName());
+        exResPrevScan.setText(String.format(getString(R.string.last_scan),ivScanResult.getPrevScanName()));
     }
 
     private int getSeekbarOffset() {
@@ -633,6 +634,12 @@ public class Pokefly extends Service {
         pokeEvolutionAdapter.updatePokemonList(evolutionLine);
         exResLevel.setText(String.valueOf(goalLevel));
 
+        // If goalLevel exeeds trainer capabilities then show text in orange
+        if(goalLevel>trainerLevel+1.5){
+            exResLevel.setTextColor(getResources().getColor(R.color.orange));
+        }else{
+            exResLevel.setTextColor(getResources().getColor(R.color.importantText));
+        }
     }
 
 

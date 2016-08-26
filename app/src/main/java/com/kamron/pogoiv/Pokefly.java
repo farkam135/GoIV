@@ -585,16 +585,16 @@ public class Pokefly extends Service {
         exResPrevScan.setText("Previous scan: " + ivScanResult.getPrevScanName());
     }
 
-    private int getTrainerLevelShift() {
+    private int getSeekbarOffset() {
         return (int) (2 * estimatedPokemonLevel) + 3;
     }
 
     private float seekbarProgressToLevel(int progress) {
-        return (progress + getTrainerLevelShift()) / 2.0f;  //seekbar only supports integers, so the seekbar works between 2 and 80.
+        return (progress + getSeekbarOffset()) / 2.0f;  //seekbar only supports integers, so the seekbar works between 2 and 80.
     }
 
     private int levelToProgress(float level) {
-        return Math.min((int) (level * 2), 80) - getTrainerLevelShift();
+        return Math.min((int) (level * 2), 80) - getSeekbarOffset();
     }
 
     /**

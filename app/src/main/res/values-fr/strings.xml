@@ -156,4 +156,60 @@
         <item>Mewtwo</item>
         <item>Mew</item>
     </string-array>
+<string name="welcome_message">Instructions:\n1. Entrer niveau de dresseur\n2. Appuyer bouton GO et permettre capture écran\n3. Choisir un Pokémon dans \'Pokémon Go\'\n4. Presser bouton IV pour scanner le Pokémon\n5. Adjuster données au besoin\n6. Vérifier le IV!</string>
+    <string name="goiv_is_open_source">GoIV est open source!\ngithub.com/farkam135/GoIV\nreddit.com/r/GoIV</string>
+    <string name="trainer_level">Trainer Level</string>
+
+    <string name="pokemon_name">Nom Pokémon:</string>
+    <string name="cp">PC</string>
+    <string name="hp">PV</string>
+    <string name="use_the_slider_below_to_align_the_arc">Utiliser curseur pour aligner avec arc</string>
+    <string name="cancel">Annuler</string>
+    <string name="check_iv">Obtenir IV</string>
+    <string name="main_not_numeric">%1$s n\'est pas un nombre.</string>
+    <string name="main_invalide_trainerlvl">Niveau de dresseur invalide!</string>
+    <string name="notification_title">GoIV Actif - Niveau %1$s</string>
+    <string name="notification_text">Appuyer pour ouvrir</string>
+    <string name="ivtext_title">Votre niveau %1$s, PC %2$s, PV %3$s %4$s peut être:</string>
+    <string name="ivtext_possibilities">%1$s autres possibilités...</string>
+    <string name="ivtext_no_possibilities">Aucune possibilitié, SVP vérifier stats!</string>
+    <string name="ivtext_iv">Min: %1$s%% Moyenne: %2$s%% Max: %3$s%%\n</string>
+    <string name="ivtext_evolve">Peut évoluer en %1$s:\n</string>
+    <string name="ivtext_evolve_further">Peut ensuite évoluer en %1$s:</string>
+    <string name="ivtext_many_possibilities">Il y a trop de possibilités pour ce Pokémon. Restaurer avec bonbons et réessayer!</string>
+    <string name="ivtext_max_lvl_cost">Coût pour atteindre %1$s:</string>
+    <string name="ivtext_max_lvl_cost2">Bonbon: %1$s Poussière: %2$s</string>
+    <string name="main_battery_saver">Économisateur pile (Capture d'écran pour scanner)</string>
+    <string name="ivtext_cp_lvl">PC au niveau %1$s: %2$s - %3$s</string>
+    <string name="ivtext_stats">Atq: %1$02d Déf: %2$02d Vig: %3$02d — %4$3d%%</string>
+    <string name="close">Fermer</string>
+    <string name="main_permission">Obtenir permissions</string>
+    <string name="main_start">GO</string>
+    <string name="main_stop">Arrêt</string>
+    <string name="battery_saver_setup">Config. Économisateur batterie</string>
+    <string name="battery_saver_instructions">Dossier de capture d\'écran introuvable. Pour que GoIV détecte votre dossier de capture suivre ces instructions:\n1.Tap \'Configuration\' sur ce message\n2.Prendre capture d'écran\n3.Attendre instruction.</string>
+    <string name="setup">Configuration</string>
+    <string name="take_screenshot">Prendre capture d\'écran</string>
+    <string name="screenshot_dir_found">Dossier capture d\'écran:\n%1$s</string>
+    <string name="done">Terminé</string>
+    <string name="back">Retour</string>
+    <string name="accept_screen_capture">Accepter capture</string>
+    <string name="settings_page_title">Paramêtres</string>
+    <string name="launch_pokemon_go_setting_title">Démarrer Pokemon Go</string>
+    <string name="launch_pokemon_go_setting_summary">Transférer à Pokémon Go quand bouton GO est cliqué</string>
+    <string name="confirmation_dialog_setting_title">Confirmation</string>
+    <string name="confirmation_dialog_setting_summary">Permettre édition d\'infos de pokémon avant de calculer le IV</string>
+    <string name="manual_screenshot_mode_setting_title">Utiliser capture d\'écran pour calculer le IV</string>
+    <string name="manual_screenshot_mode_setting_summary">Économiser la pile avec des captures d\'écran au lieu de l\'auto-détection. Ce paramêtre doit être activé pour version Android KitKat and antérieure</string>
+    <string name="delete_screenshots_setting_title">Effacer captures d\'écran</string>
+    <string name="delete_screenshots_setting_summary">Effacer automatiquement les captures prisent par GoIV</string>
+    <string name="copy_to_clipboard_setting_title">Copier vers presse-papier</string>
+    <string formatted="false" name="copy_to_clipboard_setting_summary">Copier pire IV% - meilleur IV% vers presse-papier quand bouton \'Obtenir IV\' est activé</string>
+    <string name="send_crash_reports_setting_title">Envoyer rapports de plantage</string>
+    <string name="send_crash_reports_setting_summary">Aider les développeurs à améliorer l\'application en leur envoyant des données de plantage de façon anonyme</string>
+    <string name="auto_update_setting_title">MAJ-Auto</string>
+    <string name="auto_update_setting_summary">Vérifier pour des mises à jour automatiquement lors du démarrage de l\'application</string>
+    <string name="check_for_update_setting_title">Vérifier MAJ</string>
+    <string name="check_for_update_setting_summary">Voir si une mise à jour est disponible</string>
+    <string name="scan_pokemon_failed">Echec de la vérification, SVP Défiler vers le haut et ré-essayer!</string>
 </resources>

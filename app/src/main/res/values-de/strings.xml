@@ -176,7 +176,7 @@
     <string name="main_not_numeric">%1$s ist keine Zahl.</string>
     <string name="ivtext_no_possibilities">Keine Möglichkeiten, bitte überprüfe deine Stats!</string>
     <string name="ivtext_evolve_further">Kann danach zu %1$s entwickelt werden:</string>
-    <string name="ivtext_many_possibilities">Es gibt zu viele Möglichkeiten für dieses Pokemon. Versuch es zu verbessern!</string>
+    <string name="ivtext_many_possibilities">Es gibt zu viele Möglichkeiten für dieses Pokémon. Versuch es zu verbessern!</string>
     <string name="ivtext_max_lvl_cost">Kosten um Lvl %1$s zu erreichen:</string>
     <string name="ivtext_max_lvl_cost2">Bonbons: %1$s Sternenstaub: %2$s</string>
     <string name="main_battery_saver">Batteriesparmodus (Screenshot zum Scannen)</string>

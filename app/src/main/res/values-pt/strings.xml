@@ -1,9 +1,4 @@
 <resources>
-    <string name="drawer_open">Abrir gaveta de navegação</string>
-    <string name="drawer_close">Fechar gaveta de navegação</string>
-
-    <string name="pokemon029">Nidoran♀</string>
-    <string name="pokemon032">Nidoran♂</string>
 
     <string-array name="Pokemon">
         <item>Bulbasaur</item>

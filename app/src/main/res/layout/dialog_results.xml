@@ -222,7 +222,6 @@
         android:text="@string/refining_instructions"
         android:textColor="@color/unimportantText"
         android:textAlignment="center"
-        android:id="@+id/textview11"
         android:layout_gravity="center"/>
 
     <LinearLayout

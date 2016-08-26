@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="pokemon029">Nidoran♀</string>
-    <string name="pokemon032">Nidoran♂</string>
 
     <string-array name="Pokemon">
         <item>Bisasam</item>
@@ -169,18 +167,7 @@
     <string name="main_invalide_trainerlvl">Ungültiges Trainerlevel!</string>
     <string name="notification_title">GoIV läuft - Level %1$s</string>
     <string name="notification_text">Drücke zum Öffnen</string>
-    <string name="ivtext_title">Dein Lvl %1$s WP %2$s, HP %3$s %4$s kann sein:</string>
-    <string name="ivtext_possibilities">%1$s weitere Möglichkeiten...</string>
-    <string name="ivtext_iv">Min: %1$s%% Ø: %2$s%% Max: %3$s%%\n</string>
-    <string name="ivtext_evolve">Kann zu %1$s entwickelt werden:\n</string>
     <string name="main_not_numeric">%1$s ist keine Zahl.</string>
-    <string name="ivtext_no_possibilities">Keine Möglichkeiten, bitte überprüfe deine Stats!</string>
-    <string name="ivtext_evolve_further">Kann danach zu %1$s entwickelt werden:</string>
-    <string name="ivtext_many_possibilities">Es gibt zu viele Möglichkeiten für dieses Pokemon. Versuch es zu verbessern!</string>
-    <string name="ivtext_max_lvl_cost">Kosten um Lvl %1$s zu erreichen:</string>
-    <string name="ivtext_max_lvl_cost2">Bonbons: %1$s Sternenstaub: %2$s</string>
-    <string name="main_battery_saver">Batteriesparmodus (Screenshot zum Scannen)</string>
-    <string name="ivtext_cp_lvl">WP bei Lvl %1$s: %2$s - %3$s</string>
     <string name="close">Schließen</string>
     <string name="main_permission">Berechtigungen erteilen</string>
     <string name="main_start">Starten</string>

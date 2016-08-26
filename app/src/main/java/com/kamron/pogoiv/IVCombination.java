@@ -40,7 +40,7 @@ public class IVCombination {
     public Boolean[] getHighestStatSignature() {
         Boolean[] attDefSta = new Boolean[3];
 
-        attDefSta[0] = att >= def && att >= def;
+        attDefSta[0] = att >= def && att >= sta;
         attDefSta[1] = def >= att && def >= sta;
         attDefSta[2] = sta >= att && sta >= def;
         Log.d(this.toString() + " -> attdefsta returned:" + attDefSta[0] + attDefSta[1] + attDefSta[2], "nahojjjen debug gethigheststatsignature");

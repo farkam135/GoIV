@@ -212,6 +212,6 @@
     <string name="refining_instructions">Increase IV calculation precision by leveling up and comparing two scans of the same Pokémon</string>
     <string name="appraisal_narrowing">Appraisal narrowing (optional)</string>
     <string name="attack">Attack</string>
-    <string name="defence">Defence</string>
+    <string name="defense">Defense</string>
     <string name="stamina_hp">Stamina(HP)</string>
 </resources>

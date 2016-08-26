@@ -1,7 +1,5 @@
 package com.kamron.pogoiv;
 
-import android.util.Log;
-
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -47,7 +45,6 @@ public class IVCombination {
         attDefSta[0] = att >= maxStat;
         attDefSta[1] = def >= maxStat;
         attDefSta[2] = sta >= maxStat;
-        Log.d(this.toString() + " -> attdefsta returned:" + attDefSta[0] + attDefSta[1] + attDefSta[2], "nahojjjen debug gethigheststatsignature");
         return attDefSta;
     }
 

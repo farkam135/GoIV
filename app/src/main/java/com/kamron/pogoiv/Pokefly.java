@@ -593,7 +593,12 @@ public class Pokefly extends Service {
     private void populateResultsBox(IVScanResult ivScanResult) {
 
         resultsPokemonName.setText(ivScanResult.pokemon.name);
-        resultsCombinations.setText(String.format(getString(R.string.possible_iv_combinations), ivScanResult.iVCombinations.size()));
+        if (ivScanResult.tooManyPossibilities){
+            resultsCombinations.setText(String.format(getString(R.string.possible_iv_combinations), 4096));
+        }else{
+            resultsCombinations.setText(String.format(getString(R.string.possible_iv_combinations), ivScanResult.iVCombinations.size()));
+        }
+
 
         //TODO: Populate ivText in a better way.
         String allIvs = "";

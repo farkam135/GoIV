@@ -213,5 +213,5 @@
     <string name="appraisal_narrowing">Appraisal narrowing (optional)</string>
     <string name="attack">Attack</string>
     <string name="defense">Defense</string>
-    <string name="stamina_hp">Stamina(HP)</string>
+    <string name="stamina_hp">HP</string>
 </resources>

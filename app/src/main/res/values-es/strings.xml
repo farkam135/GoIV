@@ -56,6 +56,6 @@
     <string name="appraisal_narrowing">Refinamiento por valoración (opcional)</string>
     <string name="attack">Ataque</string>
     <string name="defense">Defensa</string>
-    <string name="stamina_hp">Salud (PS)</string>
+    <string name="stamina_hp">PS</string>
     <string name="refine_no_progress">El refinamiento no mejoró los r</string>
 </resources>

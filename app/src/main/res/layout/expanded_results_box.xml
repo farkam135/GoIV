@@ -169,8 +169,9 @@
 
         <Button
             android:id="@+id/btnDecrementLevelExpanded"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight=".15"
             android:text="-"
             android:textSize="22sp"
             android:textColor="@color/red"
@@ -180,14 +181,15 @@
             android:id="@+id/expandedLevelSeekbar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"/>
+            android:layout_weight="0.70"/>
 
         <Button
             android:id="@+id/btnIncrementLevelExpanded"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="0.15"
             android:layout_height="wrap_content"
             android:text="+"
-            android:textSize="22sp"
+            android:textSize="18sp"
             android:textColor="@color/red"
             android:background="@android:color/transparent"/>
 

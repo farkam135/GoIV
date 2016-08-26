@@ -20,12 +20,14 @@ import android.os.IBinder;
 import android.provider.MediaStore;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.LruCache;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -130,6 +132,7 @@ public class Pokefly extends Service {
     @BindView(R.id.resultsMoreInformationArrow) TextView resultsMoreInformationArrow;
     @BindView(R.id.resultsMoreInformationText) TextView resultsMoreInformationText;
     @BindView(R.id.expandedLevelSeekbar) SeekBar expandedLevelSeekbar;
+    @BindView(R.id.extendedEvolutionSpinner) Spinner extendedEvolutionSpinner;
 
     private String pokemonName;
     private String candyName;
@@ -142,6 +145,7 @@ public class Pokefly extends Service {
     private LruCache<String, String> cachedCorrections;
 
     private PokemonSpinnerAdapter pokeAdapter;
+    private PokemonSpinnerAdapter pokeEvolutionAdapter;
 
     private final WindowManager.LayoutParams arcParams = new WindowManager.LayoutParams(
             WindowManager.LayoutParams.WRAP_CONTENT,
@@ -437,6 +441,10 @@ public class Pokefly extends Service {
 
         pokeAdapter = new PokemonSpinnerAdapter(this, R.layout.spinner_pokemon, pokeCalculator.pokedex);
         pokemonList.setAdapter(pokeAdapter);
+
+        pokeEvolutionAdapter = new PokemonSpinnerAdapter(this, R.layout.spinner_pokemon, new ArrayList<Pokemon>());
+        extendedEvolutionSpinner.setAdapter(pokeEvolutionAdapter);
+
         expandedLevelSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
@@ -444,10 +452,26 @@ public class Pokefly extends Service {
             }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {}
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
 
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {}
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+        });
+
+
+        extendedEvolutionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                updateCostFields(IVScanResult.scanContainer.oneScanAgo);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                updateCostFields(IVScanResult.scanContainer.oneScanAgo);
+            }
+
         });
     }
 
@@ -544,21 +568,34 @@ public class Pokefly extends Service {
      */
     public void updateCostFields(IVScanResult ivScanResult){
         float goalLevel = expandedLevelSeekbar.getProgress()/2.0f; //seekbar only supports integers, so the seekbar works between 2 and 80.
+        int intSelectedPokemon = extendedEvolutionSpinner.getSelectedItemPosition(); //which pokemon is selected in the spinner
+        ArrayList<Pokemon> evolutionLine = pokeCalculator.getEvolutionLine(ivScanResult.pokemon);
+
+        Pokemon selectedPokemon;
+        if (intSelectedPokemon == -1){
+            selectedPokemon = ivScanResult.pokemon;//if initialising list, act as if scanned pokemon is marked
+            Log.d("Selected poke:" + selectedPokemon.name, "nahojjjen debug selected poke");
+        } else {
+            selectedPokemon = evolutionLine.get(intSelectedPokemon);
+            Log.d("Selected poke:" + selectedPokemon.name, "nahojjjen debug selected poke");
+        }
+
+
 
         if (goalLevel < estimatedPokemonLevel){//Lowest estimate is the pokemons current level
             goalLevel = (float)estimatedPokemonLevel;
         }
 
-        CPRange expectedRange = pokeCalculator.getCpRangeAtLevel(ivScanResult.pokemon, ivScanResult.lowAttack, ivScanResult.lowDefense, ivScanResult.lowStamina, ivScanResult.highAttack, ivScanResult.highDefense, ivScanResult.highStamina, goalLevel);
+        CPRange expectedRange = pokeCalculator.getCpRangeAtLevel(selectedPokemon, ivScanResult.lowAttack, ivScanResult.lowDefense, ivScanResult.lowStamina, ivScanResult.highAttack, ivScanResult.highDefense, ivScanResult.highStamina, goalLevel);
         CPRange realRange = pokeCalculator.getCpRangeAtLevel(ivScanResult.pokemon, ivScanResult.lowAttack, ivScanResult.lowDefense, ivScanResult.lowStamina, ivScanResult.highAttack, ivScanResult.highDefense, ivScanResult.highStamina, estimatedPokemonLevel);
-        int expectedAverage = (expectedRange.high+expectedRange.low)/2;
+        int expectedAverage = (expectedRange.high+realRange.low)/2;
         exResultCP.setText(String.valueOf(expectedAverage) + " (+" + (expectedAverage-realRange.high) + ")");
 
         UpgradeCost cost = pokeCalculator.getUpgradeCost(goalLevel, estimatedPokemonLevel);
         exResCandy.setText(String.valueOf(cost.candy));
         exResStardust.setText(String.valueOf(cost.dust));
 
-
+        pokeEvolutionAdapter.updatePokemonList(evolutionLine);
         exResLevel.setText(String.valueOf(goalLevel));
 
     }
@@ -645,8 +682,10 @@ public class Pokefly extends Service {
      */
     private void resetInfoDialogue() {
         inputBox.setVisibility(View.VISIBLE);
+        extendedEvolutionSpinner.setSelection(-1);
         resultsBox.setVisibility(View.GONE);
         allPossibilitiesBox.setVisibility(View.GONE);
+
         //expandedResultsBox.setVisibility(View.VISIBLE);
     }
 

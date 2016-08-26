@@ -31,9 +31,10 @@ public class PokemonSpinnerAdapter extends ArrayAdapter<Pokemon> {
 
     /**
      * updates the spinner with new information
+     *
      * @param list the new list of pokemon to show in the spinner
      */
-    public void updatePokemonList(ArrayList<Pokemon> list){
+    public void updatePokemonList(ArrayList<Pokemon> list) {
         pokemons = list;
         clear();
         addAll(pokemons);

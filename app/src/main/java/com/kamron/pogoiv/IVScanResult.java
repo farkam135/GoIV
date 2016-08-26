@@ -178,12 +178,13 @@ public class IVScanResult {
 
     /**
      * returns a string which is either the name of the previously scanned pokemon, or ""
+     *
      * @return
      */
     public String getPrevScanName() {
-        if(scanContainer.twoScanAgo !=null){
+        if (scanContainer.twoScanAgo != null) {
             return scanContainer.twoScanAgo.pokemon.name;
-        }else{
+        } else {
             return "";
         }
 
@@ -192,16 +193,17 @@ public class IVScanResult {
     /**
      * Removes all possible IV combinations where the boolean set to true stat isnt the highest
      * Several stats can be highest if they're equal
+     *
      * @param attIsHighest
      * @param defIsHighest
      * @param staIsHighest
      */
-    public void refineByHighest(boolean attIsHighest, boolean defIsHighest, boolean staIsHighest){
+    public void refineByHighest(boolean attIsHighest, boolean defIsHighest, boolean staIsHighest) {
         ArrayList<IVCombination> refinedList = new ArrayList<>();
 
-        for (IVCombination comb : iVCombinations){
+        for (IVCombination comb : iVCombinations) {
             Boolean[] knownAttDefSta = {attIsHighest, defIsHighest, staIsHighest};
-            if (Arrays.equals(comb.getHighestStatSignature(),knownAttDefSta)){
+            if (Arrays.equals(comb.getHighestStatSignature(), knownAttDefSta)) {
                 refinedList.add(comb);
             }
         }

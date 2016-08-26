@@ -48,6 +48,7 @@
         android:theme="@style/AppTheme">
 
         <activity android:name=".MainActivity" android:launchMode="singleTop"
+            android:windowSoftInputMode="stateHidden"
             android:screenOrientation="portrait"
             android:configChanges="orientation|keyboardHidden">
             <intent-filter>

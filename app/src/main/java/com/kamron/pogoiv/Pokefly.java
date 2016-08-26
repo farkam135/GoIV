@@ -536,6 +536,16 @@ public class Pokefly extends Service {
         arcAdjustBar.setProgress((int) ((estimatedPokemonLevel - 1) * 2));
     }
 
+    @OnClick(R.id.btnIncrementLevelExpanded)
+    public void incrementLevelExpanded() {
+        expandedLevelSeekbar.setProgress(expandedLevelSeekbar.getProgress()+1);
+    }
+
+    @OnClick(R.id.btnDecrementLevelExpanded)
+    public void decrementLevelExpanded() {
+        expandedLevelSeekbar.setProgress(expandedLevelSeekbar.getProgress()-1);
+    }
+
     @OnClick(R.id.btnCheckIv)
     public void checkIv() {
         if (batterySaver && !screenshotDir.isEmpty()) {

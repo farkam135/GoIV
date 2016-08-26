@@ -158,18 +158,14 @@
             android:id="@+id/textView2"
             android:layout_gravity="left"/>
 
-        <SeekBar
-            android:id="@+id/expandedLevelSeekbar"
+        <View
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_weight="1"
-            android:layout_marginLeft="6sp"
-            android:layout_marginRight="6sp"
-            android:max="80" />
+            />
 
 
         <TextView
-
             android:id="@+id/exResLevel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -180,6 +176,43 @@
 
     </LinearLayout>
 
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+
+
+        <Button
+            android:id="@+id/btnDecrementLevelExpanded"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="-"
+            android:textSize="22sp"
+            android:textColor="@color/red"
+            android:background="@android:color/transparent"/>
+
+        <SeekBar
+            android:id="@+id/expandedLevelSeekbar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+        <Button
+            android:id="@+id/btnIncrementLevelExpanded"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+"
+            android:textSize="22sp"
+            android:textColor="@color/red"
+            android:background="@android:color/transparent"/>
+
+        
+
+    </LinearLayout>
     <Space
         android:layout_width="1dp"
         android:layout_height="10dp"/>

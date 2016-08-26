@@ -699,12 +699,18 @@ public class Pokefly extends Service {
     }
 
     @OnClick({R.id.btnCancelInfo, R.id.btnCloseInfo})
+    /**
+     * resets the info dialogue to its default state
+     */
     public void cancelInfoDialog() {
         hideInfoLayoutArcPointer();
         if (!batterySaver) {
             windowManager.addView(IVButton, IVButonParams);
             IVButtonShown = true;
         }
+        attCheckbox.setChecked(false);
+        defCheckbox.setChecked(false);
+        staCheckbox.setChecked(false);
         resetPokeflyStateMachine();
         resetInfoDialogue();
     }

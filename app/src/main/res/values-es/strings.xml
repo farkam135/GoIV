@@ -64,7 +64,7 @@
     <string name="refine">Refinar</string>
     <string name="powerup_calc_instructions">Cálculo de mejoras y evolución - \n Deslizar el slider para visualizar diferentes predicciones</string>
     <string name="scan_pokemon_failed">Detección fallida, asegurese de estar en la cima de la ficha del Pokémon y vuelva a intentar!</string>
-    <string name="see_all">Ver Todas...</string>
+    <string name="see_all">Ver Todas</string>
     <string name="stardust_cost">Costo en Polvoestalar</string>
     <string name="refining_instructions">Refine la predicción de IV mejorando un Pokémon y comparando los resultados obtenidos</string>
     <string name="appraisal_narrowing">Refinamiento por valoración (opcional)</string>

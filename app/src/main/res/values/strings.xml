@@ -215,7 +215,7 @@
     <string name="check_for_update_setting_title">Check for update</string>
     <string name="check_for_update_setting_summary">See if an update is available</string>
     <string name="scan_pokemon_failed">Scanning failed, please scroll up and try again!</string>
-    <string name="see_all">See All...</string>
+    <string name="see_all">See All</string>
     <string name="advanced_information">Advanced information</string>
     <string name="powerup_calc_instructions">Powerup and evolution calculation - \n Drag the level slider to view different predictions</string>
     <string name="candy_cost">Candy Cost</string>

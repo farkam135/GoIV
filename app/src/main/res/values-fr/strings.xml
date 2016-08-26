@@ -2,7 +2,6 @@
 <resources>
     <string name="pokemon029">Nidoran♀</string>
     <string name="pokemon032">Nidoran♂</string>
-    <string name="pokemon133">Évoli</string>
 
     <string-array name="Pokemon">
         <item>Bulbizarre</item>

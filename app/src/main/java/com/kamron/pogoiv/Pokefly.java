@@ -34,6 +34,7 @@ import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -725,8 +726,13 @@ public class Pokefly extends Service {
         IVScanResult prevScan = IVScanResult.scanContainer.twoScanAgo;
         if (prevScan != null) {
             ArrayList<IVCombination> newResult = thisScan.getLatestIVIntersection();
+            // Since the only change was an intersection, if the sizes are equal the content's also equal.
+            boolean changed = newResult.size() != thisScan.iVCombinations.size();
             thisScan.iVCombinations = newResult;
-            populateResultsBox(thisScan);
+            if (changed)
+                populateResultsBox(thisScan);
+            else
+                Toast.makeText(this, R.string.refine_no_progress, Toast.LENGTH_SHORT);
 
         }
 

@@ -9,157 +9,37 @@
     android:background="@android:drawable/alert_light_frame"
     android:alpha="225">
 
-    <TextView
-        android:id="@+id/tvIvInfo"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:textColor="@color/black"
-        android:text="IV Text"
-        android:gravity="center"/>
-
-    <LinearLayout
-        android:id="@+id/llPokemonInfo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
+        android:layout_weight="5">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center">
+            android:orientation="vertical">
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/pokemon_name"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                android:textSize="18sp"
-                android:gravity="center"/>
+            <!-- SHOWING JUST ONE AT A TIME -->
 
-            <Spinner
-                android:id="@+id/spnPokemonName"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/spinner"
-                android:gravity="center"/>
+            <include layout="@layout/dialog_input"
+                android:id="@+id/inputBox"/>
+
+            <include layout="@layout/dialog_results"
+                android:id="@+id/resultsBox"
+                android:visibility="gone"/>
+
+            <include layout="@layout/dialog_all_possibilities"
+                android:id="@+id/allPossibilitiesBox"
+                android:visibility="gone"/>
 
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:baselineAligned="false">
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center"
-                android:layout_weight="1">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/cp"
-                    android:textColor="@color/black"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:gravity="center"/>
-
-                <EditText
-                    android:id="@+id/etCp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/red"
-                    android:text="XX"
-                    android:textAlignment="center"
-                    android:inputType="number"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center"
-                android:layout_weight="1">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/hp"
-                    android:textColor="@color/black"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:gravity="center"/>
-
-                <EditText
-                    android:id="@+id/etHp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/red"
-                    android:text="XX"
-                    android:textAlignment="center"
-                    android:inputType="number"/>
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/use_the_slider_below_to_align_the_arc"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:gravity="center"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center">
-
-            <Button
-                android:id="@+id/btnDecrementLevel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="-"
-                android:textSize="22sp"
-                android:textColor="@color/red"
-                android:background="@android:color/transparent"/>
-
-            <SeekBar
-                android:id="@+id/sbArcAdjust"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"/>
-
-            <Button
-                android:id="@+id/btnIncrementLevel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="+"
-                android:textSize="22sp"
-                android:textColor="@color/red"
-                android:background="@android:color/transparent"/>
-
-        </LinearLayout>
-
-    </LinearLayout>
+    </ScrollView>
 
     <LinearLayout
         android:id="@+id/llButtonsInitial"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_weight="1">
 
         <Button
             android:id="@+id/btnCancelInfo"
@@ -185,17 +65,17 @@
 
         <Button
             android:id="@+id/btnBackInfo"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:text="@string/back"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
         <Button
             android:id="@+id/btnCloseInfo"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:text="@string/close"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 

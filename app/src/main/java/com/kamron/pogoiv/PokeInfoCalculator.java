@@ -1,7 +1,5 @@
 package com.kamron.pogoiv;
 
-import android.util.ArraySet;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -83,15 +81,14 @@ public class PokeInfoCalculator {
 
 
     /**
-     * getMaxReqText
+     * getUpgradeCost
      * Gets the needed required candy and stardust to hit max level (relative to trainer level)
      *
-     * @param trainerLevel          The level of the trainer
+     * @param goalLevel          The level to reach
      * @param estimatedPokemonLevel The estimated level of hte pokemon
      * @return The text that shows the amount of candy and stardust needed.
      */
-    public UpgradeCost getMaxReqText(float trainerLevel, double estimatedPokemonLevel) {
-        double goalLevel = Math.min(trainerLevel + 1.5, 40.0);
+    public UpgradeCost getUpgradeCost(float goalLevel, double estimatedPokemonLevel) {
         int neededCandy = 0;
         int neededStarDust = 0;
         while (estimatedPokemonLevel != goalLevel) {
@@ -204,6 +201,41 @@ public class PokeInfoCalculator {
             cpMin = tmp;
         }
         return new CPRange(cpMax, cpMin, level);
+    }
+
+    /**
+     * get the lowest evolution in the chain of a pokemon
+     *
+     * @param poke a pokemon, example charizard
+     * @return a pokemon, in the example would return charmander
+     */
+    public Pokemon getLowestEvolution(Pokemon poke) {
+        if (poke.devoNumber < 0) return poke; //already lowest evolution
+
+        Pokemon devoPoke = get(poke.devoNumber);
+        while (devoPoke.devoNumber >= 0) { //while devol
+            devoPoke = get(devoPoke.devoNumber);
+        }
+        return devoPoke;
+    }
+
+    /**
+     * returns the higher evolutions of a pokemon plus itself
+     *
+     * @param poke the pokemon to return itself and higher evolutions of itself
+     * @return a list with pokemon, input pokemon plus its evolutions
+     */
+    public ArrayList<Pokemon> getEvolutionLine(Pokemon poke) {
+        poke = getLowestEvolution(poke);
+
+        ArrayList list = new ArrayList();
+        list.add(poke); //add self
+        list.addAll(poke.evolutions); //add all immediate evolutions
+        for (Pokemon evolution : poke.evolutions) {
+            list.addAll(evolution.evolutions);
+        }
+
+        return list;
     }
 
 }

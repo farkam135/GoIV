@@ -165,7 +165,7 @@
             android:layout_height="wrap_content"
             android:textSize="18sp"
             android:textColor="@color/colorPrimary"
-            android:text="See All"
+            android:text="See All..."
             android:clickable="true"
             android:gravity="right"/>
     </LinearLayout>
@@ -176,15 +176,32 @@
         android:orientation="vertical"
         android:padding="12sp">
 
-        <TextView
-            android:id="@+id/resultsMoreInformation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="More Information"
-            android:layout_gravity="left"
-            android:textSize="18sp"
-            android:clickable="true"
-            android:textColor="#888"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/resultsMoreInformationText"
+                android:textColor="@color/colorPrimary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Advanced information  "
+                android:layout_gravity="center"
+                android:textSize="18sp"
+                android:clickable="true"/>
+            <TextView
+                android:id="@+id/resultsMoreInformationArrow"
+                android:textColor="@color/colorPrimary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="▼ "
+                android:layout_gravity="center"
+                android:textSize="18sp"
+                android:clickable="true"/>
+
+        </LinearLayout>
+
 
         <include layout="@layout/expanded_results_box"
             android:id="@+id/expandedResultsBox"

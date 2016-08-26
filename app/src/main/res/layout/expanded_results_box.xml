@@ -13,7 +13,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/unimportantText"
-        android:text="Powerup and evolution calculation"
+        android:text="Powerup and evolution calculation - \n Drag the level slider to view different predictions"
+        android:textAlignment="center"
         android:id="@+id/textView"
         android:layout_gravity="center_horizontal" />
 

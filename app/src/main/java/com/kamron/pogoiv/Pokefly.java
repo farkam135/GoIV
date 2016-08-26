@@ -129,6 +129,8 @@ public class Pokefly extends Service {
     @BindView(R.id.exResultCP) TextView exResultCP;
     @BindView(R.id.exResStardust) TextView exResStardust;
     @BindView(R.id.exResPrevScan) TextView exResPrevScan;
+    @BindView(R.id.resultsMoreInformationArrow) TextView resultsMoreInformationArrow;
+    @BindView(R.id.resultsMoreInformationText) TextView resultsMoreInformationText;
 
     private String pokemonName;
     private String candyName;
@@ -333,6 +335,7 @@ public class Pokefly extends Service {
         }
     }
 
+
     /**
      * setArcPointer
      * Sets the arc pointer to the specified degree.
@@ -437,6 +440,18 @@ public class Pokefly extends Service {
         pokemonList.setAdapter(pokeAdapter);
     }
 
+
+    @OnClick ({R.id.resultsMoreInformationText, R.id.resultsMoreInformationArrow})
+    public void toggleMoreResultsBox(){
+        if (expandedResultsBox.getVisibility() == View.VISIBLE){
+            expandedResultsBox.setVisibility(View.GONE);
+            resultsMoreInformationArrow.setText("► ");
+        }else{
+            expandedResultsBox.setVisibility(View.VISIBLE);
+            resultsMoreInformationArrow.setText("▼ ");
+        }
+
+    }
     @OnClick(R.id.btnDecrementLevel)
     public void decrementLevel() {
         if (estimatedPokemonLevel > 1.0) {

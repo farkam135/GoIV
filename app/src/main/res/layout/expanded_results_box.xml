@@ -169,7 +169,7 @@
             android:layout_weight=".15"
             android:text="-"
             android:textSize="22sp"
-            android:textColor="@color/red"
+            android:textColor="@color/colorPrimary"
             android:background="@android:color/transparent"/>
 
         <SeekBar
@@ -185,7 +185,7 @@
             android:layout_height="wrap_content"
             android:text="+"
             android:textSize="18sp"
-            android:textColor="@color/red"
+            android:textColor="@color/colorPrimary"
             android:background="@android:color/transparent"/>
 
     </LinearLayout>

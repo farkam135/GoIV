@@ -20,6 +20,7 @@ import android.os.IBinder;
 import android.provider.MediaStore;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.LruCache;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -577,6 +578,7 @@ public class Pokefly extends Service {
             ivScanResult.refineByHighest(attCheckbox.isChecked(), defCheckbox.isChecked(), staCheckbox.isChecked());
         }
 
+        addToRangeToClipboardIfSettingOn(ivScanResult);
         populateResultsBox(ivScanResult);
         boolean enableCompare = IVScanResult.scanContainer.twoScanAgo != null;
         //@color/unimportantText
@@ -588,12 +590,28 @@ public class Pokefly extends Service {
     }
 
     /**
+     * Adds the iv range of the pokemon to the clipboard if the clipboard setting is on
+     */
+    private void addToRangeToClipboardIfSettingOn(IVScanResult ivScanResult){
+        GoIVSettings settings = GoIVSettings.getSettings(getApplicationContext());
+        if(settings.getCopyToClipboard()){
+            String clipText =  ivScanResult.getLowestIVCombination().percentPerfect + "-" +ivScanResult.getHighestIVCombination().percentPerfect;
+            ClipData clip =  ClipData.newPlainText(clipText,clipText);
+            clipboard.setPrimaryClip(clip);
+        }
+    }
+    /**
      * sets the information in the results box
      */
     private void populateResultsBox(IVScanResult ivScanResult) {
 
         resultsPokemonName.setText(ivScanResult.pokemon.name);
-        resultsCombinations.setText(String.format(getString(R.string.possible_iv_combinations), ivScanResult.iVCombinations.size()));
+        if (ivScanResult.tooManyPossibilities){
+            resultsCombinations.setText(String.format(getString(R.string.possible_iv_combinations), 4096));
+        }else{
+            resultsCombinations.setText(String.format(getString(R.string.possible_iv_combinations), ivScanResult.iVCombinations.size()));
+        }
+
 
         //TODO: Populate ivText in a better way.
         String allIvs = "";

@@ -494,8 +494,14 @@ public class Pokefly extends Service {
 
         resultsPokemonName.setText(ivScanResult.pokemon.name);
         resultsCombinations.setText(String.format(getString(R.string.ivtext_possibilities), ivScanResult.iVCombinations.size()));
+
         //TODO: Populate ivText in a better way.
-        ivText.setText(ivScanResult.iVCombinations.toString());
+        String allIvs = "";
+        for(IVCombination ivItem : ivScanResult.iVCombinations) {
+            allIvs += String.format(getString(R.string.ivtext_stats), ivItem.att, ivItem.def, ivItem.sta, ivItem.percentPerfect) + "\n";
+        }
+        ivText.setText(allIvs);
+
         resultsPokemonLevel.setText("Level: " + ivScanResult.estimatedPokemonLevel);
         setResultScreenPercentageRange(ivScanResult);
 
@@ -766,7 +772,7 @@ public class Pokefly extends Service {
 
             IVCombination highest = ivScanResult.getHighestIVCombination();
             IVCombination lowest = ivScanResult.getLowestIVCombination();
-            int shown = 10; //the number of IVs which is shown to the user, assume only highest will be shown
+            int shown = 1; //the number of IVs which is shown to the user, assume only highest will be shown
             returnVal += "\n" + String.format(getString(R.string.ivtext_stats), highest.att, highest.def, highest.sta, highest.percentPerfect);
             returnVal += "<br>"; //breakline
             if (!(lowest.getTotal() == highest.getTotal())) { //if highest and lowest are the same, there's no reason to print both of them (they can be same IV)

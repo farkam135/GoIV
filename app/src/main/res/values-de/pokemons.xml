@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<<<<<<< HEAD
-
     <string-array name="Pokemon">
         <item>Bisasam</item>
         <item>Bisaknosp</item>
@@ -155,23 +153,4 @@
         <item>Mewtu</item>
         <item>Mew</item>
     </string-array>
-
-=======
->>>>>>> refs/remotes/origin/master
-    <string name="welcome_message">Anleitung:\n1. Geben Sie Ihr Trainer Level ein\n2. Drücken Sie die Start-Taste und akzeptieren Sie die Berechtigungen\n3. Schauen Sie sich Ihr Pokémon in \'Pokémon Go\' an\n4. Tippen Sie auf die IV Taste, um das Pokémon zu scannen\n5. Passen Sie die gescannten Daten bei Bedarf an\n6. Überprüfen Sie die IV!</string>
-    <string name="goiv_is_open_source">GoIV ist open source!\ngithub.com/farkam135/GoIV\nreddit.com/r/GoIV</string>
-    <string name="cancel">Abbrechen</string>
-    <string name="check_iv">Berechne IV</string>
-    <string name="cp">WP</string>
-    <string name="hp">KP</string>
-    <string name="pokemon_name">Pokémon Name:</string>
-    <string name="trainer_level">Trainer-Level</string>
-    <string name="use_the_slider_below_to_align_the_arc">Verwende den Schieberegler um den roten Punkt auszurichten</string>
-    <string name="main_invalide_trainerlvl">Ungültiges Trainerlevel!</string>
-    <string name="notification_title">GoIV läuft - Level %1$s</string>
-    <string name="notification_text">Drücke zum Öffnen</string>
-    <string name="main_not_numeric">%1$s ist keine Zahl.</string>
-    <string name="close">Schließen</string>
-    <string name="main_permission">Berechtigungen erteilen</string>
-    <string name="main_start">Starten</string>
 </resources>

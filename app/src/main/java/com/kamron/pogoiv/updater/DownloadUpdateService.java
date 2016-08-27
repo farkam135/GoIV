@@ -78,10 +78,23 @@ public class DownloadUpdateService extends Service {
                 }
             }
         };
+<<<<<<< 36a05f157056109961cfb054fc5ea307272e454a
+=======
+
+>>>>>>> Modified autoupdater
         return Service.START_STICKY;
     }
 
     @Override
+<<<<<<< 36a05f157056109961cfb054fc5ea307272e454a
+=======
+    public void onDestroy() {
+        unregisterReceiver(onComplete);
+        super.onDestroy();
+    }
+
+    @Override
+>>>>>>> Modified autoupdater
     public IBinder onBind(Intent intent) {
         return null;
     }

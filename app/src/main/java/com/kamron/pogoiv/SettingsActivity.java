@@ -73,7 +73,6 @@ public class SettingsActivity extends AppCompatActivity {
                 Preference autoUpdatePreference = getPreferenceManager().findPreference(GoIVSettings.AUTO_UPDATE_ENABLED);
                 Preference checkForUpdatePreference = getPreferenceManager().findPreference("checkForUpdate");
 
-
                 preferenceScreen.removePreference(crashReportsPreference);
                 preferenceScreen.removePreference(autoUpdatePreference);
                 preferenceScreen.removePreference(checkForUpdatePreference);

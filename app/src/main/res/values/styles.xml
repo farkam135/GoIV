@@ -1,17 +1,27 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
 
-        <item name="android:buttonStyle">@style/dialogStyleButton</item>
         <item name="android:typeface">sans</item>
     </style>
 
-    <style name="dialogStyleButton" parent="android:Widget.Holo.Button"/>
+    <style name="dialogTheme" parent="Theme.AppCompat.Light">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="android:buttonStyle">@style/dialogTheme.dialogStyleButton</item>
+    </style>
+    <style name="dialogTheme.dialogStyleButton" parent="Base.Widget.AppCompat.Button.Colored">
+        <item name="android:color">@color/buttonText</item>
+    </style>
+    <style name="dialogTheme." parent="Base.Widget.AppCompat.SeekBar">
+
+    </style>
 
     <style name="poGoStyleButton">
         <item name="android:textColor">@color/buttonText</item>

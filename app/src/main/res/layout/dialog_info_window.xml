@@ -7,7 +7,7 @@
     android:padding="16dp"
     android:gravity="center|bottom"
     android:background="@android:drawable/alert_light_frame"
-    android:theme="@style/AppTheme"
+    android:theme="@style/dialogTheme"
     android:alpha="225">
 
     <ScrollView

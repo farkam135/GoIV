@@ -34,8 +34,8 @@ public class SettingsActivity extends AppCompatActivity {
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
         LocalBroadcastManager.getInstance(this).unregisterReceiver(showUpdateDialog);
+        super.onDestroy();
     }
 
     private final BroadcastReceiver showUpdateDialog = new BroadcastReceiver() {
@@ -61,8 +61,8 @@ public class SettingsActivity extends AppCompatActivity {
                 checkForUpdatePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                     @Override
                     public boolean onPreferenceClick(Preference preference) {
-                        Toast.makeText(mContext, "Checking for update... ", Toast.LENGTH_SHORT).show();
-                        AppUpdateUtil.checkForUpdate(mContext);
+                        Toast.makeText(getActivity(), "Checking for update... ", Toast.LENGTH_SHORT).show();
+                        AppUpdateUtil.checkForUpdate(getActivity());
                         return true;
                     }
                 });

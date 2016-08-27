@@ -78,16 +78,8 @@ public class DownloadUpdateService extends Service {
                 }
             }
         };
-        return Service.START_STICKY;
-    }
 
-    @Override
-    public void onDestroy() {
-        if(onComplete != null) {
-            unregisterReceiver(onComplete);
-            onComplete = null;
-        }
-        super.onDestroy();
+        return Service.START_STICKY;
     }
 
     @Override

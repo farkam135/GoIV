@@ -2,12 +2,14 @@ package com.kamron.pogoiv;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.support.annotation.NonNull;
 import android.util.LruCache;
 
 import com.googlecode.tesseract.android.TessBaseAPI;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.Locale;
 
 import timber.log.Timber;
@@ -23,7 +25,7 @@ public class OCRHelper {
     private LruCache<String, String> ocrCache = new LruCache<>(200);
     private int heightPixels;
     private int widthPixels;
-    private int candyOrder;
+    private boolean candyWordFirst;
 
     /* TODO: This is a temporary hack to keep the commits more bite sized. Will fix soon. */
     public double estimatedPokemonLevel;
@@ -40,7 +42,7 @@ public class OCRHelper {
         tesseract.setVariable(TessBaseAPI.VAR_CHAR_WHITELIST, "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789/♀♂");
         this.heightPixels = heightPixels;
         this.widthPixels = widthPixels;
-        this.candyOrder = guessCandyOrder();
+        this.candyWordFirst = isCandyWordFirst();
     }
 
     /**
@@ -69,15 +71,11 @@ public class OCRHelper {
         }
     }
 
-    private int guessCandyOrder() {
-        //Check if language makes the pokemon name in candy second; France/Spain have Bonbon/Caramelos pokeName.
+    private boolean isCandyWordFirst() {
+        //Check if language makes the pokemon name in candy second; France/Spain/Italy have Bonbon/Caramelos pokeName.
         String language = Locale.getDefault().getLanguage();
         HashSet<String> specialCandyOrderLangs = new HashSet<>(Arrays.asList("fr", "es", "it"));
-        if (specialCandyOrderLangs.contains(language)) {
-            return 1;
-        } else {
-            return 0;
-        }
+        return specialCandyOrderLangs.contains(language);
     }
 
     /**
@@ -221,6 +219,27 @@ public class OCRHelper {
         return pokemonName;
     }
 
+    @NonNull
+    private static void toTitleCase(StringBuilder dst, String src) {
+        dst.append(src.substring(0, 1));
+        dst.append(src.substring(1).toLowerCase());
+    }
+
+    @NonNull
+    private static String removeNthWord(String src, boolean removeFirst) {
+        LinkedList<String> words = new LinkedList<>(Arrays.asList(src.split(" ")));
+        int toRemove = removeFirst ? 0 : words.size() - 1;
+        words.remove(toRemove);
+        //Join and title case words.
+        //TODO: make pokemon matching case insensitive.
+        StringBuilder joined = new StringBuilder();
+        toTitleCase(joined, words.remove(0));
+        for (String word : words) {
+            joined.append(' ');
+            toTitleCase(joined, word);
+        }
+        return joined.toString();
+    }
 
     /**
      * gets the candy name from a pokenon image
@@ -237,8 +256,7 @@ public class OCRHelper {
             candy = replaceColors(candy, 68, 105, 108, Color.WHITE, 200, true);
             tesseract.setImage(candy);
             try {
-                candyName = fixOcr(tesseract.getUTF8Text().trim().replace("-", " ").split(" ")[candyOrder]);
-                candyName = candyName.substring(0, 1) + candyName.substring(1).toLowerCase();
+                candyName = fixOcr(removeNthWord(tesseract.getUTF8Text().trim().replace("-", " "), candyWordFirst));
             } catch (StringIndexOutOfBoundsException e) {
                 candyName = "";
             }

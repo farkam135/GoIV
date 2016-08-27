@@ -65,4 +65,5 @@
     <string name="attack">Attack</string>
     <string name="defense">Defense</string>
     <string name="stamina_hp">HP</string>
+    <string name="missing_inputs">Missing data. Please fill CP and HP inputs.</string>
 </resources>

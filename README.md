@@ -7,7 +7,8 @@
 - [Download](#download)
 - [FAQ](#faq)
 - [Community](#community)
-- [Special thanks](#special-thanks)
+- [Special Thanks](#special-thanks)
+- [Development](#development)
 
 ## What is GoIV
 GoIV is an android app made for Pokémon GO that allows users to seamlessly calculate their Pokémon's IVs. GoIV does **not** interfere with Pokémon GO or their servers.

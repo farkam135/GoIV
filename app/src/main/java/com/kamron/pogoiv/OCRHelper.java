@@ -32,7 +32,13 @@ public class OCRHelper {
     public String nidoFemale;
     public String nidoMale;
 
-    private OCRHelper() {
+    private OCRHelper(String dataPath, int candyOrder, int widthPixels, int heightPixels) {
+        tesseract = new TessBaseAPI();
+        tesseract.init(dataPath, "eng");
+        tesseract.setVariable(TessBaseAPI.VAR_CHAR_WHITELIST, "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789/♀♂");
+        this.candyOrder = candyOrder;
+        this.heightPixels = heightPixels;
+        this.widthPixels = widthPixels;
     }
 
     /**
@@ -44,13 +50,7 @@ public class OCRHelper {
      */
     public static OCRHelper init(String dataPath, int candyOrder, int widthPixels, int heightPixels) {
         if (instance == null) {
-            instance = new OCRHelper();
-            instance.tesseract = new TessBaseAPI();
-            instance.tesseract.init(dataPath, "eng");
-            instance.tesseract.setVariable(TessBaseAPI.VAR_CHAR_WHITELIST, "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789/♀♂");
-            instance.candyOrder = candyOrder;
-            instance.heightPixels = heightPixels;
-            instance.widthPixels = widthPixels;
+            instance = new OCRHelper(dataPath, candyOrder, widthPixels, heightPixels);
         }
         return instance;
     }

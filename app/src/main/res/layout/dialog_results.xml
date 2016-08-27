@@ -147,83 +147,87 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/llMultipleIVMatches"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="12sp">
-        <TextView
-            android:id="@+id/resultsCombinations"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="## Possible Combinations"
-            android:layout_gravity="left"
-            android:textSize="18sp"
-            android:textColor="#888"/>
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tvSeeAllPossibilities"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:textColor="@color/colorPrimary"
-            android:text="@string/see_all"
-            android:clickable="true"
-            android:gravity="right"/>
-    </LinearLayout>
+            android:padding="12sp">
+            <TextView
+                android:id="@+id/resultsCombinations"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="## Possible Combinations"
+                android:layout_gravity="left"
+                android:textSize="18sp"
+                android:textColor="#888"/>
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="12sp"
-        android:paddingRight="12sp">
+            <TextView
+                android:id="@+id/tvSeeAllPossibilities"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textColor="@color/colorPrimary"
+                android:text="@string/see_all"
+                android:clickable="true"
+                android:gravity="right"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="12sp"
+            android:paddingRight="12sp">
+
+            <TextView
+
+                android:id="@+id/exResPrevScan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/last_scan"
+                android:textSize="18sp"
+                android:textColor="#888"
+                android:layout_gravity="left"/>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                />
+
+            <TextView
+                android:id="@+id/exResCompare"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textColor="@color/colorPrimary"
+                android:text="@string/refine"
+                android:layout_gravity="right"/>
+
+        </LinearLayout>
 
         <TextView
-
-            android:id="@+id/exResPrevScan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/last_scan"
-            android:textSize="18sp"
-            android:textColor="#888"
-            android:layout_gravity="left"/>
+            android:text="@string/refining_instructions"
+            android:textColor="@color/unimportantText"
+            android:textAlignment="center"
+            android:layout_marginTop="5dp"
+            android:layout_gravity="center"/>
 
         <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            />
-
-
-        <TextView
-            android:id="@+id/exResCompare"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:textColor="@color/colorPrimary"
-            android:text="@string/refine"
-            android:layout_gravity="right"/>
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="12sp"
+            android:layout_marginRight="12sp"
+            android:background="@android:color/darker_gray"/>
 
     </LinearLayout>
-
-    <Space
-        android:layout_width="1dp"
-        android:layout_height="10dp"/>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@android:color/darker_gray"/>
-    <Space
-        android:layout_width="1dp"
-        android:layout_height="10dp"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/refining_instructions"
-        android:textColor="@color/unimportantText"
-        android:textAlignment="center"
-        android:layout_gravity="center"/>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

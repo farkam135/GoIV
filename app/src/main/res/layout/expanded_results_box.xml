@@ -191,21 +191,18 @@
 
     </LinearLayout>
 
-    <Space
-        android:layout_width="1dp"
-        android:layout_height="20dp"/>
+    <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:textColor="@color/unimportantText"
+    android:text="@string/powerup_calc_instructions"
+    android:textAlignment="center"
+    android:layout_gravity="center_horizontal" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
+        android:layout_marginTop="5dp"
         android:background="@android:color/darker_gray"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/unimportantText"
-        android:text="@string/powerup_calc_instructions"
-        android:textAlignment="center"
-        android:layout_gravity="center_horizontal" />
 
 </LinearLayout>

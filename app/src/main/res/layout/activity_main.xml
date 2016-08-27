@@ -41,15 +41,8 @@
             android:id="@+id/start"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:paddingBottom="16dp"
-            android:paddingEnd="32dp"
-            android:paddingLeft="32dp"
-            android:paddingRight="32dp"
-            android:paddingStart="32dp"
-            android:paddingTop="16dp"
-            android:text="@string/main_start"
-            android:textSize="18sp"/>
+            style="@style/poGoStyleButton"
+            android:text="@string/main_start"/>
 
         <TextView
             android:layout_width="wrap_content"

@@ -73,7 +73,7 @@ public class DownloadUpdateService extends Service {
         this.registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
         return Service.START_STICKY;
     }
-    
+
     @Override
     public IBinder onBind(Intent intent) {
         return null;

@@ -382,15 +382,14 @@ public class MainActivity extends AppCompatActivity {
         Data.arcX = new int[maxPokeLevelIdx + 1]; //We access entries [0..maxPokeLevelIdx], hence + 1.
         Data.arcY = new int[maxPokeLevelIdx + 1];
 
-        double maxAngle = 180;
         double baseCpM = Data.CpM[0];
         double maxPokeCpMDelta = Data.CpM[Math.min(maxPokeLevelIdx + 1, Data.CpM.length)] - baseCpM;
 
         //pokeLevelIdx <= maxPokeLevelIdx ensures we never overflow CpM/arc/arcY.
         for (int pokeLevelIdx = 0; pokeLevelIdx <= maxPokeLevelIdx; pokeLevelIdx++) {
             double pokeCurrCpMDelta = (Data.CpM[pokeLevelIdx] - baseCpM);
-            double angleInDegrees = maxAngle * pokeCurrCpMDelta / maxPokeCpMDelta;
-            double angleInRadians = (angleInDegrees + 180) * Math.PI / 180.0;
+            double arcRatio = pokeCurrCpMDelta / maxPokeCpMDelta;
+            double angleInRadians = (arcRatio + 1) * Math.PI;
 
             Data.arcX[pokeLevelIdx] = (int) (arcCenter + (radius * Math.cos(angleInRadians)));
             Data.arcY[pokeLevelIdx] = (int) (arcInitialY + (radius * Math.sin(angleInRadians)));

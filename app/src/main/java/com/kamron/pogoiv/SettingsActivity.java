@@ -22,12 +22,13 @@ import com.kamron.pogoiv.updater.AppUpdateUtil;
 
 public class SettingsActivity extends AppCompatActivity {
 
-    private static Context mContext;
+    private Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getFragmentManager().beginTransaction().replace(android.R.id.content, new SettingsFragment()).commit();
+        mContext = SettingsActivity.this;
         getSupportActionBar().setTitle(getResources().getString(R.string.settings_page_title));
         LocalBroadcastManager.getInstance(this).registerReceiver(showUpdateDialog, new IntentFilter(MainActivity.ACTION_SHOW_UPDATE_DIALOG));
     }
@@ -62,7 +63,7 @@ public class SettingsActivity extends AppCompatActivity {
                     @Override
                     public boolean onPreferenceClick(Preference preference) {
                         Toast.makeText(getActivity(), "Checking for update... ", Toast.LENGTH_SHORT).show();
-                        AppUpdateUtil.checkForUpdate(mContext);
+                        AppUpdateUtil.checkForUpdate(getActivity());
                         return true;
                     }
                 });

@@ -82,15 +82,6 @@ public class DownloadUpdateService extends Service {
     }
 
     @Override
-    public void onDestroy() {
-        if(onComplete != null) {
-            unregisterReceiver(onComplete);
-            onComplete = null;
-        }
-        super.onDestroy();
-    }
-
-    @Override
     public IBinder onBind(Intent intent) {
         return null;
     }

@@ -383,7 +383,7 @@ public class Pokefly extends Service {
 //        }
 //
 //        double angleInRadians = (angleInDegrees + 180) * Math.PI / 180.0;
-        int index = Data.convertLevelToIndex(pokeLevel);
+        int index = Data.levelToLevelIdx(pokeLevel);
         arcParams.x = Data.arcX[index] - pointerWidth; //(int) (arcCenter + (radius * Math.cos(angleInRadians)));
         arcParams.y = Data.arcY[index] - pointerHeight - statusBarHeight; //(int) (arcInitialY + (radius * Math.sin(angleInRadians)));
         //System.out.println("Pointer X: "  + arcParams.x);

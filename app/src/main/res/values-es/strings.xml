@@ -59,4 +59,5 @@
     <string name="stamina_hp">PS</string>
     <string name="refine_no_progress">El refinamiento no mejoró los r</string>
     <string name="missing_inputs">Datos incompletos. Por favor completa los campos PC y PS.</string>
+    <string name="ivtext_no_possibilities">No hay combinaciones de IV para estos datos. Por favor verifique la información.</string>
 </resources>

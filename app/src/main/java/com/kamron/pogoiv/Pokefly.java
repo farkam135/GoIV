@@ -569,9 +569,6 @@ public class Pokefly extends Service {
             }
         }
 
-        initialButtonsLayout.setVisibility(View.GONE);
-        onCheckButtonsLayout.setVisibility(View.VISIBLE);
-
         int selectedPokemon = pokemonList.getSelectedItemPosition();
         Pokemon pokemon = pokeCalculator.get(selectedPokemon);
         /* TODO: Should we set a size limit on that and throw away LRU entries? */
@@ -589,6 +586,12 @@ public class Pokefly extends Service {
             ivScanResult.refineByHighest(attCheckbox.isChecked(), defCheckbox.isChecked(), staCheckbox.isChecked());
         }
 
+        // If no possible combinations, inform the user and abort.
+        if(ivScanResult.getCount()==0){
+            Toast.makeText(this, R.string.ivtext_no_possibilities, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         addToRangeToClipboardIfSettingOn(ivScanResult);
         populateResultsBox(ivScanResult);
         boolean enableCompare = IVScanResult.scanContainer.twoScanAgo != null;
@@ -598,6 +601,8 @@ public class Pokefly extends Service {
         resultsBox.setVisibility(View.VISIBLE);
         inputBox.setVisibility(View.GONE);
 
+        initialButtonsLayout.setVisibility(View.GONE);
+        onCheckButtonsLayout.setVisibility(View.VISIBLE);
     }
 
     /**

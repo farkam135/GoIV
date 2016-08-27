@@ -66,4 +66,5 @@
     <string name="defense">Defense</string>
     <string name="stamina_hp">HP</string>
     <string name="missing_inputs">Missing data. Please fill CP and HP inputs.</string>
+    <string name="ivtext_no_possibilities">There are no IV possible combinations for this input. Please double check the information.</string>
 </resources>

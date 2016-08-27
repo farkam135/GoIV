@@ -8,13 +8,20 @@
         <item name="colorAccent">@color/colorAccent</item>
 
         <item name="android:typeface">sans</item>
-        <item name="android:buttonStyle">@style/appButton</item>
     </style>
 
-    <style name="appButton">
+    <style name="poGoStyleButton">
         <item name="android:textColor">@color/buttonText</item>
         <item name="android:textAllCaps">true</item>
         <item name="android:background">@drawable/skin_button</item>
+        <item name="android:layout_marginTop">16dp</item>
+        <item name="android:paddingBottom">16dp</item>
+        <item name="android:paddingEnd">32dp</item>
+        <item name="android:paddingLeft">32dp</item>
+        <item name="android:paddingRight">32dp</item>
+        <item name="android:paddingStart">32dp</item>
+        <item name="android:paddingTop">16dp</item>
+        <item name="android:textSize">18sp</item>
     </style>
 
 </resources>

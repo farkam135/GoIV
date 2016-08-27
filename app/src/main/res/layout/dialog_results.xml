@@ -249,10 +249,11 @@
                 android:textColor="@color/colorPrimary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="▼ "
+                android:text="▼"
                 android:layout_gravity="center"
                 android:textSize="18sp"
-                android:clickable="true"/>
+                android:clickable="true"
+                android:paddingLeft="4dp" />
 
         </LinearLayout>
 

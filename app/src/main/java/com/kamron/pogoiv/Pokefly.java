@@ -509,10 +509,10 @@ public class Pokefly extends Service {
     public void toggleMoreResultsBox() {
         if (expandedResultsBox.getVisibility() == View.VISIBLE) {
             expandedResultsBox.setVisibility(View.GONE);
-            resultsMoreInformationArrow.setText("► ");
+            resultsMoreInformationArrow.setText("▶");
         } else {
             expandedResultsBox.setVisibility(View.VISIBLE);
-            resultsMoreInformationArrow.setText("▼ ");
+            resultsMoreInformationArrow.setText("▼");
         }
 
     }

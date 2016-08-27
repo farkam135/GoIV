@@ -25,6 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/spinner"
+            android:popupBackground="#FFF"
             android:gravity="center"/>
 
     </LinearLayout>

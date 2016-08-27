@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -18,9 +18,6 @@
     </style>
     <style name="dialogTheme.dialogStyleButton" parent="Base.Widget.AppCompat.Button.Colored">
         <item name="android:color">@color/buttonText</item>
-    </style>
-    <style name="dialogTheme." parent="Base.Widget.AppCompat.SeekBar">
-
     </style>
 
     <style name="poGoStyleButton">

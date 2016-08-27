@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:theme="@style/AppTheme">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -57,7 +56,7 @@
                 android:id="@+id/etCp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/red"
+                android:textColor="@color/colorPrimary"
                 android:text="XX"
                 android:maxLength="4"
                 android:textAlignment="center"
@@ -87,7 +86,7 @@
                 android:id="@+id/etHp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/red"
+                android:textColor="@color/colorPrimary"
                 android:text="XX"
                 android:maxLength="4"
                 android:textAlignment="center"
@@ -119,7 +118,7 @@
             android:layout_weight=".15"
             android:text="-"
             android:textSize="22sp"
-            android:textColor="@color/red"
+            android:textColor="@color/colorPrimary"
             android:background="@android:color/transparent"/>
 
         <SeekBar
@@ -135,7 +134,7 @@
             android:text="+"
             android:layout_weight=".15"
             android:textSize="18sp"
-            android:textColor="@color/red"
+            android:textColor="@color/colorPrimary"
             android:background="@android:color/transparent"/>
 
     </LinearLayout>

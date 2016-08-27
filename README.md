@@ -18,16 +18,24 @@ GoIV is an android app made for Pokemon GO that allows users to seamlessly calcu
 ![Alt text](https://i.imgur.com/aNHUEVI.jpg "Seamlessly Overlays an IV Button")
 
 #Download
-**Download GoIV (Online) APK: https://github.com/farkam135/GoIV/releases**  
-Latest Version: 2.2.0  
-For changelog, see [CHANGELOG.md](CHANGELOG.md).
+##Latest Version: 3.0.0
+**For changelog, see [CHANGELOG.md](CHANGELOG.md).**
+
+###GoIV (Online)
+**[Download GoIV (Online) APK] (https://github.com/farkam135/GoIV/releases)**  
 
 **Checksums:**  
-MD5 - 57F2C9628389E787BA2F1B095C9261EC  
-SHA1 - 41CA160E5F7F59D84248A6916AE986F8C2E8C1BD  
-SHA-256 - 2B4C3102ED9572E8194CDFE2D7B6E4AF28EE93B54CFE4E4921736B7645515D3D  
+MD5 - 747F3A9B8B0FA40654962D1BCB2396DB  
+SHA1 - 6DF8E54D48C43A7937076158F07316E2D80E09E7  
+SHA-256 - DAE8235F69F25D03EF31539541247DBCDB586B93E8BEB45AD1D89B8EC97B4AB0  
 
-*Download GoIV (Offline) APK: https://www.reddit.com/r/GoIV/comments/4z5qxz/goiv_220_released/*
+###GoIV (Offline)
+**[Download GoIV (Offline) APK] (https://www.reddit.com/r/GoIV/comments/4ztkct/version_300_released/)**
+
+**Checksums:**  
+MD5 - 0B0BB2E164235B5746F32956A9156D01  
+SHA1 - EB0B271210F68D9479B2276520A7090DFCF5F9D5  
+SHA-256 - 14916EC7D9902B3672A506E1E659AFEEDAA56E3548CCCB2D0C708830CE082E03  
 
 #FAQ
 - [Is there an iOS version?](#is-there-an-ios-version)

@@ -552,12 +552,23 @@ public class Pokefly extends Service {
 
     @OnClick(R.id.btnCheckIv)
     public void checkIv() {
-        if (batterySaver && !screenshotDir.isEmpty()) {
-            if (GoIVSettings.getSettings(getBaseContext()).getDeleteScreenshots())
-                getContentResolver().delete(screenshotUri, MediaStore.Files.FileColumns.DATA + "=?", new String[]{screenshotDir});
+
+        // Check for valid parameters before attempting to do anything else.-
+        try{
+            pokemonHP = Integer.parseInt(pokemonHPEdit.getText().toString());
+            pokemonCP = Integer.parseInt(pokemonCPEdit.getText().toString());
         }
-        pokemonHP = Integer.parseInt(pokemonHPEdit.getText().toString());
-        pokemonCP = Integer.parseInt(pokemonCPEdit.getText().toString());
+        catch(NumberFormatException e){
+            Toast.makeText(this, R.string.missing_inputs, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (batterySaver && !screenshotDir.isEmpty()) {
+            if (GoIVSettings.getSettings(getBaseContext()).getDeleteScreenshots()) {
+                getContentResolver().delete(screenshotUri, MediaStore.Files.FileColumns.DATA + "=?", new String[]{screenshotDir});
+            }
+        }
+
         initialButtonsLayout.setVisibility(View.GONE);
         onCheckButtonsLayout.setVisibility(View.VISIBLE);
 

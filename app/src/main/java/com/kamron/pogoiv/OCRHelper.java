@@ -8,6 +8,8 @@ import com.googlecode.tesseract.android.TessBaseAPI;
 
 import java.util.Arrays;
 
+import timber.log.Timber;
+
 /**
  * Created by Sarav on 8/25/2016.
  * A class to scan a screenshot and extract useful information visible in the bitmap.
@@ -54,9 +56,15 @@ public class OCRHelper {
     }
 
     public void exit() {
-        instance.tesseract.stop();
-        instance.tesseract.end();
-        instance.tesseract = null;
+        if (instance.tesseract != null) {
+            instance.tesseract.stop();
+            instance.tesseract.end();
+            instance.tesseract = null;
+        } else {
+            Timber.e("Avoided NPE on OCRHelper.exit()");
+            //The exception is to ensure we get a stack trace. It's not thrown.
+            Timber.e(new Throwable());
+        }
     }
 
     /**

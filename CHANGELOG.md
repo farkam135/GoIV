@@ -1,5 +1,32 @@
 # Changelog
 
+## 3.0.0
+
+### New Features
+* Appraisal checkboxes
+* New results screen UI
+* Can view all IV combinations
+* Narrow down possible IVs by upgrading and getting intersection
+* Get Pokémon CP at any level and evolution prediction (including levels above trainer max)
+
+### Enhancements
+* App remembers user OCR corrections
+* OCR cache speeds up ocr in some situations
+* IV percentage results are color coded
+* Portugese and French localization
+* Language fixes
+
+### Stuff
+* Some stuff is green
+* Minor text fixes (for real)
+
+### Behind the scenes
+* Speed improvements
+* Code refactoring
+* Several crashfixes & stability improvements
+
+---
+
 ## 2.2.0
 
 ### New features
@@ -20,6 +47,8 @@
 * Water pokemon no longer bug out the app when it tries to read the CP - No more 114833 CP vaporeons.
 * Arc detection support for 480p screens (the start button is still covered on some devices though, fix incoming soon)
 
+---
+
 ## 2.1.0
 
 ### New features
@@ -36,6 +65,8 @@
 * Performance improvements
 * Fixed needed candy/stardust formula
 
+---
+
 ## 2.0.0
 
 ### New feature
@@ -51,6 +82,8 @@
 * Remove Billing Permission
 * Fixed arc alignment for trainer's level >= 30
 * Remove "Scanning" text
+
+---
 
 ## 1.3.0
 

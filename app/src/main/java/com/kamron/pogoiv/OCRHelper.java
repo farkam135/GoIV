@@ -69,14 +69,26 @@ public class OCRHelper {
      * @param keepCb       The blue color to keep
      * @param replaceColor The color to replace mismatched colors with
      * @param distance     The distance threshold.
+     * @param simpleBG     Whether the bitmap has a simple background
      * @return Bitmap with replaced colors
      */
-    private Bitmap replaceColors(Bitmap myBitmap, int keepCr, int keepCg, int keepCb, int replaceColor, int distance) {
+    private Bitmap replaceColors(Bitmap myBitmap, int keepCr, int keepCg, int keepCb, int replaceColor, int distance, boolean simpleBG) {
         int[] allpixels = new int[myBitmap.getHeight() * myBitmap.getWidth()];
         myBitmap.getPixels(allpixels, 0, myBitmap.getWidth(), 0, 0, myBitmap.getWidth(), myBitmap.getHeight());
+        int bgColor = replaceColor;
         int distanceSq = distance * distance;
 
+        if (simpleBG) {
+            bgColor = allpixels[0];
+        }
+
         for (int i = 0; i < allpixels.length; i++) {
+            /* Avoid unnecessary math for obviously background color. This removes most of the math
+             * for candy, HP and name bitmaps. */
+            if (allpixels[i] == bgColor) {
+                allpixels[i] = replaceColor;
+                continue;
+            }
             int rDiff = keepCr - Color.red(allpixels[i]);
             int gDiff = keepCg - Color.green(allpixels[i]);
             int bDiff = keepCb - Color.blue(allpixels[i]);
@@ -170,7 +182,7 @@ public class OCRHelper {
         String pokemonName = ocrCache.get(hash);
 
         if (pokemonName == null) {
-            name = replaceColors(name, 68, 105, 108, Color.WHITE, 200);
+            name = replaceColors(name, 68, 105, 108, Color.WHITE, 200, true);
             tesseract.setImage(name);
             pokemonName = fixOcr(tesseract.getUTF8Text().replace(" ", ""));
             if (pokemonName.toLowerCase().contains("nidora")) {
@@ -195,12 +207,12 @@ public class OCRHelper {
      * @return the candy name, or "" if nothing was found
      */
     private String getCandyNameFromImg(Bitmap pokemonImage) {
-        Bitmap candy = Bitmap.createBitmap(pokemonImage, widthPixels / 2, (int) Math.round(heightPixels / 1.3724285), (int) Math.round(widthPixels / 2.057), (int) Math.round(heightPixels / 38.4));
+        Bitmap candy = Bitmap.createBitmap(pokemonImage, widthPixels / 2, (int) Math.round(heightPixels / 1.3724285), (int) Math.round(widthPixels / 2.1), (int) Math.round(heightPixels / 38.4));
         String hash = "candy" + hashBitmap(candy);
         String candyName = ocrCache.get(hash);
 
         if (candyName == null) {
-            candy = replaceColors(candy, 68, 105, 108, Color.WHITE, 200);
+            candy = replaceColors(candy, 68, 105, 108, Color.WHITE, 200, true);
             tesseract.setImage(candy);
             try {
                 candyName = fixOcr(tesseract.getUTF8Text().trim().replace("-", " ").split(" ")[candyOrder]);
@@ -227,7 +239,7 @@ public class OCRHelper {
         String pokemonHPStr = ocrCache.get(hash);
 
         if (pokemonHPStr == null) {
-            hp = replaceColors(hp, 55, 66, 61, Color.WHITE, 200);
+            hp = replaceColors(hp, 55, 66, 61, Color.WHITE, 200, true);
             tesseract.setImage(hp);
             pokemonHPStr = tesseract.getUTF8Text();
             hp.recycle();
@@ -253,7 +265,7 @@ public class OCRHelper {
     private int getPokemonCPFromImg(Bitmap pokemonImage) {
         int pokemonCP;
         Bitmap cp = Bitmap.createBitmap(pokemonImage, (int) Math.round(widthPixels / 3.0), (int) Math.round(heightPixels / 15.5151515), (int) Math.round(widthPixels / 3.84), (int) Math.round(heightPixels / 21.333333333));
-        cp = replaceColors(cp, 255, 255, 255, Color.BLACK, 30);
+        cp = replaceColors(cp, 255, 255, 255, Color.BLACK, 30, false);
         tesseract.setImage(cp);
         String cpText = tesseract.getUTF8Text().replace("O", "0").replace("l", "1");
         if (cpText.length() >= 2) { //gastly can block the "cp" text, so its not visible...

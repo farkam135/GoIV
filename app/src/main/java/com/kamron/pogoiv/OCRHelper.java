@@ -7,6 +7,8 @@ import android.util.LruCache;
 import com.googlecode.tesseract.android.TessBaseAPI;
 
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Locale;
 
 import timber.log.Timber;
 
@@ -32,13 +34,13 @@ public class OCRHelper {
     public String nidoFemale;
     public String nidoMale;
 
-    private OCRHelper(String dataPath, int candyOrder, int widthPixels, int heightPixels) {
+    private OCRHelper(String dataPath, int widthPixels, int heightPixels) {
         tesseract = new TessBaseAPI();
         tesseract.init(dataPath, "eng");
         tesseract.setVariable(TessBaseAPI.VAR_CHAR_WHITELIST, "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789/♀♂");
-        this.candyOrder = candyOrder;
         this.heightPixels = heightPixels;
         this.widthPixels = widthPixels;
+        this.candyOrder = guessCandyOrder();
     }
 
     /**
@@ -48,9 +50,9 @@ public class OCRHelper {
      * @param dataPath Path the OCR data files.
      * @return Bitmap with replaced colors
      */
-    public static OCRHelper init(String dataPath, int candyOrder, int widthPixels, int heightPixels) {
+    public static OCRHelper init(String dataPath, int widthPixels, int heightPixels) {
         if (instance == null) {
-            instance = new OCRHelper(dataPath, candyOrder, widthPixels, heightPixels);
+            instance = new OCRHelper(dataPath, widthPixels, heightPixels);
         }
         return instance;
     }
@@ -64,6 +66,17 @@ public class OCRHelper {
             Timber.e("Avoided NPE on OCRHelper.exit()");
             //The exception is to ensure we get a stack trace. It's not thrown.
             Timber.e(new Throwable());
+        }
+    }
+
+    private int guessCandyOrder() {
+        //Check if language makes the pokemon name in candy second; France/Spain have Bonbon/Caramelos pokeName.
+        String language = Locale.getDefault().getLanguage();
+        HashSet<String> specialCandyOrderLangs = new HashSet<>(Arrays.asList("fr", "es", "it"));
+        if (specialCandyOrderLangs.contains(language)) {
+            return 1;
+        } else {
+            return 0;
         }
     }
 

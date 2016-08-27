@@ -20,6 +20,7 @@ public class Pokemon {
     public final int baseDefense;
     public final int baseStamina;
     public final int devoNumber;
+    public final int candyEvolutionCost;
 
     public Pokemon(String name, int number, int baseAttack, int baseDefense, int baseStamina, int devoNumber, int candyEvolutionCost) {
         this.name = name;

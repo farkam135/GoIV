@@ -1,26 +1,45 @@
 package com.kamron.pogoiv.updater;
 
 
-public class AppUpdate {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@AllArgsConstructor
+@Getter
+public class AppUpdate implements Parcelable {
+
     private String assetUrl;
     private String version;
     private String changelog;
 
-    public String getAssetUrl() {
-        return assetUrl;
+    private AppUpdate(Parcel in) {
+        assetUrl = in.readString();
+        version = in.readString();
+        changelog = in.readString();
     }
 
-    public String getVersion() {
-        return version;
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
-    public String getChangelog() {
-        return changelog;
+    @Override
+    public void writeToParcel(Parcel out, int flags) {
+        out.writeString(assetUrl);
+        out.writeString(version);
+        out.writeString(changelog);
     }
 
-    public AppUpdate(String assetUrl, String version, String changelog) {
-        this.assetUrl = assetUrl;
-        this.version = version;
-        this.changelog = changelog;
-    }
+    public static final Parcelable.Creator<AppUpdate> CREATOR = new Parcelable.Creator<AppUpdate>() {
+        public AppUpdate createFromParcel(Parcel in) {
+            return new AppUpdate(in);
+        }
+
+        public AppUpdate[] newArray(int size) {
+            return new AppUpdate[size];
+        }
+    };
 }

@@ -7,8 +7,11 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
 
+        <item name="android:buttonStyle">@style/dialogStyleButton</item>
         <item name="android:typeface">sans</item>
     </style>
+
+    <style name="dialogStyleButton" parent="android:Widget.Holo.Button"/>
 
     <style name="poGoStyleButton">
         <item name="android:textColor">@color/buttonText</item>

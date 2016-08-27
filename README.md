@@ -3,7 +3,7 @@
 ## Table of Contents
 
 - [What is GoIV](#what-is-goiv)
-- [Images](#images)
+- [Screenshots](#screenshots)
 - [Download](#download)
 - [FAQ](#faq)
 - [Community](#community)
@@ -13,9 +13,11 @@
 ## What is GoIV
 GoIV is an android app made for Pokémon GO that allows users to seamlessly calculate their Pokémon's IVs. GoIV does **not** interfere with Pokémon GO or their servers.
 
-## Images
-![Alt text](https://i.imgur.com/bvRfmZV.jpg "Seamlessly Overlays an IV Button")
-![Alt text](https://i.imgur.com/aNHUEVI.jpg "Seamlessly Overlays an IV Button")
+## Screenshots
+![Alt text](https://i.imgur.com/SxlmeqT.jpg "Overlays an IV Button")
+![Alt text](https://i.imgur.com/0O3d8Vd.jpg "Scans for Pokémon Info")
+![Alt text](https://i.imgur.com/ekBae5R.jpg "Shows Result Popup")
+![Alt text](https://i.imgur.com/xXr9zzK.jpg "Advanced Information in Results Popup")
 
 ## Download
 ### Latest Version: 3.0.0

@@ -120,7 +120,7 @@ public class OCRHelper {
     private double getPokemonLevelFromImg(Bitmap pokemonImage, double trainerLevel) {
         double estimatedPokemonLevel = trainerLevel + 1.5;
         for (double estPokemonLevel = estimatedPokemonLevel; estPokemonLevel >= 1.0; estPokemonLevel -= 0.5) {
-            int index = Data.convertLevelToIndex(estPokemonLevel);
+            int index = Data.levelToLevelIdx(estPokemonLevel);
             int x = Data.arcX[index];
             int y = Data.arcY[index];
             if (pokemonImage.getPixel(x, y) == Color.rgb(255, 255, 255)) {

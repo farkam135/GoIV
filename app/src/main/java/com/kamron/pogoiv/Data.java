@@ -17,8 +17,43 @@ public class Data {
     public static int[] arcX;
     public static int[] arcY;
 
-    public static int convertLevelToIndex(double pokemonLevel){
-        return (int)(pokemonLevel * 2 -2);
+    /**
+     * Convert a pokemon/trainer level to a <em>level index</em> (<code>levelIdx</code> in code).
+     * The mapping is invertible, but level indexes can be used to index an array (like Data.CpM).
+     *
+     * Pokemon levels go from 1 to trainerLevelToMaxPokeLevel(trainerLevel), in increments of 0.5.
+     * Level indexes go from 0 to trainerLevelToMaxPokeLevelIdx(trainerLevel) in increments of 1.
+     * This method adjusts a level to a <em>level index</em> (<code>levelIdx</code>), by doubling it
+     * and subtracting 2.
+     */
+    public static int levelToLevelIdx(double level) {
+        return (int) (level * 2) - 2;
+    }
+
+    /**
+     * Convert a <em>level index</em> back to a level. Inverse of levelToLevelIdx, see explanations
+     * there for rationale.
+     */
+    public static double levelIdxToLevel(int levelIdx) {
+        return (levelIdx + 2) / 2.0;
+    }
+
+    /**
+     * Maximum pokemon level for a trainer, from the trainer level. That's usually trainerLevel + 1.5, but
+     * the maximum is 40 (http://pokemongo.gamepress.gg/power-up-costs).
+     */
+    public static double trainerLevelToMaxPokeLevel(int trainerLevel) {
+        return Math.min(trainerLevel + 1.5, 40);
+    }
+
+    /*
+     * Pokemon levels go from 1 to trainerLevel + 1.5, in increments of 0.5.
+     * Here we use levelIdx for levels that are doubled and shifted by - 2; after this adjustment,
+     * the level can be used to index CpM, arcX and arcY.
+     */
+    public static int trainerLevelToMaxPokeLevelIdx(int trainerLevel) {
+        // This is Math.min(2 * trainerLevel + 1, 78).
+        return levelToLevelIdx(trainerLevelToMaxPokeLevel(trainerLevel));
     }
 
     // should be pretty fast https://en.wikibooks.org/wiki/Algorithm_Implementation/Strings/Levenshtein_distance#Java

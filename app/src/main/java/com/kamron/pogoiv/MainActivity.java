@@ -365,21 +365,26 @@ public class MainActivity extends AppCompatActivity {
      * Sets up the x,y coordinates of the arc using the trainer level, stores it in Data.arcX/arcY
      */
     private void setupArcPoints() {
-        final int indices = Math.min((int) ((trainerLevel + 1.5) * 2) - 1, 79);
-        Data.arcX = new int[indices];
-        Data.arcY = new int[indices];
+        /*
+         * Pokemon levels go from 1 to trainerLevel + 1.5, in increments of 0.5.
+         * Here we use levelIdx for levels that are doubled and shifted by - 2; after this adjustment,
+         * the level can be used to index CpM, arcX and arcY.
+         */
+        int maxPokeLevelIdx = Data.trainerLevelToMaxPokeLevelIdx(trainerLevel);
+        Data.arcX = new int[maxPokeLevelIdx + 1]; //We access entries [0..maxPokeLevelIdx], hence + 1.
+        Data.arcY = new int[maxPokeLevelIdx + 1];
 
-        double maxAngle = 178.4;
-        double levelCoeff = maxAngle * Data.CpM[trainerLevel * 2 - 2] / (Data.CpM[(int) ((trainerLevel + 1.5) * 2 - 2)] - Data.CpM[0]);
+        double baseCpM = Data.CpM[0];
+        double maxPokeCpMDelta = Data.CpM[Math.min(maxPokeLevelIdx + 1, Data.CpM.length)] - baseCpM;
 
-        for (double pokeLevel = 1.0; pokeLevel <= trainerLevel + 1.5; pokeLevel += 0.5) {
-            double angleInDegrees = (Data.CpM[(int) (pokeLevel * 2 - 2)] - Data.CpM[0]) * levelCoeff / Data.CpM[trainerLevel * 2 - 2];
+        //pokeLevelIdx <= maxPokeLevelIdx ensures we never overflow CpM/arc/arcY.
+        for (int pokeLevelIdx = 0; pokeLevelIdx <= maxPokeLevelIdx; pokeLevelIdx++) {
+            double pokeCurrCpMDelta = (Data.CpM[pokeLevelIdx] - baseCpM);
+            double arcRatio = pokeCurrCpMDelta / maxPokeCpMDelta;
+            double angleInRadians = (arcRatio + 1) * Math.PI;
 
-            double angleInRadians = (angleInDegrees + 180) * Math.PI / 180.0;
-
-            int index = Data.convertLevelToIndex(pokeLevel);
-            Data.arcX[index] = (int) (arcCenter + (radius * Math.cos(angleInRadians)));
-            Data.arcY[index] = (int) (arcInitialY + (radius * Math.sin(angleInRadians)));
+            Data.arcX[pokeLevelIdx] = (int) (arcCenter + (radius * Math.cos(angleInRadians)));
+            Data.arcY[pokeLevelIdx] = (int) (arcInitialY + (radius * Math.sin(angleInRadians)));
         }
     }
 

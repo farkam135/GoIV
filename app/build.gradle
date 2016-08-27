@@ -29,8 +29,8 @@ android {
         applicationId "com.kamron.pogoiv"
         minSdkVersion 19
         targetSdkVersion 24
-        versionCode 14
-        versionName "2.2.0"
+        versionCode 15
+        versionName "3.0.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 

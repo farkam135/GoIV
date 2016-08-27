@@ -254,7 +254,8 @@ public class Pokefly extends Service {
                 getResources().getIntArray(R.array.attack),
                 getResources().getIntArray(R.array.defense),
                 getResources().getIntArray(R.array.stamina),
-                getResources().getIntArray(R.array.DevolutionNumber));
+                getResources().getIntArray(R.array.DevolutionNumber),
+                getResources().getIntArray(R.array.evolutionCandyCost));
         sharedPref = getSharedPreferences(PREF_USER_CORRECTIONS, Context.MODE_PRIVATE);
         userCorrections = new HashMap<>(pokeCalculator.pokedex.size());
         userCorrections.putAll((Map<String, String>) sharedPref.getAll());
@@ -263,6 +264,8 @@ public class Pokefly extends Service {
         userCorrections.put("Pyro", pokeCalculator.get(132).name);
         cachedCorrections = new LruCache<>(pokeCalculator.pokedex.size() * 2);
     }
+
+
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {

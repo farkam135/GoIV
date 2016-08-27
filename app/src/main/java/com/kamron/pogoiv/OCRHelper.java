@@ -220,23 +220,16 @@ public class OCRHelper {
     }
 
     @NonNull
-    private static void toTitleCase(StringBuilder dst, String src) {
-        dst.append(src.substring(0, 1));
-        dst.append(src.substring(1).toLowerCase());
-    }
-
-    @NonNull
     private static String removeNthWord(String src, boolean removeFirst) {
         LinkedList<String> words = new LinkedList<>(Arrays.asList(src.split(" ")));
         int toRemove = removeFirst ? 0 : words.size() - 1;
         words.remove(toRemove);
-        //Join and title case words.
-        //TODO: make pokemon matching case insensitive.
+        //Join words.
         StringBuilder joined = new StringBuilder();
-        toTitleCase(joined, words.remove(0));
+        joined.append(words.remove(0));
         for (String word : words) {
             joined.append(' ');
-            toTitleCase(joined, word);
+            joined.append(word);
         }
         return joined.toString();
     }

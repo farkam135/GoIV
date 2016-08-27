@@ -9,7 +9,6 @@ import com.googlecode.tesseract.android.TessBaseAPI;
 
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.Locale;
 
 import timber.log.Timber;
@@ -220,18 +219,17 @@ public class OCRHelper {
     }
 
     @NonNull
-    private static String removeNthWord(String src, boolean removeFirst) {
-        LinkedList<String> words = new LinkedList<>(Arrays.asList(src.split(" ")));
-        int toRemove = removeFirst ? 0 : words.size() - 1;
-        words.remove(toRemove);
-        //Join words.
-        StringBuilder joined = new StringBuilder();
-        joined.append(words.remove(0));
-        for (String word : words) {
-            joined.append(' ');
-            joined.append(word);
+    private static String removeFirstOrLastWord(String src, boolean removeFirst) {
+        if (removeFirst) {
+            int fstSpace = src.indexOf(' ');
+            if (fstSpace != -1)
+                return src.substring(fstSpace + 1);
+        } else {
+            int lstSpace = src.lastIndexOf(' ');
+            if (lstSpace != -1)
+                return src.substring(0, lstSpace);
         }
-        return joined.toString();
+        return src;
     }
 
     /**
@@ -249,7 +247,7 @@ public class OCRHelper {
             candy = replaceColors(candy, 68, 105, 108, Color.WHITE, 200, true);
             tesseract.setImage(candy);
             try {
-                candyName = fixOcr(removeNthWord(tesseract.getUTF8Text().trim().replace("-", " "), candyWordFirst));
+                candyName = fixOcr(removeFirstOrLastWord(tesseract.getUTF8Text().trim().replace("-", " "), candyWordFirst));
             } catch (StringIndexOutOfBoundsException e) {
                 candyName = "";
             }

@@ -30,7 +30,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 24
         versionCode 15
-        versionName "3.0.0"
+        versionName "2.0.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
@@ -73,7 +73,6 @@ dependencies {
     compile 'com.jakewharton.timber:timber:4.3.0'
     compile 'com.jakewharton:butterknife:8.1.0'
     compile 'com.squareup.okhttp3:okhttp:3.4.1'
-    compile 'org.greenrobot:eventbus:3.0.0'
     apt 'com.jakewharton:butterknife-compiler:8.1.0'
     provided "org.projectlombok:lombok:1.16.10"
     apt "org.projectlombok:lombok:1.16.10"

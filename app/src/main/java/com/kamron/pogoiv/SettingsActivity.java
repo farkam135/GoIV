@@ -1,6 +1,9 @@
 package com.kamron.pogoiv;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
@@ -9,17 +12,13 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.preference.SwitchPreference;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
-import com.kamron.pogoiv.updater.AppUpdateEvent;
-import com.kamron.pogoiv.updater.AppUpdateLoader;
+import com.kamron.pogoiv.updater.AppUpdate;
 import com.kamron.pogoiv.updater.AppUpdateUtil;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 public class SettingsActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -34,6 +33,13 @@ public class SettingsActivity extends AppCompatActivity implements SharedPrefere
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         sharedPref.registerOnSharedPreferenceChangeListener(this);
+        LocalBroadcastManager.getInstance(this).registerReceiver(showUpdateDialog, new IntentFilter(MainActivity.ACTION_SHOW_UPDATE_DIALOG));
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(showUpdateDialog);
     }
 
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
@@ -47,21 +53,14 @@ public class SettingsActivity extends AppCompatActivity implements SharedPrefere
                 sharedPreferences.getBoolean(GoIVSettings.AUTO_UPDATE_ENABLED, true)));
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onAppUpdateEvent(AppUpdateEvent event) {
-        switch (event.getStatus()) {
-            case AppUpdateEvent.OK:
-                AlertDialog updateDialog = AppUpdateUtil.getAppUpdateDialog(mContext, event.getAppUpdate());
-                updateDialog.show();
-                break;
-            case AppUpdateEvent.FAILED:
-                Toast.makeText(mContext, "App update failed", Toast.LENGTH_SHORT).show();
-                break;
-            case AppUpdateEvent.UPTODATE:
-                Toast.makeText(mContext, "No updates available", Toast.LENGTH_SHORT).show();
-                break;
+    private final BroadcastReceiver showUpdateDialog = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            AppUpdate update = intent.getParcelableExtra("update");
+            AlertDialog updateDialog = AppUpdateUtil.getAppUpdateDialog(mContext, update);
+            updateDialog.show();
         }
-    }
+    };
 
     public static class SettingsFragment extends PreferenceFragment {
 
@@ -77,7 +76,7 @@ public class SettingsActivity extends AppCompatActivity implements SharedPrefere
                     @Override
                     public boolean onPreferenceClick(Preference preference) {
                         Toast.makeText(mContext, "Checking for update... ", Toast.LENGTH_SHORT).show();
-                        new AppUpdateLoader().start();
+                        AppUpdateUtil.checkForUpdate(mContext);
                         return true;
                     }
                 });
@@ -100,17 +99,5 @@ public class SettingsActivity extends AppCompatActivity implements SharedPrefere
                 manualScreenshotModePreference.setEnabled(false);
             }
         }
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        EventBus.getDefault().register(this);
-    }
-
-    @Override
-    public void onStop() {
-        EventBus.getDefault().unregister(this);
-        super.onStop();
     }
 }

@@ -110,7 +110,6 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean readyForNewScreenshot = true;
 
-    private int candyOrder = 0;
     private boolean pokeFlyRunning = false;
     private int trainerLevel;
 
@@ -259,13 +258,6 @@ public class MainActivity extends AppCompatActivity {
         areaY1 = (int) Math.round(displayMetrics.heightPixels / 1.24271845);
         areaX2 = (int) Math.round(displayMetrics.widthPixels / 1.15942029);  // these values used to get greenish color in transfer button
         areaY2 = (int) Math.round(displayMetrics.heightPixels / 1.11062907);
-
-        //Check if language makes the pokemon name in candy second; France/Spain have Bonbon/Caramelos pokeName.
-        String language = Locale.getDefault().getLanguage();
-        HashSet<String> specialCandyOrderLangs = new HashSet<>(Arrays.asList("fr", "es", "it"));
-        if (specialCandyOrderLangs.contains(language)) {
-            candyOrder = 1;
-        }
 
         LocalBroadcastManager.getInstance(this).registerReceiver(resetScreenshot, new IntentFilter(ACTION_RESET_SCREENSHOT));
         LocalBroadcastManager.getInstance(this).registerReceiver(takeScreenshot, new IntentFilter(ACTION_SCREENSHOT));
@@ -430,6 +422,16 @@ public class MainActivity extends AppCompatActivity {
         String extdir = getExternalFilesDir(null).toString();
         if (!new File(extdir + "/tessdata/eng.traineddata").exists()) {
             copyAssetFolder(getAssets(), "tessdata", extdir + "/tessdata");
+        }
+        int candyOrder;
+
+        //Check if language makes the pokemon name in candy second; France/Spain have Bonbon/Caramelos pokeName.
+        String language = Locale.getDefault().getLanguage();
+        HashSet<String> specialCandyOrderLangs = new HashSet<>(Arrays.asList("fr", "es", "it"));
+        if (specialCandyOrderLangs.contains(language)) {
+            candyOrder = 1;
+        } else {
+            candyOrder = 0;
         }
 
         ocr = OCRHelper.init(extdir, candyOrder, displayMetrics.widthPixels, displayMetrics.heightPixels);

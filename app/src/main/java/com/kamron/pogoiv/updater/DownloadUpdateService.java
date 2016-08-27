@@ -78,6 +78,7 @@ public class DownloadUpdateService extends Service {
                 }
             }
         };
+
         return Service.START_STICKY;
     }
 

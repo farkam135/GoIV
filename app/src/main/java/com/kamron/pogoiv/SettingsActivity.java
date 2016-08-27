@@ -4,12 +4,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
-import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.preference.SwitchPreference;
 import android.support.v4.content.LocalBroadcastManager;
@@ -72,7 +70,6 @@ public class SettingsActivity extends AppCompatActivity {
                 Preference crashReportsPreference = getPreferenceManager().findPreference(GoIVSettings.SEND_CRASH_REPORTS);
                 Preference autoUpdatePreference = getPreferenceManager().findPreference(GoIVSettings.AUTO_UPDATE_ENABLED);
                 Preference checkForUpdatePreference = getPreferenceManager().findPreference("checkForUpdate");
-
 
                 preferenceScreen.removePreference(crashReportsPreference);
                 preferenceScreen.removePreference(autoUpdatePreference);

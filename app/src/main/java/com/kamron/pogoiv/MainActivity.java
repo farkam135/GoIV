@@ -146,6 +146,7 @@ public class MainActivity extends AppCompatActivity {
         mContext = MainActivity.this;
 
         settings = GoIVSettings.getSettings(MainActivity.this);
+
         if (BuildConfig.isInternetAvailable && settings.isAutoUpdateEnabled())
             AppUpdateUtil.checkForUpdate(mContext);
 

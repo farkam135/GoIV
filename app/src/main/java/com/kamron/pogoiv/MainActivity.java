@@ -453,7 +453,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
         if (pokeFlyRunning) {
             stopService(new Intent(MainActivity.this, Pokefly.class));
             pokeFlyRunning = false;
@@ -478,6 +477,7 @@ public class MainActivity extends AppCompatActivity {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(resetScreenshot);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(takeScreenshot);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(processBitmap);
+        super.onDestroy();
     }
 
 

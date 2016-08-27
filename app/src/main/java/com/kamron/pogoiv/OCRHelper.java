@@ -30,13 +30,14 @@ public class OCRHelper {
     public String nidoFemale;
     public String nidoMale;
 
-    private OCRHelper() {}
+    private OCRHelper() {
+    }
 
     /**
      * init
      * Initializes the OCR helper and readies it for use
      *
-     * @param dataPath     Path the OCR data files.
+     * @param dataPath Path the OCR data files.
      * @return Bitmap with replaced colors
      */
     public static OCRHelper init(String dataPath, int candyOrder, int widthPixels, int heightPixels) {
@@ -153,7 +154,7 @@ public class OCRHelper {
         int blueSum = 0;
 
         // a loop that sums the color values of all the pixels in the image of the nidoran
-        for (int pixel: pixelArray) {
+        for (int pixel : pixelArray) {
             blueSum += Color.green(pixel);
             greenSum += Color.blue(pixel);
         }

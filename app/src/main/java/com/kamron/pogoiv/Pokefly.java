@@ -20,7 +20,6 @@ import android.os.IBinder;
 import android.provider.MediaStore;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.LruCache;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -37,10 +36,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -542,23 +539,22 @@ public class Pokefly extends Service {
 
     @OnClick(R.id.btnIncrementLevelExpanded)
     public void incrementLevelExpanded() {
-        expandedLevelSeekbar.setProgress(expandedLevelSeekbar.getProgress()+1);
+        expandedLevelSeekbar.setProgress(expandedLevelSeekbar.getProgress() + 1);
     }
 
     @OnClick(R.id.btnDecrementLevelExpanded)
     public void decrementLevelExpanded() {
-        expandedLevelSeekbar.setProgress(expandedLevelSeekbar.getProgress()-1);
+        expandedLevelSeekbar.setProgress(expandedLevelSeekbar.getProgress() - 1);
     }
 
     @OnClick(R.id.btnCheckIv)
     public void checkIv() {
 
         // Check for valid parameters before attempting to do anything else.-
-        try{
+        try {
             pokemonHP = Integer.parseInt(pokemonHPEdit.getText().toString());
             pokemonCP = Integer.parseInt(pokemonCPEdit.getText().toString());
-        }
-        catch(NumberFormatException e){
+        } catch (NumberFormatException e) {
             Toast.makeText(this, R.string.missing_inputs, Toast.LENGTH_SHORT).show();
             return;
         }
@@ -582,12 +578,12 @@ public class Pokefly extends Service {
         }
         IVScanResult ivScanResult = pokeCalculator.getIVPossibilities(selectedPokemon, estimatedPokemonLevel, pokemonHP, pokemonCP);
 
-        if (attCheckbox.isChecked() || defCheckbox.isChecked() || staCheckbox.isChecked()){
+        if (attCheckbox.isChecked() || defCheckbox.isChecked() || staCheckbox.isChecked()) {
             ivScanResult.refineByHighest(attCheckbox.isChecked(), defCheckbox.isChecked(), staCheckbox.isChecked());
         }
 
         // If no possible combinations, inform the user and abort.
-        if(ivScanResult.getCount()==0){
+        if (ivScanResult.getCount() == 0) {
             Toast.makeText(this, R.string.ivtext_no_possibilities, Toast.LENGTH_SHORT).show();
             return;
         }
@@ -608,23 +604,24 @@ public class Pokefly extends Service {
     /**
      * Adds the iv range of the pokemon to the clipboard if the clipboard setting is on
      */
-    private void addToRangeToClipboardIfSettingOn(IVScanResult ivScanResult){
+    private void addToRangeToClipboardIfSettingOn(IVScanResult ivScanResult) {
         GoIVSettings settings = GoIVSettings.getSettings(getApplicationContext());
-        if(settings.getCopyToClipboard()){
-            String clipText =  ivScanResult.getLowestIVCombination().percentPerfect + "-" +ivScanResult.getHighestIVCombination().percentPerfect;
-            ClipData clip =  ClipData.newPlainText(clipText,clipText);
+        if (settings.getCopyToClipboard()) {
+            String clipText = ivScanResult.getLowestIVCombination().percentPerfect + "-" + ivScanResult.getHighestIVCombination().percentPerfect;
+            ClipData clip = ClipData.newPlainText(clipText, clipText);
             clipboard.setPrimaryClip(clip);
         }
     }
+
     /**
      * sets the information in the results box
      */
     private void populateResultsBox(IVScanResult ivScanResult) {
 
         resultsPokemonName.setText(ivScanResult.pokemon.name);
-        if (ivScanResult.tooManyPossibilities){
+        if (ivScanResult.tooManyPossibilities) {
             resultsCombinations.setText(String.format(getString(R.string.possible_iv_combinations), 4096));
-        }else{
+        } else {
             resultsCombinations.setText(String.format(getString(R.string.possible_iv_combinations), ivScanResult.iVCombinations.size()));
         }
 
@@ -643,7 +640,7 @@ public class Pokefly extends Service {
         expandedLevelSeekbar.setProgress(levelToProgress(trainerLevel + 1.5f));
         expandedLevelSeekbar.setMax(levelToProgress(40));
         updateCostFields(ivScanResult);
-        exResPrevScan.setText(String.format(getString(R.string.last_scan),ivScanResult.getPrevScanName()));
+        exResPrevScan.setText(String.format(getString(R.string.last_scan), ivScanResult.getPrevScanName()));
     }
 
     private int getSeekbarOffset() {
@@ -695,9 +692,9 @@ public class Pokefly extends Service {
         exResLevel.setText(String.valueOf(goalLevel));
 
         // If goalLevel exeeds trainer capabilities then show text in orange
-        if(goalLevel>trainerLevel+1.5){
+        if (goalLevel > trainerLevel + 1.5) {
             exResLevel.setTextColor(getResources().getColor(R.color.orange));
-        }else{
+        } else {
             exResLevel.setTextColor(getResources().getColor(R.color.importantText));
         }
     }

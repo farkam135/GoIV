@@ -166,7 +166,7 @@ public class PokeInfoCalculator {
             }
             return returner;
         } else {
-            return new IVScanResult(get(selectedPokemon), estimatedPokemonLevel,true);
+            return new IVScanResult(get(selectedPokemon), estimatedPokemonLevel, true);
 
         }
     }

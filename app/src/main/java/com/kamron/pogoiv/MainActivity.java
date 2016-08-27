@@ -39,7 +39,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.LinkMovementMethod;
 import android.util.DisplayMetrics;
-import android.util.LruCache;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MenuInflater;

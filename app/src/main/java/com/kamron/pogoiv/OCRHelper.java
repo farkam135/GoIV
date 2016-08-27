@@ -195,7 +195,7 @@ public class OCRHelper {
      * @return the candy name, or "" if nothing was found
      */
     private String getCandyNameFromImg(Bitmap pokemonImage) {
-        Bitmap candy = Bitmap.createBitmap(pokemonImage, widthPixels / 2, (int) Math.round(heightPixels / 1.3724285), (int) Math.round(widthPixels / 2.057), (int) Math.round(heightPixels / 38.4));
+        Bitmap candy = Bitmap.createBitmap(pokemonImage, widthPixels / 2, (int) Math.round(heightPixels / 1.3724285), (int) Math.round(widthPixels / 2.1), (int) Math.round(heightPixels / 38.4));
         String hash = "candy" + hashBitmap(candy);
         String candyName = ocrCache.get(hash);
 

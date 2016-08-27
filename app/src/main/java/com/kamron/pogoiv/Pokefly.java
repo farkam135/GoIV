@@ -681,7 +681,7 @@ public class Pokefly extends Service {
 
         CPRange expectedRange = pokeCalculator.getCpRangeAtLevel(selectedPokemon, ivScanResult.lowAttack, ivScanResult.lowDefense, ivScanResult.lowStamina, ivScanResult.highAttack, ivScanResult.highDefense, ivScanResult.highStamina, goalLevel);
         CPRange realRange = pokeCalculator.getCpRangeAtLevel(ivScanResult.pokemon, ivScanResult.lowAttack, ivScanResult.lowDefense, ivScanResult.lowStamina, ivScanResult.highAttack, ivScanResult.highDefense, ivScanResult.highStamina, estimatedPokemonLevel);
-        int expectedAverage = (expectedRange.high + realRange.low) / 2;
+        int expectedAverage = (expectedRange.high + expectedRange.low) / 2;
         exResultCP.setText(String.valueOf(expectedAverage) + " (+" + (expectedAverage - realRange.high) + ")");
 
         UpgradeCost cost = pokeCalculator.getUpgradeCost(goalLevel, estimatedPokemonLevel);

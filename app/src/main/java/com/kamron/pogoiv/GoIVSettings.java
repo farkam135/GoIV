@@ -9,7 +9,6 @@ import lombok.Setter;
 
 @AllArgsConstructor
 @Getter
-@Setter
 public class GoIVSettings {
 
     private boolean launchPokemonGo;

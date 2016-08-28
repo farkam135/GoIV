@@ -81,7 +81,6 @@ public class DownloadUpdateService extends Service {
         return Service.START_STICKY;
     }
 
-
     @Override
     public IBinder onBind(Intent intent) {
         return null;

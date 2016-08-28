@@ -30,11 +30,12 @@ public class PokeInfoCalculator {
 
     /**
      * returns a pokemon which corresponds to the number sent in
+     *
      * @param number the number which this application internally uses to identify pokkemon
      * @return The pokemon if valid number, null if no pokemon found.
      */
     public Pokemon get(int number) {
-        if (number >= 0 && number < pokedex.size()){
+        if (number >= 0 && number < pokedex.size()) {
             return pokedex.get(number);
         }
         return null;
@@ -216,22 +217,23 @@ public class PokeInfoCalculator {
     /**
      * Get the combined cost for evolving all steps between two pokemon, for example the cost from caterpie -> metapod is 12,
      * caterpie -> butterfly is 12+50 = 62
+     *
      * @param start which pokemon to start from
-     * @param end the end evolution
+     * @param end   the end evolution
      * @return the combined candy cost for all required evolutions
      */
-    public int getCandyCostForEvolution(Pokemon start, Pokemon end){
+    public int getCandyCostForEvolution(Pokemon start, Pokemon end) {
         Pokemon devolution = get(end.devoNumber);
         Pokemon dedevolution = null;
-        if (devolution != null){ //devolution must exist for there to be a devolution of the devolution
-            dedevolution =  get(devolution.devoNumber);
+        if (devolution != null) { //devolution must exist for there to be a devolution of the devolution
+            dedevolution = get(devolution.devoNumber);
         }
 
         boolean isEndReallyAfterStart = (devolution == start) || dedevolution == start; //end must be devolution or devolution of devolution of start
         int cost = 0;
-        if (isInSameEvolutionChain(start,end) && isEndReallyAfterStart){
-            while (start != end){ //move backwards from end until you've reached start
-                Pokemon beforeEnd  = get(end.devoNumber);
+        if (isInSameEvolutionChain(start, end) && isEndReallyAfterStart) {
+            while (start != end) { //move backwards from end until you've reached start
+                Pokemon beforeEnd = get(end.devoNumber);
                 cost += beforeEnd.candyEvolutionCost;
                 end = beforeEnd;
             }
@@ -241,14 +243,15 @@ public class PokeInfoCalculator {
 
     /**
      * Check if two pokemon are in the same complete evolution chain. Jolteon and vaporeon would return true
+     *
      * @param p1 first pokemon
      * @param p2 second pokemon
      * @return true if both pokemon are in the same pokemon evolution tree
      */
-    public boolean isInSameEvolutionChain(Pokemon p1, Pokemon p2){
+    public boolean isInSameEvolutionChain(Pokemon p1, Pokemon p2) {
         ArrayList<Pokemon> evolutionLine = getEvolutionLine(p1);
-        for (Pokemon poke  :evolutionLine){
-            if (poke.number == p2.number){
+        for (Pokemon poke : evolutionLine) {
+            if (poke.number == p2.number) {
                 return true;
             }
         }
@@ -289,7 +292,6 @@ public class PokeInfoCalculator {
 
         return list;
     }
-
 
 
 }

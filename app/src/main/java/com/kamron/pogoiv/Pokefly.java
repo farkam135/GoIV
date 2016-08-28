@@ -638,9 +638,11 @@ public class Pokefly extends Service {
     private void addToRangeToClipboardIfSettingOn(IVScanResult ivScanResult) {
         GoIVSettings settings = GoIVSettings.getSettings(getApplicationContext());
         if (settings.getCopyToClipboard()) {
-            String clipText = ivScanResult.getLowestIVCombination().percentPerfect + "-" + ivScanResult.getHighestIVCombination().percentPerfect;
-            ClipData clip = ClipData.newPlainText(clipText, clipText);
-            clipboard.setPrimaryClip(clip);
+            if (!ivScanResult.tooManyPossibilities){
+                String clipText = ivScanResult.getLowestIVCombination().percentPerfect + "-" + ivScanResult.getHighestIVCombination().percentPerfect;
+                ClipData clip = ClipData.newPlainText(clipText, clipText);
+                clipboard.setPrimaryClip(clip);
+            }
         }
     }
 
@@ -718,21 +720,15 @@ public class Pokefly extends Service {
      * @param ivScanResult
      */
     private void populateIVAllPosibilities(IVScanResult ivScanResult) {
-        /*
-        //TODO: Populate ivText in a better way.
-        String allIvs = "";
 
-        for (IVCombination ivItem : ivScanResult.iVCombinations) {
-            allIvs += String.format(getString(R.string.ivtext_stats), ivItem.att, ivItem.def, ivItem.sta, ivItem.percentPerfect) + "\n";
-        }
-        ivText.setText(allIvs);
-    */
         for (IVCombination ivItem : ivScanResult.iVCombinations) {
             addIVTextTo(allPosAtt, ivItem.att);
             addIVTextTo(allPosDef, ivItem.def);
             addIVTextTo(allPosSta, ivItem.sta);
             addPercentageToPercentageColumn(ivItem.att + ivItem.sta + ivItem.def);
         }
+
+
     }
 
     /**

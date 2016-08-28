@@ -93,8 +93,6 @@ public class Pokefly extends Service {
 
     private PokeInfoCalculator pokeCalculator = null;
 
-    @BindView(R.id.tvIvInfo)
-    TextView ivText;
     @BindView(R.id.tvSeeAllPossibilities)
     TextView seeAllPossibilities;
     @BindView(R.id.spnPokemonName)
@@ -171,6 +169,16 @@ public class Pokefly extends Service {
     LinearLayout llMultipleIVMatches;
     @BindView(R.id.refine_by_last_scan)
     LinearLayout refine_by_last_scan;
+
+
+    @BindView(R.id.allPosAtt)
+    LinearLayout allPosAtt;
+    @BindView(R.id.allPosDef)
+    LinearLayout allPosDef;
+    @BindView(R.id.allPosSta)
+    LinearLayout allPosSta;
+    @BindView(R.id.allPosPercent)
+    LinearLayout allPosPercent;
 
     // Refine by appraisal
     @BindView(R.id.attCheckbox)
@@ -700,6 +708,17 @@ public class Pokefly extends Service {
         } else {
             resultsCombinations.setText(String.format(getString(R.string.possible_iv_combinations), ivScanResult.iVCombinations.size()));
         }
+
+        populateIVAllPosibilities(ivScanResult);
+
+    }
+
+    /**
+     * adds all options in the all iv possibilities list
+     * @param ivScanResult
+     */
+    private void populateIVAllPosibilities(IVScanResult ivScanResult) {
+        /*
         //TODO: Populate ivText in a better way.
         String allIvs = "";
 
@@ -707,7 +726,41 @@ public class Pokefly extends Service {
             allIvs += String.format(getString(R.string.ivtext_stats), ivItem.att, ivItem.def, ivItem.sta, ivItem.percentPerfect) + "\n";
         }
         ivText.setText(allIvs);
+    */
+        for (IVCombination ivItem : ivScanResult.iVCombinations) {
+            addIVTextTo(allPosAtt, ivItem.att);
+            addIVTextTo(allPosDef, ivItem.def);
+            addIVTextTo(allPosSta, ivItem.sta);
+            addPercentageToPercentageColumn(ivItem.att + ivItem.sta + ivItem.def);
+        }
     }
+
+    /**
+     * adds a percent data point to the all positilities dialog
+     * @param allIVCombined attack + defence + stamina, max 45
+     */
+    private void addPercentageToPercentageColumn(int allIVCombined) {
+        TextView adder = new TextView(this);
+        int percent = (int)((allIVCombined / 45f)*100);
+        adder.setText(percent + "");
+        setTextColorbyPercentage(adder, percent);
+        allPosPercent.addView(adder);
+    }
+
+    /**
+     *
+     * method for adding an iv data to the all posibilities field, this method adds a single data point to a column
+     * @param column attack / defence / stamina
+     * @param value A value between 0 and 15
+     */
+    private void addIVTextTo(LinearLayout column, int value) {
+        TextView adder = new TextView(this);
+        adder.setText(value + "");
+        int attackpercent = (int)((value / 15f)*100);
+        setTextColorbyPercentage(adder, attackpercent);
+        column.addView(adder);
+    }
+
 
     /**
      * populates the result screen with the layout as if it's a single result
@@ -845,6 +898,13 @@ public class Pokefly extends Service {
         attCheckbox.setChecked(false);
         defCheckbox.setChecked(false);
         staCheckbox.setChecked(false);
+
+        //clear the all possibilities dialog
+        allPosAtt.removeAllViews();
+        allPosDef.removeAllViews();
+        allPosSta.removeAllViews();
+        allPosPercent.removeAllViews();
+
         resetPokeflyStateMachine();
         resetInfoDialogue();
     }

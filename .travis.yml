@@ -1,0 +1,22 @@
+# Based on:
+# https://docs.travis-ci.com/user/languages/android#CI-Environment-for-Android-Projects
+# https://github.com/codepath/android_guides/wiki/Setting-up-Travis-CI
+language: android
+android:
+  components:
+    - tools
+    - platform-tools-24.0.2
+    - build-tools-24.0.1
+    - android-24
+before_cache:
+  - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+cache:
+  directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
+jdk:
+  - oraclejdk8
+
+script:
+   #- ./gradlew build connectedCheck # Would try building the release version, that needs keys.
+   - ./gradlew build assembleDebug

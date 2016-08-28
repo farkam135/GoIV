@@ -150,11 +150,9 @@ public class IVScanResult {
             Pokemon p1 = scanContainer.oneScanAgo.pokemon;
             Pokemon p2 = scanContainer.twoScanAgo.pokemon;
 
-            if (p1scan.estimatedPokemonLevel > p2scan.estimatedPokemonLevel) { //later scan must have higher or same level
-                if (p1.number == p2.number || p1.isInNextEvolution(p2)) { // either same species, or 2 scans ago is an evolution of previous scan
-                    return true;
-                }
-            }
+            boolean pokemonHasLeveledUp =p1scan.estimatedPokemonLevel > p2scan.estimatedPokemonLevel;
+            boolean isEvolved = p1.isInNextEvolution(p2);
+            return (pokemonHasLeveledUp || isEvolved) ;
         }
 
         return false;

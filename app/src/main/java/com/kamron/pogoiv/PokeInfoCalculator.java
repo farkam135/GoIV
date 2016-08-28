@@ -210,7 +210,7 @@ public class PokeInfoCalculator {
 
     /**
      * Get the combined cost for evolving all steps between two pokemon, for example the cost from caterpie -> metapod is 12,
-     * caterpie -> butterfly is 12+25 = 27
+     * caterpie -> butterfly is 12+50 = 62
      * @param start which pokemon to start from
      * @param end the end evolution
      * @return the combined candy cost for all required evolutions

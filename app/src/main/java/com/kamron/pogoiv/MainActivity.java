@@ -588,17 +588,20 @@ public class MainActivity extends AppCompatActivity {
     private void scanPokemon(Bitmap pokemonImage, String filePath) {
         //WARNING: this method *must* always send an intent at the end, no matter what, to avoid the application hanging.
         Intent info = Pokefly.createNoInfoIntent();
-
-        try {
-            ocr.scanPokemon(pokemonImage, trainerLevel);
-            if (ocr.candyName.equals("") && ocr.pokemonHP == 10 && ocr.pokemonCP == 10) { //the default values for a failed scan, if all three fail, then probably scrolled down.
-                Toast.makeText(MainActivity.this, getString(R.string.scan_pokemon_failed), Toast.LENGTH_SHORT).show();
+        if (ocr == null){
+            Toast.makeText(MainActivity.this, "Screen analysis module not initialized", Toast.LENGTH_LONG).show();
+        }else{
+            try {
+                ocr.scanPokemon(pokemonImage, trainerLevel);
+                if (ocr.candyName.equals("") && ocr.pokemonHP == 10 && ocr.pokemonCP == 10) { //the default values for a failed scan, if all three fail, then probably scrolled down.
+                    Toast.makeText(MainActivity.this, getString(R.string.scan_pokemon_failed), Toast.LENGTH_SHORT).show();
+                }
+                Pokefly.populateInfoIntent(info, ocr.pokemonName, ocr.candyName, ocr.pokemonHP, ocr.pokemonCP, ocr.estimatedPokemonLevel, filePath);
+            } finally {
+                LocalBroadcastManager.getInstance(MainActivity.this).sendBroadcast(info);
             }
-            Pokefly.populateInfoIntent(info, ocr.pokemonName, ocr.candyName, ocr.pokemonHP, ocr.pokemonCP, ocr.estimatedPokemonLevel, filePath);
-        } finally {
-
-            LocalBroadcastManager.getInstance(MainActivity.this).sendBroadcast(info);
         }
+
     }
 
     /**

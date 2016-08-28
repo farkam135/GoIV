@@ -93,8 +93,6 @@ public class Pokefly extends Service {
 
     private PokeInfoCalculator pokeCalculator = null;
 
-    @BindView(R.id.tvIvInfo)
-    TextView ivText;
     @BindView(R.id.tvSeeAllPossibilities)
     TextView seeAllPossibilities;
     @BindView(R.id.spnPokemonName)
@@ -171,6 +169,16 @@ public class Pokefly extends Service {
     LinearLayout llMultipleIVMatches;
     @BindView(R.id.refine_by_last_scan)
     LinearLayout refine_by_last_scan;
+
+
+    @BindView(R.id.allPosAtt)
+    LinearLayout allPosAtt;
+    @BindView(R.id.allPosDef)
+    LinearLayout allPosDef;
+    @BindView(R.id.allPosSta)
+    LinearLayout allPosSta;
+    @BindView(R.id.allPosPercent)
+    LinearLayout allPosPercent;
 
     // Refine by appraisal
     @BindView(R.id.attCheckbox)
@@ -499,8 +507,11 @@ public class Pokefly extends Service {
 
         expandedLevelSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                populateAdvancedInformation(IVScanResult.scanContainer.oneScanAgo);
+            public void onProgressChanged(SeekBar seekBar, int i, boolean fromUser) {
+                if (fromUser){
+                    populateAdvancedInformation(IVScanResult.scanContainer.oneScanAgo);
+                }
+
             }
 
             @Override
@@ -563,11 +574,13 @@ public class Pokefly extends Service {
     @OnClick(R.id.btnIncrementLevelExpanded)
     public void incrementLevelExpanded() {
         expandedLevelSeekbar.setProgress(expandedLevelSeekbar.getProgress() + 1);
+        populateAdvancedInformation(IVScanResult.scanContainer.oneScanAgo);
     }
 
     @OnClick(R.id.btnDecrementLevelExpanded)
     public void decrementLevelExpanded() {
         expandedLevelSeekbar.setProgress(expandedLevelSeekbar.getProgress() - 1);
+        populateAdvancedInformation(IVScanResult.scanContainer.oneScanAgo);
     }
 
     @OnClick(R.id.btnCheckIv)
@@ -629,10 +642,13 @@ public class Pokefly extends Service {
      */
     private void addToRangeToClipboardIfSettingOn(IVScanResult ivScanResult) {
         if (GoIVSettings.getInstance(getApplicationContext()).shouldCopyToClipboard()) {
-            String clipText = ivScanResult.getLowestIVCombination().percentPerfect + "-" + ivScanResult.getHighestIVCombination().percentPerfect;
-            ClipData clip = ClipData.newPlainText(clipText, clipText);
-            clipboard.setPrimaryClip(clip);
+            if (GoIVSettings.getInstance(getApplicationContext()).shouldCopyToClipboard()) {
+                String clipText = ivScanResult.getLowestIVCombination().percentPerfect + "-" + ivScanResult.getHighestIVCombination().percentPerfect;
+                ClipData clip = ClipData.newPlainText(clipText, clipText);
+                clipboard.setPrimaryClip(clip);
+            }
         }
+
     }
 
     /**
@@ -648,6 +664,7 @@ public class Pokefly extends Service {
         }
         setResultScreenPercentageRange(ivScanResult); //color codes the result
         adjustSeekbarForPokemon(ivScanResult);
+
         populateAdvancedInformation(ivScanResult);
         populatePrevScanNarrowing(ivScanResult);
     }
@@ -699,14 +716,53 @@ public class Pokefly extends Service {
         } else {
             resultsCombinations.setText(String.format(getString(R.string.possible_iv_combinations), ivScanResult.iVCombinations.size()));
         }
-        //TODO: Populate ivText in a better way.
-        String allIvs = "";
+
+        populateIVAllPosibilities(ivScanResult);
+
+    }
+
+    /**
+     * adds all options in the all iv possibilities list
+     * @param ivScanResult
+     */
+    private void populateIVAllPosibilities(IVScanResult ivScanResult) {
 
         for (IVCombination ivItem : ivScanResult.iVCombinations) {
-            allIvs += String.format(getString(R.string.ivtext_stats), ivItem.att, ivItem.def, ivItem.sta, ivItem.percentPerfect) + "\n";
+            addIVTextTo(allPosAtt, ivItem.att);
+            addIVTextTo(allPosDef, ivItem.def);
+            addIVTextTo(allPosSta, ivItem.sta);
+            addPercentageToPercentageColumn(ivItem.att + ivItem.sta + ivItem.def);
         }
-        ivText.setText(allIvs);
+
+
     }
+
+    /**
+     * adds a percent data point to the all positilities dialog
+     * @param allIVCombined attack + defence + stamina, max 45
+     */
+    private void addPercentageToPercentageColumn(int allIVCombined) {
+        TextView adder = new TextView(this);
+        int percent = (int)((allIVCombined / 45f)*100);
+        adder.setText(percent + "");
+        setTextColorbyPercentage(adder, percent);
+        allPosPercent.addView(adder);
+    }
+
+    /**
+     *
+     * method for adding an iv data to the all posibilities field, this method adds a single data point to a column
+     * @param column attack / defence / stamina
+     * @param value A value between 0 and 15
+     */
+    private void addIVTextTo(LinearLayout column, int value) {
+        TextView adder = new TextView(this);
+        adder.setText(value + "");
+        int attackpercent = (int)((value / 15f)*100);
+        setTextColorbyPercentage(adder, attackpercent);
+        column.addView(adder);
+    }
+
 
     /**
      * populates the result screen with the layout as if it's a single result
@@ -770,7 +826,9 @@ public class Pokefly extends Service {
         exResultCP.setText(String.valueOf(expectedAverage) + " (+" + (expectedAverage - realRange.high) + ")");
 
         UpgradeCost cost = pokeCalculator.getUpgradeCost(goalLevel, estimatedPokemonLevel);
-        exResCandy.setText(String.valueOf(cost.candy));
+        int evolutionCandyCost = pokeCalculator.getCandyCostForEvolution(ivScanResult.pokemon, selectedPokemon);
+        String candyCostText = cost.candy+evolutionCandyCost + "";
+        exResCandy.setText(candyCostText);
         exResStardust.setText(String.valueOf(cost.dust));
 
         pokeEvolutionAdapter.updatePokemonList(evolutionLine);
@@ -844,6 +902,13 @@ public class Pokefly extends Service {
         attCheckbox.setChecked(false);
         defCheckbox.setChecked(false);
         staCheckbox.setChecked(false);
+
+        //clear the all possibilities dialog
+        allPosAtt.removeAllViews();
+        allPosDef.removeAllViews();
+        allPosSta.removeAllViews();
+        allPosPercent.removeAllViews();
+
         resetPokeflyStateMachine();
         resetInfoDialogue();
     }

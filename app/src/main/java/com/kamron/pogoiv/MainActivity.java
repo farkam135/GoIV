@@ -143,8 +143,8 @@ public class MainActivity extends AppCompatActivity {
 
         mContext = MainActivity.this;
 
-        settings = GoIVSettings.getInstance(this);
-        if (BuildConfig.isInternetAvailable && settings.isAutoUpdateEnabled())
+        settings = GoIVSettings.getSettings(MainActivity.this);
+        if (BuildConfig.isInternetAvailable && settings.getAutoUpdateEnabled())
             new AppUpdateLoader().start();
 
         setContentView(R.layout.activity_main);
@@ -161,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
         trainerLevel = sharedPref.getInt(PREF_LEVEL, 1);
         screenshotDir = sharedPref.getString(PREF_SCREENSHOT_DIR, "");
         screenshotUri = Uri.parse(sharedPref.getString(PREF_SCREENSHOT_URI, ""));
-        batterySaver = settings.isManualScreenshotModeEnabled();
+        batterySaver = settings.getManualScreenshotMode();
 
         final EditText etTrainerLevel = (EditText) findViewById(R.id.trainerLevel);
         etTrainerLevel.setText(String.valueOf(trainerLevel));
@@ -181,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
                         ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_STORAGE_REQ_CODE);
                     }
                 } else if (((Button) v).getText().toString().equals(getString(R.string.main_start))) {
-                    batterySaver = settings.isManualScreenshotModeEnabled();
+                    batterySaver = settings.getManualScreenshotMode();
                     Rect rectangle = new Rect();
                     Window window = getWindow();
                     window.getDecorView().getWindowVisibleDisplayFrame(rectangle);
@@ -340,6 +340,13 @@ public class MainActivity extends AppCompatActivity {
         super.onStop();
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        settings = GoIVSettings.getSettings(MainActivity.this);
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onAppUpdateEvent(AppUpdateEvent event) {
         switch (event.getStatus()) {
@@ -390,9 +397,8 @@ public class MainActivity extends AppCompatActivity {
 
         pokeFlyRunning = true;
 
-        if (settings.shouldLaunchPokemonGo()) {
+        if (settings.getLaunchPokemonGo())
             openPokemonGoApp();
-        }
     }
 
     private boolean isNumeric(String str) {

@@ -646,6 +646,11 @@ public class Pokefly extends Service {
             resultsAttack.setText(String.valueOf(ivScanResult.iVCombinations.get(0).att));
             resultsDefense.setText(String.valueOf(ivScanResult.iVCombinations.get(0).def));
             resultsHP.setText(String.valueOf(ivScanResult.iVCombinations.get(0).sta));
+
+            setTextColorbyPercentage(resultsAttack, (int) Math.round(ivScanResult.iVCombinations.get(0).att*100.0/15));
+            setTextColorbyPercentage(resultsDefense, (int) Math.round(ivScanResult.iVCombinations.get(0).def*100.0/15));
+            setTextColorbyPercentage(resultsHP, (int) Math.round(ivScanResult.iVCombinations.get(0).sta*100.0/15));
+
             llSingleMatch.setVisibility(View.VISIBLE);
             llMultipleIVMatches.setVisibility(View.GONE);
         }else { // More than a match

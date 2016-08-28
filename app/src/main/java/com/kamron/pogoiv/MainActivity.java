@@ -750,8 +750,10 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             AppUpdate update = intent.getParcelableExtra("update");
-            AlertDialog updateDialog = AppUpdateUtil.getAppUpdateDialog(mContext, update);
-            updateDialog.show();
+            if(update.getStatus() == AppUpdate.UPDATE_AVAILABLE) {
+                AlertDialog updateDialog = AppUpdateUtil.getAppUpdateDialog(mContext, update);
+                updateDialog.show();
+            }
         }
     };
 

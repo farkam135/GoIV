@@ -716,6 +716,7 @@ public class Pokefly extends Service {
             resultsCombinations.setText(String.format(getString(R.string.possible_iv_combinations), ivScanResult.iVCombinations.size()));
         }
 
+        clearPossibleIVsDialog();
         populateIVAllPosibilities(ivScanResult);
 
     }

@@ -507,8 +507,11 @@ public class Pokefly extends Service {
 
         expandedLevelSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                populateAdvancedInformation(IVScanResult.scanContainer.oneScanAgo);
+            public void onProgressChanged(SeekBar seekBar, int i, boolean fromUser) {
+                if (fromUser){
+                    populateAdvancedInformation(IVScanResult.scanContainer.oneScanAgo);
+                }
+
             }
 
             @Override
@@ -571,11 +574,13 @@ public class Pokefly extends Service {
     @OnClick(R.id.btnIncrementLevelExpanded)
     public void incrementLevelExpanded() {
         expandedLevelSeekbar.setProgress(expandedLevelSeekbar.getProgress() + 1);
+        populateAdvancedInformation(IVScanResult.scanContainer.oneScanAgo);
     }
 
     @OnClick(R.id.btnDecrementLevelExpanded)
     public void decrementLevelExpanded() {
         expandedLevelSeekbar.setProgress(expandedLevelSeekbar.getProgress() - 1);
+        populateAdvancedInformation(IVScanResult.scanContainer.oneScanAgo);
     }
 
     @OnClick(R.id.btnCheckIv)
@@ -659,6 +664,8 @@ public class Pokefly extends Service {
         }
         setResultScreenPercentageRange(ivScanResult); //color codes the result
         adjustSeekbarForPokemon(ivScanResult);
+
+        Log.d("Pokefly","populateAdvInfo called from populateResultBox");
         populateAdvancedInformation(ivScanResult);
         populatePrevScanNarrowing(ivScanResult);
     }

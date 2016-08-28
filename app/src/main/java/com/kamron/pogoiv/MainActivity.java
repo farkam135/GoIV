@@ -2,6 +2,7 @@ package com.kamron.pogoiv;
 
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -53,6 +54,7 @@ import android.widget.Toast;
 
 import com.kamron.pogoiv.updater.AppUpdate;
 import com.kamron.pogoiv.updater.AppUpdateUtil;
+import com.kamron.pogoiv.updater.DownloadUpdateService;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -116,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
     private int radius;
     private Context mContext;
     private GoIVSettings settings;
+    public static boolean shouldShowUpdateDialog;
 
     public static Intent createScreenshotIntent() {
         return new Intent(ACTION_SCREENSHOT);
@@ -146,8 +149,7 @@ public class MainActivity extends AppCompatActivity {
         mContext = MainActivity.this;
 
         settings = GoIVSettings.getSettings(MainActivity.this);
-        if (BuildConfig.isInternetAvailable && settings.getAutoUpdateEnabled())
-            AppUpdateUtil.checkForUpdate(mContext);
+        shouldShowUpdateDialog = true;
 
         setContentView(R.layout.activity_main);
 
@@ -336,6 +338,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         settings = GoIVSettings.getSettings(MainActivity.this);
+        if (BuildConfig.isInternetAvailable && settings.getAutoUpdateEnabled())
+            AppUpdateUtil.checkForUpdate(mContext);
     }
 
     /**
@@ -750,12 +754,28 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             AppUpdate update = intent.getParcelableExtra("update");
-            if(update.getStatus() == AppUpdate.UPDATE_AVAILABLE) {
+            if(update.getStatus() == AppUpdate.UPDATE_AVAILABLE && shouldShowUpdateDialog && !isGoIVBeingUpdated(context)) {
                 AlertDialog updateDialog = AppUpdateUtil.getAppUpdateDialog(mContext, update);
                 updateDialog.show();
             }
+            if(!shouldShowUpdateDialog)
+                shouldShowUpdateDialog = true;
         }
     };
+
+    public static boolean isGoIVBeingUpdated(Context context) {
+
+        DownloadManager downloadManager = (DownloadManager) context.getSystemService(DOWNLOAD_SERVICE);
+        DownloadManager.Query q = new DownloadManager.Query();
+        q.setFilterByStatus(DownloadManager.STATUS_RUNNING);
+        Cursor c = downloadManager.query(q);
+        if (c.moveToFirst()) {
+            String fileName = c.getString(c.getColumnIndex(DownloadManager.COLUMN_TITLE));
+            if(fileName.equals(DownloadUpdateService.DOWNLOAD_UPDATE_TITLE))
+                return true;
+        }
+        return false;
+    }
 
     private static boolean copyAssetFolder(AssetManager assetManager, String fromAssetPath, String toPath) {
 

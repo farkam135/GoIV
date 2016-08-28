@@ -15,62 +15,67 @@ import java.io.File;
 
 public class DownloadUpdateService extends Service {
 
+    private static final String FILE_NAME = "GoIV_new.apk";
+    public static final String DOWNLOAD_UPDATE_TITLE = "Updating GoIV";
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        String downloadURL = intent.getStringExtra("downloadURL");
-        String newApkFilePath = getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS) + "/GoIV_new.apk";
-        final File newApkFile = new File(newApkFilePath);
-        final Uri downloadUri = Uri.parse("file://" + newApkFile);
-        if (newApkFile.exists())
-            newApkFile.delete();
-        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(downloadURL));
-        request.setTitle("Updating GoIV");
+        if(intent != null) {
 
-        //set destination
-        request.setDestinationUri(downloadUri);
+            String downloadURL = intent.getStringExtra("downloadURL");
+            String newApkFilePath = getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS) + "/" + FILE_NAME;
+            final File newApkFile = new File(newApkFilePath);
+            final Uri downloadUri = Uri.parse("file://" + newApkFile);
+            if (newApkFile.exists())
+                newApkFile.delete();
+            DownloadManager.Request request = new DownloadManager.Request(Uri.parse(downloadURL));
+            request.setTitle(DOWNLOAD_UPDATE_TITLE);
 
-        // get download service and enqueue file
-        final DownloadManager manager = (DownloadManager) this.getBaseContext().getSystemService(Context.DOWNLOAD_SERVICE);
-        final long startedDownloadId = manager.enqueue(request);
+            //set destination
+            request.setDestinationUri(downloadUri);
 
-        //set BroadcastReceiver to install app when .apk is downloaded
-        BroadcastReceiver onComplete = new BroadcastReceiver() {
-            public void onReceive(Context ctxt, Intent intent) {
-                long finishedDownloadId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
-                if(startedDownloadId == finishedDownloadId) {
+            // get download service and enqueue file
+            final DownloadManager manager = (DownloadManager) this.getBaseContext().getSystemService(Context.DOWNLOAD_SERVICE);
+            final long startedDownloadId = manager.enqueue(request);
 
-                    DownloadManager.Query query = new DownloadManager.Query();
-                    query.setFilterById(finishedDownloadId);
-                    Cursor cursor = manager.query(query);
-                    if(cursor.moveToFirst()) {
-                        int columnIndex = cursor.getColumnIndex(DownloadManager.COLUMN_STATUS);
-                        int status = cursor.getInt(columnIndex);
+            //set BroadcastReceiver to install app when .apk is downloaded
+            BroadcastReceiver onComplete = new BroadcastReceiver() {
+                public void onReceive(Context ctxt, Intent intent) {
+                    long finishedDownloadId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
+                    if (startedDownloadId == finishedDownloadId) {
 
-                        if (status == DownloadManager.STATUS_SUCCESSFUL) {
-                            //open the downloaded file
-                            Intent install = new Intent(Intent.ACTION_VIEW);
-                            install.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            install.setDataAndType(downloadUri, manager.getMimeTypeForDownloadedFile(startedDownloadId));
-                            ctxt.startActivity(install);
-                        } else if (status == DownloadManager.STATUS_FAILED) {
+                        DownloadManager.Query query = new DownloadManager.Query();
+                        query.setFilterById(finishedDownloadId);
+                        Cursor cursor = manager.query(query);
+                        if (cursor.moveToFirst()) {
+                            int columnIndex = cursor.getColumnIndex(DownloadManager.COLUMN_STATUS);
+                            int status = cursor.getInt(columnIndex);
+
+                            if (status == DownloadManager.STATUS_SUCCESSFUL) {
+                                //open the downloaded file
+                                Intent install = new Intent(Intent.ACTION_VIEW);
+                                install.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                install.setDataAndType(downloadUri, manager.getMimeTypeForDownloadedFile(startedDownloadId));
+                                ctxt.startActivity(install);
+                            } else if (status == DownloadManager.STATUS_FAILED) {
+                                if (newApkFile.exists())
+                                    newApkFile.delete();
+                            }
+                        } else {
+                            //Delete the partially downloaded file
                             if (newApkFile.exists())
                                 newApkFile.delete();
                         }
-                    }
-                    else {
-                        //Delete the partially downloaded file
-                        if (newApkFile.exists())
-                            newApkFile.delete();
-                    }
 
-                    ctxt.unregisterReceiver(this);
-                    stopSelf();
+                        ctxt.unregisterReceiver(this);
+                        stopSelf();
+                    }
                 }
-            }
-        };
+            };
 
-        this.registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+            this.registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+        }
         return Service.START_STICKY;
     }
 

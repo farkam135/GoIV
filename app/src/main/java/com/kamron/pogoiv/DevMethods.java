@@ -1,5 +1,8 @@
 package com.kamron.pogoiv;
 
+import com.kamron.pogoiv.logic.PokeInfoCalculator;
+import com.kamron.pogoiv.logic.Pokemon;
+
 import java.util.ArrayList;
 
 /**

@@ -11,16 +11,7 @@
     <string name="main_invalide_trainerlvl">Neplatný level trenéra!</string>
     <string name="notification_title">GoIV běží - Level %1$s</string>
     <string name="notification_text">Klikni pro otevření</string>
-	<string name="ivtext_title">Tvůj lvl %1$s, CP %2$s, HP %3$s %4$s může být:</string>
-    <string name="ivtext_possibilities">%1$s více možností...</string>
     <string name="ivtext_no_possibilities">Žádné možnosti, prosím zkontroluj znova své staty!</string>
-    <string name="ivtext_iv">Min: %1$s%% Průměr: %2$s%% Max: %3$s%%\n</string>
-    <string name="ivtext_evolve">Se může vyvinout na %1$s:\n</string>
-    <string name="ivtext_evolve_further">Se může dále vyvinout na %1$s:</string>
-    <string name="ivtext_many_possibilities">Příliš mnoho možností pro tohoto Pokémona. Zkus power up!</string>
-    <string name="ivtext_max_lvl_cost">Cena pro dosažení levelu %1$s:</string>
-    <string name="main_battery_saver">Spořič baterky (Screenshot pro načtení)</string>
-    <string name="ivtext_cp_lvl">CP na lvl %1$s: %2$s - %3$s</string>
     <string name="ivtext_stats">Útok: %1$02d Obrana: %2$02d Stamina: %3$02d — %4$3d%%</string>
     <string name="close">Zavřít</string>
 	<string name="main_permission">Udělit povolení</string>

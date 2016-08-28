@@ -40,6 +40,119 @@
         android:layout_gravity="center">
 
         <LinearLayout
+
+            android:id="@+id/llSingleMatch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            android:layout_gravity="center">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/skin_iv_linearlayout"
+                android:paddingLeft="12sp"
+                android:paddingRight="12sp"
+                android:paddingTop="6sp"
+                android:paddingBottom="6sp"
+                android:layout_margin="6sp"
+                android:gravity="center"
+                android:layout_gravity="center">
+
+                <TextView
+                    android:id="@+id/resultsAttack"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:text="15"
+                    android:textColor="#222"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ATK"
+                    android:layout_margin="0dp"
+                    android:textSize="12sp"
+                    android:gravity="center"
+                    android:textColor="#222"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/skin_iv_linearlayout"
+                android:paddingLeft="12sp"
+                android:paddingRight="12sp"
+                android:paddingTop="6sp"
+                android:paddingBottom="6sp"
+                android:layout_margin="6sp"
+                android:gravity="center"
+                android:layout_gravity="center">
+
+                <TextView
+                    android:id="@+id/resultsDefense"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:textColor="#222"
+                    android:text="15"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="DEF"
+                    android:textSize="12sp"
+                    android:layout_margin="0dp"
+                    android:textColor="#222"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/skin_iv_linearlayout"
+                android:paddingLeft="12sp"
+                android:paddingRight="12sp"
+                android:paddingTop="6sp"
+                android:paddingBottom="6sp"
+                android:layout_margin="6sp"
+                android:gravity="center"
+                android:layout_gravity="center">
+
+                <TextView
+
+                    android:id="@+id/resultsHP"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:textColor="#222"
+                    android:text="15"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="STA"
+                    android:textSize="12sp"
+                    android:layout_margin="0dp"
+                    android:textColor="#222"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llMinIV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -75,6 +188,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/llAvgIV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -99,6 +213,7 @@
                 />
 
             <TextView
+                android:id="@+id/tvAvgIV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="AVG"
@@ -110,6 +225,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/llMaxIV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -219,15 +335,16 @@
             android:layout_marginTop="5dp"
             android:layout_gravity="center"/>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginLeft="12sp"
-            android:layout_marginRight="12sp"
-            android:background="@android:color/darker_gray"/>
-
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="12sp"
+        android:layout_marginRight="12sp"
+        android:background="@android:color/darker_gray"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

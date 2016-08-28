@@ -44,11 +44,12 @@ public class Pokemon {
         return difference < 2;
     }
 
-    public int getDistance(CharSequence rhs) {
-        if (rhs != null) {
-            return Data.levenshteinDistance(name, rhs);
-        }
-        return 100;
+    public int getDistanceCaseInsensitive(String rhs) {
+        return Data.levenshteinDistance(name.toLowerCase(), rhs.toLowerCase());
+    }
+
+    public int getDistance(String rhs) {
+        return Data.levenshteinDistance(name, rhs);
     }
 
     /**

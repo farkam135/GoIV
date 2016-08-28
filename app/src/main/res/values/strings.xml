@@ -60,6 +60,7 @@
     <string name="refine_no_progress">Refinement didn\'t improve results</string>
     <string name="last_scan">Last scan: %1$s</string>
     <string name="possible_iv_combinations">"%1$d Possible IV combinations"</string>
+    <string name="too_many_iv_combinations">Too many IV combinations</string>
     <string name="refining_instructions">Increase IV calculation precision by leveling up and comparing two scans of the same Pokémon</string>
     <string name="appraisal_narrowing">Appraisal narrowing (optional)</string>
     <string name="attack">Attack</string>

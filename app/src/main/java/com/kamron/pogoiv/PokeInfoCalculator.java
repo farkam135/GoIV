@@ -13,7 +13,7 @@ import java.util.List;
 public class PokeInfoCalculator {
 
     public ArrayList<Pokemon> pokedex = null;
-    public HashMap<String, Pokemon> pokemap = null;
+    private HashMap<String, Pokemon> pokemap = null;
 
     /**
      * creates a pokemon info calculator with the pokemon as argument
@@ -33,7 +33,7 @@ public class PokeInfoCalculator {
     }
 
     public Pokemon get(String name) {
-        return pokemap.get(name);
+        return pokemap.get(name.toLowerCase());
     }
 
     /**
@@ -48,7 +48,7 @@ public class PokeInfoCalculator {
         for (int i = 0; i <= pokeListSize - 1; i++) {
             Pokemon p = new Pokemon(names[i], i, attack[i], defense[i], stamina[i], devolution[i], evolutionCandyCost[i]);
             pokedex.add(p);
-            pokemap.put(names[i], p);
+            pokemap.put(names[i].toLowerCase(), p);
         }
 
         for (int i = 0; i <= pokeListSize - 1; i++) {
@@ -144,7 +144,8 @@ public class PokeInfoCalculator {
         //IV vars for lower and upper end cp ranges
 
 
-        if (pokemonHP != 10 && pokemonCP != 10) {
+        //It's safe to proceed if *one* is not 10, though it takes a bit longer.
+        if (pokemonHP != 10 || pokemonCP != 10) {
             IVScanResult returner = new IVScanResult(get(selectedPokemon), estimatedPokemonLevel);
             for (int staminaIV = 0; staminaIV < 16; staminaIV++) {
                 int hp = (int) Math.max(Math.floor((baseStamina + staminaIV) * lvlScalar), 10);

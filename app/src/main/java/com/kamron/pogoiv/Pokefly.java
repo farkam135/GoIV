@@ -337,12 +337,12 @@ public class Pokefly extends Service {
                 getResources().getIntArray(R.array.DevolutionNumber),
                 getResources().getIntArray(R.array.evolutionCandyCost));
         sharedPref = getSharedPreferences(PREF_USER_CORRECTIONS, Context.MODE_PRIVATE);
-        userCorrections = new HashMap<>(pokeCalculator.pokedex.size());
+        userCorrections = new HashMap<>(pokeCalculator.getPokedex().size());
         userCorrections.putAll((Map<String, String>) sharedPref.getAll());
         userCorrections.put("Sparky", pokeCalculator.get(132).name);
         userCorrections.put("Rainer", pokeCalculator.get(132).name);
         userCorrections.put("Pyro", pokeCalculator.get(132).name);
-        cachedCorrections = new LruCache<>(pokeCalculator.pokedex.size() * 2);
+        cachedCorrections = new LruCache<>(pokeCalculator.getPokedex().size() * 2);
     }
 
 
@@ -1194,7 +1194,7 @@ public class Pokefly extends Service {
 
         /* If we can't find perfect candy match, do a distance/similarity based match */
         if (p == null) {
-            for (Pokemon trypoke : pokeCalculator.pokedex) {
+            for (Pokemon trypoke : pokeCalculator.getPokedex()) {
                 /* Candy names won't match evolutions */
                 if (trypoke.devoNumber != -1) {
                     continue;

@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class PokeInfoCalculator {
 
-    public ArrayList<Pokemon> pokedex = null;
+    private ArrayList<Pokemon> pokedex = null;
     private HashMap<String, Pokemon> pokemap = null;
 
     /**
@@ -28,6 +28,10 @@ public class PokeInfoCalculator {
      */
     public PokeInfoCalculator(String[] namesArray, int[] attackArray, int[] defenceArray, int[] staminaArray, int[] devolutionArray, int[] evolutionCandyCostArray) {
         populatePokemon(namesArray, attackArray, defenceArray, staminaArray, devolutionArray, evolutionCandyCostArray);
+    }
+
+    public ArrayList<Pokemon> getPokedex() {
+        return this.pokedex;
     }
 
     /**
@@ -309,6 +313,4 @@ public class PokeInfoCalculator {
 
         return list;
     }
-
-
 }

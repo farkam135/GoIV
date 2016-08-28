@@ -26,7 +26,7 @@ public class DevMethods {
         //to create the evolutions
 
         int evolutionCost = -99999;
-        for (Pokemon poke : pokeCalculator.pokedex) {
+        for (Pokemon poke : pokeCalculator.getPokedex()) {
             ArrayList<Pokemon> evoLine = pokeCalculator.getEvolutionLine(poke);
             int numberInEvoLine = 1;
             for (int i = 0; i < evoLine.size(); i++) {

@@ -20,7 +20,6 @@ import android.os.IBinder;
 import android.provider.MediaStore;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.LruCache;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -889,6 +888,13 @@ public class Pokefly extends Service {
         }
     }
 
+    private void clearPossibleIVsDialog() {
+        //clear the all possibilities dialog
+        allPosAtt.removeAllViews();
+        allPosDef.removeAllViews();
+        allPosSta.removeAllViews();
+        allPosPercent.removeAllViews();
+    }
     @OnClick({R.id.btnCancelInfo, R.id.btnCloseInfo})
     /**
      * resets the info dialogue to its default state
@@ -903,11 +909,7 @@ public class Pokefly extends Service {
         defCheckbox.setChecked(false);
         staCheckbox.setChecked(false);
 
-        //clear the all possibilities dialog
-        allPosAtt.removeAllViews();
-        allPosDef.removeAllViews();
-        allPosSta.removeAllViews();
-        allPosPercent.removeAllViews();
+        clearPossibleIVsDialog();
 
         resetPokeflyStateMachine();
         resetInfoDialogue();

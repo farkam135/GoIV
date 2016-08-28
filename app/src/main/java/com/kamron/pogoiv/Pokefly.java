@@ -908,7 +908,7 @@ public class Pokefly extends Service {
                     continue;
                 }
 
-                int dist = trypoke.getDistance(candytext);
+                int dist = trypoke.getDistanceCaseInsensitive(candytext);
                 if (dist < bestCandyMatch) {
                     p = trypoke;
                     bestCandyMatch = dist;

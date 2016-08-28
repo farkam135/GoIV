@@ -65,9 +65,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -428,18 +425,8 @@ public class MainActivity extends AppCompatActivity {
         if (!new File(extdir + "/tessdata/eng.traineddata").exists()) {
             copyAssetFolder(getAssets(), "tessdata", extdir + "/tessdata");
         }
-        int candyOrder;
 
-        //Check if language makes the pokemon name in candy second; France/Spain have Bonbon/Caramelos pokeName.
-        String language = Locale.getDefault().getLanguage();
-        HashSet<String> specialCandyOrderLangs = new HashSet<>(Arrays.asList("fr", "es", "it"));
-        if (specialCandyOrderLangs.contains(language)) {
-            candyOrder = 1;
-        } else {
-            candyOrder = 0;
-        }
-
-        ocr = OCRHelper.init(extdir, candyOrder, displayMetrics.widthPixels, displayMetrics.heightPixels);
+        ocr = OCRHelper.init(extdir, displayMetrics.widthPixels, displayMetrics.heightPixels);
         ocr.nidoFemale = getResources().getString(R.string.pokemon029);
         ocr.nidoMale = getResources().getString(R.string.pokemon032);
     }

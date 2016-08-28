@@ -2,11 +2,14 @@ package com.kamron.pogoiv;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.support.annotation.NonNull;
 import android.util.LruCache;
 
 import com.googlecode.tesseract.android.TessBaseAPI;
 
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Locale;
 
 import timber.log.Timber;
 
@@ -21,7 +24,7 @@ public class OCRHelper {
     private LruCache<String, String> ocrCache = new LruCache<>(200);
     private int heightPixels;
     private int widthPixels;
-    private int candyOrder;
+    private boolean candyWordFirst;
 
     /* TODO: This is a temporary hack to keep the commits more bite sized. Will fix soon. */
     public double estimatedPokemonLevel;
@@ -32,13 +35,13 @@ public class OCRHelper {
     public String nidoFemale;
     public String nidoMale;
 
-    private OCRHelper(String dataPath, int candyOrder, int widthPixels, int heightPixels) {
+    private OCRHelper(String dataPath, int widthPixels, int heightPixels) {
         tesseract = new TessBaseAPI();
         tesseract.init(dataPath, "eng");
         tesseract.setVariable(TessBaseAPI.VAR_CHAR_WHITELIST, "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789/♀♂");
-        this.candyOrder = candyOrder;
         this.heightPixels = heightPixels;
         this.widthPixels = widthPixels;
+        this.candyWordFirst = isCandyWordFirst();
     }
 
     /**
@@ -48,9 +51,9 @@ public class OCRHelper {
      * @param dataPath Path the OCR data files.
      * @return Bitmap with replaced colors
      */
-    public static OCRHelper init(String dataPath, int candyOrder, int widthPixels, int heightPixels) {
+    public static OCRHelper init(String dataPath, int widthPixels, int heightPixels) {
         if (instance == null) {
-            instance = new OCRHelper(dataPath, candyOrder, widthPixels, heightPixels);
+            instance = new OCRHelper(dataPath, widthPixels, heightPixels);
         }
         return instance;
     }
@@ -65,6 +68,13 @@ public class OCRHelper {
             //The exception is to ensure we get a stack trace. It's not thrown.
             Timber.e(new Throwable());
         }
+    }
+
+    private boolean isCandyWordFirst() {
+        //Check if language makes the pokemon name in candy second; France/Spain/Italy have Bonbon/Caramelos pokeName.
+        String language = Locale.getDefault().getLanguage();
+        HashSet<String> specialCandyOrderLangs = new HashSet<>(Arrays.asList("fr", "es", "it"));
+        return specialCandyOrderLangs.contains(language);
     }
 
     /**
@@ -208,6 +218,19 @@ public class OCRHelper {
         return pokemonName;
     }
 
+    @NonNull
+    private static String removeFirstOrLastWord(String src, boolean removeFirst) {
+        if (removeFirst) {
+            int fstSpace = src.indexOf(' ');
+            if (fstSpace != -1)
+                return src.substring(fstSpace + 1);
+        } else {
+            int lstSpace = src.lastIndexOf(' ');
+            if (lstSpace != -1)
+                return src.substring(0, lstSpace);
+        }
+        return src;
+    }
 
     /**
      * gets the candy name from a pokenon image
@@ -224,8 +247,7 @@ public class OCRHelper {
             candy = replaceColors(candy, 68, 105, 108, Color.WHITE, 200, true);
             tesseract.setImage(candy);
             try {
-                candyName = fixOcr(tesseract.getUTF8Text().trim().replace("-", " ").split(" ")[candyOrder]);
-                candyName = candyName.substring(0, 1) + candyName.substring(1).toLowerCase();
+                candyName = fixOcr(removeFirstOrLastWord(tesseract.getUTF8Text().trim().replace("-", " "), candyWordFirst));
             } catch (StringIndexOutOfBoundsException e) {
                 candyName = "";
             }

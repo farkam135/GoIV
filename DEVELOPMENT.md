@@ -1,13 +1,17 @@
-# Build instructions
+# Developing for GoIV
 
-- Download and install Android studio (https://github.com/farkam135/GoIV/issues/60).
-- Install the SDK for Android 7.0 (API version 24) from within android studio (press the SDK manager button in the toolbar, an android face above a box with a down arrow).
-- Open the project.
-- Install lombok-intellij-plugin (https://github.com/mplushnikov/lombok-intellij-plugin)
-- If you get errors because modules are not found, use the SDK manager to add the missing modules.
+## Setting Up
+* Download and install [Git] (https://git-scm.com/)
+* Set up [Git with GitHub] (https://help.github.com/articles/set-up-git/)
+* Download and install [Android Studio] (https://developer.android.com/studio/index.html)
+* Set up [Android Development Environment] (https://spring.io/guides/gs/android/)
+* Install [Lombok IntelliJ Plugin] (https://github.com/mplushnikov/lombok-intellij-plugin#installation)
+* Enable annotation processing (Configure > Settings > Build, Execution, Deployment > Compiler > Annotation Processors)
+* [Fork this repo] (https://help.github.com/articles/fork-a-repo/)
+* Open the Project in Android Studio
 
-## Command-line build tool
+## Optional Set-up
+* Set up Git on Android Studio (Configure > Settings > Version Control > Git) - Automates Git commands through Android Studio
 
-Android Studio uses the Gradle build tool. It's recommended you invoke it through the `gradlew` wrapper which is part of the project.
-You can do, for instance, `./gradlew clean build`.
-This requires a JDK for Java 8.
+## Syncing the fork
+* [Syncing the fork] (https://help.github.com/articles/syncing-a-fork/) is required to keep up to date with the latest commits on the main repo. This is also done to prevent merge conflicts.

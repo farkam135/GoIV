@@ -20,6 +20,7 @@ import android.os.IBinder;
 import android.provider.MediaStore;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.LruCache;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -168,6 +169,8 @@ public class Pokefly extends Service {
     LinearLayout llMinIV;
     @BindView(R.id.llMultipleIVMatches)
     LinearLayout llMultipleIVMatches;
+    @BindView(R.id.refine_by_last_scan)
+    LinearLayout refine_by_last_scan;
 
     // Refine by appraisal
     @BindView(R.id.attCheckbox)
@@ -497,7 +500,7 @@ public class Pokefly extends Service {
         expandedLevelSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                updateCostFields(IVScanResult.scanContainer.oneScanAgo);
+                populateAdvancedInformation(IVScanResult.scanContainer.oneScanAgo);
             }
 
             @Override
@@ -513,12 +516,12 @@ public class Pokefly extends Service {
         extendedEvolutionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                updateCostFields(IVScanResult.scanContainer.oneScanAgo);
+                populateAdvancedInformation(IVScanResult.scanContainer.oneScanAgo);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
-                updateCostFields(IVScanResult.scanContainer.oneScanAgo);
+                populateAdvancedInformation(IVScanResult.scanContainer.oneScanAgo);
             }
 
         });
@@ -559,6 +562,7 @@ public class Pokefly extends Service {
 
     @OnClick(R.id.btnIncrementLevelExpanded)
     public void incrementLevelExpanded() {
+        Log.d("btn increment pushed", "in pokefly");
         expandedLevelSeekbar.setProgress(expandedLevelSeekbar.getProgress() + 1);
     }
 
@@ -634,55 +638,96 @@ public class Pokefly extends Service {
     }
 
     /**
-     * sets the information in the results box
+     * Sets all the information in the result box
      */
     private void populateResultsBox(IVScanResult ivScanResult) {
+        populateResultsHeader(ivScanResult);
 
-        resultsPokemonName.setText(ivScanResult.pokemon.name);
-
-        // Single match
-        // Todo: Refactor this bit to make it cleaner.
         if (ivScanResult.getCount()==1){
-            llMaxIV.setVisibility(View.GONE);
-            llMinIV.setVisibility(View.GONE);
-            tvAvgIV.setText("IV");
-            resultsAttack.setText(String.valueOf(ivScanResult.iVCombinations.get(0).att));
-            resultsDefense.setText(String.valueOf(ivScanResult.iVCombinations.get(0).def));
-            resultsHP.setText(String.valueOf(ivScanResult.iVCombinations.get(0).sta));
-
-            setTextColorbyPercentage(resultsAttack, (int) Math.round(ivScanResult.iVCombinations.get(0).att*100.0/15));
-            setTextColorbyPercentage(resultsDefense, (int) Math.round(ivScanResult.iVCombinations.get(0).def*100.0/15));
-            setTextColorbyPercentage(resultsHP, (int) Math.round(ivScanResult.iVCombinations.get(0).sta*100.0/15));
-
-            llSingleMatch.setVisibility(View.VISIBLE);
-            llMultipleIVMatches.setVisibility(View.GONE);
+            populateSingleIVMatch(ivScanResult);
         }else { // More than a match
-            llMaxIV.setVisibility(View.VISIBLE);
-            llMinIV.setVisibility(View.VISIBLE);
-            llSingleMatch.setVisibility(View.GONE);
-            llMultipleIVMatches.setVisibility(View.VISIBLE);
-            tvAvgIV.setText("AVG");
-            if (ivScanResult.tooManyPossibilities) {
-                resultsCombinations.setText(getString(R.string.too_many_iv_combinations));
-            } else {
-                resultsCombinations.setText(String.format(getString(R.string.possible_iv_combinations), ivScanResult.iVCombinations.size()));
-            }
-            //TODO: Populate ivText in a better way.
-            String allIvs = "";
-            for (IVCombination ivItem : ivScanResult.iVCombinations) {
-                allIvs += String.format(getString(R.string.ivtext_stats), ivItem.att, ivItem.def, ivItem.sta, ivItem.percentPerfect) + "\n";
-            }
-            ivText.setText(allIvs);
+            populateMultipleIVMatch(ivScanResult);
         }
+        setResultScreenPercentageRange(ivScanResult); //color codes the result
+        adjustSeekbarForPokemon(ivScanResult);
+        populateAdvancedInformation(ivScanResult);
+        populatePrevScanNarrowing(ivScanResult);
+    }
 
-        resultsPokemonLevel.setText(getString(R.string.level) + ": " + ivScanResult.estimatedPokemonLevel);
-        setResultScreenPercentageRange(ivScanResult);
-
-        //Preselect the maximum level we can reach currently, the user can move to higher or lower.
+    /**
+     * Adjusts the seekbar so minimum is pokemon current level
+     * @param ivScanResult
+     */
+    private void adjustSeekbarForPokemon(IVScanResult ivScanResult) {
         expandedLevelSeekbar.setProgress(levelToProgress(trainerLevel + 1.5f));
         expandedLevelSeekbar.setMax(levelToProgress(40));
-        updateCostFields(ivScanResult);
-        exResPrevScan.setText(String.format(getString(R.string.last_scan), ivScanResult.getPrevScanName()));
+    }
+
+    /**
+     * Shows the "refine by leveling up" part if he previous pokemon could be an upgraded version
+     * @param ivScanResult
+     */
+    private void populatePrevScanNarrowing(IVScanResult ivScanResult) {
+        if (ivScanResult.canThisScanBePoweredUpPreviousScan()){
+            refine_by_last_scan.setVisibility(View.VISIBLE);
+            exResPrevScan.setText(String.format(getString(R.string.last_scan), ivScanResult.getPrevScanName()));
+        }else{
+            refine_by_last_scan.setVisibility(View.GONE);
+        }
+
+    }
+
+    /**
+     * shows the name and level of the pokemon in the results dialog
+     * @param ivScanResult
+     */
+    private void populateResultsHeader(IVScanResult ivScanResult) {
+        resultsPokemonName.setText(ivScanResult.pokemon.name);
+        resultsPokemonLevel.setText(getString(R.string.level) + ": " + ivScanResult.estimatedPokemonLevel);
+    }
+
+    /**
+     * populates the reuslt screen with the layout as if its multiple results
+     * @param ivScanResult
+     */
+    private void populateMultipleIVMatch(IVScanResult ivScanResult) {
+        llMaxIV.setVisibility(View.VISIBLE);
+        llMinIV.setVisibility(View.VISIBLE);
+        llSingleMatch.setVisibility(View.GONE);
+        llMultipleIVMatches.setVisibility(View.VISIBLE);
+        tvAvgIV.setText("AVG");
+        if (ivScanResult.tooManyPossibilities) {
+            resultsCombinations.setText(getString(R.string.too_many_iv_combinations));
+        } else {
+            resultsCombinations.setText(String.format(getString(R.string.possible_iv_combinations), ivScanResult.iVCombinations.size()));
+        }
+        //TODO: Populate ivText in a better way.
+        String allIvs = "";
+
+        for (IVCombination ivItem : ivScanResult.iVCombinations) {
+            allIvs += String.format(getString(R.string.ivtext_stats), ivItem.att, ivItem.def, ivItem.sta, ivItem.percentPerfect) + "\n";
+        }
+        ivText.setText(allIvs);
+    }
+
+    /**
+     * populates the result screen with the layout as if it's a single result
+     * @param ivScanResult
+     */
+    private void populateSingleIVMatch(IVScanResult ivScanResult) {
+        llMaxIV.setVisibility(View.GONE);
+        llMinIV.setVisibility(View.GONE);
+        tvAvgIV.setText("IV");
+        resultsAttack.setText(String.valueOf(ivScanResult.iVCombinations.get(0).att));
+        resultsDefense.setText(String.valueOf(ivScanResult.iVCombinations.get(0).def));
+        resultsHP.setText(String.valueOf(ivScanResult.iVCombinations.get(0).sta));
+
+        setTextColorbyPercentage(resultsAttack, (int) Math.round(ivScanResult.iVCombinations.get(0).att*100.0/15));
+        setTextColorbyPercentage(resultsDefense, (int) Math.round(ivScanResult.iVCombinations.get(0).def*100.0/15));
+        setTextColorbyPercentage(resultsHP, (int) Math.round(ivScanResult.iVCombinations.get(0).sta*100.0/15));
+
+        llSingleMatch.setVisibility(View.VISIBLE);
+        llMultipleIVMatches.setVisibility(View.GONE);
     }
 
     private int getSeekbarOffset() {
@@ -701,7 +746,7 @@ public class Pokefly extends Service {
      * sets the growth estimate text boxes to correpond to the
      * pokemon evolution and level set by the user
      */
-    public void updateCostFields(IVScanResult ivScanResult) {
+    public void populateAdvancedInformation(IVScanResult ivScanResult) {
         float goalLevel = seekbarProgressToLevel(expandedLevelSeekbar.getProgress());
         int intSelectedPokemon = extendedEvolutionSpinner.getSelectedItemPosition(); //which pokemon is selected in the spinner
         ArrayList<Pokemon> evolutionLine = pokeCalculator.getEvolutionLine(ivScanResult.pokemon);

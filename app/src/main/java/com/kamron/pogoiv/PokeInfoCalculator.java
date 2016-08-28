@@ -144,7 +144,8 @@ public class PokeInfoCalculator {
         //IV vars for lower and upper end cp ranges
 
 
-        if (pokemonHP != 10 && pokemonCP != 10) {
+        //It's safe to proceed if *one* is not 10, though it takes a bit longer.
+        if (pokemonHP != 10 || pokemonCP != 10) {
             IVScanResult returner = new IVScanResult(get(selectedPokemon), estimatedPokemonLevel);
             for (int staminaIV = 0; staminaIV < 16; staminaIV++) {
                 int hp = (int) Math.max(Math.floor((baseStamina + staminaIV) * lvlScalar), 10);

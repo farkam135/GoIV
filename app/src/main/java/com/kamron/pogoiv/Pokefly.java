@@ -583,7 +583,7 @@ public class Pokefly extends Service {
         }
 
         if (batterySaver && !screenshotDir.isEmpty()) {
-            if (GoIVSettings.getSettings(getBaseContext()).getDeleteScreenshots()) {
+            if (GoIVSettings.getInstance(getBaseContext()).shouldDeleteScreenshots()) {
                 getContentResolver().delete(screenshotUri, MediaStore.Files.FileColumns.DATA + "=?", new String[]{screenshotDir});
             }
         }
@@ -628,8 +628,7 @@ public class Pokefly extends Service {
      * Adds the iv range of the pokemon to the clipboard if the clipboard setting is on
      */
     private void addToRangeToClipboardIfSettingOn(IVScanResult ivScanResult) {
-        GoIVSettings settings = GoIVSettings.getSettings(getApplicationContext());
-        if (settings.getCopyToClipboard()) {
+        if (GoIVSettings.getInstance(getApplicationContext()).shouldCopyToClipboard()) {
             String clipText = ivScanResult.getLowestIVCombination().percentPerfect + "-" + ivScanResult.getHighestIVCombination().percentPerfect;
             ClipData clip = ClipData.newPlainText(clipText, clipText);
             clipboard.setPrimaryClip(clip);
@@ -950,8 +949,9 @@ public class Pokefly extends Service {
                 infoShownReceived = false;
             }
 
-            if (!GoIVSettings.getSettings(getBaseContext()).getShowConfirmationDialog())
+            if (!GoIVSettings.getInstance(getBaseContext()).shouldShouldConfirmationDialogs()) {
                 checkIv();
+            }
         }
     }
 

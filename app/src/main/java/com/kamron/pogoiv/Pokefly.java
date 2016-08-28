@@ -12,10 +12,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Handler;
 import android.os.IBinder;
 import android.provider.MediaStore;
 import android.support.v4.content.LocalBroadcastManager;
@@ -39,6 +41,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -81,6 +85,14 @@ public class Pokefly extends Service {
     private DisplayMetrics displayMetrics;
     ClipboardManager clipboard;
     private SharedPreferences sharedPref;
+    private ScreenGrabber screen;
+
+    private Timer timer;
+    private int areaX1;
+    private int areaY1;
+    private int areaX2;
+    private int areaY2;
+
 
     private boolean infoShownSent = false;
     private boolean infoShownReceived = false;
@@ -308,8 +320,56 @@ public class Pokefly extends Service {
             createIVButton();
             createArcPointer();
             createArcAdjuster();
+            /* Assumes MainActivity initialized ScreenGrabber before starting this service. */
+            if (!batterySaver) {
+                screen = ScreenGrabber.init(null, null, null);
+                startPeriodicScreenScan();
+            }
         }
+
         return START_STICKY;
+    }
+
+    private void startPeriodicScreenScan() {
+        areaX1 = Math.round(displayMetrics.widthPixels / 24);  // these values used to get "white" left of "power up"
+        areaY1 = (int) Math.round(displayMetrics.heightPixels / 1.24271845);
+        areaX2 = (int) Math.round(displayMetrics.widthPixels / 1.15942029);  // these values used to get greenish color in transfer button
+        areaY2 = (int) Math.round(displayMetrics.heightPixels / 1.11062907);
+        final Handler handler = new Handler();
+        timer = new Timer();
+        TimerTask doAsynchronousTask = new TimerTask() {
+            @Override
+            public void run() {
+                handler.post(new Runnable() {
+                    public void run() {
+                        scanPokemonScreen();
+                    }
+                });
+            }
+        };
+        timer.schedule(doAsynchronousTask, 0, 750);
+    }
+
+    /**
+     * scanPokemonScreen
+     * Scans the device screen to check area1 for the white and area2 for the transfer button.
+     * If both exist then the user is on the pokemon screen.
+     */
+    private void scanPokemonScreen() {
+        Bitmap bmp = screen.grabScreen();
+        if (bmp == null) {
+            return;
+        }
+
+        if (bmp.getHeight() > bmp.getWidth()) {
+            boolean shouldShow = bmp.getPixel(areaX1, areaY1) == Color.rgb(250, 250, 250) && bmp.getPixel(areaX2, areaY2) == Color.rgb(28, 135, 150);
+            Intent showIVButtonIntent = Pokefly.createIVButtonIntent(shouldShow);
+            /* We still need an Intent here because this is executing in the timer Thread context.
+             * Not sure we can create UI from timer threads */
+            LocalBroadcastManager.getInstance(Pokefly.this).sendBroadcast(showIVButtonIntent);
+            //SaveImage(bmp,"everything");
+        }
+        bmp.recycle();
     }
 
     private boolean infoLayoutArcPointerVisible = false;
@@ -332,6 +392,9 @@ public class Pokefly extends Service {
 
     @Override
     public void onDestroy() {
+        if (!batterySaver) {
+            timer.cancel();
+        }
         super.onDestroy();
         if (IVButton != null && IVButtonShown) windowManager.removeView(IVButton);
         hideInfoLayoutArcPointer();

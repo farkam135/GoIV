@@ -64,8 +64,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import timber.log.Timber;
 
@@ -108,10 +106,6 @@ public class MainActivity extends AppCompatActivity {
     private boolean pokeFlyRunning = false;
     private int trainerLevel;
 
-    private int areaX1;
-    private int areaY1;
-    private int areaX2;
-    private int areaY2;
     private int statusBarHeight;
     private int arcCenter;
     private int arcInitialY;
@@ -246,11 +240,6 @@ public class MainActivity extends AppCompatActivity {
         rawDisplayMetrics = new DisplayMetrics();
         Display disp = windowManager.getDefaultDisplay();
         disp.getRealMetrics(rawDisplayMetrics);
-
-        areaX1 = Math.round(displayMetrics.widthPixels / 24);  // these values used to get "white" left of "power up"
-        areaY1 = (int) Math.round(displayMetrics.heightPixels / 1.24271845);
-        areaX2 = (int) Math.round(displayMetrics.widthPixels / 1.15942029);  // these values used to get greenish color in transfer button
-        areaY2 = (int) Math.round(displayMetrics.heightPixels / 1.11062907);
 
         LocalBroadcastManager.getInstance(this).registerReceiver(resetScreenshot, new IntentFilter(ACTION_RESET_SCREENSHOT));
         LocalBroadcastManager.getInstance(this).registerReceiver(takeScreenshot, new IntentFilter(ACTION_SCREENSHOT));
@@ -487,23 +476,6 @@ public class MainActivity extends AppCompatActivity {
 
                 startPokeFly();
                 //showNotification();
-                final Handler handler = new Handler();
-                final Timer timer = new Timer();
-                TimerTask doAsynchronousTask = new TimerTask() {
-                    @Override
-                    public void run() {
-                        handler.post(new Runnable() {
-                            public void run() {
-                                if (pokeFlyRunning) {
-                                    scanPokemonScreen();
-                                } else {
-                                    timer.cancel();
-                                }
-                            }
-                        });
-                    }
-                };
-                timer.schedule(doAsynchronousTask, 0, 750);
             } else {
                 ((Button) findViewById(R.id.start)).setText(getString(R.string.main_start));
             }
@@ -570,26 +542,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-    }
-
-    /**
-     * scanPokemonScreen
-     * Scans the device screen to check area1 for the white and area2 for the transfer button.
-     * If both exist then the user is on the pokemon screen.
-     */
-    private void scanPokemonScreen() {
-        Bitmap bmp = screen.grabScreen();
-        if (bmp == null) {
-            return;
-        }
-
-        if (bmp.getHeight() > bmp.getWidth()) {
-            boolean shouldShow = bmp.getPixel(areaX1, areaY1) == Color.rgb(250, 250, 250) && bmp.getPixel(areaX2, areaY2) == Color.rgb(28, 135, 150);
-            Intent showIVButtonIntent = Pokefly.createIVButtonIntent(shouldShow);
-            LocalBroadcastManager.getInstance(MainActivity.this).sendBroadcast(showIVButtonIntent);
-            //SaveImage(bmp,"everything");
-        }
-        bmp.recycle();
     }
 
     /**

@@ -148,10 +148,7 @@ public class MainActivity extends AppCompatActivity {
 
         mContext = MainActivity.this;
 
-        settings = GoIVSettings.getSettings(MainActivity.this);
-
-        if (BuildConfig.isInternetAvailable && settings.isAutoUpdateEnabled())
-            AppUpdateUtil.checkForUpdate(mContext);
+        settings = GoIVSettings.getInstance(mContext);
 
         shouldShowUpdateDialog = true;
 
@@ -340,7 +337,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        settings = GoIVSettings.getSettings(MainActivity.this);
+        settings = GoIVSettings.getInstance(MainActivity.this);
         if (BuildConfig.isInternetAvailable && settings.isAutoUpdateEnabled())
             AppUpdateUtil.checkForUpdate(mContext);
     }

@@ -41,7 +41,7 @@ public class AppUpdate implements Parcelable {
         out.writeString(changelog);
         out.writeInt(status);
     }
-    
+
     public static final Parcelable.Creator<AppUpdate> CREATOR = new Parcelable.Creator<AppUpdate>() {
         public AppUpdate createFromParcel(Parcel in) {
             return new AppUpdate(in);

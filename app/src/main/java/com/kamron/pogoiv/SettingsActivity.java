@@ -26,7 +26,6 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getFragmentManager().beginTransaction().replace(android.R.id.content, new SettingsFragment()).commit();
-        mContext = SettingsActivity.this;
         getSupportActionBar().setTitle(getResources().getString(R.string.settings_page_title));
         mContext = SettingsActivity.this;
         LocalBroadcastManager.getInstance(this).registerReceiver(showUpdateDialog, new IntentFilter(MainActivity.ACTION_SHOW_UPDATE_DIALOG));
@@ -68,7 +67,7 @@ public class SettingsActivity extends AppCompatActivity {
                     @Override
                     public boolean onPreferenceClick(Preference preference) {
                         if(!MainActivity.isGoIVBeingUpdated(getActivity())) {
-                            Toast.makeText(getActivity(), "Checking for update... ", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), getResources().getString(R.string.checking_for_update), Toast.LENGTH_SHORT).show();
                             MainActivity.shouldShowUpdateDialog = false;
                             AppUpdateUtil.checkForUpdate(getActivity());
                         }

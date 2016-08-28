@@ -343,6 +343,7 @@
 
         <include layout="@layout/expanded_results_box"
             android:id="@+id/expandedResultsBox"
+            android:visibility="gone"
         />
 
     </LinearLayout>

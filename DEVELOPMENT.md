@@ -4,7 +4,7 @@
 * Download and install [Git] (https://git-scm.com/)
 * Set up [Git with GitHub] (https://help.github.com/articles/set-up-git/)
 * Download and install [Android Studio] (https://developer.android.com/studio/index.html)
-* Set up [Android Devleopment Environment] (https://spring.io/guides/gs/android/)
+* Set up [Android Development Environment] (https://spring.io/guides/gs/android/)
 * Install [Lombok IntelliJ Plugin] (https://github.com/mplushnikov/lombok-intellij-plugin#installation)
 * Set up Git on Android Studio (Configure > Settings > Version Control > Git)
 * Enable annotation processing (Configure > Settings > Build, Execution, Deployment > Compiler > Annotation Processors)

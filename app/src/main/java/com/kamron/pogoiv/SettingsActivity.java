@@ -67,8 +67,13 @@ public class SettingsActivity extends AppCompatActivity {
                 checkForUpdatePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                     @Override
                     public boolean onPreferenceClick(Preference preference) {
-                        Toast.makeText(getActivity(), "Checking for update... ", Toast.LENGTH_SHORT).show();
-                        AppUpdateUtil.checkForUpdate(getActivity());
+                        if(!MainActivity.isGoIVBeingUpdated(getActivity())) {
+                            Toast.makeText(getActivity(), "Checking for update... ", Toast.LENGTH_SHORT).show();
+                            MainActivity.shouldShowUpdateDialog = false;
+                            AppUpdateUtil.checkForUpdate(getActivity());
+                        }
+                        else
+                            Toast.makeText(getActivity(), getResources().getString(R.string.ongoing_update), Toast.LENGTH_SHORT).show();
                         return true;
                     }
                 });

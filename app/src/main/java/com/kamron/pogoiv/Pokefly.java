@@ -665,7 +665,6 @@ public class Pokefly extends Service {
         setResultScreenPercentageRange(ivScanResult); //color codes the result
         adjustSeekbarForPokemon(ivScanResult);
 
-        Log.d("Pokefly","populateAdvInfo called from populateResultBox");
         populateAdvancedInformation(ivScanResult);
         populatePrevScanNarrowing(ivScanResult);
     }

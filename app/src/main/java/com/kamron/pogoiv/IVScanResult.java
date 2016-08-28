@@ -138,11 +138,11 @@ public class IVScanResult {
 
     /**
      * Checks if the previous scanned pokemon can be the same pokemon as the one scanned 2 scans ago
-     * checks if newer scan has same or higher level, and same or better evolution. (because pokemon cant de-level or devolve)
+     * checks if newer scan has higher level, and same or next evolution. (because pokemon cant de-level or devolve)
      *
      * @return true if the pokemon can be same
      */
-    public boolean are2LastScannedPokemonSame() {
+    public boolean canThisScanBePoweredUpPreviousScan() {
 
         IVScanResult p1scan = scanContainer.oneScanAgo;
         IVScanResult p2scan = scanContainer.twoScanAgo;
@@ -150,11 +150,13 @@ public class IVScanResult {
             Pokemon p1 = scanContainer.oneScanAgo.pokemon;
             Pokemon p2 = scanContainer.twoScanAgo.pokemon;
 
-            if (p1scan.estimatedPokemonLevel >= p2scan.estimatedPokemonLevel) { //later scan must have higher or same level
-                if (p1.number == p2.number || p1.isInNextEvolution(p2)) { // either same species, or 2 scans ago is an evolution of previous scan
-                    return true;
-                }
-            }
+            boolean pokemonHasLeveledUp =p1scan.estimatedPokemonLevel > p2scan.estimatedPokemonLevel;
+            boolean isEvolved = p1.isInNextEvolution(p2);
+
+            boolean somethingImproved = (pokemonHasLeveledUp || isEvolved);
+            boolean isSameOrHigherLevel = (p1scan.estimatedPokemonLevel >= p2scan.estimatedPokemonLevel);
+            boolean isSameOrHigherEvolution = (p1.number == p2.number || p1.isInNextEvolution(p2));
+            return  somethingImproved && isSameOrHigherLevel && isSameOrHigherEvolution;
         }
 
         return false;

@@ -17,7 +17,7 @@ public class PoGoApplication extends Application {
         if (BuildConfig.DEBUG) {
             Timber.plant(new Timber.DebugTree());
         } else {
-            Timber.plant(new CrashlyticsWrapper.CrashReportingTree());
+            Timber.plant(new CrashlyticsWrapper.CrashReportingTree(this));
         }
 
         // Fonts overriding application wide

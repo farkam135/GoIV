@@ -1,11 +1,9 @@
 package com.kamron.pogoiv;
 
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
-import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.preference.SwitchPreference;
 import android.support.v7.app.AlertDialog;
@@ -20,27 +18,13 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-public class SettingsActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class SettingsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getFragmentManager().beginTransaction().replace(android.R.id.content, new SettingsFragment()).commit();
         getSupportActionBar().setTitle(getResources().getString(R.string.settings_page_title));
-
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        sharedPref.registerOnSharedPreferenceChangeListener(this);
-    }
-
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        GoIVSettings.saveSettings(this, new GoIVSettings(
-                sharedPreferences.getBoolean(GoIVSettings.LAUNCH_POKEMON_GO, true),
-                sharedPreferences.getBoolean(GoIVSettings.SHOW_CONFIRMATION_DIALOG, true),
-                sharedPreferences.getBoolean(GoIVSettings.MANUAL_SCREENSHOT_MODE, false),
-                sharedPreferences.getBoolean(GoIVSettings.DELETE_SCREENSHOTS, true),
-                sharedPreferences.getBoolean(GoIVSettings.COPY_TO_CLIPBOARD, false),
-                sharedPreferences.getBoolean(GoIVSettings.SEND_CRASH_REPORTS, true),
-                sharedPreferences.getBoolean(GoIVSettings.AUTO_UPDATE_ENABLED, true)));
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -64,6 +48,7 @@ public class SettingsActivity extends AppCompatActivity implements SharedPrefere
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
+            getPreferenceManager().setSharedPreferencesName(GoIVSettings.PREFS_GO_IV_SETTINGS);
             addPreferencesFromResource(R.xml.settings);
             PreferenceScreen preferenceScreen = getPreferenceScreen();
 

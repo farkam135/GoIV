@@ -820,7 +820,9 @@ public class Pokefly extends Service {
         exResultCP.setText(String.valueOf(expectedAverage) + " (+" + (expectedAverage - realRange.high) + ")");
 
         UpgradeCost cost = pokeCalculator.getUpgradeCost(goalLevel, estimatedPokemonLevel);
-        exResCandy.setText(String.valueOf(cost.candy));
+        int evolutionCandyCost = pokeCalculator.getCandyCostForEvolution(ivScanResult.pokemon, selectedPokemon);
+        String candyCostText = cost.candy+evolutionCandyCost + "";
+        exResCandy.setText(candyCostText);
         exResStardust.setText(String.valueOf(cost.dust));
 
         pokeEvolutionAdapter.updatePokemonList(evolutionLine);

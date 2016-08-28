@@ -15,15 +15,6 @@ import java.io.File;
 
 public class DownloadUpdateService extends Service {
 
-    private BroadcastReceiver onComplete;
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        //register receiver for when .apk download is complete
-        this.registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
-    }
-
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
@@ -44,7 +35,7 @@ public class DownloadUpdateService extends Service {
         final long startedDownloadId = manager.enqueue(request);
 
         //set BroadcastReceiver to install app when .apk is downloaded
-        onComplete = new BroadcastReceiver() {
+        BroadcastReceiver onComplete = new BroadcastReceiver() {
             public void onReceive(Context ctxt, Intent intent) {
                 long finishedDownloadId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
                 if(startedDownloadId == finishedDownloadId) {
@@ -78,6 +69,8 @@ public class DownloadUpdateService extends Service {
                 }
             }
         };
+        
+        this.registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
         return Service.START_STICKY;
     }
 

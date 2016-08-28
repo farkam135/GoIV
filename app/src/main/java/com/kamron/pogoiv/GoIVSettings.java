@@ -6,6 +6,11 @@ import android.content.SharedPreferences;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+/**
+ * Go IV settings.
+ *
+ * @note See DEVELOPMENT.md for plugin installation to get @Getter working.
+ */
 @AllArgsConstructor
 @Getter
 public class GoIVSettings {

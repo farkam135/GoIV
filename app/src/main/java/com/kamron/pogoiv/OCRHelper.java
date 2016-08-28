@@ -59,10 +59,10 @@ public class OCRHelper {
     }
 
     public void exit() {
-        if (instance.tesseract != null) {
-            instance.tesseract.stop();
-            instance.tesseract.end();
-            instance.tesseract = null;
+        if (tesseract != null) {
+            tesseract.stop();
+            tesseract.end();
+            tesseract = null;
         } else {
             Timber.e("Avoided NPE on OCRHelper.exit()");
             //The exception is to ensure we get a stack trace. It's not thrown.

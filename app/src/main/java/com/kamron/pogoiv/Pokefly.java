@@ -562,7 +562,6 @@ public class Pokefly extends Service {
 
     @OnClick(R.id.btnIncrementLevelExpanded)
     public void incrementLevelExpanded() {
-        Log.d("btn increment pushed", "in pokefly");
         expandedLevelSeekbar.setProgress(expandedLevelSeekbar.getProgress() + 1);
     }
 

@@ -329,7 +329,7 @@ public class Pokefly extends Service {
 
         LocalBroadcastManager.getInstance(this).registerReceiver(displayInfo, new IntentFilter(ACTION_SEND_INFO));
         LocalBroadcastManager.getInstance(this).registerReceiver(processBitmap, new IntentFilter(ACTION_PROCESS_BITMAP));
-        pokeCalculator = new PokeInfoCalculator(
+        pokeCalculator = PokeInfoCalculator.getInstance(
                 getResources().getStringArray(R.array.Pokemon),
                 getResources().getIntArray(R.array.attack),
                 getResources().getIntArray(R.array.defense),

@@ -13,9 +13,17 @@ import java.util.List;
  * A class which interprets pokemon information
  */
 public class PokeInfoCalculator {
+    private static PokeInfoCalculator instance;
 
     private ArrayList<Pokemon> pokedex = null;
     private HashMap<String, Pokemon> pokemap = null;
+
+    public static PokeInfoCalculator getInstance(String[] namesArray, int[] attackArray, int[] defenceArray, int[] staminaArray, int[] devolutionArray, int[] evolutionCandyCostArray) {
+        if (instance == null) {
+            instance = new PokeInfoCalculator(namesArray, attackArray, defenceArray, staminaArray, devolutionArray, evolutionCandyCostArray);
+        }
+        return instance;
+    }
 
     /**
      * creates a pokemon info calculator with the pokemon as argument
@@ -26,7 +34,7 @@ public class PokeInfoCalculator {
      * @param staminaArray    array of all pokemon base stam stat
      * @param devolutionArray array of what the pokemon evolved from, -1 if no devolution
      */
-    public PokeInfoCalculator(String[] namesArray, int[] attackArray, int[] defenceArray, int[] staminaArray, int[] devolutionArray, int[] evolutionCandyCostArray) {
+    private PokeInfoCalculator(String[] namesArray, int[] attackArray, int[] defenceArray, int[] staminaArray, int[] devolutionArray, int[] evolutionCandyCostArray) {
         populatePokemon(namesArray, attackArray, defenceArray, staminaArray, devolutionArray, evolutionCandyCostArray);
     }
 
@@ -77,7 +85,6 @@ public class PokeInfoCalculator {
         // don't sort or otherwise we loose evolution-order of the list
         //sortPokedex(pokedex);
     }
-
 
     /**
      * Sorts the pokemon in the pokedex by alphabetical order

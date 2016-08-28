@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="welcome_message">Istruzioni:\n1. Inserisci il tuo Livello Allenatore\n2. Premi start e consenti la registrazione schermo\n3. In \'Pokémon Go\' seleziona il Pokémon\n4. Premi il bottone IV per analizzare il Pokémon\n5. Correggi i dati se necessario\n6. Analizza IV!</string>
+    <string name="goiv_is_open_source">GoIV è open source!\ngithub.com/farkam135/GoIV\nreddit.com/r/GoIV</string>
+    <string name="trainer_level">Livello Allenatore</string>
+
+    <string name="pokemon_name">Nome Pokémon:</string>
+    <string name="cp">PL</string>
+    <string name="hp">PS</string>
+    <string name="use_the_slider_below_to_align_the_arc">Usa lo slider per allineare l\'arco</string>
+    <string name="cancel">Cancella</string>
+    <string name="check_iv">Analizza IV</string>
+    <string name="main_not_numeric">%1$s non è un numero.</string>
+    <string name="main_invalide_trainerlvl">Livello Allenatore non valido!</string>
+    <string name="notification_title">GoIV in esecuzione - Livello %1$s</string>
+    <string name="notification_text">Tocca per aprire</string>
+    <string name="ivtext_stats">Att: %1$02d Dif: %2$02d PS: %3$02d — %4$3d%%</string>
+    <string name="close">Chiudi</string>
+    <string name="main_permission">Concedi i permessi</string>
+    <string name="main_start">Start</string>
+    <string name="main_stop">Stop</string>
+    <string name="battery_saver_setup">Impostazioni risparmio batteria</string>
+    <string name="battery_saver_instructions">Cartella screenshot non rilevata. Per far sì che GoIV rilevi la cartella screenshot, segui questa procedura:\n1.Premi \'Setup\' in questa finestra\n2.Scatta uno screenshot\n3.Attendi ulteriori istruzioni.</string>
+    <string name="setup">Setup</string>
+    <string name="take_screenshot">Scatta uno screenshot</string>
+    <string name="screenshot_dir_found">Cartella screenshot impostata:\n%1$s</string>
+    <string name="done">Fatto</string>
+    <string name="back">Indietro</string>
+    <string name="accept_screen_capture">Accetta registrazione schermo</string>
+    <string name="settings_page_title">Impostazioni</string>
+    <string name="launch_pokemon_go_setting_title">Avvia Pokémon Go</string>
+    <string name="launch_pokemon_go_setting_summary">Passa a Pokémon Go quando premi il bottone Start</string>
+    <string name="confirmation_dialog_setting_title">Finestra di conferma</string>
+    <string name="confirmation_dialog_setting_summary">Permetti la modifica delle informazioni del Pokémon prima di calcolare gli IV</string>
+    <string name="manual_screenshot_mode_setting_title">Usa screenshot per il calcolo IV</string>
+    <string name="manual_screenshot_mode_setting_summary">Risparmia batteria scansionando gli screenshot invece che usare la registrazione schermo. Questa impostazione deve essere abilitata per Android KitKat e precedentei</string>
+    <string name="delete_screenshots_setting_title">Cancella gli screenshot</string>
+    <string name="delete_screenshots_setting_summary">Cancella automaticamente gli screenshot usati da GoIV</string>
+    <string name="copy_to_clipboard_setting_title">Copia negli appunti</string>
+    <string formatted="false" name="copy_to_clipboard_setting_summary">Copia min IV% - max IV% negli appunti quando il bottone Check IV viene premuto</string>
+    <string name="send_crash_reports_setting_title">Invia rapporti di errore</string>
+    <string name="send_crash_reports_setting_summary">Aiuta gli sviluppatori nel miglioramento dell\'app inviando informazioni anonime riguardo i crash</string>
+    <string name="auto_update_setting_title">Auto aggiornamento</string>
+    <string name="auto_update_setting_summary">Controlla automaticamente gli aggiornamenti all\'avvio dell\'app</string>
+    <string name="check_for_update_setting_title">Controlla aggiornamenti</string>
+    <string name="check_for_update_setting_summary">Verifica se sono disponibili aggiornamenti</string>
+    <string name="scan_pokemon_failed">Scasione fallita, scrolla su e prova di nuovo!</string>
+    <string name="see_all">Elenca tutte</string>
+    <string name="advanced_information">Info dettagliate</string>
+    <string name="powerup_calc_instructions">Calcolo potenziamenti ed evoluzioni - \n Trascina lo slider del livello per ottenere diverse previsioni</string>
+    <string name="candy_cost">Costo caramelle</string>
+    <string name="stardust_cost">Costo polvere di stelle</string>
+    <string name="evolution">Evoluzione</string>
+    <string name="level">Livello</string>
+    <string name="refine">Affina</string>
+    <string name="refine_no_progress">Affina non ha ottenuto risultati più precisi</string>
+    <string name="last_scan">Scan precedente: %1$s</string>
+    <string name="possible_iv_combinations">"%1$d combinazioni di IV"</string>
+    <string name="too_many_iv_combinations">Troppe combinazioni di IV</string>
+    <string name="refining_instructions">Affina la precisione del calcolo IV potenziando e comparando due scansioni dello stesso Pokémon</string>
+    <string name="appraisal_narrowing">Affinamento con \'Valuta\' (opzionale)</string>
+    <string name="attack">Attacco</string>
+    <string name="defense">Difesa</string>
+    <string name="stamina_hp">PS</string>
+    <string name="missing_inputs">Dati mancanti. Inserisci PL e PS.</string>
+    <string name="ivtext_no_possibilities">Non ci sono combinazioni di IV possibili. Ricontrolla i valori inseriti.</string>
+</resources>

@@ -583,7 +583,7 @@ public class Pokefly extends Service {
         }
 
         // If no possible combinations, inform the user and abort.
-        if (ivScanResult.getCount() == 0) {
+        if (!ivScanResult.tooManyPossibilities && ivScanResult.getCount() == 0) {
             Toast.makeText(this, R.string.ivtext_no_possibilities, Toast.LENGTH_SHORT).show();
             return;
         }
@@ -620,7 +620,7 @@ public class Pokefly extends Service {
 
         resultsPokemonName.setText(ivScanResult.pokemon.name);
         if (ivScanResult.tooManyPossibilities) {
-            resultsCombinations.setText(String.format(getString(R.string.possible_iv_combinations), 4096));
+            resultsCombinations.setText(getString(R.string.too_many_iv_combinations));
         } else {
             resultsCombinations.setText(String.format(getString(R.string.possible_iv_combinations), ivScanResult.iVCombinations.size()));
         }

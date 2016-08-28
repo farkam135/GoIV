@@ -17,12 +17,12 @@ public class DevMethods {
      * 25,100,-
      * 2 evolutions
      * 50, -
-     * Exceptions: Eevee, weedle, caterpie, pidgey, magicarp and rattatta
-     *
-     * To run this method, you need to make the pokemon field evolutionCandyCost not final and uncomment the method
+     * Exceptions: Eevee:25, weedle:12 kakuna:50, caterpie:12 metapod:50, pidgey:12, magicarp:400 and rattatta:25, fix them manually.
      */
     private void printOutEvolutionCandyCosts(PokeInfoCalculator pokeCalculator){
         //to create the evolutions
+
+        int evolutionCost = -99999;
         for (Pokemon poke : pokeCalculator.pokedex){
             ArrayList<Pokemon> evoLine = pokeCalculator.getEvolutionLine(poke);
             int numberInEvoLine =1;
@@ -32,36 +32,32 @@ public class DevMethods {
                     numberInEvoLine = i;
                 }
             }
-            /*
             if (evoLine.size() ==3){
                 if (numberInEvoLine == 0){
-                    poke.candyEvolutionCost = 25;
+                    evolutionCost = 25;
                 }
                 if (numberInEvoLine == 1){
-                    poke.candyEvolutionCost = 100;
+                    evolutionCost = 100;
                 }
                 if (numberInEvoLine == 2){
-                    poke.candyEvolutionCost = -1;
+                    evolutionCost = -1;
                 }
             }
             if (evoLine.size() == 2){
                 if (numberInEvoLine == 0){
-                    poke.candyEvolutionCost = 50;
+                    evolutionCost = 50;
                 }
                 if (numberInEvoLine == 1){
-                    poke.candyEvolutionCost = -1;
+                    evolutionCost = -1;
                 }
             }
             if (evoLine.size()==1){
-                poke.candyEvolutionCost = -1;
+                evolutionCost = -1;
             }
-            */
 
+
+            System.out.println("nahojjjen generating script: " + "<item>" + evolutionCost + "</item> <!--" + poke.name + "-->");
         }
 
-        for (Pokemon poke : pokeCalculator.pokedex) {
-            //<item>-1</item> <!--Bulbasaur-->
-            System.out.println("nahojjjen" + "<item>" + poke.candyEvolutionCost + "</item> <!--" + poke.name + "-->");
-        }
     }
 }

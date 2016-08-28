@@ -41,8 +41,14 @@ public class SettingsActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             AppUpdate update = intent.getParcelableExtra("update");
-            AlertDialog updateDialog = AppUpdateUtil.getAppUpdateDialog(mContext, update);
-            updateDialog.show();
+            if(update.getStatus() == AppUpdate.UPDATE_AVAILABLE) {
+                AlertDialog updateDialog = AppUpdateUtil.getAppUpdateDialog(mContext, update);
+                updateDialog.show();
+            }
+            else if(update.getStatus() == AppUpdate.UP_TO_DATE)
+                Toast.makeText(mContext, getResources().getString(R.string.up_to_date), Toast.LENGTH_SHORT).show();
+            else
+                Toast.makeText(mContext, getResources().getString(R.string.update_check_failed), Toast.LENGTH_SHORT).show();
         }
     };
 

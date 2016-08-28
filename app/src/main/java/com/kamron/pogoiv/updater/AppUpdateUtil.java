@@ -38,6 +38,9 @@ public class AppUpdateUtil {
 
             @Override
             public void onFailure(Call call, IOException e) {
+                AppUpdate update = new AppUpdate(null, null, null, AppUpdate.ERROR);
+                Intent updateIntent = MainActivity.createUpdateDialogIntent(update);
+                LocalBroadcastManager.getInstance(context).sendBroadcast(updateIntent);
             }
 
             @Override
@@ -50,16 +53,17 @@ public class AppUpdateUtil {
                     if (releaseAssets.getString("name").contains("Offline"))
                         releaseAssets = releaseInfo.getJSONArray("assets").getJSONObject(1);
 
-                    AppUpdate update = new AppUpdate(releaseAssets.getString("browser_download_url"), releaseInfo.getString("tag_name"), releaseInfo.getString("body"));
+                    AppUpdate update = new AppUpdate(releaseAssets.getString("browser_download_url"), releaseInfo.getString("tag_name"), releaseInfo.getString("body"), AppUpdate.UP_TO_DATE);
 
                     SemVer currentVersion = SemVer.parse(BuildConfig.VERSION_NAME);
                     SemVer remoteVersion = SemVer.parse(update.getVersion());
 
                     //If current version is smaller than remote version
-                    if (currentVersion.compareTo(remoteVersion) < 0) {
-                        Intent updateIntent = MainActivity.createUpdateDialogIntent(update);
-                        LocalBroadcastManager.getInstance(context).sendBroadcast(updateIntent);
-                    }
+                    if (currentVersion.compareTo(remoteVersion) < 0)
+                        update.setStatus(AppUpdate.UPDATE_AVAILABLE);
+
+                    Intent updateIntent = MainActivity.createUpdateDialogIntent(update);
+                    LocalBroadcastManager.getInstance(context).sendBroadcast(updateIntent);
                 }
                 catch (JSONException je) {
                     Timber.e("Exception thrown while checking for update");

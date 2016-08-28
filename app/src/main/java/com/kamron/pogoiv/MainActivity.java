@@ -64,7 +64,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.ByteBuffer;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -90,8 +89,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String KEY_BITMAP = "bitmap";
 
-    private MediaProjection mProjection;
-    private ImageReader mImageReader;
+    private ScreenGrabber screen;
     private ContentObserver screenShotObserver;
     private FileObserver screenShotScanner;
     private boolean screenShotWriting = false;
@@ -227,10 +225,8 @@ public class MainActivity extends AppCompatActivity {
                     }
                 } else if (((Button) v).getText().toString().equals(getString(R.string.main_stop))) {
                     stopService(new Intent(MainActivity.this, Pokefly.class));
-                    if (mProjection != null) {
-                        mProjection.stop();
-                        mProjection = null;
-                        mImageReader = null;
+                    if (screen != null) {
+                        screen.exit();
                     } else if (screenShotScanner != null) {
                         screenShotScanner.stopWatching();
                         screenShotScanner = null;
@@ -451,9 +447,9 @@ public class MainActivity extends AppCompatActivity {
             stopService(new Intent(MainActivity.this, Pokefly.class));
             pokeFlyRunning = false;
         }
-        if (mProjection != null) {
+        if (screen != null) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                mProjection.stop();
+                screen.exit();
             }
         }
         if (screenShotObserver != null) {
@@ -465,8 +461,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         ocr.exit();
-        mProjection = null;
-        mImageReader = null;
 
         LocalBroadcastManager.getInstance(this).unregisterReceiver(resetScreenshot);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(takeScreenshot);
@@ -488,9 +482,8 @@ public class MainActivity extends AppCompatActivity {
         } else if (requestCode == SCREEN_CAPTURE_REQ_CODE) {
             if (resultCode == RESULT_OK) {
                 MediaProjectionManager projectionManager = (MediaProjectionManager) getSystemService(Context.MEDIA_PROJECTION_SERVICE);
-                mProjection = projectionManager.getMediaProjection(resultCode, data);
-                mImageReader = ImageReader.newInstance(rawDisplayMetrics.widthPixels, rawDisplayMetrics.heightPixels, PixelFormat.RGBA_8888, 2);
-                mProjection.createVirtualDisplay("screen-mirror", rawDisplayMetrics.widthPixels, rawDisplayMetrics.heightPixels, rawDisplayMetrics.densityDpi, DisplayManager.VIRTUAL_DISPLAY_FLAG_PUBLIC, mImageReader.getSurface(), null, null);
+                MediaProjection mProjection = projectionManager.getMediaProjection(resultCode, data);
+                screen = ScreenGrabber.init(mProjection, rawDisplayMetrics, displayMetrics);
 
                 startPokeFly();
                 //showNotification();
@@ -545,37 +538,12 @@ public class MainActivity extends AppCompatActivity {
      * Called by intent from pokefly, captures the screen and runs it through scanPokemon
      */
     private void takeScreenshot() {
-        Image image = null;
-        try {
-            image = mImageReader.acquireLatestImage();
-        } catch (Exception exception) {
-            Timber.e("Error thrown in takeScreenshot() - acquireLatestImage()");
-            Timber.e(exception);
-            Toast.makeText(MainActivity.this, "Error Scanning! Please try again later!", Toast.LENGTH_SHORT).show();
+        Bitmap bmp = screen.grabScreen();
+        if (bmp == null) {
+            return;
         }
-
-        if (image != null) {
-            final Image.Plane[] planes = image.getPlanes();
-            final ByteBuffer buffer = planes[0].getBuffer();
-            int offset = 0;
-            int pixelStride = planes[0].getPixelStride();
-            int rowStride = planes[0].getRowStride();
-            int rowPadding = rowStride - pixelStride * displayMetrics.widthPixels;
-            // create bitmap
-            try {
-                image.close();
-                Bitmap bmp = getBitmap(buffer, pixelStride, rowPadding);
-                scanPokemon(bmp, "");
-                bmp.recycle();
-                //SaveImage(bmp,"Search");
-            } catch (Exception exception) {
-                Timber.e("Exception thrown in takeScreenshot() - when creating bitmap");
-                Timber.e(exception);
-                image.close();
-            }
-
-
-        }
+        scanPokemon(bmp, "");
+        bmp.recycle();
     }
 
     /**
@@ -610,37 +578,18 @@ public class MainActivity extends AppCompatActivity {
      * If both exist then the user is on the pokemon screen.
      */
     private void scanPokemonScreen() {
-        //System.out.println("Checking...");
-        if (mImageReader != null) {
-            Image image = mImageReader.acquireLatestImage();
-
-            if (image != null) {
-                final Image.Plane[] planes = image.getPlanes();
-                final ByteBuffer buffer = planes[0].getBuffer();
-                int pixelStride = planes[0].getPixelStride();
-                int rowStride = planes[0].getRowStride();
-                int rowPadding = rowStride - pixelStride * rawDisplayMetrics.widthPixels;
-                // create bitmap
-                image.close();
-                Bitmap bmp = getBitmap(buffer, pixelStride, rowPadding);
-
-                if (bmp.getHeight() > bmp.getWidth()) {
-                    boolean shouldShow = bmp.getPixel(areaX1, areaY1) == Color.rgb(250, 250, 250) && bmp.getPixel(areaX2, areaY2) == Color.rgb(28, 135, 150);
-                    Intent showIVButtonIntent = Pokefly.createIVButtonIntent(shouldShow);
-                    LocalBroadcastManager.getInstance(MainActivity.this).sendBroadcast(showIVButtonIntent);
-                    //SaveImage(bmp,"everything");
-                }
-                bmp.recycle();
-            }
-
+        Bitmap bmp = screen.grabScreen();
+        if (bmp == null) {
+            return;
         }
-    }
 
-    @NonNull
-    private Bitmap getBitmap(ByteBuffer buffer, int pixelStride, int rowPadding) {
-        Bitmap bmp = Bitmap.createBitmap(rawDisplayMetrics.widthPixels + rowPadding / pixelStride, displayMetrics.heightPixels, Bitmap.Config.ARGB_8888);
-        bmp.copyPixelsFromBuffer(buffer);
-        return bmp;
+        if (bmp.getHeight() > bmp.getWidth()) {
+            boolean shouldShow = bmp.getPixel(areaX1, areaY1) == Color.rgb(250, 250, 250) && bmp.getPixel(areaX2, areaY2) == Color.rgb(28, 135, 150);
+            Intent showIVButtonIntent = Pokefly.createIVButtonIntent(shouldShow);
+            LocalBroadcastManager.getInstance(MainActivity.this).sendBroadcast(showIVButtonIntent);
+            //SaveImage(bmp,"everything");
+        }
+        bmp.recycle();
     }
 
     /**

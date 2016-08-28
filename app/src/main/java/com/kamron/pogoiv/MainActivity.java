@@ -588,9 +588,9 @@ public class MainActivity extends AppCompatActivity {
     private void scanPokemon(Bitmap pokemonImage, String filePath) {
         //WARNING: this method *must* always send an intent at the end, no matter what, to avoid the application hanging.
         Intent info = Pokefly.createNoInfoIntent();
-        if (ocr == null){
+        if (ocr == null) {
             Toast.makeText(MainActivity.this, "Screen analysis module not initialized", Toast.LENGTH_LONG).show();
-        }else{
+        } else {
             try {
                 ocr.scanPokemon(pokemonImage, trainerLevel);
                 if (ocr.candyName.equals("") && ocr.pokemonHP == 10 && ocr.pokemonCP == 10) { //the default values for a failed scan, if all three fail, then probably scrolled down.

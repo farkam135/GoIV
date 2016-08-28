@@ -20,7 +20,6 @@ import android.os.IBinder;
 import android.provider.MediaStore;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.LruCache;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -294,7 +293,6 @@ public class Pokefly extends Service {
     }
 
 
-
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (intent != null && intent.hasExtra(KEY_TRAINER_LEVEL)) {
@@ -508,7 +506,7 @@ public class Pokefly extends Service {
         expandedLevelSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean fromUser) {
-                if (fromUser){
+                if (fromUser) {
                     populateAdvancedInformation(IVScanResult.scanContainer.oneScanAgo);
                 }
 
@@ -657,9 +655,9 @@ public class Pokefly extends Service {
     private void populateResultsBox(IVScanResult ivScanResult) {
         populateResultsHeader(ivScanResult);
 
-        if (ivScanResult.getCount()==1){
+        if (ivScanResult.getCount() == 1) {
             populateSingleIVMatch(ivScanResult);
-        }else { // More than a match
+        } else { // More than a match
             populateMultipleIVMatch(ivScanResult);
         }
         setResultScreenPercentageRange(ivScanResult); //color codes the result
@@ -671,6 +669,7 @@ public class Pokefly extends Service {
 
     /**
      * Adjusts the seekbar so minimum is pokemon current level
+     *
      * @param ivScanResult
      */
     private void adjustSeekbarForPokemon(IVScanResult ivScanResult) {
@@ -680,13 +679,14 @@ public class Pokefly extends Service {
 
     /**
      * Shows the "refine by leveling up" part if he previous pokemon could be an upgraded version
+     *
      * @param ivScanResult
      */
     private void populatePrevScanNarrowing(IVScanResult ivScanResult) {
-        if (ivScanResult.canThisScanBePoweredUpPreviousScan()){
+        if (ivScanResult.canThisScanBePoweredUpPreviousScan()) {
             refine_by_last_scan.setVisibility(View.VISIBLE);
             exResPrevScan.setText(String.format(getString(R.string.last_scan), ivScanResult.getPrevScanName()));
-        }else{
+        } else {
             refine_by_last_scan.setVisibility(View.GONE);
         }
 
@@ -694,6 +694,7 @@ public class Pokefly extends Service {
 
     /**
      * shows the name and level of the pokemon in the results dialog
+     *
      * @param ivScanResult
      */
     private void populateResultsHeader(IVScanResult ivScanResult) {
@@ -703,6 +704,7 @@ public class Pokefly extends Service {
 
     /**
      * populates the reuslt screen with the layout as if its multiple results
+     *
      * @param ivScanResult
      */
     private void populateMultipleIVMatch(IVScanResult ivScanResult) {
@@ -723,6 +725,7 @@ public class Pokefly extends Service {
 
     /**
      * adds all options in the all iv possibilities list
+     *
      * @param ivScanResult
      */
     private void populateIVAllPosibilities(IVScanResult ivScanResult) {
@@ -739,26 +742,27 @@ public class Pokefly extends Service {
 
     /**
      * adds a percent data point to the all positilities dialog
+     *
      * @param allIVCombined attack + defence + stamina, max 45
      */
     private void addPercentageToPercentageColumn(int allIVCombined) {
         TextView adder = new TextView(this);
-        int percent = (int)((allIVCombined / 45f)*100);
+        int percent = (int) ((allIVCombined / 45f) * 100);
         adder.setText(percent + "");
         setTextColorbyPercentage(adder, percent);
         allPosPercent.addView(adder);
     }
 
     /**
-     *
      * method for adding an iv data to the all posibilities field, this method adds a single data point to a column
+     *
      * @param column attack / defence / stamina
-     * @param value A value between 0 and 15
+     * @param value  A value between 0 and 15
      */
     private void addIVTextTo(LinearLayout column, int value) {
         TextView adder = new TextView(this);
         adder.setText(value + "");
-        int attackpercent = (int)((value / 15f)*100);
+        int attackpercent = (int) ((value / 15f) * 100);
         setTextColorbyPercentage(adder, attackpercent);
         column.addView(adder);
     }
@@ -766,6 +770,7 @@ public class Pokefly extends Service {
 
     /**
      * populates the result screen with the layout as if it's a single result
+     *
      * @param ivScanResult
      */
     private void populateSingleIVMatch(IVScanResult ivScanResult) {
@@ -776,9 +781,9 @@ public class Pokefly extends Service {
         resultsDefense.setText(String.valueOf(ivScanResult.iVCombinations.get(0).def));
         resultsHP.setText(String.valueOf(ivScanResult.iVCombinations.get(0).sta));
 
-        setTextColorbyPercentage(resultsAttack, (int) Math.round(ivScanResult.iVCombinations.get(0).att*100.0/15));
-        setTextColorbyPercentage(resultsDefense, (int) Math.round(ivScanResult.iVCombinations.get(0).def*100.0/15));
-        setTextColorbyPercentage(resultsHP, (int) Math.round(ivScanResult.iVCombinations.get(0).sta*100.0/15));
+        setTextColorbyPercentage(resultsAttack, (int) Math.round(ivScanResult.iVCombinations.get(0).att * 100.0 / 15));
+        setTextColorbyPercentage(resultsDefense, (int) Math.round(ivScanResult.iVCombinations.get(0).def * 100.0 / 15));
+        setTextColorbyPercentage(resultsHP, (int) Math.round(ivScanResult.iVCombinations.get(0).sta * 100.0 / 15));
 
         llSingleMatch.setVisibility(View.VISIBLE);
         llMultipleIVMatches.setVisibility(View.GONE);
@@ -827,7 +832,7 @@ public class Pokefly extends Service {
 
         UpgradeCost cost = pokeCalculator.getUpgradeCost(goalLevel, estimatedPokemonLevel);
         int evolutionCandyCost = pokeCalculator.getCandyCostForEvolution(ivScanResult.pokemon, selectedPokemon);
-        String candyCostText = cost.candy+evolutionCandyCost + "";
+        String candyCostText = cost.candy + evolutionCandyCost + "";
         exResCandy.setText(candyCostText);
         exResStardust.setText(String.valueOf(cost.dust));
 

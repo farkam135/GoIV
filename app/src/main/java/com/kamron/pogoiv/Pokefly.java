@@ -152,7 +152,24 @@ public class Pokefly extends Service {
     SeekBar expandedLevelSeekbar;
     @BindView(R.id.extendedEvolutionSpinner)
     Spinner extendedEvolutionSpinner;
+    @BindView(R.id.llSingleMatch)
+    LinearLayout llSingleMatch;
+    @BindView(R.id.tvAvgIV)
+    TextView tvAvgIV;
+    @BindView(R.id.resultsAttack)
+    TextView resultsAttack;
+    @BindView(R.id.resultsDefense)
+    TextView resultsDefense;
+    @BindView(R.id.resultsHP)
+    TextView resultsHP;
+    @BindView(R.id.llMaxIV)
+    LinearLayout llMaxIV;
+    @BindView(R.id.llMinIV)
+    LinearLayout llMinIV;
+    @BindView(R.id.llMultipleIVMatches)
+    LinearLayout llMultipleIVMatches;
 
+    // Refine by appraisal
     @BindView(R.id.attCheckbox)
     CheckBox attCheckbox;
     @BindView(R.id.defCheckbox)
@@ -619,19 +636,41 @@ public class Pokefly extends Service {
     private void populateResultsBox(IVScanResult ivScanResult) {
 
         resultsPokemonName.setText(ivScanResult.pokemon.name);
-        if (ivScanResult.tooManyPossibilities) {
-            resultsCombinations.setText(getString(R.string.too_many_iv_combinations));
-        } else {
-            resultsCombinations.setText(String.format(getString(R.string.possible_iv_combinations), ivScanResult.iVCombinations.size()));
-        }
 
+        // Single match
+        // Todo: Refactor this bit to make it cleaner.
+        if (ivScanResult.getCount()==1){
+            llMaxIV.setVisibility(View.GONE);
+            llMinIV.setVisibility(View.GONE);
+            tvAvgIV.setText("IV");
+            resultsAttack.setText(String.valueOf(ivScanResult.iVCombinations.get(0).att));
+            resultsDefense.setText(String.valueOf(ivScanResult.iVCombinations.get(0).def));
+            resultsHP.setText(String.valueOf(ivScanResult.iVCombinations.get(0).sta));
 
-        //TODO: Populate ivText in a better way.
-        String allIvs = "";
-        for (IVCombination ivItem : ivScanResult.iVCombinations) {
-            allIvs += String.format(getString(R.string.ivtext_stats), ivItem.att, ivItem.def, ivItem.sta, ivItem.percentPerfect) + "\n";
+            setTextColorbyPercentage(resultsAttack, (int) Math.round(ivScanResult.iVCombinations.get(0).att*100.0/15));
+            setTextColorbyPercentage(resultsDefense, (int) Math.round(ivScanResult.iVCombinations.get(0).def*100.0/15));
+            setTextColorbyPercentage(resultsHP, (int) Math.round(ivScanResult.iVCombinations.get(0).sta*100.0/15));
+
+            llSingleMatch.setVisibility(View.VISIBLE);
+            llMultipleIVMatches.setVisibility(View.GONE);
+        }else { // More than a match
+            llMaxIV.setVisibility(View.VISIBLE);
+            llMinIV.setVisibility(View.VISIBLE);
+            llSingleMatch.setVisibility(View.GONE);
+            llMultipleIVMatches.setVisibility(View.VISIBLE);
+            tvAvgIV.setText("AVG");
+            if (ivScanResult.tooManyPossibilities) {
+                resultsCombinations.setText(getString(R.string.too_many_iv_combinations));
+            } else {
+                resultsCombinations.setText(String.format(getString(R.string.possible_iv_combinations), ivScanResult.iVCombinations.size()));
+            }
+            //TODO: Populate ivText in a better way.
+            String allIvs = "";
+            for (IVCombination ivItem : ivScanResult.iVCombinations) {
+                allIvs += String.format(getString(R.string.ivtext_stats), ivItem.att, ivItem.def, ivItem.sta, ivItem.percentPerfect) + "\n";
+            }
+            ivText.setText(allIvs);
         }
-        ivText.setText(allIvs);
 
         resultsPokemonLevel.setText(getString(R.string.level) + ": " + ivScanResult.estimatedPokemonLevel);
         setResultScreenPercentageRange(ivScanResult);

@@ -28,8 +28,13 @@ public class PokeInfoCalculator {
         populatePokemon(namesArray, attackArray, defenceArray, staminaArray, devolutionArray, evolutionCandyCostArray);
     }
 
+    /**
+     * returns a pokemon which corresponds to the number sent in
+     * @param number the number which this application internally uses to identify pokkemon
+     * @return The pokemon if valid number, null if no pokemon found.
+     */
     public Pokemon get(int number) {
-        if (number >= 0){
+        if (number >= 0 && number < pokedex.size()){
             return pokedex.get(number);
         }
         return null;

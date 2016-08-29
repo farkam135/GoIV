@@ -49,7 +49,7 @@ public class IVScanResult {
      * @param estimatedPokemonLevel the estimated pokemon level (should be very low)
      * @param b                     true if there are too many possibilities
      */
-    public IVScanResult(Pokemon pokemon, double estimatedPokemonLevel,int pokemonCP, boolean b) {
+    public IVScanResult(Pokemon pokemon, double estimatedPokemonLevel, int pokemonCP, boolean b) {
         this(pokemon, estimatedPokemonLevel, pokemonCP);
         tooManyPossibilities = b;
     }

@@ -64,8 +64,7 @@ public class AppUpdateUtil {
 
                     Intent updateIntent = MainActivity.createUpdateDialogIntent(update);
                     LocalBroadcastManager.getInstance(context).sendBroadcast(updateIntent);
-                }
-                catch (JSONException je) {
+                } catch (JSONException je) {
                     Timber.e("Exception thrown while checking for update");
                     Timber.e(je);
                 }

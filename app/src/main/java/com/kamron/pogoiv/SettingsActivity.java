@@ -41,11 +41,10 @@ public class SettingsActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             AppUpdate update = intent.getParcelableExtra("update");
-            if(update.getStatus() == AppUpdate.UPDATE_AVAILABLE) {
+            if (update.getStatus() == AppUpdate.UPDATE_AVAILABLE) {
                 AlertDialog updateDialog = AppUpdateUtil.getAppUpdateDialog(mContext, update);
                 updateDialog.show();
-            }
-            else if(update.getStatus() == AppUpdate.UP_TO_DATE)
+            } else if (update.getStatus() == AppUpdate.UP_TO_DATE)
                 Toast.makeText(mContext, getResources().getString(R.string.up_to_date), Toast.LENGTH_SHORT).show();
             else
                 Toast.makeText(mContext, getResources().getString(R.string.update_check_failed), Toast.LENGTH_SHORT).show();
@@ -66,12 +65,11 @@ public class SettingsActivity extends AppCompatActivity {
                 checkForUpdatePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                     @Override
                     public boolean onPreferenceClick(Preference preference) {
-                        if(!MainActivity.isGoIVBeingUpdated(getActivity())) {
+                        if (!MainActivity.isGoIVBeingUpdated(getActivity())) {
                             Toast.makeText(getActivity(), getResources().getString(R.string.checking_for_update), Toast.LENGTH_SHORT).show();
                             MainActivity.shouldShowUpdateDialog = false;
                             AppUpdateUtil.checkForUpdate(getActivity());
-                        }
-                        else
+                        } else
                             Toast.makeText(getActivity(), getResources().getString(R.string.ongoing_update), Toast.LENGTH_SHORT).show();
                         return true;
                     }

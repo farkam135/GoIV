@@ -9,7 +9,6 @@ import android.media.ImageReader;
 import android.media.projection.MediaProjection;
 import android.os.Build;
 import android.util.DisplayMetrics;
-import android.widget.Toast;
 
 import java.nio.ByteBuffer;
 

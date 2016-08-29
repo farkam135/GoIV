@@ -10,17 +10,11 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.content.res.AssetManager;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.PixelFormat;
 import android.graphics.Rect;
-import android.hardware.display.DisplayManager;
-import android.media.Image;
-import android.media.ImageReader;
 import android.media.projection.MediaProjection;
 import android.media.projection.MediaProjectionManager;
 import android.net.Uri;
@@ -32,7 +26,6 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.provider.Settings;
-import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
@@ -48,11 +41,8 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.kamron.pogoiv.updater.AppUpdate;
 import com.kamron.pogoiv.updater.AppUpdateUtil;
@@ -60,9 +50,6 @@ import com.kamron.pogoiv.updater.DownloadUpdateService;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 
 import timber.log.Timber;
 
@@ -553,11 +540,11 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             AppUpdate update = intent.getParcelableExtra("update");
-            if(update.getStatus() == AppUpdate.UPDATE_AVAILABLE && shouldShowUpdateDialog && !isGoIVBeingUpdated(context)) {
+            if (update.getStatus() == AppUpdate.UPDATE_AVAILABLE && shouldShowUpdateDialog && !isGoIVBeingUpdated(context)) {
                 AlertDialog updateDialog = AppUpdateUtil.getAppUpdateDialog(mContext, update);
                 updateDialog.show();
             }
-            if(!shouldShowUpdateDialog)
+            if (!shouldShowUpdateDialog)
                 shouldShowUpdateDialog = true;
         }
     };
@@ -570,7 +557,7 @@ public class MainActivity extends AppCompatActivity {
         Cursor c = downloadManager.query(q);
         if (c.moveToFirst()) {
             String fileName = c.getString(c.getColumnIndex(DownloadManager.COLUMN_TITLE));
-            if(fileName.equals(DownloadUpdateService.DOWNLOAD_UPDATE_TITLE))
+            if (fileName.equals(DownloadUpdateService.DOWNLOAD_UPDATE_TITLE))
                 return true;
         }
         return false;

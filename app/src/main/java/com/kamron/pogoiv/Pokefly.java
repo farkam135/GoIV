@@ -904,7 +904,7 @@ public class Pokefly extends Service {
             selectedPokemon = evolutionLine.get(intSelectedPokemon);
         }
 
-        extendedEvolutionSpinner.setEnabled(extendedEvolutionSpinner.getCount()>1);
+        extendedEvolutionSpinner.setEnabled(extendedEvolutionSpinner.getCount() > 1);
 
         CPRange expectedRange = pokeCalculator.getCpRangeAtLevel(selectedPokemon, ivScanResult.lowAttack, ivScanResult.lowDefense, ivScanResult.lowStamina, ivScanResult.highAttack, ivScanResult.highDefense, ivScanResult.highStamina, goalLevel);
         int realCP = ivScanResult.scannedCP;
@@ -982,6 +982,7 @@ public class Pokefly extends Service {
         allPosSta.removeAllViews();
         allPosPercent.removeAllViews();
     }
+
     @OnClick({R.id.btnCancelInfo, R.id.btnCloseInfo})
     /**
      * resets the info dialogue to its default state
@@ -1197,7 +1198,6 @@ public class Pokefly extends Service {
     }
 
 
-
     /**
      * scanPokemon
      * Performs OCR on an image of a pokemon and sends the pulled info to PokeFly to display.
@@ -1302,7 +1302,9 @@ public class Pokefly extends Service {
                 IVButtonShown = false;
             }
         }
-    };
+    }
+
+    ;
 
     private int dpToPx(int dp) {
         return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));

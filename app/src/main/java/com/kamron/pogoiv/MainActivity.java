@@ -152,6 +152,9 @@ public class MainActivity extends AppCompatActivity {
 
         shouldShowUpdateDialog = true;
 
+        if (BuildConfig.isInternetAvailable && settings.isAutoUpdateEnabled())
+            AppUpdateUtil.checkForUpdate(mContext);
+
         setContentView(R.layout.activity_main);
 
         PreferenceManager.setDefaultValues(this, R.xml.settings, false);
@@ -338,8 +341,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         settings = GoIVSettings.getInstance(MainActivity.this);
-        if (BuildConfig.isInternetAvailable && settings.isAutoUpdateEnabled())
-            AppUpdateUtil.checkForUpdate(mContext);
     }
 
     /**

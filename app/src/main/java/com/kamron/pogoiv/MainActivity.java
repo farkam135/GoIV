@@ -82,11 +82,6 @@ public class MainActivity extends AppCompatActivity {
     private static final String PREF_SCREENSHOT_URI = "screenshotUri";
 
     private static final String ACTION_RESET_SCREENSHOT = "reset-screenshot";
-    private static final String ACTION_SCREENSHOT = "screenshot";
-    private static final String ACTION_PROCESS_BITMAP = "process-bitmap";
-
-    private static final String KEY_BITMAP = "bitmap";
-    private static final String KEY_SS_FILE = "ss-file";
 
     private ScreenGrabber screen;
     private ContentObserver screenShotObserver;
@@ -95,8 +90,6 @@ public class MainActivity extends AppCompatActivity {
 
     private DisplayMetrics displayMetrics;
     private DisplayMetrics rawDisplayMetrics;
-
-    private OCRHelper ocr;
 
     private boolean batterySaver;
     private String screenshotDir;
@@ -114,19 +107,8 @@ public class MainActivity extends AppCompatActivity {
     private Context mContext;
     private GoIVSettings settings;
 
-    public static Intent createScreenshotIntent() {
-        return new Intent(ACTION_SCREENSHOT);
-    }
-
     public static Intent createResetScreenshotIntent() {
         return new Intent(ACTION_RESET_SCREENSHOT);
-    }
-
-    public static Intent createProcessBitmapIntent(Bitmap bitmap, String file) {
-        Intent intent = new Intent(ACTION_PROCESS_BITMAP);
-        intent.putExtra(KEY_BITMAP, bitmap);
-        intent.putExtra(KEY_SS_FILE, file);
-        return intent;
     }
 
     @TargetApi(23)
@@ -237,15 +219,12 @@ public class MainActivity extends AppCompatActivity {
 
 
         displayMetrics = this.getResources().getDisplayMetrics();
-        initOCR();
         WindowManager windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
         rawDisplayMetrics = new DisplayMetrics();
         Display disp = windowManager.getDefaultDisplay();
         disp.getRealMetrics(rawDisplayMetrics);
 
         LocalBroadcastManager.getInstance(this).registerReceiver(resetScreenshot, new IntentFilter(ACTION_RESET_SCREENSHOT));
-        LocalBroadcastManager.getInstance(this).registerReceiver(takeScreenshot, new IntentFilter(ACTION_SCREENSHOT));
-        LocalBroadcastManager.getInstance(this).registerReceiver(processBitmap, new IntentFilter(ACTION_PROCESS_BITMAP));
     }
 
     @Override
@@ -401,17 +380,6 @@ public class MainActivity extends AppCompatActivity {
         return "Error while getting version name";
     }
 
-    private void initOCR() {
-        String extdir = getExternalFilesDir(null).toString();
-        if (!new File(extdir + "/tessdata/eng.traineddata").exists()) {
-            copyAssetFolder(getAssets(), "tessdata", extdir + "/tessdata");
-        }
-
-        ocr = OCRHelper.init(extdir, displayMetrics.widthPixels, displayMetrics.heightPixels);
-        ocr.nidoFemale = getResources().getString(R.string.pokemon029);
-        ocr.nidoMale = getResources().getString(R.string.pokemon032);
-    }
-
     /**
      * checkPermissions
      * Checks to see if all runtime permissions are granted,
@@ -451,11 +419,7 @@ public class MainActivity extends AppCompatActivity {
             screenShotScanner = null;
         }
 
-        ocr.exit();
-
         LocalBroadcastManager.getInstance(this).unregisterReceiver(resetScreenshot);
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(takeScreenshot);
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(processBitmap);
         super.onDestroy();
     }
 
@@ -505,45 +469,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
-    }
-
-    /**
-     * takeScreenshot
-     * Called by intent from pokefly, captures the screen and runs it through scanPokemon
-     */
-    private void takeScreenshot() {
-        Bitmap bmp = screen.grabScreen();
-        if (bmp == null) {
-            return;
-        }
-        scanPokemon(bmp, "");
-        bmp.recycle();
-    }
-
-    /**
-     * scanPokemon
-     * Performs OCR on an image of a pokemon and sends the pulled info to PokeFly to display.
-     *
-     * @param pokemonImage The image of the pokemon
-     * @param filePath     The screenshot path if it is a file, used to delete once checked
-     */
-    private void scanPokemon(Bitmap pokemonImage, String filePath) {
-        //WARNING: this method *must* always send an intent at the end, no matter what, to avoid the application hanging.
-        Intent info = Pokefly.createNoInfoIntent();
-        if (ocr == null) {
-            Toast.makeText(MainActivity.this, "Screen analysis module not initialized", Toast.LENGTH_LONG).show();
-        } else {
-            try {
-                ocr.scanPokemon(pokemonImage, trainerLevel);
-                if (ocr.candyName.equals("") && ocr.pokemonHP == 10 && ocr.pokemonCP == 10) { //the default values for a failed scan, if all three fail, then probably scrolled down.
-                    Toast.makeText(MainActivity.this, getString(R.string.scan_pokemon_failed), Toast.LENGTH_SHORT).show();
-                }
-                Pokefly.populateInfoIntent(info, ocr.pokemonName, ocr.candyName, ocr.pokemonHP, ocr.pokemonCP, ocr.estimatedPokemonLevel, filePath);
-            } finally {
-                LocalBroadcastManager.getInstance(MainActivity.this).sendBroadcast(info);
-            }
-        }
-
     }
 
     /**
@@ -597,7 +522,7 @@ public class MainActivity extends AppCompatActivity {
                     File pokemonScreenshot = new File(screenshotDir + File.separator + file);
                     String filepath = pokemonScreenshot.getAbsolutePath();
                     Bitmap bmp = BitmapFactory.decodeFile(filepath);
-                    Intent newintent = MainActivity.createProcessBitmapIntent(bmp, filepath);
+                    Intent newintent = Pokefly.createProcessBitmapIntent(bmp, filepath);
                     LocalBroadcastManager.getInstance(MainActivity.this).sendBroadcast(newintent);
                 }
             }
@@ -623,41 +548,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * takeScreenshot
-     * IV Button was pressed, take screenshot and send back pokemon info.
-     */
-    private final BroadcastReceiver takeScreenshot = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (readyForNewScreenshot) {
-                takeScreenshot();
-                readyForNewScreenshot = false;
-            }
-        }
-    };
-
-
-    /**
-     * A picture was shared and needs to be processed. Process it and initiate UI.
-     * IV Button was pressed, take screenshot and send back pokemon info.
-     */
-    private final BroadcastReceiver processBitmap = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (readyForNewScreenshot) {
-                Bitmap bitmap = (Bitmap) intent.getParcelableExtra(KEY_BITMAP);
-                String ss_file = intent.getStringExtra(KEY_SS_FILE);
-                if (ss_file == null) {
-                    ss_file = "";
-                }
-                scanPokemon(bitmap, ss_file);
-                bitmap.recycle();
-                readyForNewScreenshot = false;
-            }
-        }
-    };
-
-    /**
      * resetScreenshot
      * Used to notify a new request for screenshot can be made. Needed to prevent multiple
      * intents for some devices.
@@ -668,52 +558,5 @@ public class MainActivity extends AppCompatActivity {
             readyForNewScreenshot = true;
         }
     };
-
-    private static boolean copyAssetFolder(AssetManager assetManager, String fromAssetPath, String toPath) {
-
-        String[] files = new String[0];
-
-        try {
-            files = assetManager.list(fromAssetPath);
-        } catch (IOException exception) {
-            Timber.e("Exception thrown in copyAssetFolder()");
-            Timber.e(exception);
-        }
-        new File(toPath).mkdirs();
-        boolean res = true;
-        for (String file : files)
-            if (file.contains(".")) {
-                res &= copyAsset(assetManager, fromAssetPath + "/" + file, toPath + "/" + file);
-            } else {
-                res &= copyAssetFolder(assetManager, fromAssetPath + "/" + file, toPath + "/" + file);
-            }
-        return res;
-
-    }
-
-    private static boolean copyAsset(AssetManager assetManager, String fromAssetPath, String toPath) {
-        try {
-            InputStream in = assetManager.open(fromAssetPath);
-            new File(toPath).createNewFile();
-            OutputStream out = new FileOutputStream(toPath);
-            copyFile(in, out);
-            in.close();
-            out.flush();
-            out.close();
-            return true;
-        } catch (IOException exception) {
-            Timber.e("Exception thrown in copyAsset()");
-            Timber.e(exception);
-            return false;
-        }
-    }
-
-    private static void copyFile(InputStream in, OutputStream out) throws IOException {
-        byte[] buffer = new byte[1024];
-        int read;
-        while ((read = in.read(buffer)) != -1) {
-            out.write(buffer, 0, read);
-        }
-    }
 
 }

@@ -719,6 +719,7 @@ public class Pokefly extends Service {
             resultsCombinations.setText(String.format(getString(R.string.possible_iv_combinations), ivScanResult.iVCombinations.size()));
         }
 
+        clearPossibleIVsDialog();
         populateIVAllPosibilities(ivScanResult);
 
     }
@@ -894,6 +895,13 @@ public class Pokefly extends Service {
         }
     }
 
+    private void clearPossibleIVsDialog() {
+        //clear the all possibilities dialog
+        allPosAtt.removeAllViews();
+        allPosDef.removeAllViews();
+        allPosSta.removeAllViews();
+        allPosPercent.removeAllViews();
+    }
     @OnClick({R.id.btnCancelInfo, R.id.btnCloseInfo})
     /**
      * resets the info dialogue to its default state
@@ -908,11 +916,7 @@ public class Pokefly extends Service {
         defCheckbox.setChecked(false);
         staCheckbox.setChecked(false);
 
-        //clear the all possibilities dialog
-        allPosAtt.removeAllViews();
-        allPosDef.removeAllViews();
-        allPosSta.removeAllViews();
-        allPosPercent.removeAllViews();
+        clearPossibleIVsDialog();
 
         resetPokeflyStateMachine();
         resetInfoDialogue();

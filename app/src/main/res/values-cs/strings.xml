@@ -35,12 +35,12 @@
     <string name="send_crash_reports_setting_title">Zasílat hlášení o pádu</string>
     <string name="send_crash_reports_setting_summary">Chci pomoci vývojářům zlepšit aplikaci zasíláním anonymních informací o pádu aplikace</string>
     <string name="auto_update_setting_title">Automatická aktualizace</string>
-    <string name="auto_update_setting_summary">Automaticky kontrolovat aktualizace při spuštění aplikace</string>
+    <string name="auto_update_setting_summary">Automaticky kontrolovat aktualizace při běhu aplikace</string>
     <string name="check_for_update_setting_title">Zkontrolovat aktualizace</string>
     <string name="check_for_update_setting_summary">Podívat se, jestli je dostupná aktualizace</string>
     <string name="scan_pokemon_failed">Načítání selhalo, prosím odscrolluj nahoru a zkus to znova!</string>
     <string name="see_all">Zobrazit vše</string>
-    <string name="advanced_information">Pokročilé informace</string>
+    <string name="advanced_information">Informace o evolucích a powerupech</string>
     <string name="powerup_calc_instructions">Výpočty powerupů a evolucí - \n Posouvej táhlo levelu pro zobrazení odpovídajících odhadů</string>
     <string name="candy_cost">Cena Candy</string>
     <string name="stardust_cost">Cena Stardust</string>
@@ -58,4 +58,8 @@
     <string name="stamina_hp">HP</string>
     <string name="missing_inputs">Chybějící data. Prosím vyplň vstupy pro CP a HP.</string>
     <string name="ivtext_no_possibilities">Neexistují žádné možné kombinace IV pro tento vstup. Prosím překontroluj informace.</string>
+    <string name="update_check_failed">Nastala chyba při kontrole aktualizací. Prosím zkontroluj své připojení k internetu.</string>
+    <string name="up_to_date">GoIV je aktuální.</string>
+    <string name="checking_for_update">Kontroluji aktualizace...</string>
+    <string name="ongoing_update">Aktualizace pro GoIV se již stahuje.</string>
 </resources>

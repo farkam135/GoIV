@@ -326,17 +326,8 @@
                 android:text="@string/advanced_information"
                 android:layout_gravity="center"
                 android:textSize="18sp"
-                android:clickable="true"/>
-            <TextView
-                android:id="@+id/resultsMoreInformationArrow"
-                android:textColor="@color/colorPrimary"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="▶"
-                android:layout_gravity="center"
-                android:textSize="18sp"
                 android:clickable="true"
-                android:paddingLeft="4dp" />
+                android:drawableRight="@drawable/ic_keyboard_arrow_right_blue_18dp" />
 
         </LinearLayout>
 

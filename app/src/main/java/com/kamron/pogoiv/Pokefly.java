@@ -1,5 +1,7 @@
 package com.kamron.pogoiv;
 
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -16,6 +18,7 @@ import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
@@ -113,6 +116,9 @@ public class Pokefly extends Service {
 
     private PokeInfoCalculator pokeCalculator = null;
 
+    private Drawable arrowDrawable;
+    private Animator arrowAnimator;
+
     @BindView(R.id.tvSeeAllPossibilities)
     TextView seeAllPossibilities;
     @BindView(R.id.spnPokemonName)
@@ -163,8 +169,6 @@ public class Pokefly extends Service {
     TextView exResPrevScan;
     @BindView(R.id.exResCompare)
     TextView exResCompare;
-    @BindView(R.id.resultsMoreInformationArrow)
-    TextView resultsMoreInformationArrow;
     @BindView(R.id.resultsMoreInformationText)
     TextView resultsMoreInformationText;
     @BindView(R.id.expandedLevelSeekbar)
@@ -605,20 +609,24 @@ public class Pokefly extends Service {
             }
 
         });
+
     }
 
 
-    @OnClick({R.id.resultsMoreInformationText, R.id.resultsMoreInformationArrow})
+    @OnClick({R.id.resultsMoreInformationText})
     public void toggleMoreResultsBox() {
         if (expandedResultsBox.getVisibility() == View.VISIBLE) {
             expandedResultsBox.setVisibility(View.GONE);
-            resultsMoreInformationArrow.setText("▶");
+            arrowDrawable = getResources().getDrawable(R.drawable.arrow_collapse);
         } else {
             expandedResultsBox.setVisibility(View.VISIBLE);
-            resultsMoreInformationArrow.setText("▼");
+            arrowDrawable = getResources().getDrawable(R.drawable.arrow_expand);
         }
-
+        resultsMoreInformationText.setCompoundDrawablesWithIntrinsicBounds(null, null, arrowDrawable, null);
+        arrowAnimator = ObjectAnimator.ofInt(arrowDrawable, "level", 0, 10000).setDuration(200);
+        arrowAnimator.start();
     }
+
 
     @OnClick(R.id.btnDecrementLevel)
     public void decrementLevel() {

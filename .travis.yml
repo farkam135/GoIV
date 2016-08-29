@@ -19,6 +19,6 @@ jdk:
   - oraclejdk8
 
 script:
-   - ./gradlew assembleDebug
+   - ./gradlew assembleDebug testOnlineDebugUnitTest testOfflineDebugUnitTest
      # build  # Would try need the online version, that seems to need fabric IDs.
      # connectedCheck # Would try building the release version, that needs certificates

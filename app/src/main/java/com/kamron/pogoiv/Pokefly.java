@@ -14,6 +14,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
+import android.graphics.drawable.RotateDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.IBinder;
@@ -92,6 +93,8 @@ public class Pokefly extends Service {
 
     private PokeInfoCalculator pokeCalculator = null;
 
+    private RotateDrawable arrowRotatable;
+
     @BindView(R.id.tvSeeAllPossibilities)
     TextView seeAllPossibilities;
     @BindView(R.id.spnPokemonName)
@@ -142,8 +145,6 @@ public class Pokefly extends Service {
     TextView exResPrevScan;
     @BindView(R.id.exResCompare)
     TextView exResCompare;
-    @BindView(R.id.resultsMoreInformationArrow)
-    TextView resultsMoreInformationArrow;
     @BindView(R.id.resultsMoreInformationText)
     TextView resultsMoreInformationText;
     @BindView(R.id.expandedLevelSeekbar)
@@ -534,20 +535,25 @@ public class Pokefly extends Service {
             }
 
         });
+
+        arrowRotatable = (RotateDrawable) getResources().getDrawable(R.drawable.arrow_rotate_collapse);
+        resultsMoreInformationText.setCompoundDrawablesWithIntrinsicBounds(null, null, arrowRotatable, null);
     }
 
 
-    @OnClick({R.id.resultsMoreInformationText, R.id.resultsMoreInformationArrow})
+    @OnClick({R.id.resultsMoreInformationText})
     public void toggleMoreResultsBox() {
         if (expandedResultsBox.getVisibility() == View.VISIBLE) {
             expandedResultsBox.setVisibility(View.GONE);
-            resultsMoreInformationArrow.setText("▶");
+            arrowRotatable = (RotateDrawable) getResources().getDrawable(R.drawable.arrow_rotate_collapse);
         } else {
             expandedResultsBox.setVisibility(View.VISIBLE);
-            resultsMoreInformationArrow.setText("▼");
+            arrowRotatable = (RotateDrawable) getResources().getDrawable(R.drawable.arrow_rotate_expand);
         }
-
+        resultsMoreInformationText.setCompoundDrawablesWithIntrinsicBounds(null, null, arrowRotatable, null);
+        arrowRotatable.setLevel(0);
     }
+
 
     @OnClick(R.id.btnDecrementLevel)
     public void decrementLevel() {

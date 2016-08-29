@@ -209,21 +209,17 @@ public class MainActivity extends AppCompatActivity {
 
                     trainerLevel = npTrainerLevel.getValue();
 
-                    if (trainerLevel > 0 && trainerLevel <= 40) {
-                        sharedPref.edit().putInt(PREF_LEVEL, trainerLevel).apply();
-                        setupArcPoints();
+                    sharedPref.edit().putInt(PREF_LEVEL, trainerLevel).apply();
+                    setupArcPoints();
 
-                        if (batterySaver) {
-                            if (!screenshotDir.isEmpty()) {
-                                startScreenshotService();
-                            } else {
-                                getScreenshotDir();
-                            }
+                    if (batterySaver) {
+                        if (!screenshotDir.isEmpty()) {
+                            startScreenshotService();
                         } else {
-                            startScreenService();
+                            getScreenshotDir();
                         }
                     } else {
-                        Toast.makeText(MainActivity.this, getString(R.string.main_invalide_trainerlvl), Toast.LENGTH_SHORT).show();
+                        startScreenService();
                     }
                 } else if (((Button) v).getText().toString().equals(getString(R.string.main_stop))) {
                     stopService(new Intent(MainActivity.this, Pokefly.class));

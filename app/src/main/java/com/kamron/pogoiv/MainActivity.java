@@ -595,9 +595,10 @@ public class MainActivity extends AppCompatActivity {
                 if (readyForNewScreenshot && file != null) {
                     readyForNewScreenshot = false;
                     File pokemonScreenshot = new File(screenshotDir + File.separator + file);
-                    Bitmap bmp = BitmapFactory.decodeFile(pokemonScreenshot.getAbsolutePath());
-                    scanPokemon(bmp, pokemonScreenshot.getAbsolutePath());
-                    bmp.recycle();
+                    String filepath = pokemonScreenshot.getAbsolutePath();
+                    Bitmap bmp = BitmapFactory.decodeFile(filepath);
+                    Intent newintent = MainActivity.createProcessBitmapIntent(bmp, filepath);
+                    LocalBroadcastManager.getInstance(MainActivity.this).sendBroadcast(newintent);
                 }
             }
         };

@@ -1304,8 +1304,6 @@ public class Pokefly extends Service {
         }
     }
 
-    ;
-
     private int dpToPx(int dp) {
         return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
     }

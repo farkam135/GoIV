@@ -144,6 +144,10 @@ public class Pokefly extends Service {
     @BindView(R.id.allPossibilitiesBox)
     LinearLayout allPossibilitiesBox;
 
+
+    @BindView(R.id.appraisalBox)
+    LinearLayout appraisalBox;
+
     // Result data
     @BindView(R.id.resultsMinPercentage)
     TextView resultsMinPercentage;
@@ -193,6 +197,9 @@ public class Pokefly extends Service {
     LinearLayout llMultipleIVMatches;
     @BindView(R.id.refine_by_last_scan)
     LinearLayout refine_by_last_scan;
+
+    @BindView(R.id.inputAppraisalExpandBox)
+    TextView inputAppraisalExpandBox;
 
 
     @BindView(R.id.allPosAtt)
@@ -627,6 +634,16 @@ public class Pokefly extends Service {
         arrowAnimator.start();
     }
 
+
+
+    @OnClick({R.id.inputAppraisalExpandBox})
+    public void toggleAppraisalBox() {
+        if (appraisalBox.getVisibility() == View.VISIBLE) {
+            appraisalBox.setVisibility(View.GONE);
+        } else {
+            appraisalBox.setVisibility(View.VISIBLE);
+        }
+    }
 
     @OnClick(R.id.btnDecrementLevel)
     public void decrementLevel() {

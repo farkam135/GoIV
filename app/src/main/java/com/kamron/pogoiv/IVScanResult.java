@@ -150,13 +150,13 @@ public class IVScanResult {
             Pokemon p1 = scanContainer.oneScanAgo.pokemon;
             Pokemon p2 = scanContainer.twoScanAgo.pokemon;
 
-            boolean pokemonHasLeveledUp =p1scan.estimatedPokemonLevel > p2scan.estimatedPokemonLevel;
+            boolean pokemonHasLeveledUp = p1scan.estimatedPokemonLevel > p2scan.estimatedPokemonLevel;
             boolean isEvolved = p1.isInNextEvolution(p2);
 
             boolean somethingImproved = (pokemonHasLeveledUp || isEvolved);
             boolean isSameOrHigherLevel = (p1scan.estimatedPokemonLevel >= p2scan.estimatedPokemonLevel);
             boolean isSameOrHigherEvolution = (p1.number == p2.number || p1.isInNextEvolution(p2));
-            return  somethingImproved && isSameOrHigherLevel && isSameOrHigherEvolution;
+            return somethingImproved && isSameOrHigherLevel && isSameOrHigherEvolution;
         }
 
         return false;

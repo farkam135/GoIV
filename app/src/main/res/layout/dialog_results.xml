@@ -332,7 +332,7 @@
                 android:textColor="@color/colorPrimary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="▼"
+                android:text="▶"
                 android:layout_gravity="center"
                 android:textSize="18sp"
                 android:clickable="true"
@@ -343,6 +343,7 @@
 
         <include layout="@layout/expanded_results_box"
             android:id="@+id/expandedResultsBox"
+            android:visibility="gone"
         />
 
     </LinearLayout>

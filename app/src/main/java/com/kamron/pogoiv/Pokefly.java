@@ -54,15 +54,12 @@ import butterknife.OnClick;
 
 public class Pokefly extends Service {
 
-    private static final String ACTION_DISPLAY_IV_BUTTON = "action_display_iv_button";
     private static final String ACTION_SEND_INFO = "action_send_info";
 
     private static final String KEY_TRAINER_LEVEL = "key_trainer_level";
     private static final String KEY_STATUS_BAR_HEIGHT = "key_status_bar_height";
     private static final String KEY_BATTERY_SAVER = "key_battery_saver";
     private static final String KEY_SCREENSHOT_URI = "key_screenshot_uri";
-
-    private static final String KEY_DISPLAY_IV_BUTTON_SHOW = "key_send_info_show";
 
     private static final String KEY_SEND_INFO_NAME = "key_send_info_name";
     private static final String KEY_SEND_INFO_CANDY = "key_send_info_candy";
@@ -250,12 +247,6 @@ public class Pokefly extends Service {
         return intent;
     }
 
-    public static Intent createIVButtonIntent(boolean shouldShow) {
-        Intent intent = new Intent(ACTION_DISPLAY_IV_BUTTON);
-        intent.putExtra(KEY_DISPLAY_IV_BUTTON_SHOW, shouldShow);
-        return intent;
-    }
-
     public static Intent createNoInfoIntent() {
         return new Intent(ACTION_SEND_INFO);
     }
@@ -287,7 +278,6 @@ public class Pokefly extends Service {
         //System.out.println("New Device:" + displayMetrics.widthPixels + "," + displayMetrics.heightPixels + "," + displayMetrics.densityDpi + "," + displayMetrics.density);
 
         LocalBroadcastManager.getInstance(this).registerReceiver(displayInfo, new IntentFilter(ACTION_SEND_INFO));
-        LocalBroadcastManager.getInstance(this).registerReceiver(setIVButtonDisplay, new IntentFilter(ACTION_DISPLAY_IV_BUTTON));
         pokeCalculator = new PokeInfoCalculator(
                 getResources().getStringArray(R.array.Pokemon),
                 getResources().getIntArray(R.array.attack),
@@ -363,11 +353,7 @@ public class Pokefly extends Service {
 
         if (bmp.getHeight() > bmp.getWidth()) {
             boolean shouldShow = bmp.getPixel(areaX1, areaY1) == Color.rgb(250, 250, 250) && bmp.getPixel(areaX2, areaY2) == Color.rgb(28, 135, 150);
-            Intent showIVButtonIntent = Pokefly.createIVButtonIntent(shouldShow);
-            /* We still need an Intent here because this is executing in the timer Thread context.
-             * Not sure we can create UI from timer threads */
-            LocalBroadcastManager.getInstance(Pokefly.this).sendBroadcast(showIVButtonIntent);
-            //SaveImage(bmp,"everything");
+            setIVButtonDisplay(shouldShow);
         }
         bmp.recycle();
     }
@@ -400,7 +386,6 @@ public class Pokefly extends Service {
         hideInfoLayoutArcPointer();
         stopForeground(true);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(displayInfo);
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(setIVButtonDisplay);
     }
 
     /**
@@ -1204,18 +1189,14 @@ public class Pokefly extends Service {
      * Receiver called from MainActivity. Tells Pokefly to either show the IV Button (if on poke) or
      * hide the IV Button.
      */
-    private BroadcastReceiver setIVButtonDisplay = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            boolean show = intent.getBooleanExtra(KEY_DISPLAY_IV_BUTTON_SHOW, false);
-            if (show && !IVButtonShown && !infoShownSent) {
-                windowManager.addView(IVButton, IVButonParams);
-                IVButtonShown = true;
-            } else if (!show) {
-                if (IVButtonShown) {
-                    windowManager.removeView(IVButton);
-                    IVButtonShown = false;
-                }
+    private void setIVButtonDisplay(boolean show) {
+        if (show && !IVButtonShown && !infoShownSent) {
+            windowManager.addView(IVButton, IVButonParams);
+            IVButtonShown = true;
+        } else if (!show) {
+            if (IVButtonShown) {
+                windowManager.removeView(IVButton);
+                IVButtonShown = false;
             }
         }
     };

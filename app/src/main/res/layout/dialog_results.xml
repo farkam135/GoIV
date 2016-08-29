@@ -32,14 +32,7 @@
             android:text="@string/level"
             android:layout_marginLeft="5sp"/>
 
-        <AutoCompleteTextView
-            android:id="@+id/autoCompleteTextView1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="65dp"
-            android:ems="10" ></AutoCompleteTextView>
+
 
     </LinearLayout>
 

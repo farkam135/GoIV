@@ -38,6 +38,7 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -221,6 +222,10 @@ public class Pokefly extends Service {
     //results pokemon picker auto complete
     @BindView(R.id.autoCompleteTextView1)
     AutoCompleteTextView autoCompleteTextView1;
+
+    @BindView(R.id.pokePickerToggleSpinnerVsInput)
+    Button pokePickerToggleSpinnerVsInput;
+
 
 
     private String pokemonName;
@@ -586,6 +591,8 @@ public class Pokefly extends Service {
         pokeAdapter = new PokemonSpinnerAdapter(this, R.layout.spinner_pokemon, pokeCalculator.pokedex);
         pokemonList.setAdapter(pokeAdapter);
 
+        initializePokemonAutoCompleteTextView();
+
         pokeEvolutionAdapter = new PokemonSpinnerAdapter(this, R.layout.spinner_evolution, new ArrayList<Pokemon>());
         extendedEvolutionSpinner.setAdapter(pokeEvolutionAdapter);
 
@@ -630,6 +637,16 @@ public class Pokefly extends Service {
 
     }
 
+    @OnClick({R.id.pokePickerToggleSpinnerVsInput})
+    public void toggleSpinnerVsInput(){
+        if (autoCompleteTextView1.getVisibility()==View.GONE){
+            autoCompleteTextView1.setVisibility(View.VISIBLE);
+            pokemonList.setVisibility(View.GONE);
+        }else{
+            autoCompleteTextView1.setVisibility(View.GONE);
+            pokemonList.setVisibility(View.VISIBLE);
+        }
+    }
 
     @OnClick({R.id.resultsMoreInformationText})
     public void toggleMoreResultsBox() {
@@ -747,15 +764,21 @@ public class Pokefly extends Service {
     }
 
     /**
-     * Sets all the information in the result box
+     * Initialises the autocompletetextview which allows people to search for pokemon names
      */
-    private void populateResultsBox(IVScanResult ivScanResult) {
-        populateResultsHeader(ivScanResult);
-        //TODO fix better positioning
+    private void initializePokemonAutoCompleteTextView(){
         String[] pokeList = getResources().getStringArray(R.array.Pokemon);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.autocomplete_pokemon_list_item, pokeList);
         autoCompleteTextView1.setAdapter(adapter);
         autoCompleteTextView1.setThreshold(1);
+    }
+
+    /**
+     * Sets all the information in the result box
+     */
+    private void populateResultsBox(IVScanResult ivScanResult) {
+        populateResultsHeader(ivScanResult);
+
 
         if (ivScanResult.getCount() == 1) {
             populateSingleIVMatch(ivScanResult);
@@ -1054,6 +1077,8 @@ public class Pokefly extends Service {
             }
 
             pokemonList.setSelection(possiblePoke[0]);
+            pokeAdapter.updatePokemonList(pokeCalculator.getEvolutionLine(pokeCalculator.get(possiblePoke[0]))); //TODO should just be settting pokeadapter to scanned candy poke evolution chain
+
             pokemonHPEdit.setText(String.valueOf(pokemonHP));
             pokemonCPEdit.setText(String.valueOf(pokemonCP));
 

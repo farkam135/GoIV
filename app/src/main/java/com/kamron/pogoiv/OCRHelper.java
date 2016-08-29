@@ -38,6 +38,7 @@ public class OCRHelper {
     private OCRHelper(String dataPath, int widthPixels, int heightPixels) {
         tesseract = new TessBaseAPI();
         tesseract.init(dataPath, "eng");
+        tesseract.setPageSegMode(TessBaseAPI.PageSegMode.PSM_SINGLE_LINE);
         tesseract.setVariable(TessBaseAPI.VAR_CHAR_WHITELIST, "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789/♀♂");
         this.heightPixels = heightPixels;
         this.widthPixels = widthPixels;
@@ -63,6 +64,7 @@ public class OCRHelper {
             tesseract.stop();
             tesseract.end();
             tesseract = null;
+            instance = null;
         } else {
             Timber.e("Avoided NPE on OCRHelper.exit()");
             //The exception is to ensure we get a stack trace. It's not thrown.

@@ -11,11 +11,10 @@
     <string name="main_invalide_trainerlvl">Neplatný level trenéra!</string>
     <string name="notification_title">GoIV běží - Level %1$s</string>
     <string name="notification_text">Klikni pro otevření</string>
-    <string name="ivtext_no_possibilities">Žádné možnosti, prosím zkontroluj znova své staty!</string>
     <string name="ivtext_stats">Útok: %1$02d Obrana: %2$02d Stamina: %3$02d — %4$3d%%</string>
     <string name="close">Zavřít</string>
 	<string name="main_permission">Udělit povolení</string>
-    <string name="battery_saver_setup">Nastevení spořiče baterky</string>
+    <string name="battery_saver_setup">Nastavení spořiče baterky</string>
     <string name="battery_saver_instructions">Nemohu najít tvůj adresář se screenshoty. Abys pomohl GoIV najít svůj adresář se screenshoty, prosím následuj tyto kroky:\n1.Zmáčkni \'Setup\' na tomto dialogu\n2.Udělej screenshot\n3.Počkej na zpracování.</string>
     <string name="take_screenshot">Udělej screenshot</string>
     <string name="screenshot_dir_found">Adresář se screenshoty nastaven:\n%1$s</string>
@@ -36,12 +35,12 @@
     <string name="send_crash_reports_setting_title">Zasílat hlášení o pádu</string>
     <string name="send_crash_reports_setting_summary">Chci pomoci vývojářům zlepšit aplikaci zasíláním anonymních informací o pádu aplikace</string>
     <string name="auto_update_setting_title">Automatická aktualizace</string>
-    <string name="auto_update_setting_summary">Automaticky kontrolovat aktualizace při spuštění aplikace</string>
+    <string name="auto_update_setting_summary">Automaticky kontrolovat aktualizace při běhu aplikace</string>
     <string name="check_for_update_setting_title">Zkontrolovat aktualizace</string>
     <string name="check_for_update_setting_summary">Podívat se, jestli je dostupná aktualizace</string>
     <string name="scan_pokemon_failed">Načítání selhalo, prosím odscrolluj nahoru a zkus to znova!</string>
     <string name="see_all">Zobrazit vše</string>
-    <string name="advanced_information">Pokročilé informace</string>
+    <string name="advanced_information">Informace o evolucích a powerupech</string>
     <string name="powerup_calc_instructions">Výpočty powerupů a evolucí - \n Posouvej táhlo levelu pro zobrazení odpovídajících odhadů</string>
     <string name="candy_cost">Cena Candy</string>
     <string name="stardust_cost">Cena Stardust</string>
@@ -51,9 +50,16 @@
     <string name="refine_no_progress">Zlepšení nebylo úspěšné</string>
     <string name="last_scan">Předchozí načtení: %1$s</string>
     <string name="possible_iv_combinations">"%1$d Možné kombinace IV"</string>
+    <string name="too_many_iv_combinations">Příliš mnoho kombinací IV</string>
     <string name="refining_instructions">Zlepši přesnost výpočtu IV powerupováním a porovnáním dvou načtení stejného Pokémona</string>
     <string name="appraisal_narrowing">Zpřesnění díky Appraisal (volitelné)</string>
     <string name="attack">Útok</string>
     <string name="defense">Obrana</string>
     <string name="stamina_hp">HP</string>
+    <string name="missing_inputs">Chybějící data. Prosím vyplň vstupy pro CP a HP.</string>
+    <string name="ivtext_no_possibilities">Neexistují žádné možné kombinace IV pro tento vstup. Prosím překontroluj informace.</string>
+    <string name="update_check_failed">Nastala chyba při kontrole aktualizací. Prosím zkontroluj své připojení k internetu.</string>
+    <string name="up_to_date">GoIV je aktuální.</string>
+    <string name="checking_for_update">Kontroluji aktualizace...</string>
+    <string name="ongoing_update">Aktualizace pro GoIV se již stahuje.</string>
 </resources>

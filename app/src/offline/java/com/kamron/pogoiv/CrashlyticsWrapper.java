@@ -12,9 +12,11 @@ public class CrashlyticsWrapper {
 
     public static class CrashReportingTree extends Timber.Tree {
 
-        public CrashReportingTree(Context context) { }
+        public CrashReportingTree(Context context) {
+        }
 
-        @Override protected void log(int priority, String tag, String message, Throwable t) {
+        @Override
+        protected void log(int priority, String tag, String message, Throwable t) {
             // there is no logging of crash reports in offline builds
         }
     }

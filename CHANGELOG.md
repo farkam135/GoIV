@@ -1,5 +1,16 @@
 # Changelog
 
+## 3.0.1
+
+### Bug fixes
+* Fixed CP estimate calculations
+* Improved arc detection
+* Fixed candy detection for French/Spanish/Italian
+* Theming improvements (this includes the invisible checkboxes fix)
+* Fixed crashes at app shutdown
+
+---
+
 ## 3.0.0
 
 ### New Features

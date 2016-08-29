@@ -20,8 +20,9 @@ public class Pokemon {
     public final int baseDefense;
     public final int baseStamina;
     public final int devoNumber;
+    public final int candyEvolutionCost;
 
-    public Pokemon(String name, int number, int baseAttack, int baseDefense, int baseStamina, int devoNumber) {
+    public Pokemon(String name, int number, int baseAttack, int baseDefense, int baseStamina, int devoNumber, int candyEvolutionCost) {
         this.name = name;
         this.number = number;
         this.baseAttack = baseAttack;
@@ -29,17 +30,12 @@ public class Pokemon {
         this.baseStamina = baseStamina;
         this.devoNumber = devoNumber;
         this.evolutions = new ArrayList<>();
+        this.candyEvolutionCost = candyEvolutionCost;
     }
 
     @Override
     public String toString() {
         return name;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        int difference = Data.levenshteinDistance((CharSequence) o, name);
-        return difference < 2;
     }
 
     public int getDistanceCaseInsensitive(String rhs) {

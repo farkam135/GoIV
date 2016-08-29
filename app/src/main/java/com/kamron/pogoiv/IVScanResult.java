@@ -17,6 +17,7 @@ public class IVScanResult {
     public int highAttack = 0;
     public int highDefense = 0;
     public int highStamina = 0;
+    public int scannedCP;
     public boolean tooManyPossibilities = false; //flag that gets set to true if user tries to scan 10 hp 10 cp pokemon
     public ArrayList<IVCombination> iVCombinations = new ArrayList<>();
     public static ScanContainer scanContainer = new ScanContainer();
@@ -28,15 +29,17 @@ public class IVScanResult {
      * The object contains:
      * count - the amount of IV combinations the pokemon has
      * highpercent: Best case iv%
+     * scannedCP: the cp scanned from the image
      * getAveragePercent: returns the average IV% of all alternativs
      * lowPercent: worst case IV%
      * low attack,defence,stamina - the value for the IV stat where the lowest % was found
      * high attack,defence,stamina - the value for hte IV stat where the highest % was found
      */
-    public IVScanResult(Pokemon pokemon, double estimatedPokemonLevel) {
+    public IVScanResult(Pokemon pokemon, double estimatedPokemonLevel, int pokemonCP) {
         scanContainer.addNewScan(this);
         this.pokemon = pokemon;
         this.estimatedPokemonLevel = estimatedPokemonLevel;
+        this.scannedCP = pokemonCP;
     }
 
     /**
@@ -46,8 +49,8 @@ public class IVScanResult {
      * @param estimatedPokemonLevel the estimated pokemon level (should be very low)
      * @param b                     true if there are too many possibilities
      */
-    public IVScanResult(Pokemon pokemon, double estimatedPokemonLevel, boolean b) {
-        this(pokemon, estimatedPokemonLevel);
+    public IVScanResult(Pokemon pokemon, double estimatedPokemonLevel, int pokemonCP, boolean b) {
+        this(pokemon, estimatedPokemonLevel, pokemonCP);
         tooManyPossibilities = b;
     }
 
@@ -138,11 +141,11 @@ public class IVScanResult {
 
     /**
      * Checks if the previous scanned pokemon can be the same pokemon as the one scanned 2 scans ago
-     * checks if newer scan has same or higher level, and same or better evolution. (because pokemon cant de-level or devolve)
+     * checks if newer scan has higher level, and same or next evolution. (because pokemon cant de-level or devolve)
      *
      * @return true if the pokemon can be same
      */
-    public boolean are2LastScannedPokemonSame() {
+    public boolean canThisScanBePoweredUpPreviousScan() {
 
         IVScanResult p1scan = scanContainer.oneScanAgo;
         IVScanResult p2scan = scanContainer.twoScanAgo;
@@ -150,11 +153,13 @@ public class IVScanResult {
             Pokemon p1 = scanContainer.oneScanAgo.pokemon;
             Pokemon p2 = scanContainer.twoScanAgo.pokemon;
 
-            if (p1scan.estimatedPokemonLevel >= p2scan.estimatedPokemonLevel) { //later scan must have higher or same level
-                if (p1.number == p2.number || p1.isInNextEvolution(p2)) { // either same species, or 2 scans ago is an evolution of previous scan
-                    return true;
-                }
-            }
+            boolean pokemonHasLeveledUp = p1scan.estimatedPokemonLevel > p2scan.estimatedPokemonLevel;
+            boolean isEvolved = p1.isInNextEvolution(p2);
+
+            boolean somethingImproved = (pokemonHasLeveledUp || isEvolved);
+            boolean isSameOrHigherLevel = (p1scan.estimatedPokemonLevel >= p2scan.estimatedPokemonLevel);
+            boolean isSameOrHigherEvolution = (p1.number == p2.number || p1.isInNextEvolution(p2));
+            return somethingImproved && isSameOrHigherLevel && isSameOrHigherEvolution;
         }
 
         return false;

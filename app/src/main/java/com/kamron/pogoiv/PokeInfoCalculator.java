@@ -24,12 +24,21 @@ public class PokeInfoCalculator {
      * @param staminaArray    array of all pokemon base stam stat
      * @param devolutionArray array of what the pokemon evolved from, -1 if no devolution
      */
-    public PokeInfoCalculator(String[] namesArray, int[] attackArray, int[] defenceArray, int[] staminaArray, int[] devolutionArray) {
-        populatePokemon(namesArray, attackArray, defenceArray, staminaArray, devolutionArray);
+    public PokeInfoCalculator(String[] namesArray, int[] attackArray, int[] defenceArray, int[] staminaArray, int[] devolutionArray, int[] evolutionCandyCostArray) {
+        populatePokemon(namesArray, attackArray, defenceArray, staminaArray, devolutionArray, evolutionCandyCostArray);
     }
 
+    /**
+     * returns a pokemon which corresponds to the number sent in
+     *
+     * @param number the number which this application internally uses to identify pokkemon
+     * @return The pokemon if valid number, null if no pokemon found.
+     */
     public Pokemon get(int number) {
-        return pokedex.get(number);
+        if (number >= 0 && number < pokedex.size()) {
+            return pokedex.get(number);
+        }
+        return null;
     }
 
     public Pokemon get(String name) {
@@ -40,13 +49,13 @@ public class PokeInfoCalculator {
      * Fills the list "pokemon" with the information of all pokemon by reading the
      * arrays in integers.xml and the names from the strings.xml resources.
      */
-    private void populatePokemon(String[] names, int[] attack, int[] defense, int[] stamina, int[] devolution) {
+    private void populatePokemon(String[] names, int[] attack, int[] defense, int[] stamina, int[] devolution, int[] evolutionCandyCost) {
         pokedex = new ArrayList<>();
         pokemap = new HashMap<>();
 
         int pokeListSize = names.length;
         for (int i = 0; i <= pokeListSize - 1; i++) {
-            Pokemon p = new Pokemon(names[i], i, attack[i], defense[i], stamina[i], devolution[i]);
+            Pokemon p = new Pokemon(names[i], i, attack[i], defense[i], stamina[i], devolution[i], evolutionCandyCost[i]);
             pokedex.add(p);
             pokemap.put(names[i].toLowerCase(), p);
         }
@@ -108,11 +117,26 @@ public class PokeInfoCalculator {
             } else if (estimatedPokemonLevel > 10.5 && estimatedPokemonLevel <= 20.5) {
                 neededCandy += 2;
                 neededStarDust += 1000 + (rank * 300);
-            } else if (estimatedPokemonLevel > 20.5 && estimatedPokemonLevel <= 30.5) {
+            } else if (estimatedPokemonLevel > 20.5 && estimatedPokemonLevel <= 25.5) {
                 neededCandy += 3;
                 neededStarDust += 2500 + (rank * 500);
-            } else if (estimatedPokemonLevel > 30.5) {
+            } else if (estimatedPokemonLevel > 25.5 && estimatedPokemonLevel <= 30.5) {
                 neededCandy += 4;
+                neededStarDust += 2500 + (rank * 500);
+            } else if (estimatedPokemonLevel > 30.5 && estimatedPokemonLevel <= 32.5) {
+                neededCandy += 6;
+                neededStarDust += 5000 + (rank * 1000);
+            } else if (estimatedPokemonLevel > 32.5 && estimatedPokemonLevel <= 34.5) {
+                neededCandy += 8;
+                neededStarDust += 5000 + (rank * 1000);
+            } else if (estimatedPokemonLevel > 34.5 && estimatedPokemonLevel <= 36.5) {
+                neededCandy += 10;
+                neededStarDust += 5000 + (rank * 1000);
+            } else if (estimatedPokemonLevel > 36.5 && estimatedPokemonLevel <= 38.5) {
+                neededCandy += 12;
+                neededStarDust += 5000 + (rank * 1000);
+            } else if (estimatedPokemonLevel > 38.5) {
+                neededCandy += 15;
                 neededStarDust += 5000 + (rank * 1000);
             }
 
@@ -123,8 +147,8 @@ public class PokeInfoCalculator {
 
 
     /**
-     * Adds rows with IV information (up to 8) in hte returnVal input string, and gives an IVscanResult object
-     * with information about the pokemon
+     * Calculates all the IV information that can be gained from the pokemon level, hp and cp
+     * and fills the information in an IVScanResult, which is returned.
      *
      * @param estimatedPokemonLevel The estimated pokemon level
      * @param pokemonHP             THe pokemon hp
@@ -146,7 +170,7 @@ public class PokeInfoCalculator {
 
         //It's safe to proceed if *one* is not 10, though it takes a bit longer.
         if (pokemonHP != 10 || pokemonCP != 10) {
-            IVScanResult returner = new IVScanResult(get(selectedPokemon), estimatedPokemonLevel);
+            IVScanResult returner = new IVScanResult(get(selectedPokemon), estimatedPokemonLevel, pokemonCP);
             for (int staminaIV = 0; staminaIV < 16; staminaIV++) {
                 int hp = (int) Math.max(Math.floor((baseStamina + staminaIV) * lvlScalar), 10);
                 if (hp == pokemonHP) {
@@ -167,7 +191,7 @@ public class PokeInfoCalculator {
             }
             return returner;
         } else {
-            return new IVScanResult(get(selectedPokemon), estimatedPokemonLevel, true);
+            return new IVScanResult(get(selectedPokemon), estimatedPokemonLevel, pokemonCP, true);
 
         }
     }
@@ -206,6 +230,50 @@ public class PokeInfoCalculator {
     }
 
     /**
+     * Get the combined cost for evolving all steps between two pokemon, for example the cost from caterpie -> metapod is 12,
+     * caterpie -> butterfly is 12+50 = 62
+     *
+     * @param start which pokemon to start from
+     * @param end   the end evolution
+     * @return the combined candy cost for all required evolutions
+     */
+    public int getCandyCostForEvolution(Pokemon start, Pokemon end) {
+        Pokemon devolution = get(end.devoNumber);
+        Pokemon dedevolution = null;
+        if (devolution != null) { //devolution must exist for there to be a devolution of the devolution
+            dedevolution = get(devolution.devoNumber);
+        }
+
+        boolean isEndReallyAfterStart = (devolution == start) || dedevolution == start; //end must be devolution or devolution of devolution of start
+        int cost = 0;
+        if (isInSameEvolutionChain(start, end) && isEndReallyAfterStart) {
+            while (start != end) { //move backwards from end until you've reached start
+                Pokemon beforeEnd = get(end.devoNumber);
+                cost += beforeEnd.candyEvolutionCost;
+                end = beforeEnd;
+            }
+        }
+        return cost;
+    }
+
+    /**
+     * Check if two pokemon are in the same complete evolution chain. Jolteon and vaporeon would return true
+     *
+     * @param p1 first pokemon
+     * @param p2 second pokemon
+     * @return true if both pokemon are in the same pokemon evolution tree
+     */
+    public boolean isInSameEvolutionChain(Pokemon p1, Pokemon p2) {
+        ArrayList<Pokemon> evolutionLine = getEvolutionLine(p1);
+        for (Pokemon poke : evolutionLine) {
+            if (poke.number == p2.number) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * get the lowest evolution in the chain of a pokemon
      *
      * @param poke a pokemon, example charizard
@@ -222,9 +290,9 @@ public class PokeInfoCalculator {
     }
 
     /**
-     * returns the higher evolutions of a pokemon plus itself
+     * returns the evolution line of a pokemon
      *
-     * @param poke the pokemon to return itself and higher evolutions of itself
+     * @param poke the pokemon to check the evolution line of
      * @return a list with pokemon, input pokemon plus its evolutions
      */
     public ArrayList<Pokemon> getEvolutionLine(Pokemon poke) {
@@ -239,5 +307,6 @@ public class PokeInfoCalculator {
 
         return list;
     }
+
 
 }

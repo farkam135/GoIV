@@ -20,24 +20,24 @@ GoIV is an android app made for Pokémon GO that allows users to seamlessly calc
 ![Alt text](https://i.imgur.com/xXr9zzK.jpg "Advanced Information in Results Popup")
 
 ## Download
-### Latest Version: 3.0.0
+### Latest Version: 3.0.1
 **[Read the changelog](CHANGELOG.md)**
 
 #### GoIV (Online)
-**[Download GoIV (Online) APK](https://github.com/farkam135/GoIV/releases)**  
+**[Download GoIV (Online) APK](https://github.com/farkam135/GoIV/releases/latest)**  
 
 **Checksums:**  
-MD5 - 747F3A9B8B0FA40654962D1BCB2396DB  
-SHA1 - 6DF8E54D48C43A7937076158F07316E2D80E09E7  
-SHA-256 - DAE8235F69F25D03EF31539541247DBCDB586B93E8BEB45AD1D89B8EC97B4AB0  
+MD5 - F45110C452B43813D5185E3DDFDE8603  
+SHA1 - C688462C15F232EE3C0472E00F77647D866FF975  
+SHA-256 - BEF0F40BB711171214C4E641DE4243C3D0FCA288149D468F95850E7960E59B64  
 
 #### GoIV (Offline)
-**[Download GoIV (Offline) APK](https://www.reddit.com/r/GoIV/comments/4ztkct/version_300_released/)**
+**[Download GoIV (Offline) APK](https://www.reddit.com/r/GoIV/comments/4zvnvh/version_301_hotfix_released/)**
 
 **Checksums:**  
-MD5 - 0B0BB2E164235B5746F32956A9156D01  
-SHA1 - EB0B271210F68D9479B2276520A7090DFCF5F9D5  
-SHA-256 - 14916EC7D9902B3672A506E1E659AFEEDAA56E3548CCCB2D0C708830CE082E03  
+MD5 - 9159BADD0CB4CB29E6D10A6F098D3D3D  
+SHA1 - 09A5D65B4D4EF6B92FCF6477B31B9D2E54850673  
+SHA-256 - 86859CCFED659FEF2EC6EE91C8454BE2F5B75C1FCB89AE9310AF2567647F73FE  
 
 ## FAQ
 - [Is there an iOS version?](#is-there-an-ios-version)
@@ -82,7 +82,7 @@ It is *possible*, but we don't think it will happen. Niantic could alter their a
 Individual Values or IVs are stats that determine how much **extra** power a Pokémon has in addition to the baseline (0% IV). IVs consists of Attack (affects damage of moves), Defense (affects amount of damage received) and Stamina (affects the amount of HP). IVs are calculated using Pokémon level, CP and HP, using these information we are able to calculate the possible IVs for the Pokémon. IVs are fixed and do not change when powering up or evolving, and multiple power up may help in getting. The higher the IVs, the more Combat Points (CP) the Pokémon will have, compared to another Pokémon of the same species & level.
 
 ## Community
-Have feedback/questions/comments? [Visit our subreddit!](https://www.reddit.com/r/GoIV/)
+Have feedback/questions/comments? [Visit our subreddit](https://www.reddit.com/r/GoIV/)!
 
 ## Special Thanks
 GoIV would not have been possible without the help and support of the following people:  
@@ -92,4 +92,4 @@ GoIV would not have been possible without the help and support of the following 
 * Tommy Tran
 
 ## Development
-Want to contribute to the development of GoIV? [Click here to learn how.](DEVELOPMENT.md)
+Want to contribute to the development of GoIV? [Click here to learn how](DEVELOPMENT.md).

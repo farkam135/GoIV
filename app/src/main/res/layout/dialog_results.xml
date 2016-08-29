@@ -326,7 +326,8 @@
                 android:text="@string/advanced_information"
                 android:layout_gravity="center"
                 android:textSize="18sp"
-                android:clickable="true" />
+                android:clickable="true"
+                android:drawableRight="@drawable/ic_keyboard_arrow_right_blue_18dp" />
 
         </LinearLayout>
 

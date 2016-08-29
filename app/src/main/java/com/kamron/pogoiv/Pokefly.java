@@ -1,5 +1,7 @@
 package com.kamron.pogoiv;
 
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -16,7 +18,7 @@ import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
-import android.graphics.drawable.RotateDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
@@ -114,7 +116,8 @@ public class Pokefly extends Service {
 
     private PokeInfoCalculator pokeCalculator = null;
 
-    private RotateDrawable arrowRotatable;
+    private Drawable arrowDrawable;
+    private Animator arrowAnimator;
 
     @BindView(R.id.tvSeeAllPossibilities)
     TextView seeAllPossibilities;
@@ -607,8 +610,6 @@ public class Pokefly extends Service {
 
         });
 
-        arrowRotatable = (RotateDrawable) getResources().getDrawable(R.drawable.arrow_rotate_collapse);
-        resultsMoreInformationText.setCompoundDrawablesWithIntrinsicBounds(null, null, arrowRotatable, null);
     }
 
 
@@ -616,13 +617,14 @@ public class Pokefly extends Service {
     public void toggleMoreResultsBox() {
         if (expandedResultsBox.getVisibility() == View.VISIBLE) {
             expandedResultsBox.setVisibility(View.GONE);
-            arrowRotatable = (RotateDrawable) getResources().getDrawable(R.drawable.arrow_rotate_collapse);
+            arrowDrawable = getResources().getDrawable(R.drawable.arrow_collapse);
         } else {
             expandedResultsBox.setVisibility(View.VISIBLE);
-            arrowRotatable = (RotateDrawable) getResources().getDrawable(R.drawable.arrow_rotate_expand);
+            arrowDrawable = getResources().getDrawable(R.drawable.arrow_expand);
         }
-        resultsMoreInformationText.setCompoundDrawablesWithIntrinsicBounds(null, null, arrowRotatable, null);
-        arrowRotatable.setLevel(0);
+        resultsMoreInformationText.setCompoundDrawablesWithIntrinsicBounds(null, null, arrowDrawable, null);
+        arrowAnimator = ObjectAnimator.ofInt(arrowDrawable, "level", 0, 10000).setDuration(200);
+        arrowAnimator.start();
     }
 
 

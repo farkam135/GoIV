@@ -36,6 +36,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -214,6 +216,12 @@ public class Pokefly extends Service {
     CheckBox defCheckbox;
     @BindView(R.id.staCheckbox)
     CheckBox staCheckbox;
+
+
+    //results pokemon picker auto complete
+    @BindView(R.id.autoCompleteTextView1)
+    AutoCompleteTextView autoCompleteTextView1;
+
 
     private String pokemonName;
     private String candyName;
@@ -743,6 +751,11 @@ public class Pokefly extends Service {
      */
     private void populateResultsBox(IVScanResult ivScanResult) {
         populateResultsHeader(ivScanResult);
+        //TODO fix better positioning
+        String[] pokeList = getResources().getStringArray(R.array.Pokemon);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.autocomplete_pokemon_list_item, pokeList);
+        autoCompleteTextView1.setAdapter(adapter);
+        autoCompleteTextView1.setThreshold(1);
 
         if (ivScanResult.getCount() == 1) {
             populateSingleIVMatch(ivScanResult);

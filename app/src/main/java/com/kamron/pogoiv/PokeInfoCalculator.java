@@ -117,11 +117,26 @@ public class PokeInfoCalculator {
             } else if (estimatedPokemonLevel > 10.5 && estimatedPokemonLevel <= 20.5) {
                 neededCandy += 2;
                 neededStarDust += 1000 + (rank * 300);
-            } else if (estimatedPokemonLevel > 20.5 && estimatedPokemonLevel <= 30.5) {
+            } else if (estimatedPokemonLevel > 20.5 && estimatedPokemonLevel <= 25.5) {
                 neededCandy += 3;
                 neededStarDust += 2500 + (rank * 500);
-            } else if (estimatedPokemonLevel > 30.5) {
+            } else if (estimatedPokemonLevel > 25.5 && estimatedPokemonLevel <= 30.5) {
                 neededCandy += 4;
+                neededStarDust += 2500 + (rank * 500);
+            } else if (estimatedPokemonLevel > 30.5 && estimatedPokemonLevel <= 32.5) {
+                neededCandy += 6;
+                neededStarDust += 5000 + (rank * 1000);
+            } else if (estimatedPokemonLevel > 32.5 && estimatedPokemonLevel <= 34.5) {
+                neededCandy += 8;
+                neededStarDust += 5000 + (rank * 1000);
+            } else if (estimatedPokemonLevel > 34.5 && estimatedPokemonLevel <= 36.5) {
+                neededCandy += 10;
+                neededStarDust += 5000 + (rank * 1000);
+            } else if (estimatedPokemonLevel > 36.5 && estimatedPokemonLevel <= 38.5) {
+                neededCandy += 12;
+                neededStarDust += 5000 + (rank * 1000);
+            } else if (estimatedPokemonLevel > 38.5) {
+                neededCandy += 15;
                 neededStarDust += 5000 + (rank * 1000);
             }
 

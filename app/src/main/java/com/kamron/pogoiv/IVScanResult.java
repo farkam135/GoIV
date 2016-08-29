@@ -17,6 +17,7 @@ public class IVScanResult {
     public int highAttack = 0;
     public int highDefense = 0;
     public int highStamina = 0;
+    public int scannedCP;
     public boolean tooManyPossibilities = false; //flag that gets set to true if user tries to scan 10 hp 10 cp pokemon
     public ArrayList<IVCombination> iVCombinations = new ArrayList<>();
     public static ScanContainer scanContainer = new ScanContainer();
@@ -28,15 +29,17 @@ public class IVScanResult {
      * The object contains:
      * count - the amount of IV combinations the pokemon has
      * highpercent: Best case iv%
+     * scannedCP: the cp scanned from the image
      * getAveragePercent: returns the average IV% of all alternativs
      * lowPercent: worst case IV%
      * low attack,defence,stamina - the value for the IV stat where the lowest % was found
      * high attack,defence,stamina - the value for hte IV stat where the highest % was found
      */
-    public IVScanResult(Pokemon pokemon, double estimatedPokemonLevel) {
+    public IVScanResult(Pokemon pokemon, double estimatedPokemonLevel, int pokemonCP) {
         scanContainer.addNewScan(this);
         this.pokemon = pokemon;
         this.estimatedPokemonLevel = estimatedPokemonLevel;
+        this.scannedCP = pokemonCP;
     }
 
     /**
@@ -46,8 +49,8 @@ public class IVScanResult {
      * @param estimatedPokemonLevel the estimated pokemon level (should be very low)
      * @param b                     true if there are too many possibilities
      */
-    public IVScanResult(Pokemon pokemon, double estimatedPokemonLevel, boolean b) {
-        this(pokemon, estimatedPokemonLevel);
+    public IVScanResult(Pokemon pokemon, double estimatedPokemonLevel,int pokemonCP, boolean b) {
+        this(pokemon, estimatedPokemonLevel, pokemonCP);
         tooManyPossibilities = b;
     }
 

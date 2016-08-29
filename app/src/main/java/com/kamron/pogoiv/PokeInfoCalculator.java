@@ -147,8 +147,8 @@ public class PokeInfoCalculator {
 
 
     /**
-     * Adds rows with IV information (up to 8) in hte returnVal input string, and gives an IVscanResult object
-     * with information about the pokemon
+     * Calculates all the IV information that can be gained from the pokemon level, hp and cp
+     * and fills the information in an IVScanResult, which is returned.
      *
      * @param estimatedPokemonLevel The estimated pokemon level
      * @param pokemonHP             THe pokemon hp
@@ -170,7 +170,7 @@ public class PokeInfoCalculator {
 
         //It's safe to proceed if *one* is not 10, though it takes a bit longer.
         if (pokemonHP != 10 || pokemonCP != 10) {
-            IVScanResult returner = new IVScanResult(get(selectedPokemon), estimatedPokemonLevel);
+            IVScanResult returner = new IVScanResult(get(selectedPokemon), estimatedPokemonLevel, pokemonCP);
             for (int staminaIV = 0; staminaIV < 16; staminaIV++) {
                 int hp = (int) Math.max(Math.floor((baseStamina + staminaIV) * lvlScalar), 10);
                 if (hp == pokemonHP) {
@@ -191,7 +191,7 @@ public class PokeInfoCalculator {
             }
             return returner;
         } else {
-            return new IVScanResult(get(selectedPokemon), estimatedPokemonLevel, true);
+            return new IVScanResult(get(selectedPokemon), estimatedPokemonLevel,pokemonCP, true);
 
         }
     }

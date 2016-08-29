@@ -2,6 +2,7 @@ package com.kamron.pogoiv;
 
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -53,13 +54,9 @@ import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.kamron.pogoiv.updater.AppUpdateEvent;
-import com.kamron.pogoiv.updater.AppUpdateLoader;
+import com.kamron.pogoiv.updater.AppUpdate;
 import com.kamron.pogoiv.updater.AppUpdateUtil;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
+import com.kamron.pogoiv.updater.DownloadUpdateService;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -89,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String ACTION_RESET_SCREENSHOT = "reset-screenshot";
     private static final String ACTION_SCREENSHOT = "screenshot";
     private static final String ACTION_PROCESS_BITMAP = "process-bitmap";
+    public static final String ACTION_SHOW_UPDATE_DIALOG = "show-update-dialog";
 
     private static final String KEY_BITMAP = "bitmap";
 
@@ -122,6 +120,7 @@ public class MainActivity extends AppCompatActivity {
     private int radius;
     private Context mContext;
     private GoIVSettings settings;
+    public static boolean shouldShowUpdateDialog;
 
     public static Intent createScreenshotIntent() {
         return new Intent(ACTION_SCREENSHOT);
@@ -137,6 +136,12 @@ public class MainActivity extends AppCompatActivity {
         return intent;
     }
 
+    public static Intent createUpdateDialogIntent(AppUpdate update) {
+        Intent updateIntent = new Intent(MainActivity.ACTION_SHOW_UPDATE_DIALOG);
+        updateIntent.putExtra("update", update);
+        return updateIntent;
+    }
+
     @TargetApi(23)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,9 +150,12 @@ public class MainActivity extends AppCompatActivity {
 
         mContext = MainActivity.this;
 
-        settings = GoIVSettings.getInstance(this);
+        settings = GoIVSettings.getInstance(mContext);
+
+        shouldShowUpdateDialog = true;
+
         if (BuildConfig.isInternetAvailable && settings.isAutoUpdateEnabled())
-            new AppUpdateLoader().start();
+            AppUpdateUtil.checkForUpdate(mContext);
 
         setContentView(R.layout.activity_main);
 
@@ -255,6 +263,7 @@ public class MainActivity extends AppCompatActivity {
         LocalBroadcastManager.getInstance(this).registerReceiver(resetScreenshot, new IntentFilter(ACTION_RESET_SCREENSHOT));
         LocalBroadcastManager.getInstance(this).registerReceiver(takeScreenshot, new IntentFilter(ACTION_SCREENSHOT));
         LocalBroadcastManager.getInstance(this).registerReceiver(processBitmap, new IntentFilter(ACTION_PROCESS_BITMAP));
+        LocalBroadcastManager.getInstance(this).registerReceiver(showUpdateDialog, new IntentFilter(ACTION_SHOW_UPDATE_DIALOG));
     }
 
     @Override
@@ -325,25 +334,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        EventBus.getDefault().register(this);
-    }
-
-    @Override
-    public void onStop() {
-        EventBus.getDefault().unregister(this);
-        super.onStop();
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onAppUpdateEvent(AppUpdateEvent event) {
-        switch (event.getStatus()) {
-            case AppUpdateEvent.OK:
-                AlertDialog updateDialog = AppUpdateUtil.getAppUpdateDialog(mContext, event.getAppUpdate());
-                updateDialog.show();
-                break;
-        }
+    protected void onResume() {
+        super.onResume();
+        settings = GoIVSettings.getInstance(MainActivity.this);
     }
 
     /**
@@ -467,6 +460,7 @@ public class MainActivity extends AppCompatActivity {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(resetScreenshot);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(takeScreenshot);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(processBitmap);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(showUpdateDialog);
         super.onDestroy();
     }
 
@@ -756,6 +750,33 @@ public class MainActivity extends AppCompatActivity {
             readyForNewScreenshot = true;
         }
     };
+
+    private final BroadcastReceiver showUpdateDialog = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            AppUpdate update = intent.getParcelableExtra("update");
+            if(update.getStatus() == AppUpdate.UPDATE_AVAILABLE && shouldShowUpdateDialog && !isGoIVBeingUpdated(context)) {
+                AlertDialog updateDialog = AppUpdateUtil.getAppUpdateDialog(mContext, update);
+                updateDialog.show();
+            }
+            if(!shouldShowUpdateDialog)
+                shouldShowUpdateDialog = true;
+        }
+    };
+
+    public static boolean isGoIVBeingUpdated(Context context) {
+
+        DownloadManager downloadManager = (DownloadManager) context.getSystemService(DOWNLOAD_SERVICE);
+        DownloadManager.Query q = new DownloadManager.Query();
+        q.setFilterByStatus(DownloadManager.STATUS_RUNNING);
+        Cursor c = downloadManager.query(q);
+        if (c.moveToFirst()) {
+            String fileName = c.getString(c.getColumnIndex(DownloadManager.COLUMN_TITLE));
+            if(fileName.equals(DownloadUpdateService.DOWNLOAD_UPDATE_TITLE))
+                return true;
+        }
+        return false;
+    }
 
     private static boolean copyAssetFolder(AssetManager assetManager, String fromAssetPath, String toPath) {
 

@@ -2,6 +2,7 @@ package com.kamron.pogoiv;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.core.CrashlyticsCore;
@@ -42,6 +43,9 @@ public class CrashlyticsWrapper {
                 } else if (!TextUtils.isEmpty(message)) {
                     Crashlytics.log(message);
                 }
+            } else {
+                // XXX we use error level but should look at the priority.
+                Log.e(tag, message, t);
             }
 
         }

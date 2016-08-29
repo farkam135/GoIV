@@ -382,7 +382,7 @@ public class Pokefly extends Service {
             timer.cancel();
         }
         super.onDestroy();
-        if (IVButton != null && IVButtonShown) windowManager.removeView(IVButton);
+        setIVButtonDisplay(false);
         hideInfoLayoutArcPointer();
         stopForeground(true);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(displayInfo);
@@ -519,8 +519,7 @@ public class Pokefly extends Service {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_UP:
-                        windowManager.removeView(IVButton);
-                        IVButtonShown = false;
+                        setIVButtonDisplay(false);
                         Intent intent = MainActivity.createScreenshotIntent();
                         LocalBroadcastManager.getInstance(Pokefly.this).sendBroadcast(intent);
                         receivedInfo = false;
@@ -948,10 +947,6 @@ public class Pokefly extends Service {
      */
     public void cancelInfoDialog() {
         hideInfoLayoutArcPointer();
-        if (!batterySaver) {
-            windowManager.addView(IVButton, IVButonParams);
-            IVButtonShown = true;
-        }
         attCheckbox.setChecked(false);
         defCheckbox.setChecked(false);
         staCheckbox.setChecked(false);
@@ -964,6 +959,9 @@ public class Pokefly extends Service {
 
         resetPokeflyStateMachine();
         resetInfoDialogue();
+        if (!batterySaver) {
+            setIVButtonDisplay(true);
+        }
     }
 
     /**

@@ -75,6 +75,9 @@
             android:name="com.kamron.pogoiv.Pokefly"
             android:exported="true" />
 
+        <service android:name=".updater.DownloadUpdateService"
+            android:exported="false" />
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="PLACEHOLDER" />

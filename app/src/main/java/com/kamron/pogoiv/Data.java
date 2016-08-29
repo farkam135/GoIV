@@ -20,7 +20,7 @@ public class Data {
     /**
      * Convert a pokemon/trainer level to a <em>level index</em> (<code>levelIdx</code> in code).
      * The mapping is invertible, but level indexes can be used to index an array (like Data.CpM).
-     *
+     * <p/>
      * Pokemon levels go from 1 to trainerLevelToMaxPokeLevel(trainerLevel), in increments of 0.5.
      * Level indexes go from 0 to trainerLevelToMaxPokeLevelIdx(trainerLevel) in increments of 1.
      * This method adjusts a level to a <em>level index</em> (<code>levelIdx</code>), by doubling it

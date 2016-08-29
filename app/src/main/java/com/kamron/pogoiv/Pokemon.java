@@ -38,12 +38,6 @@ public class Pokemon {
         return name;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        int difference = Data.levenshteinDistance((CharSequence) o, name);
-        return difference < 2;
-    }
-
     public int getDistanceCaseInsensitive(String rhs) {
         return Data.levenshteinDistance(name.toLowerCase(), rhs.toLowerCase());
     }

@@ -48,6 +48,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -163,8 +165,11 @@ public class MainActivity extends AppCompatActivity {
         screenshotUri = Uri.parse(sharedPref.getString(PREF_SCREENSHOT_URI, ""));
         batterySaver = settings.isManualScreenshotModeEnabled();
 
-        final EditText etTrainerLevel = (EditText) findViewById(R.id.trainerLevel);
-        etTrainerLevel.setText(String.valueOf(trainerLevel));
+        final NumberPicker npTrainerLevel = (NumberPicker) findViewById(R.id.trainerLevel);
+        npTrainerLevel.setMaxValue(40);
+        npTrainerLevel.setMinValue(1);
+        npTrainerLevel.setWrapSelectorWheel(false);
+        npTrainerLevel.setValue(trainerLevel);
 
         Button launch = (Button) findViewById(R.id.start);
         launch.setOnClickListener(new View.OnClickListener() {
@@ -202,12 +207,7 @@ public class MainActivity extends AppCompatActivity {
                         radius++;
                     }
 
-                    if (isNumeric(etTrainerLevel.getText().toString())) {
-                        trainerLevel = Integer.parseInt(etTrainerLevel.getText().toString());
-                    } else {
-                        Toast.makeText(MainActivity.this, String.format(getString(R.string.main_not_numeric), etTrainerLevel.getText().toString()), Toast.LENGTH_SHORT).show();
-                        return;
-                    }
+                    trainerLevel = npTrainerLevel.getValue();
 
                     if (trainerLevel > 0 && trainerLevel <= 40) {
                         sharedPref.edit().putInt(PREF_LEVEL, trainerLevel).apply();

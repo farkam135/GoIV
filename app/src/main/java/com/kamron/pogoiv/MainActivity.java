@@ -86,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String ACTION_PROCESS_BITMAP = "process-bitmap";
 
     private static final String KEY_BITMAP = "bitmap";
+    private static final String KEY_SS_FILE = "ss-file";
 
     private ScreenGrabber screen;
     private ContentObserver screenShotObserver;
@@ -121,9 +122,10 @@ public class MainActivity extends AppCompatActivity {
         return new Intent(ACTION_RESET_SCREENSHOT);
     }
 
-    public static Intent createProcessBitmapIntent(Bitmap bitmap) {
+    public static Intent createProcessBitmapIntent(Bitmap bitmap, String file) {
         Intent intent = new Intent(ACTION_PROCESS_BITMAP);
         intent.putExtra(KEY_BITMAP, bitmap);
+        intent.putExtra(KEY_SS_FILE, file);
         return intent;
     }
 
@@ -643,7 +645,11 @@ public class MainActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             if (readyForNewScreenshot) {
                 Bitmap bitmap = (Bitmap) intent.getParcelableExtra(KEY_BITMAP);
-                scanPokemon(bitmap, "");
+                String ss_file = intent.getStringExtra(KEY_SS_FILE);
+                if (ss_file == null) {
+                    ss_file = "";
+                }
+                scanPokemon(bitmap, ss_file);
                 bitmap.recycle();
                 readyForNewScreenshot = false;
             }

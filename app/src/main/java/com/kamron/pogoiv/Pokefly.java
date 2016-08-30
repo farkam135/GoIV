@@ -838,9 +838,9 @@ public class Pokefly extends Service {
         resultsDefense.setText(String.valueOf(ivScanResult.iVCombinations.get(0).def));
         resultsHP.setText(String.valueOf(ivScanResult.iVCombinations.get(0).sta));
 
-        setTextColorbyPercentage(resultsAttack, (int) Math.round(ivScanResult.iVCombinations.get(0).att * 100.0 / 15));
-        setTextColorbyPercentage(resultsDefense, (int) Math.round(ivScanResult.iVCombinations.get(0).def * 100.0 / 15));
-        setTextColorbyPercentage(resultsHP, (int) Math.round(ivScanResult.iVCombinations.get(0).sta * 100.0 / 15));
+        GUIUtil.setTextColorbyPercentage(resultsAttack, (int) Math.round(ivScanResult.iVCombinations.get(0).att * 100.0 / 15));
+        GUIUtil.setTextColorbyPercentage(resultsDefense, (int) Math.round(ivScanResult.iVCombinations.get(0).def * 100.0 / 15));
+        GUIUtil.setTextColorbyPercentage(resultsHP, (int) Math.round(ivScanResult.iVCombinations.get(0).sta * 100.0 / 15));
 
         llSingleMatch.setVisibility(View.VISIBLE);
         llMultipleIVMatches.setVisibility(View.GONE);
@@ -920,9 +920,9 @@ public class Pokefly extends Service {
             ave = ivScanResult.getAveragePercent();
             high = ivScanResult.getHighestIVCombination().percentPerfect;
         }
-        setTextColorbyPercentage(resultsMinPercentage, low);
-        setTextColorbyPercentage(resultsAvePercentage, ave);
-        setTextColorbyPercentage(resultsMaxPercentage, high);
+        GUIUtil.setTextColorbyPercentage(resultsMinPercentage, low);
+        GUIUtil.setTextColorbyPercentage(resultsAvePercentage, ave);
+        GUIUtil.setTextColorbyPercentage(resultsMaxPercentage, high);
 
 
         if (ivScanResult.iVCombinations.size() > 0) {
@@ -933,22 +933,6 @@ public class Pokefly extends Service {
             resultsMinPercentage.setText("?%");
             resultsAvePercentage.setText("?%");
             resultsMaxPercentage.setText("?%");
-        }
-    }
-
-    /**
-     * sets the text color to red if below 80, and green if above
-     *
-     * @param text  the text that changes color
-     * @param value the value that is checked if its above 80
-     */
-    private static void setTextColorbyPercentage(TextView text, int value) {
-        if (value >= 80) {
-            text.setTextColor(Color.parseColor("#088A08")); //dark green
-        } else if (value >= 60) {
-            text.setTextColor(Color.parseColor("#DBA901"));//brownish orange
-        } else {
-            text.setTextColor(Color.parseColor("#8A0808")); //dark red
         }
     }
 

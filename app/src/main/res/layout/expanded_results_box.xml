@@ -119,10 +119,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:popupBackground="#FFF"
-            android:gravity="right"
-            android:layout_marginRight="-8sp"
-            android:layout_marginTop="-8sp"
-            android:layout_marginBottom="-8sp" />
+            android:gravity="right" />
 
     </LinearLayout>
     <LinearLayout

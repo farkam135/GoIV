@@ -25,6 +25,9 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.provider.MediaStore;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.LruCache;
 import android.view.Gravity;
@@ -42,12 +45,18 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.kamron.pogoiv.logic.CPRange;
+import com.kamron.pogoiv.logic.Data;
+import com.kamron.pogoiv.logic.IVCombination;
+import com.kamron.pogoiv.logic.IVScanResult;
+import com.kamron.pogoiv.logic.PokeInfoCalculator;
+import com.kamron.pogoiv.logic.Pokemon;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -58,13 +67,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import timber.log.Timber;
-
-import com.kamron.pogoiv.logic.CPRange;
-import com.kamron.pogoiv.logic.Data;
-import com.kamron.pogoiv.logic.IVCombination;
-import com.kamron.pogoiv.logic.IVScanResult;
-import com.kamron.pogoiv.logic.PokeInfoCalculator;
-import com.kamron.pogoiv.logic.Pokemon;
 
 /**
  * Created by Kamron on 7/25/2016.
@@ -211,14 +213,8 @@ public class Pokefly extends Service {
     TextView inputAppraisalExpandBox;
 
 
-    @BindView(R.id.allPosAtt)
-    LinearLayout allPosAtt;
-    @BindView(R.id.allPosDef)
-    LinearLayout allPosDef;
-    @BindView(R.id.allPosSta)
-    LinearLayout allPosSta;
-    @BindView(R.id.allPosPercent)
-    LinearLayout allPosPercent;
+    @BindView(R.id.rvResults)
+    RecyclerView rvResults;
 
     // Refine by appraisal
     @BindView(R.id.attCheckbox)
@@ -594,6 +590,13 @@ public class Pokefly extends Service {
         pokeEvolutionAdapter = new PokemonSpinnerAdapter(this, R.layout.spinner_evolution, new ArrayList<Pokemon>());
         extendedEvolutionSpinner.setAdapter(pokeEvolutionAdapter);
 
+        // Setting up Recyclerview for further use.
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        rvResults.hasFixedSize();
+
+        rvResults.setLayoutManager(layoutManager);
+        rvResults.setItemAnimator(new DefaultItemAnimator());
+
         expandedLevelSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean fromUser) {
@@ -833,7 +836,6 @@ public class Pokefly extends Service {
             resultsCombinations.setText(String.format(getString(R.string.possible_iv_combinations), ivScanResult.iVCombinations.size()));
         }
 
-        clearPossibleIVsDialog();
         populateIVAllPosibilities(ivScanResult);
 
     }
@@ -845,43 +847,10 @@ public class Pokefly extends Service {
      */
     private void populateIVAllPosibilities(IVScanResult ivScanResult) {
 
-        for (IVCombination ivItem : ivScanResult.iVCombinations) {
-            addIVTextTo(allPosAtt, ivItem.att);
-            addIVTextTo(allPosDef, ivItem.def);
-            addIVTextTo(allPosSta, ivItem.sta);
-            addPercentageToPercentageColumn(ivItem.att + ivItem.sta + ivItem.def);
-        }
-
+        IVResultsAdapter ivResults = new IVResultsAdapter(ivScanResult, this);
+        rvResults.setAdapter(ivResults);
 
     }
-
-    /**
-     * adds a percent data point to the all positilities dialog
-     *
-     * @param allIVCombined attack + defence + stamina, max 45
-     */
-    private void addPercentageToPercentageColumn(int allIVCombined) {
-        TextView adder = new TextView(this);
-        int percent = (int) ((allIVCombined / 45f) * 100);
-        adder.setText(percent + "");
-        setTextColorbyPercentage(adder, percent);
-        allPosPercent.addView(adder);
-    }
-
-    /**
-     * method for adding an iv data to the all posibilities field, this method adds a single data point to a column
-     *
-     * @param column attack / defence / stamina
-     * @param value  A value between 0 and 15
-     */
-    private void addIVTextTo(LinearLayout column, int value) {
-        TextView adder = new TextView(this);
-        adder.setText(value + "");
-        int attackpercent = (int) ((value / 15f) * 100);
-        setTextColorbyPercentage(adder, attackpercent);
-        column.addView(adder);
-    }
-
 
     /**
      * populates the result screen with the layout as if it's a single result
@@ -896,9 +865,9 @@ public class Pokefly extends Service {
         resultsDefense.setText(String.valueOf(ivScanResult.iVCombinations.get(0).def));
         resultsHP.setText(String.valueOf(ivScanResult.iVCombinations.get(0).sta));
 
-        setTextColorbyPercentage(resultsAttack, (int) Math.round(ivScanResult.iVCombinations.get(0).att * 100.0 / 15));
-        setTextColorbyPercentage(resultsDefense, (int) Math.round(ivScanResult.iVCombinations.get(0).def * 100.0 / 15));
-        setTextColorbyPercentage(resultsHP, (int) Math.round(ivScanResult.iVCombinations.get(0).sta * 100.0 / 15));
+        GUIUtil.setTextColorbyPercentage(resultsAttack, (int) Math.round(ivScanResult.iVCombinations.get(0).att * 100.0 / 15));
+        GUIUtil.setTextColorbyPercentage(resultsDefense, (int) Math.round(ivScanResult.iVCombinations.get(0).def * 100.0 / 15));
+        GUIUtil.setTextColorbyPercentage(resultsHP, (int) Math.round(ivScanResult.iVCombinations.get(0).sta * 100.0 / 15));
 
         llSingleMatch.setVisibility(View.VISIBLE);
         llMultipleIVMatches.setVisibility(View.GONE);
@@ -988,9 +957,9 @@ public class Pokefly extends Service {
             ave = ivScanResult.getAveragePercent();
             high = ivScanResult.getHighestIVCombination().percentPerfect;
         }
-        setTextColorbyPercentage(resultsMinPercentage, low);
-        setTextColorbyPercentage(resultsAvePercentage, ave);
-        setTextColorbyPercentage(resultsMaxPercentage, high);
+        GUIUtil.setTextColorbyPercentage(resultsMinPercentage, low);
+        GUIUtil.setTextColorbyPercentage(resultsAvePercentage, ave);
+        GUIUtil.setTextColorbyPercentage(resultsMaxPercentage, high);
 
 
         if (ivScanResult.iVCombinations.size() > 0) {
@@ -1004,30 +973,6 @@ public class Pokefly extends Service {
         }
     }
 
-    /**
-     * sets the text color to red if below 80, and green if above
-     *
-     * @param text  the text that changes color
-     * @param value the value that is checked if its above 80
-     */
-    private static void setTextColorbyPercentage(TextView text, int value) {
-        if (value >= 80) {
-            text.setTextColor(Color.parseColor("#088A08")); //dark green
-        } else if (value >= 60) {
-            text.setTextColor(Color.parseColor("#DBA901"));//brownish orange
-        } else {
-            text.setTextColor(Color.parseColor("#8A0808")); //dark red
-        }
-    }
-
-    private void clearPossibleIVsDialog() {
-        //clear the all possibilities dialog
-        allPosAtt.removeAllViews();
-        allPosDef.removeAllViews();
-        allPosSta.removeAllViews();
-        allPosPercent.removeAllViews();
-    }
-
     @OnClick({R.id.btnCancelInfo, R.id.btnCloseInfo})
     /**
      * resets the info dialogue to its default state
@@ -1037,8 +982,6 @@ public class Pokefly extends Service {
         attCheckbox.setChecked(false);
         defCheckbox.setChecked(false);
         staCheckbox.setChecked(false);
-
-        clearPossibleIVsDialog();
 
         resetPokeflyStateMachine();
         resetInfoDialogue();
@@ -1253,20 +1196,15 @@ public class Pokefly extends Service {
     private void scanPokemon(Bitmap pokemonImage, String filePath) {
         //WARNING: this method *must* always send an intent at the end, no matter what, to avoid the application hanging.
         Intent info = Pokefly.createNoInfoIntent();
-        if (ocr == null) {
-            Toast.makeText(Pokefly.this, "Screen analysis module not initialized", Toast.LENGTH_LONG).show();
-        } else {
-            try {
-                ocr.scanPokemon(pokemonImage, trainerLevel);
-                if (ocr.candyName.equals("") && ocr.pokemonHP == 10 && ocr.pokemonCP == 10) { //the default values for a failed scan, if all three fail, then probably scrolled down.
-                    Toast.makeText(Pokefly.this, getString(R.string.scan_pokemon_failed), Toast.LENGTH_SHORT).show();
-                }
-                Pokefly.populateInfoIntent(info, ocr.pokemonName, ocr.candyName, ocr.pokemonHP, ocr.pokemonCP, ocr.estimatedPokemonLevel, filePath);
-            } finally {
-                LocalBroadcastManager.getInstance(Pokefly.this).sendBroadcast(info);
+        try {
+            ocr.scanPokemon(pokemonImage, trainerLevel);
+            if (ocr.candyName.equals("") && ocr.pokemonHP == 10 && ocr.pokemonCP == 10) { //the default values for a failed scan, if all three fail, then probably scrolled down.
+                Toast.makeText(Pokefly.this, getString(R.string.scan_pokemon_failed), Toast.LENGTH_SHORT).show();
             }
+            Pokefly.populateInfoIntent(info, ocr.pokemonName, ocr.candyName, ocr.pokemonHP, ocr.pokemonCP, ocr.estimatedPokemonLevel, filePath);
+        } finally {
+            LocalBroadcastManager.getInstance(Pokefly.this).sendBroadcast(info);
         }
-
     }
 
     /**

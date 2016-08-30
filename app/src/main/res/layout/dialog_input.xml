@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:showIn="@layout/dialog_info_window">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -144,22 +146,36 @@
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/inputAppraisalExpandBox"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/appraisal_narrowing"
-        android:textColor="@color/colorPrimary"
-        android:layout_marginStart="6sp"
-        android:textAlignment="center"
-        android:clickable="true"
-        android:drawableRight="@drawable/ic_keyboard_arrow_right_blue_18dp" />/>
+        android:padding="12sp">
 
-    <Space
-        android:layout_width="1dp"
-        android:layout_height="15dp"
-        />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
+            <TextView
+                android:id="@+id/inputAppraisalExpandBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/appraisal_refining"
+                android:textColor="@color/colorPrimary"
+                android:clickable="true"
+                android:drawableRight="@drawable/ic_keyboard_arrow_right_blue_18dp"
+                android:textSize="18sp"
+                android:layout_gravity="center" />
+        </LinearLayout>
+    </LinearLayout><![CDATA[
+
+    />
+
+
+
+
+    ]]>
 
     <include layout="@layout/dialog_input_appraisal"
         android:visibility="gone"

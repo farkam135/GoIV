@@ -1,4 +1,4 @@
-package com.kamron.pogoiv;
+package com.kamron.pogoiv.logic;
 
 /**
  * Created by Johan on 2016-08-18.

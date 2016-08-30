@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.util.LruCache;
 
 import com.googlecode.tesseract.android.TessBaseAPI;
+import com.kamron.pogoiv.logic.Data;
 
 import java.util.Arrays;
 import java.util.HashSet;

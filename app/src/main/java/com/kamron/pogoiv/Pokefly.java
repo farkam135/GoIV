@@ -47,6 +47,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -57,6 +58,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import timber.log.Timber;
+
+import com.kamron.pogoiv.logic.CPRange;
+import com.kamron.pogoiv.logic.Data;
+import com.kamron.pogoiv.logic.IVCombination;
+import com.kamron.pogoiv.logic.IVScanResult;
+import com.kamron.pogoiv.logic.PokeInfoCalculator;
+import com.kamron.pogoiv.logic.Pokemon;
 
 /**
  * Created by Kamron on 7/25/2016.

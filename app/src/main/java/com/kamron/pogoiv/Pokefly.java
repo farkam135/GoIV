@@ -629,41 +629,31 @@ public class Pokefly extends Service {
 
     }
 
-
-    @OnClick({R.id.resultsMoreInformationText})
-    public void toggleMoreResultsBox() {
+    private void toggleVisibility(TextView expanderText, LinearLayout expandedBox) {
         int boxVisibility;
         Drawable arrowDrawable;
-        if (expandedResultsBox.getVisibility() == View.VISIBLE) {
+        if (expandedBox.getVisibility() == View.VISIBLE) {
             boxVisibility = View.GONE;
             arrowDrawable = getResources().getDrawable(R.drawable.arrow_collapse);
         } else {
             boxVisibility = View.VISIBLE;
             arrowDrawable = getResources().getDrawable(R.drawable.arrow_expand);
         }
-        resultsMoreInformationText.setCompoundDrawablesWithIntrinsicBounds(null, null, arrowDrawable, null);
+        expanderText.setCompoundDrawablesWithIntrinsicBounds(null, null, arrowDrawable, null);
         arrowAnimator = ObjectAnimator.ofInt(arrowDrawable, "level", 0, 10000).setDuration(100);
         arrowAnimator.start();
-        expandedResultsBox.setVisibility(boxVisibility);
+        expandedBox.setVisibility(boxVisibility);
     }
 
 
+    @OnClick({R.id.resultsMoreInformationText})
+    public void toggleMoreResultsBox() {
+        toggleVisibility(resultsMoreInformationText, expandedResultsBox);
+    }
 
     @OnClick({R.id.inputAppraisalExpandBox})
     public void toggleAppraisalBox() {
-        int boxVisibility;
-        Drawable arrowDrawable;
-        if (appraisalBox.getVisibility() == View.VISIBLE) {
-            boxVisibility = View.GONE;
-            arrowDrawable = getResources().getDrawable(R.drawable.arrow_collapse);
-        } else {
-            boxVisibility = View.VISIBLE;
-            arrowDrawable = getResources().getDrawable(R.drawable.arrow_expand);
-        }
-        inputAppraisalExpandBox.setCompoundDrawablesWithIntrinsicBounds(null, null, arrowDrawable, null);
-        arrowAnimator = ObjectAnimator.ofInt(arrowDrawable, "level", 0, 10000).setDuration(100);
-        arrowAnimator.start();
-        appraisalBox.setVisibility(boxVisibility);
+        toggleVisibility(inputAppraisalExpandBox, appraisalBox);
     }
 
     @OnClick(R.id.btnDecrementLevel)

@@ -43,11 +43,9 @@ public class CrashlyticsWrapper {
                 } else if (!TextUtils.isEmpty(message)) {
                     Crashlytics.log(message);
                 }
-            } else {
-                // XXX we use error level but should look at the priority.
-                Log.e(tag, message, t);
             }
 
+            CommonLogger.log(priority, tag, message, t);
         }
     }
 }

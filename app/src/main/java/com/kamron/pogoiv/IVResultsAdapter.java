@@ -9,6 +9,9 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.kamron.pogoiv.logic.IVCombination;
+import com.kamron.pogoiv.logic.IVScanResult;
+
 /**
  * Created by OskO on 29/08/16.
  */
@@ -35,12 +38,16 @@ class IVResultsAdapter extends RecyclerView.Adapter<IVResultsAdapter.ResultsView
         holder.resultHP.setText(String.valueOf(currentSet.sta));
         holder.resultPercentage.setText(String.valueOf(currentSet.percentPerfect));
 
-        setTextColorbyPercentage(holder.resultAttack, (int) Math.round(currentSet.att * 100.0 / 15));
-        setTextColorbyPercentage(holder.resultDefense, (int) Math.round(currentSet.def * 100.0 / 15));
-        setTextColorbyPercentage(holder.resultHP, (int) Math.round(currentSet.sta * 100.0 / 15));
-        setTextColorbyPercentage(holder.resultPercentage, currentSet.percentPerfect);
-
-        if (position % 2 != 0) holder.llRvResult.setBackgroundColor(Color.parseColor("#EFEFEF"));
+        GUIUtil.setTextColorbyPercentage(holder.resultAttack, (int) Math.round(currentSet.att * 100.0 / 15));
+        GUIUtil.setTextColorbyPercentage(holder.resultDefense, (int) Math.round(currentSet.def * 100.0 / 15));
+        GUIUtil.setTextColorbyPercentage(holder.resultHP, (int) Math.round(currentSet.sta * 100.0 / 15));
+        GUIUtil.setTextColorbyPercentage(holder.resultPercentage, currentSet.percentPerfect);
+        
+        if (position % 2 != 0) {
+            holder.llRvResult.setBackgroundColor(Color.parseColor("#EFEFEF"));
+        }else{
+            holder.llRvResult.setBackgroundColor(Color.parseColor("#FFFFFF"));
+        }
     }
 
     @Override
@@ -60,23 +67,6 @@ class IVResultsAdapter extends RecyclerView.Adapter<IVResultsAdapter.ResultsView
             resultHP = (TextView) itemView.findViewById(R.id.resultHP);
             resultPercentage = (TextView) itemView.findViewById(R.id.resultPercentage);
             llRvResult = (LinearLayout) itemView.findViewById(R.id.llRvResult);
-        }
-    }
-
-    /**
-     * sets the text color to red if below 80, and green if above
-     * This is a duplicate from Pokefly. I'm sorry :(
-     *
-     * @param text  the text that changes color
-     * @param value the value that is checked if its above 80
-     */
-    private void setTextColorbyPercentage(TextView text, int value) {
-        if (value >= 80) {
-            text.setTextColor(Color.parseColor("#088A08")); //dark green
-        } else if (value >= 60) {
-            text.setTextColor(Color.parseColor("#DBA901"));//brownish orange
-        } else {
-            text.setTextColor(Color.parseColor("#8A0808")); //dark red
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.kamron.pogoiv;
+package com.kamron.pogoiv.logic;
 
 import java.util.Arrays;
 import java.util.Collections;

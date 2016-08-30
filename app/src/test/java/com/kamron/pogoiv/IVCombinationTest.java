@@ -1,5 +1,7 @@
 package com.kamron.pogoiv;
 
+import com.kamron.pogoiv.logic.IVCombination;
+
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

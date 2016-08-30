@@ -56,7 +56,7 @@ No, but GoIV is open source, so someone else might try to port it to iOS. The cu
 GoIV scans the Pokémon name to determine the Pokémon, if you have given your Pokémon a nickname, GoIV will attempt to determine the Pokémon from the Candy portion. If it fails, correcting will improve GoIV future scans on the particular Pokémon.
 
 ### Why doesn't my arc dot line up perfectly?
-The most common reason for the dot to be misaligned is when the user forgets to increase their trainer level in the app after levelling up in game. You can check your GoIV set trainer level in the persistant notification.
+The most common reason for the dot to be misaligned is when the user forgets to increase their trainer level in the app after leveling up in game. You can check your GoIV set trainer level in the persistent notification.
 
 The other reason for the dot to be misaligned is due to different devices having different screen resolutions (some having really unusual resolutions). This feature is always being revised to ensure more devices do not have this issue! You can help by contributing to this [thread] (https://www.reddit.com/r/GoIV/comments/4zi8cd/im_still_trying_to_fix_alignment_issues_i_need/).
 
@@ -82,7 +82,7 @@ It is *possible*, but we don't think it will happen. Niantic could alter their a
 Individual Values or IVs are stats that determine how much **extra** power a Pokémon has in addition to the baseline (0% IV). IVs consists of Attack (affects damage of moves), Defense (affects amount of damage received) and Stamina (affects the amount of HP). IVs are calculated using Pokémon level, CP and HP, using these information we are able to calculate the possible IVs for the Pokémon. IVs are fixed and do not change when powering up or evolving, and multiple power up may help in getting. The higher the IVs, the more Combat Points (CP) the Pokémon will have, compared to another Pokémon of the same species & level.
 
 ## Community
-Have feedback/questions/comments? [Visit our subreddit](https://www.reddit.com/r/GoIV/)!
+Have feedback/questions/comments? Post questions in the [subreddit](https://www.reddit.com/r/GoIV/) or visit our [Discord channel](https://discord.gg/y6BvF5D)!
 
 ## Special Thanks
 GoIV would not have been possible without the help and support of the following people:  
@@ -90,6 +90,7 @@ GoIV would not have been possible without the help and support of the following 
 * Stuart Dorff
 * Kevin Do
 * Tommy Tran
+* [And further thanks to all who contribute to the project on github](https://github.com/farkam135/GoIV/graphs/contributors)
 
 ## Development
-Want to contribute to the development of GoIV? [Click here to learn how](DEVELOPMENT.md).
+Want to contribute to the development of GoIV? [Click here](DEVELOPMENT.md) to learn how.

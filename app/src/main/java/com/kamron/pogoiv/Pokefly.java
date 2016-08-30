@@ -982,7 +982,7 @@ public class Pokefly extends Service {
      * @param text  the text that changes color
      * @param value the value that is checked if its above 80
      */
-    private void setTextColorbyPercentage(TextView text, int value) {
+    private static void setTextColorbyPercentage(TextView text, int value) {
         if (value >= 80) {
             text.setTextColor(Color.parseColor("#088A08")); //dark green
         } else if (value >= 60) {

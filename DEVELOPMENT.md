@@ -9,7 +9,7 @@
 * Enable annotation processing (Configure > Settings > Build, Execution, Deployment > Compiler > Annotation Processors)
 * [Fork this repo] (https://help.github.com/articles/fork-a-repo/)
 * Open the Project in Android Studio
-* Set the Project's Code Style Scheme (File > Settings > Editor > Code Style > Scheme > Select 'Default')
+* Copy the Project's Code Style Scheme (File > Settings > Editor > Code Style > Scheme > Manage > Select 'Default' > Copy to Project)
 
 ## Optional Set-up
 Set up Git on Android Studio (Configure > Settings > Version Control > Git) - Automates Git commands through Android Studio

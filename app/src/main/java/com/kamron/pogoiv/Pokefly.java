@@ -29,6 +29,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.LruCache;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -225,6 +226,8 @@ public class Pokefly extends Service {
 
     @BindView(R.id.pokePickerToggleSpinnerVsInput)
     Button pokePickerToggleSpinnerVsInput;
+
+    private boolean usingSpinnerPickerForPokemon = true;
 
 
 
@@ -642,9 +645,11 @@ public class Pokefly extends Service {
         if (autoCompleteTextView1.getVisibility()==View.GONE){
             autoCompleteTextView1.setVisibility(View.VISIBLE);
             pokemonList.setVisibility(View.GONE);
+            usingSpinnerPickerForPokemon = false;
         }else{
             autoCompleteTextView1.setVisibility(View.GONE);
             pokemonList.setVisibility(View.VISIBLE);
+            usingSpinnerPickerForPokemon = true;
         }
     }
 
@@ -713,8 +718,24 @@ public class Pokefly extends Service {
             }
         }
 
-        int selectedPokemon = pokemonList.getSelectedItemPosition();
-        Pokemon pokemon = pokeCalculator.get(selectedPokemon);
+
+        //below picks a pokemon from either the pokemon spinner or the user text input
+        Pokemon pokemon;
+        if (usingSpinnerPickerForPokemon) { //user picked pokemon from spinner
+            int selectedPokemon = pokemonList.getSelectedItemPosition();
+            pokemon = pokeCalculator.get(selectedPokemon);
+        } else { //user typed manually
+            String userInput = autoCompleteTextView1.getText().toString();
+            pokemon = pokeCalculator.get(userInput);
+            if (pokemon == null) { //no such pokemon was found, show error toast and abort showing results
+                Toast.makeText(this, userInput + getString(R.string.wrongPokemonNameInput), Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+        }
+
+
+        Log.d("AutoCompletePokemon", "translated to: " + pokemon.name);
         /* TODO: Should we set a size limit on that and throw away LRU entries? */
         /* TODO: Move this into an event listener that triggers when the user
          * actually changes the selection. */
@@ -724,7 +745,7 @@ public class Pokefly extends Service {
             edit.putString(pokemonName, pokemon.name);
             edit.apply();
         }
-        IVScanResult ivScanResult = pokeCalculator.getIVPossibilities(selectedPokemon, estimatedPokemonLevel, pokemonHP, pokemonCP);
+        IVScanResult ivScanResult = pokeCalculator.getIVPossibilities(pokemon, estimatedPokemonLevel, pokemonHP, pokemonCP);
 
         if (attCheckbox.isChecked() || defCheckbox.isChecked() || staCheckbox.isChecked()) {
             ivScanResult.refineByHighest(attCheckbox.isChecked(), defCheckbox.isChecked(), staCheckbox.isChecked());
@@ -1077,7 +1098,7 @@ public class Pokefly extends Service {
             }
 
             pokemonList.setSelection(possiblePoke[0]);
-            pokeAdapter.updatePokemonList(pokeCalculator.getEvolutionLine(pokeCalculator.get(possiblePoke[0]))); //TODO should just be settting pokeadapter to scanned candy poke evolution chain
+            pokeAdapter.updatePokemonList(pokeCalculator.getEvolutionLine(pokeCalculator.get(possiblePoke[0])));
 
             pokemonHPEdit.setText(String.valueOf(pokemonHP));
             pokemonCPEdit.setText(String.valueOf(pokemonCP));

@@ -157,10 +157,10 @@ public class PokeInfoCalculator {
      * @param pokemonCP             The pokemonCP
      * @return An IVScanResult which contains the information calculated about the pokemon, or null if there are too many possibilities.
      */
-    public IVScanResult getIVPossibilities(int selectedPokemon, double estimatedPokemonLevel, int pokemonHP, int pokemonCP) {
-        int baseAttack = get(selectedPokemon).baseAttack;
-        int baseDefense = get(selectedPokemon).baseDefense;
-        int baseStamina = get(selectedPokemon).baseStamina;
+    public IVScanResult getIVPossibilities(Pokemon selectedPokemon, double estimatedPokemonLevel, int pokemonHP, int pokemonCP) {
+        int baseAttack = selectedPokemon.baseAttack;
+        int baseDefense = selectedPokemon.baseDefense;
+        int baseStamina = selectedPokemon.baseStamina;
 
         double lvlScalar = Data.CpM[(int) (estimatedPokemonLevel * 2 - 2)];
         double lvlScalarPow2 = Math.pow(lvlScalar, 2) * 0.1; // instead of computing again in every loop
@@ -172,7 +172,7 @@ public class PokeInfoCalculator {
 
         //It's safe to proceed if *one* is not 10, though it takes a bit longer.
         if (pokemonHP != 10 || pokemonCP != 10) {
-            IVScanResult returner = new IVScanResult(get(selectedPokemon), estimatedPokemonLevel, pokemonCP);
+            IVScanResult returner = new IVScanResult(selectedPokemon, estimatedPokemonLevel, pokemonCP);
             for (int staminaIV = 0; staminaIV < 16; staminaIV++) {
                 int hp = (int) Math.max(Math.floor((baseStamina + staminaIV) * lvlScalar), 10);
                 if (hp == pokemonHP) {
@@ -193,7 +193,7 @@ public class PokeInfoCalculator {
             }
             return returner;
         } else {
-            return new IVScanResult(get(selectedPokemon), estimatedPokemonLevel, pokemonCP, true);
+            return new IVScanResult(selectedPokemon, estimatedPokemonLevel, pokemonCP, true);
 
         }
     }

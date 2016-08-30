@@ -124,8 +124,9 @@ public class Pokefly extends Service {
 
     private PokeInfoCalculator pokeCalculator = null;
 
-    private Drawable arrowDrawable;
     private Animator arrowAnimator;
+    private Drawable inputAppraisalExpandBoxArrowDrawable;
+    private Drawable resultsMoreInformationArrowDrawable;
 
     @BindView(R.id.tvSeeAllPossibilities)
     TextView seeAllPossibilities;
@@ -151,6 +152,10 @@ public class Pokefly extends Service {
     LinearLayout expandedResultsBox;
     @BindView(R.id.allPossibilitiesBox)
     LinearLayout allPossibilitiesBox;
+
+
+    @BindView(R.id.appraisalBox)
+    LinearLayout appraisalBox;
 
     // Result data
     @BindView(R.id.resultsMinPercentage)
@@ -201,6 +206,9 @@ public class Pokefly extends Service {
     LinearLayout llMultipleIVMatches;
     @BindView(R.id.refine_by_last_scan)
     LinearLayout refine_by_last_scan;
+
+    @BindView(R.id.inputAppraisalExpandBox)
+    TextView inputAppraisalExpandBox;
 
 
     @BindView(R.id.allPosAtt)
@@ -623,18 +631,37 @@ public class Pokefly extends Service {
 
     @OnClick({R.id.resultsMoreInformationText})
     public void toggleMoreResultsBox() {
+        int expandedResultsBoxVisibility;
         if (expandedResultsBox.getVisibility() == View.VISIBLE) {
-            expandedResultsBox.setVisibility(View.GONE);
-            arrowDrawable = getResources().getDrawable(R.drawable.arrow_collapse);
+            expandedResultsBoxVisibility = View.GONE;
+            resultsMoreInformationArrowDrawable = getResources().getDrawable(R.drawable.arrow_collapse);
         } else {
-            expandedResultsBox.setVisibility(View.VISIBLE);
-            arrowDrawable = getResources().getDrawable(R.drawable.arrow_expand);
+            expandedResultsBoxVisibility = View.VISIBLE;
+            resultsMoreInformationArrowDrawable = getResources().getDrawable(R.drawable.arrow_expand);
         }
-        resultsMoreInformationText.setCompoundDrawablesWithIntrinsicBounds(null, null, arrowDrawable, null);
-        arrowAnimator = ObjectAnimator.ofInt(arrowDrawable, "level", 0, 10000).setDuration(200);
+        resultsMoreInformationText.setCompoundDrawablesWithIntrinsicBounds(null, null, resultsMoreInformationArrowDrawable, null);
+        arrowAnimator = ObjectAnimator.ofInt(resultsMoreInformationArrowDrawable, "level", 0, 10000).setDuration(100);
         arrowAnimator.start();
+        expandedResultsBox.setVisibility(expandedResultsBoxVisibility);
     }
 
+
+
+    @OnClick({R.id.inputAppraisalExpandBox})
+    public void toggleAppraisalBox() {
+        int appraisalBoxVisibility;
+        if (appraisalBox.getVisibility() == View.VISIBLE) {
+            appraisalBoxVisibility = View.GONE;
+            inputAppraisalExpandBoxArrowDrawable = getResources().getDrawable(R.drawable.arrow_collapse);
+        } else {
+            appraisalBoxVisibility = View.VISIBLE;
+            inputAppraisalExpandBoxArrowDrawable = getResources().getDrawable(R.drawable.arrow_expand);
+        }
+        inputAppraisalExpandBox.setCompoundDrawablesWithIntrinsicBounds(null, null, inputAppraisalExpandBoxArrowDrawable, null);
+        arrowAnimator = ObjectAnimator.ofInt(inputAppraisalExpandBoxArrowDrawable, "level", 0, 10000).setDuration(100);
+        arrowAnimator.start();
+        appraisalBox.setVisibility(appraisalBoxVisibility);
+    }
 
     @OnClick(R.id.btnDecrementLevel)
     public void decrementLevel() {
@@ -914,10 +941,20 @@ public class Pokefly extends Service {
 
         extendedEvolutionSpinner.setEnabled(extendedEvolutionSpinner.getCount() > 1);
 
-        CPRange expectedRange = pokeCalculator.getCpRangeAtLevel(selectedPokemon, ivScanResult.lowAttack, ivScanResult.lowDefense, ivScanResult.lowStamina, ivScanResult.highAttack, ivScanResult.highDefense, ivScanResult.highStamina, goalLevel);
+        CPRange expectedRange = pokeCalculator.getCpRangeAtLevel(selectedPokemon,
+                ivScanResult.lowAttack, ivScanResult.lowDefense, ivScanResult.lowStamina,
+                ivScanResult.highAttack, ivScanResult.highDefense, ivScanResult.highStamina,goalLevel);
         int realCP = ivScanResult.scannedCP;
         int expectedAverage = (expectedRange.high + expectedRange.low) / 2;
-        exResultCP.setText(String.valueOf(expectedAverage) + " (+" + (expectedAverage - realCP) + ")");
+        String exResultCPStr = String.valueOf(expectedAverage);
+
+        int diffCP = expectedAverage - realCP;
+        if (diffCP >= 0) {
+            exResultCPStr += " (+" + diffCP + ")";
+        } else {
+            exResultCPStr += " (" + diffCP + ")";
+        }
+        exResultCP.setText(exResultCPStr);
 
         UpgradeCost cost = pokeCalculator.getUpgradeCost(goalLevel, estimatedPokemonLevel);
         int evolutionCandyCost = pokeCalculator.getCandyCostForEvolution(ivScanResult.pokemon, selectedPokemon);

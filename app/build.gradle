@@ -69,6 +69,7 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:24.2.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha1'
+    compile 'com.android.support:recyclerview-v7:24.2.0'
     compile 'com.rmtheis:tess-two:6.0.3'
     compile 'com.jakewharton.timber:timber:4.3.0'
     compile 'com.jakewharton:butterknife:8.1.0'

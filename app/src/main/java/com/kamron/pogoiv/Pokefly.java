@@ -25,6 +25,9 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.provider.MediaStore;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.LruCache;
 import android.view.Gravity;
@@ -202,15 +205,8 @@ public class Pokefly extends Service {
     @BindView(R.id.refine_by_last_scan)
     LinearLayout refine_by_last_scan;
 
-
-    @BindView(R.id.allPosAtt)
-    LinearLayout allPosAtt;
-    @BindView(R.id.allPosDef)
-    LinearLayout allPosDef;
-    @BindView(R.id.allPosSta)
-    LinearLayout allPosSta;
-    @BindView(R.id.allPosPercent)
-    LinearLayout allPosPercent;
+    @BindView(R.id.rvResults)
+    RecyclerView rvResults;
 
     // Refine by appraisal
     @BindView(R.id.attCheckbox)
@@ -586,6 +582,13 @@ public class Pokefly extends Service {
         pokeEvolutionAdapter = new PokemonSpinnerAdapter(this, R.layout.spinner_evolution, new ArrayList<Pokemon>());
         extendedEvolutionSpinner.setAdapter(pokeEvolutionAdapter);
 
+        // Setting up Recyclerview for further use.
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        rvResults.hasFixedSize();
+
+        rvResults.setLayoutManager(layoutManager);
+        rvResults.setItemAnimator(new DefaultItemAnimator());
+
         expandedLevelSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean fromUser) {
@@ -806,7 +809,6 @@ public class Pokefly extends Service {
             resultsCombinations.setText(String.format(getString(R.string.possible_iv_combinations), ivScanResult.iVCombinations.size()));
         }
 
-        clearPossibleIVsDialog();
         populateIVAllPosibilities(ivScanResult);
 
     }
@@ -818,43 +820,10 @@ public class Pokefly extends Service {
      */
     private void populateIVAllPosibilities(IVScanResult ivScanResult) {
 
-        for (IVCombination ivItem : ivScanResult.iVCombinations) {
-            addIVTextTo(allPosAtt, ivItem.att);
-            addIVTextTo(allPosDef, ivItem.def);
-            addIVTextTo(allPosSta, ivItem.sta);
-            addPercentageToPercentageColumn(ivItem.att + ivItem.sta + ivItem.def);
-        }
-
+        IVResultsAdapter ivResults = new IVResultsAdapter(ivScanResult, this);
+        rvResults.setAdapter(ivResults);
 
     }
-
-    /**
-     * adds a percent data point to the all positilities dialog
-     *
-     * @param allIVCombined attack + defence + stamina, max 45
-     */
-    private void addPercentageToPercentageColumn(int allIVCombined) {
-        TextView adder = new TextView(this);
-        int percent = (int) ((allIVCombined / 45f) * 100);
-        adder.setText(percent + "");
-        setTextColorbyPercentage(adder, percent);
-        allPosPercent.addView(adder);
-    }
-
-    /**
-     * method for adding an iv data to the all posibilities field, this method adds a single data point to a column
-     *
-     * @param column attack / defence / stamina
-     * @param value  A value between 0 and 15
-     */
-    private void addIVTextTo(LinearLayout column, int value) {
-        TextView adder = new TextView(this);
-        adder.setText(value + "");
-        int attackpercent = (int) ((value / 15f) * 100);
-        setTextColorbyPercentage(adder, attackpercent);
-        column.addView(adder);
-    }
-
 
     /**
      * populates the result screen with the layout as if it's a single result
@@ -983,14 +952,6 @@ public class Pokefly extends Service {
         }
     }
 
-    private void clearPossibleIVsDialog() {
-        //clear the all possibilities dialog
-        allPosAtt.removeAllViews();
-        allPosDef.removeAllViews();
-        allPosSta.removeAllViews();
-        allPosPercent.removeAllViews();
-    }
-
     @OnClick({R.id.btnCancelInfo, R.id.btnCloseInfo})
     /**
      * resets the info dialogue to its default state
@@ -1000,8 +961,6 @@ public class Pokefly extends Service {
         attCheckbox.setChecked(false);
         defCheckbox.setChecked(false);
         staCheckbox.setChecked(false);
-
-        clearPossibleIVsDialog();
 
         resetPokeflyStateMachine();
         resetInfoDialogue();

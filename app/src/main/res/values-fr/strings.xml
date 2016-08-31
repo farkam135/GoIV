@@ -47,7 +47,7 @@
     <string name="scan_pokemon_failed">Échec du scan, veuillez défiler vers le haut et ré-essayer !</string>
     <string name="see_all">Tout voir</string>
     <string name="advanced_information">Infos d\'évolution et rechargement</string>
-    <string name="powerup_calc_instructions">Calcul d\'évolution et rechargement - \nDéplacer le curseur pour différentes prédictions</string>
+    <string name="powerup_calc_instructions">Calcul d\'évolution et rechargement\nDéplacer le curseur pour différentes prédictions</string>
     <string name="candy_cost">Coût en Bonbons</string>
     <string name="stardust_cost">Coût en Poussière</string>
     <string name="evolution">Évolution</string>

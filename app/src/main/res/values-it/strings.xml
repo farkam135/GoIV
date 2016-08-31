@@ -47,7 +47,7 @@
     <string name="scan_pokemon_failed">Scasione fallita, scrolla su e prova di nuovo!</string>
     <string name="see_all">Elenca tutte</string>
     <string name="advanced_information">Info dettagliate</string>
-    <string name="powerup_calc_instructions">Calcolo potenziamenti ed evoluzioni - \n Trascina lo slider del livello per ottenere diverse previsioni</string>
+    <string name="powerup_calc_instructions">Calcolo potenziamenti ed evoluzioni\nTrascina lo slider del livello per ottenere diverse previsioni</string>
     <string name="candy_cost">Costo caramelle</string>
     <string name="stardust_cost">Costo polvere di stelle</string>
     <string name="evolution">Evoluzione</string>

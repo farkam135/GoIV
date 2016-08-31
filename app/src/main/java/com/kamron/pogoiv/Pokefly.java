@@ -66,6 +66,7 @@ import java.util.TimerTask;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnItemSelected;
 import timber.log.Timber;
 
 /**
@@ -688,6 +689,19 @@ public class Pokefly extends Service {
         populateAdvancedInformation(IVScanResult.scanContainer.oneScanAgo);
     }
 
+    @OnItemSelected(R.id.spnPokemonName)
+    public void storeUserCorrection(AdapterView<?> parent, View view, int position, long id) {
+        Pokemon pokemon = pokeCalculator.get(position);
+
+        /* TODO: Should we set a size limit on that and throw away LRU entries? */
+        if (!pokemonName.equals(pokemon.name) && pokeCalculator.get(pokemonName) == null) {
+            userCorrections.put(pokemonName, pokemon.name);
+            SharedPreferences.Editor edit = sharedPref.edit();
+            edit.putString(pokemonName, pokemon.name);
+            edit.apply();
+        }
+    }
+
     @OnClick(R.id.btnCheckIv)
     public void checkIv() {
 
@@ -707,16 +721,6 @@ public class Pokefly extends Service {
         }
 
         int selectedPokemon = pokemonList.getSelectedItemPosition();
-        Pokemon pokemon = pokeCalculator.get(selectedPokemon);
-        /* TODO: Should we set a size limit on that and throw away LRU entries? */
-        /* TODO: Move this into an event listener that triggers when the user
-         * actually changes the selection. */
-        if (!pokemonName.equals(pokemon.name) && pokeCalculator.get(pokemonName) == null) {
-            userCorrections.put(pokemonName, pokemon.name);
-            SharedPreferences.Editor edit = sharedPref.edit();
-            edit.putString(pokemonName, pokemon.name);
-            edit.apply();
-        }
         IVScanResult ivScanResult = pokeCalculator.getIVPossibilities(selectedPokemon, estimatedPokemonLevel, pokemonHP, pokemonCP);
 
         if (attCheckbox.isChecked() || defCheckbox.isChecked() || staCheckbox.isChecked()) {

@@ -1,6 +1,8 @@
 package com.kamron.pogoiv;
 
+import android.content.Context;
 import android.graphics.Color;
+import android.util.TypedValue;
 import android.widget.TextView;
 
 /**
@@ -22,5 +24,15 @@ public class GUIUtil {
         } else {
             text.setTextColor(Color.parseColor("#8A0808")); //dark red
         }
+    }
+
+    /**
+     * Converts dp units to pixels
+     *
+     * @param dp the dp ammount you want to return as pixels
+     * @param context the context
+     */
+    public static int dpToPixels(int dp, Context context) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.getResources().getDisplayMetrics());
     }
 }

@@ -734,7 +734,6 @@ public class Pokefly extends Service {
         }
 
 
-        Log.d("AutoCompletePokemon", "translated to: " + pokemon.name);
         /* TODO: Should we set a size limit on that and throw away LRU entries? */
         /* TODO: Move this into an event listener that triggers when the user
          * actually changes the selection. */

@@ -179,6 +179,13 @@ public class MainActivity extends AppCompatActivity {
                         radius++;
                     }
 
+                    // This call to clearFocus will accept whatever input the user pressed, without
+                    // forcing him to press the green checkmark on the keyboard.
+                    // Otherwise the typed value won't be read if either:
+                    // - the user presses Start before closing the keyboard, or
+                    // - the user closes the keyboard with the back button (note that does not cancel
+                    //   the typed text).
+                    npTrainerLevel.clearFocus();
                     trainerLevel = npTrainerLevel.getValue();
 
                     sharedPref.edit().putInt(PREF_LEVEL, trainerLevel).apply();

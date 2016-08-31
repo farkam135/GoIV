@@ -51,7 +51,7 @@
     <string name="scan_pokemon_failed">Scanning failed, please scroll up and try again!</string>
     <string name="see_all">See All</string>
     <string name="advanced_information">Evolution and Power Up Info</string>
-    <string name="powerup_calc_instructions">Powerup and evolution calculation - \n Drag the level slider to view different predictions</string>
+    <string name="powerup_calc_instructions">Power up and evolution calculation\nDrag the level slider to view different predictions</string>
     <string name="candy_cost">Candy Cost</string>
     <string name="stardust_cost">Stardust Cost</string>
     <string name="evolution">Evolution</string>

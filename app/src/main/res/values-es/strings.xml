@@ -48,7 +48,7 @@
     <string name="level">Nivel</string>
     <string name="possible_iv_combinations">"%1$d Combinaciones de IV posibles"</string>
     <string name="refine">Refinar</string>
-    <string name="powerup_calc_instructions">Cálculo de mejoras y evolución - \n Deslizar el slider para visualizar diferentes predicciones</string>
+    <string name="powerup_calc_instructions">Cálculo de mejoras y evolución\nDeslizar el slider para visualizar diferentes predicciones</string>
     <string name="scan_pokemon_failed">Detección fallida, asegurese de estar en la cima de la ficha del Pokémon y vuelva a intentar!</string>
     <string name="see_all">Ver Todas</string>
     <string name="stardust_cost">Costo en Polvoestalar</string>
@@ -56,8 +56,15 @@
     <string name="appraisal_refining">Refinamiento por valoración </string>
     <string name="attack">Ataque</string>
     <string name="defense">Defensa</string>
-    <string name="stamina_hp">PS</string>
+    <string name="stamina_hp">Salud</string>
     <string name="refine_no_progress">El refinamiento no mejoró los r</string>
     <string name="missing_inputs">Datos incompletos. Por favor completa los campos PC y PS.</string>
     <string name="ivtext_no_possibilities">No hay combinaciones de IV para estos datos. Por favor verifique la información.</string>
+    <string name="accept_screen_capture">Permitir captura de pantalla</string>
+    <string name="checking_for_update">Buscando actualización...</string>
+    <string name="iv_perfect">Perfección (%)</string>
+    <string name="ongoing_update">Ya se está descargando una actualización para GoIV</string>
+    <string name="too_many_iv_combinations">Demasiadas combinaciones de IV</string>
+    <string name="up_to_date">La aplicación se encuentra actualizada</string>
+    <string name="update_check_failed">Ocurrió un error durante la búsqueda de actualizaciones. Por favor, verifique su conexión a Internet.</string>
 </resources>

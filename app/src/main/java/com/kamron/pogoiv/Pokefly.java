@@ -1091,8 +1091,6 @@ public class Pokefly extends Service {
      * @return the likely pokemon number against the char sequence as well as the similarity
      */
     private int[] getPossiblePokemon(String poketext, String candytext) {
-        int pokeNumber = 0;
-        int bestMatch = 100;
         int bestCandyMatch = 100;
         Pokemon p;
 
@@ -1146,7 +1144,7 @@ public class Pokefly extends Service {
             candylist.addAll(p.evolutions.get(0).evolutions);
         }
 
-        bestMatch = 100;
+        int bestMatch = 100;
         for (Pokemon candyp : candylist) {
             int dist = candyp.getDistance(poketext);
             if (dist < bestMatch) {

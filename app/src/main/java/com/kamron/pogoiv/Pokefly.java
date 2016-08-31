@@ -227,8 +227,6 @@ public class Pokefly extends Service {
     @BindView(R.id.pokePickerToggleSpinnerVsInput)
     Button pokePickerToggleSpinnerVsInput;
 
-    private boolean usingSpinnerPickerForPokemon = true;
-
 
 
     private String pokemonName;
@@ -641,15 +639,16 @@ public class Pokefly extends Service {
     }
 
     @OnClick({R.id.pokePickerToggleSpinnerVsInput})
+    /**
+     * In the input screen, switches between the two methods the user has of picking pokemon - a dropdown list, or typing
+     */
     public void toggleSpinnerVsInput(){
         if (autoCompleteTextView1.getVisibility()==View.GONE){
             autoCompleteTextView1.setVisibility(View.VISIBLE);
             pokemonList.setVisibility(View.GONE);
-            usingSpinnerPickerForPokemon = false;
         }else{
             autoCompleteTextView1.setVisibility(View.GONE);
             pokemonList.setVisibility(View.VISIBLE);
-            usingSpinnerPickerForPokemon = true;
         }
     }
 
@@ -721,7 +720,7 @@ public class Pokefly extends Service {
 
         //below picks a pokemon from either the pokemon spinner or the user text input
         Pokemon pokemon;
-        if (usingSpinnerPickerForPokemon) { //user picked pokemon from spinner
+        if (pokemonList.getVisibility()==View.VISIBLE) { //user picked pokemon from spinner
             int selectedPokemon = pokemonList.getSelectedItemPosition();
             pokemon = pokeCalculator.get(selectedPokemon);
         } else { //user typed manually

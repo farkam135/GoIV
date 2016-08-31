@@ -29,7 +29,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.LruCache;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -136,7 +135,7 @@ public class Pokefly extends Service {
     @BindView(R.id.tvSeeAllPossibilities)
     TextView seeAllPossibilities;
     @BindView(R.id.spnPokemonName)
-    Spinner pokemonList;
+    Spinner inputScreenPokemonSpinner;
     @BindView(R.id.etCp)
     EditText pokemonCPEdit;
     @BindView(R.id.etHp)
@@ -239,7 +238,7 @@ public class Pokefly extends Service {
     /* We don't want memory usage to get out of hand for stuff that can be computed. */
     private LruCache<String, String> cachedCorrections;
 
-    private PokemonSpinnerAdapter pokeAdapter;
+    private PokemonSpinnerAdapter pokeInputDialogSpinnerAdapter;
     private PokemonSpinnerAdapter pokeEvolutionAdapter;
 
     private final WindowManager.LayoutParams arcParams = new WindowManager.LayoutParams(
@@ -589,8 +588,8 @@ public class Pokefly extends Service {
         layoutParams.gravity = Gravity.CENTER | Gravity.BOTTOM;
         ButterKnife.bind(this, infoLayout);
 
-        pokeAdapter = new PokemonSpinnerAdapter(this, R.layout.spinner_pokemon, pokeCalculator.pokedex);
-        pokemonList.setAdapter(pokeAdapter);
+        pokeInputDialogSpinnerAdapter = new PokemonSpinnerAdapter(this, R.layout.spinner_pokemon, new ArrayList<Pokemon>());
+        inputScreenPokemonSpinner.setAdapter(pokeInputDialogSpinnerAdapter);
 
         initializePokemonAutoCompleteTextView();
 
@@ -645,10 +644,10 @@ public class Pokefly extends Service {
     public void toggleSpinnerVsInput(){
         if (autoCompleteTextView1.getVisibility()==View.GONE){
             autoCompleteTextView1.setVisibility(View.VISIBLE);
-            pokemonList.setVisibility(View.GONE);
+            inputScreenPokemonSpinner.setVisibility(View.GONE);
         }else{
             autoCompleteTextView1.setVisibility(View.GONE);
-            pokemonList.setVisibility(View.VISIBLE);
+            inputScreenPokemonSpinner.setVisibility(View.VISIBLE);
         }
     }
 
@@ -720,8 +719,8 @@ public class Pokefly extends Service {
 
         //below picks a pokemon from either the pokemon spinner or the user text input
         Pokemon pokemon;
-        if (pokemonList.getVisibility()==View.VISIBLE) { //user picked pokemon from spinner
-            int selectedPokemon = pokemonList.getSelectedItemPosition();
+        if (inputScreenPokemonSpinner.getVisibility()==View.VISIBLE) { //user picked pokemon from spinner
+            String selectedPokemon = inputScreenPokemonSpinner.getSelectedItem().toString();
             pokemon = pokeCalculator.get(selectedPokemon);
         } else { //user typed manually
             String userInput = autoCompleteTextView1.getText().toString();
@@ -1088,15 +1087,15 @@ public class Pokefly extends Service {
 
             // set color based on similarity
             if (possiblePoke[1] == 0) {
-                pokemonList.setBackgroundColor(Color.parseColor("#ddffdd"));
+                inputScreenPokemonSpinner.setBackgroundColor(Color.parseColor("#ddffdd"));
             } else if (possiblePoke[1] < 2) {
-                pokemonList.setBackgroundColor(Color.parseColor("#ffffcc"));
+                inputScreenPokemonSpinner.setBackgroundColor(Color.parseColor("#ffffcc"));
             } else {
-                pokemonList.setBackgroundColor(Color.parseColor("#ffcccc"));
+                inputScreenPokemonSpinner.setBackgroundColor(Color.parseColor("#ffcccc"));
             }
 
-            pokemonList.setSelection(possiblePoke[0]);
-            pokeAdapter.updatePokemonList(pokeCalculator.getEvolutionLine(pokeCalculator.get(possiblePoke[0])));
+            inputScreenPokemonSpinner.setSelection(possiblePoke[0]);
+            pokeInputDialogSpinnerAdapter.updatePokemonList(pokeCalculator.getEvolutionLine(pokeCalculator.get(possiblePoke[0])));
 
             pokemonHPEdit.setText(String.valueOf(pokemonHP));
             pokemonCPEdit.setText(String.valueOf(pokemonCP));

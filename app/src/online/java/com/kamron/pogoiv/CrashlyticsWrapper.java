@@ -2,6 +2,7 @@ package com.kamron.pogoiv;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.core.CrashlyticsCore;
@@ -44,6 +45,7 @@ public class CrashlyticsWrapper {
                 }
             }
 
+            CommonLogger.log(priority, tag, message, t);
         }
     }
 }

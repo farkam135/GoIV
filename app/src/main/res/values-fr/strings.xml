@@ -58,7 +58,7 @@
     <string name="possible_iv_combinations">"%1$d combi. d\'IV possibles"</string>
     <string name="too_many_iv_combinations">Trop de combinaisons d\'IV</string>
     <string name="refining_instructions">Améliorer la précision du calcul d\'IV en rechargeant le Pokémon puis en comparant deux scans</string>
-    <string name="appraisal_narrowing">Raffiner via \'Évaluer\' (optionnel)</string>
+    <string name="appraisal_refining">Raffiner via \'Évaluer\' </string>
     <string name="attack">Attaque</string>
     <string name="defense">Défense</string>
     <string name="stamina_hp">PV</string>

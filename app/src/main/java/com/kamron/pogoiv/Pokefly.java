@@ -690,8 +690,8 @@ public class Pokefly extends Service {
     }
 
     @OnItemSelected(R.id.spnPokemonName)
-    public void storeUserCorrection() {
-        Pokemon pokemon = pokeCalculator.get(pokemonList.getSelectedItemPosition());
+    public void storeUserCorrection(AdapterView<?> parent, View view, int position, long id) {
+        Pokemon pokemon = pokeCalculator.get(position);
 
         /* TODO: Should we set a size limit on that and throw away LRU entries? */
         if (!pokemonName.equals(pokemon.name) && pokeCalculator.get(pokemonName) == null) {

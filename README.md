@@ -1,5 +1,7 @@
 # GoIV, Android Project for Pokémon GO.
 
+[![Build Status](https://travis-ci.org/farkam135/GoIV.svg?branch=master)](https://travis-ci.org/farkam135/GoIV)
+
 ## Table of Contents
 
 - [What is GoIV](#what-is-goiv)

@@ -32,3 +32,6 @@ You can do so by following these *rules* (taken from this great [article](http:/
 * Use the imperative mood in the subject line
 * Wrap the body at 72 characters
 * Use the body to explain what and why vs. how
+
+## Generating Signed Release Builds
+Follow the instructions under [Sign Your Release Build] (https://developer.android.com/studio/publish/app-signing.html#release-mode) to generate your own keystore.jks file. Place the generated keystore.jks in `<path-to-go-iv>/app`. Make a copy of keystore.properties.sample and rename it to keystore.properties. Change the fields to correspond to your own generated keystore and you should be good to go.

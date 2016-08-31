@@ -25,6 +25,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.provider.MediaStore;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.util.Pair;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -230,7 +231,7 @@ public class Pokefly extends Service {
 
     private HashMap<String, String> userCorrections;
     /* We don't want memory usage to get out of hand for stuff that can be computed. */
-    private LruCache<String, String> cachedCorrections;
+    private LruCache<String, Pair<String, Integer>> cachedCorrections;
 
     private PokemonSpinnerAdapter pokeAdapter;
     private PokemonSpinnerAdapter pokeEvolutionAdapter;
@@ -1091,6 +1092,7 @@ public class Pokefly extends Service {
      * @return the likely pokemon number against the char sequence as well as the similarity
      */
     private int[] getPossiblePokemon(String poketext, String candytext) {
+        int poketextDist = 0;
         int bestCandyMatch = 100;
         Pokemon p;
 
@@ -1100,15 +1102,16 @@ public class Pokefly extends Service {
         }
 
         /* If we already did similarity search for this, go with the cached value. */
-        String cached = cachedCorrections.get(poketext);
+        Pair<String, Integer> cached = cachedCorrections.get(poketext);
         if (cached != null) {
-            poketext = cached;
+            poketext = cached.first;
+            poketextDist = cached.second;
         }
 
         /* If the pokemon name was a perfect match, we are done. */
         p = pokeCalculator.get(poketext);
         if (p != null) {
-            int[] result = {p.number, 0};
+            int[] result = {p.number, poketextDist};
             return result;
         }
 
@@ -1153,12 +1156,14 @@ public class Pokefly extends Service {
             }
         }
 
-        /* Cache this correction. We don't really need to save this across launches. */
-        cachedCorrections.put(poketext, p.name);
-
         /* Adding the candy distance and the pokemon name distance gives a better idea of how much
          * guess is going on. */
-        int[] result = {p.number, bestCandyMatch + bestMatch};
+        int dist = bestCandyMatch + bestMatch;
+
+        /* Cache this correction. We don't really need to save this across launches. */
+        cachedCorrections.put(poketext, new Pair<>(p.name, dist));
+
+        int[] result = {p.number, dist};
         return result;
     }
 

@@ -806,7 +806,7 @@ public class Pokefly extends Service {
      */
     private void populateResultsHeader(IVScanResult ivScanResult) {
         resultsPokemonName.setText(ivScanResult.pokemon.name);
-        resultsPokemonLevel.setText(getString(R.string.level) + ": " + ivScanResult.estimatedPokemonLevel);
+        resultsPokemonLevel.setText(getString(R.string.level) + " " + ivScanResult.estimatedPokemonLevel);
     }
 
     /**
@@ -819,7 +819,7 @@ public class Pokefly extends Service {
         llMinIV.setVisibility(View.VISIBLE);
         llSingleMatch.setVisibility(View.GONE);
         llMultipleIVMatches.setVisibility(View.VISIBLE);
-        tvAvgIV.setText("AVG");
+        tvAvgIV.setText(getString(R.string.avg));
         if (ivScanResult.tooManyPossibilities) {
             resultsCombinations.setText(getString(R.string.too_many_iv_combinations));
         } else {

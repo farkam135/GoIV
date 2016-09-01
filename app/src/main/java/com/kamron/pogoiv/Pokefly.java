@@ -235,7 +235,6 @@ public class Pokefly extends Service {
     Button pokePickerToggleSpinnerVsInput;
 
 
-
     private String pokemonName;
     private String candyName;
     private int pokemonCP;
@@ -649,11 +648,11 @@ public class Pokefly extends Service {
     /**
      * In the input screen, switches between the two methods the user has of picking pokemon - a dropdown list, or typing
      */
-    public void toggleSpinnerVsInput(){
-        if (autoCompleteTextView1.getVisibility()==View.GONE){
+    public void toggleSpinnerVsInput() {
+        if (autoCompleteTextView1.getVisibility() == View.GONE) {
             autoCompleteTextView1.setVisibility(View.VISIBLE);
             inputScreenPokemonSpinner.setVisibility(View.GONE);
-        }else{
+        } else {
             resetToSpinner();
         }
     }
@@ -743,7 +742,7 @@ public class Pokefly extends Service {
 
         //below picks a pokemon from either the pokemon spinner or the user text input
         Pokemon pokemon;
-        if (inputScreenPokemonSpinner.getVisibility()==View.VISIBLE) { //user picked pokemon from spinner
+        if (inputScreenPokemonSpinner.getVisibility() == View.VISIBLE) { //user picked pokemon from spinner
             String selectedPokemon = inputScreenPokemonSpinner.getSelectedItem().toString();
             pokemon = pokeCalculator.get(selectedPokemon);
         } else { //user typed manually
@@ -808,7 +807,7 @@ public class Pokefly extends Service {
     /**
      * Initialises the autocompletetextview which allows people to search for pokemon names
      */
-    private void initializePokemonAutoCompleteTextView(){
+    private void initializePokemonAutoCompleteTextView() {
         String[] pokeList = getResources().getStringArray(R.array.Pokemon);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.autocomplete_pokemon_list_item, pokeList);
         autoCompleteTextView1.setAdapter(adapter);
@@ -962,7 +961,7 @@ public class Pokefly extends Service {
 
         CPRange expectedRange = pokeCalculator.getCpRangeAtLevel(selectedPokemon,
                 ivScanResult.lowAttack, ivScanResult.lowDefense, ivScanResult.lowStamina,
-                ivScanResult.highAttack, ivScanResult.highDefense, ivScanResult.highStamina,goalLevel);
+                ivScanResult.highAttack, ivScanResult.highDefense, ivScanResult.highStamina, goalLevel);
         int realCP = ivScanResult.scannedCP;
         int expectedAverage = (expectedRange.high + expectedRange.low) / 2;
         String exResultCPStr = String.valueOf(expectedAverage);

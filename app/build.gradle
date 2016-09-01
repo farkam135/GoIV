@@ -9,20 +9,20 @@ buildscript {
 }
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
+apply plugin: 'android-apt'
+apply from: '../checkstyle/checkstyle.gradle'
 
 repositories {
     maven { url 'https://maven.fabric.io/public' }
 }
 
-apply plugin: 'android-apt'
 
 def keystoreProperties = new Properties()
 
 if (new File('keystore.properties').exists()) {
     def keystorePropertiesFile = rootProject.file('keystore.properties')
     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
-}
-else {
+} else {
     keystoreProperties.keyAlias = 'your_key_alias'
     keystoreProperties.keyPassword = 'your_key_password'
     keystoreProperties.storeFile = 'your_keystore.jks'

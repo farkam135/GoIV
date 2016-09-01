@@ -245,8 +245,8 @@ public class Pokefly extends Service {
     /* We don't want memory usage to get out of hand for stuff that can be computed. */
     private LruCache<String, Pair<String, Integer>> cachedCorrections;
 
-    private PokemonSpinnerAdapter pokeInputDialogSpinnerAdapter;
-    private PokemonSpinnerAdapter pokeEvolutionAdapter;
+    private PokemonSpinnerAdapter pokeInputSpinnerAdapter;
+    private PokemonSpinnerAdapter extendedEvolutionSpinnerAdapter;
 
     private final WindowManager.LayoutParams arcParams = new WindowManager.LayoutParams(
             WindowManager.LayoutParams.WRAP_CONTENT,
@@ -595,13 +595,13 @@ public class Pokefly extends Service {
         layoutParams.gravity = Gravity.CENTER | Gravity.BOTTOM;
         ButterKnife.bind(this, infoLayout);
 
-        pokeInputDialogSpinnerAdapter = new PokemonSpinnerAdapter(this, R.layout.spinner_pokemon, new ArrayList<Pokemon>());
-        inputScreenPokemonSpinner.setAdapter(pokeInputDialogSpinnerAdapter);
+        pokeInputSpinnerAdapter = new PokemonSpinnerAdapter(this, R.layout.spinner_pokemon, new ArrayList<Pokemon>());
+        pokeInputSpinner.setAdapter(pokeInputSpinnerAdapter);
 
         initializePokemonAutoCompleteTextView();
 
-        pokeEvolutionAdapter = new PokemonSpinnerAdapter(this, R.layout.spinner_evolution, new ArrayList<Pokemon>());
-        extendedEvolutionSpinner.setAdapter(pokeEvolutionAdapter);
+        extendedEvolutionSpinnerAdapter = new PokemonSpinnerAdapter(this, R.layout.spinner_evolution, new ArrayList<Pokemon>());
+        extendedEvolutionSpinner.setAdapter(extendedEvolutionSpinnerAdapter);
 
         // Setting up Recyclerview for further use.
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -652,7 +652,7 @@ public class Pokefly extends Service {
         if (autoCompleteTextView1.getVisibility() == View.GONE) {
             autoCompleteTextView1.setVisibility(View.VISIBLE);
             autoCompleteTextView1.requestFocus();
-            inputScreenPokemonSpinner.setVisibility(View.GONE);
+            pokeInputSpinner.setVisibility(View.GONE);
         } else {
             resetToSpinner();
         }
@@ -660,7 +660,7 @@ public class Pokefly extends Service {
 
     public void resetToSpinner() {
         autoCompleteTextView1.setVisibility(View.GONE);
-        inputScreenPokemonSpinner.setVisibility(View.VISIBLE);
+        pokeInputSpinner.setVisibility(View.VISIBLE);
     }
 
     private void toggleVisibility(TextView expanderText, LinearLayout expandedBox) {
@@ -743,8 +743,8 @@ public class Pokefly extends Service {
 
         //below picks a pokemon from either the pokemon spinner or the user text input
         Pokemon pokemon;
-        if (inputScreenPokemonSpinner.getVisibility() == View.VISIBLE) { //user picked pokemon from spinner
-            String selectedPokemon = inputScreenPokemonSpinner.getSelectedItem().toString();
+        if (pokeInputSpinner.getVisibility() == View.VISIBLE) { //user picked pokemon from spinner
+            String selectedPokemon = pokeInputSpinner.getSelectedItem().toString();
             pokemon = pokeCalculator.get(selectedPokemon);
         } else { //user typed manually
             String userInput = autoCompleteTextView1.getText().toString();
@@ -981,7 +981,7 @@ public class Pokefly extends Service {
         exResCandy.setText(candyCostText);
         exResStardust.setText(String.valueOf(cost.dust));
 
-        pokeEvolutionAdapter.updatePokemonList(evolutionLine);
+        extendedEvolutionSpinnerAdapter.updatePokemonList(evolutionLine);
         exResLevel.setText(String.valueOf(goalLevel));
 
         // If goalLevel exeeds trainer capabilities then show text in orange
@@ -1121,17 +1121,17 @@ public class Pokefly extends Service {
 
             // set color based on similarity
             if (possiblePoke[1] == 0) {
-                inputScreenPokemonSpinner.setBackgroundColor(Color.parseColor("#ddffdd"));
+                pokeInputSpinner.setBackgroundColor(Color.parseColor("#ddffdd"));
             } else if (possiblePoke[1] < 2) {
-                inputScreenPokemonSpinner.setBackgroundColor(Color.parseColor("#ffffcc"));
+                pokeInputSpinner.setBackgroundColor(Color.parseColor("#ffffcc"));
             } else {
-                inputScreenPokemonSpinner.setBackgroundColor(Color.parseColor("#ffcccc"));
+                pokeInputSpinner.setBackgroundColor(Color.parseColor("#ffcccc"));
             }
 
             resetToSpinner();
             autoCompleteTextView1.setText("");
-            inputScreenPokemonSpinner.setSelection(possiblePoke[0]);
-            pokeInputDialogSpinnerAdapter.updatePokemonList(pokeCalculator.getEvolutionLine(pokeCalculator.get(possiblePoke[0])));
+            pokeInputSpinner.setSelection(possiblePoke[0]);
+            pokeInputSpinnerAdapter.updatePokemonList(pokeCalculator.getEvolutionLine(pokeCalculator.get(possiblePoke[0])));
 
             pokemonHPEdit.setText(String.valueOf(pokemonHP));
             pokemonCPEdit.setText(String.valueOf(pokemonCP));

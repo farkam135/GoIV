@@ -131,11 +131,20 @@ public class Pokefly extends Service {
     private PokeInfoCalculator pokeCalculator = null;
 
     private Animator arrowAnimator;
+    //results pokemon picker auto complete
+    @BindView(R.id.autoCompleteTextView1)
+    AutoCompleteTextView autoCompleteTextView1;
+
+    @BindView(R.id.pokePickerToggleSpinnerVsInput)
+    Button pokePickerToggleSpinnerVsInput;
+
+
+    private PokemonSpinnerAdapter pokeInputSpinnerAdapter;
+    @BindView(R.id.spnPokemonName)
+    Spinner pokeInputSpinner;
 
     @BindView(R.id.tvSeeAllPossibilities)
     TextView seeAllPossibilities;
-    @BindView(R.id.spnPokemonName)
-    Spinner inputScreenPokemonSpinner;
     @BindView(R.id.etCp)
     EditText pokemonCPEdit;
     @BindView(R.id.etHp)
@@ -162,6 +171,11 @@ public class Pokefly extends Service {
     LinearLayout appraisalBox;
 
     // Result data
+    private PokemonSpinnerAdapter extendedEvolutionSpinnerAdapter;
+
+    @BindView(R.id.extendedEvolutionSpinner)
+    Spinner extendedEvolutionSpinner;
+
     @BindView(R.id.resultsMinPercentage)
     TextView resultsMinPercentage;
     @BindView(R.id.resultsAvePercentage)
@@ -190,8 +204,6 @@ public class Pokefly extends Service {
     TextView resultsMoreInformationText;
     @BindView(R.id.expandedLevelSeekbar)
     SeekBar expandedLevelSeekbar;
-    @BindView(R.id.extendedEvolutionSpinner)
-    Spinner extendedEvolutionSpinner;
     @BindView(R.id.llSingleMatch)
     LinearLayout llSingleMatch;
     @BindView(R.id.tvAvgIV)
@@ -227,14 +239,6 @@ public class Pokefly extends Service {
     CheckBox staCheckbox;
 
 
-    //results pokemon picker auto complete
-    @BindView(R.id.autoCompleteTextView1)
-    AutoCompleteTextView autoCompleteTextView1;
-
-    @BindView(R.id.pokePickerToggleSpinnerVsInput)
-    Button pokePickerToggleSpinnerVsInput;
-
-
     private String pokemonName;
     private String candyName;
     private int pokemonCP;
@@ -244,9 +248,6 @@ public class Pokefly extends Service {
     private HashMap<String, String> userCorrections;
     /* We don't want memory usage to get out of hand for stuff that can be computed. */
     private LruCache<String, Pair<String, Integer>> cachedCorrections;
-
-    private PokemonSpinnerAdapter pokeInputSpinnerAdapter;
-    private PokemonSpinnerAdapter extendedEvolutionSpinnerAdapter;
 
     private final WindowManager.LayoutParams arcParams = new WindowManager.LayoutParams(
             WindowManager.LayoutParams.WRAP_CONTENT,

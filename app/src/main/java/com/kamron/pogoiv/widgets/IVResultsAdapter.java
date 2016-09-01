@@ -14,6 +14,9 @@ import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.logic.IVCombination;
 import com.kamron.pogoiv.logic.IVScanResult;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+
 /**
  * Created by OskO on 29/08/16.
  */
@@ -40,10 +43,10 @@ public class IVResultsAdapter extends RecyclerView.Adapter<IVResultsAdapter.Resu
         holder.resultHP.setText(String.valueOf(currentSet.sta));
         holder.resultPercentage.setText(String.valueOf(currentSet.percentPerfect));
 
-        GUIUtil.setTextColorbyPercentage(holder.resultAttack, (int) Math.round(currentSet.att * 100.0 / 15));
-        GUIUtil.setTextColorbyPercentage(holder.resultDefense, (int) Math.round(currentSet.def * 100.0 / 15));
-        GUIUtil.setTextColorbyPercentage(holder.resultHP, (int) Math.round(currentSet.sta * 100.0 / 15));
-        GUIUtil.setTextColorbyPercentage(holder.resultPercentage, currentSet.percentPerfect);
+        GUIUtil.setTextColorByIV(holder.resultAttack, currentSet.att);
+        GUIUtil.setTextColorByIV(holder.resultDefense, currentSet.def);
+        GUIUtil.setTextColorByIV(holder.resultHP, currentSet.sta);
+        GUIUtil.setTextColorByPercentage(holder.resultPercentage, currentSet.percentPerfect);
 
         if (position % 2 != 0) {
             holder.llRvResult.setBackgroundColor(Color.parseColor("#EFEFEF"));

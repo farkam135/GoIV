@@ -797,7 +797,7 @@ public class Pokefly extends Service {
      */
     private void addToRangeToClipboardIfSettingOn(IVScanResult ivScanResult) {
         if (GoIVSettings.getInstance(getApplicationContext()).shouldCopyToClipboard()) {
-            if (GoIVSettings.getInstance(getApplicationContext()).shouldCopyToClipboard()) {
+            if (!ivScanResult.tooManyPossibilities) {
                 String clipText = ivScanResult.getLowestIVCombination().percentPerfect + "-" + ivScanResult.getHighestIVCombination().percentPerfect;
                 ClipData clip = ClipData.newPlainText(clipText, clipText);
                 clipboard.setPrimaryClip(clip);
@@ -1304,8 +1304,8 @@ public class Pokefly extends Service {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (!receivedInfo) {
-                receivedInfo = true;
                 if (intent.hasExtra(KEY_SEND_INFO_NAME) && intent.hasExtra(KEY_SEND_INFO_CP) && intent.hasExtra(KEY_SEND_INFO_HP) && intent.hasExtra(KEY_SEND_INFO_LEVEL)) {
+                    receivedInfo = true;
                     pokemonName = intent.getStringExtra(KEY_SEND_INFO_NAME);
                     candyName = intent.getStringExtra(KEY_SEND_INFO_CANDY);
                     pokemonCP = intent.getIntExtra(KEY_SEND_INFO_CP, 0);

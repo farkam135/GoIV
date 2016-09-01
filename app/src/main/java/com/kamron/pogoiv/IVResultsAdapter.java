@@ -42,10 +42,10 @@ class IVResultsAdapter extends RecyclerView.Adapter<IVResultsAdapter.ResultsView
         GUIUtil.setTextColorbyPercentage(holder.resultDefense, (int) Math.round(currentSet.def * 100.0 / 15));
         GUIUtil.setTextColorbyPercentage(holder.resultHP, (int) Math.round(currentSet.sta * 100.0 / 15));
         GUIUtil.setTextColorbyPercentage(holder.resultPercentage, currentSet.percentPerfect);
-        
+
         if (position % 2 != 0) {
             holder.llRvResult.setBackgroundColor(Color.parseColor("#EFEFEF"));
-        }else{
+        } else {
             holder.llRvResult.setBackgroundColor(Color.parseColor("#FFFFFF"));
         }
     }

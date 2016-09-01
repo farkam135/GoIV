@@ -39,3 +39,4 @@ captures/
 # Keystore files
 *.jks
 **/*.jks
+keystore.properties

@@ -77,7 +77,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="ATK"
+                    android:text="@string/atk"
                     android:layout_margin="0dp"
                     android:textSize="12sp"
                     android:gravity="center"
@@ -111,7 +111,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="DEF"
+                    android:text="@string/def"
                     android:textSize="12sp"
                     android:layout_margin="0dp"
                     android:textColor="#222"/>
@@ -145,7 +145,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="STA"
+                    android:text="@string/sta"
                     android:textSize="12sp"
                     android:layout_margin="0dp"
                     android:textColor="#222"/>

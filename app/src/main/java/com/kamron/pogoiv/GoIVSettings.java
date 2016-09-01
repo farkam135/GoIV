@@ -2,6 +2,7 @@ package com.kamron.pogoiv;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Build;
 
 public class GoIVSettings {
 
@@ -38,7 +39,12 @@ public class GoIVSettings {
     }
 
     public boolean isManualScreenshotModeEnabled() {
-        return prefs.getBoolean(MANUAL_SCREENSHOT_MODE, false);
+        //XXX unify with code in SettingsActivity.java
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT_WATCH) {
+            return true;
+        } else {
+            return prefs.getBoolean(MANUAL_SCREENSHOT_MODE, false);
+        }
     }
 
     public boolean shouldDeleteScreenshots() {

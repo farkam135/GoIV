@@ -85,7 +85,7 @@ public class SettingsActivity extends AppCompatActivity {
                 preferenceScreen.removePreference(checkForUpdatePreference);
             }
 
-            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT_WATCH) {
                 SwitchPreference manualScreenshotModePreference = (SwitchPreference) getPreferenceManager().findPreference(GoIVSettings.MANUAL_SCREENSHOT_MODE);
                 manualScreenshotModePreference.setDefaultValue(true);
                 manualScreenshotModePreference.setChecked(true);

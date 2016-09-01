@@ -651,6 +651,7 @@ public class Pokefly extends Service {
     public void toggleSpinnerVsInput() {
         if (autoCompleteTextView1.getVisibility() == View.GONE) {
             autoCompleteTextView1.setVisibility(View.VISIBLE);
+            autoCompleteTextView1.requestFocus();
             inputScreenPokemonSpinner.setVisibility(View.GONE);
         } else {
             resetToSpinner();

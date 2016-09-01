@@ -40,7 +40,7 @@ public class GoIVSettings {
 
     public boolean isManualScreenshotModeEnabled() {
         //XXX unify with code in SettingsActivity.java
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT_WATCH) {
             return true;
         } else {
             return prefs.getBoolean(MANUAL_SCREENSHOT_MODE, false);

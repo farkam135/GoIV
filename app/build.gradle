@@ -16,7 +16,29 @@ repositories {
 
 apply plugin: 'android-apt'
 
+def keystoreProperties = new Properties()
+
+if (new File('keystore.properties').exists()) {
+    def keystorePropertiesFile = rootProject.file('keystore.properties')
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+else {
+    keystoreProperties.keyAlias = 'your_key_alias'
+    keystoreProperties.keyPassword = 'your_key_password'
+    keystoreProperties.storeFile = 'your_keystore.jks'
+    keystoreProperties.storePassword = 'your_keystore_password'
+}
+
 android {
+
+    signingConfigs {
+        releaseConfig {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+        }
+    }
 
     compileSdkVersion 24
     buildToolsVersion "24.0.1"
@@ -61,6 +83,7 @@ android {
             lintOptions {
                 disable 'MissingTranslation'
             }
+            signingConfig signingConfigs.releaseConfig
         }
     }
 }

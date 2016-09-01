@@ -654,10 +654,15 @@ public class Pokefly extends Service {
             autoCompleteTextView1.setVisibility(View.VISIBLE);
             inputScreenPokemonSpinner.setVisibility(View.GONE);
         }else{
-            autoCompleteTextView1.setVisibility(View.GONE);
-            inputScreenPokemonSpinner.setVisibility(View.VISIBLE);
+            resetToSpinner();
         }
     }
+
+    public void resetToSpinner() {
+        autoCompleteTextView1.setVisibility(View.GONE);
+        inputScreenPokemonSpinner.setVisibility(View.VISIBLE);
+    }
+
     private void toggleVisibility(TextView expanderText, LinearLayout expandedBox) {
         int boxVisibility;
         Drawable arrowDrawable;
@@ -1123,6 +1128,8 @@ public class Pokefly extends Service {
                 inputScreenPokemonSpinner.setBackgroundColor(Color.parseColor("#ffcccc"));
             }
 
+            resetToSpinner();
+            autoCompleteTextView1.setText("");
             inputScreenPokemonSpinner.setSelection(possiblePoke[0]);
             pokeInputDialogSpinnerAdapter.updatePokemonList(pokeCalculator.getEvolutionLine(pokeCalculator.get(possiblePoke[0])));
 

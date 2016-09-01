@@ -748,7 +748,7 @@ public class Pokefly extends Service {
      */
     private void addToRangeToClipboardIfSettingOn(IVScanResult ivScanResult) {
         if (GoIVSettings.getInstance(getApplicationContext()).shouldCopyToClipboard()) {
-            if (GoIVSettings.getInstance(getApplicationContext()).shouldCopyToClipboard()) {
+            if (ivScanResult.getLowestIVCombination() != null && ivScanResult.getHighestIVCombination() != null) {
                 String clipText = ivScanResult.getLowestIVCombination().percentPerfect + "-" + ivScanResult.getHighestIVCombination().percentPerfect;
                 ClipData clip = ClipData.newPlainText(clipText, clipText);
                 clipboard.setPrimaryClip(clip);

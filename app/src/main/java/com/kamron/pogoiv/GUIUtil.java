@@ -29,7 +29,7 @@ public class GUIUtil {
     /**
      * Converts dp units to pixels
      *
-     * @param dp the dp ammount you want to return as pixels
+     * @param dp      the dp ammount you want to return as pixels
      * @param context the context
      */
     public static int dpToPixels(int dp, Context context) {

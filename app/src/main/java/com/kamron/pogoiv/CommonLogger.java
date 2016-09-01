@@ -8,6 +8,7 @@ import android.util.Log;
 public class CommonLogger {
     /**
      * Wraooer around android.util.Log.println.
+     *
      * @param priority Logging priority, using android.util.Log constants
      * @param tag
      * @param message

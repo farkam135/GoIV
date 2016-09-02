@@ -21,14 +21,10 @@
             android:textSize="18sp"
             android:gravity="center"/>
 
-        <Spinner
-            android:id="@+id/spnPokemonName"
-            android:layout_width="0dp"
+        <include layout="@layout/dialog_input_poke_picker"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/spinner"
-            android:popupBackground="#FFF"
-            android:gravity="center"/>
+            android:layout_width="wrap_content"></include>
+
 
     </LinearLayout>
 

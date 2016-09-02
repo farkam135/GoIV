@@ -37,6 +37,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -128,11 +131,20 @@ public class Pokefly extends Service {
     private PokeInfoCalculator pokeCalculator = null;
 
     private Animator arrowAnimator;
+    //results pokemon picker auto complete
+    @BindView(R.id.autoCompleteTextView1)
+    AutoCompleteTextView autoCompleteTextView1;
+
+    @BindView(R.id.pokePickerToggleSpinnerVsInput)
+    Button pokePickerToggleSpinnerVsInput;
+
+
+    private PokemonSpinnerAdapter pokeInputSpinnerAdapter;
+    @BindView(R.id.spnPokemonName)
+    Spinner pokeInputSpinner;
 
     @BindView(R.id.tvSeeAllPossibilities)
     TextView seeAllPossibilities;
-    @BindView(R.id.spnPokemonName)
-    Spinner pokemonList;
     @BindView(R.id.etCp)
     EditText pokemonCPEdit;
     @BindView(R.id.etHp)
@@ -159,6 +171,11 @@ public class Pokefly extends Service {
     LinearLayout appraisalBox;
 
     // Result data
+    private PokemonSpinnerAdapter extendedEvolutionSpinnerAdapter;
+
+    @BindView(R.id.extendedEvolutionSpinner)
+    Spinner extendedEvolutionSpinner;
+
     @BindView(R.id.resultsMinPercentage)
     TextView resultsMinPercentage;
     @BindView(R.id.resultsAvePercentage)
@@ -187,8 +204,6 @@ public class Pokefly extends Service {
     TextView resultsMoreInformationText;
     @BindView(R.id.expandedLevelSeekbar)
     SeekBar expandedLevelSeekbar;
-    @BindView(R.id.extendedEvolutionSpinner)
-    Spinner extendedEvolutionSpinner;
     @BindView(R.id.llSingleMatch)
     LinearLayout llSingleMatch;
     @BindView(R.id.tvAvgIV)
@@ -223,6 +238,7 @@ public class Pokefly extends Service {
     @BindView(R.id.staCheckbox)
     CheckBox staCheckbox;
 
+
     private String pokemonName;
     private String candyName;
     private int pokemonCP;
@@ -232,9 +248,6 @@ public class Pokefly extends Service {
     private HashMap<String, String> userCorrections;
     /* We don't want memory usage to get out of hand for stuff that can be computed. */
     private LruCache<String, Pair<String, Integer>> cachedCorrections;
-
-    private PokemonSpinnerAdapter pokeAdapter;
-    private PokemonSpinnerAdapter pokeEvolutionAdapter;
 
     private final WindowManager.LayoutParams arcParams = new WindowManager.LayoutParams(
             WindowManager.LayoutParams.WRAP_CONTENT,
@@ -583,11 +596,13 @@ public class Pokefly extends Service {
         layoutParams.gravity = Gravity.CENTER | Gravity.BOTTOM;
         ButterKnife.bind(this, infoLayout);
 
-        pokeAdapter = new PokemonSpinnerAdapter(this, R.layout.spinner_pokemon, pokeCalculator.pokedex);
-        pokemonList.setAdapter(pokeAdapter);
+        pokeInputSpinnerAdapter = new PokemonSpinnerAdapter(this, R.layout.spinner_pokemon, new ArrayList<Pokemon>());
+        pokeInputSpinner.setAdapter(pokeInputSpinnerAdapter);
 
-        pokeEvolutionAdapter = new PokemonSpinnerAdapter(this, R.layout.spinner_evolution, new ArrayList<Pokemon>());
-        extendedEvolutionSpinner.setAdapter(pokeEvolutionAdapter);
+        initializePokemonAutoCompleteTextView();
+
+        extendedEvolutionSpinnerAdapter = new PokemonSpinnerAdapter(this, R.layout.spinner_evolution, new ArrayList<Pokemon>());
+        extendedEvolutionSpinner.setAdapter(extendedEvolutionSpinnerAdapter);
 
         // Setting up Recyclerview for further use.
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -628,6 +643,25 @@ public class Pokefly extends Service {
 
         });
 
+    }
+
+    @OnClick({R.id.pokePickerToggleSpinnerVsInput})
+    /**
+     * In the input screen, switches between the two methods the user has of picking pokemon - a dropdown list, or typing
+     */
+    public void toggleSpinnerVsInput() {
+        if (autoCompleteTextView1.getVisibility() == View.GONE) {
+            autoCompleteTextView1.setVisibility(View.VISIBLE);
+            autoCompleteTextView1.requestFocus();
+            pokeInputSpinner.setVisibility(View.GONE);
+        } else {
+            resetToSpinner();
+        }
+    }
+
+    public void resetToSpinner() {
+        autoCompleteTextView1.setVisibility(View.GONE);
+        pokeInputSpinner.setVisibility(View.VISIBLE);
     }
 
     private void toggleVisibility(TextView expanderText, LinearLayout expandedBox) {
@@ -707,8 +741,23 @@ public class Pokefly extends Service {
             }
         }
 
-        int selectedPokemon = pokemonList.getSelectedItemPosition();
-        Pokemon pokemon = pokeCalculator.get(selectedPokemon);
+
+        //below picks a pokemon from either the pokemon spinner or the user text input
+        Pokemon pokemon;
+        if (pokeInputSpinner.getVisibility() == View.VISIBLE) { //user picked pokemon from spinner
+            String selectedPokemon = pokeInputSpinner.getSelectedItem().toString();
+            pokemon = pokeCalculator.get(selectedPokemon);
+        } else { //user typed manually
+            String userInput = autoCompleteTextView1.getText().toString();
+            pokemon = pokeCalculator.get(userInput);
+            if (pokemon == null) { //no such pokemon was found, show error toast and abort showing results
+                Toast.makeText(this, userInput + getString(R.string.wrongPokemonNameInput), Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+        }
+
+
         /* TODO: Should we set a size limit on that and throw away LRU entries? */
         /* TODO: Move this into an event listener that triggers when the user
          * actually changes the selection. */
@@ -718,7 +767,7 @@ public class Pokefly extends Service {
             edit.putString(pokemonName, pokemon.name);
             edit.apply();
         }
-        IVScanResult ivScanResult = pokeCalculator.getIVPossibilities(selectedPokemon, estimatedPokemonLevel, pokemonHP, pokemonCP);
+        IVScanResult ivScanResult = pokeCalculator.getIVPossibilities(pokemon, estimatedPokemonLevel, pokemonHP, pokemonCP);
 
         if (attCheckbox.isChecked() || defCheckbox.isChecked() || staCheckbox.isChecked()) {
             ivScanResult.refineByHighest(attCheckbox.isChecked(), defCheckbox.isChecked(), staCheckbox.isChecked());
@@ -758,10 +807,21 @@ public class Pokefly extends Service {
     }
 
     /**
+     * Initialises the autocompletetextview which allows people to search for pokemon names
+     */
+    private void initializePokemonAutoCompleteTextView() {
+        String[] pokeList = getResources().getStringArray(R.array.Pokemon);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.autocomplete_pokemon_list_item, pokeList);
+        autoCompleteTextView1.setAdapter(adapter);
+        autoCompleteTextView1.setThreshold(1);
+    }
+
+    /**
      * Sets all the information in the result box
      */
     private void populateResultsBox(IVScanResult ivScanResult) {
         populateResultsHeader(ivScanResult);
+
 
         if (ivScanResult.getCount() == 1) {
             populateSingleIVMatch(ivScanResult);
@@ -896,14 +956,19 @@ public class Pokefly extends Service {
                 }
             }
         } else {
-            selectedPokemon = evolutionLine.get(intSelectedPokemon);
+            if (evolutionLine.size()>intSelectedPokemon){
+                selectedPokemon = evolutionLine.get(intSelectedPokemon);
+            }else{
+                selectedPokemon = evolutionLine.get(0);
+            }
+
         }
 
         extendedEvolutionSpinner.setEnabled(extendedEvolutionSpinner.getCount() > 1);
 
         CPRange expectedRange = pokeCalculator.getCpRangeAtLevel(selectedPokemon,
                 ivScanResult.lowAttack, ivScanResult.lowDefense, ivScanResult.lowStamina,
-                ivScanResult.highAttack, ivScanResult.highDefense, ivScanResult.highStamina,goalLevel);
+                ivScanResult.highAttack, ivScanResult.highDefense, ivScanResult.highStamina, goalLevel);
         int realCP = ivScanResult.scannedCP;
         int expectedAverage = (expectedRange.high + expectedRange.low) / 2;
         String exResultCPStr = String.valueOf(expectedAverage);
@@ -922,7 +987,7 @@ public class Pokefly extends Service {
         exResCandy.setText(candyCostText);
         exResStardust.setText(String.valueOf(cost.dust));
 
-        pokeEvolutionAdapter.updatePokemonList(evolutionLine);
+        extendedEvolutionSpinnerAdapter.updatePokemonList(evolutionLine);
         exResLevel.setText(String.valueOf(goalLevel));
 
         // If goalLevel exeeds trainer capabilities then show text in orange
@@ -1062,14 +1127,19 @@ public class Pokefly extends Service {
 
             // set color based on similarity
             if (possiblePoke[1] == 0) {
-                pokemonList.setBackgroundColor(Color.parseColor("#ddffdd"));
+                pokeInputSpinner.setBackgroundColor(Color.parseColor("#ddffdd"));
             } else if (possiblePoke[1] < 2) {
-                pokemonList.setBackgroundColor(Color.parseColor("#ffffcc"));
+                pokeInputSpinner.setBackgroundColor(Color.parseColor("#ffffcc"));
             } else {
-                pokemonList.setBackgroundColor(Color.parseColor("#ffcccc"));
+                pokeInputSpinner.setBackgroundColor(Color.parseColor("#ffcccc"));
             }
 
-            pokemonList.setSelection(possiblePoke[0]);
+            resetToSpinner();
+            autoCompleteTextView1.setText("");
+            pokeInputSpinnerAdapter.updatePokemonList(pokeCalculator.getEvolutionLine(pokeCalculator.get(possiblePoke[0])));
+            int selection = pokeInputSpinnerAdapter.getPosition(pokeCalculator.get(possiblePoke[0]));
+            pokeInputSpinner.setSelection(selection);
+
             pokemonHPEdit.setText(String.valueOf(pokemonHP));
             pokemonCPEdit.setText(String.valueOf(pokemonCP));
 

@@ -97,9 +97,10 @@ dependencies {
     compile 'com.jakewharton.timber:timber:4.3.0'
     compile 'com.jakewharton:butterknife:8.1.0'
     compile 'com.squareup.okhttp3:okhttp:3.4.1'
+    compile 'io.apptik.widget:multislider:1.2'
     apt 'com.jakewharton:butterknife-compiler:8.1.0'
-    provided "org.projectlombok:lombok:1.16.10"
     apt "org.projectlombok:lombok:1.16.10"
+    provided "org.projectlombok:lombok:1.16.10"
 
     // only include crashlytics in the online build
     onlineCompile('com.crashlytics.sdk.android:crashlytics:2.6.2@aar') {

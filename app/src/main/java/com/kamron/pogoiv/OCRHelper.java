@@ -34,7 +34,8 @@ public class OCRHelper {
         tesseract = new TessBaseAPI();
         tesseract.init(dataPath, "eng");
         tesseract.setPageSegMode(TessBaseAPI.PageSegMode.PSM_SINGLE_LINE);
-        tesseract.setVariable(TessBaseAPI.VAR_CHAR_WHITELIST, "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789/♀♂");
+        tesseract.setVariable(TessBaseAPI.VAR_CHAR_WHITELIST,
+                "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789/♀♂");
         this.heightPixels = heightPixels;
         this.widthPixels = widthPixels;
         this.candyWordFirst = isCandyWordFirst();
@@ -49,7 +50,8 @@ public class OCRHelper {
      * @param dataPath Path the OCR data files.
      * @return Bitmap with replaced colors
      */
-    public static OCRHelper init(String dataPath, int widthPixels, int heightPixels, String nidoFemale, String nidoMale) {
+    public static OCRHelper init(String dataPath, int widthPixels, int heightPixels, String nidoFemale,
+                                 String nidoMale) {
         if (instance == null) {
             instance = new OCRHelper(dataPath, widthPixels, heightPixels, nidoFemale, nidoMale);
         }
@@ -90,7 +92,8 @@ public class OCRHelper {
      * @param simpleBG     Whether the bitmap has a simple background
      * @return Bitmap with replaced colors
      */
-    private Bitmap replaceColors(Bitmap myBitmap, int keepCr, int keepCg, int keepCb, int replaceColor, int distance, boolean simpleBG) {
+    private Bitmap replaceColors(Bitmap myBitmap, int keepCr, int keepCg, int keepCb, int replaceColor, int distance,
+                                 boolean simpleBG) {
         int[] allpixels = new int[myBitmap.getHeight() * myBitmap.getWidth()];
         myBitmap.getPixels(allpixels, 0, myBitmap.getWidth(), 0, 0, myBitmap.getWidth(), myBitmap.getHeight());
         int bgColor = replaceColor;
@@ -158,13 +161,15 @@ public class OCRHelper {
     /**
      * Dont missgender the poor nidorans.
      * <p/>
-     * Takes a subportion of the screen, and averages the color to check the average values and compares to known male / female average
+     * Takes a subportion of the screen, and averages the color to check the average values and compares to known
+     * male / female average
      *
      * @param pokemonImage The screenshot of the entire application
      * @return True if the nidoran is female
      */
     private boolean isNidoranFemale(Bitmap pokemonImage) {
-        Bitmap pokemon = Bitmap.createBitmap(pokemonImage, widthPixels / 3, Math.round(heightPixels / 4), Math.round(widthPixels / 3), Math.round(heightPixels / 5));
+        Bitmap pokemon = Bitmap.createBitmap(pokemonImage, widthPixels / 3, Math.round(heightPixels / 4),
+                Math.round(widthPixels / 3), Math.round(heightPixels / 5));
         int[] pixelArray = new int[pokemon.getHeight() * pokemon.getWidth()];
         pokemon.getPixels(pixelArray, 0, pokemon.getWidth(), 0, 0, pokemon.getWidth(), pokemon.getHeight());
         int greenSum = 0;
@@ -195,7 +200,8 @@ public class OCRHelper {
      * @return A string resulting from the scan
      */
     private String getPokemonNameFromImg(Bitmap pokemonImage) {
-        Bitmap name = Bitmap.createBitmap(pokemonImage, widthPixels / 4, (int) Math.round(heightPixels / 2.22608696), (int) Math.round(widthPixels / 2.057), (int) Math.round(heightPixels / 18.2857143));
+        Bitmap name = Bitmap.createBitmap(pokemonImage, widthPixels / 4, (int) Math.round(heightPixels / 2.22608696),
+                (int) Math.round(widthPixels / 2.057), (int) Math.round(heightPixels / 18.2857143));
         String hash = "name" + hashBitmap(name);
         String pokemonName = ocrCache.get(hash);
 
@@ -238,7 +244,8 @@ public class OCRHelper {
      * @return the candy name, or "" if nothing was found
      */
     private String getCandyNameFromImg(Bitmap pokemonImage) {
-        Bitmap candy = Bitmap.createBitmap(pokemonImage, widthPixels / 2, (int) Math.round(heightPixels / 1.3724285), (int) Math.round(widthPixels / 2.1), (int) Math.round(heightPixels / 38.4));
+        Bitmap candy = Bitmap.createBitmap(pokemonImage, widthPixels / 2, (int) Math.round(heightPixels / 1.3724285),
+                (int) Math.round(widthPixels / 2.1), (int) Math.round(heightPixels / 38.4));
         String hash = "candy" + hashBitmap(candy);
         String candyName = ocrCache.get(hash);
 
@@ -246,7 +253,8 @@ public class OCRHelper {
             candy = replaceColors(candy, 68, 105, 108, Color.WHITE, 200, true);
             tesseract.setImage(candy);
             try {
-                candyName = fixOcr(removeFirstOrLastWord(tesseract.getUTF8Text().trim().replace("-", " "), candyWordFirst));
+                candyName = fixOcr(
+                        removeFirstOrLastWord(tesseract.getUTF8Text().trim().replace("-", " "), candyWordFirst));
             } catch (StringIndexOutOfBoundsException e) {
                 candyName = "";
             }
@@ -264,7 +272,9 @@ public class OCRHelper {
      */
     private int getPokemonHPFromImg(Bitmap pokemonImage) {
         int pokemonHP = 10;
-        Bitmap hp = Bitmap.createBitmap(pokemonImage, (int) Math.round(widthPixels / 2.8), (int) Math.round(heightPixels / 1.8962963), (int) Math.round(widthPixels / 3.5), (int) Math.round(heightPixels / 34.13333333));
+        Bitmap hp = Bitmap.createBitmap(pokemonImage, (int) Math.round(widthPixels / 2.8),
+                (int) Math.round(heightPixels / 1.8962963), (int) Math.round(widthPixels / 3.5),
+                (int) Math.round(heightPixels / 34.13333333));
         String hash = "hp" + hashBitmap(hp);
         String pokemonHPStr = ocrCache.get(hash);
 
@@ -278,7 +288,8 @@ public class OCRHelper {
 
         if (pokemonHPStr.contains("/")) {
             try {
-                pokemonHP = Integer.parseInt(pokemonHPStr.split("/")[1].replace("Z", "2").replace("O", "0").replace("l", "1").replaceAll("[^0-9]", ""));
+                pokemonHP = Integer.parseInt(pokemonHPStr.split("/")[1].replace("Z", "2").replace("O", "0")
+                        .replace("l", "1").replaceAll("[^0-9]", ""));
             } catch (java.lang.NumberFormatException e) {
                 pokemonHP = 10;
             }
@@ -294,7 +305,9 @@ public class OCRHelper {
      */
     private int getPokemonCPFromImg(Bitmap pokemonImage) {
         int pokemonCP;
-        Bitmap cp = Bitmap.createBitmap(pokemonImage, (int) Math.round(widthPixels / 3.0), (int) Math.round(heightPixels / 15.5151515), (int) Math.round(widthPixels / 3.84), (int) Math.round(heightPixels / 21.333333333));
+        Bitmap cp = Bitmap.createBitmap(pokemonImage, (int) Math.round(widthPixels / 3.0),
+                (int) Math.round(heightPixels / 15.5151515), (int) Math.round(widthPixels / 3.84),
+                (int) Math.round(heightPixels / 21.333333333));
         cp = replaceColors(cp, 255, 255, 255, Color.BLACK, 30, false);
         tesseract.setImage(cp);
         String cpText = tesseract.getUTF8Text().replace("O", "0").replace("l", "1");

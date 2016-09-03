@@ -34,7 +34,8 @@ public class DevMethods {
         myDir.mkdirs();
         String fileName = "Image-" + name + ".jpg";
         File file = new File(myDir, fileName);
-        if (file.exists()) file.delete();
+        if (file.exists())
+            file.delete();
         try {
             FileOutputStream out = new FileOutputStream(file);
             finalBitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
@@ -54,7 +55,8 @@ public class DevMethods {
      * 25,100,-
      * 2 evolutions
      * 50, -
-     * Exceptions: Eevee:25, weedle:12 kakuna:50, caterpie:12 metapod:50, pidgey:12, magicarp:400 and rattatta:25, fix them manually.
+     * Exceptions: Eevee:25, weedle:12 kakuna:50, caterpie:12 metapod:50, pidgey:12, magicarp:400 and rattatta:25,
+     * fix them manually.
      */
     private void printOutEvolutionCandyCosts(PokeInfoCalculator pokeCalculator) {
         //to create the evolutions
@@ -93,7 +95,8 @@ public class DevMethods {
             }
 
 
-            System.out.println("nahojjjen generating script: " + "<item>" + evolutionCost + "</item> <!--" + poke.name + "-->");
+            System.out.println(
+                    "nahojjjen generating script: " + "<item>" + evolutionCost + "</item> <!--" + poke.name + "-->");
         }
 
     }

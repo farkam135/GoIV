@@ -22,13 +22,17 @@ public class IVCombination {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
 
         IVCombination that = (IVCombination) o;
 
-        if (att != that.att) return false;
-        if (def != that.def) return false;
+        if (att != that.att)
+            return false;
+        if (def != that.def)
+            return false;
         return sta == that.sta;
 
     }

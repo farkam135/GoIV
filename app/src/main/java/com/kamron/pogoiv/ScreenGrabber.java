@@ -30,8 +30,11 @@ public class ScreenGrabber {
         rawDisplayMetrics = raw;
         displayMetrics = display;
         mProjection = mediaProjection;
-        mImageReader = ImageReader.newInstance(rawDisplayMetrics.widthPixels, rawDisplayMetrics.heightPixels, PixelFormat.RGBA_8888, 2);
-        mProjection.createVirtualDisplay("screen-mirror", rawDisplayMetrics.widthPixels, rawDisplayMetrics.heightPixels, rawDisplayMetrics.densityDpi, DisplayManager.VIRTUAL_DISPLAY_FLAG_PUBLIC, mImageReader.getSurface(), null, null);
+        mImageReader = ImageReader.newInstance(rawDisplayMetrics.widthPixels, rawDisplayMetrics.heightPixels,
+                PixelFormat.RGBA_8888, 2);
+        mProjection.createVirtualDisplay("screen-mirror", rawDisplayMetrics.widthPixels, rawDisplayMetrics.heightPixels,
+                rawDisplayMetrics.densityDpi, DisplayManager.VIRTUAL_DISPLAY_FLAG_PUBLIC, mImageReader.getSurface(),
+                null, null);
     }
 
     public static ScreenGrabber init(MediaProjection mediaProjection, DisplayMetrics raw, DisplayMetrics display) {
@@ -64,7 +67,8 @@ public class ScreenGrabber {
     }
 
     private Bitmap getBitmap(ByteBuffer buffer, int pixelStride, int rowPadding) {
-        Bitmap bmp = Bitmap.createBitmap(rawDisplayMetrics.widthPixels + rowPadding / pixelStride, displayMetrics.heightPixels, Bitmap.Config.ARGB_8888);
+        Bitmap bmp = Bitmap.createBitmap(rawDisplayMetrics.widthPixels + rowPadding / pixelStride,
+                displayMetrics.heightPixels, Bitmap.Config.ARGB_8888);
         bmp.copyPixelsFromBuffer(buffer);
         return bmp;
     }

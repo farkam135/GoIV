@@ -33,6 +33,7 @@ public class GUIUtil {
      * @param context the context
      */
     public static int dpToPixels(int dp, Context context) {
-        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.getResources().getDisplayMetrics());
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp,
+                context.getResources().getDisplayMetrics());
     }
 }

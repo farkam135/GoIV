@@ -16,9 +16,12 @@ public class PokeInfoCalculator {
     private ArrayList<Pokemon> pokedex = null;
     private HashMap<String, Pokemon> pokemap = null;
 
-    public static PokeInfoCalculator getInstance(String[] namesArray, int[] attackArray, int[] defenceArray, int[] staminaArray, int[] devolutionArray, int[] evolutionCandyCostArray) {
+    public static PokeInfoCalculator getInstance(String[] namesArray, int[] attackArray, int[] defenceArray,
+                                                 int[] staminaArray, int[] devolutionArray,
+                                                 int[] evolutionCandyCostArray) {
         if (instance == null) {
-            instance = new PokeInfoCalculator(namesArray, attackArray, defenceArray, staminaArray, devolutionArray, evolutionCandyCostArray);
+            instance = new PokeInfoCalculator(namesArray, attackArray, defenceArray, staminaArray, devolutionArray,
+                    evolutionCandyCostArray);
         }
         return instance;
     }
@@ -32,7 +35,8 @@ public class PokeInfoCalculator {
      * @param staminaArray    array of all pokemon base stam stat
      * @param devolutionArray array of what the pokemon evolved from, -1 if no devolution
      */
-    private PokeInfoCalculator(String[] namesArray, int[] attackArray, int[] defenceArray, int[] staminaArray, int[] devolutionArray, int[] evolutionCandyCostArray) {
+    private PokeInfoCalculator(String[] namesArray, int[] attackArray, int[] defenceArray, int[] staminaArray,
+                               int[] devolutionArray, int[] evolutionCandyCostArray) {
         populatePokemon(namesArray, attackArray, defenceArray, staminaArray, devolutionArray, evolutionCandyCostArray);
     }
 
@@ -61,13 +65,15 @@ public class PokeInfoCalculator {
      * Fills the list "pokemon" with the information of all pokemon by reading the
      * arrays in integers.xml and the names from the strings.xml resources.
      */
-    private void populatePokemon(String[] names, int[] attack, int[] defense, int[] stamina, int[] devolution, int[] evolutionCandyCost) {
+    private void populatePokemon(String[] names, int[] attack, int[] defense, int[] stamina, int[] devolution,
+                                 int[] evolutionCandyCost) {
         pokedex = new ArrayList<>();
         pokemap = new HashMap<>();
 
         int pokeListSize = names.length;
         for (int i = 0; i <= pokeListSize - 1; i++) {
-            Pokemon p = new Pokemon(names[i], i, attack[i], defense[i], stamina[i], devolution[i], evolutionCandyCost[i]);
+            Pokemon p = new Pokemon(names[i], i, attack[i], defense[i], stamina[i], devolution[i],
+                    evolutionCandyCost[i]);
             pokedex.add(p);
             pokemap.put(names[i].toLowerCase(), p);
         }
@@ -92,11 +98,10 @@ public class PokeInfoCalculator {
     private void sortPokedex(List<Pokemon> pokedex) {
         //Sort pokemon alphabetically (maybe just do this in the res files?)
         Collections.sort(pokedex, new Comparator<Pokemon>() {
-                    public int compare(Pokemon lhs, Pokemon rhs) {
-                        return lhs.name.compareTo(rhs.name);
-                    }
-                }
-        );
+            public int compare(Pokemon lhs, Pokemon rhs) {
+                return lhs.name.compareTo(rhs.name);
+            }
+        });
     }
 
 
@@ -164,9 +169,11 @@ public class PokeInfoCalculator {
      * @param estimatedPokemonLevel The estimated pokemon level
      * @param pokemonHP             THe pokemon hp
      * @param pokemonCP             The pokemonCP
-     * @return An IVScanResult which contains the information calculated about the pokemon, or null if there are too many possibilities.
+     * @return An IVScanResult which contains the information calculated about the pokemon, or null if there are too
+     * many possibilities.
      */
-    public IVScanResult getIVPossibilities(Pokemon selectedPokemon, double estimatedPokemonLevel, int pokemonHP, int pokemonCP) {
+    public IVScanResult getIVPossibilities(Pokemon selectedPokemon, double estimatedPokemonLevel, int pokemonHP,
+                                           int pokemonCP) {
         int baseAttack = selectedPokemon.baseAttack;
         int baseDefense = selectedPokemon.baseDefense;
         int baseStamina = selectedPokemon.baseStamina;
@@ -191,7 +198,8 @@ public class PokeInfoCalculator {
                     //System.out.println("Checking sta: " + staminaIV + ", gives " + hp);
                     for (int defenseIV = 0; defenseIV < 16; defenseIV++) {
                         for (int attackIV = 0; attackIV < 16; attackIV++) {
-                            int cp = (int) Math.floor((baseAttack + attackIV) * Math.sqrt(baseDefense + defenseIV) * lvlScalarStamina);
+                            int cp = (int) Math.floor(
+                                    (baseAttack + attackIV) * Math.sqrt(baseDefense + defenseIV) * lvlScalarStamina);
                             if (cp == pokemonCP) {
                                 returner.addIVCombination(attackIV, defenseIV, staminaIV);
                             }
@@ -225,13 +233,17 @@ public class PokeInfoCalculator {
      * @param level       pokemon level for CP calculation
      * @return String containing the CP range including the specified level.
      */
-    public CPRange getCpRangeAtLevel(Pokemon pokemon, int lowAttack, int lowDefense, int lowStamina, int highAttack, int highDefense, int highStamina, double level) {
+    public CPRange getCpRangeAtLevel(Pokemon pokemon, int lowAttack, int lowDefense, int lowStamina, int highAttack,
+                                     int highDefense, int highStamina, double level) {
         int baseAttack = pokemon.baseAttack;
         int baseDefense = pokemon.baseDefense;
         int baseStamina = pokemon.baseStamina;
         double lvlScalar = Data.CpM[(int) (level * 2 - 2)];
-        int cpMin = (int) Math.floor((baseAttack + lowAttack) * Math.sqrt(baseDefense + lowDefense) * Math.sqrt(baseStamina + lowStamina) * Math.pow(lvlScalar, 2) * 0.1);
-        int cpMax = (int) Math.floor((baseAttack + highAttack) * Math.sqrt(baseDefense + highDefense) * Math.sqrt(baseStamina + highStamina) * Math.pow(lvlScalar, 2) * 0.1);
+        int cpMin = (int) Math.floor(
+                (baseAttack + lowAttack) * Math.sqrt(baseDefense + lowDefense) * Math.sqrt(baseStamina + lowStamina) *
+                        Math.pow(lvlScalar, 2) * 0.1);
+        int cpMax = (int) Math.floor((baseAttack + highAttack) * Math.sqrt(baseDefense + highDefense) *
+                Math.sqrt(baseStamina + highStamina) * Math.pow(lvlScalar, 2) * 0.1);
         if (cpMin > cpMax) {
             int tmp = cpMax;
             cpMax = cpMin;
@@ -241,7 +253,8 @@ public class PokeInfoCalculator {
     }
 
     /**
-     * Get the combined cost for evolving all steps between two pokemon, for example the cost from caterpie -> metapod is 12,
+     * Get the combined cost for evolving all steps between two pokemon, for example the cost from caterpie ->
+     * metapod is 12,
      * caterpie -> butterfly is 12+50 = 62
      *
      * @param start which pokemon to start from
@@ -255,7 +268,8 @@ public class PokeInfoCalculator {
             dedevolution = get(devolution.devoNumber);
         }
 
-        boolean isEndReallyAfterStart = (devolution == start) || dedevolution == start; //end must be devolution or devolution of devolution of start
+        boolean isEndReallyAfterStart = (devolution == start) ||
+                dedevolution == start; //end must be devolution or devolution of devolution of start
         int cost = 0;
         if (isInSameEvolutionChain(start, end) && isEndReallyAfterStart) {
             while (start != end) { //move backwards from end until you've reached start
@@ -291,7 +305,8 @@ public class PokeInfoCalculator {
      * @return a pokemon, in the example would return charmander
      */
     public Pokemon getLowestEvolution(Pokemon poke) {
-        if (poke.devoNumber < 0) return poke; //already lowest evolution
+        if (poke.devoNumber < 0)
+            return poke; //already lowest evolution
 
         Pokemon devoPoke = get(poke.devoNumber);
         while (devoPoke.devoNumber >= 0) { //while devol

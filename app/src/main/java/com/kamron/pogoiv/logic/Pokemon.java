@@ -22,7 +22,8 @@ public class Pokemon {
     public final int devoNumber;
     public final int candyEvolutionCost;
 
-    public Pokemon(String name, int number, int baseAttack, int baseDefense, int baseStamina, int devoNumber, int candyEvolutionCost) {
+    public Pokemon(String name, int number, int baseAttack, int baseDefense, int baseStamina, int devoNumber,
+                   int candyEvolutionCost) {
         this.name = name;
         this.number = number;
         this.baseAttack = baseAttack;
@@ -59,7 +60,8 @@ public class Pokemon {
         int otherPokemonNumber = otherPokemon.number;
 
         for (Pokemon evolution : evolutions) {
-            if (otherPokemonNumber == evolution.number) return true;
+            if (otherPokemonNumber == evolution.number)
+                return true;
         }
         return false;
     }

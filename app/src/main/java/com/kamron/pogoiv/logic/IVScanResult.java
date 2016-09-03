@@ -74,14 +74,16 @@ public class IVScanResult {
         int sumIV = attackIV + defenseIV + staminaIV;
         int percentPerfect = (int) Math.round(((sumIV) / 45.0) * 100);
 
-        if ((percentPerfect < lowPercent) || ((percentPerfect == lowPercent) && (attackIV < lowAttack))) { // check for same percentage but lower atk
+        if ((percentPerfect < lowPercent) ||
+                ((percentPerfect == lowPercent) && (attackIV < lowAttack))) { // check for same percentage but lower atk
             lowPercent = percentPerfect;
             //save worst combination for lower end cp range
             lowAttack = attackIV;
             lowDefense = defenseIV;
             lowStamina = staminaIV;
         }
-        if ((percentPerfect > highPercent) || ((percentPerfect == highPercent) && (attackIV > highAttack))) { // check for same percentage but higher atk
+        if ((percentPerfect > highPercent) || ((percentPerfect == highPercent) &&
+                (attackIV > highAttack))) { // check for same percentage but higher atk
             highPercent = percentPerfect;
             //save best combination for upper end cp range
             highAttack = attackIV;
@@ -98,7 +100,8 @@ public class IVScanResult {
      * @return get the IV combination which has the highest sum of att+def+sta, or tied to equal
      */
     public IVCombination getHighestIVCombination() {
-        if (iVCombinations.size() == 0) return null;
+        if (iVCombinations.size() == 0)
+            return null;
         IVCombination max = iVCombinations.get(0);
         for (IVCombination ivCombination : iVCombinations) {
             if (ivCombination.getTotal() > max.getTotal()) {
@@ -112,7 +115,8 @@ public class IVScanResult {
      * @return get the IV combination which has the lowest sum of att+def+sta, or tied to equal
      */
     public IVCombination getLowestIVCombination() {
-        if (iVCombinations.size() == 0) return null;
+        if (iVCombinations.size() == 0)
+            return null;
         IVCombination low = iVCombinations.get(0);
         for (IVCombination ivCombination : iVCombinations) {
             if (ivCombination.getTotal() < low.getTotal()) {

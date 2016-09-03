@@ -75,6 +75,7 @@ import java.util.TimerTask;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.apptik.widget.MultiSlider;
 import timber.log.Timber;
 
 /**
@@ -208,6 +209,8 @@ public class Pokefly extends Service {
     TextView resultsMoreInformationText;
     @BindView(R.id.expandedLevelSeekbar)
     SeekBar expandedLevelSeekbar;
+    @BindView(R.id.expandedLevelSeekbarBackground)
+    MultiSlider expandedLevelSeekbarBackground;
     @BindView(R.id.llSingleMatch)
     LinearLayout llSingleMatch;
     @BindView(R.id.tvAvgIV)
@@ -584,7 +587,6 @@ public class Pokefly extends Service {
                 if (fromUser) {
                     populateAdvancedInformation(ScanContainer.scanContainer.currScan);
                 }
-
             }
 
             @Override
@@ -595,7 +597,6 @@ public class Pokefly extends Service {
             public void onStopTrackingTouch(SeekBar seekBar) {
             }
         });
-
 
         extendedEvolutionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -807,7 +808,12 @@ public class Pokefly extends Service {
      *
      */
     private void adjustSeekbarForPokemon() {
-        expandedLevelSeekbar.setProgress(levelToSeekbarProgress(Data.trainerLevelToMaxPokeLevel(trainerLevel)));
+        expandedLevelSeekbarBackground.getThumb(0).setThumb(getResources().getDrawable(R.drawable
+                .orange_scrubber_control_disabled_holo));
+        expandedLevelSeekbarBackground.getThumb(0).setValue(levelToSeekbarProgress(Data.trainerLevelToMaxPokeLevel(trainerLevel)));
+        expandedLevelSeekbarBackground.getThumb(1).setInvisibleThumb(true);
+        expandedLevelSeekbarBackground.setMax(levelToSeekbarProgress(40));
+        expandedLevelSeekbar.setProgress(levelToSeekbarProgress(estimatedPokemonLevel));
         expandedLevelSeekbar.setMax(levelToSeekbarProgress(40));
     }
 

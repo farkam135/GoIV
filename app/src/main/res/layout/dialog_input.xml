@@ -117,7 +117,7 @@
         <Button
             android:id="@+id/btnDecrementLevel"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight=".15"
             android:text="-"
             android:textSize="22sp"
@@ -127,13 +127,13 @@
         <SeekBar
             android:id="@+id/sbArcAdjust"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="0.7"/>
 
         <Button
             android:id="@+id/btnIncrementLevel"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:text="+"
             android:layout_weight=".15"
             android:textSize="22sp"

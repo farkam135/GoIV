@@ -812,6 +812,7 @@ public class Pokefly extends Service {
         expandedLevelSeekbarBackground.getThumb(0).setValue(levelToSeekbarProgress(trainerLevel + 1.5f));
         expandedLevelSeekbarBackground.getThumb(1).setInvisibleThumb(true);
         expandedLevelSeekbarBackground.setMax(levelToSeekbarProgress(40));
+        expandedLevelSeekbar.setProgress(levelToSeekbarProgress(estimatedPokemonLevel));
         expandedLevelSeekbar.setMax(levelToSeekbarProgress(40));
     }
 

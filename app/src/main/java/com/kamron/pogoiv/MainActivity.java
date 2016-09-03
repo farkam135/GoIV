@@ -14,6 +14,7 @@ import android.database.ContentObserver;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Point;
 import android.graphics.Rect;
 import android.media.projection.MediaProjection;
 import android.media.projection.MediaProjectionManager;
@@ -89,9 +90,8 @@ public class MainActivity extends AppCompatActivity {
     private int trainerLevel;
 
     private int statusBarHeight;
-    private int arcCenter;
-    private int arcInitialY;
-    private int radius;
+    private Point arcInit = new Point();
+    private int arcRadius;
     private Context mContext;
     private GoIVSettings settings;
     public static boolean shouldShowUpdateDialog;
@@ -164,19 +164,19 @@ public class MainActivity extends AppCompatActivity {
                     window.getDecorView().getWindowVisibleDisplayFrame(rectangle);
                     statusBarHeight = rectangle.top;
 
-                    // TODO same calculation as in pokefly @line 193 with difference of "- pointerHeight - statusBarHeight" this should be outsource in a method
-                    arcCenter = (int) ((displayMetrics.widthPixels * 0.5));
-                    arcInitialY = (int) Math.floor(displayMetrics.heightPixels / 2.803943); // - pointerHeight - statusBarHeight; // 913 - pointerHeight - statusBarHeight; //(int)Math.round(displayMetrics.heightPixels / 6.0952381) * -1; //dpToPx(113) * -1; //(int)Math.round(displayMetrics.heightPixels / 6.0952381) * -1; //-420;
+                    arcInit.x = (int) (displayMetrics.widthPixels * 0.5);
+
+                    arcInit.y = (int) Math.floor(displayMetrics.heightPixels / 2.803943);//(int)Math.round
+                    // (displayMetrics.heightPixels / 6.0952381) * -1; //dpToPx(113) * -1; //(int)Math.round(displayMetrics.heightPixels / 6.0952381) * -1; //-420;
                     if (displayMetrics.heightPixels == 2392 || displayMetrics.heightPixels == 800) {
-                        arcInitialY--;
+                        arcInit.y--;
                     } else if (displayMetrics.heightPixels == 1920) {
-                        arcInitialY++;
+                        arcInit.y++;
                     }
 
-                    // TODO same calculation as in pokefly @line 201
-                    radius = (int) Math.round(displayMetrics.heightPixels / 4.3760683); //dpToPx(157); //(int)Math.round(displayMetrics.heightPixels / 4.37606838); //(int)Math.round(displayMetrics.widthPixels / 2.46153846); //585;
+                    arcRadius = (int) Math.round(displayMetrics.heightPixels / 4.3760683); //dpToPx(157); //(int)Math.round(displayMetrics.heightPixels / 4.37606838); //(int)Math.round(displayMetrics.widthPixels / 2.46153846); //585;
                     if (displayMetrics.heightPixels == 1776 || displayMetrics.heightPixels == 960 || displayMetrics.heightPixels == 800) {
-                        radius++;
+                        arcRadius++;
                     }
 
                     // This call to clearFocus will accept whatever input the user pressed, without
@@ -189,7 +189,7 @@ public class MainActivity extends AppCompatActivity {
                     trainerLevel = npTrainerLevel.getValue();
 
                     sharedPref.edit().putInt(PREF_LEVEL, trainerLevel).apply();
-                    setupArcPoints();
+                    Data.setupArcPoints(arcInit, arcRadius, trainerLevel);
 
                     if (batterySaver) {
                         if (!screenshotDir.isEmpty()) {
@@ -298,34 +298,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         settings = GoIVSettings.getInstance(MainActivity.this);
-    }
-
-    /**
-     * setupArcPoints
-     * Sets up the x,y coordinates of the arc using the trainer level, stores it in Data.arcX/arcY
-     */
-    private void setupArcPoints() {
-        /*
-         * Pokemon levels go from 1 to trainerLevel + 1.5, in increments of 0.5.
-         * Here we use levelIdx for levels that are doubled and shifted by - 2; after this adjustment,
-         * the level can be used to index CpM, arcX and arcY.
-         */
-        int maxPokeLevelIdx = Data.trainerLevelToMaxPokeLevelIdx(trainerLevel);
-        Data.arcX = new int[maxPokeLevelIdx + 1]; //We access entries [0..maxPokeLevelIdx], hence + 1.
-        Data.arcY = new int[maxPokeLevelIdx + 1];
-
-        double baseCpM = Data.CpM[0];
-        double maxPokeCpMDelta = Data.CpM[Math.min(maxPokeLevelIdx + 1, Data.CpM.length)] - baseCpM;
-
-        //pokeLevelIdx <= maxPokeLevelIdx ensures we never overflow CpM/arc/arcY.
-        for (int pokeLevelIdx = 0; pokeLevelIdx <= maxPokeLevelIdx; pokeLevelIdx++) {
-            double pokeCurrCpMDelta = (Data.CpM[pokeLevelIdx] - baseCpM);
-            double arcRatio = pokeCurrCpMDelta / maxPokeCpMDelta;
-            double angleInRadians = (arcRatio + 1) * Math.PI;
-
-            Data.arcX[pokeLevelIdx] = (int) (arcCenter + (radius * Math.cos(angleInRadians)));
-            Data.arcY[pokeLevelIdx] = (int) (arcInitialY + (radius * Math.sin(angleInRadians)));
-        }
     }
 
     /**

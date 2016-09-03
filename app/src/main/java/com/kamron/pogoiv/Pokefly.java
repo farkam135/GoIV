@@ -259,12 +259,9 @@ public class Pokefly extends Service {
             WindowManager.LayoutParams.TYPE_PHONE,
             WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
             PixelFormat.TRANSLUCENT);
-    private int arcInitialY = 0;
-    private int radius = 0;
     private int pointerHeight = 0;
     private int pointerWidth = 0;
     private int statusBarHeight = 0;
-    private int arcCenter = 0;
 
     private final WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams(
             WindowManager.LayoutParams.MATCH_PARENT,
@@ -488,19 +485,6 @@ public class Pokefly extends Service {
             pointerHeight = getResources().getDrawable(R.drawable.dot).getIntrinsicHeight() / 2;
             pointerWidth = getResources().getDrawable(R.drawable.dot).getIntrinsicWidth() / 2;
         }
-
-        arcCenter = (int) ((displayMetrics.widthPixels * 0.5) - pointerWidth);
-        arcInitialY = (int) Math.floor(displayMetrics.heightPixels / 2.803943) - pointerHeight - statusBarHeight; // 913 - pointerHeight - statusBarHeight; //(int)Math.round(displayMetrics.heightPixels / 6.0952381) * -1; //dpToPx(113) * -1; //(int)Math.round(displayMetrics.heightPixels / 6.0952381) * -1; //-420;
-        if (displayMetrics.heightPixels == 2392) {
-            arcInitialY--;
-        } else if (displayMetrics.heightPixels == 1920) {
-            arcInitialY++;
-        }
-
-        radius = (int) Math.round(displayMetrics.heightPixels / 4.3760683); //dpToPx(157); //(int)Math.round(displayMetrics.heightPixels / 4.37606838); //(int)Math.round(displayMetrics.widthPixels / 2.46153846); //585;
-        if (displayMetrics.heightPixels == 1776 || displayMetrics.heightPixels == 960) {
-            radius++;
-        }
     }
 
 
@@ -511,20 +495,9 @@ public class Pokefly extends Service {
      * @param pokeLevel The pokemon level to set the arc pointer to.
      */
     private void setArcPointer(double pokeLevel) {
-//        if (angleInDegrees > 1.0 && trainerLevel < 30) {
-//            angleInDegrees -= 0.5;
-//        }
-//        else if(trainerLevel >= 30){
-//            angleInDegrees += 0.5;
-//        }
-//
-//        double angleInRadians = (angleInDegrees + 180) * Math.PI / 180.0;
         int index = Data.levelToLevelIdx(pokeLevel);
         arcParams.x = Data.arcX[index] - pointerWidth; //(int) (arcCenter + (radius * Math.cos(angleInRadians)));
         arcParams.y = Data.arcY[index] - pointerHeight - statusBarHeight; //(int) (arcInitialY + (radius * Math.sin(angleInRadians)));
-        //System.out.println("Pointer X: "  + arcParams.x);
-        //System.out.println("Pointer Y: "  + arcParams.y);
-        //System.out.println(arcParams.x + "," + arcParams.y);
         windowManager.updateViewLayout(arcPointer, arcParams);
     }
 

@@ -1,5 +1,7 @@
 package com.kamron.pogoiv.logic;
 
+import android.graphics.Point;
+
 /**
  * Created by Pascal on 17.08.2016.
  */
@@ -16,6 +18,37 @@ public class Data {
 
     public static int[] arcX;
     public static int[] arcY;
+
+    /**
+     * setupArcPoints
+     * Sets up the x,y coordinates of the arc using the trainer level, stores it in Data.arcX/arcY
+     * @param arcInit
+     * @param arcRadius
+     * @param trainerLevel
+     */
+    public static void setupArcPoints(Point arcInit, int arcRadius, int trainerLevel) {
+        /*
+         * Pokemon levels go from 1 to trainerLevel + 1.5, in increments of 0.5.
+         * Here we use levelIdx for levels that are doubled and shifted by - 2; after this adjustment,
+         * the level can be used to index CpM, arcX and arcY.
+         */
+        int maxPokeLevelIdx = trainerLevelToMaxPokeLevelIdx(trainerLevel);
+        arcX = new int[maxPokeLevelIdx + 1]; //We access entries [0..maxPokeLevelIdx], hence + 1.
+        arcY = new int[maxPokeLevelIdx + 1];
+
+        double baseCpM = CpM[0];
+        double maxPokeCpMDelta = CpM[Math.min(maxPokeLevelIdx + 1, CpM.length)] - baseCpM;
+
+        //pokeLevelIdx <= maxPokeLevelIdx ensures we never overflow CpM/arc/arcY.
+        for (int pokeLevelIdx = 0; pokeLevelIdx <= maxPokeLevelIdx; pokeLevelIdx++) {
+            double pokeCurrCpMDelta = (CpM[pokeLevelIdx] - baseCpM);
+            double arcRatio = pokeCurrCpMDelta / maxPokeCpMDelta;
+            double angleInRadians = (arcRatio + 1) * Math.PI;
+
+            arcX[pokeLevelIdx] = (int) (arcInit.x + (arcRadius * Math.cos(angleInRadians)));
+            arcY[pokeLevelIdx] = (int) (arcInit.y + (arcRadius * Math.sin(angleInRadians)));
+        }
+    }
 
     /**
      * Convert a pokemon/trainer level to a <em>level index</em> (<code>levelIdx</code> in code).

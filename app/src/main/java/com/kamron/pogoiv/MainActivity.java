@@ -159,36 +159,10 @@ public class MainActivity extends AppCompatActivity {
                     }
                 } else if (((Button) v).getText().toString().equals(getString(R.string.main_start))) {
                     batterySaver = settings.isManualScreenshotModeEnabled();
-                    Rect rectangle = new Rect();
-                    Window window = getWindow();
-                    window.getDecorView().getWindowVisibleDisplayFrame(rectangle);
-                    statusBarHeight = rectangle.top;
+                    setupDisplaySizeInfo();
+                    statusBarHeight = getStatusBarHeight();
+                    trainerLevel = setupTrainerLevel(npTrainerLevel);
 
-                    arcInit.x = (int) (displayMetrics.widthPixels * 0.5);
-
-                    arcInit.y = (int) Math.floor(displayMetrics.heightPixels / 2.803943);//(int)Math.round
-                    // (displayMetrics.heightPixels / 6.0952381) * -1; //dpToPx(113) * -1; //(int)Math.round(displayMetrics.heightPixels / 6.0952381) * -1; //-420;
-                    if (displayMetrics.heightPixels == 2392 || displayMetrics.heightPixels == 800) {
-                        arcInit.y--;
-                    } else if (displayMetrics.heightPixels == 1920) {
-                        arcInit.y++;
-                    }
-
-                    arcRadius = (int) Math.round(displayMetrics.heightPixels / 4.3760683); //dpToPx(157); //(int)Math.round(displayMetrics.heightPixels / 4.37606838); //(int)Math.round(displayMetrics.widthPixels / 2.46153846); //585;
-                    if (displayMetrics.heightPixels == 1776 || displayMetrics.heightPixels == 960 || displayMetrics.heightPixels == 800) {
-                        arcRadius++;
-                    }
-
-                    // This call to clearFocus will accept whatever input the user pressed, without
-                    // forcing him to press the green checkmark on the keyboard.
-                    // Otherwise the typed value won't be read if either:
-                    // - the user presses Start before closing the keyboard, or
-                    // - the user closes the keyboard with the back button (note that does not cancel
-                    //   the typed text).
-                    npTrainerLevel.clearFocus();
-                    trainerLevel = npTrainerLevel.getValue();
-
-                    sharedPref.edit().putInt(PREF_LEVEL, trainerLevel).apply();
                     Data.setupArcPoints(arcInit, arcRadius, trainerLevel);
 
                     if (batterySaver) {
@@ -225,6 +199,37 @@ public class MainActivity extends AppCompatActivity {
 
         LocalBroadcastManager.getInstance(this).registerReceiver(resetScreenshot, new IntentFilter(ACTION_RESET_SCREENSHOT));
         LocalBroadcastManager.getInstance(this).registerReceiver(showUpdateDialog, new IntentFilter(ACTION_SHOW_UPDATE_DIALOG));
+    }
+
+    private void setupDisplaySizeInfo() {
+        arcInit.x = (int) (displayMetrics.widthPixels * 0.5);
+
+        arcInit.y = (int) Math.floor(displayMetrics.heightPixels / 2.803943);//(int)Math.round
+        // (displayMetrics.heightPixels / 6.0952381) * -1; //dpToPx(113) * -1; //(int)Math.round(displayMetrics.heightPixels / 6.0952381) * -1; //-420;
+        if (displayMetrics.heightPixels == 2392 || displayMetrics.heightPixels == 800) {
+            arcInit.y--;
+        } else if (displayMetrics.heightPixels == 1920) {
+            arcInit.y++;
+        }
+
+        arcRadius = (int) Math.round(displayMetrics.heightPixels / 4.3760683); //dpToPx(157); //(int)Math.round(displayMetrics.heightPixels / 4.37606838); //(int)Math.round(displayMetrics.widthPixels / 2.46153846); //585;
+        if (displayMetrics.heightPixels == 1776 || displayMetrics.heightPixels == 960 || displayMetrics.heightPixels == 800) {
+            arcRadius++;
+        }
+    }
+
+    public int setupTrainerLevel(NumberPicker npTrainerLevel) {
+        // This call to clearFocus will accept whatever input the user pressed, without
+        // forcing him to press the green checkmark on the keyboard.
+        // Otherwise the typed value won't be read if either:
+        // - the user presses Start before closing the keyboard, or
+        // - the user closes the keyboard with the back button (note that does not cancel
+        //   the typed text).
+        npTrainerLevel.clearFocus();
+        int trainerLevel = npTrainerLevel.getValue();
+
+        sharedPref.edit().putInt(PREF_LEVEL, trainerLevel).apply();
+        return trainerLevel;
     }
 
     @Override
@@ -300,6 +305,13 @@ public class MainActivity extends AppCompatActivity {
         settings = GoIVSettings.getInstance(MainActivity.this);
     }
 
+    private int getStatusBarHeight() {
+        Rect rectangle = new Rect();
+        Window window = getWindow();
+        window.getDecorView().getWindowVisibleDisplayFrame(rectangle);
+        return rectangle.top;
+    }
+
     /**
      * startPokeFly
      * Starts the PokeFly background service which contains overlay logic
@@ -307,7 +319,8 @@ public class MainActivity extends AppCompatActivity {
     private void startPokeFly() {
         ((Button) findViewById(R.id.start)).setText(R.string.main_stop);
 
-        Intent intent = Pokefly.createIntent(this, trainerLevel, statusBarHeight, batterySaver, screenshotDir, screenshotUri);
+        Intent intent = Pokefly.createIntent(this, trainerLevel, statusBarHeight, batterySaver, screenshotDir,
+                screenshotUri);
         startService(intent);
 
         pokeFlyRunning = true;

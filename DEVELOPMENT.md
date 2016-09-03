@@ -5,14 +5,16 @@
 * Set up [Git with GitHub] (https://help.github.com/articles/set-up-git/)
 * Download and install [Android Studio] (https://developer.android.com/studio/index.html)
 * Set up [Android Development Environment] (https://spring.io/guides/gs/android/)
-* Install [Lombok IntelliJ Plugin] (https://github.com/mplushnikov/lombok-intellij-plugin#installation)
-* Enable annotation processing (Configure > Settings > Build, Execution, Deployment > Compiler > Annotation Processors)
 * [Fork this repo] (https://help.github.com/articles/fork-a-repo/)
+* Copy GoIVCodeStyle.xml into the codestyles folder under the IntelliJ home directory (create if it does not exist)
+ *  Windows: `\.\config\codestyles\`
+ *  OS X: `~/Library/Preferences//codestyles/`
+ *  Linux: `~/./config/codestyles/`
 * Open the Project in Android Studio
-* Copy the Project's Code Style Scheme (File > Settings > Editor > Code Style > Scheme > Manage > Select 'Default' > Copy to Project)
+* Select Code Style Scheme (`File > Settings > Editor > Code Style > Scheme > Select 'GoIVCodeStyle'`)
 
 ## Optional Set-up
-Set up Git on Android Studio (Configure > Settings > Version Control > Git) - Automates Git commands through Android Studio
+Set up Git on Android Studio to automate Git commands (`Configure > Settings > Version Control > Git`)
 
 ## Syncing the Fork
 [Syncing your fork] (https://help.github.com/articles/syncing-a-fork/) will keep it up to date with the latest commits on the main repo. This will also reduce the chances of getting merge conflicts. Always sync your fork before working on it!

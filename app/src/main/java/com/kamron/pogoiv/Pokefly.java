@@ -84,7 +84,7 @@ import timber.log.Timber;
 
 public class Pokefly extends Service {
 
-    private static final String ACTION_SEND_INFO = "action_send_info";
+    private static final String ACTION_SEND_INFO = "com.kamron.pogoiv.ACTION_SEND_INFO";
 
     private static final String KEY_TRAINER_LEVEL = "key_trainer_level";
     private static final String KEY_STATUS_BAR_HEIGHT = "key_status_bar_height";
@@ -98,7 +98,7 @@ public class Pokefly extends Service {
     private static final String KEY_SEND_INFO_LEVEL = "key_send_info_level";
     private static final String KEY_SEND_SCREENSHOT_DIR = "key_send_screenshot_dir";
 
-    private static final String ACTION_PROCESS_BITMAP = "process-bitmap";
+    private static final String ACTION_PROCESS_BITMAP = "com.kamron.pogoiv.PROCESS_BITMAP";
     private static final String KEY_BITMAP = "bitmap";
     private static final String KEY_SS_FILE = "ss-file";
 

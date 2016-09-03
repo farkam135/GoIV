@@ -67,8 +67,8 @@ public class MainActivity extends AppCompatActivity {
     private static final String PREF_SCREENSHOT_DIR = "screenshotDir";
     private static final String PREF_SCREENSHOT_URI = "screenshotUri";
 
-    private static final String ACTION_RESET_SCREENSHOT = "reset-screenshot";
-    public static final String ACTION_SHOW_UPDATE_DIALOG = "show-update-dialog";
+    private static final String ACTION_RESET_SCREENSHOT = "com.kamron.pogoiv.RESET_SCREENSHOT";
+    public static final String ACTION_SHOW_UPDATE_DIALOG = "com.kamron.pogoiv.SHOW_UPDATE_DIALOG";
 
     private ScreenGrabber screen;
     private ContentObserver screenShotObserver;

@@ -658,7 +658,7 @@ public class Pokefly extends Service {
         toggleVisibility(inputAppraisalExpandBox, appraisalBox);
     }
 
-    public void adjustPokemonLevel(double estimatedPokemonLevel) {
+    public void adjustArcPointerBar(double estimatedPokemonLevel) {
         setArcPointer(estimatedPokemonLevel);
         arcAdjustBar.setProgress(Data.levelToLevelIdx(estimatedPokemonLevel));
     }
@@ -668,7 +668,7 @@ public class Pokefly extends Service {
         if (estimatedPokemonLevel > 1.0) {
             estimatedPokemonLevel -= 0.5;
         }
-        adjustPokemonLevel(estimatedPokemonLevel);
+        adjustArcPointerBar(estimatedPokemonLevel);
     }
 
     @OnClick(R.id.btnIncrementLevel)
@@ -676,7 +676,7 @@ public class Pokefly extends Service {
         if (estimatedPokemonLevel < Data.trainerLevelToMaxPokeLevel(trainerLevel)) {
             estimatedPokemonLevel += 0.5;
         }
-        adjustPokemonLevel(estimatedPokemonLevel);
+        adjustArcPointerBar(estimatedPokemonLevel);
     }
 
     @OnClick(R.id.btnIncrementLevelExpanded)
@@ -807,8 +807,8 @@ public class Pokefly extends Service {
      *
      */
     private void adjustSeekbarForPokemon() {
-        expandedLevelSeekbar.setProgress(levelToProgress(trainerLevel + 1.5f));
-        expandedLevelSeekbar.setMax(levelToProgress(40));
+        expandedLevelSeekbar.setProgress(levelToSeekbarProgress(Data.trainerLevelToMaxPokeLevel(trainerLevel)));
+        expandedLevelSeekbar.setMax(levelToSeekbarProgress(40));
     }
 
     /**
@@ -897,8 +897,13 @@ public class Pokefly extends Service {
         return (progress + getSeekbarOffset()) / 2.0;  //seekbar only supports integers, so the seekbar works between 2 and 80.
     }
 
-    private int levelToProgress(double level) {
-        return Math.min((int) (level * 2), 80) - getSeekbarOffset();
+    /**
+     *
+     * @param level a valid pokemon level (hence <= 40).
+     * @return a seekbar progress index.
+     */
+    private int levelToSeekbarProgress(double level) {
+        return (int) (2 * level - getSeekbarOffset());
     }
 
     /**
@@ -956,7 +961,7 @@ public class Pokefly extends Service {
         exResLevel.setText(String.valueOf(goalLevel));
 
         // If goalLevel exeeds trainer capabilities then show text in orange
-        if (goalLevel > trainerLevel + 1.5) {
+        if (goalLevel > Data.trainerLevelToMaxPokeLevel(trainerLevel)) {
             exResLevel.setTextColor(getResources().getColor(R.color.orange));
         } else {
             exResLevel.setTextColor(getResources().getColor(R.color.importantText));
@@ -1107,8 +1112,7 @@ public class Pokefly extends Service {
             pokemonCPEdit.setText(String.valueOf(pokemonCP));
 
             showInfoLayoutArcPointer();
-            setArcPointer(estimatedPokemonLevel);
-            arcAdjustBar.setProgress((int) ((estimatedPokemonLevel - 1) * 2));
+            adjustArcPointerBar(estimatedPokemonLevel);
 
             if (batterySaver) {
                 infoShownReceived = false;

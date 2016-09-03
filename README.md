@@ -22,24 +22,24 @@ GoIV is an android app made for Pokémon GO that allows users to seamlessly calc
 ![Alt text](https://i.imgur.com/xXr9zzK.jpg "Advanced Information in Results Popup")
 
 ## Download
-### Latest Version: 3.0.1
+### Latest Version: 3.1.0
 **[Read the changelog](CHANGELOG.md)**
 
 #### GoIV (Online)
 **[Download GoIV (Online) APK](https://github.com/farkam135/GoIV/releases/latest)**  
 
 **Checksums:**  
-MD5 - F45110C452B43813D5185E3DDFDE8603  
-SHA1 - C688462C15F232EE3C0472E00F77647D866FF975  
-SHA-256 - BEF0F40BB711171214C4E641DE4243C3D0FCA288149D468F95850E7960E59B64  
+MD5 - F96E4F3E51E8B77D507BD53CE04FAD46  
+SHA1 - 9AA4448FD64A21F0D4364046F4BD36EF37C804FB  
+SHA-256 - 22214A2DB976C0D1BD6702B8FC5D51D23AAC7EFA937C8A68BCCBB772EFBFE8B1  
 
 #### GoIV (Offline)
-**[Download GoIV (Offline) APK](https://www.reddit.com/r/GoIV/comments/4zvnvh/version_301_hotfix_released/)**
+**[Download GoIV (Offline) APK](https://drive.google.com/file/d/0B0Nazg34pSbpMGRPZUhneTd6THM/view?usp=sharing)**
 
 **Checksums:**  
-MD5 - 9159BADD0CB4CB29E6D10A6F098D3D3D  
-SHA1 - 09A5D65B4D4EF6B92FCF6477B31B9D2E54850673  
-SHA-256 - 86859CCFED659FEF2EC6EE91C8454BE2F5B75C1FCB89AE9310AF2567647F73FE  
+MD5 - 66998267C373CAB90FA0CEC27FF9AB2C  
+SHA1 - B73A092FC8727E1301F8C590E71ADC4DE6273380  
+SHA-256 - 64CCFEA3434BE407DC49841DECFE787E24DC13F6BBD4E73C2CF98F5A44F53274  
 
 ## FAQ
 - [Is there an iOS version?](#is-there-an-ios-version)
@@ -81,6 +81,8 @@ It is *possible*, but we don't think it will happen. Niantic could alter their a
 * Internet (Online version only): To send crash reports and automatically grab new releases.
 
 ### What are IVs?
+For an explanation in entertaining comic form, click [here](https://www.reddit.com/r/pokemongo/comments/4wnnoj/professor_oak_explains_ivs_in_go/).
+
 Individual Values or IVs are stats that determine how much **extra** power a Pokémon has in addition to the baseline (0% IV). IVs consists of Attack (affects damage of moves), Defense (affects amount of damage received) and Stamina (affects the amount of HP). IVs are calculated using Pokémon level, CP and HP, using these information we are able to calculate the possible IVs for the Pokémon. IVs are fixed and do not change when powering up or evolving, and multiple power up may help in getting. The higher the IVs, the more Combat Points (CP) the Pokémon will have, compared to another Pokémon of the same species & level.
 
 ## Community

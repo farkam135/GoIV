@@ -4,9 +4,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * Created by Johan on 2016-08-18.
+ * A class which represents all possible iv combinations for a pokemon.
+ * An object contains:
+ * count - the amount of IV combinations the pokemon has
+ * highpercent: Best case iv%
+ * scannedCP: the cp scanned from the image
+ * getAveragePercent: returns the average IV% of all alternativs
+ * lowPercent: worst case IV%
+ * low attack,defence,stamina - the value for the IV stat where the lowest % was found
+ * high attack,defence,stamina - the value for hte IV stat where the highest % was found
  * <p/>
- * A class which represents all possible iv combinations for a pokemon
+ * Created by Johan on 2016-08-18.
  */
 public class IVScanResult {
     public int highPercent = 0;
@@ -20,38 +28,22 @@ public class IVScanResult {
     public int scannedCP;
     public boolean tooManyPossibilities = false; //flag that gets set to true if user tries to scan 10 hp 10 cp pokemon
     public ArrayList<IVCombination> iVCombinations = new ArrayList<>();
-    public static ScanContainer scanContainer = new ScanContainer();
     public Pokemon pokemon = null;
     public double estimatedPokemonLevel;
 
     /**
-     * creates a holder object for iv scan results
-     * The object contains:
-     * count - the amount of IV combinations the pokemon has
-     * highpercent: Best case iv%
-     * scannedCP: the cp scanned from the image
-     * getAveragePercent: returns the average IV% of all alternativs
-     * lowPercent: worst case IV%
-     * low attack,defence,stamina - the value for the IV stat where the lowest % was found
-     * high attack,defence,stamina - the value for hte IV stat where the highest % was found
+     * Creates a holder object for IV scan results
+     *
+     * @param pokemon               which pokemon it is
+     * @param pokemonCP             pokemon CP
+     * @param estimatedPokemonLevel the estimated pokemon level (should be very low)
+     * @param tooManyPossibilities  true if there are too many possibilities
      */
-    public IVScanResult(Pokemon pokemon, double estimatedPokemonLevel, int pokemonCP) {
-        scanContainer.addNewScan(this);
+    IVScanResult(Pokemon pokemon, double estimatedPokemonLevel, int pokemonCP, boolean tooManyPossibilities) {
         this.pokemon = pokemon;
         this.estimatedPokemonLevel = estimatedPokemonLevel;
         this.scannedCP = pokemonCP;
-    }
-
-    /**
-     * Create a scan result flagged for having too many possibilities
-     *
-     * @param pokemon               which pokemon it is
-     * @param estimatedPokemonLevel the estimated pokemon level (should be very low)
-     * @param b                     true if there are too many possibilities
-     */
-    public IVScanResult(Pokemon pokemon, double estimatedPokemonLevel, int pokemonCP, boolean b) {
-        this(pokemon, estimatedPokemonLevel, pokemonCP);
-        tooManyPossibilities = b;
+        this.tooManyPossibilities = tooManyPossibilities;
     }
 
     public int getCount() {
@@ -103,70 +95,6 @@ public class IVScanResult {
 
 
     /**
-     * Compares the latest two pokemon scan results, and returns a list of which ivs the scans have in commomn
-     * Useful when you power up a pokemon, and wanna see which combinations you can trash
-     *
-     * @return ArrayList of ivcombination that are present in both iv scans.
-     */
-    public ArrayList<IVCombination> getLatestIVIntersection() {
-        return findIVIntersection(scanContainer.oneScanAgo, scanContainer.twoScanAgo);
-    }
-
-    /**
-     * Compares two pokemon scan results, and returns a list of which ivs the scans have in commomn
-     * Useful when you power up a pokemon, and wanna see which combinations you can trash
-     *
-     * @param poke1 the first pokemon scan
-     * @param poke2 the second pokemon scan
-     * @return ArrayList of ivcombination that are present in both iv scans.
-     */
-    public ArrayList<IVCombination> findIVIntersection(IVScanResult poke1, IVScanResult poke2) {
-        ArrayList<IVCombination> intersection = new ArrayList<>();
-
-
-        if (poke1 != null && poke2 != null) {
-            ArrayList<IVCombination> p1IVs = poke1.iVCombinations;
-            ArrayList<IVCombination> p2IVs = poke2.iVCombinations;
-            for (IVCombination p1IV : p1IVs) {
-                for (IVCombination p2IV : p2IVs) {
-                    if (p1IV.equals(p2IV)) {
-                        intersection.add(p1IV);
-                    }
-                }
-            }
-        }
-
-        return intersection;
-    }
-
-    /**
-     * Checks if the previous scanned pokemon can be the same pokemon as the one scanned 2 scans ago
-     * checks if newer scan has higher level, and same or next evolution. (because pokemon cant de-level or devolve)
-     *
-     * @return true if the pokemon can be same
-     */
-    public boolean canThisScanBePoweredUpPreviousScan() {
-
-        IVScanResult p1scan = scanContainer.oneScanAgo;
-        IVScanResult p2scan = scanContainer.twoScanAgo;
-        if (p1scan != null && p2scan != null) {
-            Pokemon p1 = scanContainer.oneScanAgo.pokemon;
-            Pokemon p2 = scanContainer.twoScanAgo.pokemon;
-
-            boolean pokemonHasLeveledUp = p1scan.estimatedPokemonLevel > p2scan.estimatedPokemonLevel;
-            boolean isEvolved = p1.isInNextEvolution(p2);
-
-            boolean somethingImproved = (pokemonHasLeveledUp || isEvolved);
-            boolean isSameOrHigherLevel = (p1scan.estimatedPokemonLevel >= p2scan.estimatedPokemonLevel);
-            boolean isSameOrHigherEvolution = (p1.number == p2.number || p1.isInNextEvolution(p2));
-            return somethingImproved && isSameOrHigherLevel && isSameOrHigherEvolution;
-        }
-
-        return false;
-    }
-
-
-    /**
      * @return get the IV combination which has the highest sum of att+def+sta, or tied to equal
      */
     public IVCombination getHighestIVCombination() {
@@ -192,20 +120,6 @@ public class IVScanResult {
             }
         }
         return low;
-    }
-
-    /**
-     * returns a string which is either the name of the previously scanned pokemon, or ""
-     *
-     * @return
-     */
-    public String getPrevScanName() {
-        if (scanContainer.twoScanAgo != null) {
-            return scanContainer.twoScanAgo.pokemon.name;
-        } else {
-            return "";
-        }
-
     }
 
     /**

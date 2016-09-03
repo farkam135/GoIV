@@ -440,6 +440,8 @@ public class Pokefly extends Service {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(processBitmap);
 
         ocr.exit();
+        //Now ocr contains an invalid instance hence let's clear it.
+        ocr = null;
     }
 
     /**

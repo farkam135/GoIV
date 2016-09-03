@@ -808,7 +808,8 @@ public class Pokefly extends Service {
      *
      */
     private void adjustSeekbarForPokemon() {
-        expandedLevelSeekbarBackground.getThumb(0).setInvisibleThumb(true);
+        expandedLevelSeekbarBackground.getThumb(0).setThumb(getResources().getDrawable(R.drawable
+                .orange_scrubber_control_disabled_holo));
         expandedLevelSeekbarBackground.getThumb(0).setValue(levelToSeekbarProgress(trainerLevel + 1.5f));
         expandedLevelSeekbarBackground.getThumb(1).setInvisibleThumb(true);
         expandedLevelSeekbarBackground.setMax(levelToSeekbarProgress(40));

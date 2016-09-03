@@ -188,7 +188,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:range1="@drawable/orange_scrubber_track_holo_light"
-                app:range2="@drawable/orange_scrubber_secondary_holo"
+                app:range2="@drawable/orange_scrubber_primary_holo"
                 app:thumbNumber="2"
                 android:layout_centerInParent="true"/>
 

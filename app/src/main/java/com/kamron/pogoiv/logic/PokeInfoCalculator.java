@@ -38,8 +38,8 @@ public class PokeInfoCalculator {
         populatePokemon(namesArray, attackArray, defenceArray, staminaArray, devolutionArray, evolutionCandyCostArray);
     }
 
-    public ArrayList<Pokemon> getPokedex() {
-        return this.pokedex;
+    public List<Pokemon> getPokedex() {
+        return Collections.unmodifiableList(this.pokedex);
     }
 
     /**

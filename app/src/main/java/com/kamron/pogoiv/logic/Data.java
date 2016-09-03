@@ -71,7 +71,7 @@ public class Data {
      * and subtracting 2.
      */
     public static int levelToLevelIdx(double level) {
-        return (int) (level - 1) * 2;
+        return (int) ((level - 1) * 2);
     }
 
     /**

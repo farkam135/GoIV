@@ -129,8 +129,8 @@ public class OCRHelper {
      * @param pokemonImage The image of the entire screen
      * @return the estimated pokemon level, or 1 if nothing found
      */
-    private double getPokemonLevelFromImg(Bitmap pokemonImage, double trainerLevel) {
-        double estimatedPokemonLevel = trainerLevel + 1.5;
+    private double getPokemonLevelFromImg(Bitmap pokemonImage, int trainerLevel) {
+        double estimatedPokemonLevel = Data.trainerLevelToMaxPokeLevel(trainerLevel);
         for (double estPokemonLevel = estimatedPokemonLevel; estPokemonLevel >= 1.0; estPokemonLevel -= 0.5) {
             int index = Data.levelToLevelIdx(estPokemonLevel);
             int x = Data.arcX[index];

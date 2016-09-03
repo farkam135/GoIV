@@ -330,15 +330,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private boolean isNumeric(String str) {
-        try {
-            int number = Integer.parseInt(str);
-        } catch (NumberFormatException nfe) {
-            return false;
-        }
-        return true;
-    }
-
     private String getVersionName() {
         try {
             return getPackageManager().getPackageInfo(getPackageName(), 0).versionName;

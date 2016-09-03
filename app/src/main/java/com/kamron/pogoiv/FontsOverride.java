@@ -1,4 +1,4 @@
-package com.kamron.pogoiv.updater;
+package com.kamron.pogoiv;
 
 import android.content.Context;
 import android.graphics.Typeface;

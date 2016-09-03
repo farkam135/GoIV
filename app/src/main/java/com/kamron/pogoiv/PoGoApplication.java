@@ -2,8 +2,6 @@ package com.kamron.pogoiv;
 
 import android.app.Application;
 
-import com.kamron.pogoiv.updater.FontsOverride;
-
 import timber.log.Timber;
 
 public class PoGoApplication extends Application {

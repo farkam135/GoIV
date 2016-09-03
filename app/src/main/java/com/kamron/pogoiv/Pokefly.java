@@ -622,7 +622,7 @@ public class Pokefly extends Service {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean fromUser) {
                 if (fromUser) {
-                    populateAdvancedInformation(ScanContainer.scanContainer.oneScanAgo);
+                    populateAdvancedInformation(ScanContainer.scanContainer.currScan);
                 }
 
             }
@@ -640,12 +640,12 @@ public class Pokefly extends Service {
         extendedEvolutionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                populateAdvancedInformation(ScanContainer.scanContainer.oneScanAgo);
+                populateAdvancedInformation(ScanContainer.scanContainer.currScan);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
-                populateAdvancedInformation(ScanContainer.scanContainer.oneScanAgo);
+                populateAdvancedInformation(ScanContainer.scanContainer.currScan);
             }
 
         });
@@ -721,13 +721,13 @@ public class Pokefly extends Service {
     @OnClick(R.id.btnIncrementLevelExpanded)
     public void incrementLevelExpanded() {
         expandedLevelSeekbar.setProgress(expandedLevelSeekbar.getProgress() + 1);
-        populateAdvancedInformation(ScanContainer.scanContainer.oneScanAgo);
+        populateAdvancedInformation(ScanContainer.scanContainer.currScan);
     }
 
     @OnClick(R.id.btnDecrementLevelExpanded)
     public void decrementLevelExpanded() {
         expandedLevelSeekbar.setProgress(expandedLevelSeekbar.getProgress() - 1);
-        populateAdvancedInformation(ScanContainer.scanContainer.oneScanAgo);
+        populateAdvancedInformation(ScanContainer.scanContainer.currScan);
     }
 
     @OnClick(R.id.btnCheckIv)
@@ -788,7 +788,7 @@ public class Pokefly extends Service {
 
         addToRangeToClipboardIfSettingOn(ivScanResult);
         populateResultsBox(ivScanResult);
-        boolean enableCompare = ScanContainer.scanContainer.twoScanAgo != null;
+        boolean enableCompare = ScanContainer.scanContainer.prevScan != null;
         //@color/unimportantText
         exResCompare.setEnabled(enableCompare);
         exResCompare.setTextColor(getResources().getColor(enableCompare ? R.color.colorPrimary : R.color.unimportantText));
@@ -1064,8 +1064,8 @@ public class Pokefly extends Service {
 
     @OnClick(R.id.exResCompare)
     public void reduceScanByComparison() {
-        IVScanResult thisScan = ScanContainer.scanContainer.oneScanAgo;
-        IVScanResult prevScan = ScanContainer.scanContainer.twoScanAgo;
+        IVScanResult thisScan = ScanContainer.scanContainer.currScan;
+        IVScanResult prevScan = ScanContainer.scanContainer.prevScan;
         if (prevScan != null) {
             ArrayList<IVCombination> newResult = ScanContainer.scanContainer.getLatestIVIntersection();
             // Since the only change was an intersection, if the sizes are equal the content's also equal.

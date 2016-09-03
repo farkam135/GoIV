@@ -9,8 +9,8 @@ import java.util.ArrayList;
  */
 public class ScanContainer {
     public static final ScanContainer scanContainer = new ScanContainer();
-    public IVScanResult oneScanAgo = null;
-    public IVScanResult twoScanAgo = null;
+    public IVScanResult prevScan = null;
+    public IVScanResult currScan = null;
 
     /**
      * pushes the 3 scan ago out of memory, and remembers the two latest scanns
@@ -18,12 +18,13 @@ public class ScanContainer {
      * @param res
      */
     private void addNewScan(IVScanResult res) {
-        twoScanAgo = oneScanAgo;
-        oneScanAgo = res;
+        prevScan = currScan;
+        currScan = res;
     }
 
     /**
      * Create a new IVScanResult and updates the scanContainer singleton.
+     *
      * @param pokemon
      * @param estimatedPokemonLevel
      * @param pokemonCP
@@ -98,7 +99,7 @@ public class ScanContainer {
      * @return ArrayList of ivcombination that are present in both iv scans.
      */
     public ArrayList<IVCombination> getLatestIVIntersection() {
-        return findIVIntersection(oneScanAgo, twoScanAgo);
+        return findIVIntersection(currScan, prevScan);
 
     }
 
@@ -108,8 +109,8 @@ public class ScanContainer {
      * @return
      */
     public String getPrevScanName() {
-        if (twoScanAgo != null) {
-            return twoScanAgo.pokemon.name;
+        if (prevScan != null) {
+            return prevScan.pokemon.name;
         } else {
             return "";
         }

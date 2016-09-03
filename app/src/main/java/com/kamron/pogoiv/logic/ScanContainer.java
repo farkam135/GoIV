@@ -1,6 +1,4 @@
-package com.kamron.pogoiv;
-
-import com.kamron.pogoiv.logic.IVScanResult;
+package com.kamron.pogoiv.logic;
 
 /**
  * Created by Johan on 2016-08-19.

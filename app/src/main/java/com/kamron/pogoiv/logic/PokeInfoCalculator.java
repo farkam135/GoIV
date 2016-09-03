@@ -1,7 +1,5 @@
 package com.kamron.pogoiv.logic;
 
-import com.kamron.pogoiv.UpgradeCost;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;

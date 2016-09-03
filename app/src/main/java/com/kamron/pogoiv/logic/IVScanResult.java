@@ -1,7 +1,5 @@
 package com.kamron.pogoiv.logic;
 
-import com.kamron.pogoiv.ScanContainer;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 

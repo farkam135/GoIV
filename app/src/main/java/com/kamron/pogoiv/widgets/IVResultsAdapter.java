@@ -1,4 +1,4 @@
-package com.kamron.pogoiv;
+package com.kamron.pogoiv.widgets;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -9,13 +9,15 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.kamron.pogoiv.GUIUtil;
+import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.logic.IVCombination;
 import com.kamron.pogoiv.logic.IVScanResult;
 
 /**
  * Created by OskO on 29/08/16.
  */
-class IVResultsAdapter extends RecyclerView.Adapter<IVResultsAdapter.ResultsViewHolder> {
+public class IVResultsAdapter extends RecyclerView.Adapter<IVResultsAdapter.ResultsViewHolder> {
     LayoutInflater layoutInflater;
     IVScanResult mDataSet;
 

@@ -56,6 +56,8 @@ import com.kamron.pogoiv.logic.IVScanResult;
 import com.kamron.pogoiv.logic.PokeInfoCalculator;
 import com.kamron.pogoiv.logic.Pokemon;
 import com.kamron.pogoiv.logic.ScanResult;
+import com.kamron.pogoiv.widgets.IVResultsAdapter;
+import com.kamron.pogoiv.widgets.PokemonSpinnerAdapter;
 
 import java.io.File;
 import java.io.FileOutputStream;

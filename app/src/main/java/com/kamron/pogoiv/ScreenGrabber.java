@@ -43,6 +43,7 @@ public class ScreenGrabber {
 
     /**
      * Returns instance of ScreenGrabber; only use if you're <b>sure</b> it's already initialized.
+     *
      * @return Singleton instance of ScreenGrabber, if initialized
      */
     public static ScreenGrabber getInstance() {

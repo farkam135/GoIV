@@ -826,7 +826,6 @@ public class Pokefly extends Service {
 
     /**
      * Shows the "refine by leveling up" part if he previous pokemon could be an upgraded version
-     *
      */
     private void populatePrevScanNarrowing() {
         if (ScanContainer.scanContainer.canLastScanBePoweredUpPreviousScan()) {
@@ -935,9 +934,9 @@ public class Pokefly extends Service {
                 }
             }
         } else {
-            if (evolutionLine.size()>intSelectedPokemon){
+            if (evolutionLine.size() > intSelectedPokemon) {
                 selectedPokemon = evolutionLine.get(intSelectedPokemon);
-            }else{
+            } else {
                 selectedPokemon = evolutionLine.get(0);
             }
 

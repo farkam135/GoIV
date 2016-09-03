@@ -22,6 +22,7 @@ public class Data {
     /**
      * setupArcPoints
      * Sets up the x,y coordinates of the arc using the trainer level, stores it in Data.arcX/arcY
+     *
      * @param arcInit
      * @param arcRadius
      * @param trainerLevel

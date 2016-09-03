@@ -21,7 +21,6 @@ import android.media.projection.MediaProjectionManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.FileObserver;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -51,7 +50,6 @@ import com.kamron.pogoiv.updater.AppUpdateUtil;
 import com.kamron.pogoiv.updater.DownloadUpdateService;
 
 import java.io.File;
-import java.io.FileOutputStream;
 
 import timber.log.Timber;
 

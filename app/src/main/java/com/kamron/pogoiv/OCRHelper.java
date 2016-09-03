@@ -310,7 +310,7 @@ public class OCRHelper {
                 (int) Math.round(heightPixels / 21.333333333));
         cp = replaceColors(cp, 255, 255, 255, Color.BLACK, 30, false);
         tesseract.setImage(cp);
-        String cpText = tesseract.getUTF8Text().replace("O", "0").replace("l", "1");
+        String cpText = tesseract.getUTF8Text().replace("O", "0").replace("l", "1").replace("Z", "2");
         if (cpText.length() >= 2) { //gastly can block the "cp" text, so its not visible...
             cpText = cpText.substring(2);
         }

@@ -81,6 +81,8 @@ It is *possible*, but we don't think it will happen. Niantic could alter their a
 * Internet (Online version only): To send crash reports and automatically grab new releases.
 
 ### What are IVs?
+For an explanation in entertaining comic form, click [here](https://www.reddit.com/r/pokemongo/comments/4wnnoj/professor_oak_explains_ivs_in_go/).
+
 Individual Values or IVs are stats that determine how much **extra** power a Pokémon has in addition to the baseline (0% IV). IVs consists of Attack (affects damage of moves), Defense (affects amount of damage received) and Stamina (affects the amount of HP). IVs are calculated using Pokémon level, CP and HP, using these information we are able to calculate the possible IVs for the Pokémon. IVs are fixed and do not change when powering up or evolving, and multiple power up may help in getting. The higher the IVs, the more Combat Points (CP) the Pokémon will have, compared to another Pokémon of the same species & level.
 
 ## Community

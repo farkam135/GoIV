@@ -201,15 +201,14 @@ public class MainActivity extends AppCompatActivity {
     private void setupDisplaySizeInfo() {
         arcInit.x = (int) (displayMetrics.widthPixels * 0.5);
 
-        arcInit.y = (int) Math.floor(displayMetrics.heightPixels / 2.803943);//(int)Math.round
-        // (displayMetrics.heightPixels / 6.0952381) * -1; //dpToPx(113) * -1; //(int)Math.round(displayMetrics.heightPixels / 6.0952381) * -1; //-420;
+        arcInit.y = (int) Math.floor(displayMetrics.heightPixels / 2.803943);
         if (displayMetrics.heightPixels == 2392 || displayMetrics.heightPixels == 800) {
             arcInit.y--;
         } else if (displayMetrics.heightPixels == 1920) {
             arcInit.y++;
         }
 
-        arcRadius = (int) Math.round(displayMetrics.heightPixels / 4.3760683); //dpToPx(157); //(int)Math.round(displayMetrics.heightPixels / 4.37606838); //(int)Math.round(displayMetrics.widthPixels / 2.46153846); //585;
+        arcRadius = (int) Math.round(displayMetrics.heightPixels / 4.3760683);
         if (displayMetrics.heightPixels == 1776 || displayMetrics.heightPixels == 960 || displayMetrics.heightPixels == 800) {
             arcRadius++;
         }
@@ -348,11 +347,7 @@ public class MainActivity extends AppCompatActivity {
     private void checkPermissions(Button launch) {
         //Check Permissions
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(this)) {
-            //Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-            //       Uri.parse("package:" + getPackageName()));
-            //startActivityForResult(intent, OVERLAY_PERMISSION_REQ_CODE);
             launch.setText(getString(R.string.main_permission));
-            //startScreenService();
         } else if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
             launch.setText(getString(R.string.main_permission));
         }
@@ -398,7 +393,6 @@ public class MainActivity extends AppCompatActivity {
                 screen = ScreenGrabber.init(mProjection, rawDisplayMetrics, displayMetrics);
 
                 startPokeFly();
-                //showNotification();
             } else {
                 ((Button) findViewById(R.id.start)).setText(getString(R.string.main_start));
             }

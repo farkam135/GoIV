@@ -323,9 +323,6 @@ public class Pokefly extends Service {
         initOCR();
         windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
         clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-        //Display disp = windowManager.getDefaultDisplay();
-        //disp.getRealMetrics(displayMetrics);
-        //System.out.println("New Device:" + displayMetrics.widthPixels + "," + displayMetrics.heightPixels + "," + displayMetrics.densityDpi + "," + displayMetrics.density);
 
         LocalBroadcastManager.getInstance(this).registerReceiver(displayInfo, new IntentFilter(ACTION_SEND_INFO));
         LocalBroadcastManager.getInstance(this).registerReceiver(processBitmap, new IntentFilter(ACTION_PROCESS_BITMAP));
@@ -496,8 +493,10 @@ public class Pokefly extends Service {
      */
     private void setArcPointer(double pokeLevel) {
         int index = Data.levelToLevelIdx(pokeLevel);
-        arcParams.x = Data.arcX[index] - pointerWidth; //(int) (arcCenter + (radius * Math.cos(angleInRadians)));
-        arcParams.y = Data.arcY[index] - pointerHeight - statusBarHeight; //(int) (arcInitialY + (radius * Math.sin(angleInRadians)));
+        arcParams.x = Data.arcX[index] - pointerWidth;
+        arcParams.y = Data.arcY[index] - pointerHeight - statusBarHeight;
+        //That is, (int) (arcCenter + (radius * Math.cos(angleInRadians))) and
+        //(int) (arcInitialY + (radius * Math.sin(angleInRadians))).
         windowManager.updateViewLayout(arcPointer, arcParams);
     }
 
@@ -513,7 +512,6 @@ public class Pokefly extends Service {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 estimatedPokemonLevel = 1 + (progress * 0.5);
                 setArcPointer(estimatedPokemonLevel);
-                //setArcPointer((Data.CpM[(int) (estimatedPokemonLevel * 2 - 2)] - 0.094) * 202.037116 / Data.CpM[trainerLevel * 2 - 2]);
             }
 
             @Override
@@ -524,8 +522,6 @@ public class Pokefly extends Service {
             public void onStopTrackingTouch(SeekBar seekBar) {
             }
         });
-
-        //windowManager.addView(arcAdjustBar,arcParams);
     }
 
     /**
@@ -537,16 +533,10 @@ public class Pokefly extends Service {
         ivButton.setImageResource(R.drawable.button);
 
         ivButtonParams.gravity = Gravity.BOTTOM | Gravity.START;
-        ivButtonParams.x = dpToPx(20); //(int)Math.round(displayMetrics.widthPixels / 20.5714286);
-        ivButtonParams.y = dpToPx(15); //(int)Math.round(displayMetrics.heightPixels / 38.5714286);
+        ivButtonParams.x = dpToPx(20);
+        ivButtonParams.y = dpToPx(15);
 
         ivButton.setOnTouchListener(new View.OnTouchListener() {
-            //private WindowManager.LayoutParams paramsF = ivButtonParams;
-            //private int initialX;
-            //private int initialY;
-            //private float initialTouchX;
-            //private float initialTouchY;
-
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
@@ -561,8 +551,6 @@ public class Pokefly extends Service {
                 return false;
             }
         });
-
-        //windowManager.addView(ivButton, ivButtonParams);
     }
 
     /**
@@ -676,7 +664,6 @@ public class Pokefly extends Service {
             estimatedPokemonLevel -= 0.5;
         }
         setArcPointer(estimatedPokemonLevel);
-        //setArcPointer((Data.CpM[(int) (estimatedPokemonLevel * 2 - 2)] - 0.094) * 202.037116 / Data.CpM[trainerLevel * 2 - 2]);
         arcAdjustBar.setProgress((int) ((estimatedPokemonLevel - 1) * 2));
     }
 
@@ -686,7 +673,6 @@ public class Pokefly extends Service {
             estimatedPokemonLevel += 0.5;
         }
         setArcPointer(estimatedPokemonLevel);
-        //setArcPointer((Data.CpM[(int) (estimatedPokemonLevel * 2 - 2)] - 0.094) * 202.037116 / Data.CpM[trainerLevel * 2 - 2]);
         arcAdjustBar.setProgress((int) ((estimatedPokemonLevel - 1) * 2));
     }
 
@@ -761,7 +747,6 @@ public class Pokefly extends Service {
         addToRangeToClipboardIfSettingOn(ivScanResult);
         populateResultsBox(ivScanResult);
         boolean enableCompare = ScanContainer.scanContainer.prevScan != null;
-        //@color/unimportantText
         exResCompare.setEnabled(enableCompare);
         exResCompare.setTextColor(getResources().getColor(enableCompare ? R.color.colorPrimary : R.color.unimportantText));
         resultsBox.setVisibility(View.VISIBLE);
@@ -1123,7 +1108,6 @@ public class Pokefly extends Service {
 
             showInfoLayoutArcPointer();
             setArcPointer(estimatedPokemonLevel);
-            //setArcPointer((Data.CpM[(int) (estimatedPokemonLevel * 2 - 2)] - 0.094) * 202.037116 / Data.CpM[trainerLevel * 2 - 2]);
             arcAdjustBar.setProgress((int) ((estimatedPokemonLevel - 1) * 2));
 
             if (batterySaver) {

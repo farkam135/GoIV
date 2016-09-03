@@ -22,8 +22,7 @@ GoIV is an android app made for Pokémon GO that allows users to seamlessly calc
 ![Alt text](https://i.imgur.com/xXr9zzK.jpg "Advanced Information in Results Popup")
 
 ## Download
-### Latest Version: 3.1.0
-**[Read the changelog](CHANGELOG.md)**
+### Latest Version: 3.1.0 ([Changelog](CHANGELOG.md))
 
 #### GoIV (Online)
 **[Download GoIV (Online) APK](https://github.com/farkam135/GoIV/releases/latest)**  

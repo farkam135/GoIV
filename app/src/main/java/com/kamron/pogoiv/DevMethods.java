@@ -1,9 +1,16 @@
 package com.kamron.pogoiv;
 
+import android.graphics.Bitmap;
+import android.os.Environment;
+
 import com.kamron.pogoiv.logic.PokeInfoCalculator;
 import com.kamron.pogoiv.logic.Pokemon;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
+
+import timber.log.Timber;
 
 /**
  * Created by Johan on 2016-08-27.
@@ -12,6 +19,33 @@ import java.util.ArrayList;
  */
 public class DevMethods {
 
+
+    /**
+     * saveImage
+     * Used to save the image the screen capture is captuing, used for debugging.
+     *
+     * @param finalBitmap The bitmap to save
+     * @param name        The name of the file to save it as
+     */
+    public static void saveImage(Bitmap finalBitmap, String name) {
+
+        String root = Environment.getExternalStorageDirectory().toString();
+        File myDir = new File(root + "/saved_images");
+        myDir.mkdirs();
+        String fileName = "Image-" + name + ".jpg";
+        File file = new File(myDir, fileName);
+        if (file.exists()) file.delete();
+        try {
+            FileOutputStream out = new FileOutputStream(file);
+            finalBitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+            out.flush();
+            out.close();
+
+        } catch (Exception exception) {
+            Timber.e("Exception thrown in saveImage()");
+            Timber.e(exception);
+        }
+    }
 
     /**
      * Method used to generate the <item> </item> list for candy cost of evolution
@@ -26,7 +60,7 @@ public class DevMethods {
         //to create the evolutions
 
         int evolutionCost = -99999;
-        for (Pokemon poke : pokeCalculator.pokedex) {
+        for (Pokemon poke : pokeCalculator.getPokedex()) {
             ArrayList<Pokemon> evoLine = pokeCalculator.getEvolutionLine(poke);
             int numberInEvoLine = 1;
             for (int i = 0; i < evoLine.size(); i++) {

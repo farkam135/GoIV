@@ -7,6 +7,7 @@ import android.util.LruCache;
 
 import com.googlecode.tesseract.android.TessBaseAPI;
 import com.kamron.pogoiv.logic.Data;
+import com.kamron.pogoiv.logic.ScanResult;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -26,13 +27,6 @@ public class OCRHelper {
     private int heightPixels;
     private int widthPixels;
     private boolean candyWordFirst;
-
-    /* TODO: This is a temporary hack to keep the commits more bite sized. Will fix soon. */
-    public double estimatedPokemonLevel;
-    public String pokemonName;
-    public String candyName;
-    public int pokemonHP;
-    public int pokemonCP;
     private String nidoFemale;
     private String nidoMale;
 
@@ -148,7 +142,7 @@ public class OCRHelper {
     /**
      * Get the hashcode for a bitmap
      */
-    String hashBitmap(Bitmap bmp) {
+    private String hashBitmap(Bitmap bmp) {
         int[] allpixels = new int[bmp.getHeight() * bmp.getWidth()];
         bmp.getPixels(allpixels, 0, bmp.getWidth(), 0, 0, bmp.getWidth(), bmp.getHeight());
         return Integer.toHexString(Arrays.hashCode(allpixels));
@@ -318,16 +312,19 @@ public class OCRHelper {
 
     /**
      * scanPokemon
-     * Performs OCR on an image of a pokemon and sends the pulled info to PokeFly to display.
+     * Performs OCR on an image of a pokemon and returns the pulled info.
      *
      * @param pokemonImage The image of the pokemon
+     * @param trainerLevel Current level of the trainer
+     * @return an object
      */
-    void scanPokemon(Bitmap pokemonImage, int trainerLevel) {
-        estimatedPokemonLevel = getPokemonLevelFromImg(pokemonImage, trainerLevel);
-        pokemonName = getPokemonNameFromImg(pokemonImage);
-        candyName = getCandyNameFromImg(pokemonImage);
-        pokemonHP = getPokemonHPFromImg(pokemonImage);
-        pokemonCP = getPokemonCPFromImg(pokemonImage);
-    }
+    public ScanResult scanPokemon(Bitmap pokemonImage, int trainerLevel) {
+        double estimatedPokemonLevel = getPokemonLevelFromImg(pokemonImage, trainerLevel);
+        String pokemonName = getPokemonNameFromImg(pokemonImage);
+        String candyName = getCandyNameFromImg(pokemonImage);
+        int pokemonHP = getPokemonHPFromImg(pokemonImage);
+        int pokemonCP = getPokemonCPFromImg(pokemonImage);
 
+        return new ScanResult(estimatedPokemonLevel, pokemonName, candyName, pokemonHP, pokemonCP);
+    }
 }

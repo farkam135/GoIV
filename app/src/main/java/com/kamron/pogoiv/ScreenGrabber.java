@@ -41,6 +41,17 @@ public class ScreenGrabber {
         return instance;
     }
 
+    /**
+     * Returns instance of ScreenGrabber; only use if you're <b>sure</b> it's already initialized.
+     *
+     * @return Singleton instance of ScreenGrabber, if initialized
+     */
+    public static ScreenGrabber getInstance() {
+        assert (instance != null);
+        return instance;
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public void exit() {
         if (mProjection != null) {
             mImageReader = null;

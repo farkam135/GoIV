@@ -1,7 +1,5 @@
 package com.kamron.pogoiv.logic;
 
-import com.kamron.pogoiv.UpgradeCost;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -13,9 +11,17 @@ import java.util.List;
  * A class which interprets pokemon information
  */
 public class PokeInfoCalculator {
+    private static PokeInfoCalculator instance;
 
-    public ArrayList<Pokemon> pokedex = null;
+    private ArrayList<Pokemon> pokedex = null;
     private HashMap<String, Pokemon> pokemap = null;
+
+    public static PokeInfoCalculator getInstance(String[] namesArray, int[] attackArray, int[] defenceArray, int[] staminaArray, int[] devolutionArray, int[] evolutionCandyCostArray) {
+        if (instance == null) {
+            instance = new PokeInfoCalculator(namesArray, attackArray, defenceArray, staminaArray, devolutionArray, evolutionCandyCostArray);
+        }
+        return instance;
+    }
 
     /**
      * creates a pokemon info calculator with the pokemon as argument
@@ -26,8 +32,12 @@ public class PokeInfoCalculator {
      * @param staminaArray    array of all pokemon base stam stat
      * @param devolutionArray array of what the pokemon evolved from, -1 if no devolution
      */
-    public PokeInfoCalculator(String[] namesArray, int[] attackArray, int[] defenceArray, int[] staminaArray, int[] devolutionArray, int[] evolutionCandyCostArray) {
+    private PokeInfoCalculator(String[] namesArray, int[] attackArray, int[] defenceArray, int[] staminaArray, int[] devolutionArray, int[] evolutionCandyCostArray) {
         populatePokemon(namesArray, attackArray, defenceArray, staminaArray, devolutionArray, evolutionCandyCostArray);
+    }
+
+    public List<Pokemon> getPokedex() {
+        return Collections.unmodifiableList(this.pokedex);
     }
 
     /**
@@ -73,7 +83,6 @@ public class PokeInfoCalculator {
         // don't sort or otherwise we loose evolution-order of the list
         //sortPokedex(pokedex);
     }
-
 
     /**
      * Sorts the pokemon in the pokedex by alphabetical order
@@ -170,9 +179,10 @@ public class PokeInfoCalculator {
         //IV vars for lower and upper end cp ranges
 
 
+        IVScanResult returner;
         //It's safe to proceed if *one* is not 10, though it takes a bit longer.
         if (pokemonHP != 10 || pokemonCP != 10) {
-            IVScanResult returner = new IVScanResult(selectedPokemon, estimatedPokemonLevel, pokemonCP);
+            returner = ScanContainer.createIVScanResult(selectedPokemon, estimatedPokemonLevel, pokemonCP, false);
             for (int staminaIV = 0; staminaIV < 16; staminaIV++) {
                 int hp = (int) Math.max(Math.floor((baseStamina + staminaIV) * lvlScalar), 10);
                 if (hp == pokemonHP) {
@@ -191,11 +201,10 @@ public class PokeInfoCalculator {
                     break;
                 }
             }
-            return returner;
         } else {
-            return new IVScanResult(selectedPokemon, estimatedPokemonLevel, pokemonCP, true);
-
+            returner = ScanContainer.createIVScanResult(selectedPokemon, estimatedPokemonLevel, pokemonCP, true);
         }
+        return returner;
     }
 
 
@@ -309,6 +318,4 @@ public class PokeInfoCalculator {
 
         return list;
     }
-
-
 }

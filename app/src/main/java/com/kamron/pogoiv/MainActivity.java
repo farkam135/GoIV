@@ -160,7 +160,6 @@ public class MainActivity extends AppCompatActivity {
                 } else if (((Button) v).getText().toString().equals(getString(R.string.main_start))) {
                     batterySaver = settings.isManualScreenshotModeEnabled();
                     setupDisplaySizeInfo();
-                    statusBarHeight = getStatusBarHeight();
                     trainerLevel = setupTrainerLevel(npTrainerLevel);
 
                     Data.setupArcPoints(arcInit, arcRadius, trainerLevel);
@@ -319,6 +318,7 @@ public class MainActivity extends AppCompatActivity {
     private void startPokeFly() {
         ((Button) findViewById(R.id.start)).setText(R.string.main_stop);
 
+        int statusBarHeight = getStatusBarHeight();
         Intent intent = Pokefly.createIntent(this, trainerLevel, statusBarHeight, batterySaver, screenshotDir,
                 screenshotUri);
         startService(intent);

@@ -152,10 +152,17 @@ public class OCRHelper {
     }
 
     /**
-     * Correct some OCR errors in argument.
+     * Correct some OCR errors in argument where only letters are expected.
      */
-    private static String fixOcr(String src) {
+    private static String fixOcrNumsToLetters(String src) {
         return src.replace("1", "l").replace("0", "o");
+    }
+
+    /**
+     * Correct some OCR errors in argument where only numbers are expected.
+     */
+    private static String fixOcrLettersToNums(String src) {
+        return src.replace("O", "0").replace("l", "1").replace("Z", "2");
     }
 
     /**
@@ -208,7 +215,7 @@ public class OCRHelper {
         if (pokemonName == null) {
             name = replaceColors(name, 68, 105, 108, Color.WHITE, 200, true);
             tesseract.setImage(name);
-            pokemonName = fixOcr(tesseract.getUTF8Text().replace(" ", ""));
+            pokemonName = fixOcrNumsToLetters(tesseract.getUTF8Text().replace(" ", ""));
             if (pokemonName.toLowerCase().contains("nidora")) {
                 boolean isFemale = isNidoranFemale(pokemonImage);
                 if (isFemale) {
@@ -253,7 +260,7 @@ public class OCRHelper {
             candy = replaceColors(candy, 68, 105, 108, Color.WHITE, 200, true);
             tesseract.setImage(candy);
             try {
-                candyName = fixOcr(
+                candyName = fixOcrNumsToLetters(
                         removeFirstOrLastWord(tesseract.getUTF8Text().trim().replace("-", " "), candyWordFirst));
             } catch (StringIndexOutOfBoundsException e) {
                 candyName = "";
@@ -288,8 +295,7 @@ public class OCRHelper {
 
         if (pokemonHPStr.contains("/")) {
             try {
-                pokemonHP = Integer.parseInt(pokemonHPStr.split("/")[1].replace("Z", "2").replace("O", "0")
-                        .replace("l", "1").replaceAll("[^0-9]", ""));
+                pokemonHP = Integer.parseInt(fixOcrLettersToNums(pokemonHPStr.split("/")[1]).replaceAll("[^0-9]", ""));
             } catch (java.lang.NumberFormatException e) {
                 pokemonHP = 10;
             }
@@ -310,7 +316,7 @@ public class OCRHelper {
                 (int) Math.round(heightPixels / 21.333333333));
         cp = replaceColors(cp, 255, 255, 255, Color.BLACK, 30, false);
         tesseract.setImage(cp);
-        String cpText = tesseract.getUTF8Text().replace("O", "0").replace("l", "1").replace("Z", "2");
+        String cpText = fixOcrLettersToNums(tesseract.getUTF8Text());
         if (cpText.length() >= 2) { //gastly can block the "cp" text, so its not visible...
             cpText = cpText.substring(2);
         }

@@ -364,7 +364,7 @@ public class Pokefly extends Service {
             createArcAdjuster();
             /* Assumes MainActivity initialized ScreenGrabber before starting this service. */
             if (!batterySaver) {
-                screen = ScreenGrabber.init(null, null, null);
+                screen = ScreenGrabber.getInstance();
                 startPeriodicScreenScan();
             }
         }

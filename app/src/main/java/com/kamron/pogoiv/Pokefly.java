@@ -658,22 +658,25 @@ public class Pokefly extends Service {
         toggleVisibility(inputAppraisalExpandBox, appraisalBox);
     }
 
+    public void adjustPokemonLevel(double estimatedPokemonLevel) {
+        setArcPointer(estimatedPokemonLevel);
+        arcAdjustBar.setProgress(Data.levelToLevelIdx(estimatedPokemonLevel));
+    }
+
     @OnClick(R.id.btnDecrementLevel)
     public void decrementLevel() {
         if (estimatedPokemonLevel > 1.0) {
             estimatedPokemonLevel -= 0.5;
         }
-        setArcPointer(estimatedPokemonLevel);
-        arcAdjustBar.setProgress((int) ((estimatedPokemonLevel - 1) * 2));
+        adjustPokemonLevel(estimatedPokemonLevel);
     }
 
     @OnClick(R.id.btnIncrementLevel)
     public void incrementLevel() {
-        if (estimatedPokemonLevel < trainerLevel + 1.5 && estimatedPokemonLevel < 40.5) {
+        if (estimatedPokemonLevel < Data.trainerLevelToMaxPokeLevel(trainerLevel)) {
             estimatedPokemonLevel += 0.5;
         }
-        setArcPointer(estimatedPokemonLevel);
-        arcAdjustBar.setProgress((int) ((estimatedPokemonLevel - 1) * 2));
+        adjustPokemonLevel(estimatedPokemonLevel);
     }
 
     @OnClick(R.id.btnIncrementLevelExpanded)

@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
         return updateIntent;
     }
 
-    @TargetApi(23)
+    @TargetApi(Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -409,7 +409,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    @TargetApi(23)
+    @TargetApi(Build.VERSION_CODES.M)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == OVERLAY_PERMISSION_REQ_CODE) {
@@ -443,7 +443,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(i);
     }
 
-    @TargetApi(23)
+    @TargetApi(Build.VERSION_CODES.M)
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         if (requestCode == WRITE_STORAGE_REQ_CODE) {
@@ -487,7 +487,7 @@ public class MainActivity extends AppCompatActivity {
      * startScreenService
      * Starts the screen capture.
      */
-    @TargetApi(21)
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void startScreenService() {
         ((Button) findViewById(R.id.start)).setText(R.string.accept_screen_capture);
         MediaProjectionManager projectionManager = (MediaProjectionManager) getSystemService(Context.MEDIA_PROJECTION_SERVICE);

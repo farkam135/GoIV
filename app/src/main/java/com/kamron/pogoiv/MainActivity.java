@@ -391,9 +391,7 @@ public class MainActivity extends AppCompatActivity {
             pokeFlyRunning = false;
         }
         if (screen != null) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                screen.exit();
-            }
+            screen.exit();
         }
         if (screenShotObserver != null) {
             getContentResolver().unregisterContentObserver(screenShotObserver);

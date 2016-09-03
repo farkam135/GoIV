@@ -50,6 +50,7 @@ public class ScreenGrabber {
         return instance;
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public void exit() {
         if (mProjection != null) {
             mImageReader = null;

@@ -1243,9 +1243,9 @@ public class Pokefly extends Service {
             copyAssetFolder(getAssets(), "tessdata", extdir + "/tessdata");
         }
 
-        ocr = OCRHelper.init(extdir, displayMetrics.widthPixels, displayMetrics.heightPixels);
-        ocr.nidoFemale = getResources().getString(R.string.pokemon029);
-        ocr.nidoMale = getResources().getString(R.string.pokemon032);
+        ocr = OCRHelper.init(extdir, displayMetrics.widthPixels, displayMetrics.heightPixels,
+                getResources().getString(R.string.pokemon029),
+                getResources().getString(R.string.pokemon032));
     }
 
 

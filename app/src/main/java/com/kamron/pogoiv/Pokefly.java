@@ -694,7 +694,7 @@ public class Pokefly extends Service {
     @OnClick(R.id.btnCheckIv)
     public void checkIv() {
 
-        // Check for valid parameters before attempting to do anything else.-
+        // Check for valid parameters before attempting to do anything else.
         try {
             pokemonHP = Integer.parseInt(pokemonHPEdit.getText().toString());
             pokemonCP = Integer.parseInt(pokemonCPEdit.getText().toString());
@@ -1033,9 +1033,7 @@ public class Pokefly extends Service {
                 populateResultsBox(thisScan);
             else
                 Toast.makeText(this, R.string.refine_no_progress, Toast.LENGTH_SHORT).show();
-
         }
-
     }
 
     /**

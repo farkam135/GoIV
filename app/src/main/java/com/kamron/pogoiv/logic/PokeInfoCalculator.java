@@ -113,7 +113,7 @@ public class PokeInfoCalculator {
      * @param estimatedPokemonLevel The estimated level of hte pokemon
      * @return The text that shows the amount of candy and stardust needed.
      */
-    public UpgradeCost getUpgradeCost(float goalLevel, double estimatedPokemonLevel) {
+    public UpgradeCost getUpgradeCost(double goalLevel, double estimatedPokemonLevel) {
         int neededCandy = 0;
         int neededStarDust = 0;
         while (estimatedPokemonLevel != goalLevel) {

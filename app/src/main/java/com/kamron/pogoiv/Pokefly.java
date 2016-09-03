@@ -893,11 +893,11 @@ public class Pokefly extends Service {
         return (int) (2 * estimatedPokemonLevel);
     }
 
-    private float seekbarProgressToLevel(int progress) {
-        return (progress + getSeekbarOffset()) / 2.0f;  //seekbar only supports integers, so the seekbar works between 2 and 80.
+    private double seekbarProgressToLevel(int progress) {
+        return (progress + getSeekbarOffset()) / 2.0;  //seekbar only supports integers, so the seekbar works between 2 and 80.
     }
 
-    private int levelToProgress(float level) {
+    private int levelToProgress(double level) {
         return Math.min((int) (level * 2), 80) - getSeekbarOffset();
     }
 
@@ -906,7 +906,7 @@ public class Pokefly extends Service {
      * pokemon evolution and level set by the user
      */
     public void populateAdvancedInformation(IVScanResult ivScanResult) {
-        float goalLevel = seekbarProgressToLevel(expandedLevelSeekbar.getProgress());
+        double goalLevel = seekbarProgressToLevel(expandedLevelSeekbar.getProgress());
         int intSelectedPokemon = extendedEvolutionSpinner.getSelectedItemPosition(); //which pokemon is selected in the spinner
         ArrayList<Pokemon> evolutionLine = pokeCalculator.getEvolutionLine(ivScanResult.pokemon);
 

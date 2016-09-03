@@ -510,7 +510,7 @@ public class Pokefly extends Service {
         arcAdjustBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                estimatedPokemonLevel = 1 + (progress * 0.5);
+                estimatedPokemonLevel = Data.levelIdxToLevel(progress);
                 setArcPointer(estimatedPokemonLevel);
             }
 

@@ -47,7 +47,8 @@ public class Data {
         arcY = new int[maxPokeLevelIdx + 1];
 
         double baseCpM = CpM[0];
-        double maxPokeCpMDelta = CpM[Math.min(maxPokeLevelIdx + 1, CpM.length)] - baseCpM;
+        //TODO: debug this formula when we get to the end of CpM (that is, levels 39/40).
+        double maxPokeCpMDelta = CpM[Math.min(maxPokeLevelIdx + 1, CpM.length - 1)] - baseCpM;
 
         //pokeLevelIdx <= maxPokeLevelIdx ensures we never overflow CpM/arc/arcY.
         for (int pokeLevelIdx = 0; pokeLevelIdx <= maxPokeLevelIdx; pokeLevelIdx++) {

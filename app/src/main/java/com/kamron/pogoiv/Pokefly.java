@@ -55,6 +55,7 @@ import com.kamron.pogoiv.logic.IVCombination;
 import com.kamron.pogoiv.logic.IVScanResult;
 import com.kamron.pogoiv.logic.PokeInfoCalculator;
 import com.kamron.pogoiv.logic.Pokemon;
+import com.kamron.pogoiv.logic.ScanResult;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -291,12 +292,12 @@ public class Pokefly extends Service {
         return new Intent(ACTION_SEND_INFO);
     }
 
-    public static void populateInfoIntent(Intent intent, String pokemonName, String candyName, int pokemonHP, int pokemonCP, double estimatedPokemonLevel, String filePath) {
-        intent.putExtra(KEY_SEND_INFO_NAME, pokemonName);
-        intent.putExtra(KEY_SEND_INFO_CANDY, candyName);
-        intent.putExtra(KEY_SEND_INFO_HP, pokemonHP);
-        intent.putExtra(KEY_SEND_INFO_CP, pokemonCP);
-        intent.putExtra(KEY_SEND_INFO_LEVEL, estimatedPokemonLevel);
+    public static void populateInfoIntent(Intent intent, ScanResult scanResult, String filePath) {
+        intent.putExtra(KEY_SEND_INFO_NAME, scanResult.getPokemonName());
+        intent.putExtra(KEY_SEND_INFO_CANDY, scanResult.getCandyName());
+        intent.putExtra(KEY_SEND_INFO_HP, scanResult.getPokemonHP());
+        intent.putExtra(KEY_SEND_INFO_CP, scanResult.getPokemonCP());
+        intent.putExtra(KEY_SEND_INFO_LEVEL, scanResult.getEstimatedPokemonLevel());
         if (!filePath.isEmpty()) {
             intent.putExtra(KEY_SEND_SCREENSHOT_DIR, filePath);
         }
@@ -1260,11 +1261,11 @@ public class Pokefly extends Service {
         //WARNING: this method *must* always send an intent at the end, no matter what, to avoid the application hanging.
         Intent info = Pokefly.createNoInfoIntent();
         try {
-            ocr.scanPokemon(pokemonImage, trainerLevel);
-            if (ocr.candyName.equals("") && ocr.pokemonHP == 10 && ocr.pokemonCP == 10) { //the default values for a failed scan, if all three fail, then probably scrolled down.
+            ScanResult res = ocr.scanPokemon(pokemonImage, trainerLevel);
+            if (res.isFailed()) {
                 Toast.makeText(Pokefly.this, getString(R.string.scan_pokemon_failed), Toast.LENGTH_SHORT).show();
             }
-            Pokefly.populateInfoIntent(info, ocr.pokemonName, ocr.candyName, ocr.pokemonHP, ocr.pokemonCP, ocr.estimatedPokemonLevel, filePath);
+            Pokefly.populateInfoIntent(info, res, filePath);
         } finally {
             LocalBroadcastManager.getInstance(Pokefly.this).sendBroadcast(info);
         }

@@ -1261,6 +1261,9 @@ public class Pokefly extends Service {
             if (ss_file == null) {
                 ss_file = "";
             }
+            if (bitmap == null) {
+                return;
+            }
             scanPokemon(bitmap, ss_file);
             bitmap.recycle();
         }

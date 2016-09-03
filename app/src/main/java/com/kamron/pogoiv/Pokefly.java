@@ -505,7 +505,7 @@ public class Pokefly extends Service {
      * Creates the arc adjuster used to move the arc pointer in the scan screen
      */
     private void createArcAdjuster() {
-        arcAdjustBar.setMax(Math.min(trainerLevel * 2 + 1, 79));
+        arcAdjustBar.setMax(Data.trainerLevelToMaxPokeLevelIdx(trainerLevel));
 
         arcAdjustBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override

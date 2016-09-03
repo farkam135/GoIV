@@ -455,13 +455,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * SaveImage
+     * saveImage
      * Used to save the image the screen capture is captuing, used for debugging.
      *
      * @param finalBitmap The bitmap to save
      * @param name        The name of the file to save it as
      */
-    private void SaveImage(Bitmap finalBitmap, String name) {
+    private void saveImage(Bitmap finalBitmap, String name) {
 
         String root = Environment.getExternalStorageDirectory().toString();
         File myDir = new File(root + "/saved_images");

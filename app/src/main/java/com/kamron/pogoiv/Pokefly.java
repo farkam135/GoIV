@@ -129,13 +129,12 @@ public class Pokefly extends Service {
     private boolean infoShownReceived = false;
     private boolean IVButtonShown = false;
 
-    private ImageView IVButton;
+    private ImageView ivButton;
     private ImageView arcPointer;
     private LinearLayout infoLayout;
 
     private PokeInfoCalculator pokeCalculator = null;
 
-    private Animator arrowAnimator;
     //results pokemon picker auto complete
     @BindView(R.id.autoCompleteTextView1)
     AutoCompleteTextView autoCompleteTextView1;
@@ -274,7 +273,7 @@ public class Pokefly extends Service {
             WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN,
             PixelFormat.TRANSPARENT);
 
-    private final WindowManager.LayoutParams IVButonParams = new WindowManager.LayoutParams(
+    private final WindowManager.LayoutParams ivButtonParams = new WindowManager.LayoutParams(
             WindowManager.LayoutParams.WRAP_CONTENT,
             WindowManager.LayoutParams.WRAP_CONTENT,
             WindowManager.LayoutParams.TYPE_PHONE,
@@ -561,15 +560,15 @@ public class Pokefly extends Service {
      * Creates the IV Button view
      */
     private void createIVButton() {
-        IVButton = new ImageView(this);
-        IVButton.setImageResource(R.drawable.button);
+        ivButton = new ImageView(this);
+        ivButton.setImageResource(R.drawable.button);
 
-        IVButonParams.gravity = Gravity.BOTTOM | Gravity.START;
-        IVButonParams.x = dpToPx(20); //(int)Math.round(displayMetrics.widthPixels / 20.5714286);
-        IVButonParams.y = dpToPx(15); //(int)Math.round(displayMetrics.heightPixels / 38.5714286);
+        ivButtonParams.gravity = Gravity.BOTTOM | Gravity.START;
+        ivButtonParams.x = dpToPx(20); //(int)Math.round(displayMetrics.widthPixels / 20.5714286);
+        ivButtonParams.y = dpToPx(15); //(int)Math.round(displayMetrics.heightPixels / 38.5714286);
 
-        IVButton.setOnTouchListener(new View.OnTouchListener() {
-            //private WindowManager.LayoutParams paramsF = IVButonParams;
+        ivButton.setOnTouchListener(new View.OnTouchListener() {
+            //private WindowManager.LayoutParams paramsF = ivButtonParams;
             //private int initialX;
             //private int initialY;
             //private float initialTouchX;
@@ -590,7 +589,7 @@ public class Pokefly extends Service {
             }
         });
 
-        //windowManager.addView(IVButton, IVButonParams);
+        //windowManager.addView(ivButton, ivButtonParams);
     }
 
     /**
@@ -682,7 +681,7 @@ public class Pokefly extends Service {
             arrowDrawable = getResources().getDrawable(R.drawable.arrow_expand);
         }
         expanderText.setCompoundDrawablesWithIntrinsicBounds(null, null, arrowDrawable, null);
-        arrowAnimator = ObjectAnimator.ofInt(arrowDrawable, "level", 0, 10000).setDuration(100);
+        Animator arrowAnimator = ObjectAnimator.ofInt(arrowDrawable, "level", 0, 10000).setDuration(100);
         arrowAnimator.start();
         expandedBox.setVisibility(boxVisibility);
     }
@@ -1347,11 +1346,11 @@ public class Pokefly extends Service {
      */
     private void setIVButtonDisplay(boolean show) {
         if (show && !IVButtonShown && !infoShownSent) {
-            windowManager.addView(IVButton, IVButonParams);
+            windowManager.addView(ivButton, ivButtonParams);
             IVButtonShown = true;
         } else if (!show) {
             if (IVButtonShown) {
-                windowManager.removeView(IVButton);
+                windowManager.removeView(ivButton);
                 IVButtonShown = false;
             }
         }

@@ -73,18 +73,15 @@ public class ScanContainer {
      * @return true if the pokemon can be same
      */
     public boolean canLastScanBePoweredUpPreviousScan() {
+        if (currScan != null && prevScan != null) {
+            Pokemon p1 = currScan.pokemon;
+            Pokemon p2 = prevScan.pokemon;
 
-        IVScanResult p1scan = oneScanAgo;
-        IVScanResult p2scan = twoScanAgo;
-        if (p1scan != null && p2scan != null) {
-            Pokemon p1 = oneScanAgo.pokemon;
-            Pokemon p2 = twoScanAgo.pokemon;
-
-            boolean pokemonHasLeveledUp = p1scan.estimatedPokemonLevel > p2scan.estimatedPokemonLevel;
+            boolean pokemonHasLeveledUp = currScan.estimatedPokemonLevel > prevScan.estimatedPokemonLevel;
             boolean isEvolved = p1.isInNextEvolution(p2);
 
             boolean somethingImproved = pokemonHasLeveledUp || isEvolved;
-            boolean isSameOrHigherLevel = p1scan.estimatedPokemonLevel >= p2scan.estimatedPokemonLevel;
+            boolean isSameOrHigherLevel = currScan.estimatedPokemonLevel >= prevScan.estimatedPokemonLevel;
             boolean isSameOrHigherEvolution = p1.number == p2.number || p1.isInNextEvolution(p2);
             return somethingImproved && isSameOrHigherLevel && isSameOrHigherEvolution;
         }

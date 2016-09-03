@@ -87,7 +87,6 @@ public class MainActivity extends AppCompatActivity {
     private boolean pokeFlyRunning = false;
     private int trainerLevel;
 
-    private int statusBarHeight;
     private Point arcInit = new Point();
     private int arcRadius;
     private Context mContext;

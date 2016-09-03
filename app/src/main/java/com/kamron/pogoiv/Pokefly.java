@@ -793,7 +793,7 @@ public class Pokefly extends Service {
             populateMultipleIVMatch(ivScanResult);
         }
         setResultScreenPercentageRange(ivScanResult); //color codes the result
-        adjustSeekbarForPokemon(ivScanResult);
+        adjustSeekbarForPokemon();
 
         populateAdvancedInformation(ivScanResult);
         populatePrevScanNarrowing();
@@ -802,9 +802,8 @@ public class Pokefly extends Service {
     /**
      * Adjusts the seekbar so minimum is pokemon current level
      *
-     * @param ivScanResult
      */
-    private void adjustSeekbarForPokemon(IVScanResult ivScanResult) {
+    private void adjustSeekbarForPokemon() {
         expandedLevelSeekbar.setProgress(levelToProgress(trainerLevel + 1.5f));
         expandedLevelSeekbar.setMax(levelToProgress(40));
     }

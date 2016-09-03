@@ -17,9 +17,11 @@ public class GUIUtil {
      * @param value the value that is checked if its above 80
      */
     public static void setTextColorbyPercentage(TextView text, int value) {
-        if (value >= 80) {
+        if (value > 81) {
+            text.setTextColor(Color.parseColor("08498A")); // dark blue
+        } else if (value > 65)
             text.setTextColor(Color.parseColor("#088A08")); //dark green
-        } else if (value >= 60) {
+        } else if (value > 50) {
             text.setTextColor(Color.parseColor("#DBA901")); //brownish orange
         } else {
             text.setTextColor(Color.parseColor("#8A0808")); //dark red

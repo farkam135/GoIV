@@ -51,8 +51,8 @@ You can do so by following these *rules* (taken from this great [article](http:/
 
 ## Preparing for Release
 Update the following values found in `build.gradle (Module: app)` before generating release builds:
-* versionCode (Based on [Semantic Versioning 2.0](http://semver.org/))
-* versionName (Increment of 1)
+* versionCode (Increment of 1)
+* versionName (Based on [Semantic Versioning 2.0](http://semver.org/))
 
 ## Generating Signed Release Builds
 * Follow the instructions under [Sign Your Release Build] (https://developer.android.com/studio/publish/app-signing.html#release-mode) to generate your own keystore.jks file

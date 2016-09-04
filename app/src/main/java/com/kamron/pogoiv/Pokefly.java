@@ -887,7 +887,7 @@ public class Pokefly extends Service {
      */
     private void populateResultsHeader(IVScanResult ivScanResult) {
         resultsPokemonName.setText(ivScanResult.pokemon.name);
-        resultsPokemonLevel.setText(getString(R.string.level) + " " + ivScanResult.estimatedPokemonLevel);
+        resultsPokemonLevel.setText(getString(R.string.level_num, ivScanResult.estimatedPokemonLevel));
     }
 
     /**
@@ -924,7 +924,7 @@ public class Pokefly extends Service {
     private void populateSingleIVMatch(IVScanResult ivScanResult) {
         llMaxIV.setVisibility(View.GONE);
         llMinIV.setVisibility(View.GONE);
-        tvAvgIV.setText("IV");
+        tvAvgIV.setText(getString(R.string.iv));
         resultsAttack.setText(String.valueOf(ivScanResult.iVCombinations.get(0).att));
         resultsDefense.setText(String.valueOf(ivScanResult.iVCombinations.get(0).def));
         resultsHP.setText(String.valueOf(ivScanResult.iVCombinations.get(0).sta));
@@ -1041,13 +1041,14 @@ public class Pokefly extends Service {
 
 
         if (ivScanResult.iVCombinations.size() > 0) {
-            resultsMinPercentage.setText(low + "%");
-            resultsAvePercentage.setText(ave + "%");
-            resultsMaxPercentage.setText(high + "%");
+            resultsMinPercentage.setText(getString(R.string.percent, low));
+            resultsAvePercentage.setText(getString(R.string.percent, ave));
+            resultsMaxPercentage.setText(getString(R.string.percent, high));
         } else {
-            resultsMinPercentage.setText("?%");
-            resultsAvePercentage.setText("?%");
-            resultsMaxPercentage.setText("?%");
+            String unknown_percent = getString(R.string.unknown_percent);
+            resultsMinPercentage.setText(unknown_percent);
+            resultsAvePercentage.setText(unknown_percent);
+            resultsMaxPercentage.setText(unknown_percent);
         }
     }
 

@@ -246,7 +246,7 @@ public class PokeInfoCalculator {
             cpMax = cpMin;
             cpMin = tmp;
         }
-        return new CPRange(cpMax, cpMin, level);
+        return new CPRange(cpMin, cpMax);
     }
 
     /**

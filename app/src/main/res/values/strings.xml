@@ -8,6 +8,51 @@
     <string name="goiv_is_open_source">GoIV is open source!\ngithub.com/farkam135/GoIV\nreddit.com/r/GoIV</string>
     <string name="trainer_level">Trainer Level</string>
 
+
+    <string-array name="mystic_percentage">
+        <string name="mystic80_100">"a wonder! What a breathtaking Pokemon!"</string>
+        <string name="mystic67_79">"has certainly caught my attention."</string>
+        <string name="mystic51_66">"above average."</string>
+        <string name="mystic0_50">"not likely to make much headway in battle."</string>
+    </string-array>
+
+    <string-array name="mystic_ivrange">
+        <string name="mysticiv15">"Its stats exceed my calculations. It's incredible!"</string>
+        <string name="mysticiv13_14">"I am certainly impressed by its stats, I must say."</string>
+        <string name="mysticiv8_12">"Its stats are noticeably trending to the positive."</string>
+        <string name="mysticiv0_7">"Its stats are not out of the norm, in my opinion"</string>
+    </string-array>
+
+
+    <string-array name="instinct_percentage">
+        <string name="instinct80_100">"looks like it can really battle with the best of them!"</string>
+        <string name="instinct67_79">"really strong!"</string>
+        <string name="instinct51_66">"pretty decent!"</string>
+        <string name="instinct0_50">"has room for improvement as far as battling goes."</string>
+    </string-array>
+
+    <string-array name="instinct_ivrange">
+        <string name="instinctiv15">"Its stats are the best I've ever seen! No doubt about it!"</string>
+        <string name="instinctiv13_14">"Its stats are really strong! Impressive."</string>
+        <string name="instinctiv8_12">"It's definitely got some good stats. Definitely!"</string>
+        <string name="instinctiv0_7">"Its stats are all right, but kinda basic, as far as I can see."</string>
+    </string-array>
+
+    <string-array name="valor_percentage">
+        <string name="valor80_100">"simply amazes me. It can accomplish anything!"</string>
+        <string name="valor67_79">"a strong Pokemon. You should be proud!"</string>
+        <string name="valor51_66">"a decent Pokemon"</string>
+        <string name="valor0_50">"may not be great in battle, but I still like it!"</string>
+    </string-array>
+
+    <string-array name="valor_ivrange">
+        <string name="valoriv15">"I'm blown away by its stats. WOW!"</string>
+        <string name="valoriv13_14">"It's got excellent stats! How exciting!"</string>
+        <string name="valoriv8_12">"Its stats indicate that in battle, it'll get the job done."</string>
+        <string name="valoriv0_7">"Its stats don't point to greatness in battle."</string>
+    </string-array>
+
+
     <string name="pokemon_name">Pokémon name:</string>
     <string name="cp">CP</string>
     <string name="hp">HP</string>

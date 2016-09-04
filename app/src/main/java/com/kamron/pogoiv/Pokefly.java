@@ -449,7 +449,6 @@ public class Pokefly extends Service {
      * @param context
      */
     private void makeNotification(Context context) {
-        NotificationManager mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         Intent intent = new Intent(context, MainActivity.class);
 
         PendingIntent pendingIntent = PendingIntent.getActivity(context,

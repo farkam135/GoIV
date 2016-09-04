@@ -656,7 +656,6 @@ public class Pokefly extends Service {
         appraisalIvRange.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                Log.d("Appraisal", "changed iv range");
             }
 
             @Override
@@ -666,7 +665,6 @@ public class Pokefly extends Service {
         appraisalPercentageRange.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                Log.d("Appraisal", "changed % range");
             }
 
             @Override

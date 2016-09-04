@@ -16,9 +16,9 @@ import java.util.ArrayList;
  * Spinner formatter
  */
 public class PokemonSpinnerAdapter extends ArrayAdapter<Pokemon> {
-    Context mContext;
-    int mTextViewResourceId;
-    ArrayList<Pokemon> pokemons;
+    private Context mContext;
+    private int mTextViewResourceId;
+    private ArrayList<Pokemon> pokemons;
 
     public PokemonSpinnerAdapter(Context context, int textViewResourceId, ArrayList<Pokemon> objects) {
         super(context, textViewResourceId, objects);
@@ -29,7 +29,7 @@ public class PokemonSpinnerAdapter extends ArrayAdapter<Pokemon> {
 
     @Override
     public View getDropDownView(int position, View convertView, ViewGroup parent) {
-        return getCustomView(position, convertView, parent);
+        return getCustomView(position, parent);
     }
 
     /**
@@ -52,7 +52,7 @@ public class PokemonSpinnerAdapter extends ArrayAdapter<Pokemon> {
     }
     */
 
-    public View getCustomView(int position, View convertView, ViewGroup parent) {
+    private View getCustomView(int position, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         TextView row = (TextView) inflater.inflate(mTextViewResourceId, parent, false);

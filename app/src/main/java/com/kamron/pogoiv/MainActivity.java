@@ -26,6 +26,7 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
@@ -73,7 +74,6 @@ public class MainActivity extends AppCompatActivity {
     private ScreenGrabber screen;
     private ContentObserver screenShotObserver;
     private FileObserver screenShotScanner;
-    private boolean screenShotWriting = false;
 
     private DisplayMetrics displayMetrics;
     private DisplayMetrics rawDisplayMetrics;
@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean pokeFlyRunning = false;
     private int trainerLevel;
 
-    private Point arcInit = new Point();
+    private final Point arcInit = new Point();
     private int arcRadius;
     private Context mContext;
     private GoIVSettings settings;
@@ -263,16 +263,15 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onChange(boolean selfChange, Uri uri) {
                                 if (readyForNewScreenshot) {
-                                    final Uri fUri = uri;
-                                    if (fUri.toString().contains("images")) {
-                                        final String pathChange = getRealPathFromURI(MainActivity.this, fUri);
+                                    if (uri.toString().contains("images")) {
+                                        final String pathChange = getRealPathFromURI(MainActivity.this, uri);
                                         if (pathChange.contains("Screenshot")) {
                                             screenshotDir = pathChange.substring(0,
                                                     pathChange.lastIndexOf(File.separator));
-                                            screenshotUri = fUri;
+                                            screenshotUri = uri;
                                             getContentResolver().unregisterContentObserver(screenShotObserver);
                                             sharedPref.edit().putString("screenshotDir", screenshotDir).apply();
-                                            sharedPref.edit().putString("screenshotUri", fUri.toString()).apply();
+                                            sharedPref.edit().putString("screenshotUri", uri.toString()).apply();
                                             ((Button) findViewById(R.id.start)).setText(R.string.main_start);
                                             new AlertDialog.Builder(MainActivity.this)
                                                     .setTitle(R.string.battery_saver_setup)
@@ -425,7 +424,7 @@ public class MainActivity extends AppCompatActivity {
 
     @TargetApi(Build.VERSION_CODES.M)
     @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
         if (requestCode == WRITE_STORAGE_REQ_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 if (Settings.canDrawOverlays(this) && ContextCompat.checkSelfPermission(MainActivity.this,

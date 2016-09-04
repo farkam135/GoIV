@@ -15,28 +15,32 @@
     </string-array>
 
     <string-array name="mystic_percentage">
-        <item name="mystic80_100">"a wonder! What a breathtaking Pokemon!"</item>
-        <item name="mystic67_79">"has certainly caught my attention."</item>
-        <item name="mystic51_66">"above average."</item>
-        <item name="mystic0_50">"not likely to make much headway in battle."</item>
+        <item name="mplace1">Percent phrase</item>
+        <item name="mystic80_100">"Breathtaking"</item>
+        <item name="mystic67_79">"Caught my attention."</item>
+        <item name="mystic51_66">"Above average."</item>
+        <item name="mystic0_50">"Not much headway."</item>
     </string-array>
 
     <string-array name="mystic_ivrange">
-        <item name="mysticiv15">"Its stats exceed my calculations. It's incredible!"</item>
-        <item name="mysticiv13_14">"I am certainly impressed by its stats, I must say."</item>
-        <item name="mysticiv8_12">"Its stats are noticeably trending to the positive."</item>
-        <item name="mysticiv0_7">"Its stats are not out of the norm, in my opinion"</item>
+        <item name="mplace2">Highest phrase</item>
+        <item name="mysticiv15">"Incredible!"</item>
+        <item name="mysticiv13_14">Impressed"</item>
+        <item name="mysticiv8_12">"Trending to positive."</item>
+        <item name="mysticiv0_7">"The norm"</item>
     </string-array>
 
 
     <string-array name="instinct_percentage">
-        <item name="instinct80_100">"looks like it can really battle with the best of them!"</item>
+        <item name="iplace1">Percent phrase</item>
+        <item name="instinct80_100">"best of them!"</item>
         <item name="instinct67_79">"really strong!"</item>
         <item name="instinct51_66">"pretty decent!"</item>
-        <item name="instinct0_50">"has room for improvement as far as battling goes."</item>
+        <item name="instinct0_50">"has room for improvement."</item>
     </string-array>
 
     <string-array name="instinct_ivrange">
+        <item name="iplace2">Highest phrase</item>
         <item name="instinctiv15">"Its stats are the best I've ever seen! No doubt about it!"</item>
         <item name="instinctiv13_14">"Its stats are really strong! Impressive."</item>
         <item name="instinctiv8_12">"It's definitely got some good stats. Definitely!"</item>
@@ -44,6 +48,7 @@
     </string-array>
 
     <string-array name="valor_percentage">
+        <item name="vplace1">Percent phrase</item>
         <item name="valor80_100">"simply amazes me. It can accomplish anything!"</item>
         <item name="valor67_79">"a strong Pokemon. You should be proud!"</item>
         <item name="valor51_66">"a decent Pokemon"</item>
@@ -51,6 +56,7 @@
     </string-array>
 
     <string-array name="valor_ivrange">
+        <item name="vplace2">Highest phrase</item>
         <item name="valoriv15">"I'm blown away by its stats. WOW!"</item>
         <item name="valoriv13_14">"It's got excellent stats! How exciting!"</item>
         <item name="valoriv8_12">"Its stats indicate that in battle, it'll get the job done."</item>

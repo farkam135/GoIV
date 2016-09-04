@@ -29,6 +29,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.LruCache;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -154,6 +155,13 @@ public class Pokefly extends Service {
     LinearLayout initialButtonsLayout;
     @BindView(R.id.llButtonsOnCheck)
     LinearLayout onCheckButtonsLayout;
+
+
+
+    @BindView(R.id.appraisalIvRange)
+    Spinner appraisalIvRange;
+    @BindView(R.id.appraisalPercentageRange)
+    Spinner appraisalPercentageRange;
 
     // Layouts
     @BindView(R.id.inputBox)
@@ -569,6 +577,8 @@ public class Pokefly extends Service {
 
         initializePokemonAutoCompleteTextView();
 
+        populateTeamAppraisalSpinners();
+
         extendedEvolutionSpinnerAdapter = new PokemonSpinnerAdapter(this, R.layout.spinner_evolution,
                 new ArrayList<Pokemon>());
         extendedEvolutionSpinner.setAdapter(extendedEvolutionSpinnerAdapter);
@@ -608,6 +618,60 @@ public class Pokefly extends Service {
                 populateAdvancedInformation(ScanContainer.scanContainer.currScan);
             }
 
+        });
+
+    }
+
+    /**
+     * changes the text in the appraisal spinners depending on what team the user is on
+     */
+    private void populateTeamAppraisalSpinners() {
+        ArrayAdapter<CharSequence> adapterIvRange;
+        ArrayAdapter<CharSequence> adapterPercentage;
+        if (GoIVSettings.getInstance(getBaseContext()).playerTeam()==0){
+            adapterIvRange = ArrayAdapter.createFromResource(this,
+                    R.array.mystic_ivrange, R.layout.goiv_spinner_item);
+            adapterPercentage= ArrayAdapter.createFromResource(this,
+                    R.array.mystic_percentage, R.layout.goiv_spinner_item);
+
+        }else if (GoIVSettings.getInstance(getBaseContext()).playerTeam()==1){
+            adapterIvRange = ArrayAdapter.createFromResource(this,
+                    R.array.valor_ivrange, R.layout.goiv_spinner_item);
+            adapterPercentage= ArrayAdapter.createFromResource(this,
+                    R.array.valor_percentage, R.layout.goiv_spinner_item);
+        }else{
+            adapterIvRange = ArrayAdapter.createFromResource(this,
+                    R.array.instinct_ivrange, R.layout.goiv_spinner_item);
+            adapterPercentage= ArrayAdapter.createFromResource(this,
+                    R.array.instinct_percentage, R.layout.goiv_spinner_item);
+        }
+
+        adapterIvRange.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapterPercentage.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        appraisalIvRange.setAdapter(adapterIvRange);
+        appraisalPercentageRange.setAdapter(adapterPercentage);
+
+
+        appraisalIvRange.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                Log.d("Appraisal", "changed iv range");
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+            }
+        });
+        appraisalPercentageRange.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                Log.d("Appraisal", "changed % range");
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+            }
         });
 
     }
@@ -740,9 +804,8 @@ public class Pokefly extends Service {
         IVScanResult ivScanResult = pokeCalculator.getIVPossibilities(pokemon, estimatedPokemonLevel, pokemonHP,
                 pokemonCP);
 
-        if (attCheckbox.isChecked() || defCheckbox.isChecked() || staCheckbox.isChecked()) {
-            ivScanResult.refineByHighest(attCheckbox.isChecked(), defCheckbox.isChecked(), staCheckbox.isChecked());
-        }
+        refineByAvailableAppraisalInfo(ivScanResult);
+
 
         // If no possible combinations, inform the user and abort.
         if (!ivScanResult.tooManyPossibilities && ivScanResult.getCount() == 0) {
@@ -761,6 +824,24 @@ public class Pokefly extends Service {
 
         initialButtonsLayout.setVisibility(View.GONE);
         onCheckButtonsLayout.setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * Refines the combinations in an ivscanresult by reading the input
+     * in the appraisalbox and calling the appropriate methods in ivscanresults.refineX
+     * @param ivScanResult the scan result to refine
+     */
+    private void refineByAvailableAppraisalInfo(IVScanResult ivScanResult){
+        if (attCheckbox.isChecked() || defCheckbox.isChecked() || staCheckbox.isChecked()) {
+            ivScanResult.refineByHighest(attCheckbox.isChecked(), defCheckbox.isChecked(), staCheckbox.isChecked());
+        }
+
+        if (appraisalPercentageRange.getSelectedItemPosition() != 0){
+            ivScanResult.refineByAppraisalPercentageRange(appraisalPercentageRange.getSelectedItemPosition());
+        }
+        if (appraisalIvRange.getSelectedItemPosition() != 0){
+            ivScanResult.refineByAppraisalIVRange(appraisalIvRange.getSelectedItemPosition());
+        }
     }
 
     /**

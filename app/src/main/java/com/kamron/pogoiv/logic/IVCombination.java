@@ -38,6 +38,21 @@ public class IVCombination {
     }
 
     /**
+     * get the highest of the stats in the iv combination
+     * for example, in the iv combination 7 5 11
+     * this method would return 11
+     * @return a number between 0 and 15 which is the highest stat in this combination
+     */
+    public int getHighestStat(){
+        int high = 0;
+
+        if (att > high) high = att;
+        if (def > high) high = def;
+        if (sta > high) high = sta;
+
+        return high;
+    }
+    /**
      * Returns a boolean array that represent which values are the highest in an iv,
      * Examples: Iv 14-14-7 would be [true,true,false]
      * iv 4,6,1 would be [false, true, false]

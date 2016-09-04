@@ -1158,7 +1158,7 @@ public class Pokefly extends Service {
      */
     private int[] getPossiblePokemon(String poketext, String candytext) {
         int poketextDist = 0;
-        int bestCandyMatch = 100;
+        int bestCandyMatch = Integer.MAX_VALUE;
         Pokemon p;
 
         /* If the user previous corrected this text, go with that. */
@@ -1212,7 +1212,7 @@ public class Pokefly extends Service {
             candylist.addAll(p.evolutions.get(0).evolutions);
         }
 
-        int bestMatch = 100;
+        int bestMatch = Integer.MAX_VALUE;
         for (Pokemon candyp : candylist) {
             int dist = candyp.getDistance(poketext);
             if (dist < bestMatch) {

@@ -23,12 +23,12 @@ public class OCRHelper {
 
     private static OCRHelper instance = null;
     private TessBaseAPI tesseract = null;
-    private LruCache<String, String> ocrCache = new LruCache<>(200);
-    private int heightPixels;
-    private int widthPixels;
-    private boolean candyWordFirst;
-    private String nidoFemale;
-    private String nidoMale;
+    private final LruCache<String, String> ocrCache = new LruCache<>(200);
+    private final int heightPixels;
+    private final int widthPixels;
+    private final boolean candyWordFirst;
+    private final String nidoFemale;
+    private final String nidoMale;
 
     private OCRHelper(String dataPath, int widthPixels, int heightPixels, String nidoFemale, String nidoMale) {
         tesseract = new TessBaseAPI();

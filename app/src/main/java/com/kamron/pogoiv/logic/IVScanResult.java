@@ -25,11 +25,11 @@ public class IVScanResult {
     public int highAttack = 0;
     public int highDefense = 0;
     public int highStamina = 0;
-    public int scannedCP;
+    public final int scannedCP;
     public boolean tooManyPossibilities = false; //flag that gets set to true if user tries to scan 10 hp 10 cp pokemon
     public ArrayList<IVCombination> iVCombinations = new ArrayList<>();
     public Pokemon pokemon = null;
-    public double estimatedPokemonLevel;
+    public final double estimatedPokemonLevel;
 
     /**
      * Creates a holder object for IV scan results

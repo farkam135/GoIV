@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="pokemon029">Nidoran♀</string>
     <string name="pokemon032">Nidoran♂</string>
 
@@ -112,10 +111,11 @@
     <string name="stardust_cost">Stardust Cost</string>
     <string name="evolution">Evolution</string>
     <string name="level">Level</string>
+    <string name="level_num">Level %1$.1f</string>
     <string name="refine">Refine</string>
     <string name="refine_no_progress">Refinement didn\'t improve results</string>
     <string name="last_scan">Last scan: %1$s</string>
-    <string name="possible_iv_combinations">"%1$d Possible IV combinations"</string>
+    <string name="possible_iv_combinations">"%1$d possible IV combinations"</string>
     <string name="too_many_iv_combinations">Too many IV combinations</string>
     <string name="refining_instructions">Increase IV calculation precision by leveling up and comparing two scans of the same Pokémon</string>
     <string name="appraisal_refining">Appraisal Refining</string>
@@ -124,7 +124,7 @@
     <string name="stamina_hp">HP</string>
     <string name="missing_inputs">Missing data. Please fill CP and HP inputs.</string>
     <string name="ivtext_no_possibilities">There are no IV possible combinations for this input. Please double check the information.</string>
-    <string name="update_check_failed">An error occured while checking for an update. Please check your internet connection</string>
+    <string name="update_check_failed">An error occurred while checking for an update. Please check your internet connection</string>
     <string name="up_to_date">Your app is up-to-date</string>
     <string name="checking_for_update">Checking for update...</string>
     <string name="ongoing_update">An update for GoIV is already being downloaded</string>
@@ -136,6 +136,9 @@
     <string name="atk">ATK</string>
     <string name="def">DEF</string>
     <string name="sta">STA</string>
+    <string name="iv">IV</string>
+    <string name="percent">%d%%</string>
+    <string name="unknown_percent">"?%"</string>
     <string name="percent_phrase">Percent phrase</string>
     <string name="iv_range_phrase">IV range phrase</string>
 </resources>

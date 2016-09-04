@@ -4,7 +4,6 @@ import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.BroadcastReceiver;
@@ -23,6 +22,9 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.provider.MediaStore;
+import android.support.annotation.ColorInt;
+import android.support.annotation.ColorRes;
+import android.support.annotation.DrawableRes;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.util.Pair;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -73,6 +75,8 @@ import butterknife.OnClick;
 import io.apptik.widget.MultiSlider;
 
 /**
+ * Currently, the central service in Pokemon Go, dealing with everything except
+ * the initial activity.
  * Created by Kamron on 7/25/2016.
  */
 
@@ -98,6 +102,7 @@ public class Pokefly extends Service {
 
     private static final String PREF_USER_CORRECTIONS = "com.kamron.pogoiv.USER_CORRECTIONS";
 
+    private static final int NOTIFICATION_REQ_CODE = 8959;
 
     private int trainerLevel = -1;
     private boolean batterySaver = false;
@@ -108,7 +113,7 @@ public class Pokefly extends Service {
 
     private WindowManager windowManager;
     private DisplayMetrics displayMetrics;
-    ClipboardManager clipboard;
+    private ClipboardManager clipboard;
     private SharedPreferences sharedPref;
     private ScreenGrabber screen;
     private OCRHelper ocr;
@@ -341,11 +346,16 @@ public class Pokefly extends Service {
                 getResources().getIntArray(R.array.evolutionCandyCost));
         sharedPref = getSharedPreferences(PREF_USER_CORRECTIONS, Context.MODE_PRIVATE);
         userCorrections = new HashMap<>(pokeCalculator.getPokedex().size());
-        userCorrections.putAll((Map<String, String>) sharedPref.getAll());
+        loadUserCorrectionsFromPrefs();
         userCorrections.put("Sparky", pokeCalculator.get(132).name);
         userCorrections.put("Rainer", pokeCalculator.get(132).name);
         userCorrections.put("Pyro", pokeCalculator.get(132).name);
         cachedCorrections = new LruCache<>(pokeCalculator.getPokedex().size() * 2);
+    }
+
+    @SuppressWarnings("unchecked")
+    private void loadUserCorrectionsFromPrefs() {
+        userCorrections.putAll((Map<String, String>) sharedPref.getAll());
     }
 
 
@@ -358,7 +368,7 @@ public class Pokefly extends Service {
             if (intent.hasExtra(KEY_SCREENSHOT_URI)) {
                 screenshotUri = Uri.parse(intent.getStringExtra(KEY_SCREENSHOT_URI));
             }
-            makeNotification(Pokefly.this);
+            makeNotification(this);
             createInfoLayout();
             createIVButton();
             createArcPointer();
@@ -452,15 +462,12 @@ public class Pokefly extends Service {
     /**
      * makeNotification
      * Creates the GoIV notification
-     *
-     * @param context
      */
     private void makeNotification(Context context) {
-        NotificationManager mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         Intent intent = new Intent(context, MainActivity.class);
 
         PendingIntent pendingIntent = PendingIntent.getActivity(context,
-                8959, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                NOTIFICATION_REQ_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         Notification.Builder builder = new Notification.Builder(context)
                 .setContentTitle(String.format(getString(R.string.notification_title), trainerLevel))
@@ -470,7 +477,39 @@ public class Pokefly extends Service {
         Notification n = builder.build();
 
         n.flags |= Notification.FLAG_NO_CLEAR | Notification.FLAG_ONGOING_EVENT;
-        startForeground(8959, n);
+        startForeground(NOTIFICATION_REQ_CODE, n);
+    }
+
+    /**
+     * Undeprecated version of getDrawable using the most appropriate underlying API.
+     *
+     * @param id ID of drawable to get
+     * @return Desired drawable.
+     */
+    @SuppressWarnings("deprecation")
+    private Drawable getDrawableC(@DrawableRes int id) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            return getDrawable(id);
+        } else {
+            return getResources().getDrawable(id);
+        }
+    }
+
+    /**
+     * Undeprecated version of getColor using the most appropriate underlying API.
+     *
+     * @param id ID of color to get
+     * @return Desired color.
+     */
+    @SuppressWarnings("deprecation")
+    private
+    @ColorInt
+    int getColorC(@ColorRes int id) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            return getColor(id);
+        } else {
+            return getResources().getColor(id);
+        }
     }
 
     /**
@@ -483,13 +522,9 @@ public class Pokefly extends Service {
         arcPointer = new ImageView(this);
         arcPointer.setImageResource(R.drawable.dot);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            pointerHeight = getDrawable(R.drawable.dot).getIntrinsicHeight() / 2;
-            pointerWidth = getDrawable(R.drawable.dot).getIntrinsicWidth() / 2;
-        } else {
-            pointerHeight = getResources().getDrawable(R.drawable.dot).getIntrinsicHeight() / 2;
-            pointerWidth = getResources().getDrawable(R.drawable.dot).getIntrinsicWidth() / 2;
-        }
+        Drawable dot = getDrawableC(R.drawable.dot);
+        pointerHeight = dot.getIntrinsicHeight() / 2;
+        pointerWidth = dot.getIntrinsicWidth() / 2;
     }
 
 
@@ -688,7 +723,7 @@ public class Pokefly extends Service {
         }
     }
 
-    public void resetToSpinner() {
+    private void resetToSpinner() {
         autoCompleteTextView1.setVisibility(View.GONE);
         pokeInputSpinner.setVisibility(View.VISIBLE);
     }
@@ -698,10 +733,10 @@ public class Pokefly extends Service {
         Drawable arrowDrawable;
         if (expandedBox.getVisibility() == View.VISIBLE) {
             boxVisibility = View.GONE;
-            arrowDrawable = getResources().getDrawable(R.drawable.arrow_collapse);
+            arrowDrawable = getDrawableC(R.drawable.arrow_collapse);
         } else {
             boxVisibility = View.VISIBLE;
-            arrowDrawable = getResources().getDrawable(R.drawable.arrow_expand);
+            arrowDrawable = getDrawableC(R.drawable.arrow_expand);
         }
         expanderText.setCompoundDrawablesWithIntrinsicBounds(null, null, arrowDrawable, null);
         Animator arrowAnimator = ObjectAnimator.ofInt(arrowDrawable, "level", 0, 10000).setDuration(100);
@@ -720,7 +755,7 @@ public class Pokefly extends Service {
         toggleVisibility(inputAppraisalExpandBox, appraisalBox);
     }
 
-    public void adjustArcPointerBar(double estimatedPokemonLevel) {
+    private void adjustArcPointerBar(double estimatedPokemonLevel) {
         setArcPointer(estimatedPokemonLevel);
         arcAdjustBar.setProgress(Data.levelToLevelIdx(estimatedPokemonLevel));
     }
@@ -814,8 +849,7 @@ public class Pokefly extends Service {
         populateResultsBox(ivScanResult);
         boolean enableCompare = ScanContainer.scanContainer.prevScan != null;
         exResCompare.setEnabled(enableCompare);
-        exResCompare.setTextColor(
-                getResources().getColor(enableCompare ? R.color.colorPrimary : R.color.unimportantText));
+        exResCompare.setTextColor(getColorC(enableCompare ? R.color.colorPrimary : R.color.unimportantText));
         resultsBox.setVisibility(View.VISIBLE);
         inputBox.setVisibility(View.GONE);
 
@@ -862,7 +896,7 @@ public class Pokefly extends Service {
      */
     private void initializePokemonAutoCompleteTextView() {
         String[] pokeList = getResources().getStringArray(R.array.Pokemon);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.autocomplete_pokemon_list_item,
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.autocomplete_pokemon_list_item,
                 pokeList);
         autoCompleteTextView1.setAdapter(adapter);
         autoCompleteTextView1.setThreshold(1);
@@ -881,24 +915,36 @@ public class Pokefly extends Service {
             populateMultipleIVMatch(ivScanResult);
         }
         setResultScreenPercentageRange(ivScanResult); //color codes the result
-        adjustSeekbarForPokemon();
+        adjustSeekbarsThumbs();
 
         populateAdvancedInformation(ivScanResult);
         populatePrevScanNarrowing();
     }
 
     /**
-     * Adjusts the seekbar so minimum is pokemon current level
+     * Adjusts expandedLevelSeekbar and expandedLevelSeekbar thumbs
+     *
+     * expandedLevelSeekbar is a single thumb seekbar
+     * Seekbar should be max at possible Pokemon level at trainer level 40.
+     * Thumb should be placed at current Pokemon level
+     *
+     * expandedLevelSeekbarBackground is a double thumb seekbar
+     * Seekbar should be max at possible Pokemon at trainer level 40
+     * Thumb 1 should be marked as an orange marker and placed at the max possible Pokemon level at the current
+     * trainer level
+     * Thumb 2 should be invisible and placed at the max
      */
-    private void adjustSeekbarForPokemon() {
-        expandedLevelSeekbarBackground.getThumb(0).setThumb(getResources().getDrawable(R.drawable
-                .orange_scrubber_control_disabled_holo));
+    private void adjustSeekbarsThumbs() {
+        expandedLevelSeekbar.setMax(levelToSeekbarProgress(40));
+        expandedLevelSeekbar.setProgress(levelToSeekbarProgress(estimatedPokemonLevel));
+
+        expandedLevelSeekbarBackground.setMax(levelToSeekbarProgress(40));
+        expandedLevelSeekbarBackground.getThumb(0).setThumb(getDrawableC(R.drawable
+                .orange_seekbar_thumb_marker));
         expandedLevelSeekbarBackground.getThumb(0).setValue(
                 levelToSeekbarProgress(Data.trainerLevelToMaxPokeLevel(trainerLevel)));
         expandedLevelSeekbarBackground.getThumb(1).setInvisibleThumb(true);
-        expandedLevelSeekbarBackground.setMax(levelToSeekbarProgress(40));
-        expandedLevelSeekbar.setProgress(levelToSeekbarProgress(estimatedPokemonLevel));
-        expandedLevelSeekbar.setMax(levelToSeekbarProgress(40));
+        expandedLevelSeekbarBackground.getThumb(1).setValue(levelToSeekbarProgress(40));
     }
 
     /**
@@ -917,18 +963,14 @@ public class Pokefly extends Service {
 
     /**
      * shows the name and level of the pokemon in the results dialog
-     *
-     * @param ivScanResult
      */
     private void populateResultsHeader(IVScanResult ivScanResult) {
         resultsPokemonName.setText(ivScanResult.pokemon.name);
-        resultsPokemonLevel.setText(getString(R.string.level) + " " + ivScanResult.estimatedPokemonLevel);
+        resultsPokemonLevel.setText(getString(R.string.level_num, ivScanResult.estimatedPokemonLevel));
     }
 
     /**
      * populates the reuslt screen with the layout as if its multiple results
-     *
-     * @param ivScanResult
      */
     private void populateMultipleIVMatch(IVScanResult ivScanResult) {
         llMaxIV.setVisibility(View.VISIBLE);
@@ -943,31 +985,25 @@ public class Pokefly extends Service {
                     String.format(getString(R.string.possible_iv_combinations), ivScanResult.iVCombinations.size()));
         }
 
-        populateIVAllPosibilities(ivScanResult);
+        populateAllIvPossibilities(ivScanResult);
 
     }
 
     /**
      * adds all options in the all iv possibilities list
-     *
-     * @param ivScanResult
      */
-    private void populateIVAllPosibilities(IVScanResult ivScanResult) {
-
+    private void populateAllIvPossibilities(IVScanResult ivScanResult) {
         IVResultsAdapter ivResults = new IVResultsAdapter(ivScanResult, this);
         rvResults.setAdapter(ivResults);
-
     }
 
     /**
      * populates the result screen with the layout as if it's a single result
-     *
-     * @param ivScanResult
      */
     private void populateSingleIVMatch(IVScanResult ivScanResult) {
         llMaxIV.setVisibility(View.GONE);
         llMinIV.setVisibility(View.GONE);
-        tvAvgIV.setText("IV");
+        tvAvgIV.setText(getString(R.string.iv));
         resultsAttack.setText(String.valueOf(ivScanResult.iVCombinations.get(0).att));
         resultsDefense.setText(String.valueOf(ivScanResult.iVCombinations.get(0).def));
         resultsHP.setText(String.valueOf(ivScanResult.iVCombinations.get(0).sta));
@@ -1004,7 +1040,7 @@ public class Pokefly extends Service {
      * sets the growth estimate text boxes to correpond to the
      * pokemon evolution and level set by the user
      */
-    public void populateAdvancedInformation(IVScanResult ivScanResult) {
+    private void populateAdvancedInformation(IVScanResult ivScanResult) {
         double goalLevel = seekbarProgressToLevel(expandedLevelSeekbar.getProgress());
         int intSelectedPokemon =
                 extendedEvolutionSpinner.getSelectedItemPosition(); //which pokemon is selected in the spinner
@@ -1057,9 +1093,9 @@ public class Pokefly extends Service {
 
         // If goalLevel exeeds trainer capabilities then show text in orange
         if (goalLevel > Data.trainerLevelToMaxPokeLevel(trainerLevel)) {
-            exResLevel.setTextColor(getResources().getColor(R.color.orange));
+            exResLevel.setTextColor(getColorC(R.color.orange));
         } else {
-            exResLevel.setTextColor(getResources().getColor(R.color.importantText));
+            exResLevel.setTextColor(getColorC(R.color.importantText));
         }
     }
 
@@ -1084,13 +1120,14 @@ public class Pokefly extends Service {
 
 
         if (ivScanResult.iVCombinations.size() > 0) {
-            resultsMinPercentage.setText(low + "%");
-            resultsAvePercentage.setText(ave + "%");
-            resultsMaxPercentage.setText(high + "%");
+            resultsMinPercentage.setText(getString(R.string.percent, low));
+            resultsAvePercentage.setText(getString(R.string.percent, ave));
+            resultsMaxPercentage.setText(getString(R.string.percent, high));
         } else {
-            resultsMinPercentage.setText("?%");
-            resultsAvePercentage.setText("?%");
-            resultsMaxPercentage.setText("?%");
+            String unknown_percent = getString(R.string.unknown_percent);
+            resultsMinPercentage.setText(unknown_percent);
+            resultsAvePercentage.setText(unknown_percent);
+            resultsMaxPercentage.setText(unknown_percent);
         }
     }
 
@@ -1228,7 +1265,7 @@ public class Pokefly extends Service {
      */
     private int[] getPossiblePokemon(String poketext, String candytext) {
         int poketextDist = 0;
-        int bestCandyMatch = 100;
+        int bestCandyMatch = Integer.MAX_VALUE;
         Pokemon p;
 
         /* If the user previous corrected this text, go with that. */
@@ -1246,8 +1283,7 @@ public class Pokefly extends Service {
         /* If the pokemon name was a perfect match, we are done. */
         p = pokeCalculator.get(poketext);
         if (p != null) {
-            int[] result = {p.number, poketextDist};
-            return result;
+            return new int[]{p.number, poketextDist};
         }
 
         /* If not, we limit the Pokemon search by candy name first since fewer valid candy names
@@ -1282,7 +1318,7 @@ public class Pokefly extends Service {
             candylist.addAll(p.evolutions.get(0).evolutions);
         }
 
-        int bestMatch = 100;
+        int bestMatch = Integer.MAX_VALUE;
         for (Pokemon candyp : candylist) {
             int dist = candyp.getDistance(poketext);
             if (dist < bestMatch) {
@@ -1298,8 +1334,7 @@ public class Pokefly extends Service {
         /* Cache this correction. We don't really need to save this across launches. */
         cachedCorrections.put(poketext, new Pair<>(p.name, dist));
 
-        int[] result = {p.number, dist};
-        return result;
+        return new int[]{p.number, dist};
     }
 
     private void initOCR() {

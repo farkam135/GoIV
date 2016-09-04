@@ -52,6 +52,7 @@
     <string name="stardust_cost">Costo polvere di stelle</string>
     <string name="evolution">Evoluzione</string>
     <string name="level">Livello</string>
+    <string name="level_num">Livello %1$.1f</string>
     <string name="refine">Affina</string>
     <string name="refine_no_progress">Affina non ha ottenuto risultati più precisi</string>
     <string name="last_scan">Scan precedente: %1$s</string>

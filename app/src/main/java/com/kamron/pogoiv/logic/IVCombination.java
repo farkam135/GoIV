@@ -29,12 +29,7 @@ public class IVCombination {
 
         IVCombination that = (IVCombination) o;
 
-        if (att != that.att)
-            return false;
-        if (def != that.def)
-            return false;
-        return sta == that.sta;
-
+        return att == that.att && def == that.def && sta == that.sta;
     }
 
     /**
@@ -68,9 +63,9 @@ public class IVCombination {
     }
 
     /**
-     * get attack + defence + stamina value
+     * Get total IV (attack + defence + stamina) value
      *
-     * @return
+     * @return total IV
      */
     public int getTotal() {
         return att + def + sta;

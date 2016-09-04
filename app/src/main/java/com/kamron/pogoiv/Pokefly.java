@@ -14,7 +14,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
@@ -62,10 +61,6 @@ import com.kamron.pogoiv.widgets.IVResultsAdapter;
 import com.kamron.pogoiv.widgets.PokemonSpinnerAdapter;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -76,7 +71,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.apptik.widget.MultiSlider;
-import timber.log.Timber;
 
 /**
  * Created by Kamron on 7/25/2016.
@@ -1229,7 +1223,7 @@ public class Pokefly extends Service {
     private void initOCR() {
         String extdir = getExternalFilesDir(null).toString();
         if (!new File(extdir + "/tessdata/eng.traineddata").exists()) {
-            copyAssetFolder(getAssets(), "tessdata", extdir + "/tessdata");
+            CopyUtils.copyAssetFolder(getAssets(), "tessdata", extdir + "/tessdata");
         }
 
         ocr = OCRHelper.init(extdir, displayMetrics.widthPixels, displayMetrics.heightPixels,
@@ -1348,50 +1342,4 @@ public class Pokefly extends Service {
         return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
     }
 
-    private static boolean copyAssetFolder(AssetManager assetManager, String fromAssetPath, String toPath) {
-
-        String[] files = new String[0];
-
-        try {
-            files = assetManager.list(fromAssetPath);
-        } catch (IOException exception) {
-            Timber.e("Exception thrown in copyAssetFolder()");
-            Timber.e(exception);
-        }
-        new File(toPath).mkdirs();
-        boolean res = true;
-        for (String file : files)
-            if (file.contains(".")) {
-                res &= copyAsset(assetManager, fromAssetPath + "/" + file, toPath + "/" + file);
-            } else {
-                res &= copyAssetFolder(assetManager, fromAssetPath + "/" + file, toPath + "/" + file);
-            }
-        return res;
-
-    }
-
-    private static boolean copyAsset(AssetManager assetManager, String fromAssetPath, String toPath) {
-        try {
-            InputStream in = assetManager.open(fromAssetPath);
-            new File(toPath).createNewFile();
-            OutputStream out = new FileOutputStream(toPath);
-            copyFile(in, out);
-            in.close();
-            out.flush();
-            out.close();
-            return true;
-        } catch (IOException exception) {
-            Timber.e("Exception thrown in copyAsset()");
-            Timber.e(exception);
-            return false;
-        }
-    }
-
-    private static void copyFile(InputStream in, OutputStream out) throws IOException {
-        byte[] buffer = new byte[1024];
-        int read;
-        while ((read = in.read(buffer)) != -1) {
-            out.write(buffer, 0, read);
-        }
-    }
 }

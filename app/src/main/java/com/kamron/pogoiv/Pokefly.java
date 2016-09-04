@@ -98,6 +98,7 @@ public class Pokefly extends Service {
 
     private static final String PREF_USER_CORRECTIONS = "com.kamron.pogoiv.USER_CORRECTIONS";
 
+    private static final int NOTIFICATION_REQ_CODE = 8959;
 
     private int trainerLevel = -1;
     private boolean batterySaver = false;
@@ -452,7 +453,7 @@ public class Pokefly extends Service {
         Intent intent = new Intent(context, MainActivity.class);
 
         PendingIntent pendingIntent = PendingIntent.getActivity(context,
-                8959, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                NOTIFICATION_REQ_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         Notification.Builder builder = new Notification.Builder(context)
                 .setContentTitle(String.format(getString(R.string.notification_title), trainerLevel))
@@ -462,7 +463,7 @@ public class Pokefly extends Service {
         Notification n = builder.build();
 
         n.flags |= Notification.FLAG_NO_CLEAR | Notification.FLAG_ONGOING_EVENT;
-        startForeground(8959, n);
+        startForeground(NOTIFICATION_REQ_CODE, n);
     }
 
     /**

@@ -103,7 +103,7 @@ public class Data {
     // should be pretty fast https://en.wikibooks.org/wiki/Algorithm_Implementation/Strings/Levenshtein_distance#Java
     public static int levenshteinDistance(CharSequence lhs, CharSequence rhs) {
         if (rhs == null)
-            return 100;
+            return Integer.MAX_VALUE;
 
         int len0 = lhs.length() + 1;
         int len1 = rhs.length() + 1;

@@ -75,6 +75,8 @@ import butterknife.OnClick;
 import io.apptik.widget.MultiSlider;
 
 /**
+ * Currently, the central service in Pokemon Go, dealing with everything except
+ * the initial activity.
  * Created by Kamron on 7/25/2016.
  */
 

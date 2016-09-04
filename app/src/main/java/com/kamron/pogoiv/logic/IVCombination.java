@@ -29,12 +29,7 @@ public class IVCombination {
 
         IVCombination that = (IVCombination) o;
 
-        if (att != that.att)
-            return false;
-        if (def != that.def)
-            return false;
-        return sta == that.sta;
-
+        return att == that.att && def == that.def && sta == that.sta;
     }
 
     /**

@@ -22,4 +22,3 @@
 -keep class javax.** { *; }
 -keep class org.** { *; }
 -keep class com.** {*;}
--dontwarn okio.**

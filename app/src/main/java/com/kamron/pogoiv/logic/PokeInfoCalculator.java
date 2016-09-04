@@ -180,9 +180,6 @@ public class PokeInfoCalculator {
 
         double lvlScalar = Data.CpM[(int) (estimatedPokemonLevel * 2 - 2)];
         double lvlScalarPow2 = Math.pow(lvlScalar, 2) * 0.1; // instead of computing again in every loop
-        //for averagePercent
-        int sumIV;
-        int averageSum = 0;
         //IV vars for lower and upper end cp ranges
 
 
@@ -249,7 +246,7 @@ public class PokeInfoCalculator {
             cpMax = cpMin;
             cpMin = tmp;
         }
-        return new CPRange(cpMax, cpMin, level);
+        return new CPRange(cpMin, cpMax);
     }
 
     /**
@@ -324,7 +321,7 @@ public class PokeInfoCalculator {
     public ArrayList<Pokemon> getEvolutionLine(Pokemon poke) {
         poke = getLowestEvolution(poke);
 
-        ArrayList list = new ArrayList();
+        ArrayList<Pokemon> list = new ArrayList<>();
         list.add(poke); //add self
         list.addAll(poke.evolutions); //add all immediate evolutions
         for (Pokemon evolution : poke.evolutions) {

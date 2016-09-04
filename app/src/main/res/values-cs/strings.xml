@@ -45,7 +45,6 @@
     <string name="candy_cost">Cena Candy</string>
     <string name="stardust_cost">Cena Stardust</string>
     <string name="evolution">Evoluce</string>
-    <string name="level">Level</string>
     <string name="refine">Zlepšit</string>
     <string name="refine_no_progress">Zlepšení nebylo úspěšné</string>
     <string name="last_scan">Předchozí načtení: %1$s</string>

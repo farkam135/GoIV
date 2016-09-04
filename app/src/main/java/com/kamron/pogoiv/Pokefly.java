@@ -22,6 +22,9 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.provider.MediaStore;
+import android.support.annotation.ColorInt;
+import android.support.annotation.ColorRes;
+import android.support.annotation.DrawableRes;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.util.Pair;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -469,6 +472,34 @@ public class Pokefly extends Service {
     }
 
     /**
+     * Undeprecated version of getDrawable using the most appropriate underlying API.
+     *
+     * @param id ID of drawable to get
+     * @return Desired drawable.
+     */
+    @SuppressWarnings("deprecation")
+    private Drawable getDrawableC(@DrawableRes int id) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            return getDrawable(id);
+        } else {
+            return getResources().getDrawable(id);
+        }
+    }
+
+    /**
+     * Undeprecated version of getColor using the most appropriate underlying API.
+     *
+     * @param id ID of color to get
+     * @return Desired color.
+     */
+    @SuppressWarnings("deprecation")
+    private
+    @ColorInt
+    int getColorC(@ColorRes int id) {
+        return getResources().getColor(id);
+    }
+
+    /**
      * createArcPointer
      * Creates the arc pointer view and sets all the variables required to accurately overlay
      * pokemon go's arc pointer
@@ -478,13 +509,9 @@ public class Pokefly extends Service {
         arcPointer = new ImageView(this);
         arcPointer.setImageResource(R.drawable.dot);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            pointerHeight = getDrawable(R.drawable.dot).getIntrinsicHeight() / 2;
-            pointerWidth = getDrawable(R.drawable.dot).getIntrinsicWidth() / 2;
-        } else {
-            pointerHeight = getResources().getDrawable(R.drawable.dot).getIntrinsicHeight() / 2;
-            pointerWidth = getResources().getDrawable(R.drawable.dot).getIntrinsicWidth() / 2;
-        }
+        Drawable dot = getDrawableC(R.drawable.dot);
+        pointerHeight = dot.getIntrinsicHeight() / 2;
+        pointerWidth = dot.getIntrinsicWidth() / 2;
     }
 
 
@@ -639,10 +666,10 @@ public class Pokefly extends Service {
         Drawable arrowDrawable;
         if (expandedBox.getVisibility() == View.VISIBLE) {
             boxVisibility = View.GONE;
-            arrowDrawable = getResources().getDrawable(R.drawable.arrow_collapse);
+            arrowDrawable = getDrawableC(R.drawable.arrow_collapse);
         } else {
             boxVisibility = View.VISIBLE;
-            arrowDrawable = getResources().getDrawable(R.drawable.arrow_expand);
+            arrowDrawable = getDrawableC(R.drawable.arrow_expand);
         }
         expanderText.setCompoundDrawablesWithIntrinsicBounds(null, null, arrowDrawable, null);
         Animator arrowAnimator = ObjectAnimator.ofInt(arrowDrawable, "level", 0, 10000).setDuration(100);
@@ -756,8 +783,7 @@ public class Pokefly extends Service {
         populateResultsBox(ivScanResult);
         boolean enableCompare = ScanContainer.scanContainer.prevScan != null;
         exResCompare.setEnabled(enableCompare);
-        exResCompare.setTextColor(
-                getResources().getColor(enableCompare ? R.color.colorPrimary : R.color.unimportantText));
+        exResCompare.setTextColor(getColorC(enableCompare ? R.color.colorPrimary : R.color.unimportantText));
         resultsBox.setVisibility(View.VISIBLE);
         inputBox.setVisibility(View.GONE);
 
@@ -828,7 +854,7 @@ public class Pokefly extends Service {
         expandedLevelSeekbar.setProgress(levelToSeekbarProgress(estimatedPokemonLevel));
 
         expandedLevelSeekbarBackground.setMax(levelToSeekbarProgress(40));
-        expandedLevelSeekbarBackground.getThumb(0).setThumb(getResources().getDrawable(R.drawable
+        expandedLevelSeekbarBackground.getThumb(0).setThumb(getDrawableC(R.drawable
                 .orange_seekbar_thumb_marker));
         expandedLevelSeekbarBackground.getThumb(0).setValue(
                 levelToSeekbarProgress(Data.trainerLevelToMaxPokeLevel(trainerLevel)));
@@ -982,9 +1008,9 @@ public class Pokefly extends Service {
 
         // If goalLevel exeeds trainer capabilities then show text in orange
         if (goalLevel > Data.trainerLevelToMaxPokeLevel(trainerLevel)) {
-            exResLevel.setTextColor(getResources().getColor(R.color.orange));
+            exResLevel.setTextColor(getColorC(R.color.orange));
         } else {
-            exResLevel.setTextColor(getResources().getColor(R.color.importantText));
+            exResLevel.setTextColor(getColorC(R.color.importantText));
         }
     }
 

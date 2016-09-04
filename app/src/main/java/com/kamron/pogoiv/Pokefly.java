@@ -4,7 +4,6 @@ import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.BroadcastReceiver;
@@ -335,11 +334,16 @@ public class Pokefly extends Service {
                 getResources().getIntArray(R.array.evolutionCandyCost));
         sharedPref = getSharedPreferences(PREF_USER_CORRECTIONS, Context.MODE_PRIVATE);
         userCorrections = new HashMap<>(pokeCalculator.getPokedex().size());
-        userCorrections.putAll((Map<String, String>) sharedPref.getAll());
+        loadUserCorrectionsFromPrefs();
         userCorrections.put("Sparky", pokeCalculator.get(132).name);
         userCorrections.put("Rainer", pokeCalculator.get(132).name);
         userCorrections.put("Pyro", pokeCalculator.get(132).name);
         cachedCorrections = new LruCache<>(pokeCalculator.getPokedex().size() * 2);
+    }
+
+    @SuppressWarnings("unchecked")
+    private void loadUserCorrectionsFromPrefs() {
+        userCorrections.putAll((Map<String, String>) sharedPref.getAll());
     }
 
 
@@ -352,7 +356,7 @@ public class Pokefly extends Service {
             if (intent.hasExtra(KEY_SCREENSHOT_URI)) {
                 screenshotUri = Uri.parse(intent.getStringExtra(KEY_SCREENSHOT_URI));
             }
-            makeNotification(Pokefly.this);
+            makeNotification(this);
             createInfoLayout();
             createIVButton();
             createArcPointer();
@@ -446,8 +450,6 @@ public class Pokefly extends Service {
     /**
      * makeNotification
      * Creates the GoIV notification
-     *
-     * @param context
      */
     private void makeNotification(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
@@ -783,7 +785,7 @@ public class Pokefly extends Service {
      */
     private void initializePokemonAutoCompleteTextView() {
         String[] pokeList = getResources().getStringArray(R.array.Pokemon);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.autocomplete_pokemon_list_item,
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.autocomplete_pokemon_list_item,
                 pokeList);
         autoCompleteTextView1.setAdapter(adapter);
         autoCompleteTextView1.setThreshold(1);
@@ -838,8 +840,6 @@ public class Pokefly extends Service {
 
     /**
      * shows the name and level of the pokemon in the results dialog
-     *
-     * @param ivScanResult
      */
     private void populateResultsHeader(IVScanResult ivScanResult) {
         resultsPokemonName.setText(ivScanResult.pokemon.name);
@@ -848,8 +848,6 @@ public class Pokefly extends Service {
 
     /**
      * populates the reuslt screen with the layout as if its multiple results
-     *
-     * @param ivScanResult
      */
     private void populateMultipleIVMatch(IVScanResult ivScanResult) {
         llMaxIV.setVisibility(View.VISIBLE);
@@ -864,26 +862,20 @@ public class Pokefly extends Service {
                     String.format(getString(R.string.possible_iv_combinations), ivScanResult.iVCombinations.size()));
         }
 
-        populateIVAllPosibilities(ivScanResult);
+        populateAllIvPossibilities(ivScanResult);
 
     }
 
     /**
      * adds all options in the all iv possibilities list
-     *
-     * @param ivScanResult
      */
-    private void populateIVAllPosibilities(IVScanResult ivScanResult) {
-
+    private void populateAllIvPossibilities(IVScanResult ivScanResult) {
         IVResultsAdapter ivResults = new IVResultsAdapter(ivScanResult, this);
         rvResults.setAdapter(ivResults);
-
     }
 
     /**
      * populates the result screen with the layout as if it's a single result
-     *
-     * @param ivScanResult
      */
     private void populateSingleIVMatch(IVScanResult ivScanResult) {
         llMaxIV.setVisibility(View.GONE);
@@ -1164,8 +1156,7 @@ public class Pokefly extends Service {
         /* If the pokemon name was a perfect match, we are done. */
         p = pokeCalculator.get(poketext);
         if (p != null) {
-            int[] result = {p.number, poketextDist};
-            return result;
+            return new int[]{p.number, poketextDist};
         }
 
         /* If not, we limit the Pokemon search by candy name first since fewer valid candy names
@@ -1216,8 +1207,7 @@ public class Pokefly extends Service {
         /* Cache this correction. We don't really need to save this across launches. */
         cachedCorrections.put(poketext, new Pair<>(p.name, dist));
 
-        int[] result = {p.number, dist};
-        return result;
+        return new int[]{p.number, dist};
     }
 
     private void initOCR() {

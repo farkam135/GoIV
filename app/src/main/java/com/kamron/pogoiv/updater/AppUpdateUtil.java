@@ -25,7 +25,7 @@ import timber.log.Timber;
 
 public class AppUpdateUtil {
 
-    public static final String GITHUB_RELEASES_URL = "https://api.github.com/repos/farkam135/GoIV/releases/latest";
+    private static final String GITHUB_RELEASES_URL = "https://api.github.com/repos/farkam135/GoIV/releases/latest";
 
     public static void checkForUpdate(final Context context) {
         OkHttpClient httpClient = new OkHttpClient();

@@ -60,7 +60,6 @@ public class SettingsActivity extends AppCompatActivity {
             super.onCreate(savedInstanceState);
             getPreferenceManager().setSharedPreferencesName(GoIVSettings.PREFS_GO_IV_SETTINGS);
             addPreferencesFromResource(R.xml.settings);
-            PreferenceScreen preferenceScreen = getPreferenceScreen();
 
             if (BuildConfig.isInternetAvailable) {
                 Preference checkForUpdatePreference = getPreferenceManager().findPreference("checkForUpdate");
@@ -79,6 +78,7 @@ public class SettingsActivity extends AppCompatActivity {
                     }
                 });
             } else {
+                PreferenceScreen preferenceScreen = getPreferenceScreen();
                 //Hide update and crash report related settings
                 Preference crashReportsPreference = getPreferenceManager().findPreference(
                         GoIVSettings.SEND_CRASH_REPORTS);

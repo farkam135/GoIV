@@ -146,13 +146,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (((Button) v).getText().toString().equals(getString(R.string.main_permission))) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(MainActivity.this)) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(
+                            MainActivity.this)) {
                         Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
                                 Uri.parse("package:" + getPackageName()));
                         startActivityForResult(intent, OVERLAY_PERMISSION_REQ_CODE);
                     }
-                    if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
-                        ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_STORAGE_REQ_CODE);
+                    if (ContextCompat.checkSelfPermission(MainActivity.this,
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+                        ActivityCompat.requestPermissions(MainActivity.this,
+                                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_STORAGE_REQ_CODE);
                     }
                 } else if (((Button) v).getText().toString().equals(getString(R.string.main_start))) {
                     batterySaver = settings.isManualScreenshotModeEnabled();
@@ -193,8 +196,10 @@ public class MainActivity extends AppCompatActivity {
         Display disp = windowManager.getDefaultDisplay();
         disp.getRealMetrics(rawDisplayMetrics);
 
-        LocalBroadcastManager.getInstance(this).registerReceiver(resetScreenshot, new IntentFilter(ACTION_RESET_SCREENSHOT));
-        LocalBroadcastManager.getInstance(this).registerReceiver(showUpdateDialog, new IntentFilter(ACTION_SHOW_UPDATE_DIALOG));
+        LocalBroadcastManager.getInstance(this).registerReceiver(resetScreenshot,
+                new IntentFilter(ACTION_RESET_SCREENSHOT));
+        LocalBroadcastManager.getInstance(this).registerReceiver(showUpdateDialog,
+                new IntentFilter(ACTION_SHOW_UPDATE_DIALOG));
     }
 
     private void setupDisplaySizeInfo() {
@@ -208,7 +213,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
         arcRadius = (int) Math.round(displayMetrics.heightPixels / 4.3760683);
-        if (displayMetrics.heightPixels == 1776 || displayMetrics.heightPixels == 960 || displayMetrics.heightPixels == 800) {
+        if (displayMetrics.heightPixels == 1776 || displayMetrics.heightPixels == 960 ||
+                displayMetrics.heightPixels == 800) {
             arcRadius++;
         }
     }
@@ -261,7 +267,8 @@ public class MainActivity extends AppCompatActivity {
                                     if (fUri.toString().contains("images")) {
                                         final String pathChange = getRealPathFromURI(MainActivity.this, fUri);
                                         if (pathChange.contains("Screenshot")) {
-                                            screenshotDir = pathChange.substring(0, pathChange.lastIndexOf(File.separator));
+                                            screenshotDir = pathChange.substring(0,
+                                                    pathChange.lastIndexOf(File.separator));
                                             screenshotUri = fUri;
                                             getContentResolver().unregisterContentObserver(screenShotObserver);
                                             sharedPref.edit().putString("screenshotDir", screenshotDir).apply();
@@ -269,13 +276,17 @@ public class MainActivity extends AppCompatActivity {
                                             ((Button) findViewById(R.id.start)).setText(R.string.main_start);
                                             new AlertDialog.Builder(MainActivity.this)
                                                     .setTitle(R.string.battery_saver_setup)
-                                                    .setMessage(String.format(getString(R.string.screenshot_dir_found), screenshotDir))
-                                                    .setPositiveButton(R.string.done, new DialogInterface.OnClickListener() {
-                                                        public void onClick(DialogInterface dialog, int which) {
-                                                            screenShotObserver = null;
-                                                            getContentResolver().delete(screenshotUri, MediaStore.Files.FileColumns.DATA + "=?", new String[]{pathChange});
-                                                        }
-                                                    })
+                                                    .setMessage(String.format(getString(R.string.screenshot_dir_found),
+                                                            screenshotDir))
+                                                    .setPositiveButton(R.string.done,
+                                                            new DialogInterface.OnClickListener() {
+                                                                public void onClick(DialogInterface dialog, int which) {
+                                                                    screenShotObserver = null;
+                                                                    getContentResolver().delete(screenshotUri,
+                                                                            MediaStore.Files.FileColumns.DATA + "=?",
+                                                                            new String[]{pathChange});
+                                                                }
+                                                            })
                                                     .show();
                                         }
                                     }
@@ -283,7 +294,8 @@ public class MainActivity extends AppCompatActivity {
                                 super.onChange(selfChange, uri);
                             }
                         };
-                        getContentResolver().registerContentObserver(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, true, screenShotObserver);
+                        getContentResolver().registerContentObserver(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, true,
+                                screenShotObserver);
                     }
                 })
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -347,7 +359,8 @@ public class MainActivity extends AppCompatActivity {
         //Check Permissions
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(this)) {
             launch.setText(getString(R.string.main_permission));
-        } else if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+        } else if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
+                PackageManager.PERMISSION_DENIED) {
             launch.setText(getString(R.string.main_permission));
         }
     }
@@ -382,12 +395,14 @@ public class MainActivity extends AppCompatActivity {
             if (!Settings.canDrawOverlays(this)) {
                 // SYSTEM_ALERT_WINDOW permission not granted...
                 ((Button) findViewById(R.id.start)).setText(getString(R.string.main_permission));
-            } else if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            } else if (ContextCompat.checkSelfPermission(MainActivity.this,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                 ((Button) findViewById(R.id.start)).setText(getString(R.string.main_start));
             }
         } else if (requestCode == SCREEN_CAPTURE_REQ_CODE) {
             if (resultCode == RESULT_OK) {
-                MediaProjectionManager projectionManager = (MediaProjectionManager) getSystemService(Context.MEDIA_PROJECTION_SERVICE);
+                MediaProjectionManager projectionManager = (MediaProjectionManager) getSystemService(
+                        Context.MEDIA_PROJECTION_SERVICE);
                 MediaProjection mProjection = projectionManager.getMediaProjection(resultCode, data);
                 screen = ScreenGrabber.init(mProjection, rawDisplayMetrics, displayMetrics);
 
@@ -413,7 +428,8 @@ public class MainActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         if (requestCode == WRITE_STORAGE_REQ_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                if (Settings.canDrawOverlays(this) && ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                if (Settings.canDrawOverlays(this) && ContextCompat.checkSelfPermission(MainActivity.this,
+                        Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                     // SYSTEM_ALERT_WINDOW permission not granted...
                     ((Button) findViewById(R.id.start)).setText(getString(R.string.main_start));
                 }
@@ -428,7 +444,8 @@ public class MainActivity extends AppCompatActivity {
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void startScreenService() {
         ((Button) findViewById(R.id.start)).setText(R.string.accept_screen_capture);
-        MediaProjectionManager projectionManager = (MediaProjectionManager) getSystemService(Context.MEDIA_PROJECTION_SERVICE);
+        MediaProjectionManager projectionManager = (MediaProjectionManager) getSystemService(
+                Context.MEDIA_PROJECTION_SERVICE);
         startActivityForResult(projectionManager.createScreenCaptureIntent(), SCREEN_CAPTURE_REQ_CODE);
     }
 
@@ -459,7 +476,8 @@ public class MainActivity extends AppCompatActivity {
         Cursor cursor = null;
         try {
             String[] proj = {MediaStore.Images.Media.DATA};
-            cursor = context.getContentResolver().query(contentUri, proj, null, null, MediaStore.Images.ImageColumns.DATE_TAKEN + " DESC");
+            cursor = context.getContentResolver().query(contentUri, proj, null, null,
+                    MediaStore.Images.ImageColumns.DATE_TAKEN + " DESC");
             int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
             cursor.moveToFirst();
             return cursor.getString(column_index);
@@ -486,7 +504,8 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             AppUpdate update = intent.getParcelableExtra("update");
-            if (update.getStatus() == AppUpdate.UPDATE_AVAILABLE && shouldShowUpdateDialog && !isGoIVBeingUpdated(context)) {
+            if (update.getStatus() == AppUpdate.UPDATE_AVAILABLE && shouldShowUpdateDialog && !isGoIVBeingUpdated(
+                    context)) {
                 AlertDialog updateDialog = AppUpdateUtil.getAppUpdateDialog(mContext, update);
                 updateDialog.show();
             }

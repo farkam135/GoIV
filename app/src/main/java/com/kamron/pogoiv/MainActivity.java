@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean pokeFlyRunning = false;
     private int trainerLevel;
 
-    private Point arcInit = new Point();
+    private final Point arcInit = new Point();
     private int arcRadius;
     private Context mContext;
     private GoIVSettings settings;

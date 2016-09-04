@@ -48,9 +48,9 @@ public class IVCombination {
     }
 
     /**
-     * get attack + defence + stamina value
+     * Get total IV (attack + defence + stamina) value
      *
-     * @return
+     * @return total IV
      */
     public int getTotal() {
         return att + def + sta;

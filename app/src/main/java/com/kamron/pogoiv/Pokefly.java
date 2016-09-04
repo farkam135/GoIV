@@ -113,7 +113,7 @@ public class Pokefly extends Service {
 
     private WindowManager windowManager;
     private DisplayMetrics displayMetrics;
-    ClipboardManager clipboard;
+    private ClipboardManager clipboard;
     private SharedPreferences sharedPref;
     private ScreenGrabber screen;
     private OCRHelper ocr;
@@ -662,7 +662,7 @@ public class Pokefly extends Service {
         }
     }
 
-    public void resetToSpinner() {
+    private void resetToSpinner() {
         autoCompleteTextView1.setVisibility(View.GONE);
         pokeInputSpinner.setVisibility(View.VISIBLE);
     }
@@ -694,7 +694,7 @@ public class Pokefly extends Service {
         toggleVisibility(inputAppraisalExpandBox, appraisalBox);
     }
 
-    public void adjustArcPointerBar(double estimatedPokemonLevel) {
+    private void adjustArcPointerBar(double estimatedPokemonLevel) {
         setArcPointer(estimatedPokemonLevel);
         arcAdjustBar.setProgress(Data.levelToLevelIdx(estimatedPokemonLevel));
     }
@@ -961,7 +961,7 @@ public class Pokefly extends Service {
      * sets the growth estimate text boxes to correpond to the
      * pokemon evolution and level set by the user
      */
-    public void populateAdvancedInformation(IVScanResult ivScanResult) {
+    private void populateAdvancedInformation(IVScanResult ivScanResult) {
         double goalLevel = seekbarProgressToLevel(expandedLevelSeekbar.getProgress());
         int intSelectedPokemon =
                 extendedEvolutionSpinner.getSelectedItemPosition(); //which pokemon is selected in the spinner

@@ -1104,6 +1104,9 @@ public class Pokefly extends Service {
         defCheckbox.setChecked(false);
         staCheckbox.setChecked(false);
 
+        appraisalIvRange.setSelection(0);
+        appraisalPercentageRange.setSelection(0);
+
         resetPokeflyStateMachine();
         resetInfoDialogue();
         if (!batterySaver) {

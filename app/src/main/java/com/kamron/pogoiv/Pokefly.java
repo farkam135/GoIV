@@ -802,24 +802,36 @@ public class Pokefly extends Service {
             populateMultipleIVMatch(ivScanResult);
         }
         setResultScreenPercentageRange(ivScanResult); //color codes the result
-        adjustSeekbarForPokemon();
+        adjustSeekbarsThumbs();
 
         populateAdvancedInformation(ivScanResult);
         populatePrevScanNarrowing();
     }
 
     /**
-     * Adjusts the seekbar so minimum is pokemon current level
+     * Adjusts expandedLevelSeekbar and expandedLevelSeekbar thumbs
+     *
+     * expandedLevelSeekbar is a single thumb seekbar
+     * Seekbar should be max at possible Pokemon level at trainer level 40.
+     * Thumb should be placed at current Pokemon level
+     *
+     * expandedLevelSeekbarBackground is a double thumb seekbar
+     * Seekbar should be max at possible Pokemon at trainer level 40
+     * Thumb 1 should be marked as an orange marker and placed at the max possible Pokemon level at the current
+     * trainer level
+     * Thumb 2 should be invisible and placed at the max
      */
-    private void adjustSeekbarForPokemon() {
+    private void adjustSeekbarsThumbs() {
+        expandedLevelSeekbar.setMax(levelToSeekbarProgress(40));
+        expandedLevelSeekbar.setProgress(levelToSeekbarProgress(estimatedPokemonLevel));
+
+        expandedLevelSeekbarBackground.setMax(levelToSeekbarProgress(40));
         expandedLevelSeekbarBackground.getThumb(0).setThumb(getResources().getDrawable(R.drawable
-                .orange_scrubber_control_disabled_holo));
+                .orange_seekbar_thumb_marker));
         expandedLevelSeekbarBackground.getThumb(0).setValue(
                 levelToSeekbarProgress(Data.trainerLevelToMaxPokeLevel(trainerLevel)));
         expandedLevelSeekbarBackground.getThumb(1).setInvisibleThumb(true);
-        expandedLevelSeekbarBackground.setMax(levelToSeekbarProgress(40));
-        expandedLevelSeekbar.setProgress(levelToSeekbarProgress(estimatedPokemonLevel));
-        expandedLevelSeekbar.setMax(levelToSeekbarProgress(40));
+        expandedLevelSeekbarBackground.getThumb(1).setValue(levelToSeekbarProgress(40));
     }
 
     /**

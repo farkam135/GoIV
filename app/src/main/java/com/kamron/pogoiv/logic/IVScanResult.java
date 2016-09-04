@@ -159,20 +159,20 @@ public class IVScanResult {
         float highest =100;
 
         if(selectedItemPosition == 1){
-            lowest = 82.2f;
+            lowest = 82;
             highest = 100;
         }
         if(selectedItemPosition == 2){
-            lowest = 66.7f;
+            lowest = 66;
             highest = 80;
         }
         if(selectedItemPosition == 3){
-            lowest = 51.1f;
-            highest = 64.4f;
+            lowest = 51;
+            highest = 65;
         }
         if(selectedItemPosition == 4){
             lowest = 0;
-            highest = 48.9f;
+            highest = 50;
         }
 
         ArrayList<IVCombination> refinedList = new ArrayList<>();

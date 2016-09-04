@@ -496,7 +496,11 @@ public class Pokefly extends Service {
     private
     @ColorInt
     int getColorC(@ColorRes int id) {
-        return getResources().getColor(id);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            return getColor(id);
+        } else {
+            return getResources().getColor(id);
+        }
     }
 
     /**

@@ -1,12 +1,14 @@
 package com.kamron.pogoiv.updater;
 
 
-public class SemVer implements Comparable<SemVer> {
-    int major;
-    int minor;
-    int patch;
+import android.support.annotation.NonNull;
 
-    public SemVer(int major, int minor, int patch) {
+public class SemVer implements Comparable<SemVer> {
+    private final int major;
+    private final int minor;
+    private final int patch;
+
+    private SemVer(int major, int minor, int patch) {
         this.major = major;
         this.minor = minor;
         this.patch = patch;
@@ -22,7 +24,7 @@ public class SemVer implements Comparable<SemVer> {
     }
 
     @Override
-    public int compareTo(SemVer other) {
+    public int compareTo(@NonNull SemVer other) {
         int result = major - other.major;
         if (result == 0) {
             result = minor - other.minor;

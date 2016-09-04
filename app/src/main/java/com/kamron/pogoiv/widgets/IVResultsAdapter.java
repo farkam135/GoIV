@@ -18,8 +18,8 @@ import com.kamron.pogoiv.logic.IVScanResult;
  * Created by OskO on 29/08/16.
  */
 public class IVResultsAdapter extends RecyclerView.Adapter<IVResultsAdapter.ResultsViewHolder> {
-    LayoutInflater layoutInflater;
-    IVScanResult mDataSet;
+    private final LayoutInflater layoutInflater;
+    private final IVScanResult mDataSet;
 
     public IVResultsAdapter(IVScanResult ivScanResult, Context context) {
         layoutInflater = LayoutInflater.from(context);
@@ -58,8 +58,8 @@ public class IVResultsAdapter extends RecyclerView.Adapter<IVResultsAdapter.Resu
     }
 
     class ResultsViewHolder extends RecyclerView.ViewHolder {
-        TextView resultAttack, resultDefense, resultHP, resultPercentage;
-        LinearLayout llRvResult;
+        final TextView resultAttack, resultDefense, resultHP, resultPercentage;
+        final LinearLayout llRvResult;
 
         public ResultsViewHolder(View itemView) {
             super(itemView);

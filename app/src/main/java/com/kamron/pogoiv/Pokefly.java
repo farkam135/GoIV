@@ -680,9 +680,6 @@ public class Pokefly extends Service {
                     R.array.instinct_percentage, R.layout.goiv_spinner_item);
         }
 
-        adapterIvRange.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        adapterPercentage.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
         appraisalIvRange.setAdapter(adapterIvRange);
         appraisalPercentageRange.setAdapter(adapterPercentage);
 

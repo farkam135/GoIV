@@ -148,31 +148,35 @@ public class IVScanResult {
 
     /**
      * Removes any iv combination that is outside the scope of the input percentage range
-     * 1: 82.2-100%
-     * 2: 66.7-80%
-     * 3: 51.1-64.4%
-     * 4: 0-48.9%
+     * 1: 81-100%
+     * 2: 66-80%
+     * 3: 51-65%
+     * 4: 0-50%
      * @param selectedItemPosition a number between 1 to 4 as detailed above
      */
     public void refineByAppraisalPercentageRange(int selectedItemPosition) {
-        float lowest = 0;
-        float highest =100;
+        int lowest, highest;
 
-        if(selectedItemPosition == 1){
-            lowest = 82;
-            highest = 100;
-        }
-        if(selectedItemPosition == 2){
-            lowest = 66;
-            highest = 80;
-        }
-        if(selectedItemPosition == 3){
-            lowest = 51;
-            highest = 65;
-        }
-        if(selectedItemPosition == 4){
-            lowest = 0;
-            highest = 50;
+        switch (selectedItemPosition) {
+            case 1:
+                lowest = 81;
+                highest = 100;
+                break;
+            case 2:
+                lowest = 66;
+                highest = 80;
+                break;
+            case 3:
+                lowest = 51;
+                highest = 65;
+                break;
+            case 4:
+                lowest = 0;
+                highest = 50;
+                break;
+            default:
+                lowest = 0;
+                highest = 100;
         }
 
         ArrayList<IVCombination> refinedList = new ArrayList<>();
@@ -197,24 +201,28 @@ public class IVScanResult {
      * @param selectedItemPosition a number between 1 to 4 as detailed above
      */
     public void refineByAppraisalIVRange(int selectedItemPosition) {
-        int lowest = 0;
-        int highest =100;
+        int lowest, highest;
 
-        if(selectedItemPosition == 1){
-            lowest = 15;
-            highest = 15;
-        }
-        if(selectedItemPosition == 2){
-            lowest = 13;
-            highest = 14;
-        }
-        if(selectedItemPosition == 3){
-            lowest = 8;
-            highest = 12;
-        }
-        if(selectedItemPosition == 4){
-            lowest = 0;
-            highest = 7;
+        switch (selectedItemPosition) {
+            case 1:
+                lowest = 15;
+                highest = 15;
+                break;
+            case 2:
+                lowest = 13;
+                highest = 14;
+                break;
+            case 3:
+                lowest = 8;
+                highest = 12;
+                break;
+            case 4:
+                lowest = 0;
+                highest = 7;
+                break;
+            default:
+                lowest = 0;
+                highest = 15;
         }
 
         ArrayList<IVCombination> refinedList = new ArrayList<>();

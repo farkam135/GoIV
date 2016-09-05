@@ -39,13 +39,7 @@ public class IVCombination {
      * @return a number between 0 and 15 which is the highest stat in this combination
      */
     public int getHighestStat(){
-        int high = 0;
-
-        if (att > high) high = att;
-        if (def > high) high = def;
-        if (sta > high) high = sta;
-
-        return high;
+        return Collections.max(Arrays.asList(att, def, sta));
     }
     /**
      * Returns a boolean array that represent which values are the highest in an iv,
@@ -54,7 +48,7 @@ public class IVCombination {
      */
     public Boolean[] getHighestStatSignature() {
         Boolean[] attDefSta = new Boolean[3];
-        int maxStat = Collections.max(Arrays.asList(att, def, sta));
+        int maxStat = getHighestStat();
 
         attDefSta[0] = att >= maxStat;
         attDefSta[1] = def >= maxStat;

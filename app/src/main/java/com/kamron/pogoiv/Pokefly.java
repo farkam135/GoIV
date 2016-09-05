@@ -691,6 +691,8 @@ public class Pokefly extends Service {
 
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
+                //We don't want anything to happen when the user has selected an item that does not exist or the
+                // spinner disappears, but interface requires implementation so here's an empty method.
             }
         });
         appraisalPercentageRange.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

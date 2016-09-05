@@ -2,6 +2,7 @@ package com.kamron.pogoiv;
 
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.app.ActivityManager;
 import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -84,8 +85,9 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean readyForNewScreenshot = true;
 
-    private boolean pokeFlyRunning = false;
     private int trainerLevel;
+
+    private Button launchButton;
 
     private final Point arcInit = new Point();
     private int arcRadius;
@@ -140,8 +142,8 @@ public class MainActivity extends AppCompatActivity {
         npTrainerLevel.setWrapSelectorWheel(false);
         npTrainerLevel.setValue(trainerLevel);
 
-        Button launch = (Button) findViewById(R.id.start);
-        launch.setOnClickListener(new View.OnClickListener() {
+        launchButton = (Button) findViewById(R.id.start);
+        launchButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -181,13 +183,12 @@ public class MainActivity extends AppCompatActivity {
                         screenShotScanner.stopWatching();
                         screenShotScanner = null;
                     }
-                    pokeFlyRunning = false;
                     ((Button) v).setText(getString(R.string.main_start));
                 }
             }
         });
 
-        checkPermissions(launch);
+        checkPermissions(launchButton);
 
 
         displayMetrics = this.getResources().getDisplayMetrics();
@@ -308,7 +309,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
         settings = GoIVSettings.getInstance(MainActivity.this);
+
+        if (isPokeFlyRunning()) {
+            launchButton.setText(R.string.main_stop);
+        } else {
+            launchButton.setText(R.string.main_start);
+        }
     }
 
     private int getStatusBarHeight() {
@@ -330,11 +338,19 @@ public class MainActivity extends AppCompatActivity {
                 screenshotUri);
         startService(intent);
 
-        pokeFlyRunning = true;
-
         if (settings.shouldLaunchPokemonGo()) {
             openPokemonGoApp();
         }
+    }
+
+    private boolean isPokeFlyRunning() {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo serviceInfo : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (Pokefly.class.getName().equals(serviceInfo.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private String getVersionName() {
@@ -366,9 +382,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onDestroy() {
-        if (pokeFlyRunning) {
+        if (isPokeFlyRunning()) {
             stopService(new Intent(MainActivity.this, Pokefly.class));
-            pokeFlyRunning = false;
         }
         if (screen != null) {
             screen.exit();

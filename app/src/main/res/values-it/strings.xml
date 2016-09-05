@@ -13,7 +13,7 @@
     <string name="main_not_numeric">%1$s non è un numero.</string>
     <string name="main_invalide_trainerlvl">Livello Allenatore non valido!</string>
     <string name="notification_title">GoIV in esecuzione - Livello %1$s</string>
-    <string name="notification_text">Tocca per aprire</string>
+    <string name="notification_open_app">Apri app</string>
     <string name="ivtext_stats">Att: %1$02d Dif: %2$02d PS: %3$02d — %4$3d%%</string>
     <string name="close">Chiudi</string>
     <string name="main_permission">Concedi i permessi</string>

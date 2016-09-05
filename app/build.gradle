@@ -136,7 +136,6 @@ dependencies {
     compile 'com.jakewharton.timber:timber:4.3.0'
     compile 'com.rmtheis:tess-two:6.0.4'
     compile 'com.squareup.okhttp3:okhttp:3.4.1'
-    compile 'com.squareup.okio:okio:1.10.0'
     compile 'io.apptik.widget:multislider:1.2'
     provided 'org.projectlombok:lombok:1.16.10'
     apt 'com.jakewharton:butterknife-compiler:8.4.0'

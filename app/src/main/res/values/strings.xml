@@ -7,6 +7,62 @@
     <string name="goiv_is_open_source">GoIV is open source!\ngithub.com/farkam135/GoIV\nreddit.com/r/GoIV</string>
     <string name="trainer_level">Trainer Level</string>
 
+    <string-array name="teams">
+        <item name="mystic">"Mystic"</item>
+        <item name="valor">"Valor"</item>
+        <item name="instinct">"Instinct"</item>
+    </string-array>
+
+    <string-array name="mystic_percentage">
+        <item name="mplace1">"(Optional)"</item>
+        <item name="mystic80_100">"Breathtaking"</item>
+        <item name="mystic67_79">"Caught my attention."</item>
+        <item name="mystic51_66">"Above average."</item>
+        <item name="mystic0_50">"Not much headway."</item>
+    </string-array>
+
+    <string-array name="mystic_ivrange">
+        <item name="mplace2">"(Optional)"</item>
+        <item name="mysticiv15">"Incredible!"</item>
+        <item name="mysticiv13_14">Impressed"</item>
+        <item name="mysticiv8_12">"Trending to positive."</item>
+        <item name="mysticiv0_7">"The norm"</item>
+    </string-array>
+
+
+    <string-array name="instinct_percentage">
+        <item name="iplace1">"(Optional)"</item>
+        <item name="instinct80_100">"best of them!"</item>
+        <item name="instinct67_79">"really strong!"</item>
+        <item name="instinct51_66">"pretty decent!"</item>
+        <item name="instinct0_50">"has room for improvement."</item>
+    </string-array>
+
+    <string-array name="instinct_ivrange">
+        <item name="iplace2">"(Optional)"</item>
+        <item name="instinctiv15">"Its stats are the best I've ever seen! No doubt about it!"</item>
+        <item name="instinctiv13_14">"Its stats are really strong! Impressive."</item>
+        <item name="instinctiv8_12">"It's definitely got some good stats. Definitely!"</item>
+        <item name="instinctiv0_7">"Its stats are all right, but kinda basic, as far as I can see."</item>
+    </string-array>
+
+    <string-array name="valor_percentage">
+        <item name="vplace1">"(Optional)"</item>
+        <item name="valor80_100">"simply amazes me. It can accomplish anything!"</item>
+        <item name="valor67_79">"a strong Pokemon. You should be proud!"</item>
+        <item name="valor51_66">"a decent Pokemon"</item>
+        <item name="valor0_50">"may not be great in battle, but I still like it!"</item>
+    </string-array>
+
+    <string-array name="valor_ivrange">
+        <item name="vplace2">"(Optional)"</item>
+        <item name="valoriv15">"I'm blown away by its stats. WOW!"</item>
+        <item name="valoriv13_14">"It's got excellent stats! How exciting!"</item>
+        <item name="valoriv8_12">"Its stats indicate that in battle, it'll get the job done."</item>
+        <item name="valoriv0_7">"Its stats don't point to greatness in battle."</item>
+    </string-array>
+
+
     <string name="pokemon_name">Pokémon name:</string>
     <string name="cp">CP</string>
     <string name="hp">HP</string>
@@ -83,4 +139,7 @@
     <string name="iv">IV</string>
     <string name="percent">%d%%</string>
     <string name="unknown_percent">"?%"</string>
+    <string name="percent_phrase">Percent phrase</string>
+    <string name="iv_range_phrase">IV range phrase</string>
+    <string name="higher_values">Higher values</string>
 </resources>

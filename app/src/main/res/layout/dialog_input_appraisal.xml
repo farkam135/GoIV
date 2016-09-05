@@ -2,59 +2,103 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
-
+              android:layout_height="match_parent"
+    android:paddingLeft="22dp"
+    android:paddingRight="22dp"
+    android:layout_marginBottom="12dp">
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="24dp"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            />
-        <CheckBox
-            android:id="@+id/attCheckbox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/importantText"
-            android:text="@string/attack"/>
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            />
-        <CheckBox
-            android:id="@+id/defCheckbox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/importantText"
-            android:text="@string/defense"/>
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            />
-        <CheckBox
-            android:id="@+id/staCheckbox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/importantText"
-            android:text="@string/stamina_hp"/>
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            />
-
-        <Space
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="15dp"
-            />
+            android:layout_height="wrap_content"
+            android:text="@string/percent_phrase"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="5dp"
+            android:textColor="@color/importantText"/>
 
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:id="@+id/appraisalPercentageRange"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/higher_values"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"
+            android:textColor="@color/importantText"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                />
+            <CheckBox
+                android:id="@+id/attCheckbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/importantText"
+                android:text="@string/attack"/>
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                />
+            <CheckBox
+                android:id="@+id/defCheckbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/importantText"
+                android:text="@string/defense"/>
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                />
+            <CheckBox
+                android:id="@+id/staCheckbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/importantText"
+                android:text="@string/stamina_hp"/>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/iv_range_phrase"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="5dp"
+            android:textColor="@color/importantText"/>
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/appraisalIvRange"/>
     </LinearLayout>
+
 </LinearLayout>

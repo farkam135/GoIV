@@ -160,6 +160,13 @@ public class Pokefly extends Service {
     @BindView(R.id.llButtonsOnCheck)
     LinearLayout onCheckButtonsLayout;
 
+
+
+    @BindView(R.id.appraisalIvRange)
+    Spinner appraisalIvRange;
+    @BindView(R.id.appraisalPercentageRange)
+    Spinner appraisalPercentageRange;
+
     // Layouts
     @BindView(R.id.inputBox)
     LinearLayout inputBox;
@@ -604,6 +611,8 @@ public class Pokefly extends Service {
 
         initializePokemonAutoCompleteTextView();
 
+        populateTeamAppraisalSpinners();
+
         extendedEvolutionSpinnerAdapter = new PokemonSpinnerAdapter(this, R.layout.spinner_evolution,
                 new ArrayList<Pokemon>());
         extendedEvolutionSpinner.setAdapter(extendedEvolutionSpinnerAdapter);
@@ -643,6 +652,57 @@ public class Pokefly extends Service {
                 populateAdvancedInformation(ScanContainer.scanContainer.currScan);
             }
 
+        });
+
+    }
+
+    /**
+     * changes the text in the appraisal spinners depending on what team the user is on
+     */
+    private void populateTeamAppraisalSpinners() {
+        ArrayAdapter<CharSequence> adapterIvRange;
+        ArrayAdapter<CharSequence> adapterPercentage;
+        if (GoIVSettings.getInstance(getBaseContext()).playerTeam() == 0) {
+            adapterIvRange = ArrayAdapter.createFromResource(this,
+                    R.array.mystic_ivrange, R.layout.goiv_spinner_item);
+            adapterPercentage = ArrayAdapter.createFromResource(this,
+                    R.array.mystic_percentage, R.layout.goiv_spinner_item);
+
+        } else if (GoIVSettings.getInstance(getBaseContext()).playerTeam() == 1) {
+            adapterIvRange = ArrayAdapter.createFromResource(this,
+                    R.array.valor_ivrange, R.layout.goiv_spinner_item);
+            adapterPercentage = ArrayAdapter.createFromResource(this,
+                    R.array.valor_percentage, R.layout.goiv_spinner_item);
+        } else {
+            adapterIvRange = ArrayAdapter.createFromResource(this,
+                    R.array.instinct_ivrange, R.layout.goiv_spinner_item);
+            adapterPercentage = ArrayAdapter.createFromResource(this,
+                    R.array.instinct_percentage, R.layout.goiv_spinner_item);
+        }
+
+        appraisalIvRange.setAdapter(adapterIvRange);
+        appraisalPercentageRange.setAdapter(adapterPercentage);
+
+
+        appraisalIvRange.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                //We don't want anything to happen when the user has selected an item that does not exist or the
+                // spinner disappears, but interface requires implementation so here's an empty method.
+            }
+        });
+        appraisalPercentageRange.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+            }
         });
 
     }
@@ -775,9 +835,8 @@ public class Pokefly extends Service {
         IVScanResult ivScanResult = pokeCalculator.getIVPossibilities(pokemon, estimatedPokemonLevel, pokemonHP,
                 pokemonCP);
 
-        if (attCheckbox.isChecked() || defCheckbox.isChecked() || staCheckbox.isChecked()) {
-            ivScanResult.refineByHighest(attCheckbox.isChecked(), defCheckbox.isChecked(), staCheckbox.isChecked());
-        }
+        refineByAvailableAppraisalInfo(ivScanResult);
+
 
         // If no possible combinations, inform the user and abort.
         if (!ivScanResult.tooManyPossibilities && ivScanResult.getCount() == 0) {
@@ -795,6 +854,25 @@ public class Pokefly extends Service {
 
         initialButtonsLayout.setVisibility(View.GONE);
         onCheckButtonsLayout.setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * Refines the combinations in an ivscanresult by reading the input
+     * in the appraisalbox and calling the appropriate methods in ivscanresults.refineX
+     *
+     * @param ivScanResult the scan result to refine
+     */
+    private void refineByAvailableAppraisalInfo(IVScanResult ivScanResult) {
+        if (attCheckbox.isChecked() || defCheckbox.isChecked() || staCheckbox.isChecked()) {
+            ivScanResult.refineByHighest(attCheckbox.isChecked(), defCheckbox.isChecked(), staCheckbox.isChecked());
+        }
+
+        if (appraisalPercentageRange.getSelectedItemPosition() != 0) {
+            ivScanResult.refineByAppraisalPercentageRange(appraisalPercentageRange.getSelectedItemPosition());
+        }
+        if (appraisalIvRange.getSelectedItemPosition() != 0) {
+            ivScanResult.refineByAppraisalIVRange(appraisalIvRange.getSelectedItemPosition());
+        }
     }
 
     /**
@@ -1061,6 +1139,9 @@ public class Pokefly extends Service {
         attCheckbox.setChecked(false);
         defCheckbox.setChecked(false);
         staCheckbox.setChecked(false);
+
+        appraisalIvRange.setSelection(0);
+        appraisalPercentageRange.setSelection(0);
 
         resetPokeflyStateMachine();
         resetInfoDialogue();

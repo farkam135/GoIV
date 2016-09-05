@@ -36,6 +36,12 @@
             android:inputType="number"
             android:textAlignment="center"/>
 
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/teamPickerSpinner">
+
+        </Spinner>
         <Button
             android:id="@+id/start"
             android:layout_width="wrap_content"

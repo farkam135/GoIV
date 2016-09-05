@@ -146,4 +146,93 @@ public class IVScanResult {
         iVCombinations = refinedList;
     }
 
+    /**
+     * Removes any iv combination that is outside the scope of the input percentage range
+     * 1: 81-100%
+     * 2: 66-80%
+     * 3: 51-65%
+     * 4: 0-50%
+     * @param selectedItemPosition a number between 1 to 4 as detailed above
+     */
+    public void refineByAppraisalPercentageRange(int selectedItemPosition) {
+        int lowest, highest;
+
+        switch (selectedItemPosition) {
+            case 1:
+                lowest = 81;
+                highest = 100;
+                break;
+            case 2:
+                lowest = 66;
+                highest = 80;
+                break;
+            case 3:
+                lowest = 51;
+                highest = 65;
+                break;
+            case 4:
+                lowest = 0;
+                highest = 50;
+                break;
+            default:
+                lowest = 0;
+                highest = 100;
+        }
+
+        ArrayList<IVCombination> refinedList = new ArrayList<>();
+
+        for (IVCombination comb:iVCombinations){
+
+            if (comb.percentPerfect >= lowest && comb.percentPerfect <= highest){
+                refinedList.add(comb);
+            }
+        }
+
+        iVCombinations = refinedList;
+    }
+
+    /**
+     * Removes any iv combination where the highest iv is outside the scope of he input range
+     * input:
+     * 1: 15
+     * 2: 13-14
+     * 3: 8-12
+     * 4: 0-7
+     * @param selectedItemPosition a number between 1 to 4 as detailed above
+     */
+    public void refineByAppraisalIVRange(int selectedItemPosition) {
+        int lowest, highest;
+
+        switch (selectedItemPosition) {
+            case 1:
+                lowest = 15;
+                highest = 15;
+                break;
+            case 2:
+                lowest = 13;
+                highest = 14;
+                break;
+            case 3:
+                lowest = 8;
+                highest = 12;
+                break;
+            case 4:
+                lowest = 0;
+                highest = 7;
+                break;
+            default:
+                lowest = 0;
+                highest = 15;
+        }
+
+        ArrayList<IVCombination> refinedList = new ArrayList<>();
+
+        for (IVCombination comb:iVCombinations){
+
+            if (comb.getHighestStat() >= lowest && comb.getHighestStat() <= highest){
+                refinedList.add(comb);
+            }
+        }
+        iVCombinations = refinedList;
+    }
 }

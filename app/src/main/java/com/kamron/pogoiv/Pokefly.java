@@ -471,7 +471,7 @@ public class Pokefly extends Service {
                 0, openAppIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         NotificationCompat.Action openAppAction = new NotificationCompat.Action.Builder(
-                android.R.drawable.ic_menu_more, "Open App", openAppPendingIntent).build();
+                android.R.drawable.ic_menu_more, getString(R.string.notification_open_app), openAppPendingIntent).build();
 
         Intent stopServiceIntent = new Intent(this, Pokefly.class);
         stopServiceIntent.setAction(ACTION_STOP);

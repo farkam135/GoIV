@@ -13,7 +13,6 @@
     <string name="main_not_numeric">%1$s n\'est pas un nombre.</string>
     <string name="main_invalide_trainerlvl">Niveau de dresseur invalide !</string>
     <string name="notification_title">GoIV Actif - Niveau %1$s</string>
-    <string name="notification_text">Appuyer pour ouvrir</string>
     <string name="ivtext_stats">Atq: %1$02d Déf: %2$02d Vig: %3$02d — %4$3d%%</string>
     <string name="close">Fermer</string>
     <string name="main_permission">Accorder permissions</string>

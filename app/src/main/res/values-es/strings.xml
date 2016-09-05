@@ -15,7 +15,6 @@
     <string name="main_permission">Dar Permisos</string>
     <string name="main_start">Iniciar</string>
     <string name="main_stop">Detener</string>
-    <string name="notification_text">Presione para abrir</string>
     <string name="notification_title">GoIV en Ejecución - Nivel %1$s</string>
     <string name="pokemon_name">Nombre del Pokémon: </string>
     <string name="screenshot_dir_found">Directorio de capturas de pantalla:\n%1$s</string>

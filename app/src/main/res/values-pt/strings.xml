@@ -13,7 +13,6 @@
     <string name="main_not_numeric">%1$s não é um número.</string>
     <string name="main_invalide_trainerlvl">Nível de treinador inválido!</string>
     <string name="notification_title">GoIV funcionando - Nível %1$s</string>
-    <string name="notification_text">Toque para abrir</string>
     <string name="ivtext_no_possibilities">Não há possibilides, por favor verifique os dados!</string>
     <string name="ivtext_stats">Atk: %1$02d Def: %2$02d Sta: %3$02d — %4$3d%%</string>
     <string name="close">Fechar</string>

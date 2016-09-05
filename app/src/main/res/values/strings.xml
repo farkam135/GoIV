@@ -16,7 +16,7 @@
     <string name="main_not_numeric">%1$s is not a number.</string>
     <string name="main_invalide_trainerlvl">Invalid Trainer Level!</string>
     <string name="notification_title">GoIV Running - Level %1$s</string>
-    <string name="notification_text">Tap to open</string>
+    <string name="notification_open_app">Open app</string>
     <string name="ivtext_stats">Atk: %1$02d Def: %2$02d Sta: %3$02d — %4$3d%%</string>
     <string name="close">Close</string>
     <string name="main_permission">Grant Permissions</string>

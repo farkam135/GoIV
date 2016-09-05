@@ -10,7 +10,6 @@
     <string name="main_not_numeric">%1$s není číslo.</string>
     <string name="main_invalide_trainerlvl">Neplatný level trenéra!</string>
     <string name="notification_title">GoIV běží - Level %1$s</string>
-    <string name="notification_text">Klikni pro otevření</string>
     <string name="ivtext_stats">Útok: %1$02d Obrana: %2$02d Stamina: %3$02d — %4$3d%%</string>
     <string name="close">Zavřít</string>
 	<string name="main_permission">Udělit povolení</string>

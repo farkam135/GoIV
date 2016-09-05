@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import lombok.AllArgsConstructor;
+
 /**
  * Component for user-trainable autocorrection of pokemon names.
  * Responsibility for storing and loading user corrections rests with the caller.
@@ -33,10 +35,16 @@ public class PokemonNameCorrector {
         userCorrections.put(ocredPokemonName, correctedPokemonName);
     }
 
+    @AllArgsConstructor
+    public static class PokeDist {
+        public final int pokemonId;
+        public final int dist;
+    }
+
     /**
      * @return the likely pokemon number against the char sequence as well as the similarity
      */
-    public Pair<Integer, Integer> getPossiblePokemon(String poketext, String candytext) {
+    public PokeDist getPossiblePokemon(String poketext, String candytext) {
         int poketextDist = 0;
         int bestCandyMatch = Integer.MAX_VALUE;
         Pokemon p;
@@ -56,7 +64,7 @@ public class PokemonNameCorrector {
         /* If the pokemon name was a perfect match, we are done. */
         p = pokeInfoCalculator.get(poketext);
         if (p != null) {
-            return new Pair<>(p.number, poketextDist);
+            return new PokeDist(p.number, poketextDist);
         }
 
         /* If not, we limit the Pokemon search by candy name first since fewer valid candy names
@@ -77,6 +85,7 @@ public class PokemonNameCorrector {
                     bestCandyMatch = dist;
                 }
             }
+            assert p != null;
         } else {
             bestCandyMatch = 0;
         }
@@ -107,6 +116,6 @@ public class PokemonNameCorrector {
         /* Cache this correction. We don't really need to save this across launches. */
         cachedCorrections.put(poketext, new Pair<>(p.name, dist));
 
-        return new Pair<>(p.number, dist);
+        return new PokeDist(p.number, dist);
     }
 }

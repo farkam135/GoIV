@@ -36,7 +36,7 @@ public class PokemonNameCorrector {
     /**
      * @return the likely pokemon number against the char sequence as well as the similarity
      */
-    public int[] getPossiblePokemon(String poketext, String candytext) {
+    public Pair<Integer, Integer> getPossiblePokemon(String poketext, String candytext) {
         int poketextDist = 0;
         int bestCandyMatch = Integer.MAX_VALUE;
         Pokemon p;
@@ -56,7 +56,7 @@ public class PokemonNameCorrector {
         /* If the pokemon name was a perfect match, we are done. */
         p = pokeInfoCalculator.get(poketext);
         if (p != null) {
-            return new int[]{p.number, poketextDist};
+            return new Pair<>(p.number, poketextDist);
         }
 
         /* If not, we limit the Pokemon search by candy name first since fewer valid candy names
@@ -107,6 +107,6 @@ public class PokemonNameCorrector {
         /* Cache this correction. We don't really need to save this across launches. */
         cachedCorrections.put(poketext, new Pair<>(p.name, dist));
 
-        return new int[]{p.number, dist};
+        return new Pair<>(p.number, dist);
     }
 }

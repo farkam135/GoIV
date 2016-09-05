@@ -1136,14 +1136,14 @@ public class Pokefly extends Service {
         if (!infoShownReceived) {
 
             infoShownReceived = true;
-            int[] possiblePoke = corrector.getPossiblePokemon(pokemonName, candyName);
+            Pair<Integer, Integer> possiblePoke = corrector.getPossiblePokemon(pokemonName, candyName);
             initialButtonsLayout.setVisibility(View.VISIBLE);
             onCheckButtonsLayout.setVisibility(View.GONE);
 
             // set color based on similarity
-            if (possiblePoke[1] == 0) {
+            if (possiblePoke.second == 0) {
                 pokeInputSpinner.setBackgroundColor(Color.parseColor("#ddffdd"));
-            } else if (possiblePoke[1] < 2) {
+            } else if (possiblePoke.second < 2) {
                 pokeInputSpinner.setBackgroundColor(Color.parseColor("#ffffcc"));
             } else {
                 pokeInputSpinner.setBackgroundColor(Color.parseColor("#ffcccc"));
@@ -1152,8 +1152,8 @@ public class Pokefly extends Service {
             resetToSpinner();
             autoCompleteTextView1.setText("");
             pokeInputSpinnerAdapter.updatePokemonList(
-                    pokeInfoCalculator.getEvolutionLine(pokeInfoCalculator.get(possiblePoke[0])));
-            int selection = pokeInputSpinnerAdapter.getPosition(pokeInfoCalculator.get(possiblePoke[0]));
+                    pokeInfoCalculator.getEvolutionLine(pokeInfoCalculator.get(possiblePoke.first)));
+            int selection = pokeInputSpinnerAdapter.getPosition(pokeInfoCalculator.get(possiblePoke.first));
             pokeInputSpinner.setSelection(selection);
 
             pokemonHPEdit.setText(String.valueOf(pokemonHP));

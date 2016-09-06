@@ -1352,7 +1352,6 @@ public class Pokefly extends Service {
             }
 
             resetToSpinner(); //always have the input as spinner as default
-            moveOverlayUpOrDownToMatchAppraisalBox(); //move the overlay to correct position regarding appraisal box
 
             autoCompleteTextView1.setText("");
             pokeInputSpinnerAdapter.updatePokemonList(
@@ -1364,6 +1363,7 @@ public class Pokefly extends Service {
             pokemonCPEdit.setText(String.valueOf(pokemonCP));
 
             showInfoLayoutArcPointer();
+            moveOverlayUpOrDownToMatchAppraisalBox(); //move the overlay to correct position regarding appraisal box
             adjustArcPointerBar(estimatedPokemonLevel);
 
             if (batterySaver) {

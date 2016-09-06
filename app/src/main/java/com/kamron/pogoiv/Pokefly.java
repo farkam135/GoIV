@@ -591,22 +591,22 @@ public class Pokefly extends Service {
      * creates the info layout which contains all the scanned data views and allows for correction.
      */
     private void createInfoLayout() {
+
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         infoLayout = (LinearLayout) inflater.inflate(R.layout.dialog_info_window, null);
         layoutParams.gravity = Gravity.CENTER | Gravity.BOTTOM;
         ButterKnife.bind(this, infoLayout);
 
-        pokeInputSpinnerAdapter = new PokemonSpinnerAdapter(this, R.layout.spinner_pokemon, new ArrayList<Pokemon>());
-        pokeInputSpinner.setAdapter(pokeInputSpinnerAdapter);
+        createInputLayout();
+        createResultLayout();
+        createAllIvLayout();
+    }
 
-        initializePokemonAutoCompleteTextView();
-
-        populateTeamAppraisalSpinners();
-
-        extendedEvolutionSpinnerAdapter = new PokemonSpinnerAdapter(this, R.layout.spinner_evolution,
-                new ArrayList<Pokemon>());
-        extendedEvolutionSpinner.setAdapter(extendedEvolutionSpinnerAdapter);
-
+    /**
+     * Creates and initializes the components in the "screen" in he floating dialog that shows all possible iv
+     * combinations
+     */
+    private void createAllIvLayout() {
         // Setting up Recyclerview for further use.
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         rvResults.hasFixedSize();
@@ -614,6 +614,33 @@ public class Pokefly extends Service {
         rvResults.setLayoutManager(layoutManager);
         rvResults.setItemAnimator(new DefaultItemAnimator());
 
+    }
+
+    /**
+     * Creates and initializes the components in the first "screen" in the floating dialog, the input dialog
+     */
+    private void createInputLayout() {
+        pokeInputSpinnerAdapter = new PokemonSpinnerAdapter(this, R.layout.spinner_pokemon, new ArrayList<Pokemon>());
+        pokeInputSpinner.setAdapter(pokeInputSpinnerAdapter);
+
+        initializePokemonAutoCompleteTextView();
+
+        populateTeamAppraisalSpinners();
+    }
+
+    /**
+     * Creates and initializes the components in the second "screen" in the floating dialog, the result dialog
+     */
+    private void createResultLayout() {
+        createExtendedResultEvolutionSpinner();
+        createExtendedResultLevelSeekbar();
+    }
+
+    /**
+     * Creates and initializes the level seekbarr in the evolution and powerup prediction section in the results
+     * screen
+     */
+    private void createExtendedResultLevelSeekbar() {
         expandedLevelSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean fromUser) {
@@ -630,6 +657,17 @@ public class Pokefly extends Service {
             public void onStopTrackingTouch(SeekBar seekBar) {
             }
         });
+    }
+
+    /**
+     * Creates and initializes the evolution spinner in the evolution and powerup prediction section in the results
+     * screen
+     */
+    private void createExtendedResultEvolutionSpinner() {
+        //The evolution picker for seeing estimates of how much cp and cost a pokemon will have at a different evolution
+        extendedEvolutionSpinnerAdapter = new PokemonSpinnerAdapter(this, R.layout.spinner_evolution,
+                new ArrayList<Pokemon>());
+        extendedEvolutionSpinner.setAdapter(extendedEvolutionSpinnerAdapter);
 
         extendedEvolutionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -650,8 +688,11 @@ public class Pokefly extends Service {
      * changes the text in the appraisal spinners depending on what team the user is on
      */
     private void populateTeamAppraisalSpinners() {
+        //Create the adapters for the spinners
         ArrayAdapter<CharSequence> adapterIvRange;
         ArrayAdapter<CharSequence> adapterPercentage;
+
+        //Load the correct phrases from the text resources depending on what team is stored in app settings
         if (GoIVSettings.getInstance(getBaseContext()).playerTeam() == 0) {
             adapterIvRange = ArrayAdapter.createFromResource(this,
                     R.array.mystic_ivrange, R.layout.goiv_spinner_item);
@@ -692,6 +733,7 @@ public class Pokefly extends Service {
 
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
+
             }
         });
 
@@ -777,52 +819,42 @@ public class Pokefly extends Service {
         populateAdvancedInformation(ScanContainer.scanContainer.currScan);
     }
 
-    @OnClick(R.id.btnCheckIv)
-    public void checkIv() {
-
-        // Check for valid parameters before attempting to do anything else.
+    /**
+     * Heuristic check to see if scan is successful - look if the scan has input which can be interpreted as numbers
+     *
+     * @return true if hp and cp is seemingly scanned correctly
+     */
+    private boolean doesScanHaveValidParameters() {
         try {
             pokemonHP = Integer.parseInt(pokemonHPEdit.getText().toString());
             pokemonCP = Integer.parseInt(pokemonCPEdit.getText().toString());
         } catch (NumberFormatException e) {
+            return false;
+        }
+        return true;
+    }
+
+    @OnClick(R.id.btnCheckIv)
+    /**
+     * Method called when user presses "check iv" in the input screen, which takes the user to the result screen
+     */
+    public void checkIv() {
+        //warn user and stop calculation if scan/input failed/is wrong
+        if (!doesScanHaveValidParameters()) {
             Toast.makeText(this, R.string.missing_inputs, Toast.LENGTH_SHORT).show();
             return;
         }
+        deleteScreenshotIfIShould();
 
-        if (batterySaver && !screenshotDir.isEmpty()) {
-            if (GoIVSettings.getInstance(getBaseContext()).shouldDeleteScreenshots()) {
-                getContentResolver().delete(screenshotUri, MediaStore.Files.FileColumns.DATA + "=?",
-                        new String[]{screenshotDir});
-            }
-        }
+        Pokemon pokemon = interpretWhichPokemonUserInput();
+        if (pokemon == null) return; //
 
-
-        //below picks a pokemon from either the pokemon spinner or the user text input
-        Pokemon pokemon;
-        if (pokeInputSpinner.getVisibility() == View.VISIBLE) { //user picked pokemon from spinner
-            String selectedPokemon = pokeInputSpinner.getSelectedItem().toString();
-            pokemon = pokeInfoCalculator.get(selectedPokemon);
-        } else { //user typed manually
-            String userInput = autoCompleteTextView1.getText().toString();
-            pokemon = pokeInfoCalculator.get(userInput);
-            if (pokemon == null) { //no such pokemon was found, show error toast and abort showing results
-                Toast.makeText(this, userInput + getString(R.string.wrongPokemonNameInput), Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-        }
-
-        /* TODO: Move this into an event listener that triggers when the user
-         * actually changes the selection. */
-        if (!pokemonName.equals(pokemon.name) && pokeInfoCalculator.get(pokemonName) == null) {
-            putCorrection(pokemonName, pokemon.name);
-        }
+        rememberUserInputForPokemonNameIfNewNickname(pokemon);
 
         IVScanResult ivScanResult = pokeInfoCalculator.getIVPossibilities(pokemon, estimatedPokemonLevel, pokemonHP,
                 pokemonCP);
 
         refineByAvailableAppraisalInfo(ivScanResult);
-
 
         // If no possible combinations, inform the user and abort.
         if (!ivScanResult.tooManyPossibilities && ivScanResult.getCount() == 0) {
@@ -835,11 +867,70 @@ public class Pokefly extends Service {
         boolean enableCompare = ScanContainer.scanContainer.prevScan != null;
         exResCompare.setEnabled(enableCompare);
         exResCompare.setTextColor(getColorC(enableCompare ? R.color.colorPrimary : R.color.unimportantText));
+
+        transitionOverlayViewFromInputToResults();
+    }
+
+    /**
+     * Makes the input components invisible, and makes the result components visible.
+     */
+    private void transitionOverlayViewFromInputToResults() {
         resultsBox.setVisibility(View.VISIBLE);
         inputBox.setVisibility(View.GONE);
 
         initialButtonsLayout.setVisibility(View.GONE);
         onCheckButtonsLayout.setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * Adds the pokemon nickname to the ocr auto correction if the nickname does not match the pokemon name & does
+     * not match an existing pokemon.
+     * The method reads the OCR'd pokemon name from the variable pokemonName
+     *
+     * @param pokemon the pokemon to add the nickname to
+     */
+    private void rememberUserInputForPokemonNameIfNewNickname(Pokemon pokemon) {
+        // TODO: Move this into an event listener that triggers when the user actually changes the selection.
+        if (!pokemonName.equals(pokemon.name) && pokeInfoCalculator.get(pokemonName) == null) {
+            putCorrection(pokemonName, pokemon.name);
+        }
+    }
+
+    /**
+     * Checks whether the user input a pokemon using the spinner or the text input on the input screen
+     * null if no correct input was provided (user typed non-existant pokemon or spinner error)
+     * If user typed in incorrect pokemon, a toast will be displayed.
+     *
+     * @return The pokemon the user selected/typed or null if user put wrong input
+     */
+    private Pokemon interpretWhichPokemonUserInput() {
+        //below picks a pokemon from either the pokemon spinner or the user text input
+        Pokemon pokemon;
+        if (pokeInputSpinner.getVisibility() == View.VISIBLE) { //user picked pokemon from spinner
+            String selectedPokemon = pokeInputSpinner.getSelectedItem().toString();
+            pokemon = pokeInfoCalculator.get(selectedPokemon);
+        } else { //user typed manually
+            String userInput = autoCompleteTextView1.getText().toString();
+            pokemon = pokeInfoCalculator.get(userInput);
+            if (pokemon == null) { //no such pokemon was found, show error toast and abort showing results
+                Toast.makeText(this, userInput + getString(R.string.wrongPokemonNameInput), Toast.LENGTH_SHORT).show();
+                return null;
+            }
+        }
+        return pokemon;
+    }
+
+    /**
+     * Checks if the app is in battery saver mode, and if the user hasnt set the setting to avoid deleting
+     * screenshot, and then deletes the screenshot
+     */
+    private void deleteScreenshotIfIShould() {
+        if (batterySaver && !screenshotDir.isEmpty()) {
+            if (GoIVSettings.getInstance(getBaseContext()).shouldDeleteScreenshots()) {
+                getContentResolver().delete(screenshotUri, MediaStore.Files.FileColumns.DATA + "=?",
+                        new String[]{screenshotDir});
+            }
+        }
     }
 
     private void putCorrection(String ocredPokemonName, String correctedPokemonName) {

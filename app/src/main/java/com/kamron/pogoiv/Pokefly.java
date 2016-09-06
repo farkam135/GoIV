@@ -26,12 +26,10 @@ import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v4.util.Pair;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
-import android.util.LruCache;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -56,6 +54,7 @@ import com.kamron.pogoiv.logic.IVCombination;
 import com.kamron.pogoiv.logic.IVScanResult;
 import com.kamron.pogoiv.logic.PokeInfoCalculator;
 import com.kamron.pogoiv.logic.Pokemon;
+import com.kamron.pogoiv.logic.PokemonNameCorrector;
 import com.kamron.pogoiv.logic.ScanContainer;
 import com.kamron.pogoiv.logic.ScanResult;
 import com.kamron.pogoiv.logic.UpgradeCost;
@@ -64,7 +63,6 @@ import com.kamron.pogoiv.widgets.PokemonSpinnerAdapter;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -133,7 +131,7 @@ public class Pokefly extends Service {
     private ImageView arcPointer;
     private LinearLayout infoLayout;
 
-    private PokeInfoCalculator pokeCalculator = null;
+    private PokeInfoCalculator pokeInfoCalculator;
 
     //results pokemon picker auto complete
     @BindView(R.id.autoCompleteTextView1)
@@ -258,9 +256,7 @@ public class Pokefly extends Service {
     private int pokemonHP;
     private double estimatedPokemonLevel = 1.0;
 
-    private HashMap<String, String> userCorrections;
-    /* We don't want memory usage to get out of hand for stuff that can be computed. */
-    private LruCache<String, Pair<String, Integer>> cachedCorrections;
+    private PokemonNameCorrector corrector;
 
     private final WindowManager.LayoutParams arcParams = new WindowManager.LayoutParams(
             WindowManager.LayoutParams.WRAP_CONTENT,
@@ -337,7 +333,7 @@ public class Pokefly extends Service {
         LocalBroadcastManager.getInstance(this).registerReceiver(displayInfo, new IntentFilter(ACTION_SEND_INFO));
         LocalBroadcastManager.getInstance(this).registerReceiver(processBitmap,
                 new IntentFilter(ACTION_PROCESS_BITMAP));
-        pokeCalculator = PokeInfoCalculator.getInstance(
+        pokeInfoCalculator = PokeInfoCalculator.getInstance(
                 getResources().getStringArray(R.array.Pokemon),
                 getResources().getIntArray(R.array.attack),
                 getResources().getIntArray(R.array.defense),
@@ -345,19 +341,13 @@ public class Pokefly extends Service {
                 getResources().getIntArray(R.array.DevolutionNumber),
                 getResources().getIntArray(R.array.evolutionCandyCost));
         sharedPref = getSharedPreferences(PREF_USER_CORRECTIONS, Context.MODE_PRIVATE);
-        userCorrections = new HashMap<>(pokeCalculator.getPokedex().size());
-        loadUserCorrectionsFromPrefs();
-        userCorrections.put("Sparky", pokeCalculator.get(132).name);
-        userCorrections.put("Rainer", pokeCalculator.get(132).name);
-        userCorrections.put("Pyro", pokeCalculator.get(132).name);
-        cachedCorrections = new LruCache<>(pokeCalculator.getPokedex().size() * 2);
+        corrector = initCorrectorFromPrefs(pokeInfoCalculator, sharedPref);
     }
 
     @SuppressWarnings("unchecked")
-    private void loadUserCorrectionsFromPrefs() {
-        userCorrections.putAll((Map<String, String>) sharedPref.getAll());
+    private static PokemonNameCorrector initCorrectorFromPrefs(PokeInfoCalculator pokeInfoCalculator, SharedPreferences sharedPref) {
+        return new PokemonNameCorrector(pokeInfoCalculator, (Map<String, String>) sharedPref.getAll());
     }
-
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -811,10 +801,10 @@ public class Pokefly extends Service {
         Pokemon pokemon;
         if (pokeInputSpinner.getVisibility() == View.VISIBLE) { //user picked pokemon from spinner
             String selectedPokemon = pokeInputSpinner.getSelectedItem().toString();
-            pokemon = pokeCalculator.get(selectedPokemon);
+            pokemon = pokeInfoCalculator.get(selectedPokemon);
         } else { //user typed manually
             String userInput = autoCompleteTextView1.getText().toString();
-            pokemon = pokeCalculator.get(userInput);
+            pokemon = pokeInfoCalculator.get(userInput);
             if (pokemon == null) { //no such pokemon was found, show error toast and abort showing results
                 Toast.makeText(this, userInput + getString(R.string.wrongPokemonNameInput), Toast.LENGTH_SHORT).show();
                 return;
@@ -822,17 +812,13 @@ public class Pokefly extends Service {
 
         }
 
-
-        /* TODO: Should we set a size limit on that and throw away LRU entries? */
         /* TODO: Move this into an event listener that triggers when the user
          * actually changes the selection. */
-        if (!pokemonName.equals(pokemon.name) && pokeCalculator.get(pokemonName) == null) {
-            userCorrections.put(pokemonName, pokemon.name);
-            SharedPreferences.Editor edit = sharedPref.edit();
-            edit.putString(pokemonName, pokemon.name);
-            edit.apply();
+        if (!pokemonName.equals(pokemon.name) && pokeInfoCalculator.get(pokemonName) == null) {
+            putCorrection(pokemonName, pokemon.name);
         }
-        IVScanResult ivScanResult = pokeCalculator.getIVPossibilities(pokemon, estimatedPokemonLevel, pokemonHP,
+
+        IVScanResult ivScanResult = pokeInfoCalculator.getIVPossibilities(pokemon, estimatedPokemonLevel, pokemonHP,
                 pokemonCP);
 
         refineByAvailableAppraisalInfo(ivScanResult);
@@ -854,6 +840,13 @@ public class Pokefly extends Service {
 
         initialButtonsLayout.setVisibility(View.GONE);
         onCheckButtonsLayout.setVisibility(View.VISIBLE);
+    }
+
+    private void putCorrection(String ocredPokemonName, String correctedPokemonName) {
+        corrector.putCorrection(ocredPokemonName, correctedPokemonName);
+        SharedPreferences.Editor edit = sharedPref.edit();
+        edit.putString(ocredPokemonName, correctedPokemonName);
+        edit.apply();
     }
 
     /**
@@ -1043,7 +1036,7 @@ public class Pokefly extends Service {
         double goalLevel = seekbarProgressToLevel(expandedLevelSeekbar.getProgress());
         int intSelectedPokemon =
                 extendedEvolutionSpinner.getSelectedItemPosition(); //which pokemon is selected in the spinner
-        ArrayList<Pokemon> evolutionLine = pokeCalculator.getEvolutionLine(ivScanResult.pokemon);
+        ArrayList<Pokemon> evolutionLine = pokeInfoCalculator.getEvolutionLine(ivScanResult.pokemon);
 
         Pokemon selectedPokemon;
         if (intSelectedPokemon == -1) {
@@ -1066,7 +1059,7 @@ public class Pokefly extends Service {
 
         extendedEvolutionSpinner.setEnabled(extendedEvolutionSpinner.getCount() > 1);
 
-        CPRange expectedRange = pokeCalculator.getCpRangeAtLevel(selectedPokemon,
+        CPRange expectedRange = pokeInfoCalculator.getCpRangeAtLevel(selectedPokemon,
                 ivScanResult.lowAttack, ivScanResult.lowDefense, ivScanResult.lowStamina,
                 ivScanResult.highAttack, ivScanResult.highDefense, ivScanResult.highStamina, goalLevel);
         int realCP = ivScanResult.scannedCP;
@@ -1081,8 +1074,8 @@ public class Pokefly extends Service {
         }
         exResultCP.setText(exResultCPStr);
 
-        UpgradeCost cost = pokeCalculator.getUpgradeCost(goalLevel, estimatedPokemonLevel);
-        int evolutionCandyCost = pokeCalculator.getCandyCostForEvolution(ivScanResult.pokemon, selectedPokemon);
+        UpgradeCost cost = pokeInfoCalculator.getUpgradeCost(goalLevel, estimatedPokemonLevel);
+        int evolutionCandyCost = pokeInfoCalculator.getCandyCostForEvolution(ivScanResult.pokemon, selectedPokemon);
         String candyCostText = cost.candy + evolutionCandyCost + "";
         exResCandy.setText(candyCostText);
         exResStardust.setText(String.valueOf(cost.dust));
@@ -1223,14 +1216,14 @@ public class Pokefly extends Service {
         if (!infoShownReceived) {
 
             infoShownReceived = true;
-            int[] possiblePoke = getPossiblePokemon(pokemonName, candyName);
+            PokemonNameCorrector.PokeDist possiblePoke = corrector.getPossiblePokemon(pokemonName, candyName);
             initialButtonsLayout.setVisibility(View.VISIBLE);
             onCheckButtonsLayout.setVisibility(View.GONE);
 
             // set color based on similarity
-            if (possiblePoke[1] == 0) {
+            if (possiblePoke.dist == 0) {
                 pokeInputSpinner.setBackgroundColor(Color.parseColor("#ddffdd"));
-            } else if (possiblePoke[1] < 2) {
+            } else if (possiblePoke.dist < 2) {
                 pokeInputSpinner.setBackgroundColor(Color.parseColor("#ffffcc"));
             } else {
                 pokeInputSpinner.setBackgroundColor(Color.parseColor("#ffcccc"));
@@ -1239,8 +1232,8 @@ public class Pokefly extends Service {
             resetToSpinner();
             autoCompleteTextView1.setText("");
             pokeInputSpinnerAdapter.updatePokemonList(
-                    pokeCalculator.getEvolutionLine(pokeCalculator.get(possiblePoke[0])));
-            int selection = pokeInputSpinnerAdapter.getPosition(pokeCalculator.get(possiblePoke[0]));
+                    pokeInfoCalculator.getEvolutionLine(pokeInfoCalculator.get(possiblePoke.pokemonId)));
+            int selection = pokeInputSpinnerAdapter.getPosition(pokeInfoCalculator.get(possiblePoke.pokemonId));
             pokeInputSpinner.setSelection(selection);
 
             pokemonHPEdit.setText(String.valueOf(pokemonHP));
@@ -1257,83 +1250,6 @@ public class Pokefly extends Service {
                 checkIv();
             }
         }
-    }
-
-    /**
-     * @return the likely pokemon number against the char sequence as well as the similarity
-     */
-    private int[] getPossiblePokemon(String poketext, String candytext) {
-        int poketextDist = 0;
-        int bestCandyMatch = Integer.MAX_VALUE;
-        Pokemon p;
-
-        /* If the user previous corrected this text, go with that. */
-        if (userCorrections.containsKey(poketext)) {
-            poketext = userCorrections.get(poketext);
-        }
-
-        /* If we already did similarity search for this, go with the cached value. */
-        Pair<String, Integer> cached = cachedCorrections.get(poketext);
-        if (cached != null) {
-            poketext = cached.first;
-            poketextDist = cached.second;
-        }
-
-        /* If the pokemon name was a perfect match, we are done. */
-        p = pokeCalculator.get(poketext);
-        if (p != null) {
-            return new int[]{p.number, poketextDist};
-        }
-
-        /* If not, we limit the Pokemon search by candy name first since fewer valid candy names
-         * options should mean fewer false matches. */
-        p = pokeCalculator.get(candytext);
-
-        /* If we can't find perfect candy match, do a distance/similarity based match */
-        if (p == null) {
-            for (Pokemon trypoke : pokeCalculator.getPokedex()) {
-                /* Candy names won't match evolutions */
-                if (trypoke.devoNumber != -1) {
-                    continue;
-                }
-
-                int dist = trypoke.getDistanceCaseInsensitive(candytext);
-                if (dist < bestCandyMatch) {
-                    p = trypoke;
-                    bestCandyMatch = dist;
-                }
-            }
-        } else {
-            bestCandyMatch = 0;
-        }
-
-        /* Search through all the pokemon with the same candy name and pick the one with the best
-         * match to the pokemon name (not the candy name) */
-        ArrayList<Pokemon> candylist = new ArrayList<>();
-        candylist.add(p);
-        candylist.addAll(p.evolutions);
-        /* If the base pokemon has only one evolution, they we consider another level of evolution */
-        if (p.evolutions.size() == 1) {
-            candylist.addAll(p.evolutions.get(0).evolutions);
-        }
-
-        int bestMatch = Integer.MAX_VALUE;
-        for (Pokemon candyp : candylist) {
-            int dist = candyp.getDistance(poketext);
-            if (dist < bestMatch) {
-                p = candyp;
-                bestMatch = dist;
-            }
-        }
-
-        /* Adding the candy distance and the pokemon name distance gives a better idea of how much
-         * guess is going on. */
-        int dist = bestCandyMatch + bestMatch;
-
-        /* Cache this correction. We don't really need to save this across launches. */
-        cachedCorrections.put(poketext, new Pair<>(p.name, dist));
-
-        return new int[]{p.number, dist};
     }
 
     private void initOCR() {

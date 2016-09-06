@@ -14,6 +14,7 @@ import android.database.ContentObserver;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.media.projection.MediaProjection;
@@ -53,6 +54,7 @@ import com.kamron.pogoiv.logic.Data;
 import com.kamron.pogoiv.updater.AppUpdate;
 import com.kamron.pogoiv.updater.AppUpdateUtil;
 import com.kamron.pogoiv.updater.DownloadUpdateService;
+import com.kamron.pogoiv.widgets.PlayerTeamAdapter;
 
 import java.io.File;
 
@@ -248,11 +250,8 @@ public class MainActivity extends AppCompatActivity {
      */
     private void initiateTeamPickerSpinner() {
         Spinner spinner = (Spinner) findViewById(R.id.teamPickerSpinner);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.teams, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        PlayerTeamAdapter adapter = new PlayerTeamAdapter(this);
         spinner.setAdapter(adapter);
-
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

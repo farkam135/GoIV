@@ -80,18 +80,15 @@ android {
 
     /**
      * Product flavors
-     * Offline - No Internet permission, disable Crashlytics and appends (Offline) to version name
+     * Offline - No Internet permission and disable Crashlytics
      * Online - Internet permission and enable Crashlytics
      */
     productFlavors {
-        def versionNameOfflineStr = defaultConfig.versionName + " (Offline)"
-
         offline {
             applicationId "com.kamron.pogoiv.nointernet"
             buildConfigField "boolean", "isInternetAvailable", "false"
             resValue "string", "app_name", "GoIV Offline"
             ext.enableCrashlytics = false
-            versionName versionNameOfflineStr
         }
 
         online {

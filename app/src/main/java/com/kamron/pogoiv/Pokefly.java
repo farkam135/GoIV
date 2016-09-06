@@ -782,8 +782,37 @@ public class Pokefly extends Service {
     }
 
     @OnClick({R.id.inputAppraisalExpandBox})
+    /**
+     * Method called when user presses the text to expand the appraisal box on the input screen
+     */
     public void toggleAppraisalBox() {
         toggleVisibility(inputAppraisalExpandBox, appraisalBox);
+        moveOverlayUpOrDownToMatchAppraisalBox();
+    }
+
+    /**
+     * Moves the entire overlay up if the appraisal box is visible
+     */
+    private void moveOverlayUpOrDownToMatchAppraisalBox() {
+        if (windowManager == null) return; //do nothing if window is not initiated
+        if (infoLayout.getLayoutParams() == null) return;
+
+        WindowManager.LayoutParams newParams = (WindowManager.LayoutParams) infoLayout.getLayoutParams();
+        if (appraisalBox.getVisibility() == View.VISIBLE) {
+            newParams.gravity = Gravity.TOP;
+        }else{
+            newParams.gravity = Gravity.BOTTOM;
+        }
+        windowManager.updateViewLayout(infoLayout, newParams);
+    }
+
+    /**
+     * Moves the overlay down to the bottom of the screen
+     */
+    private void moveOverlayDown() {
+        WindowManager.LayoutParams newParams = (WindowManager.LayoutParams) infoLayout.getLayoutParams();
+        newParams.gravity = Gravity.BOTTOM;
+        windowManager.updateViewLayout(infoLayout, newParams);
     }
 
     private void adjustArcPointerBar(double estimatedPokemonLevel) {
@@ -868,6 +897,7 @@ public class Pokefly extends Service {
         exResCompare.setEnabled(enableCompare);
         exResCompare.setTextColor(getColorC(enableCompare ? R.color.colorPrimary : R.color.unimportantText));
 
+        moveOverlayDown(); //we dont want overlay to stay on top if user had appraisal box
         transitionOverlayViewFromInputToResults();
     }
 
@@ -1296,6 +1326,7 @@ public class Pokefly extends Service {
             initialButtonsLayout.setVisibility(View.VISIBLE);
             onCheckButtonsLayout.setVisibility(View.GONE);
         }
+        moveOverlayUpOrDownToMatchAppraisalBox();
     }
 
     /**
@@ -1320,7 +1351,9 @@ public class Pokefly extends Service {
                 pokeInputSpinner.setBackgroundColor(Color.parseColor("#ffcccc"));
             }
 
-            resetToSpinner();
+            resetToSpinner(); //always have the input as spinner as default
+            moveOverlayUpOrDownToMatchAppraisalBox(); //move the overlay to correct position regarding appraisal box
+
             autoCompleteTextView1.setText("");
             pokeInputSpinnerAdapter.updatePokemonList(
                     pokeInfoCalculator.getEvolutionLine(pokeInfoCalculator.get(possiblePoke.pokemonId)));

@@ -1,0 +1,8 @@
+# Contains API Secret used to validate your application. Avoid committing to
+# source control to avoid making secret public.
+#
+# For release builds, copy this file as app/fabric.properties and replace by
+# your key/secret, that you can gather from
+# https://www.fabric.io/settings/organizations.
+apiKey=0000000000000000000000000000000000000000
+apiSecret=0000000000000000000000000000000000000000000000000000000000000000

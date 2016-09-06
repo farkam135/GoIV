@@ -78,10 +78,6 @@
         <service android:name=".updater.DownloadUpdateService"
             android:exported="false" />
 
-        <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="PLACEHOLDER" />
-
     </application>
 
 </manifest>

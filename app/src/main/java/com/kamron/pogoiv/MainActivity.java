@@ -155,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
 
         shouldShowUpdateDialog = true;
 
-        if (BuildConfig.isInternetAvailable && settings.isAutoUpdateEnabled())
+        if (settings.isAutoUpdateEnabled())
             AppUpdateUtil.checkForUpdate(mContext);
 
         setContentView(R.layout.activity_main);

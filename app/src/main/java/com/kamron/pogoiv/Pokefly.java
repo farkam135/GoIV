@@ -1122,7 +1122,7 @@ public class Pokefly extends Service {
 
         GuiUtil.setTextColorByIV(resultsAttack, ivScanResult.iVCombinations.get(0).att);
         GuiUtil.setTextColorByIV(resultsDefense, ivScanResult.iVCombinations.get(0).def);
-        GuiUtil.setTextColorByIV(resultsHP,ivScanResult.iVCombinations.get(0).sta);
+        GuiUtil.setTextColorByIV(resultsHP, ivScanResult.iVCombinations.get(0).sta);
 
         llSingleMatch.setVisibility(View.VISIBLE);
         llMultipleIVMatches.setVisibility(View.GONE);

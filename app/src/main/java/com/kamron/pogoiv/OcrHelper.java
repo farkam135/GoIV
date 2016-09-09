@@ -301,8 +301,8 @@ public class OcrHelper {
                 String[] hpParts = pokemonHPStr.split("/");
                 String hpStr =
                         hpParts.length >= 2
-                        ? hpParts[1]
-                        : hpParts[0];
+                                ? hpParts[1]
+                                : hpParts[0];
 
                 pokemonHP = Integer.parseInt(fixOcrLettersToNums(hpStr).replaceAll("[^0-9]", ""));
             } catch (NumberFormatException e) {

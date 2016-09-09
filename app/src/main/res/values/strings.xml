@@ -12,9 +12,11 @@
         <item name="valor">"Valor"</item>
         <item name="instinct">"Instinct"</item>
     </string-array>
+    <string name="place1">"Choose 1st phrase"</string>
+    <string name="place2">"Choose stats phrase"</string>
 
     <string-array name="mystic_percentage">
-        <item name="mplace1">"Choose 1st phrase"</item>
+        <item name="mplace1">@string/place1</item>
         <item name="mystic80_100">"…Breathtaking"</item>
         <item name="mystic67_79">"…Caught my attention."</item>
         <item name="mystic51_66">"…Above average."</item>
@@ -22,7 +24,7 @@
     </string-array>
 
     <string-array name="mystic_ivrange">
-        <item name="mplace2">"Choose stats phrase"</item>
+        <item name="mplace2">@string/place2</item>
         <item name="mysticiv15">"…Incredible!"</item>
         <item name="mysticiv13_14">…Impressed"</item>
         <item name="mysticiv8_12">"…Trending to positive."</item>
@@ -31,7 +33,7 @@
 
 
     <string-array name="instinct_percentage">
-        <item name="iplace1">"Choose 1st phrase"</item>
+        <item name="iplace1">@string/place1</item>
         <item name="instinct80_100">"…best of them!"</item>
         <item name="instinct67_79">"…really strong!"</item>
         <item name="instinct51_66">"…pretty decent!"</item>
@@ -39,7 +41,7 @@
     </string-array>
 
     <string-array name="instinct_ivrange">
-        <item name="iplace2">"Choose stats phrase"</item>
+        <item name="iplace2">@string/place2</item>
         <item name="instinctiv15">"Its stats are the best I've ever seen! No doubt about it!"</item>
         <item name="instinctiv13_14">"Its stats are really strong! Impressive."</item>
         <item name="instinctiv8_12">"It's definitely got some good stats. Definitely!"</item>
@@ -47,7 +49,7 @@
     </string-array>
 
     <string-array name="valor_percentage">
-        <item name="vplace1">"Choose 1st phrase"</item>
+        <item name="vplace1">@string/place1</item>
         <item name="valor80_100">"…simply amazes me. It can accomplish anything!"</item>
         <item name="valor67_79">"…a strong Pokemon. You should be proud!"</item>
         <item name="valor51_66">"…a decent Pokemon"</item>
@@ -55,7 +57,7 @@
     </string-array>
 
     <string-array name="valor_ivrange">
-        <item name="vplace2">"Choose stats phrase"</item>
+        <item name="vplace2">@string/place2</item>
         <item name="valoriv15">"I'm blown away by its stats. WOW!"</item>
         <item name="valoriv13_14">"It's got excellent stats! How exciting!"</item>
         <item name="valoriv8_12">"Its stats indicate that in battle, it'll get the job done."</item>

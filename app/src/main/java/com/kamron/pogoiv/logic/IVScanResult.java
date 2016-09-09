@@ -60,7 +60,7 @@ public class IVScanResult {
         for (IVCombination ivc : iVCombinations) {
             averageSum += ivc.att + ivc.def + ivc.sta;
         }
-        return (int) (((averageSum * 100 / (45.0 * getCount()))) + 0.5); //
+        return (int) (averageSum * 100 / (45.0 * getCount()) + 0.5);
     }
 
     /**

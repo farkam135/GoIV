@@ -12,14 +12,16 @@ public class ScanResult {
     private String candyName;
     private int pokemonHP;
     private int pokemonCP;
+    private int upgradeCandyCost;
 
     public ScanResult(double estimatedPokemonLevel, String pokemonName, String candyName, int pokemonHP,
-                      int pokemonCP) {
+                      int pokemonCP, int upgradeCandyCost) {
         this.estimatedPokemonLevel = estimatedPokemonLevel;
         this.pokemonName = pokemonName;
         this.candyName = candyName;
         this.pokemonHP = pokemonHP;
         this.pokemonCP = pokemonCP;
+        this.upgradeCandyCost = upgradeCandyCost;
     }
 
     public double getEstimatedPokemonLevel() {
@@ -41,6 +43,8 @@ public class ScanResult {
     public int getPokemonCP() {
         return pokemonCP;
     }
+
+    public int getUpgradeCandyCost(){ return upgradeCandyCost; }
 
     public boolean isFailed() {
         //XXX replace by proper logic.

@@ -30,6 +30,7 @@ public class OCRHelper {
     private final String nidoFemale;
     private final String nidoMale;
 
+
     private OCRHelper(String dataPath, int widthPixels, int heightPixels, String nidoFemale, String nidoMale) {
         tesseract = new TessBaseAPI();
         tesseract.init(dataPath, "eng");
@@ -140,6 +141,36 @@ public class OCRHelper {
             }
         }
         return 1;
+    }
+
+    /**
+     * Get the evolution cost for a pokemon, example, weedle : 12
+     * If there was no detected upgrade cost, returns -1
+     *
+     * @param pokemonImage The image of the full pokemon screen
+     * @return the evolution cost, or -1 on scan failure
+     */
+    public int getPokemonEvolutionCostFromImg(Bitmap pokemonImage) {
+        Bitmap evolutionCostImage =
+                Bitmap.createBitmap(pokemonImage, (int) (widthPixels * 0.625), (int) (heightPixels * 0.86),
+                        (int) (widthPixels * 0.2), (int) (heightPixels * 0.05));
+        String hash = "candyCost" + hashBitmap(evolutionCostImage);
+        String stringCacheEvoCandyCost = ocrCache.get(hash);
+        int result = -1;
+        if (stringCacheEvoCandyCost == null) { //if no cached result
+            //the dark color used for text in pogo is 76,112,114
+            evolutionCostImage = replaceColors(evolutionCostImage, 76, 112, 114, Color.WHITE, 40, false);
+            tesseract.setImage(evolutionCostImage);
+            stringCacheEvoCandyCost = tesseract.getUTF8Text().replace("S", "5").replace("s", "5");
+            try {
+                result = Integer.parseInt(stringCacheEvoCandyCost);
+            } catch (NumberFormatException e) {
+                stringCacheEvoCandyCost = "-1";
+            }
+            ocrCache.put(hash, stringCacheEvoCandyCost);
+        }
+        System.out.println("asdasdasd");
+        return result;
     }
 
     /**
@@ -343,7 +374,8 @@ public class OCRHelper {
         String candyName = getCandyNameFromImg(pokemonImage);
         int pokemonHP = getPokemonHPFromImg(pokemonImage);
         int pokemonCP = getPokemonCPFromImg(pokemonImage);
+        int pokemonUpgradeCost = getPokemonEvolutionCostFromImg(pokemonImage);
 
-        return new ScanResult(estimatedPokemonLevel, pokemonName, candyName, pokemonHP, pokemonCP);
+        return new ScanResult(estimatedPokemonLevel, pokemonName, candyName, pokemonHP, pokemonCP, pokemonUpgradeCost);
     }
 }

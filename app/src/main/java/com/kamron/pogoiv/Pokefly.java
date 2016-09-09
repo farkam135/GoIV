@@ -93,6 +93,8 @@ public class Pokefly extends Service {
     private static final String KEY_SEND_INFO_CP = "key_send_info_cp";
     private static final String KEY_SEND_INFO_LEVEL = "key_send_info_level";
     private static final String KEY_SEND_SCREENSHOT_DIR = "key_send_screenshot_dir";
+    private static final String KEY_SEND_UPGRADE_CANDY_COST = "key_send_upgrade_candy_cost";
+
 
     private static final String ACTION_PROCESS_BITMAP = "com.kamron.pogoiv.PROCESS_BITMAP";
     private static final String KEY_BITMAP = "bitmap";
@@ -254,6 +256,7 @@ public class Pokefly extends Service {
     private String candyName;
     private int pokemonCP;
     private int pokemonHP;
+    private int candyUpgradeCost;
     private double estimatedPokemonLevel = 1.0;
 
     private PokemonNameCorrector corrector;
@@ -304,6 +307,7 @@ public class Pokefly extends Service {
         intent.putExtra(KEY_SEND_INFO_HP, scanResult.getPokemonHP());
         intent.putExtra(KEY_SEND_INFO_CP, scanResult.getPokemonCP());
         intent.putExtra(KEY_SEND_INFO_LEVEL, scanResult.getEstimatedPokemonLevel());
+        intent.putExtra(KEY_SEND_UPGRADE_CANDY_COST, scanResult.getUpgradeCandyCost());
         if (!filePath.isEmpty()) {
             intent.putExtra(KEY_SEND_SCREENSHOT_DIR, filePath);
         }
@@ -1336,7 +1340,7 @@ public class Pokefly extends Service {
         if (!infoShownReceived) {
 
             infoShownReceived = true;
-            PokemonNameCorrector.PokeDist possiblePoke = corrector.getPossiblePokemon(pokemonName, candyName);
+            PokemonNameCorrector.PokeDist possiblePoke = corrector.getPossiblePokemon(pokemonName, candyName, candyUpgradeCost);
             initialButtonsLayout.setVisibility(View.VISIBLE);
             onCheckButtonsLayout.setVisibility(View.GONE);
 
@@ -1457,6 +1461,7 @@ public class Pokefly extends Service {
                     candyName = intent.getStringExtra(KEY_SEND_INFO_CANDY);
                     pokemonCP = intent.getIntExtra(KEY_SEND_INFO_CP, 0);
                     pokemonHP = intent.getIntExtra(KEY_SEND_INFO_HP, 0);
+                    candyUpgradeCost = intent.getIntExtra(KEY_SEND_UPGRADE_CANDY_COST, -1);
                     estimatedPokemonLevel = intent.getDoubleExtra(KEY_SEND_INFO_LEVEL, estimatedPokemonLevel);
                     if (estimatedPokemonLevel < 1.0) {
                         estimatedPokemonLevel = 1.0;

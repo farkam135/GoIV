@@ -1,6 +1,7 @@
 package com.kamron.pogoiv.logic;
 
 import android.support.v4.util.Pair;
+import android.util.Log;
 import android.util.LruCache;
 
 import java.util.ArrayList;
@@ -44,7 +45,7 @@ public class PokemonNameCorrector {
     /**
      * @return the likely pokemon number against the char sequence as well as the similarity
      */
-    public PokeDist getPossiblePokemon(String poketext, String candytext) {
+    public PokeDist getPossiblePokemon(String poketext, String candytext, int candyUpgradeCost) {
         int poketextDist = 0;
         int bestCandyMatch = Integer.MAX_VALUE;
         Pokemon p;

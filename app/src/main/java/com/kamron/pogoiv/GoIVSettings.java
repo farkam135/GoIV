@@ -2,6 +2,7 @@ package com.kamron.pogoiv;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Build;
 
 public class GoIVSettings {
 
@@ -13,6 +14,7 @@ public class GoIVSettings {
     public static final String COPY_TO_CLIPBOARD = "copyToClipboard";
     public static final String SEND_CRASH_REPORTS = "sendCrashReports";
     public static final String AUTO_UPDATE_ENABLED = "autoUpdateEnabled";
+    public static final String TEAM_NAME = "teamName";
 
     private static GoIVSettings instance;
 
@@ -38,7 +40,16 @@ public class GoIVSettings {
     }
 
     public boolean isManualScreenshotModeEnabled() {
-        return prefs.getBoolean(MANUAL_SCREENSHOT_MODE, false);
+        //XXX unify with code in SettingsActivity.java
+        return Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT_WATCH ||
+                prefs.getBoolean(MANUAL_SCREENSHOT_MODE, false);
+    }
+
+    public int playerTeam(){ return prefs.getInt(TEAM_NAME, -1);  }
+    public void setPlayerTeam(int value){
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt(GoIVSettings.TEAM_NAME, value);
+        editor.commit();
     }
 
     public boolean shouldDeleteScreenshots() {

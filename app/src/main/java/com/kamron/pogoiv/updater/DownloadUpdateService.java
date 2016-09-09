@@ -36,7 +36,8 @@ public class DownloadUpdateService extends Service {
             request.setDestinationUri(downloadUri);
 
             // get download service and enqueue file
-            final DownloadManager manager = (DownloadManager) this.getBaseContext().getSystemService(Context.DOWNLOAD_SERVICE);
+            final DownloadManager manager = (DownloadManager) this.getBaseContext().getSystemService(
+                    Context.DOWNLOAD_SERVICE);
             final long startedDownloadId = manager.enqueue(request);
 
             //set BroadcastReceiver to install app when .apk is downloaded
@@ -56,7 +57,8 @@ public class DownloadUpdateService extends Service {
                                 //open the downloaded file
                                 Intent install = new Intent(Intent.ACTION_VIEW);
                                 install.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                install.setDataAndType(downloadUri, manager.getMimeTypeForDownloadedFile(startedDownloadId));
+                                install.setDataAndType(downloadUri,
+                                        manager.getMimeTypeForDownloadedFile(startedDownloadId));
                                 ctxt.startActivity(install);
                             } else if (status == DownloadManager.STATUS_FAILED) {
                                 if (newApkFile.exists())

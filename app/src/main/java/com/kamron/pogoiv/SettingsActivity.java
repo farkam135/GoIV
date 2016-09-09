@@ -28,7 +28,8 @@ public class SettingsActivity extends AppCompatActivity {
         getFragmentManager().beginTransaction().replace(android.R.id.content, new SettingsFragment()).commit();
         getSupportActionBar().setTitle(getResources().getString(R.string.settings_page_title));
         mContext = SettingsActivity.this;
-        LocalBroadcastManager.getInstance(this).registerReceiver(showUpdateDialog, new IntentFilter(MainActivity.ACTION_SHOW_UPDATE_DIALOG));
+        LocalBroadcastManager.getInstance(this).registerReceiver(showUpdateDialog,
+                new IntentFilter(MainActivity.ACTION_SHOW_UPDATE_DIALOG));
     }
 
     @Override
@@ -47,7 +48,8 @@ public class SettingsActivity extends AppCompatActivity {
             } else if (update.getStatus() == AppUpdate.UP_TO_DATE)
                 Toast.makeText(mContext, getResources().getString(R.string.up_to_date), Toast.LENGTH_SHORT).show();
             else
-                Toast.makeText(mContext, getResources().getString(R.string.update_check_failed), Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, getResources().getString(R.string.update_check_failed), Toast.LENGTH_SHORT)
+                        .show();
         }
     };
 
@@ -58,7 +60,6 @@ public class SettingsActivity extends AppCompatActivity {
             super.onCreate(savedInstanceState);
             getPreferenceManager().setSharedPreferencesName(GoIVSettings.PREFS_GO_IV_SETTINGS);
             addPreferencesFromResource(R.xml.settings);
-            PreferenceScreen preferenceScreen = getPreferenceScreen();
 
             if (BuildConfig.isInternetAvailable) {
                 Preference checkForUpdatePreference = getPreferenceManager().findPreference("checkForUpdate");
@@ -66,18 +67,23 @@ public class SettingsActivity extends AppCompatActivity {
                     @Override
                     public boolean onPreferenceClick(Preference preference) {
                         if (!MainActivity.isGoIVBeingUpdated(getActivity())) {
-                            Toast.makeText(getActivity(), getResources().getString(R.string.checking_for_update), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), getResources().getString(R.string.checking_for_update),
+                                    Toast.LENGTH_SHORT).show();
                             MainActivity.shouldShowUpdateDialog = false;
                             AppUpdateUtil.checkForUpdate(getActivity());
                         } else
-                            Toast.makeText(getActivity(), getResources().getString(R.string.ongoing_update), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), getResources().getString(R.string.ongoing_update),
+                                    Toast.LENGTH_SHORT).show();
                         return true;
                     }
                 });
             } else {
+                PreferenceScreen preferenceScreen = getPreferenceScreen();
                 //Hide update and crash report related settings
-                Preference crashReportsPreference = getPreferenceManager().findPreference(GoIVSettings.SEND_CRASH_REPORTS);
-                Preference autoUpdatePreference = getPreferenceManager().findPreference(GoIVSettings.AUTO_UPDATE_ENABLED);
+                Preference crashReportsPreference = getPreferenceManager().findPreference(
+                        GoIVSettings.SEND_CRASH_REPORTS);
+                Preference autoUpdatePreference = getPreferenceManager().findPreference(
+                        GoIVSettings.AUTO_UPDATE_ENABLED);
                 Preference checkForUpdatePreference = getPreferenceManager().findPreference("checkForUpdate");
 
                 preferenceScreen.removePreference(crashReportsPreference);
@@ -85,8 +91,9 @@ public class SettingsActivity extends AppCompatActivity {
                 preferenceScreen.removePreference(checkForUpdatePreference);
             }
 
-            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
-                SwitchPreference manualScreenshotModePreference = (SwitchPreference) getPreferenceManager().findPreference(GoIVSettings.MANUAL_SCREENSHOT_MODE);
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT_WATCH) {
+                SwitchPreference manualScreenshotModePreference = (SwitchPreference) getPreferenceManager()
+                        .findPreference(GoIVSettings.MANUAL_SCREENSHOT_MODE);
                 manualScreenshotModePreference.setDefaultValue(true);
                 manualScreenshotModePreference.setChecked(true);
                 manualScreenshotModePreference.setEnabled(false);

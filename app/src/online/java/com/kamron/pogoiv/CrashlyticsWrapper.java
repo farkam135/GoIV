@@ -44,6 +44,7 @@ public class CrashlyticsWrapper {
                 }
             }
 
+            CommonLogger.log(priority, tag, message, t);
         }
     }
 }

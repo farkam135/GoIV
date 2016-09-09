@@ -8,6 +8,7 @@ import android.media.Image;
 import android.media.ImageReader;
 import android.media.projection.MediaProjection;
 import android.os.Build;
+import android.support.annotation.Nullable;
 import android.util.DisplayMetrics;
 
 import java.nio.ByteBuffer;
@@ -30,8 +31,11 @@ public class ScreenGrabber {
         rawDisplayMetrics = raw;
         displayMetrics = display;
         mProjection = mediaProjection;
-        mImageReader = ImageReader.newInstance(rawDisplayMetrics.widthPixels, rawDisplayMetrics.heightPixels, PixelFormat.RGBA_8888, 2);
-        mProjection.createVirtualDisplay("screen-mirror", rawDisplayMetrics.widthPixels, rawDisplayMetrics.heightPixels, rawDisplayMetrics.densityDpi, DisplayManager.VIRTUAL_DISPLAY_FLAG_PUBLIC, mImageReader.getSurface(), null, null);
+        mImageReader = ImageReader.newInstance(rawDisplayMetrics.widthPixels, rawDisplayMetrics.heightPixels,
+                PixelFormat.RGBA_8888, 2);
+        mProjection.createVirtualDisplay("screen-mirror", rawDisplayMetrics.widthPixels, rawDisplayMetrics.heightPixels,
+                rawDisplayMetrics.densityDpi, DisplayManager.VIRTUAL_DISPLAY_FLAG_PUBLIC, mImageReader.getSurface(),
+                null, null);
     }
 
     public static ScreenGrabber init(MediaProjection mediaProjection, DisplayMetrics raw, DisplayMetrics display) {
@@ -41,6 +45,17 @@ public class ScreenGrabber {
         return instance;
     }
 
+    /**
+     * Returns instance of ScreenGrabber; only use if you're <b>sure</b> it's already initialized.
+     *
+     * @return Singleton instance of ScreenGrabber, if initialized
+     */
+    public static ScreenGrabber getInstance() {
+        assert (instance != null);
+        return instance;
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public void exit() {
         if (mProjection != null) {
             mImageReader = null;
@@ -53,16 +68,19 @@ public class ScreenGrabber {
     }
 
     private Bitmap getBitmap(ByteBuffer buffer, int pixelStride, int rowPadding) {
-        Bitmap bmp = Bitmap.createBitmap(rawDisplayMetrics.widthPixels + rowPadding / pixelStride, displayMetrics.heightPixels, Bitmap.Config.ARGB_8888);
+        Bitmap bmp = Bitmap.createBitmap(rawDisplayMetrics.widthPixels + rowPadding / pixelStride,
+                displayMetrics.heightPixels, Bitmap.Config.ARGB_8888);
         bmp.copyPixelsFromBuffer(buffer);
         return bmp;
     }
 
-    public Bitmap grabScreen() {
+    public @Nullable Bitmap grabScreen() {
         Image image = null;
         Bitmap bmp = null;
 
         try {
+            //Note: mImageReader shouldn't be null, but apparently sometimes is.
+            //Let's allow this to still happen.
             image = mImageReader.acquireLatestImage();
         } catch (Exception exception) {
             Timber.e("Error thrown in grabScreen() - acquireLatestImage()");

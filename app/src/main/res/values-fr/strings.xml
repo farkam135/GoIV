@@ -4,6 +4,61 @@
     <string name="goiv_is_open_source">GoIV est open source !\ngithub.com/farkam135/GoIV\nreddit.com/r/GoIV</string>
     <string name="trainer_level">Niveau de Dresseur</string>
     
+    <string-array name="teams">
+        <item name="mystic">"Sagesse"</item>
+        <item name="valor">"Bravoure"</item>
+        <item name="instinct">"Intuition"</item>
+    </string-array>
+
+    <string-array name="mystic_percentage">
+        <item name="mplace1">"(Optionnel)"</item>
+        <item name="mystic80_100">"Est une merveille. Un Pokémon captivant !"</item>
+        <item name="mystic67_79">"A retenu toute mon attention."</item>
+        <item name="mystic51_66">"Est supérieur à la moyenne."</item>
+        <item name="mystic0_50">"N'ira pas très loin au combat."</item>
+    </string-array>
+
+    <string-array name="mystic_ivrange">
+        <item name="mplace2">"(Optionnel)"</item>
+        <item name="mysticiv15">"Dépassent tous mes calculs, c'est incroyable !"</item>
+        <item name="mysticiv13_14">"Je suis impressionnée par ses stats."</item>
+        <item name="mysticiv8_12">"S'améliorent à vue d'œil."</item>
+        <item name="mysticiv0_7">"N'ont rien d'anormal."</item>
+    </string-array>
+
+
+    <string-array name="instinct_percentage">
+        <item name="iplace1">"(Optionnel)"</item>
+        <item name="instinct80_100">"Semble capable de tenir tête aux meilleurs."</item>
+        <item name="instinct67_79">"Est vraiment fort."</item>
+        <item name="instinct51_66">"Est plutôt bien."</item>
+        <item name="instinct0_50">"Peut devenir un meilleur combattant."</item>
+    </string-array>
+
+    <string-array name="instinct_ivrange">
+        <item name="iplace2">"(Optionnel)"</item>
+        <item name="instinctiv15">"Sont les meilleures que j'ai jamais vues !"</item>
+        <item name="instinctiv13_14">"Sont super élevées. Impressionnant !"</item>
+        <item name="instinctiv8_12">"Il a quelques bonnes stats."</item>
+        <item name="instinctiv0_7">"Ne sont pas mal, mais un peu basiques."</item>
+    </string-array>
+
+    <string-array name="valor_percentage">
+        <item name="vplace1">"(Optionnel)"</item>
+        <item name="valor80_100">"M'étonne beaucoup, il peut tout faire."</item>
+        <item name="valor67_79">"Est très fort, tu dois être fier."</item>
+        <item name="valor51_66">"Est un Pokémon solide."</item>
+        <item name="valor0_50">"N'est pas un combattant."</item>
+    </string-array>
+
+    <string-array name="valor_ivrange">
+        <item name="vplace2">"(Optionnel)"</item>
+        <item name="valoriv15">"Sont excellentes ! C'est super !"</item>
+        <item name="valoriv13_14">"Je suis estomaquée par ses stats. Bravo !"</item>
+        <item name="valoriv8_12">"Indiquent qu'il va faire des dégâts au combat."</item>
+        <item name="valoriv0_7">"Ne t'aideront pas beaucoup au combat."</item>
+    </string-array>
+    
     <string name="pokemon_name">Nom du Pokémon :</string>
     <string name="cp">PC</string>
     <string name="hp">PV</string>
@@ -47,21 +102,35 @@
     <string name="scan_pokemon_failed">Échec du scan, veuillez défiler vers le haut et ré-essayer !</string>
     <string name="see_all">Tout voir</string>
     <string name="advanced_information">Infos d\'évolution et rechargement</string>
-    <string name="powerup_calc_instructions">Calcul d\'évolution et rechargement - \nDéplacer le curseur pour différentes prédictions</string>
+    <string name="powerup_calc_instructions">Calcul d\'évolution et rechargement\nDéplacer le curseur pour différentes prédictions</string>
     <string name="candy_cost">Coût en Bonbons</string>
     <string name="stardust_cost">Coût en Poussière</string>
     <string name="evolution">Évolution</string>
     <string name="level">Niveau</string>
+    <string name="level_num">Niveau %1$.1f</string>
     <string name="refine">Raffiner</string>
     <string name="refine_no_progress">Le raffinement n\'a pas amélioré les résultats</string>
     <string name="last_scan">Dernier scan : %1$s</string>
     <string name="possible_iv_combinations">"%1$d combi. d\'IV possibles"</string>
     <string name="too_many_iv_combinations">Trop de combinaisons d\'IV</string>
     <string name="refining_instructions">Améliorer la précision du calcul d\'IV en rechargeant le Pokémon puis en comparant deux scans</string>
-    <string name="appraisal_narrowing">Raffiner via \'Évaluer\' (optionnel)</string>
+    <string name="appraisal_refining">Raffiner via \'Évaluer\'</string>
     <string name="attack">Attaque</string>
     <string name="defense">Défense</string>
     <string name="stamina_hp">PV</string>
     <string name="missing_inputs">Données manquantes. Veuillez remplir les champs PC et PV.</string>
     <string name="ivtext_no_possibilities">Aucune combinaison d\'IV possible pour ces données. Veuillez vérifier les informations.</string>
+    <string name="checking_for_update">Recherche de mise à jour&#8230;</string>
+    <string name="ongoing_update">Une mise à jour de GoIV est déjà en cours de téléchargement</string>
+    <string name="up_to_date">L\'appli est à jour</string>
+    <string name="update_check_failed">Erreur pendant la recherche de mise à jour. Veuillez vérifier votre connexion internet</string>
+    <string name="iv_perfect">% Parfait</string>
+    <string name="wrongPokemonNameInput">" n'a pas été trouvé."</string>
+    <string name="avg">MOY</string>
+    <string name="atk">ATQ</string>
+    <string name="def">DÉF</string>
+    <string name="sta">PV</string>
+    <string name="iv_range_phrase">Ses stats&#8230;</string>
+    <string name="percent_phrase">Dans l\'ensemble, ton Pokémon&#8230;</string>
+    <string name="higher_values">Ses meilleurs atouts sont&#8230;</string>
 </resources>

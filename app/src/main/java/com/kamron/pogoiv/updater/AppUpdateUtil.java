@@ -25,14 +25,12 @@ import timber.log.Timber;
 
 public class AppUpdateUtil {
 
-    public static final String GITHUB_RELEASES_URL = "https://api.github.com/repos/farkam135/GoIV/releases/latest";
+    private static final String GITHUB_RELEASES_URL = "https://api.github.com/repos/farkam135/GoIV/releases/latest";
 
     public static void checkForUpdate(final Context context) {
         OkHttpClient httpClient = new OkHttpClient();
 
-        Request request = new Request.Builder()
-                .url(GITHUB_RELEASES_URL)
-                .build();
+        Request request = new Request.Builder().url(GITHUB_RELEASES_URL).build();
 
         httpClient.newCall(request).enqueue(new Callback() {
 
@@ -53,7 +51,8 @@ public class AppUpdateUtil {
                     if (releaseAssets.getString("name").contains("Offline"))
                         releaseAssets = releaseInfo.getJSONArray("assets").getJSONObject(1);
 
-                    AppUpdate update = new AppUpdate(releaseAssets.getString("browser_download_url"), releaseInfo.getString("tag_name"), releaseInfo.getString("body"), AppUpdate.UP_TO_DATE);
+                    AppUpdate update = new AppUpdate(releaseAssets.getString("browser_download_url"),
+                            releaseInfo.getString("tag_name"), releaseInfo.getString("body"), AppUpdate.UP_TO_DATE);
 
                     SemVer currentVersion = SemVer.parse(BuildConfig.VERSION_NAME);
                     SemVer remoteVersion = SemVer.parse(update.getVersion());
@@ -75,7 +74,8 @@ public class AppUpdateUtil {
     public static AlertDialog getAppUpdateDialog(final Context context, final AppUpdate update) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context)
                 .setTitle("Update available")
-                .setMessage(context.getString(R.string.app_name) + " v" + update.getVersion() + " " + "is available" + "\n\n" + "Changes:" + "\n\n" + update.getChangelog())
+                .setMessage(context.getString(R.string.app_name) + " v" + update.getVersion() + " " + "is available" +
+                        "\n\n" + "Changes:" + "\n\n" + update.getChangelog())
                 .setIcon(R.mipmap.ic_launcher)
                 .setPositiveButton("Update", new DialogInterface.OnClickListener() {
                     @Override
@@ -85,14 +85,12 @@ public class AppUpdateUtil {
                         startDownloadIntent.putExtra("downloadURL", update.getAssetUrl());
                         context.startService(startDownloadIntent);
                     }
-                })
-                .setNegativeButton(context.getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                }).setNegativeButton(context.getString(R.string.cancel), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();
                     }
-                })
-                .setCancelable(false);
+                }).setCancelable(false);
         AlertDialog dialog = builder.create();
         return dialog;
     }

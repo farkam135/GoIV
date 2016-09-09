@@ -41,18 +41,17 @@
     <string name="scan_pokemon_failed">Načítání selhalo, prosím odscrolluj nahoru a zkus to znova!</string>
     <string name="see_all">Zobrazit vše</string>
     <string name="advanced_information">Informace o evolucích a powerupech</string>
-    <string name="powerup_calc_instructions">Výpočty powerupů a evolucí - \n Posouvej táhlo levelu pro zobrazení odpovídajících odhadů</string>
+    <string name="powerup_calc_instructions">Výpočty powerupů a evolucí\nPosouvej táhlo levelu pro zobrazení odpovídajících odhadů</string>
     <string name="candy_cost">Cena Candy</string>
     <string name="stardust_cost">Cena Stardust</string>
     <string name="evolution">Evoluce</string>
-    <string name="level">Level</string>
     <string name="refine">Zlepšit</string>
     <string name="refine_no_progress">Zlepšení nebylo úspěšné</string>
     <string name="last_scan">Předchozí načtení: %1$s</string>
     <string name="possible_iv_combinations">"%1$d Možné kombinace IV"</string>
     <string name="too_many_iv_combinations">Příliš mnoho kombinací IV</string>
     <string name="refining_instructions">Zlepši přesnost výpočtu IV powerupováním a porovnáním dvou načtení stejného Pokémona</string>
-    <string name="appraisal_narrowing">Zpřesnění díky Appraisal (volitelné)</string>
+    <string name="appraisal_refining">Zpřesnění díky Appraisal</string>
     <string name="attack">Útok</string>
     <string name="defense">Obrana</string>
     <string name="stamina_hp">HP</string>
@@ -62,4 +61,12 @@
     <string name="up_to_date">GoIV je aktuální.</string>
     <string name="checking_for_update">Kontroluji aktualizace...</string>
     <string name="ongoing_update">Aktualizace pro GoIV se již stahuje.</string>
+    <string name="iv_perfect">% celkově</string>
+    <string name="wrongPokemonNameInput">" nebyl nalezen."</string>
+    <string name="min">MIN</string>
+    <string name="max">MAX</string>
+    <string name="avg">PRŮM</string>
+    <string name="atk">ÚTK</string>
+    <string name="def">OBR</string>
+    <string name="sta">STA</string>
 </resources>

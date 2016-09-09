@@ -8,59 +8,52 @@
     android:alpha="225">
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_margin="6dp">
 
         <TextView
             android:id="@+id/allPosAttH"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textSize="18sp"
             android:textColor="#222"
-            android:text="Attack"
-            />
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:text="@string/attack"
             android:layout_weight="1"
+            android:gravity="center"
             />
 
         <TextView
             android:id="@+id/allPosDefH"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textSize="18sp"
             android:textColor="#222"
-            android:text="Defence"
-            />
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:text="@string/defense"
             android:layout_weight="1"
+            android:gravity="center"
             />
         <TextView
             android:id="@+id/allPosStaH"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textSize="18sp"
             android:textColor="#222"
-            android:text="Stamina"
-            />
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:text="@string/stamina_hp"
             android:layout_weight="1"
+            android:gravity="center"
             />
         <TextView
             android:id="@+id/allPosPercentH"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textSize="18sp"
             android:textColor="#222"
-            android:text="% Perfect"
+            android:text="@string/iv_perfect"
+            android:layout_weight="1"
+            android:gravity="center"
             />
-
 
     </LinearLayout>
 
@@ -68,65 +61,11 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/unimportantText"
-        android:layout_margin="6dp"
         />
 
-    <LinearLayout
-        android:layout_width="wrap_content"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvResults"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            />
-        <LinearLayout
-            android:id="@+id/allPosAtt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            />
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            />
-
-        <LinearLayout
-            android:id="@+id/allPosDef"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            />
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            />
-        <LinearLayout
-            android:id="@+id/allPosSta"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            />
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            />
-        <LinearLayout
-            android:id="@+id/allPosPercent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            />
-        <View
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        />
-
-
-    </LinearLayout>
-
+        android:layout_margin="6dp"/>
 </LinearLayout>

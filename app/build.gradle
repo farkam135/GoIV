@@ -1,3 +1,6 @@
+/**
+ * Repositories and dependencies for the build script
+ */
 buildscript {
     repositories {
         maven { url 'https://maven.fabric.io/public' }
@@ -7,33 +10,79 @@ buildscript {
         classpath 'io.fabric.tools:gradle:1.21.6'
     }
 }
-apply plugin: 'com.android.application'
-apply plugin: 'io.fabric'
 
+/**
+ * Repositories for the project
+ * jCenter() is already called in project build.gradle
+ */
 repositories {
     maven { url 'https://maven.fabric.io/public' }
 }
 
+/**
+ * Apply plugins and other Gradle scripts
+ */
+apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
 apply plugin: 'android-apt'
+apply from: '../checkstyle/checkstyle.gradle'
 
+/**
+ * Store keystore properties from keystore.properties in root folder if it exists
+ */
+def keystoreProperties = new Properties()
+if (new File('keystore.properties').exists()) {
+    def keystorePropertiesFile = rootProject.file('keystore.properties')
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+} else {
+    keystoreProperties.keyAlias = 'your_key_alias'
+    keystoreProperties.keyPassword = 'your_key_password'
+    keystoreProperties.storeFile = 'your_keystore.jks'
+    keystoreProperties.storePassword = 'your_keystore_password'
+}
+
+/**
+ * Android build
+ */
 android {
+    /**
+     * Set configuration for signing release builds with keystore properties defined above
+     */
+    signingConfigs {
+        releaseConfig {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+        }
+    }
 
+    /**
+     * Android SDK and build-tools version
+     * Update (both Gradle and local SDK) whenever possible
+     */
     compileSdkVersion 24
-    buildToolsVersion "24.0.1"
+    buildToolsVersion "24.0.2"
 
-    //When making a new version, please ensure that the apk files for both online and offline flavors
-    //are in the same GitHub release and the offline apk filename has "Offline" in it.
-
+    /**
+     * Build configurations for APK
+     * Ensure the following values are updated before generating release builds:
+     * versionCode (Increment of 1)
+     * versionName (Based on Semantic Versioning 2.0 - http://semver.org/)
+     */
     defaultConfig {
-        resValue "string", "app_name", "GoIV"
-        applicationId "com.kamron.pogoiv"
         minSdkVersion 19
         targetSdkVersion 24
-        versionCode 15
+        versionCode 16
         versionName "3.1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
+    /**
+     * Product flavors
+     * Offline - No Internet permission and disable Crashlytics
+     * Online - Internet permission and enable Crashlytics
+     */
     productFlavors {
         offline {
             applicationId "com.kamron.pogoiv.nointernet"
@@ -50,9 +99,13 @@ android {
         }
     }
 
+    /**
+     * Build type
+     * debug - Disable Crashlytics
+     * release - Minify and proguard files
+     */
     buildTypes {
         debug {
-            // Disable fabric build ID generation for debug builds
             ext.enableCrashlytics = false
         }
         release {
@@ -61,23 +114,40 @@ android {
             lintOptions {
                 disable 'MissingTranslation'
             }
+            signingConfig signingConfigs.releaseConfig
         }
     }
 }
 
+/**
+ * Project dependencies
+ * compile - Compile library package into app APK
+ * provided - Compile library package without included into app APK
+ * apt - Compile library package without included into app APK (uses android-apt plugin for
+ * annotation processing)
+ */
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:24.2.0'
-    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha1'
-    compile 'com.rmtheis:tess-two:6.0.3'
+    compile 'com.android.support:recyclerview-v7:24.2.0'
+    compile 'com.jakewharton:butterknife:8.4.0'
     compile 'com.jakewharton.timber:timber:4.3.0'
-    compile 'com.jakewharton:butterknife:8.1.0'
+    compile 'com.rmtheis:tess-two:6.0.4'
     compile 'com.squareup.okhttp3:okhttp:3.4.1'
-    apt 'com.jakewharton:butterknife-compiler:8.1.0'
-    provided "org.projectlombok:lombok:1.16.10"
+    compile 'com.squareup.okio:okio:1.10.0'
+    compile 'io.apptik.widget:multislider:1.2'
+    provided 'org.projectlombok:lombok:1.16.10'
+    apt 'com.jakewharton:butterknife-compiler:8.4.0'
     apt "org.projectlombok:lombok:1.16.10"
 
-    // only include crashlytics in the online build
+    /**
+     * Constraint Layout only available in Android Studio 2.2 preview
+     * Anyone actually using it? Can we remove it?
+     */
+    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha1'
+
+    /**
+     * Include Craslytics in the online build
+     */
     onlineCompile('com.crashlytics.sdk.android:crashlytics:2.6.2@aar') {
         transitive = true;
     }
@@ -87,7 +157,6 @@ dependencies {
     testCompile 'org.mockito:mockito-core:1.10.19'
     testCompile 'com.android.support:support-annotations:24.2.0'
     testCompile 'com.android.support.test:runner:0.5'
-
     androidTestCompile 'com.android.support:support-annotations:24.2.0'
     androidTestCompile 'com.android.support.test:runner:0.5'
 }

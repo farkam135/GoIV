@@ -31,11 +31,17 @@
         <NumberPicker
             android:id="@+id/trainerLevel"
             android:layout_width="75dp"
-            android:layout_height="wrap_content"
+            android:layout_height="100dp"
             android:gravity="end"
             android:inputType="number"
             android:textAlignment="center"/>
 
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/teamPickerSpinner">
+
+        </Spinner>
         <Button
             android:id="@+id/start"
             android:layout_width="wrap_content"

@@ -1,5 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+
+    <string-array name="teams">
+        <item name="mystic">"Sabiduría"</item>
+        <item name="valor">"Valor"</item>
+        <item name="instinct">"Instinto"</item>
+    </string-array>
+
+    <string-array name="mystic_percentage">
+        <item name="mplace1">"(Opcional)"</item>
+        <item name="mystic80_100">"Tu [Pokémon] es una maravilla para la vista. "</item>
+        <item name="mystic67_79">"Tu [Pokémon] me ha llamado ciertamente la atención."</item>
+        <item name="mystic51_66">"Tu [Pokémon] está por encima de la media."</item>
+        <item name="mystic0_50">"No parece que tu [Pokémon] vaya a llegar muy lejos en combate."</item>
+    </string-array>
+
+    <string-array name="mystic_ivrange">
+        <item name="mplace2">"(Opcional)"</item>
+        <item name="mysticiv15">"Sus características están fuera de todo cálculo. ¡Es increíble!"</item>
+        <item name="mysticiv13_14">Debo decir que sus características son realmente impresionantes."</item>
+        <item name="mysticiv8_12">"Sus características están bastante bien."</item>
+        <item name="mysticiv0_7">"Sus características dejan un poco que desear, yo diría."</item>
+    </string-array>
+
+
+    <string-array name="instinct_percentage">
+        <item name="iplace1">"(Opcional)"</item>
+        <item name="instinct80_100">"¡Tu [Pokémon] puede enfrentarse a los mejores!"</item>
+        <item name="instinct67_79">"¡Tu [Pokémon] es realmente fuerte!"</item>
+        <item name="instinct51_66">"Tu [Pokémon] está bastante bien."</item>
+        <item name="instinct0_50">"Tu [Pokémon] podría mejorar algo en lo que se refiere a combates."</item>
+    </string-array>
+
+    <string-array name="instinct_ivrange">
+        <item name="iplace2">"(Opcional)"</item>
+        <item name="instinctiv15">"¡Sus características son lo mejor que he visto nunca! ¡Qué pasada!"</item>
+        <item name="instinctiv13_14">"¡Sus características son realmente fuertes! Es impresionante."</item>
+        <item name="instinctiv8_12">"Tiene buenas características, sin duda."</item>
+        <item name="instinctiv0_7">"Sus características están… bien, supongo."</item>
+    </string-array>
+
+    <string-array name="valor_percentage">
+        <item name="vplace1">"(Opcional)"</item>
+        <item name="valor80_100">"Tu [Pokémon] simplemente me fascina. ¡Puede logar cualquier cosa!"</item>
+        <item name="valor67_79">"Tu [Pokémon] es muy fuerte. ¡Qué orgullo debes sentir!"</item>
+        <item name="valor51_66">"Tu [Pokémon] está bastante bien."</item>
+        <item name="valor0_50">"Tu [Pokémon] puede que no sea el mejor en combate, pero aún así me gusta."</item>
+    </string-array>
+
+    <string-array name="valor_ivrange">
+        <item name="vplace2">"(Opcional)"</item>
+        <item name="valoriv15">"Estoy flipando con sus características. ¡GUAU!"</item>
+        <item name="valoriv13_14">"Cuenta con excelentes características. ¡Qué emocionante!"</item>
+        <item name="valoriv8_12">"Sus características te ayudarán a cumplir su objetivo en combate."</item>
+        <item name="valoriv0_7">"Sus características no te serán de mucha utilidad en combate."</item>
+    </string-array>
+
     <string name="back">Atrás</string>
     <string name="battery_saver_instructions">Su directorio de capturas de pantalla no pudo ser encontrado. Por favor siga las siguientes instrucciones para ayudar a GoIV a detectarlo:\n1.Presione \'Configuración\' en este mensaje\n2.Tome una captura de pantalla\n3.Espere por más instrucciones.</string>
     <string name="battery_saver_setup">Configuración de Ahorro de Batería</string>
@@ -24,7 +81,6 @@
     <string name="trainer_level">Nivel de Entrenador</string>
     <string name="use_the_slider_below_to_align_the_arc">Use el slider para alinear el marcador en el arco</string>
     <string name="welcome_message">Instrucciones:\n1. Ingresar nivel de entrenador\n2. Presionar el botón de inicio y permitir la captura de pantalla\n3. Abrir el Pokémon deseado en \'Pokémon Go\'\n4. Presionar el botón IV para obtener los datos del Pokémon\n5. Ajustar los datos obtenidos en caso de ser necesario\n6. Obtener IV!</string>
-    <string name="app_name">GoIV</string>
     <string name="auto_update_setting_summary">Buscar actualizaciones al iniciar la aplicación</string>
     <string name="check_for_update_setting_summary">Verificar si hay una actualización disponible</string>
     <string name="check_for_update_setting_title">Buscar actualización</string>
@@ -46,18 +102,30 @@
     <string name="evolution">Evolución</string>
     <string name="last_scan">Último analizado: %1$s</string>
     <string name="level">Nivel</string>
+    <string name="level_num">Nivel %1$.1f</string>
     <string name="possible_iv_combinations">"%1$d Combinaciones de IV posibles"</string>
     <string name="refine">Refinar</string>
-    <string name="powerup_calc_instructions">Cálculo de mejoras y evolución - \n Deslizar el slider para visualizar diferentes predicciones</string>
+    <string name="powerup_calc_instructions">Cálculo de mejoras y evolución\nDeslizar el slider para visualizar diferentes predicciones</string>
     <string name="scan_pokemon_failed">Detección fallida, asegurese de estar en la cima de la ficha del Pokémon y vuelva a intentar!</string>
     <string name="see_all">Ver Todas</string>
     <string name="stardust_cost">Costo en Polvoestalar</string>
     <string name="refining_instructions">Refine la predicción de IV mejorando un Pokémon y comparando los resultados obtenidos</string>
-    <string name="appraisal_narrowing">Refinamiento por valoración (opcional)</string>
+    <string name="appraisal_refining">Refinamiento por valoración </string>
     <string name="attack">Ataque</string>
     <string name="defense">Defensa</string>
-    <string name="stamina_hp">PS</string>
+    <string name="stamina_hp">Salud</string>
     <string name="refine_no_progress">El refinamiento no mejoró los r</string>
     <string name="missing_inputs">Datos incompletos. Por favor completa los campos PC y PS.</string>
     <string name="ivtext_no_possibilities">No hay combinaciones de IV para estos datos. Por favor verifique la información.</string>
+    <string name="accept_screen_capture">Permitir captura de pantalla</string>
+    <string name="checking_for_update">Buscando actualización...</string>
+    <string name="iv_perfect">Perfección (%)</string>
+    <string name="ongoing_update">Ya se está descargando una actualización para GoIV</string>
+    <string name="too_many_iv_combinations">Demasiadas combinaciones de IV</string>
+    <string name="up_to_date">La aplicación se encuentra actualizada</string>
+    <string name="update_check_failed">Ocurrió un error durante la búsqueda de actualizaciones. Por favor, verifique su conexión a Internet.</string>
+    <string name="higher_values">Valores más altos</string>
+    <string name="iv_range_phrase">Segunda frase</string>
+    <string name="percent_phrase">Primera frase</string>
+    <string name="wrongPokemonNameInput">" no encontrado."</string>
 </resources>

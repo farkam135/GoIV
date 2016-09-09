@@ -1062,7 +1062,7 @@ public class Pokefly extends Service {
      * Shows the "refine by leveling up" part if he previous pokemon could be an upgraded version
      */
     private void populatePrevScanNarrowing() {
-        if (ScanContainer.scanContainer.canLastScanBePoweredUpPreviousScan()) {
+        if (ScanContainer.scanContainer.isScanRefinable()) {
             refine_by_last_scan.setVisibility(View.VISIBLE);
             exResPrevScan.setText(String.format(getString(R.string.last_scan),
                     ScanContainer.scanContainer.getPrevScanName()));

@@ -19,9 +19,9 @@ import timber.log.Timber;
  * Created by Sarav on 8/25/2016.
  * A class to scan a screenshot and extract useful information visible in the bitmap.
  */
-public class OCRHelper {
+public class OcrHelper {
 
-    private static OCRHelper instance = null;
+    private static OcrHelper instance = null;
     private TessBaseAPI tesseract = null;
     private final LruCache<String, String> ocrCache = new LruCache<>(200);
     private final int heightPixels;
@@ -30,7 +30,7 @@ public class OCRHelper {
     private final String nidoFemale;
     private final String nidoMale;
 
-    private OCRHelper(String dataPath, int widthPixels, int heightPixels, String nidoFemale, String nidoMale) {
+    private OcrHelper(String dataPath, int widthPixels, int heightPixels, String nidoFemale, String nidoMale) {
         tesseract = new TessBaseAPI();
         tesseract.init(dataPath, "eng");
         tesseract.setPageSegMode(TessBaseAPI.PageSegMode.PSM_SINGLE_LINE);
@@ -50,10 +50,10 @@ public class OCRHelper {
      * @param dataPath Path the OCR data files.
      * @return Bitmap with replaced colors
      */
-    public static OCRHelper init(String dataPath, int widthPixels, int heightPixels, String nidoFemale,
+    public static OcrHelper init(String dataPath, int widthPixels, int heightPixels, String nidoFemale,
                                  String nidoMale) {
         if (instance == null) {
-            instance = new OCRHelper(dataPath, widthPixels, heightPixels, nidoFemale, nidoMale);
+            instance = new OcrHelper(dataPath, widthPixels, heightPixels, nidoFemale, nidoMale);
         }
         return instance;
     }
@@ -65,7 +65,7 @@ public class OCRHelper {
             tesseract = null;
             instance = null;
         } else {
-            Timber.e("Avoided NPE on OCRHelper.exit()");
+            Timber.e("Avoided NPE on OcrHelper.exit()");
             //The exception is to ensure we get a stack trace. It's not thrown.
             Timber.e(new Throwable());
         }
@@ -124,7 +124,7 @@ public class OCRHelper {
     }
 
     /**
-     * Scans the arc and tries to determine the pokemon level, returns 1 if nothing found
+     * Scans the arc and tries to determine the pokemon level, returns 1 if nothing found.
      *
      * @param pokemonImage The image of the entire screen
      * @return the estimated pokemon level, or 1 if nothing found
@@ -143,7 +143,7 @@ public class OCRHelper {
     }
 
     /**
-     * Get the hashcode for a bitmap
+     * Get the hashcode for a bitmap.
      */
     private String hashBitmap(Bitmap bmp) {
         int[] allpixels = new int[bmp.getHeight() * bmp.getWidth()];
@@ -201,7 +201,7 @@ public class OCRHelper {
     }
 
     /**
-     * get the pokemon name as analysed from a pokemon image
+     * Get the pokemon name as analysed from a pokemon image.
      *
      * @param pokemonImage the image of the whole screen
      * @return A string resulting from the scan
@@ -234,18 +234,20 @@ public class OCRHelper {
     private static String removeFirstOrLastWord(String src, boolean removeFirst) {
         if (removeFirst) {
             int fstSpace = src.indexOf(' ');
-            if (fstSpace != -1)
+            if (fstSpace != -1) {
                 return src.substring(fstSpace + 1);
+            }
         } else {
             int lstSpace = src.lastIndexOf(' ');
-            if (lstSpace != -1)
+            if (lstSpace != -1) {
                 return src.substring(0, lstSpace);
+            }
         }
         return src;
     }
 
     /**
-     * gets the candy name from a pokenon image
+     * Gets the candy name from a pokenon image.
      *
      * @param pokemonImage the image of the whole screen
      * @return the candy name, or "" if nothing was found
@@ -272,7 +274,7 @@ public class OCRHelper {
     }
 
     /**
-     * get the pokemon hp from a picture
+     * Get the pokemon hp from a picture.
      *
      * @param pokemonImage the image of the whole screen
      * @return an integer of the interpreted pokemon name, 10 if scan failed
@@ -295,8 +297,15 @@ public class OCRHelper {
 
         if (pokemonHPStr.contains("/")) {
             try {
-                pokemonHP = Integer.parseInt(fixOcrLettersToNums(pokemonHPStr.split("/")[1]).replaceAll("[^0-9]", ""));
-            } catch (java.lang.NumberFormatException e) {
+                //If "/" comes at the end we'll get an array with only one component.
+                String[] hpParts = pokemonHPStr.split("/");
+                String hpStr =
+                        hpParts.length >= 2
+                                ? hpParts[1]
+                                : hpParts[0];
+
+                pokemonHP = Integer.parseInt(fixOcrLettersToNums(hpStr).replaceAll("[^0-9]", ""));
+            } catch (NumberFormatException e) {
                 pokemonHP = 10;
             }
         }
@@ -304,7 +313,7 @@ public class OCRHelper {
     }
 
     /**
-     * get the cp of a pokemon image
+     * Get the CP of a pokemon image.
      *
      * @param pokemonImage the image of the whole pokemon screen
      * @return a CP of the pokemon, 10 if scan failed
@@ -322,7 +331,7 @@ public class OCRHelper {
         }
         try {
             pokemonCP = Integer.parseInt(cpText);
-        } catch (java.lang.NumberFormatException e) {
+        } catch (NumberFormatException e) {
             pokemonCP = 10;
         }
         cp.recycle();

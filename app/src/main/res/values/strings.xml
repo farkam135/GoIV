@@ -12,6 +12,8 @@
         <item name="valor">"Valor"</item>
         <item name="instinct">"Instinct"</item>
     </string-array>
+    <string name="place1">"Choose overall phrase"</string>
+    <string name="place2">"Choose stats phrase"</string>
 
     <string-array name="mystic_percentage">
         <item name="mplace1">@string/place1</item>

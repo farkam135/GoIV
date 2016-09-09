@@ -34,8 +34,9 @@ public class DevMethods {
         myDir.mkdirs();
         String fileName = "Image-" + name + ".jpg";
         File file = new File(myDir, fileName);
-        if (file.exists())
+        if (file.exists()) {
             file.delete();
+        }
         try {
             FileOutputStream out = new FileOutputStream(file);
             finalBitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);

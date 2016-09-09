@@ -80,18 +80,15 @@ android {
 
     /**
      * Product flavors
-     * Offline - No Internet permission, disable Crashlytics and appends (Offline) to version name
+     * Offline - No Internet permission and disable Crashlytics
      * Online - Internet permission and enable Crashlytics
      */
     productFlavors {
-        def versionNameOfflineStr = defaultConfig.versionName + " (Offline)"
-
         offline {
             applicationId "com.kamron.pogoiv.nointernet"
             buildConfigField "boolean", "isInternetAvailable", "false"
             resValue "string", "app_name", "GoIV Offline"
             ext.enableCrashlytics = false
-            versionName versionNameOfflineStr
         }
 
         online {
@@ -135,8 +132,8 @@ dependencies {
     compile 'com.jakewharton:butterknife:8.4.0'
     compile 'com.jakewharton.timber:timber:4.3.0'
     compile 'com.rmtheis:tess-two:6.0.4'
-    compile 'com.squareup.okhttp3:okhttp:3.4.1'
-    compile 'com.squareup.okio:okio:1.10.0'
+    onlineCompile 'com.squareup.okhttp3:okhttp:3.4.1'
+    onlineCompile 'com.squareup.okio:okio:1.10.0'
     compile 'io.apptik.widget:multislider:1.2'
     provided 'org.projectlombok:lombok:1.16.10'
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
@@ -162,4 +159,11 @@ dependencies {
     testCompile 'com.android.support.test:runner:0.5'
     androidTestCompile 'com.android.support:support-annotations:24.2.0'
     androidTestCompile 'com.android.support.test:runner:0.5'
+}
+allprojects {
+    gradle.projectsEvaluated {
+        tasks.withType(JavaCompile) {
+            options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+        }
+    }
 }

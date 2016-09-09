@@ -19,15 +19,11 @@ import com.kamron.pogoiv.updater.AppUpdate;
 import com.kamron.pogoiv.updater.AppUpdateUtil;
 
 public class SettingsActivity extends AppCompatActivity {
-
-    private Context mContext;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getFragmentManager().beginTransaction().replace(android.R.id.content, new SettingsFragment()).commit();
         getSupportActionBar().setTitle(getResources().getString(R.string.settings_page_title));
-        mContext = SettingsActivity.this;
         LocalBroadcastManager.getInstance(this).registerReceiver(showUpdateDialog,
                 new IntentFilter(MainActivity.ACTION_SHOW_UPDATE_DIALOG));
     }
@@ -44,12 +40,14 @@ public class SettingsActivity extends AppCompatActivity {
             assert BuildConfig.isInternetAvailable;
             AppUpdate update = intent.getParcelableExtra("update");
             if (update.getStatus() == AppUpdate.UPDATE_AVAILABLE) {
-                AlertDialog updateDialog = AppUpdateUtil.getAppUpdateDialog(mContext, update);
+                AlertDialog updateDialog = AppUpdateUtil.getAppUpdateDialog(SettingsActivity.this, update);
                 updateDialog.show();
             } else if (update.getStatus() == AppUpdate.UP_TO_DATE) {
-                Toast.makeText(mContext, getResources().getString(R.string.up_to_date), Toast.LENGTH_SHORT).show();
+                Toast.makeText(SettingsActivity.this, getResources().getString(R.string.up_to_date), Toast.LENGTH_SHORT)
+                        .show();
             } else {
-                Toast.makeText(mContext, getResources().getString(R.string.update_check_failed), Toast.LENGTH_SHORT)
+                Toast.makeText(SettingsActivity.this, getResources().getString(R.string.update_check_failed),
+                        Toast.LENGTH_SHORT)
                         .show();
             }
         }

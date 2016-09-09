@@ -101,7 +101,6 @@ public class MainActivity extends AppCompatActivity {
 
     private final Point arcInit = new Point();
     private int arcRadius;
-    private Context mContext;
     private final BroadcastReceiver showUpdateDialog = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -109,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
             AppUpdate update = intent.getParcelableExtra("update");
             if (update.getStatus() == AppUpdate.UPDATE_AVAILABLE && shouldShowUpdateDialog && !isGoIVBeingUpdated(
                     context)) {
-                AlertDialog updateDialog = AppUpdateUtil.getAppUpdateDialog(mContext, update);
+                AlertDialog updateDialog = AppUpdateUtil.getAppUpdateDialog(MainActivity.this, update);
                 updateDialog.show();
             }
             if (!shouldShowUpdateDialog) {
@@ -150,14 +149,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Timber.tag(TAG);
 
-        mContext = MainActivity.this;
-
-        settings = GoIVSettings.getInstance(mContext);
+        settings = GoIVSettings.getInstance(this);
 
         shouldShowUpdateDialog = true;
 
         if (settings.isAutoUpdateEnabled()) {
-            AppUpdateUtil.checkForUpdate(mContext);
+            AppUpdateUtil.checkForUpdate(this);
         }
 
         setContentView(R.layout.activity_main);

@@ -889,6 +889,7 @@ public class Pokefly extends Service {
         refineByAvailableAppraisalInfo(ivScanResult);
 
         // If no possible combinations, inform the user and abort.
+        // However, if tooManyPossibilities, a zero count does *not* mean no possibilities.
         if (!ivScanResult.tooManyPossibilities && ivScanResult.getCount() == 0) {
             Toast.makeText(this, R.string.ivtext_no_possibilities, Toast.LENGTH_SHORT).show();
             return;

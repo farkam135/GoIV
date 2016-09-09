@@ -17,7 +17,7 @@ public class IVCombination {
         this.att = att;
         this.def = def;
         this.sta = sta;
-        percentPerfect = (int) Math.round(((att + def + sta) / 45.0) * 100);
+        percentPerfect = Math.round((att + def + sta) / 45f * 100);
     }
 
     @Override

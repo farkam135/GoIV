@@ -70,7 +70,7 @@ public class IVScanResult {
      */
     public void addIVCombination(int attackIV, int defenseIV, int staminaIV) {
         int sumIV = attackIV + defenseIV + staminaIV;
-        int percentPerfect = (int) Math.round(((sumIV) / 45.0) * 100);
+        int percentPerfect = Math.round(sumIV / 45f * 100);
 
         if ((percentPerfect < lowPercent)
                 || (percentPerfect == lowPercent)

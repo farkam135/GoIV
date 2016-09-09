@@ -297,7 +297,14 @@ public class OcrHelper {
 
         if (pokemonHPStr.contains("/")) {
             try {
-                pokemonHP = Integer.parseInt(fixOcrLettersToNums(pokemonHPStr.split("/")[1]).replaceAll("[^0-9]", ""));
+                //If "/" comes at the end we'll get an array with only one component.
+                String[] hpParts = pokemonHPStr.split("/");
+                String hpStr =
+                        hpParts.length >= 2
+                        ? hpParts[1]
+                        : hpParts[0];
+
+                pokemonHP = Integer.parseInt(fixOcrLettersToNums(hpStr).replaceAll("[^0-9]", ""));
             } catch (java.lang.NumberFormatException e) {
                 pokemonHP = 10;
             }

@@ -67,23 +67,25 @@ public class ScanContainer {
     }
 
     /**
-     * Checks if the previous scanned pokemon can be the same pokemon as the one scanned 2 scans ago
-     * checks if newer scan has higher level, and same or next evolution. (because pokemon cant de-level or devolve)
+     * Checks if the last scanned pokemon can be the same pokemon as the previous one, and if there's any
+     * evolution/level-up and it is hence worth enabling result refinement.
      *
      * @return true if the pokemon can be same
      */
-    public boolean canLastScanBePoweredUpPreviousScan() {
+    public boolean isScanRefinable() {
         if (currScan != null && prevScan != null) {
-            Pokemon p1 = currScan.pokemon;
-            Pokemon p2 = prevScan.pokemon;
+            Pokemon currPokemon = currScan.pokemon;
+            Pokemon prevPokemon = prevScan.pokemon;
 
-            boolean pokemonHasLeveledUp = currScan.estimatedPokemonLevel > prevScan.estimatedPokemonLevel;
-            boolean isEvolved = p1.isInNextEvolution(p2);
+            /* Since pokemon can de-evolve, level down or change species, we must check that
+             * both species and level are greater or equal, and at least one is strictly greater.
+             */
+            boolean higherLevel = currScan.estimatedPokemonLevel > prevScan.estimatedPokemonLevel;
+            boolean sameOrHigherLevel = currScan.estimatedPokemonLevel >= prevScan.estimatedPokemonLevel;
+            boolean evolved = currPokemon.isNextEvolutionOf(prevPokemon);
+            boolean sameOrEvolved = currPokemon.number == prevPokemon.number || evolved;
 
-            boolean somethingImproved = pokemonHasLeveledUp || isEvolved;
-            boolean isSameOrHigherLevel = currScan.estimatedPokemonLevel >= prevScan.estimatedPokemonLevel;
-            boolean isSameOrHigherEvolution = p1.number == p2.number || p1.isInNextEvolution(p2);
-            return somethingImproved && isSameOrHigherLevel && isSameOrHigherEvolution;
+            return (higherLevel || evolved) && sameOrHigherLevel && sameOrEvolved;
         }
 
         return false;

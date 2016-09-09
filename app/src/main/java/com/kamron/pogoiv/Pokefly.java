@@ -450,8 +450,7 @@ public class Pokefly extends Service {
     }
 
     /**
-     * makeNotification
-     * Creates the GoIV notification
+     * Creates the GoIV notification.
      */
     private void makeNotification(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
@@ -503,9 +502,8 @@ public class Pokefly extends Service {
     }
 
     /**
-     * createArcPointer
      * Creates the arc pointer view and sets all the variables required to accurately overlay
-     * pokemon go's arc pointer
+     * Pokemon Go's arc pointer.
      */
     private void createArcPointer() {
         arcParams.gravity = Gravity.TOP | Gravity.START;
@@ -534,8 +532,7 @@ public class Pokefly extends Service {
     }
 
     /**
-     * createArcAdjuster
-     * Creates the arc adjuster used to move the arc pointer in the scan screen
+     * Creates the arc adjuster used to move the arc pointer in the scan screen.
      */
     private void createArcAdjuster() {
         arcAdjustBar.setMax(Data.trainerLevelToMaxPokeLevelIdx(trainerLevel));
@@ -558,8 +555,7 @@ public class Pokefly extends Service {
     }
 
     /**
-     * createIVButton
-     * Creates the IV Button view
+     * Creates the IV Button view.
      */
     private void createIVButton() {
         ivButton = new ImageView(this);
@@ -587,7 +583,6 @@ public class Pokefly extends Service {
     }
 
     /**
-     * createInfoLayout
      * creates the info layout which contains all the scanned data views and allows for correction.
      */
     private void createInfoLayout() {
@@ -604,7 +599,7 @@ public class Pokefly extends Service {
 
     /**
      * Creates and initializes the components in the "screen" in he floating dialog that shows all possible iv
-     * combinations
+     * combinations.
      */
     private void createAllIvLayout() {
         // Setting up Recyclerview for further use.
@@ -617,7 +612,7 @@ public class Pokefly extends Service {
     }
 
     /**
-     * Creates and initializes the components in the first "screen" in the floating dialog, the input dialog
+     * Creates and initializes the components in the first "screen" in the floating dialog, the input dialog.
      */
     private void createInputLayout() {
         pokeInputSpinnerAdapter = new PokemonSpinnerAdapter(this, R.layout.spinner_pokemon, new ArrayList<Pokemon>());
@@ -629,7 +624,7 @@ public class Pokefly extends Service {
     }
 
     /**
-     * Creates and initializes the components in the second "screen" in the floating dialog, the result dialog
+     * Creates and initializes the components in the second "screen" in the floating dialog, the result dialog.
      */
     private void createResultLayout() {
         createExtendedResultEvolutionSpinner();
@@ -638,7 +633,7 @@ public class Pokefly extends Service {
 
     /**
      * Creates and initializes the level seekbarr in the evolution and powerup prediction section in the results
-     * screen
+     * screen.
      */
     private void createExtendedResultLevelSeekbar() {
         expandedLevelSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -661,7 +656,7 @@ public class Pokefly extends Service {
 
     /**
      * Creates and initializes the evolution spinner in the evolution and powerup prediction section in the results
-     * screen
+     * screen.
      */
     private void createExtendedResultEvolutionSpinner() {
         //The evolution picker for seeing estimates of how much cp and cost a pokemon will have at a different evolution
@@ -685,7 +680,7 @@ public class Pokefly extends Service {
     }
 
     /**
-     * changes the text in the appraisal spinners depending on what team the user is on
+     * Changes the text in the appraisal spinners depending on what team the user is on.
      */
     private void populateTeamAppraisalSpinners() {
         //Create the adapters for the spinners
@@ -791,7 +786,7 @@ public class Pokefly extends Service {
     }
 
     /**
-     * Moves the overlay up or down
+     * Moves the overlay up or down.
      *
      * @param moveUp true if move up, false if move down
      */
@@ -806,7 +801,7 @@ public class Pokefly extends Service {
     }
 
     /**
-     * Moves the entire overlay up if the appraisal box is visible
+     * Moves the entire overlay up if the appraisal box is visible.
      */
     private void moveOverlayUpOrDownToMatchAppraisalBox() {
         if (windowManager == null) {
@@ -958,7 +953,7 @@ public class Pokefly extends Service {
 
     /**
      * Checks if the app is in battery saver mode, and if the user hasnt set the setting to avoid deleting
-     * screenshot, and then deletes the screenshot
+     * screenshot, and then deletes the screenshot.
      */
     private void deleteScreenshotIfIShould() {
         if (batterySaver && !screenshotDir.isEmpty()) {
@@ -996,7 +991,7 @@ public class Pokefly extends Service {
     }
 
     /**
-     * Adds the iv range of the pokemon to the clipboard if the clipboard setting is on
+     * Adds the iv range of the pokemon to the clipboard if the clipboard setting is on.
      */
     private void addToRangeToClipboardIfSettingOn(IVScanResult ivScanResult) {
         if (GoIVSettings.getInstance(getApplicationContext()).shouldCopyToClipboard()) {
@@ -1011,7 +1006,7 @@ public class Pokefly extends Service {
     }
 
     /**
-     * Initialises the autocompletetextview which allows people to search for pokemon names
+     * Initialises the autocompletetextview which allows people to search for pokemon names.
      */
     private void initializePokemonAutoCompleteTextView() {
         String[] pokeList = getResources().getStringArray(R.array.Pokemon);
@@ -1022,7 +1017,7 @@ public class Pokefly extends Service {
     }
 
     /**
-     * Sets all the information in the result box
+     * Sets all the information in the result box.
      */
     private void populateResultsBox(IVScanResult ivScanResult) {
         populateResultsHeader(ivScanResult);
@@ -1067,7 +1062,7 @@ public class Pokefly extends Service {
     }
 
     /**
-     * Shows the "refine by leveling up" part if he previous pokemon could be an upgraded version
+     * Shows the "refine by leveling up" part if he previous pokemon could be an upgraded version.
      */
     private void populatePrevScanNarrowing() {
         if (ScanContainer.scanContainer.isScanRefinable()) {
@@ -1081,7 +1076,7 @@ public class Pokefly extends Service {
     }
 
     /**
-     * shows the name and level of the pokemon in the results dialog
+     * Shows the name and level of the pokemon in the results dialog.
      */
     private void populateResultsHeader(IVScanResult ivScanResult) {
         resultsPokemonName.setText(ivScanResult.pokemon.name);
@@ -1089,7 +1084,7 @@ public class Pokefly extends Service {
     }
 
     /**
-     * populates the reuslt screen with the layout as if its multiple results
+     * Populates the reuslt screen with the layout as if its multiple results.
      */
     private void populateMultipleIVMatch(IVScanResult ivScanResult) {
         llMaxIV.setVisibility(View.VISIBLE);
@@ -1109,7 +1104,7 @@ public class Pokefly extends Service {
     }
 
     /**
-     * adds all options in the all iv possibilities list
+     * Adds all options in the all iv possibilities list.
      */
     private void populateAllIvPossibilities(IVScanResult ivScanResult) {
         IVResultsAdapter ivResults = new IVResultsAdapter(ivScanResult, this);
@@ -1117,7 +1112,7 @@ public class Pokefly extends Service {
     }
 
     /**
-     * populates the result screen with the layout as if it's a single result
+     * Populates the result screen with the layout as if it's a single result.
      */
     private void populateSingleIVMatch(IVScanResult ivScanResult) {
         llMaxIV.setVisibility(View.GONE);

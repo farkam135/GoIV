@@ -78,7 +78,7 @@ public class ScanContainer {
             Pokemon p2 = prevScan.pokemon;
 
             boolean pokemonHasLeveledUp = currScan.estimatedPokemonLevel > prevScan.estimatedPokemonLevel;
-            boolean isEvolved = p2.isInNextEvolution(p1);
+            boolean isEvolved = p1.isNextEvolutionOf(p2);
 
             boolean somethingImproved = pokemonHasLeveledUp || isEvolved;
             boolean isSameOrHigherLevel = currScan.estimatedPokemonLevel >= prevScan.estimatedPokemonLevel;

@@ -8,7 +8,7 @@ import android.widget.TextView;
 /**
  * Created by OskO on 30/08/16.
  */
-public class GUIUtil {
+public class GuiUtil {
 
     /**
      * Sets the text color to red if below 80, and green if above.

@@ -114,7 +114,7 @@ public class Pokefly extends Service {
     private ClipboardManager clipboard;
     private SharedPreferences sharedPref;
     private ScreenGrabber screen;
-    private OCRHelper ocr;
+    private OcrHelper ocr;
 
     private Timer timer;
     private int areaX1;
@@ -1119,11 +1119,11 @@ public class Pokefly extends Service {
         resultsDefense.setText(String.valueOf(ivScanResult.iVCombinations.get(0).def));
         resultsHP.setText(String.valueOf(ivScanResult.iVCombinations.get(0).sta));
 
-        GUIUtil.setTextColorbyPercentage(resultsAttack,
+        GuiUtil.setTextColorbyPercentage(resultsAttack,
                 (int) Math.round(ivScanResult.iVCombinations.get(0).att * 100.0 / 15));
-        GUIUtil.setTextColorbyPercentage(resultsDefense,
+        GuiUtil.setTextColorbyPercentage(resultsDefense,
                 (int) Math.round(ivScanResult.iVCombinations.get(0).def * 100.0 / 15));
-        GUIUtil.setTextColorbyPercentage(resultsHP,
+        GuiUtil.setTextColorbyPercentage(resultsHP,
                 (int) Math.round(ivScanResult.iVCombinations.get(0).sta * 100.0 / 15));
 
         llSingleMatch.setVisibility(View.VISIBLE);
@@ -1225,9 +1225,9 @@ public class Pokefly extends Service {
             ave = ivScanResult.getAveragePercent();
             high = ivScanResult.getHighestIVCombination().percentPerfect;
         }
-        GUIUtil.setTextColorbyPercentage(resultsMinPercentage, low);
-        GUIUtil.setTextColorbyPercentage(resultsAvePercentage, ave);
-        GUIUtil.setTextColorbyPercentage(resultsMaxPercentage, high);
+        GuiUtil.setTextColorbyPercentage(resultsMinPercentage, low);
+        GuiUtil.setTextColorbyPercentage(resultsAvePercentage, ave);
+        GuiUtil.setTextColorbyPercentage(resultsMaxPercentage, high);
 
 
         if (ivScanResult.iVCombinations.size() > 0) {
@@ -1381,7 +1381,7 @@ public class Pokefly extends Service {
             CopyUtils.copyAssetFolder(getAssets(), "tessdata", extdir + "/tessdata");
         }
 
-        ocr = OCRHelper.init(extdir, displayMetrics.widthPixels, displayMetrics.heightPixels,
+        ocr = OcrHelper.init(extdir, displayMetrics.widthPixels, displayMetrics.heightPixels,
                 getResources().getString(R.string.pokemon029),
                 getResources().getString(R.string.pokemon032));
     }

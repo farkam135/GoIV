@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.kamron.pogoiv.GUIUtil;
+import com.kamron.pogoiv.GuiUtil;
 import com.kamron.pogoiv.logic.Pokemon;
 
 import java.util.ArrayList;
@@ -59,7 +59,7 @@ public class PokemonSpinnerAdapter extends ArrayAdapter<Pokemon> {
         Pokemon pokemon = pokemons.get(position);
         String text = String.format("#%d %s", pokemon.number + 1, pokemon.name);
 
-        int padding = GUIUtil.dpToPixels(5, context);
+        int padding = GuiUtil.dpToPixels(5, context);
         row.setPadding(padding, 0, 0, padding);
         row.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         row.setGravity(View.TEXT_ALIGNMENT_CENTER);

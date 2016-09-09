@@ -30,6 +30,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -79,6 +80,7 @@ import io.apptik.widget.MultiSlider;
  */
 
 public class Pokefly extends Service {
+    private static final String TAG = Pokefly.class.getName();
 
     private static final String ACTION_SEND_INFO = "com.kamron.pogoiv.ACTION_SEND_INFO";
 
@@ -759,7 +761,13 @@ public class Pokefly extends Service {
         pokeInputSpinner.setVisibility(View.VISIBLE);
     }
 
-    private void toggleVisibility(TextView expanderText, LinearLayout expandedBox) {
+    /**
+     * Toggle collapsible layout.
+     * @param expanderText
+     * @param expandedBox
+     * @return true When view was hidden and now is visible.
+     */
+    private boolean toggleVisibility(TextView expanderText, LinearLayout expandedBox) {
         int boxVisibility;
         Drawable arrowDrawable;
         if (expandedBox.getVisibility() == View.VISIBLE) {
@@ -773,6 +781,8 @@ public class Pokefly extends Service {
         Animator arrowAnimator = ObjectAnimator.ofInt(arrowDrawable, "level", 0, 10000).setDuration(100);
         arrowAnimator.start();
         expandedBox.setVisibility(boxVisibility);
+
+        return boxVisibility == View.VISIBLE;
     }
 
 
@@ -783,7 +793,23 @@ public class Pokefly extends Service {
 
     @OnClick({R.id.inputAppraisalExpandBox})
     public void toggleAppraisalBox() {
-        toggleVisibility(inputAppraisalExpandBox, appraisalBox);
+        boolean visible = toggleVisibility(inputAppraisalExpandBox, appraisalBox);
+        moveInfoWindow(visible);
+    }
+
+    /**
+     * Move infoLayout window to top/bottom.
+     * @param toTop
+     */
+    private void moveInfoWindow(boolean toTop) {
+        if (toTop) {
+            layoutParams.gravity = Gravity.CENTER | Gravity.TOP;
+            Log.d(TAG, "moveInfoWindow: top");
+        } else {
+            layoutParams.gravity = Gravity.CENTER | Gravity.BOTTOM;
+            Log.d(TAG, "moveInfoWindow: bottom");
+        }
+        windowManager.updateViewLayout(infoLayout, layoutParams);
     }
 
     private void adjustArcPointerBar(double estimatedPokemonLevel) {

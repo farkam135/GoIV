@@ -491,9 +491,7 @@ public class Pokefly extends Service {
      * @return Desired color.
      */
     @SuppressWarnings("deprecation")
-    private
-    @ColorInt
-    int getColorC(@ColorRes int id) {
+    private @ColorInt int getColorC(@ColorRes int id) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             return getColor(id);
         } else {
@@ -847,6 +845,7 @@ public class Pokefly extends Service {
 
     /**
      * Parse numeric inputs.
+     *
      * @return true if the numeric inputs are valid.
      */
     private boolean parseNumericInputs() {

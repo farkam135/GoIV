@@ -82,7 +82,7 @@ public class ScanContainer {
 
             boolean somethingImproved = pokemonHasLeveledUp || isEvolved;
             boolean isSameOrHigherLevel = currScan.estimatedPokemonLevel >= prevScan.estimatedPokemonLevel;
-            boolean isSameOrHigherEvolution = p1.number == p2.number || p1.isInNextEvolution(p2);
+            boolean isSameOrHigherEvolution = p1.number == p2.number || isEvolved;
             return somethingImproved && isSameOrHigherLevel && isSameOrHigherEvolution;
         }
 

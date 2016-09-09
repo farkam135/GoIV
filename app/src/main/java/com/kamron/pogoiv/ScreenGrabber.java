@@ -74,7 +74,9 @@ public class ScreenGrabber {
         return bmp;
     }
 
-    public @Nullable Bitmap grabScreen() {
+    public
+    @Nullable
+    Bitmap grabScreen() {
         Image image = null;
         Bitmap bmp = null;
 

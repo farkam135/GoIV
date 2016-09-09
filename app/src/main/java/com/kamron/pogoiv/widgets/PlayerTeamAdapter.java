@@ -52,7 +52,7 @@ public class PlayerTeamAdapter extends BaseAdapter implements SpinnerAdapter {
         LayoutInflater inflater = LayoutInflater.from(context);
         view = inflater.inflate(android.R.layout.simple_spinner_dropdown_item, null);
         TextView txv = (TextView) view.findViewById(android.R.id.text1);
-        txv.setPadding(50,50,50,50);
+        txv.setPadding(50, 50, 50, 50);
         txv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
         txv.setTextColor(colors.get(i));
         String[] list = context.getResources().getStringArray(R.array.teams);

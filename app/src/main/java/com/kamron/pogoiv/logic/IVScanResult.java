@@ -152,6 +152,7 @@ public class IVScanResult {
      * 2: 66-80%
      * 3: 51-65%
      * 4: 0-50%
+     *
      * @param selectedItemPosition a number between 1 to 4 as detailed above
      */
     public void refineByAppraisalPercentageRange(int selectedItemPosition) {
@@ -181,9 +182,9 @@ public class IVScanResult {
 
         ArrayList<IVCombination> refinedList = new ArrayList<>();
 
-        for (IVCombination comb:iVCombinations){
+        for (IVCombination comb : iVCombinations) {
 
-            if (comb.percentPerfect >= lowest && comb.percentPerfect <= highest){
+            if (comb.percentPerfect >= lowest && comb.percentPerfect <= highest) {
                 refinedList.add(comb);
             }
         }
@@ -198,6 +199,7 @@ public class IVScanResult {
      * 2: 13-14
      * 3: 8-12
      * 4: 0-7
+     *
      * @param selectedItemPosition a number between 1 to 4 as detailed above
      */
     public void refineByAppraisalIVRange(int selectedItemPosition) {
@@ -227,9 +229,9 @@ public class IVScanResult {
 
         ArrayList<IVCombination> refinedList = new ArrayList<>();
 
-        for (IVCombination comb:iVCombinations){
+        for (IVCombination comb : iVCombinations) {
 
-            if (comb.getHighestStat() >= lowest && comb.getHighestStat() <= highest){
+            if (comb.getHighestStat() >= lowest && comb.getHighestStat() <= highest) {
                 refinedList.add(comb);
             }
         }

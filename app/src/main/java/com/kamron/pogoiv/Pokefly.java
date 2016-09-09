@@ -159,7 +159,6 @@ public class Pokefly extends Service {
     LinearLayout onCheckButtonsLayout;
 
 
-
     @BindView(R.id.appraisalIvRange)
     Spinner appraisalIvRange;
     @BindView(R.id.appraisalPercentageRange)
@@ -345,7 +344,8 @@ public class Pokefly extends Service {
     }
 
     @SuppressWarnings("unchecked")
-    private static PokemonNameCorrector initCorrectorFromPrefs(PokeInfoCalculator pokeInfoCalculator, SharedPreferences sharedPref) {
+    private static PokemonNameCorrector initCorrectorFromPrefs(PokeInfoCalculator pokeInfoCalculator,
+                                                               SharedPreferences sharedPref) {
         return new PokemonNameCorrector(pokeInfoCalculator, (Map<String, String>) sharedPref.getAll());
     }
 
@@ -792,23 +792,27 @@ public class Pokefly extends Service {
 
     /**
      * Moves the overlay up or down
+     *
      * @param moveUp true if move up, false if move down
      */
     private void moveOverlay(Boolean moveUp) {
         WindowManager.LayoutParams newParams = (WindowManager.LayoutParams) infoLayout.getLayoutParams();
-        if(moveUp){
+        if (moveUp) {
             newParams.gravity = Gravity.TOP;
-        }else{
+        } else {
             newParams.gravity = Gravity.BOTTOM;
         }
         windowManager.updateViewLayout(infoLayout, newParams);
     }
+
     /**
      * Moves the entire overlay up if the appraisal box is visible
      */
     private void moveOverlayUpOrDownToMatchAppraisalBox() {
-        if (windowManager == null) return; //do nothing if window is not initiated
-        if (infoLayout.getLayoutParams() == null) return;
+        if (windowManager == null)
+            return; //do nothing if window is not initiated
+        if (infoLayout.getLayoutParams() == null)
+            return;
 
         moveOverlay(appraisalBox.getVisibility() == View.VISIBLE);
     }
@@ -874,7 +878,8 @@ public class Pokefly extends Service {
         deleteScreenshotIfIShould();
 
         Pokemon pokemon = interpretWhichPokemonUserInput();
-        if (pokemon == null) return; //
+        if (pokemon == null)
+            return;
 
         rememberUserInputForPokemonNameIfNewNickname(pokemon);
 
@@ -1034,11 +1039,11 @@ public class Pokefly extends Service {
 
     /**
      * Adjusts expandedLevelSeekbar and expandedLevelSeekbar thumbs
-     *
+     * <p/>
      * expandedLevelSeekbar is a single thumb seekbar
      * Seekbar should be max at possible Pokemon level at trainer level 40.
      * Thumb should be placed at current Pokemon level
-     *
+     * <p/>
      * expandedLevelSeekbarBackground is a double thumb seekbar
      * Seekbar should be max at possible Pokemon at trainer level 40
      * Thumb 1 should be marked as an orange marker and placed at the max possible Pokemon level at the current

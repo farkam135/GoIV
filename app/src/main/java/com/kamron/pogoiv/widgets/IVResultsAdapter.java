@@ -19,11 +19,11 @@ import com.kamron.pogoiv.logic.IVScanResult;
  */
 public class IVResultsAdapter extends RecyclerView.Adapter<IVResultsAdapter.ResultsViewHolder> {
     private final LayoutInflater layoutInflater;
-    private final IVScanResult mDataSet;
+    private final IVScanResult dataSet;
 
     public IVResultsAdapter(IVScanResult ivScanResult, Context context) {
         layoutInflater = LayoutInflater.from(context);
-        mDataSet = ivScanResult;
+        dataSet = ivScanResult;
     }
 
     @Override
@@ -34,7 +34,7 @@ public class IVResultsAdapter extends RecyclerView.Adapter<IVResultsAdapter.Resu
 
     @Override
     public void onBindViewHolder(ResultsViewHolder holder, int position) {
-        IVCombination currentSet = mDataSet.iVCombinations.get(position);
+        IVCombination currentSet = dataSet.iVCombinations.get(position);
         holder.resultAttack.setText(String.valueOf(currentSet.att));
         holder.resultDefense.setText(String.valueOf(currentSet.def));
         holder.resultHP.setText(String.valueOf(currentSet.sta));
@@ -54,7 +54,7 @@ public class IVResultsAdapter extends RecyclerView.Adapter<IVResultsAdapter.Resu
 
     @Override
     public int getItemCount() {
-        return mDataSet.iVCombinations.size();
+        return dataSet.iVCombinations.size();
     }
 
     class ResultsViewHolder extends RecyclerView.ViewHolder {

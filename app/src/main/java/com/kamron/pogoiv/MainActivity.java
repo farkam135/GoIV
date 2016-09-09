@@ -327,7 +327,7 @@ public class MainActivity extends AppCompatActivity {
                             public void onChange(boolean selfChange, Uri uri) {
                                 if (readyForNewScreenshot) {
                                     if (uri.toString().contains("images")) {
-                                        final String pathChange = getRealPathFromURI(MainActivity.this, uri);
+                                        final String pathChange = getRealPathFromUri(MainActivity.this, uri);
                                         if (pathChange.contains("Screenshot")) {
                                             screenshotDir = pathChange.substring(0,
                                                     pathChange.lastIndexOf(File.separator));
@@ -529,7 +529,7 @@ public class MainActivity extends AppCompatActivity {
         startPokeFly();
     }
 
-    private String getRealPathFromURI(Context context, Uri contentUri) {
+    private String getRealPathFromUri(Context context, Uri contentUri) {
         Cursor cursor = null;
         try {
             String[] proj = {MediaStore.Images.Media.DATA};

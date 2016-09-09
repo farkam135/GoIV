@@ -125,7 +125,7 @@ public class Pokefly extends Service {
 
     private boolean infoShownSent = false;
     private boolean infoShownReceived = false;
-    private boolean IVButtonShown = false;
+    private boolean ivButtonShown = false;
 
     private ImageView ivButton;
     private ImageView arcPointer;
@@ -325,7 +325,7 @@ public class Pokefly extends Service {
     public void onCreate() {
         super.onCreate();
         displayMetrics = this.getResources().getDisplayMetrics();
-        initOCR();
+        initOcr();
         windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
         clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 
@@ -1384,7 +1384,7 @@ public class Pokefly extends Service {
         }
     }
 
-    private void initOCR() {
+    private void initOcr() {
         String extdir = getExternalFilesDir(null).toString();
         if (!new File(extdir + "/tessdata/eng.traineddata").exists()) {
             CopyUtils.copyAssetFolder(getAssets(), "tessdata", extdir + "/tessdata");
@@ -1490,13 +1490,13 @@ public class Pokefly extends Service {
      * hide the IV Button.
      */
     private void setIVButtonDisplay(boolean show) {
-        if (show && !IVButtonShown && !infoShownSent) {
+        if (show && !ivButtonShown && !infoShownSent) {
             windowManager.addView(ivButton, ivButtonParams);
-            IVButtonShown = true;
+            ivButtonShown = true;
         } else if (!show) {
-            if (IVButtonShown) {
+            if (ivButtonShown) {
                 windowManager.removeView(ivButton);
-                IVButtonShown = false;
+                ivButtonShown = false;
             }
         }
     }

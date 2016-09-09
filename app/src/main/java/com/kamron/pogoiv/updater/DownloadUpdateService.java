@@ -24,14 +24,14 @@ public class DownloadUpdateService extends Service {
 
         if (intent != null) {
 
-            String downloadURL = intent.getStringExtra(KEY_DOWNLOAD_URL);
+            String downloadUrl = intent.getStringExtra(KEY_DOWNLOAD_URL);
             String newApkFilePath = getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS) + "/" + FILE_NAME;
             final File newApkFile = new File(newApkFilePath);
             final Uri downloadUri = Uri.parse("file://" + newApkFile);
             if (newApkFile.exists()) {
                 newApkFile.delete();
             }
-            DownloadManager.Request request = new DownloadManager.Request(Uri.parse(downloadURL));
+            DownloadManager.Request request = new DownloadManager.Request(Uri.parse(downloadUrl));
             request.setTitle(DOWNLOAD_UPDATE_TITLE);
 
             //set destination

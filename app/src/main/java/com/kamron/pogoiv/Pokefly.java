@@ -568,14 +568,12 @@ public class Pokefly extends Service {
         ivButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_UP:
-                        setIVButtonDisplay(false);
-                        takeScreenshot();
-                        receivedInfo = false;
-                        infoShownSent = true;
-                        infoShownReceived = false;
-                        break;
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    setIVButtonDisplay(false);
+                    takeScreenshot();
+                    receivedInfo = false;
+                    infoShownSent = true;
+                    infoShownReceived = false;
                 }
                 return false;
             }

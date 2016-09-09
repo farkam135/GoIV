@@ -56,11 +56,11 @@ public class IVScanResult {
      * @return
      */
     public int getAveragePercent() {
-        int averageSum = 0;
+        int sum = 0;
         for (IVCombination ivc : iVCombinations) {
-            averageSum += ivc.att + ivc.def + ivc.sta;
+            sum += ivc.att + ivc.def + ivc.sta;
         }
-        return (int) (averageSum * 100 / (45.0 * getCount()) + 0.5);
+        return Math.round(sum * 100f / (45f * getCount()));
     }
 
     /**

@@ -46,7 +46,7 @@ public class PokemonNameCorrector {
      *
      * @return a PokeDist with pokemon ID and distance.
      */
-    public PokeDist getPossiblePokemon(String poketext, String candytext) {
+    public PokeDist getPossiblePokemon(String poketext, String candytext, int candyUpgradeCost) {
         int poketextDist = 0;
         int bestCandyMatch = Integer.MAX_VALUE;
         Pokemon p;

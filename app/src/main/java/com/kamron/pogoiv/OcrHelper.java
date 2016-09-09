@@ -261,12 +261,8 @@ public class OcrHelper {
         if (candyName == null) {
             candy = replaceColors(candy, 68, 105, 108, Color.WHITE, 200, true);
             tesseract.setImage(candy);
-            try {
-                candyName = fixOcrNumsToLetters(
-                        removeFirstOrLastWord(tesseract.getUTF8Text().trim().replace("-", " "), candyWordFirst));
-            } catch (StringIndexOutOfBoundsException e) {
-                candyName = "";
-            }
+            candyName = fixOcrNumsToLetters(
+                    removeFirstOrLastWord(tesseract.getUTF8Text().trim().replace("-", " "), candyWordFirst));
             candy.recycle();
             ocrCache.put(hash, candyName);
         }

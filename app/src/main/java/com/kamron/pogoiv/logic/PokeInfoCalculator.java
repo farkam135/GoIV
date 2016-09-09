@@ -236,10 +236,10 @@ public class PokeInfoCalculator {
         int baseStamina = pokemon.baseStamina;
         double lvlScalar = Data.CpM[(int) (level * 2 - 2)];
         int cpMin = (int) Math.floor(
-                (baseAttack + lowAttack) * Math.sqrt(baseDefense + lowDefense) * Math.sqrt(baseStamina + lowStamina) *
-                        Math.pow(lvlScalar, 2) * 0.1);
-        int cpMax = (int) Math.floor((baseAttack + highAttack) * Math.sqrt(baseDefense + highDefense) *
-                Math.sqrt(baseStamina + highStamina) * Math.pow(lvlScalar, 2) * 0.1);
+                (baseAttack + lowAttack) * Math.sqrt(baseDefense + lowDefense) * Math.sqrt(baseStamina + lowStamina)
+                        * Math.pow(lvlScalar, 2) * 0.1);
+        int cpMax = (int) Math.floor((baseAttack + highAttack) * Math.sqrt(baseDefense + highDefense)
+                * Math.sqrt(baseStamina + highStamina) * Math.pow(lvlScalar, 2) * 0.1);
         if (cpMin > cpMax) {
             int tmp = cpMax;
             cpMax = cpMin;
@@ -264,8 +264,8 @@ public class PokeInfoCalculator {
             dedevolution = get(devolution.devoNumber);
         }
 
-        boolean isEndReallyAfterStart = (devolution == start) ||
-                dedevolution == start; //end must be devolution or devolution of devolution of start
+        boolean isEndReallyAfterStart = (devolution == start)
+                || dedevolution == start; //end must be devolution or devolution of devolution of start
         int cost = 0;
         if (isInSameEvolutionChain(start, end) && isEndReallyAfterStart) {
             while (start != end) { //move backwards from end until you've reached start

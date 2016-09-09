@@ -124,7 +124,7 @@ public class OCRHelper {
     }
 
     /**
-     * Scans the arc and tries to determine the pokemon level, returns 1 if nothing found
+     * Scans the arc and tries to determine the pokemon level, returns 1 if nothing found.
      *
      * @param pokemonImage The image of the entire screen
      * @return the estimated pokemon level, or 1 if nothing found
@@ -143,7 +143,7 @@ public class OCRHelper {
     }
 
     /**
-     * Get the hashcode for a bitmap
+     * Get the hashcode for a bitmap.
      */
     private String hashBitmap(Bitmap bmp) {
         int[] allpixels = new int[bmp.getHeight() * bmp.getWidth()];
@@ -201,7 +201,7 @@ public class OCRHelper {
     }
 
     /**
-     * get the pokemon name as analysed from a pokemon image
+     * Get the pokemon name as analysed from a pokemon image.
      *
      * @param pokemonImage the image of the whole screen
      * @return A string resulting from the scan
@@ -234,18 +234,20 @@ public class OCRHelper {
     private static String removeFirstOrLastWord(String src, boolean removeFirst) {
         if (removeFirst) {
             int fstSpace = src.indexOf(' ');
-            if (fstSpace != -1)
+            if (fstSpace != -1) {
                 return src.substring(fstSpace + 1);
+            }
         } else {
             int lstSpace = src.lastIndexOf(' ');
-            if (lstSpace != -1)
+            if (lstSpace != -1) {
                 return src.substring(0, lstSpace);
+            }
         }
         return src;
     }
 
     /**
-     * gets the candy name from a pokenon image
+     * Gets the candy name from a pokenon image.
      *
      * @param pokemonImage the image of the whole screen
      * @return the candy name, or "" if nothing was found
@@ -272,7 +274,7 @@ public class OCRHelper {
     }
 
     /**
-     * get the pokemon hp from a picture
+     * Get the pokemon hp from a picture.
      *
      * @param pokemonImage the image of the whole screen
      * @return an integer of the interpreted pokemon name, 10 if scan failed
@@ -304,7 +306,7 @@ public class OCRHelper {
     }
 
     /**
-     * get the cp of a pokemon image
+     * Get the CP of a pokemon image.
      *
      * @param pokemonImage the image of the whole pokemon screen
      * @return a CP of the pokemon, 10 if scan failed

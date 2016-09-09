@@ -112,8 +112,9 @@ public class MainActivity extends AppCompatActivity {
                 AlertDialog updateDialog = AppUpdateUtil.getAppUpdateDialog(mContext, update);
                 updateDialog.show();
             }
-            if (!shouldShowUpdateDialog)
+            if (!shouldShowUpdateDialog) {
                 shouldShowUpdateDialog = true;
+            }
         }
     };
     private GoIVSettings settings;
@@ -136,8 +137,9 @@ public class MainActivity extends AppCompatActivity {
         Cursor c = downloadManager.query(q);
         if (c.moveToFirst()) {
             String fileName = c.getString(c.getColumnIndex(DownloadManager.COLUMN_TITLE));
-            if (fileName.equals(DownloadUpdateService.DOWNLOAD_UPDATE_TITLE))
+            if (fileName.equals(DownloadUpdateService.DOWNLOAD_UPDATE_TITLE)) {
                 return true;
+            }
         }
         return false;
     }
@@ -154,8 +156,9 @@ public class MainActivity extends AppCompatActivity {
 
         shouldShowUpdateDialog = true;
 
-        if (settings.isAutoUpdateEnabled())
+        if (settings.isAutoUpdateEnabled()) {
             AppUpdateUtil.checkForUpdate(mContext);
+        }
 
         setContentView(R.layout.activity_main);
 
@@ -244,7 +247,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * initiates the team picker spinner
+     * Initiates the team picker spinner.
      */
     private void initiateTeamPickerSpinner() {
         Spinner spinner = (Spinner) findViewById(R.id.teamPickerSpinner);
@@ -276,8 +279,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
         arcRadius = (int) Math.round(displayMetrics.heightPixels / 4.3760683);
-        if (displayMetrics.heightPixels == 1776 || displayMetrics.heightPixels == 960 ||
-                displayMetrics.heightPixels == 800) {
+        if (displayMetrics.heightPixels == 1776 || displayMetrics.heightPixels == 960
+                || displayMetrics.heightPixels == 800) {
             arcRadius++;
         }
     }
@@ -382,8 +385,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * startPokeFly
-     * Starts the PokeFly background service which contains overlay logic
+     * Starts the PokeFly background service which contains overlay logic.
      */
     private void startPokeFly() {
         ((Button) findViewById(R.id.start)).setText(R.string.main_stop);
@@ -411,7 +413,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * checkPermissions
      * Checks to see if all runtime permissions are granted,
      * if not change button text to Grant Permissions.
      *
@@ -421,8 +422,8 @@ public class MainActivity extends AppCompatActivity {
         //Check Permissions
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(this)) {
             launch.setText(getString(R.string.main_permission));
-        } else if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
-                PackageManager.PERMISSION_DENIED) {
+        } else if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                == PackageManager.PERMISSION_DENIED) {
             launch.setText(getString(R.string.main_permission));
         }
     }
@@ -475,18 +476,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * openPokemonGoApp
-     * Runs a launch intent for Pokemon GO
+     * Runs a launch intent for Pokemon GO.
      */
     private void openPokemonGoApp() {
         Intent i = getPackageManager().getLaunchIntentForPackage("com.nianticlabs.pokemongo");
-        if (i != null)
+        if (i != null) {
             startActivity(i);
+        }
     }
 
     @TargetApi(Build.VERSION_CODES.M)
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[],
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
         if (requestCode == WRITE_STORAGE_REQ_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -500,7 +501,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * startScreenService
      * Starts the screen capture.
      */
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -512,8 +512,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * startScreenshotService
-     * Starts the screenshot service, which checks for a new screenshot to scan
+     * Starts the screenshot service, which checks for a new screenshot to scan.
      */
     private void startScreenshotService() {
         screenShotScanner = new FileObserver(screenshotDir, FileObserver.CLOSE_NOWRITE | FileObserver.CLOSE_WRITE) {

@@ -46,11 +46,12 @@ public class SettingsActivity extends AppCompatActivity {
             if (update.getStatus() == AppUpdate.UPDATE_AVAILABLE) {
                 AlertDialog updateDialog = AppUpdateUtil.getAppUpdateDialog(mContext, update);
                 updateDialog.show();
-            } else if (update.getStatus() == AppUpdate.UP_TO_DATE)
+            } else if (update.getStatus() == AppUpdate.UP_TO_DATE) {
                 Toast.makeText(mContext, getResources().getString(R.string.up_to_date), Toast.LENGTH_SHORT).show();
-            else
+            } else {
                 Toast.makeText(mContext, getResources().getString(R.string.update_check_failed), Toast.LENGTH_SHORT)
                         .show();
+            }
         }
     };
 
@@ -72,9 +73,10 @@ public class SettingsActivity extends AppCompatActivity {
                                     Toast.LENGTH_SHORT).show();
                             MainActivity.shouldShowUpdateDialog = false;
                             AppUpdateUtil.checkForUpdate(getActivity());
-                        } else
+                        } else {
                             Toast.makeText(getActivity(), getResources().getString(R.string.ongoing_update),
                                     Toast.LENGTH_SHORT).show();
+                        }
                         return true;
                     }
                 });

@@ -406,8 +406,8 @@ public class Pokefly extends Service {
         }
 
         if (bmp.getHeight() > bmp.getWidth()) {
-            boolean shouldShow = bmp.getPixel(areaX1, areaY1) == Color.rgb(250, 250, 250) &&
-                    bmp.getPixel(areaX2, areaY2) == Color.rgb(28, 135, 150);
+            boolean shouldShow = bmp.getPixel(areaX1, areaY1) == Color.rgb(250, 250, 250)
+                    && bmp.getPixel(areaX2, areaY2) == Color.rgb(28, 135, 150);
             setIVButtonDisplay(shouldShow);
         }
         bmp.recycle();
@@ -809,10 +809,12 @@ public class Pokefly extends Service {
      * Moves the entire overlay up if the appraisal box is visible
      */
     private void moveOverlayUpOrDownToMatchAppraisalBox() {
-        if (windowManager == null)
+        if (windowManager == null) {
             return; //do nothing if window is not initiated
-        if (infoLayout.getLayoutParams() == null)
+        }
+        if (infoLayout.getLayoutParams() == null) {
             return;
+        }
 
         moveOverlay(appraisalBox.getVisibility() == View.VISIBLE);
     }
@@ -878,8 +880,9 @@ public class Pokefly extends Service {
         deleteScreenshotIfIShould();
 
         Pokemon pokemon = interpretWhichPokemonUserInput();
-        if (pokemon == null)
+        if (pokemon == null) {
             return;
+        }
 
         rememberUserInputForPokemonNameIfNewNickname(pokemon);
 
@@ -999,8 +1002,8 @@ public class Pokefly extends Service {
     private void addToRangeToClipboardIfSettingOn(IVScanResult ivScanResult) {
         if (GoIVSettings.getInstance(getApplicationContext()).shouldCopyToClipboard()) {
             if (!ivScanResult.tooManyPossibilities) {
-                String clipText = ivScanResult.getLowestIVCombination().percentPerfect + "-" +
-                        ivScanResult.getHighestIVCombination().percentPerfect;
+                String clipText = ivScanResult.getLowestIVCombination().percentPerfect + "-"
+                        + ivScanResult.getHighestIVCombination().percentPerfect;
                 ClipData clip = ClipData.newPlainText(clipText, clipText);
                 clipboard.setPrimaryClip(clip);
             }
@@ -1141,8 +1144,8 @@ public class Pokefly extends Service {
     }
 
     private double seekbarProgressToLevel(int progress) {
-        return (progress + getSeekbarOffset()) /
-                2.0;  //seekbar only supports integers, so the seekbar works between 2 and 80.
+        return (progress + getSeekbarOffset()) / 2.0;
+        //seekbar only supports integers, so the seekbar works between 2 and 80.
     }
 
     /**
@@ -1154,8 +1157,8 @@ public class Pokefly extends Service {
     }
 
     /**
-     * sets the growth estimate text boxes to correpond to the
-     * pokemon evolution and level set by the user
+     * Sets the growth estimate text boxes to correpond to the
+     * pokemon evolution and level set by the user.
      */
     private void populateAdvancedInformation(IVScanResult ivScanResult) {
         double goalLevel = seekbarProgressToLevel(expandedLevelSeekbar.getProgress());
@@ -1218,7 +1221,7 @@ public class Pokefly extends Service {
 
 
     /**
-     * fixes the three boxes that show iv range color and text
+     * Fixes the three boxes that show iv range color and text.
      *
      * @param ivScanResult the scan result used to populate the TextViews
      */
@@ -1269,7 +1272,7 @@ public class Pokefly extends Service {
     }
 
     /**
-     * Displays the all possibilities dialog
+     * Displays the all possibilities dialog.
      */
     @OnClick(R.id.tvSeeAllPossibilities)
     public void displayAllPossibilities() {
@@ -1286,15 +1289,16 @@ public class Pokefly extends Service {
             // Since the only change was an intersection, if the sizes are equal the content's also equal.
             boolean changed = newResult.size() != thisScan.iVCombinations.size();
             thisScan.iVCombinations = newResult;
-            if (changed)
+            if (changed) {
                 populateResultsBox(thisScan);
-            else
+            } else {
                 Toast.makeText(this, R.string.refine_no_progress, Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
     /**
-     * resets the floating window that contains the result and input dialogue
+     * Resets the floating window that contains the result and input dialogue.
      */
     private void resetInfoDialogue() {
         inputBox.setVisibility(View.VISIBLE);
@@ -1314,7 +1318,7 @@ public class Pokefly extends Service {
     }
 
     /**
-     * Goes back a section
+     * Goes back a section.
      */
     //TODO: Needs better implementation
     @OnClick(R.id.btnBackInfo)
@@ -1415,8 +1419,7 @@ public class Pokefly extends Service {
     }
 
     /**
-     * takeScreenshot
-     * Called by intent from pokefly, captures the screen and runs it through scanPokemon
+     * Called by intent from pokefly, captures the screen and runs it through scanPokemon.
      */
     private void takeScreenshot() {
         Bitmap bmp = screen.grabScreen();

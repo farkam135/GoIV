@@ -48,8 +48,9 @@ public class AppUpdateUtil {
 
                     JSONObject releaseInfo = new JSONObject(response.body().string());
                     JSONObject releaseAssets = releaseInfo.getJSONArray("assets").getJSONObject(0);
-                    if (releaseAssets.getString("name").contains("Offline"))
+                    if (releaseAssets.getString("name").contains("Offline")) {
                         releaseAssets = releaseInfo.getJSONArray("assets").getJSONObject(1);
+                    }
 
                     AppUpdate update = new AppUpdate(releaseAssets.getString("browser_download_url"),
                             releaseInfo.getString("tag_name"), releaseInfo.getString("body"), AppUpdate.UP_TO_DATE);
@@ -58,8 +59,9 @@ public class AppUpdateUtil {
                     SemVer remoteVersion = SemVer.parse(update.getVersion());
 
                     //If current version is smaller than remote version
-                    if (currentVersion.compareTo(remoteVersion) < 0)
+                    if (currentVersion.compareTo(remoteVersion) < 0) {
                         update.setStatus(AppUpdate.UPDATE_AVAILABLE);
+                    }
 
                     Intent updateIntent = MainActivity.createUpdateDialogIntent(update);
                     LocalBroadcastManager.getInstance(context).sendBroadcast(updateIntent);
@@ -72,11 +74,9 @@ public class AppUpdateUtil {
     }
 
     public static AlertDialog getAppUpdateDialog(final Context context, final AppUpdate update) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context)
-                .setTitle("Update available")
-                .setMessage(context.getString(R.string.app_name) + " v" + update.getVersion() + " " + "is available" +
-                        "\n\n" + "Changes:" + "\n\n" + update.getChangelog())
-                .setIcon(R.mipmap.ic_launcher)
+        AlertDialog.Builder builder = new AlertDialog.Builder(context).setTitle("Update available").setMessage(
+                context.getString(R.string.app_name) + " v" + update.getVersion() + " " + "is available"
+                        + "\n\n" + "Changes:" + "\n\n" + update.getChangelog()).setIcon(R.mipmap.ic_launcher)
                 .setPositiveButton("Update", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {

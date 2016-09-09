@@ -27,8 +27,9 @@ public class DownloadUpdateService extends Service {
             String newApkFilePath = getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS) + "/" + FILE_NAME;
             final File newApkFile = new File(newApkFilePath);
             final Uri downloadUri = Uri.parse("file://" + newApkFile);
-            if (newApkFile.exists())
+            if (newApkFile.exists()) {
                 newApkFile.delete();
+            }
             DownloadManager.Request request = new DownloadManager.Request(Uri.parse(downloadURL));
             request.setTitle(DOWNLOAD_UPDATE_TITLE);
 
@@ -61,13 +62,15 @@ public class DownloadUpdateService extends Service {
                                         manager.getMimeTypeForDownloadedFile(startedDownloadId));
                                 ctxt.startActivity(install);
                             } else if (status == DownloadManager.STATUS_FAILED) {
-                                if (newApkFile.exists())
+                                if (newApkFile.exists()) {
                                     newApkFile.delete();
+                                }
                             }
                         } else {
                             //Delete the partially downloaded file
-                            if (newApkFile.exists())
+                            if (newApkFile.exists()) {
                                 newApkFile.delete();
+                            }
                         }
 
                         ctxt.unregisterReceiver(this);

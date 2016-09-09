@@ -58,7 +58,10 @@ public class IVResultsAdapter extends RecyclerView.Adapter<IVResultsAdapter.Resu
     }
 
     class ResultsViewHolder extends RecyclerView.ViewHolder {
-        final TextView resultAttack, resultDefense, resultHP, resultPercentage;
+        final TextView resultAttack;
+        final TextView resultDefense;
+        final TextView resultHP;
+        final TextView resultPercentage;
         final LinearLayout llRvResult;
 
         public ResultsViewHolder(View itemView) {

@@ -43,6 +43,7 @@ public class PokemonNameCorrector {
 
     /**
      * Compute the most likely pokemon ID based on the pokemon and candy names.
+     *
      * @return a PokeDist with pokemon ID and distance.
      */
     public PokeDist getPossiblePokemon(String poketext, String candytext) {

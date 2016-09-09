@@ -11,7 +11,7 @@ import android.widget.TextView;
 public class GUIUtil {
 
     /**
-     * Sets the text color to red if below 80, and green if above
+     * Sets the text color to red if below 80, and green if above.
      *
      * @param text  the text that changes color
      * @param value the value that is checked if its above 80
@@ -27,7 +27,7 @@ public class GUIUtil {
     }
 
     /**
-     * Converts dp units to pixels
+     * Converts dp units to pixels.
      *
      * @param dp      the dp ammount you want to return as pixels
      * @param context the context

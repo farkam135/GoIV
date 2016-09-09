@@ -853,11 +853,10 @@ public class Pokefly extends Service {
     }
 
     /**
-     * Heuristic check to see if scan is successful - look if the scan has input which can be interpreted as numbers
-     *
-     * @return true if hp and cp is seemingly scanned correctly
+     * Parse numeric inputs.
+     * @return true if the numeric inputs are valid.
      */
-    private boolean doesScanHaveValidParameters() {
+    private boolean parseNumericInputs() {
         try {
             pokemonHP = Integer.parseInt(pokemonHPEdit.getText().toString());
             pokemonCP = Integer.parseInt(pokemonCPEdit.getText().toString());
@@ -873,7 +872,7 @@ public class Pokefly extends Service {
      */
     public void checkIv() {
         //warn user and stop calculation if scan/input failed/is wrong
-        if (!doesScanHaveValidParameters()) {
+        if (!parseNumericInputs()) {
             Toast.makeText(this, R.string.missing_inputs, Toast.LENGTH_SHORT).show();
             return;
         }

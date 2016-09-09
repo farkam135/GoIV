@@ -169,7 +169,7 @@ public class PokeInfoCalculator {
      * @param pokemonHP             THe pokemon hp
      * @param pokemonCP             The pokemonCP
      * @return An IVScanResult which contains the information calculated about the pokemon, or null if there are too
-     *         many possibilities.
+     * many possibilities.
      */
     public IVScanResult getIVPossibilities(Pokemon selectedPokemon, double estimatedPokemonLevel, int pokemonHP,
                                            int pokemonCP) {

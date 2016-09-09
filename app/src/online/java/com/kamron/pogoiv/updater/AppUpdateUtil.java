@@ -82,7 +82,7 @@ public class AppUpdateUtil {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();
                         Intent startDownloadIntent = new Intent(context, DownloadUpdateService.class);
-                        startDownloadIntent.putExtra("downloadURL", update.getAssetUrl());
+                        startDownloadIntent.putExtra(DownloadUpdateService.KEY_DOWNLOAD_URL, update.getAssetUrl());
                         context.startService(startDownloadIntent);
                     }
                 }).setNegativeButton(context.getString(R.string.cancel), new DialogInterface.OnClickListener() {

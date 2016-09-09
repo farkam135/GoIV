@@ -791,28 +791,26 @@ public class Pokefly extends Service {
     }
 
     /**
-     * Moves the entire overlay up if the appraisal box is visible
+     * Moves the overlay up or down
+     * @param moveUp true if move up, false if move down
      */
-    private void moveOverlayUpOrDownToMatchAppraisalBox() {
-        if (windowManager == null) return; //do nothing if window is not initiated
-        if (infoLayout.getLayoutParams() == null) return;
-
+    private void moveOverlay(Boolean moveUp) {
         WindowManager.LayoutParams newParams = (WindowManager.LayoutParams) infoLayout.getLayoutParams();
-        if (appraisalBox.getVisibility() == View.VISIBLE) {
+        if(moveUp){
             newParams.gravity = Gravity.TOP;
         }else{
             newParams.gravity = Gravity.BOTTOM;
         }
         windowManager.updateViewLayout(infoLayout, newParams);
     }
-
     /**
-     * Moves the overlay down to the bottom of the screen
+     * Moves the entire overlay up if the appraisal box is visible
      */
-    private void moveOverlayDown() {
-        WindowManager.LayoutParams newParams = (WindowManager.LayoutParams) infoLayout.getLayoutParams();
-        newParams.gravity = Gravity.BOTTOM;
-        windowManager.updateViewLayout(infoLayout, newParams);
+    private void moveOverlayUpOrDownToMatchAppraisalBox() {
+        if (windowManager == null) return; //do nothing if window is not initiated
+        if (infoLayout.getLayoutParams() == null) return;
+
+        moveOverlay(appraisalBox.getVisibility() == View.VISIBLE);
     }
 
     private void adjustArcPointerBar(double estimatedPokemonLevel) {
@@ -897,7 +895,7 @@ public class Pokefly extends Service {
         exResCompare.setEnabled(enableCompare);
         exResCompare.setTextColor(getColorC(enableCompare ? R.color.colorPrimary : R.color.unimportantText));
 
-        moveOverlayDown(); //we dont want overlay to stay on top if user had appraisal box
+        moveOverlay(false); //we dont want overlay to stay on top if user had appraisal box
         transitionOverlayViewFromInputToResults();
     }
 

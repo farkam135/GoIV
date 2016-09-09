@@ -1017,6 +1017,7 @@ public class Pokefly extends Service {
      * Sets all the information in the result box.
      */
     private void populateResultsBox(IVScanResult ivScanResult) {
+        ivScanResult.sortCombinations();
         populateResultsHeader(ivScanResult);
 
 

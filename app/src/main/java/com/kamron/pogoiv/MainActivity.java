@@ -108,6 +108,7 @@ public class MainActivity extends AppCompatActivity {
     private final BroadcastReceiver showUpdateDialog = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            assert BuildConfig.isInternetAvailable;
             AppUpdate update = intent.getParcelableExtra("update");
             if (update.getStatus() == AppUpdate.UPDATE_AVAILABLE && shouldShowUpdateDialog && !isGoIVBeingUpdated(
                     context)) {
@@ -156,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
 
         shouldShowUpdateDialog = true;
 
-        if (BuildConfig.isInternetAvailable && settings.isAutoUpdateEnabled())
+        if (settings.isAutoUpdateEnabled())
             AppUpdateUtil.checkForUpdate(mContext);
 
         setContentView(R.layout.activity_main);

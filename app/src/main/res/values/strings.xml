@@ -14,32 +14,32 @@
     </string-array>
 
     <string-array name="mystic_percentage">
-        <item name="mplace1">"choose 1st phrase"</item>
-        <item name="mystic80_100">"Breathtaking"</item>
-        <item name="mystic67_79">"Caught my attention."</item>
-        <item name="mystic51_66">"Above average."</item>
-        <item name="mystic0_50">"Not much headway."</item>
+        <item name="mplace1">"Choose 1st phrase"</item>
+        <item name="mystic80_100">"…Breathtaking"</item>
+        <item name="mystic67_79">"…Caught my attention."</item>
+        <item name="mystic51_66">"…Above average."</item>
+        <item name="mystic0_50">"…Not much headway."</item>
     </string-array>
 
     <string-array name="mystic_ivrange">
-        <item name="mplace2">"choose stats phrase"</item>
-        <item name="mysticiv15">"Incredible!"</item>
-        <item name="mysticiv13_14">Impressed"</item>
-        <item name="mysticiv8_12">"Trending to positive."</item>
-        <item name="mysticiv0_7">"The norm"</item>
+        <item name="mplace2">"Choose stats phrase"</item>
+        <item name="mysticiv15">"…Incredible!"</item>
+        <item name="mysticiv13_14">…Impressed"</item>
+        <item name="mysticiv8_12">"…Trending to positive."</item>
+        <item name="mysticiv0_7">"…The norm"</item>
     </string-array>
 
 
     <string-array name="instinct_percentage">
-        <item name="iplace1">"choose 1st phrase"</item>
-        <item name="instinct80_100">"best of them!"</item>
-        <item name="instinct67_79">"really strong!"</item>
-        <item name="instinct51_66">"pretty decent!"</item>
-        <item name="instinct0_50">"has room for improvement."</item>
+        <item name="iplace1">"Choose 1st phrase"</item>
+        <item name="instinct80_100">"…best of them!"</item>
+        <item name="instinct67_79">"…really strong!"</item>
+        <item name="instinct51_66">"…pretty decent!"</item>
+        <item name="instinct0_50">"…has room for improvement."</item>
     </string-array>
 
     <string-array name="instinct_ivrange">
-        <item name="iplace2">"choose stats phrase"</item>
+        <item name="iplace2">"Choose stats phrase"</item>
         <item name="instinctiv15">"Its stats are the best I've ever seen! No doubt about it!"</item>
         <item name="instinctiv13_14">"Its stats are really strong! Impressive."</item>
         <item name="instinctiv8_12">"It's definitely got some good stats. Definitely!"</item>
@@ -48,10 +48,10 @@
 
     <string-array name="valor_percentage">
         <item name="vplace1">"choose 1st phrase"</item>
-        <item name="valor80_100">"simply amazes me. It can accomplish anything!"</item>
-        <item name="valor67_79">"a strong Pokemon. You should be proud!"</item>
-        <item name="valor51_66">"a decent Pokemon"</item>
-        <item name="valor0_50">"may not be great in battle, but I still like it!"</item>
+        <item name="valor80_100">"…simply amazes me. It can accomplish anything!"</item>
+        <item name="valor67_79">"…a strong Pokemon. You should be proud!"</item>
+        <item name="valor51_66">"…a decent Pokemon"</item>
+        <item name="valor0_50">"…may not be great in battle, but I still like it!"</item>
     </string-array>
 
     <string-array name="valor_ivrange">

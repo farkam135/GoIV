@@ -287,9 +287,9 @@ public class OcrHelper {
             hp = replaceColors(hp, 55, 66, 61, Color.WHITE, 200, true);
             tesseract.setImage(hp);
             pokemonHPStr = tesseract.getUTF8Text();
-            hp.recycle();
             ocrCache.put(hash, pokemonHPStr);
         }
+        hp.recycle();
 
         if (pokemonHPStr.contains("/")) {
             try {

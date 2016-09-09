@@ -276,7 +276,6 @@ public class OcrHelper {
      * @return an integer of the interpreted pokemon name, 10 if scan failed
      */
     private int getPokemonHPFromImg(Bitmap pokemonImage) {
-        int pokemonHP = 10;
         Bitmap hp = Bitmap.createBitmap(pokemonImage, (int) Math.round(widthPixels / 2.8),
                 (int) Math.round(heightPixels / 1.8962963), (int) Math.round(widthPixels / 3.5),
                 (int) Math.round(heightPixels / 34.13333333));
@@ -300,12 +299,12 @@ public class OcrHelper {
                                 ? hpParts[1]
                                 : hpParts[0];
 
-                pokemonHP = Integer.parseInt(fixOcrLettersToNums(hpStr).replaceAll("[^0-9]", ""));
+                return Integer.parseInt(fixOcrLettersToNums(hpStr).replaceAll("[^0-9]", ""));
             } catch (NumberFormatException e) {
-                pokemonHP = 10;
+                //Fall-through to default.
             }
         }
-        return pokemonHP;
+        return 10;
     }
 
     /**
@@ -315,23 +314,22 @@ public class OcrHelper {
      * @return a CP of the pokemon, 10 if scan failed
      */
     private int getPokemonCPFromImg(Bitmap pokemonImage) {
-        int pokemonCP;
         Bitmap cp = Bitmap.createBitmap(pokemonImage, (int) Math.round(widthPixels / 3.0),
                 (int) Math.round(heightPixels / 15.5151515), (int) Math.round(widthPixels / 3.84),
                 (int) Math.round(heightPixels / 21.333333333));
         cp = replaceColors(cp, 255, 255, 255, Color.BLACK, 30, false);
         tesseract.setImage(cp);
         String cpText = fixOcrLettersToNums(tesseract.getUTF8Text());
+        cp.recycle();
+
         if (cpText.length() >= 2) { //gastly can block the "cp" text, so its not visible...
             cpText = cpText.substring(2);
         }
         try {
-            pokemonCP = Integer.parseInt(cpText);
+            return Integer.parseInt(cpText);
         } catch (NumberFormatException e) {
-            pokemonCP = 10;
+            return 10;
         }
-        cp.recycle();
-        return pokemonCP;
     }
 
     /**

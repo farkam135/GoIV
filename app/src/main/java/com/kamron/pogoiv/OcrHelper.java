@@ -305,7 +305,7 @@ public class OcrHelper {
                         : hpParts[0];
 
                 pokemonHP = Integer.parseInt(fixOcrLettersToNums(hpStr).replaceAll("[^0-9]", ""));
-            } catch (java.lang.NumberFormatException e) {
+            } catch (NumberFormatException e) {
                 pokemonHP = 10;
             }
         }
@@ -331,7 +331,7 @@ public class OcrHelper {
         }
         try {
             pokemonCP = Integer.parseInt(cpText);
-        } catch (java.lang.NumberFormatException e) {
+        } catch (NumberFormatException e) {
             pokemonCP = 10;
         }
         cp.recycle();

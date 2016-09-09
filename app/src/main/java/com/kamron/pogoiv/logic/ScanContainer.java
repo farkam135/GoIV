@@ -13,9 +13,7 @@ public class ScanContainer {
     public IVScanResult currScan = null;
 
     /**
-     * pushes the 3 scan ago out of memory, and remembers the two latest scanns
-     *
-     * @param res
+     * Pushes the 3 scan ago out of memory, and remembers the two latest scans.
      */
     private void addNewScan(IVScanResult res) {
         prevScan = currScan;
@@ -24,12 +22,6 @@ public class ScanContainer {
 
     /**
      * Create a new IVScanResult and updates the scanContainer singleton.
-     *
-     * @param pokemon
-     * @param estimatedPokemonLevel
-     * @param pokemonCP
-     * @param b
-     * @return
      */
     public static IVScanResult createIVScanResult(Pokemon pokemon, double estimatedPokemonLevel, int pokemonCP,
                                                   boolean b) {
@@ -103,9 +95,7 @@ public class ScanContainer {
     }
 
     /**
-     * returns a string which is either the name of the previously scanned pokemon, or ""
-     *
-     * @return
+     * Returns a string which is either the name of the previously scanned pokemon, or "".
      */
     public String getPrevScanName() {
         if (prevScan != null) {

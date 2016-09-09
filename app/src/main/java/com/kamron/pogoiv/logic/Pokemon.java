@@ -58,8 +58,9 @@ public class Pokemon {
      */
     public boolean isNextEvolutionOf(Pokemon otherPokemon) {
         for (Pokemon evolution : otherPokemon.evolutions) {
-            if (number == evolution.number)
+            if (number == evolution.number) {
                 return true;
+            }
         }
         return false;
     }

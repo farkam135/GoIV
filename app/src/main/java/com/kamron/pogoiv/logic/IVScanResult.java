@@ -32,7 +32,7 @@ public class IVScanResult {
     public final double estimatedPokemonLevel;
 
     /**
-     * Creates a holder object for IV scan results
+     * Creates a holder object for IV scan results.
      *
      * @param pokemon               which pokemon it is
      * @param pokemonCP             pokemon CP
@@ -51,9 +51,7 @@ public class IVScanResult {
     }
 
     /**
-     * Calculates and returns the average % of the possible IVs
-     *
-     * @return
+     * Calculates and returns the average % of the possible IVs.
      */
     public int getAveragePercent() {
         int sum = 0;
@@ -64,7 +62,7 @@ public class IVScanResult {
     }
 
     /**
-     * adds an IV possibility to the scan results
+     * Adds an IV possibility to the scan results.
      *
      * @param attackIV  the attack iv
      * @param defenseIV the defense iv
@@ -97,11 +95,12 @@ public class IVScanResult {
 
 
     /**
-     * @return get the IV combination which has the highest sum of att+def+sta, or tied to equal
+     * Get the IV combination which has the highest sum of att+def+sta, or tied to equal.
      */
     public IVCombination getHighestIVCombination() {
-        if (iVCombinations.size() == 0)
+        if (iVCombinations.size() == 0) {
             return null;
+        }
         IVCombination max = iVCombinations.get(0);
         for (IVCombination ivCombination : iVCombinations) {
             if (ivCombination.getTotal() > max.getTotal()) {
@@ -112,11 +111,12 @@ public class IVScanResult {
     }
 
     /**
-     * @return get the IV combination which has the lowest sum of att+def+sta, or tied to equal
+     * Get the IV combination which has the lowest sum of att+def+sta, or tied to equal.
      */
     public IVCombination getLowestIVCombination() {
-        if (iVCombinations.size() == 0)
+        if (iVCombinations.size() == 0) {
             return null;
+        }
         IVCombination low = iVCombinations.get(0);
         for (IVCombination ivCombination : iVCombinations) {
             if (ivCombination.getTotal() < low.getTotal()) {
@@ -127,12 +127,8 @@ public class IVScanResult {
     }
 
     /**
-     * Removes all possible IV combinations where the boolean set to true stat isnt the highest
-     * Several stats can be highest if they're equal
-     *
-     * @param attIsHighest
-     * @param defIsHighest
-     * @param staIsHighest
+     * Removes all possible IV combinations where the boolean set to true stat isnt the highest.
+     * Several stats can be highest if they're equal.
      */
     public void refineByHighest(boolean attIsHighest, boolean defIsHighest, boolean staIsHighest) {
         ArrayList<IVCombination> refinedList = new ArrayList<>();
@@ -147,7 +143,7 @@ public class IVScanResult {
     }
 
     /**
-     * Removes any iv combination that is outside the scope of the input percentage range
+     * Removes any iv combination that is outside the scope of the input percentage range.
      * 1: 81-100%
      * 2: 66-80%
      * 3: 51-65%
@@ -156,7 +152,8 @@ public class IVScanResult {
      * @param selectedItemPosition a number between 1 to 4 as detailed above
      */
     public void refineByAppraisalPercentageRange(int selectedItemPosition) {
-        int lowest, highest;
+        int lowest;
+        int highest;
 
         switch (selectedItemPosition) {
             case 1:
@@ -193,8 +190,8 @@ public class IVScanResult {
     }
 
     /**
-     * Removes any iv combination where the highest iv is outside the scope of he input range
-     * input:
+     * Removes any iv combination where the highest IV is outside the scope of he input range.
+     * Input:
      * 1: 15
      * 2: 13-14
      * 3: 8-12
@@ -203,7 +200,8 @@ public class IVScanResult {
      * @param selectedItemPosition a number between 1 to 4 as detailed above
      */
     public void refineByAppraisalIVRange(int selectedItemPosition) {
-        int lowest, highest;
+        int lowest;
+        int highest;
 
         switch (selectedItemPosition) {
             case 1:

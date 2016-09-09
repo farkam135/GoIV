@@ -169,7 +169,6 @@ public class OCRHelper {
             }
             ocrCache.put(hash, stringCacheEvoCandyCost);
         }
-        System.out.println("asdasdasd");
         return result;
     }
 

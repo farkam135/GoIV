@@ -47,7 +47,7 @@
     </string-array>
 
     <string-array name="valor_percentage">
-        <item name="vplace1">"choose 1st phrase"</item>
+        <item name="vplace1">"Choose 1st phrase"</item>
         <item name="valor80_100">"…simply amazes me. It can accomplish anything!"</item>
         <item name="valor67_79">"…a strong Pokemon. You should be proud!"</item>
         <item name="valor51_66">"…a decent Pokemon"</item>
@@ -55,7 +55,7 @@
     </string-array>
 
     <string-array name="valor_ivrange">
-        <item name="vplace2">"choose stats phrase"</item>
+        <item name="vplace2">"Choose stats phrase"</item>
         <item name="valoriv15">"I'm blown away by its stats. WOW!"</item>
         <item name="valoriv13_14">"It's got excellent stats! How exciting!"</item>
         <item name="valoriv8_12">"Its stats indicate that in battle, it'll get the job done."</item>

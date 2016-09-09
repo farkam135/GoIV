@@ -10,19 +10,43 @@ import android.widget.TextView;
  */
 public class GuiUtil {
 
+    static final String RED = "#8A0808";
+    static final String ORANGE = "#DBA901";
+    static final String LIGHT_GREEN = "#A0A53F";
+    static final String GREEN = "#088A08";
     /**
-     * Sets the text color to red if below 80, and green if above.
+     * Sets the text color based on IV to match the in-game appraisal system.
      *
      * @param text  the text that changes color
-     * @param value the value that is checked if its above 80
+     * @param value the value that is checked (from 0 - 15)
      */
-    public static void setTextColorbyPercentage(TextView text, int value) {
-        if (value >= 80) {
-            text.setTextColor(Color.parseColor("#088A08")); //dark green
-        } else if (value >= 60) {
-            text.setTextColor(Color.parseColor("#DBA901")); //brownish orange
+    public static void setTextColorByIV(TextView text, int value) {
+        if (value == 15) {
+            text.setTextColor(Color.parseColor(GREEN));
+        } else if (value >= 13) {
+            text.setTextColor(Color.parseColor(LIGHT_GREEN));
+        } else if (value >= 8) {
+            text.setTextColor(Color.parseColor(ORANGE));
         } else {
-            text.setTextColor(Color.parseColor("#8A0808")); //dark red
+            text.setTextColor(Color.parseColor(RED));
+        }
+    }
+
+    /**
+     * Sets the text color based on total IV percentage to match the in-game appraisal system.
+     *
+     * @param text  the text that changes color
+     * @param value the value that is checked
+     */
+    public static void setTextColorByPercentage(TextView text, int value) {
+        if (value > 81) { // between 80 and 82.2
+            text.setTextColor(Color.parseColor(GREEN));
+        } else if (value > 65) { // between 64.4 and 66.7
+            text.setTextColor(Color.parseColor(LIGHT_GREEN));
+        } else if (value > 50) { // between 48.9 and 51.1
+            text.setTextColor(Color.parseColor(ORANGE));
+        } else {
+            text.setTextColor(Color.parseColor(RED));
         }
     }
 

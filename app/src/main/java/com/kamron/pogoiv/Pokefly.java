@@ -1120,12 +1120,9 @@ public class Pokefly extends Service {
         resultsDefense.setText(String.valueOf(ivScanResult.iVCombinations.get(0).def));
         resultsHP.setText(String.valueOf(ivScanResult.iVCombinations.get(0).sta));
 
-        GuiUtil.setTextColorbyPercentage(resultsAttack,
-                (int) Math.round(ivScanResult.iVCombinations.get(0).att * 100.0 / 15));
-        GuiUtil.setTextColorbyPercentage(resultsDefense,
-                (int) Math.round(ivScanResult.iVCombinations.get(0).def * 100.0 / 15));
-        GuiUtil.setTextColorbyPercentage(resultsHP,
-                (int) Math.round(ivScanResult.iVCombinations.get(0).sta * 100.0 / 15));
+        GuiUtil.setTextColorByIV(resultsAttack, ivScanResult.iVCombinations.get(0).att);
+        GuiUtil.setTextColorByIV(resultsDefense, ivScanResult.iVCombinations.get(0).def);
+        GuiUtil.setTextColorByIV(resultsHP,ivScanResult.iVCombinations.get(0).sta);
 
         llSingleMatch.setVisibility(View.VISIBLE);
         llMultipleIVMatches.setVisibility(View.GONE);
@@ -1226,9 +1223,9 @@ public class Pokefly extends Service {
             ave = ivScanResult.getAveragePercent();
             high = ivScanResult.getHighestIVCombination().percentPerfect;
         }
-        GuiUtil.setTextColorbyPercentage(resultsMinPercentage, low);
-        GuiUtil.setTextColorbyPercentage(resultsAvePercentage, ave);
-        GuiUtil.setTextColorbyPercentage(resultsMaxPercentage, high);
+        GuiUtil.setTextColorByPercentage(resultsMinPercentage, low);
+        GuiUtil.setTextColorByPercentage(resultsAvePercentage, ave);
+        GuiUtil.setTextColorByPercentage(resultsMaxPercentage, high);
 
 
         if (ivScanResult.iVCombinations.size() > 0) {

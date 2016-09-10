@@ -58,6 +58,7 @@ public class ScreenGrabber {
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public void exit() {
         if (projection != null) {
+            imageReader.close();
             imageReader = null;
             projection.stop();
             projection = null;

@@ -51,7 +51,7 @@ public class ScreenGrabber {
      * @return Singleton instance of ScreenGrabber, if initialized
      */
     public static ScreenGrabber getInstance() {
-        assert (instance != null);
+        assert instance != null;
         return instance;
     }
 

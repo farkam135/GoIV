@@ -40,3 +40,4 @@ captures/
 *.jks
 **/*.jks
 keystore.properties
+fabric.properties

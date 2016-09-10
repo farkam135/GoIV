@@ -27,7 +27,7 @@ public class PokeInfoCalculator {
     }
 
     /**
-     * creates a pokemon info calculator with the pokemon as argument
+     * Creates a pokemon info calculator with the pokemon as argument.
      *
      * @param namesArray      array of all pokemon names
      * @param attackArray     array of all pokemon base attack stat
@@ -45,7 +45,7 @@ public class PokeInfoCalculator {
     }
 
     /**
-     * returns a pokemon which corresponds to the number sent in
+     * Returns a pokemon which corresponds to the number sent in.
      *
      * @param number the number which this application internally uses to identify pokkemon
      * @return The pokemon if valid number, null if no pokemon found.
@@ -91,9 +91,7 @@ public class PokeInfoCalculator {
     }
 
     /**
-     * Sorts the pokemon in the pokedex by alphabetical order
-     *
-     * @param pokedex
+     * Sorts the pokemon in the pokedex by alphabetical order.
      */
     private void sortPokedex(List<Pokemon> pokedex) {
         //Sort pokemon alphabetically (maybe just do this in the res files?)
@@ -118,14 +116,15 @@ public class PokeInfoCalculator {
         int neededStarDust = 0;
         while (estimatedPokemonLevel != goalLevel) {
             int rank = 5;
-            if ((estimatedPokemonLevel % 10) >= 1 && (estimatedPokemonLevel % 10) <= 2.5)
+            if ((estimatedPokemonLevel % 10) >= 1 && (estimatedPokemonLevel % 10) <= 2.5) {
                 rank = 1;
-            else if ((estimatedPokemonLevel % 10) > 2.5 && (estimatedPokemonLevel % 10) <= 4.5)
+            } else if ((estimatedPokemonLevel % 10) > 2.5 && (estimatedPokemonLevel % 10) <= 4.5) {
                 rank = 2;
-            else if ((estimatedPokemonLevel % 10) > 4.5 && (estimatedPokemonLevel % 10) <= 6.5)
+            } else if ((estimatedPokemonLevel % 10) > 4.5 && (estimatedPokemonLevel % 10) <= 6.5) {
                 rank = 3;
-            else if ((estimatedPokemonLevel % 10) > 6.5 && (estimatedPokemonLevel % 10) <= 8.5)
+            } else if ((estimatedPokemonLevel % 10) > 6.5 && (estimatedPokemonLevel % 10) <= 8.5) {
                 rank = 4;
+            }
 
             if (estimatedPokemonLevel <= 10.5) {
                 neededCandy++;
@@ -237,10 +236,10 @@ public class PokeInfoCalculator {
         int baseStamina = pokemon.baseStamina;
         double lvlScalar = Data.CpM[(int) (level * 2 - 2)];
         int cpMin = (int) Math.floor(
-                (baseAttack + lowAttack) * Math.sqrt(baseDefense + lowDefense) * Math.sqrt(baseStamina + lowStamina) *
-                        Math.pow(lvlScalar, 2) * 0.1);
-        int cpMax = (int) Math.floor((baseAttack + highAttack) * Math.sqrt(baseDefense + highDefense) *
-                Math.sqrt(baseStamina + highStamina) * Math.pow(lvlScalar, 2) * 0.1);
+                (baseAttack + lowAttack) * Math.sqrt(baseDefense + lowDefense) * Math.sqrt(baseStamina + lowStamina)
+                        * Math.pow(lvlScalar, 2) * 0.1);
+        int cpMax = (int) Math.floor((baseAttack + highAttack) * Math.sqrt(baseDefense + highDefense)
+                * Math.sqrt(baseStamina + highStamina) * Math.pow(lvlScalar, 2) * 0.1);
         if (cpMin > cpMax) {
             int tmp = cpMax;
             cpMax = cpMin;
@@ -252,7 +251,7 @@ public class PokeInfoCalculator {
     /**
      * Get the combined cost for evolving all steps between two pokemon, for example the cost from caterpie ->
      * metapod is 12,
-     * caterpie -> butterfly is 12+50 = 62
+     * caterpie -> butterfly is 12+50 = 62.
      *
      * @param start which pokemon to start from
      * @param end   the end evolution
@@ -265,8 +264,8 @@ public class PokeInfoCalculator {
             dedevolution = get(devolution.devoNumber);
         }
 
-        boolean isEndReallyAfterStart = (devolution == start) ||
-                dedevolution == start; //end must be devolution or devolution of devolution of start
+        boolean isEndReallyAfterStart = (devolution == start)
+                || dedevolution == start; //end must be devolution or devolution of devolution of start
         int cost = 0;
         if (isInSameEvolutionChain(start, end) && isEndReallyAfterStart) {
             while (start != end) { //move backwards from end until you've reached start
@@ -296,14 +295,15 @@ public class PokeInfoCalculator {
     }
 
     /**
-     * get the lowest evolution in the chain of a pokemon
+     * Get the lowest evolution in the chain of a pokemon.
      *
      * @param poke a pokemon, example charizard
      * @return a pokemon, in the example would return charmander
      */
     public Pokemon getLowestEvolution(Pokemon poke) {
-        if (poke.devoNumber < 0)
+        if (poke.devoNumber < 0) {
             return poke; //already lowest evolution
+        }
 
         Pokemon devoPoke = get(poke.devoNumber);
         while (devoPoke.devoNumber >= 0) { //while devol
@@ -313,7 +313,7 @@ public class PokeInfoCalculator {
     }
 
     /**
-     * returns the evolution line of a pokemon
+     * Returns the evolution line of a pokemon.
      *
      * @param poke the pokemon to check the evolution line of
      * @return a list with pokemon, input pokemon plus its evolutions

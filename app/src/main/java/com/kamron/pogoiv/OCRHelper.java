@@ -19,9 +19,9 @@ import timber.log.Timber;
  * Created by Sarav on 8/25/2016.
  * A class to scan a screenshot and extract useful information visible in the bitmap.
  */
-public class OCRHelper {
+public class OcrHelper {
 
-    private static OCRHelper instance = null;
+    private static OcrHelper instance = null;
     private TessBaseAPI tesseract = null;
     private final LruCache<String, String> ocrCache = new LruCache<>(200);
     private final int heightPixels;
@@ -31,7 +31,7 @@ public class OCRHelper {
     private final String nidoMale;
 
 
-    private OCRHelper(String dataPath, int widthPixels, int heightPixels, String nidoFemale, String nidoMale) {
+    private OcrHelper(String dataPath, int widthPixels, int heightPixels, String nidoFemale, String nidoMale) {
         tesseract = new TessBaseAPI();
         tesseract.init(dataPath, "eng");
         tesseract.setPageSegMode(TessBaseAPI.PageSegMode.PSM_SINGLE_LINE);
@@ -51,10 +51,10 @@ public class OCRHelper {
      * @param dataPath Path the OCR data files.
      * @return Bitmap with replaced colors
      */
-    public static OCRHelper init(String dataPath, int widthPixels, int heightPixels, String nidoFemale,
+    public static OcrHelper init(String dataPath, int widthPixels, int heightPixels, String nidoFemale,
                                  String nidoMale) {
         if (instance == null) {
-            instance = new OCRHelper(dataPath, widthPixels, heightPixels, nidoFemale, nidoMale);
+            instance = new OcrHelper(dataPath, widthPixels, heightPixels, nidoFemale, nidoMale);
         }
         return instance;
     }
@@ -66,7 +66,7 @@ public class OCRHelper {
             tesseract = null;
             instance = null;
         } else {
-            Timber.e("Avoided NPE on OCRHelper.exit()");
+            Timber.e("Avoided NPE on OcrHelper.exit()");
             //The exception is to ensure we get a stack trace. It's not thrown.
             Timber.e(new Throwable());
         }

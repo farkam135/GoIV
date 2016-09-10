@@ -12,27 +12,11 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/percent_phrase"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="5dp"
-            android:textColor="@color/importantText"/>
-
         <Spinner
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
             android:id="@+id/appraisalPercentageRange"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/higher_values"
-            android:layout_marginTop="5dp"
-            android:layout_marginLeft="5dp"
-            android:textColor="@color/importantText"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -86,14 +70,6 @@
                 />
 
         </LinearLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/iv_range_phrase"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="5dp"
-            android:textColor="@color/importantText"/>
 
         <Spinner
             android:layout_width="match_parent"

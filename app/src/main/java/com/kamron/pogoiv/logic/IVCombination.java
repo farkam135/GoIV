@@ -17,15 +17,17 @@ public class IVCombination {
         this.att = att;
         this.def = def;
         this.sta = sta;
-        percentPerfect = (int) Math.round(((att + def + sta) / 45.0) * 100);
+        percentPerfect = Math.round((att + def + sta) / 45f * 100);
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o)
+        if (this == o) {
             return true;
-        if (o == null || getClass() != o.getClass())
+        }
+        if (o == null || getClass() != o.getClass()) {
             return false;
+        }
 
         IVCombination that = (IVCombination) o;
 
@@ -33,16 +35,18 @@ public class IVCombination {
     }
 
     /**
-     * get the highest of the stats in the iv combination
-     * for example, in the iv combination 7 5 11
-     * this method would return 11
+     * Get the highest of the stats in the iv combination.
+     * For example, in the iv combination 7 5 11
+     * this method would return 11.
+     *
      * @return a number between 0 and 15 which is the highest stat in this combination
      */
-    public int getHighestStat(){
+    public int getHighestStat() {
         return Collections.max(Arrays.asList(att, def, sta));
     }
+
     /**
-     * Returns a boolean array that represent which values are the highest in an iv,
+     * Returns a boolean array that represent which values are the highest in an iv.
      * Examples: Iv 14-14-7 would be [true,true,false]
      * iv 4,6,1 would be [false, true, false]
      */
@@ -57,7 +61,7 @@ public class IVCombination {
     }
 
     /**
-     * Get total IV (attack + defence + stamina) value
+     * Get total IV (attack + defence + stamina) value.
      *
      * @return total IV
      */

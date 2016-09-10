@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.kamron.pogoiv.GUIUtil;
+import com.kamron.pogoiv.GuiUtil;
 import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.logic.IVCombination;
 import com.kamron.pogoiv.logic.IVScanResult;
@@ -19,11 +19,11 @@ import com.kamron.pogoiv.logic.IVScanResult;
  */
 public class IVResultsAdapter extends RecyclerView.Adapter<IVResultsAdapter.ResultsViewHolder> {
     private final LayoutInflater layoutInflater;
-    private final IVScanResult mDataSet;
+    private final IVScanResult dataSet;
 
     public IVResultsAdapter(IVScanResult ivScanResult, Context context) {
         layoutInflater = LayoutInflater.from(context);
-        mDataSet = ivScanResult;
+        dataSet = ivScanResult;
     }
 
     @Override
@@ -34,16 +34,16 @@ public class IVResultsAdapter extends RecyclerView.Adapter<IVResultsAdapter.Resu
 
     @Override
     public void onBindViewHolder(ResultsViewHolder holder, int position) {
-        IVCombination currentSet = mDataSet.iVCombinations.get(position);
+        IVCombination currentSet = dataSet.iVCombinations.get(position);
         holder.resultAttack.setText(String.valueOf(currentSet.att));
         holder.resultDefense.setText(String.valueOf(currentSet.def));
         holder.resultHP.setText(String.valueOf(currentSet.sta));
         holder.resultPercentage.setText(String.valueOf(currentSet.percentPerfect));
 
-        GUIUtil.setTextColorbyPercentage(holder.resultAttack, (int) Math.round(currentSet.att * 100.0 / 15));
-        GUIUtil.setTextColorbyPercentage(holder.resultDefense, (int) Math.round(currentSet.def * 100.0 / 15));
-        GUIUtil.setTextColorbyPercentage(holder.resultHP, (int) Math.round(currentSet.sta * 100.0 / 15));
-        GUIUtil.setTextColorbyPercentage(holder.resultPercentage, currentSet.percentPerfect);
+        GuiUtil.setTextColorByIV(holder.resultAttack, currentSet.att);
+        GuiUtil.setTextColorByIV(holder.resultDefense, currentSet.def);
+        GuiUtil.setTextColorByIV(holder.resultHP, currentSet.sta);
+        GuiUtil.setTextColorByPercentage(holder.resultPercentage, currentSet.percentPerfect);
 
         if (position % 2 != 0) {
             holder.llRvResult.setBackgroundColor(Color.parseColor("#EFEFEF"));
@@ -54,11 +54,14 @@ public class IVResultsAdapter extends RecyclerView.Adapter<IVResultsAdapter.Resu
 
     @Override
     public int getItemCount() {
-        return mDataSet.iVCombinations.size();
+        return dataSet.iVCombinations.size();
     }
 
     class ResultsViewHolder extends RecyclerView.ViewHolder {
-        final TextView resultAttack, resultDefense, resultHP, resultPercentage;
+        final TextView resultAttack;
+        final TextView resultDefense;
+        final TextView resultHP;
+        final TextView resultPercentage;
         final LinearLayout llRvResult;
 
         public ResultsViewHolder(View itemView) {

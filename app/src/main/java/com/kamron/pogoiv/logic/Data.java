@@ -31,10 +31,6 @@ public class Data {
     /**
      * setupArcPoints
      * Sets up the x,y coordinates of the arc using the trainer level, stores it in Data.arcX/arcY
-     *
-     * @param arcInit
-     * @param arcRadius
-     * @param trainerLevel
      */
     public static void setupArcPoints(Point arcInit, int arcRadius, int trainerLevel) {
         /*
@@ -102,8 +98,9 @@ public class Data {
 
     // should be pretty fast https://en.wikibooks.org/wiki/Algorithm_Implementation/Strings/Levenshtein_distance#Java
     public static int levenshteinDistance(CharSequence lhs, CharSequence rhs) {
-        if (rhs == null)
+        if (rhs == null) {
             return Integer.MAX_VALUE;
+        }
 
         int len0 = lhs.length() + 1;
         int len1 = rhs.length() + 1;
@@ -113,8 +110,9 @@ public class Data {
         int[] newcost = new int[len0];
 
         // initial cost of skipping prefix in String s0
-        for (int i = 0; i < len0; i++)
+        for (int i = 0; i < len0; i++) {
             cost[i] = i;
+        }
 
         // dynamically computing the array of distances
 

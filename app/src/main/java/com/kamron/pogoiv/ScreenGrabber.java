@@ -12,7 +12,6 @@ import android.media.ImageReader;
 import android.media.projection.MediaProjection;
 import android.os.Build;
 import android.support.annotation.ColorInt;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.DisplayMetrics;
 
@@ -60,35 +59,6 @@ public class ScreenGrabber {
     public static ScreenGrabber getInstance() {
         assert instance != null;
         return instance;
-    }
-
-    @NonNull private static Rect getBitmapBounds(Bitmap bmp) {
-        return new Rect(0, 0, bmp.getWidth(), bmp.getHeight());
-    }
-
-    static @Nullable @ColorInt int[] getPixelsSafe(Bitmap bmp, Point[] points) {
-        Rect bounds = getBitmapBounds(bmp);
-        @ColorInt int[] pixels = new int[points.length];
-        for (int i = 0; i < points.length; i++) {
-            Point p = points[i];
-            if (bounds.contains(p.x, p.y)) {
-                pixels[i] = bmp.getPixel(p.x, p.y);
-            } else {
-                return null;
-            }
-        }
-        return pixels;
-    }
-
-    public @Nullable @ColorInt int[] grabPixels(Point[] points) {
-        Bitmap bmp = grabScreen();
-        if (bmp == null) {
-            return null;
-        }
-        @ColorInt int[] pixels = ScreenGrabber.getPixelsSafe(bmp, points);
-        bmp.recycle();
-
-        return pixels;
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -143,5 +113,56 @@ public class ScreenGrabber {
         }
 
         return bmp;
+    }
+
+    public @Nullable @ColorInt int[] grabPixels(Point[] points) {
+        Image image = null;
+        try {
+            //Note: imageReader shouldn't be null, but apparently sometimes is.
+            //Let's allow this to still happen.
+            image = imageReader.acquireLatestImage();
+        } catch (Exception exception) {
+            Timber.e("Error thrown in grabPixels() - acquireLatestImage()");
+            Timber.e(exception);
+        }
+
+        if (image == null) {
+            return null;
+        }
+
+        Rect imageBounds = new Rect(0, 0, image.getWidth(), image.getHeight());
+        @ColorInt int[] pixels = new int[points.length];
+
+        Image.Plane imgPlane = image.getPlanes()[0];
+        int pixelStride = imgPlane.getPixelStride();
+        int rowStride = imgPlane.getRowStride();
+        ByteBuffer buffer = imgPlane.getBuffer();
+
+        for (int i = 0; i < points.length; i++) {
+            Point p = points[i];
+            if (imageBounds.contains(p.x, p.y)) {
+                pixels[i] = getPixel(buffer, p, pixelStride, rowStride);
+            } else {
+                pixels = null;
+                //Jump to resource cleanup code.
+                break;
+            }
+        }
+
+        //Resource cleanup
+        image.close();
+
+        return pixels;
+    }
+
+    //Inspired by http://stackoverflow.com/a/27655022/53974.
+    private static @ColorInt int getPixel(ByteBuffer buffer, Point pos, int pixelStride, int rowStride) {
+        int offset = pos.y * rowStride + pos.x * pixelStride;
+        int pixel = 0;
+        pixel |= (buffer.get(offset) & 0xff) << 16;     // R
+        pixel |= (buffer.get(offset + 1) & 0xff) << 8;  // G
+        pixel |= (buffer.get(offset + 2) & 0xff);       // B
+        pixel |= (buffer.get(offset + 3) & 0xff) << 24; // A
+        return pixel;
     }
 }

@@ -32,7 +32,7 @@ public class ScreenGrabber {
         displayMetrics = display;
         projection = mediaProjection;
         imageReader = ImageReader.newInstance(rawDisplayMetrics.widthPixels, rawDisplayMetrics.heightPixels,
-                PixelFormat.RGBA_8888, 2);
+                PixelFormat.RGBA_8888, 1);
         projection.createVirtualDisplay("screen-mirror", rawDisplayMetrics.widthPixels, rawDisplayMetrics.heightPixels,
                 rawDisplayMetrics.densityDpi, DisplayManager.VIRTUAL_DISPLAY_FLAG_PUBLIC, imageReader.getSurface(),
                 null, null);
@@ -82,9 +82,9 @@ public class ScreenGrabber {
         try {
             //Note: imageReader shouldn't be null, but apparently sometimes is.
             //Let's allow this to still happen.
-            image = imageReader.acquireLatestImage();
+            image = imageReader.acquireNextImage();
         } catch (Exception exception) {
-            Timber.e("Error thrown in grabScreen() - acquireLatestImage()");
+            Timber.e("Error thrown in grabScreen() - acquireNextImage()");
             Timber.e(exception);
         }
 

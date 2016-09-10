@@ -157,28 +157,80 @@ public class OcrHelper {
      * If there was no detected upgrade cost, returns -1.
      *
      * @param pokemonImage The image of the full pokemon screen
-     * @return the evolution cost, or -1 on scan failure
+     * @return the evolution cost, or -1 on no upgrade cost, or -999 on scan failure
      */
-    public int getPokemonEvolutionCostFromImg(Bitmap pokemonImage) {
+    private int getPokemonEvolutionCostFromImg(Bitmap pokemonImage) {
+        int error = -999;
         Bitmap evolutionCostImage =
                 Bitmap.createBitmap(pokemonImage, (int) (widthPixels * 0.625), (int) (heightPixels * 0.86),
                         (int) (widthPixels * 0.2), (int) (heightPixels * 0.05));
         String hash = "candyCost" + hashBitmap(evolutionCostImage);
+
+        //return cache if it exists
         String stringCacheEvoCandyCost = ocrCache.get(hash);
-        int result = -1;
-        if (stringCacheEvoCandyCost == null) { //if no cached result
-            //the dark color used for text in pogo is 76,112,114
-            evolutionCostImage = replaceColors(evolutionCostImage, true, 76, 112, 114, Color.WHITE, 40, false);
-            tesseract.setImage(evolutionCostImage);
-            stringCacheEvoCandyCost = tesseract.getUTF8Text().replace("S", "5").replace("s", "5");
-            try {
-                result = Integer.parseInt(stringCacheEvoCandyCost);
-            } catch (NumberFormatException e) {
-                stringCacheEvoCandyCost = "-1";
-            }
-            ocrCache.put(hash, stringCacheEvoCandyCost);
+        if (stringCacheEvoCandyCost != null) {
+            return Integer.parseInt(stringCacheEvoCandyCost);
+        }
+
+        //clean the image
+        //the dark color used for text in pogo is approximately rgb 76,112,114 if you can afford evo
+        //and the red color is rgb 255 95 100 when you cant afford the evolution
+        Bitmap evolutionCostImageCanAfford = replaceColors(evolutionCostImage, false, 80, 110, 110, Color.WHITE, 45,
+                false);
+        Bitmap evolutionCostImageCannotAfford = replaceColors(evolutionCostImage, false, 255, 95, 100, Color.WHITE, 30,
+                false);
+
+        boolean affordIsBlank = isOnlyWhite(evolutionCostImageCanAfford);
+        boolean cannotAffordIsBlank = isOnlyWhite(evolutionCostImageCannotAfford);
+        //check if fully evolved
+        if (affordIsBlank && cannotAffordIsBlank) { //if there's no red or black text, there's no text at all.
+            ocrCache.put(hash, "-1");
+            return -1;
+        }
+
+        //use the correctly refined image (refined for red or black text)
+        if (affordIsBlank) {
+            evolutionCostImage = evolutionCostImageCannotAfford;
+        } else {
+            evolutionCostImage = evolutionCostImageCanAfford;
+        }
+
+        //If not cached or fully evolved, ocr text
+        int result;
+        tesseract.setImage(evolutionCostImage);
+        String ocrResult = fixOcrLettersToNums(tesseract.getUTF8Text());
+        try {
+            result = Integer.parseInt(ocrResult);
+            ocrCache.put(hash, ocrResult);
+        } catch (NumberFormatException e) {
+            result = error; //could not ocr text
         }
         return result;
+
+    }
+
+    /**
+     * Heuristic method to determine if the image looks empty. Works by taking a horisontal row of pixels from he
+     * middle, and looks if they're all pure white.
+     *
+     * @param refinedImage A pre-processed image of the evolution cost. (should be pre-refined to replace all non
+     *                     text colors with pure white)
+     * @return true if the image is likely only white
+     */
+    private boolean isOnlyWhite(Bitmap refinedImage) {
+        int[] pixelArray = new int[refinedImage.getWidth()];
+
+        //below code takes one line of pixels in the middle of the pixture from left to right
+        refinedImage.getPixels(pixelArray, 0, refinedImage.getWidth(), 0, refinedImage.getHeight() / 2, refinedImage
+                .getWidth(), 1);
+
+        // a loop that sums the color values of all the pixels in the array
+        for (int pixel : pixelArray) {
+            if (Color.red(pixel) != 255 || Color.green(pixel) != 255 || Color.blue(pixel) != 255) {
+                return false; //go through all pixels and return false if one is not white
+            }
+        }
+        return true; //have gone through all pixels, they're all white
     }
 
     /**
@@ -194,14 +246,15 @@ public class OcrHelper {
      * Correct some OCR errors in argument where only letters are expected.
      */
     private static String fixOcrNumsToLetters(String src) {
-        return src.replace("1", "l").replace("0", "o");
+        return src.replace("1", "l").replace("0", "o").replace("5", "s").replace("2", "z");
     }
 
     /**
      * Correct some OCR errors in argument where only numbers are expected.
      */
     private static String fixOcrLettersToNums(String src) {
-        return src.replace("O", "0").replace("l", "1").replace("Z", "2").replaceAll("[^0-9]", "");
+        return src.replace("S", "5").replace("s", "5").replace("O", "0").replace("o",
+                "0").replace("l", "1").replace("I", "1").replace("i", "1").replace("Z", "2").replaceAll("[^0-9]", "");
     }
 
     /**

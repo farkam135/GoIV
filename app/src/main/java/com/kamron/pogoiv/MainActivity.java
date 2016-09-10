@@ -239,7 +239,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public int setupTrainerLevel(NumberPicker npTrainerLevel) {
+    private int setupTrainerLevel(NumberPicker npTrainerLevel) {
         // This call to clearFocus will accept whatever input the user pressed, without
         // forcing him to press the green checkmark on the keyboard.
         // Otherwise the typed value won't be read if either:

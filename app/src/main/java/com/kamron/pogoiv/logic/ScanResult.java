@@ -9,11 +9,11 @@ import com.google.common.base.Optional;
 //TODO: we might want to make this Parcelable instead of sending the fields one by one?
 //But writing the instance by hand would call for unit test.
 public class ScanResult {
-    private double estimatedPokemonLevel;
-    private String pokemonName;
-    private String candyName;
-    private Optional<Integer> pokemonHP;
-    private Optional<Integer> pokemonCP;
+    private final double estimatedPokemonLevel;
+    private final String pokemonName;
+    private final String candyName;
+    private final Optional<Integer> pokemonHP;
+    private final Optional<Integer> pokemonCP;
 
     public ScanResult(double estimatedPokemonLevel, String pokemonName, String candyName, Optional<Integer> pokemonHP,
                       Optional<Integer> pokemonCP) {

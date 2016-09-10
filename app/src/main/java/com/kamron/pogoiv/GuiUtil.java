@@ -10,10 +10,10 @@ import android.widget.TextView;
  */
 public class GuiUtil {
 
-    static final String RED = "#8A0808";
-    static final String ORANGE = "#DBA901";
-    static final String LIGHT_GREEN = "#A0A53F";
-    static final String GREEN = "#088A08";
+    private static final String RED = "#8A0808";
+    private static final String ORANGE = "#DBA901";
+    private static final String LIGHT_GREEN = "#A0A53F";
+    private static final String GREEN = "#088A08";
 
     /**
      * Sets the text color based on IV to match the in-game appraisal system.

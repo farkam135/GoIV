@@ -1512,7 +1512,7 @@ public class Pokefly extends Service {
      * Receiver called once MainActivity's scan is complete, sets all pokemon info and shows the
      * info layout.
      */
-    private BroadcastReceiver displayInfo = new BroadcastReceiver() {
+    private final BroadcastReceiver displayInfo = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (!receivedInfo) {

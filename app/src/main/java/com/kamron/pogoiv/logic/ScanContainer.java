@@ -39,7 +39,7 @@ public class ScanContainer {
      * @param poke2 the second pokemon scan
      * @return ArrayList of ivcombination that are present in both iv scans.
      */
-    public static ArrayList<IVCombination> findIVIntersection(IVScanResult poke1, IVScanResult poke2) {
+    private static ArrayList<IVCombination> findIVIntersection(IVScanResult poke1, IVScanResult poke2) {
         ArrayList<IVCombination> intersection = new ArrayList<>();
 
 

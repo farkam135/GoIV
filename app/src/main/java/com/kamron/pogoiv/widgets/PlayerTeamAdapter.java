@@ -20,8 +20,8 @@ import java.util.ArrayList;
  */
 public class PlayerTeamAdapter extends BaseAdapter implements SpinnerAdapter {
 
-    private ArrayList<Integer> colors;
-    private Context context;
+    private final ArrayList<Integer> colors;
+    private final Context context;
 
     public PlayerTeamAdapter(Context context) {
         this.context = context;

@@ -19,8 +19,8 @@ import java.util.Comparator;
  * Created by Johan on 2016-08-18.
  */
 public class IVScanResult {
-    public int highPercent = 0;
-    public int lowPercent = 100;
+    private int highPercent = 0;
+    private int lowPercent = 100;
     public int lowAttack = 15;
     public int lowDefense = 15;
     public int lowStamina = 15;

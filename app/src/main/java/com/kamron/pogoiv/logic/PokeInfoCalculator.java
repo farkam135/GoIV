@@ -284,7 +284,7 @@ public class PokeInfoCalculator {
      * @param p2 second pokemon
      * @return true if both pokemon are in the same pokemon evolution tree
      */
-    public boolean isInSameEvolutionChain(Pokemon p1, Pokemon p2) {
+    private boolean isInSameEvolutionChain(Pokemon p1, Pokemon p2) {
         ArrayList<Pokemon> evolutionLine = getEvolutionLine(p1);
         for (Pokemon poke : evolutionLine) {
             if (poke.number == p2.number) {
@@ -300,7 +300,7 @@ public class PokeInfoCalculator {
      * @param poke a pokemon, example charizard
      * @return a pokemon, in the example would return charmander
      */
-    public Pokemon getLowestEvolution(Pokemon poke) {
+    private Pokemon getLowestEvolution(Pokemon poke) {
         if (poke.devoNumber < 0) {
             return poke; //already lowest evolution
         }

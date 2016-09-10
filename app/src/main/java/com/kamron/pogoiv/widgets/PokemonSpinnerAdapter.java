@@ -16,8 +16,8 @@ import java.util.ArrayList;
  * Spinner formatter.
  */
 public class PokemonSpinnerAdapter extends ArrayAdapter<Pokemon> {
-    private Context context;
-    private int textViewResourceId;
+    private final Context context;
+    private final int textViewResourceId;
     private ArrayList<Pokemon> pokemons;
 
     public PokemonSpinnerAdapter(Context context, int textViewResourceId, ArrayList<Pokemon> pokemons) {

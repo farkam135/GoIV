@@ -19,6 +19,13 @@
 
 ## Optional Set-up
 
+### CheckStyle Plugin
+This plugin checks the codebase for violations of coding style.
+* Install CheckStyle Plugin (`Configure > Plugins > Browse Repositories > Search 'CheckStyle-IDEA' > Install`)
+* Restart Android Studio if requested.
+
+This is especially important to send pull requests.
+
 ### Lombok Plugin
 GoIV project uses Lombok Plugin to automatically generate various methods (i.e. Getter, Setters). Without this plugin, `Unable to resolve method` errors will show, but code will compile and build as per normal.
 * Close the Project *(required to enable annotation processing)*
@@ -34,6 +41,9 @@ Set-up Git on Android Studio to automate Git commands. For developers who are *l
 [Syncing your fork] (https://help.github.com/articles/syncing-a-fork/) will keep it up to date with the latest commits on the main repo. This will also reduce the chances of getting merge conflicts. Always sync your fork before working on it!
 
 ## Contributing with Pull Requests
+
+### Ensure Commits Follow Coding Style
+Use Android Studio autoformatting and check with CheckStyle that your PR does not add coding style violations.
 
 ### Splitting Pull Requests
 Please open separate PR's for separate bug fixes or features. It helps us to review your PR's.

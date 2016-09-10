@@ -12,9 +12,9 @@ public class ScanResult {
     private double estimatedPokemonLevel;
     private String pokemonName;
     private String candyName;
-    private int upgradeCandyCost;
     private Optional<Integer> pokemonHP;
     private Optional<Integer> pokemonCP;
+    private int upgradeCandyCost;
 
     public ScanResult(double estimatedPokemonLevel, String pokemonName, String candyName, Optional<Integer> pokemonHP,
                       Optional<Integer> pokemonCP, int upgradeCandyCost) {

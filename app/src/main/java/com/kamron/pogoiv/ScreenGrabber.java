@@ -51,13 +51,14 @@ public class ScreenGrabber {
      * @return Singleton instance of ScreenGrabber, if initialized
      */
     public static ScreenGrabber getInstance() {
-        assert (instance != null);
+        assert instance != null;
         return instance;
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public void exit() {
         if (projection != null) {
+            imageReader.close();
             imageReader = null;
             projection.stop();
             projection = null;

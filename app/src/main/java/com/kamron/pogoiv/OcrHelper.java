@@ -315,7 +315,7 @@ public class OcrHelper {
      * @param pokemonImage the image of the whole pokemon screen
      * @return a CP of the pokemon, 10 if scan failed
      */
-    private Optional<Integer>  getPokemonCPFromImg(Bitmap pokemonImage) {
+    private Optional<Integer> getPokemonCPFromImg(Bitmap pokemonImage) {
         Bitmap cp = Bitmap.createBitmap(pokemonImage, (int) Math.round(widthPixels / 3.0),
                 (int) Math.round(heightPixels / 15.5151515), (int) Math.round(widthPixels / 3.84),
                 (int) Math.round(heightPixels / 21.333333333));

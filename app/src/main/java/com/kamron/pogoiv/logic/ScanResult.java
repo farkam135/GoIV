@@ -46,6 +46,7 @@ public class ScanResult {
 
     /**
      * Test whether this ScanResult represents a failed scan.
+     *
      * @return a boolean representing whether this scan failed.
      */
     public boolean isFailed() {

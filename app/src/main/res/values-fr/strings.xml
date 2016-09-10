@@ -9,9 +9,11 @@
         <item name="valor">"Bravoure"</item>
         <item name="instinct">"Intuition"</item>
     </string-array>
+    <string name="place1">"Dans l\'ensemble, ton Pokémon&#8230;"</string>
+    <string name="place2">"Ses stats&#8230;"</string>
 
     <string-array name="mystic_percentage">
-        <item name="mplace1">"(Optionnel)"</item>
+        <item name="mplace1">@string/place1</item>
         <item name="mystic80_100">"Est une merveille. Un Pokémon captivant !"</item>
         <item name="mystic67_79">"A retenu toute mon attention."</item>
         <item name="mystic51_66">"Est supérieur à la moyenne."</item>
@@ -19,16 +21,15 @@
     </string-array>
 
     <string-array name="mystic_ivrange">
-        <item name="mplace2">"(Optionnel)"</item>
+        <item name="mplace2">@string/place2</item>
         <item name="mysticiv15">"Dépassent tous mes calculs, c'est incroyable !"</item>
         <item name="mysticiv13_14">"Je suis impressionnée par ses stats."</item>
         <item name="mysticiv8_12">"S'améliorent à vue d'œil."</item>
         <item name="mysticiv0_7">"N'ont rien d'anormal."</item>
     </string-array>
 
-
     <string-array name="instinct_percentage">
-        <item name="iplace1">"(Optionnel)"</item>
+        <item name="iplace1">@string/place1</item>
         <item name="instinct80_100">"Semble capable de tenir tête aux meilleurs."</item>
         <item name="instinct67_79">"Est vraiment fort."</item>
         <item name="instinct51_66">"Est plutôt bien."</item>
@@ -36,7 +37,7 @@
     </string-array>
 
     <string-array name="instinct_ivrange">
-        <item name="iplace2">"(Optionnel)"</item>
+        <item name="iplace2">@string/place2</item>
         <item name="instinctiv15">"Sont les meilleures que j'ai jamais vues !"</item>
         <item name="instinctiv13_14">"Sont super élevées. Impressionnant !"</item>
         <item name="instinctiv8_12">"Il a quelques bonnes stats."</item>
@@ -44,7 +45,7 @@
     </string-array>
 
     <string-array name="valor_percentage">
-        <item name="vplace1">"(Optionnel)"</item>
+        <item name="vplace1">@string/place1</item>
         <item name="valor80_100">"M'étonne beaucoup, il peut tout faire."</item>
         <item name="valor67_79">"Est très fort, tu dois être fier."</item>
         <item name="valor51_66">"Est un Pokémon solide."</item>
@@ -52,7 +53,7 @@
     </string-array>
 
     <string-array name="valor_ivrange">
-        <item name="vplace2">"(Optionnel)"</item>
+        <item name="vplace2">@string/place2</item>
         <item name="valoriv15">"Sont excellentes ! C'est super !"</item>
         <item name="valoriv13_14">"Je suis estomaquée par ses stats. Bravo !"</item>
         <item name="valoriv8_12">"Indiquent qu'il va faire des dégâts au combat."</item>
@@ -130,7 +131,4 @@
     <string name="atk">ATQ</string>
     <string name="def">DÉF</string>
     <string name="sta">PV</string>
-    <string name="iv_range_phrase">Ses stats&#8230;</string>
-    <string name="percent_phrase">Dans l\'ensemble, ton Pokémon&#8230;</string>
-    <string name="higher_values">Ses meilleurs atouts sont&#8230;</string>
 </resources>

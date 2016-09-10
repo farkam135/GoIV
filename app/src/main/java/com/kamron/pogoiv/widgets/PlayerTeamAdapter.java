@@ -26,9 +26,9 @@ public class PlayerTeamAdapter extends BaseAdapter implements SpinnerAdapter {
     public PlayerTeamAdapter(Context context) {
         this.context = context;
         colors = new ArrayList<>();
-        colors.add(Color.rgb(30, 30, 250));
-        colors.add(Color.rgb(250, 30, 30));
-        colors.add(Color.rgb(225, 225, 30));
+        colors.add(Color.rgb(61, 159, 255));
+        colors.add(Color.rgb(238, 91, 91));
+        colors.add(Color.rgb(255, 196, 50));
     }
 
     @Override

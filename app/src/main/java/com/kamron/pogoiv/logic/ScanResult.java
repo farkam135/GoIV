@@ -44,9 +44,12 @@ public class ScanResult {
         return pokemonCP;
     }
 
+    /**
+     * Test whether this ScanResult represents a failed scan.
+     * @return a boolean representing whether this scan failed.
+     */
     public boolean isFailed() {
-        //XXX replace by proper logic.
-        //the default values for a failed scan, if all three fail, then probably scrolled down.
-        return candyName.equals("") && !pokemonHP.isPresent() && !pokemonCP.isPresent();
+        //If both scans failed, then probably scrolled down.
+        return !pokemonHP.isPresent() && !pokemonCP.isPresent();
     }
 }

@@ -23,13 +23,13 @@ import timber.log.Timber;
 public class OcrHelper {
 
     private static OcrHelper instance = null;
-    private TessBaseAPI tesseract = null;
     private final LruCache<String, String> ocrCache = new LruCache<>(200);
     private final int heightPixels;
     private final int widthPixels;
     private final boolean candyWordFirst;
     private final String nidoFemale;
     private final String nidoMale;
+    private TessBaseAPI tesseract = null;
 
 
     private OcrHelper(String dataPath, int widthPixels, int heightPixels, String nidoFemale, String nidoMale) {
@@ -58,6 +58,35 @@ public class OcrHelper {
             instance = new OcrHelper(dataPath, widthPixels, heightPixels, nidoFemale, nidoMale);
         }
         return instance;
+    }
+
+    /**
+     * Correct some OCR errors in argument where only letters are expected.
+     */
+    private static String fixOcrNumsToLetters(String src) {
+        return src.replace("1", "l").replace("0", "o").replace("5", "s").replace("2", "z");
+    }
+
+    /**
+     * Correct some OCR errors in argument where only numbers are expected.
+     */
+    private static String fixOcrLettersToNums(String src) {
+        return src.replace("S", "5").replace("s", "5").replace("O", "0").replace("o",
+                "0").replace("l", "1").replace("I", "1").replace("i", "1").replace("Z", "2");
+    }
+
+    @NonNull
+    private static String removeFirstOrLastWord(String src, boolean removeFirst) {
+        if (removeFirst) {
+            int fstSpace = src.indexOf(' ');
+            if (fstSpace != -1)
+                return src.substring(fstSpace + 1);
+        } else {
+            int lstSpace = src.lastIndexOf(' ');
+            if (lstSpace != -1)
+                return src.substring(0, lstSpace);
+        }
+        return src;
     }
 
     public void exit() {
@@ -172,15 +201,15 @@ public class OcrHelper {
         boolean affordIsBlank = isOnlyWhite(evolutionCostImageCanAfford);
         boolean cannotAffordIsBlank = isOnlyWhite(evolutionCostImageCannotAfford);
         //check if fully evolved
-        if ( affordIsBlank && cannotAffordIsBlank ) { //if there's no red or black text, there's no text at all.
+        if (affordIsBlank && cannotAffordIsBlank) { //if there's no red or black text, there's no text at all.
             ocrCache.put(hash, "-1");
             return -1;
         }
 
         //use the correctly refined image (refined for red or black text)
-        if (affordIsBlank){
+        if (affordIsBlank) {
             evolutionCostImage = evolutionCostImageCannotAfford;
-        }else{
+        } else {
             evolutionCostImage = evolutionCostImageCanAfford;
         }
 
@@ -201,20 +230,21 @@ public class OcrHelper {
     /**
      * Heuristic method to determine if the image looks empty. Works by taking a horisontal row of pixels from he
      * middle, and looks if they're all pure white.
+     *
      * @param refinedImage A pre-processed image of the evolution cost. (should be pre-refined to replace all non
      *                     text colors with pure white)
      * @return true if the image is likely only white
      */
-    private boolean isOnlyWhite(Bitmap refinedImage){
+    private boolean isOnlyWhite(Bitmap refinedImage) {
         int[] pixelArray = new int[refinedImage.getWidth()];
 
         //below code takes one line of pixels in the middle of the pixture from left to right
-        refinedImage.getPixels(pixelArray, 0, refinedImage.getWidth(), 0, refinedImage.getHeight()/2, refinedImage
+        refinedImage.getPixels(pixelArray, 0, refinedImage.getWidth(), 0, refinedImage.getHeight() / 2, refinedImage
                 .getWidth(), 1);
 
         // a loop that sums the color values of all the pixels in the array
         for (int pixel : pixelArray) {
-            if (Color.red(pixel) != 255 || Color.green(pixel) != 255 || Color.blue(pixel)  != 255){
+            if (Color.red(pixel) != 255 || Color.green(pixel) != 255 || Color.blue(pixel) != 255) {
                 return false; //go through all pixels and return false if one is not white
             }
         }
@@ -228,21 +258,6 @@ public class OcrHelper {
         int[] allpixels = new int[bmp.getHeight() * bmp.getWidth()];
         bmp.getPixels(allpixels, 0, bmp.getWidth(), 0, 0, bmp.getWidth(), bmp.getHeight());
         return Integer.toHexString(Arrays.hashCode(allpixels));
-    }
-
-    /**
-     * Correct some OCR errors in argument where only letters are expected.
-     */
-    private static String fixOcrNumsToLetters(String src) {
-        return src.replace("1", "l").replace("0","o").replace("5","s").replace("2","z");
-    }
-
-    /**
-     * Correct some OCR errors in argument where only numbers are expected.
-     */
-    private static String fixOcrLettersToNums(String src) {
-        return src.replace("S", "5").replace("s", "5").replace("O","0").replace("o",
-                "0").replace("l","1").replace("I","1").replace("i","1").replace("Z", "2");
     }
 
     /**
@@ -308,20 +323,6 @@ public class OcrHelper {
             ocrCache.put(hash, pokemonName);
         }
         return pokemonName;
-    }
-
-    @NonNull
-    private static String removeFirstOrLastWord(String src, boolean removeFirst) {
-        if (removeFirst) {
-            int fstSpace = src.indexOf(' ');
-            if (fstSpace != -1)
-                return src.substring(fstSpace + 1);
-        } else {
-            int lstSpace = src.lastIndexOf(' ');
-            if (lstSpace != -1)
-                return src.substring(0, lstSpace);
-        }
-        return src;
     }
 
     /**
@@ -391,7 +392,7 @@ public class OcrHelper {
      * @param pokemonImage the image of the whole pokemon screen
      * @return a CP of the pokemon, 10 if scan failed
      */
-    private Optional<Integer>  getPokemonCPFromImg(Bitmap pokemonImage) {
+    private Optional<Integer> getPokemonCPFromImg(Bitmap pokemonImage) {
         Bitmap cp = Bitmap.createBitmap(pokemonImage, (int) Math.round(widthPixels / 3.0),
                 (int) Math.round(heightPixels / 15.5151515), (int) Math.round(widthPixels / 3.84),
                 (int) Math.round(heightPixels / 21.333333333));

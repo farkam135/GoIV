@@ -71,7 +71,4 @@
     <string name="atk">ÚTK</string>
     <string name="def">OBR</string>
     <string name="sta">STA</string>
-    <string name="percent_phrase">Percent phrase</string>
-    <string name="iv_range_phrase">IV range phrase</string>
-    <string name="higher_values">Vyšší hodnoty</string>
 </resources>

@@ -1462,10 +1462,17 @@ public class Pokefly extends Service {
                 if (intent.hasExtra(KEY_SEND_INFO_NAME) && intent.hasExtra(KEY_SEND_INFO_CP) && intent.hasExtra(
                         KEY_SEND_INFO_HP) && intent.hasExtra(KEY_SEND_INFO_LEVEL)) {
                     receivedInfo = true;
+
                     pokemonName = intent.getStringExtra(KEY_SEND_INFO_NAME);
                     candyName = intent.getStringExtra(KEY_SEND_INFO_CANDY);
-                    pokemonCP = (Optional<Integer>) intent.getSerializableExtra(KEY_SEND_INFO_CP);
-                    pokemonHP = (Optional<Integer>) intent.getSerializableExtra(KEY_SEND_INFO_HP);
+
+                    @SuppressWarnings("unchecked") Optional<Integer> lPokemonCP =
+                            (Optional<Integer>) intent.getSerializableExtra(KEY_SEND_INFO_CP);
+                    @SuppressWarnings("unchecked") Optional<Integer> lPokemonHP =
+                            (Optional<Integer>) intent.getSerializableExtra(KEY_SEND_INFO_HP);
+                    pokemonCP = lPokemonCP;
+                    pokemonHP = lPokemonHP;
+
                     estimatedPokemonLevel = intent.getDoubleExtra(KEY_SEND_INFO_LEVEL, estimatedPokemonLevel);
                     if (estimatedPokemonLevel < 1.0) {
                         estimatedPokemonLevel = 1.0;

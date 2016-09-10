@@ -1,7 +1,6 @@
 package com.kamron.pogoiv;
 
 import android.content.Context;
-import android.util.Log;
 
 import timber.log.Timber;
 

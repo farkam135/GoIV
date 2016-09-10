@@ -71,7 +71,6 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences sharedPref;
     private ScreenGrabber screen;
     private ContentObserver screenShotObserver;
-    private ScreenShotHelper screenShotHelper;
 
     private boolean screenShotWriting = false;
     private DisplayMetrics displayMetrics;
@@ -202,7 +201,6 @@ public class MainActivity extends AppCompatActivity {
 
                     if (batterySaver) {
                         if (!screenshotDir.isEmpty()) {
-                            screenShotHelper = ScreenShotHelper.start(MainActivity.this, screenshotDir);
                             startPokeFly();
                         } else {
                             getScreenshotDir();
@@ -214,9 +212,6 @@ public class MainActivity extends AppCompatActivity {
                     stopService(new Intent(MainActivity.this, Pokefly.class));
                     if (screen != null) {
                         screen.exit();
-                    } else if (screenShotHelper != null) {
-                        screenShotHelper.stop();
-                        screenShotHelper = null;
                     }
                     pokeFlyRunning = false;
                     ((Button) v).setText(getString(R.string.main_start));
@@ -434,10 +429,6 @@ public class MainActivity extends AppCompatActivity {
         }
         if (screenShotObserver != null) {
             getContentResolver().unregisterContentObserver(screenShotObserver);
-        }
-        if (screenShotHelper != null) {
-            screenShotHelper.stop();
-            screenShotHelper = null;
         }
 
         LocalBroadcastManager.getInstance(this).unregisterReceiver(resetScreenshot);

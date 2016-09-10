@@ -116,6 +116,7 @@ public class Pokefly extends Service {
     private ClipboardManager clipboard;
     private SharedPreferences sharedPref;
     private ScreenGrabber screen;
+    private ScreenShotHelper screenShotHelper;
     private OcrHelper ocr;
 
     private Timer timer;
@@ -369,6 +370,8 @@ public class Pokefly extends Service {
             if (!batterySaver) {
                 screen = ScreenGrabber.getInstance();
                 startPeriodicScreenScan();
+            } else {
+                screenShotHelper = ScreenShotHelper.start(Pokefly.this, screenshotDir);
             }
         }
 
@@ -437,6 +440,9 @@ public class Pokefly extends Service {
     public void onDestroy() {
         if (!batterySaver) {
             timer.cancel();
+        } else {
+            screenShotHelper.stop();
+            screenShotHelper = null;
         }
 
         super.onDestroy();

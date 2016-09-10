@@ -52,7 +52,6 @@ public class PokemonNameCorrector {
         Log.d("GuessPoke", "Scanned nick: " + poketext + " Scanned candy: " + candytext + " Scanned upgradecost" +
                 (candyUpgradecost+""));
 
-        candytext = candytext.split(" ")[0]; //Sometimes it reads example "pidgey can", this removes "can"
 
         //1. if nickname perfectly matches a pokemon, return that
         PokeDist nicknameguess = getNicknameGuess(poketext, candytext);
@@ -177,16 +176,17 @@ public class PokemonNameCorrector {
     /**
      * A method which returns if there's a pokemon which matches the candy name & evolution cost. This method will
      * work regardless of whether the pokemon has been renamed or not.
+     * Will find the closest match to candy name as assumption
      *
      * @param candyname     The candy name to search the evolution line of
      * @param evolutionCost the scanned cost to evolve the pokemon
      * @return a pokemon that perfectly matches the input, or null if no match was found
      */
     private Pokemon getCandyNameEvolutionCostGuess(String candyname, int evolutionCost) {
-        Pokemon pokemonCandyMatch = pokeInfoCalculator.get(candyname);
-        if (pokemonCandyMatch == null) return null;
+        int error = -999;
+        if (evolutionCost == error) return null; //evolution cost scan failed
 
-        ArrayList<Pokemon> evolutionLine = pokeInfoCalculator.getEvolutionLine(pokemonCandyMatch);
+        ArrayList<Pokemon> evolutionLine = getBestGuessForEvolutionLine(candyname);
         for (Pokemon pokemon : evolutionLine) {
             if (pokemon.candyEvolutionCost == evolutionCost) {
                 return pokemon;
@@ -225,23 +225,25 @@ public class PokemonNameCorrector {
     }
 
     /**
-     * get the evolution line which closest matches the scanned candyname
+     * get the evolution line which closest matches the string
      *
-     * @param candyname the candyname to find a match for
+     * @param input the candyname to find a match for
      * @return an evolutionline which the candyname best matches the base evolution pokemon name
      */
-    private ArrayList<Pokemon> getBestGuessForEvolutionLine(String candyname) {
-        Pokemon bestMatchCandy = null;
-        int lowestDistCandy = Integer.MAX_VALUE;
-        for (Pokemon trypoke : pokeInfoCalculator.getPokedex()) {
-            if (trypoke.devoNumber != -1) continue; //candy name will only ever match the base evolution
-            int dist = trypoke.getDistanceCaseInsensitive(candyname);
-            if (dist < lowestDistCandy) {
-                bestMatchCandy = trypoke;
+    private ArrayList<Pokemon> getBestGuessForEvolutionLine(String input) {
+        Pokemon bestMatch = null;
+        int lowestDist = Integer.MAX_VALUE;
+        for (Pokemon poke : pokeInfoCalculator.getPokedex()) {
+            if (poke.devoNumber != -1) continue; //candy name will only ever match the base evolution
+            int dist = poke.getDistanceCaseInsensitive(input);
+            if (dist < lowestDist) {
+                bestMatch = poke;
+                lowestDist = dist;
             }
         }
-        return pokeInfoCalculator.getEvolutionLine(bestMatchCandy);
+        return pokeInfoCalculator.getEvolutionLine(bestMatch);
     }
+
 
     /**
      * A method which returns the best guess at which pokemon it is according to the cache module

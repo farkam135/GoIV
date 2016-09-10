@@ -8,7 +8,7 @@
 
 ## Project Set-up for GoIV (Required)
 * [Fork GoIV Repo] (https://help.github.com/articles/fork-a-repo/)
-* Copy GoIVCodeStyle.xml into the codestyles folder under the Android Studio preferences folder *(create codestyles folder if it does not exist)*
+* Copy `GoIVCodeStyle.xml` into the codestyles folder under the Android Studio preferences folder *(create codestyles folder if it does not exist)*
  *  Windows: `\%USERPROFILE%\.{ANDROID_STUDIO_FOLDER}\config\codestyles\`
  *  OS X: `~/Library/Preferences/{ANDROID_STUDIO_FOLDER}/codestyles/`
  *  Linux: `./.{ANDROID_STUDIO_FOLDER}/config/codestyles/`
@@ -16,6 +16,9 @@
 * Select Code Style Scheme (`File > Settings > Editor > Code Style > Scheme > Select 'GoIVCodeStyle'`)
 
 *__{ANDROID_STUDIO_FOLDER}__ varies on the Android Studio version installed. Read more [here](http://tools.android.com/tech-docs/configuration).*
+
+## Updating Codestyle Definition
+If `GoIVCodeStyle.xml` has changed, close Android Studio, copy our file over the copy in Android Studio settings as above, and reopen Android Studio. The new setting should be loaded.
 
 ## Optional Set-up
 

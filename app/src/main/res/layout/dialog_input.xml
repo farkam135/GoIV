@@ -23,7 +23,7 @@
 
         <include layout="@layout/dialog_input_poke_picker"
             android:layout_height="wrap_content"
-            android:layout_width="wrap_content"></include>
+            android:layout_width="wrap_content"/>
 
 
     </LinearLayout>
@@ -165,6 +165,6 @@
 
     <include layout="@layout/dialog_input_appraisal"
         android:visibility="gone"
-        android:id="@+id/appraisalBox"></include>
+        android:id="@+id/appraisalBox"/>
 
 </LinearLayout>

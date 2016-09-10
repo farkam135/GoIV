@@ -296,7 +296,7 @@
         </LinearLayout>
 
         <include layout="@layout/dialog_refine_by_last_scan"
-            android:id="@+id/refine_by_last_scan"></include>
+            android:id="@+id/refine_by_last_scan"/>
 
 
 

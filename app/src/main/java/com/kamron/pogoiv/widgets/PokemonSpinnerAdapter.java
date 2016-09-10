@@ -7,24 +7,24 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.kamron.pogoiv.GUIUtil;
+import com.kamron.pogoiv.GuiUtil;
 import com.kamron.pogoiv.logic.Pokemon;
 
 import java.util.ArrayList;
 
 /**
- * Spinner formatter
+ * Spinner formatter.
  */
 public class PokemonSpinnerAdapter extends ArrayAdapter<Pokemon> {
-    private Context mContext;
-    private int mTextViewResourceId;
+    private Context context;
+    private int textViewResourceId;
     private ArrayList<Pokemon> pokemons;
 
-    public PokemonSpinnerAdapter(Context context, int textViewResourceId, ArrayList<Pokemon> objects) {
-        super(context, textViewResourceId, objects);
-        mContext = context;
-        mTextViewResourceId = textViewResourceId;
-        pokemons = objects;
+    public PokemonSpinnerAdapter(Context context, int textViewResourceId, ArrayList<Pokemon> pokemons) {
+        super(context, textViewResourceId, pokemons);
+        this.context = context;
+        this.textViewResourceId = textViewResourceId;
+        this.pokemons = pokemons;
     }
 
     @Override
@@ -33,7 +33,7 @@ public class PokemonSpinnerAdapter extends ArrayAdapter<Pokemon> {
     }
 
     /**
-     * updates the spinner with new information
+     * Updates the spinner with new information.
      *
      * @param list the new list of pokemon to show in the spinner
      */
@@ -53,13 +53,13 @@ public class PokemonSpinnerAdapter extends ArrayAdapter<Pokemon> {
     */
 
     private View getCustomView(int position, ViewGroup parent) {
-        LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        TextView row = (TextView) inflater.inflate(mTextViewResourceId, parent, false);
+        TextView row = (TextView) inflater.inflate(textViewResourceId, parent, false);
         Pokemon pokemon = pokemons.get(position);
         String text = String.format("#%d %s", pokemon.number + 1, pokemon.name);
 
-        int padding = GUIUtil.dpToPixels(5, mContext);
+        int padding = GuiUtil.dpToPixels(5, context);
         row.setPadding(padding, 0, 0, padding);
         row.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         row.setGravity(View.TEXT_ALIGNMENT_CENTER);

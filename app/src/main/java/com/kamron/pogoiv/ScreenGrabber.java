@@ -21,8 +21,8 @@ import timber.log.Timber;
 public class ScreenGrabber {
 
     private static ScreenGrabber instance = null;
-    private ImageReader mImageReader;
-    private MediaProjection mProjection = null;
+    private ImageReader imageReader;
+    private MediaProjection projection = null;
     private DisplayMetrics rawDisplayMetrics;
     private DisplayMetrics displayMetrics;
 
@@ -30,11 +30,11 @@ public class ScreenGrabber {
     private ScreenGrabber(MediaProjection mediaProjection, DisplayMetrics raw, DisplayMetrics display) {
         rawDisplayMetrics = raw;
         displayMetrics = display;
-        mProjection = mediaProjection;
-        mImageReader = ImageReader.newInstance(rawDisplayMetrics.widthPixels, rawDisplayMetrics.heightPixels,
+        projection = mediaProjection;
+        imageReader = ImageReader.newInstance(rawDisplayMetrics.widthPixels, rawDisplayMetrics.heightPixels,
                 PixelFormat.RGBA_8888, 2);
-        mProjection.createVirtualDisplay("screen-mirror", rawDisplayMetrics.widthPixels, rawDisplayMetrics.heightPixels,
-                rawDisplayMetrics.densityDpi, DisplayManager.VIRTUAL_DISPLAY_FLAG_PUBLIC, mImageReader.getSurface(),
+        projection.createVirtualDisplay("screen-mirror", rawDisplayMetrics.widthPixels, rawDisplayMetrics.heightPixels,
+                rawDisplayMetrics.densityDpi, DisplayManager.VIRTUAL_DISPLAY_FLAG_PUBLIC, imageReader.getSurface(),
                 null, null);
     }
 
@@ -57,10 +57,10 @@ public class ScreenGrabber {
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public void exit() {
-        if (mProjection != null) {
-            mImageReader = null;
-            mProjection.stop();
-            mProjection = null;
+        if (projection != null) {
+            imageReader = null;
+            projection.stop();
+            projection = null;
             rawDisplayMetrics = null;
             displayMetrics = null;
             instance = null;
@@ -79,9 +79,9 @@ public class ScreenGrabber {
         Bitmap bmp = null;
 
         try {
-            //Note: mImageReader shouldn't be null, but apparently sometimes is.
+            //Note: imageReader shouldn't be null, but apparently sometimes is.
             //Let's allow this to still happen.
-            image = mImageReader.acquireLatestImage();
+            image = imageReader.acquireLatestImage();
         } catch (Exception exception) {
             Timber.e("Error thrown in grabScreen() - acquireLatestImage()");
             Timber.e(exception);

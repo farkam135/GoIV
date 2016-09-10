@@ -95,7 +95,9 @@ public class PokemonNameCorrector {
     }
 
     /**
-     * @return the likely pokemon number against the char sequence as well as the similarity
+     * Compute the most likely pokemon ID based on the pokemon and candy names.
+     *
+     * @return a PokeDist with pokemon ID and distance.
      */
     public PokeDist getPossiblePokemonOld(String poketext, String candytext, int candyUpgradeCost) {
         int poketextDist = 0;

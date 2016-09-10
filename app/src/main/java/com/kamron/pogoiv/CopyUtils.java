@@ -26,12 +26,13 @@ public class CopyUtils {
         }
         new File(toPath).mkdirs();
         boolean res = true;
-        for (String file : files)
+        for (String file : files) {
             if (file.contains(".")) {
                 res &= copyAsset(assetManager, fromAssetPath + "/" + file, toPath + "/" + file);
             } else {
                 res &= copyAssetFolder(assetManager, fromAssetPath + "/" + file, toPath + "/" + file);
             }
+        }
         return res;
 
     }

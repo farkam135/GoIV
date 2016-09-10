@@ -12,7 +12,7 @@ import timber.log.Timber;
 public class CrashlyticsWrapper {
 
     public static void init(Context context) {
-        if (BuildConfig.isInternetAvailable && GoIVSettings.getInstance(context).shouldSendCrashReports()) {
+        if (GoIVSettings.getInstance(context).shouldSendCrashReports()) {
             // Set up Crashlytics, disabled for debug builds
             Crashlytics crashlyticsKit = new Crashlytics.Builder()
                     .core(new CrashlyticsCore.Builder()
@@ -36,7 +36,7 @@ public class CrashlyticsWrapper {
         protected void log(int priority, String tag, String message, Throwable t) {
 
 
-            if (BuildConfig.isInternetAvailable && goIVSettings.shouldSendCrashReports()) {
+            if (goIVSettings.shouldSendCrashReports()) {
                 if (t != null) {
                     Crashlytics.logException(t);
                 } else if (!TextUtils.isEmpty(message)) {

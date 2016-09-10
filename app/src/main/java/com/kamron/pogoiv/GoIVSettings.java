@@ -41,12 +41,15 @@ public class GoIVSettings {
 
     public boolean isManualScreenshotModeEnabled() {
         //XXX unify with code in SettingsActivity.java
-        return Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT_WATCH ||
-                prefs.getBoolean(MANUAL_SCREENSHOT_MODE, false);
+        return Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT_WATCH
+                || prefs.getBoolean(MANUAL_SCREENSHOT_MODE, false);
     }
 
-    public int playerTeam(){ return prefs.getInt(TEAM_NAME, -1);  }
-    public void setPlayerTeam(int value){
+    public int playerTeam() {
+        return prefs.getInt(TEAM_NAME, -1);
+    }
+
+    public void setPlayerTeam(int value) {
         SharedPreferences.Editor editor = prefs.edit();
         editor.putInt(GoIVSettings.TEAM_NAME, value);
         editor.commit();

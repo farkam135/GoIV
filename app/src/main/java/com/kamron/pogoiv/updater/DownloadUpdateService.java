@@ -17,19 +17,21 @@ public class DownloadUpdateService extends Service {
 
     private static final String FILE_NAME = "GoIV_new.apk";
     public static final String DOWNLOAD_UPDATE_TITLE = "Updating GoIV";
+    public static final String KEY_DOWNLOAD_URL = "downloadURL";
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
         if (intent != null) {
 
-            String downloadURL = intent.getStringExtra("downloadURL");
+            String downloadUrl = intent.getStringExtra(KEY_DOWNLOAD_URL);
             String newApkFilePath = getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS) + "/" + FILE_NAME;
             final File newApkFile = new File(newApkFilePath);
             final Uri downloadUri = Uri.parse("file://" + newApkFile);
-            if (newApkFile.exists())
+            if (newApkFile.exists()) {
                 newApkFile.delete();
-            DownloadManager.Request request = new DownloadManager.Request(Uri.parse(downloadURL));
+            }
+            DownloadManager.Request request = new DownloadManager.Request(Uri.parse(downloadUrl));
             request.setTitle(DOWNLOAD_UPDATE_TITLE);
 
             //set destination
@@ -61,13 +63,15 @@ public class DownloadUpdateService extends Service {
                                         manager.getMimeTypeForDownloadedFile(startedDownloadId));
                                 ctxt.startActivity(install);
                             } else if (status == DownloadManager.STATUS_FAILED) {
-                                if (newApkFile.exists())
+                                if (newApkFile.exists()) {
                                     newApkFile.delete();
+                                }
                             }
                         } else {
                             //Delete the partially downloaded file
-                            if (newApkFile.exists())
+                            if (newApkFile.exists()) {
                                 newApkFile.delete();
+                            }
                         }
 
                         ctxt.unregisterReceiver(this);

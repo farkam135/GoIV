@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.util.LruCache;
 
+import com.google.common.base.Optional;
 import com.googlecode.tesseract.android.TessBaseAPI;
 import com.kamron.pogoiv.logic.Data;
 import com.kamron.pogoiv.logic.ScanResult;
@@ -19,9 +20,9 @@ import timber.log.Timber;
  * Created by Sarav on 8/25/2016.
  * A class to scan a screenshot and extract useful information visible in the bitmap.
  */
-public class OCRHelper {
+public class OcrHelper {
 
-    private static OCRHelper instance = null;
+    private static OcrHelper instance = null;
     private TessBaseAPI tesseract = null;
     private final LruCache<String, String> ocrCache = new LruCache<>(200);
     private final int heightPixels;
@@ -31,7 +32,7 @@ public class OCRHelper {
     private final String nidoMale;
 
 
-    private OCRHelper(String dataPath, int widthPixels, int heightPixels, String nidoFemale, String nidoMale) {
+    private OcrHelper(String dataPath, int widthPixels, int heightPixels, String nidoFemale, String nidoMale) {
         tesseract = new TessBaseAPI();
         tesseract.init(dataPath, "eng");
         tesseract.setPageSegMode(TessBaseAPI.PageSegMode.PSM_SINGLE_LINE);
@@ -51,10 +52,10 @@ public class OCRHelper {
      * @param dataPath Path the OCR data files.
      * @return Bitmap with replaced colors
      */
-    public static OCRHelper init(String dataPath, int widthPixels, int heightPixels, String nidoFemale,
+    public static OcrHelper init(String dataPath, int widthPixels, int heightPixels, String nidoFemale,
                                  String nidoMale) {
         if (instance == null) {
-            instance = new OCRHelper(dataPath, widthPixels, heightPixels, nidoFemale, nidoMale);
+            instance = new OcrHelper(dataPath, widthPixels, heightPixels, nidoFemale, nidoMale);
         }
         return instance;
     }
@@ -66,7 +67,7 @@ public class OCRHelper {
             tesseract = null;
             instance = null;
         } else {
-            Timber.e("Avoided NPE on OCRHelper.exit()");
+            Timber.e("Avoided NPE on OcrHelper.exit()");
             //The exception is to ensure we get a stack trace. It's not thrown.
             Timber.e(new Throwable());
         }
@@ -302,13 +303,12 @@ public class OCRHelper {
     }
 
     /**
-     * get the pokemon hp from a picture
+     * Get the pokemon hp from a picture.
      *
      * @param pokemonImage the image of the whole screen
      * @return an integer of the interpreted pokemon name, 10 if scan failed
      */
-    private int getPokemonHPFromImg(Bitmap pokemonImage) {
-        int pokemonHP = 10;
+    private Optional<Integer> getPokemonHPFromImg(Bitmap pokemonImage) {
         Bitmap hp = Bitmap.createBitmap(pokemonImage, (int) Math.round(widthPixels / 2.8),
                 (int) Math.round(heightPixels / 1.8962963), (int) Math.round(widthPixels / 3.5),
                 (int) Math.round(heightPixels / 34.13333333));
@@ -319,44 +319,51 @@ public class OCRHelper {
             hp = replaceColors(hp, 55, 66, 61, Color.WHITE, 200, true);
             tesseract.setImage(hp);
             pokemonHPStr = tesseract.getUTF8Text();
-            hp.recycle();
             ocrCache.put(hash, pokemonHPStr);
         }
+        hp.recycle();
 
         if (pokemonHPStr.contains("/")) {
             try {
-                pokemonHP = Integer.parseInt(fixOcrLettersToNums(pokemonHPStr.split("/")[1]).replaceAll("[^0-9]", ""));
-            } catch (java.lang.NumberFormatException e) {
-                pokemonHP = 10;
+                //If "/" comes at the end we'll get an array with only one component.
+                String[] hpParts = pokemonHPStr.split("/");
+                String hpStr =
+                        hpParts.length >= 2
+                                ? hpParts[1]
+                                : hpParts[0];
+
+                return Optional.of(Integer.parseInt(fixOcrLettersToNums(hpStr).replaceAll("[^0-9]", "")));
+            } catch (NumberFormatException e) {
+                //Fall-through to default.
             }
         }
-        return pokemonHP;
+
+        return Optional.absent();
     }
 
     /**
-     * get the cp of a pokemon image
+     * Get the CP of a pokemon image.
      *
      * @param pokemonImage the image of the whole pokemon screen
      * @return a CP of the pokemon, 10 if scan failed
      */
-    private int getPokemonCPFromImg(Bitmap pokemonImage) {
-        int pokemonCP;
+    private Optional<Integer>  getPokemonCPFromImg(Bitmap pokemonImage) {
         Bitmap cp = Bitmap.createBitmap(pokemonImage, (int) Math.round(widthPixels / 3.0),
                 (int) Math.round(heightPixels / 15.5151515), (int) Math.round(widthPixels / 3.84),
                 (int) Math.round(heightPixels / 21.333333333));
         cp = replaceColors(cp, 255, 255, 255, Color.BLACK, 30, false);
         tesseract.setImage(cp);
         String cpText = fixOcrLettersToNums(tesseract.getUTF8Text());
+        cp.recycle();
+
         if (cpText.length() >= 2) { //gastly can block the "cp" text, so its not visible...
             cpText = cpText.substring(2);
         }
         try {
-            pokemonCP = Integer.parseInt(cpText);
-        } catch (java.lang.NumberFormatException e) {
-            pokemonCP = 10;
+            return Optional.of(Integer.parseInt(cpText));
+        } catch (NumberFormatException e) {
+            return Optional.absent();
         }
-        cp.recycle();
-        return pokemonCP;
     }
 
     /**
@@ -371,8 +378,8 @@ public class OCRHelper {
         double estimatedPokemonLevel = getPokemonLevelFromImg(pokemonImage, trainerLevel);
         String pokemonName = getPokemonNameFromImg(pokemonImage);
         String candyName = getCandyNameFromImg(pokemonImage);
-        int pokemonHP = getPokemonHPFromImg(pokemonImage);
-        int pokemonCP = getPokemonCPFromImg(pokemonImage);
+        Optional<Integer> pokemonHP = getPokemonHPFromImg(pokemonImage);
+        Optional<Integer> pokemonCP = getPokemonCPFromImg(pokemonImage);
         int pokemonUpgradeCost = getPokemonEvolutionCostFromImg(pokemonImage);
 
         return new ScanResult(estimatedPokemonLevel, pokemonName, candyName, pokemonHP, pokemonCP, pokemonUpgradeCost);

@@ -48,20 +48,19 @@ public class Pokemon {
     }
 
     /**
-     * Checks if a pokemon is the same pokemon type as in a pokemons next Evolution
+     * Checks if this Pokemon is the direct evolution of otherPokemon.
      * Example:
-     * - charmander.isInNextEvolution(charmeleon) returns true
-     * - charmeleon.isInNextEvolution(charisard) returns false (it has to be the NEXT evolution)
+     * - Charmeleon.isInNextEvolution(Charmander) returns true
+     * - Charizard.isInNextEvolution(Charmander) returns false (it has to be the NEXT evolution)
      *
      * @param otherPokemon the pokemon which is potentially an evolution of this
      * @return true if evolution
      */
-    public boolean isInNextEvolution(Pokemon otherPokemon) {
-        int otherPokemonNumber = otherPokemon.number;
-
-        for (Pokemon evolution : evolutions) {
-            if (otherPokemonNumber == evolution.number)
+    public boolean isNextEvolutionOf(Pokemon otherPokemon) {
+        for (Pokemon evolution : otherPokemon.evolutions) {
+            if (number == evolution.number) {
                 return true;
+            }
         }
         return false;
     }

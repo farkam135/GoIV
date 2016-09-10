@@ -1108,7 +1108,7 @@ public class Pokefly extends Service {
      * Adds all options in the all iv possibilities list.
      */
     private void populateAllIvPossibilities(IVScanResult ivScanResult) {
-        IVResultsAdapter ivResults = new IVResultsAdapter(ivScanResult, this);
+        IVResultsAdapter ivResults = new IVResultsAdapter(ivScanResult);
         rvResults.setAdapter(ivResults);
     }
 

@@ -12,8 +12,6 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.ContentObserver;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.media.projection.MediaProjection;
@@ -21,7 +19,6 @@ import android.media.projection.MediaProjectionManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.FileObserver;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
@@ -74,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences sharedPref;
     private ScreenGrabber screen;
     private ContentObserver screenShotObserver;
-    private FileObserver screenShotScanner;
+    private ScreenShotHelper screenShotHelper;
 
     private boolean screenShotWriting = false;
     private DisplayMetrics displayMetrics;
@@ -205,7 +202,8 @@ public class MainActivity extends AppCompatActivity {
 
                     if (batterySaver) {
                         if (!screenshotDir.isEmpty()) {
-                            startScreenshotService();
+                            screenShotHelper = ScreenShotHelper.start(MainActivity.this, screenshotDir);
+                            startPokeFly();
                         } else {
                             getScreenshotDir();
                         }
@@ -216,9 +214,9 @@ public class MainActivity extends AppCompatActivity {
                     stopService(new Intent(MainActivity.this, Pokefly.class));
                     if (screen != null) {
                         screen.exit();
-                    } else if (screenShotScanner != null) {
-                        screenShotScanner.stopWatching();
-                        screenShotScanner = null;
+                    } else if (screenShotHelper != null) {
+                        screenShotHelper.stop();
+                        screenShotHelper = null;
                     }
                     pokeFlyRunning = false;
                     ((Button) v).setText(getString(R.string.main_start));
@@ -437,9 +435,9 @@ public class MainActivity extends AppCompatActivity {
         if (screenShotObserver != null) {
             getContentResolver().unregisterContentObserver(screenShotObserver);
         }
-        if (screenShotScanner != null) {
-            screenShotScanner.stopWatching();
-            screenShotScanner = null;
+        if (screenShotHelper != null) {
+            screenShotHelper.stop();
+            screenShotHelper = null;
         }
 
         LocalBroadcastManager.getInstance(this).unregisterReceiver(resetScreenshot);
@@ -506,27 +504,6 @@ public class MainActivity extends AppCompatActivity {
         MediaProjectionManager projectionManager = (MediaProjectionManager) getSystemService(
                 Context.MEDIA_PROJECTION_SERVICE);
         startActivityForResult(projectionManager.createScreenCaptureIntent(), SCREEN_CAPTURE_REQ_CODE);
-    }
-
-    /**
-     * Starts the screenshot service, which checks for a new screenshot to scan.
-     */
-    private void startScreenshotService() {
-        screenShotScanner = new FileObserver(screenshotDir, FileObserver.CLOSE_NOWRITE | FileObserver.CLOSE_WRITE) {
-            @Override
-            public void onEvent(int event, String file) {
-                if (readyForNewScreenshot && file != null) {
-                    readyForNewScreenshot = false;
-                    File pokemonScreenshot = new File(screenshotDir + File.separator + file);
-                    String filepath = pokemonScreenshot.getAbsolutePath();
-                    Bitmap bmp = BitmapFactory.decodeFile(filepath);
-                    Intent newintent = Pokefly.createProcessBitmapIntent(bmp, filepath);
-                    LocalBroadcastManager.getInstance(MainActivity.this).sendBroadcast(newintent);
-                }
-            }
-        };
-        screenShotScanner.startWatching();
-        startPokeFly();
     }
 
     private String getRealPathFromUri(Context context, Uri contentUri) {

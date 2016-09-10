@@ -1,13 +1,16 @@
 package com.kamron.pogoiv;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.database.ContentObserver;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.FileObserver;
+import android.net.Uri;
+import android.os.Handler;
+import android.provider.MediaStore;
 import android.support.v4.content.LocalBroadcastManager;
-
-import java.io.File;
 
 /**
  * Created by Sarav on 9/9/2016.
@@ -15,33 +18,64 @@ import java.io.File;
 public class ScreenShotHelper {
 
     private static ScreenShotHelper instance = null;
-    private FileObserver screenShotScanner;
+    private ContentObserver mediaObserver;
+    private ContentResolver contentResolver;
 
-    private ScreenShotHelper(final Context context, final String screenShotDir) {
-        screenShotScanner = new FileObserver(screenShotDir, FileObserver.CLOSE_NOWRITE | FileObserver.CLOSE_WRITE) {
+    private String getRealPathFromUri(Context context, Uri contentUri) {
+        Cursor cursor = null;
+        try {
+            String[] proj = {MediaStore.Images.Media.DATA};
+            cursor = contentResolver.query(contentUri, proj, null, null,
+                    MediaStore.Images.ImageColumns.DATE_TAKEN + " DESC");
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            return cursor.getString(column_index);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+    }
+
+    private ScreenShotHelper(final Context context) {
+        this.contentResolver = context.getContentResolver();
+        mediaObserver = new ContentObserver(new Handler()) {
             @Override
-            public void onEvent(int event, String file) {
-                if (file != null) {
-                    File pokemonScreenshot = new File(screenShotDir + File.separator + file);
-                    String filepath = pokemonScreenshot.getAbsolutePath();
-                    Bitmap bmp = BitmapFactory.decodeFile(filepath);
-                    Intent newintent = Pokefly.createProcessBitmapIntent(bmp, filepath);
+            public void onChange(boolean selfChange, Uri uri) {
+                super.onChange(selfChange, uri);
+                if (!uri.toString().contains("images")) {
+                    return;
+                }
+
+                final String pathChange = getRealPathFromUri(context, uri);
+                if (!pathChange.contains("Screenshot")) {
+                    return;
+                }
+
+                try {
+                    Bitmap bitmap = BitmapFactory.decodeFile(pathChange);
+                    Intent newintent = Pokefly.createProcessBitmapIntent(bitmap, pathChange);
                     LocalBroadcastManager.getInstance(context).sendBroadcast(newintent);
+                } catch (Exception e) {
+                    // TODO: Retry a few times after a wait
                 }
             }
         };
-        screenShotScanner.startWatching();
+        contentResolver.registerContentObserver(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, true,
+                mediaObserver);
     }
 
-    public static ScreenShotHelper start(final Context context, final String screenShotDir) {
+    public static ScreenShotHelper start(final Context context) {
         if (instance == null) {
-            instance = new ScreenShotHelper(context, screenShotDir);
+            instance = new ScreenShotHelper(context);
         }
         return instance;
     }
 
     public void stop() {
-        screenShotScanner.stopWatching();
+        contentResolver.unregisterContentObserver(mediaObserver);
+        contentResolver = null;
+        mediaObserver = null;
         instance = null;
     }
 }

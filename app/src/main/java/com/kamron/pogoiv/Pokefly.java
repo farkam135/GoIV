@@ -371,7 +371,7 @@ public class Pokefly extends Service {
                 screen = ScreenGrabber.getInstance();
                 startPeriodicScreenScan();
             } else {
-                screenShotHelper = ScreenShotHelper.start(Pokefly.this, screenshotDir);
+                screenShotHelper = ScreenShotHelper.start(Pokefly.this);
             }
         }
 

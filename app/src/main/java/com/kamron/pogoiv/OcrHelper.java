@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.util.LruCache;
 
+import com.google.common.base.Optional;
 import com.googlecode.tesseract.android.TessBaseAPI;
 import com.kamron.pogoiv.logic.Data;
 import com.kamron.pogoiv.logic.ScanResult;
@@ -261,12 +262,8 @@ public class OcrHelper {
         if (candyName == null) {
             candy = replaceColors(candy, 68, 105, 108, Color.WHITE, 200, true);
             tesseract.setImage(candy);
-            try {
-                candyName = fixOcrNumsToLetters(
-                        removeFirstOrLastWord(tesseract.getUTF8Text().trim().replace("-", " "), candyWordFirst));
-            } catch (StringIndexOutOfBoundsException e) {
-                candyName = "";
-            }
+            candyName = fixOcrNumsToLetters(
+                    removeFirstOrLastWord(tesseract.getUTF8Text().trim().replace("-", " "), candyWordFirst));
             candy.recycle();
             ocrCache.put(hash, candyName);
         }
@@ -279,8 +276,7 @@ public class OcrHelper {
      * @param pokemonImage the image of the whole screen
      * @return an integer of the interpreted pokemon name, 10 if scan failed
      */
-    private int getPokemonHPFromImg(Bitmap pokemonImage) {
-        int pokemonHP = 10;
+    private Optional<Integer> getPokemonHPFromImg(Bitmap pokemonImage) {
         Bitmap hp = Bitmap.createBitmap(pokemonImage, (int) Math.round(widthPixels / 2.8),
                 (int) Math.round(heightPixels / 1.8962963), (int) Math.round(widthPixels / 3.5),
                 (int) Math.round(heightPixels / 34.13333333));
@@ -291,9 +287,9 @@ public class OcrHelper {
             hp = replaceColors(hp, 55, 66, 61, Color.WHITE, 200, true);
             tesseract.setImage(hp);
             pokemonHPStr = tesseract.getUTF8Text();
-            hp.recycle();
             ocrCache.put(hash, pokemonHPStr);
         }
+        hp.recycle();
 
         if (pokemonHPStr.contains("/")) {
             try {
@@ -304,12 +300,13 @@ public class OcrHelper {
                                 ? hpParts[1]
                                 : hpParts[0];
 
-                pokemonHP = Integer.parseInt(fixOcrLettersToNums(hpStr).replaceAll("[^0-9]", ""));
+                return Optional.of(Integer.parseInt(fixOcrLettersToNums(hpStr).replaceAll("[^0-9]", "")));
             } catch (NumberFormatException e) {
-                pokemonHP = 10;
+                //Fall-through to default.
             }
         }
-        return pokemonHP;
+
+        return Optional.absent();
     }
 
     /**
@@ -318,24 +315,23 @@ public class OcrHelper {
      * @param pokemonImage the image of the whole pokemon screen
      * @return a CP of the pokemon, 10 if scan failed
      */
-    private int getPokemonCPFromImg(Bitmap pokemonImage) {
-        int pokemonCP;
+    private Optional<Integer>  getPokemonCPFromImg(Bitmap pokemonImage) {
         Bitmap cp = Bitmap.createBitmap(pokemonImage, (int) Math.round(widthPixels / 3.0),
                 (int) Math.round(heightPixels / 15.5151515), (int) Math.round(widthPixels / 3.84),
                 (int) Math.round(heightPixels / 21.333333333));
         cp = replaceColors(cp, 255, 255, 255, Color.BLACK, 30, false);
         tesseract.setImage(cp);
         String cpText = fixOcrLettersToNums(tesseract.getUTF8Text());
+        cp.recycle();
+
         if (cpText.length() >= 2) { //gastly can block the "cp" text, so its not visible...
             cpText = cpText.substring(2);
         }
         try {
-            pokemonCP = Integer.parseInt(cpText);
+            return Optional.of(Integer.parseInt(cpText));
         } catch (NumberFormatException e) {
-            pokemonCP = 10;
+            return Optional.absent();
         }
-        cp.recycle();
-        return pokemonCP;
     }
 
     /**
@@ -350,8 +346,8 @@ public class OcrHelper {
         double estimatedPokemonLevel = getPokemonLevelFromImg(pokemonImage, trainerLevel);
         String pokemonName = getPokemonNameFromImg(pokemonImage);
         String candyName = getCandyNameFromImg(pokemonImage);
-        int pokemonHP = getPokemonHPFromImg(pokemonImage);
-        int pokemonCP = getPokemonCPFromImg(pokemonImage);
+        Optional<Integer> pokemonHP = getPokemonHPFromImg(pokemonImage);
+        Optional<Integer> pokemonCP = getPokemonCPFromImg(pokemonImage);
 
         return new ScanResult(estimatedPokemonLevel, pokemonName, candyName, pokemonHP, pokemonCP);
     }

@@ -1,5 +1,7 @@
 package com.kamron.pogoiv.logic;
 
+import com.google.common.base.Optional;
+
 /**
  * A ScanResult represents the result of an OCR scan.
  * Created by pgiarrusso on 3/9/2016.
@@ -10,11 +12,11 @@ public class ScanResult {
     private double estimatedPokemonLevel;
     private String pokemonName;
     private String candyName;
-    private int pokemonHP;
-    private int pokemonCP;
+    private Optional<Integer> pokemonHP;
+    private Optional<Integer> pokemonCP;
 
-    public ScanResult(double estimatedPokemonLevel, String pokemonName, String candyName, int pokemonHP,
-                      int pokemonCP) {
+    public ScanResult(double estimatedPokemonLevel, String pokemonName, String candyName, Optional<Integer> pokemonHP,
+                      Optional<Integer> pokemonCP) {
         this.estimatedPokemonLevel = estimatedPokemonLevel;
         this.pokemonName = pokemonName;
         this.candyName = candyName;
@@ -34,17 +36,20 @@ public class ScanResult {
         return candyName;
     }
 
-    public int getPokemonHP() {
+    public Optional<Integer> getPokemonHP() {
         return pokemonHP;
     }
 
-    public int getPokemonCP() {
+    public Optional<Integer> getPokemonCP() {
         return pokemonCP;
     }
 
+    /**
+     * Test whether this ScanResult represents a failed scan.
+     * @return a boolean representing whether this scan failed.
+     */
     public boolean isFailed() {
-        //XXX replace by proper logic.
-        //the default values for a failed scan, if all three fail, then probably scrolled down.
-        return candyName.equals("") && pokemonHP == 10 && pokemonCP == 10;
+        //If both scans failed, then probably scrolled down.
+        return !pokemonHP.isPresent() && !pokemonCP.isPresent();
     }
 }

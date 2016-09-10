@@ -48,6 +48,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.common.base.Function;
+import com.google.common.base.Optional;
 import com.kamron.pogoiv.logic.CPRange;
 import com.kamron.pogoiv.logic.Data;
 import com.kamron.pogoiv.logic.IVCombination;
@@ -251,8 +253,8 @@ public class Pokefly extends Service {
 
     private String pokemonName;
     private String candyName;
-    private int pokemonCP;
-    private int pokemonHP;
+    private Optional<Integer> pokemonCP = Optional.absent();
+    private Optional<Integer> pokemonHP = Optional.absent();
     private double estimatedPokemonLevel = 1.0;
 
     private PokemonNameCorrector corrector;
@@ -850,8 +852,8 @@ public class Pokefly extends Service {
      */
     private boolean parseNumericInputs() {
         try {
-            pokemonHP = Integer.parseInt(pokemonHPEdit.getText().toString());
-            pokemonCP = Integer.parseInt(pokemonCPEdit.getText().toString());
+            pokemonHP = Optional.of(Integer.parseInt(pokemonHPEdit.getText().toString()));
+            pokemonCP = Optional.of(Integer.parseInt(pokemonCPEdit.getText().toString()));
         } catch (NumberFormatException e) {
             return false;
         }
@@ -864,7 +866,7 @@ public class Pokefly extends Service {
      */
     public void checkIv() {
         //warn user and stop calculation if scan/input failed/is wrong
-        if (!parseNumericInputs()) {
+        if (!parseNumericInputs() || !pokemonHP.isPresent() || !pokemonCP.isPresent()) {
             Toast.makeText(this, R.string.missing_inputs, Toast.LENGTH_SHORT).show();
             return;
         }
@@ -877,8 +879,9 @@ public class Pokefly extends Service {
 
         rememberUserInputForPokemonNameIfNewNickname(pokemon);
 
-        IVScanResult ivScanResult = pokeInfoCalculator.getIVPossibilities(pokemon, estimatedPokemonLevel, pokemonHP,
-                pokemonCP);
+        IVScanResult ivScanResult = pokeInfoCalculator.getIVPossibilities(pokemon, estimatedPokemonLevel,
+                pokemonHP.get(),
+                pokemonCP.get());
 
         refineByAvailableAppraisalInfo(ivScanResult);
 
@@ -1356,8 +1359,8 @@ public class Pokefly extends Service {
             int selection = pokeInputSpinnerAdapter.getPosition(pokeInfoCalculator.get(possiblePoke.pokemonId));
             pokeInputSpinner.setSelection(selection);
 
-            pokemonHPEdit.setText(String.valueOf(pokemonHP));
-            pokemonCPEdit.setText(String.valueOf(pokemonCP));
+            pokemonHPEdit.setText(optionalIntToString(pokemonHP));
+            pokemonCPEdit.setText(optionalIntToString(pokemonCP));
 
             showInfoLayoutArcPointer();
             moveOverlayUpOrDownToMatchAppraisalBox(); //move the overlay to correct position regarding appraisal box
@@ -1371,6 +1374,14 @@ public class Pokefly extends Service {
                 checkIv();
             }
         }
+    }
+
+    private <T> String optionalIntToString(Optional<T> src) {
+        return src.transform(new Function<T, String>() {
+            @Override public String apply(T input) {
+                return input.toString();
+            }
+        }).or("");
     }
 
     private void initOcr() {
@@ -1453,8 +1464,8 @@ public class Pokefly extends Service {
                     receivedInfo = true;
                     pokemonName = intent.getStringExtra(KEY_SEND_INFO_NAME);
                     candyName = intent.getStringExtra(KEY_SEND_INFO_CANDY);
-                    pokemonCP = intent.getIntExtra(KEY_SEND_INFO_CP, 0);
-                    pokemonHP = intent.getIntExtra(KEY_SEND_INFO_HP, 0);
+                    pokemonCP = (Optional<Integer>) intent.getSerializableExtra(KEY_SEND_INFO_CP);
+                    pokemonHP = (Optional<Integer>) intent.getSerializableExtra(KEY_SEND_INFO_HP);
                     estimatedPokemonLevel = intent.getDoubleExtra(KEY_SEND_INFO_LEVEL, estimatedPokemonLevel);
                     if (estimatedPokemonLevel < 1.0) {
                         estimatedPokemonLevel = 1.0;

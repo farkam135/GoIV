@@ -3,12 +3,16 @@ package com.kamron.pogoiv;
 import android.annotation.TargetApi;
 import android.graphics.Bitmap;
 import android.graphics.PixelFormat;
+import android.graphics.Point;
+import android.graphics.Rect;
 import android.hardware.display.DisplayManager;
 import android.hardware.display.VirtualDisplay;
 import android.media.Image;
 import android.media.ImageReader;
 import android.media.projection.MediaProjection;
 import android.os.Build;
+import android.support.annotation.ColorInt;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.DisplayMetrics;
 
@@ -56,6 +60,35 @@ public class ScreenGrabber {
     public static ScreenGrabber getInstance() {
         assert instance != null;
         return instance;
+    }
+
+    @NonNull private static Rect getBitmapBounds(Bitmap bmp) {
+        return new Rect(0, 0, bmp.getWidth(), bmp.getHeight());
+    }
+
+    static @Nullable @ColorInt int[] getPixelsSafe(Bitmap bmp, Point[] points) {
+        Rect bounds = getBitmapBounds(bmp);
+        @ColorInt int[] pixels = new int[points.length];
+        for (int i = 0; i < points.length; i++) {
+            Point p = points[i];
+            if (bounds.contains(p.x, p.y)) {
+                pixels[i] = bmp.getPixel(p.x, p.y);
+            } else {
+                return null;
+            }
+        }
+        return pixels;
+    }
+
+    public @Nullable @ColorInt int[] grabPixels(Point[] points) {
+        Bitmap bmp = grabScreen();
+        if (bmp == null) {
+            return null;
+        }
+        @ColorInt int[] pixels = ScreenGrabber.getPixelsSafe(bmp, points);
+        bmp.recycle();
+
+        return pixels;
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)

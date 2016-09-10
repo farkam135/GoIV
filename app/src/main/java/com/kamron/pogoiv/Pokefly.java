@@ -120,8 +120,7 @@ public class Pokefly extends Service {
     private OcrHelper ocr;
 
     private Timer timer;
-    private Point area1 = new Point();
-    private Point area2 = new Point();
+    private Point[] area = new Point[2];
 
     private boolean infoShownSent = false;
     private boolean infoShownReceived = false;
@@ -374,11 +373,12 @@ public class Pokefly extends Service {
     }
 
     private void startPeriodicScreenScan() {
-        area1.x = Math.round(displayMetrics.widthPixels / 24);  // these values used to get "white" left of "power up"
-        area1.y = (int) Math.round(displayMetrics.heightPixels / 1.24271845);
-        area2.x = (int) Math.round(
-                displayMetrics.widthPixels / 1.15942029);  // these values used to get greenish color in transfer button
-        area2.y = (int) Math.round(displayMetrics.heightPixels / 1.11062907);
+        area[0] = new Point(                // these values used to get "white" left of "power up"
+                Math.round(displayMetrics.widthPixels / 24),
+                (int) Math.round(displayMetrics.heightPixels / 1.24271845));
+        area[1] = new Point(                // these values used to get greenish color in transfer button
+                (int) Math.round(displayMetrics.widthPixels / 1.15942029),
+                (int) Math.round(displayMetrics.heightPixels / 1.11062907));
         final Handler handler = new Handler();
         timer = new Timer();
         TimerTask doAsynchronousTask = new TimerTask() {
@@ -396,7 +396,7 @@ public class Pokefly extends Service {
 
     /**
      * scanPokemonScreen
-     * Scans the device screen to check area1 for the white and area2 for the transfer button.
+     * Scans the device screen to check area[0] for the white and area[1] for the transfer button.
      * If both exist then the user is on the pokemon screen.
      */
     private void scanPokemonScreen() {
@@ -406,8 +406,8 @@ public class Pokefly extends Service {
         }
 
         if (bmp.getHeight() > bmp.getWidth()) {
-            boolean shouldShow = bmp.getPixel(area1.x, area1.y) == Color.rgb(250, 250, 250)
-                    && bmp.getPixel(area2.x, area2.y) == Color.rgb(28, 135, 150);
+            boolean shouldShow = bmp.getPixel(area[0].x, area[0].y) == Color.rgb(250, 250, 250)
+                    && bmp.getPixel(area[1].x, area[1].y) == Color.rgb(28, 135, 150);
             setIVButtonDisplay(shouldShow);
         }
         bmp.recycle();

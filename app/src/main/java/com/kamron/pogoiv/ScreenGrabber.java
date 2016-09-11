@@ -2,6 +2,7 @@ package com.kamron.pogoiv;
 
 import android.annotation.TargetApi;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
 import android.graphics.Rect;
@@ -163,11 +164,11 @@ public class ScreenGrabber {
     //Inspired by http://stackoverflow.com/a/27655022/53974.
     private static @ColorInt int getPixel(ByteBuffer buffer, Point pos, int pixelStride, int rowStride) {
         int offset = pos.y * rowStride + pos.x * pixelStride;
-        int pixel = 0;
-        pixel |= (buffer.get(offset) & 0xff) << 16;     // R
-        pixel |= (buffer.get(offset + 1) & 0xff) << 8;  // G
-        pixel |= (buffer.get(offset + 2) & 0xff);       // B
-        pixel |= (buffer.get(offset + 3) & 0xff) << 24; // A
-        return pixel;
+        //This works because the image reader is configured with PixelFormat.RGBA_8888.
+        int r = buffer.get(offset) & 0xff;
+        int g = buffer.get(offset + 1) & 0xff;
+        int b = buffer.get(offset + 2) & 0xff;
+        int a = buffer.get(offset + 3) & 0xff;
+        return Color.argb(a, r, g, b);
     }
 }

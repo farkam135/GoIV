@@ -115,6 +115,11 @@ public class ScreenGrabber {
         return bmp;
     }
 
+    /**
+     * Grab a few pixels from the current screen.
+     * @param points array of points representing coordinates to grab
+     * @return array of colors for the requested pixels, or null if any of them is out-of-bounds
+     */
     public @Nullable @ColorInt int[] grabPixels(Point[] points) {
         Image image = null;
         try {

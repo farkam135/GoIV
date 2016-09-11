@@ -42,6 +42,30 @@ public class PokemonNameCorrector {
     }
 
     /**
+     * Fix Nidoran gender identification
+     *
+     * @param ocrText   The text that OCR generated
+     * @param p         The pokemon that was the best match for the OCR text
+     * @return          a Pokemon that's fixed if it was Nidoran. Otherwise, unchanged.
+     */
+    private Pokemon fixNido(String ocrText, Pokemon p) {
+        String pokeName = p.name;
+        Pokemon p28 = pokeInfoCalculator.get(28);
+        Pokemon p31 = pokeInfoCalculator.get(31);
+
+        if (pokeName.equals(p28.name) || pokeName.equals(p31.name)) {
+            char lastChar = ocrText.charAt(ocrText.length() - 1);
+            if (lastChar == 'd') {
+                return p31;
+            } else if (lastChar == 'Q') {
+                return p28;
+            }
+        }
+
+        return p;
+    }
+
+    /**
      * Compute the most likely pokemon ID based on the pokemon and candy names.
      *
      * @return a PokeDist with pokemon ID and distance.
@@ -91,6 +115,8 @@ public class PokemonNameCorrector {
         } else {
             bestCandyMatch = 0;
         }
+
+        p = fixNido(candytext, p);
 
         /* Search through all the pokemon with the same candy name and pick the one with the best
          * match to the pokemon name (not the candy name) */

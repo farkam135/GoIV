@@ -28,10 +28,8 @@ public class OcrHelper {
     private final int heightPixels;
     private final int widthPixels;
     private final boolean candyWordFirst;
-    private final String nidoFemale;
-    private final String nidoMale;
 
-    private OcrHelper(String dataPath, int widthPixels, int heightPixels, String nidoFemale, String nidoMale) {
+    private OcrHelper(String dataPath, int widthPixels, int heightPixels) {
         tesseract = new TessBaseAPI();
         tesseract.init(dataPath, "eng");
         tesseract.setPageSegMode(TessBaseAPI.PageSegMode.PSM_SINGLE_LINE);
@@ -40,8 +38,6 @@ public class OcrHelper {
         this.heightPixels = heightPixels;
         this.widthPixels = widthPixels;
         this.candyWordFirst = isCandyWordFirst();
-        this.nidoFemale = nidoFemale;
-        this.nidoMale = nidoMale;
     }
 
     /**
@@ -51,10 +47,9 @@ public class OcrHelper {
      * @param dataPath Path the OCR data files.
      * @return Bitmap with replaced colors
      */
-    public static OcrHelper init(String dataPath, int widthPixels, int heightPixels, String nidoFemale,
-                                 String nidoMale) {
+    public static OcrHelper init(String dataPath, int widthPixels, int heightPixels) {
         if (instance == null) {
-            instance = new OcrHelper(dataPath, widthPixels, heightPixels, nidoFemale, nidoMale);
+            instance = new OcrHelper(dataPath, widthPixels, heightPixels);
         }
         return instance;
     }
@@ -167,41 +162,6 @@ public class OcrHelper {
     }
 
     /**
-     * Dont missgender the poor nidorans.
-     * <p/>
-     * Takes a subportion of the screen, and averages the color to check the average values and compares to known
-     * male / female average
-     *
-     * @param pokemonImage The screenshot of the entire application
-     * @return True if the nidoran is female
-     */
-    private boolean isNidoranFemale(Bitmap pokemonImage) {
-        Bitmap pokemon = Bitmap.createBitmap(pokemonImage, widthPixels / 3, Math.round(heightPixels / 4),
-                Math.round(widthPixels / 3), Math.round(heightPixels / 5));
-        int[] pixelArray = new int[pokemon.getHeight() * pokemon.getWidth()];
-        pokemon.getPixels(pixelArray, 0, pokemon.getWidth(), 0, 0, pokemon.getWidth(), pokemon.getHeight());
-        int greenSum = 0;
-        int blueSum = 0;
-
-        // a loop that sums the color values of all the pixels in the image of the nidoran
-        for (int pixel : pixelArray) {
-            blueSum += Color.green(pixel);
-            greenSum += Color.blue(pixel);
-        }
-        int greenAverage = greenSum / pixelArray.length;
-        int blueAverage = blueSum / pixelArray.length;
-        //Average male nidoran has RGB value ~~ 136,165,117
-        //Average female nidoran has RGB value~ 135,190,140
-        int femaleGreenLimit = 175; //if average green is over 175, its probably female
-        int femaleBlueLimit = 130; //if average blue is over 130, its probably female
-        boolean isFemale = true;
-        if (greenAverage < femaleGreenLimit && blueAverage < femaleBlueLimit) {
-            isFemale = false; //if neither average is above the female limit, then it's male.
-        }
-        return isFemale;
-    }
-
-    /**
      * Get the pokemon name as analysed from a pokemon image.
      *
      * @param pokemonImage the image of the whole screen
@@ -217,14 +177,6 @@ public class OcrHelper {
             name = replaceColors(name, 68, 105, 108, Color.WHITE, 200, true);
             tesseract.setImage(name);
             pokemonName = fixOcrNumsToLetters(tesseract.getUTF8Text().replace(" ", ""));
-            if (pokemonName.toLowerCase().contains("nidora")) {
-                boolean isFemale = isNidoranFemale(pokemonImage);
-                if (isFemale) {
-                    pokemonName = nidoFemale;
-                } else {
-                    pokemonName = nidoMale;
-                }
-            }
             name.recycle();
             ocrCache.put(hash, pokemonName);
         }

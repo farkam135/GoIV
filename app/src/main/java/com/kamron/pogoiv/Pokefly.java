@@ -954,8 +954,7 @@ public class Pokefly extends Service {
     private void deleteScreenShotIfRequired() {
         if (batterySaver && !ssFile.isEmpty()) {
             if (GoIVSettings.getInstance(getBaseContext()).shouldDeleteScreenshots()) {
-                getContentResolver().delete(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, MediaStore.Files.FileColumns.DATA + "=?",
-                        new String[]{ssFile});
+                screenShotHelper.deleteScreenShot(ssFile);
             }
         }
     }

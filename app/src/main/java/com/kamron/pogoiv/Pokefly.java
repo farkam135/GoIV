@@ -16,6 +16,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
+import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
@@ -119,11 +120,7 @@ public class Pokefly extends Service {
     private OcrHelper ocr;
 
     private Timer timer;
-    private int areaX1;
-    private int areaY1;
-    private int areaX2;
-    private int areaY2;
-
+    private Point[] area = new Point[2];
 
     private boolean infoShownSent = false;
     private boolean infoShownReceived = false;
@@ -376,11 +373,12 @@ public class Pokefly extends Service {
     }
 
     private void startPeriodicScreenScan() {
-        areaX1 = Math.round(displayMetrics.widthPixels / 24);  // these values used to get "white" left of "power up"
-        areaY1 = (int) Math.round(displayMetrics.heightPixels / 1.24271845);
-        areaX2 = (int) Math.round(
-                displayMetrics.widthPixels / 1.15942029);  // these values used to get greenish color in transfer button
-        areaY2 = (int) Math.round(displayMetrics.heightPixels / 1.11062907);
+        area[0] = new Point(                // these values used to get "white" left of "power up"
+                Math.round(displayMetrics.widthPixels / 24),
+                (int) Math.round(displayMetrics.heightPixels / 1.24271845));
+        area[1] = new Point(                // these values used to get greenish color in transfer button
+                (int) Math.round(displayMetrics.widthPixels / 1.15942029),
+                (int) Math.round(displayMetrics.heightPixels / 1.11062907));
         final Handler handler = new Handler();
         timer = new Timer();
         TimerTask doAsynchronousTask = new TimerTask() {
@@ -398,21 +396,17 @@ public class Pokefly extends Service {
 
     /**
      * scanPokemonScreen
-     * Scans the device screen to check area1 for the white and area2 for the transfer button.
+     * Scans the device screen to check area[0] for the white and area[1] for the transfer button.
      * If both exist then the user is on the pokemon screen.
      */
     private void scanPokemonScreen() {
-        Bitmap bmp = screen.grabScreen();
-        if (bmp == null) {
-            return;
-        }
+        @ColorInt int[] pixels = screen.grabPixels(area);
 
-        if (bmp.getHeight() > bmp.getWidth()) {
-            boolean shouldShow = bmp.getPixel(areaX1, areaY1) == Color.rgb(250, 250, 250)
-                    && bmp.getPixel(areaX2, areaY2) == Color.rgb(28, 135, 150);
+        if (pixels != null) {
+            boolean shouldShow =
+                    pixels[0] == Color.rgb(250, 250, 250) && pixels[1] == Color.rgb(28, 135, 150);
             setIVButtonDisplay(shouldShow);
         }
-        bmp.recycle();
     }
 
     private boolean infoLayoutArcPointerVisible = false;

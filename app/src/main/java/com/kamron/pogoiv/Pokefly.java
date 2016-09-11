@@ -18,11 +18,9 @@ import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
-import android.provider.MediaStore;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
@@ -88,14 +86,13 @@ public class Pokefly extends Service {
     private static final String KEY_TRAINER_LEVEL = "key_trainer_level";
     private static final String KEY_STATUS_BAR_HEIGHT = "key_status_bar_height";
     private static final String KEY_BATTERY_SAVER = "key_battery_saver";
-    private static final String KEY_SCREENSHOT_URI = "key_screenshot_uri";
 
     private static final String KEY_SEND_INFO_NAME = "key_send_info_name";
     private static final String KEY_SEND_INFO_CANDY = "key_send_info_candy";
     private static final String KEY_SEND_INFO_HP = "key_send_info_hp";
     private static final String KEY_SEND_INFO_CP = "key_send_info_cp";
     private static final String KEY_SEND_INFO_LEVEL = "key_send_info_level";
-    private static final String KEY_SEND_SCREENSHOT_DIR = "key_send_screenshot_dir";
+    private static final String KEY_SEND_SCREENSHOT_FILE = "key_send_screenshot_file";
 
     private static final String ACTION_PROCESS_BITMAP = "com.kamron.pogoiv.PROCESS_BITMAP";
     private static final String KEY_BITMAP = "bitmap";
@@ -107,8 +104,6 @@ public class Pokefly extends Service {
 
     private int trainerLevel = -1;
     private boolean batterySaver = false;
-    private Uri screenshotUri;
-    private String screenshotDir;
 
     private boolean receivedInfo = false;
 
@@ -117,6 +112,7 @@ public class Pokefly extends Service {
     private ClipboardManager clipboard;
     private SharedPreferences sharedPref;
     private ScreenGrabber screen;
+    private ScreenShotHelper screenShotHelper;
     private OcrHelper ocr;
 
     private Timer timer;
@@ -253,6 +249,7 @@ public class Pokefly extends Service {
     private Optional<Integer> pokemonCP = Optional.absent();
     private Optional<Integer> pokemonHP = Optional.absent();
     private double estimatedPokemonLevel = 1.0;
+    private String ssFile;
 
     private PokemonNameCorrector corrector;
 
@@ -280,15 +277,11 @@ public class Pokefly extends Service {
             WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
             PixelFormat.TRANSLUCENT);
 
-    public static Intent createIntent(Activity activity, int trainerLevel, int statusBarHeight, boolean batterySaver,
-                                      String screenshotDir, Uri screenshotUri) {
+    public static Intent createIntent(Activity activity, int trainerLevel, int statusBarHeight, boolean batterySaver) {
         Intent intent = new Intent(activity, Pokefly.class);
         intent.putExtra(KEY_TRAINER_LEVEL, trainerLevel);
         intent.putExtra(KEY_STATUS_BAR_HEIGHT, statusBarHeight);
         intent.putExtra(KEY_BATTERY_SAVER, batterySaver);
-        if (!screenshotDir.isEmpty()) {
-            intent.putExtra(KEY_SCREENSHOT_URI, screenshotUri.toString());
-        }
         return intent;
     }
 
@@ -303,7 +296,7 @@ public class Pokefly extends Service {
         intent.putExtra(KEY_SEND_INFO_CP, scanResult.getPokemonCP());
         intent.putExtra(KEY_SEND_INFO_LEVEL, scanResult.getEstimatedPokemonLevel());
         if (!filePath.isEmpty()) {
-            intent.putExtra(KEY_SEND_SCREENSHOT_DIR, filePath);
+            intent.putExtra(KEY_SEND_SCREENSHOT_FILE, filePath);
         }
     }
 
@@ -354,9 +347,6 @@ public class Pokefly extends Service {
             trainerLevel = intent.getIntExtra(KEY_TRAINER_LEVEL, 1);
             statusBarHeight = intent.getIntExtra(KEY_STATUS_BAR_HEIGHT, 0);
             batterySaver = intent.getBooleanExtra(KEY_BATTERY_SAVER, false);
-            if (intent.hasExtra(KEY_SCREENSHOT_URI)) {
-                screenshotUri = Uri.parse(intent.getStringExtra(KEY_SCREENSHOT_URI));
-            }
             makeNotification(this);
             createInfoLayout();
             createIVButton();
@@ -366,6 +356,8 @@ public class Pokefly extends Service {
             if (!batterySaver) {
                 screen = ScreenGrabber.getInstance();
                 startPeriodicScreenScan();
+            } else {
+                screenShotHelper = ScreenShotHelper.start(Pokefly.this);
             }
         }
 
@@ -431,6 +423,9 @@ public class Pokefly extends Service {
     public void onDestroy() {
         if (!batterySaver) {
             timer.cancel();
+        } else {
+            screenShotHelper.stop();
+            screenShotHelper = null;
         }
 
         super.onDestroy();
@@ -864,7 +859,8 @@ public class Pokefly extends Service {
             Toast.makeText(this, R.string.missing_inputs, Toast.LENGTH_SHORT).show();
             return;
         }
-        deleteScreenshotIfIShould();
+
+        deleteScreenShotIfRequired();
 
         Pokemon pokemon = interpretWhichPokemonUserInput();
         if (pokemon == null) {
@@ -949,11 +945,10 @@ public class Pokefly extends Service {
      * Checks if the app is in battery saver mode, and if the user hasnt set the setting to avoid deleting
      * screenshot, and then deletes the screenshot.
      */
-    private void deleteScreenshotIfIShould() {
-        if (batterySaver && !screenshotDir.isEmpty()) {
+    private void deleteScreenShotIfRequired() {
+        if (batterySaver && !ssFile.isEmpty()) {
             if (GoIVSettings.getInstance(getBaseContext()).shouldDeleteScreenshots()) {
-                getContentResolver().delete(screenshotUri, MediaStore.Files.FileColumns.DATA + "=?",
-                        new String[]{screenshotDir});
+                screenShotHelper.deleteScreenShot(ssFile);
             }
         }
     }
@@ -1299,8 +1294,6 @@ public class Pokefly extends Service {
     private void resetPokeflyStateMachine() {
         receivedInfo = false;
         infoShownSent = false;
-        Intent resetIntent = MainActivity.createResetScreenshotIntent();
-        LocalBroadcastManager.getInstance(Pokefly.this).sendBroadcast(resetIntent);
     }
 
     /**
@@ -1459,6 +1452,7 @@ public class Pokefly extends Service {
 
                     pokemonName = intent.getStringExtra(KEY_SEND_INFO_NAME);
                     candyName = intent.getStringExtra(KEY_SEND_INFO_CANDY);
+                    ssFile = intent.getStringExtra(KEY_SEND_SCREENSHOT_FILE);
 
                     @SuppressWarnings("unchecked") Optional<Integer> lPokemonCP =
                             (Optional<Integer>) intent.getSerializableExtra(KEY_SEND_INFO_CP);
@@ -1470,11 +1464,6 @@ public class Pokefly extends Service {
                     estimatedPokemonLevel = intent.getDoubleExtra(KEY_SEND_INFO_LEVEL, estimatedPokemonLevel);
                     if (estimatedPokemonLevel < 1.0) {
                         estimatedPokemonLevel = 1.0;
-                    }
-                    if (intent.hasExtra(KEY_SEND_SCREENSHOT_DIR)) {
-                        screenshotDir = intent.getStringExtra(KEY_SEND_SCREENSHOT_DIR);
-                    } else {
-                        screenshotDir = "";
                     }
 
                     showInfoLayout();

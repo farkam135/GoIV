@@ -5,15 +5,11 @@ import android.annotation.TargetApi;
 import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.database.ContentObserver;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.media.projection.MediaProjection;
@@ -21,8 +17,6 @@ import android.media.projection.MediaProjectionManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.FileObserver;
-import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.provider.Settings;
@@ -53,8 +47,6 @@ import com.kamron.pogoiv.updater.AppUpdateUtil;
 import com.kamron.pogoiv.updater.DownloadUpdateService;
 import com.kamron.pogoiv.widgets.PlayerTeamAdapter;
 
-import java.io.File;
-
 import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity {
@@ -66,36 +58,16 @@ public class MainActivity extends AppCompatActivity {
     private static final int SCREEN_CAPTURE_REQ_CODE = 1235;
 
     private static final String PREF_LEVEL = "level";
-    private static final String PREF_SCREENSHOT_DIR = "screenshotDir";
-    private static final String PREF_SCREENSHOT_URI = "screenshotUri";
 
-    private static final String ACTION_RESET_SCREENSHOT = "com.kamron.pogoiv.RESET_SCREENSHOT";
     public static boolean shouldShowUpdateDialog;
     private SharedPreferences sharedPref;
     private ScreenGrabber screen;
-    private ContentObserver screenShotObserver;
-    private FileObserver screenShotScanner;
 
-    private boolean screenShotWriting = false;
     private DisplayMetrics displayMetrics;
     private DisplayMetrics rawDisplayMetrics;
 
     private boolean batterySaver;
-    private String screenshotDir;
-    private Uri screenshotUri;
 
-    private boolean readyForNewScreenshot = true;
-    /**
-     * resetScreenshot
-     * Used to notify a new request for screenshot can be made. Needed to prevent multiple
-     * intents for some devices.
-     */
-    private final BroadcastReceiver resetScreenshot = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            readyForNewScreenshot = true;
-        }
-    };
     private boolean pokeFlyRunning = false;
     private int trainerLevel;
 
@@ -117,10 +89,6 @@ public class MainActivity extends AppCompatActivity {
         }
     };
     private GoIVSettings settings;
-
-    public static Intent createResetScreenshotIntent() {
-        return new Intent(ACTION_RESET_SCREENSHOT);
-    }
 
     public static Intent createUpdateDialogIntent(AppUpdate update) {
         Intent updateIntent = new Intent(MainActivity.ACTION_SHOW_UPDATE_DIALOG);
@@ -169,8 +137,6 @@ public class MainActivity extends AppCompatActivity {
 
         sharedPref = getPreferences(Context.MODE_PRIVATE);
         trainerLevel = sharedPref.getInt(PREF_LEVEL, 1);
-        screenshotDir = sharedPref.getString(PREF_SCREENSHOT_DIR, "");
-        screenshotUri = Uri.parse(sharedPref.getString(PREF_SCREENSHOT_URI, ""));
         batterySaver = settings.isManualScreenshotModeEnabled();
 
         final NumberPicker npTrainerLevel = (NumberPicker) findViewById(R.id.trainerLevel);
@@ -204,11 +170,7 @@ public class MainActivity extends AppCompatActivity {
                     Data.setupArcPoints(arcInit, arcRadius, trainerLevel);
 
                     if (batterySaver) {
-                        if (!screenshotDir.isEmpty()) {
-                            startScreenshotService();
-                        } else {
-                            getScreenshotDir();
-                        }
+                        startPokeFly();
                     } else {
                         startScreenService();
                     }
@@ -216,9 +178,6 @@ public class MainActivity extends AppCompatActivity {
                     stopService(new Intent(MainActivity.this, Pokefly.class));
                     if (screen != null) {
                         screen.exit();
-                    } else if (screenShotScanner != null) {
-                        screenShotScanner.stopWatching();
-                        screenShotScanner = null;
                     }
                     pokeFlyRunning = false;
                     ((Button) v).setText(getString(R.string.main_start));
@@ -235,8 +194,6 @@ public class MainActivity extends AppCompatActivity {
         Display disp = windowManager.getDefaultDisplay();
         disp.getRealMetrics(rawDisplayMetrics);
 
-        LocalBroadcastManager.getInstance(this).registerReceiver(resetScreenshot,
-                new IntentFilter(ACTION_RESET_SCREENSHOT));
         LocalBroadcastManager.getInstance(this).registerReceiver(showUpdateDialog,
                 new IntentFilter(ACTION_SHOW_UPDATE_DIALOG));
 
@@ -315,59 +272,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void getScreenshotDir() {
-        new AlertDialog.Builder(this)
-                .setTitle(R.string.battery_saver_setup)
-                .setMessage(R.string.battery_saver_instructions)
-                .setPositiveButton(R.string.setup, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        ((Button) findViewById(R.id.start)).setText(R.string.take_screenshot);
-                        screenShotObserver = new ContentObserver(new Handler()) {
-                            @Override
-                            public void onChange(boolean selfChange, Uri uri) {
-                                if (readyForNewScreenshot) {
-                                    if (uri.toString().contains("images")) {
-                                        final String pathChange = getRealPathFromUri(MainActivity.this, uri);
-                                        if (pathChange.contains("Screenshot")) {
-                                            screenshotDir = pathChange.substring(0,
-                                                    pathChange.lastIndexOf(File.separator));
-                                            screenshotUri = uri;
-                                            getContentResolver().unregisterContentObserver(screenShotObserver);
-                                            sharedPref.edit().putString("screenshotDir", screenshotDir).apply();
-                                            sharedPref.edit().putString("screenshotUri", uri.toString()).apply();
-                                            ((Button) findViewById(R.id.start)).setText(R.string.main_start);
-                                            new AlertDialog.Builder(MainActivity.this)
-                                                    .setTitle(R.string.battery_saver_setup)
-                                                    .setMessage(String.format(getString(R.string.screenshot_dir_found),
-                                                            screenshotDir))
-                                                    .setPositiveButton(R.string.done,
-                                                            new DialogInterface.OnClickListener() {
-                                                                public void onClick(DialogInterface dialog, int which) {
-                                                                    screenShotObserver = null;
-                                                                    getContentResolver().delete(screenshotUri,
-                                                                            MediaStore.Files.FileColumns.DATA + "=?",
-                                                                            new String[]{pathChange});
-                                                                }
-                                                            })
-                                                    .show();
-                                        }
-                                    }
-                                }
-                                super.onChange(selfChange, uri);
-                            }
-                        };
-                        getContentResolver().registerContentObserver(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, true,
-                                screenShotObserver);
-                    }
-                })
-                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        // do nothing
-                    }
-                })
-                .show();
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -388,8 +292,7 @@ public class MainActivity extends AppCompatActivity {
         ((Button) findViewById(R.id.start)).setText(R.string.main_stop);
 
         int statusBarHeight = getStatusBarHeight();
-        Intent intent = Pokefly.createIntent(this, trainerLevel, statusBarHeight, batterySaver, screenshotDir,
-                screenshotUri);
+        Intent intent = Pokefly.createIntent(this, trainerLevel, statusBarHeight, batterySaver);
         startService(intent);
 
         pokeFlyRunning = true;
@@ -434,15 +337,7 @@ public class MainActivity extends AppCompatActivity {
         if (screen != null) {
             screen.exit();
         }
-        if (screenShotObserver != null) {
-            getContentResolver().unregisterContentObserver(screenShotObserver);
-        }
-        if (screenShotScanner != null) {
-            screenShotScanner.stopWatching();
-            screenShotScanner = null;
-        }
 
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(resetScreenshot);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(showUpdateDialog);
         super.onDestroy();
     }
@@ -506,27 +401,6 @@ public class MainActivity extends AppCompatActivity {
         MediaProjectionManager projectionManager = (MediaProjectionManager) getSystemService(
                 Context.MEDIA_PROJECTION_SERVICE);
         startActivityForResult(projectionManager.createScreenCaptureIntent(), SCREEN_CAPTURE_REQ_CODE);
-    }
-
-    /**
-     * Starts the screenshot service, which checks for a new screenshot to scan.
-     */
-    private void startScreenshotService() {
-        screenShotScanner = new FileObserver(screenshotDir, FileObserver.CLOSE_NOWRITE | FileObserver.CLOSE_WRITE) {
-            @Override
-            public void onEvent(int event, String file) {
-                if (readyForNewScreenshot && file != null) {
-                    readyForNewScreenshot = false;
-                    File pokemonScreenshot = new File(screenshotDir + File.separator + file);
-                    String filepath = pokemonScreenshot.getAbsolutePath();
-                    Bitmap bmp = BitmapFactory.decodeFile(filepath);
-                    Intent newintent = Pokefly.createProcessBitmapIntent(bmp, filepath);
-                    LocalBroadcastManager.getInstance(MainActivity.this).sendBroadcast(newintent);
-                }
-            }
-        };
-        screenShotScanner.startWatching();
-        startPokeFly();
     }
 
     private String getRealPathFromUri(Context context, Uri contentUri) {

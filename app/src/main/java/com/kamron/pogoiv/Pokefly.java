@@ -1300,8 +1300,6 @@ public class Pokefly extends Service {
     private void resetPokeflyStateMachine() {
         receivedInfo = false;
         infoShownSent = false;
-        Intent resetIntent = MainActivity.createResetScreenshotIntent();
-        LocalBroadcastManager.getInstance(Pokefly.this).sendBroadcast(resetIntent);
     }
 
     /**

@@ -59,7 +59,6 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String PREF_LEVEL = "level";
 
-    private static final String ACTION_RESET_SCREENSHOT = "com.kamron.pogoiv.RESET_SCREENSHOT";
     public static boolean shouldShowUpdateDialog;
     private SharedPreferences sharedPref;
     private ScreenGrabber screen;
@@ -69,18 +68,6 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean batterySaver;
 
-    private boolean readyForNewScreenshot = true;
-    /**
-     * resetScreenshot
-     * Used to notify a new request for screenshot can be made. Needed to prevent multiple
-     * intents for some devices.
-     */
-    private final BroadcastReceiver resetScreenshot = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            readyForNewScreenshot = true;
-        }
-    };
     private boolean pokeFlyRunning = false;
     private int trainerLevel;
 
@@ -102,10 +89,6 @@ public class MainActivity extends AppCompatActivity {
         }
     };
     private GoIVSettings settings;
-
-    public static Intent createResetScreenshotIntent() {
-        return new Intent(ACTION_RESET_SCREENSHOT);
-    }
 
     public static Intent createUpdateDialogIntent(AppUpdate update) {
         Intent updateIntent = new Intent(MainActivity.ACTION_SHOW_UPDATE_DIALOG);
@@ -211,8 +194,6 @@ public class MainActivity extends AppCompatActivity {
         Display disp = windowManager.getDefaultDisplay();
         disp.getRealMetrics(rawDisplayMetrics);
 
-        LocalBroadcastManager.getInstance(this).registerReceiver(resetScreenshot,
-                new IntentFilter(ACTION_RESET_SCREENSHOT));
         LocalBroadcastManager.getInstance(this).registerReceiver(showUpdateDialog,
                 new IntentFilter(ACTION_SHOW_UPDATE_DIALOG));
 
@@ -357,7 +338,6 @@ public class MainActivity extends AppCompatActivity {
             screen.exit();
         }
 
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(resetScreenshot);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(showUpdateDialog);
         super.onDestroy();
     }

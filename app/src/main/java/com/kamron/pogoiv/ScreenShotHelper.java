@@ -12,6 +12,9 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v4.content.LocalBroadcastManager;
 
+import java.io.File;
+import java.util.Calendar;
+
 /**
  * Created by Sarav on 9/9/2016.
  */
@@ -49,6 +52,15 @@ public class ScreenShotHelper {
 
                 final String pathChange = getRealPathFromUri(context, uri);
                 if (!pathChange.contains("Screenshot")) {
+                    return;
+                }
+
+                /* Ignore random events related to opening old screenshots by making
+                 * sure the file was created within the past 10 seconds.
+                 */
+                long now = Calendar.getInstance().getTimeInMillis();
+                long filetime = new File(pathChange).lastModified();
+                if (now - filetime > 10000) {
                     return;
                 }
 

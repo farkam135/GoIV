@@ -3,10 +3,10 @@
     <string name="welcome_message">Instrukce:\n1. Vyplň level trenéra\n2. Zmáčkni tlačítko start a povol snímání obrazovky\n3. Otevři cílového Pokémona v \'Pokémon Go\'\n4. Zmáčkni tlačítko IV pro načtení Pokémona\n5. V případě potřeby uprav načtená data\n6. Zkontroluj IV!</string>
     <string name="goiv_is_open_source">GoIV je open source!\ngithub.com/farkam135/GoIV\nreddit.com/r/GoIV</string>
     <string name="trainer_level">Level trenéra</string>
-    <string name="place1">Vyber celkovou větu</string>
-    <string name="place2">Vyber větu o statech</string>
+    <string name="place1">Vyber celkovou větu:</string>
+    <string name="place2">Vyber větu o statech:</string>
     <string name="pokemon_name">Jméno Pokémona:</string>
-    <string name="use_the_slider_below_to_align_the_arc">Použij posuvník níže pro nastavení oblouku</string>
+    <string name="use_the_slider_below_to_align_the_arc">Použij posuvník níže pro nastavení oblouku:</string>
     <string name="cancel">Zrušit</string>
     <string name="check_iv">Zkontrolovat IV</string>
     <string name="main_not_numeric">%1$s není číslo.</string>
@@ -57,8 +57,8 @@
     <string name="attack">Útok</string>
     <string name="defense">Obrana</string>
     <string name="stamina_hp">HP</string>
-    <string name="missing_inputs">Chybějící data. Prosím vyplň vstupy pro CP a HP.</string>
-    <string name="ivtext_no_possibilities">Neexistují žádné možné kombinace IV pro tento vstup. Prosím překontroluj informace.</string>
+    <string name="missing_inputs">Je nutné vyplnit CP a HP.</string>
+    <string name="ivtext_no_possibilities">Neexistují žádné možné kombinace. Zkontroluj že jsi vložit správné údaje.</string>
     <string name="update_check_failed">Nastala chyba při kontrole aktualizací. Prosím zkontroluj své připojení k internetu.</string>
     <string name="up_to_date">GoIV je aktuální.</string>
     <string name="checking_for_update">Kontroluji aktualizace…</string>
@@ -71,7 +71,4 @@
     <string name="atk">ÚTK</string>
     <string name="def">OBR</string>
     <string name="sta">STA</string>
-    <string name="percent_phrase">Percent phrase</string>
-    <string name="iv_range_phrase">IV range phrase</string>
-    <string name="higher_values">Vyšší hodnoty</string>
 </resources>

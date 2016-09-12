@@ -295,7 +295,7 @@ public class Pokefly extends Service {
         intent.putExtra(KEY_SEND_INFO_HP, scanResult.getPokemonHP());
         intent.putExtra(KEY_SEND_INFO_CP, scanResult.getPokemonCP());
         intent.putExtra(KEY_SEND_INFO_LEVEL, scanResult.getEstimatedPokemonLevel());
-        if (!filePath.isEmpty()) {
+        if (filePath != null) {
             intent.putExtra(KEY_SEND_SCREENSHOT_FILE, filePath);
         }
     }
@@ -946,10 +946,11 @@ public class Pokefly extends Service {
      * screenshot, and then deletes the screenshot.
      */
     private void deleteScreenShotIfRequired() {
-        if (batterySaver && !ssFile.isEmpty()) {
+        if (batterySaver && ssFile != null) {
             if (GoIVSettings.getInstance(getBaseContext()).shouldDeleteScreenshots()) {
                 screenShotHelper.deleteScreenShot(ssFile);
             }
+            ssFile = null;
         }
     }
 
@@ -1413,7 +1414,7 @@ public class Pokefly extends Service {
         if (bmp == null) {
             return;
         }
-        scanPokemon(bmp, "");
+        scanPokemon(bmp, null);
         bmp.recycle();
     }
 
@@ -1426,9 +1427,7 @@ public class Pokefly extends Service {
         public void onReceive(Context context, Intent intent) {
             Bitmap bitmap = (Bitmap) intent.getParcelableExtra(KEY_BITMAP);
             String ss_file = intent.getStringExtra(KEY_SS_FILE);
-            if (ss_file == null) {
-                ss_file = "";
-            }
+
             if (bitmap == null) {
                 return;
             }

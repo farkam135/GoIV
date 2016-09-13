@@ -382,9 +382,13 @@ public class Pokefly extends Service {
             @Override
             public void run() {
                 if (screenScanRetries > 0) {
-                    scanPokemonScreen();
-                    screenScanRetries--;
-                    screenScanHandler.postDelayed(screenScanRunnable, SCREEN_SCAN_DELAY_MS);
+                    boolean ret = scanPokemonScreen();
+                    if (ret) {
+                        screenScanRetries = 0; //skip further retries.
+                    } else {
+                        screenScanRetries--;
+                        screenScanHandler.postDelayed(screenScanRunnable, SCREEN_SCAN_DELAY_MS);
+                    }
                 }
             }
         };

@@ -3,8 +3,8 @@
     <string name="welcome_message">Instruções:\n1. Insere o nível de treinador\n2. Carrega em START e permite a captura de ecrã\n3. Abre o teu Pokémon na aplicação \'Pokémon Go\'\n4. Carrega no botão IV para iniciar o exame\n5. Ajusta os dados se necessário\n6. Observa o IV!</string>
     <string name="goiv_is_open_source">GoIV é agora em código aberto!\ngithub.com/farkam135/GoIV\nreddit.com/r/GoIV</string>
     <string name="trainer_level">Nível de Treinador</string>
-	
-	<string name="pokemon_name">Nome do Pokémon:</string>
+
+    <string name="pokemon_name">Nome do Pokémon:</string>
     <string name="cp">CP</string>
     <string name="hp">HP</string>
     <string name="use_the_slider_below_to_align_the_arc">Deslize para alinhar o arco</string>
@@ -38,7 +38,7 @@
     <string name="delete_screenshots_setting_title">Apagar captura de ecrã</string>
     <string name="delete_screenshots_setting_summary">Automaticamente apagar capturas de ecrã tiradas pelo GoIV</string>
     <string name="copy_to_clipboard_setting_title">Copiar</string>
-    <string formatted="false" name="copy_to_clipboard_setting_summary">Copiar pior IV% - melhor IV% quando é calculado o IV</string>
+    <string name="copy_to_clipboard_setting_summary" formatted="false">Copiar pior IV% - melhor IV% quando é calculado o IV</string>
     <string name="send_crash_reports_setting_title">Enviar relatório de error</string>
     <string name="send_crash_reports_setting_summary">Ajudar os desenvolvedores a melhorar a aplicação através do envio de informações anônimas relacionadas com erros</string>
     <string name="auto_update_setting_title">Auto-actualização</string>

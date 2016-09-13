@@ -96,7 +96,7 @@
     <string name="delete_screenshots_setting_title">Delete screenshots</string>
     <string name="delete_screenshots_setting_summary">Automatically delete screenshots taken by GoIV</string>
     <string name="copy_to_clipboard_setting_title">Copy to clipboard</string>
-    <string formatted="false" name="copy_to_clipboard_setting_summary">Copy worst IV% - best IV% to clipboard when the check IV button is clicked</string>
+    <string name="copy_to_clipboard_setting_summary" formatted="false">Copy worst IV% - best IV% to clipboard when the check IV button is clicked</string>
     <string name="send_crash_reports_setting_title">Send crash reports</string>
     <string name="send_crash_reports_setting_summary">Help the developers improve the application by sending anonymous crash-related information to them</string>
     <string name="auto_update_setting_title">Auto-update</string>

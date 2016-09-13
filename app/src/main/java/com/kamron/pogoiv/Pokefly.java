@@ -100,6 +100,8 @@ public class Pokefly extends Service {
 
     private static final int NOTIFICATION_REQ_CODE = 8959;
 
+    private static boolean running = false;
+
     private int trainerLevel = -1;
     private boolean batterySaver = false;
 
@@ -282,6 +284,10 @@ public class Pokefly extends Service {
             WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
             PixelFormat.TRANSLUCENT);
 
+    public static boolean isRunning() {
+        return running;
+    }
+
     public static Intent createIntent(Activity activity, int trainerLevel, int statusBarHeight, boolean batterySaver) {
         Intent intent = new Intent(activity, Pokefly.class);
         intent.putExtra(KEY_TRAINER_LEVEL, trainerLevel);
@@ -348,6 +354,8 @@ public class Pokefly extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        running = true;
+
         if (intent != null && intent.hasExtra(KEY_TRAINER_LEVEL)) {
             trainerLevel = intent.getIntExtra(KEY_TRAINER_LEVEL, 1);
             statusBarHeight = intent.getIntExtra(KEY_STATUS_BAR_HEIGHT, 0);
@@ -482,6 +490,8 @@ public class Pokefly extends Service {
         ocr.exit();
         //Now ocr contains an invalid instance hence let's clear it.
         ocr = null;
+
+        running = false;
     }
 
     /**

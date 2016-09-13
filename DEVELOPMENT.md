@@ -26,6 +26,12 @@ If `GoIVCodeStyle.xml` has changed, close Android Studio, copy our file over the
 This plugin checks the codebase for violations of coding style.
 * Install CheckStyle Plugin (`Configure > Plugins > Browse Repositories > Search 'CheckStyle-IDEA' > Install`)
 * Restart Android Studio if requested.
+* Configure it with the coding style we use for GoIV:
+  - Navigate `Configure > Other Settings > Checkstyle > Configuration File`
+  - then add an entry with + button under the list
+  - Select 'Use a local Checkstyle file' in the new dialog
+  - Select 'checkstyle/checkstyle-rules.xml' from the GoIV folder, pick a name,
+    add the rules and enable them.
 
 This is especially important to send pull requests.
 

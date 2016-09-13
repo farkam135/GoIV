@@ -10,7 +10,6 @@
     <string name="cancel">Zrušit</string>
     <string name="check_iv">Zkontrolovat IV</string>
     <string name="notification_title">GoIV běží - Level %1$s</string>
-    <string name="notification_text">Klikni pro otevření</string>
     <string name="close">Zavřít</string>
     <string name="main_permission">Udělit povolení</string>
     <string name="back">Zpět</string>

@@ -26,6 +26,7 @@ import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -80,6 +81,7 @@ import io.apptik.widget.MultiSlider;
 
 public class Pokefly extends Service {
 
+    public static final String ACTION_STOP = "com.kamron.pogoiv.ACTION_STOP";
     private static final String ACTION_SEND_INFO = "com.kamron.pogoiv.ACTION_SEND_INFO";
 
     private static final String KEY_TRAINER_LEVEL = "key_trainer_level";
@@ -353,13 +355,23 @@ public class Pokefly extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        if (intent == null) {
+            return START_STICKY;
+        }
+
         running = true;
 
-        if (intent != null && intent.hasExtra(KEY_TRAINER_LEVEL)) {
+        if (ACTION_STOP.equals(intent.getAction())) {
+            if (screen != null) {
+                screen.exit();
+            }
+            stopSelf();
+
+        } else if (intent.hasExtra(KEY_TRAINER_LEVEL)) {
             trainerLevel = intent.getIntExtra(KEY_TRAINER_LEVEL, 1);
             statusBarHeight = intent.getIntExtra(KEY_STATUS_BAR_HEIGHT, 0);
             batterySaver = intent.getBooleanExtra(KEY_BATTERY_SAVER, false);
-            makeNotification(this);
+            makeNotification();
             createInfoLayout();
             createIVButton();
             createArcPointer();
@@ -496,21 +508,40 @@ public class Pokefly extends Service {
     /**
      * Creates the GoIV notification.
      */
-    private void makeNotification(Context context) {
-        Intent intent = new Intent(context, MainActivity.class);
+    private void makeNotification() {
+        Intent openAppIntent = new Intent(this, MainActivity.class);
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(context,
-                NOTIFICATION_REQ_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent openAppPendingIntent = PendingIntent.getActivity(
+                this, 0, openAppIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        Notification.Builder builder = new Notification.Builder(context)
-                .setContentTitle(String.format(getString(R.string.notification_title), trainerLevel))
-                .setContentText(getString(R.string.notification_text))
+        NotificationCompat.Action openAppAction = new NotificationCompat.Action.Builder(
+                android.R.drawable.ic_menu_more,
+                getString(R.string.notification_open_app),
+                openAppPendingIntent).build();
+
+        Intent stopServiceIntent = new Intent(this, Pokefly.class);
+        stopServiceIntent.setAction(ACTION_STOP);
+
+        PendingIntent stopServicePendingIntent = PendingIntent.getService(
+                this, 0, stopServiceIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        NotificationCompat.Action stopServiceAction = new NotificationCompat.Action.Builder(
+                android.R.drawable.ic_menu_close_clear_cancel,
+                getString(R.string.main_stop),
+                stopServicePendingIntent).build();
+
+        Notification notification = new NotificationCompat.Builder(this)
+                .setOngoing(true)
+                .setCategory(NotificationCompat.CATEGORY_SERVICE)
+                .setColor(getColorC(R.color.colorPrimary))
                 .setSmallIcon(R.drawable.notification_icon)
-                .setContentIntent(pendingIntent);
-        Notification n = builder.build();
+                .setContentTitle(getString(R.string.notification_title, trainerLevel))
+                .setContentIntent(openAppPendingIntent)
+                .addAction(openAppAction)
+                .addAction(stopServiceAction)
+                .build();
 
-        n.flags |= Notification.FLAG_NO_CLEAR | Notification.FLAG_ONGOING_EVENT;
-        startForeground(NOTIFICATION_REQ_CODE, n);
+        startForeground(NOTIFICATION_REQ_CODE, notification);
     }
 
     /**

@@ -69,21 +69,12 @@
     <string name="use_the_slider_below_to_align_the_arc">Use the slider below to align the arc:</string>
     <string name="cancel">Cancel</string>
     <string name="check_iv">Check IV</string>
-    <string name="main_not_numeric">%1$s is not a number.</string>
-    <string name="main_invalide_trainerlvl">Invalid Trainer Level!</string>
     <string name="notification_title">GoIV Running - Level %1$s</string>
     <string name="notification_text">Tap to open</string>
-    <string name="ivtext_stats" tools:ignore="PluralsCandidate">Atk: %1$02d Def: %2$02d Sta: %3$02d — %4$3d%%</string>
     <string name="close">Close</string>
     <string name="main_permission">Grant Permissions</string>
     <string name="main_start">Start</string>
     <string name="main_stop">Stop</string>
-    <string name="battery_saver_setup">Battery Saver Setup</string>
-    <string name="battery_saver_instructions">Your screenshot directory cannot be found. In order to help GoIV detect your screenshot directory please follow the steps below:\n1.Tap \'Setup\' on this message\n2.Take a screenshot\n3.Wait for further notice.</string>
-    <string name="setup">Setup</string>
-    <string name="take_screenshot">Take a screenshot</string>
-    <string name="screenshot_dir_found">Screenshot Directory Set:\n%1$s</string>
-    <string name="done">Done</string>
     <string name="back">Back</string>
     <string name="accept_screen_capture">Accept screen capture</string>
     <string name="settings_page_title">Settings</string>
@@ -130,8 +121,6 @@
     <string name="ongoing_update">An update for GoIV is already being downloaded</string>
     <string name="iv_perfect" formatted="false">% Perfect</string>
     <string name="wrongPokemonNameInput">" was not found."</string>
-    <string name="min">MIN</string>
-    <string name="max">MAX</string>
     <string name="avg">AVG</string>
     <string name="atk">ATK</string>
     <string name="def">DEF</string>

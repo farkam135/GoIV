@@ -484,25 +484,25 @@ public class Pokefly extends Service {
 
     @Override
     public void onDestroy() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(displayInfo);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(processBitmap);
+
         if (!batterySaver) {
             unwatchScreen();
         } else {
             screenShotHelper.stop();
             screenShotHelper = null;
         }
-
-        super.onDestroy();
         setIVButtonDisplay(false);
         hideInfoLayoutArcPointer();
-        stopForeground(true);
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(displayInfo);
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(processBitmap);
 
         ocr.exit();
         //Now ocr contains an invalid instance hence let's clear it.
         ocr = null;
 
         running = false;
+
+        super.onDestroy();
     }
 
     /**

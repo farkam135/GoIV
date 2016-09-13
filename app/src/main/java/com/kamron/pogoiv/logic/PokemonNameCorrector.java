@@ -49,8 +49,8 @@ public class PokemonNameCorrector {
      * @return a Pokedist with the best guess of the pokemon
      */
     public PokeDist getPossiblePokemon(String poketext, String candytext, int candyUpgradecost) {
-        Log.d("GuessPoke", "Scanned nick: " + poketext + " Scanned candy: " + candytext + " Scanned upgradecost" +
-                (candyUpgradecost + ""));
+        Log.d("GuessPoke", "Scanned nick: " + poketext + " Scanned candy: " + candytext + " Scanned upgradecost"
+                + (candyUpgradecost + ""));
 
 
         //1. if nickname perfectly matches a pokemon, return that
@@ -85,7 +85,7 @@ public class PokemonNameCorrector {
     }
 
     /**
-     * cache a result
+     * Cache a result.
      *
      * @param poketext   the text to put in the cache as the scanned nickname
      * @param cacheValue the value for the pokemon and the distance (how much we estimated)
@@ -185,7 +185,9 @@ public class PokemonNameCorrector {
      */
     private Pokemon getCandyNameEvolutionCostGuess(String candyname, int evolutionCost) {
         int error = -999;
-        if (evolutionCost == error) return null; //evolution cost scan failed
+        if (evolutionCost == error) {
+            return null; //evolution cost scan failed
+        }
 
         ArrayList<Pokemon> evolutionLine = getBestGuessForEvolutionLine(candyname);
         for (Pokemon pokemon : evolutionLine) {
@@ -207,7 +209,9 @@ public class PokemonNameCorrector {
     private PokeDist getNicknameGuess(String poketext, String candytext) {
         //return if there's a perfect match
         Pokemon perfectMatch = pokeInfoCalculator.get(poketext);
-        if (perfectMatch != null) return new PokeDist(perfectMatch.number, 0);
+        if (perfectMatch != null) {
+            return new PokeDist(perfectMatch.number, 0);
+        }
 
         //if there's no perfect match, get the pokemon that best matches the nickname within the best guess evo-line
 
@@ -226,16 +230,19 @@ public class PokemonNameCorrector {
     }
 
     /**
-     * get the evolution line which closest matches the string
+     * Get the evolution line which closest matches the string. The string is supposed to be the base evolution of a
+     * line.
      *
-     * @param input the candyname to find a match for
-     * @return an evolutionline which the candyname best matches the base evolution pokemon name
+     * @param input the base evolution (ex weedle) to find a match for
+     * @return an evolution line which the string best matches the base evolution pokemon name
      */
     private ArrayList<Pokemon> getBestGuessForEvolutionLine(String input) {
         Pokemon bestMatch = null;
         int lowestDist = Integer.MAX_VALUE;
         for (Pokemon poke : pokeInfoCalculator.getPokedex()) {
-            if (poke.devoNumber != -1) continue; //candy name will only ever match the base evolution
+            if (poke.devoNumber != -1) {
+                continue; //candy name will only ever match the base evolution
+            }
             int dist = poke.getDistanceCaseInsensitive(input);
             if (dist < lowestDist) {
                 bestMatch = poke;
@@ -247,7 +254,7 @@ public class PokemonNameCorrector {
 
 
     /**
-     * A method which returns the best guess at which pokemon it is according to the cache module
+     * A method which returns the best guess at which pokemon it is according to the cache module.
      *
      * @param poketext the text to search for a cached value with
      * @return a pokedist with the result if cache exists, if no previous correction, returns null

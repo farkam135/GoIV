@@ -118,7 +118,7 @@
     <string name="missing_inputs">Datos incompletos. Por favor completa los campos PC y PS.</string>
     <string name="ivtext_no_possibilities">No hay combinaciones de IV para estos datos. Por favor verifique la información.</string>
     <string name="accept_screen_capture">Permitir captura de pantalla</string>
-    <string name="checking_for_update">Buscando actualización...</string>
+    <string name="checking_for_update">Buscando actualización…</string>
     <string name="iv_perfect">Perfección (%)</string>
     <string name="ongoing_update">Ya se está descargando una actualización para GoIV</string>
     <string name="too_many_iv_combinations">Demasiadas combinaciones de IV</string>

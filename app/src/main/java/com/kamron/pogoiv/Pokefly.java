@@ -65,8 +65,6 @@ import com.kamron.pogoiv.widgets.PokemonSpinnerAdapter;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -115,7 +113,6 @@ public class Pokefly extends Service {
     private ScreenShotHelper screenShotHelper;
     private OcrHelper ocr;
 
-    private Timer timer;
     private Point[] area = new Point[2];
 
     private boolean infoShownSent = false;
@@ -125,6 +122,14 @@ public class Pokefly extends Service {
     private ImageView ivButton;
     private ImageView arcPointer;
     private LinearLayout infoLayout;
+
+    private LinearLayout touchView;
+    private WindowManager.LayoutParams touchViewParams;
+    private Handler screenScanHandler;
+    private Runnable screenScanRunnable;
+    private static final int SCREEN_SCAN_DELAY_MS = 1000;
+    private static final int SCREEN_SCAN_RETRIES = 3;
+    private int screenScanRetries;
 
     private PokeInfoCalculator pokeInfoCalculator;
 
@@ -355,7 +360,7 @@ public class Pokefly extends Service {
             /* Assumes MainActivity initialized ScreenGrabber before starting this service. */
             if (!batterySaver) {
                 screen = ScreenGrabber.getInstance();
-                startPeriodicScreenScan();
+                watchScreen();
             } else {
                 screenShotHelper = ScreenShotHelper.start(Pokefly.this);
             }
@@ -364,26 +369,59 @@ public class Pokefly extends Service {
         return START_STICKY;
     }
 
-    private void startPeriodicScreenScan() {
+    private void watchScreen() {
         area[0] = new Point(                // these values used to get "white" left of "power up"
                 Math.round(displayMetrics.widthPixels / 24),
                 (int) Math.round(displayMetrics.heightPixels / 1.24271845));
         area[1] = new Point(                // these values used to get greenish color in transfer button
                 (int) Math.round(displayMetrics.widthPixels / 1.15942029),
                 (int) Math.round(displayMetrics.heightPixels / 1.11062907));
-        final Handler handler = new Handler();
-        timer = new Timer();
-        TimerTask doAsynchronousTask = new TimerTask() {
+
+        screenScanHandler = new Handler();
+        screenScanRunnable = new Runnable() {
             @Override
             public void run() {
-                handler.post(new Runnable() {
-                    public void run() {
-                        scanPokemonScreen();
-                    }
-                });
+                if (screenScanRetries > 0) {
+                    scanPokemonScreen();
+                    screenScanRetries--;
+                    screenScanHandler.postDelayed(screenScanRunnable, SCREEN_SCAN_DELAY_MS);
+                }
             }
         };
-        timer.schedule(doAsynchronousTask, 0, 750);
+
+        touchView = new LinearLayout(this);
+        touchViewParams = new WindowManager.LayoutParams(
+                1,
+                1,
+                WindowManager.LayoutParams.TYPE_PHONE,
+                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+                        | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
+                        | WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH,
+                PixelFormat.TRANSPARENT);
+        touchViewParams.gravity = Gravity.LEFT | Gravity.TOP;
+
+        touchView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getActionMasked() == MotionEvent.ACTION_OUTSIDE) {
+                    screenScanHandler.removeCallbacks(screenScanRunnable);
+                    screenScanHandler.postDelayed(screenScanRunnable, SCREEN_SCAN_DELAY_MS);
+                    screenScanRetries = SCREEN_SCAN_RETRIES;
+                }
+                return false;
+            }
+        });
+
+        windowManager.addView(touchView, touchViewParams);
+    }
+
+    private void unwatchScreen() {
+        windowManager.removeView(touchView);
+        touchViewParams = null;
+        touchView = null;
+        screenScanHandler.removeCallbacks(screenScanRunnable);
+        screenScanRunnable = null;
+        screenScanHandler = null;
     }
 
     /**
@@ -422,7 +460,7 @@ public class Pokefly extends Service {
     @Override
     public void onDestroy() {
         if (!batterySaver) {
-            timer.cancel();
+            unwatchScreen();
         } else {
             screenShotHelper.stop();
             screenShotHelper = null;

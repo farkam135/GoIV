@@ -93,7 +93,7 @@ GoIV would not have been possible without the help and support of the following 
 * Stuart Dorff
 * Kevin Do
 * Tommy Tran
-* [And further thanks to all who contribute to the project on github](https://github.com/farkam135/GoIV/graphs/contributors)
+* [And further thanks to all who contribute to the project on GitHub](https://github.com/farkam135/GoIV/graphs/contributors)
 
 ## Development
 Want to contribute to the development of GoIV? [Click here](DEVELOPMENT.md) to learn how.

@@ -3,8 +3,10 @@
     <string name="welcome_message">Instrukce:\n1. Vyplň level trenéra\n2. Zmáčkni tlačítko start a povol snímání obrazovky\n3. Otevři cílového Pokémona v \'Pokémon Go\'\n4. Zmáčkni tlačítko IV pro načtení Pokémona\n5. V případě potřeby uprav načtená data\n6. Zkontroluj IV!</string>
     <string name="goiv_is_open_source">GoIV je open source!\ngithub.com/farkam135/GoIV\nreddit.com/r/GoIV</string>
     <string name="trainer_level">Level trenéra</string>
+    <string name="place1">Vyber celkovou větu:</string>
+    <string name="place2">Vyber větu o statech:</string>
     <string name="pokemon_name">Jméno Pokémona:</string>
-    <string name="use_the_slider_below_to_align_the_arc">Použij posuvník níže pro nastavení oblouku</string>
+    <string name="use_the_slider_below_to_align_the_arc">Použij posuvník níže pro nastavení oblouku:</string>
     <string name="cancel">Zrušit</string>
     <string name="check_iv">Zkontrolovat IV</string>
     <string name="main_not_numeric">%1$s není číslo.</string>
@@ -13,17 +15,17 @@
     <string name="notification_text">Klikni pro otevření</string>
     <string name="ivtext_stats">Útok: %1$02d Obrana: %2$02d Stamina: %3$02d — %4$3d%%</string>
     <string name="close">Zavřít</string>
-	<string name="main_permission">Udělit povolení</string>
+    <string name="main_permission">Udělit povolení</string>
     <string name="battery_saver_setup">Nastavení spořiče baterky</string>
     <string name="battery_saver_instructions">Nemohu najít tvůj adresář se screenshoty. Abys pomohl GoIV najít svůj adresář se screenshoty, prosím následuj tyto kroky:\n1.Zmáčkni \'Setup\' na tomto dialogu\n2.Udělej screenshot\n3.Počkej na zpracování.</string>
     <string name="take_screenshot">Udělej screenshot</string>
     <string name="screenshot_dir_found">Adresář se screenshoty nastaven:\n%1$s</string>
     <string name="done">Hotovo</string>
     <string name="back">Zpět</string>
-	<string name="accept_screen_capture">Povolit snímání obrazovky</string>
+    <string name="accept_screen_capture">Povolit snímání obrazovky</string>
     <string name="settings_page_title">Nastavení</string>
     <string name="launch_pokemon_go_setting_title">Spustit Pokémon Go</string>
-	<string name="launch_pokemon_go_setting_summary">Přepni na Pokémon Go při stisknutí tlačítka start</string>
+    <string name="launch_pokemon_go_setting_summary">Přepni na Pokémon Go při stisknutí tlačítka start</string>
     <string name="confirmation_dialog_setting_title">Potvrzovací dialog</string>
     <string name="confirmation_dialog_setting_summary">Povol upravování údajů o Pokémonovi před výpočtem IV</string>
     <string name="manual_screenshot_mode_setting_title">Použij screenshoty pro výpočet IV</string>
@@ -31,7 +33,7 @@
     <string name="delete_screenshots_setting_title">Smazat screenshoty</string>
     <string name="delete_screenshots_setting_summary">Automaticky mazat screenshoty pořízené GoIV</string>
     <string name="copy_to_clipboard_setting_title">Zkopírovat do schránky</string>
-    <string formatted="false" name="copy_to_clipboard_setting_summary">Zkopírovat nejhorší IV% - nejlepší IV% do schránky při stisku tlačítka IV</string>
+    <string name="copy_to_clipboard_setting_summary" formatted="false">Zkopírovat nejhorší IV% - nejlepší IV% do schránky při stisku tlačítka IV</string>
     <string name="send_crash_reports_setting_title">Zasílat hlášení o pádu</string>
     <string name="send_crash_reports_setting_summary">Chci pomoci vývojářům zlepšit aplikaci zasíláním anonymních informací o pádu aplikace</string>
     <string name="auto_update_setting_title">Automatická aktualizace</string>
@@ -48,20 +50,20 @@
     <string name="refine">Zlepšit</string>
     <string name="refine_no_progress">Zlepšení nebylo úspěšné</string>
     <string name="last_scan">Předchozí načtení: %1$s</string>
-    <string name="possible_iv_combinations">"%1$d Možné kombinace IV"</string>
+    <string name="possible_iv_combinations">"%1$d možných kombinací IV"</string>
     <string name="too_many_iv_combinations">Příliš mnoho kombinací IV</string>
     <string name="refining_instructions">Zlepši přesnost výpočtu IV powerupováním a porovnáním dvou načtení stejného Pokémona</string>
     <string name="appraisal_refining">Zpřesnění díky Appraisal</string>
     <string name="attack">Útok</string>
     <string name="defense">Obrana</string>
     <string name="stamina_hp">HP</string>
-    <string name="missing_inputs">Chybějící data. Prosím vyplň vstupy pro CP a HP.</string>
-    <string name="ivtext_no_possibilities">Neexistují žádné možné kombinace IV pro tento vstup. Prosím překontroluj informace.</string>
+    <string name="missing_inputs">Je nutné vyplnit CP a HP.</string>
+    <string name="ivtext_no_possibilities">Neexistují žádné možné kombinace. Zkontroluj že jsi vložit správné údaje.</string>
     <string name="update_check_failed">Nastala chyba při kontrole aktualizací. Prosím zkontroluj své připojení k internetu.</string>
     <string name="up_to_date">GoIV je aktuální.</string>
-    <string name="checking_for_update">Kontroluji aktualizace...</string>
+    <string name="checking_for_update">Kontroluji aktualizace…</string>
     <string name="ongoing_update">Aktualizace pro GoIV se již stahuje.</string>
-    <string name="iv_perfect">% celkově</string>
+    <string name="iv_perfect" formatted="false">% celkově</string>
     <string name="wrongPokemonNameInput">" nebyl nalezen."</string>
     <string name="min">MIN</string>
     <string name="max">MAX</string>

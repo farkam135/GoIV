@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="pokemon029">Nidoran♀</string>
     <string name="pokemon032">Nidoran♂</string>
 
@@ -12,13 +12,13 @@
         <item name="valor">"Valor"</item>
         <item name="instinct">"Instinct"</item>
     </string-array>
-    <string name="place1">"Choose overall phrase"</string>
-    <string name="place2">"Choose stats phrase"</string>
+    <string name="place1">"Choose overall phrase:"</string>
+    <string name="place2">"Choose stats phrase:"</string>
 
     <string-array name="mystic_percentage">
         <item name="mplace1">@string/place1</item>
         <item name="mystic80_100">"…wonder …breathtaking"</item>
-        <item name="mystic67_79">"…caught …attention"</item>
+        <item name="mystic67_79">"…caught my attention"</item>
         <item name="mystic51_66">"…above average"</item>
         <item name="mystic0_50">"…not likely …headway"</item>
     </string-array>
@@ -30,7 +30,6 @@
         <item name="mysticiv8_12">"…trending to the positive"</item>
         <item name="mysticiv0_7">"…not out of the norm …estimation"</item>
     </string-array>
-
 
     <string-array name="instinct_percentage">
         <item name="iplace1">@string/place1</item>
@@ -61,21 +60,20 @@
         <item name="valoriv15">"…blown away …WOW"</item>
         <item name="valoriv13_14">"…excellent …exciting"</item>
         <item name="valoriv8_12">"…indicate …get the job done"</item>
-        <item name="valoriv0_7">"…don't point to greatness."</item>
+        <item name="valoriv0_7">"…don't point to greatness"</item>
     </string-array>
-
 
     <string name="pokemon_name">Pokémon name:</string>
     <string name="cp">CP</string>
     <string name="hp">HP</string>
-    <string name="use_the_slider_below_to_align_the_arc">Use the slider below to align the arc</string>
+    <string name="use_the_slider_below_to_align_the_arc">Use the slider below to align the arc:</string>
     <string name="cancel">Cancel</string>
     <string name="check_iv">Check IV</string>
     <string name="main_not_numeric">%1$s is not a number.</string>
     <string name="main_invalide_trainerlvl">Invalid Trainer Level!</string>
     <string name="notification_title">GoIV Running - Level %1$s</string>
     <string name="notification_text">Tap to open</string>
-    <string name="ivtext_stats">Atk: %1$02d Def: %2$02d Sta: %3$02d — %4$3d%%</string>
+    <string name="ivtext_stats" tools:ignore="PluralsCandidate">Atk: %1$02d Def: %2$02d Sta: %3$02d — %4$3d%%</string>
     <string name="close">Close</string>
     <string name="main_permission">Grant Permissions</string>
     <string name="main_start">Start</string>
@@ -98,7 +96,7 @@
     <string name="delete_screenshots_setting_title">Delete screenshots</string>
     <string name="delete_screenshots_setting_summary">Automatically delete screenshots taken by GoIV</string>
     <string name="copy_to_clipboard_setting_title">Copy to clipboard</string>
-    <string formatted="false" name="copy_to_clipboard_setting_summary">Copy worst IV% - best IV% to clipboard when the check IV button is clicked</string>
+    <string name="copy_to_clipboard_setting_summary" formatted="false">Copy worst IV% - best IV% to clipboard when the check IV button is clicked</string>
     <string name="send_crash_reports_setting_title">Send crash reports</string>
     <string name="send_crash_reports_setting_summary">Help the developers improve the application by sending anonymous crash-related information to them</string>
     <string name="auto_update_setting_title">Auto-update</string>
@@ -117,20 +115,20 @@
     <string name="refine">Refine</string>
     <string name="refine_no_progress">Refinement didn\'t improve results</string>
     <string name="last_scan">Last scan: %1$s</string>
-    <string name="possible_iv_combinations">"%1$d possible IV combinations"</string>
+    <string name="possible_iv_combinations" tools:ignore="PluralsCandidate">"%1$d possible IV combinations"</string>
     <string name="too_many_iv_combinations">Too many IV combinations</string>
     <string name="refining_instructions">Increase IV calculation precision by leveling up and comparing two scans of the same Pokémon</string>
     <string name="appraisal_refining">Appraisal Refining</string>
     <string name="attack">Attack</string>
     <string name="defense">Defense</string>
     <string name="stamina_hp">HP</string>
-    <string name="missing_inputs">Missing data. Please fill CP and HP inputs.</string>
-    <string name="ivtext_no_possibilities">There are no IV possible combinations for this input. Please double check the information.</string>
+    <string name="missing_inputs">CP and HP are required.</string>
+    <string name="ivtext_no_possibilities">There are no possible combinations. Make sure the values you have entered are correct.</string>
     <string name="update_check_failed">An error occurred while checking for an update. Please check your internet connection</string>
     <string name="up_to_date">Your app is up-to-date</string>
     <string name="checking_for_update">Checking for update…</string>
     <string name="ongoing_update">An update for GoIV is already being downloaded</string>
-    <string name="iv_perfect">% Perfect</string>
+    <string name="iv_perfect" formatted="false">% Perfect</string>
     <string name="wrongPokemonNameInput">" was not found."</string>
     <string name="min">MIN</string>
     <string name="max">MAX</string>
@@ -141,7 +139,4 @@
     <string name="iv">IV</string>
     <string name="percent">%d%%</string>
     <string name="unknown_percent">"?%"</string>
-    <string name="percent_phrase">Percent phrase</string>
-    <string name="iv_range_phrase">IV range phrase</string>
-    <string name="higher_values">Higher values</string>
 </resources>

@@ -118,14 +118,11 @@
     <string name="missing_inputs">Datos incompletos. Por favor completa los campos PC y PS.</string>
     <string name="ivtext_no_possibilities">No hay combinaciones de IV para estos datos. Por favor verifique la información.</string>
     <string name="accept_screen_capture">Permitir captura de pantalla</string>
-    <string name="checking_for_update">Buscando actualización...</string>
-    <string name="iv_perfect">Perfección (%)</string>
+    <string name="checking_for_update">Buscando actualización…</string>
+    <string name="iv_perfect" formatted="false">Perfección (%)</string>
     <string name="ongoing_update">Ya se está descargando una actualización para GoIV</string>
     <string name="too_many_iv_combinations">Demasiadas combinaciones de IV</string>
     <string name="up_to_date">La aplicación se encuentra actualizada</string>
     <string name="update_check_failed">Ocurrió un error durante la búsqueda de actualizaciones. Por favor, verifique su conexión a Internet.</string>
-    <string name="higher_values">Valores más altos</string>
-    <string name="iv_range_phrase">Segunda frase</string>
-    <string name="percent_phrase">Primera frase</string>
     <string name="wrongPokemonNameInput">" no encontrado."</string>
 </resources>

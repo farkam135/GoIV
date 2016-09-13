@@ -1,6 +1,5 @@
 package com.kamron.pogoiv.widgets;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,11 +17,9 @@ import com.kamron.pogoiv.logic.IVScanResult;
  * Created by OskO on 29/08/16.
  */
 public class IVResultsAdapter extends RecyclerView.Adapter<IVResultsAdapter.ResultsViewHolder> {
-    private final LayoutInflater layoutInflater;
     private final IVScanResult dataSet;
 
-    public IVResultsAdapter(IVScanResult ivScanResult, Context context) {
-        layoutInflater = LayoutInflater.from(context);
+    public IVResultsAdapter(IVScanResult ivScanResult) {
         dataSet = ivScanResult;
     }
 

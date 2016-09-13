@@ -125,7 +125,7 @@
     <string name="ongoing_update">Une mise à jour de GoIV est déjà en cours de téléchargement</string>
     <string name="up_to_date">L\'appli est à jour</string>
     <string name="update_check_failed">Erreur pendant la recherche de mise à jour. Veuillez vérifier votre connexion internet</string>
-    <string name="iv_perfect">% Parfait</string>
+    <string name="iv_perfect" formatted="false">% Parfait</string>
     <string name="wrongPokemonNameInput">" n'a pas été trouvé."</string>
     <string name="avg">MOY</string>
     <string name="atk">ATQ</string>

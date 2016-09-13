@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="pokemon029">Nidoran♀</string>
     <string name="pokemon032">Nidoran♂</string>
 
@@ -73,7 +73,7 @@
     <string name="main_invalide_trainerlvl">Invalid Trainer Level!</string>
     <string name="notification_title">GoIV Running - Level %1$s</string>
     <string name="notification_text">Tap to open</string>
-    <string name="ivtext_stats">Atk: %1$02d Def: %2$02d Sta: %3$02d — %4$3d%%</string>
+    <string name="ivtext_stats" tools:ignore="PluralsCandidate">Atk: %1$02d Def: %2$02d Sta: %3$02d — %4$3d%%</string>
     <string name="close">Close</string>
     <string name="main_permission">Grant Permissions</string>
     <string name="main_start">Start</string>
@@ -115,7 +115,7 @@
     <string name="refine">Refine</string>
     <string name="refine_no_progress">Refinement didn\'t improve results</string>
     <string name="last_scan">Last scan: %1$s</string>
-    <string name="possible_iv_combinations">"%1$d possible IV combinations"</string>
+    <string name="possible_iv_combinations" tools:ignore="PluralsCandidate">"%1$d possible IV combinations"</string>
     <string name="too_many_iv_combinations">Too many IV combinations</string>
     <string name="refining_instructions">Increase IV calculation precision by leveling up and comparing two scans of the same Pokémon</string>
     <string name="appraisal_refining">Appraisal Refining</string>
@@ -128,7 +128,7 @@
     <string name="up_to_date">Your app is up-to-date</string>
     <string name="checking_for_update">Checking for update…</string>
     <string name="ongoing_update">An update for GoIV is already being downloaded</string>
-    <string name="iv_perfect">% Perfect</string>
+    <string name="iv_perfect" formatted="false">% Perfect</string>
     <string name="wrongPokemonNameInput">" was not found."</string>
     <string name="min">MIN</string>
     <string name="max">MAX</string>

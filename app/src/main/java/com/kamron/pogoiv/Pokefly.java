@@ -596,7 +596,7 @@ public class Pokefly extends Service {
 
         ivButtonParams.gravity = Gravity.BOTTOM | Gravity.START;
         ivButtonParams.x = dpToPx(20);
-        ivButtonParams.y = dpToPx(15);
+        ivButtonParams.y = dpToPx(17);
 
         ivButton.setOnTouchListener(new View.OnTouchListener() {
             @Override

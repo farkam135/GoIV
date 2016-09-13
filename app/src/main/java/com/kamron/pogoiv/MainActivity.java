@@ -74,6 +74,16 @@ public class MainActivity extends AppCompatActivity {
 
     private final Point arcInit = new Point();
     private int arcRadius;
+    private final BroadcastReceiver pokeflyStateChanged = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (Pokefly.ACTION_START.equals(intent.getAction())) {
+                updateLaunchButtonText(true);
+            } else if (Pokefly.ACTION_STOP.equals(intent.getAction())) {
+                updateLaunchButtonText(false);
+            }
+        }
+    };
     private final BroadcastReceiver showUpdateDialog = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -201,6 +211,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        LocalBroadcastManager.getInstance(this).registerReceiver(pokeflyStateChanged,
+                new IntentFilter(Pokefly.ACTION_START));
+        LocalBroadcastManager.getInstance(this).registerReceiver(pokeflyStateChanged,
+                new IntentFilter(Pokefly.ACTION_STOP));
         LocalBroadcastManager.getInstance(this).registerReceiver(showUpdateDialog,
                 new IntentFilter(ACTION_SHOW_UPDATE_DIALOG));
 
@@ -339,6 +353,7 @@ public class MainActivity extends AppCompatActivity {
             screen.exit();
         }
 
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(pokeflyStateChanged);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(showUpdateDialog);
         super.onDestroy();
     }

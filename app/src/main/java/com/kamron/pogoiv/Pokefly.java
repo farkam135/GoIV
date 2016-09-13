@@ -80,6 +80,7 @@ import io.apptik.widget.MultiSlider;
 
 public class Pokefly extends Service {
 
+    public static final String ACTION_START = "com.kamron.pogoiv.ACTION_START";
     public static final String ACTION_STOP = "com.kamron.pogoiv.ACTION_STOP";
     private static final String ACTION_SEND_INFO = "com.kamron.pogoiv.ACTION_SEND_INFO";
 
@@ -329,6 +330,11 @@ public class Pokefly extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        running = true;
+
+        LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(ACTION_START));
+
         displayMetrics = this.getResources().getDisplayMetrics();
         initOcr();
         windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
@@ -485,6 +491,8 @@ public class Pokefly extends Service {
 
     @Override
     public void onDestroy() {
+        LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(ACTION_STOP));
+
         LocalBroadcastManager.getInstance(this).unregisterReceiver(displayInfo);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(processBitmap);
 

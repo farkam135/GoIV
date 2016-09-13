@@ -23,7 +23,7 @@
     <string name="confirmation_dialog_setting_title">Finestra di conferma</string>
     <string name="confirmation_dialog_setting_summary">Permetti la modifica delle informazioni del Pokémon prima di calcolare gli IV</string>
     <string name="manual_screenshot_mode_setting_title">Usa screenshot per il calcolo IV</string>
-    <string name="manual_screenshot_mode_setting_summary">Risparmia batteria scansionando gli screenshot invece che usare la registrazione schermo. Questa impostazione deve essere abilitata per Android KitKat e precedentei</string>
+    <string name="manual_screenshot_mode_setting_summary">Risparmia batteria scansionando gli screenshot invece che usare la registrazione schermo. Questa impostazione deve essere abilitata per Android KitKat e precedenti</string>
     <string name="delete_screenshots_setting_title">Cancella gli screenshot</string>
     <string name="delete_screenshots_setting_summary">Cancella automaticamente gli screenshot usati da GoIV</string>
     <string name="copy_to_clipboard_setting_title">Copia negli appunti</string>

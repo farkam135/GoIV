@@ -6,6 +6,10 @@
 * Download and install [Android Studio] (https://developer.android.com/studio/index.html)
 * Set up [Android Development Environment] (https://spring.io/guides/gs/android/)
 
+In instructions below we'll refer to IDEA's Settings dialog. We list it as
+reachable under `File > Settings`, but on Mac OS X it is found instead under
+`Android Studio > Preferences`.
+
 ## Project Set-up for GoIV (Required)
 * [Fork GoIV Repo] (https://help.github.com/articles/fork-a-repo/)
 * Copy `GoIVCodeStyle.xml` into the codestyles folder under the Android Studio preferences folder *(create codestyles folder if it does not exist)*
@@ -24,10 +28,10 @@ If `GoIVCodeStyle.xml` has changed, close Android Studio, copy our file over the
 
 ### CheckStyle Plugin
 This plugin checks the codebase for violations of coding style.
-* Install CheckStyle Plugin (`Configure > Plugins > Browse Repositories > Search 'CheckStyle-IDEA' > Install`)
+* Install CheckStyle Plugin (`File > Settings > Plugins > Browse Repositories > Search 'CheckStyle-IDEA' > Install`)
 * Restart Android Studio if requested.
 * Configure it with the coding style we use for GoIV:
-  - Navigate `Configure > Other Settings > Checkstyle > Configuration File`
+  - Navigate `File > Settings > Other Settings > Checkstyle > Configuration File`
   - then add an entry with + button under the list
   - Select 'Use a local Checkstyle file' in the new dialog
   - Select 'checkstyle/checkstyle-rules.xml' from the GoIV folder, pick a name,
@@ -38,9 +42,9 @@ This is especially important to send pull requests.
 ### Lombok Plugin
 GoIV project uses Lombok Plugin to automatically generate various methods (i.e. Getter, Setters). Without this plugin, `Unable to resolve method` errors will show, but code will compile and build as per normal.
 * Close the Project *(required to enable annotation processing)*
-* Install Lombok Plugin (`Configure > Plugins > Browse Repositories > Search 'Lombok Plugin' > Install`)
+* Install Lombok Plugin (`File > Settings > Plugins > Browse Repositories > Search 'Lombok Plugin' > Install`)
 * Restart Android Studio
-* Enable Annoation Processing (`Configure > Settings > Build, Execution, Deployment > Compiler > Annotation Processors`)
+* Enable Annotation Processing (`File > Settings > Build, Execution, Deployment > Compiler > Annotation Processors`)
 
 ### Git on Android Studio
 Set-up Git on Android Studio to automate Git commands. For developers who are *lazy* and prefer one-click solutions.

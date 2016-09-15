@@ -90,6 +90,7 @@ public class Pokefly extends Service {
     private static final String KEY_SEND_INFO_HP = "key_send_info_hp";
     private static final String KEY_SEND_INFO_CP = "key_send_info_cp";
     private static final String KEY_SEND_INFO_LEVEL = "key_send_info_level";
+    private static final String KEY_SEND_UPGRADE_CANDY_COST = "key_send_upgrade_candy_cost";
     private static final String KEY_SEND_SCREENSHOT_FILE = "key_send_screenshot_file";
 
     private static final String ACTION_PROCESS_BITMAP = "com.kamron.pogoiv.PROCESS_BITMAP";
@@ -251,6 +252,7 @@ public class Pokefly extends Service {
 
     private String pokemonName;
     private String candyName;
+    private int candyUpgradeCost;
     private Optional<Integer> pokemonCP = Optional.absent();
     private Optional<Integer> pokemonHP = Optional.absent();
     private double estimatedPokemonLevel = 1.0;
@@ -300,6 +302,7 @@ public class Pokefly extends Service {
         intent.putExtra(KEY_SEND_INFO_HP, scanResult.getPokemonHP());
         intent.putExtra(KEY_SEND_INFO_CP, scanResult.getPokemonCP());
         intent.putExtra(KEY_SEND_INFO_LEVEL, scanResult.getEstimatedPokemonLevel());
+        intent.putExtra(KEY_SEND_UPGRADE_CANDY_COST, scanResult.getUpgradeCandyCost());
         if (!filePath.isEmpty()) {
             intent.putExtra(KEY_SEND_SCREENSHOT_FILE, filePath);
         }
@@ -1384,7 +1387,7 @@ public class Pokefly extends Service {
         if (!infoShownReceived) {
 
             infoShownReceived = true;
-            PokemonNameCorrector.PokeDist possiblePoke = corrector.getPossiblePokemon(pokemonName, candyName);
+            PokemonNameCorrector.PokeDist possiblePoke = corrector.getPossiblePokemon(pokemonName, candyName, candyUpgradeCost);
             initialButtonsLayout.setVisibility(View.VISIBLE);
             onCheckButtonsLayout.setVisibility(View.GONE);
 
@@ -1508,9 +1511,9 @@ public class Pokefly extends Service {
                 if (intent.hasExtra(KEY_SEND_INFO_NAME) && intent.hasExtra(KEY_SEND_INFO_CP) && intent.hasExtra(
                         KEY_SEND_INFO_HP) && intent.hasExtra(KEY_SEND_INFO_LEVEL)) {
                     receivedInfo = true;
-
                     pokemonName = intent.getStringExtra(KEY_SEND_INFO_NAME);
                     candyName = intent.getStringExtra(KEY_SEND_INFO_CANDY);
+                    candyUpgradeCost = intent.getIntExtra(KEY_SEND_UPGRADE_CANDY_COST, -1);
                     ssFile = intent.getStringExtra(KEY_SEND_SCREENSHOT_FILE);
 
                     @SuppressWarnings("unchecked") Optional<Integer> lPokemonCP =
@@ -1520,6 +1523,7 @@ public class Pokefly extends Service {
                     pokemonCP = lPokemonCP;
                     pokemonHP = lPokemonHP;
 
+                    candyUpgradeCost = intent.getIntExtra(KEY_SEND_UPGRADE_CANDY_COST, -1);
                     estimatedPokemonLevel = intent.getDoubleExtra(KEY_SEND_INFO_LEVEL, estimatedPokemonLevel);
                     if (estimatedPokemonLevel < 1.0) {
                         estimatedPokemonLevel = 1.0;

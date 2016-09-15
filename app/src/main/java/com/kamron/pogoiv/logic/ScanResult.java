@@ -14,14 +14,16 @@ public class ScanResult {
     private String candyName;
     private Optional<Integer> pokemonHP;
     private Optional<Integer> pokemonCP;
+    private int upgradeCandyCost;
 
     public ScanResult(double estimatedPokemonLevel, String pokemonName, String candyName, Optional<Integer> pokemonHP,
-                      Optional<Integer> pokemonCP) {
+                      Optional<Integer> pokemonCP, int upgradeCandyCost) {
         this.estimatedPokemonLevel = estimatedPokemonLevel;
         this.pokemonName = pokemonName;
         this.candyName = candyName;
         this.pokemonHP = pokemonHP;
         this.pokemonCP = pokemonCP;
+        this.upgradeCandyCost = upgradeCandyCost;
     }
 
     public double getEstimatedPokemonLevel() {
@@ -43,6 +45,8 @@ public class ScanResult {
     public Optional<Integer> getPokemonCP() {
         return pokemonCP;
     }
+
+    public int getUpgradeCandyCost(){ return upgradeCandyCost; }
 
     /**
      * Test whether this ScanResult represents a failed scan.

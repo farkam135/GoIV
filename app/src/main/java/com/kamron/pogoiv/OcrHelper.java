@@ -23,13 +23,14 @@ import timber.log.Timber;
 public class OcrHelper {
 
     private static OcrHelper instance = null;
-    private TessBaseAPI tesseract = null;
     private final LruCache<String, String> ocrCache = new LruCache<>(200);
     private final int heightPixels;
     private final int widthPixels;
     private final boolean candyWordFirst;
     private final String nidoFemale;
     private final String nidoMale;
+    private TessBaseAPI tesseract = null;
+
 
     private OcrHelper(String dataPath, int widthPixels, int heightPixels, String nidoFemale, String nidoMale) {
         tesseract = new TessBaseAPI();
@@ -57,6 +58,35 @@ public class OcrHelper {
             instance = new OcrHelper(dataPath, widthPixels, heightPixels, nidoFemale, nidoMale);
         }
         return instance;
+    }
+
+    /**
+     * Correct some OCR errors in argument where only letters are expected.
+     */
+    private static String fixOcrNumsToLetters(String src) {
+        return src.replace("1", "l").replace("0", "o").replace("5", "s").replace("2", "z");
+    }
+
+    /**
+     * Correct some OCR errors in argument where only numbers are expected.
+     */
+    private static String fixOcrLettersToNums(String src) {
+        return src.replace("S", "5").replace("s", "5").replace("O", "0").replace("o",
+                "0").replace("l", "1").replace("I", "1").replace("i", "1").replace("Z", "2");
+    }
+
+    @NonNull
+    private static String removeFirstOrLastWord(String src, boolean removeFirst) {
+        if (removeFirst) {
+            int fstSpace = src.indexOf(' ');
+            if (fstSpace != -1)
+                return src.substring(fstSpace + 1);
+        } else {
+            int lstSpace = src.lastIndexOf(' ');
+            if (lstSpace != -1)
+                return src.substring(0, lstSpace);
+        }
+        return src;
     }
 
     public void exit() {
@@ -119,13 +149,13 @@ public class OcrHelper {
                 allpixels[i] = replaceColor;
             }
         }
-
-        myBitmap.setPixels(allpixels, 0, myBitmap.getWidth(), 0, 0, myBitmap.getWidth(), myBitmap.getHeight());
-        return myBitmap;
+        Bitmap clone = Bitmap.createScaledBitmap(myBitmap, myBitmap.getWidth(), myBitmap.getHeight(), false);
+        clone.setPixels(allpixels, 0, myBitmap.getWidth(), 0, 0, myBitmap.getWidth(), myBitmap.getHeight());
+        return clone;
     }
 
     /**
-     * Scans the arc and tries to determine the pokemon level, returns 1 if nothing found.
+     * Scans the arc and tries to determine the pokemon level, returns 1 if nothing found
      *
      * @param pokemonImage The image of the entire screen
      * @return the estimated pokemon level, or 1 if nothing found
@@ -144,26 +174,90 @@ public class OcrHelper {
     }
 
     /**
-     * Get the hashcode for a bitmap.
+     * Get the evolution cost for a pokemon, example, weedle : 12
+     * If there was no detected upgrade cost, returns -1
+     *
+     * @param pokemonImage The image of the full pokemon screen
+     * @return the evolution cost, or -1 on no upgrade cost, or -999 on scan failure
+     */
+    public int getPokemonEvolutionCostFromImg(Bitmap pokemonImage) {
+        int error = -999;
+        Bitmap evolutionCostImage =
+                Bitmap.createBitmap(pokemonImage, (int) (widthPixels * 0.625), (int) (heightPixels * 0.86),
+                        (int) (widthPixels * 0.2), (int) (heightPixels * 0.05));
+        String hash = "candyCost" + hashBitmap(evolutionCostImage);
+
+        //return cache if it exists
+        String stringCacheEvoCandyCost = ocrCache.get(hash);
+        if (stringCacheEvoCandyCost != null) return Integer.parseInt(stringCacheEvoCandyCost);
+
+        //clean the image
+        //the dark color used for text in pogo is approximately rgb 76,112,114 if you can afford evo
+        //and the red color is rgb 255 95 100 when you cant afford the evolution
+        Bitmap evolutionCostImageCanAfford = replaceColors(evolutionCostImage, 80, 110, 110, Color.WHITE, 45, false);
+        Bitmap evolutionCostImageCannotAfford = replaceColors(evolutionCostImage, 255, 95, 100, Color.WHITE, 30,
+                false);
+
+        boolean affordIsBlank = isOnlyWhite(evolutionCostImageCanAfford);
+        boolean cannotAffordIsBlank = isOnlyWhite(evolutionCostImageCannotAfford);
+        //check if fully evolved
+        if (affordIsBlank && cannotAffordIsBlank) { //if there's no red or black text, there's no text at all.
+            ocrCache.put(hash, "-1");
+            return -1;
+        }
+
+        //use the correctly refined image (refined for red or black text)
+        if (affordIsBlank) {
+            evolutionCostImage = evolutionCostImageCannotAfford;
+        } else {
+            evolutionCostImage = evolutionCostImageCanAfford;
+        }
+
+        //If not cached or fully evolved, ocr text
+        int result;
+        tesseract.setImage(evolutionCostImage);
+        String ocrResult = fixOcrLettersToNums(tesseract.getUTF8Text());
+        try {
+            result = Integer.parseInt(ocrResult);
+            ocrCache.put(hash, ocrResult);
+        } catch (NumberFormatException e) {
+            result = error; //could not ocr text
+        }
+        return result;
+
+    }
+
+    /**
+     * Heuristic method to determine if the image looks empty. Works by taking a horisontal row of pixels from he
+     * middle, and looks if they're all pure white.
+     *
+     * @param refinedImage A pre-processed image of the evolution cost. (should be pre-refined to replace all non
+     *                     text colors with pure white)
+     * @return true if the image is likely only white
+     */
+    private boolean isOnlyWhite(Bitmap refinedImage) {
+        int[] pixelArray = new int[refinedImage.getWidth()];
+
+        //below code takes one line of pixels in the middle of the pixture from left to right
+        refinedImage.getPixels(pixelArray, 0, refinedImage.getWidth(), 0, refinedImage.getHeight() / 2, refinedImage
+                .getWidth(), 1);
+
+        // a loop that sums the color values of all the pixels in the array
+        for (int pixel : pixelArray) {
+            if (Color.red(pixel) != 255 || Color.green(pixel) != 255 || Color.blue(pixel) != 255) {
+                return false; //go through all pixels and return false if one is not white
+            }
+        }
+        return true; //have gone through all pixels, they're all white
+    }
+
+    /**
+     * Get the hashcode for a bitmap
      */
     private String hashBitmap(Bitmap bmp) {
         int[] allpixels = new int[bmp.getHeight() * bmp.getWidth()];
         bmp.getPixels(allpixels, 0, bmp.getWidth(), 0, 0, bmp.getWidth(), bmp.getHeight());
         return Integer.toHexString(Arrays.hashCode(allpixels));
-    }
-
-    /**
-     * Correct some OCR errors in argument where only letters are expected.
-     */
-    private static String fixOcrNumsToLetters(String src) {
-        return src.replace("1", "l").replace("0", "o");
-    }
-
-    /**
-     * Correct some OCR errors in argument where only numbers are expected.
-     */
-    private static String fixOcrLettersToNums(String src) {
-        return src.replace("O", "0").replace("l", "1").replace("Z", "2");
     }
 
     /**
@@ -202,7 +296,7 @@ public class OcrHelper {
     }
 
     /**
-     * Get the pokemon name as analysed from a pokemon image.
+     * get the pokemon name as analysed from a pokemon image
      *
      * @param pokemonImage the image of the whole screen
      * @return A string resulting from the scan
@@ -231,24 +325,8 @@ public class OcrHelper {
         return pokemonName;
     }
 
-    @NonNull
-    private static String removeFirstOrLastWord(String src, boolean removeFirst) {
-        if (removeFirst) {
-            int fstSpace = src.indexOf(' ');
-            if (fstSpace != -1) {
-                return src.substring(fstSpace + 1);
-            }
-        } else {
-            int lstSpace = src.lastIndexOf(' ');
-            if (lstSpace != -1) {
-                return src.substring(0, lstSpace);
-            }
-        }
-        return src;
-    }
-
     /**
-     * Gets the candy name from a pokenon image.
+     * gets the candy name from a pokenon image
      *
      * @param pokemonImage the image of the whole screen
      * @return the candy name, or "" if nothing was found
@@ -262,9 +340,8 @@ public class OcrHelper {
         if (candyName == null) {
             candy = replaceColors(candy, 68, 105, 108, Color.WHITE, 200, true);
             tesseract.setImage(candy);
-            candyName = fixOcrNumsToLetters(
-                    removeFirstOrLastWord(tesseract.getUTF8Text().trim().replace("-", " "), candyWordFirst));
-            candy.recycle();
+            candyName = fixOcrNumsToLetters(removeFirstOrLastWord(tesseract.getUTF8Text().trim().replace("-", " "),
+                    candyWordFirst));
             ocrCache.put(hash, candyName);
         }
         return candyName;
@@ -348,7 +425,8 @@ public class OcrHelper {
         String candyName = getCandyNameFromImg(pokemonImage);
         Optional<Integer> pokemonHP = getPokemonHPFromImg(pokemonImage);
         Optional<Integer> pokemonCP = getPokemonCPFromImg(pokemonImage);
+        int pokemonUpgradeCost = getPokemonEvolutionCostFromImg(pokemonImage);
 
-        return new ScanResult(estimatedPokemonLevel, pokemonName, candyName, pokemonHP, pokemonCP);
+        return new ScanResult(estimatedPokemonLevel, pokemonName, candyName, pokemonHP, pokemonCP, pokemonUpgradeCost);
     }
 }

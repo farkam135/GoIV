@@ -1071,29 +1071,33 @@ public class Pokefly extends Service {
 
     /**
      * Adjusts expandedLevelSeekbar and expandedLevelSeekbar thumbs
-     *
-     * expandedLevelSeekbar is a single thumb seekbar
-     * Seekbar should be max at possible Pokemon level at trainer level 40.
-     * Thumb should be placed at current Pokemon level
-     *
-     * expandedLevelSeekbarBackground is a double thumb seekbar
-     * Seekbar should be max at possible Pokemon at trainer level 40
-     * Thumb 1 should be marked as an orange marker and placed at the max possible Pokemon level at the current
-     * trainer level
-     * Thumb 2 should be invisible and placed at the max
-     * Set empty on touch listener to prevent changing values of Thumb 1
+     * expandedLevelSeekbar - Adjustable single thumb seekbar to allow users to check for more Pokemon stats at
+     * different Pokemon level
+     * expandedLevelSeekbarBackground - Static double thumb seekbar as background to identify area of Pokemon stats
+     * above Pokemon level at current trainer level
      */
     private void adjustSeekbarsThumbs() {
+        // Set Seekbar max value to max Pokemon level at trainer level 40
         expandedLevelSeekbar.setMax(levelToSeekbarProgress(40));
+
+        // Set Thumb value to current Pokemon level
         expandedLevelSeekbar.setProgress(levelToSeekbarProgress(estimatedPokemonLevel));
 
+        // Set Seekbar Background max value to max Pokemon level at trainer level 40
         expandedLevelSeekbarBackground.setMax(levelToSeekbarProgress(40));
+
+        // Set Thumb 1 drawable to an orange marker and value at the max possible Pokemon level at the current
+        // trainer level
         expandedLevelSeekbarBackground.getThumb(0).setThumb(getDrawableC(R.drawable
                 .orange_seekbar_thumb_marker));
         expandedLevelSeekbarBackground.getThumb(0).setValue(
                 levelToSeekbarProgress(Data.trainerLevelToMaxPokeLevel(trainerLevel)));
+
+        // Set Thumb 2 to invisible and value at max Pokemon level at trainer level 40
         expandedLevelSeekbarBackground.getThumb(1).setInvisibleThumb(true);
         expandedLevelSeekbarBackground.getThumb(1).setValue(levelToSeekbarProgress(40));
+
+        // Set empty on touch listener to prevent changing values of Thumb 1
         expandedLevelSeekbarBackground.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {

@@ -1071,16 +1071,17 @@ public class Pokefly extends Service {
 
     /**
      * Adjusts expandedLevelSeekbar and expandedLevelSeekbar thumbs
-     * <p/>
+     *
      * expandedLevelSeekbar is a single thumb seekbar
      * Seekbar should be max at possible Pokemon level at trainer level 40.
      * Thumb should be placed at current Pokemon level
-     * <p/>
+     *
      * expandedLevelSeekbarBackground is a double thumb seekbar
      * Seekbar should be max at possible Pokemon at trainer level 40
      * Thumb 1 should be marked as an orange marker and placed at the max possible Pokemon level at the current
      * trainer level
      * Thumb 2 should be invisible and placed at the max
+     * Set empty on touch listener to prevent changing values of Thumb 1
      */
     private void adjustSeekbarsThumbs() {
         expandedLevelSeekbar.setMax(levelToSeekbarProgress(40));
@@ -1093,6 +1094,12 @@ public class Pokefly extends Service {
                 levelToSeekbarProgress(Data.trainerLevelToMaxPokeLevel(trainerLevel)));
         expandedLevelSeekbarBackground.getThumb(1).setInvisibleThumb(true);
         expandedLevelSeekbarBackground.getThumb(1).setValue(levelToSeekbarProgress(40));
+        expandedLevelSeekbarBackground.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return true;
+            }
+        });
     }
 
     /**

@@ -1070,7 +1070,7 @@ public class Pokefly extends Service {
     }
 
     /**
-     * Adjusts expandedLevelSeekbar and expandedLevelSeekbar thumbs
+     * Adjusts expandedLevelSeekbar and expandedLevelSeekbar thumbs.
      * expandedLevelSeekbar - Adjustable single thumb seekbar to allow users to check for more Pokemon stats at
      * different Pokemon level
      * expandedLevelSeekbarBackground - Static double thumb seekbar as background to identify area of Pokemon stats

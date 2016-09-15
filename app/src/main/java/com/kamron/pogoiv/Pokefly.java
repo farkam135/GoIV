@@ -842,7 +842,8 @@ public class Pokefly extends Service {
             return;
         }
 
-        moveOverlay(appraisalBox.getVisibility() == View.VISIBLE);
+        //move up if on input screen & appraisal box is open, else move down
+        moveOverlay(inputBox.getVisibility() == View.VISIBLE && appraisalBox.getVisibility() == View.VISIBLE);
     }
 
     private void adjustArcPointerBar(double estimatedPokemonLevel) {

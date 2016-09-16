@@ -1,4 +1,4 @@
-# Developing for GoIV
+# Contributing to GoIV Development
 
 ## Setting Up Android Studio & Git
 * Download and install [Git] (https://git-scm.com/)

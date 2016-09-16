@@ -1,6 +1,7 @@
 # GoIV, Android Project for Pokémon GO.
 
-[![Build Status](https://travis-ci.org/farkam135/GoIV.svg?branch=master)](https://travis-ci.org/farkam135/GoIV)
+[![Travis Build Status](https://img.shields.io/travis/farkam135/GoIV/master.svg?maxAge=2592000 "Travis Build Status")](https://travis-ci.org/farkam135/GoIV)
+[![License](https://img.shields.io/github/license/farkam135/GoIV.svg?maxAge=2592000 "License")](LICENSE.md)
 
 ## Table of Contents
 
@@ -10,32 +11,28 @@
 - [FAQ](#faq)
 - [Community](#community)
 - [Special Thanks](#special-thanks)
-- [Development](#development)
+- [Contributing](#contributing)
 
 ## What is GoIV
 GoIV is an android app made for Pokémon GO that allows users to seamlessly calculate their Pokémon's IVs. GoIV does **not** interfere with Pokémon GO or their servers.
 
 ## Screenshots
-![Alt text](https://i.imgur.com/SxlmeqT.jpg "Overlays an IV Button")
-![Alt text](https://i.imgur.com/0O3d8Vd.jpg "Scans for Pokémon Info")
-![Alt text](https://i.imgur.com/ekBae5R.jpg "Shows Result Popup")
-![Alt text](https://i.imgur.com/xXr9zzK.jpg "Advanced Information in Results Popup")
+![Overlays an IV Button](https://i.imgur.com/SxlmeqT.jpg "Overlays an IV Button")
+![Scans for Pokémon Info](https://i.imgur.com/0O3d8Vd.jpg "Scans for Pokémon Info")
+![Shows Result Popup](https://i.imgur.com/ekBae5R.jpg "Shows Result Popup")
+![Advanced Information in Results Popup](https://i.imgur.com/xXr9zzK.jpg "Advanced Information in Results Popup")
 
 ## Download
-### Latest Version: 3.1.0 ([Changelog](CHANGELOG.md))
+### Latest Release: [![Downloads](https://img.shields.io/github/downloads/farkam135/GoIV/total.svg?maxAge=2592000 "Downloads")](https://github.com/farkam135/GoIV/releases/latest)
+### Changelog: [![Changelog](https://img.shields.io/github/release/farkam135/GoIv.svg?maxAge=2592000 "Changelog")](CHANGELOG.md)
 
-#### GoIV (Online)
-**[Download GoIV (Online) APK](https://github.com/farkam135/GoIV/releases/latest)**  
-
-**Checksums:**  
+### Checksums
+**GoIV (Online)**  
 MD5 - F96E4F3E51E8B77D507BD53CE04FAD46  
 SHA1 - 9AA4448FD64A21F0D4364046F4BD36EF37C804FB  
 SHA-256 - 22214A2DB976C0D1BD6702B8FC5D51D23AAC7EFA937C8A68BCCBB772EFBFE8B1  
 
-#### GoIV (Offline)
-**[Download GoIV (Offline) APK](https://drive.google.com/file/d/0B0Nazg34pSbpMGRPZUhneTd6THM/view?usp=sharing)**
-
-**Checksums:**  
+**GoIV (Offline)**  
 MD5 - 66998267C373CAB90FA0CEC27FF9AB2C  
 SHA1 - B73A092FC8727E1301F8C590E71ADC4DE6273380  
 SHA-256 - 64CCFEA3434BE407DC49841DECFE787E24DC13F6BBD4E73C2CF98F5A44F53274  
@@ -95,5 +92,5 @@ GoIV would not have been possible without the help and support of the following 
 * Tommy Tran
 * [And further thanks to all who contribute to the project on GitHub](https://github.com/farkam135/GoIV/graphs/contributors)
 
-## Development
-Want to contribute to the development of GoIV? [Click here](DEVELOPMENT.md) to learn how.
+## Contributing
+Want to contribute to the development of GoIV? [Click here](CONTRIBUTING.md) to learn how.

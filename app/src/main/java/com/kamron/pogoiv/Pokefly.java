@@ -842,7 +842,8 @@ public class Pokefly extends Service {
             return;
         }
 
-        moveOverlay(appraisalBox.getVisibility() == View.VISIBLE);
+        //move up if on input screen & appraisal box is open, else move down
+        moveOverlay(inputBox.getVisibility() == View.VISIBLE && appraisalBox.getVisibility() == View.VISIBLE);
     }
 
     private void adjustArcPointerBar(double estimatedPokemonLevel) {
@@ -1065,8 +1066,22 @@ public class Pokefly extends Service {
         setResultScreenPercentageRange(ivScanResult); //color codes the result
         adjustSeekbarsThumbs();
 
+        hideSeeAllLinkIfFlagSet(ivScanResult);
         populateAdvancedInformation(ivScanResult);
         populatePrevScanNarrowing();
+    }
+
+    /**
+     * Hides the "See all" iv possibilities link if the iv scan result reports that there are too many possibilities.
+     *
+     * @param ivScanResult The iv scan result to examine if it makes sense to have a "show all" button.
+     */
+    private void hideSeeAllLinkIfFlagSet(IVScanResult ivScanResult) {
+        if (ivScanResult.tooManyPossibilities) {
+            seeAllPossibilities.setVisibility(View.GONE);
+        } else {
+            seeAllPossibilities.setVisibility(View.VISIBLE);
+        }
     }
 
     /**

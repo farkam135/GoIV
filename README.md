@@ -1,7 +1,7 @@
 # GoIV, Android Project for Pokémon GO.
 
-[![Build Status](https://travis-ci.org/farkam135/GoIV.svg?branch=master)](https://travis-ci.org/farkam135/GoIV)
-[![license](https://img.shields.io/github/license/farkam135/goiv.svg?maxAge=2592000)](LICENSE.md)
+[![Travis Build Status](https://img.shields.io/travis/farkam135/GoIV/master.svg?maxAge=2592000 "Travis Build Status")](https://travis-ci.org/farkam135/GoIV)
+[![License](https://img.shields.io/github/license/farkam135/GoIV.svg?maxAge=2592000 "License")](LICENSE.md)
 
 ## Table of Contents
 
@@ -11,20 +11,20 @@
 - [FAQ](#faq)
 - [Community](#community)
 - [Special Thanks](#special-thanks)
-- [Development](#development)
+- [Contributing](#contributing)
 
 ## What is GoIV
 GoIV is an android app made for Pokémon GO that allows users to seamlessly calculate their Pokémon's IVs. GoIV does **not** interfere with Pokémon GO or their servers.
 
 ## Screenshots
-![Alt text](https://i.imgur.com/SxlmeqT.jpg "Overlays an IV Button")
-![Alt text](https://i.imgur.com/0O3d8Vd.jpg "Scans for Pokémon Info")
-![Alt text](https://i.imgur.com/ekBae5R.jpg "Shows Result Popup")
-![Alt text](https://i.imgur.com/xXr9zzK.jpg "Advanced Information in Results Popup")
+![Overlays an IV Button](https://i.imgur.com/SxlmeqT.jpg "Overlays an IV Button")
+![Scans for Pokémon Info](https://i.imgur.com/0O3d8Vd.jpg "Scans for Pokémon Info")
+![Shows Result Popup](https://i.imgur.com/ekBae5R.jpg "Shows Result Popup")
+![Advanced Information in Results Popup](https://i.imgur.com/xXr9zzK.jpg "Advanced Information in Results Popup")
 
 ## Download
-[![Github All Releases](https://img.shields.io/github/downloads/farkam135/goiv/total.svg?maxAge=2592000)](https://github.com/farkam135/GoIV/releases/latest)
-[![GitHub release](https://img.shields.io/github/release/farkam135/goiv.svg?maxAge=2592000)](CHANGELOG.md)
+### Latest Release: [![Downloads](https://img.shields.io/github/downloads/farkam135/GoIV/total.svg?maxAge=2592000 "Downloads")](https://github.com/farkam135/GoIV/releases/latest)
+### Changelog: [![Changelog](https://img.shields.io/github/release/farkam135/GoIv.svg?maxAge=2592000 "Changelog")](CHANGELOG.md)
 
 ### Checksums
 **GoIV (Online)**  
@@ -92,5 +92,5 @@ GoIV would not have been possible without the help and support of the following 
 * Tommy Tran
 * [And further thanks to all who contribute to the project on GitHub](https://github.com/farkam135/GoIV/graphs/contributors)
 
-## Development
-Want to contribute to the development of GoIV? [Click here](DEVELOPMENT.md) to learn how.
+## Contributing
+Want to contribute to the development of GoIV? [Click here](CONTRIBUTING.md) to learn how.

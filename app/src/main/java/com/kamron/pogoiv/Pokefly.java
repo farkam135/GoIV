@@ -1543,12 +1543,12 @@ public class Pokefly extends Service {
         @Override
         public void onReceive(Context context, Intent intent) {
             Bitmap bitmap = (Bitmap) intent.getParcelableExtra(KEY_BITMAP);
+            if (bitmap == null) {
+                return;
+            }
             String ss_file = intent.getStringExtra(KEY_SS_FILE);
             if (ss_file == null) {
                 ss_file = "";
-            }
-            if (bitmap == null) {
-                return;
             }
             scanPokemon(bitmap, ss_file);
             bitmap.recycle();

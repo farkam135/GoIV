@@ -10,11 +10,11 @@ public class PoGoApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        CrashlyticsWrapper.init(getApplicationContext());
-
         if (BuildConfig.DEBUG) {
             Timber.plant(new Timber.DebugTree());
         } else {
+            CrashlyticsWrapper.init(getApplicationContext());
+
             Timber.plant(new CrashlyticsWrapper.CrashReportingTree(this));
         }
 

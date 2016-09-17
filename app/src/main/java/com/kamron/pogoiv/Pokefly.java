@@ -24,6 +24,7 @@ import android.os.IBinder;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.NonNull;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -254,7 +255,7 @@ public class Pokefly extends Service {
     private Optional<Integer> pokemonCP = Optional.absent();
     private Optional<Integer> pokemonHP = Optional.absent();
     private double estimatedPokemonLevel = 1.0;
-    private String ssFile;
+    private @NonNull String ssFile = "";
 
     private PokemonNameCorrector corrector;
 
@@ -294,7 +295,7 @@ public class Pokefly extends Service {
         return new Intent(ACTION_SEND_INFO);
     }
 
-    public static void populateInfoIntent(Intent intent, ScanResult scanResult, String filePath) {
+    public static void populateInfoIntent(Intent intent, ScanResult scanResult, @NonNull String filePath) {
         intent.putExtra(KEY_SEND_INFO_NAME, scanResult.getPokemonName());
         intent.putExtra(KEY_SEND_INFO_CANDY, scanResult.getCandyName());
         intent.putExtra(KEY_SEND_INFO_HP, scanResult.getPokemonHP());
@@ -1508,7 +1509,7 @@ public class Pokefly extends Service {
      * @param pokemonImage The image of the pokemon
      * @param filePath     The screenshot path if it is a file, used to delete once checked
      */
-    private void scanPokemon(Bitmap pokemonImage, String filePath) {
+    private void scanPokemon(Bitmap pokemonImage, @NonNull String filePath) {
         //WARNING: this method *must* always send an intent at the end, no matter what, to avoid the application
         // hanging.
         Intent info = Pokefly.createNoInfoIntent();
@@ -1570,7 +1571,8 @@ public class Pokefly extends Service {
 
                     pokemonName = intent.getStringExtra(KEY_SEND_INFO_NAME);
                     candyName = intent.getStringExtra(KEY_SEND_INFO_CANDY);
-                    ssFile = intent.getStringExtra(KEY_SEND_SCREENSHOT_FILE);
+                    String nullableSsFile = intent.getStringExtra(KEY_SEND_SCREENSHOT_FILE);
+                    ssFile = nullableSsFile != null ? nullableSsFile : "";
 
                     @SuppressWarnings("unchecked") Optional<Integer> lPokemonCP =
                             (Optional<Integer>) intent.getSerializableExtra(KEY_SEND_INFO_CP);

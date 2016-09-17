@@ -301,9 +301,7 @@ public class Pokefly extends Service {
         intent.putExtra(KEY_SEND_INFO_HP, scanResult.getPokemonHP());
         intent.putExtra(KEY_SEND_INFO_CP, scanResult.getPokemonCP());
         intent.putExtra(KEY_SEND_INFO_LEVEL, scanResult.getEstimatedPokemonLevel());
-        if (!filePath.isEmpty()) {
-            intent.putExtra(KEY_SEND_SCREENSHOT_FILE, filePath);
-        }
+        intent.putExtra(KEY_SEND_SCREENSHOT_FILE, filePath);
     }
 
     public static Intent createProcessBitmapIntent(Bitmap bitmap, String file) {

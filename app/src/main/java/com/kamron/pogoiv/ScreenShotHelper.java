@@ -24,7 +24,7 @@ public class ScreenShotHelper {
     private ContentObserver mediaObserver;
     private ContentResolver contentResolver;
 
-    private String getRealPathFromUri(Context context, Uri contentUri) {
+    private String getRealPathFromUri(Uri contentUri) {
         Cursor cursor = null;
         try {
             String[] proj = {MediaStore.Images.Media.DATA};
@@ -50,7 +50,7 @@ public class ScreenShotHelper {
                     return;
                 }
 
-                final String pathChange = getRealPathFromUri(context, uri);
+                final String pathChange = getRealPathFromUri(uri);
                 if (!pathChange.contains("Screenshot")) {
                     return;
                 }

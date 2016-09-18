@@ -68,6 +68,12 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean batterySaver;
 
+    /**
+     * This button detects if pokeFly is starting.
+     * Such booleans are error-prone, but we only use it to decide what label to show in launchButton.
+     */
+    private boolean pokeFlyStarting;
+
     private int trainerLevel;
 
     private Button launchButton;
@@ -79,8 +85,10 @@ public class MainActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             if (Pokefly.ACTION_START.equals(intent.getAction())) {
                 updateLaunchButtonText(true);
+                pokeFlyStarting = false;
             } else if (Pokefly.ACTION_STOP.equals(intent.getAction())) {
                 updateLaunchButtonText(false);
+                pokeFlyStarting = false;
             }
         }
     };
@@ -297,7 +305,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        updateLaunchButtonText(Pokefly.isRunning());
+        updateLaunchButtonText(Pokefly.isRunning() || pokeFlyStarting);
 
         settings = GoIVSettings.getInstance(MainActivity.this);
     }
@@ -313,7 +321,9 @@ public class MainActivity extends AppCompatActivity {
      * Starts the PokeFly background service which contains overlay logic.
      */
     private void startPokeFly() {
-        launchButton.setText(R.string.main_stop);
+        pokeFlyStarting = true;
+        updateLaunchButtonText(true); //Should be subsumed by onResume later, which seems to be always called in
+        // testing, but I'm not sure that's guaranteed --@Blaisorblade
 
         int statusBarHeight = getStatusBarHeight();
         Intent intent = Pokefly.createIntent(this, trainerLevel, statusBarHeight, batterySaver);

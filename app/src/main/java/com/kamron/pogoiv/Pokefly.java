@@ -1216,6 +1216,8 @@ public class Pokefly extends Service {
         Pokemon scannedPokemon = ivScanResult.pokemon;
         ArrayList<Pokemon> evolutionLine = pokeInfoCalculator.getEvolutionLine(scannedPokemon);
         extendedEvolutionSpinnerAdapter.updatePokemonList(evolutionLine);
+        extendedEvolutionSpinner.setEnabled(evolutionLine.size() > 1);
+
         int spinnerSelectionIdx =
                 extendedEvolutionSpinner.getSelectedItemPosition(); //which pokemon is selected in the spinner
 
@@ -1232,8 +1234,6 @@ public class Pokefly extends Service {
             extendedEvolutionSpinner.setSelection(spinnerSelectionIdx);
         }
         Pokemon selectedPokemon = evolutionLine.get(spinnerSelectionIdx);
-
-        extendedEvolutionSpinner.setEnabled(extendedEvolutionSpinner.getCount() > 1);
 
         setEstimateCpTextBox(ivScanResult, selectedLevel, selectedPokemon);
         setEstimateCostTextboxes(ivScanResult, selectedLevel, selectedPokemon);

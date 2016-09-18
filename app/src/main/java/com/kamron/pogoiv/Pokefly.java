@@ -1213,9 +1213,10 @@ public class Pokefly extends Service {
      */
     private void populateAdvancedInformation(IVScanResult ivScanResult) {
         double selectedLevel = seekbarProgressToLevel(expandedLevelSeekbar.getProgress());
+        ArrayList<Pokemon> evolutionLine = pokeInfoCalculator.getEvolutionLine(ivScanResult.pokemon);
+        extendedEvolutionSpinnerAdapter.updatePokemonList(evolutionLine);
         int intSelectedPokemon =
                 extendedEvolutionSpinner.getSelectedItemPosition(); //which pokemon is selected in the spinner
-        ArrayList<Pokemon> evolutionLine = pokeInfoCalculator.getEvolutionLine(ivScanResult.pokemon);
 
         Pokemon selectedPokemon;
         if (intSelectedPokemon == -1) {
@@ -1228,12 +1229,7 @@ public class Pokefly extends Service {
                 }
             }
         } else {
-            if (evolutionLine.size() > intSelectedPokemon) {
-                selectedPokemon = evolutionLine.get(intSelectedPokemon);
-            } else {
-                selectedPokemon = evolutionLine.get(0);
-            }
-
+            selectedPokemon = evolutionLine.get(intSelectedPokemon);
         }
 
         extendedEvolutionSpinner.setEnabled(extendedEvolutionSpinner.getCount() > 1);
@@ -1259,7 +1255,6 @@ public class Pokefly extends Service {
         exResCandy.setText(candyCostText);
         exResStardust.setText(String.valueOf(cost.dust));
 
-        extendedEvolutionSpinnerAdapter.updatePokemonList(evolutionLine);
         exResLevel.setText(String.valueOf(selectedLevel));
 
         // If selectedLevel exeeds trainer capabilities then show text in orange

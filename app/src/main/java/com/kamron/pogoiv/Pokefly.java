@@ -1212,7 +1212,7 @@ public class Pokefly extends Service {
      * pokemon evolution and level set by the user.
      */
     private void populateAdvancedInformation(IVScanResult ivScanResult) {
-        double goalLevel = seekbarProgressToLevel(expandedLevelSeekbar.getProgress());
+        double selectedLevel = seekbarProgressToLevel(expandedLevelSeekbar.getProgress());
         int intSelectedPokemon =
                 extendedEvolutionSpinner.getSelectedItemPosition(); //which pokemon is selected in the spinner
         ArrayList<Pokemon> evolutionLine = pokeInfoCalculator.getEvolutionLine(ivScanResult.pokemon);
@@ -1240,7 +1240,7 @@ public class Pokefly extends Service {
 
         CPRange expectedRange = pokeInfoCalculator.getCpRangeAtLevel(selectedPokemon,
                 ivScanResult.lowAttack, ivScanResult.lowDefense, ivScanResult.lowStamina,
-                ivScanResult.highAttack, ivScanResult.highDefense, ivScanResult.highStamina, goalLevel);
+                ivScanResult.highAttack, ivScanResult.highDefense, ivScanResult.highStamina, selectedLevel);
         int realCP = ivScanResult.scannedCP;
         int expectedAverage = (expectedRange.high + expectedRange.low) / 2;
         String exResultCPStr = String.valueOf(expectedAverage);
@@ -1253,17 +1253,17 @@ public class Pokefly extends Service {
         }
         exResultCP.setText(exResultCPStr);
 
-        UpgradeCost cost = pokeInfoCalculator.getUpgradeCost(goalLevel, estimatedPokemonLevel);
+        UpgradeCost cost = pokeInfoCalculator.getUpgradeCost(selectedLevel, estimatedPokemonLevel);
         int evolutionCandyCost = pokeInfoCalculator.getCandyCostForEvolution(ivScanResult.pokemon, selectedPokemon);
         String candyCostText = cost.candy + evolutionCandyCost + "";
         exResCandy.setText(candyCostText);
         exResStardust.setText(String.valueOf(cost.dust));
 
         extendedEvolutionSpinnerAdapter.updatePokemonList(evolutionLine);
-        exResLevel.setText(String.valueOf(goalLevel));
+        exResLevel.setText(String.valueOf(selectedLevel));
 
-        // If goalLevel exeeds trainer capabilities then show text in orange
-        if (goalLevel > Data.trainerLevelToMaxPokeLevel(trainerLevel)) {
+        // If selectedLevel exeeds trainer capabilities then show text in orange
+        if (selectedLevel > Data.trainerLevelToMaxPokeLevel(trainerLevel)) {
             exResLevel.setTextColor(getColorC(R.color.orange));
         } else {
             exResLevel.setTextColor(getColorC(R.color.importantText));

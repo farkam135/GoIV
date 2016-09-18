@@ -42,6 +42,7 @@ SHA-256 - 64CCFEA3434BE407DC49841DECFE787E24DC13F6BBD4E73C2CF98F5A44F53274
 - [Why does GoIV fail to identify my Pokémon?](#why-does-goiv-fail-to-identify-my-pokémon)
 - [Why doesn't my arc dot line up perfectly?](#why-doesnt-my-arc-dot-line-up-perfectly)
 - [Why doesn't the IV button appear?](#why-doesnt-the-iv-button-appear)
+- [Why does Pokémon Go turn black after starting GoIV?](#why-does-pokémon-go-turn-black-after-starting-goiv)
 - [Does GoIV break Niantic's terms of use?](#does-goiv-break-niantics-terms-of-use)
 - [Can you get banned from Pokémon Go for using GoIV?](#can-you-get-banned-from-pokémon-go-for-using-goiv)
 - [Why does GoIV require X permission?](#why-does-goiv-require-x-permission)
@@ -64,6 +65,9 @@ The most common reasons are:
 * The phone you're running has a faulty screen capture api (Seems to occasionally affect Cyanogen and some lesser known phone brands)
 * GoIV has not been granted permission to draw over other apps.
 * GoIV wasn't started.
+
+### Why does Pokémon Go turn black after starting GoIV?
+The black screen in Pokémon Go is caused by it being developed on Unity Engine. Sometimes it just doesn't work, so you'll need to restart Pokémon Go. Unfortunately there is nothing we can do to prevent this.
 
 ### Does GoIV break Niantic's terms of use?
 GoIV is in a gray area, you could argue that it does or does not, depending on how you interpret the wording.

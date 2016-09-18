@@ -1295,11 +1295,11 @@ public class Pokefly extends Service {
     private Pokemon initPokemonSpinnerIfNeeded(Pokemon scannedPokemon) {
         ArrayList<Pokemon> evolutionLine = pokeInfoCalculator.getEvolutionLine(scannedPokemon);
         extendedEvolutionSpinnerAdapter.updatePokemonList(evolutionLine);
-        extendedEvolutionSpinner.setEnabled(evolutionLine.size() > 1);
 
         int spinnerSelectionIdx = extendedEvolutionSpinner.getSelectedItemPosition();
 
         if (spinnerSelectionIdx == -1) {
+            // This happens at the beginning or after changing the pokemon list.
             //if initialising list, act as if scanned pokemon is marked
             for (int i = 0; i < evolutionLine.size(); i++) {
                 if (evolutionLine.get(i).number == scannedPokemon.number) {
@@ -1314,6 +1314,7 @@ public class Pokefly extends Service {
             //Invariant: evolutionLine.get(spinnerSelectionIdx).number == scannedPokemon.number., hence
             //evolutionLine.get(spinnerSelectionIdx) == scannedPokemon.
             extendedEvolutionSpinner.setSelection(spinnerSelectionIdx);
+            extendedEvolutionSpinner.setEnabled(evolutionLine.size() > 1);
         }
         return evolutionLine.get(spinnerSelectionIdx);
     }

@@ -1212,37 +1212,30 @@ public class Pokefly extends Service {
      * pokemon evolution and level set by the user.
      */
     private void populateAdvancedInformation(IVScanResult ivScanResult) {
-        double goalLevel = seekbarProgressToLevel(expandedLevelSeekbar.getProgress());
-        int intSelectedPokemon =
-                extendedEvolutionSpinner.getSelectedItemPosition(); //which pokemon is selected in the spinner
-        ArrayList<Pokemon> evolutionLine = pokeInfoCalculator.getEvolutionLine(ivScanResult.pokemon);
+        double selectedLevel = seekbarProgressToLevel(expandedLevelSeekbar.getProgress());
+        Pokemon selectedPokemon = initPokemonSpinnerIfNeeded(ivScanResult.pokemon);
 
-        Pokemon selectedPokemon;
-        if (intSelectedPokemon == -1) {
-            selectedPokemon = ivScanResult.pokemon;//if initialising list, act as if scanned pokemon is marked
-            for (int i = 0; i < evolutionLine.size(); i++) {
-                if (evolutionLine.get(i).number == selectedPokemon.number) {
-                    intSelectedPokemon = i;
-                    extendedEvolutionSpinner.setSelection(intSelectedPokemon);
-                    break;
-                }
-            }
-        } else {
-            if (evolutionLine.size() > intSelectedPokemon) {
-                selectedPokemon = evolutionLine.get(intSelectedPokemon);
-            } else {
-                selectedPokemon = evolutionLine.get(0);
-            }
+        setEstimateCpTextBox(ivScanResult, selectedLevel, selectedPokemon);
+        setEstimateCostTextboxes(ivScanResult, selectedLevel, selectedPokemon);
+        exResLevel.setText(String.valueOf(selectedLevel));
+        setEstimateLevelTextColor(selectedLevel);
+    }
 
-        }
-
-        extendedEvolutionSpinner.setEnabled(extendedEvolutionSpinner.getCount() > 1);
-
+    /**
+     * Sets the "expected cp textview" to (+x) or (-y) in the powerup and evolution estimate box depending on what's
+     * appropriate.
+     *
+     * @param ivScanResult    the ivscanresult of the current pokemon
+     * @param selectedLevel   The goal level the pokemon in ivScanresult pokemon should reach
+     * @param selectedPokemon The goal pokemon evolution he ivScanresult pokemon should reach
+     */
+    private void setEstimateCpTextBox(IVScanResult ivScanResult, double selectedLevel, Pokemon selectedPokemon) {
         CPRange expectedRange = pokeInfoCalculator.getCpRangeAtLevel(selectedPokemon,
                 ivScanResult.lowAttack, ivScanResult.lowDefense, ivScanResult.lowStamina,
-                ivScanResult.highAttack, ivScanResult.highDefense, ivScanResult.highStamina, goalLevel);
+                ivScanResult.highAttack, ivScanResult.highDefense, ivScanResult.highStamina, selectedLevel);
         int realCP = ivScanResult.scannedCP;
         int expectedAverage = (expectedRange.high + expectedRange.low) / 2;
+
         String exResultCPStr = String.valueOf(expectedAverage);
 
         int diffCP = expectedAverage - realCP;
@@ -1252,24 +1245,79 @@ public class Pokefly extends Service {
             exResultCPStr += " (" + diffCP + ")";
         }
         exResultCP.setText(exResultCPStr);
+    }
 
-        UpgradeCost cost = pokeInfoCalculator.getUpgradeCost(goalLevel, estimatedPokemonLevel);
+    /**
+     * Sets the candy cost and stardust cost textfields in the powerup and evolution estimate box. The textviews are
+     * populated with the cost in dust and candy required to go from the pokemon in ivscanresult to the desired
+     * selecterdLevel and selectedPokemon.
+     *
+     * @param ivScanResult    The pokemon to base the estimate on.
+     * @param selectedLevel   The level the pokemon needs to reach.
+     * @param selectedPokemon The target pokemon. (example, ivScan pokemon can be weedle, selected can be beedrill.)
+     */
+    private void setEstimateCostTextboxes(IVScanResult ivScanResult, double selectedLevel, Pokemon selectedPokemon) {
+        UpgradeCost cost = pokeInfoCalculator.getUpgradeCost(selectedLevel, estimatedPokemonLevel);
         int evolutionCandyCost = pokeInfoCalculator.getCandyCostForEvolution(ivScanResult.pokemon, selectedPokemon);
         String candyCostText = cost.candy + evolutionCandyCost + "";
         exResCandy.setText(candyCostText);
         exResStardust.setText(String.valueOf(cost.dust));
+    }
 
-        extendedEvolutionSpinnerAdapter.updatePokemonList(evolutionLine);
-        exResLevel.setText(String.valueOf(goalLevel));
-
-        // If goalLevel exeeds trainer capabilities then show text in orange
-        if (goalLevel > Data.trainerLevelToMaxPokeLevel(trainerLevel)) {
+    /**
+     * Sets the text color of the level next to the slider in the estimate box to normal or orange depending on if
+     * the user can level up the pokemon that high with his current trainer level. For example, if the user has
+     * trainer level 20, then his pokemon can reach a max level of 21.5 - so any goalLevel above 21.5 would become
+     * orange.
+     *
+     * @param selectedLevel The level to reach.
+     */
+    private void setEstimateLevelTextColor(double selectedLevel) {
+        // If selectedLevel exeeds trainer capabilities then show text in orange
+        if (selectedLevel > Data.trainerLevelToMaxPokeLevel(trainerLevel)) {
             exResLevel.setTextColor(getColorC(R.color.orange));
         } else {
             exResLevel.setTextColor(getColorC(R.color.importantText));
         }
     }
 
+    /**
+     * Initialize the pokemon spinner in the evolution and powerup box in the result window, and return picked pokemon.
+     * <p/>
+     * The method will populate the spinner with the correct pokemon evolution line, and disable the spinner if there's
+     * the evolution line contains only one pokemon. The method will also select by default either the evolution of
+     * the scanned pokemon (if there is one) or the pokemon itself.
+     * <p/>
+     * This method only does anything if it detects that the spinner was not previously initialized.
+     *
+     * @param scannedPokemon the pokemon to use for selecting a good default, if init is performed
+     */
+    private Pokemon initPokemonSpinnerIfNeeded(Pokemon scannedPokemon) {
+        ArrayList<Pokemon> evolutionLine = pokeInfoCalculator.getEvolutionLine(scannedPokemon);
+        extendedEvolutionSpinnerAdapter.updatePokemonList(evolutionLine);
+
+        int spinnerSelectionIdx = extendedEvolutionSpinner.getSelectedItemPosition();
+
+        if (spinnerSelectionIdx == -1) {
+            // This happens at the beginning or after changing the pokemon list.
+            //if initialising list, act as if scanned pokemon is marked
+            for (int i = 0; i < evolutionLine.size(); i++) {
+                if (evolutionLine.get(i).number == scannedPokemon.number) {
+                    spinnerSelectionIdx = i;
+                    break;
+                }
+            }
+            if (!scannedPokemon.evolutions.isEmpty()) {
+                //Equivalently, if this pokemon is not the last of its evolution line.
+                spinnerSelectionIdx++;
+            }
+            //Invariant: evolutionLine.get(spinnerSelectionIdx).number == scannedPokemon.number., hence
+            //evolutionLine.get(spinnerSelectionIdx) == scannedPokemon.
+            extendedEvolutionSpinner.setSelection(spinnerSelectionIdx);
+            extendedEvolutionSpinner.setEnabled(evolutionLine.size() > 1);
+        }
+        return evolutionLine.get(spinnerSelectionIdx);
+    }
 
     /**
      * Fixes the three boxes that show iv range color and text.

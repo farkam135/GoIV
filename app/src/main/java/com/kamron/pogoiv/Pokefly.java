@@ -24,6 +24,7 @@ import android.os.IBinder;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.NonNull;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -94,7 +95,7 @@ public class Pokefly extends Service {
 
     private static final String ACTION_PROCESS_BITMAP = "com.kamron.pogoiv.PROCESS_BITMAP";
     private static final String KEY_BITMAP = "bitmap";
-    private static final String KEY_SS_FILE = "ss-file";
+    private static final String KEY_SCREENSHOT_FILE = "ss-file";
 
     private static final String PREF_USER_CORRECTIONS = "com.kamron.pogoiv.USER_CORRECTIONS";
 
@@ -254,7 +255,7 @@ public class Pokefly extends Service {
     private Optional<Integer> pokemonCP = Optional.absent();
     private Optional<Integer> pokemonHP = Optional.absent();
     private double estimatedPokemonLevel = 1.0;
-    private String ssFile;
+    private @NonNull Optional<String> screenShotPath = Optional.absent();
 
     private PokemonNameCorrector corrector;
 
@@ -294,21 +295,19 @@ public class Pokefly extends Service {
         return new Intent(ACTION_SEND_INFO);
     }
 
-    public static void populateInfoIntent(Intent intent, ScanResult scanResult, String filePath) {
+    public static void populateInfoIntent(Intent intent, ScanResult scanResult, @NonNull Optional<String> filePath) {
         intent.putExtra(KEY_SEND_INFO_NAME, scanResult.getPokemonName());
         intent.putExtra(KEY_SEND_INFO_CANDY, scanResult.getCandyName());
         intent.putExtra(KEY_SEND_INFO_HP, scanResult.getPokemonHP());
         intent.putExtra(KEY_SEND_INFO_CP, scanResult.getPokemonCP());
         intent.putExtra(KEY_SEND_INFO_LEVEL, scanResult.getEstimatedPokemonLevel());
-        if (!filePath.isEmpty()) {
-            intent.putExtra(KEY_SEND_SCREENSHOT_FILE, filePath);
-        }
+        intent.putExtra(KEY_SEND_SCREENSHOT_FILE, filePath);
     }
 
     public static Intent createProcessBitmapIntent(Bitmap bitmap, String file) {
         Intent intent = new Intent(ACTION_PROCESS_BITMAP);
         intent.putExtra(KEY_BITMAP, bitmap);
-        intent.putExtra(KEY_SS_FILE, file);
+        intent.putExtra(KEY_SCREENSHOT_FILE, file);
         return intent;
     }
 
@@ -991,9 +990,9 @@ public class Pokefly extends Service {
      * screenshot, and then deletes the screenshot.
      */
     private void deleteScreenShotIfRequired() {
-        if (batterySaver && !ssFile.isEmpty()) {
+        if (batterySaver && screenShotPath.isPresent()) {
             if (GoIVSettings.getInstance(getBaseContext()).shouldDeleteScreenshots()) {
-                screenShotHelper.deleteScreenShot(ssFile);
+                screenShotHelper.deleteScreenShot(screenShotPath.get());
             }
         }
     }
@@ -1505,10 +1504,10 @@ public class Pokefly extends Service {
      * scanPokemon
      * Performs OCR on an image of a pokemon and sends the pulled info to PokeFly to display.
      *
-     * @param pokemonImage The image of the pokemon
-     * @param filePath     The screenshot path if it is a file, used to delete once checked
+     * @param pokemonImage   The image of the pokemon
+     * @param screenShotPath The screenshot path if it is a file, used to delete once checked
      */
-    private void scanPokemon(Bitmap pokemonImage, String filePath) {
+    private void scanPokemon(Bitmap pokemonImage, @NonNull Optional<String> screenShotPath) {
         //WARNING: this method *must* always send an intent at the end, no matter what, to avoid the application
         // hanging.
         Intent info = Pokefly.createNoInfoIntent();
@@ -1517,7 +1516,7 @@ public class Pokefly extends Service {
             if (res.isFailed()) {
                 Toast.makeText(Pokefly.this, getString(R.string.scan_pokemon_failed), Toast.LENGTH_SHORT).show();
             }
-            Pokefly.populateInfoIntent(info, res, filePath);
+            Pokefly.populateInfoIntent(info, res, screenShotPath);
         } finally {
             LocalBroadcastManager.getInstance(Pokefly.this).sendBroadcast(info);
         }
@@ -1531,7 +1530,7 @@ public class Pokefly extends Service {
         if (bmp == null) {
             return;
         }
-        scanPokemon(bmp, "");
+        scanPokemon(bmp, Optional.<String>absent());
         bmp.recycle();
     }
 
@@ -1543,14 +1542,17 @@ public class Pokefly extends Service {
         @Override
         public void onReceive(Context context, Intent intent) {
             Bitmap bitmap = (Bitmap) intent.getParcelableExtra(KEY_BITMAP);
-            String ss_file = intent.getStringExtra(KEY_SS_FILE);
-            if (ss_file == null) {
-                ss_file = "";
-            }
             if (bitmap == null) {
                 return;
             }
-            scanPokemon(bitmap, ss_file);
+            String screenShotPathRaw = intent.getStringExtra(KEY_SCREENSHOT_FILE);
+            Optional<String> screenShotPath;
+            if (screenShotPathRaw != null) {
+                screenShotPath = Optional.of(screenShotPathRaw);
+            } else {
+                screenShotPath = Optional.absent();
+            }
+            scanPokemon(bitmap, screenShotPath);
             bitmap.recycle();
         }
     };
@@ -1570,14 +1572,16 @@ public class Pokefly extends Service {
 
                     pokemonName = intent.getStringExtra(KEY_SEND_INFO_NAME);
                     candyName = intent.getStringExtra(KEY_SEND_INFO_CANDY);
-                    ssFile = intent.getStringExtra(KEY_SEND_SCREENSHOT_FILE);
 
+                    @SuppressWarnings("unchecked") Optional<String> lScreenShotFile =
+                            (Optional<String>) intent.getSerializableExtra(KEY_SEND_SCREENSHOT_FILE);
                     @SuppressWarnings("unchecked") Optional<Integer> lPokemonCP =
                             (Optional<Integer>) intent.getSerializableExtra(KEY_SEND_INFO_CP);
                     @SuppressWarnings("unchecked") Optional<Integer> lPokemonHP =
                             (Optional<Integer>) intent.getSerializableExtra(KEY_SEND_INFO_HP);
                     pokemonCP = lPokemonCP;
                     pokemonHP = lPokemonHP;
+                    screenShotPath = lScreenShotFile;
 
                     estimatedPokemonLevel = intent.getDoubleExtra(KEY_SEND_INFO_LEVEL, estimatedPokemonLevel);
                     if (estimatedPokemonLevel < 1.0) {

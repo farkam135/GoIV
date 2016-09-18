@@ -1307,6 +1307,10 @@ public class Pokefly extends Service {
                     break;
                 }
             }
+            if (!scannedPokemon.evolutions.isEmpty()) {
+                //Equivalently, if this pokemon is not the last of its evolution line.
+                spinnerSelectionIdx++;
+            }
             //Invariant: evolutionLine.get(spinnerSelectionIdx).number == scannedPokemon.number., hence
             //evolutionLine.get(spinnerSelectionIdx) == scannedPokemon.
             extendedEvolutionSpinner.setSelection(spinnerSelectionIdx);

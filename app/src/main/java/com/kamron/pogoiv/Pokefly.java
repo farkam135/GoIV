@@ -1489,7 +1489,11 @@ public class Pokefly extends Service {
     }
 
     private void initOcr() {
-        String extdir = getExternalFilesDir(null).toString();
+        File externalFilesDir = getExternalFilesDir(null);
+        if (externalFilesDir == null) {
+            externalFilesDir = getFilesDir();
+        }
+        String extdir = externalFilesDir.toString();
         if (!new File(extdir + "/tessdata/eng.traineddata").exists()) {
             CopyUtils.copyAssetFolder(getAssets(), "tessdata", extdir + "/tessdata");
         }

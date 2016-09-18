@@ -330,4 +330,25 @@ public class PokeInfoCalculator {
 
         return list;
     }
+
+    /**
+     * Get the index of the evolution of this pokemon
+     * Examples: weedle-1, Charizard-3
+     * Edge case: Eeveelutions and multiple evolution pokemon returns the index in a complete list of evolutions. For
+     * example eevee would create an evolution line like eevee-vaporeon-flareon-jolteion, and vaporeon would return
+     * 2, while flareon would return 3. (The ordering in the example might be wrong)
+     *
+     * @param pokemon Which pokemon to get evolution line index of
+     * @return a number, where 0 would represent the first pokemon
+     */
+    public int getEvolutionLineIndex(Pokemon pokemon) {
+        int counter = 0;
+        for (Pokemon evoPoke : getEvolutionLine(pokemon)) { //find the index of the pokemon in evolution line
+            if (evoPoke.number == pokemon.number) {
+                break;
+            }
+            counter++;
+        }
+        return counter;
+    }
 }

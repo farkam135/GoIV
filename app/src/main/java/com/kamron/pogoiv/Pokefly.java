@@ -1213,26 +1213,7 @@ public class Pokefly extends Service {
      */
     private void populateAdvancedInformation(IVScanResult ivScanResult) {
         double selectedLevel = seekbarProgressToLevel(expandedLevelSeekbar.getProgress());
-        Pokemon scannedPokemon = ivScanResult.pokemon;
-        ArrayList<Pokemon> evolutionLine = pokeInfoCalculator.getEvolutionLine(scannedPokemon);
-        extendedEvolutionSpinnerAdapter.updatePokemonList(evolutionLine);
-        extendedEvolutionSpinner.setEnabled(evolutionLine.size() > 1);
-
-        int spinnerSelectionIdx = extendedEvolutionSpinner.getSelectedItemPosition();
-
-        if (spinnerSelectionIdx == -1) {
-            //if initialising list, act as if scanned pokemon is marked
-            for (int i = 0; i < evolutionLine.size(); i++) {
-                if (evolutionLine.get(i).number == scannedPokemon.number) {
-                    spinnerSelectionIdx = i;
-                    break;
-                }
-            }
-            //Invariant: evolutionLine.get(spinnerSelectionIdx).number == scannedPokemon.number., hence
-            //evolutionLine.get(spinnerSelectionIdx) == scannedPokemon.
-            extendedEvolutionSpinner.setSelection(spinnerSelectionIdx);
-        }
-        Pokemon selectedPokemon = evolutionLine.get(spinnerSelectionIdx);
+        Pokemon selectedPokemon = initPokemonSpinnerIfNeeded(ivScanResult.pokemon);
 
         setEstimateCpTextBox(ivScanResult, selectedLevel, selectedPokemon);
         setEstimateCostTextboxes(ivScanResult, selectedLevel, selectedPokemon);
@@ -1298,6 +1279,39 @@ public class Pokefly extends Service {
         } else {
             exResLevel.setTextColor(getColorC(R.color.importantText));
         }
+    }
+
+    /**
+     * Initialize the pokemon spinner in the evolution and powerup box in the result window, and return picked pokemon.
+     * <p/>
+     * The method will populate the spinner with the correct pokemon evolution line, and disable the spinner if there's
+     * the evolution line contains only one pokemon. The method will also select by default either the evolution of
+     * the scanned pokemon (if there is one) or the pokemon itself.
+     * <p/>
+     * This method only does anything if it detects that the spinner was not previously initialized.
+     *
+     * @param scannedPokemon the pokemon to use for selecting a good default, if init is performed
+     */
+    private Pokemon initPokemonSpinnerIfNeeded(Pokemon scannedPokemon) {
+        ArrayList<Pokemon> evolutionLine = pokeInfoCalculator.getEvolutionLine(scannedPokemon);
+        extendedEvolutionSpinnerAdapter.updatePokemonList(evolutionLine);
+        extendedEvolutionSpinner.setEnabled(evolutionLine.size() > 1);
+
+        int spinnerSelectionIdx = extendedEvolutionSpinner.getSelectedItemPosition();
+
+        if (spinnerSelectionIdx == -1) {
+            //if initialising list, act as if scanned pokemon is marked
+            for (int i = 0; i < evolutionLine.size(); i++) {
+                if (evolutionLine.get(i).number == scannedPokemon.number) {
+                    spinnerSelectionIdx = i;
+                    break;
+                }
+            }
+            //Invariant: evolutionLine.get(spinnerSelectionIdx).number == scannedPokemon.number., hence
+            //evolutionLine.get(spinnerSelectionIdx) == scannedPokemon.
+            extendedEvolutionSpinner.setSelection(spinnerSelectionIdx);
+        }
+        return evolutionLine.get(spinnerSelectionIdx);
     }
 
     /**

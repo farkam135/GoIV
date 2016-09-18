@@ -1218,8 +1218,7 @@ public class Pokefly extends Service {
         extendedEvolutionSpinnerAdapter.updatePokemonList(evolutionLine);
         extendedEvolutionSpinner.setEnabled(evolutionLine.size() > 1);
 
-        int spinnerSelectionIdx =
-                extendedEvolutionSpinner.getSelectedItemPosition(); //which pokemon is selected in the spinner
+        int spinnerSelectionIdx = extendedEvolutionSpinner.getSelectedItemPosition();
 
         if (spinnerSelectionIdx == -1) {
             //if initialising list, act as if scanned pokemon is marked

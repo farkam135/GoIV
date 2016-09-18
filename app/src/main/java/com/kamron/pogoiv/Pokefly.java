@@ -1234,11 +1234,27 @@ public class Pokefly extends Service {
 
         extendedEvolutionSpinner.setEnabled(extendedEvolutionSpinner.getCount() > 1);
 
+        setEstimateCpTextBox(ivScanResult, selectedLevel, selectedPokemon);
+        setEstimateCostTextboxes(ivScanResult, selectedLevel, selectedPokemon);
+        exResLevel.setText(String.valueOf(selectedLevel));
+        setEstimateLevelTextColor(selectedLevel);
+    }
+
+    /**
+     * Sets the "expected cp textview" to (+x) or (-y) in the powerup and evolution estimate box depending on what's
+     * appropriate.
+     *
+     * @param ivScanResult    the ivscanresult of the current pokemon
+     * @param selectedLevel   The goal level the pokemon in ivScanresult pokemon should reach
+     * @param selectedPokemon The goal pokemon evolution he ivScanresult pokemon should reach
+     */
+    private void setEstimateCpTextBox(IVScanResult ivScanResult, double selectedLevel, Pokemon selectedPokemon) {
         CPRange expectedRange = pokeInfoCalculator.getCpRangeAtLevel(selectedPokemon,
                 ivScanResult.lowAttack, ivScanResult.lowDefense, ivScanResult.lowStamina,
                 ivScanResult.highAttack, ivScanResult.highDefense, ivScanResult.highStamina, selectedLevel);
         int realCP = ivScanResult.scannedCP;
         int expectedAverage = (expectedRange.high + expectedRange.low) / 2;
+
         String exResultCPStr = String.valueOf(expectedAverage);
 
         int diffCP = expectedAverage - realCP;
@@ -1248,15 +1264,34 @@ public class Pokefly extends Service {
             exResultCPStr += " (" + diffCP + ")";
         }
         exResultCP.setText(exResultCPStr);
+    }
 
+    /**
+     * Sets the candy cost and stardust cost textfields in the powerup and evolution estimate box. The textviews are
+     * populated with the cost in dust and candy required to go from the pokemon in ivscanresult to the desired
+     * selecterdLevel and selectedPokemon.
+     *
+     * @param ivScanResult    The pokemon to base the estimate on.
+     * @param selectedLevel   The level the pokemon needs to reach.
+     * @param selectedPokemon The target pokemon. (example, ivScan pokemon can be weedle, selected can be beedrill.)
+     */
+    private void setEstimateCostTextboxes(IVScanResult ivScanResult, double selectedLevel, Pokemon selectedPokemon) {
         UpgradeCost cost = pokeInfoCalculator.getUpgradeCost(selectedLevel, estimatedPokemonLevel);
         int evolutionCandyCost = pokeInfoCalculator.getCandyCostForEvolution(ivScanResult.pokemon, selectedPokemon);
         String candyCostText = cost.candy + evolutionCandyCost + "";
         exResCandy.setText(candyCostText);
         exResStardust.setText(String.valueOf(cost.dust));
+    }
 
-        exResLevel.setText(String.valueOf(selectedLevel));
-
+    /**
+     * Sets the text color of the level next to the slider in the estimate box to normal or orange depending on if
+     * the user can level up the pokemon that high with his current trainer level. For example, if the user has
+     * trainer level 20, then his pokemon can reach a max level of 21.5 - so any goalLevel above 21.5 would become
+     * orange.
+     *
+     * @param selectedLevel The level to reach.
+     */
+    private void setEstimateLevelTextColor(double selectedLevel) {
         // If selectedLevel exeeds trainer capabilities then show text in orange
         if (selectedLevel > Data.trainerLevelToMaxPokeLevel(trainerLevel)) {
             exResLevel.setTextColor(getColorC(R.color.orange));
@@ -1264,7 +1299,6 @@ public class Pokefly extends Service {
             exResLevel.setTextColor(getColorC(R.color.importantText));
         }
     }
-
 
     /**
      * Fixes the three boxes that show iv range color and text.

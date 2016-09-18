@@ -61,6 +61,9 @@ Use Android Studio autoformatting and check with CheckStyle that your PR does no
 ### Splitting Pull Requests
 Please open separate PR's for separate bug fixes or features. It helps us to review your PR's.
 
+### Closing Related Resolved Issues Automatically
+When your PR resolves a specific issue or issues in the *Issue* tracker, include the specific phrasing that will automatically close the related issue(s) it resolves somewhere in your PR message. The specific phrasing is a variation of 'fix', 'resolve', or 'close' followed by the issue number, e.g.: `Fixes #123` or `These changes resolve #321`. For more info, see this [GitHub help article](https://help.github.com/articles/closing-issues-via-commit-messages/).
+
 ### Writing Good Commit Messages
 Please take the time to write helpful commit messages. This makes the review of your PR's much easier. It also helps other people to understand the code later on if they are contributing to this project.
 

@@ -2,7 +2,6 @@ package com.kamron.pogoiv.logic;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
@@ -82,26 +81,9 @@ public class PokeInfoCalculator {
             if (devolution[i] != -1) {
                 Pokemon devo = pokedex.get(devolution[i]);
                 devo.evolutions.add(pokedex.get(i));
-                sortPokedex(devo.evolutions);
             }
         }
-
-        // don't sort or otherwise we loose evolution-order of the list
-        //sortPokedex(pokedex);
     }
-
-    /**
-     * Sorts the pokemon in the pokedex by alphabetical order.
-     */
-    private void sortPokedex(List<Pokemon> pokedex) {
-        //Sort pokemon alphabetically (maybe just do this in the res files?)
-        Collections.sort(pokedex, new Comparator<Pokemon>() {
-            public int compare(Pokemon lhs, Pokemon rhs) {
-                return lhs.name.compareTo(rhs.name);
-            }
-        });
-    }
-
 
     /**
      * getUpgradeCost

@@ -1213,23 +1213,24 @@ public class Pokefly extends Service {
      */
     private void populateAdvancedInformation(IVScanResult ivScanResult) {
         double selectedLevel = seekbarProgressToLevel(expandedLevelSeekbar.getProgress());
-        ArrayList<Pokemon> evolutionLine = pokeInfoCalculator.getEvolutionLine(ivScanResult.pokemon);
+        Pokemon scannedPokemon = ivScanResult.pokemon;
+        ArrayList<Pokemon> evolutionLine = pokeInfoCalculator.getEvolutionLine(scannedPokemon);
         extendedEvolutionSpinnerAdapter.updatePokemonList(evolutionLine);
-        int intSelectedPokemon =
+        int spinnerSelectionIdx =
                 extendedEvolutionSpinner.getSelectedItemPosition(); //which pokemon is selected in the spinner
 
         Pokemon selectedPokemon;
-        if (intSelectedPokemon == -1) {
-            selectedPokemon = ivScanResult.pokemon;//if initialising list, act as if scanned pokemon is marked
+        if (spinnerSelectionIdx == -1) {
+            selectedPokemon = scannedPokemon;//if initialising list, act as if scanned pokemon is marked
             for (int i = 0; i < evolutionLine.size(); i++) {
                 if (evolutionLine.get(i).number == selectedPokemon.number) {
-                    intSelectedPokemon = i;
-                    extendedEvolutionSpinner.setSelection(intSelectedPokemon);
+                    spinnerSelectionIdx = i;
+                    extendedEvolutionSpinner.setSelection(spinnerSelectionIdx);
                     break;
                 }
             }
         } else {
-            selectedPokemon = evolutionLine.get(intSelectedPokemon);
+            selectedPokemon = evolutionLine.get(spinnerSelectionIdx);
         }
 
         extendedEvolutionSpinner.setEnabled(extendedEvolutionSpinner.getCount() > 1);

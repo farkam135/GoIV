@@ -1219,19 +1219,19 @@ public class Pokefly extends Service {
         int spinnerSelectionIdx =
                 extendedEvolutionSpinner.getSelectedItemPosition(); //which pokemon is selected in the spinner
 
-        Pokemon selectedPokemon;
         if (spinnerSelectionIdx == -1) {
-            selectedPokemon = scannedPokemon;//if initialising list, act as if scanned pokemon is marked
+            //if initialising list, act as if scanned pokemon is marked
             for (int i = 0; i < evolutionLine.size(); i++) {
-                if (evolutionLine.get(i).number == selectedPokemon.number) {
+                if (evolutionLine.get(i).number == scannedPokemon.number) {
                     spinnerSelectionIdx = i;
-                    extendedEvolutionSpinner.setSelection(spinnerSelectionIdx);
                     break;
                 }
             }
-        } else {
-            selectedPokemon = evolutionLine.get(spinnerSelectionIdx);
+            //Invariant: evolutionLine.get(spinnerSelectionIdx).number == scannedPokemon.number., hence
+            //evolutionLine.get(spinnerSelectionIdx) == scannedPokemon.
+            extendedEvolutionSpinner.setSelection(spinnerSelectionIdx);
         }
+        Pokemon selectedPokemon = evolutionLine.get(spinnerSelectionIdx);
 
         extendedEvolutionSpinner.setEnabled(extendedEvolutionSpinner.getCount() > 1);
 

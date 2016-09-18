@@ -145,6 +145,12 @@ public class MainActivity extends AppCompatActivity {
         npTrainerLevel.setWrapSelectorWheel(false);
         npTrainerLevel.setValue(trainerLevel);
 
+        displayMetrics = this.getResources().getDisplayMetrics();
+        WindowManager windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
+        rawDisplayMetrics = new DisplayMetrics();
+        Display disp = windowManager.getDefaultDisplay();
+        disp.getRealMetrics(rawDisplayMetrics);
+
         Button launch = (Button) findViewById(R.id.start);
         launch.setOnClickListener(new View.OnClickListener() {
 
@@ -186,13 +192,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         checkPermissions(launch);
-
-
-        displayMetrics = this.getResources().getDisplayMetrics();
-        WindowManager windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
-        rawDisplayMetrics = new DisplayMetrics();
-        Display disp = windowManager.getDefaultDisplay();
-        disp.getRealMetrics(rawDisplayMetrics);
 
         LocalBroadcastManager.getInstance(this).registerReceiver(showUpdateDialog,
                 new IntentFilter(ACTION_SHOW_UPDATE_DIALOG));

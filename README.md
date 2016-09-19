@@ -2,7 +2,7 @@
 
 [![Travis Build Status](https://img.shields.io/travis/farkam135/GoIV/master.svg?maxAge=2592000 "Travis Build Status")](https://travis-ci.org/farkam135/GoIV)
 [![Github All Releases](https://img.shields.io/github/downloads/farkam135/GoIV/total.svg?maxAge=2592000)](https://github.com/farkam135/GoIV/releases)
-[![GitHub release](https://img.shields.io/github/release/farkam135/GoIV.svg?maxAge=2592000)](https://github.com/farkam135/GoIV/releases)
+[![GitHub release](https://img.shields.io/github/release/farkam135/GoIV.svg?maxAge=2592000)](https://github.com/farkam135/GoIV/releases/tag/3.1.0)
 [![GitHub commits](https://img.shields.io/github/commits-since/farkam135/GoIV/3.1.0.svg?maxAge=2592000)](https://github.com/farkam135/GoIV/compare/3.1.0...master)
 [![GitHub contributors](https://img.shields.io/github/contributors/farkam135/GoIV.svg?maxAge=2592000)](https://github.com/farkam135/GoIV/graphs/contributors)
 [![License](https://img.shields.io/github/license/farkam135/GoIV.svg?maxAge=2592000 "License")](LICENSE.md)

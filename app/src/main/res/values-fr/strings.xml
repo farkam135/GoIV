@@ -67,7 +67,6 @@
     <string name="cancel">Annuler</string>
     <string name="check_iv">Obtenir IV</string>
     <string name="notification_title">GoIV Actif - Niveau %1$s</string>
-    <string name="notification_text">Appuyer pour ouvrir</string>
     <string name="close">Fermer</string>
     <string name="main_permission">Accorder permissions</string>
     <string name="main_start">GO</string>

@@ -70,10 +70,11 @@
     <string name="cancel">Cancel</string>
     <string name="check_iv">Check IV</string>
     <string name="notification_title">GoIV Running - Level %1$s</string>
-    <string name="notification_text">Tap to open</string>
+    <string name="notification_open_app">Open app</string>
     <string name="close">Close</string>
     <string name="main_permission">Grant Permissions</string>
     <string name="main_start">Start</string>
+    <string name="main_starting">Starting...</string>
     <string name="main_stop">Stop</string>
     <string name="back">Back</string>
     <string name="accept_screen_capture">Accept screen capture</string>

@@ -11,7 +11,6 @@
     <string name="cancel">Cancelar</string>
     <string name="check_iv">Verifica o IV</string>
     <string name="notification_title">GoIV funcionando - Nível %1$s</string>
-    <string name="notification_text">Toque para abrir</string>
     <string name="ivtext_no_possibilities">Não há possibilides, por favor verifique os dados!</string>
     <string name="close">Fechar</string>
     <string name="main_permission">Grantir Permissões</string>

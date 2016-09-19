@@ -1,17 +1,15 @@
 # GoIV, Android Project for Pokémon GO.
 
 [![Travis Build Status](https://img.shields.io/travis/farkam135/GoIV/master.svg?maxAge=2592000 "Travis Build Status")](https://travis-ci.org/farkam135/GoIV)
-[![Github All Releases](https://img.shields.io/github/downloads/farkam135/GoIV/total.svg?maxAge=2592000)](https://github.com/farkam135/GoIV/releases)
-[![GitHub Latest Release](https://img.shields.io/github/release/farkam135/GoIV.svg?maxAge=2592000)](https://github.com/farkam135/GoIV/releases/latest)
-[![GitHub Commits](https://img.shields.io/github/commits-since/farkam135/GoIV/3.1.0.svg?maxAge=2592000)](https://github.com/farkam135/GoIV/compare/3.1.0...master)
-[![GitHub Contributors](https://img.shields.io/github/contributors/farkam135/GoIV.svg?maxAge=2592000)](https://github.com/farkam135/GoIV/graphs/contributors)
+[![Downloads](https://img.shields.io/github/downloads/farkam135/GoIV/total.svg?maxAge=2592000 "Downloads")](https://github.com/farkam135/GoIV/releases/latest)
+[![Changelog](https://img.shields.io/github/release/farkam135/GoIV.svg?maxAge=2592000 "Changelog")](CHANGELOG.md)
+[![Commits](https://img.shields.io/github/commits-since/farkam135/GoIV/3.1.0.svg?maxAge=2592000 "Commits")](https://github.com/farkam135/GoIV/compare/3.1.0...master)
 [![License](https://img.shields.io/github/license/farkam135/GoIV.svg?maxAge=2592000 "License")](LICENSE.md)
 
 ## Table of Contents
 
 - [What is GoIV](#what-is-goiv)
 - [Screenshots](#screenshots)
-- [Download](#download)
 - [FAQ](#faq)
 - [Community](#community)
 - [Special Thanks](#special-thanks)
@@ -25,21 +23,6 @@ GoIV is an android app made for Pokémon GO that allows users to seamlessly calc
 ![Scans for Pokémon Info](https://i.imgur.com/0O3d8Vd.jpg "Scans for Pokémon Info")
 ![Shows Result Popup](https://i.imgur.com/ekBae5R.jpg "Shows Result Popup")
 ![Advanced Information in Results Popup](https://i.imgur.com/xXr9zzK.jpg "Advanced Information in Results Popup")
-
-## Download
-### Latest Release: [![Downloads](https://img.shields.io/github/downloads/farkam135/GoIV/total.svg?maxAge=2592000 "Downloads")](https://github.com/farkam135/GoIV/releases/latest)
-### Changelog: [![Changelog](https://img.shields.io/github/release/farkam135/GoIv.svg?maxAge=2592000 "Changelog")](CHANGELOG.md)
-
-### Checksums
-**GoIV (Online)**  
-MD5 - F96E4F3E51E8B77D507BD53CE04FAD46  
-SHA1 - 9AA4448FD64A21F0D4364046F4BD36EF37C804FB  
-SHA-256 - 22214A2DB976C0D1BD6702B8FC5D51D23AAC7EFA937C8A68BCCBB772EFBFE8B1  
-
-**GoIV (Offline)**  
-MD5 - 66998267C373CAB90FA0CEC27FF9AB2C  
-SHA1 - B73A092FC8727E1301F8C590E71ADC4DE6273380  
-SHA-256 - 64CCFEA3434BE407DC49841DECFE787E24DC13F6BBD4E73C2CF98F5A44F53274  
 
 ## FAQ
 - [Is there an iOS version?](#is-there-an-ios-version)

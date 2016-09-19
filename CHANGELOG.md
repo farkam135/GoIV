@@ -19,10 +19,15 @@
 	There's now a yellow background to show the limit of where your current trainer is
 	too low to level up your pokemon.
 
-* Major battery improvements
+* Major battery improvements:
 	The screen scanning logic will now only be active after you touch the screen,
 	so instead of checking every 750 miliseconds, it will run once after a short delay
 	every time you touch the screen.
+	If you tap it too fast, it'll wait for you to be done tapping before
+	scanning. So, gym fights should cause zero scanning.
+
+* Notification actions:
+	Now GoIV can be stopped from the notification itself.
 
 ### Quality of life changes
 

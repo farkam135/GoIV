@@ -74,7 +74,7 @@
     <string name="close">Close</string>
     <string name="main_permission">Grant Permissions</string>
     <string name="main_start">Start</string>
-    <string name="main_starting">Starting...</string>
+    <string name="main_starting">Starting…</string>
     <string name="main_stop">Stop</string>
     <string name="back">Back</string>
     <string name="accept_screen_capture">Accept screen capture</string>

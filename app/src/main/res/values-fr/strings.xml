@@ -67,11 +67,14 @@
     <string name="cancel">Annuler</string>
     <string name="check_iv">Obtenir IV</string>
     <string name="notification_title">GoIV Actif - Niveau %1$s</string>
+    <string name="notification_open_app">Ouvrir l\'app</string>
     <string name="close">Fermer</string>
     <string name="main_permission">Accorder permissions</string>
     <string name="main_start">GO</string>
+    <string name="main_starting">Lancement&#8230;</string>
     <string name="main_stop">Arrêt</string>
     <string name="back">Retour</string>
+    <string name="accept_screen_capture">Accepter lecture d\'écran</string>
     <string name="settings_page_title">Paramètres</string>
     <string name="launch_pokemon_go_setting_title">Lancer Pokemon Go</string>
     <string name="launch_pokemon_go_setting_summary">Ouvrir Pokémon Go quand le bouton GO est cliqué</string>
@@ -108,7 +111,7 @@
     <string name="attack">Attaque</string>
     <string name="defense">Défense</string>
     <string name="stamina_hp">PV</string>
-    <string name="missing_inputs">Données manquantes. Veuillez remplir les champs PC et PV.</string>
+    <string name="missing_inputs">PC et PV requis.</string>
     <string name="ivtext_no_possibilities">Aucune combinaison d\'IV possible pour ces données. Veuillez vérifier les informations.</string>
     <string name="checking_for_update">Recherche de mise à jour&#8230;</string>
     <string name="ongoing_update">Une mise à jour de GoIV est déjà en cours de téléchargement</string>

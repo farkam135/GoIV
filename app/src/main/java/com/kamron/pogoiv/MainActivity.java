@@ -76,11 +76,8 @@ public class MainActivity extends AppCompatActivity {
     private final BroadcastReceiver pokeflyStateChanged = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (Pokefly.ACTION_START.equals(intent.getAction())) {
-                updateLaunchButtonText(true);
-            } else if (Pokefly.ACTION_STOP.equals(intent.getAction())) {
-                updateLaunchButtonText(false);
-            }
+            updateLaunchButtonText(Pokefly.isRunning());
+            launchButton.setEnabled(true);
         }
     };
     private final BroadcastReceiver showUpdateDialog = new BroadcastReceiver() {
@@ -211,9 +208,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         LocalBroadcastManager.getInstance(this).registerReceiver(pokeflyStateChanged,
-                new IntentFilter(Pokefly.ACTION_START));
-        LocalBroadcastManager.getInstance(this).registerReceiver(pokeflyStateChanged,
-                new IntentFilter(Pokefly.ACTION_STOP));
+                new IntentFilter(Pokefly.ACTION_UPDATE_UI));
         LocalBroadcastManager.getInstance(this).registerReceiver(showUpdateDialog,
                 new IntentFilter(ACTION_SHOW_UPDATE_DIALOG));
 
@@ -296,7 +291,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        updateLaunchButtonText(Pokefly.isRunning());
+        LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(Pokefly.ACTION_UPDATE_UI));
 
         settings = GoIVSettings.getInstance(MainActivity.this);
     }
@@ -312,7 +307,7 @@ public class MainActivity extends AppCompatActivity {
      * Starts the PokeFly background service which contains overlay logic.
      */
     private void startPokeFly() {
-        launchButton.setText(R.string.main_stop);
+        launchButton.setEnabled(false);
 
         int statusBarHeight = getStatusBarHeight();
         Intent intent = Pokefly.createIntent(this, trainerLevel, statusBarHeight, batterySaver);

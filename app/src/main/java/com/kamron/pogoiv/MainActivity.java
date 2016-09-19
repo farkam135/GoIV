@@ -307,6 +307,7 @@ public class MainActivity extends AppCompatActivity {
      * Starts the PokeFly background service which contains overlay logic.
      */
     private void startPokeFly() {
+        launchButton.setText(R.string.main_starting);
         launchButton.setEnabled(false);
 
         int statusBarHeight = getStatusBarHeight();

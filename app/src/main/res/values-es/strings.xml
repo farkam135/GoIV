@@ -10,7 +10,7 @@
 
     <string-array name="mystic_percentage">
         <item name="mplace1">"(Opcional)"</item>
-        <item name="mystic80_100">"Tu [Pokémon] es una maravilla para la vista. "</item>
+        <item name="mystic80_100">"Tu [Pokémon] es una maravilla para la vista."</item>
         <item name="mystic67_79">"Tu [Pokémon] me ha llamado ciertamente la atención."</item>
         <item name="mystic51_66">"Tu [Pokémon] está por encima de la media."</item>
         <item name="mystic0_50">"No parece que tu [Pokémon] vaya a llegar muy lejos en combate."</item>

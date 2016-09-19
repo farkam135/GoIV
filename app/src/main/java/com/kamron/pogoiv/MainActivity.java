@@ -291,6 +291,19 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+        /*
+         * This intent will update the button label, but later. This matters
+         * when we start Pokefly: onResume can get called right away after
+         * sending that intent, when Pokefly.isRunning is still false, so an
+         * immediate update will reset the label to "START" while the actual
+         * meaning is "STOP".
+         * The new intent created here is delivered after the intent to start
+         * Pokefly (because intents are delivered in order). The ordering is not
+         * really documented, but appears likely enough to work in principle,
+         * and it works well enough in practice:
+         * http://stackoverflow.com/a/28513424/53974. Since this is mostly a UI
+         * issue, this fix should be good enough.
+         */
         LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(Pokefly.ACTION_UPDATE_UI));
 
         settings = GoIVSettings.getInstance(MainActivity.this);

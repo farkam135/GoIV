@@ -1,5 +1,54 @@
 # Changelog
 
+## 3.2.0
+
+### Features
+* More appraisal narrowing:
+	You can now use all the information given by the team leader to narrow down the
+	the iv possibilities for your pokemon.
+	You'll have to choose your team in the app start screen to get the right
+	phrases to pick from.
+	When you expand the appraisal box now, the overlay will move to the top of your
+	screen so that you can click the appraisal info while the overlay is active.
+
+* Easier to correct pokemon scan:
+	Identified pokemon dropdown only shows evolution line as identified from candy
+	If evolution line is wrongly identified, can search for the pokemon with keyboard.
+
+* UI improvement for level slider in evolution and powerup result box
+	There's now a yellow background to show the limit of where your current trainer is
+	too low to level up your pokemon.
+
+* Major battery improvements
+	The screen scanning logic will now only be active after you touch the screen,
+	so instead of checking every 750 miliseconds, it will run once after a short delay
+	every time you touch the screen.
+
+### Quality of life changes
+
+* Updated translation strings
+
+* Cleaner scan error handling
+	If a scan error occurs, the field will be left blank to make it easier for you
+	to see and deal with.
+
+* Full iv possibilities list is now sorted by perfection %
+
+* "Show all iv combinations" hidden if no / too many iv combinations.
+
+### Bugfixes
+	Screenshot mode should now work on most(all?) devices!
+	level 39/40 crashfix
+	Overlay moves up when you input stuff
+	Crashfixes on some OCR error scans
+	Refine by power up appears correctly when pokemon is evolved
+	A lot of them.
+
+### Behind the scenes
+	Lots of code cleanup (Though we're not done yet)
+
+---
+
 ## 3.1.0
 
 ### Features & Improvements

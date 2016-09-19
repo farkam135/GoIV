@@ -15,7 +15,7 @@
 	Identified pokemon dropdown only shows evolution line as identified from candy
 	If evolution line is wrongly identified, can search for the pokemon with keyboard.
 
-* UI improvement for level slider in evolution and powerup result box
+* UI improvement for level slider in evolution and powerup result box:
 	There's now a yellow background to show the limit of where your current trainer is
 	too low to level up your pokemon.
 
@@ -33,7 +33,7 @@
 
 * Updated translation strings
 
-* Cleaner scan error handling
+* Cleaner scan error handling:
 	If a scan error occurs, the field will be left blank to make it easier for you
 	to see and deal with.
 
@@ -42,15 +42,15 @@
 * "Show all iv combinations" hidden if no / too many iv combinations.
 
 ### Bugfixes
-	Screenshot mode should now work on most(all?) devices!
-	level 39/40 crashfix
-	Overlay moves up when you input stuff
-	Crashfixes on some OCR error scans
-	Refine by power up appears correctly when pokemon is evolved
-	A lot of them.
+* Screenshot mode should now work on most (all?) devices!
+* Fix crash on levels 39/40.
+* Overlay moves up when you input stuff.
+* Crashfixes on some OCR error scans.
+* Refine by power up appears correctly when pokemon is evolved.
+* And more.
 
 ### Behind the scenes
-	Lots of code cleanup (Though we're not done yet)
+* Lots of code cleanup (Though we're not done yet)
 
 ---
 

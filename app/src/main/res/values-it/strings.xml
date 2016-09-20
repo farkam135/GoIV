@@ -34,7 +34,7 @@
     <string name="auto_update_setting_summary">Controlla automaticamente gli aggiornamenti all\'avvio dell\'app</string>
     <string name="check_for_update_setting_title">Controlla aggiornamenti</string>
     <string name="check_for_update_setting_summary">Verifica se sono disponibili aggiornamenti</string>
-    <string name="scan_pokemon_failed">Scasione fallita, scrolla su e prova di nuovo!</string>
+    <string name="scan_pokemon_failed">Scansione fallita, scrolla su e prova di nuovo!</string>
     <string name="see_all">Elenca tutte</string>
     <string name="advanced_information">Info dettagliate</string>
     <string name="powerup_calc_instructions">Calcolo potenziamenti ed evoluzioni\nTrascina lo slider del livello per ottenere diverse previsioni</string>

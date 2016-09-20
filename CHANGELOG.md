@@ -36,9 +36,9 @@
 * Cleaner scan error handling: If a scan error occurs, the field will be left
   blank to make it easier for you to see and deal with.
 
-* Full iv possibilities list is now sorted by perfection %
+* Full IV possibilities list is now sorted by perfection %
 
-* "Show all iv combinations" hidden if no / too many iv combinations.
+* "Show all IV combinations" hidden if no / too many IV combinations.
 
 ### Bugfixes
 * Screenshot mode should now work on most (all?) devices!
@@ -65,8 +65,8 @@
 ### Features & Improvements
 * New layout for when only one IV combination is possible
 * Tweaked layout and sized of input dialog
-* Show all ivs is color coded & layout improved
-* Hides "refine by power up" automatically if it cant be used
+* Show all IVs is color coded & layout improved
+* Hides "refine by power up" automatically if it can't be used
 
 ### Stability and Speed Improvements
 * Fixes several crash/hang bugs which caused the application to become unresponsive

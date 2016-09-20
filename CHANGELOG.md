@@ -51,6 +51,13 @@
 ### Behind the scenes
 * Lots of code cleanup (Though we're not done yet)
 
+### Known bugs
+* At level 30, level 30 pokemons are detected as level 30.5, and this can cause
+  spurious failures to find combinations or incorrect results. Adjusting the
+  level to 30 manually gives correct calculation results. See
+  screenshots [here](https://github.com/farkam135/GoIV/issues/455) to see the
+  results appears.
+
 ---
 
 ## 3.1.0

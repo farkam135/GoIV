@@ -10,10 +10,10 @@ import android.widget.TextView;
  */
 public class GuiUtil {
 
-    private static final String RED = "#8A0808";
-    private static final String ORANGE = "#DBA901";
-    private static final String LIGHT_GREEN = "#A0A53F";
-    private static final String GREEN = "#088A08";
+    private static final String RED = "#B10000";
+    private static final String ORANGE = "#F1A900";
+    private static final String GREEN = "#00A000";
+    private static final String BLUE = "#0099EF";
 
     /**
      * Sets the text color based on IV to match the in-game appraisal system.
@@ -23,9 +23,9 @@ public class GuiUtil {
      */
     public static void setTextColorByIV(TextView text, int value) {
         if (value == 15) {
-            text.setTextColor(Color.parseColor(GREEN));
+            text.setTextColor(Color.parseColor(BLUE));
         } else if (value >= 13) {
-            text.setTextColor(Color.parseColor(LIGHT_GREEN));
+            text.setTextColor(Color.parseColor(GREEN));
         } else if (value >= 8) {
             text.setTextColor(Color.parseColor(ORANGE));
         } else {
@@ -41,9 +41,9 @@ public class GuiUtil {
      */
     public static void setTextColorByPercentage(TextView text, int value) {
         if (value > 81) { // between 80 and 82.2
-            text.setTextColor(Color.parseColor(GREEN));
+            text.setTextColor(Color.parseColor(BLUE));
         } else if (value > 65) { // between 64.4 and 66.7
-            text.setTextColor(Color.parseColor(LIGHT_GREEN));
+            text.setTextColor(Color.parseColor(GREEN));
         } else if (value > 50) { // between 48.9 and 51.1
             text.setTextColor(Color.parseColor(ORANGE));
         } else {

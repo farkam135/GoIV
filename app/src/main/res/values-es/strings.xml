@@ -9,7 +9,7 @@
     </string-array>
 
     <string-array name="mystic_percentage">
-        <item name="mplace1">"(Opcional)"</item>
+        <item name="mplace1">@string/place1</item>
         <item name="mystic80_100">"Tu [Pokémon] es una maravilla para la vista."</item>
         <item name="mystic67_79">"Tu [Pokémon] me ha llamado ciertamente la atención."</item>
         <item name="mystic51_66">"Tu [Pokémon] está por encima de la media."</item>
@@ -17,7 +17,7 @@
     </string-array>
 
     <string-array name="mystic_ivrange">
-        <item name="mplace2">"(Opcional)"</item>
+        <item name="mplace2">@string/place2</item>
         <item name="mysticiv15">"Sus características están fuera de todo cálculo. ¡Es increíble!"</item>
         <item name="mysticiv13_14">Debo decir que sus características son realmente impresionantes."</item>
         <item name="mysticiv8_12">"Sus características están bastante bien."</item>
@@ -26,7 +26,7 @@
 
 
     <string-array name="instinct_percentage">
-        <item name="iplace1">"(Opcional)"</item>
+        <item name="iplace1">@string/place1</item>
         <item name="instinct80_100">"¡Tu [Pokémon] puede enfrentarse a los mejores!"</item>
         <item name="instinct67_79">"¡Tu [Pokémon] es realmente fuerte!"</item>
         <item name="instinct51_66">"Tu [Pokémon] está bastante bien."</item>
@@ -34,7 +34,7 @@
     </string-array>
 
     <string-array name="instinct_ivrange">
-        <item name="iplace2">"(Opcional)"</item>
+        <item name="iplace2">@string/place2</item>
         <item name="instinctiv15">"¡Sus características son lo mejor que he visto nunca! ¡Qué pasada!"</item>
         <item name="instinctiv13_14">"¡Sus características son realmente fuertes! Es impresionante."</item>
         <item name="instinctiv8_12">"Tiene buenas características, sin duda."</item>
@@ -42,7 +42,7 @@
     </string-array>
 
     <string-array name="valor_percentage">
-        <item name="vplace1">"(Opcional)"</item>
+        <item name="vplace1">@string/place1</item>
         <item name="valor80_100">"Tu [Pokémon] simplemente me fascina. ¡Puede logar cualquier cosa!"</item>
         <item name="valor67_79">"Tu [Pokémon] es muy fuerte. ¡Qué orgullo debes sentir!"</item>
         <item name="valor51_66">"Tu [Pokémon] está bastante bien."</item>
@@ -50,7 +50,7 @@
     </string-array>
 
     <string-array name="valor_ivrange">
-        <item name="vplace2">"(Opcional)"</item>
+        <item name="vplace2">@string/place2</item>
         <item name="valoriv15">"Estoy flipando con sus características. ¡GUAU!"</item>
         <item name="valoriv13_14">"Cuenta con excelentes características. ¡Qué emocionante!"</item>
         <item name="valoriv8_12">"Sus características te ayudarán a cumplir su objetivo en combate."</item>
@@ -115,4 +115,9 @@
     <string name="up_to_date">La aplicación se encuentra actualizada</string>
     <string name="update_check_failed">Ocurrió un error durante la búsqueda de actualizaciones. Por favor, verifique su conexión a Internet.</string>
     <string name="wrongPokemonNameInput">" no encontrado."</string>
+    <string name="accept_screen_capture">Permitir captura de pantalla</string>
+    <string name="main_starting">Iniciando…</string>
+    <string name="notification_open_app">Abrir app</string>
+    <string name="place2">Sobre sus características…</string>
+    <string name="place1">Sobre el Pokémon en su conjunto…</string>
 </resources>

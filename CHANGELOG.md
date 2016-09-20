@@ -3,6 +3,15 @@
 ## 3.2.0
 
 ### Features
+* Major battery improvements: **The screen scanning logic will now only activate
+  after you touch the screen**. So instead of scanning every 750 milliseconds, it
+  will only scan a couple of times with a short delay when you touch the screen.
+  If you tap it too fast, it'll wait for you to be done tapping before scanning.
+  So, gym fights should cause zero scanning.
+
+  Hence:
+  **Tap the screen once if the IV button doesn't show up when it should.**
+
 * More appraisal narrowing: You can now use all the information given by the
   team leader to narrow down the the iv possibilities for your pokemon. You'll
   have to choose your team in the app start screen to get the right phrases to
@@ -17,15 +26,6 @@
 * UI improvement for level slider in evolution and powerup result box: There's
   now a yellow background to show the limit of where your current trainer is too
   low to level up your pokemon.
-
-* Major battery improvements: **The screen scanning logic will now only activate
-  after you touch the screen**. So instead of scanning every 750 milliseconds, it
-  will only scan a couple of times with a short delay when you touch the screen.
-  If you tap it too fast, it'll wait for you to be done tapping before scanning.
-  So, gym fights should cause zero scanning.
-
-  Hence:
-  **Tap the screen once if the IV button doesn't show up when it should.**
 
 * Notification actions: Now GoIV can be stopped from the notification itself.
 

@@ -49,10 +49,78 @@
     <string name="possible_iv_combinations">"%1$d combinazioni di IV"</string>
     <string name="too_many_iv_combinations">Troppe combinazioni di IV</string>
     <string name="refining_instructions">Affina la precisione del calcolo IV potenziando e comparando due scansioni dello stesso Pokémon</string>
-    <string name="appraisal_refining">Affinamento con \'Valuta\'</string>
     <string name="attack">Attacco</string>
     <string name="defense">Difesa</string>
     <string name="stamina_hp">PS</string>
     <string name="missing_inputs">Dati mancanti. Inserisci PL e PS.</string>
     <string name="ivtext_no_possibilities">Non ci sono combinazioni di IV possibili. Ricontrolla i valori inseriti.</string>
+    <string name="accept_screen_capture">Consenti cattura schermo</string>
+    <string name="appraisal_refining">Affina con \"Valutazione\"</string>
+    <string name="atk">ATT</string>
+    <string name="avg">MED</string>
+    <string name="checking_for_update">Controllo disponibilità aggiornamenti…</string>
+    <string name="def">DIF</string>
+    <string name="iv_perfect">% Perfezione</string>
+    <string name="main_starting">Avvio…</string>
+    <string name="ongoing_update">Un aggiornamento di GoIV è già in download</string>
+    <string name="place1">"Nel complesso, il tuo pokémon…"</string>
+    <string name="place2">"Le sue statistiche…"</string>
+    <string name="sta">PS</string>
+    <string name="up_to_date">L\'app è già aggiornata</string>
+    <string name="update_check_failed">Si è verificato un errore durante la verifica degli aggiornamenti. Controlla la connessione internet</string>
+    <string name="wrongPokemonNameInput">" non è stato trovato."</string>
+
+    <string-array name="teams">
+        <item name="mystic">"Saggezza"</item>
+        <item name="valor">"Coraggio"</item>
+        <item name="instinct">"Istinto"</item>
+    </string-array>
+
+    <string-array name="mystic_percentage">
+        <item name="mplace1">@string/place1</item>
+        <item name="mystic80_100">"…meraviglia …esemplare unico!"</item>
+        <item name="mystic67_79">"…ha attirato la mia attenzione"</item>
+        <item name="mystic51_66">"…è sopra la media"</item>
+        <item name="mystic0_50">"…non avrà grande successo…"</item>
+    </string-array>
+
+    <string-array name="mystic_ivrange">
+        <item name="mplace2">@string/place2</item>
+        <item name="mysticiv15">"…mai viste. Incredibile!"</item>
+        <item name="mysticiv13_14">"…sono eccellenti!"</item>
+        <item name="mysticiv8_12">"…piuttosto buone"</item>
+        <item name="mysticiv0_7">"…non siano fuori dall'ordinario"</item>
+    </string-array>
+
+    <string-array name="instinct_percentage">
+        <item name="iplace1">@string/place1</item>
+        <item name="instinct80_100">"…contro i migliori"</item>
+        <item name="instinct67_79">"…è molto forte"</item>
+        <item name="instinct51_66">"…non è malaccio"</item>
+        <item name="instinct0_50">"…potrebbe migliorare…"</item>
+    </string-array>
+
+    <string-array name="instinct_ivrange">
+        <item name="iplace2">@string/place2</item>
+        <item name="instinctiv15">"…migliori …abbia mai visto"</item>
+        <item name="instinctiv13_14">"…forti! Incredibile!"</item>
+        <item name="instinctiv8_12">"…c'è qualcosa di valido…"</item>
+        <item name="instinctiv0_7">"…non siano il massimo …possono andare"</item>
+    </string-array>
+
+    <string-array name="valor_percentage">
+        <item name="vplace1">@string/place1</item>
+        <item name="valor80_100">"…stupefacente. Non ha rivali!"</item>
+        <item name="valor67_79">"…molto forte. Devi esserne orgoglioso"</item>
+        <item name="valor51_66">"…non è niente male"</item>
+        <item name="valor0_50">"…non essere forte …mi piace lo stesso"</item>
+    </string-array>
+
+    <string-array name="valor_ivrange">
+        <item name="vplace2">@string/place2</item>
+        <item name="valoriv15">"…sbalorditive …credere ai miei occhi!"</item>
+        <item name="valoriv13_14">"…incredibili. Forte!"</item>
+        <item name="valoriv8_12">"…dovrebbero bastare nelle lotte"</item>
+        <item name="valoriv0_7">"…non gli saranno di grande aiuto…"</item>
+    </string-array>
 </resources>

@@ -1307,18 +1307,6 @@ public class Pokefly extends Service {
         return getString(R.string.pokespamformatedmessage,
                 pokeSpamCalculator.getDblHowMuchWeCanEvolve(),pokeSpamCalculator.getIntEvolveRows(),
                 pokeSpamCalculator.getIntEvolveExtra());
-
-//        StringBuilder text = new StringBuilder();
-//        text.append(dblHowMuchWeCanEvolve.toString());
-//        if (intEvolveRows>0) {
-//            text.append(" (" + intEvolveRows + " " + getString(R.string.rows));
-//            if (intEvolveExtra>0) text.append(" + " + intEvolveExtra + " " + getString(R.string.more)) ;
-//            text.append(")");
-//        }
-        //return String.format(getString(R.string.pokespamformatedmessage),
-        //        pokeSpamCalculator.getDblHowMuchWeCanEvolve(),pokeSpamCalculator.getIntEvolveRows(),
-        //        pokeSpamCalculator.getIntEvolveExtra());
-
     }
 
     /**

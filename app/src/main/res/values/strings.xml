@@ -69,7 +69,7 @@
     <string name="use_the_slider_below_to_align_the_arc">Use the slider below to align the arc:</string>
     <string name="cancel">Cancel</string>
     <string name="check_iv">Check IV</string>
-    <string name="notification_title">GoIV Running - Level %1$s</string>
+    <string name="notification_title">GoIV Running - Level %1$d</string>
     <string name="notification_open_app">Open app</string>
     <string name="close">Close</string>
     <string name="main_permission">Grant Permissions</string>

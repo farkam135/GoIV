@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.util.LruCache;
+import android.widget.Toast;
 
 import com.google.common.base.Optional;
 import com.googlecode.tesseract.android.TessBaseAPI;
@@ -334,6 +335,39 @@ public class OcrHelper {
         }
     }
 
+
+    /**
+     * Gets the candy amount from a pokenon image.
+     *
+     * @param pokemonImage the image of the whole screen
+     * @return the candy name, or "" if nothing was found
+     */
+    private Optional<Integer> getCandyAmountFromImg(Bitmap pokemonImage) {
+        Bitmap candyAmount = Bitmap.createBitmap(pokemonImage,
+                (int) Math.round(widthPixels / 1.515), (int) Math.round(heightPixels / 1.44),
+                (int) Math.round(widthPixels / 5.0), (int) Math.round(heightPixels / 38.4));
+        String hash = "candyAmount" + hashBitmap(candyAmount);
+        String pokemonCandyStr = ocrCache.get(hash);
+
+        if (pokemonCandyStr == null) {
+            candyAmount = replaceColors(candyAmount, 55, 66, 61, Color.WHITE, 200, true);
+            tesseract.setImage(candyAmount);
+            pokemonCandyStr = tesseract.getUTF8Text();
+            ocrCache.put(hash, pokemonCandyStr);
+        }
+        candyAmount.recycle();
+
+        if (pokemonCandyStr.length()>0) {
+            try {
+                return Optional.of(Integer.parseInt(fixOcrLettersToNums(pokemonCandyStr).replaceAll("[^0-9]", "")));
+            } catch (NumberFormatException e) {
+                //Fall-through to default.
+            }
+        }
+
+        return Optional.absent();
+    }
+
     /**
      * scanPokemon
      * Performs OCR on an image of a pokemon and returns the pulled info.
@@ -348,7 +382,8 @@ public class OcrHelper {
         String candyName = getCandyNameFromImg(pokemonImage);
         Optional<Integer> pokemonHP = getPokemonHPFromImg(pokemonImage);
         Optional<Integer> pokemonCP = getPokemonCPFromImg(pokemonImage);
+        Optional<Integer> pokemonCandyAmount = getCandyAmountFromImg(pokemonImage);
 
-        return new ScanResult(estimatedPokemonLevel, pokemonName, candyName, pokemonHP, pokemonCP);
+        return new ScanResult(estimatedPokemonLevel, pokemonName, candyName, pokemonHP, pokemonCP, pokemonCandyAmount);
     }
 }

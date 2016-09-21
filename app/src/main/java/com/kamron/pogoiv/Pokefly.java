@@ -55,6 +55,7 @@ import com.kamron.pogoiv.logic.Data;
 import com.kamron.pogoiv.logic.IVCombination;
 import com.kamron.pogoiv.logic.IVScanResult;
 import com.kamron.pogoiv.logic.PokeInfoCalculator;
+import com.kamron.pogoiv.logic.PokeSpam;
 import com.kamron.pogoiv.logic.Pokemon;
 import com.kamron.pogoiv.logic.PokemonNameCorrector;
 import com.kamron.pogoiv.logic.ScanContainer;
@@ -92,6 +93,7 @@ public class Pokefly extends Service {
     private static final String KEY_SEND_INFO_CP = "key_send_info_cp";
     private static final String KEY_SEND_INFO_LEVEL = "key_send_info_level";
     private static final String KEY_SEND_SCREENSHOT_FILE = "key_send_screenshot_file";
+    private static final String KEY_SEND_INFO_CANDY_AMOUNT = "key_send_info_candy_amount";
 
     private static final String ACTION_PROCESS_BITMAP = "com.kamron.pogoiv.PROCESS_BITMAP";
     private static final String KEY_BITMAP = "bitmap";
@@ -152,6 +154,8 @@ public class Pokefly extends Service {
     EditText pokemonCPEdit;
     @BindView(R.id.etHp)
     EditText pokemonHPEdit;
+    @BindView(R.id.etCandy)
+    EditText pokemonCANDYEdit;
     @BindView(R.id.sbArcAdjust)
     SeekBar arcAdjustBar;
     @BindView(R.id.llButtonsInitial)
@@ -175,6 +179,8 @@ public class Pokefly extends Service {
     @BindView(R.id.allPossibilitiesBox)
     LinearLayout allPossibilitiesBox;
 
+    @BindView(R.id.llPokeSpam)
+    LinearLayout pokeSpamView;
 
     @BindView(R.id.appraisalBox)
     LinearLayout appraisalBox;
@@ -234,6 +240,9 @@ public class Pokefly extends Service {
     @BindView(R.id.refine_by_last_scan)
     LinearLayout refine_by_last_scan;
 
+    @BindView(R.id.exResPokeSpam)
+    TextView exResPokeSpam;
+
     @BindView(R.id.inputAppraisalExpandBox)
     TextView inputAppraisalExpandBox;
 
@@ -252,6 +261,7 @@ public class Pokefly extends Service {
 
     private String pokemonName;
     private String candyName;
+    private Optional<Integer> pokemonCandy = Optional.absent();
     private Optional<Integer> pokemonCP = Optional.absent();
     private Optional<Integer> pokemonHP = Optional.absent();
     private double estimatedPokemonLevel = 1.0;
@@ -302,6 +312,7 @@ public class Pokefly extends Service {
         intent.putExtra(KEY_SEND_INFO_CP, scanResult.getPokemonCP());
         intent.putExtra(KEY_SEND_INFO_LEVEL, scanResult.getEstimatedPokemonLevel());
         intent.putExtra(KEY_SEND_SCREENSHOT_FILE, filePath);
+        intent.putExtra(KEY_SEND_INFO_CANDY_AMOUNT, scanResult.getPokemonCandyAmount());
     }
 
     public static Intent createProcessBitmapIntent(Bitmap bitmap, String file) {
@@ -890,6 +901,12 @@ public class Pokefly extends Service {
         } catch (NumberFormatException e) {
             return false;
         }
+        //do not require pokemon candy to be filled
+        try {
+            pokemonCandy = Optional.of(Integer.parseInt(pokemonCANDYEdit.getText().toString()));
+        }  catch (NumberFormatException e) {
+            pokemonCandy = Optional.of((int)0);
+        }
         return true;
     }
 
@@ -1218,6 +1235,42 @@ public class Pokefly extends Service {
         setEstimateCostTextboxes(ivScanResult, selectedLevel, selectedPokemon);
         exResLevel.setText(String.valueOf(selectedLevel));
         setEstimateLevelTextColor(selectedLevel);
+
+        if (pokemonCandy != null && pokemonCandy.get() > 0 &&
+                ivScanResult.pokemon != null &&  ivScanResult.pokemon.candyEvolutionCost>0) {
+            String text = getPokeSpamCostText(pokemonCandy.get(),ivScanResult.pokemon.candyEvolutionCost);
+            exResPokeSpam.setText(text);
+            pokeSpamView.setVisibility(View.VISIBLE);
+        } else {
+            exResPokeSpam.setText("");
+            pokeSpamView.setVisibility(View.GONE);
+        }
+    }
+
+    @NonNull
+    /**
+     * @param pokemonCandyPlayerHas the amount of candy the player has for this pokemon
+     * @candyEvolutionCost cost to evolve this pokemon
+     * @return text of how much we can evolve
+     */
+    private String getPokeSpamCostText(int pokemonCandyPlayerHas, int candyEvolutionCost) {
+        PokeSpam pokeSpamCalculator = new PokeSpam(pokemonCandyPlayerHas, candyEvolutionCost);
+
+        return getString(R.string.pokespamformatedmessage,
+                pokeSpamCalculator.getDblHowMuchWeCanEvolve(),pokeSpamCalculator.getIntEvolveRows(),
+                pokeSpamCalculator.getIntEvolveExtra());
+
+//        StringBuilder text = new StringBuilder();
+//        text.append(dblHowMuchWeCanEvolve.toString());
+//        if (intEvolveRows>0) {
+//            text.append(" (" + intEvolveRows + " " + getString(R.string.rows));
+//            if (intEvolveExtra>0) text.append(" + " + intEvolveExtra + " " + getString(R.string.more)) ;
+//            text.append(")");
+//        }
+        //return String.format(getString(R.string.pokespamformatedmessage),
+        //        pokeSpamCalculator.getDblHowMuchWeCanEvolve(),pokeSpamCalculator.getIntEvolveRows(),
+        //        pokeSpamCalculator.getIntEvolveExtra());
+
     }
 
     /**
@@ -1465,6 +1518,7 @@ public class Pokefly extends Service {
 
             pokemonHPEdit.setText(optionalIntToString(pokemonHP));
             pokemonCPEdit.setText(optionalIntToString(pokemonCP));
+            pokemonCANDYEdit.setText(optionalIntToString(pokemonCandy));
 
             showInfoLayoutArcPointer();
             moveOverlayUpOrDownToMatchAppraisalBox(); //move the overlay to correct position regarding appraisal box
@@ -1573,6 +1627,7 @@ public class Pokefly extends Service {
                     pokemonName = intent.getStringExtra(KEY_SEND_INFO_NAME);
                     candyName = intent.getStringExtra(KEY_SEND_INFO_CANDY);
 
+
                     @SuppressWarnings("unchecked") Optional<String> lScreenShotFile =
                             (Optional<String>) intent.getSerializableExtra(KEY_SEND_SCREENSHOT_FILE);
                     @SuppressWarnings("unchecked") Optional<Integer> lPokemonCP =
@@ -1582,6 +1637,10 @@ public class Pokefly extends Service {
                     pokemonCP = lPokemonCP;
                     pokemonHP = lPokemonHP;
                     screenShotPath = lScreenShotFile;
+
+                    @SuppressWarnings("unchecked") Optional<Integer> lcandyAmount =
+                            (Optional<Integer>) intent.getSerializableExtra(KEY_SEND_INFO_CANDY_AMOUNT);
+                    pokemonCandy = lcandyAmount;
 
                     estimatedPokemonLevel = intent.getDoubleExtra(KEY_SEND_INFO_LEVEL, estimatedPokemonLevel);
                     if (estimatedPokemonLevel < 1.0) {
@@ -1616,5 +1675,4 @@ public class Pokefly extends Service {
     private int dpToPx(int dp) {
         return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
     }
-
 }

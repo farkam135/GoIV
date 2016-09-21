@@ -354,10 +354,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onDestroy() {
-        if (Pokefly.isRunning()) {
-            stopService(new Intent(MainActivity.this, Pokefly.class));
-        }
-
         LocalBroadcastManager.getInstance(this).unregisterReceiver(pokeflyStateChanged);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(showUpdateDialog);
         super.onDestroy();

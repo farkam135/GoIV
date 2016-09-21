@@ -666,7 +666,7 @@ public class Pokefly extends Service {
 
         ivButtonParams.gravity = Gravity.BOTTOM | Gravity.START;
 
-        paramsInPx = dpToPx(5.3f, 5.0f);
+        paramsInPx = dpToPx(5.3f, 5.5f);
         ivButtonParams.x = paramsInPx[0];
         ivButtonParams.y = paramsInPx[1];
 

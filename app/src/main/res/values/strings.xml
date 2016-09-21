@@ -84,7 +84,7 @@
     <string name="confirmation_dialog_setting_title">Confirmation dialog</string>
     <string name="confirmation_dialog_setting_summary">Allow editing of Pokémon information before calculating IV</string>
     <string name="manual_screenshot_mode_setting_title">Use screenshots to calculate IV</string>
-    <string name="manual_screenshot_mode_setting_summary">Save battery life by scanning screenshots instead of autodetecting. This setting has to be enabled for Android KitKat and below</string>
+    <string name="manual_screenshot_mode_setting_summary">Save battery life by scanning screenshots instead of auto detecting. This setting has to be enabled for Android KitKat and below</string>
     <string name="delete_screenshots_setting_title">Delete screenshots</string>
     <string name="delete_screenshots_setting_summary">Automatically delete screenshots taken by GoIV</string>
     <string name="copy_to_clipboard_setting_title">Copy to clipboard</string>
@@ -126,7 +126,7 @@
     <string name="atk">ATK</string>
     <string name="def">DEF</string>
     <string name="sta">STA</string>
-    <string name="iv">IV</string>
-    <string name="percent">%d%%</string>
-    <string name="unknown_percent">"?%"</string>
+    <string name="iv" translatable="false">IV</string>
+    <string name="percent" translatable="false">%d%%</string>
+    <string name="unknown_percent" translatable="false">"?%"</string>
 </resources>

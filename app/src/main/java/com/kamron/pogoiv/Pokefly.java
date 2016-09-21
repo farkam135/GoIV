@@ -160,7 +160,7 @@ public class Pokefly extends Service {
     @BindView(R.id.etHp)
     EditText pokemonHPEdit;
     @BindView(R.id.etCandy)
-    EditText pokemonCANDYEdit;
+    EditText pokemonCandyEdit;
     @BindView(R.id.sbArcAdjust)
     SeekBar arcAdjustBar;
     @BindView(R.id.llButtonsInitial)
@@ -951,7 +951,7 @@ public class Pokefly extends Service {
         }
         //do not require pokemon candy to be filled
         try {
-            pokemonCandy = Optional.of(Integer.parseInt(pokemonCANDYEdit.getText().toString()));
+            pokemonCandy = Optional.of(Integer.parseInt(pokemonCandyEdit.getText().toString()));
         }  catch (NumberFormatException e) {
             pokemonCandy = Optional.of((int)0);
         }
@@ -1284,9 +1284,22 @@ public class Pokefly extends Service {
         exResLevel.setText(String.valueOf(selectedLevel));
         setEstimateLevelTextColor(selectedLevel);
 
-        if (pokemonCandy != null && pokemonCandy.get() > 0 &&
-                ivScanResult.pokemon != null &&  ivScanResult.pokemon.candyEvolutionCost>0) {
-            String text = getPokeSpamCostText(pokemonCandy.get(),ivScanResult.pokemon.candyEvolutionCost);
+        setPokeSpamText(ivScanResult);
+    }
+
+    /**
+     * sets pokespamtext and makes it visible
+     * @param setPokeSpamText the amount of candy the player has for this pokemon.
+     * @candyEvolutionCost cost to evolve this pokemon.
+     */
+    private void setPokeSpamText(IVScanResult ivScanResult) {
+        if (pokemonCandy.isPresent()
+                && ivScanResult.pokemon != null &&  ivScanResult.pokemon.candyEvolutionCost > 0) {
+            PokeSpam pokeSpamCalculator = new PokeSpam(pokemonCandy.get(),ivScanResult.pokemon.candyEvolutionCost);
+
+            String text = getString(R.string.pokespamformatedmessage,
+                    pokeSpamCalculator.getDblHowMuchWeCanEvolve(),pokeSpamCalculator.getIntEvolveRows(),
+                    pokeSpamCalculator.getIntEvolveExtra());
             exResPokeSpam.setText(text);
             pokeSpamView.setVisibility(View.VISIBLE);
         } else {
@@ -1295,19 +1308,6 @@ public class Pokefly extends Service {
         }
     }
 
-    @NonNull
-    /**
-     * @param pokemonCandyPlayerHas the amount of candy the player has for this pokemon
-     * @candyEvolutionCost cost to evolve this pokemon
-     * @return text of how much we can evolve
-     */
-    private String getPokeSpamCostText(int pokemonCandyPlayerHas, int candyEvolutionCost) {
-        PokeSpam pokeSpamCalculator = new PokeSpam(pokemonCandyPlayerHas, candyEvolutionCost);
-
-        return getString(R.string.pokespamformatedmessage,
-                pokeSpamCalculator.getDblHowMuchWeCanEvolve(),pokeSpamCalculator.getIntEvolveRows(),
-                pokeSpamCalculator.getIntEvolveExtra());
-    }
 
     /**
      * Sets the "expected cp textview" to (+x) or (-y) in the powerup and evolution estimate box depending on what's
@@ -1554,7 +1554,7 @@ public class Pokefly extends Service {
 
             pokemonHPEdit.setText(optionalIntToString(pokemonHP));
             pokemonCPEdit.setText(optionalIntToString(pokemonCP));
-            pokemonCANDYEdit.setText(optionalIntToString(pokemonCandy));
+            pokemonCandyEdit.setText(optionalIntToString(pokemonCandy));
 
             showInfoLayoutArcPointer();
             moveOverlayUpOrDownToMatchAppraisalBox(); //move the overlay to correct position regarding appraisal box

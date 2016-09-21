@@ -1,13 +1,11 @@
 package com.kamron.pogoiv.logic;
 
-import com.kamron.pogoiv.R;
-
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
- * Created by ofirp_000 on 9/20/2016.
+ * Created by NightMadness on 9/20/2016.
  */
 public class PokeSpamTest {
 

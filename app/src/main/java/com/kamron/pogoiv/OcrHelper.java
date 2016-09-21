@@ -339,7 +339,7 @@ public class OcrHelper {
      * Gets the candy amount from a pokenon image.
      *
      * @param pokemonImage the image of the whole screen
-     * @return the candy name, or "" if nothing was found
+     * @return candyAmount the candy amount, or blank Optional object if nothing was found
      */
     private Optional<Integer> getCandyAmountFromImg(Bitmap pokemonImage) {
         Bitmap candyAmount = Bitmap.createBitmap(pokemonImage,
@@ -356,7 +356,7 @@ public class OcrHelper {
         }
         candyAmount.recycle();
 
-        if (pokemonCandyStr.length()>0) {
+        if (pokemonCandyStr.length() > 0) {
             try {
                 return Optional.of(Integer.parseInt(fixOcrLettersToNums(pokemonCandyStr).replaceAll("[^0-9]", "")));
             } catch (NumberFormatException e) {

@@ -1,7 +1,7 @@
 package com.kamron.pogoiv.logic;
 
 /**
- * Created by ofirp_000 on 9/20/2016.
+ * Created by NightMadness on 9/20/2016.
  */
 
 public class PokeSpam {

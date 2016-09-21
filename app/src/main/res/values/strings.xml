@@ -130,6 +130,6 @@
     <string name="percent">%d%%</string>
     <string name="unknown_percent">"?%"</string>
     <string name="pokespam">PokeSpam</string>
-    <string name="pokespamformatedmessage">%1$d (%2$d row + %3$d more)</string>
+    <string name="pokespamformatedmessage">%1$d (%2$d rows + %3$d more)</string>
     <string name="candy">Candy</string>
 </resources>

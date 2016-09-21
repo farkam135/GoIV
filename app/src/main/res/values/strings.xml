@@ -128,5 +128,5 @@
     <string name="sta">STA</string>
     <string name="iv">IV</string>
     <string name="percent">%d%%</string>
-    <string name="unknown_percent">"?%"</string>
+    <string name="unknown_percent" translatable="false">"?%"</string>
 </resources>

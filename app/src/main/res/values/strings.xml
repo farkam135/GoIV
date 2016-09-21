@@ -126,7 +126,7 @@
     <string name="atk">ATK</string>
     <string name="def">DEF</string>
     <string name="sta">STA</string>
-    <string name="iv">IV</string>
+    <string name="iv" translatable="false">IV</string>
     <string name="percent">%d%%</string>
     <string name="unknown_percent" translatable="false">"?%"</string>
 </resources>

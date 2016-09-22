@@ -440,6 +440,9 @@ public class Pokefly extends Service {
         windowManager.addView(touchView, touchViewParams);
     }
 
+    /**
+     * Undoes the effects of watchScreen.
+     */
     private void unwatchScreen() {
         windowManager.removeView(touchView);
         touchViewParams = null;

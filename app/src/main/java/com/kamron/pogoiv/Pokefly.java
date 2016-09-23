@@ -1278,7 +1278,12 @@ public class Pokefly extends Service {
      * @param selectedLevel The goal level the pokemon in ivScanresult pokemon should reach
      */
     private void setEstimateHPTextBox(IVScanResult ivScanResult, double selectedLevel, Pokemon selectedPokemon) {
-        String hpText = pokeInfoCalculator.getHPAtLevel(ivScanResult, selectedLevel, selectedPokemon) + "";
+        int newHP = pokeInfoCalculator.getHPAtLevel(ivScanResult, selectedLevel, selectedPokemon);
+        int oldHP = pokeInfoCalculator.getHPAtLevel(ivScanResult, estimatedPokemonLevel
+                , ivScanResult.pokemon);
+        int hpDiff = newHP - oldHP;
+        String sign = (hpDiff >= 0) ? "+" : ""; //add plus in front if positive.
+        String hpText = newHP + " (" + sign + hpDiff + ")";
         exResultHP.setText(hpText);
     }
 

@@ -1,34 +1,56 @@
 package com.kamron.pogoiv.logic;
 
+import com.google.common.base.Optional;
+
+import lombok.Getter;
+
 /**
  * Created by NightMadness on 9/20/2016.
  */
 
+@Getter
 public class PokeSpam {
-    final Integer dblPokemonPerRow = 3;
-    private int pokemonCandyPlayerHas;
-    private int candyEvolutionCost;
-    private Integer dblHowMuchWeCanEvolve;
-    private Integer intEvolveRows;
-    private Integer intEvolveExtra;
+    final int howManyPokemonWeHavePerRow = 3;
+    final int defaultBonus = 1;
 
-    public PokeSpam(int pokemonCandyPlayerHas, int candyEvolutionCost) {
-        //Candy Amount divided by Evolve Cost without the left over
-        dblHowMuchWeCanEvolve = pokemonCandyPlayerHas / candyEvolutionCost;
-        intEvolveRows = (int) Math.floor(dblHowMuchWeCanEvolve / dblPokemonPerRow);
-        intEvolveExtra = (int) Math.floor(dblHowMuchWeCanEvolve % dblPokemonPerRow);
+    private Integer totalEvolvable;
+    private Integer evolveRows;
+    private Integer evolveExtra;
+    private Integer amountXP;
+    private Integer amountXPWithLuckyEgg;
+
+    public PokeSpam(int candyPlayerHas, int candyEvolutionCost) {
+        calculatePokeSpam(candyPlayerHas, candyEvolutionCost, defaultBonus);
     }
 
-    public Integer getDblHowMuchWeCanEvolve() {
-        return dblHowMuchWeCanEvolve;
+    /**
+     * pokeSpam this object allows you to calculate how many pokemon we can evolve using current candy..
+     * @param candyPlayerHas How much candy the player has for this pokemon
+     * @param candyEvolutionCost How much candy it cost to evolve the pokemon
+     * @param bonus How much bonus for evolving, for example 1 is for regular evolve, 2 is for transferring
+     */
+    public PokeSpam(int candyPlayerHas, int candyEvolutionCost, Optional<Integer> bonus) {
+        calculatePokeSpam(candyPlayerHas, candyEvolutionCost, bonus.or(defaultBonus));
     }
 
-    public Integer getIntEvolveRows() {
-        return intEvolveRows;
-    }
+    /**
+     * calculatePokeSpam calculates how many pokemon we can evolve using current candy.
+     * @param candyPlayerHas How much candy the player has for this pokemon
+     * @param candyEvolutionCost How much candy it cost to evolve the pokemon
+     * @param bonus Optional: How much bonus for evolving, for example 1 is for regular evolve, 2 is for transferring
+     */
+    private void calculatePokeSpam(int candyPlayerHas, int candyEvolutionCost, int bonus) {
+        //Candy Amount divided by Evolve Cost without the left over,
+        //maybe in the future we will have better bonuses
+        //bonus = 1 for regular
+        //bonus = 2 for transfer
 
-    public Integer getIntEvolveExtra() {
-        return intEvolveExtra;
+        //math.floor is not needed as int already does it, but its makes it explicit that we do it for readability
+        totalEvolvable = (int) Math.floor((candyPlayerHas - bonus) / (candyEvolutionCost - bonus));
+        evolveRows = (int) Math.floor(totalEvolvable / howManyPokemonWeHavePerRow);
+        evolveExtra = (int) Math.floor(totalEvolvable % howManyPokemonWeHavePerRow);
+        amountXP = 500 * totalEvolvable;
+        amountXPWithLuckyEgg = (amountXP * 2);
     }
 
 }

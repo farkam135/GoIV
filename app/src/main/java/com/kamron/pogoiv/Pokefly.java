@@ -953,7 +953,7 @@ public class Pokefly extends Service {
         try {
             pokemonCandy = Optional.of(Integer.parseInt(pokemonCandyEdit.getText().toString()));
         }  catch (NumberFormatException e) {
-            pokemonCandy = Optional.of((int)0);
+            pokemonCandy = Optional.absent();
         }
         return true;
     }
@@ -1284,22 +1284,22 @@ public class Pokefly extends Service {
         exResLevel.setText(String.valueOf(selectedLevel));
         setEstimateLevelTextColor(selectedLevel);
 
-        setPokeSpamText(ivScanResult);
+        setAndCalculatePokeSpamText(ivScanResult);
     }
 
     /**
-     * sets pokespamtext and makes it visible
-     * @param setPokeSpamText the amount of candy the player has for this pokemon.
-     * @candyEvolutionCost cost to evolve this pokemon.
+     * setAndCalculatePokeSpamText sets pokespamtext and makes it visible,
+     * @param ivScanResult IVScanResult object that contains the scan results, mainly needed to get candEvolutionCost
+     *                     varible
      */
-    private void setPokeSpamText(IVScanResult ivScanResult) {
+    private void setAndCalculatePokeSpamText(IVScanResult ivScanResult) {
         if (pokemonCandy.isPresent()
                 && ivScanResult.pokemon != null &&  ivScanResult.pokemon.candyEvolutionCost > 0) {
             PokeSpam pokeSpamCalculator = new PokeSpam(pokemonCandy.get(),ivScanResult.pokemon.candyEvolutionCost);
 
             String text = getString(R.string.pokespamformatedmessage,
-                    pokeSpamCalculator.getDblHowMuchWeCanEvolve(),pokeSpamCalculator.getIntEvolveRows(),
-                    pokeSpamCalculator.getIntEvolveExtra());
+                    pokeSpamCalculator.getTotalEvolvable(),pokeSpamCalculator.getEvolveRows(),
+                    pokeSpamCalculator.getEvolveExtra());
             exResPokeSpam.setText(text);
             pokeSpamView.setVisibility(View.VISIBLE);
         } else {

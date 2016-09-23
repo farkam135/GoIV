@@ -9,34 +9,44 @@ import static org.junit.Assert.assertEquals;
  */
 public class PokeSpamTest {
 
-    //PidgySpam candy 536
-    //candyCost 12
-    //Rows 14 + 2 more
+
 
     @Test
-    public void testGetDblHowMuchWeCanEvolve() throws Exception {
-        PokeSpam pokeSpamCalculator = new PokeSpam(536, 12);
-        assertEquals((int)pokeSpamCalculator.getDblHowMuchWeCanEvolve(),44);
+    public void testGethowMuchWeCanEvolve() throws Exception {
+        PokeSpam pokeSpamCalculator = new PokeSpam(536, 11);
+        assertEquals((int)pokeSpamCalculator.getTotalEvolvable(),53);
     }
 
     @Test
-    public void testGetIntEvolveRows() throws Exception {
+    public void testEvolveRows() throws Exception {
         PokeSpam pokeSpamCalculator = new PokeSpam(536, 12);
-        assertEquals((int)pokeSpamCalculator.getIntEvolveRows(),14);
+        assertEquals((int)pokeSpamCalculator.getEvolveRows(),16);
     }
 
     @Test
-    public void testGetIntEvolveExtra() throws Exception {
+    public void testGetEvolveExtra() throws Exception {
         PokeSpam pokeSpamCalculator = new PokeSpam(536, 12);
-        assertEquals((int)pokeSpamCalculator.getIntEvolveExtra(),2);
+        assertEquals((int)pokeSpamCalculator.getEvolveExtra(),0);
     }
 
     @Test
     public void testNotEnoghCandy() throws Exception {
         PokeSpam pokeSpamCalculator = new PokeSpam(2, 12);
-        assertEquals((int)pokeSpamCalculator.getDblHowMuchWeCanEvolve(), 0);
-        assertEquals((int)pokeSpamCalculator.getIntEvolveRows(), 0);
-        assertEquals((int)pokeSpamCalculator.getIntEvolveExtra(), 0);
+        assertEquals((int)pokeSpamCalculator.getTotalEvolvable(), 0);
+        assertEquals((int)pokeSpamCalculator.getEvolveRows(), 0);
+        assertEquals((int)pokeSpamCalculator.getEvolveExtra(), 0);
+    }
+
+    @Test
+    public void testBlaisorbladeTestCases() throws Exception {
+        assertEquals((new PokeSpam(11, 12).getTotalEvolvable()),(Integer) 0);
+        assertEquals((new PokeSpam(12, 12).getTotalEvolvable()),(Integer) 1);
+        assertEquals((new PokeSpam(22, 12).getTotalEvolvable()),(Integer) 1);
+        assertEquals((new PokeSpam(23, 12).getTotalEvolvable()),(Integer) 2);
+    }
+    @Test
+    public void testVenonat() throws Exception {
+        assertEquals((new PokeSpam(150, 50).getTotalEvolvable()),(Integer) 3);
     }
 
 }

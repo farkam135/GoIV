@@ -1301,15 +1301,14 @@ public class Pokefly extends Service {
     }
 
     /**
-     * Sets the "expected HP  textview" to the estimat HP in the powerup and evolution estimate box
+     * Sets the "expected HP  textview" to the estimat HP in the powerup and evolution estimate box.
      *
      * @param ivScanResult  the ivscanresult of the current pokemon
      * @param selectedLevel The goal level the pokemon in ivScanresult pokemon should reach
      */
     private void setEstimateHPTextBox(IVScanResult ivScanResult, double selectedLevel, Pokemon selectedPokemon) {
         int newHP = pokeInfoCalculator.getHPAtLevel(ivScanResult, selectedLevel, selectedPokemon);
-        int oldHP = pokeInfoCalculator.getHPAtLevel(ivScanResult, estimatedPokemonLevel
-                , ivScanResult.pokemon);
+        int oldHP = pokeInfoCalculator.getHPAtLevel(ivScanResult, estimatedPokemonLevel, ivScanResult.pokemon);
         int hpDiff = newHP - oldHP;
         String sign = (hpDiff >= 0) ? "+" : ""; //add plus in front if positive.
         String hpText = newHP + " (" + sign + hpDiff + ")";

@@ -129,4 +129,5 @@
     <string name="iv" translatable="false">IV</string>
     <string name="percent" translatable="false">%d%%</string>
     <string name="unknown_percent" translatable="false">"?%"</string>
+    <string name="hp_expanded_box">HP</string>
 </resources>

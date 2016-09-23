@@ -1288,7 +1288,7 @@ public class Pokefly extends Service {
     }
 
     /**
-     * setAndCalculatePokeSpamText sets pokespamtext and makes it visible,
+     * setAndCalculatePokeSpamText sets pokespamtext and makes it visible.
      * @param ivScanResult IVScanResult object that contains the scan results, mainly needed to get candEvolutionCost
      *                     varible
      */

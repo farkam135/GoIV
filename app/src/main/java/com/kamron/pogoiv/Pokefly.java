@@ -65,6 +65,7 @@ import com.kamron.pogoiv.widgets.IVResultsAdapter;
 import com.kamron.pogoiv.widgets.PokemonSpinnerAdapter;
 
 import java.io.File;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -210,6 +211,10 @@ public class Pokefly extends Service {
     TextView exResultCP;
     @BindView(R.id.exResultHP)
     TextView exResultHP;
+    @BindView(R.id.exResultPercentPerfection)
+    TextView exResultPercentPerfection;
+    @BindView(R.id.explainCPPercentageComparedToMaxIV)
+    TextView explainCPPercentageComparedToMaxIV;
     @BindView(R.id.exResStardust)
     TextView exResStardust;
     @BindView(R.id.exResPrevScan)
@@ -922,6 +927,11 @@ public class Pokefly extends Service {
         populateAdvancedInformation(ScanContainer.scanContainer.currScan);
     }
 
+    @OnClick(R.id.explainCPPercentageComparedToMaxIV)
+    public void explainCPPercentageComparedToMaxIV() {
+        Toast.makeText(getApplicationContext(), R.string.perfection_explainer, Toast.LENGTH_LONG).show();
+    }
+
     @OnClick(R.id.btnDecrementLevelExpanded)
     public void decrementLevelExpanded() {
         expandedLevelSeekbar.setProgress(expandedLevelSeekbar.getProgress() - 1);
@@ -1266,9 +1276,28 @@ public class Pokefly extends Service {
 
         setEstimateCpTextBox(ivScanResult, selectedLevel, selectedPokemon);
         setEstimateHPTextBox(ivScanResult, selectedLevel, selectedPokemon);
+        setPokemonPerfectionPercentageText(ivScanResult, selectedPokemon);
         setEstimateCostTextboxes(ivScanResult, selectedLevel, selectedPokemon);
         exResLevel.setText(String.valueOf(selectedLevel));
         setEstimateLevelTextColor(selectedLevel);
+    }
+
+    /**
+     * Sets the pokemon perfection % text in the powerup and evolution results box.
+     *
+     * @param ivScanResult    The object containing the ivs to base current pokemon on.
+     * @param selectedPokemon The pokemon to compare selected iv with max iv to.
+     */
+    private void setPokemonPerfectionPercentageText(IVScanResult ivScanResult, Pokemon selectedPokemon) {
+        CPRange cpRange = pokeInfoCalculator.getCpRangeAtLevel(selectedPokemon, ivScanResult.lowAttack, ivScanResult
+                .lowDefense, ivScanResult.lowStamina, ivScanResult.highAttack, ivScanResult.highDefense, ivScanResult
+                .highStamina, 40);
+        double averageCP = (cpRange.high + cpRange.low) / 2;
+        double maxCP = pokeInfoCalculator.getCpRangeAtLevel(selectedPokemon, 15, 15, 15, 15, 15, 15, 40).high;
+        double perfection = (100 * averageCP) / maxCP;
+        DecimalFormat df = new DecimalFormat("#.#");
+        String perfectionString = df.format(perfection) + "%";
+        exResultPercentPerfection.setText(perfectionString);
     }
 
     /**

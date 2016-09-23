@@ -38,8 +38,8 @@
 
     <string-array name="valor_ivrange">
         <item name="vplace2">@string/place2</item>
-        <item name="valoriv15">"Sont excellentes ! &#8230;super !"</item>
-        <item name="valoriv13_14">"&#8230;estomaquée&#8230; Bravo !"</item>
+        <item name="valoriv15">"&#8230;estomaquée&#8230; Bravo !"</item>
+        <item name="valoriv13_14">"Sont excellentes ! &#8230;super !"</item>
         <item name="valoriv8_12">"&#8230;va faire des dégâts au combat."</item>
         <item name="valoriv0_7">"Ne t'aideront pas beaucoup&#8230;"</item>
     </string-array>

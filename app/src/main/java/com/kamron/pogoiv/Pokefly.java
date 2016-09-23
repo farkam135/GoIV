@@ -368,11 +368,7 @@ public class Pokefly extends Service {
         running = true;
 
         if (ACTION_STOP.equals(intent.getAction())) {
-            if (screen != null) {
-                screen.exit();
-            }
             stopSelf();
-
         } else if (intent.hasExtra(KEY_TRAINER_LEVEL)) {
             trainerLevel = intent.getIntExtra(KEY_TRAINER_LEVEL, 1);
             statusBarHeight = intent.getIntExtra(KEY_STATUS_BAR_HEIGHT, 0);
@@ -444,6 +440,9 @@ public class Pokefly extends Service {
         windowManager.addView(touchView, touchViewParams);
     }
 
+    /**
+     * Undoes the effects of watchScreen.
+     */
     private void unwatchScreen() {
         windowManager.removeView(touchView);
         touchViewParams = null;
@@ -495,6 +494,10 @@ public class Pokefly extends Service {
 
         if (!batterySaver) {
             unwatchScreen();
+            if (screen != null) {
+                screen.exit();
+                screen = null;
+            }
         } else {
             screenShotHelper.stop();
             screenShotHelper = null;

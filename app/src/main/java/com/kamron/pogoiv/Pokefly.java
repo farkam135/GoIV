@@ -386,6 +386,9 @@ public class Pokefly extends Service {
             if (!batterySaver) {
                 screen = ScreenGrabber.getInstance();
                 watchScreen();
+                if (GoIVSettings.getInstance(getBaseContext()).shouldLaunchPokemonGo()) {
+                    triggerDelayedScan();
+                }
             } else {
                 screenShotHelper = ScreenShotHelper.start(Pokefly.this);
             }
@@ -433,15 +436,19 @@ public class Pokefly extends Service {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getActionMasked() == MotionEvent.ACTION_OUTSIDE) {
-                    screenScanHandler.removeCallbacks(screenScanRunnable);
-                    screenScanHandler.postDelayed(screenScanRunnable, SCREEN_SCAN_DELAY_MS);
-                    screenScanRetries = SCREEN_SCAN_RETRIES;
+                    triggerDelayedScan();
                 }
                 return false;
             }
         });
 
         windowManager.addView(touchView, touchViewParams);
+    }
+
+    public void triggerDelayedScan() {
+        screenScanHandler.removeCallbacks(screenScanRunnable);
+        screenScanHandler.postDelayed(screenScanRunnable, SCREEN_SCAN_DELAY_MS);
+        screenScanRetries = SCREEN_SCAN_RETRIES;
     }
 
     private void unwatchScreen() {

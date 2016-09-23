@@ -323,7 +323,7 @@ public class PokeInfoCalculator {
      * @return An integer representing how much hp selectedpokemon with ivscanresult stamina ivs has at selectedlevel
      */
     public int getHPAtLevel(IVScanResult ivScanResult, double selectedLevel, Pokemon selectedPokemon) {
-        double lvlScalar = Data.CpM[(int) (selectedLevel * 2 - 2)];
+        double lvlScalar = Data.CpM[Data.levelToLevelIdx(selectedLevel)];
         int highHp = (int) Math.max(Math.floor((selectedPokemon.baseStamina + ivScanResult.highStamina) * lvlScalar),
                 10);
         int lowHp = (int) Math.max(Math.floor((selectedPokemon.baseStamina + ivScanResult.highStamina) * lvlScalar),

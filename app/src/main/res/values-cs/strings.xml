@@ -9,7 +9,7 @@
     <string name="use_the_slider_below_to_align_the_arc">Použij posuvník níže pro nastavení oblouku:</string>
     <string name="cancel">Zrušit</string>
     <string name="check_iv">Zkontrolovat IV</string>
-    <string name="notification_title">GoIV běží - Level %1$d</string>
+    <string name="notification_title">GoIV běží - Level %d</string>
     <string name="notification_open_app">Otevřít aplikaci</string>
     <string name="close">Zavřít</string>
     <string name="main_permission">Udělit povolení</string>
@@ -42,8 +42,8 @@
     <string name="evolution">Evoluce</string>
     <string name="refine">Zlepšit</string>
     <string name="refine_no_progress">Zlepšení nebylo úspěšné</string>
-    <string name="last_scan">Předchozí načtení: %1$s</string>
-    <string name="possible_iv_combinations" tools:ignore="PluralsCandidate">"%1$d možných kombinací IV"</string>
+    <string name="last_scan">Předchozí načtení: %s</string>
+    <string name="possible_iv_combinations" tools:ignore="PluralsCandidate">\"%d možných kombinací IV\"</string>
     <string name="too_many_iv_combinations">Příliš mnoho kombinací IV</string>
     <string name="refining_instructions">Zlepši přesnost výpočtu IV powerupováním a porovnáním dvou načtení stejného Pokémona</string>
     <string name="appraisal_refining">Zpřesnění díky Appraisal</string>

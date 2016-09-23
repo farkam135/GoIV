@@ -66,7 +66,7 @@
     <string name="use_the_slider_below_to_align_the_arc">Use the slider below to align the arc:</string>
     <string name="cancel">Cancel</string>
     <string name="check_iv">Check IV</string>
-    <string name="notification_title">GoIV Running - Level %1$d</string>
+    <string name="notification_title">GoIV Running - Level %d</string>
     <string name="notification_open_app">Open app</string>
     <string name="close">Close</string>
     <string name="main_permission">Grant Permissions</string>
@@ -100,11 +100,11 @@
     <string name="stardust_cost">Stardust Cost</string>
     <string name="evolution">Evolution</string>
     <string name="level">Level</string>
-    <string name="level_num">Level %1$.1f</string>
+    <string name="level_num">Level %.1f</string>
     <string name="refine">Refine</string>
     <string name="refine_no_progress">Refinement didn\'t improve results</string>
-    <string name="last_scan">Last scan: %1$s</string>
-    <string name="possible_iv_combinations" tools:ignore="PluralsCandidate">"%1$d possible IV combinations"</string>
+    <string name="last_scan">Last Scan: %s</string>
+    <string name="possible_iv_combinations" tools:ignore="PluralsCandidate">\"%d possible IV combinations\"</string>
     <string name="too_many_iv_combinations">Too many IV combinations</string>
     <string name="refining_instructions">Increase IV calculation precision by leveling up and comparing two scans of the same Pokémon</string>
     <string name="appraisal_refining">Appraisal Refining</string>

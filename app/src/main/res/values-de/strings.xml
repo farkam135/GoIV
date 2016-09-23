@@ -68,7 +68,7 @@
     <string name="pokemon_name">Pokémon Name:</string>
 
     <string name="use_the_slider_below_to_align_the_arc">Verwende den Schieberegler um den roten Punkt auszurichten</string>
-    <string name="notification_title">GoIV läuft - Level %1$d</string>
+    <string name="notification_title">GoIV läuft - Level %d</string>
     <string name="close">Schließen</string>
     <string name="main_permission">Berechtigungen erlauben</string>
     <string name="main_start">Starten</string>
@@ -94,7 +94,7 @@
     <string name="evolution">Entwicklung</string>
     <string name="iv_perfect" formatted="false">% Perfekt</string>
     <string name="ivtext_no_possibilities">Es gibt keine möglichen Kombinationen. Stellen Sie sicher, dass die Werte, die Sie eingegeben haben, korrekt sind.</string>
-    <string name="last_scan">Zuletzt analysiert: %1$s</string>
+    <string name="last_scan">Zuletzt analysiert: %s</string>
     <string name="launch_pokemon_go_setting_summary">Wechsel zu Pokémon Go, wenn die Starttaste geklickt wird</string>
     <string name="launch_pokemon_go_setting_title">Starte Pokémon Go</string>
     <string name="main_starting">Startet…</string>
@@ -103,7 +103,7 @@
     <string name="missing_inputs">WP und KP werden benötigt.</string>
     <string name="notification_open_app">Öffne die App</string>
     <string name="ongoing_update">Ein Update für GoIV wird bereits heruntergeladen</string>
-    <string name="possible_iv_combinations">\"%1$d möglich IV Kombinationen\"</string>
+    <string name="possible_iv_combinations">\"%d möglich IV Kombinationen\"</string>
     <string name="powerup_calc_instructions">Power-up und Entwicklung Berechnung. Ziehe den Schieberegler um unterschiedliche Prognosen anzuzeigen</string>
     <string name="refine">Verfeinern</string>
     <string name="refine_no_progress">Verfeinerung hat die Ergebnisse nicht verbessern</string>

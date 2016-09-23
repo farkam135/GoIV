@@ -2,9 +2,11 @@
 <resources>
     <color name="colorPrimary">#3E50B3</color>
     <color name="colorPrimaryDark">#2C3980</color>
-    <color name="colorAccent">#ee6666</color>
+    <color name="colorAccent">#EE6666</color>
     <color name="black">#000000</color>
     <color name="red">#FF0000</color>
     <color name="buttonText">#E4FFDE</color>
     <color name="orange">#FAA61A</color>
+    <color name="unimportantText">#D3D3D3</color>
+    <color name="importantText">#686868</color>
 </resources>

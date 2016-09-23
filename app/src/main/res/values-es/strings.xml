@@ -67,7 +67,7 @@
     <string name="main_permission">Dar Permisos</string>
     <string name="main_start">Iniciar</string>
     <string name="main_stop">Detener</string>
-    <string name="notification_title">GoIV en Ejecución - Nivel %1$d</string>
+    <string name="notification_title">GoIV en Ejecución - Nivel %d</string>
     <string name="pokemon_name">Nombre del Pokémon: </string>
     <string name="trainer_level">Nivel de Entrenador</string>
     <string name="use_the_slider_below_to_align_the_arc">Use el slider para alinear el marcador en el arco</string>
@@ -91,10 +91,10 @@
     <string name="advanced_information">Información Avanzada</string>
     <string name="candy_cost">Costo en Caramelos</string>
     <string name="evolution">Evolución</string>
-    <string name="last_scan">Último analizado: %1$s</string>
+    <string name="last_scan">Último analizado: %s</string>
     <string name="level">Nivel</string>
-    <string name="level_num">Nivel %1$.1f</string>
-    <string name="possible_iv_combinations">"%1$d Combinaciones de IV posibles"</string>
+    <string name="level_num">Nivel %.1f</string>
+    <string name="possible_iv_combinations">\"%d Combinaciones de IV posibles\"</string>
     <string name="refine">Refinar</string>
     <string name="powerup_calc_instructions">Cálculo de mejoras y evolución\nDeslizar el slider para visualizar diferentes predicciones</string>
     <string name="scan_pokemon_failed">Detección fallida, asegurese de estar en la cima de la ficha del Pokémon y vuelva a intentar!</string>

@@ -16,7 +16,7 @@
             android:layout_gravity="left"
             android:text="@string/cp"
             android:textColor="@color/importantText"
-            android:textSize="@dimen/resultExpandedTextSize"/>
+            android:textSize="@dimen/result_expanded_text_size"/>
 
         <View
             android:layout_width="0dp"
@@ -31,7 +31,7 @@
             android:layout_gravity="right"
             android:text="#ofCP"
             android:textColor="@color/importantText"
-            android:textSize="@dimen/resultExpandedTextSize"/>
+            android:textSize="@dimen/result_expanded_text_size"/>
 
     </LinearLayout>
 
@@ -115,7 +115,7 @@
             android:layout_gravity="left"
             android:text="@string/candy_cost"
             android:textColor="@color/importantText"
-            android:textSize="@dimen/resultExpandedTextSize"/>
+            android:textSize="@dimen/result_expanded_text_size"/>
 
         <View
             android:layout_width="0dp"
@@ -131,7 +131,7 @@
             android:layout_gravity="right"
             android:text="#of candy"
             android:textColor="@color/importantText"
-            android:textSize="@dimen/resultExpandedTextSize"/>
+            android:textSize="@dimen/result_expanded_text_size"/>
 
     </LinearLayout>
 
@@ -146,7 +146,7 @@
             android:layout_gravity="left"
             android:text="@string/stardust_cost"
             android:textColor="@color/importantText"
-            android:textSize="@dimen/resultExpandedTextSize"/>
+            android:textSize="@dimen/result_expanded_text_size"/>
 
         <View
             android:layout_width="0dp"
@@ -161,7 +161,7 @@
             android:layout_gravity="right"
             android:text="#of stardust"
             android:textColor="@color/importantText"
-            android:textSize="@dimen/resultExpandedTextSize"/>
+            android:textSize="@dimen/result_expanded_text_size"/>
 
     </LinearLayout>
 
@@ -176,7 +176,7 @@
             android:layout_gravity="left"
             android:text="@string/evolution"
             android:textColor="@color/importantText"
-            android:textSize="@dimen/resultExpandedTextSize"/>
+            android:textSize="@dimen/result_expanded_text_size"/>
 
         <View
             android:layout_width="0dp"
@@ -207,7 +207,7 @@
             android:layout_gravity="left"
             android:text="@string/level"
             android:textColor="@color/importantText"
-            android:textSize="@dimen/resultExpandedTextSize"/>
+            android:textSize="@dimen/result_expanded_text_size"/>
 
         <View
             android:layout_width="0dp"
@@ -223,7 +223,7 @@
             android:layout_gravity="right"
             android:text="#level"
             android:textColor="@color/importantText"
-            android:textSize="@dimen/resultExpandedTextSize"/>
+            android:textSize="@dimen/result_expanded_text_size"/>
 
     </LinearLayout>
 

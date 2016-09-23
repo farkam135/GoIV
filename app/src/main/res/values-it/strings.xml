@@ -10,7 +10,7 @@
     <string name="use_the_slider_below_to_align_the_arc">Usa lo slider per allineare l\'arco</string>
     <string name="cancel">Cancella</string>
     <string name="check_iv">Analizza IV</string>
-    <string name="notification_title">GoIV in esecuzione - Livello %1$d</string>
+    <string name="notification_title">GoIV in esecuzione - Livello %d</string>
     <string name="notification_open_app">Apri app</string>
     <string name="close">Chiudi</string>
     <string name="main_permission">Concedi i permessi</string>
@@ -42,11 +42,11 @@
     <string name="stardust_cost">Costo polvere di stelle</string>
     <string name="evolution">Evoluzione</string>
     <string name="level">Livello</string>
-    <string name="level_num">Livello %1$.1f</string>
+    <string name="level_num">Livello %.1f</string>
     <string name="refine">Affina</string>
     <string name="refine_no_progress">Affina non ha ottenuto risultati più precisi</string>
-    <string name="last_scan">Scan precedente: %1$s</string>
-    <string name="possible_iv_combinations">"%1$d combinazioni di IV"</string>
+    <string name="last_scan">Scan precedente: %s</string>
+    <string name="possible_iv_combinations">\"%d combinazioni di IV\"</string>
     <string name="too_many_iv_combinations">Troppe combinazioni di IV</string>
     <string name="refining_instructions">Affina la precisione del calcolo IV potenziando e comparando due scansioni dello stesso Pokémon</string>
     <string name="attack">Attacco</string>

@@ -44,6 +44,12 @@
         android:summary="@string/auto_update_setting_summary"
         android:defaultValue="true"/>
 
+    <SwitchPreference
+        android:key="pokeSpamEnabled"
+        android:title="@string/PokeSpam_setting_title"
+        android:summary="@string/PokeSpam_setting_summary"
+        android:defaultValue="true"/>
+
     <Preference
         android:key="checkForUpdate"
         android:title="@string/check_for_update_setting_title"

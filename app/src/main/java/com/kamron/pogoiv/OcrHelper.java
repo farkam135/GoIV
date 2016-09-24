@@ -336,12 +336,27 @@ public class OcrHelper {
 
 
     /**
-     * Gets the candy amount from a pokenon image.
+     * Gets the candy amount from a pokemon image.
      *
      * @param pokemonImage the image of the whole screen
      * @return candyAmount the candy amount, or blank Optional object if nothing was found
      */
     private Optional<Integer> getCandyAmountFromImg(Bitmap pokemonImage) {
+
+        //disable getting CandyAmount if we dont have pokespam running
+        GoIVSettings Settings;
+        try {
+            //Anything better then getInstance(null)? should we let it crash?
+            Settings = GoIVSettings.getInstance(null);
+        } catch (Exception ex) {
+            //probably a crash due to getInstance
+            return Optional.absent();
+        }
+
+        if (Settings == null || !Settings.isPokeSpamEnabled()) {
+            return Optional.absent();
+        }
+
         Bitmap candyAmount = Bitmap.createBitmap(pokemonImage,
                 (int) Math.round(widthPixels / 1.515), (int) Math.round(heightPixels / 1.44),
                 (int) Math.round(widthPixels / 5.0), (int) Math.round(heightPixels / 38.4));

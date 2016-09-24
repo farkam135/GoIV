@@ -98,7 +98,8 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:id="@+id/llPokeSpamDialogInputContentBox">
 
             <TextView
                 android:layout_width="wrap_content"

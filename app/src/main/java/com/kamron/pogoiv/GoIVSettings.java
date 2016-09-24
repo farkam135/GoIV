@@ -14,6 +14,7 @@ public class GoIVSettings {
     public static final String COPY_TO_CLIPBOARD = "copyToClipboard";
     public static final String SEND_CRASH_REPORTS = "sendCrashReports";
     public static final String AUTO_UPDATE_ENABLED = "autoUpdateEnabled";
+    public static final String POKESPAM_ENABLED = "pokeSpamEnabled";
     public static final String TEAM_NAME = "teamName";
 
     private static GoIVSettings instance;
@@ -69,5 +70,9 @@ public class GoIVSettings {
 
     public boolean isAutoUpdateEnabled() {
         return prefs.getBoolean(AUTO_UPDATE_ENABLED, true);
+    }
+
+    public boolean isPokeSpamEnabled() {
+        return prefs.getBoolean(POKESPAM_ENABLED, true);
     }
 }

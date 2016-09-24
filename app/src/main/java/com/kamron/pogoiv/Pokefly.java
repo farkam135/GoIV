@@ -184,9 +184,6 @@ public class Pokefly extends Service {
     @BindView(R.id.allPossibilitiesBox)
     LinearLayout allPossibilitiesBox;
 
-    @BindView(R.id.llPokeSpam)
-    LinearLayout pokeSpamView;
-
     @BindView(R.id.appraisalBox)
     LinearLayout appraisalBox;
 
@@ -245,15 +242,19 @@ public class Pokefly extends Service {
     @BindView(R.id.refine_by_last_scan)
     LinearLayout refine_by_last_scan;
 
-    @BindView(R.id.exResPokeSpam)
-    TextView exResPokeSpam;
-
     @BindView(R.id.inputAppraisalExpandBox)
     TextView inputAppraisalExpandBox;
 
-
     @BindView(R.id.rvResults)
     RecyclerView rvResults;
+
+    //PokeSpam
+    @BindView(R.id.llPokeSpamDialogInputContentBox)
+    LinearLayout pokeSpamContentBox;
+    @BindView(R.id.llPokeSpam)
+    LinearLayout pokeSpamView;
+    @BindView(R.id.exResPokeSpam)
+    TextView exResPokeSpam;
 
     // Refine by appraisal
     @BindView(R.id.attCheckbox)
@@ -710,6 +711,13 @@ public class Pokefly extends Service {
         initializePokemonAutoCompleteTextView();
 
         populateTeamAppraisalSpinners();
+
+        //enable/disable visibility based on PokeSpam enabled or not
+        if (GoIVSettings.getInstance(getApplicationContext()).isPokeSpamEnabled()) {
+            pokeSpamContentBox.setVisibility(View.VISIBLE);
+        } else  {
+            pokeSpamContentBox.setVisibility(View.VISIBLE);
+        }
     }
 
     /**
@@ -1293,8 +1301,9 @@ public class Pokefly extends Service {
      *                     varible
      */
     private void setAndCalculatePokeSpamText(IVScanResult ivScanResult) {
-        if (pokemonCandy.isPresent()
-                && ivScanResult.pokemon != null &&  ivScanResult.pokemon.candyEvolutionCost > 0) {
+        if (GoIVSettings.getInstance(getApplicationContext()).isPokeSpamEnabled()
+                && pokemonCandy.isPresent() && ivScanResult.pokemon != null
+                &&  ivScanResult.pokemon.candyEvolutionCost > 0) {
             PokeSpam pokeSpamCalculator = new PokeSpam(pokemonCandy.get(),ivScanResult.pokemon.candyEvolutionCost);
 
             String text = getString(R.string.pokespamformatedmessage,

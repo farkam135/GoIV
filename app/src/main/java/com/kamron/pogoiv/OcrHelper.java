@@ -295,10 +295,14 @@ public class OcrHelper {
             try {
                 //If "/" comes at the end we'll get an array with only one component.
                 String[] hpParts = pokemonHPStr.split("/");
-                String hpStr =
-                        hpParts.length >= 2
-                                ? hpParts[1]
-                                : hpParts[0];
+                String hpStr;
+                if (hpParts.length >= 2) {
+                    hpStr = hpParts[1];
+                } else if (hpParts.length == 1) {
+                    hpStr = hpParts[0];
+                } else {
+                    return Optional.absent();
+                }
 
                 return Optional.of(Integer.parseInt(fixOcrLettersToNums(hpStr).replaceAll("[^0-9]", "")));
             } catch (NumberFormatException e) {

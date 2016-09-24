@@ -10,7 +10,7 @@
     <string name="use_the_slider_below_to_align_the_arc">Usa lo slider per allineare l\'arco</string>
     <string name="cancel">Cancella</string>
     <string name="check_iv">Analizza IV</string>
-    <string name="notification_title">GoIV in esecuzione - Livello %1$s</string>
+    <string name="notification_title">GoIV in esecuzione - Livello %1$d</string>
     <string name="notification_open_app">Apri app</string>
     <string name="close">Chiudi</string>
     <string name="main_permission">Concedi i permessi</string>

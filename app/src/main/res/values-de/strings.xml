@@ -68,7 +68,7 @@
     <string name="pokemon_name">Pokémon Name:</string>
 
     <string name="use_the_slider_below_to_align_the_arc">Verwende den Schieberegler um den roten Punkt auszurichten</string>
-    <string name="notification_title">GoIV läuft - Level %1$s</string>
+    <string name="notification_title">GoIV läuft - Level %1$d</string>
     <string name="close">Schließen</string>
     <string name="main_permission">Berechtigungen erlauben</string>
     <string name="main_start">Starten</string>

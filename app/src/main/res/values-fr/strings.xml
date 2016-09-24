@@ -66,7 +66,7 @@
     <string name="use_the_slider_below_to_align_the_arc">Déplacer le curseur pour aligner l\'arc</string>
     <string name="cancel">Annuler</string>
     <string name="check_iv">Obtenir IV</string>
-    <string name="notification_title">GoIV Actif - Niveau %1$s</string>
+    <string name="notification_title">GoIV Actif - Niveau %1$d</string>
     <string name="notification_open_app">Ouvrir l\'app</string>
     <string name="close">Fermer</string>
     <string name="main_permission">Accorder permissions</string>

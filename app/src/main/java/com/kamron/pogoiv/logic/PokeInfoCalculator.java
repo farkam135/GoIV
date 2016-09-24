@@ -159,7 +159,7 @@ public class PokeInfoCalculator {
         int baseDefense = selectedPokemon.baseDefense;
         int baseStamina = selectedPokemon.baseStamina;
 
-        double lvlScalar = Data.CpM[(int) (estimatedPokemonLevel * 2 - 2)];
+        double lvlScalar = Data.CpM[Data.levelToLevelIdx(estimatedPokemonLevel)];
         double lvlScalarPow2 = Math.pow(lvlScalar, 2) * 0.1; // instead of computing again in every loop
         //IV vars for lower and upper end cp ranges
 
@@ -216,7 +216,7 @@ public class PokeInfoCalculator {
         int baseAttack = pokemon.baseAttack;
         int baseDefense = pokemon.baseDefense;
         int baseStamina = pokemon.baseStamina;
-        double lvlScalar = Data.CpM[(int) (level * 2 - 2)];
+        double lvlScalar = Data.CpM[Data.levelToLevelIdx(level)];
         int cpMin = (int) Math.floor(
                 (baseAttack + lowAttack) * Math.sqrt(baseDefense + lowDefense) * Math.sqrt(baseStamina + lowStamina)
                         * Math.pow(lvlScalar, 2) * 0.1);

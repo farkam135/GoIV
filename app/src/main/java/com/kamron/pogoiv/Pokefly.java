@@ -346,14 +346,6 @@ public class Pokefly extends Service {
 
         LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(ACTION_UPDATE_UI));
 
-        displayMetrics = this.getResources().getDisplayMetrics();
-        initOcr();
-        windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
-        clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-
-        LocalBroadcastManager.getInstance(this).registerReceiver(displayInfo, new IntentFilter(ACTION_SEND_INFO));
-        LocalBroadcastManager.getInstance(this).registerReceiver(processBitmap,
-                new IntentFilter(ACTION_PROCESS_BITMAP));
         pokeInfoCalculator = PokeInfoCalculator.getInstance(
                 getResources().getStringArray(R.array.Pokemon),
                 getResources().getIntArray(R.array.attack),
@@ -361,8 +353,16 @@ public class Pokefly extends Service {
                 getResources().getIntArray(R.array.stamina),
                 getResources().getIntArray(R.array.DevolutionNumber),
                 getResources().getIntArray(R.array.evolutionCandyCost));
+        displayMetrics = this.getResources().getDisplayMetrics();
+        initOcr();
+        windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
+        clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
         sharedPref = getSharedPreferences(PREF_USER_CORRECTIONS, Context.MODE_PRIVATE);
         corrector = initCorrectorFromPrefs(pokeInfoCalculator, sharedPref);
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(displayInfo, new IntentFilter(ACTION_SEND_INFO));
+        LocalBroadcastManager.getInstance(this).registerReceiver(processBitmap,
+                new IntentFilter(ACTION_PROCESS_BITMAP));
     }
 
     @SuppressWarnings("unchecked")
@@ -380,11 +380,7 @@ public class Pokefly extends Service {
         running = true;
 
         if (ACTION_STOP.equals(intent.getAction())) {
-            if (screen != null) {
-                screen.exit();
-            }
             stopSelf();
-
         } else if (intent.hasExtra(KEY_TRAINER_LEVEL)) {
             trainerLevel = intent.getIntExtra(KEY_TRAINER_LEVEL, 1);
             statusBarHeight = intent.getIntExtra(KEY_STATUS_BAR_HEIGHT, 0);
@@ -456,6 +452,9 @@ public class Pokefly extends Service {
         windowManager.addView(touchView, touchViewParams);
     }
 
+    /**
+     * Undoes the effects of watchScreen.
+     */
     private void unwatchScreen() {
         windowManager.removeView(touchView);
         touchViewParams = null;
@@ -507,6 +506,10 @@ public class Pokefly extends Service {
 
         if (!batterySaver) {
             unwatchScreen();
+            if (screen != null) {
+                screen.exit();
+                screen = null;
+            }
         } else {
             screenShotHelper.stop();
             screenShotHelper = null;
@@ -1597,8 +1600,8 @@ public class Pokefly extends Service {
         }
 
         ocr = OcrHelper.init(extdir, displayMetrics.widthPixels, displayMetrics.heightPixels,
-                getResources().getString(R.string.pokemon029),
-                getResources().getString(R.string.pokemon032));
+                pokeInfoCalculator.get(28).name,
+                pokeInfoCalculator.get(31).name);
     }
 
 

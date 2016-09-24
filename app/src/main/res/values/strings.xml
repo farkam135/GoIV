@@ -136,4 +136,6 @@
     <string name="pokespam_not_available">Not Available</string>
     <string name="pokespam_setting_title">Enable PokéSpam Calculation</string>
     <string name="pokespam_setting_summary">This feature enables scanning for candy amount and allows you to see how many Pokémon you can evolve, useful for use with lucky egg</string>
+    <string name="token_pokemonname">Pokémon name</string>
+    <string name="clipboard_modifier_preview">Preview</string>
 </resources>

@@ -40,6 +40,7 @@ import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.kamron.pogoiv.UserClipboard.ClipboardModifierActivity;
 import com.kamron.pogoiv.logic.Data;
 import com.kamron.pogoiv.updater.AppUpdate;
 import com.kamron.pogoiv.updater.AppUpdateUtil;
@@ -213,6 +214,15 @@ public class MainActivity extends AppCompatActivity {
                 new IntentFilter(ACTION_SHOW_UPDATE_DIALOG));
 
         initiateTeamPickerSpinner();
+    }
+
+    /**
+     * Method that navigates the user to the custom clipboard builder activity.
+     * @param v Param required for the xml onclick to work.
+     */
+    public void navigateToClipboardModifier(View v){
+        Intent intent = new Intent(this, ClipboardModifierActivity.class);
+        startActivity(intent);
     }
 
     /**

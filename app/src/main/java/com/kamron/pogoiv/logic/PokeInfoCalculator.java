@@ -209,7 +209,7 @@ public class PokeInfoCalculator {
      * @param highDefense defense IV of the highest combination
      * @param highStamina stamina IV of the highest combination
      * @param level       pokemon level for CP calculation
-     * @return String containing the CP range including the specified level.
+     * @return CPrange containing the CP range including the specified level.
      */
     public CPRange getCpRangeAtLevel(Pokemon pokemon, int lowAttack, int lowDefense, int lowStamina, int highAttack,
                                      int highDefense, int highStamina, double level) {
@@ -228,6 +228,26 @@ public class PokeInfoCalculator {
             cpMin = tmp;
         }
         return new CPRange(cpMin, cpMax);
+    }
+
+    /**
+     * Get the average CP estimate of a pokemon.
+     *
+     * @param pokemon     the index of the pokemon species within the pokemon list (sorted)
+     * @param lowAttack   attack IV of the lowest combination
+     * @param lowDefense  defense IV of the lowest combination
+     * @param lowStamina  stamina IV of the lowest combination
+     * @param highAttack  attack IV of the highest combination
+     * @param highDefense defense IV of the highest combination
+     * @param highStamina stamina IV of the highest combination
+     * @param level       pokemon level for CP calculation
+     * @return int representing the average cp of the high and low estimate of the pokemon
+     */
+    public int getAverageCPAtLevel(Pokemon pokemon, int lowAttack, int lowDefense, int lowStamina, int highAttack,
+                                   int highDefense, int highStamina, double level) {
+        CPRange range = getCpRangeAtLevel(pokemon, lowAttack, lowDefense, lowStamina, highAttack, highDefense,
+                highStamina, level);
+        return (range.high + range.low) / 2;
     }
 
     /**

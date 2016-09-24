@@ -31,6 +31,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -51,6 +52,8 @@ import android.widget.Toast;
 
 import com.google.common.base.Function;
 import com.google.common.base.Optional;
+import com.kamron.pogoiv.UserClipboard.ClipboardModifierActivity;
+import com.kamron.pogoiv.UserClipboard.ClipboardTokenHandler;
 import com.kamron.pogoiv.logic.CPRange;
 import com.kamron.pogoiv.logic.Data;
 import com.kamron.pogoiv.logic.IVCombination;
@@ -1018,7 +1021,7 @@ public class Pokefly extends Service {
             return;
         }
 
-        addToRangeToClipboardIfSettingOn(ivScanResult);
+        addClipboardInfoIfSettingOn(ivScanResult);
         populateResultsBox(ivScanResult);
         boolean enableCompare = ScanContainer.scanContainer.prevScan != null;
         exResCompare.setEnabled(enableCompare);
@@ -1119,14 +1122,13 @@ public class Pokefly extends Service {
     /**
      * Adds the iv range of the pokemon to the clipboard if the clipboard setting is on.
      */
-    private void addToRangeToClipboardIfSettingOn(IVScanResult ivScanResult) {
+    private void addClipboardInfoIfSettingOn(IVScanResult ivScanResult) {
         if (GoIVSettings.getInstance(getApplicationContext()).shouldCopyToClipboard()) {
-            if (!ivScanResult.tooManyPossibilities) {
-                String clipText = ivScanResult.getLowestIVCombination().percentPerfect + "-"
-                        + ivScanResult.getHighestIVCombination().percentPerfect;
-                ClipData clip = ClipData.newPlainText(clipText, clipText);
-                clipboard.setPrimaryClip(clip);
-            }
+            ClipboardTokenHandler cth = new ClipboardTokenHandler(getApplicationContext());
+            String clipResult = cth.getResults(ivScanResult, pokeInfoCalculator);
+            Log.d("NahojjjenClippy", "Clipboard content to add: " + clipResult);
+            ClipData clip = ClipData.newPlainText(clipResult, clipResult);
+            clipboard.setPrimaryClip(clip);
         }
 
     }

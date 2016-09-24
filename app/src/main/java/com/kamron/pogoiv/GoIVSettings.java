@@ -3,6 +3,11 @@ package com.kamron.pogoiv;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
+import android.util.Log;
+
+import com.kamron.pogoiv.UserClipboard.ClipboardToken;
+
+import java.util.ArrayList;
 
 public class GoIVSettings {
 
@@ -16,6 +21,7 @@ public class GoIVSettings {
     public static final String AUTO_UPDATE_ENABLED = "autoUpdateEnabled";
     public static final String POKESPAM_ENABLED = "pokeSpamEnabled";
     public static final String TEAM_NAME = "teamName";
+    public static final String GOIV_CLIPBOARDSETTINGS = "GoIV_ClipboardSettings";
 
     private static GoIVSettings instance;
 
@@ -54,6 +60,21 @@ public class GoIVSettings {
         SharedPreferences.Editor editor = prefs.edit();
         editor.putInt(GoIVSettings.TEAM_NAME, value);
         editor.apply();
+    }
+
+    public String getClipboardPreference() {
+        Log.d("NahojjjenClippy", "String representation of token train from settings: " + prefs.getString(GOIV_CLIPBOARDSETTINGS, "error"));
+        return prefs.getString(GOIV_CLIPBOARDSETTINGS, "");
+    }
+
+    public void setClipboardPreference(ArrayList<ClipboardToken> tokens) {
+        SharedPreferences.Editor editor = prefs.edit();
+        String saveString = "";
+        for (ClipboardToken token : tokens) {
+            saveString += token.getStringRepresentation();
+        }
+        editor.putString(GoIVSettings.GOIV_CLIPBOARDSETTINGS, saveString);
+        editor.commit();
     }
 
     public boolean shouldDeleteScreenshots() {

@@ -130,6 +130,7 @@
             android:name=".updater.DownloadUpdateService"
             android:exported="false" />
 
+        <activity android:name=".UserClipboard.ClipboardModifierActivity" />
     </application>
 
 </manifest>

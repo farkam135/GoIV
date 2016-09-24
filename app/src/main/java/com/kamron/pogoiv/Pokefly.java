@@ -711,13 +711,6 @@ public class Pokefly extends Service {
         initializePokemonAutoCompleteTextView();
 
         populateTeamAppraisalSpinners();
-
-        //enable/disable visibility based on PokeSpam enabled or not
-        if (GoIVSettings.getInstance(getApplicationContext()).isPokeSpamEnabled()) {
-            pokeSpamDialogInputContentBox.setVisibility(View.VISIBLE);
-        } else  {
-            pokeSpamDialogInputContentBox.setVisibility(View.GONE);
-        }
     }
 
     /**
@@ -1529,6 +1522,16 @@ public class Pokefly extends Service {
             onCheckButtonsLayout.setVisibility(View.GONE);
         }
         moveOverlayUpOrDownToMatchAppraisalBox();
+        enableOrDisablePokeSpamBoxBasedOnSettings();
+    }
+
+    private void enableOrDisablePokeSpamBoxBasedOnSettings() {
+        //enable/disable visibility based on PokeSpam enabled or not
+        if (GoIVSettings.getInstance(getApplicationContext()).isPokeSpamEnabled()) {
+            pokeSpamDialogInputContentBox.setVisibility(View.VISIBLE);
+        } else  {
+            pokeSpamDialogInputContentBox.setVisibility(View.GONE);
+        }
     }
 
     /**

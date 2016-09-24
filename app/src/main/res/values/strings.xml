@@ -57,7 +57,7 @@
         <item name="valoriv15">\"…blown away …WOW\"</item>
         <item name="valoriv13_14">\"…excellent …exciting\"</item>
         <item name="valoriv8_12">\"…indicate …get the job done\"</item>
-        <item name="valoriv0_7">\"…don't point to greatness\"</item>
+        <item name="valoriv0_7">\"…don\'t point to greatness\"</item>
     </string-array>
 
     <string name="pokemon_name">Pokémon name:</string>

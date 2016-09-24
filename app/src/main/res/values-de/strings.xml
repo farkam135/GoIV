@@ -23,7 +23,7 @@
     <string-array name="mystic_ivrange">
         <item name="mplace2">@string/place2</item>
         <item name="mysticiv15">\"…sind so hoch …Unglaublich!\"</item>
-        <item name="mysticiv13_14">'\…von seinen Werten sehr beeindruckt\"</item>
+        <item name="mysticiv13_14">\"…von seinen Werten sehr beeindruckt\"</item>
         <item name="mysticiv8_12">\"…sind recht beeindruckend\"</item>
         <item name="mysticiv0_7">\"…sind insgesamt ganz okay\"</item>
     </string-array>

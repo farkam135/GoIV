@@ -17,20 +17,20 @@
         <item name="mystic80_100">\"Est une merveille… captivant !\"</item>
         <item name="mystic67_79">\"…toute mon attention.\"</item>
         <item name="mystic51_66">"…supérieur à la moyenne.\"</item>
-        <item name="mystic0_50">\"N'ira pas très loin…\"</item>
+        <item name="mystic0_50">\"N\'ira pas très loin…\"</item>
     </string-array>
 
     <string-array name="mystic_ivrange">
         <item name="mplace2">@string/place2</item>
         <item name="mysticiv15">\"Dépassent tous mes calculs… !\"</item>
         <item name="mysticiv13_14">\"Je suis impressionnée…\"</item>
-        <item name="mysticiv8_12">\"S'améliorent à vue d'œil.\"</item>
-        <item name="mysticiv0_7">\"N'ont rien d'anormal.\"</item>
+        <item name="mysticiv8_12">\"S\'améliorent à vue d\'œil.\"</item>
+        <item name="mysticiv0_7">\"N\'ont rien d\'anormal.\"</item>
     </string-array>
 
     <string-array name="valor_percentage">
         <item name="vplace1">@string/place1</item>
-        <item name="valor80_100">\"M'étonne beaucoup… tout faire.\"</item>
+        <item name="valor80_100">\"M\'étonne beaucoup… tout faire.\"</item>
         <item name="valor67_79">\"…très fort, …être fier.\"</item>
         <item name="valor51_66">\"…un Pokémon solide.\"</item>
         <item name="valor0_50">\"…pas un combattant.\"</item>
@@ -41,7 +41,7 @@
         <item name="valoriv15">\"Sont excellentes ! …super !\"</item>
         <item name="valoriv13_14">\"…estomaquée… Bravo !\"</item>
         <item name="valoriv8_12">\"…va faire des dégâts au combat.\"</item>
-        <item name="valoriv0_7">\"Ne t'aideront pas beaucoup…\"</item>
+        <item name="valoriv0_7">\"Ne t\'aideront pas beaucoup…\"</item>
     </string-array>
 
     <string-array name="instinct_percentage">
@@ -54,7 +54,7 @@
 
     <string-array name="instinct_ivrange">
         <item name="iplace2">@string/place2</item>
-        <item name="instinctiv15">\"…meilleures que j'ai jamais vues !\"</item>
+        <item name="instinctiv15">\"…meilleures que j\'ai jamais vues !\"</item>
         <item name="instinctiv13_14">\"…super élevées. Impressionnant !\"</item>
         <item name="instinctiv8_12">\"…quelques bonnes stats.\"</item>
         <item name="instinctiv0_7">\"…un peu basiques.\"</item>

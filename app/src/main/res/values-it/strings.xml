@@ -89,7 +89,7 @@
         <item name="mysticiv15">\"…mai viste. Incredibile!\"</item>
         <item name="mysticiv13_14">\"…sono eccellenti!\"</item>
         <item name="mysticiv8_12">\\"…piuttosto buone\"</item>
-        <item name="mysticiv0_7">\"…non siano fuori dall'ordinario\"</item>
+        <item name="mysticiv0_7">\"…non siano fuori dall\'ordinario\"</item>
     </string-array>
 
     <string-array name="instinct_percentage">
@@ -104,7 +104,7 @@
         <item name="iplace2">@string/place2</item>
         <item name="instinctiv15">\"…migliori …abbia mai visto\"</item>
         <item name="instinctiv13_14">\"…forti! Incredibile!\"</item>
-        <item name="instinctiv8_12">\"…c'è qualcosa di valido…\"</item>
+        <item name="instinctiv8_12">\"…c\'è qualcosa di valido…\"</item>
         <item name="instinctiv0_7">\"…non siano il massimo …possono andare\"</item>
     </string-array>
 

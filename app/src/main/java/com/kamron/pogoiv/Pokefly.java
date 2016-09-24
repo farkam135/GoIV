@@ -1546,8 +1546,8 @@ public class Pokefly extends Service {
         }
 
         ocr = OcrHelper.init(extdir, displayMetrics.widthPixels, displayMetrics.heightPixels,
-                getResources().getString(R.string.pokemon029),
-                getResources().getString(R.string.pokemon032));
+                pokeInfoCalculator.get(28).name,
+                pokeInfoCalculator.get(31).name);
     }
 
 

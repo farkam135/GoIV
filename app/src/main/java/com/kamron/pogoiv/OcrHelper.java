@@ -28,10 +28,10 @@ public class OcrHelper {
     private final int heightPixels;
     private final int widthPixels;
     private final boolean candyWordFirst;
-    private final String nidoFemale;
-    private final String nidoMale;
+    private final String nidoFemale = "Nidoran♀";
+    private final String nidoMale = "Nidoran♂";
 
-    private OcrHelper(String dataPath, int widthPixels, int heightPixels, String nidoFemale, String nidoMale) {
+    private OcrHelper(String dataPath, int widthPixels, int heightPixels) {
         tesseract = new TessBaseAPI();
         tesseract.init(dataPath, "eng");
         tesseract.setPageSegMode(TessBaseAPI.PageSegMode.PSM_SINGLE_LINE);
@@ -40,8 +40,6 @@ public class OcrHelper {
         this.heightPixels = heightPixels;
         this.widthPixels = widthPixels;
         this.candyWordFirst = isCandyWordFirst();
-        this.nidoFemale = nidoFemale;
-        this.nidoMale = nidoMale;
     }
 
     /**
@@ -51,10 +49,9 @@ public class OcrHelper {
      * @param dataPath Path the OCR data files.
      * @return Bitmap with replaced colors
      */
-    public static OcrHelper init(String dataPath, int widthPixels, int heightPixels, String nidoFemale,
-                                 String nidoMale) {
+    public static OcrHelper init(String dataPath, int widthPixels, int heightPixels) {
         if (instance == null) {
-            instance = new OcrHelper(dataPath, widthPixels, heightPixels, nidoFemale, nidoMale);
+            instance = new OcrHelper(dataPath, widthPixels, heightPixels);
         }
         return instance;
     }

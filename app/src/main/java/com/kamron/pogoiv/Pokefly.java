@@ -250,7 +250,7 @@ public class Pokefly extends Service {
 
     //PokeSpam
     @BindView(R.id.llPokeSpamDialogInputContentBox)
-    LinearLayout pokeSpamContentBox;
+    LinearLayout pokeSpamDialogInputContentBox;
     @BindView(R.id.llPokeSpam)
     LinearLayout pokeSpamView;
     @BindView(R.id.exResPokeSpam)
@@ -714,9 +714,9 @@ public class Pokefly extends Service {
 
         //enable/disable visibility based on PokeSpam enabled or not
         if (GoIVSettings.getInstance(getApplicationContext()).isPokeSpamEnabled()) {
-            pokeSpamContentBox.setVisibility(View.VISIBLE);
+            pokeSpamDialogInputContentBox.setVisibility(View.VISIBLE);
         } else  {
-            pokeSpamContentBox.setVisibility(View.VISIBLE);
+            pokeSpamDialogInputContentBox.setVisibility(View.GONE);
         }
     }
 

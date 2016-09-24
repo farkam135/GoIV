@@ -334,14 +334,6 @@ public class Pokefly extends Service {
 
         LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(ACTION_UPDATE_UI));
 
-        displayMetrics = this.getResources().getDisplayMetrics();
-        initOcr();
-        windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
-        clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-
-        LocalBroadcastManager.getInstance(this).registerReceiver(displayInfo, new IntentFilter(ACTION_SEND_INFO));
-        LocalBroadcastManager.getInstance(this).registerReceiver(processBitmap,
-                new IntentFilter(ACTION_PROCESS_BITMAP));
         pokeInfoCalculator = PokeInfoCalculator.getInstance(
                 getResources().getStringArray(R.array.Pokemon),
                 getResources().getIntArray(R.array.attack),
@@ -349,8 +341,16 @@ public class Pokefly extends Service {
                 getResources().getIntArray(R.array.stamina),
                 getResources().getIntArray(R.array.DevolutionNumber),
                 getResources().getIntArray(R.array.evolutionCandyCost));
+        displayMetrics = this.getResources().getDisplayMetrics();
+        initOcr();
+        windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
+        clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
         sharedPref = getSharedPreferences(PREF_USER_CORRECTIONS, Context.MODE_PRIVATE);
         corrector = initCorrectorFromPrefs(pokeInfoCalculator, sharedPref);
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(displayInfo, new IntentFilter(ACTION_SEND_INFO));
+        LocalBroadcastManager.getInstance(this).registerReceiver(processBitmap,
+                new IntentFilter(ACTION_PROCESS_BITMAP));
     }
 
     @SuppressWarnings("unchecked")

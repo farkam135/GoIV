@@ -10,7 +10,7 @@
     <string name="use_the_slider_below_to_align_the_arc">Deslize para alinhar o arco</string>
     <string name="cancel">Cancelar</string>
     <string name="check_iv">Verifica o IV</string>
-    <string name="notification_title">GoIV funcionando - Nível %1$s</string>
+    <string name="notification_title">GoIV funcionando - Nível %1$d</string>
     <string name="ivtext_no_possibilities">Não há possibilides, por favor verifique os dados!</string>
     <string name="close">Fechar</string>
     <string name="main_permission">Grantir Permissões</string>

@@ -67,7 +67,7 @@
     <string name="main_permission">Dar Permisos</string>
     <string name="main_start">Iniciar</string>
     <string name="main_stop">Detener</string>
-    <string name="notification_title">GoIV en Ejecución - Nivel %1$s</string>
+    <string name="notification_title">GoIV en Ejecución - Nivel %1$d</string>
     <string name="pokemon_name">Nombre del Pokémon: </string>
     <string name="trainer_level">Nivel de Entrenador</string>
     <string name="use_the_slider_below_to_align_the_arc">Use el slider para alinear el marcador en el arco</string>

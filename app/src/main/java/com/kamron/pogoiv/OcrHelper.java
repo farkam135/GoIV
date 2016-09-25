@@ -80,11 +80,10 @@ public class OcrHelper {
     }
 
     /**
-     * replaceColors
      * Replaces colors in a bitmap that are not farther away from a specific color than a given
      * threshold.
      *
-     * @param myBitmap     The bitmap to check the colors for.
+     * @param srcBitmap    The source bitmap to scan.
      * @param keepCr       The red color to keep
      * @param keepCg       The green color to keep
      * @param keepCb       The blue color to keep
@@ -93,10 +92,10 @@ public class OcrHelper {
      * @param simpleBG     Whether the bitmap has a simple background
      * @return Bitmap with replaced colors
      */
-    private Bitmap replaceColors(Bitmap myBitmap, int keepCr, int keepCg, int keepCb, int replaceColor, int distance,
+    private Bitmap replaceColors(Bitmap srcBitmap, int keepCr, int keepCg, int keepCb, int replaceColor, int distance,
                                  boolean simpleBG) {
-        int[] allpixels = new int[myBitmap.getHeight() * myBitmap.getWidth()];
-        myBitmap.getPixels(allpixels, 0, myBitmap.getWidth(), 0, 0, myBitmap.getWidth(), myBitmap.getHeight());
+        int[] allpixels = new int[srcBitmap.getHeight() * srcBitmap.getWidth()];
+        srcBitmap.getPixels(allpixels, 0, srcBitmap.getWidth(), 0, 0, srcBitmap.getWidth(), srcBitmap.getHeight());
         int bgColor = replaceColor;
         int distanceSq = distance * distance;
 
@@ -120,8 +119,8 @@ public class OcrHelper {
             }
         }
 
-        myBitmap.setPixels(allpixels, 0, myBitmap.getWidth(), 0, 0, myBitmap.getWidth(), myBitmap.getHeight());
-        return myBitmap;
+        srcBitmap.setPixels(allpixels, 0, srcBitmap.getWidth(), 0, 0, srcBitmap.getWidth(), srcBitmap.getHeight());
+        return srcBitmap;
     }
 
     /**

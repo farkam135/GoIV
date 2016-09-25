@@ -1360,7 +1360,7 @@ public class Pokefly extends Service {
                 &&  ivScanResult.pokemon.candyEvolutionCost > 0) {
             PokeSpam pokeSpamCalculator = new PokeSpam(pokemonCandy.get(),ivScanResult.pokemon.candyEvolutionCost);
 
-            String text = getString(R.string.pokespamformatedmessage,
+            String text = getString(R.string.pokespam_formatted_message,
                     pokeSpamCalculator.getTotalEvolvable(),pokeSpamCalculator.getEvolveRows(),
                     pokeSpamCalculator.getEvolveExtra());
             exResPokeSpam.setText(text);

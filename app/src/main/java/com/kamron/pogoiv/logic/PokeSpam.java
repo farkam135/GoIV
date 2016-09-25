@@ -25,9 +25,10 @@ public class PokeSpam {
 
     /**
      * pokeSpam this object allows you to calculate how many pokemon we can evolve using current candy..
-     * @param candyPlayerHas How much candy the player has for this pokemon
+     *
+     * @param candyPlayerHas     How much candy the player has for this pokemon
      * @param candyEvolutionCost How much candy it cost to evolve the pokemon
-     * @param bonus How much bonus for evolving, for example 1 is for regular evolve, 2 is for transferring
+     * @param bonus              How much bonus for evolving, for example 1 is for regular evolve, 2 is for transferring
      */
     public PokeSpam(int candyPlayerHas, int candyEvolutionCost, Optional<Integer> bonus) {
         calculatePokeSpam(candyPlayerHas, candyEvolutionCost, bonus.or(defaultBonus));
@@ -35,9 +36,11 @@ public class PokeSpam {
 
     /**
      * calculatePokeSpam calculates how many pokemon we can evolve using current candy.
-     * @param candyPlayerHas How much candy the player has for this pokemon
+     *
+     * @param candyPlayerHas     How much candy the player has for this pokemon
      * @param candyEvolutionCost How much candy it cost to evolve the pokemon
-     * @param bonus Optional: How much bonus for evolving, for example 1 is for regular evolve, 2 is for transferring
+     * @param bonus              Optional: How much bonus for evolving, for example 1 is for regular evolve, 2 is for
+     *                           transferring
      */
     private void calculatePokeSpam(int candyPlayerHas, int candyEvolutionCost, int bonus) {
         //Candy Amount divided by Evolve Cost without the left over,

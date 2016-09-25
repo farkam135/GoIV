@@ -17,7 +17,7 @@ public class ScanResult {
     private final Optional<Integer> pokemonCandyAmount;
 
     public ScanResult(double estimatedPokemonLevel, String pokemonName, String candyName, Optional<Integer> pokemonHP,
-                      Optional<Integer> pokemonCP,Optional<Integer> pokemonCandyAmount) {
+                      Optional<Integer> pokemonCP, Optional<Integer> pokemonCandyAmount) {
         this.estimatedPokemonLevel = estimatedPokemonLevel;
         this.pokemonName = pokemonName;
         this.candyName = candyName;

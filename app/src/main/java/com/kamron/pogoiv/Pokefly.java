@@ -979,7 +979,7 @@ public class Pokefly extends Service {
         //do not require pokemon candy to be filled
         try {
             pokemonCandy = Optional.of(Integer.parseInt(pokemonCandyEdit.getText().toString()));
-        }  catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
             pokemonCandy = Optional.absent();
         }
         return true;
@@ -1351,17 +1351,18 @@ public class Pokefly extends Service {
 
     /**
      * setAndCalculatePokeSpamText sets pokespamtext and makes it visible.
+     *
      * @param ivScanResult IVScanResult object that contains the scan results, mainly needed to get candEvolutionCost
      *                     varible
      */
     private void setAndCalculatePokeSpamText(IVScanResult ivScanResult) {
         if (GoIVSettings.getInstance(getApplicationContext()).isPokeSpamEnabled()
                 && pokemonCandy.isPresent() && ivScanResult.pokemon != null
-                &&  ivScanResult.pokemon.candyEvolutionCost > 0) {
-            PokeSpam pokeSpamCalculator = new PokeSpam(pokemonCandy.get(),ivScanResult.pokemon.candyEvolutionCost);
+                && ivScanResult.pokemon.candyEvolutionCost > 0) {
+            PokeSpam pokeSpamCalculator = new PokeSpam(pokemonCandy.get(), ivScanResult.pokemon.candyEvolutionCost);
 
             String text = getString(R.string.pokespam_formatted_message,
-                    pokeSpamCalculator.getTotalEvolvable(),pokeSpamCalculator.getEvolveRows(),
+                    pokeSpamCalculator.getTotalEvolvable(), pokeSpamCalculator.getEvolveRows(),
                     pokeSpamCalculator.getEvolveExtra());
             exResPokeSpam.setText(text);
             pokeSpamView.setVisibility(View.VISIBLE);
@@ -1590,7 +1591,7 @@ public class Pokefly extends Service {
         //enable/disable visibility based on PokeSpam enabled or not
         if (GoIVSettings.getInstance(getApplicationContext()).isPokeSpamEnabled()) {
             pokeSpamDialogInputContentBox.setVisibility(View.VISIBLE);
-        } else  {
+        } else {
             pokeSpamDialogInputContentBox.setVisibility(View.GONE);
         }
     }

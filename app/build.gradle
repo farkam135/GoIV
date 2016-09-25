@@ -128,7 +128,7 @@ android {
  */
 dependencies {
     /**
-     * All Builds Dependencies
+     * Builds Dependencies for All Builds.
      */
     compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.android.support:recyclerview-v7:24.2.1'
@@ -145,6 +145,7 @@ dependencies {
     /**
      * Online Build Dependencies
      */
+    //Include Crashlytics in the online build
     onlineCompile('com.crashlytics.sdk.android:crashlytics:2.6.2@aar') {
         transitive = true;
     }

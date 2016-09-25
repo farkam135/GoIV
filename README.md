@@ -4,7 +4,7 @@
 [![License](https://img.shields.io/github/license/farkam135/GoIV.svg?maxAge=2592000 "License")](LICENSE.md)
 
 ### Latest Release: [![Downloads](https://img.shields.io/github/downloads/farkam135/GoIV/total.svg?maxAge=2592000 "Downloads")](https://github.com/farkam135/GoIV/releases/latest)
-### Changelog: [![Changelog](https://img.shields.io/github/release/farkam135/GoIv.svg?maxAge=2592000 "Changelog")](CHANGELOG.md)
+### Changelog: [![Changelog](https://img.shields.io/github/release/farkam135/GoIV.svg?maxAge=2592000 "Changelog")](CHANGELOG.md)
 
 ## Table of Contents
 

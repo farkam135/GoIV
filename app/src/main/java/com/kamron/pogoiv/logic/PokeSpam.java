@@ -13,11 +13,11 @@ public class PokeSpam {
     final int howManyPokemonWeHavePerRow = 3;
     final int defaultBonus = 1;
 
-    private Integer totalEvolvable;
-    private Integer evolveRows;
-    private Integer evolveExtra;
-    private Integer amountXP;
-    private Integer amountXPWithLuckyEgg;
+    private int totalEvolvable;
+    private int evolveRows;
+    private int evolveExtra;
+    private int amountXP;
+    private int amountXPWithLuckyEgg;
 
     public PokeSpam(int candyPlayerHas, int candyEvolutionCost) {
         calculatePokeSpam(candyPlayerHas, candyEvolutionCost, defaultBonus);
@@ -50,7 +50,7 @@ public class PokeSpam {
         evolveRows = (int) Math.floor(totalEvolvable / howManyPokemonWeHavePerRow);
         evolveExtra = (int) Math.floor(totalEvolvable % howManyPokemonWeHavePerRow);
         amountXP = 500 * totalEvolvable;
-        amountXPWithLuckyEgg = (amountXP * 2);
+        amountXPWithLuckyEgg = amountXP * 2;
     }
 
 }

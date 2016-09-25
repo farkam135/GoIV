@@ -86,7 +86,7 @@ public class ScreenShotHelper {
 
     public void deleteScreenShot(String filePath) {
         contentResolver.delete(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, MediaStore.Files.FileColumns.DATA + "=?",
-                                new String[]{filePath});
+                new String[]{filePath});
 
     }
 

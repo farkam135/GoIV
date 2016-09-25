@@ -50,8 +50,10 @@ GoIV project uses Lombok Plugin to automatically generate various methods (i.e. 
 Set-up Git on Android Studio to automate Git commands. For developers who are *lazy* and prefer one-click solutions.
 * Set up Git on Android Studio (`File > Settings > Version Control > Git`)
 
-## Syncing your Fork
-[Syncing your fork] (https://help.github.com/articles/syncing-a-fork/) will keep it up to date with the latest commits on the main repo. This will also reduce the chances of getting merge conflicts. Always sync your fork before working on it!
+## Syncing/Rebasing your Fork
+[Syncing your fork] (https://help.github.com/articles/syncing-a-fork/) will keep it up to date with the latest commits on the main repo. **Always sync your fork before working on it!**
+
+[Rebasing your fork](https://help.github.com/articles/about-git-rebase/) should be done if you're already working on an existing branch and commits were made to the main repo. Remember to Force Push (`git push -f`) after resolving conflicts, if any.
 
 ## Contributing with Pull Requests
 

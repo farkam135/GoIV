@@ -58,7 +58,7 @@
   screenshots [here](https://github.com/farkam135/GoIV/issues/455) to see the
   results appears.
 
----
+&nbsp;
 
 ## 3.1.0
 
@@ -75,7 +75,7 @@
 * Bugfix in pokemon name correction learning (ignore cancel)
 * Fixed typos
 
----
+&nbsp;
 
 ## 3.0.1
 
@@ -86,7 +86,7 @@
 * Theming improvements (this includes the invisible checkboxes fix)
 * Fixed crashes at app shutdown
 
----
+&nbsp;
 
 ## 3.0.0
 
@@ -113,7 +113,7 @@
 * Code refactoring
 * Several crashfixes & stability improvements
 
----
+&nbsp;
 
 ## 2.2.0
 
@@ -135,7 +135,7 @@
 * Water pokemon no longer bug out the app when it tries to read the CP - No more 114833 CP vaporeons.
 * Arc detection support for 480p screens (the start button is still covered on some devices though, fix incoming soon)
 
----
+&nbsp;
 
 ## 2.1.0
 
@@ -153,7 +153,7 @@
 * Performance improvements
 * Fixed needed candy/stardust formula
 
----
+&nbsp;
 
 ## 2.0.0
 
@@ -171,7 +171,7 @@
 * Fixed arc alignment for trainer's level >= 30
 * Remove "Scanning" text
 
----
+&nbsp;
 
 ## 1.3.0
 

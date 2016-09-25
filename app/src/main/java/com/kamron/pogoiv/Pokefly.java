@@ -842,26 +842,37 @@ public class Pokefly extends Service {
         pokeInputSpinner.setVisibility(View.VISIBLE);
     }
 
-    private void toggleVisibility(TextView expanderText, LinearLayout expandedBox) {
+    private static final int MAX_DRAWABLE_LEVEL = 10000;
+
+    private void toggleVisibility(TextView expanderText, LinearLayout expandedBox, boolean animate) {
+        setVisibility(expanderText, expandedBox, animate, expandedBox.getVisibility() != View.VISIBLE);
+    }
+
+    private void setVisibility(TextView expanderText, LinearLayout expandedBox, boolean animate, boolean visible) {
         int boxVisibility;
         Drawable arrowDrawable;
-        if (expandedBox.getVisibility() == View.VISIBLE) {
-            boxVisibility = View.GONE;
-            arrowDrawable = getDrawableC(R.drawable.arrow_collapse);
-        } else {
+        if (visible) {
             boxVisibility = View.VISIBLE;
             arrowDrawable = getDrawableC(R.drawable.arrow_expand);
+        } else {
+            boxVisibility = View.GONE;
+            arrowDrawable = getDrawableC(R.drawable.arrow_collapse);
         }
         expanderText.setCompoundDrawablesWithIntrinsicBounds(null, null, arrowDrawable, null);
-        Animator arrowAnimator = ObjectAnimator.ofInt(arrowDrawable, "level", 0, 10000).setDuration(100);
-        arrowAnimator.start();
+        if (animate) {
+            Animator arrowAnimator =
+                    ObjectAnimator.ofInt(arrowDrawable, "level", 0, MAX_DRAWABLE_LEVEL).setDuration(100);
+            arrowAnimator.start();
+        } else {
+            arrowDrawable.setLevel(MAX_DRAWABLE_LEVEL);
+        }
         expandedBox.setVisibility(boxVisibility);
     }
 
 
     @OnClick({R.id.resultsMoreInformationText})
     public void toggleMoreResultsBox() {
-        toggleVisibility(resultsMoreInformationText, expandedResultsBox);
+        toggleVisibility(resultsMoreInformationText, expandedResultsBox, true);
     }
 
     @OnClick({R.id.inputAppraisalExpandBox})
@@ -869,7 +880,7 @@ public class Pokefly extends Service {
      * Method called when user presses the text to expand the appraisal box on the input screen
      */
     public void toggleAppraisalBox() {
-        toggleVisibility(inputAppraisalExpandBox, appraisalBox);
+        toggleVisibility(inputAppraisalExpandBox, appraisalBox, true);
         moveOverlayUpOrDownToMatchAppraisalBox();
     }
 
@@ -1565,6 +1576,7 @@ public class Pokefly extends Service {
             pokemonCPEdit.setText(optionalIntToString(pokemonCP));
 
             showInfoLayoutArcPointer();
+            setVisibility(inputAppraisalExpandBox, appraisalBox, false, false);
             moveOverlayUpOrDownToMatchAppraisalBox(); //move the overlay to correct position regarding appraisal box
             adjustArcPointerBar(estimatedPokemonLevel);
 

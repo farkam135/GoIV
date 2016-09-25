@@ -73,7 +73,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
-            android:text="% CP vs max IV"
+            android:text="@string/cp_vs_iv"
             android:textColor="@color/importantText"
             android:textSize="@dimen/resultExpandedTextSize"/>
 

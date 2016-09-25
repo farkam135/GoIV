@@ -144,12 +144,6 @@ dependencies {
     apt "org.projectlombok:lombok:1.16.10"
 
     /**
-     * Constraint Layout only available in Android Studio 2.2 preview
-     * Anyone actually using it? Can we remove it?
-     */
-    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha1'
-
-    /**
      * Include Craslytics in the online build
      */
     onlineCompile('com.crashlytics.sdk.android:crashlytics:2.6.2@aar') {

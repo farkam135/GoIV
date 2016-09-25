@@ -8,11 +8,11 @@ import com.kamron.pogoiv.logic.PokeInfoCalculator;
 
 /**
  * Created by Johan on 2016-09-24.
- *
- * A token which returns a "tier" based on the pokemon max cp.
+ * <p>
+ * <p>A token which returns a "tier" based on the pokemon max cp.
  */
 
-public class CpTierToken implements ClipboardToken {
+public class CpTierToken extends ClipboardToken {
     @Override
     public int getMaxLength() {
         return 2;
@@ -30,11 +30,6 @@ public class CpTierToken implements ClipboardToken {
     @Override
     public String getPreview() {
         return "B-";
-    }
-
-    @Override
-    public String getStringRepresentation() {
-        return ".PokemonTier";
     }
 
     @Override

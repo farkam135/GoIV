@@ -1,9 +1,7 @@
 package com.kamron.pogoiv.UserClipboard.ClipboardTokens;
 
 /**
- *
  * Created by Johan on 2016-09-24.
- * <p>
  * A class which translates a CP value to a tier string
  */
 

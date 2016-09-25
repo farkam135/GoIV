@@ -7,31 +7,29 @@ import com.kamron.pogoiv.logic.IVScanResult;
 import com.kamron.pogoiv.logic.PokeInfoCalculator;
 
 /**
- * Created by Johan on 2016-09-24.
- * A token which returns the name of the scanned pokemon
+ * Created by Johan on 2016-09-25.
+ * A token which represents the lowest IV % that is possible considering what's known about the pokemon
  */
 
-public class PokemonNameToken extends ClipboardToken {
+public class IVMinPercentageToken extends ClipboardToken {
     @Override
     public int getMaxLength() {
-        return 12; // assume pokemon name can fill out entire name field
-        //Currently "Fletchinder" is the longest name english pokemon at 11 chars, but
-        //this can be different in other languages
+        return 3;
     }
 
     @Override
     public String getValue(IVScanResult ivScanResult, PokeInfoCalculator pokeInfoCalculator) {
-        return ivScanResult.pokemon.name;
+        return String.valueOf(ivScanResult.getLowestIVCombination().percentPerfect);
     }
 
     @Override
     public String getPreview() {
-        return "Abra";
+        return "99";
     }
 
 
     @Override
     public String getTokenName(Context context) {
-        return "Pokemon name";
+        return "Min IV percentage";
     }
 }

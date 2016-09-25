@@ -14,7 +14,7 @@ import java.util.ArrayList;
  * A token representing the tier based on the max CP of the last evolution in a pokemon evolution line.
  */
 
-public class MaxEvolutionCPTierToken implements ClipboardToken {
+public class CPTierMaxEvolutionToken extends ClipboardToken {
     @Override
     public int getMaxLength() {
         return 2;
@@ -23,8 +23,18 @@ public class MaxEvolutionCPTierToken implements ClipboardToken {
     @Override
     public String getValue(IVScanResult ivs, PokeInfoCalculator pokeInfoCalculator) {
         TokenTierLogic ttl = new TokenTierLogic();
-        ArrayList<Pokemon> evLine = pokeInfoCalculator.getEvolutionLine(ivs.pokemon);
-        Pokemon lastEv = evLine.get(evLine.size() - 1);
+        Pokemon lastEv;
+
+        //If-else below exists to manage scenario where pokemon has multiple evolution possibilities, so for example
+        //If you scan a vaporeon, it has no evolutions, so there's no need to go to the bottom of the evolution chain
+        // and find jolteon.. or whatever eeveelution is last.
+        if (ivs.pokemon.evolutions.size() != 0) {
+            ArrayList<Pokemon> evLine = pokeInfoCalculator.getEvolutionLine(ivs.pokemon);
+            lastEv = evLine.get(evLine.size() - 1);
+        } else {
+            lastEv = ivs.pokemon;
+        }
+
         int cp = pokeInfoCalculator.getAverageCPAtLevel(lastEv, ivs.lowAttack, ivs.lowDefense, ivs.lowStamina,
                 ivs.highAttack, ivs.highDefense, ivs.highStamina, 40);
 
@@ -34,11 +44,6 @@ public class MaxEvolutionCPTierToken implements ClipboardToken {
     @Override
     public String getPreview() {
         return "A+";
-    }
-
-    @Override
-    public String getStringRepresentation() {
-        return ".PokemonTierMaxEv";
     }
 
     @Override

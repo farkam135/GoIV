@@ -7,31 +7,39 @@ import com.kamron.pogoiv.logic.IVScanResult;
 import com.kamron.pogoiv.logic.PokeInfoCalculator;
 
 /**
- * Created by Johan on 2016-09-24.
- * A token which returns the name of the scanned pokemon
+ * Created by Johan on 2016-09-25.
+ * A token which just represents a static non changing result
  */
 
-public class PokemonNameToken extends ClipboardToken {
+public class SeperatorToken extends ClipboardToken {
+    private String string;
+
+    public SeperatorToken(String s) {
+        this.string = s;
+    }
+
     @Override
     public int getMaxLength() {
-        return 12; // assume pokemon name can fill out entire name field
-        //Currently "Fletchinder" is the longest name english pokemon at 11 chars, but
-        //this can be different in other languages
+        return string.length();
     }
 
     @Override
     public String getValue(IVScanResult ivScanResult, PokeInfoCalculator pokeInfoCalculator) {
-        return ivScanResult.pokemon.name;
+        return string;
     }
 
     @Override
     public String getPreview() {
-        return "Abra";
+        return string;
     }
-
 
     @Override
     public String getTokenName(Context context) {
-        return "Pokemon name";
+        return string;
+    }
+
+    @Override
+    public String getStringRepresentation() {
+        return "." + this.getClass().getSimpleName() + string;
     }
 }

@@ -48,6 +48,7 @@ public class PokeSpamTest {
     public void testVenonat() throws Exception {
         assertEquals((new PokeSpam(150, 50).getTotalEvolvable()),(Integer) 3);
     }
+    @Test
     public void testExtraPokemonBasedOnExtraCandy() throws Exception {
         assertEquals((new PokeSpam(144, 12).getTotalEvolvable()),(Integer) 13);
     }

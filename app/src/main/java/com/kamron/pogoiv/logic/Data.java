@@ -7,7 +7,7 @@ import android.graphics.Point;
  */
 public class Data {
 
-    public static final double[] CpM = {
+    private static final double[] CpM = {
             0.0939999967813492, 0.135137432089339, 0.166397869586945, 0.192650913155325, 0.215732470154762,
             0.236572651424822, 0.255720049142838, 0.273530372106572, 0.290249884128571, 0.306057381389863,
             0.321087598800659, 0.335445031996451, 0.349212676286697, 0.362457736609939, 0.375235587358475,
@@ -48,7 +48,7 @@ public class Data {
 
         //pokeLevelIdx <= maxPokeLevelIdx ensures we never overflow CpM/arc/arcY.
         for (int pokeLevelIdx = 0; pokeLevelIdx <= maxPokeLevelIdx; pokeLevelIdx++) {
-            double pokeCurrCpMDelta = (CpM[pokeLevelIdx] - baseCpM);
+            double pokeCurrCpMDelta = CpM[pokeLevelIdx] - baseCpM;
             double arcRatio = pokeCurrCpMDelta / maxPokeCpMDelta;
             double angleInRadians = (arcRatio + 1) * Math.PI;
 
@@ -76,6 +76,16 @@ public class Data {
      */
     public static double levelIdxToLevel(int levelIdx) {
         return levelIdx * 0.5 + 1;
+    }
+
+    /**
+     * Return CpM (CP Multiplier) for a given pokemon level. Levels are described as documented for
+     * Data.levelToLevelIdx.
+     * @param level The desired level.
+     * @return Associated CpM.
+     */
+    public static double getLevelCpM(double level) {
+        return CpM[levelToLevelIdx(level)];
     }
 
     /**

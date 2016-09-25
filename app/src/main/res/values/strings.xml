@@ -132,6 +132,7 @@
     <string name="PokeSpam_setting_title">Enable PokeSpam Calculation</string>
     <string name="PokeSpam_setting_summary">This feature scans your Pokemon candy to calculate how many Pokemon of that type you can evolve. Recommend use: To calculate max result from lucky egg.</string>
     <string name="hp_expanded_box">HP</string>
+    <string name="cp_vs_iv" formatted="false">% CP vs max IV</string>
     <string name="alert_explanation_title">Explanation</string>
     <string name="perfection_explainer">The percentage shows how big the difference is between your pokemon and a pokemon of the same species which has perfect IVs.\n\nSo for example, if it says 92 percent, then your pokemon maxes out at 8 percent less CP compared to the same species with maximum IVs.</string>
 </resources>

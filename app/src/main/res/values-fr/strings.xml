@@ -38,8 +38,8 @@
 
     <string-array name="valor_ivrange">
         <item name="vplace2">@string/place2</item>
-        <item name="valoriv15">"Sont excellentes ! &#8230;super !"</item>
-        <item name="valoriv13_14">"&#8230;estomaquée&#8230; Bravo !"</item>
+        <item name="valoriv15">"&#8230;estomaquée&#8230; Bravo !"</item>
+        <item name="valoriv13_14">"Sont excellentes ! &#8230;super !"</item>
         <item name="valoriv8_12">"&#8230;va faire des dégâts au combat."</item>
         <item name="valoriv0_7">"Ne t'aideront pas beaucoup&#8230;"</item>
     </string-array>
@@ -123,4 +123,8 @@
     <string name="atk">ATQ</string>
     <string name="def">DÉF</string>
     <string name="sta">PV</string>
+    <string name="hp_expanded_box">PV</string>
+    <string name="cp_vs_iv" formatted="false">% PC vs IV max</string>
+    <string name="alert_explanation_title">Explications</string>
+    <string name="perfection_explainer" formatted="false">"Le pourcentage correspond à la différence entre les PC de votre Pokémon, et ceux d'un Pokémon de la même espèce qui aurait des IV parfaites.\n\nPar exemple, si le pourcentage est 92%, alors votre Pokémon a 8% de PC en moins que s'il avait des IV parfaites."</string>
 </resources>

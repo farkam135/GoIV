@@ -159,7 +159,7 @@ public class PokeInfoCalculator {
         int baseDefense = selectedPokemon.baseDefense;
         int baseStamina = selectedPokemon.baseStamina;
 
-        double lvlScalar = Data.CpM[Data.levelToLevelIdx(estimatedPokemonLevel)];
+        double lvlScalar = Data.getLevelCpM(estimatedPokemonLevel);
         double lvlScalarPow2 = Math.pow(lvlScalar, 2) * 0.1; // instead of computing again in every loop
         //IV vars for lower and upper end cp ranges
 
@@ -216,7 +216,7 @@ public class PokeInfoCalculator {
         int baseAttack = pokemon.baseAttack;
         int baseDefense = pokemon.baseDefense;
         int baseStamina = pokemon.baseStamina;
-        double lvlScalar = Data.CpM[Data.levelToLevelIdx(level)];
+        double lvlScalar = Data.getLevelCpM(level);
         int cpMin = (int) Math.floor(
                 (baseAttack + lowAttack) * Math.sqrt(baseDefense + lowDefense) * Math.sqrt(baseStamina + lowStamina)
                         * Math.pow(lvlScalar, 2) * 0.1);
@@ -323,7 +323,7 @@ public class PokeInfoCalculator {
      * @return An integer representing how much hp selectedpokemon with ivscanresult stamina ivs has at selectedlevel
      */
     public int getHPAtLevel(IVScanResult ivScanResult, double selectedLevel, Pokemon selectedPokemon) {
-        double lvlScalar = Data.CpM[Data.levelToLevelIdx(selectedLevel)];
+        double lvlScalar = Data.getLevelCpM(selectedLevel);
         int highHp = (int) Math.max(Math.floor((selectedPokemon.baseStamina + ivScanResult.highStamina) * lvlScalar),
                 10);
         int lowHp = (int) Math.max(Math.floor((selectedPokemon.baseStamina + ivScanResult.highStamina) * lvlScalar),

@@ -32,7 +32,14 @@ public class ClipboardModifierActivity extends AppCompatActivity {
      */
     public void updateLabels() {
         clipboardPreviewString.setText(cth.getPreviewString());
-        String maxLength = String.valueOf(cth.getMaxLength());
+
+        int maxLengthInt = cth.getMaxLength();
+        String maxLength;
+        if (cth.getMaxLength() > 12) {
+            maxLength = String.valueOf(maxLengthInt) + " Longer than a pokemon nickname can be";
+        } else {
+            maxLength = String.valueOf(maxLengthInt);
+        }
         clipboardLengthOfOutput.setText(maxLength);
     }
 

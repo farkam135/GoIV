@@ -22,35 +22,55 @@
         android:layout_width="match_parent"
         android:layout_height="16dp"/>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:text="@string/clipboard_modifier_preview"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/clipboardPreviewString"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="#PreviewString"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:onClick="clearTokens"
+            android:text="╳"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+
     <LinearLayout
         android:id="@+id/leftColumnForClipboard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
+
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/clipboard_modifier_preview"/>
-
-
-            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -85,11 +105,7 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/clipboardPreviewString"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="#PreviewString"/>
+
 
             <TextView
                 android:id="@+id/clipboardLengthOfOutput"
@@ -101,11 +117,6 @@
 
     </LinearLayout>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Clear"
-        android:onClick="clearTokens"/>
 
     <Space
         android:layout_width="match_parent"
@@ -119,7 +130,7 @@
             android:id="@+id/clipboard_modifier_root"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:columnCount="2">
+            android:columnCount="1">
 
 
         </GridLayout>

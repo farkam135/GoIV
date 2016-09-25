@@ -847,12 +847,12 @@ public class Pokefly extends Service {
     private void toggleVisibility(TextView expanderText, LinearLayout expandedBox, boolean animate) {
         int boxVisibility;
         Drawable arrowDrawable;
-        if (expandedBox.getVisibility() == View.VISIBLE) {
-            boxVisibility = View.GONE;
-            arrowDrawable = getDrawableC(R.drawable.arrow_collapse);
-        } else {
+        if (expandedBox.getVisibility() != View.VISIBLE) {
             boxVisibility = View.VISIBLE;
             arrowDrawable = getDrawableC(R.drawable.arrow_expand);
+        } else {
+            boxVisibility = View.GONE;
+            arrowDrawable = getDrawableC(R.drawable.arrow_collapse);
         }
         expanderText.setCompoundDrawablesWithIntrinsicBounds(null, null, arrowDrawable, null);
         if (animate) {

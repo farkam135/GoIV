@@ -312,4 +312,23 @@ public class PokeInfoCalculator {
 
         return list;
     }
+
+    /**
+     * Get how much hp a pokemon will have at a certain level, including the stamina IV taken from the scan results.
+     * If the prediction is not exact because of big possible variation in stamina IV, the average will be returnred.
+     *
+     * @param ivScanResult    Scan results which includes stamina ivs
+     * @param selectedLevel   which level to get the hp for
+     * @param selectedPokemon Which pokemon to get Hp for
+     * @return An integer representing how much hp selectedpokemon with ivscanresult stamina ivs has at selectedlevel
+     */
+    public int getHPAtLevel(IVScanResult ivScanResult, double selectedLevel, Pokemon selectedPokemon) {
+        double lvlScalar = Data.CpM[Data.levelToLevelIdx(selectedLevel)];
+        int highHp = (int) Math.max(Math.floor((selectedPokemon.baseStamina + ivScanResult.highStamina) * lvlScalar),
+                10);
+        int lowHp = (int) Math.max(Math.floor((selectedPokemon.baseStamina + ivScanResult.highStamina) * lvlScalar),
+                10);
+        int averageHP = Math.round(highHp + lowHp) / 2;
+        return averageHP;
+    }
 }

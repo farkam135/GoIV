@@ -66,6 +66,7 @@ import com.kamron.pogoiv.widgets.IVResultsAdapter;
 import com.kamron.pogoiv.widgets.PokemonSpinnerAdapter;
 
 import java.io.File;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -211,6 +212,12 @@ public class Pokefly extends Service {
     TextView resultsCombinations;
     @BindView(R.id.exResultCP)
     TextView exResultCP;
+    @BindView(R.id.exResultHP)
+    TextView exResultHP;
+    @BindView(R.id.exResultPercentPerfection)
+    TextView exResultPercentPerfection;
+    @BindView(R.id.explainCPPercentageComparedToMaxIV)
+    TextView explainCPPercentageComparedToMaxIV;
     @BindView(R.id.exResStardust)
     TextView exResStardust;
     @BindView(R.id.exResPrevScan)
@@ -935,6 +942,11 @@ public class Pokefly extends Service {
         populateAdvancedInformation(ScanContainer.scanContainer.currScan);
     }
 
+    @OnClick(R.id.explainCPPercentageComparedToMaxIV)
+    public void explainCPPercentageComparedToMaxIV() {
+        Toast.makeText(getApplicationContext(), R.string.perfection_explainer, Toast.LENGTH_LONG).show();
+    }
+
     @OnClick(R.id.btnDecrementLevelExpanded)
     public void decrementLevelExpanded() {
         expandedLevelSeekbar.setProgress(expandedLevelSeekbar.getProgress() - 1);
@@ -1284,6 +1296,8 @@ public class Pokefly extends Service {
         Pokemon selectedPokemon = initPokemonSpinnerIfNeeded(ivScanResult.pokemon);
 
         setEstimateCpTextBox(ivScanResult, selectedLevel, selectedPokemon);
+        setEstimateHPTextBox(ivScanResult, selectedLevel, selectedPokemon);
+        setPokemonPerfectionPercentageText(ivScanResult, selectedPokemon);
         setEstimateCostTextboxes(ivScanResult, selectedLevel, selectedPokemon);
         exResLevel.setText(String.valueOf(selectedLevel));
         setEstimateLevelTextColor(selectedLevel);
@@ -1302,7 +1316,7 @@ public class Pokefly extends Service {
                 &&  ivScanResult.pokemon.candyEvolutionCost > 0) {
             PokeSpam pokeSpamCalculator = new PokeSpam(pokemonCandy.get(),ivScanResult.pokemon.candyEvolutionCost);
 
-            String text = getString(R.string.pokespamformatedmessage,
+            String text = getString(R.string.pokespam_formated_message,
                     pokeSpamCalculator.getTotalEvolvable(),pokeSpamCalculator.getEvolveRows(),
                     pokeSpamCalculator.getEvolveExtra());
             exResPokeSpam.setText(text);
@@ -1313,6 +1327,39 @@ public class Pokefly extends Service {
         }
     }
 
+
+    /**
+     * Sets the pokemon perfection % text in the powerup and evolution results box.
+     *
+     * @param ivScanResult    The object containing the ivs to base current pokemon on.
+     * @param selectedPokemon The pokemon to compare selected iv with max iv to.
+     */
+    private void setPokemonPerfectionPercentageText(IVScanResult ivScanResult, Pokemon selectedPokemon) {
+        CPRange cpRange = pokeInfoCalculator.getCpRangeAtLevel(selectedPokemon, ivScanResult.lowAttack, ivScanResult
+                .lowDefense, ivScanResult.lowStamina, ivScanResult.highAttack, ivScanResult.highDefense, ivScanResult
+                .highStamina, 40);
+        double averageCP = (cpRange.high + cpRange.low) / 2;
+        double maxCP = pokeInfoCalculator.getCpRangeAtLevel(selectedPokemon, 15, 15, 15, 15, 15, 15, 40).high;
+        double perfection = (100 * averageCP) / maxCP;
+        DecimalFormat df = new DecimalFormat("#.#");
+        String perfectionString = df.format(perfection) + "%";
+        exResultPercentPerfection.setText(perfectionString);
+    }
+
+    /**
+     * Sets the "expected HP  textview" to the estimat HP in the powerup and evolution estimate box.
+     *
+     * @param ivScanResult  the ivscanresult of the current pokemon
+     * @param selectedLevel The goal level the pokemon in ivScanresult pokemon should reach
+     */
+    private void setEstimateHPTextBox(IVScanResult ivScanResult, double selectedLevel, Pokemon selectedPokemon) {
+        int newHP = pokeInfoCalculator.getHPAtLevel(ivScanResult, selectedLevel, selectedPokemon);
+        int oldHP = pokeInfoCalculator.getHPAtLevel(ivScanResult, estimatedPokemonLevel, ivScanResult.pokemon);
+        int hpDiff = newHP - oldHP;
+        String sign = (hpDiff >= 0) ? "+" : ""; //add plus in front if positive.
+        String hpText = newHP + " (" + sign + hpDiff + ")";
+        exResultHP.setText(hpText);
+    }
 
     /**
      * Sets the "expected cp textview" to (+x) or (-y) in the powerup and evolution estimate box depending on what's

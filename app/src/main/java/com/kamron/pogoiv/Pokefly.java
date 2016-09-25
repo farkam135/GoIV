@@ -845,9 +845,13 @@ public class Pokefly extends Service {
     private static final int MAX_DRAWABLE_LEVEL = 10000;
 
     private void toggleVisibility(TextView expanderText, LinearLayout expandedBox, boolean animate) {
+        setVisibility(expanderText, expandedBox, animate, expandedBox.getVisibility() != View.VISIBLE);
+    }
+
+    private void setVisibility(TextView expanderText, LinearLayout expandedBox, boolean animate, boolean visible) {
         int boxVisibility;
         Drawable arrowDrawable;
-        if (expandedBox.getVisibility() != View.VISIBLE) {
+        if (visible) {
             boxVisibility = View.VISIBLE;
             arrowDrawable = getDrawableC(R.drawable.arrow_expand);
         } else {

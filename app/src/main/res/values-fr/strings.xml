@@ -9,7 +9,7 @@
         <item name="valor">"Bravoure"</item>
         <item name="instinct">"Intuition"</item>
     </string-array>
-    <string name="place1">"Dans l\'ensemble, ton Pokémon…"</string>
+    <string name="place1">"Dans l'ensemble, ton Pokémon…"</string>
     <string name="place2">"Ses stats…"</string>
 
     <string-array name="mystic_percentage">

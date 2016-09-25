@@ -36,6 +36,7 @@ public class PokeSpamTest {
         assertEquals(pokeSpamCalculator.getEvolveExtra(), 0);
     }
 
+    // From https://github.com/farkam135/GoIV/pull/457#issuecomment-248880815.
     @Test
     public void testBlaisorbladeTestCases() throws Exception {
         assertEquals(new PokeSpam(11, 12).getTotalEvolvable(), 0);

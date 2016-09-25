@@ -123,4 +123,8 @@
     <string name="atk">ATQ</string>
     <string name="def">DÉF</string>
     <string name="sta">PV</string>
+    <string name="hp_expanded_box">PV</string>
+    <string name="cp_vs_iv" formatted="false">% PC vs IV max</string>
+    <string name="alert_explanation_title">Explications</string>
+    <string name="perfection_explainer" formatted="false">"Le pourcentage correspond à la différence entre les PC de votre Pokémon, et ceux d'un Pokémon de la même espèce qui aurait des IV parfaites.\n\nPar exemple, si le pourcentage est 92%, alors votre Pokémon a 8% de PC en moins que s'il avait des IV parfaites."</string>
 </resources>

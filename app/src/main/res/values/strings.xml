@@ -127,6 +127,7 @@
     <string name="percent" translatable="false">%d%%</string>
     <string name="unknown_percent" translatable="false">"?%"</string>
     <string name="hp_expanded_box">HP</string>
+    <string name="cp_vs_iv" formatted="false">% CP vs max IV</string>
     <string name="alert_explanation_title">Explanation</string>
     <string name="perfection_explainer">The percentage shows how big the difference is between your pokemon and a pokemon of the same species which has perfect IVs.\n\nSo for example, if it says 92 percent, then your pokemon maxes out at 8 percent less CP compared to the same species with maximum IVs.</string>
 </resources>

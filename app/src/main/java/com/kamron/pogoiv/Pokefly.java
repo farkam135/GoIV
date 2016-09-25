@@ -1565,6 +1565,7 @@ public class Pokefly extends Service {
             pokemonCPEdit.setText(optionalIntToString(pokemonCP));
 
             showInfoLayoutArcPointer();
+            appraisalBox.setVisibility(View.GONE);
             moveOverlayUpOrDownToMatchAppraisalBox(); //move the overlay to correct position regarding appraisal box
             adjustArcPointerBar(estimatedPokemonLevel);
 

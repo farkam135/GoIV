@@ -62,7 +62,7 @@ public class PokeInfoCalculator {
 
     /**
      * Fills the list "pokemon" with the information of all pokemon by reading the
-     * arrays in integers.xml and the names from the strings.xml resources.
+     * arrays in candycost.xml and the names from the strings.xml resources.
      */
     private void populatePokemon(String[] names, int[] attack, int[] defense, int[] stamina, int[] devolution,
                                  int[] evolutionCandyCost) {

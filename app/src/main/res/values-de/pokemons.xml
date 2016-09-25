@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="Pokemon">
+    <string-array name="pokemon">
         <item>Bisasam</item>
         <item>Bisaknosp</item>
         <item>Bisaflor</item>

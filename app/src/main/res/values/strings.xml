@@ -5,59 +5,59 @@
     <string name="trainer_level">Trainer Level</string>
 
     <string-array name="teams">
-        <item name="mystic">"Mystic"</item>
-        <item name="valor">"Valor"</item>
-        <item name="instinct">"Instinct"</item>
+        <item name="mystic">Mystic</item>
+        <item name="valor">Valor</item>
+        <item name="instinct">Instinct</item>
     </string-array>
-    <string name="place1">"Choose overall phrase:"</string>
-    <string name="place2">"Choose stats phrase:"</string>
+    <string name="place1">Choose Overall Phrase:</string>
+    <string name="place2">Choose Stats Phrase:</string>
 
     <string-array name="mystic_percentage">
         <item name="mplace1">@string/place1</item>
-        <item name="mystic80_100">"…wonder …breathtaking"</item>
-        <item name="mystic67_79">"…caught my attention"</item>
-        <item name="mystic51_66">"…above average"</item>
-        <item name="mystic0_50">"…not likely …headway"</item>
+        <item name="mystic80_100">\"…wonder …breathtaking\"</item>
+        <item name="mystic67_79">\"…caught my attention\"</item>
+        <item name="mystic51_66">\"…above average\"</item>
+        <item name="mystic0_50">\"…not likely …headway\"</item>
     </string-array>
 
     <string-array name="mystic_ivrange">
         <item name="mplace2">@string/place2</item>
-        <item name="mysticiv15">"…exceed …incredible"</item>
-        <item name="mysticiv13_14">…impressed …I must say"</item>
-        <item name="mysticiv8_12">"…trending to the positive"</item>
-        <item name="mysticiv0_7">"…not out of the norm …estimation"</item>
+        <item name="mysticiv15">\"…exceed …incredible\"</item>
+        <item name="mysticiv13_14">\"…impressed …I must say\"</item>
+        <item name="mysticiv8_12">\"…trending to the positive\"</item>
+        <item name="mysticiv0_7">\"…not out of the norm …estimation\"</item>
     </string-array>
 
     <string-array name="instinct_percentage">
         <item name="iplace1">@string/place1</item>
-        <item name="instinct80_100">"…battle …best of them"</item>
-        <item name="instinct67_79">"…really strong"</item>
-        <item name="instinct51_66">"…pretty decent"</item>
-        <item name="instinct0_50">"…room for improvement"</item>
+        <item name="instinct80_100">\"…battle …best of them\"</item>
+        <item name="instinct67_79">\"…really strong\"</item>
+        <item name="instinct51_66">\"…pretty decent\"</item>
+        <item name="instinct0_50">\"…room for improvement\"</item>
     </string-array>
 
     <string-array name="instinct_ivrange">
         <item name="iplace2">@string/place2</item>
-        <item name="instinctiv15">"…best …no doubt"</item>
-        <item name="instinctiv13_14">"…really strong …impressive"</item>
-        <item name="instinctiv8_12">"…good stats …definitely"</item>
-        <item name="instinctiv0_7">"…all right …basic"</item>
+        <item name="instinctiv15">\"…best …no doubt\"</item>
+        <item name="instinctiv13_14">\"…really strong …impressive\"</item>
+        <item name="instinctiv8_12">\"…good stats …definitely\"</item>
+        <item name="instinctiv0_7">\"…all right …basic\"</item>
     </string-array>
 
     <string-array name="valor_percentage">
         <item name="vplace1">@string/place1</item>
-        <item name="valor80_100">"…amazes me …accomplish anything"</item>
-        <item name="valor67_79">"…strong …be proud"</item>
-        <item name="valor51_66">"…decent"</item>
-        <item name="valor0_50">"…not be great …but I still like it"</item>
+        <item name="valor80_100">\"…amazes me …accomplish anything\"</item>
+        <item name="valor67_79">\"…strong …be proud\"</item>
+        <item name="valor51_66">\"…decent\"</item>
+        <item name="valor0_50">\"…not be great …but I still like it\"</item>
     </string-array>
 
     <string-array name="valor_ivrange">
         <item name="vplace2">@string/place2</item>
-        <item name="valoriv15">"…blown away …WOW"</item>
-        <item name="valoriv13_14">"…excellent …exciting"</item>
-        <item name="valoriv8_12">"…indicate …get the job done"</item>
-        <item name="valoriv0_7">"…don't point to greatness"</item>
+        <item name="valoriv15">\"…blown away …WOW\"</item>
+        <item name="valoriv13_14">\"…excellent …exciting\"</item>
+        <item name="valoriv8_12">\"…indicate …get the job done\"</item>
+        <item name="valoriv0_7">\"…don\'t point to greatness\"</item>
     </string-array>
 
     <string name="pokemon_name">Pokémon name:</string>
@@ -66,7 +66,7 @@
     <string name="use_the_slider_below_to_align_the_arc">Use the slider below to align the arc:</string>
     <string name="cancel">Cancel</string>
     <string name="check_iv">Check IV</string>
-    <string name="notification_title">GoIV Running - Level %1$d</string>
+    <string name="notification_title">GoIV Running - Level %d</string>
     <string name="notification_open_app">Open app</string>
     <string name="close">Close</string>
     <string name="main_permission">Grant Permissions</string>
@@ -100,11 +100,11 @@
     <string name="stardust_cost">Stardust Cost</string>
     <string name="evolution">Evolution</string>
     <string name="level">Level</string>
-    <string name="level_num">Level %1$.1f</string>
+    <string name="level_num">Level %.1f</string>
     <string name="refine">Refine</string>
     <string name="refine_no_progress">Refinement didn\'t improve results</string>
-    <string name="last_scan">Last scan: %1$s</string>
-    <string name="possible_iv_combinations" tools:ignore="PluralsCandidate">"%1$d possible IV combinations"</string>
+    <string name="last_scan">Last Scan: %s</string>
+    <string name="possible_iv_combinations" tools:ignore="PluralsCandidate">%d possible IV combinations</string>
     <string name="too_many_iv_combinations">Too many IV combinations</string>
     <string name="refining_instructions">Increase IV calculation precision by leveling up and comparing two scans of the same Pokémon</string>
     <string name="appraisal_refining">Appraisal Refining</string>
@@ -118,7 +118,7 @@
     <string name="checking_for_update">Checking for update…</string>
     <string name="ongoing_update">An update for GoIV is already being downloaded</string>
     <string name="iv_perfect" formatted="false">% Perfect</string>
-    <string name="wrongPokemonNameInput">" was not found."</string>
+    <string name="wrongPokemonNameInput">" was not found"</string>
     <string name="avg">AVG</string>
     <string name="atk">ATK</string>
     <string name="def">DEF</string>

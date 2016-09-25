@@ -3,58 +3,58 @@
 
 
     <string-array name="teams">
-        <item name="mystic">"Sabiduría"</item>
-        <item name="valor">"Valor"</item>
-        <item name="instinct">"Instinto"</item>
+        <item name="mystic">Sabiduría</item>
+        <item name="valor">Valor</item>
+        <item name="instinct">Instinto</item>
     </string-array>
 
     <string-array name="mystic_percentage">
         <item name="mplace1">@string/place1</item>
-        <item name="mystic80_100">"Tu [Pokémon] es una maravilla para la vista."</item>
-        <item name="mystic67_79">"Tu [Pokémon] me ha llamado ciertamente la atención."</item>
-        <item name="mystic51_66">"Tu [Pokémon] está por encima de la media."</item>
-        <item name="mystic0_50">"No parece que tu [Pokémon] vaya a llegar muy lejos en combate."</item>
+        <item name="mystic80_100">\"Tu [Pokémon] es una maravilla para la vista.\"</item>
+        <item name="mystic67_79">\"Tu [Pokémon] me ha llamado ciertamente la atención.\"</item>
+        <item name="mystic51_66">\"Tu [Pokémon] está por encima de la media.\"</item>
+        <item name="mystic0_50">\"No parece que tu [Pokémon] vaya a llegar muy lejos en combate.\"</item>
     </string-array>
 
     <string-array name="mystic_ivrange">
         <item name="mplace2">@string/place2</item>
-        <item name="mysticiv15">"Sus características están fuera de todo cálculo. ¡Es increíble!"</item>
-        <item name="mysticiv13_14">Debo decir que sus características son realmente impresionantes."</item>
-        <item name="mysticiv8_12">"Sus características están bastante bien."</item>
-        <item name="mysticiv0_7">"Sus características dejan un poco que desear, yo diría."</item>
+        <item name="mysticiv15">\"Sus características están fuera de todo cálculo. ¡Es increíble!\"</item>
+        <item name="mysticiv13_14">\"Debo decir que sus características son realmente impresionantes.\"</item>
+        <item name="mysticiv8_12">\"Sus características están bastante bien.\"</item>
+        <item name="mysticiv0_7">\"Sus características dejan un poco que desear, yo diría.\"</item>
     </string-array>
 
 
     <string-array name="instinct_percentage">
         <item name="iplace1">@string/place1</item>
-        <item name="instinct80_100">"¡Tu [Pokémon] puede enfrentarse a los mejores!"</item>
-        <item name="instinct67_79">"¡Tu [Pokémon] es realmente fuerte!"</item>
-        <item name="instinct51_66">"Tu [Pokémon] está bastante bien."</item>
-        <item name="instinct0_50">"Tu [Pokémon] podría mejorar algo en lo que se refiere a combates."</item>
+        <item name="instinct80_100">\"¡Tu [Pokémon] puede enfrentarse a los mejores!\"</item>
+        <item name="instinct67_79">\"¡Tu [Pokémon] es realmente fuerte!\"</item>
+        <item name="instinct51_66">\"Tu [Pokémon] está bastante bien.\"</item>
+        <item name="instinct0_50">\"Tu [Pokémon] podría mejorar algo en lo que se refiere a combates.\"</item>
     </string-array>
 
     <string-array name="instinct_ivrange">
         <item name="iplace2">@string/place2</item>
-        <item name="instinctiv15">"¡Sus características son lo mejor que he visto nunca! ¡Qué pasada!"</item>
-        <item name="instinctiv13_14">"¡Sus características son realmente fuertes! Es impresionante."</item>
-        <item name="instinctiv8_12">"Tiene buenas características, sin duda."</item>
-        <item name="instinctiv0_7">"Sus características están… bien, supongo."</item>
+        <item name="instinctiv15">\"¡Sus características son lo mejor que he visto nunca! ¡Qué pasada!\"</item>
+        <item name="instinctiv13_14">\"¡Sus características son realmente fuertes! Es impresionante.\"</item>
+        <item name="instinctiv8_12">\"Tiene buenas características, sin duda.\"</item>
+        <item name="instinctiv0_7">\"Sus características están… bien, supongo.\"</item>
     </string-array>
 
     <string-array name="valor_percentage">
         <item name="vplace1">@string/place1</item>
-        <item name="valor80_100">"Tu [Pokémon] simplemente me fascina. ¡Puede logar cualquier cosa!"</item>
-        <item name="valor67_79">"Tu [Pokémon] es muy fuerte. ¡Qué orgullo debes sentir!"</item>
-        <item name="valor51_66">"Tu [Pokémon] está bastante bien."</item>
-        <item name="valor0_50">"Tu [Pokémon] puede que no sea el mejor en combate, pero aún así me gusta."</item>
+        <item name="valor80_100">\"Tu [Pokémon] simplemente me fascina. ¡Puede logar cualquier cosa!\"</item>
+        <item name="valor67_79">\"Tu [Pokémon] es muy fuerte. ¡Qué orgullo debes sentir!\"</item>
+        <item name="valor51_66">\"Tu [Pokémon] está bastante bien.\"</item>
+        <item name="valor0_50">\"Tu [Pokémon] puede que no sea el mejor en combate, pero aún así me gusta.\"</item>
     </string-array>
 
     <string-array name="valor_ivrange">
         <item name="vplace2">@string/place2</item>
-        <item name="valoriv15">"Estoy flipando con sus características. ¡GUAU!"</item>
-        <item name="valoriv13_14">"Cuenta con excelentes características. ¡Qué emocionante!"</item>
-        <item name="valoriv8_12">"Sus características te ayudarán a cumplir su objetivo en combate."</item>
-        <item name="valoriv0_7">"Sus características no te serán de mucha utilidad en combate."</item>
+        <item name="valoriv15">\"Estoy flipando con sus características. ¡GUAU!\"</item>
+        <item name="valoriv13_14">\"Cuenta con excelentes características. ¡Qué emocionante!\"</item>
+        <item name="valoriv8_12">\"Sus características te ayudarán a cumplir su objetivo en combate.\"</item>
+        <item name="valoriv0_7">\"Sus características no te serán de mucha utilidad en combate.\"</item>
     </string-array>
 
     <string name="back">Atrás</string>
@@ -67,7 +67,7 @@
     <string name="main_permission">Dar Permisos</string>
     <string name="main_start">Iniciar</string>
     <string name="main_stop">Detener</string>
-    <string name="notification_title">GoIV en Ejecución - Nivel %1$d</string>
+    <string name="notification_title">GoIV en Ejecución - Nivel %d</string>
     <string name="pokemon_name">Nombre del Pokémon: </string>
     <string name="trainer_level">Nivel de Entrenador</string>
     <string name="use_the_slider_below_to_align_the_arc">Use el slider para alinear el marcador en el arco</string>
@@ -91,10 +91,10 @@
     <string name="advanced_information">Información Avanzada</string>
     <string name="candy_cost">Costo en Caramelos</string>
     <string name="evolution">Evolución</string>
-    <string name="last_scan">Último analizado: %1$s</string>
+    <string name="last_scan">Último analizado: %s</string>
     <string name="level">Nivel</string>
-    <string name="level_num">Nivel %1$.1f</string>
-    <string name="possible_iv_combinations">"%1$d Combinaciones de IV posibles"</string>
+    <string name="level_num">Nivel %.1f</string>
+    <string name="possible_iv_combinations">%d Combinaciones de IV posibles</string>
     <string name="refine">Refinar</string>
     <string name="powerup_calc_instructions">Cálculo de mejoras y evolución\nDeslizar el slider para visualizar diferentes predicciones</string>
     <string name="scan_pokemon_failed">Detección fallida, asegurese de estar en la cima de la ficha del Pokémon y vuelva a intentar!</string>

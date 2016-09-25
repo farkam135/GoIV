@@ -119,7 +119,7 @@
     <string-array name="valor_ivrange">
         <item name="vplace2">@string/place2</item>
         <item name="valoriv15">\"…sbalorditive …credere ai miei occhi!\"</item>
-        <item name="valoriv13_14">\"…incredibili. Forte!\"</item>
+        <item name="valoriv13_14">\"…eccellenti. Forte!\"</item>
         <item name="valoriv8_12">\"…dovrebbero bastare nelle lotte\"</item>
         <item name="valoriv0_7">\"…non gli saranno di grande aiuto…\"</item>
     </string-array>

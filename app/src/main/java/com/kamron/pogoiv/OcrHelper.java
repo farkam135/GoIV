@@ -30,8 +30,10 @@ public class OcrHelper {
     private final boolean candyWordFirst;
     private final String nidoFemale;
     private final String nidoMale;
+    private final boolean isPokeSpamEnabled;
 
-    private OcrHelper(String dataPath, int widthPixels, int heightPixels, String nidoFemale, String nidoMale) {
+    private OcrHelper(String dataPath, int widthPixels, int heightPixels, String nidoFemale, String nidoMale,
+                      boolean isPokeSpamEnabled) {
         tesseract = new TessBaseAPI();
         tesseract.init(dataPath, "eng");
         tesseract.setPageSegMode(TessBaseAPI.PageSegMode.PSM_SINGLE_LINE);
@@ -42,6 +44,7 @@ public class OcrHelper {
         this.candyWordFirst = isCandyWordFirst();
         this.nidoFemale = nidoFemale;
         this.nidoMale = nidoMale;
+        this.isPokeSpamEnabled = isPokeSpamEnabled;
     }
 
     /**
@@ -52,9 +55,9 @@ public class OcrHelper {
      * @return Bitmap with replaced colors
      */
     public static OcrHelper init(String dataPath, int widthPixels, int heightPixels, String nidoFemale,
-                                 String nidoMale) {
+                                 String nidoMale, boolean isPokeSpamEnabled) {
         if (instance == null) {
-            instance = new OcrHelper(dataPath, widthPixels, heightPixels, nidoFemale, nidoMale);
+            instance = new OcrHelper(dataPath, widthPixels, heightPixels, nidoFemale, nidoMale, isPokeSpamEnabled);
         }
         return instance;
     }
@@ -346,18 +349,7 @@ public class OcrHelper {
      * @return candyAmount the candy amount, or blank Optional object if nothing was found
      */
     private Optional<Integer> getCandyAmountFromImg(Bitmap pokemonImage) {
-
-        //Disable getting CandyAmount if we don't have PokeSpam enabled
-        GoIVSettings settings;
-        try {
-            //Anything better then getInstance(null)? should we let it crash?
-            settings = GoIVSettings.getInstance(null);
-        } catch (Exception ex) {
-            //Probably a crash due to getInstance
-            return Optional.absent();
-        }
-
-        if (settings == null || !settings.isPokeSpamEnabled()) {
+        if (!isPokeSpamEnabled) {
             return Optional.absent();
         }
 

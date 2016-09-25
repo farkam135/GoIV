@@ -255,8 +255,8 @@
                 android:id="@+id/expandedLevelSeekbarBackground"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:range1="@drawable/orange_scrubber_track_holo_light"
-                app:range2="@drawable/orange_scrubber_primary_holo"
+                app:range1="@drawable/seekbar_background_gray"
+                app:range2="@drawable/seekbar_background_orange"
                 app:thumbNumber="2"
                 android:layout_centerInParent="true"/>
 

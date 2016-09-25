@@ -113,7 +113,7 @@
     <string name="stamina_hp">PV</string>
     <string name="missing_inputs">PC et PV requis.</string>
     <string name="ivtext_no_possibilities">Aucune combinaison d\'IV possible pour ces données. Veuillez vérifier les informations.</string>
-    <string name="checking_for_update">Recherche de mise à jour&#8230;</string>
+    <string name="checking_for_update">Recherche de mise à jour…</string>
     <string name="ongoing_update">Une mise à jour de GoIV est déjà en cours de téléchargement</string>
     <string name="up_to_date">L\'appli est à jour</string>
     <string name="update_check_failed">Erreur pendant la recherche de mise à jour. Veuillez vérifier votre connexion internet</string>

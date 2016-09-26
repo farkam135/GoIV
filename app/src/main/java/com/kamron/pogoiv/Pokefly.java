@@ -1196,7 +1196,7 @@ public class Pokefly extends Service {
         // Set Thumb 1 drawable to an orange marker and value at the max possible Pokemon level at the current
         // trainer level
         expandedLevelSeekbarBackground.getThumb(0).setThumb(getDrawableC(R.drawable
-                .orange_seekbar_thumb_marker));
+                .orange_marker));
         expandedLevelSeekbarBackground.getThumb(0).setValue(
                 levelToSeekbarProgress(Data.trainerLevelToMaxPokeLevel(trainerLevel)));
 

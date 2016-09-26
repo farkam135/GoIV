@@ -1,10 +1,12 @@
 # GoIV, Android Project for Pokémon GO.
 
-[![Travis Build Status](https://img.shields.io/travis/farkam135/GoIV/master.svg?maxAge=2592000 "Travis Build Status")](https://travis-ci.org/farkam135/GoIV)
+[![Current Release](https://img.shields.io/github/release/farkam135/GoIV.svg?maxAge=21600 "Current Release")](https://github.com/farkam135/GoIV/releases/latest)
+[![Downloads](https://img.shields.io/github/downloads/farkam135/GoIV/total.svg?maxAge=21600 "Downloads")](https://github.com/farkam135/GoIV/releases)
+[![Travis Build Status](https://img.shields.io/travis/farkam135/GoIV/master.svg?maxAge=21600 "Travis Build Status")](https://travis-ci.org/farkam135/GoIV)
 [![License](https://img.shields.io/github/license/farkam135/GoIV.svg?maxAge=2592000 "License")](LICENSE.md)
 
-### Latest Release: [![Downloads](https://img.shields.io/github/downloads/farkam135/GoIV/total.svg?maxAge=2592000 "Downloads")](https://github.com/farkam135/GoIV/releases/latest)
-### Changelog: [![Changelog](https://img.shields.io/github/release/farkam135/GoIV.svg?maxAge=2592000 "Changelog")](CHANGELOG.md)
+### [Release Downloads](https://github.com/farkam135/GoIV/releases)
+### [View Changelog](CHANGELOG.md)
 
 ## Table of Contents
 

@@ -128,6 +128,7 @@
     <string name="unknown_percent" translatable="false">"?%"</string>
     <string name="pokespam">PokeSpam</string>
     <string name="pokespam_formated_message">%1$d (%2$d rows + %3$d more)</string>
+    <string name="pokespam_not_available">Not Available</string>
     <string name="candy">Candy</string>
     <string name="PokeSpam_setting_title">Enable PokeSpam Calculation</string>
     <string name="PokeSpam_setting_summary">This feature scans your Pokemon candy to calculate how many Pokemon of that type you can evolve. Recommend use: To calculate max result from lucky egg.</string>

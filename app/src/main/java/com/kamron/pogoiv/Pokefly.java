@@ -1319,14 +1319,19 @@ public class Pokefly extends Service {
     /**
      * setAndCalculatePokeSpamText sets pokespamtext and makes it visible.
      * @param ivScanResult IVScanResult object that contains the scan results, mainly needed to get candEvolutionCost
-     *                     varible
+     *                     variable
      */
     private void setAndCalculatePokeSpamText(IVScanResult ivScanResult) {
         if (GoIVSettings.getInstance(getApplicationContext()).isPokeSpamEnabled()
-                && pokemonCandy.isPresent() && ivScanResult.pokemon != null
-                &&  ivScanResult.pokemon.candyEvolutionCost > 0) {
-            PokeSpam pokeSpamCalculator = new PokeSpam(pokemonCandy.get(),ivScanResult.pokemon.candyEvolutionCost);
+                 && ivScanResult.pokemon != null) {
 
+            if (ivScanResult.pokemon.candyEvolutionCost < 0) {
+                exResPokeSpam.setText(getString(R.string.pokespam_not_available));
+                pokeSpamView.setVisibility(View.VISIBLE);
+                return;
+            }
+
+            PokeSpam pokeSpamCalculator = new PokeSpam(pokemonCandy.or(0),ivScanResult.pokemon.candyEvolutionCost);
             String text = getString(R.string.pokespam_formated_message,
                     pokeSpamCalculator.getTotalEvolvable(),pokeSpamCalculator.getEvolveRows(),
                     pokeSpamCalculator.getEvolveExtra());
@@ -1642,6 +1647,7 @@ public class Pokefly extends Service {
                 checkIv();
             }
         }
+        enableOrDisablePokeSpamBoxBasedOnSettings();
     }
 
     private <T> String optionalIntToString(Optional<T> src) {

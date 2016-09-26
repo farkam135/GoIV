@@ -27,8 +27,8 @@ public class ClipboardTokenCollection {
 
         tokens.add(new PokemonNameToken(false, 12));
         tokens.add(new PokemonNameToken(false, 5));
-        tokens.add(new PokemonNameToken(true, 5));
         tokens.add(new PokemonNameToken(true, 12));
+        tokens.add(new PokemonNameToken(true, 5));
 
         tokens.add(new CpTierToken(true));
         tokens.add(new CpTierToken(false));

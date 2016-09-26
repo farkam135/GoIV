@@ -34,7 +34,7 @@ public class CpTierToken extends ClipboardToken {
     public String getValue(IVScanResult ivs, PokeInfoCalculator pokeInfoCalculator) {
         TokenTierLogic ttl = new TokenTierLogic();
         Pokemon poke = getRightPokemon(ivs.pokemon, pokeInfoCalculator);
-        int cp = pokeInfoCalculator.getAverageCPAtLevel(poke, ivs.lowAttack, ivs.lowDefense, ivs.lowStamina,
+        int cp = (int)pokeInfoCalculator.getAverageCPAtLevel(poke, ivs.lowAttack, ivs.lowDefense, ivs.lowStamina,
                 ivs.highAttack, ivs.highDefense, ivs.highStamina, 40);
 
         return ttl.getRating(cp);

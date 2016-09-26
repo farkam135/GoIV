@@ -60,6 +60,11 @@ public class LevelToken extends ClipboardToken {
     }
 
     @Override
+    public String getStringRepresentation() {
+        return super.getStringRepresentation() + String.valueOf(mode);
+    }
+
+    @Override
     public String getTokenName(Context context) {
         if (mode == 0) {
             return "Level x2";

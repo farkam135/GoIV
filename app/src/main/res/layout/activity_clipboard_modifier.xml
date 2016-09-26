@@ -117,7 +117,13 @@
 
     </LinearLayout>
 
-
+<CheckBox
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Max Evolution Token variants"
+    android:textColor="@color/importantText"
+    android:onClick="updateTokenButtonListEvolutionToggle"
+    android:id="@+id/evolutionVariantCheckbox"/>
     <Space
         android:layout_width="match_parent"
         android:layout_height="16dp"/>

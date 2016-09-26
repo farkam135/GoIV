@@ -17,7 +17,7 @@ public class IVPercentageToken extends ClipboardToken {
     private int mode;
     private String modeText;
 
-    public IVPercentageToken(String mode){
+    public IVPercentageToken(String mode) {
         super(false);
         modeText = mode;
         if (mode.equals("Minimum")) {
@@ -49,6 +49,11 @@ public class IVPercentageToken extends ClipboardToken {
     public String getPreview() {
         int example = 98 + mode;
         return String.valueOf(example);
+    }
+
+    @Override
+    public String getStringRepresentation() {
+        return super.getStringRepresentation() + String.valueOf(mode) + String.valueOf(modeText);
     }
 
     @Override

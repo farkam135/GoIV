@@ -33,9 +33,9 @@ public class PerfectionCPPercentageToken extends ClipboardToken {
         Pokemon poke = getRightPokemon(isr.pokemon, pokeInfoCalculator);
         double perfectIvCp = pokeInfoCalculator.getAverageCPAtLevel(poke, 15, 15, 15, 15, 15, 15, 40);
         double thisCP =
-                pokeInfoCalculator.getAverageCPAtLevel(isr.pokemon, isr.lowAttack, isr.lowDefense, isr.lowStamina,
+                pokeInfoCalculator.getAverageCPAtLevel(poke, isr.lowAttack, isr.lowDefense, isr.lowStamina,
                         isr.highAttack, isr.highDefense, isr.highStamina, 40);
-        int roundedPerfection = (int) ((thisCP / perfectIvCp) + 0.5);
+        int roundedPerfection = (int) ((thisCP / perfectIvCp) * 100);
         return String.valueOf(roundedPerfection);
     }
 

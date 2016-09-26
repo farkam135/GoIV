@@ -243,7 +243,7 @@ public class PokeInfoCalculator {
      * @param level       pokemon level for CP calculation
      * @return int representing the average cp of the high and low estimate of the pokemon
      */
-    public int getAverageCPAtLevel(Pokemon pokemon, int lowAttack, int lowDefense, int lowStamina, int highAttack,
+    public double getAverageCPAtLevel(Pokemon pokemon, int lowAttack, int lowDefense, int lowStamina, int highAttack,
                                    int highDefense, int highStamina, double level) {
         CPRange range = getCpRangeAtLevel(pokemon, lowAttack, lowDefense, lowStamina, highAttack, highDefense,
                 highStamina, level);

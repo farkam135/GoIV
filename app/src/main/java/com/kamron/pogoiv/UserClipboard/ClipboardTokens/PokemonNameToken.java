@@ -16,11 +16,12 @@ public class PokemonNameToken extends ClipboardToken {
 
     private boolean evolvedPreview;
     private int maxLength;
+
     /**
      * Create a clipboard token.
      * The boolean in the constructor can be set to false if pokemon evolution is not applicable.
      *
-     * @param maxEv true if the token should change its logic to pretending the pokemon is fully evolved.
+     * @param maxEv     true if the token should change its logic to pretending the pokemon is fully evolved.
      * @param maxLength How long the poke name is allowed to be before it's cut off.
      */
     public PokemonNameToken(boolean maxEv, int maxLength) {
@@ -43,6 +44,7 @@ public class PokemonNameToken extends ClipboardToken {
     /**
      * Get the capped pokemon name. For example, blastoise with cap 4 would return blas.
      * If input string is shorted than cap, returns input string.
+     *
      * @param s Which string to cap.
      * @return A string which might have become shorter.
      */
@@ -62,6 +64,10 @@ public class PokemonNameToken extends ClipboardToken {
                 getCappedLength("MachopHasATailButHisEvolutionsDoesNotForSomeReason");
     }
 
+    @Override
+    public String getStringRepresentation() {
+        return super.getStringRepresentation() + String.valueOf(evolvedPreview) + "_" + String.valueOf(maxLength);
+    }
 
     @Override
     public String getTokenName(Context context) {

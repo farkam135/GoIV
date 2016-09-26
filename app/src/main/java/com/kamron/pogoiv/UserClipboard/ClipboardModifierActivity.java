@@ -3,6 +3,7 @@ package com.kamron.pogoiv.UserClipboard;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.GridLayout;
 import android.widget.TextView;
 
@@ -15,7 +16,8 @@ public class ClipboardModifierActivity extends AppCompatActivity {
     private ClipboardTokenHandler cth;
     private TextView clipboardPreviewString;
     private TextView clipboardLengthOfOutput;
-
+    private CheckBox evolutionVariantCheckbox;
+    private GridLayout tokenListLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,7 +25,10 @@ public class ClipboardModifierActivity extends AppCompatActivity {
         this.cth = new ClipboardTokenHandler(this);
         this.clipboardLengthOfOutput = (TextView) findViewById(R.id.clipboardLengthOfOutput);
         this.clipboardPreviewString = (TextView) findViewById(R.id.clipboardPreviewString);
-        createButtons();
+        this.tokenListLayout = (GridLayout) findViewById(R.id.clipboard_modifier_root);
+        this.evolutionVariantCheckbox = (CheckBox) findViewById(R.id.evolutionVariantCheckbox);
+
+        updateTokenButtonListEvolutionToggle(evolutionVariantCheckbox);
         updateLabels();
     }
 
@@ -53,19 +58,24 @@ public class ClipboardModifierActivity extends AppCompatActivity {
         updateLabels();
     }
 
-    /**
-     * Adds a button for each possible token type.
-     */
-    private void createButtons() {
-        //the layout on which you are working
-        GridLayout layout = (GridLayout) findViewById(R.id.clipboard_modifier_root);
-        ArrayList<ClipboardToken> possibleTokens = ClipboardTokenCollection.getSamples();
-        for (ClipboardToken token : possibleTokens) {
-            //set the properties for button
-            ClipboardTokenButton btnTag = new ClipboardTokenButton(this, token, cth);
 
-            //add button to the layout
-            layout.addView(btnTag);
+    /**
+     * Switched between evolution and normal variants of token list
+     * @param view Required for the xml onclick to find the method
+     */
+    public void updateTokenButtonListEvolutionToggle(View view) {
+        tokenListLayout.removeAllViews();
+        boolean evolutionVariant = evolutionVariantCheckbox.isChecked();
+        ArrayList<ClipboardToken> possibleTokens = ClipboardTokenCollection.getSamples();
+        for (ClipboardToken possibleToken : possibleTokens) {
+            if (evolutionVariant == possibleToken.maxEv){
+                //set the properties for button
+                ClipboardTokenButton btnTag = new ClipboardTokenButton(this, possibleToken, cth);
+
+                //add button to the layout
+                tokenListLayout.addView(btnTag);
+            }
         }
+
     }
 }

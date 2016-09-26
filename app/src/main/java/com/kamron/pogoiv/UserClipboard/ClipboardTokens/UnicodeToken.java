@@ -21,7 +21,6 @@ public class UnicodeToken extends ClipboardToken {
      * The boolean in the constructor can be set to false if pokemon evolution is not applicable.
      *
      * @param maxEv true if the token should change its logic to pretending the pokemon is fully evolved.
-     *
      */
     public UnicodeToken(boolean maxEv, boolean filled) {
         super(maxEv);
@@ -46,6 +45,11 @@ public class UnicodeToken extends ClipboardToken {
         returner += toUse[def];
         returner += toUse[sta];
         return returner;
+    }
+
+    @Override
+    public String getStringRepresentation() {
+        return super.getStringRepresentation() + String.valueOf(filled);
     }
 
     @Override

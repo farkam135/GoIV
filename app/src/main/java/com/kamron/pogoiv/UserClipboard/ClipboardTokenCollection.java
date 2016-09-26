@@ -1,15 +1,13 @@
 package com.kamron.pogoiv.UserClipboard;
 
 import com.kamron.pogoiv.UserClipboard.ClipboardTokens.CpTierToken;
-import com.kamron.pogoiv.UserClipboard.ClipboardTokens.IVAvgPercentageToken;
-import com.kamron.pogoiv.UserClipboard.ClipboardTokens.IVMaxPercentageToken;
-import com.kamron.pogoiv.UserClipboard.ClipboardTokens.IVMinPercentageToken;
-import com.kamron.pogoiv.UserClipboard.ClipboardTokens.CPTierMaxEvolutionToken;
-import com.kamron.pogoiv.UserClipboard.ClipboardTokens.PerfectionLastEvPercentageToken;
-import com.kamron.pogoiv.UserClipboard.ClipboardTokens.PerfectionPercentageToken;
+import com.kamron.pogoiv.UserClipboard.ClipboardTokens.HexIVToken;
+import com.kamron.pogoiv.UserClipboard.ClipboardTokens.HpToken;
+import com.kamron.pogoiv.UserClipboard.ClipboardTokens.IVPercentageToken;
+import com.kamron.pogoiv.UserClipboard.ClipboardTokens.PerfectionCPPercentageToken;
 import com.kamron.pogoiv.UserClipboard.ClipboardTokens.PokemonNameToken;
 import com.kamron.pogoiv.UserClipboard.ClipboardTokens.SeperatorToken;
-import com.kamron.pogoiv.UserClipboard.ClipboardTokens.UnicodeLowIVNumberToken;
+import com.kamron.pogoiv.UserClipboard.ClipboardTokens.UnicodeToken;
 
 import java.util.ArrayList;
 
@@ -25,15 +23,35 @@ public class ClipboardTokenCollection {
 
     public static ArrayList<ClipboardToken> getSamples() {
         ArrayList<ClipboardToken> tokens = new ArrayList<>();
-        tokens.add(new PokemonNameToken());
-        tokens.add(new CpTierToken());
-        tokens.add(new CPTierMaxEvolutionToken());
-        tokens.add(new IVMaxPercentageToken());
-        tokens.add(new IVMinPercentageToken());
-        tokens.add(new IVAvgPercentageToken());
-        tokens.add(new PerfectionPercentageToken());
-        tokens.add(new PerfectionLastEvPercentageToken());
-        tokens.add(new UnicodeLowIVNumberToken());
+
+        tokens.add(new PokemonNameToken(false, 12));
+        tokens.add(new PokemonNameToken(false, 5));
+        tokens.add(new PokemonNameToken(true, 5));
+        tokens.add(new PokemonNameToken(true, 12));
+
+        tokens.add(new CpTierToken(true));
+        tokens.add(new CpTierToken(false));
+
+        tokens.add(new HpToken(true, true));
+        tokens.add(new HpToken(true, false));
+        tokens.add(new HpToken(false, true));
+        tokens.add(new HpToken(false, false));
+
+        //Percentage
+        tokens.add(new IVPercentageToken("Minimum"));
+        tokens.add(new IVPercentageToken("Average"));
+        tokens.add(new IVPercentageToken("Max"));
+
+
+        tokens.add(new PerfectionCPPercentageToken(true));
+        tokens.add(new PerfectionCPPercentageToken(false));
+
+        //Unicode iv representations
+        tokens.add(new UnicodeToken(false, false));
+        tokens.add(new UnicodeToken(false, true));
+        tokens.add(new HexIVToken(false));
+
+        //Seperators
         tokens.add(new SeperatorToken(" "));
         tokens.add(new SeperatorToken(","));
         tokens.add(new SeperatorToken("-"));

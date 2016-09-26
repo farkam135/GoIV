@@ -5,14 +5,26 @@ import android.content.Context;
 import com.kamron.pogoiv.UserClipboard.ClipboardToken;
 import com.kamron.pogoiv.logic.IVScanResult;
 import com.kamron.pogoiv.logic.PokeInfoCalculator;
+import com.kamron.pogoiv.logic.Pokemon;
 
 /**
  * Created by Johan on 2016-09-24.
- * <p>
- * <p>A token which returns a "tier" based on the pokemon max cp.
+ * A token which returns a "tier" based on the pokemon max cp.
  */
 
 public class CpTierToken extends ClipboardToken {
+
+
+    /**
+     * Create a clipboard token.
+     * The boolean in the constructor can be set to false if pokemon evolution is not applicable.
+     *
+     * @param maxEv true if the token should change its logic to pretending the pokemon is fully evolved.
+     */
+    public CpTierToken(boolean maxEv) {
+        super(maxEv);
+    }
+
     @Override
     public int getMaxLength() {
         return 2;
@@ -21,7 +33,8 @@ public class CpTierToken extends ClipboardToken {
     @Override
     public String getValue(IVScanResult ivs, PokeInfoCalculator pokeInfoCalculator) {
         TokenTierLogic ttl = new TokenTierLogic();
-        int cp = pokeInfoCalculator.getAverageCPAtLevel(ivs.pokemon, ivs.lowAttack, ivs.lowDefense, ivs.lowStamina,
+        Pokemon poke = getRightPokemon(ivs.pokemon, pokeInfoCalculator);
+        int cp = pokeInfoCalculator.getAverageCPAtLevel(poke, ivs.lowAttack, ivs.lowDefense, ivs.lowStamina,
                 ivs.highAttack, ivs.highDefense, ivs.highStamina, 40);
 
         return ttl.getRating(cp);

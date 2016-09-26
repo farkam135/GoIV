@@ -7,12 +7,23 @@ import com.kamron.pogoiv.logic.IVScanResult;
 import com.kamron.pogoiv.logic.PokeInfoCalculator;
 
 /**
- * Created by Johan on 2016-09-25.
- * Represents the lowest possible IV combination with ⓪①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮
+ * Created by Johan on 2016-09-26.
+ * Get the pokemon iv as a hex representation.
  */
 
-public class UnicodeLowIVNumberToken extends ClipboardToken {
-    String[] unicodeSymbol = {"⓪", "①", "②", "③", "④", "⑤", "⑥", "⑦", "⑧", "⑨", "⑩", "⑪", "⑫", "⑬", "⑭", "⑮"};
+public class HexIVToken extends ClipboardToken {
+
+    String[] hex = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F"};
+
+    /**
+     * Create a clipboard token.
+     * The boolean in the constructor can be set to false if pokemon evolution is not applicable.
+     *
+     * @param maxEv true if the token should change its logic to pretending the pokemon is fully evolved.
+     */
+    public HexIVToken(boolean maxEv) {
+        super(maxEv);
+    }
 
     @Override
     public int getMaxLength() {
@@ -21,24 +32,20 @@ public class UnicodeLowIVNumberToken extends ClipboardToken {
 
     @Override
     public String getValue(IVScanResult ivScanResult, PokeInfoCalculator pokeInfoCalculator) {
-        String returner = "";
         int att = ivScanResult.getLowestIVCombination().att;
         int def = ivScanResult.getLowestIVCombination().def;
         int sta = ivScanResult.getLowestIVCombination().sta;
 
-        returner += unicodeSymbol[att];
-        returner += unicodeSymbol[def];
-        returner += unicodeSymbol[sta];
-        return returner;
+        return hex[att] + hex[def] + hex[sta];
     }
 
     @Override
     public String getPreview() {
-        return "⑨⑫①";
+        return "9A3";
     }
 
     @Override
     public String getTokenName(Context context) {
-        return "Compresssed Lowest IV score";
+        return "Hex IV";
     }
 }

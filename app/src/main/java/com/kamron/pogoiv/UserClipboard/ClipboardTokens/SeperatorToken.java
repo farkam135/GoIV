@@ -15,6 +15,7 @@ public class SeperatorToken extends ClipboardToken {
     private String string;
 
     public SeperatorToken(String s) {
+        super(false);
         this.string = s;
     }
 
@@ -40,6 +41,11 @@ public class SeperatorToken extends ClipboardToken {
 
     @Override
     public String getStringRepresentation() {
+        if (string.contains(".")) {
+            return ".DotSeperator"; //edge case where the string contains something that'd break the way tokens are
+            // stored and retrieved from memory.
+        }
+        //normal case
         return "." + this.getClass().getSimpleName() + string;
     }
 }

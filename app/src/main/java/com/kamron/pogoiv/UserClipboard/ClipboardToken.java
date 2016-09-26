@@ -4,6 +4,9 @@ import android.content.Context;
 
 import com.kamron.pogoiv.logic.IVScanResult;
 import com.kamron.pogoiv.logic.PokeInfoCalculator;
+import com.kamron.pogoiv.logic.Pokemon;
+
+import java.util.ArrayList;
 
 /**
  * Created by Johan on 2016-09-24.
@@ -14,6 +17,18 @@ import com.kamron.pogoiv.logic.PokeInfoCalculator;
  */
 
 public abstract class ClipboardToken {
+
+    public boolean maxEv; // if the token should change to accomodate to the last in the evolution line
+
+    /**
+     * Create a clipboard token.
+     * The boolean in the constructor can be set to false if pokemon evolution is not applicable.
+     * @param maxEv true if the token should change its logic to pretending the pokemon is fully evolved.
+     */
+    public ClipboardToken(boolean maxEv){
+        this.maxEv = maxEv;
+    }
+
     /**
      * What's the longest possible output that this token can produce?
      * For example, if the token outputs a number between 0 and 150, the maximum length would be 3.
@@ -47,9 +62,43 @@ public abstract class ClipboardToken {
      * @return A string representing this token as saved in persistent memory setting.
      */
     public String getStringRepresentation() {
-        return "." + this.getClass().getSimpleName();
+        String forEvolution = maxEv ? "MaxEv" : "Base";
+        return "." + this.getClass().getSimpleName() + forEvolution;
     }
 
+    /**
+     * Get the last evolution in an evolution chain of a pokemon, unless the pokemon does not have an evolution.
+     * Handles edge case Vaporeon etc by not checking for last evolution index if the pokemon does not have an
+     * evolution.
+     * @param poke Poke to base logic on
+     * @param pokeInfoCalculator The calculator used to get the evolution line.
+     * @return The last pokemon in an evolution line.
+     */
+    private Pokemon getLastEv(Pokemon poke, PokeInfoCalculator pokeInfoCalculator) {
+        Pokemon lastEv;
+        //If-else below exists to manage scenario where pokemon has multiple evolution possibilities, so for example
+        //If you scan a vaporeon, it has no evolutions, so there's no need to go to the bottom of the evolution chain
+        // and find jolteon.. or whatever eeveelution is last.
+        if (poke.evolutions.size() != 0) {
+            ArrayList<Pokemon> evLine = pokeInfoCalculator.getEvolutionLine(poke);
+            lastEv = evLine.get(evLine.size() - 1);
+        } else {
+            lastEv = poke;
+        }
+
+        return lastEv;
+    }
+
+    /**
+     * Get a pokemon that is either the scanned pokemon, or the last evolution in the line, depending on the token
+     * setting.
+     * @param poke The pokemon to use, or to find the final evolution of.
+     * @param pic The calculator which can find the last evolution of a pokemon.
+     * @return Either the same pokemon sent in, or the last evolution, depending on the token setting.
+     */
+    public Pokemon getRightPokemon(Pokemon poke, PokeInfoCalculator pic){
+        return maxEv ? getLastEv(poke, pic) : poke;
+    }
     /**
      * Get what the short name of the token is, for example "Pokemon name".
      *

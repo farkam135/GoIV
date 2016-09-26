@@ -1647,6 +1647,7 @@ public class Pokefly extends Service {
                 checkIv();
             }
         }
+        enableOrDisablePokeSpamBoxBasedOnSettings();
     }
 
     private <T> String optionalIntToString(Optional<T> src) {

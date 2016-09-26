@@ -127,35 +127,34 @@ android {
  * annotation processing)
  */
 dependencies {
+    /**
+     * Builds Dependencies for All Builds.
+     */
     compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.android.support:recyclerview-v7:24.2.1'
+    compile 'com.google.guava:guava:19.0'
+    compile 'com.google.code.findbugs:jsr305:3.0.1'
     compile 'com.jakewharton:butterknife:8.4.0'
     compile 'com.jakewharton.timber:timber:4.3.0'
     compile 'com.rmtheis:tess-two:6.0.4'
-    compile 'com.google.guava:guava:19.0'
-    //jsr305 is needed by Guava in release builds.
-    compile 'com.google.code.findbugs:jsr305:3.0.1'
-
-    onlineCompile 'com.squareup.okhttp3:okhttp:3.4.1'
-    onlineCompile 'com.squareup.okio:okio:1.10.0'
     compile 'io.apptik.widget:multislider:1.2'
     provided 'org.projectlombok:lombok:1.16.10'
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
     apt "org.projectlombok:lombok:1.16.10"
 
     /**
-     * Constraint Layout only available in Android Studio 2.2 preview
-     * Anyone actually using it? Can we remove it?
+     * Online Build Dependencies
      */
-    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha1'
-
-    /**
-     * Include Craslytics in the online build
-     */
+    //Include Crashlytics in the online build
     onlineCompile('com.crashlytics.sdk.android:crashlytics:2.6.2@aar') {
         transitive = true;
     }
+    onlineCompile 'com.squareup.okhttp3:okhttp:3.4.1'
+    onlineCompile 'com.squareup.okio:okio:1.10.0'
 
+    /**
+     * Test Build Dependencies
+     */
     testCompile 'junit:junit:4.12'
     testCompile 'com.squareup.assertj:assertj-android:1.1.1'
     testCompile 'org.mockito:mockito-core:1.10.19'
@@ -164,6 +163,10 @@ dependencies {
     androidTestCompile 'com.android.support:support-annotations:24.2.1'
     androidTestCompile 'com.android.support.test:runner:0.5'
 }
+
+/**
+ * Enable Java deprecation/unchecked warnings
+ */
 allprojects {
     gradle.projectsEvaluated {
         tasks.withType(JavaCompile) {

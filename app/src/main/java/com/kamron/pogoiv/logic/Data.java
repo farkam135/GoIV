@@ -81,6 +81,7 @@ public class Data {
     /**
      * Return CpM (CP Multiplier) for a given pokemon level. Levels are described as documented for
      * Data.levelToLevelIdx.
+     *
      * @param level The desired level.
      * @return Associated CpM.
      */

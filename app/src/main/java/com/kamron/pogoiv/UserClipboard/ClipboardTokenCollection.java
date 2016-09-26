@@ -4,6 +4,7 @@ import com.kamron.pogoiv.UserClipboard.ClipboardTokens.CpTierToken;
 import com.kamron.pogoiv.UserClipboard.ClipboardTokens.HexIVToken;
 import com.kamron.pogoiv.UserClipboard.ClipboardTokens.HpToken;
 import com.kamron.pogoiv.UserClipboard.ClipboardTokens.IVPercentageToken;
+import com.kamron.pogoiv.UserClipboard.ClipboardTokens.LevelToken;
 import com.kamron.pogoiv.UserClipboard.ClipboardTokens.PerfectionCPPercentageToken;
 import com.kamron.pogoiv.UserClipboard.ClipboardTokens.PokemonNameToken;
 import com.kamron.pogoiv.UserClipboard.ClipboardTokens.SeperatorToken;
@@ -50,6 +51,11 @@ public class ClipboardTokenCollection {
         tokens.add(new UnicodeToken(false, false));
         tokens.add(new UnicodeToken(false, true));
         tokens.add(new HexIVToken(false));
+
+
+        tokens.add(new LevelToken(false, 0));
+        tokens.add(new LevelToken(false, 1));
+        tokens.add(new LevelToken(false, 2));
 
         //Seperators
         tokens.add(new SeperatorToken(" "));

@@ -342,11 +342,11 @@ public class Pokefly extends Service {
         LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(ACTION_UPDATE_UI));
 
         pokeInfoCalculator = PokeInfoCalculator.getInstance(
-                getResources().getStringArray(R.array.Pokemon),
+                getResources().getStringArray(R.array.pokemon),
                 getResources().getIntArray(R.array.attack),
                 getResources().getIntArray(R.array.defense),
                 getResources().getIntArray(R.array.stamina),
-                getResources().getIntArray(R.array.DevolutionNumber),
+                getResources().getIntArray(R.array.devolutionNumber),
                 getResources().getIntArray(R.array.evolutionCandyCost));
         displayMetrics = this.getResources().getDisplayMetrics();
         initOcr();
@@ -1116,7 +1116,7 @@ public class Pokefly extends Service {
      * Initialises the autocompletetextview which allows people to search for pokemon names.
      */
     private void initializePokemonAutoCompleteTextView() {
-        String[] pokeList = getResources().getStringArray(R.array.Pokemon);
+        String[] pokeList = getResources().getStringArray(R.array.pokemon);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.autocomplete_pokemon_list_item,
                 pokeList);
         autoCompleteTextView1.setAdapter(adapter);

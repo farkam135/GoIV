@@ -9,55 +9,55 @@
         <item name="valor">"Bravoure"</item>
         <item name="instinct">"Intuition"</item>
     </string-array>
-    <string name="place1">"Dans l\'ensemble, ton Pokémon&#8230;"</string>
-    <string name="place2">"Ses stats&#8230;"</string>
+    <string name="place1">"Dans l'ensemble, ton Pokémon…"</string>
+    <string name="place2">"Ses stats…"</string>
 
     <string-array name="mystic_percentage">
         <item name="mplace1">@string/place1</item>
-        <item name="mystic80_100">"Est une merveille&#8230; captivant !"</item>
-        <item name="mystic67_79">&#8230;toute mon attention."</item>
-        <item name="mystic51_66">"&#8230;supérieur à la moyenne."</item>
-        <item name="mystic0_50">"N'ira pas très loin&#8230;"</item>
+        <item name="mystic80_100">"Est une merveille… captivant !"</item>
+        <item name="mystic67_79">…toute mon attention."</item>
+        <item name="mystic51_66">"…supérieur à la moyenne."</item>
+        <item name="mystic0_50">"N'ira pas très loin…"</item>
     </string-array>
 
     <string-array name="mystic_ivrange">
         <item name="mplace2">@string/place2</item>
-        <item name="mysticiv15">"Dépassent tous mes calculs&#8230; !"</item>
-        <item name="mysticiv13_14">"Je suis impressionnée&#8230;"</item>
+        <item name="mysticiv15">"Dépassent tous mes calculs… !"</item>
+        <item name="mysticiv13_14">"Je suis impressionnée…"</item>
         <item name="mysticiv8_12">"S'améliorent à vue d'œil."</item>
         <item name="mysticiv0_7">"N'ont rien d'anormal."</item>
     </string-array>
 
     <string-array name="valor_percentage">
         <item name="vplace1">@string/place1</item>
-        <item name="valor80_100">"M'étonne beaucoup&#8230; tout faire."</item>
-        <item name="valor67_79">"&#8230;très fort, &#8230;être fier."</item>
-        <item name="valor51_66">"&#8230;un Pokémon solide."</item>
-        <item name="valor0_50">"&#8230;pas un combattant."</item>
+        <item name="valor80_100">"M'étonne beaucoup… tout faire."</item>
+        <item name="valor67_79">"…très fort, …être fier."</item>
+        <item name="valor51_66">"…un Pokémon solide."</item>
+        <item name="valor0_50">"…pas un combattant."</item>
     </string-array>
 
     <string-array name="valor_ivrange">
         <item name="vplace2">@string/place2</item>
-        <item name="valoriv15">"&#8230;estomaquée&#8230; Bravo !"</item>
-        <item name="valoriv13_14">"Sont excellentes ! &#8230;super !"</item>
-        <item name="valoriv8_12">"&#8230;va faire des dégâts au combat."</item>
-        <item name="valoriv0_7">"Ne t'aideront pas beaucoup&#8230;"</item>
+        <item name="valoriv15">"…estomaquée… Bravo !"</item>
+        <item name="valoriv13_14">"Sont excellentes ! …super !"</item>
+        <item name="valoriv8_12">"…va faire des dégâts au combat."</item>
+        <item name="valoriv0_7">"Ne t'aideront pas beaucoup…"</item>
     </string-array>
 
     <string-array name="instinct_percentage">
         <item name="iplace1">@string/place1</item>
-        <item name="instinct80_100">"&#8230;tenir tête aux meilleurs."</item>
-        <item name="instinct67_79">"&#8230;vraiment fort."</item>
-        <item name="instinct51_66">"&#8230;plutôt bien."</item>
-        <item name="instinct0_50">"Peut devenir&#8230; meilleur&#8230;"</item>
+        <item name="instinct80_100">"…tenir tête aux meilleurs."</item>
+        <item name="instinct67_79">"…vraiment fort."</item>
+        <item name="instinct51_66">"…plutôt bien."</item>
+        <item name="instinct0_50">"Peut devenir… meilleur…"</item>
     </string-array>
 
     <string-array name="instinct_ivrange">
         <item name="iplace2">@string/place2</item>
-        <item name="instinctiv15">"&#8230;meilleures que j'ai jamais vues !"</item>
-        <item name="instinctiv13_14">"&#8230;super élevées. Impressionnant !"</item>
-        <item name="instinctiv8_12">"&#8230;quelques bonnes stats."</item>
-        <item name="instinctiv0_7">"&#8230;un peu basiques."</item>
+        <item name="instinctiv15">"…meilleures que j'ai jamais vues !"</item>
+        <item name="instinctiv13_14">"…super élevées. Impressionnant !"</item>
+        <item name="instinctiv8_12">"…quelques bonnes stats."</item>
+        <item name="instinctiv0_7">"…un peu basiques."</item>
     </string-array>
     
     <string name="pokemon_name">Nom du Pokémon :</string>
@@ -71,7 +71,7 @@
     <string name="close">Fermer</string>
     <string name="main_permission">Accorder permissions</string>
     <string name="main_start">GO</string>
-    <string name="main_starting">Lancement&#8230;</string>
+    <string name="main_starting">Lancement…</string>
     <string name="main_stop">Arrêt</string>
     <string name="back">Retour</string>
     <string name="accept_screen_capture">Accepter lecture d\'écran</string>
@@ -113,7 +113,7 @@
     <string name="stamina_hp">PV</string>
     <string name="missing_inputs">PC et PV requis.</string>
     <string name="ivtext_no_possibilities">Aucune combinaison d\'IV possible pour ces données. Veuillez vérifier les informations.</string>
-    <string name="checking_for_update">Recherche de mise à jour&#8230;</string>
+    <string name="checking_for_update">Recherche de mise à jour…</string>
     <string name="ongoing_update">Une mise à jour de GoIV est déjà en cours de téléchargement</string>
     <string name="up_to_date">L\'appli est à jour</string>
     <string name="update_check_failed">Erreur pendant la recherche de mise à jour. Veuillez vérifier votre connexion internet</string>

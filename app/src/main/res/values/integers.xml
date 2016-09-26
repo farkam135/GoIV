@@ -463,7 +463,7 @@
         <item>200</item>
     </integer-array>
 
-    <integer-array name="DevolutionNumber">
+    <integer-array name="devolutionNumber">
         <item>-1</item> <!--Bulbasaur-->
         <item>0</item> <!--Ivysaur-->
         <item>1</item> <!--Venusaur-->

@@ -84,8 +84,7 @@ public class OcrHelper {
      * threshold.
      *
      * @param srcBitmap    The source bitmap to scan.
-     * @param dstBitmap    The destination bitmap. Must have same size as the source, can coincide with it, or be null
-     *                     (in which case it is allocated here).
+     * @param mutateSrc    Indicates whether to mutate srcBitmap or to produce a new one.
      * @param keepCr       The red color to keep
      * @param keepCg       The green color to keep
      * @param keepCb       The blue color to keep
@@ -94,7 +93,7 @@ public class OcrHelper {
      * @param simpleBG     Whether the bitmap has a simple background
      * @return Bitmap with replaced colors
      */
-    private Bitmap replaceColors(Bitmap srcBitmap, Bitmap dstBitmap, int keepCr, int keepCg, int keepCb,
+    private Bitmap replaceColors(Bitmap srcBitmap, boolean mutateSrc, int keepCr, int keepCg, int keepCb,
                                  int replaceColor, int distance, boolean simpleBG) {
         int[] allpixels = new int[srcBitmap.getHeight() * srcBitmap.getWidth()];
         srcBitmap.getPixels(allpixels, 0, srcBitmap.getWidth(), 0, 0, srcBitmap.getWidth(), srcBitmap.getHeight());
@@ -121,7 +120,10 @@ public class OcrHelper {
             }
         }
 
-        if (dstBitmap == null) {
+        Bitmap dstBitmap;
+        if (mutateSrc) {
+            dstBitmap = srcBitmap;
+        } else {
             dstBitmap = Bitmap.createBitmap(srcBitmap.getWidth(), srcBitmap.getHeight(), srcBitmap.getConfig());
         }
         dstBitmap.setPixels(allpixels, 0, srcBitmap.getWidth(), 0, 0, srcBitmap.getWidth(), srcBitmap.getHeight());
@@ -218,7 +220,7 @@ public class OcrHelper {
         String pokemonName = ocrCache.get(hash);
 
         if (pokemonName == null) {
-            name = replaceColors(name, name, 68, 105, 108, Color.WHITE, 200, true);
+            name = replaceColors(name, true, 68, 105, 108, Color.WHITE, 200, true);
             tesseract.setImage(name);
             pokemonName = fixOcrNumsToLetters(tesseract.getUTF8Text().replace(" ", ""));
             if (pokemonName.toLowerCase().contains("nidora")) {
@@ -264,7 +266,7 @@ public class OcrHelper {
         String candyName = ocrCache.get(hash);
 
         if (candyName == null) {
-            candy = replaceColors(candy, candy, 68, 105, 108, Color.WHITE, 200, true);
+            candy = replaceColors(candy, true, 68, 105, 108, Color.WHITE, 200, true);
             tesseract.setImage(candy);
             candyName = fixOcrNumsToLetters(
                     removeFirstOrLastWord(tesseract.getUTF8Text().trim().replace("-", " "), candyWordFirst));
@@ -288,7 +290,7 @@ public class OcrHelper {
         String pokemonHPStr = ocrCache.get(hash);
 
         if (pokemonHPStr == null) {
-            hp = replaceColors(hp, hp, 55, 66, 61, Color.WHITE, 200, true);
+            hp = replaceColors(hp, true, 55, 66, 61, Color.WHITE, 200, true);
             tesseract.setImage(hp);
             pokemonHPStr = tesseract.getUTF8Text();
             ocrCache.put(hash, pokemonHPStr);
@@ -327,7 +329,7 @@ public class OcrHelper {
         Bitmap cp = Bitmap.createBitmap(pokemonImage, (int) Math.round(widthPixels / 3.0),
                 (int) Math.round(heightPixels / 15.5151515), (int) Math.round(widthPixels / 3.84),
                 (int) Math.round(heightPixels / 21.333333333));
-        cp = replaceColors(cp, cp, 255, 255, 255, Color.BLACK, 30, false);
+        cp = replaceColors(cp, true, 255, 255, 255, Color.BLACK, 30, false);
         tesseract.setImage(cp);
         String cpText = fixOcrLettersToNums(tesseract.getUTF8Text());
         cp.recycle();

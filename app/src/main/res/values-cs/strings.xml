@@ -62,4 +62,7 @@
     <string name="atk">ÚTK</string>
     <string name="def">OBR</string>
     <string name="sta">STA</string>
+    <string name="cp_vs_iv" formatted="false">% CP vs max IV</string>
+    <string name="alert_explanation_title">Vysvětlení</string>
+    <string name="perfection_explainer">Procenta ukazují jak velký je rozdíl mezi tvým Pokémonem a Pokémonem stejného druhu s ideálními IV.\n\nNapříklad pokud říká 92 procent, pak bude mít tvůj Pokémon na maximálním levelu o 8 procent méně CP než Pokémon stejného druhu s ideálními IV.</string>
 </resources>

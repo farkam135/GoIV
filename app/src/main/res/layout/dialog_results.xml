@@ -1,154 +1,148 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center|bottom"
-    android:alpha="225">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:alpha="225"
+              android:gravity="center|bottom"
+              android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="12sp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="12sp">
+
         <TextView
             android:id="@+id/resultsPokemonName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Pokename"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:textColor="@color/black"
             android:gravity="bottom"
-            />
+            android:text="Pokename"
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            android:textStyle="bold"/>
+
         <TextView
 
             android:id="@+id/resultsPokemonLevel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:textColor="#888"
+            android:layout_marginLeft="5sp"
             android:text="@string/level"
-            android:layout_marginLeft="5sp"/>
-
-
+            android:textColor="#888"
+            android:textSize="18sp"/>
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="center">
+        android:layout_gravity="center"
+        android:orientation="horizontal">
 
         <LinearLayout
-
             android:id="@+id/llSingleMatch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:orientation="horizontal"
-            android:visibility="gone"
-            android:layout_gravity="center">
+            android:visibility="gone">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
+                android:layout_gravity="center"
+                android:layout_margin="6sp"
                 android:background="@drawable/skin_iv_linearlayout"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingBottom="6sp"
                 android:paddingLeft="12sp"
                 android:paddingRight="12sp"
-                android:paddingTop="6sp"
-                android:paddingBottom="6sp"
-                android:layout_margin="6sp"
-                android:gravity="center"
-                android:layout_gravity="center">
+                android:paddingTop="6sp">
 
                 <TextView
                     android:id="@+id/resultsAttack"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="24sp"
-                    android:textStyle="bold"
                     android:text="15"
                     android:textColor="#222"
-                    />
+                    android:textSize="24sp"
+                    android:textStyle="bold"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/atk"
                     android:layout_margin="0dp"
-                    android:textSize="12sp"
                     android:gravity="center"
-                    android:textColor="#222"/>
+                    android:text="@string/atk"
+                    android:textColor="#222"
+                    android:textSize="12sp"/>
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
+                android:layout_gravity="center"
+                android:layout_margin="6sp"
                 android:background="@drawable/skin_iv_linearlayout"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingBottom="6sp"
                 android:paddingLeft="12sp"
                 android:paddingRight="12sp"
-                android:paddingTop="6sp"
-                android:paddingBottom="6sp"
-                android:layout_margin="6sp"
-                android:gravity="center"
-                android:layout_gravity="center">
+                android:paddingTop="6sp">
 
                 <TextView
                     android:id="@+id/resultsDefense"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="24sp"
-                    android:textStyle="bold"
-                    android:textColor="#222"
                     android:text="15"
-                    />
+                    android:textColor="#222"
+                    android:textSize="24sp"
+                    android:textStyle="bold"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/def"
-                    android:textSize="12sp"
                     android:layout_margin="0dp"
-                    android:textColor="#222"/>
+                    android:text="@string/def"
+                    android:textColor="#222"
+                    android:textSize="12sp"/>
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
+                android:layout_gravity="center"
+                android:layout_margin="6sp"
                 android:background="@drawable/skin_iv_linearlayout"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingBottom="6sp"
                 android:paddingLeft="12sp"
                 android:paddingRight="12sp"
-                android:paddingTop="6sp"
-                android:paddingBottom="6sp"
-                android:layout_margin="6sp"
-                android:gravity="center"
-                android:layout_gravity="center">
+                android:paddingTop="6sp">
 
                 <TextView
-
                     android:id="@+id/resultsHP"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="24sp"
-                    android:textStyle="bold"
-                    android:textColor="#222"
                     android:text="15"
-                    />
+                    android:textColor="#222"
+                    android:textSize="24sp"
+                    android:textStyle="bold"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/sta"
-                    android:textSize="12sp"
                     android:layout_margin="0dp"
-                    android:textColor="#222"/>
+                    android:text="@string/sta"
+                    android:textColor="#222"
+                    android:textSize="12sp"/>
 
             </LinearLayout>
 
@@ -158,35 +152,34 @@
             android:id="@+id/llMinIV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:layout_margin="6sp"
             android:background="@drawable/skin_iv_linearlayout"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingBottom="6sp"
             android:paddingLeft="12sp"
             android:paddingRight="12sp"
-            android:paddingTop="6sp"
-            android:paddingBottom="6sp"
-            android:layout_margin="6sp"
-            android:gravity="center"
-            android:layout_gravity="center">
+            android:paddingTop="6sp">
 
             <TextView
                 android:id="@+id/resultsMinPercentage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="24sp"
-                android:textStyle="bold"
                 android:text="76%"
                 android:textColor="#222"
-                />
+                android:textSize="24sp"
+                android:textStyle="bold"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="MIN"
                 android:layout_margin="0dp"
-                android:textSize="12sp"
+                android:layout_marginLeft="5sp"
                 android:gravity="center"
+                android:text="MIN"
                 android:textColor="#222"
-                android:layout_marginLeft="5sp"/>
+                android:textSize="12sp"/>
 
         </LinearLayout>
 
@@ -194,36 +187,34 @@
             android:id="@+id/llAvgIV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:layout_margin="6sp"
             android:background="@drawable/skin_iv_linearlayout"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingBottom="6sp"
             android:paddingLeft="12sp"
             android:paddingRight="12sp"
-            android:paddingTop="6sp"
-            android:paddingBottom="6sp"
-            android:layout_margin="6sp"
-            android:gravity="center"
-            android:layout_gravity="center">
+            android:paddingTop="6sp">
 
             <TextView
-
                 android:id="@+id/resultsAvePercentage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:textColor="#222"
                 android:text="82%"
-                />
+                android:textColor="#222"
+                android:textSize="24sp"
+                android:textStyle="bold"/>
 
             <TextView
                 android:id="@+id/tvAvgIV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="AVG"
-                android:textSize="12sp"
                 android:layout_margin="0dp"
+                android:layout_marginLeft="5sp"
+                android:text="AVG"
                 android:textColor="#222"
-                android:layout_marginLeft="5sp"/>
+                android:textSize="12sp"/>
 
         </LinearLayout>
 
@@ -231,35 +222,33 @@
             android:id="@+id/llMaxIV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:layout_margin="6sp"
             android:background="@drawable/skin_iv_linearlayout"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingBottom="6sp"
             android:paddingLeft="12sp"
             android:paddingRight="12sp"
-            android:paddingTop="6sp"
-            android:paddingBottom="6sp"
-            android:layout_margin="6sp"
-            android:gravity="center"
-            android:layout_gravity="center">
+            android:paddingTop="6sp">
 
             <TextView
-
                 android:id="@+id/resultsMaxPercentage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:textColor="#222"
                 android:text="88%"
-                />
+                android:textColor="#222"
+                android:textSize="24sp"
+                android:textStyle="bold"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="MAX"
-                android:textSize="12sp"
                 android:layout_margin="0dp"
+                android:layout_marginLeft="5sp"
+                android:text="MAX"
                 android:textColor="#222"
-                android:layout_marginLeft="5sp"/>
+                android:textSize="12sp"/>
 
         </LinearLayout>
 
@@ -275,39 +264,39 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="12sp">
+
             <TextView
                 android:id="@+id/resultsCombinations"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="## Possible Combinations"
                 android:layout_gravity="left"
-                android:textSize="18sp"
-                android:textColor="#888"/>
+                android:text="## Possible Combinations"
+                android:textColor="#888"
+                android:textSize="18sp"/>
 
             <TextView
                 android:id="@+id/tvSeeAllPossibilities"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:textColor="@color/colorPrimary"
-                android:text="@string/see_all"
                 android:clickable="true"
-                android:gravity="right"/>
+                android:gravity="right"
+                android:text="@string/see_all"
+                android:textColor="@color/colorPrimary"
+                android:textSize="18sp"/>
         </LinearLayout>
 
-        <include layout="@layout/dialog_refine_by_last_scan"
-            android:id="@+id/refine_by_last_scan"/>
-
-
+        <include
+            android:id="@+id/refine_by_last_scan"
+            layout="@layout/dialog_refine_by_last_scan"/>
 
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginTop="5dp"
         android:layout_marginLeft="12sp"
         android:layout_marginRight="12sp"
+        android:layout_marginTop="5dp"
         android:background="@android:color/darker_gray"/>
 
     <LinearLayout
@@ -323,22 +312,27 @@
 
             <TextView
                 android:id="@+id/resultsMoreInformationText"
-                android:textColor="@color/colorPrimary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/advanced_information"
                 android:layout_gravity="center"
-                android:textSize="18sp"
                 android:clickable="true"
-                android:drawableRight="@drawable/ic_keyboard_arrow_right_blue_18dp" />
+                android:text="@string/advanced_information"
+                android:textColor="@color/colorPrimary"
+                android:textSize="18sp"/>
+
+            <ImageView
+                android:id="@+id/resultsMoreInformationArrow"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:clickable="true"
+                android:paddingTop="1dp"/>
 
         </LinearLayout>
 
-
-        <include layout="@layout/expanded_results_box"
+        <include
             android:id="@+id/expandedResultsBox"
-            android:visibility="gone"
-        />
+            layout="@layout/expanded_results_box"
+            android:visibility="gone"/>
 
     </LinearLayout>
 

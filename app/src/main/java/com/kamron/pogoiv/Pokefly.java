@@ -1,7 +1,5 @@
 package com.kamron.pogoiv;
 
-import android.animation.Animator;
-import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.Notification;
 import android.app.PendingIntent;
@@ -36,6 +34,8 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -225,6 +225,8 @@ public class Pokefly extends Service {
     TextView exResCompare;
     @BindView(R.id.resultsMoreInformationText)
     TextView resultsMoreInformationText;
+    @BindView(R.id.resultsMoreInformationArrow)
+    ImageView resultsMoreInformationArrow;
     @BindView(R.id.expandedLevelSeekbar)
     SeekBar expandedLevelSeekbar;
     @BindView(R.id.expandedLevelSeekbarBackground)
@@ -250,6 +252,8 @@ public class Pokefly extends Service {
 
     @BindView(R.id.inputAppraisalExpandBox)
     TextView inputAppraisalExpandBox;
+    @BindView(R.id.inputAppraisalExpandArrow)
+    ImageView inputAppraisalExpandArrow;
 
     @BindView(R.id.rvResults)
     RecyclerView rvResults;
@@ -736,6 +740,7 @@ public class Pokefly extends Service {
     private void createInputLayout() {
         pokeInputSpinnerAdapter = new PokemonSpinnerAdapter(this, R.layout.spinner_pokemon, new ArrayList<Pokemon>());
         pokeInputSpinner.setAdapter(pokeInputSpinnerAdapter);
+        inputAppraisalExpandArrow.setImageResource(R.drawable.blue_arrow);
 
         initializePokemonAutoCompleteTextView();
 
@@ -748,6 +753,7 @@ public class Pokefly extends Service {
     private void createResultLayout() {
         createExtendedResultEvolutionSpinner();
         createExtendedResultLevelSeekbar();
+        resultsMoreInformationArrow.setImageResource(R.drawable.blue_arrow);
     }
 
     /**
@@ -873,45 +879,44 @@ public class Pokefly extends Service {
         pokeInputSpinner.setVisibility(View.VISIBLE);
     }
 
-    private static final int MAX_DRAWABLE_LEVEL = 10000;
-
-    private void toggleVisibility(TextView expanderText, LinearLayout expandedBox, boolean animate) {
-        setVisibility(expanderText, expandedBox, animate, expandedBox.getVisibility() != View.VISIBLE);
+    private void toggleVisibility(ImageView expanderArrow, LinearLayout expandedBox, boolean animate) {
+        setVisibility(expanderArrow, expandedBox, animate, expandedBox.getVisibility() != View.VISIBLE);
     }
 
-    private void setVisibility(TextView expanderText, LinearLayout expandedBox, boolean animate, boolean visible) {
+    private void setVisibility(ImageView expanderArrow, LinearLayout expandedBox, boolean animate, boolean visible) {
         int boxVisibility;
-        Drawable arrowDrawable;
+        Animation arrowAnimation;
+
         if (visible) {
             boxVisibility = View.VISIBLE;
-            arrowDrawable = getDrawableC(R.drawable.arrow_expand);
+            arrowAnimation = new RotateAnimation(0.0f, 90.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation
+                    .RELATIVE_TO_SELF, 0.5f);
         } else {
             boxVisibility = View.GONE;
-            arrowDrawable = getDrawableC(R.drawable.arrow_collapse);
+            arrowAnimation = new RotateAnimation(90.0f, 0.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation
+                    .RELATIVE_TO_SELF, 0.5f);
         }
-        expanderText.setCompoundDrawablesWithIntrinsicBounds(null, null, arrowDrawable, null);
+
         if (animate) {
-            Animator arrowAnimator =
-                    ObjectAnimator.ofInt(arrowDrawable, "level", 0, MAX_DRAWABLE_LEVEL).setDuration(100);
-            arrowAnimator.start();
-        } else {
-            arrowDrawable.setLevel(MAX_DRAWABLE_LEVEL);
+            arrowAnimation.setDuration(100);
+            arrowAnimation.setFillAfter(true);
+            expanderArrow.startAnimation(arrowAnimation);
         }
+
         expandedBox.setVisibility(boxVisibility);
     }
 
-
-    @OnClick({R.id.resultsMoreInformationText})
+    @OnClick({R.id.resultsMoreInformationText, R.id.resultsMoreInformationArrow})
     public void toggleMoreResultsBox() {
-        toggleVisibility(resultsMoreInformationText, expandedResultsBox, true);
+        toggleVisibility(resultsMoreInformationArrow, expandedResultsBox, true);
     }
 
-    @OnClick({R.id.inputAppraisalExpandBox})
+    @OnClick({R.id.inputAppraisalExpandBox, R.id.inputAppraisalExpandArrow})
     /**
      * Method called when user presses the text to expand the appraisal box on the input screen
      */
     public void toggleAppraisalBox() {
-        toggleVisibility(inputAppraisalExpandBox, appraisalBox, true);
+        toggleVisibility(inputAppraisalExpandArrow, appraisalBox, true);
         moveOverlayUpOrDownToMatchAppraisalBox();
     }
 
@@ -1654,7 +1659,7 @@ public class Pokefly extends Service {
             pokemonCandyEdit.setText(optionalIntToString(pokemonCandy));
 
             showInfoLayoutArcPointer();
-            setVisibility(inputAppraisalExpandBox, appraisalBox, false, false);
+            setVisibility(inputAppraisalExpandArrow, appraisalBox, false, false);
             moveOverlayUpOrDownToMatchAppraisalBox(); //move the overlay to correct position regarding appraisal box
             adjustArcPointerBar(estimatedPokemonLevel);
 

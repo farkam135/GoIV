@@ -21,7 +21,7 @@ public class ClipboardModifierActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_clipboard_modifier);
+        setContentView(R.layout.activity_clipboard_modifier_old);
         this.cth = new ClipboardTokenHandler(this);
         this.clipboardLengthOfOutput = (TextView) findViewById(R.id.clipboardLengthOfOutput);
         this.clipboardPreviewString = (TextView) findViewById(R.id.clipboardPreviewString);

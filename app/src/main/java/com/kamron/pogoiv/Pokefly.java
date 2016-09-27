@@ -42,6 +42,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
@@ -128,7 +129,7 @@ public class Pokefly extends Service {
     private boolean infoShownReceived = false;
     private boolean ivButtonShown = false;
 
-    private ImageView ivButton;
+    private ImageButton ivButton;
     private ImageView arcPointer;
     private LinearLayout infoLayout;
 
@@ -149,7 +150,6 @@ public class Pokefly extends Service {
     @BindView(R.id.pokePickerToggleSpinnerVsInput)
     Button pokePickerToggleSpinnerVsInput;
 
-
     private PokemonSpinnerAdapter pokeInputSpinnerAdapter;
     @BindView(R.id.spnPokemonName)
     Spinner pokeInputSpinner;
@@ -168,7 +168,6 @@ public class Pokefly extends Service {
     LinearLayout initialButtonsLayout;
     @BindView(R.id.llButtonsOnCheck)
     LinearLayout onCheckButtonsLayout;
-
 
     @BindView(R.id.appraisalIvRange)
     Spinner appraisalIvRange;
@@ -300,8 +299,6 @@ public class Pokefly extends Service {
             PixelFormat.TRANSPARENT);
 
     private final WindowManager.LayoutParams ivButtonParams = new WindowManager.LayoutParams(
-            WindowManager.LayoutParams.WRAP_CONTENT,
-            WindowManager.LayoutParams.WRAP_CONTENT,
             WindowManager.LayoutParams.TYPE_PHONE,
             WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
             PixelFormat.TRANSLUCENT);
@@ -660,24 +657,46 @@ public class Pokefly extends Service {
      * Creates the IV Button view.
      */
     private void createIVButton() {
-        ivButton = new ImageView(this);
-        ivButton.setImageResource(R.drawable.button);
+        ivButton = new ImageButton(this);
+        ivButton.setBackground(null);
+        ivButton.setImageResource(R.drawable.iv_button);
+        ivButton.setPadding(0, 0, 0, 0);
+        ivButton.setScaleType(ImageButton.ScaleType.FIT_CENTER);
 
-        ivButtonParams.gravity = Gravity.BOTTOM | Gravity.START;
-        ivButtonParams.x = dpToPx(20);
-        ivButtonParams.y = dpToPx(15);
+        Point realDisplaySize = new Point();
+        windowManager.getDefaultDisplay().getRealSize(realDisplaySize);
+        ivButtonParams.height = (int) Math.round(realDisplaySize.y / 10.66667);
+        ivButtonParams.width = ivButtonParams.height;
+        ivButtonParams.gravity = Gravity.BOTTOM | Gravity.LEFT;
+        ivButtonParams.x = (int) Math.round(0.04537 * realDisplaySize.x);
+        ivButtonParams.y = (int) Math.round(0.021875 * realDisplaySize.y);
 
         ivButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_UP) {
-                    setIVButtonDisplay(false);
-                    takeScreenshot();
-                    receivedInfo = false;
-                    infoShownSent = true;
-                    infoShownReceived = false;
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        ivButton.setColorFilter(Color.argb(80, 0, 0, 0));
+                        return false;
+
+                    case MotionEvent.ACTION_CANCEL:
+                    case MotionEvent.ACTION_UP:
+                        ivButton.clearColorFilter();
+                        return false;
+
+                    default:
+                        return false;
                 }
-                return false;
+            }
+        });
+
+        ivButton.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                setIVButtonDisplay(false);
+                takeScreenshot();
+                receivedInfo = false;
+                infoShownSent = true;
+                infoShownReceived = false;
             }
         });
     }
@@ -1712,7 +1731,7 @@ public class Pokefly extends Service {
     private final BroadcastReceiver processBitmap = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Bitmap bitmap = (Bitmap) intent.getParcelableExtra(KEY_BITMAP);
+            Bitmap bitmap = intent.getParcelableExtra(KEY_BITMAP);
             if (bitmap == null) {
                 return;
             }
@@ -1743,7 +1762,6 @@ public class Pokefly extends Service {
 
                     pokemonName = intent.getStringExtra(KEY_SEND_INFO_NAME);
                     candyName = intent.getStringExtra(KEY_SEND_INFO_CANDY);
-
 
                     @SuppressWarnings("unchecked") Optional<String> lScreenShotFile =
                             (Optional<String>) intent.getSerializableExtra(KEY_SEND_SCREENSHOT_FILE);
@@ -1787,9 +1805,5 @@ public class Pokefly extends Service {
                 ivButtonShown = false;
             }
         }
-    }
-
-    private int dpToPx(int dp) {
-        return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
     }
 }

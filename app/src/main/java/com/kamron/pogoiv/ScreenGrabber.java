@@ -12,9 +12,11 @@ import android.media.Image;
 import android.media.ImageReader;
 import android.media.projection.MediaProjection;
 import android.os.Build;
+import android.os.Handler;
 import android.support.annotation.ColorInt;
 import android.support.annotation.Nullable;
 import android.util.DisplayMetrics;
+import android.util.Log;
 
 import java.nio.ByteBuffer;
 
@@ -39,6 +41,12 @@ public class ScreenGrabber {
         projection = mediaProjection;
         imageReader = ImageReader.newInstance(rawDisplayMetrics.widthPixels, rawDisplayMetrics.heightPixels,
                 PixelFormat.RGBA_8888, 2);
+        imageReader.setOnImageAvailableListener(new ImageReader.OnImageAvailableListener() {
+            @Override public void onImageAvailable(ImageReader reader) {
+                Log.d("ScreenGrabber", "onImageAvailable");
+                reader.acquireNextImage().close();
+            }
+        }, new Handler());
         virtualDisplay = projection.createVirtualDisplay("screen-mirror", rawDisplayMetrics.widthPixels,
                 rawDisplayMetrics.heightPixels,
                 rawDisplayMetrics.densityDpi, DisplayManager.VIRTUAL_DISPLAY_FLAG_PUBLIC, imageReader.getSurface(),

@@ -1357,14 +1357,14 @@ public class Pokefly extends Service {
      */
     private void setAndCalculatePokeSpamText(IVScanResult ivScanResult) {
         if (GoIVSettings.getInstance(getApplicationContext()).isPokeSpamEnabled()
-                 && ivScanResult.pokemon != null) {
+                && ivScanResult.pokemon != null) {
             if (ivScanResult.pokemon.candyEvolutionCost < 0) {
                 exResPokeSpam.setText(getString(R.string.pokespam_not_available));
                 pokeSpamView.setVisibility(View.VISIBLE);
                 return;
             }
 
-            PokeSpam pokeSpamCalculator = new PokeSpam(pokemonCandy.or(0),ivScanResult.pokemon.candyEvolutionCost);
+            PokeSpam pokeSpamCalculator = new PokeSpam(pokemonCandy.or(0), ivScanResult.pokemon.candyEvolutionCost);
             String text = getString(R.string.pokespam_formatted_message,
                     pokeSpamCalculator.getTotalEvolvable(), pokeSpamCalculator.getEvolveRows(),
                     pokeSpamCalculator.getEvolveExtra());

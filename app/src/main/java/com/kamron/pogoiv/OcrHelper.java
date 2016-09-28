@@ -30,8 +30,10 @@ public class OcrHelper {
     private final boolean candyWordFirst;
     private final String nidoFemale;
     private final String nidoMale;
+    private final boolean isPokeSpamEnabled;
 
-    private OcrHelper(String dataPath, int widthPixels, int heightPixels, String nidoFemale, String nidoMale) {
+    private OcrHelper(String dataPath, int widthPixels, int heightPixels, String nidoFemale, String nidoMale,
+                      boolean isPokeSpamEnabled) {
         tesseract = new TessBaseAPI();
         tesseract.init(dataPath, "eng");
         tesseract.setPageSegMode(TessBaseAPI.PageSegMode.PSM_SINGLE_LINE);
@@ -42,6 +44,7 @@ public class OcrHelper {
         this.candyWordFirst = isCandyWordFirst();
         this.nidoFemale = nidoFemale;
         this.nidoMale = nidoMale;
+        this.isPokeSpamEnabled = isPokeSpamEnabled;
     }
 
     /**
@@ -52,9 +55,9 @@ public class OcrHelper {
      * @return Bitmap with replaced colors
      */
     public static OcrHelper init(String dataPath, int widthPixels, int heightPixels, String nidoFemale,
-                                 String nidoMale) {
+                                 String nidoMale, boolean isPokeSpamEnabled) {
         if (instance == null) {
-            instance = new OcrHelper(dataPath, widthPixels, heightPixels, nidoFemale, nidoMale);
+            instance = new OcrHelper(dataPath, widthPixels, heightPixels, nidoFemale, nidoMale, isPokeSpamEnabled);
         }
         return instance;
     }
@@ -344,6 +347,43 @@ public class OcrHelper {
         }
     }
 
+
+    /**
+     * Gets the candy amount from a pokemon image, it will return absent if PokeSpam is disabled.
+     *
+     * @param pokemonImage the image of the whole screen
+     * @return candyAmount the candy amount, or blank Optional object if nothing was found
+     */
+    private Optional<Integer> getCandyAmountFromImg(Bitmap pokemonImage) {
+        if (!isPokeSpamEnabled) {
+            return Optional.absent();
+        }
+
+        Bitmap candyAmount = Bitmap.createBitmap(pokemonImage,
+                (int) Math.round(widthPixels / 1.515), (int) Math.round(heightPixels / 1.44),
+                (int) Math.round(widthPixels / 5.0), (int) Math.round(heightPixels / 38.4));
+        String hash = "candyAmount" + hashBitmap(candyAmount);
+        String pokemonCandyStr = ocrCache.get(hash);
+
+        if (pokemonCandyStr == null) {
+            candyAmount = replaceColors(candyAmount, 55, 66, 61, Color.WHITE, 200, true);
+            tesseract.setImage(candyAmount);
+            pokemonCandyStr = tesseract.getUTF8Text();
+            ocrCache.put(hash, pokemonCandyStr);
+        }
+        candyAmount.recycle();
+
+        if (pokemonCandyStr.length() > 0) {
+            try {
+                return Optional.of(Integer.parseInt(fixOcrLettersToNums(pokemonCandyStr).replaceAll("[^0-9]", "")));
+            } catch (NumberFormatException e) {
+                //Fall-through to default.
+            }
+        }
+
+        return Optional.absent();
+    }
+
     /**
      * scanPokemon
      * Performs OCR on an image of a pokemon and returns the pulled info.
@@ -358,7 +398,8 @@ public class OcrHelper {
         String candyName = getCandyNameFromImg(pokemonImage);
         Optional<Integer> pokemonHP = getPokemonHPFromImg(pokemonImage);
         Optional<Integer> pokemonCP = getPokemonCPFromImg(pokemonImage);
+        Optional<Integer> pokemonCandyAmount = getCandyAmountFromImg(pokemonImage);
 
-        return new ScanResult(estimatedPokemonLevel, pokemonName, candyName, pokemonHP, pokemonCP);
+        return new ScanResult(estimatedPokemonLevel, pokemonName, candyName, pokemonHP, pokemonCP, pokemonCandyAmount);
     }
 }

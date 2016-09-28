@@ -56,6 +56,7 @@ import com.kamron.pogoiv.logic.Data;
 import com.kamron.pogoiv.logic.IVCombination;
 import com.kamron.pogoiv.logic.IVScanResult;
 import com.kamron.pogoiv.logic.PokeInfoCalculator;
+import com.kamron.pogoiv.logic.PokeSpam;
 import com.kamron.pogoiv.logic.Pokemon;
 import com.kamron.pogoiv.logic.PokemonNameCorrector;
 import com.kamron.pogoiv.logic.ScanContainer;
@@ -96,6 +97,7 @@ public class Pokefly extends Service {
     private static final String KEY_SEND_INFO_CP = "key_send_info_cp";
     private static final String KEY_SEND_INFO_LEVEL = "key_send_info_level";
     private static final String KEY_SEND_SCREENSHOT_FILE = "key_send_screenshot_file";
+    private static final String KEY_SEND_INFO_CANDY_AMOUNT = "key_send_info_candy_amount";
 
     private static final String ACTION_PROCESS_BITMAP = "com.kamron.pogoiv.PROCESS_BITMAP";
     private static final String KEY_BITMAP = "bitmap";
@@ -158,6 +160,8 @@ public class Pokefly extends Service {
     EditText pokemonCPEdit;
     @BindView(R.id.etHp)
     EditText pokemonHPEdit;
+    @BindView(R.id.etCandy)
+    EditText pokemonCandyEdit;
     @BindView(R.id.sbArcAdjust)
     SeekBar arcAdjustBar;
     @BindView(R.id.llButtonsInitial)
@@ -180,7 +184,6 @@ public class Pokefly extends Service {
     LinearLayout expandedResultsBox;
     @BindView(R.id.allPossibilitiesBox)
     LinearLayout allPossibilitiesBox;
-
 
     @BindView(R.id.appraisalBox)
     LinearLayout appraisalBox;
@@ -249,9 +252,16 @@ public class Pokefly extends Service {
     @BindView(R.id.inputAppraisalExpandBox)
     TextView inputAppraisalExpandBox;
 
-
     @BindView(R.id.rvResults)
     RecyclerView rvResults;
+
+    //PokeSpam
+    @BindView(R.id.llPokeSpamDialogInputContentBox)
+    LinearLayout pokeSpamDialogInputContentBox;
+    @BindView(R.id.llPokeSpam)
+    LinearLayout pokeSpamView;
+    @BindView(R.id.exResPokeSpam)
+    TextView exResPokeSpam;
 
     // Refine by appraisal
     @BindView(R.id.attCheckbox)
@@ -264,6 +274,7 @@ public class Pokefly extends Service {
 
     private String pokemonName;
     private String candyName;
+    private Optional<Integer> pokemonCandy = Optional.absent();
     private Optional<Integer> pokemonCP = Optional.absent();
     private Optional<Integer> pokemonHP = Optional.absent();
     private double estimatedPokemonLevel = 1.0;
@@ -318,6 +329,7 @@ public class Pokefly extends Service {
         intent.putExtra(KEY_SEND_INFO_CP, scanResult.getPokemonCP());
         intent.putExtra(KEY_SEND_INFO_LEVEL, scanResult.getEstimatedPokemonLevel());
         intent.putExtra(KEY_SEND_SCREENSHOT_FILE, filePath);
+        intent.putExtra(KEY_SEND_INFO_CANDY_AMOUNT, scanResult.getPokemonCandyAmount());
     }
 
     public static Intent createProcessBitmapIntent(Bitmap bitmap, String file) {
@@ -964,6 +976,12 @@ public class Pokefly extends Service {
         } catch (NumberFormatException e) {
             return false;
         }
+        //do not require pokemon candy to be filled
+        try {
+            pokemonCandy = Optional.of(Integer.parseInt(pokemonCandyEdit.getText().toString()));
+        } catch (NumberFormatException e) {
+            pokemonCandy = Optional.absent();
+        }
         return true;
     }
 
@@ -1294,6 +1312,8 @@ public class Pokefly extends Service {
         setEstimateCostTextboxes(ivScanResult, selectedLevel, selectedPokemon);
         exResLevel.setText(String.valueOf(selectedLevel));
         setEstimateLevelTextColor(selectedLevel);
+
+        setAndCalculatePokeSpamText(ivScanResult);
     }
 
     /**
@@ -1328,6 +1348,34 @@ public class Pokefly extends Service {
         String hpText = newHP + " (" + sign + hpDiff + ")";
         exResultHP.setText(hpText);
     }
+
+    /**
+     * setAndCalculatePokeSpamText sets pokespamtext and makes it visible.
+     *
+     * @param ivScanResult IVScanResult object that contains the scan results, mainly needed to get candEvolutionCost
+     *                     variable
+     */
+    private void setAndCalculatePokeSpamText(IVScanResult ivScanResult) {
+        if (GoIVSettings.getInstance(getApplicationContext()).isPokeSpamEnabled()
+                 && ivScanResult.pokemon != null) {
+            if (ivScanResult.pokemon.candyEvolutionCost < 0) {
+                exResPokeSpam.setText(getString(R.string.pokespam_not_available));
+                pokeSpamView.setVisibility(View.VISIBLE);
+                return;
+            }
+
+            PokeSpam pokeSpamCalculator = new PokeSpam(pokemonCandy.or(0),ivScanResult.pokemon.candyEvolutionCost);
+            String text = getString(R.string.pokespam_formatted_message,
+                    pokeSpamCalculator.getTotalEvolvable(), pokeSpamCalculator.getEvolveRows(),
+                    pokeSpamCalculator.getEvolveExtra());
+            exResPokeSpam.setText(text);
+            pokeSpamView.setVisibility(View.VISIBLE);
+        } else {
+            exResPokeSpam.setText("");
+            pokeSpamView.setVisibility(View.GONE);
+        }
+    }
+
 
     /**
      * Sets the "expected cp textview" to (+x) or (-y) in the powerup and evolution estimate box depending on what's
@@ -1540,6 +1588,16 @@ public class Pokefly extends Service {
             onCheckButtonsLayout.setVisibility(View.GONE);
         }
         moveOverlayUpOrDownToMatchAppraisalBox();
+        enableOrDisablePokeSpamBoxBasedOnSettings();
+    }
+
+    private void enableOrDisablePokeSpamBoxBasedOnSettings() {
+        //enable/disable visibility based on PokeSpam enabled or not
+        if (GoIVSettings.getInstance(getApplicationContext()).isPokeSpamEnabled()) {
+            pokeSpamDialogInputContentBox.setVisibility(View.VISIBLE);
+        } else {
+            pokeSpamDialogInputContentBox.setVisibility(View.GONE);
+        }
     }
 
     /**
@@ -1574,6 +1632,7 @@ public class Pokefly extends Service {
 
             pokemonHPEdit.setText(optionalIntToString(pokemonHP));
             pokemonCPEdit.setText(optionalIntToString(pokemonCP));
+            pokemonCandyEdit.setText(optionalIntToString(pokemonCandy));
 
             showInfoLayoutArcPointer();
             setVisibility(inputAppraisalExpandBox, appraisalBox, false, false);
@@ -1588,6 +1647,7 @@ public class Pokefly extends Service {
                 checkIv();
             }
         }
+        enableOrDisablePokeSpamBoxBasedOnSettings();
     }
 
     private <T> String optionalIntToString(Optional<T> src) {
@@ -1606,7 +1666,8 @@ public class Pokefly extends Service {
 
         ocr = OcrHelper.init(extdir, displayMetrics.widthPixels, displayMetrics.heightPixels,
                 pokeInfoCalculator.get(28).name,
-                pokeInfoCalculator.get(31).name);
+                pokeInfoCalculator.get(31).name,
+                GoIVSettings.getInstance(this).isPokeSpamEnabled());
     }
 
 
@@ -1683,6 +1744,7 @@ public class Pokefly extends Service {
                     pokemonName = intent.getStringExtra(KEY_SEND_INFO_NAME);
                     candyName = intent.getStringExtra(KEY_SEND_INFO_CANDY);
 
+
                     @SuppressWarnings("unchecked") Optional<String> lScreenShotFile =
                             (Optional<String>) intent.getSerializableExtra(KEY_SEND_SCREENSHOT_FILE);
                     @SuppressWarnings("unchecked") Optional<Integer> lPokemonCP =
@@ -1692,6 +1754,10 @@ public class Pokefly extends Service {
                     pokemonCP = lPokemonCP;
                     pokemonHP = lPokemonHP;
                     screenShotPath = lScreenShotFile;
+
+                    @SuppressWarnings("unchecked") Optional<Integer> lcandyAmount =
+                            (Optional<Integer>) intent.getSerializableExtra(KEY_SEND_INFO_CANDY_AMOUNT);
+                    pokemonCandy = lcandyAmount;
 
                     estimatedPokemonLevel = intent.getDoubleExtra(KEY_SEND_INFO_LEVEL, estimatedPokemonLevel);
                     if (estimatedPokemonLevel < 1.0) {
@@ -1726,5 +1792,4 @@ public class Pokefly extends Service {
     private int dpToPx(int dp) {
         return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
     }
-
 }

@@ -57,7 +57,7 @@
                 android:textColor="@color/colorPrimary"
                 android:text="XX"
                 android:maxLength="4"
-                android:minWidth="80dp"
+                android:minWidth="60dp"
                 android:textAlignment="center"
                 android:inputType="number"/>
 
@@ -86,7 +86,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorPrimary"
-                android:minWidth="80dp"
+                android:minWidth="60dp"
                 android:text="XX"
                 android:maxLength="4"
                 android:textAlignment="center"
@@ -98,7 +98,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center"
-            android:layout_weight="1"
+            android:layout_weight="1.6"
             android:id="@+id/llPokeSpamDialogInputContentBox">
 
             <TextView

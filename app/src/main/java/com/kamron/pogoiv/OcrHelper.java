@@ -366,7 +366,7 @@ public class OcrHelper {
         String pokemonCandyStr = ocrCache.get(hash);
 
         if (pokemonCandyStr == null) {
-            candyAmount = replaceColors(candyAmount, 55, 66, 61, Color.WHITE, 200, true);
+            candyAmount = replaceColors(candyAmount, true, 55, 66, 61, Color.WHITE, 200, true);
             tesseract.setImage(candyAmount);
             pokemonCandyStr = tesseract.getUTF8Text();
             ocrCache.put(hash, pokemonCandyStr);

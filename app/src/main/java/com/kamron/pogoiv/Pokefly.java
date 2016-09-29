@@ -25,6 +25,7 @@ import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.NotificationCompat;
+import android.support.v7.widget.AppCompatDrawableManager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -39,7 +40,6 @@ import android.view.animation.RotateAnimation;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -146,9 +146,6 @@ public class Pokefly extends Service {
     //results pokemon picker auto complete
     @BindView(R.id.autoCompleteTextView1)
     AutoCompleteTextView autoCompleteTextView1;
-
-    @BindView(R.id.pokePickerToggleSpinnerVsInput)
-    Button pokePickerToggleSpinnerVsInput;
 
     private PokemonSpinnerAdapter pokeInputSpinnerAdapter;
     @BindView(R.id.spnPokemonName)
@@ -613,9 +610,9 @@ public class Pokefly extends Service {
         arcPointer = new ImageView(this);
         arcPointer.setImageResource(R.drawable.dot);
 
-        Drawable dot = getDrawableC(R.drawable.dot);
-        pointerHeight = dot.getIntrinsicHeight() / 2;
-        pointerWidth = dot.getIntrinsicWidth() / 2;
+        //Drawable dot = getDrawableC(R.drawable.dot);
+        //pointerHeight = dot.getIntrinsicHeight() / 2;
+        //pointerWidth = dot.getIntrinsicWidth() / 2;
     }
 
 
@@ -1219,8 +1216,9 @@ public class Pokefly extends Service {
 
         // Set Thumb 1 drawable to an orange marker and value at the max possible Pokemon level at the current
         // trainer level
-        expandedLevelSeekbarBackground.getThumb(0).setThumb(getDrawableC(R.drawable
-                .orange_marker));
+        Drawable drawable = AppCompatDrawableManager.get().getDrawable(getApplication().getApplicationContext(),
+                R.drawable.orange_marker);
+        expandedLevelSeekbarBackground.getThumb(0).setThumb(drawable);
         expandedLevelSeekbarBackground.getThumb(0).setValue(
                 levelToSeekbarProgress(Data.trainerLevelToMaxPokeLevel(trainerLevel)));
 

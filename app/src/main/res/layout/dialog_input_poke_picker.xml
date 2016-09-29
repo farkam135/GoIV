@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="horizontal"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
-
+              android:layout_height="match_parent"
+              android:orientation="horizontal">
 
     <Spinner
         android:id="@+id/spnPokemonName"
@@ -11,23 +11,24 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:background="@drawable/spinner"
-        android:popupBackground="#FFF"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:popupBackground="#FFF"/>
 
     <AutoCompleteTextView
         android:id="@+id/autoCompleteTextView1"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
-        android:inputType="text"
         android:imeOptions="actionDone"
+        android:inputType="text"
         android:visibility="gone">
 
     </AutoCompleteTextView>
 
-    <Button
-        android:paddingLeft="4dp"
+    <android.support.v7.widget.AppCompatImageButton
         android:id="@+id/pokePickerToggleSpinnerVsInput"
-        android:background="@drawable/poke_picker_toggle"
         android:layout_width="32dp"
-        android:layout_height="32dp"/>
+        android:layout_height="32dp"
+        android:background="@null"
+        android:paddingLeft="4dp"
+        app:srcCompat="@drawable/poke_picker_toggle"/>
 </LinearLayout>

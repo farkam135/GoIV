@@ -1,8 +1,8 @@
-package com.kamron.pogoiv.UserClipboard.ClipboardTokens;
+package com.kamron.pogoiv.clipboard.tokens;
 
 import android.content.Context;
 
-import com.kamron.pogoiv.UserClipboard.ClipboardToken;
+import com.kamron.pogoiv.clipboard.ClipboardToken;
 import com.kamron.pogoiv.logic.IVScanResult;
 import com.kamron.pogoiv.logic.PokeInfoCalculator;
 
@@ -15,11 +15,9 @@ import com.kamron.pogoiv.logic.PokeInfoCalculator;
 public class IVPercentageToken extends ClipboardToken {
 
     private int mode;
-    private String modeText;
 
     public IVPercentageToken(String mode) {
         super(false);
-        modeText = mode;
         if (mode.equals("Minimum")) {
             this.mode = 0;
         } else if (mode.equals("Average")) {
@@ -53,11 +51,35 @@ public class IVPercentageToken extends ClipboardToken {
 
     @Override
     public String getStringRepresentation() {
-        return super.getStringRepresentation() + String.valueOf(mode) + String.valueOf(modeText);
+        return super.getStringRepresentation() + String.valueOf(mode);
     }
 
     @Override
     public String getTokenName(Context context) {
-        return modeText + " IV percentage";
+        if (mode == 0) {
+            return "min%";
+        } else if (mode == 1) {
+            return "avg%";
+        }
+        //mode 2 is max
+        return "max%";
+    }
+
+    @Override
+    public String getLongDescription(Context context) {
+        String modeText;
+        if (mode == 0) {
+            modeText = "minimum%";
+        } else if (mode == 1) {
+            modeText = "average";
+        }
+        //mode 2 is max
+        modeText = "maximum";
+
+        String returner = "Get the " + modeText + " percent of the IV possibilities. If only one iv combination is "
+                + "possible, minimum, average and maximum will be the same."
+                + " For example, if the iv range is 55-75, the minimum will return 55, the average will return "
+                + "something between 55 and 75, and the maximum will return 75.";
+        return returner;
     }
 }

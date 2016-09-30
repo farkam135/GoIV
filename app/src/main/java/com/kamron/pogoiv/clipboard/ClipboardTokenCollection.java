@@ -1,14 +1,15 @@
-package com.kamron.pogoiv.UserClipboard;
+package com.kamron.pogoiv.clipboard;
 
-import com.kamron.pogoiv.UserClipboard.ClipboardTokens.CpTierToken;
-import com.kamron.pogoiv.UserClipboard.ClipboardTokens.HexIVToken;
-import com.kamron.pogoiv.UserClipboard.ClipboardTokens.HpToken;
-import com.kamron.pogoiv.UserClipboard.ClipboardTokens.IVPercentageToken;
-import com.kamron.pogoiv.UserClipboard.ClipboardTokens.LevelToken;
-import com.kamron.pogoiv.UserClipboard.ClipboardTokens.PerfectionCPPercentageToken;
-import com.kamron.pogoiv.UserClipboard.ClipboardTokens.PokemonNameToken;
-import com.kamron.pogoiv.UserClipboard.ClipboardTokens.SeperatorToken;
-import com.kamron.pogoiv.UserClipboard.ClipboardTokens.UnicodeToken;
+import com.kamron.pogoiv.clipboard.tokens.BaseStatToken;
+import com.kamron.pogoiv.clipboard.tokens.CpTierToken;
+import com.kamron.pogoiv.clipboard.tokens.HexIVToken;
+import com.kamron.pogoiv.clipboard.tokens.HpToken;
+import com.kamron.pogoiv.clipboard.tokens.IVPercentageToken;
+import com.kamron.pogoiv.clipboard.tokens.LevelToken;
+import com.kamron.pogoiv.clipboard.tokens.PerfectionCPPercentageToken;
+import com.kamron.pogoiv.clipboard.tokens.PokemonNameToken;
+import com.kamron.pogoiv.clipboard.tokens.SeperatorToken;
+import com.kamron.pogoiv.clipboard.tokens.UnicodeToken;
 
 import java.util.ArrayList;
 
@@ -52,10 +53,17 @@ public class ClipboardTokenCollection {
         tokens.add(new UnicodeToken(false, true));//Unicode iv circled numbers  filled in black ex ⓿⓿⓿
         tokens.add(new HexIVToken(false)); //hex representation of iv (ex A4B)
 
-
+        //level tokens
         tokens.add(new LevelToken(false, 0)); //level *2 representation of pokemon ex: 23
         tokens.add(new LevelToken(false, 1)); //level representation of pokemon no decimal ex: 11
         tokens.add(new LevelToken(false, 2)); //level  representation of pokemon ex: 11.5
+
+        //stat tokens
+        tokens.add(new BaseStatToken(false, 0, false)); //base evolution, all stats, dont invlude iv
+        tokens.add(new BaseStatToken(false, 0, true)); //base evolution, all stats,  invlude iv
+        tokens.add(new BaseStatToken(true, 0, false)); //max evolution, all stats, dont invlude iv
+        tokens.add(new BaseStatToken(true, 0, true)); //max evolution, all stats,  invlude iv
+
 
         //Seperators
         tokens.add(new SeperatorToken(" "));

@@ -1,8 +1,8 @@
-package com.kamron.pogoiv.UserClipboard.ClipboardTokens;
+package com.kamron.pogoiv.clipboard.tokens;
 
 import android.content.Context;
 
-import com.kamron.pogoiv.UserClipboard.ClipboardToken;
+import com.kamron.pogoiv.clipboard.ClipboardToken;
 import com.kamron.pogoiv.logic.IVScanResult;
 import com.kamron.pogoiv.logic.PokeInfoCalculator;
 
@@ -46,6 +46,12 @@ public class HexIVToken extends ClipboardToken {
 
     @Override
     public String getTokenName(Context context) {
-        return "Hex IV";
+        return "HexIV";
+    }
+
+    @Override
+    public String getLongDescription(Context context) {
+        return "Represents the Pokémon IVs in a base 16 number system. This means that each IV can be represented by " +
+                "a single character. So for example, a pokemon with IVs 10, 13, 3 would be represented as AD3.";
     }
 }

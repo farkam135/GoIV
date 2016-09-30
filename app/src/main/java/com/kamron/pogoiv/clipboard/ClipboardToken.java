@@ -1,4 +1,4 @@
-package com.kamron.pogoiv.UserClipboard;
+package com.kamron.pogoiv.clipboard;
 
 import android.content.Context;
 
@@ -23,9 +23,10 @@ public abstract class ClipboardToken {
     /**
      * Create a clipboard token.
      * The boolean in the constructor can be set to false if pokemon evolution is not applicable.
+     *
      * @param maxEv true if the token should change its logic to pretending the pokemon is fully evolved.
      */
-    public ClipboardToken(boolean maxEv){
+    public ClipboardToken(boolean maxEv) {
         this.maxEv = maxEv;
     }
 
@@ -70,7 +71,8 @@ public abstract class ClipboardToken {
      * Get the last evolution in an evolution chain of a pokemon, unless the pokemon does not have an evolution.
      * Handles edge case Vaporeon etc by not checking for last evolution index if the pokemon does not have an
      * evolution.
-     * @param poke Poke to base logic on
+     *
+     * @param poke               Poke to base logic on
      * @param pokeInfoCalculator The calculator used to get the evolution line.
      * @return The last pokemon in an evolution line.
      */
@@ -92,19 +94,29 @@ public abstract class ClipboardToken {
     /**
      * Get a pokemon that is either the scanned pokemon, or the last evolution in the line, depending on the token
      * setting.
+     *
      * @param poke The pokemon to use, or to find the final evolution of.
-     * @param pic The calculator which can find the last evolution of a pokemon.
+     * @param pic  The calculator which can find the last evolution of a pokemon.
      * @return Either the same pokemon sent in, or the last evolution, depending on the token setting.
      */
-    public Pokemon getRightPokemon(Pokemon poke, PokeInfoCalculator pic){
+    public Pokemon getRightPokemon(Pokemon poke, PokeInfoCalculator pic) {
         return maxEv ? getLastEv(poke, pic) : poke;
     }
+
     /**
-     * Get what the short name of the token is, for example "Pokemon name".
+     * Get what the short name of the token is, for example "Name".
      *
      * @param context used to reach the string resources
-     * @return The short name of the token which should be recognizable by an end user
+     * @return The short name of the token
      */
     public abstract String getTokenName(Context context);
+
+    /**
+     * Get the long description which the users sees when he's selected a token.
+     *
+     * @param context used to get translation string resources
+     * @return A string which explains the token, with an example.
+     */
+    public abstract String getLongDescription(Context context);
 
 }

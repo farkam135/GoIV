@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.util.Log;
 
-import com.kamron.pogoiv.UserClipboard.ClipboardToken;
+import com.kamron.pogoiv.clipboard.ClipboardToken;
 
 import java.util.ArrayList;
 

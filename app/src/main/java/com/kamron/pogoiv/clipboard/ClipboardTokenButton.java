@@ -1,7 +1,8 @@
-package com.kamron.pogoiv.UserClipboard;
+package com.kamron.pogoiv.clipboard;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.app.ActionBar;
 import android.util.AttributeSet;
 import android.view.View;
@@ -19,9 +20,11 @@ public class ClipboardTokenButton extends Button {
     private ClipboardTokenHandler cth;
     private ClipboardModifierActivity clipboardModifierActivity;
 
+
     public ClipboardTokenButton(ClipboardModifierActivity clipboardModifierActivity, ClipboardToken token,
                                 ClipboardTokenHandler cth) {
         this(clipboardModifierActivity);
+        this.setTransformationMethod(null); //dont capitalize the text
         this.cth = cth;
         this.clipboardModifierActivity = clipboardModifierActivity;
         this.token = token;
@@ -56,7 +59,29 @@ public class ClipboardTokenButton extends Button {
     private void setButtonVisuals() {
         this.setLayoutParams(new ActionBar.LayoutParams(ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams
                 .WRAP_CONTENT));
-        this.setText(token.getTokenName(this.getContext()) + "\n" + token.getPreview());
+
+        String evPrefix = token.maxEv ? "Ev" : "";
+        this.setText(evPrefix + token.getTokenName(this.getContext()));
+    }
+
+    /**
+     * Resets the color of the button to a non-selected color.
+     */
+    public void resetColor() {
+        if (token.maxEv) {
+            setBackgroundColor(Color.parseColor("#dafaea"));
+        } else {
+            setBackgroundColor(Color.parseColor("#fafafa"));
+        }
+        setTextColor(Color.parseColor("#0a0a0a"));
+    }
+
+    /**
+     * Sets the color of the button to a selected color.
+     */
+    public void setSelectedColor() {
+        setBackgroundColor(Color.parseColor("#303F9F"));
+        setTextColor(Color.parseColor("#fafafa"));
     }
 
     /**
@@ -66,8 +91,11 @@ public class ClipboardTokenButton extends Button {
         this.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                cth.addToken(token);
-                clipboardModifierActivity.updateLabels();
+
+                clipboardModifierActivity.selectToken(token);
+                clipboardModifierActivity.updateClipPreview();
+                clipboardModifierActivity.unColorallButtons();
+                setSelectedColor();
 
             }
         });

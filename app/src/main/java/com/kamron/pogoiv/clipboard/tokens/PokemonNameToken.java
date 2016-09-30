@@ -1,8 +1,8 @@
-package com.kamron.pogoiv.UserClipboard.ClipboardTokens;
+package com.kamron.pogoiv.clipboard.tokens;
 
 import android.content.Context;
 
-import com.kamron.pogoiv.UserClipboard.ClipboardToken;
+import com.kamron.pogoiv.clipboard.ClipboardToken;
 import com.kamron.pogoiv.logic.IVScanResult;
 import com.kamron.pogoiv.logic.PokeInfoCalculator;
 import com.kamron.pogoiv.logic.Pokemon;
@@ -71,6 +71,23 @@ public class PokemonNameToken extends ClipboardToken {
 
     @Override
     public String getTokenName(Context context) {
-        return "Pokemon name";
+        if (maxLength < 12){
+            return "Name" + maxLength;
+        }
+        return "Name";
+    }
+
+    @Override
+    public String getLongDescription(Context context) {
+        String num = maxLength + "";
+        String pokeName = maxEv ? "Dragonite" : "Dratini";
+        String returner = "This token returns the name of the Pokemon, for example if you scan a Dratini, it will " +
+                "return " + getCappedLength(pokeName) + ".";
+
+        if (maxLength < 12) {
+            returner += " With the number cap, the length of the Pokémon name can not exceed " + num + " characters "
+                    + "long.";
+        }
+        return returner;
     }
 }

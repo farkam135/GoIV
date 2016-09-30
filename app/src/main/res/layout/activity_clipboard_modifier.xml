@@ -3,166 +3,176 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/buttonText"
+        android:background="@color/colorPrimary"
+        android:text="  Preview"/>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="15"
-        android:background="@color/colorPrimaryDark"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Token preview"
-            android:layout_weight="1"/>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/tokenPreviewView"
-            android:orientation="horizontal"
-            android:layout_weight="1"
-            android:gravity="center_horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/buttonText"
-                android:text="Name 8  X"
-                android:padding="2dp"
-                android:layout_marginRight="2dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/buttonText"
-                android:text="Name 8  X"
-                android:padding="2dp"/>
-
-        </LinearLayout>
-
-        <CheckBox
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Alternate setting when result is a single Iv possibility"
-            android:textSize="10dp"
-            android:layout_weight="1"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/tokenPreviewViewPerfectMatch"
-            android:orientation="horizontal"
-            android:layout_weight="1"
-            android:gravity="center_horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/buttonText"
-                android:text="Name 8  X"
-                android:padding="2dp"
-                android:layout_marginRight="2dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/buttonText"
-                android:text="Name 8  X"
-                android:padding="2dp"/>
-
-        </LinearLayout>
-
-
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="10"
-        android:background="@color/orange"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Token explanation"
-            android:textAlignment="center"
-            android:paddingBottom="5dp"
-            android:paddingTop="10dp"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Token Long description example blah blah blahblah blah blahblah blah lahblah blah blahblah blah blahblah blah blahblah blah blahblah blah blahblah blah blah"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="25"
-        android:background="@color/red"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
-<ScrollView
-    android:layout_width="0dp"
-    android:layout_height="match_parent"
-    android:layout_weight="3">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/clipboardPreview"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:text="example"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="(Max length)"
+            android:textColor="@color/unimportantText"
+            android:id="@+id/clipboardMaxLength"/>
+
+
+    </LinearLayout>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/buttonText"
+        android:layout_marginTop="14dp"
+        android:background="@color/colorPrimary"
+        android:text="  Edit "/>
+
+    <!-- Edit tokens layout -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/clipTokenEditor"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_marginTop="14dp"
+        android:textColor="@color/buttonText"
+        android:background="@color/colorPrimary"
+        android:layout_height="wrap_content"
+        android:text="  Tokens"/>
+
+    <!-- Token menu scroll container -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/black"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <Button
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Poke name"/>
+                android:text="Scroll down to see more tokens."
+                android:textAlignment="center"
+                android:textSize="12sp"/>
 
-            <Button
-                android:layout_width="match_parent"
+
+            <GridLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="CP & HP"/>
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="IV"/>
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Signs"/>
+                android:columnCount="4"
+                android:layout_weight="1"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/clipboardGridLayout">
+            </GridLayout>
+
+
 
         </LinearLayout>
-</ScrollView>
+
+
+
+    </ScrollView>
+
+    <!-- Description and add field -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp">
+
+        <!-- Description field -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:textColor="@color/buttonText"
+                android:text="  Description"/>
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:layout_height="170dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/clipboardDescription"
+                    android:textColor="@color/importantText"
+                    android:text="No token selected"/>
+
+            </ScrollView>
+
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="7"
-            android:background="@color/colorPrimary">
+            android:layout_weight="1"
+            android:gravity="center_vertical">
 
-
-
+            <Button
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:backgroundTint="@color/colorPrimary"
+                android:onClick="addToken"
+                android:textColor="@color/buttonText"
+                android:text="add"/>
         </LinearLayout>
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="8"
-        android:background="@color/colorAccent"
-        android:gravity="center_horizontal"
-        android:orientation="vertical">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Changes are saved automatically"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Done"/>
 
     </LinearLayout>
+
+
+
 </LinearLayout>

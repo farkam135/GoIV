@@ -1,8 +1,8 @@
-package com.kamron.pogoiv.UserClipboard.ClipboardTokens;
+package com.kamron.pogoiv.clipboard.tokens;
 
 import android.content.Context;
 
-import com.kamron.pogoiv.UserClipboard.ClipboardToken;
+import com.kamron.pogoiv.clipboard.ClipboardToken;
 import com.kamron.pogoiv.logic.IVScanResult;
 import com.kamron.pogoiv.logic.PokeInfoCalculator;
 import com.kamron.pogoiv.logic.Pokemon;
@@ -47,6 +47,13 @@ public class PerfectionCPPercentageToken extends ClipboardToken {
 
     @Override
     public String getTokenName(Context context) {
-        return "Perfection compared to perfect IV";
+        return "mIV%";
+    }
+
+    @Override
+    public String getLongDescription(Context context) {
+        return "This token calculates how close your Pokémon is to its max potential, measured by CP. For example, if" +
+                " a Pokémon with max IVs maxes out at 2000cp, but your specific pokemon maxes out at 1900, then your " +
+                "pokemon perfection is 95%, so this token returns 95.";
     }
 }

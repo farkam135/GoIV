@@ -1,8 +1,8 @@
-package com.kamron.pogoiv.UserClipboard.ClipboardTokens;
+package com.kamron.pogoiv.clipboard.tokens;
 
 import android.content.Context;
 
-import com.kamron.pogoiv.UserClipboard.ClipboardToken;
+import com.kamron.pogoiv.clipboard.ClipboardToken;
 import com.kamron.pogoiv.logic.IVScanResult;
 import com.kamron.pogoiv.logic.PokeInfoCalculator;
 
@@ -37,6 +37,12 @@ public class SeperatorToken extends ClipboardToken {
     @Override
     public String getTokenName(Context context) {
         return string;
+    }
+
+    @Override
+    public String getLongDescription(Context context) {
+        return "This is simply a character you can put inbetween the smarter tokens to make the result more readable." +
+                " The character you have chosen is: " + string;
     }
 
     @Override

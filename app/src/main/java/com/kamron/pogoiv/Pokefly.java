@@ -52,8 +52,7 @@ import android.widget.Toast;
 
 import com.google.common.base.Function;
 import com.google.common.base.Optional;
-import com.kamron.pogoiv.UserClipboard.ClipboardModifierActivity;
-import com.kamron.pogoiv.UserClipboard.ClipboardTokenHandler;
+import com.kamron.pogoiv.clipboard.ClipboardTokenHandler;
 import com.kamron.pogoiv.logic.CPRange;
 import com.kamron.pogoiv.logic.Data;
 import com.kamron.pogoiv.logic.IVCombination;

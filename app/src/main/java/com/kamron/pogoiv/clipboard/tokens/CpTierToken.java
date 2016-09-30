@@ -1,8 +1,8 @@
-package com.kamron.pogoiv.UserClipboard.ClipboardTokens;
+package com.kamron.pogoiv.clipboard.tokens;
 
 import android.content.Context;
 
-import com.kamron.pogoiv.UserClipboard.ClipboardToken;
+import com.kamron.pogoiv.clipboard.ClipboardToken;
 import com.kamron.pogoiv.logic.IVScanResult;
 import com.kamron.pogoiv.logic.PokeInfoCalculator;
 import com.kamron.pogoiv.logic.Pokemon;
@@ -34,7 +34,7 @@ public class CpTierToken extends ClipboardToken {
     public String getValue(IVScanResult ivs, PokeInfoCalculator pokeInfoCalculator) {
         TokenTierLogic ttl = new TokenTierLogic();
         Pokemon poke = getRightPokemon(ivs.pokemon, pokeInfoCalculator);
-        int cp = (int)pokeInfoCalculator.getAverageCPAtLevel(poke, ivs.lowAttack, ivs.lowDefense, ivs.lowStamina,
+        int cp = (int) pokeInfoCalculator.getAverageCPAtLevel(poke, ivs.lowAttack, ivs.lowDefense, ivs.lowStamina,
                 ivs.highAttack, ivs.highDefense, ivs.highStamina, 40);
 
         return ttl.getRating(cp);
@@ -47,6 +47,15 @@ public class CpTierToken extends ClipboardToken {
 
     @Override
     public String getTokenName(Context context) {
-        return "Pokemon tier";
+        return "CPTier";
+    }
+
+    @Override
+    public String getLongDescription(Context context) {
+        return "This token gives you an idea of how powerful this pokemon can become, by measuring the maximum " +
+                "possible CP the pokemon can obtain. So for example, A lapras can max out at 2980 CP, while a dugtrio" +
+                " would max out at 1168 CP. So lapras would get A while dugrio would get E-. This tier is adjusted " +
+                "based on the IV of your pokemon.";
+
     }
 }

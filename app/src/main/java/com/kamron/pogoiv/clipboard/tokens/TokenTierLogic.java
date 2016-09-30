@@ -1,4 +1,4 @@
-package com.kamron.pogoiv.UserClipboard.ClipboardTokens;
+package com.kamron.pogoiv.clipboard.tokens;
 
 /**
  * Created by Johan on 2016-09-24.

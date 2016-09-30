@@ -1,8 +1,8 @@
-package com.kamron.pogoiv.UserClipboard.ClipboardTokens;
+package com.kamron.pogoiv.clipboard.tokens;
 
 import android.content.Context;
 
-import com.kamron.pogoiv.UserClipboard.ClipboardToken;
+import com.kamron.pogoiv.clipboard.ClipboardToken;
 import com.kamron.pogoiv.logic.IVScanResult;
 import com.kamron.pogoiv.logic.PokeInfoCalculator;
 import com.kamron.pogoiv.logic.Pokemon;
@@ -38,10 +38,12 @@ public class HpToken extends ClipboardToken {
         int hp = pokeInfoCalculator.getHPAtLevel(ivScanResult, level, poke);
         return String.valueOf(hp);
     }
+
     @Override
     public String getStringRepresentation() {
         return super.getStringRepresentation() + String.valueOf(currentLevel);
     }
+
     @Override
     public String getPreview() {
         int hp = currentLevel ? 30 : 70;
@@ -53,6 +55,14 @@ public class HpToken extends ClipboardToken {
 
     @Override
     public String getTokenName(Context context) {
-        return currentLevel ? "HP" : "Max level Hp";
+        return currentLevel ? "HP" : "Hp+";
+    }
+
+    @Override
+    public String getLongDescription(Context context) {
+        if (currentLevel) {
+            return "Get how much hp the Pokémon has at the current level.";
+        }
+        return "Get how much hp the Pokémon will have at max level.";
     }
 }

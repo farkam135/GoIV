@@ -1,4 +1,4 @@
-package com.kamron.pogoiv.UserClipboard;
+package com.kamron.pogoiv.clipboard;
 
 import android.content.Context;
 import android.util.Log;
@@ -8,6 +8,8 @@ import com.kamron.pogoiv.logic.IVScanResult;
 import com.kamron.pogoiv.logic.PokeInfoCalculator;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by Johan on 2016-09-24.
@@ -19,6 +21,14 @@ public class ClipboardTokenHandler {
 
     private ArrayList<ClipboardToken> tokens = new ArrayList<>();
     private Context context;
+
+    /**
+     * Gets a peak at which tokens that exist.
+     * @return
+     */
+    public List<ClipboardToken> getTokens(){
+        return Collections.unmodifiableList(tokens);
+    }
 
     /**
      * Create a new clipboardTokenHandler that can edit and read ClipboardToken information.
@@ -59,6 +69,16 @@ public class ClipboardTokenHandler {
         }
 
 
+    }
+
+    /**
+     * Remove the i:th token in the token list. If you have A,B,C,D and remove 2, you remove C and the resulting list
+     * would be A,B,D. The D will have moved up, there wont be a null marker.
+     * @param i which index to remove in the list.
+     */
+    public void removeToken(int i){
+        tokens.remove(i);
+        saveTokenChanges();
     }
 
     /**

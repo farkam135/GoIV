@@ -7,6 +7,8 @@ import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.WindowManager;
 
+import com.kamron.pogoiv.logic.Data;
+
 import lombok.Getter;
 
 /**
@@ -42,6 +44,35 @@ public class ScreenInfo {
         disp.getRealMetrics(rawDisplayMetrics);
 
         setupDisplaySizeInfo(displayMetrics);
+    }
+
+    /**
+     * setupArcPoints
+     * Sets up the x,y coordinates of the arc using the trainer level, stores it in Data.arcX/arcY
+     */
+    public void setupArcPoints(int trainerLevel) {
+        /*
+         * Pokemon levels go from 1 to trainerLevel + 1.5, in increments of 0.5.
+         * Here we use levelIdx for levels that are doubled and shifted by - 2; after this adjustment,
+         * the level can be used to index CpM, arcX and arcY.
+         */
+        int maxPokeLevelIdx = Data.trainerLevelToMaxPokeLevelIdx(trainerLevel);
+        Data.arcX = new int[maxPokeLevelIdx + 1]; //We access entries [0..maxPokeLevelIdx], hence + 1.
+        Data.arcY = new int[maxPokeLevelIdx + 1];
+
+        double baseCpM = Data.getLevelIdxCpM(0);
+        //TODO: debug this formula when we get to the end of CpM (that is, levels 39/40).
+        double maxPokeCpMDelta = Data.getLevelIdxCpM(Math.min(maxPokeLevelIdx + 1, Data.getCpMLength() - 1)) - baseCpM;
+
+        //pokeLevelIdx <= maxPokeLevelIdx ensures we never overflow CpM/arc/arcY.
+        for (int pokeLevelIdx = 0; pokeLevelIdx <= maxPokeLevelIdx; pokeLevelIdx++) {
+            double pokeCurrCpMDelta = Data.getLevelIdxCpM(pokeLevelIdx) - baseCpM;
+            double arcRatio = pokeCurrCpMDelta / maxPokeCpMDelta;
+            double angleInRadians = (arcRatio + 1) * Math.PI;
+
+            Data.arcX[pokeLevelIdx] = (int) (arcInit.x + (arcRadius * Math.cos(angleInRadians)));
+            Data.arcY[pokeLevelIdx] = (int) (arcInit.y + (arcRadius * Math.sin(angleInRadians)));
+        }
     }
 
     private void setupDisplaySizeInfo(DisplayMetrics displayMetrics) {

@@ -37,7 +37,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.kamron.pogoiv.clipboard.ClipboardModifierActivity;
-import com.kamron.pogoiv.logic.Data;
 import com.kamron.pogoiv.updater.AppUpdate;
 import com.kamron.pogoiv.updater.AppUpdateUtil;
 import com.kamron.pogoiv.updater.DownloadUpdateService;
@@ -177,8 +176,7 @@ public class MainActivity extends AppCompatActivity {
                     trainerLevel = setupTrainerLevel(npTrainerLevel);
 
                     ScreenInfo.init(MainActivity.this);
-
-                    Data.setupArcPoints(ScreenInfo.getInstance(), trainerLevel);
+                    ScreenInfo.getInstance().setupArcPoints(trainerLevel);
 
                     if (batterySaver) {
                         startPokeFly();
@@ -204,6 +202,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Method that navigates the user to the custom clipboard builder activity.
+     *
      * @param v Param required for the xml onclick to work.
      */
     public void navigateToClipboardModifier(View v) {

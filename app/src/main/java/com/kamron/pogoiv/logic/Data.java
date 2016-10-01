@@ -2,6 +2,8 @@ package com.kamron.pogoiv.logic;
 
 import android.graphics.Point;
 
+import com.kamron.pogoiv.ScreenInfo;
+
 /**
  * Created by Pascal on 17.08.2016.
  */
@@ -32,7 +34,9 @@ public class Data {
      * setupArcPoints
      * Sets up the x,y coordinates of the arc using the trainer level, stores it in Data.arcX/arcY
      */
-    public static void setupArcPoints(Point arcInit, int arcRadius, int trainerLevel) {
+    public static void setupArcPoints(ScreenInfo screenInfo, int trainerLevel) {
+        Point arcInit = screenInfo.getArcInit();
+        int arcRadius = screenInfo.getArcRadius();
         /*
          * Pokemon levels go from 1 to trainerLevel + 1.5, in increments of 0.5.
          * Here we use levelIdx for levels that are doubled and shifted by - 2; after this adjustment,

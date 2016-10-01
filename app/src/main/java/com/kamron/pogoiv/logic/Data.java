@@ -46,13 +46,13 @@ public class Data {
         arcX = new int[maxPokeLevelIdx + 1]; //We access entries [0..maxPokeLevelIdx], hence + 1.
         arcY = new int[maxPokeLevelIdx + 1];
 
-        double baseCpM = CpM[0];
+        double baseCpM = getLevelIdxCpM(0);
         //TODO: debug this formula when we get to the end of CpM (that is, levels 39/40).
-        double maxPokeCpMDelta = CpM[Math.min(maxPokeLevelIdx + 1, CpM.length - 1)] - baseCpM;
+        double maxPokeCpMDelta = getLevelIdxCpM(Math.min(maxPokeLevelIdx + 1, getCpMLength() - 1)) - baseCpM;
 
         //pokeLevelIdx <= maxPokeLevelIdx ensures we never overflow CpM/arc/arcY.
         for (int pokeLevelIdx = 0; pokeLevelIdx <= maxPokeLevelIdx; pokeLevelIdx++) {
-            double pokeCurrCpMDelta = CpM[pokeLevelIdx] - baseCpM;
+            double pokeCurrCpMDelta = getLevelIdxCpM(pokeLevelIdx) - baseCpM;
             double arcRatio = pokeCurrCpMDelta / maxPokeCpMDelta;
             double angleInRadians = (arcRatio + 1) * Math.PI;
 
@@ -90,7 +90,15 @@ public class Data {
      * @return Associated CpM.
      */
     public static double getLevelCpM(double level) {
-        return CpM[levelToLevelIdx(level)];
+        return getLevelIdxCpM(levelToLevelIdx(level));
+    }
+
+    public static double getLevelIdxCpM(int levelIdx) {
+        return CpM[levelIdx];
+    }
+
+    public static int getCpMLength() {
+        return CpM.length;
     }
 
     /**

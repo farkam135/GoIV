@@ -16,6 +16,9 @@ import lombok.Getter;
  */
 
 public class ScreenInfo {
+    private int[] arcX;
+    private int[] arcY;
+
     @Getter
     private final Point arcInit = new Point();
     @Getter
@@ -57,8 +60,8 @@ public class ScreenInfo {
          * the level can be used to index CpM, arcX and arcY.
          */
         int maxPokeLevelIdx = Data.trainerLevelToMaxPokeLevelIdx(trainerLevel);
-        Data.arcX = new int[maxPokeLevelIdx + 1]; //We access entries [0..maxPokeLevelIdx], hence + 1.
-        Data.arcY = new int[maxPokeLevelIdx + 1];
+        arcX = new int[maxPokeLevelIdx + 1]; //We access entries [0..maxPokeLevelIdx], hence + 1.
+        arcY = new int[maxPokeLevelIdx + 1];
 
         double baseCpM = Data.getLevelIdxCpM(0);
         //TODO: debug this formula when we get to the end of CpM (that is, levels 39/40).
@@ -70,8 +73,8 @@ public class ScreenInfo {
             double arcRatio = pokeCurrCpMDelta / maxPokeCpMDelta;
             double angleInRadians = (arcRatio + 1) * Math.PI;
 
-            Data.arcX[pokeLevelIdx] = (int) (arcInit.x + (arcRadius * Math.cos(angleInRadians)));
-            Data.arcY[pokeLevelIdx] = (int) (arcInit.y + (arcRadius * Math.sin(angleInRadians)));
+            arcX[pokeLevelIdx] = (int) (arcInit.x + (arcRadius * Math.cos(angleInRadians)));
+            arcY[pokeLevelIdx] = (int) (arcInit.y + (arcRadius * Math.sin(angleInRadians)));
         }
     }
 
@@ -90,5 +93,9 @@ public class ScreenInfo {
                 || displayMetrics.heightPixels == 800) {
             arcRadius++;
         }
+    }
+
+    public Point getArcPoint(int levelIdx) {
+        return new Point(arcX[levelIdx], arcY[levelIdx]);
     }
 }

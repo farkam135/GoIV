@@ -23,9 +23,6 @@ public class Data {
             0.767397165298462, 0.770297293677362, 0.773186504840851, 0.776064947064992, 0.778932750225067,
             0.781790050767666, 0.784636974334717, 0.787473608513275, 0.790300011634827};
 
-    public static int[] arcX;
-    public static int[] arcY;
-
     /**
      * Convert a pokemon/trainer level to a <em>level index</em> (<code>levelIdx</code> in code).
      * The mapping is invertible, but level indexes can be used to index an array (like Data.CpM), or seekbars.

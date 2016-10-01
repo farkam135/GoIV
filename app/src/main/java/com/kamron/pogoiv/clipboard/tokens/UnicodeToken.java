@@ -64,9 +64,9 @@ public class UnicodeToken extends ClipboardToken {
 
     @Override
     public String getLongDescription(Context context) {
-        String returner = "This token gives you a representation fo your pokemon Ivs, but using UNICODE special " +
-                "characters which" +
-                " allows you to show numbers like 10 as a single character, like ⑪. This saves space.";
+        String returner = "This token gives you a representation fo your pokemon Ivs, but using UNICODE special "
+                + "characters which allows you to show numbers like 10 as a single character, like ⑪. This saves "
+                + "space.";
 
         if (filled) {
             returner += " This token is the filled version, which has a black inside for the numbers, like ⓭.";
@@ -75,5 +75,15 @@ public class UnicodeToken extends ClipboardToken {
             returner += " This token is the empty version, which has a white inside for the numbers, like ⑪.";
         }
         return returner;
+    }
+
+    @Override
+    public String getCategory() {
+        return "IV Info";
+    }
+
+    @Override
+    public boolean changesOnEvolutionMax() {
+        return false;
     }
 }

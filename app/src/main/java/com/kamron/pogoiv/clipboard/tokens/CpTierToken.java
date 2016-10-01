@@ -58,4 +58,14 @@ public class CpTierToken extends ClipboardToken {
                 "based on the IV of your pokemon.";
 
     }
+
+    @Override
+    public String getCategory() {
+        return "Evaluation Scores";
+    }
+
+    @Override
+    public boolean changesOnEvolutionMax() {
+        return true;
+    }
 }

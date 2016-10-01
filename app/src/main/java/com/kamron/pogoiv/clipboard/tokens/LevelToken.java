@@ -90,4 +90,14 @@ public class LevelToken extends ClipboardToken {
                 " This makes the output longer than the alternatives, but is very accurate. For example, a level 10.5" +
                 " pokemon will return as 10.5.";
     }
+
+    @Override
+    public String getCategory() {
+        return "Basic Stats";
+    }
+
+    @Override
+    public boolean changesOnEvolutionMax() {
+        return false;
+    }
 }

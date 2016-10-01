@@ -65,4 +65,14 @@ public class HpToken extends ClipboardToken {
         }
         return "Get how much hp the Pokémon will have at max level.";
     }
+
+    @Override
+    public String getCategory() {
+        return "Basic Stats";
+    }
+
+    @Override
+    public boolean changesOnEvolutionMax() {
+        return true;
+    }
 }

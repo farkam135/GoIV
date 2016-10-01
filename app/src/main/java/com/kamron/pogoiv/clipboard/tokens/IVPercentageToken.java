@@ -82,4 +82,14 @@ public class IVPercentageToken extends ClipboardToken {
                 + "something between 55 and 75, and the maximum will return 75.";
         return returner;
     }
+
+    @Override
+    public String getCategory() {
+        return "IV Info";
+    }
+
+    @Override
+    public boolean changesOnEvolutionMax() {
+        return false;
+    }
 }

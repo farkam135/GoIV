@@ -51,7 +51,17 @@ public class HexIVToken extends ClipboardToken {
 
     @Override
     public String getLongDescription(Context context) {
-        return "Represents the Pokémon IVs in a base 16 number system. This means that each IV can be represented by " +
-                "a single character. So for example, a pokemon with IVs 10, 13, 3 would be represented as AD3.";
+        return "Represents the Pokémon IVs in a base 16 number system. This means that each IV can be represented by "
+                + "a single character. So for example, a pokemon with IVs 10, 13, 3 would be represented as AD3.";
+    }
+
+    @Override
+    public String getCategory() {
+        return "IV Info";
+    }
+
+    @Override
+    public boolean changesOnEvolutionMax() {
+        return false;
     }
 }

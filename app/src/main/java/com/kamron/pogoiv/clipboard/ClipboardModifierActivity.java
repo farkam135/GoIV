@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import com.kamron.pogoiv.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ClipboardModifierActivity extends AppCompatActivity {
 
@@ -18,7 +20,8 @@ public class ClipboardModifierActivity extends AppCompatActivity {
     private TextView clipboardPreview;
     private TextView clipboardMaxLength;
     private TextView clipboardDescription;
-    private GridLayout clipboardGridLayout;
+    private LinearLayout clipboardShowcase;
+    private CheckBox clipboardMaxEvolutionVariant;
     private LinearLayout clipTokenEditor;
 
     private ArrayList<ClipboardTokenButton> tokenButtons = new ArrayList<>();
@@ -30,7 +33,7 @@ public class ClipboardModifierActivity extends AppCompatActivity {
         setContentView(R.layout.activity_clipboard_modifier);
         initiateInstanceVariables();
         updateFields();
-        fillTokenList();
+        fillTokenList(clipboardMaxEvolutionVariant.isChecked());
 
     }
 
@@ -42,8 +45,9 @@ public class ClipboardModifierActivity extends AppCompatActivity {
         clipboardMaxLength = (TextView) findViewById(R.id.clipboardMaxLength);
         clipboardPreview = (TextView) findViewById(R.id.clipboardPreview);
         clipboardDescription = (TextView) findViewById(R.id.clipboardDescription);
-        clipboardGridLayout = (GridLayout) findViewById(R.id.clipboardGridLayout);
+        clipboardShowcase = (LinearLayout) findViewById(R.id.clipboardShowcase);
         clipTokenEditor = (LinearLayout) findViewById(R.id.clipTokenEditor);
+        clipboardMaxEvolutionVariant = (CheckBox) findViewById(R.id.clipboardMaxEvolutionVariant);
     }
 
     /**
@@ -78,19 +82,47 @@ public class ClipboardModifierActivity extends AppCompatActivity {
     }
 
     /**
-     * Populate the token picker gridview with all possible tokens.
+     * Toggles showing the evolved variants of tokens in the list.
+     *
+     * @param v needed for xml onclick.
      */
-    private void fillTokenList() {
-        clipboardGridLayout.removeAllViews();
+    public void toggleEvolvedVariant(View v) {
+        fillTokenList(clipboardMaxEvolutionVariant.isChecked());
+    }
+
+    /**
+     * Populate the token picker gridview with all possible tokens in their respective groups.
+     */
+    private void fillTokenList(boolean evolvedVariant) {
         ArrayList<ClipboardToken> possibleTokens = ClipboardTokenCollection.getSamples();
+        clipboardShowcase.removeAllViews();
 
-        for (ClipboardToken possibleToken : possibleTokens) {
-            //set the properties for button
-            ClipboardTokenButton btnTag = new ClipboardTokenButton(this, possibleToken, cth);
+        HashMap<String, GridLayout> groups = new HashMap<>();
+        //Create empty category gridlayotu holders for each category
+        for (ClipboardToken tok : possibleTokens) {
+            String category = tok.getCategory();
+            if (!groups.containsKey(category)) {
+                GridLayout layout = new GridLayout(this);
+                layout.setColumnCount(3);
+                groups.put(category, layout);
+                TextView categoryTitle = new TextView(this);
+                categoryTitle.setText(category);
+                clipboardShowcase.addView(new TextView(this)); //simple way of getting padding
+                clipboardShowcase.addView(categoryTitle);
+                clipboardShowcase.addView(layout);
+            }
+        }
 
-            tokenButtons.add(btnTag);
-            //add button to the layout
-            clipboardGridLayout.addView(btnTag);
+        //populate the categories
+        for (ClipboardToken token : possibleTokens) {
+            //Add the token if it matches the selected evolution variant, or if it doesnt change on ev variant.
+            if (evolvedVariant == token.maxEv || !token.changesOnEvolutionMax()) {
+                ClipboardTokenButton btnTag = new ClipboardTokenButton(this, token, cth);
+                tokenButtons.add(btnTag);
+                //add button to the layout
+                groups.get(token.getCategory()).addView(btnTag);
+            }
+
         }
         unColorallButtons();
     }

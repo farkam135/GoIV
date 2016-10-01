@@ -91,6 +91,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:orientation="vertical">
 
             <TextView
@@ -100,21 +101,23 @@
                 android:textAlignment="center"
                 android:textSize="12sp"/>
 
+            <CheckBox
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:id="@+id/clipboardMaxEvolutionVariant"
+                android:onClick="toggleEvolvedVariant"
+                android:text="Show max evolution token variants"/>
 
-            <GridLayout
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:columnCount="4"
                 android:layout_weight="1"
                 android:layout_gravity="center_horizontal"
-                android:id="@+id/clipboardGridLayout">
-            </GridLayout>
-
-
-
-        </LinearLayout>
-
-
+                android:id="@+id/clipboardShowcase"
+                android:orientation="vertical"/>
+            </LinearLayout>
 
     </ScrollView>
 

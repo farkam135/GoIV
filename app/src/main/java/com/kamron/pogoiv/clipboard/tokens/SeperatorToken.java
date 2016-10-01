@@ -41,8 +41,18 @@ public class SeperatorToken extends ClipboardToken {
 
     @Override
     public String getLongDescription(Context context) {
-        return "This is simply a character you can put inbetween the smarter tokens to make the result more readable." +
-                " The character you have chosen is: " + string;
+        return "This is simply a character you can put inbetween the smarter tokens to make the result more readable."
+                + " The character you have chosen is: " + string;
+    }
+
+    @Override
+    public String getCategory() {
+        return "Seperators";
+    }
+
+    @Override
+    public boolean changesOnEvolutionMax() {
+        return false;
     }
 
     @Override

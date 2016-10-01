@@ -52,10 +52,10 @@ public class CpTierToken extends ClipboardToken {
 
     @Override
     public String getLongDescription(Context context) {
-        return "This token gives you an idea of how powerful this pokemon can become, by measuring the maximum " +
-                "possible CP the pokemon can obtain. So for example, A lapras can max out at 2980 CP, while a dugtrio" +
-                " would max out at 1168 CP. So lapras would get A while dugrio would get E-. This tier is adjusted " +
-                "based on the IV of your pokemon.";
+        return "This token gives you an idea of how powerful this pokemon can become, by measuring the maximum "
+                + "possible CP the pokemon can obtain. So for example, A lapras can max out at 2980 CP, while a "
+                + "dugtrio would max out at 1168 CP. So lapras would get A while dugrio would get E-. This tier is "
+                + "adjusted based on the IV of your pokemon.";
 
     }
 

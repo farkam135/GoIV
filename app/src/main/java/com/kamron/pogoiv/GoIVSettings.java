@@ -27,15 +27,15 @@ public class GoIVSettings {
 
     private final SharedPreferences prefs;
 
+    private GoIVSettings(Context context) {
+        prefs = context.getSharedPreferences(PREFS_GO_IV_SETTINGS, Context.MODE_PRIVATE);
+    }
+
     public static GoIVSettings getInstance(Context context) {
         if (instance == null) {
             instance = new GoIVSettings(context.getApplicationContext());
         }
         return instance;
-    }
-
-    private GoIVSettings(Context context) {
-        prefs = context.getSharedPreferences(PREFS_GO_IV_SETTINGS, Context.MODE_PRIVATE);
     }
 
     public boolean shouldLaunchPokemonGo() {
@@ -63,7 +63,8 @@ public class GoIVSettings {
     }
 
     public String getClipboardPreference() {
-        Log.d("NahojjjenClippy", "String representation of token train from settings: " + prefs.getString(GOIV_CLIPBOARDSETTINGS, "error"));
+        Log.d("NahojjjenClippy", "String representation of token train from settings: "
+                + prefs.getString(GOIV_CLIPBOARDSETTINGS, "error"));
         return prefs.getString(GOIV_CLIPBOARDSETTINGS, "");
     }
 

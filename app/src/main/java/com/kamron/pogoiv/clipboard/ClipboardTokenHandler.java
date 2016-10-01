@@ -23,14 +23,6 @@ public class ClipboardTokenHandler {
     private Context context;
 
     /**
-     * Gets a peak at which tokens that exist.
-     * @return
-     */
-    public List<ClipboardToken> getTokens(){
-        return Collections.unmodifiableList(tokens);
-    }
-
-    /**
      * Create a new clipboardTokenHandler that can edit and read ClipboardToken information.
      *
      * @param context Used to get application user settings.
@@ -38,6 +30,15 @@ public class ClipboardTokenHandler {
     public ClipboardTokenHandler(Context context) {
         initializeTokensFromSettings();
         this.context = context;
+    }
+
+    /**
+     * Gets a peak at which tokens that exist. To modify the list, call ClipboardTokenHandler add or remove methods.
+     *
+     * @return an unmodifiable list of the tokens currently in the user settings.
+     */
+    public List<ClipboardToken> getTokens() {
+        return Collections.unmodifiableList(tokens);
     }
 
     /**
@@ -74,9 +75,10 @@ public class ClipboardTokenHandler {
     /**
      * Remove the i:th token in the token list. If you have A,B,C,D and remove 2, you remove C and the resulting list
      * would be A,B,D. The D will have moved up, there wont be a null marker.
+     *
      * @param i which index to remove in the list.
      */
-    public void removeToken(int i){
+    public void removeToken(int i) {
         tokens.remove(i);
         saveTokenChanges();
     }
@@ -138,7 +140,7 @@ public class ClipboardTokenHandler {
      * @return A string with all the tokens returned result on each other
      */
     public String getResults(IVScanResult ivScanResult, PokeInfoCalculator pokeInfoCalculator) {
-        Log.d("NahojjjenClippy", "Size of token train: "+ tokens.size());
+        Log.d("NahojjjenClippy", "Size of token train: " + tokens.size());
         String returner = "";
         for (ClipboardToken token : tokens) {
             returner += token.getValue(ivScanResult, pokeInfoCalculator);

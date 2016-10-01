@@ -155,8 +155,6 @@ public class MainActivity extends AppCompatActivity {
         npTrainerLevel.setWrapSelectorWheel(false);
         npTrainerLevel.setValue(trainerLevel);
 
-        ScreenInfo.init(MainActivity.this);
-
         launchButton = (Button) findViewById(R.id.start);
         launchButton.setOnClickListener(new View.OnClickListener() {
 
@@ -177,6 +175,8 @@ public class MainActivity extends AppCompatActivity {
                 } else if (!Pokefly.isRunning()) {
                     batterySaver = settings.isManualScreenshotModeEnabled();
                     trainerLevel = setupTrainerLevel(npTrainerLevel);
+
+                    ScreenInfo.init(MainActivity.this);
 
                     Data.setupArcPoints(ScreenInfo.getInstance(), trainerLevel);
 

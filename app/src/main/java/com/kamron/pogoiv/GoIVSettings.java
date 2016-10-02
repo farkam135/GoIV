@@ -53,7 +53,7 @@ public class GoIVSettings {
     public void setPlayerTeam(int value) {
         SharedPreferences.Editor editor = prefs.edit();
         editor.putInt(GoIVSettings.TEAM_NAME, value);
-        editor.commit();
+        editor.apply();
     }
 
     public boolean shouldDeleteScreenshots() {

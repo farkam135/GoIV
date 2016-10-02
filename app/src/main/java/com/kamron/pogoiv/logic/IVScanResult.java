@@ -142,6 +142,22 @@ public class IVScanResult {
     }
 
     /**
+     * Get IVCombination of highest IVs. This is not the combination with the highest total, and is probably not a
+     * combination of possible IVs; see getHighestIVCombination() for that.
+     */
+    public IVCombination getCombinationHighIVs() {
+        return new IVCombination(highAttack, highDefense, highStamina);
+    }
+
+    /**
+     * Get IVCombination of lowest IVs. This is not the combination with the lowest total, and is probably not a
+     * combination of possible IVs; see getLowestIVCombination() for that.
+     */
+    public IVCombination getCombinationLowIVs() {
+        return new IVCombination(lowAttack, lowDefense, lowStamina);
+    }
+
+    /**
      * Removes all possible IV combinations where the boolean set to true stat isnt the highest.
      * Several stats can be highest if they're equal.
      */

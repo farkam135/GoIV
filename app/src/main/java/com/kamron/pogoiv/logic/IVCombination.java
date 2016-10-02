@@ -21,6 +21,8 @@ public class IVCombination {
         percentPerfect = Math.round((att + def + sta) / 45f * 100);
     }
 
+    public static IVCombination MAX = new IVCombination(15, 15, 15);
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {

@@ -202,26 +202,21 @@ public class PokeInfoCalculator {
      * Returns a string on the form of "\n CP at lvl X: A - B" where x is the pokemon level, A is minCP and B is maxCP
      *
      * @param pokemon     the index of the pokemon species within the pokemon list (sorted)
-     * @param lowAttack   attack IV of the lowest combination
-     * @param lowDefense  defense IV of the lowest combination
-     * @param lowStamina  stamina IV of the lowest combination
-     * @param highAttack  attack IV of the highest combination
-     * @param highDefense defense IV of the highest combination
-     * @param highStamina stamina IV of the highest combination
+     * @param low         combination of lowest IVs
+     * @param high        combination of highest IVs
      * @param level       pokemon level for CP calculation
      * @return CPrange containing the CP range including the specified level.
      */
-    public CPRange getCpRangeAtLevel(Pokemon pokemon, int lowAttack, int lowDefense, int lowStamina, int highAttack,
-                                     int highDefense, int highStamina, double level) {
+    public CPRange getCpRangeAtLevel(Pokemon pokemon, IVCombination low, IVCombination high, double level) {
         int baseAttack = pokemon.baseAttack;
         int baseDefense = pokemon.baseDefense;
         int baseStamina = pokemon.baseStamina;
         double lvlScalar = Data.getLevelCpM(level);
         int cpMin = (int) Math.floor(
-                (baseAttack + lowAttack) * Math.sqrt(baseDefense + lowDefense) * Math.sqrt(baseStamina + lowStamina)
+                (baseAttack + low.att) * Math.sqrt(baseDefense + low.def) * Math.sqrt(baseStamina + low.sta)
                         * Math.pow(lvlScalar, 2) * 0.1);
-        int cpMax = (int) Math.floor((baseAttack + highAttack) * Math.sqrt(baseDefense + highDefense)
-                * Math.sqrt(baseStamina + highStamina) * Math.pow(lvlScalar, 2) * 0.1);
+        int cpMax = (int) Math.floor((baseAttack + high.att) * Math.sqrt(baseDefense + high.def)
+                * Math.sqrt(baseStamina + high.sta) * Math.pow(lvlScalar, 2) * 0.1);
         if (cpMin > cpMax) {
             int tmp = cpMax;
             cpMax = cpMin;

@@ -1325,10 +1325,10 @@ public class Pokefly extends Service {
      * @param selectedPokemon The pokemon to compare selected iv with max iv to.
      */
     private void setPokemonPerfectionPercentageText(IVScanResult ivScanResult, Pokemon selectedPokemon) {
-        CPRange cpRange = pokeInfoCalculator.getCpRangeAtLevel(selectedPokemon, ivScanResult.lowAttack, ivScanResult
-                .lowDefense, ivScanResult.lowStamina, ivScanResult.highAttack, ivScanResult.highDefense, ivScanResult
-                .highStamina, 40);
-        double maxCP = pokeInfoCalculator.getCpRangeAtLevel(selectedPokemon, 15, 15, 15, 15, 15, 15, 40).high;
+        CPRange cpRange = pokeInfoCalculator.getCpRangeAtLevel(selectedPokemon,
+                ivScanResult.getCombinationLowIVs(), ivScanResult.getCombinationHighIVs(), 40);
+        double maxCP = pokeInfoCalculator.getCpRangeAtLevel(selectedPokemon,
+                IVCombination.MAX, IVCombination.MAX, 40).high;
         double perfection = (100.0 * cpRange.getFloatingAvg()) / maxCP;
         DecimalFormat df = new DecimalFormat("#.#");
         String perfectionString = df.format(perfection) + "%";
@@ -1388,8 +1388,7 @@ public class Pokefly extends Service {
      */
     private void setEstimateCpTextBox(IVScanResult ivScanResult, double selectedLevel, Pokemon selectedPokemon) {
         CPRange expectedRange = pokeInfoCalculator.getCpRangeAtLevel(selectedPokemon,
-                ivScanResult.lowAttack, ivScanResult.lowDefense, ivScanResult.lowStamina,
-                ivScanResult.highAttack, ivScanResult.highDefense, ivScanResult.highStamina, selectedLevel);
+                ivScanResult.getCombinationLowIVs(), ivScanResult.getCombinationHighIVs(), selectedLevel);
         int realCP = ivScanResult.scannedCP;
         int expectedAverage = expectedRange.getAvg();
 

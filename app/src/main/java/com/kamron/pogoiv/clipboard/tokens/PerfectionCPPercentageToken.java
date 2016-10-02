@@ -3,6 +3,7 @@ package com.kamron.pogoiv.clipboard.tokens;
 import android.content.Context;
 
 import com.kamron.pogoiv.clipboard.ClipboardToken;
+import com.kamron.pogoiv.logic.IVCombination;
 import com.kamron.pogoiv.logic.IVScanResult;
 import com.kamron.pogoiv.logic.PokeInfoCalculator;
 import com.kamron.pogoiv.logic.Pokemon;
@@ -31,9 +32,10 @@ public class PerfectionCPPercentageToken extends ClipboardToken {
     @Override
     public String getValue(IVScanResult isr, PokeInfoCalculator pokeInfoCalculator) {
         Pokemon poke = getRightPokemon(isr.pokemon, pokeInfoCalculator);
-        double perfectIvCp = pokeInfoCalculator.getCpRangeAtLevel(poke, 15, 15, 15, 15, 15, 15, 40).getFloatingAvg();
-        double thisCP = pokeInfoCalculator.getCpRangeAtLevel(poke, isr.lowAttack, isr.lowDefense, isr.lowStamina,
-                isr.highAttack, isr.highDefense, isr.highStamina, 40).getFloatingAvg();
+        double perfectIvCp = pokeInfoCalculator.getCpRangeAtLevel(poke,
+                IVCombination.MAX, IVCombination.MAX, 40).getFloatingAvg();
+        double thisCP = pokeInfoCalculator.getCpRangeAtLevel(poke,
+                isr.getCombinationLowIVs(), isr.getCombinationHighIVs(), 40).getFloatingAvg();
         long roundedPerfection = Math.round(thisCP * 100.0 / perfectIvCp);
         return String.valueOf(roundedPerfection);
     }

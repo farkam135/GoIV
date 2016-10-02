@@ -3,6 +3,7 @@ package com.kamron.pogoiv.clipboard.tokens;
 import android.content.Context;
 
 import com.kamron.pogoiv.clipboard.ClipboardToken;
+import com.kamron.pogoiv.logic.IVCombination;
 import com.kamron.pogoiv.logic.IVScanResult;
 import com.kamron.pogoiv.logic.PokeInfoCalculator;
 
@@ -34,13 +35,16 @@ public class UnicodeToken extends ClipboardToken {
 
     @Override
     public String getValue(IVScanResult ivScanResult, PokeInfoCalculator pokeInfoCalculator) {
-
-        String returner = "";
-        int att = ivScanResult.getLowestIVCombination().att;
-        int def = ivScanResult.getLowestIVCombination().def;
-        int sta = ivScanResult.getLowestIVCombination().sta;
+        IVCombination lowestIVCombination = ivScanResult.getLowestIVCombination();
+        if (lowestIVCombination == null) {
+            return "";
+        }
+        int att = lowestIVCombination.att;
+        int def = lowestIVCombination.def;
+        int sta = lowestIVCombination.sta;
         String[] toUse = filled ? unicode_0_15filled : unicode_0_15;
 
+        String returner = "";
         returner += toUse[att];
         returner += toUse[def];
         returner += toUse[sta];

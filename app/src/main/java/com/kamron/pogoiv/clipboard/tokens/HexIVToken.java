@@ -3,6 +3,7 @@ package com.kamron.pogoiv.clipboard.tokens;
 import android.content.Context;
 
 import com.kamron.pogoiv.clipboard.ClipboardToken;
+import com.kamron.pogoiv.logic.IVCombination;
 import com.kamron.pogoiv.logic.IVScanResult;
 import com.kamron.pogoiv.logic.PokeInfoCalculator;
 
@@ -32,9 +33,13 @@ public class HexIVToken extends ClipboardToken {
 
     @Override
     public String getValue(IVScanResult ivScanResult, PokeInfoCalculator pokeInfoCalculator) {
-        int att = ivScanResult.getLowestIVCombination().att;
-        int def = ivScanResult.getLowestIVCombination().def;
-        int sta = ivScanResult.getLowestIVCombination().sta;
+        IVCombination lowestIVCombination = ivScanResult.getLowestIVCombination();
+        if (lowestIVCombination == null) {
+            return "";
+        }
+        int att = lowestIVCombination.att;
+        int def = lowestIVCombination.def;
+        int sta = lowestIVCombination.sta;
 
         return hex[att] + hex[def] + hex[sta];
     }

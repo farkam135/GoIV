@@ -13,18 +13,11 @@ import com.kamron.pogoiv.logic.PokeInfoCalculator;
  */
 
 public class IVPercentageToken extends ClipboardToken {
+    private IVPercentageTokenMode mode;
 
-    private int mode;
-
-    public IVPercentageToken(String mode) {
+    public IVPercentageToken(IVPercentageTokenMode mode) {
         super(false);
-        if (mode.equals("Minimum")) {
-            this.mode = 0;
-        } else if (mode.equals("Average")) {
-            this.mode = 1;
-        } else { //max
-            this.mode = 2;
-        }
+        this.mode = mode;
     }
 
     @Override
@@ -34,18 +27,20 @@ public class IVPercentageToken extends ClipboardToken {
 
     @Override
     public String getValue(IVScanResult ivScanResult, PokeInfoCalculator pokeInfoCalculator) {
-        if (mode == 0) { //minimum
+        if (mode == IVPercentageTokenMode.MIN) {
             return String.valueOf(ivScanResult.getLowestIVCombination().percentPerfect);
-        } else if (mode == 1) { //average
+        } else if (mode == IVPercentageTokenMode.AVG) {
             return String.valueOf(ivScanResult.getAveragePercent());
+        } else if (mode == IVPercentageTokenMode.MAX) {
+            return String.valueOf(ivScanResult.getHighestIVCombination().percentPerfect);
+        } else {
+            throw new IllegalArgumentException();
         }
-        //max
-        return String.valueOf(ivScanResult.getHighestIVCombination().percentPerfect);
     }
 
     @Override
     public String getPreview() {
-        int example = 98 + mode;
+        int example = 98 + mode.ordinal();
         return String.valueOf(example);
     }
 
@@ -56,25 +51,31 @@ public class IVPercentageToken extends ClipboardToken {
 
     @Override
     public String getTokenName(Context context) {
-        if (mode == 0) {
+        if (mode == IVPercentageTokenMode.MIN) {
             return "min%";
-        } else if (mode == 1) {
+        } else if (mode == IVPercentageTokenMode.AVG) {
             return "avg%";
+        } else if (mode == IVPercentageTokenMode.MAX) {
+            //mode 2 is max
+            return "max%";
+        } else {
+            throw new IllegalArgumentException();
         }
-        //mode 2 is max
-        return "max%";
     }
 
     @Override
     public String getLongDescription(Context context) {
         String modeText;
-        if (mode == 0) {
+        if (mode == IVPercentageTokenMode.MIN) {
             modeText = "minimum%";
-        } else if (mode == 1) {
+        } else if (mode == IVPercentageTokenMode.AVG) {
             modeText = "average";
+        } else if (mode == IVPercentageTokenMode.MAX) {
+            //mode 2 is max
+            modeText = "maximum";
+        } else {
+            throw new IllegalArgumentException();
         }
-        //mode 2 is max
-        modeText = "maximum";
 
         String returner = "Get the " + modeText + " percent of the IV possibilities. If only one iv combination is "
                 + "possible, minimum, average and maximum will be the same."

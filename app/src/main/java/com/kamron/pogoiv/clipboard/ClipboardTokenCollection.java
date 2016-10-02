@@ -5,6 +5,7 @@ import com.kamron.pogoiv.clipboard.tokens.CpTierToken;
 import com.kamron.pogoiv.clipboard.tokens.HexIVToken;
 import com.kamron.pogoiv.clipboard.tokens.HpToken;
 import com.kamron.pogoiv.clipboard.tokens.IVPercentageToken;
+import com.kamron.pogoiv.clipboard.tokens.IVPercentageTokenMode;
 import com.kamron.pogoiv.clipboard.tokens.LevelToken;
 import com.kamron.pogoiv.clipboard.tokens.PerfectionCPPercentageToken;
 import com.kamron.pogoiv.clipboard.tokens.PokemonNameToken;
@@ -68,9 +69,9 @@ public class ClipboardTokenCollection {
 
         //IV Info/////////////////////////////////////////////////////
         //Percentage
-        tokens.add(new IVPercentageToken("Minimum")); //Minimum iv percent
-        tokens.add(new IVPercentageToken("Average")); //average iv percent
-        tokens.add(new IVPercentageToken("Max")); //maximum iv percent
+        tokens.add(new IVPercentageToken(IVPercentageTokenMode.MIN));
+        tokens.add(new IVPercentageToken(IVPercentageTokenMode.AVG));
+        tokens.add(new IVPercentageToken(IVPercentageTokenMode.MAX));
 
         //Unicode iv representations
         tokens.add(new UnicodeToken(false, false)); //Unicode iv circled numbers not filled in ex ⑦⑦⑦

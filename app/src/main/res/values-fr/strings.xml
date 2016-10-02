@@ -131,6 +131,6 @@
     <string name="pokespam_formatted_message">%1$d (%2$d lignes + %3$d)</string>
     <string name="candy">Bonbons</string>
     <string name="pokespam_not_available">Indisponible</string>
-    <string name="PokeSpam_setting_title">Activer le calcul de PokéSpam</string>
-    <string name="PokeSpam_setting_summary">Scanne le nombre de bonbons pour calculer combien de Pokémon vous pouvez faire évoluer ; utile pour prévoir quand utiliser un œuf chance</string>
+    <string name="pokespam_setting_title">Activer le calcul de PokéSpam</string>
+    <string name="pokespam_setting_summary">Scanne le nombre de bonbons pour calculer combien de Pokémon vous pouvez faire évoluer ; utile pour prévoir quand utiliser un œuf chance</string>
 </resources>

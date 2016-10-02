@@ -75,7 +75,7 @@ public class GoIVSettings {
             saveString += token.getStringRepresentation();
         }
         editor.putString(GoIVSettings.GOIV_CLIPBOARDSETTINGS, saveString);
-        editor.commit();
+        editor.apply();
     }
 
     public boolean shouldDeleteScreenshots() {

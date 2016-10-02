@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.kamron.pogoiv"
-    xmlns:tools="http://schemas.android.com/tools">
+          package="com.kamron.pogoiv">
 
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
@@ -72,7 +71,7 @@
         </activity>
 
         <service
-            android:name="com.kamron.pogoiv.Pokefly"
+            android:name=".Pokefly"
             android:exported="true" />
 
         <service android:name=".updater.DownloadUpdateService"

@@ -13,7 +13,19 @@ public class CPRange {
         this.low = low;
     }
 
+    /**
+     * Compute integer average of the CP range.
+     * @return Integer average of this CP range, truncated.
+     */
     public int getAvg() {
         return (low + high) / 2;
+    }
+
+    /**
+     * Compute floating-point average of the CP range.
+     * @return Double average of this CP range.
+     */
+    public double getFloatingAvg() {
+        return (low + high) / 2.0;
     }
 }

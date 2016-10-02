@@ -1329,7 +1329,7 @@ public class Pokefly extends Service {
                 .lowDefense, ivScanResult.lowStamina, ivScanResult.highAttack, ivScanResult.highDefense, ivScanResult
                 .highStamina, 40);
         double maxCP = pokeInfoCalculator.getCpRangeAtLevel(selectedPokemon, 15, 15, 15, 15, 15, 15, 40).high;
-        double perfection = (100.0 * cpRange.getAvg()) / maxCP;
+        double perfection = (100.0 * cpRange.getFloatingAvg()) / maxCP;
         DecimalFormat df = new DecimalFormat("#.#");
         String perfectionString = df.format(perfection) + "%";
         exResultPercentPerfection.setText(perfectionString);

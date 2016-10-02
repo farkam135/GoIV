@@ -126,13 +126,7 @@ public class IVScanResult {
         if (iVCombinations.size() == 0) {
             return null;
         }
-        IVCombination max = iVCombinations.get(0);
-        for (IVCombination ivCombination : iVCombinations) {
-            if (ivCombination.getTotal() > max.getTotal()) {
-                max = ivCombination;
-            }
-        }
-        return max;
+        return Collections.max(iVCombinations, IVCombination.totalComparator);
     }
 
     /**
@@ -142,13 +136,7 @@ public class IVScanResult {
         if (iVCombinations.size() == 0) {
             return null;
         }
-        IVCombination low = iVCombinations.get(0);
-        for (IVCombination ivCombination : iVCombinations) {
-            if (ivCombination.getTotal() < low.getTotal()) {
-                low = ivCombination;
-            }
-        }
-        return low;
+        return Collections.min(iVCombinations, IVCombination.totalComparator);
     }
 
     /**

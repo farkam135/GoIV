@@ -38,7 +38,7 @@ public class PokemonNameToken extends ClipboardToken {
     @Override
     public String getValue(IVScanResult ivScanResult, PokeInfoCalculator pokeInfoCalculator) {
         Pokemon poke = getRightPokemon(ivScanResult.pokemon, pokeInfoCalculator);
-        return poke.name;
+        return getCappedLength(poke.name);
     }
 
     /**

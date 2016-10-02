@@ -571,6 +571,10 @@ public class Pokefly extends Service {
         startForeground(NOTIFICATION_REQ_CODE, notification);
     }
 
+    private Drawable getVectorDrawable(@DrawableRes int id) {
+        return AppCompatDrawableManager.get().getDrawable(getApplication().getApplicationContext(), id);
+    }
+
     /**
      * Undeprecated version of getDrawable using the most appropriate underlying API.
      *
@@ -608,11 +612,11 @@ public class Pokefly extends Service {
     private void createArcPointer() {
         arcParams.gravity = Gravity.TOP | Gravity.START;
         arcPointer = new ImageView(this);
-        arcPointer.setImageResource(R.drawable.dot);
+        arcPointer.setImageDrawable(getVectorDrawable(R.drawable.dot));
 
-        //Drawable dot = getDrawableC(R.drawable.dot);
-        //pointerHeight = dot.getIntrinsicHeight() / 2;
-        //pointerWidth = dot.getIntrinsicWidth() / 2;
+        Drawable dot = getVectorDrawable(R.drawable.dot);
+        pointerHeight = dot.getIntrinsicHeight() / 2;
+        pointerWidth = dot.getIntrinsicWidth() / 2;
     }
 
 
@@ -737,7 +741,7 @@ public class Pokefly extends Service {
     private void createInputLayout() {
         pokeInputSpinnerAdapter = new PokemonSpinnerAdapter(this, R.layout.spinner_pokemon, new ArrayList<Pokemon>());
         pokeInputSpinner.setAdapter(pokeInputSpinnerAdapter);
-        inputAppraisalExpandArrow.setImageResource(R.drawable.blue_arrow);
+        inputAppraisalExpandArrow.setImageDrawable(getVectorDrawable(R.drawable.blue_arrow));
 
         initializePokemonAutoCompleteTextView();
 
@@ -750,7 +754,7 @@ public class Pokefly extends Service {
     private void createResultLayout() {
         createExtendedResultEvolutionSpinner();
         createExtendedResultLevelSeekbar();
-        resultsMoreInformationArrow.setImageResource(R.drawable.blue_arrow);
+        resultsMoreInformationArrow.setImageDrawable(getVectorDrawable(R.drawable.blue_arrow));
     }
 
     /**
@@ -1216,8 +1220,7 @@ public class Pokefly extends Service {
 
         // Set Thumb 1 drawable to an orange marker and value at the max possible Pokemon level at the current
         // trainer level
-        Drawable drawable = AppCompatDrawableManager.get().getDrawable(getApplication().getApplicationContext(),
-                R.drawable.orange_marker);
+        Drawable drawable = getVectorDrawable(R.drawable.orange_marker);
         expandedLevelSeekbarBackground.getThumb(0).setThumb(drawable);
         expandedLevelSeekbarBackground.getThumb(0).setValue(
                 levelToSeekbarProgress(Data.trainerLevelToMaxPokeLevel(trainerLevel)));

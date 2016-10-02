@@ -1070,7 +1070,8 @@ public class Pokefly extends Service {
             String userInput = autoCompleteTextView1.getText().toString();
             pokemon = pokeInfoCalculator.get(userInput);
             if (pokemon == null) { //no such pokemon was found, show error toast and abort showing results
-                Toast.makeText(this, userInput + getString(R.string.wrong_pokemon_name_input), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, userInput + getString(R.string.wrong_pokemon_name_input),
+                        Toast.LENGTH_SHORT).show();
                 return null;
             }
         }

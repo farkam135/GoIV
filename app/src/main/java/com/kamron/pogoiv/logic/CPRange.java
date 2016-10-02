@@ -12,6 +12,7 @@ public class CPRange {
         this.high = high;
         this.low = low;
     }
+
     public int getAvg() {
         return (low + high) / 2;
     }

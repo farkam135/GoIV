@@ -11,10 +11,10 @@ import com.kamron.pogoiv.logic.PokeInfoCalculator;
  * A token which just represents a static non changing result
  */
 
-public class SeperatorToken extends ClipboardToken {
+public class SeparatorToken extends ClipboardToken {
     private String string;
 
-    public SeperatorToken(String s) {
+    public SeparatorToken(String s) {
         super(false);
         this.string = s;
     }
@@ -47,7 +47,7 @@ public class SeperatorToken extends ClipboardToken {
 
     @Override
     public String getCategory() {
-        return "Seperators";
+        return "Separators";
     }
 
     @Override
@@ -58,7 +58,7 @@ public class SeperatorToken extends ClipboardToken {
     @Override
     public String getStringRepresentation() {
         if (string.contains(".")) {
-            return ".DotSeperator"; //edge case where the string contains something that'd break the way tokens are
+            return ".DotSeparator"; //edge case where the string contains something that'd break the way tokens are
             // stored and retrieved from memory.
         }
         //normal case

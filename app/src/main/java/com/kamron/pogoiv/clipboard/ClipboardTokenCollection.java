@@ -8,7 +8,7 @@ import com.kamron.pogoiv.clipboard.tokens.IVPercentageToken;
 import com.kamron.pogoiv.clipboard.tokens.LevelToken;
 import com.kamron.pogoiv.clipboard.tokens.PerfectionCPPercentageToken;
 import com.kamron.pogoiv.clipboard.tokens.PokemonNameToken;
-import com.kamron.pogoiv.clipboard.tokens.SeperatorToken;
+import com.kamron.pogoiv.clipboard.tokens.SeparatorToken;
 import com.kamron.pogoiv.clipboard.tokens.UnicodeToken;
 
 import java.util.ArrayList;
@@ -79,21 +79,21 @@ public class ClipboardTokenCollection {
         /////////////////////////////////////////////////////////
 
 
-        //Seperators
-        tokens.add(new SeperatorToken(" "));
-        tokens.add(new SeperatorToken(","));
-        tokens.add(new SeperatorToken("-"));
-        tokens.add(new SeperatorToken("_"));
-        tokens.add(new SeperatorToken("⚔"));
-        tokens.add(new SeperatorToken("⛨"));
-        tokens.add(new SeperatorToken("❤"));
-        tokens.add(new SeperatorToken("IV"));
-        tokens.add(new SeperatorToken("L"));
-        tokens.add(new SeperatorToken("Lv"));
-        tokens.add(new SeperatorToken("☢"));
-        tokens.add(new SeperatorToken("%"));
-        tokens.add(new SeperatorToken("( ͡° ͜ʖ ͡°)"));
-        tokens.add(new SeperatorToken("r"));
+        //Separators
+        tokens.add(new SeparatorToken(" "));
+        tokens.add(new SeparatorToken(","));
+        tokens.add(new SeparatorToken("-"));
+        tokens.add(new SeparatorToken("_"));
+        tokens.add(new SeparatorToken("⚔"));
+        tokens.add(new SeparatorToken("⛨"));
+        tokens.add(new SeparatorToken("❤"));
+        tokens.add(new SeparatorToken("IV"));
+        tokens.add(new SeparatorToken("L"));
+        tokens.add(new SeparatorToken("Lv"));
+        tokens.add(new SeparatorToken("☢"));
+        tokens.add(new SeparatorToken("%"));
+        tokens.add(new SeparatorToken("( ͡° ͜ʖ ͡°)"));
+        tokens.add(new SeparatorToken("r"));
 
         return tokens;
     }

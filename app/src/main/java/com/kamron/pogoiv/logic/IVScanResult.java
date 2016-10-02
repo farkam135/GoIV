@@ -1,5 +1,7 @@
 package com.kamron.pogoiv.logic;
 
+import android.support.annotation.Nullable;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -122,7 +124,7 @@ public class IVScanResult {
     /**
      * Get the IV combination which has the highest sum of att+def+sta, or tied to equal.
      */
-    public IVCombination getHighestIVCombination() {
+    public @Nullable IVCombination getHighestIVCombination() {
         if (iVCombinations.size() == 0) {
             return null;
         }
@@ -132,7 +134,7 @@ public class IVScanResult {
     /**
      * Get the IV combination which has the lowest sum of att+def+sta, or tied to equal.
      */
-    public IVCombination getLowestIVCombination() {
+    public @Nullable IVCombination getLowestIVCombination() {
         if (iVCombinations.size() == 0) {
             return null;
         }

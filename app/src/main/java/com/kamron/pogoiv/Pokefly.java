@@ -1327,9 +1327,8 @@ public class Pokefly extends Service {
         CPRange cpRange = pokeInfoCalculator.getCpRangeAtLevel(selectedPokemon, ivScanResult.lowAttack, ivScanResult
                 .lowDefense, ivScanResult.lowStamina, ivScanResult.highAttack, ivScanResult.highDefense, ivScanResult
                 .highStamina, 40);
-        double averageCP = (cpRange.high + cpRange.low) / 2;
         double maxCP = pokeInfoCalculator.getCpRangeAtLevel(selectedPokemon, 15, 15, 15, 15, 15, 15, 40).high;
-        double perfection = (100 * averageCP) / maxCP;
+        double perfection = (100.0 * cpRange.getAvg()) / maxCP;
         DecimalFormat df = new DecimalFormat("#.#");
         String perfectionString = df.format(perfection) + "%";
         exResultPercentPerfection.setText(perfectionString);
@@ -1391,7 +1390,7 @@ public class Pokefly extends Service {
                 ivScanResult.lowAttack, ivScanResult.lowDefense, ivScanResult.lowStamina,
                 ivScanResult.highAttack, ivScanResult.highDefense, ivScanResult.highStamina, selectedLevel);
         int realCP = ivScanResult.scannedCP;
-        int expectedAverage = (expectedRange.high + expectedRange.low) / 2;
+        int expectedAverage = expectedRange.getAvg();
 
         String exResultCPStr = String.valueOf(expectedAverage);
 

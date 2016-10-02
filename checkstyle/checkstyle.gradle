@@ -1,0 +1,15 @@
+apply plugin: 'checkstyle'
+
+checkstyle {
+    toolVersion = "6.19"
+}
+
+task checkstyle(type: Checkstyle) {
+    configFile file("${project.rootDir}/checkstyle/checkstyle-rules.xml")
+    showViolations = true
+    source 'src/main'
+    include '**/*.java'
+    exclude '**/gen/**'
+
+    classpath = files()
+}

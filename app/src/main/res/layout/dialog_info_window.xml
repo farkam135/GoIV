@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    android:gravity="center|bottom"
+    android:background="@android:drawable/alert_light_frame"
+    android:theme="@style/dialogTheme"
+    android:alpha="225">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="5">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- SHOWING JUST ONE AT A TIME -->
+
+            <include layout="@layout/dialog_input"
+                android:id="@+id/inputBox"/>
+
+            <include layout="@layout/dialog_results"
+                android:id="@+id/resultsBox"
+                android:visibility="gone"/>
+
+            <include layout="@layout/dialog_all_possibilities"
+                android:id="@+id/allPossibilitiesBox"
+                android:visibility="gone"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/llButtonsInitial"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight="1">
+
+        <Button
+            android:id="@+id/btnCancelInfo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/cancel"
+            android:layout_weight="1"/>
+
+        <Button
+            android:id="@+id/btnCheckIv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/check_iv"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llButtonsOnCheck"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnBackInfo"
+            android:text="@string/back"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/btnCloseInfo"
+            android:text="@string/close"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+</LinearLayout>

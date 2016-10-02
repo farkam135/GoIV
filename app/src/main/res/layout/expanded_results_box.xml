@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:text="@string/cp"
+            android:textColor="@color/importantText"
+            android:textSize="@dimen/resultExpandedTextSize"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            />
+
+        <TextView
+            android:id="@+id/exResultCP"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:text="#ofCP"
+            android:textColor="@color/importantText"
+            android:textSize="@dimen/resultExpandedTextSize"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:text="@string/hp_expanded_box"
+            android:textColor="@color/importantText"
+            android:textSize="@dimen/resultExpandedTextSize"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            />
+
+        <TextView
+            android:id="@+id/exResultHP"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:text="#ofHP"
+            android:textColor="@color/importantText"
+            android:textSize="@dimen/resultExpandedTextSize"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:text="@string/cp_vs_iv"
+            android:textColor="@color/importantText"
+            android:textSize="@dimen/resultExpandedTextSize"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="(?)"
+            android:id="@+id/explainCPPercentageComparedToMaxIV"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/resultExpandedTextSize"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            />
+
+        <TextView
+            android:id="@+id/exResultPercentPerfection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:text="#%perfection"
+            android:textColor="@color/importantText"
+            android:textSize="@dimen/resultExpandedTextSize"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:text="@string/candy_cost"
+            android:textColor="@color/importantText"
+            android:textSize="@dimen/resultExpandedTextSize"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            />
+
+        <TextView
+
+            android:id="@+id/exResCandy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:text="#of candy"
+            android:textColor="@color/importantText"
+            android:textSize="@dimen/resultExpandedTextSize"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:text="@string/stardust_cost"
+            android:textColor="@color/importantText"
+            android:textSize="@dimen/resultExpandedTextSize"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            />
+
+        <TextView
+            android:id="@+id/exResStardust"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:text="#of stardust"
+            android:textColor="@color/importantText"
+            android:textSize="@dimen/resultExpandedTextSize"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:text="@string/evolution"
+            android:textColor="@color/importantText"
+            android:textSize="@dimen/resultExpandedTextSize"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            />
+
+
+        <Spinner
+            android:id="@+id/extendedEvolutionSpinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/spinner"
+            android:gravity="right"
+            android:popupBackground="#FFF"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:text="@string/level"
+            android:textColor="@color/importantText"
+            android:textSize="@dimen/resultExpandedTextSize"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            />
+
+
+        <TextView
+            android:id="@+id/exResLevel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:text="#level"
+            android:textColor="@color/importantText"
+            android:textSize="@dimen/resultExpandedTextSize"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnDecrementLevelExpanded"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".15"
+            android:background="@android:color/transparent"
+            android:text="-"
+            android:textColor="@color/colorPrimary"
+            android:textSize="22sp"/>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.70"
+            android:clipChildren="false"
+            android:gravity="center">
+
+            <io.apptik.widget.MultiSlider
+                android:id="@+id/expandedLevelSeekbarBackground"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:range1="@drawable/orange_scrubber_track_holo_light"
+                app:range2="@drawable/orange_scrubber_primary_holo"
+                app:thumbNumber="2"
+                android:layout_centerInParent="true"/>
+
+            <SeekBar
+                android:id="@+id/expandedLevelSeekbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"/>
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/btnIncrementLevelExpanded"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.15"
+            android:background="@android:color/transparent"
+            android:text="+"
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/powerup_calc_instructions"
+        android:textAlignment="center"
+        android:textColor="@color/unimportantText"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="5dp"
+        android:background="@android:color/darker_gray"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="visible"
+        android:id="@+id/llPokeSpam">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:text="@string/pokespam"
+            android:textColor="@color/importantText"
+            android:textSize="@dimen/resultExpandedTextSize"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            />
+
+        <TextView
+            android:id="@+id/exResPokeSpam"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:text="#ofSpam"
+            android:textColor="@color/importantText"
+            android:textSize="@dimen/resultExpandedTextSize"/>
+
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="12sp"
+        android:paddingRight="12sp">
+
+        <TextView
+
+            android:id="@+id/exResPrevScan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/last_scan"
+            android:textSize="18sp"
+            android:textColor="#888"
+            android:layout_gravity="left"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            />
+
+        <TextView
+            android:id="@+id/exResCompare"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="@color/colorPrimary"
+            android:text="@string/refine"
+            android:layout_gravity="right"/>
+
+    </LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/refining_instructions"
+        android:textColor="@color/unimportantText"
+        android:textAlignment="center"
+        android:layout_marginTop="5dp"
+        android:layout_gravity="center"/>
+
+</LinearLayout>

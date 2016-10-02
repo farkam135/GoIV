@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:showIn="@layout/dialog_info_window">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/pokemon_name"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:gravity="center"/>
+
+        <include layout="@layout/dialog_input_poke_picker"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:baselineAligned="false">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cp"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:gravity="center"/>
+
+            <EditText
+                android:id="@+id/etCp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimary"
+                android:text="XX"
+                android:maxLength="4"
+                android:minWidth="60dp"
+                android:textAlignment="center"
+                android:inputType="number"/>
+
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/hp"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:gravity="center"/>
+
+            <EditText
+                android:id="@+id/etHp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimary"
+                android:minWidth="60dp"
+                android:text="XX"
+                android:maxLength="4"
+                android:textAlignment="center"
+                android:inputType="number"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:id="@+id/llPokeSpamDialogInputContentBox">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/candy"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:gravity="center"/>
+
+            <EditText
+                android:id="@+id/etCandy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimary"
+                android:minWidth="60dp"
+                android:text="XX"
+                android:maxLength="4"
+                android:textAlignment="center"
+                android:inputType="number"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="10dp"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/use_the_slider_below_to_align_the_arc"
+        android:textColor="@color/importantText"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:gravity="center"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/btnDecrementLevel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".15"
+            android:text="-"
+            android:textSize="22sp"
+            android:textColor="@color/colorPrimary"
+            android:background="@android:color/transparent"/>
+
+        <SeekBar
+            android:id="@+id/sbArcAdjust"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.7"/>
+
+        <Button
+            android:id="@+id/btnIncrementLevel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="+"
+            android:layout_weight=".15"
+            android:textSize="22sp"
+            android:textColor="@color/colorPrimary"
+            android:background="@android:color/transparent"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/inputAppraisalExpandBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/appraisal_refining"
+            android:textColor="@color/colorPrimary"
+            android:clickable="true"
+            android:paddingTop="0dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="60dp"
+            android:paddingBottom="16dp"
+            android:drawableRight="@drawable/ic_keyboard_arrow_right_blue_18dp"
+            android:textSize="18sp"
+            android:layout_gravity="center" />
+    </LinearLayout>
+
+    <include layout="@layout/dialog_input_appraisal"
+        android:visibility="gone"
+        android:id="@+id/appraisalBox"/>
+
+</LinearLayout>

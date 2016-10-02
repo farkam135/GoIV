@@ -15,6 +15,17 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+# Unless you want to volunteer to upload the mappings file to crashlytics leave this app unobfuscated ;)
+-dontobfuscate
+
 -keep class javax.** { *; }
 -keep class org.** { *; }
 -keep class com.** {*;}
+-dontwarn okio.**
+
+# For Guava
+-dontwarn sun.misc.Unsafe
+-dontwarn com.google.j2objc.annotations.Weak
+-dontwarn java.lang.ClassValue
+-dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement

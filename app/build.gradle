@@ -1,31 +1,176 @@
-apply plugin: 'com.android.application'
+/**
+ * Repositories and dependencies for the build script
+ */
+buildscript {
+    repositories {
+        maven { url 'https://maven.fabric.io/public' }
+    }
 
+    dependencies {
+        classpath 'io.fabric.tools:gradle:1.21.6'
+    }
+}
+
+/**
+ * Repositories for the project
+ * jCenter() is already called in project build.gradle
+ */
+repositories {
+    maven { url 'https://maven.fabric.io/public' }
+}
+
+/**
+ * Apply plugins and other Gradle scripts
+ */
+apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
+apply plugin: 'android-apt'
+apply from: '../checkstyle/checkstyle.gradle'
+
+/**
+ * Store keystore properties from keystore.properties in root folder if it exists
+ */
+def keystoreProperties = new Properties()
+if (new File('keystore.properties').exists()) {
+    def keystorePropertiesFile = rootProject.file('keystore.properties')
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+} else {
+    keystoreProperties.keyAlias = 'your_key_alias'
+    keystoreProperties.keyPassword = 'your_key_password'
+    keystoreProperties.storeFile = 'your_keystore.jks'
+    keystoreProperties.storePassword = 'your_keystore_password'
+}
+
+/**
+ * Android build
+ */
 android {
+    /**
+     * Set configuration for signing release builds with keystore properties defined above
+     */
+    signingConfigs {
+        releaseConfig {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+        }
+    }
+
+    /**
+     * Android SDK and build-tools version
+     * Update (both Gradle and local SDK) whenever possible
+     */
     compileSdkVersion 24
-    buildToolsVersion "24.0.1"
+    buildToolsVersion "24.0.2"
+
+    /**
+     * Build configurations for APK
+     * Ensure the following values are updated before generating release builds:
+     * versionCode (Increment of 1)
+     * versionName (Based on Semantic Versioning 2.0 - http://semver.org/)
+     */
     defaultConfig {
-        applicationId "com.kamron.pogoiv"
-        minSdkVersion 21
+        minSdkVersion 19
         targetSdkVersion 24
-        versionCode 11
-        versionName "1.3.0"
+        versionCode 17
+        versionName "3.2.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
+    /**
+     * Product flavors
+     * Offline - No Internet permission and disable Crashlytics
+     * Online - Internet permission and enable Crashlytics
+     */
+    productFlavors {
+        offline {
+            applicationId "com.kamron.pogoiv.nointernet"
+            buildConfigField "boolean", "isInternetAvailable", "false"
+            resValue "string", "app_name", "GoIV Offline"
+            ext.enableCrashlytics = false
+        }
+
+        online {
+            applicationId "com.kamron.pogoiv"
+            buildConfigField "boolean", "isInternetAvailable", "true"
+            resValue "string", "app_name", "GoIV"
+            ext.enableCrashlytics = true
+        }
+    }
+
+    /**
+     * Build type
+     * debug - Disable Crashlytics
+     * release - Minify and proguard files
+     */
     buildTypes {
+        debug {
+            ext.enableCrashlytics = false
+        }
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            lintOptions {
+                disable 'MissingTranslation'
+            }
+            signingConfig signingConfigs.releaseConfig
         }
     }
 }
 
+/**
+ * Project dependencies
+ * compile - Compile library package into app APK
+ * provided - Compile library package without included into app APK
+ * apt - Compile library package without included into app APK (uses android-apt plugin for
+ * annotation processing)
+ */
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:24.0.0'
-    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha1'
-    compile 'com.rmtheis:tess-two:6.0.3'
+    /**
+     * Builds Dependencies for All Builds.
+     */
+    compile 'com.android.support:appcompat-v7:24.2.1'
+    compile 'com.android.support:recyclerview-v7:24.2.1'
+    compile 'com.google.guava:guava:19.0'
+    compile 'com.google.code.findbugs:jsr305:3.0.1'
+    compile 'com.jakewharton:butterknife:8.4.0'
+    compile 'com.jakewharton.timber:timber:4.3.0'
+    compile 'com.rmtheis:tess-two:6.0.4'
+    compile 'io.apptik.widget:multislider:1.2'
+    provided 'org.projectlombok:lombok:1.16.10'
+    apt 'com.jakewharton:butterknife-compiler:8.4.0'
+    apt "org.projectlombok:lombok:1.16.10"
+
+    /**
+     * Online Build Dependencies
+     */
+    //Include Crashlytics in the online build
+    onlineCompile('com.crashlytics.sdk.android:crashlytics:2.6.2@aar') {
+        transitive = true;
+    }
+    onlineCompile 'com.squareup.okhttp3:okhttp:3.4.1'
+    onlineCompile 'com.squareup.okio:okio:1.10.0'
+
+    /**
+     * Test Build Dependencies
+     */
     testCompile 'junit:junit:4.12'
-    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
+    testCompile 'com.squareup.assertj:assertj-android:1.1.1'
+    testCompile 'org.mockito:mockito-core:1.10.19'
+    testCompile 'com.android.support:support-annotations:24.2.1'
+    testCompile 'com.android.support.test:runner:0.5'
+    androidTestCompile 'com.android.support:support-annotations:24.2.1'
     androidTestCompile 'com.android.support.test:runner:0.5'
-    androidTestCompile 'com.android.support:support-annotations:24.0.0'
+}
+
+/**
+ * Enable Java deprecation/unchecked warnings
+ */
+allprojects {
+    gradle.projectsEvaluated {
+        tasks.withType(JavaCompile) {
+            options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+        }
+    }
 }

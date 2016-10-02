@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="welcome_message">Instrukce:\n1. Vyplň level trenéra\n2. Zmáčkni tlačítko start a povol snímání obrazovky\n3. Otevři cílového Pokémona v \'Pokémon Go\'\n4. Zmáčkni tlačítko IV pro načtení Pokémona\n5. V případě potřeby uprav načtená data\n6. Zkontroluj IV!</string>
+    <string name="goiv_is_open_source">GoIV je open source!\ngithub.com/farkam135/GoIV\nreddit.com/r/GoIV</string>
+    <string name="trainer_level">Level trenéra</string>
+    <string name="place1">Vyber celkovou větu:</string>
+    <string name="place2">Vyber větu o statech:</string>
+    <string name="pokemon_name">Jméno Pokémona:</string>
+    <string name="use_the_slider_below_to_align_the_arc">Použij posuvník níže pro nastavení oblouku:</string>
+    <string name="cancel">Zrušit</string>
+    <string name="check_iv">Zkontrolovat IV</string>
+    <string name="notification_title">GoIV běží - Level %1$d</string>
+    <string name="notification_open_app">Otevřít aplikaci</string>
+    <string name="close">Zavřít</string>
+    <string name="main_permission">Udělit povolení</string>
+    <string name="main_starting">Startuji…</string>
+    <string name="back">Zpět</string>
+    <string name="accept_screen_capture">Povolit snínámí obrazovky</string>
+    <string name="settings_page_title">Nastavení</string>
+    <string name="launch_pokemon_go_setting_title">Spustit Pokémon Go</string>
+    <string name="launch_pokemon_go_setting_summary">Přepni na Pokémon Go při stisknutí tlačítka start</string>
+    <string name="confirmation_dialog_setting_title">Potvrzovací dialog</string>
+    <string name="confirmation_dialog_setting_summary">Povol upravování údajů o Pokémonovi před výpočtem IV</string>
+    <string name="manual_screenshot_mode_setting_title">Použij screenshoty pro výpočet IV</string>
+    <string name="manual_screenshot_mode_setting_summary">Šetři baterii čtením ze screenshotů místo autodetekce. Tato možnost musí být zaškrtlá pro Android KitKat a starší</string>
+    <string name="delete_screenshots_setting_title">Smazat screenshoty</string>
+    <string name="delete_screenshots_setting_summary">Automaticky mazat screenshoty pořízené GoIV</string>
+    <string name="copy_to_clipboard_setting_title">Zkopírovat do schránky</string>
+    <string name="copy_to_clipboard_setting_summary" formatted="false">Zkopírovat nejhorší IV% - nejlepší IV% do schránky při stisku tlačítka IV</string>
+    <string name="send_crash_reports_setting_title">Zasílat hlášení o pádu</string>
+    <string name="send_crash_reports_setting_summary">Chci pomoci vývojářům zlepšit aplikaci zasíláním anonymních informací o pádu aplikace</string>
+    <string name="auto_update_setting_title">Automatická aktualizace</string>
+    <string name="auto_update_setting_summary">Automaticky kontrolovat aktualizace při běhu aplikace</string>
+    <string name="check_for_update_setting_title">Zkontrolovat aktualizace</string>
+    <string name="check_for_update_setting_summary">Podívat se, jestli je dostupná aktualizace</string>
+    <string name="scan_pokemon_failed">Načítání selhalo, prosím odscrolluj nahoru a zkus to znova!</string>
+    <string name="see_all">Zobrazit vše</string>
+    <string name="advanced_information">Informace o evolucích a powerupech</string>
+    <string name="powerup_calc_instructions">Výpočty powerupů a evolucí\nPosouvej táhlo levelu pro zobrazení odpovídajících odhadů</string>
+    <string name="candy_cost">Cena Candy</string>
+    <string name="stardust_cost">Cena Stardust</string>
+    <string name="evolution">Evoluce</string>
+    <string name="refine">Zlepšit</string>
+    <string name="refine_no_progress">Zlepšení nebylo úspěšné</string>
+    <string name="last_scan">Předchozí načtení: %1$s</string>
+    <string name="possible_iv_combinations" tools:ignore="PluralsCandidate">"%1$d možných kombinací IV"</string>
+    <string name="too_many_iv_combinations">Příliš mnoho kombinací IV</string>
+    <string name="refining_instructions">Zlepši přesnost výpočtu IV powerupováním a porovnáním dvou načtení stejného Pokémona</string>
+    <string name="appraisal_refining">Zpřesnění díky Appraisal</string>
+    <string name="attack">Útok</string>
+    <string name="defense">Obrana</string>
+    <string name="stamina_hp">HP</string>
+    <string name="missing_inputs">Je nutné vyplnit CP a HP.</string>
+    <string name="ivtext_no_possibilities">Neexistují žádné možné kombinace. Zkontroluj že jsi vložit správné údaje.</string>
+    <string name="update_check_failed">Nastala chyba při kontrole aktualizací. Prosím zkontroluj své připojení k internetu.</string>
+    <string name="up_to_date">GoIV je aktuální.</string>
+    <string name="checking_for_update">Kontroluji aktualizace…</string>
+    <string name="ongoing_update">Aktualizace pro GoIV se již stahuje.</string>
+    <string name="iv_perfect" formatted="false">% celkově</string>
+    <string name="wrong_pokemon_name_input">" nebyl nalezen."</string>
+    <string name="avg">PRŮM</string>
+    <string name="atk">ÚTK</string>
+    <string name="def">OBR</string>
+    <string name="sta">STA</string>
+    <string name="cp_vs_iv" formatted="false">% CP vs max IV</string>
+    <string name="alert_explanation_title">Vysvětlení</string>
+    <string name="perfection_explainer">Procenta ukazují jak velký je rozdíl mezi tvým Pokémonem a Pokémonem stejného druhu s ideálními IV.\n\nNapříklad pokud říká 92 procent, pak bude mít tvůj Pokémon na maximálním levelu o 8 procent méně CP než Pokémon stejného druhu s ideálními IV.</string>
+    <string name="pokespam">PokéSpam</string>
+    <string name="pokespam_formatted_message">%1$d (%2$d řádek + %3$d navíc)</string>
+    <string name="pokespam_not_available">Nedostupné</string>
+    <string name="pokespam_setting_title">Povolit výpočet PokéSpamu</string>
+    <string name="pokespam_setting_summary">Umožňuje načítání počtu candy a výpočet množství Pokémonů, které můžeš vyvinout, užitečné s lucky eggem</string>
+</resources>

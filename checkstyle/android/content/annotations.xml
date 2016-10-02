@@ -1,0 +1,5 @@
+<root>
+  <item name='android.content.Intent java.lang.String getStringExtra(java.lang.String)'>
+    <annotation name='android.support.annotation.Nullable'/>
+  </item>
+</root>

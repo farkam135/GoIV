@@ -68,7 +68,7 @@
     <string name="sta">PS</string>
     <string name="up_to_date">L\'app è già aggiornata</string>
     <string name="update_check_failed">Si è verificato un errore durante la verifica degli aggiornamenti. Controlla la connessione internet</string>
-    <string name="wrongPokemonNameInput">" non è stato trovato."</string>
+    <string name="wrong_pokemon_name_input">" non è stato trovato."</string>
 
     <string-array name="teams">
         <item name="mystic">"Saggezza"</item>

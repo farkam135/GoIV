@@ -114,7 +114,7 @@
     <string name="too_many_iv_combinations">Demasiadas combinaciones de IV</string>
     <string name="up_to_date">La aplicación se encuentra actualizada</string>
     <string name="update_check_failed">Ocurrió un error durante la búsqueda de actualizaciones. Por favor, verifique su conexión a Internet.</string>
-    <string name="wrongPokemonNameInput">" no encontrado."</string>
+    <string name="wrong_pokemon_name_input">" no encontrado."</string>
     <string name="accept_screen_capture">Permitir captura de pantalla</string>
     <string name="main_starting">Iniciando…</string>
     <string name="notification_open_app">Abrir app</string>

@@ -118,7 +118,7 @@
     <string name="checking_for_update">Checking for update…</string>
     <string name="ongoing_update">An update for GoIV is already being downloaded</string>
     <string name="iv_perfect" formatted="false">% Perfect</string>
-    <string name="wrongPokemonNameInput">" was not found."</string>
+    <string name="wrong_pokemon_name_input">" was not found."</string>
     <string name="avg">AVG</string>
     <string name="atk">ATK</string>
     <string name="def">DEF</string>

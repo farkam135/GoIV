@@ -57,7 +57,7 @@
     <string name="checking_for_update">Kontroluji aktualizace…</string>
     <string name="ongoing_update">Aktualizace pro GoIV se již stahuje.</string>
     <string name="iv_perfect" formatted="false">% celkově</string>
-    <string name="wrongPokemonNameInput">" nebyl nalezen."</string>
+    <string name="wrong_pokemon_name_input">" nebyl nalezen."</string>
     <string name="avg">PRŮM</string>
     <string name="atk">ÚTK</string>
     <string name="def">OBR</string>

@@ -17,14 +17,8 @@ public class UnicodeToken extends ClipboardToken {
     String[] unicode_0_15filled = {"⓿", "❶", "➋", "➌", "➍", "➎", "➏", "➐", "➑", "➒", "➓", "⓫", "⓬", "⓭", "⓮", "⓯"};
     boolean filled;
 
-    /**
-     * Create a clipboard token.
-     * The boolean in the constructor can be set to false if pokemon evolution is not applicable.
-     *
-     * @param maxEv true if the token should change its logic to pretending the pokemon is fully evolved.
-     */
-    public UnicodeToken(boolean maxEv, boolean filled) {
-        super(maxEv);
+    public UnicodeToken(boolean filled) {
+        super(false);
         this.filled = filled;
     }
 

@@ -74,9 +74,9 @@ public class ClipboardTokenCollection {
         tokens.add(new IVPercentageToken(IVPercentageTokenMode.MAX));
 
         //Unicode iv representations
-        tokens.add(new UnicodeToken(false, false)); //Unicode iv circled numbers not filled in ex ⑦⑦⑦
-        tokens.add(new UnicodeToken(false, true));//Unicode iv circled numbers  filled in black ex ⓿⓿⓿
-        tokens.add(new HexIVToken(false)); //hex representation of iv (ex A4B)
+        tokens.add(new UnicodeToken(false)); //Unicode iv circled numbers not filled in ex ⑦⑦⑦
+        tokens.add(new UnicodeToken(true));//Unicode iv circled numbers  filled in black ex ⓿⓿⓿
+        tokens.add(new HexIVToken()); //hex representation of iv (ex A4B)
         /////////////////////////////////////////////////////////
 
 

@@ -44,11 +44,7 @@ public class UnicodeToken extends ClipboardToken {
         int sta = lowestIVCombination.sta;
         String[] toUse = filled ? unicode_0_15filled : unicode_0_15;
 
-        String returner = "";
-        returner += toUse[att];
-        returner += toUse[def];
-        returner += toUse[sta];
-        return returner;
+        return toUse[att] + toUse[def] + toUse[sta];
     }
 
     @Override

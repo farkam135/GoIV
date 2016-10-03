@@ -13,6 +13,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
@@ -68,6 +70,7 @@ import com.kamron.pogoiv.widgets.PokemonSpinnerAdapter;
 import java.io.File;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -345,6 +348,28 @@ public class Pokefly extends Service {
         return null;
     }
 
+    private String[] getPokemonNamesArray() {
+        if (getResources().getBoolean(R.bool.use_default_pokemonsname_as_ocrstring)) {
+            Resources res = getResources();
+            Configuration conf = res.getConfiguration();
+            Locale def = getResources().getConfiguration().locale;
+            conf.setLocale(new Locale("en"));
+            res.updateConfiguration(conf, null);
+            String[] rtn = res.getStringArray(R.array.pokemon);
+            conf.setLocale(def);
+            res.updateConfiguration(conf, null);
+            return rtn;
+        }
+        return getResources().getStringArray(R.array.pokemon);
+    }
+
+    private String[] getTranslatedPokemonNamesArray() {
+        if (getResources().getBoolean(R.bool.use_default_pokemonsname_as_ocrstring)) {
+            return getResources().getStringArray(R.array.pokemon);
+        }
+        return null;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -354,7 +379,8 @@ public class Pokefly extends Service {
         LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(ACTION_UPDATE_UI));
 
         pokeInfoCalculator = PokeInfoCalculator.getInstance(
-                getResources().getStringArray(R.array.pokemon),
+                getPokemonNamesArray(),
+                getTranslatedPokemonNamesArray(),
                 getResources().getIntArray(R.array.attack),
                 getResources().getIntArray(R.array.defense),
                 getResources().getIntArray(R.array.stamina),
@@ -1230,7 +1256,7 @@ public class Pokefly extends Service {
      * Shows the name and level of the pokemon in the results dialog.
      */
     private void populateResultsHeader(IVScanResult ivScanResult) {
-        resultsPokemonName.setText(ivScanResult.pokemon.name);
+        resultsPokemonName.setText(ivScanResult.pokemon.getDisplayName());
         resultsPokemonLevel.setText(getString(R.string.level_num, ivScanResult.estimatedPokemonLevel));
     }
 

@@ -15,6 +15,7 @@ public class Pokemon {
      */
     public final List<Pokemon> evolutions;
     public final String name;
+    private final String translatedName;
     public final int number; //index number in resources, pokedex number - 1
     public final int baseAttack;
     public final int baseDefense;
@@ -22,9 +23,10 @@ public class Pokemon {
     public final int devoNumber;
     public final int candyEvolutionCost;
 
-    public Pokemon(String name, int number, int baseAttack, int baseDefense, int baseStamina, int devoNumber,
+    public Pokemon(String name, String translatedName, int number, int baseAttack, int baseDefense, int baseStamina, int devoNumber,
                    int candyEvolutionCost) {
         this.name = name;
+        this.translatedName = translatedName;
         this.number = number;
         this.baseAttack = baseAttack;
         this.baseDefense = baseDefense;
@@ -36,6 +38,12 @@ public class Pokemon {
 
     @Override
     public String toString() {
+        return name;
+    }
+
+    public String getDisplayName() {
+        if (translatedName!=null)
+            return translatedName;
         return name;
     }
 

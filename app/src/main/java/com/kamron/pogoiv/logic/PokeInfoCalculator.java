@@ -15,11 +15,11 @@ public class PokeInfoCalculator {
     private ArrayList<Pokemon> pokedex = null;
     private HashMap<String, Pokemon> pokemap = null;
 
-    public static PokeInfoCalculator getInstance(String[] namesArray, int[] attackArray, int[] defenceArray,
+    public static PokeInfoCalculator getInstance(String[] namesArray, String[] translatedNamesArray, int[] attackArray, int[] defenceArray,
                                                  int[] staminaArray, int[] devolutionArray,
                                                  int[] evolutionCandyCostArray) {
         if (instance == null) {
-            instance = new PokeInfoCalculator(namesArray, attackArray, defenceArray, staminaArray, devolutionArray,
+            instance = new PokeInfoCalculator(namesArray, translatedNamesArray, attackArray, defenceArray, staminaArray, devolutionArray,
                     evolutionCandyCostArray);
         }
         return instance;
@@ -34,9 +34,9 @@ public class PokeInfoCalculator {
      * @param staminaArray    array of all pokemon base stam stat
      * @param devolutionArray array of what the pokemon evolved from, -1 if no devolution
      */
-    private PokeInfoCalculator(String[] namesArray, int[] attackArray, int[] defenceArray, int[] staminaArray,
+    private PokeInfoCalculator(String[] namesArray, String[] translatedNamesArray, int[] attackArray, int[] defenceArray, int[] staminaArray,
                                int[] devolutionArray, int[] evolutionCandyCostArray) {
-        populatePokemon(namesArray, attackArray, defenceArray, staminaArray, devolutionArray, evolutionCandyCostArray);
+        populatePokemon(namesArray, translatedNamesArray, attackArray, defenceArray, staminaArray, devolutionArray, evolutionCandyCostArray);
     }
 
     public List<Pokemon> getPokedex() {
@@ -64,14 +64,14 @@ public class PokeInfoCalculator {
      * Fills the list "pokemon" with the information of all pokemon by reading the
      * arrays in integers.xml and the names from the strings.xml resources.
      */
-    private void populatePokemon(String[] names, int[] attack, int[] defense, int[] stamina, int[] devolution,
+    private void populatePokemon(String[] names, String[] translatedNames, int[] attack, int[] defense, int[] stamina, int[] devolution,
                                  int[] evolutionCandyCost) {
         pokedex = new ArrayList<>();
         pokemap = new HashMap<>();
 
         int pokeListSize = names.length;
         for (int i = 0; i <= pokeListSize - 1; i++) {
-            Pokemon p = new Pokemon(names[i], i, attack[i], defense[i], stamina[i], devolution[i],
+            Pokemon p = new Pokemon(names[i], (translatedNames!=null?translatedNames[i]:null), i, attack[i], defense[i], stamina[i], devolution[i],
                     evolutionCandyCost[i]);
             pokedex.add(p);
             pokemap.put(names[i].toLowerCase(), p);

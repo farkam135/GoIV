@@ -99,7 +99,7 @@ public class ScanContainer {
      */
     public String getPrevScanName() {
         if (prevScan != null) {
-            return prevScan.pokemon.name;
+            return prevScan.pokemon.getDisplayName();
         } else {
             return "";
         }

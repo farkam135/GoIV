@@ -45,19 +45,26 @@ public class PokemonSpinnerAdapter extends ArrayAdapter<Pokemon> {
 
     }
 
-    /*
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        return getCustomView(position, convertView, parent);
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        TextView row = (TextView) inflater.inflate(textViewResourceId, parent, false);
+        Pokemon pokemon = pokemons.get(position);
+
+        row.setText(pokemon.getDisplayName());
+
+        return row;
     }
-    */
+
 
     private View getCustomView(int position, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         TextView row = (TextView) inflater.inflate(textViewResourceId, parent, false);
         Pokemon pokemon = pokemons.get(position);
-        String text = String.format("#%d %s", pokemon.number + 1, pokemon.name);
+        String text = String.format("#%d %s", pokemon.number + 1, pokemon.getDisplayName());
 
         int padding = GuiUtil.dpToPixels(5, context);
         row.setPadding(padding, 0, 0, padding);

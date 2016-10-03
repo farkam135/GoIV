@@ -23,8 +23,8 @@ public class Pokemon {
     public final int devoNumber;
     public final int candyEvolutionCost;
 
-    public Pokemon(String name, String translatedName, int number, int baseAttack, int baseDefense, int baseStamina, int devoNumber,
-                   int candyEvolutionCost) {
+    public Pokemon(String name, String translatedName, int number, int baseAttack, int baseDefense, int baseStamina,
+                   int devoNumber, int candyEvolutionCost) {
         this.name = name;
         this.translatedName = translatedName;
         this.number = number;
@@ -42,8 +42,9 @@ public class Pokemon {
     }
 
     public String getDisplayName() {
-        if (translatedName!=null)
+        if (translatedName != null) {
             return translatedName;
+        }
         return name;
     }
 

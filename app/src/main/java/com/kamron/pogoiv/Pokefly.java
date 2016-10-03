@@ -1090,8 +1090,8 @@ public class Pokefly extends Service {
         //below picks a pokemon from either the pokemon spinner or the user text input
         Pokemon pokemon;
         if (pokeInputSpinner.getVisibility() == View.VISIBLE) { //user picked pokemon from spinner
-            String selectedPokemon = pokeInputSpinner.getSelectedItem().toString();
-            pokemon = pokeInfoCalculator.get(selectedPokemon);
+            //This could be pokemon = pokeInputSpinner.getSelectedItem(); if they didn't give it type Object.
+            pokemon = pokeInputSpinnerAdapter.getItem(pokeInputSpinner.getSelectedItemPosition());
         } else { //user typed manually
             String userInput = autoCompleteTextView1.getText().toString();
             pokemon = pokeInfoCalculator.get(userInput);

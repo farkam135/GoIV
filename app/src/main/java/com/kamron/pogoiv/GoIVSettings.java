@@ -16,6 +16,7 @@ public class GoIVSettings {
     public static final String AUTO_UPDATE_ENABLED = "autoUpdateEnabled";
     public static final String POKESPAM_ENABLED = "pokeSpamEnabled";
     public static final String TEAM_NAME = "teamName";
+    public static final String APPRAISAL_WINDOW_POSITION = "appraisalWindowPosition";
 
     private static GoIVSettings instance;
 

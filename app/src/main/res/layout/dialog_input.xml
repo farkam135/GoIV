@@ -11,6 +11,14 @@
         android:orientation="horizontal"
         android:gravity="center">
 
+        <ImageView
+            android:id="@+id/positionHandler"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:src="@drawable/position_handler"
+            android:visibility="gone"
+            />
+
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"

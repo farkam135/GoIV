@@ -571,6 +571,12 @@ public class Pokefly extends Service {
         startForeground(NOTIFICATION_REQ_CODE, notification);
     }
 
+    /**
+     * Simplify retrieving of vector drawables.
+     *
+     * @param id ID of vector drawable to get
+     * @return Desired vector drawable.
+     */
     private Drawable getVectorDrawable(@DrawableRes int id) {
         return AppCompatDrawableManager.get().getDrawable(getApplication().getApplicationContext(), id);
     }
@@ -659,6 +665,17 @@ public class Pokefly extends Service {
     }
 
     /**
+     * Estimated scalings are calculated based on devices with standard PPI. Calculations are all in pixels.
+     * <p>
+     * IV_BUTTON_ESTIMATED_SIZE_SCALING - Real display width/Original menu button
+     * IV_BUTTON_ESTIMATED_X_SCALING - Original menu button x (with gravity of Right)/Real display width
+     * IV_BUTTON_ESTIMATED_Y_SCALING - Original menu button x (with gravity of Bottom)/Real display height
+     */
+    private static final double IV_BUTTON_ESTIMATED_SIZE_SCALING = 10.67;
+    private static final double IV_BUTTON_ESTIMATED_X_SCALING = 0.04537;
+    private static final double IV_BUTTON_ESTIMATED_Y_SCALING = 0.021875;
+
+    /**
      * Creates the IV Button view.
      */
     private void createIVButton() {
@@ -670,11 +687,11 @@ public class Pokefly extends Service {
 
         Point realDisplaySize = new Point();
         windowManager.getDefaultDisplay().getRealSize(realDisplaySize);
-        ivButtonParams.height = (int) Math.round(realDisplaySize.y / 10.66667);
+        ivButtonParams.height = (int) Math.round(realDisplaySize.y / IV_BUTTON_ESTIMATED_SIZE_SCALING);
         ivButtonParams.width = ivButtonParams.height;
         ivButtonParams.gravity = Gravity.BOTTOM | Gravity.LEFT;
-        ivButtonParams.x = (int) Math.round(0.04537 * realDisplaySize.x);
-        ivButtonParams.y = (int) Math.round(0.021875 * realDisplaySize.y);
+        ivButtonParams.x = (int) Math.round(realDisplaySize.x * IV_BUTTON_ESTIMATED_X_SCALING);
+        ivButtonParams.y = (int) Math.round(realDisplaySize.y * IV_BUTTON_ESTIMATED_Y_SCALING);
 
         ivButton.setOnTouchListener(new View.OnTouchListener() {
             @Override

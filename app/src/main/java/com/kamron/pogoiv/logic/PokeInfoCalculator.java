@@ -73,7 +73,7 @@ public class PokeInfoCalculator {
 
         int pokeListSize = names.length;
         for (int i = 0; i <= pokeListSize - 1; i++) {
-            Pokemon p = new Pokemon(names[i], (translatedNames != null ? translatedNames[i] : null),
+            Pokemon p = new Pokemon(names[i], translatedNames[i],
                     i, attack[i], defense[i], stamina[i], devolution[i],
                     evolutionCandyCost[i]);
             pokedex.add(p);

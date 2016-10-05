@@ -363,13 +363,6 @@ public class Pokefly extends Service {
         return getResources().getStringArray(R.array.pokemon);
     }
 
-    private String[] getTranslatedPokemonNamesArray() {
-        if (getResources().getBoolean(R.bool.use_default_pokemonsname_as_ocrstring)) {
-            return getResources().getStringArray(R.array.pokemon);
-        }
-        return null;
-    }
-
     @Override
     public void onCreate() {
         super.onCreate();
@@ -380,7 +373,7 @@ public class Pokefly extends Service {
 
         pokeInfoCalculator = PokeInfoCalculator.getInstance(
                 getPokemonNamesArray(),
-                getTranslatedPokemonNamesArray(),
+                getResources().getStringArray(R.array.pokemon),
                 getResources().getIntArray(R.array.attack),
                 getResources().getIntArray(R.array.defense),
                 getResources().getIntArray(R.array.stamina),

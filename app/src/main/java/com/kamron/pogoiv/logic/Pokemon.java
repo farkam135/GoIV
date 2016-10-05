@@ -14,8 +14,17 @@ public class Pokemon {
      * Pokedex number, not be consecutive, etc.
      */
     public final List<Pokemon> evolutions;
+
+    /**
+     * Pokemon name for OCR, this is what you saw in PokemonGo app.
+     */
     public final String name;
-    private final String translatedName;
+
+    /**
+     * Pokemon name for display, this is what you wanna see in GoIV's result UI.
+     */
+    private final String displayName;
+
     public final int number; //index number in resources, pokedex number - 1
     public final int baseAttack;
     public final int baseDefense;
@@ -23,10 +32,10 @@ public class Pokemon {
     public final int devoNumber;
     public final int candyEvolutionCost;
 
-    public Pokemon(String name, String translatedName, int number, int baseAttack, int baseDefense, int baseStamina,
+    public Pokemon(String name, String displayName, int number, int baseAttack, int baseDefense, int baseStamina,
                    int devoNumber, int candyEvolutionCost) {
         this.name = name;
-        this.translatedName = translatedName;
+        this.displayName = displayName;
         this.number = number;
         this.baseAttack = baseAttack;
         this.baseDefense = baseDefense;
@@ -42,8 +51,8 @@ public class Pokemon {
     }
 
     public String getDisplayName() {
-        if (translatedName != null) {
-            return translatedName;
+        if (displayName != null) {
+            return displayName;
         }
         return name;
     }

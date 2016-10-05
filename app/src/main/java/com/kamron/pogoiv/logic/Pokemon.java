@@ -47,14 +47,7 @@ public class Pokemon {
 
     @Override
     public String toString() {
-        return name;
-    }
-
-    public String getDisplayName() {
-        if (displayName != null) {
-            return displayName;
-        }
-        return name;
+        return displayName;
     }
 
     public int getDistanceCaseInsensitive(String rhs) {

@@ -53,7 +53,7 @@ public class PokemonSpinnerAdapter extends ArrayAdapter<Pokemon> {
         TextView row = (TextView) inflater.inflate(textViewResourceId, parent, false);
         Pokemon pokemon = pokemons.get(position);
 
-        row.setText(pokemon.getDisplayName());
+        row.setText(pokemon.toString());
 
         return row;
     }
@@ -64,7 +64,7 @@ public class PokemonSpinnerAdapter extends ArrayAdapter<Pokemon> {
 
         TextView row = (TextView) inflater.inflate(textViewResourceId, parent, false);
         Pokemon pokemon = pokemons.get(position);
-        String text = String.format("#%d %s", pokemon.number + 1, pokemon.getDisplayName());
+        String text = String.format("#%d %s", pokemon.number + 1, pokemon.toString());
 
         int padding = GuiUtil.dpToPixels(5, context);
         row.setPadding(padding, 0, 0, padding);

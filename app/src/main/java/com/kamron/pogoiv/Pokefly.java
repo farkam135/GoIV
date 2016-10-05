@@ -1249,7 +1249,7 @@ public class Pokefly extends Service {
      * Shows the name and level of the pokemon in the results dialog.
      */
     private void populateResultsHeader(IVScanResult ivScanResult) {
-        resultsPokemonName.setText(ivScanResult.pokemon.getDisplayName());
+        resultsPokemonName.setText(ivScanResult.pokemon.toString());
         resultsPokemonLevel.setText(getString(R.string.level_num, ivScanResult.estimatedPokemonLevel));
     }
 

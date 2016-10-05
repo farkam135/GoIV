@@ -1,7 +1,5 @@
 package com.kamron.pogoiv;
 
-import android.animation.Animator;
-import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.Notification;
 import android.app.PendingIntent;
@@ -27,6 +25,7 @@ import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.NotificationCompat;
+import android.support.v7.widget.AppCompatDrawableManager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -36,12 +35,14 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
@@ -128,7 +129,7 @@ public class Pokefly extends Service {
     private boolean infoShownReceived = false;
     private boolean ivButtonShown = false;
 
-    private ImageView ivButton;
+    private ImageButton ivButton;
     private ImageView arcPointer;
     private LinearLayout infoLayout;
 
@@ -145,10 +146,6 @@ public class Pokefly extends Service {
     //results pokemon picker auto complete
     @BindView(R.id.autoCompleteTextView1)
     AutoCompleteTextView autoCompleteTextView1;
-
-    @BindView(R.id.pokePickerToggleSpinnerVsInput)
-    Button pokePickerToggleSpinnerVsInput;
-
 
     private PokemonSpinnerAdapter pokeInputSpinnerAdapter;
     @BindView(R.id.spnPokemonName)
@@ -168,7 +165,6 @@ public class Pokefly extends Service {
     LinearLayout initialButtonsLayout;
     @BindView(R.id.llButtonsOnCheck)
     LinearLayout onCheckButtonsLayout;
-
 
     @BindView(R.id.appraisalIvRange)
     Spinner appraisalIvRange;
@@ -226,6 +222,8 @@ public class Pokefly extends Service {
     TextView exResCompare;
     @BindView(R.id.resultsMoreInformationText)
     TextView resultsMoreInformationText;
+    @BindView(R.id.resultsMoreInformationArrow)
+    ImageView resultsMoreInformationArrow;
     @BindView(R.id.expandedLevelSeekbar)
     SeekBar expandedLevelSeekbar;
     @BindView(R.id.expandedLevelSeekbarBackground)
@@ -251,6 +249,8 @@ public class Pokefly extends Service {
 
     @BindView(R.id.inputAppraisalExpandBox)
     TextView inputAppraisalExpandBox;
+    @BindView(R.id.inputAppraisalExpandArrow)
+    ImageView inputAppraisalExpandArrow;
 
     @BindView(R.id.rvResults)
     RecyclerView rvResults;
@@ -300,8 +300,6 @@ public class Pokefly extends Service {
             PixelFormat.TRANSPARENT);
 
     private final WindowManager.LayoutParams ivButtonParams = new WindowManager.LayoutParams(
-            WindowManager.LayoutParams.WRAP_CONTENT,
-            WindowManager.LayoutParams.WRAP_CONTENT,
             WindowManager.LayoutParams.TYPE_PHONE,
             WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
             PixelFormat.TRANSLUCENT);
@@ -574,6 +572,16 @@ public class Pokefly extends Service {
     }
 
     /**
+     * Simplify retrieving of vector drawables.
+     *
+     * @param id ID of vector drawable to get
+     * @return Desired vector drawable.
+     */
+    private Drawable getVectorDrawable(@DrawableRes int id) {
+        return AppCompatDrawableManager.get().getDrawable(getApplication().getApplicationContext(), id);
+    }
+
+    /**
      * Undeprecated version of getDrawable using the most appropriate underlying API.
      *
      * @param id ID of drawable to get
@@ -610,9 +618,9 @@ public class Pokefly extends Service {
     private void createArcPointer() {
         arcParams.gravity = Gravity.TOP | Gravity.START;
         arcPointer = new ImageView(this);
-        arcPointer.setImageResource(R.drawable.dot);
+        arcPointer.setImageDrawable(getVectorDrawable(R.drawable.dot));
 
-        Drawable dot = getDrawableC(R.drawable.dot);
+        Drawable dot = getVectorDrawable(R.drawable.dot);
         pointerHeight = dot.getIntrinsicHeight() / 2;
         pointerWidth = dot.getIntrinsicWidth() / 2;
     }
@@ -657,27 +665,60 @@ public class Pokefly extends Service {
     }
 
     /**
+     * Estimated scalings are calculated based on devices with standard PPI. Calculations are all in pixels.
+     * <p>
+     * IV_BUTTON_ESTIMATED_SIZE_SCALING - Real display width/Original menu button
+     * IV_BUTTON_ESTIMATED_X_SCALING - Original menu button x (with gravity of Right)/Real display width
+     * IV_BUTTON_ESTIMATED_Y_SCALING - Original menu button x (with gravity of Bottom)/Real display height
+     */
+    private static final double IV_BUTTON_ESTIMATED_SIZE_SCALING = 10.67;
+    private static final double IV_BUTTON_ESTIMATED_X_SCALING = 0.04537;
+    private static final double IV_BUTTON_ESTIMATED_Y_SCALING = 0.021875;
+
+    /**
      * Creates the IV Button view.
      */
     private void createIVButton() {
-        ivButton = new ImageView(this);
-        ivButton.setImageResource(R.drawable.button);
+        ivButton = new ImageButton(this);
+        ivButton.setBackground(null);
+        ivButton.setImageResource(R.drawable.iv_button);
+        ivButton.setPadding(0, 0, 0, 0);
+        ivButton.setScaleType(ImageButton.ScaleType.FIT_CENTER);
 
-        ivButtonParams.gravity = Gravity.BOTTOM | Gravity.START;
-        ivButtonParams.x = dpToPx(20);
-        ivButtonParams.y = dpToPx(15);
+        Point realDisplaySize = new Point();
+        windowManager.getDefaultDisplay().getRealSize(realDisplaySize);
+        ivButtonParams.height = (int) Math.round(realDisplaySize.y / IV_BUTTON_ESTIMATED_SIZE_SCALING);
+        ivButtonParams.width = ivButtonParams.height;
+        ivButtonParams.gravity = Gravity.BOTTOM | Gravity.LEFT;
+        ivButtonParams.x = (int) Math.round(realDisplaySize.x * IV_BUTTON_ESTIMATED_X_SCALING);
+        ivButtonParams.y = (int) Math.round(realDisplaySize.y * IV_BUTTON_ESTIMATED_Y_SCALING);
 
         ivButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_UP) {
-                    setIVButtonDisplay(false);
-                    takeScreenshot();
-                    receivedInfo = false;
-                    infoShownSent = true;
-                    infoShownReceived = false;
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        ivButton.setColorFilter(Color.argb(80, 0, 0, 0));
+                        return false;
+
+                    case MotionEvent.ACTION_CANCEL:
+                    case MotionEvent.ACTION_UP:
+                        ivButton.clearColorFilter();
+                        return false;
+
+                    default:
+                        return false;
                 }
-                return false;
+            }
+        });
+
+        ivButton.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                setIVButtonDisplay(false);
+                takeScreenshot();
+                receivedInfo = false;
+                infoShownSent = true;
+                infoShownReceived = false;
             }
         });
     }
@@ -717,6 +758,7 @@ public class Pokefly extends Service {
     private void createInputLayout() {
         pokeInputSpinnerAdapter = new PokemonSpinnerAdapter(this, R.layout.spinner_pokemon, new ArrayList<Pokemon>());
         pokeInputSpinner.setAdapter(pokeInputSpinnerAdapter);
+        inputAppraisalExpandArrow.setImageDrawable(getVectorDrawable(R.drawable.blue_arrow));
 
         initializePokemonAutoCompleteTextView();
 
@@ -729,6 +771,7 @@ public class Pokefly extends Service {
     private void createResultLayout() {
         createExtendedResultEvolutionSpinner();
         createExtendedResultLevelSeekbar();
+        resultsMoreInformationArrow.setImageDrawable(getVectorDrawable(R.drawable.blue_arrow));
     }
 
     /**
@@ -854,45 +897,44 @@ public class Pokefly extends Service {
         pokeInputSpinner.setVisibility(View.VISIBLE);
     }
 
-    private static final int MAX_DRAWABLE_LEVEL = 10000;
-
-    private void toggleVisibility(TextView expanderText, LinearLayout expandedBox, boolean animate) {
-        setVisibility(expanderText, expandedBox, animate, expandedBox.getVisibility() != View.VISIBLE);
+    private void toggleVisibility(ImageView expanderArrow, LinearLayout expandedBox, boolean animate) {
+        setVisibility(expanderArrow, expandedBox, animate, expandedBox.getVisibility() != View.VISIBLE);
     }
 
-    private void setVisibility(TextView expanderText, LinearLayout expandedBox, boolean animate, boolean visible) {
+    private void setVisibility(ImageView expanderArrow, LinearLayout expandedBox, boolean animate, boolean visible) {
         int boxVisibility;
-        Drawable arrowDrawable;
+        Animation arrowAnimation;
+
         if (visible) {
             boxVisibility = View.VISIBLE;
-            arrowDrawable = getDrawableC(R.drawable.arrow_expand);
+            arrowAnimation = new RotateAnimation(0.0f, 90.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation
+                    .RELATIVE_TO_SELF, 0.5f);
         } else {
             boxVisibility = View.GONE;
-            arrowDrawable = getDrawableC(R.drawable.arrow_collapse);
+            arrowAnimation = new RotateAnimation(90.0f, 0.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation
+                    .RELATIVE_TO_SELF, 0.5f);
         }
-        expanderText.setCompoundDrawablesWithIntrinsicBounds(null, null, arrowDrawable, null);
+
         if (animate) {
-            Animator arrowAnimator =
-                    ObjectAnimator.ofInt(arrowDrawable, "level", 0, MAX_DRAWABLE_LEVEL).setDuration(100);
-            arrowAnimator.start();
-        } else {
-            arrowDrawable.setLevel(MAX_DRAWABLE_LEVEL);
+            arrowAnimation.setDuration(100);
+            arrowAnimation.setFillAfter(true);
+            expanderArrow.startAnimation(arrowAnimation);
         }
+
         expandedBox.setVisibility(boxVisibility);
     }
 
-
-    @OnClick({R.id.resultsMoreInformationText})
+    @OnClick({R.id.resultsMoreInformationText, R.id.resultsMoreInformationArrow})
     public void toggleMoreResultsBox() {
-        toggleVisibility(resultsMoreInformationText, expandedResultsBox, true);
+        toggleVisibility(resultsMoreInformationArrow, expandedResultsBox, true);
     }
 
-    @OnClick({R.id.inputAppraisalExpandBox})
+    @OnClick({R.id.inputAppraisalExpandBox, R.id.inputAppraisalExpandArrow})
     /**
      * Method called when user presses the text to expand the appraisal box on the input screen
      */
     public void toggleAppraisalBox() {
-        toggleVisibility(inputAppraisalExpandBox, appraisalBox, true);
+        toggleVisibility(inputAppraisalExpandArrow, appraisalBox, true);
         moveOverlayUpOrDownToMatchAppraisalBox();
     }
 
@@ -1195,8 +1237,8 @@ public class Pokefly extends Service {
 
         // Set Thumb 1 drawable to an orange marker and value at the max possible Pokemon level at the current
         // trainer level
-        expandedLevelSeekbarBackground.getThumb(0).setThumb(getDrawableC(R.drawable
-                .orange_seekbar_thumb_marker));
+        Drawable drawable = getVectorDrawable(R.drawable.orange_marker);
+        expandedLevelSeekbarBackground.getThumb(0).setThumb(drawable);
         expandedLevelSeekbarBackground.getThumb(0).setValue(
                 levelToSeekbarProgress(Data.trainerLevelToMaxPokeLevel(trainerLevel)));
 
@@ -1635,7 +1677,7 @@ public class Pokefly extends Service {
             pokemonCandyEdit.setText(optionalIntToString(pokemonCandy));
 
             showInfoLayoutArcPointer();
-            setVisibility(inputAppraisalExpandBox, appraisalBox, false, false);
+            setVisibility(inputAppraisalExpandArrow, appraisalBox, false, false);
             moveOverlayUpOrDownToMatchAppraisalBox(); //move the overlay to correct position regarding appraisal box
             adjustArcPointerBar(estimatedPokemonLevel);
 
@@ -1712,7 +1754,7 @@ public class Pokefly extends Service {
     private final BroadcastReceiver processBitmap = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Bitmap bitmap = (Bitmap) intent.getParcelableExtra(KEY_BITMAP);
+            Bitmap bitmap = intent.getParcelableExtra(KEY_BITMAP);
             if (bitmap == null) {
                 return;
             }
@@ -1743,7 +1785,6 @@ public class Pokefly extends Service {
 
                     pokemonName = intent.getStringExtra(KEY_SEND_INFO_NAME);
                     candyName = intent.getStringExtra(KEY_SEND_INFO_CANDY);
-
 
                     @SuppressWarnings("unchecked") Optional<String> lScreenShotFile =
                             (Optional<String>) intent.getSerializableExtra(KEY_SEND_SCREENSHOT_FILE);
@@ -1787,9 +1828,5 @@ public class Pokefly extends Service {
                 ivButtonShown = false;
             }
         }
-    }
-
-    private int dpToPx(int dp) {
-        return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
     }
 }

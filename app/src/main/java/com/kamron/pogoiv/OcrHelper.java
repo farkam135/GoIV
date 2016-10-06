@@ -318,17 +318,29 @@ public class OcrHelper {
             tesseract.setImage(name);
             pokemonName = fixOcrNumsToLetters(tesseract.getUTF8Text().replace(" ", ""));
             if (pokemonName.toLowerCase().contains("nidora")) {
-                boolean isFemale = isNidoranFemale(pokemonImage);
-                if (isFemale) {
-                    pokemonName = nidoFemale;
-                } else {
-                    pokemonName = nidoMale;
-                }
+                pokemonName = getNidoranGenderName(pokemonImage);
             }
             name.recycle();
             ocrCache.put(hash, pokemonName);
         }
         return pokemonName;
+    }
+
+    /**
+     * Get the correctly gendered name of a pokemon.
+     *
+     * @param pokemonImage The image of the nidoranX.
+     * @return The correct name of the pokemon, with the gender symbol at the end.
+     */
+    private String getNidoranGenderName(Bitmap pokemonImage) {
+        String returner = "";
+        boolean isFemale = isNidoranFemale(pokemonImage);
+        if (isFemale) {
+            returner = nidoFemale;
+        } else {
+            returner = nidoMale;
+        }
+        return returner;
     }
 
     @NonNull
@@ -365,6 +377,9 @@ public class OcrHelper {
             candyName = fixOcrNumsToLetters(
                     removeFirstOrLastWord(tesseract.getUTF8Text().trim().replace("-", " "), candyWordFirst));
             candy.recycle();
+            if (candyName.toLowerCase().contains("nidora")) {
+                candyName = getNidoranGenderName(pokemonImage);
+            }
             ocrCache.put(hash, candyName);
         }
         return candyName;

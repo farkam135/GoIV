@@ -209,11 +209,11 @@ public class OcrHelper {
                 result = 400; //god damn magikarp
                 ocrResult = "400";
             }
-
-            ocrCache.put(hash, ocrResult);
         } catch (NumberFormatException e) {
             result = error; //could not ocr text
+            ocrResult = String.valueOf(error); //Store error code instead of scanned value
         }
+        ocrCache.put(hash, ocrResult);
         return result;
 
     }

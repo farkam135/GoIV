@@ -1,6 +1,7 @@
 package com.kamron.pogoiv.clipboard;
 
 import com.kamron.pogoiv.clipboard.tokens.BaseStatToken;
+import com.kamron.pogoiv.clipboard.tokens.CpPercentileToken;
 import com.kamron.pogoiv.clipboard.tokens.CpTierToken;
 import com.kamron.pogoiv.clipboard.tokens.HexIVToken;
 import com.kamron.pogoiv.clipboard.tokens.HpToken;
@@ -62,6 +63,8 @@ public class ClipboardTokenCollection {
         // Evaluating scores////////////////////////////////
         tokens.add(new CpTierToken(true)); //Pokemon max evolution  max level CP tier
         tokens.add(new CpTierToken(false)); //pokemon max level cp tier
+
+        tokens.add(new CpPercentileToken(false));
 
         tokens.add(new PerfectionCPPercentageToken(true)); //how close your poke max evolved on lvl 40 cp is to 100% iv
         tokens.add(new PerfectionCPPercentageToken(false));//how close your poke on lvl 40 cp is to 100% iv

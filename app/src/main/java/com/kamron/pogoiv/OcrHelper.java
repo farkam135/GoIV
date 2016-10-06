@@ -205,6 +205,11 @@ public class OcrHelper {
                 result = 100;
                 ocrResult = "100";
             }
+            if (result == 40) { //second zero hidden behind floating button
+                result = 400; //god damn magikarp
+                ocrResult = "400";
+            }
+
             ocrCache.put(hash, ocrResult);
         } catch (NumberFormatException e) {
             result = error; //could not ocr text

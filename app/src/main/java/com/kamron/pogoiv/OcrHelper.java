@@ -201,6 +201,10 @@ public class OcrHelper {
         String ocrResult = fixOcrLettersToNums(tesseract.getUTF8Text());
         try {
             result = Integer.parseInt(ocrResult);
+            if (result == 10) { //second zero hidden behind floating button
+                result = 100;
+                ocrResult = "100";
+            }
             ocrCache.put(hash, ocrResult);
         } catch (NumberFormatException e) {
             result = error; //could not ocr text

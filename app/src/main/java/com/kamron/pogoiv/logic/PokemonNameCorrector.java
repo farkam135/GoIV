@@ -1,7 +1,6 @@
 package com.kamron.pogoiv.logic;
 
 import android.support.v4.util.Pair;
-import android.util.Log;
 import android.util.LruCache;
 
 import java.util.ArrayList;
@@ -49,14 +48,10 @@ public class PokemonNameCorrector {
      * @return a Pokedist with the best guess of the pokemon
      */
     public PokeDist getPossiblePokemon(String poketext, String candytext, int candyUpgradecost) {
-        Log.d("GuessPoke", "Scanned nick: " + poketext + " Scanned candy: " + candytext + " Scanned upgradecost"
-                + (candyUpgradecost + ""));
-
 
         //1. if nickname perfectly matches a pokemon, return that
         PokeDist nicknameguess = getNicknameGuess(poketext, candytext);
         if (nicknameguess.dist == 0) {
-            Log.d("GuessPoke", "1. Nickname guess perfect match: " + poketext);
             cacheResult(poketext, nicknameguess);
             return nicknameguess;
         }
@@ -64,7 +59,6 @@ public class PokemonNameCorrector {
         //2. if we can get a perfect match with candy name & upgrade cost, return that
         Pokemon candyAndUpgradeGuess = getCandyNameEvolutionCostGuess(candytext, candyUpgradecost);
         if (candyAndUpgradeGuess != null) {
-            Log.d("GuessPoke", "2. candy and upgrade guess perfect match: " + candyAndUpgradeGuess.name);
             PokeDist ret = new PokeDist(candyAndUpgradeGuess.number, 0);
             cacheResult(poketext, ret);
             return ret;
@@ -73,14 +67,11 @@ public class PokemonNameCorrector {
         //3. if there's a cached result for the nickname, return that
         PokeDist cacheGuess = getCacheGuess(poketext);
         if (cacheGuess != null) {
-            Log.d("GuessPoke", "3. cache guess remembered: " + pokeInfoCalculator.get(cacheGuess.pokemonId).name);
             return cacheGuess;
         }
 
         //4. make a wild guess by returning whatever pokemon is closest to the nicknamee of the pokemon in what we
         // think is the evolution line from the candy
-        Log.d("GuessPoke", "4. Guessing based on nickname and candy name: " + pokeInfoCalculator.get(nicknameguess
-                .pokemonId).name);
         cacheResult(poketext, nicknameguess);
         return nicknameguess;
     }

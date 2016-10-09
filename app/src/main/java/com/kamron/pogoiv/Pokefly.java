@@ -1545,6 +1545,7 @@ public class Pokefly extends Service {
             boolean changed = newResult.size() != thisScan.iVCombinations.size();
             thisScan.iVCombinations = newResult;
             if (changed) {
+                addClipboardInfoIfSettingOn(thisScan);
                 populateResultsBox(thisScan);
             } else {
                 Toast.makeText(this, R.string.refine_no_progress, Toast.LENGTH_SHORT).show();

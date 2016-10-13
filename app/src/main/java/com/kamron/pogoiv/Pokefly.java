@@ -284,7 +284,9 @@ public class Pokefly extends Service {
     private Optional<Integer> pokemonCP = Optional.absent();
     private Optional<Integer> pokemonHP = Optional.absent();
     private double estimatedPokemonLevel = 1.0;
-    private @NonNull Optional<String> screenShotPath = Optional.absent();
+    private
+    @NonNull
+    Optional<String> screenShotPath = Optional.absent();
 
     private PokemonNameCorrector corrector;
 
@@ -601,7 +603,9 @@ public class Pokefly extends Service {
      * @return Desired color.
      */
     @SuppressWarnings("deprecation")
-    private @ColorInt int getColorC(@ColorRes int id) {
+    private
+    @ColorInt
+    int getColorC(@ColorRes int id) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             return getColor(id);
         } else {
@@ -729,9 +733,9 @@ public class Pokefly extends Service {
                         break;
 
                     case MotionEvent.ACTION_UP:
-                        if(newParams.y != originalWindowY){
+                        if (newParams.y != originalWindowY) {
                             saveWindowPosition(newParams.y);
-                        }else{
+                        } else {
                             Toast.makeText(Pokefly.this, R.string.position_handler_toast, Toast.LENGTH_SHORT).show();
                         }
                         break;
@@ -746,6 +750,7 @@ public class Pokefly extends Service {
 
     /**
      * Saves the current Info Window location to shared preferences.
+     *
      * @param appraisalWindowPosition Current Info Window Y offset for appraisal mode.
      */
     private void saveWindowPosition(int appraisalWindowPosition) {
@@ -963,7 +968,7 @@ public class Pokefly extends Service {
         WindowManager.LayoutParams newParams = (WindowManager.LayoutParams) infoLayout.getLayoutParams();
         if (moveUp) {
             newParams.gravity = Gravity.TOP;
-            newParams.y = sharedPref.getInt(APPRAISAL_WINDOW_POSITION,0);
+            newParams.y = sharedPref.getInt(APPRAISAL_WINDOW_POSITION, 0);
         } else {
             newParams.gravity = Gravity.BOTTOM;
             newParams.y = 0;
@@ -1712,7 +1717,8 @@ public class Pokefly extends Service {
 
     private <T> String optionalIntToString(Optional<T> src) {
         return src.transform(new Function<T, String>() {
-            @Override public String apply(T input) {
+            @Override
+            public String apply(T input) {
                 return input.toString();
             }
         }).or("");

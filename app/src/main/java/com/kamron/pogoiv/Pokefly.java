@@ -847,20 +847,20 @@ public class Pokefly extends Service {
         //Load the correct phrases from the text resources depending on what team is stored in app settings
         if (GoIVSettings.getInstance(getBaseContext()).playerTeam() == 0) {
             adapterIvRange = ArrayAdapter.createFromResource(this,
-                    R.array.mystic_ivrange, R.layout.goiv_spinner_item);
+                    R.array.mystic_ivrange, R.layout.spinner_appraisal);
             adapterPercentage = ArrayAdapter.createFromResource(this,
-                    R.array.mystic_percentage, R.layout.goiv_spinner_item);
+                    R.array.mystic_percentage, R.layout.spinner_appraisal);
 
         } else if (GoIVSettings.getInstance(getBaseContext()).playerTeam() == 1) {
             adapterIvRange = ArrayAdapter.createFromResource(this,
-                    R.array.valor_ivrange, R.layout.goiv_spinner_item);
+                    R.array.valor_ivrange, R.layout.spinner_appraisal);
             adapterPercentage = ArrayAdapter.createFromResource(this,
-                    R.array.valor_percentage, R.layout.goiv_spinner_item);
+                    R.array.valor_percentage, R.layout.spinner_appraisal);
         } else {
             adapterIvRange = ArrayAdapter.createFromResource(this,
-                    R.array.instinct_ivrange, R.layout.goiv_spinner_item);
+                    R.array.instinct_ivrange, R.layout.spinner_appraisal);
             adapterPercentage = ArrayAdapter.createFromResource(this,
-                    R.array.instinct_percentage, R.layout.goiv_spinner_item);
+                    R.array.instinct_percentage, R.layout.spinner_appraisal);
         }
 
         appraisalIvRange.setAdapter(adapterIvRange);

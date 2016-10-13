@@ -10,17 +10,18 @@
         <item name="android:typeface">sans</item>
     </style>
 
-    <style name="dialogTheme" parent="Theme.AppCompat.Light">
+    <style name="DialogTheme" parent="AppTheme">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorPrimary</item>
-        <item name="android:buttonStyle">@style/dialogTheme.dialogStyleButton</item>
+        <item name="android:buttonStyle">@style/DialogStyleButton</item>
     </style>
-    <style name="dialogTheme.dialogStyleButton" parent="Base.Widget.AppCompat.Button.Colored">
+
+    <style name="DialogStyleButton" parent="Widget.AppCompat.Button.Colored">
         <item name="android:color">@color/buttonText</item>
     </style>
 
-    <style name="poGoStyleButton">
+    <style name="PoGoStyleButton">
         <item name="android:textColor">@color/buttonText</item>
         <item name="android:textAllCaps">true</item>
         <item name="android:background">@drawable/skin_button</item>
@@ -32,12 +33,6 @@
         <item name="android:paddingStart">32dp</item>
         <item name="android:paddingTop">16dp</item>
         <item name="android:textSize">18sp</item>
-    </style>
-
-    <style name="dialogTheme.SpinnerDropDownItem">
-        <item name="android:textColor">@color/colorPrimary</item>
-        <item name="android:background">@drawable/spinner</item>
-        <item name="android:padding">5dp</item>
     </style>
 
 </resources>

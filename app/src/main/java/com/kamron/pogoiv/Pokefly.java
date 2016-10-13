@@ -77,6 +77,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.apptik.widget.MultiSlider;
 
+import static com.kamron.pogoiv.GoIVSettings.APPRAISAL_WINDOW_POSITION;
+
 /**
  * Currently, the central service in Pokemon Go, dealing with everything except
  * the initial activity.
@@ -273,6 +275,8 @@ public class Pokefly extends Service {
     @BindView(R.id.staCheckbox)
     CheckBox staCheckbox;
 
+    @BindView(R.id.positionHandler)
+    ImageView positionHandler;
 
     private String pokemonName;
     private String candyName;
@@ -697,6 +701,57 @@ public class Pokefly extends Service {
         createInputLayout();
         createResultLayout();
         createAllIvLayout();
+
+        initPositionHandler();
+    }
+
+    /**
+     * Creates an OnTouchListener for positionHandler and evaluates its events in order to determine
+     * the actions required to move the window and save its new location.
+     */
+    private void initPositionHandler() {
+        positionHandler.setOnTouchListener(new View.OnTouchListener() {
+            WindowManager.LayoutParams newParams = layoutParams;
+            double originalWindowY;
+            double initialTouchY;
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        originalWindowY = newParams.y;
+                        initialTouchY = event.getRawY();
+                        break;
+
+                    case MotionEvent.ACTION_MOVE:
+                        newParams.y = (int) (originalWindowY + (event.getRawY() - initialTouchY));
+                        windowManager.updateViewLayout(infoLayout, newParams);
+                        break;
+
+                    case MotionEvent.ACTION_UP:
+                        if (newParams.y != originalWindowY) {
+                            saveWindowPosition(newParams.y);
+                        } else {
+                            Toast.makeText(Pokefly.this, R.string.position_handler_toast, Toast.LENGTH_SHORT).show();
+                        }
+                        break;
+
+                    default:
+                        break;
+                }
+                return true;
+            }
+        });
+    }
+
+    /**
+     * Saves the current Info Window location to shared preferences.
+     * @param appraisalWindowPosition Current Info Window Y offset for appraisal mode.
+     */
+    private void saveWindowPosition(int appraisalWindowPosition) {
+        SharedPreferences.Editor edit = sharedPref.edit();
+        edit.putInt(APPRAISAL_WINDOW_POSITION, appraisalWindowPosition);
+        edit.apply();
     }
 
     /**
@@ -895,6 +950,7 @@ public class Pokefly extends Service {
      */
     public void toggleAppraisalBox() {
         toggleVisibility(inputAppraisalExpandBox, appraisalBox, true);
+        positionHandler.setVisibility(appraisalBox.getVisibility());
         moveOverlayUpOrDownToMatchAppraisalBox();
     }
 
@@ -907,8 +963,10 @@ public class Pokefly extends Service {
         WindowManager.LayoutParams newParams = (WindowManager.LayoutParams) infoLayout.getLayoutParams();
         if (moveUp) {
             newParams.gravity = Gravity.TOP;
+            newParams.y = sharedPref.getInt(APPRAISAL_WINDOW_POSITION, 0);
         } else {
             newParams.gravity = Gravity.BOTTOM;
+            newParams.y = 0;
         }
         windowManager.updateViewLayout(infoLayout, newParams);
     }
@@ -1637,6 +1695,7 @@ public class Pokefly extends Service {
 
             showInfoLayoutArcPointer();
             setVisibility(inputAppraisalExpandBox, appraisalBox, false, false);
+            positionHandler.setVisibility(appraisalBox.getVisibility());
             moveOverlayUpOrDownToMatchAppraisalBox(); //move the overlay to correct position regarding appraisal box
             adjustArcPointerBar(estimatedPokemonLevel);
 

@@ -120,4 +120,5 @@
     <string name="notification_open_app">Abrir app</string>
     <string name="place2">Sobre sus características…</string>
     <string name="place1">Sobre el Pokémon en su conjunto…</string>
+    <string name="position_handler_toast">Arrastre la ventana desde este control para reubicarla.</string>
 </resources>

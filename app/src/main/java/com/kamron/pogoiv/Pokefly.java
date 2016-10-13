@@ -31,6 +31,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -51,6 +52,7 @@ import android.widget.Toast;
 
 import com.google.common.base.Function;
 import com.google.common.base.Optional;
+import com.kamron.pogoiv.clipboard.ClipboardTokenHandler;
 import com.kamron.pogoiv.logic.CPRange;
 import com.kamron.pogoiv.logic.Data;
 import com.kamron.pogoiv.logic.IVCombination;
@@ -1018,7 +1020,7 @@ public class Pokefly extends Service {
             return;
         }
 
-        addToRangeToClipboardIfSettingOn(ivScanResult);
+        addClipboardInfoIfSettingOn(ivScanResult);
         populateResultsBox(ivScanResult);
         boolean enableCompare = ScanContainer.scanContainer.prevScan != null;
         exResCompare.setEnabled(enableCompare);
@@ -1119,14 +1121,13 @@ public class Pokefly extends Service {
     /**
      * Adds the iv range of the pokemon to the clipboard if the clipboard setting is on.
      */
-    private void addToRangeToClipboardIfSettingOn(IVScanResult ivScanResult) {
+    private void addClipboardInfoIfSettingOn(IVScanResult ivScanResult) {
         if (GoIVSettings.getInstance(getApplicationContext()).shouldCopyToClipboard()) {
-            if (!ivScanResult.tooManyPossibilities) {
-                String clipText = ivScanResult.getLowestIVCombination().percentPerfect + "-"
-                        + ivScanResult.getHighestIVCombination().percentPerfect;
-                ClipData clip = ClipData.newPlainText(clipText, clipText);
-                clipboard.setPrimaryClip(clip);
-            }
+            ClipboardTokenHandler cth = new ClipboardTokenHandler(getApplicationContext());
+            String clipResult = cth.getResults(ivScanResult, pokeInfoCalculator);
+            Log.d("NahojjjenClippy", "Clipboard content to add: " + clipResult);
+            ClipData clip = ClipData.newPlainText(clipResult, clipResult);
+            clipboard.setPrimaryClip(clip);
         }
 
     }
@@ -1324,11 +1325,11 @@ public class Pokefly extends Service {
      * @param selectedPokemon The pokemon to compare selected iv with max iv to.
      */
     private void setPokemonPerfectionPercentageText(IVScanResult ivScanResult, Pokemon selectedPokemon) {
-        CPRange cpRange = pokeInfoCalculator.getCpRangeAtLevel(selectedPokemon, ivScanResult.lowAttack, ivScanResult
-                .lowDefense, ivScanResult.lowStamina, ivScanResult.highAttack, ivScanResult.highDefense, ivScanResult
-                .highStamina, 40);
-        double maxCP = pokeInfoCalculator.getCpRangeAtLevel(selectedPokemon, 15, 15, 15, 15, 15, 15, 40).high;
-        double perfection = (100.0 * cpRange.getAvg()) / maxCP;
+        CPRange cpRange = pokeInfoCalculator.getCpRangeAtLevel(selectedPokemon,
+                ivScanResult.getCombinationLowIVs(), ivScanResult.getCombinationHighIVs(), 40);
+        double maxCP = pokeInfoCalculator.getCpRangeAtLevel(selectedPokemon,
+                IVCombination.MAX, IVCombination.MAX, 40).high;
+        double perfection = (100.0 * cpRange.getFloatingAvg()) / maxCP;
         DecimalFormat df = new DecimalFormat("#.#");
         String perfectionString = df.format(perfection) + "%";
         exResultPercentPerfection.setText(perfectionString);
@@ -1387,8 +1388,7 @@ public class Pokefly extends Service {
      */
     private void setEstimateCpTextBox(IVScanResult ivScanResult, double selectedLevel, Pokemon selectedPokemon) {
         CPRange expectedRange = pokeInfoCalculator.getCpRangeAtLevel(selectedPokemon,
-                ivScanResult.lowAttack, ivScanResult.lowDefense, ivScanResult.lowStamina,
-                ivScanResult.highAttack, ivScanResult.highDefense, ivScanResult.highStamina, selectedLevel);
+                ivScanResult.getCombinationLowIVs(), ivScanResult.getCombinationHighIVs(), selectedLevel);
         int realCP = ivScanResult.scannedCP;
         int expectedAverage = expectedRange.getAvg();
 
@@ -1545,6 +1545,7 @@ public class Pokefly extends Service {
             boolean changed = newResult.size() != thisScan.iVCombinations.size();
             thisScan.iVCombinations = newResult;
             if (changed) {
+                addClipboardInfoIfSettingOn(thisScan);
                 populateResultsBox(thisScan);
             } else {
                 Toast.makeText(this, R.string.refine_no_progress, Toast.LENGTH_SHORT).show();

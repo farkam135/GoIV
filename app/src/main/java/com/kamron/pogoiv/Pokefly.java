@@ -963,7 +963,7 @@ public class Pokefly extends Service {
         WindowManager.LayoutParams newParams = (WindowManager.LayoutParams) infoLayout.getLayoutParams();
         if (moveUp) {
             newParams.gravity = Gravity.TOP;
-            newParams.y = sharedPref.getInt(APPRAISAL_WINDOW_POSITION,0);
+            newParams.y = sharedPref.getInt(APPRAISAL_WINDOW_POSITION, 0);
         } else {
             newParams.gravity = Gravity.BOTTOM;
             newParams.y = 0;

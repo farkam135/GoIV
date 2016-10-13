@@ -334,12 +334,9 @@ public class OcrHelper {
                 (int) Math.round(heightPixels / 21.333333333));
         cp = replaceColors(cp, true, 255, 255, 255, Color.BLACK, 30, false);
         tesseract.setImage(cp);
-        String cpText = fixOcrLettersToNums(tesseract.getUTF8Text());
+        String cpText = fixOcrLettersToNums(tesseract.getUTF8Text()).replaceAll("[^0-9]", "");
         cp.recycle();
 
-        if (cpText.length() >= 2) { //gastly can block the "cp" text, so its not visible...
-            cpText = cpText.substring(2);
-        }
         try {
             return Optional.of(Integer.parseInt(cpText));
         } catch (NumberFormatException e) {

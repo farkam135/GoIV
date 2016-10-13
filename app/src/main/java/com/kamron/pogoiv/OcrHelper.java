@@ -160,7 +160,6 @@ public class OcrHelper {
      * @return the evolution cost, or -1 on no upgrade cost, or -999 on scan failure
      */
     private int getPokemonEvolutionCostFromImg(Bitmap pokemonImage) {
-        int error = -999;
         Bitmap evolutionCostImage =
                 Bitmap.createBitmap(pokemonImage, (int) (widthPixels * 0.625), (int) (heightPixels * 0.86),
                         (int) (widthPixels * 0.2), (int) (heightPixels * 0.05));
@@ -204,14 +203,13 @@ public class OcrHelper {
             if (result == 10) { //second zero hidden behind floating button
                 result = 100;
                 ocrResult = "100";
-            }
-            if (result == 40) { //second zero hidden behind floating button
-                result = 400; //god damn magikarp
+            } else if (result == 40) { //second zero hidden behind floating button
+                result = 400; //damn magikarp
                 ocrResult = "400";
             }
         } catch (NumberFormatException e) {
-            result = error; //could not ocr text
-            ocrResult = String.valueOf(error); //Store error code instead of scanned value
+            result = -999; //could not ocr text
+            ocrResult = String.valueOf(result); //Store error code instead of scanned value
         }
         ocrCache.put(hash, ocrResult);
         return result;

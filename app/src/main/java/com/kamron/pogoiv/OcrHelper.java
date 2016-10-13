@@ -172,7 +172,7 @@ public class OcrHelper {
      * Correct some OCR errors in argument where only numbers are expected.
      */
     private static String fixOcrLettersToNums(String src) {
-        return src.replace("O", "0").replace("l", "1").replace("Z", "2");
+        return src.replace("O", "0").replace("l", "1").replace("Z", "2").replaceAll("[^0-9]", "");
     }
 
     /**
@@ -313,7 +313,7 @@ public class OcrHelper {
                     return Optional.absent();
                 }
 
-                return Optional.of(Integer.parseInt(fixOcrLettersToNums(hpStr).replaceAll("[^0-9]", "")));
+                return Optional.of(Integer.parseInt(fixOcrLettersToNums(hpStr)));
             } catch (NumberFormatException e) {
                 //Fall-through to default.
             }
@@ -334,7 +334,7 @@ public class OcrHelper {
                 (int) Math.round(heightPixels / 21.333333333));
         cp = replaceColors(cp, true, 255, 255, 255, Color.BLACK, 30, false);
         tesseract.setImage(cp);
-        String cpText = fixOcrLettersToNums(tesseract.getUTF8Text()).replaceAll("[^0-9]", "");
+        String cpText = fixOcrLettersToNums(tesseract.getUTF8Text());
         cp.recycle();
 
         try {
@@ -372,7 +372,7 @@ public class OcrHelper {
 
         if (pokemonCandyStr.length() > 0) {
             try {
-                return Optional.of(Integer.parseInt(fixOcrLettersToNums(pokemonCandyStr).replaceAll("[^0-9]", "")));
+                return Optional.of(Integer.parseInt(fixOcrLettersToNums(pokemonCandyStr)));
             } catch (NumberFormatException e) {
                 //Fall-through to default.
             }

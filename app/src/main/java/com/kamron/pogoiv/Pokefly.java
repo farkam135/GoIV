@@ -712,23 +712,29 @@ public class Pokefly extends Service {
     private void initPositionHandler() {
         positionHandler.setOnTouchListener(new View.OnTouchListener() {
             WindowManager.LayoutParams newParams = layoutParams;
-            double y, startingY;
+            double originalWindowY;
+            double initialTouchY;
 
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        y = newParams.y;
-                        startingY = event.getRawY();
+                        originalWindowY = newParams.y;
+                        initialTouchY = event.getRawY();
                         break;
 
                     case MotionEvent.ACTION_MOVE:
-                        newParams.y = (int) (y + (event.getRawY() - startingY));
+                        newParams.y = (int) (originalWindowY + (event.getRawY() - initialTouchY));
                         windowManager.updateViewLayout(infoLayout, newParams);
                         break;
 
                     case MotionEvent.ACTION_UP:
-                        saveWindowPosition(newParams.y);
+                        if(newParams.y != originalWindowY){
+                            saveWindowPosition(newParams.y);
+                        }else{
+                            Toast.makeText(Pokefly.this, R.string.position_handler_toast, Toast.LENGTH_SHORT).show();
+                        }
+                        break;
 
                     default:
                         break;

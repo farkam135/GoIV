@@ -248,13 +248,12 @@ public class OcrHelper {
         refinedImage.getPixels(pixelArray, 0, refinedImage.getWidth(), 0, refinedImage.getHeight() / 2, refinedImage
                 .getWidth(), 1);
 
-        // a loop that sums the color values of all the pixels in the array
         for (int pixel : pixelArray) {
-            if (Color.red(pixel) != 255 || Color.green(pixel) != 255 || Color.blue(pixel) != 255) {
-                return false; //go through all pixels and return false if one is not white
+            if (pixel != Color.rgb(255, 255, 255)) { // if pixel is not white
+                return false;
             }
         }
-        return true; //have gone through all pixels, they're all white
+        return true;
     }
 
     /**

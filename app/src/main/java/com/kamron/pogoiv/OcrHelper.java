@@ -153,24 +153,12 @@ public class OcrHelper {
     }
 
     /**
-     * Get the evolution cost for a pokemon, example, weedle: 12.
-     * If there was no detected upgrade cost, returns -1.
+     * Get the evolution cost for a pokemon, like getPokemonEvolutionCostFromImg, but without caching.
      *
-     * @param pokemonImage The image of the full pokemon screen
+     * @param evolutionCostImage The precut image of the evolution cost area.
      * @return the evolution cost, or -1 on no upgrade cost, or -999 on scan failure
      */
-    private int getPokemonEvolutionCostFromImg(Bitmap pokemonImage) {
-        Bitmap evolutionCostImage =
-                Bitmap.createBitmap(pokemonImage, (int) (widthPixels * 0.625), (int) (heightPixels * 0.86),
-                        (int) (widthPixels * 0.2), (int) (heightPixels * 0.05));
-        String hash = "candyCost" + hashBitmap(evolutionCostImage);
-
-        //return cache if it exists
-        String stringCacheEvoCandyCost = ocrCache.get(hash);
-        if (stringCacheEvoCandyCost != null) {
-            return Integer.parseInt(stringCacheEvoCandyCost);
-        }
-
+    private int getPokemonEvolutionCostFromImgUncached(Bitmap evolutionCostImage) {
         //clean the image
         //the dark color used for text in pogo is approximately rgb 76,112,114 if you can afford evo
         //and the red color is rgb 255 95 100 when you cant afford the evolution
@@ -183,7 +171,6 @@ public class OcrHelper {
         boolean cannotAffordIsBlank = isOnlyWhite(evolutionCostImageCannotAfford);
         //check if fully evolved
         if (affordIsBlank && cannotAffordIsBlank) { //if there's no red or black text, there's no text at all.
-            ocrCache.put(hash, "-1");
             return -1;
         }
 
@@ -202,18 +189,37 @@ public class OcrHelper {
             result = Integer.parseInt(ocrResult);
             if (result == 10) { //second zero hidden behind floating button
                 result = 100;
-                ocrResult = "100";
             } else if (result == 40) { //second zero hidden behind floating button
                 result = 400; //damn magikarp
-                ocrResult = "400";
             }
         } catch (NumberFormatException e) {
             result = -999; //could not ocr text
-            ocrResult = String.valueOf(result); //Store error code instead of scanned value
         }
+        return result;
+    }
+
+    /**
+     * Get the evolution cost for a pokemon, example, weedle: 12.
+     * If there was no detected upgrade cost, returns -1.
+     *
+     * @param pokemonImage The image of the full pokemon screen
+     * @return the evolution cost, or -1 on no upgrade cost, or -999 on scan failure
+     */
+    private int getPokemonEvolutionCostFromImg(Bitmap pokemonImage) {
+        Bitmap evolutionCostImage =
+                Bitmap.createBitmap(pokemonImage, (int) (widthPixels * 0.625), (int) (heightPixels * 0.86),
+                        (int) (widthPixels * 0.2), (int) (heightPixels * 0.05));
+        String hash = "candyCost" + hashBitmap(evolutionCostImage);
+
+        //return cache if it exists
+        String stringCacheEvoCandyCost = ocrCache.get(hash);
+        if (stringCacheEvoCandyCost != null) {
+            return Integer.parseInt(stringCacheEvoCandyCost);
+        }
+        int result = getPokemonEvolutionCostFromImgUncached(evolutionCostImage);
+        String ocrResult = String.valueOf(result); //Store error code instead of scanned value
         ocrCache.put(hash, ocrResult);
         return result;
-
     }
 
     /**

@@ -12,8 +12,8 @@ import java.util.List;
 public class PokeInfoCalculator {
     private static PokeInfoCalculator instance;
 
-    private ArrayList<Pokemon> pokedex = null;
-    private HashMap<String, Pokemon> pokemap = null;
+    private ArrayList<Pokemon> pokedex = new ArrayList<>();
+    private HashMap<String, Pokemon> pokemap = new HashMap<>();
 
     public static PokeInfoCalculator getInstance(String[] namesArray, int[] attackArray, int[] defenceArray,
                                                  int[] staminaArray, int[] devolutionArray,
@@ -66,8 +66,6 @@ public class PokeInfoCalculator {
      */
     private void populatePokemon(String[] names, int[] attack, int[] defense, int[] stamina, int[] devolution,
                                  int[] evolutionCandyCost) {
-        pokedex = new ArrayList<>();
-        pokemap = new HashMap<>();
 
         int pokeListSize = names.length;
         for (int i = 0; i < pokeListSize; i++) {

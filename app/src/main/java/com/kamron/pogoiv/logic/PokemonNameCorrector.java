@@ -111,16 +111,16 @@ public class PokemonNameCorrector {
      */
     private Pokemon getCandyNameEvolutionCostGuess(ArrayList<Pokemon> bestGuessEvolutionLine,
                                                    Optional<Integer> evolutionCost) {
-        if (!evolutionCost.isPresent()) {
-            return null; //evolution cost scan failed
-        }
-
-        for (Pokemon pokemon : bestGuessEvolutionLine) {
-            if (pokemon.candyEvolutionCost == evolutionCost.get()) {
-                return pokemon;
+        if (evolutionCost.isPresent()) {
+            for (Pokemon pokemon : bestGuessEvolutionLine) {
+                if (pokemon.candyEvolutionCost == evolutionCost.get()) {
+                    return pokemon;
+                }
             }
         }
-        return null; //no match
+
+        //evolution cost scan failed, or no match
+        return null;
     }
 
     /**

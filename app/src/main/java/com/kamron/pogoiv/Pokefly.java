@@ -1815,17 +1815,17 @@ public class Pokefly extends Service {
                             (Optional<Integer>) intent.getSerializableExtra(KEY_SEND_INFO_CP);
                     @SuppressWarnings("unchecked") Optional<Integer> lPokemonHP =
                             (Optional<Integer>) intent.getSerializableExtra(KEY_SEND_INFO_HP);
+                    @SuppressWarnings("unchecked") Optional<Integer> lCandyAmount =
+                            (Optional<Integer>) intent.getSerializableExtra(KEY_SEND_INFO_CANDY_AMOUNT);
+                    @SuppressWarnings("unchecked") Optional<Integer> lCandyUpgradeCost =
+                            (Optional<Integer>) intent.getSerializableExtra(KEY_SEND_UPGRADE_CANDY_COST);
+
+                    screenShotPath = lScreenShotFile;
                     pokemonCP = lPokemonCP;
                     pokemonHP = lPokemonHP;
-                    screenShotPath = lScreenShotFile;
+                    pokemonCandy = lCandyAmount;
+                    candyUpgradeCost = lCandyUpgradeCost;
 
-                    @SuppressWarnings("unchecked") Optional<Integer> lcandyAmount =
-                            (Optional<Integer>) intent.getSerializableExtra(KEY_SEND_INFO_CANDY_AMOUNT);
-                    pokemonCandy = lcandyAmount;
-
-                    @SuppressWarnings("unchecked") Optional<Integer> lcandyUpgradeCost =
-                            (Optional<Integer>) intent.getSerializableExtra(KEY_SEND_UPGRADE_CANDY_COST);
-                    candyUpgradeCost = lcandyUpgradeCost;
                     estimatedPokemonLevel = intent.getDoubleExtra(KEY_SEND_INFO_LEVEL, estimatedPokemonLevel);
                     if (estimatedPokemonLevel < 1.0) {
                         estimatedPokemonLevel = 1.0;

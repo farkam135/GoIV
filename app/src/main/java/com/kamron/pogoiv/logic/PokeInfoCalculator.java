@@ -13,6 +13,12 @@ public class PokeInfoCalculator {
     private static PokeInfoCalculator instance;
 
     private ArrayList<Pokemon> pokedex = new ArrayList<>();
+
+    /**
+     * Pokemons that aren't evolutions of any other one.
+     */
+    private ArrayList<Pokemon> basePokemons = new ArrayList<>();
+
     private HashMap<String, Pokemon> pokemap = new HashMap<>();
 
     public static PokeInfoCalculator getInstance(String[] namesArray, int[] attackArray, int[] defenceArray,
@@ -40,7 +46,11 @@ public class PokeInfoCalculator {
     }
 
     public List<Pokemon> getPokedex() {
-        return Collections.unmodifiableList(this.pokedex);
+        return Collections.unmodifiableList(pokedex);
+    }
+
+    public List<Pokemon> getBasePokemons() {
+        return Collections.unmodifiableList(basePokemons);
     }
 
     /**
@@ -79,6 +89,8 @@ public class PokeInfoCalculator {
             if (devolution[i] != -1) {
                 Pokemon devo = pokedex.get(devolution[i]);
                 devo.evolutions.add(pokedex.get(i));
+            } else {
+                basePokemons.add(pokedex.get(i));
             }
         }
     }

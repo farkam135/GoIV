@@ -149,6 +149,23 @@ public class PokemonNameCorrector {
     }
 
     /**
+     * A class representing a result of pokemon search.
+     */
+    @AllArgsConstructor
+    public static class PokeDist {
+        /**
+         * A pokemon ID.
+         */
+        public final int pokemonId;
+
+        /**
+         * A string distance between a searched pokemon name and the name of pokemonId.
+         * Since it's a distance, the smaller it is the closer is the match.
+         */
+        public final int dist;
+    }
+
+    /**
      * get the evolution line which closest matches the scanned candyname
      *
      * @param candyname the candyname to find a match for
@@ -193,11 +210,5 @@ public class PokemonNameCorrector {
             return new PokeDist(p.number, poketextDist);
         }
         return null;
-    }
-
-    @AllArgsConstructor
-    public static class PokeDist {
-        public final int pokemonId;
-        public final int dist;
     }
 }

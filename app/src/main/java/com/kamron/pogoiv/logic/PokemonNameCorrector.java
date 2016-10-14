@@ -50,9 +50,19 @@ public class PokemonNameCorrector {
      * @return a Pokedist with the best guess of the pokemon
      */
     public PokeDist getPossiblePokemon(String poketext, String candytext, Optional<Integer> candyUpgradeCost) {
+        ArrayList<Pokemon> bestGuessEvolutionLine = getBestGuessForEvolutionLine(candytext);
 
         //1. if nickname perfectly matches a pokemon, return that
-        PokeDist nicknameguess = getNicknameGuess(poketext, candytext);
+        Pokemon perfectMatch = pokeInfoCalculator.get(poketext);
+        if (perfectMatch != null) {
+            PokeDist nicknameguess = new PokeDist(perfectMatch.number, 0);
+            cacheResult(poketext, nicknameguess);
+            return nicknameguess;
+        }
+
+        //1.5 if there's no perfect match, get the pokemon that best matches the nickname within the best guess evo-line
+        PokeDist nicknameguess = getNicknameGuess(poketext, bestGuessEvolutionLine);
+
         if (nicknameguess.dist == 0) {
             cacheResult(poketext, nicknameguess);
             return nicknameguess;
@@ -112,28 +122,17 @@ public class PokemonNameCorrector {
     }
 
     /**
-     * A method which returns the best guess at which pokemon it is according to similarity with the nickname, if
-     * nickname is perfect match, returns pokedist with pokemon id & distance 0.
-     *
+     * A method which returns the best guess at which pokemon it is according to similarity with the nickname
+     * in the given pokemon list.
      * @param poketext the nickname to compare with
-     * @return a pokedist with the best match pokemon as id, and the distance which is higher the further away the
-     * poke guess was
+     * @param pokemons the pokemon list to search the nickname into.
+     * @return a pokedist representing the search result.
      */
-    private PokeDist getNicknameGuess(String poketext, String candytext) {
-        //return if there's a perfect match
-        Pokemon perfectMatch = pokeInfoCalculator.get(poketext);
-        if (perfectMatch != null) {
-            return new PokeDist(perfectMatch.number, 0);
-        }
-
+    private PokeDist getNicknameGuess(String poketext, ArrayList<Pokemon> pokemons) {
         //if there's no perfect match, get the pokemon that best matches the nickname within the best guess evo-line
-
-        ArrayList<Pokemon> bestGuessEvolutionLine = getBestGuessForEvolutionLine(candytext);
-
         Pokemon bestMatchPokemon = null;
         int lowestDist = Integer.MAX_VALUE;
-        for (Pokemon trypoke : bestGuessEvolutionLine) {
-
+        for (Pokemon trypoke : pokemons) {
             int dist = trypoke.getDistanceCaseInsensitive(poketext);
             if (dist < lowestDist) {
                 bestMatchPokemon = trypoke;

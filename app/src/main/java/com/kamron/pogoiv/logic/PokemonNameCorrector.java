@@ -57,38 +57,34 @@ public class PokemonNameCorrector {
         }
 
         ArrayList<Pokemon> bestGuessEvolutionLine = getBestGuessForEvolutionLine(candytext);
+        PokeDist guess;
+        //Warning: Don't forget to call cacheResult before exiting. Preferably keep a single return point.
 
         //2. if nickname perfectly matches a pokemon, return that
         Pokemon perfectMatch = pokeInfoCalculator.get(poketext);
         if (perfectMatch != null) {
-            PokeDist nicknameguess = new PokeDist(perfectMatch, 0);
-            cacheResult(poketext, nicknameguess);
-            return nicknameguess;
+            guess = new PokeDist(perfectMatch, 0);
+        } else {
+            //2.5 if there's no perfect match, get the pokemon that best matches the nickname within the best guess
+            // evo-line
+            guess = getNicknameGuess(poketext, bestGuessEvolutionLine);
+
+            if (guess.dist != 0) {
+                //3. if we can get a perfect match with candy name & upgrade cost, return that
+                Pokemon candyAndUpgradeGuess = getCandyNameEvolutionCostGuess(bestGuessEvolutionLine,
+                        candyUpgradeCost);
+                if (candyAndUpgradeGuess != null) {
+                    guess = new PokeDist(candyAndUpgradeGuess, 0);
+                } else {
+                    //4. make a wild guess by returning whatever pokemon is closest to the nickname of the pokemon in
+                    // what we think is the evolution line from the candy
+                    guess = getNicknameGuess(poketext, pokeInfoCalculator.getPokedex());
+                }
+            }
         }
 
-        //2.5 if there's no perfect match, get the pokemon that best matches the nickname within the best guess evo-line
-        PokeDist nicknameguess = getNicknameGuess(poketext, bestGuessEvolutionLine);
-
-        if (nicknameguess.dist == 0) {
-            cacheResult(poketext, nicknameguess);
-            return nicknameguess;
-        }
-
-        //3. if we can get a perfect match with candy name & upgrade cost, return that
-        Pokemon candyAndUpgradeGuess = getCandyNameEvolutionCostGuess(bestGuessEvolutionLine,
-                candyUpgradeCost);
-        if (candyAndUpgradeGuess != null) {
-            PokeDist ret = new PokeDist(candyAndUpgradeGuess, 0);
-            cacheResult(poketext, ret);
-            return ret;
-        }
-
-        //4. make a wild guess by returning whatever pokemon is closest to the nickname of the pokemon in what we
-        // think is the evolution line from the candy
-        nicknameguess = getNicknameGuess(poketext, pokeInfoCalculator.getPokedex());
-
-        cacheResult(poketext, nicknameguess);
-        return nicknameguess;
+        cacheResult(poketext, guess);
+        return guess;
     }
 
     /**
@@ -127,6 +123,7 @@ public class PokemonNameCorrector {
     /**
      * A method which returns the best guess at which pokemon it is according to similarity with the nickname
      * in the given pokemon list.
+     *
      * @param poketext the nickname to compare with
      * @param pokemons the pokemon list to search the nickname into.
      * @return a pokedist representing the search result.

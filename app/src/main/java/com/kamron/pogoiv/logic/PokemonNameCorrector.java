@@ -50,9 +50,15 @@ public class PokemonNameCorrector {
      * @return a Pokedist with the best guess of the pokemon
      */
     public PokeDist getPossiblePokemon(String poketext, String candytext, Optional<Integer> candyUpgradeCost) {
+        //1. if there's a cached result for the nickname, return that
+        PokeDist cacheGuess = getCacheGuess(poketext);
+        if (cacheGuess != null) {
+            return cacheGuess;
+        }
+
         ArrayList<Pokemon> bestGuessEvolutionLine = getBestGuessForEvolutionLine(candytext);
 
-        //1. if nickname perfectly matches a pokemon, return that
+        //2. if nickname perfectly matches a pokemon, return that
         Pokemon perfectMatch = pokeInfoCalculator.get(poketext);
         if (perfectMatch != null) {
             PokeDist nicknameguess = new PokeDist(perfectMatch, 0);
@@ -60,7 +66,7 @@ public class PokemonNameCorrector {
             return nicknameguess;
         }
 
-        //1.5 if there's no perfect match, get the pokemon that best matches the nickname within the best guess evo-line
+        //2.5 if there's no perfect match, get the pokemon that best matches the nickname within the best guess evo-line
         PokeDist nicknameguess = getNicknameGuess(poketext, bestGuessEvolutionLine);
 
         if (nicknameguess.dist == 0) {
@@ -68,19 +74,13 @@ public class PokemonNameCorrector {
             return nicknameguess;
         }
 
-        //2. if we can get a perfect match with candy name & upgrade cost, return that
+        //3. if we can get a perfect match with candy name & upgrade cost, return that
         Pokemon candyAndUpgradeGuess = getCandyNameEvolutionCostGuess(bestGuessEvolutionLine,
                 candyUpgradeCost);
         if (candyAndUpgradeGuess != null) {
             PokeDist ret = new PokeDist(candyAndUpgradeGuess, 0);
             cacheResult(poketext, ret);
             return ret;
-        }
-
-        //3. if there's a cached result for the nickname, return that
-        PokeDist cacheGuess = getCacheGuess(poketext);
-        if (cacheGuess != null) {
-            return cacheGuess;
         }
 
         //4. make a wild guess by returning whatever pokemon is closest to the nickname of the pokemon in what we

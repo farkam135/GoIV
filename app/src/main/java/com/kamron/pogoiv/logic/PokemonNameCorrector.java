@@ -84,8 +84,10 @@ public class PokemonNameCorrector {
             return cacheGuess;
         }
 
-        //4. make a wild guess by returning whatever pokemon is closest to the nicknamee of the pokemon in what we
+        //4. make a wild guess by returning whatever pokemon is closest to the nickname of the pokemon in what we
         // think is the evolution line from the candy
+        nicknameguess = getNicknameGuess(poketext, pokeInfoCalculator.getPokedex());
+
         cacheResult(poketext, nicknameguess);
         return nicknameguess;
     }

@@ -156,9 +156,9 @@ public class OcrHelper {
      * Get the evolution cost for a pokemon, like getPokemonEvolutionCostFromImg, but without caching.
      *
      * @param evolutionCostImage The precut image of the evolution cost area.
-     * @return the evolution cost, or -1 on no upgrade cost, or -999 on scan failure
+     * @return the evolution cost (or -1 if absent) wrapped in Optional.of(), or Optional.absent() on scan failure
      */
-    private int getPokemonEvolutionCostFromImgUncached(Bitmap evolutionCostImage) {
+    private Optional<Integer> getPokemonEvolutionCostFromImgUncached(Bitmap evolutionCostImage) {
         //clean the image
         //the dark color used for text in pogo is approximately rgb 76,112,114 if you can afford evo
         //and the red color is rgb 255 95 100 when you cant afford the evolution
@@ -171,7 +171,7 @@ public class OcrHelper {
         boolean cannotAffordIsBlank = isOnlyWhite(evolutionCostImageCannotAfford);
         //check if fully evolved
         if (affordIsBlank && cannotAffordIsBlank) { //if there's no red or black text, there's no text at all.
-            return -1;
+            return Optional.of(-1);
         }
 
         //use the correctly refined image (refined for red or black text)
@@ -192,10 +192,10 @@ public class OcrHelper {
             } else if (result == 40) { //second zero hidden behind floating button
                 result = 400; //damn magikarp
             }
+            return Optional.of(result);
         } catch (NumberFormatException e) {
-            result = -999; //could not ocr text
+            return Optional.absent(); //could not ocr text
         }
-        return result;
     }
 
     /**
@@ -203,9 +203,9 @@ public class OcrHelper {
      * If there was no detected upgrade cost, returns -1.
      *
      * @param pokemonImage The image of the full pokemon screen
-     * @return the evolution cost, or -1 on no upgrade cost, or -999 on scan failure
+     * @return the evolution cost (or -1 if absent) wrapped in Optional.of(), or Optional.absent() on scan failure
      */
-    private int getPokemonEvolutionCostFromImg(Bitmap pokemonImage) {
+    private Optional<Integer> getPokemonEvolutionCostFromImg(Bitmap pokemonImage) {
         Bitmap evolutionCostImage =
                 Bitmap.createBitmap(pokemonImage, (int) (widthPixels * 0.625), (int) (heightPixels * 0.86),
                         (int) (widthPixels * 0.2), (int) (heightPixels * 0.05));
@@ -214,10 +214,21 @@ public class OcrHelper {
         //return cache if it exists
         String stringCacheEvoCandyCost = ocrCache.get(hash);
         if (stringCacheEvoCandyCost != null) {
-            return Integer.parseInt(stringCacheEvoCandyCost);
+            //XXX in the cache, we encode "no result" as an empty string. That's a hack.
+            if (stringCacheEvoCandyCost.isEmpty()) {
+                return Optional.absent();
+            } else {
+                return Optional.of(Integer.parseInt(stringCacheEvoCandyCost));
+            }
         }
-        int result = getPokemonEvolutionCostFromImgUncached(evolutionCostImage);
-        String ocrResult = String.valueOf(result); //Store error code instead of scanned value
+        Optional<Integer> result = getPokemonEvolutionCostFromImgUncached(evolutionCostImage);
+        String ocrResult;
+        if (result.isPresent()) {
+            ocrResult = String.valueOf(result); //Store error code instead of scanned value
+        } else {
+            //XXX again, in the cache, we encode "no result" as an empty string.
+            ocrResult = "";
+        }
         ocrCache.put(hash, ocrResult);
         return result;
     }
@@ -503,7 +514,7 @@ public class OcrHelper {
         Optional<Integer> pokemonHP = getPokemonHPFromImg(pokemonImage);
         Optional<Integer> pokemonCP = getPokemonCPFromImg(pokemonImage);
         Optional<Integer> pokemonCandyAmount = getCandyAmountFromImg(pokemonImage);
-        int pokemonUpgradeCost = getPokemonEvolutionCostFromImg(pokemonImage);
+        Optional<Integer> pokemonUpgradeCost = getPokemonEvolutionCostFromImg(pokemonImage);
 
         return new ScanResult(estimatedPokemonLevel, pokemonName, candyName, pokemonHP, pokemonCP,
                 pokemonCandyAmount, pokemonUpgradeCost);

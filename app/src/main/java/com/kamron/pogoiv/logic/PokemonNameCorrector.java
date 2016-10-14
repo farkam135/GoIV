@@ -3,6 +3,8 @@ package com.kamron.pogoiv.logic;
 import android.support.v4.util.Pair;
 import android.util.LruCache;
 
+import com.google.common.base.Optional;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -44,10 +46,10 @@ public class PokemonNameCorrector {
      *
      * @param poketext         the scanned pokemon nickname
      * @param candytext        the scanned pokemon candy name
-     * @param candyUpgradecost the scanned pokemon evolution candy cost
+     * @param candyUpgradeCost the scanned pokemon evolution candy cost
      * @return a Pokedist with the best guess of the pokemon
      */
-    public PokeDist getPossiblePokemon(String poketext, String candytext, int candyUpgradecost) {
+    public PokeDist getPossiblePokemon(String poketext, String candytext, Optional<Integer> candyUpgradeCost) {
 
         //1. if nickname perfectly matches a pokemon, return that
         PokeDist nicknameguess = getNicknameGuess(poketext, candytext);
@@ -57,7 +59,7 @@ public class PokemonNameCorrector {
         }
 
         //2. if we can get a perfect match with candy name & upgrade cost, return that
-        Pokemon candyAndUpgradeGuess = getCandyNameEvolutionCostGuess(candytext, candyUpgradecost);
+        Pokemon candyAndUpgradeGuess = getCandyNameEvolutionCostGuess(candytext, candyUpgradeCost);
         if (candyAndUpgradeGuess != null) {
             PokeDist ret = new PokeDist(candyAndUpgradeGuess.number, 0);
             cacheResult(poketext, ret);
@@ -95,15 +97,14 @@ public class PokemonNameCorrector {
      * @param evolutionCost the scanned cost to evolve the pokemon
      * @return a pokemon that perfectly matches the input, or null if no match was found
      */
-    private Pokemon getCandyNameEvolutionCostGuess(String candyname, int evolutionCost) {
-        int error = -999;
-        if (evolutionCost == error) {
+    private Pokemon getCandyNameEvolutionCostGuess(String candyname, Optional<Integer> evolutionCost) {
+        if (!evolutionCost.isPresent()) {
             return null; //evolution cost scan failed
         }
 
         ArrayList<Pokemon> evolutionLine = getBestGuessForEvolutionLine(candyname);
         for (Pokemon pokemon : evolutionLine) {
-            if (pokemon.candyEvolutionCost == evolutionCost) {
+            if (pokemon.candyEvolutionCost == evolutionCost.get()) {
                 return pokemon;
             }
         }

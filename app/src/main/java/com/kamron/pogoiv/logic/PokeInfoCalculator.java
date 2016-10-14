@@ -70,14 +70,14 @@ public class PokeInfoCalculator {
         pokemap = new HashMap<>();
 
         int pokeListSize = names.length;
-        for (int i = 0; i <= pokeListSize - 1; i++) {
+        for (int i = 0; i < pokeListSize; i++) {
             Pokemon p = new Pokemon(names[i], i, attack[i], defense[i], stamina[i], devolution[i],
                     evolutionCandyCost[i]);
             pokedex.add(p);
             pokemap.put(names[i].toLowerCase(), p);
         }
 
-        for (int i = 0; i <= pokeListSize - 1; i++) {
+        for (int i = 0; i < pokeListSize; i++) {
             if (devolution[i] != -1) {
                 Pokemon devo = pokedex.get(devolution[i]);
                 devo.evolutions.add(pokedex.get(i));

@@ -137,6 +137,7 @@ public class PokemonNameCorrector {
             int dist = trypoke.getDistanceCaseInsensitive(poketext);
             if (dist < lowestDist) {
                 bestMatchPokemon = trypoke;
+                lowestDist = dist;
             }
         }
         return new PokeDist(bestMatchPokemon.number, lowestDist);

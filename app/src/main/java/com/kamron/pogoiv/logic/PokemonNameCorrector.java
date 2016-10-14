@@ -7,6 +7,7 @@ import com.google.common.base.Optional;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import lombok.AllArgsConstructor;
@@ -128,7 +129,7 @@ public class PokemonNameCorrector {
      * @param pokemons the pokemon list to search the nickname into.
      * @return a pokedist representing the search result.
      */
-    private PokeDist getNicknameGuess(String poketext, ArrayList<Pokemon> pokemons) {
+    private PokeDist getNicknameGuess(String poketext, List<Pokemon> pokemons) {
         //if there's no perfect match, get the pokemon that best matches the nickname within the best guess evo-line
         Pokemon bestMatchPokemon = null;
         int lowestDist = Integer.MAX_VALUE;
@@ -167,17 +168,9 @@ public class PokemonNameCorrector {
      * @return an evolution line which the string best matches the base evolution pokemon name
      */
     private ArrayList<Pokemon> getBestGuessForEvolutionLine(String input) {
-        Pokemon bestMatch = null;
-        int lowestDist = Integer.MAX_VALUE;
-        //candy name will only ever match the base evolution
-        for (Pokemon poke : pokeInfoCalculator.getBasePokemons()) {
-            int dist = poke.getDistanceCaseInsensitive(input);
-            if (dist < lowestDist) {
-                bestMatch = poke;
-                lowestDist = dist;
-            }
-        }
-        return pokeInfoCalculator.getEvolutionLine(bestMatch);
+        //candy name will only ever match the base evolution, so search in getBasePokemons().
+        PokeDist bestMatch = getNicknameGuess(input, pokeInfoCalculator.getBasePokemons());
+        return pokeInfoCalculator.getEvolutionLine(pokeInfoCalculator.get(bestMatch.pokemonId));
     }
 
 

@@ -170,10 +170,8 @@ public class PokemonNameCorrector {
     private ArrayList<Pokemon> getBestGuessForEvolutionLine(String input) {
         Pokemon bestMatch = null;
         int lowestDist = Integer.MAX_VALUE;
-        for (Pokemon poke : pokeInfoCalculator.getPokedex()) {
-            if (poke.devoNumber != -1) {
-                continue; //candy name will only ever match the base evolution
-            }
+        //candy name will only ever match the base evolution
+        for (Pokemon poke : pokeInfoCalculator.getBasePokemons()) {
             int dist = poke.getDistanceCaseInsensitive(input);
             if (dist < lowestDist) {
                 bestMatch = poke;

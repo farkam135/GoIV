@@ -1,6 +1,5 @@
 package com.kamron.pogoiv.logic;
 
-import android.support.v4.util.Pair;
 import android.util.LruCache;
 
 import com.google.common.base.Optional;
@@ -21,7 +20,7 @@ public class PokemonNameCorrector {
     private final PokeInfoCalculator pokeInfoCalculator;
     private final HashMap<String, String> userCorrections;
     /* We don't want memory usage to get out of hand for stuff that can be computed. */
-    private final LruCache<String, Pair<String, Integer>> cachedCorrections;
+    private final LruCache<String, PokeDist> cachedCorrections;
 
     public PokemonNameCorrector(PokeInfoCalculator pokeInfoCalculator, Map<String, String> storedUserCorrections) {
         this.pokeInfoCalculator = pokeInfoCalculator;
@@ -99,7 +98,7 @@ public class PokemonNameCorrector {
      * @param cacheValue the value for the pokemon and the distance (how much we estimated)
      */
     private void cacheResult(String poketext, PokeDist cacheValue) {
-        cachedCorrections.put(poketext, new Pair<>(cacheValue.pokemon.name, cacheValue.dist));
+        cachedCorrections.put(poketext, cacheValue);
     }
 
     /**
@@ -185,23 +184,11 @@ public class PokemonNameCorrector {
      */
     private PokeDist getCacheGuess(String poketext) {
         /* If the user previous corrected this text, go with that. */
-        int poketextDist = 0;
-        Pokemon p;
         if (userCorrections.containsKey(poketext)) {
             poketext = userCorrections.get(poketext);
         }
 
-        /* If we already did similarity search for this, go with the cached value. */
-        Pair<String, Integer> cached = cachedCorrections.get(poketext);
-        if (cached != null) {
-            poketext = cached.first;
-            poketextDist = cached.second;
-        }
-        /* If the pokemon name was a perfect match, we are done. */
-        p = pokeInfoCalculator.get(poketext);
-        if (p != null) {
-            return new PokeDist(p, poketextDist);
-        }
-        return null;
+        /* Go with the cached value; if no entry is found, returning null is correct. */
+        return cachedCorrections.get(poketext);
     }
 }

@@ -1689,8 +1689,8 @@ public class Pokefly extends Service {
 
             autoCompleteTextView1.setText("");
             pokeInputSpinnerAdapter.updatePokemonList(
-                    pokeInfoCalculator.getEvolutionLine(pokeInfoCalculator.get(possiblePoke.pokemonId)));
-            int selection = pokeInputSpinnerAdapter.getPosition(pokeInfoCalculator.get(possiblePoke.pokemonId));
+                    pokeInfoCalculator.getEvolutionLine(possiblePoke.pokemon));
+            int selection = pokeInputSpinnerAdapter.getPosition(possiblePoke.pokemon);
             pokeInputSpinner.setSelection(selection);
 
             pokemonHPEdit.setText(optionalIntToString(pokemonHP));

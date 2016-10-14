@@ -56,7 +56,7 @@ public class PokemonNameCorrector {
         //1. if nickname perfectly matches a pokemon, return that
         Pokemon perfectMatch = pokeInfoCalculator.get(poketext);
         if (perfectMatch != null) {
-            PokeDist nicknameguess = new PokeDist(perfectMatch.number, 0);
+            PokeDist nicknameguess = new PokeDist(perfectMatch, 0);
             cacheResult(poketext, nicknameguess);
             return nicknameguess;
         }
@@ -73,7 +73,7 @@ public class PokemonNameCorrector {
         Pokemon candyAndUpgradeGuess = getCandyNameEvolutionCostGuess(bestGuessEvolutionLine,
                 candyUpgradeCost);
         if (candyAndUpgradeGuess != null) {
-            PokeDist ret = new PokeDist(candyAndUpgradeGuess.number, 0);
+            PokeDist ret = new PokeDist(candyAndUpgradeGuess, 0);
             cacheResult(poketext, ret);
             return ret;
         }
@@ -99,7 +99,7 @@ public class PokemonNameCorrector {
      * @param cacheValue the value for the pokemon and the distance (how much we estimated)
      */
     private void cacheResult(String poketext, PokeDist cacheValue) {
-        cachedCorrections.put(poketext, new Pair<>(pokeInfoCalculator.get(cacheValue.pokemonId).name, cacheValue.dist));
+        cachedCorrections.put(poketext, new Pair<>(cacheValue.pokemon.name, cacheValue.dist));
     }
 
     /**
@@ -143,7 +143,7 @@ public class PokemonNameCorrector {
                 lowestDist = dist;
             }
         }
-        return new PokeDist(bestMatchPokemon.number, lowestDist);
+        return new PokeDist(bestMatchPokemon, lowestDist);
     }
 
     /**
@@ -152,9 +152,9 @@ public class PokemonNameCorrector {
     @AllArgsConstructor
     public static class PokeDist {
         /**
-         * A pokemon ID.
+         * A pokemon.
          */
-        public final int pokemonId;
+        public final Pokemon pokemon;
 
         /**
          * A string distance between a searched pokemon name and the name of pokemonId.
@@ -173,7 +173,7 @@ public class PokemonNameCorrector {
     private ArrayList<Pokemon> getBestGuessForEvolutionLine(String input) {
         //candy name will only ever match the base evolution, so search in getBasePokemons().
         PokeDist bestMatch = getNicknameGuess(input, pokeInfoCalculator.getBasePokemons());
-        return pokeInfoCalculator.getEvolutionLine(pokeInfoCalculator.get(bestMatch.pokemonId));
+        return pokeInfoCalculator.getEvolutionLine(bestMatch.pokemon);
     }
 
 
@@ -200,7 +200,7 @@ public class PokemonNameCorrector {
         /* If the pokemon name was a perfect match, we are done. */
         p = pokeInfoCalculator.get(poketext);
         if (p != null) {
-            return new PokeDist(p.number, poketextDist);
+            return new PokeDist(p, poketextDist);
         }
         return null;
     }

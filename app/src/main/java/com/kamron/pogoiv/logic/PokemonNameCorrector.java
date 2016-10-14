@@ -50,8 +50,14 @@ public class PokemonNameCorrector {
      * @return a Pokedist with the best guess of the pokemon
      */
     public PokeDist getPossiblePokemon(String poketext, String candytext, Optional<Integer> candyUpgradeCost) {
+        /* If the user previous corrected this text, go with that. */
+        if (userCorrections.containsKey(poketext)) {
+            poketext = userCorrections.get(poketext);
+        }
+
         //1. if there's a cached result for the nickname, return that
-        PokeDist cacheGuess = getCacheGuess(poketext);
+        /* Go with the cached value; if no entry is found, returning null is correct. */
+        PokeDist cacheGuess = cachedCorrections.get(poketext);
         if (cacheGuess != null) {
             return cacheGuess;
         }
@@ -170,22 +176,5 @@ public class PokemonNameCorrector {
         //candy name will only ever match the base evolution, so search in getBasePokemons().
         PokeDist bestMatch = getNicknameGuess(input, pokeInfoCalculator.getBasePokemons());
         return pokeInfoCalculator.getEvolutionLine(bestMatch.pokemon);
-    }
-
-
-    /**
-     * A method which returns the best guess at which pokemon it is according to the cache module.
-     *
-     * @param poketext the text to search for a cached value with
-     * @return a pokedist with the result if cache exists, if no previous correction, returns null
-     */
-    private PokeDist getCacheGuess(String poketext) {
-        /* If the user previous corrected this text, go with that. */
-        if (userCorrections.containsKey(poketext)) {
-            poketext = userCorrections.get(poketext);
-        }
-
-        /* Go with the cached value; if no entry is found, returning null is correct. */
-        return cachedCorrections.get(poketext);
     }
 }

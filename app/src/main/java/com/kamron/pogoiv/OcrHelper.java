@@ -224,7 +224,7 @@ public class OcrHelper {
         Optional<Integer> result = getPokemonEvolutionCostFromImgUncached(evolutionCostImage);
         String ocrResult;
         if (result.isPresent()) {
-            ocrResult = String.valueOf(result); //Store error code instead of scanned value
+            ocrResult = String.valueOf(result.get()); //Store error code instead of scanned value
         } else {
             //XXX again, in the cache, we encode "no result" as an empty string.
             ocrResult = "";

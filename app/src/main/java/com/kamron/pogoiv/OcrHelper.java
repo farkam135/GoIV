@@ -333,14 +333,11 @@ public class OcrHelper {
      * @return The correct name of the pokemon, with the gender symbol at the end.
      */
     private String getNidoranGenderName(Bitmap pokemonImage) {
-        String returner = "";
-        boolean isFemale = isNidoranFemale(pokemonImage);
-        if (isFemale) {
-            returner = nidoFemale;
+        if (isNidoranFemale(pokemonImage)) {
+            return nidoFemale;
         } else {
-            returner = nidoMale;
+            return nidoMale;
         }
-        return returner;
     }
 
     @NonNull

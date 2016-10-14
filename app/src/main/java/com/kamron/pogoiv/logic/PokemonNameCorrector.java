@@ -70,7 +70,8 @@ public class PokemonNameCorrector {
         }
 
         //2. if we can get a perfect match with candy name & upgrade cost, return that
-        Pokemon candyAndUpgradeGuess = getCandyNameEvolutionCostGuess(candytext, candyUpgradeCost);
+        Pokemon candyAndUpgradeGuess = getCandyNameEvolutionCostGuess(bestGuessEvolutionLine,
+                candyUpgradeCost);
         if (candyAndUpgradeGuess != null) {
             PokeDist ret = new PokeDist(candyAndUpgradeGuess.number, 0);
             cacheResult(poketext, ret);
@@ -104,17 +105,17 @@ public class PokemonNameCorrector {
      * work regardless of whether the pokemon has been renamed or not.
      * Will find the closest match to candy name as assumption
      *
-     * @param candyname     The candy name to search the evolution line of
-     * @param evolutionCost the scanned cost to evolve the pokemon
+     * @param bestGuessEvolutionLine The evolution line guessed from the candy name
+     * @param evolutionCost          the scanned cost to evolve the pokemon
      * @return a pokemon that perfectly matches the input, or null if no match was found
      */
-    private Pokemon getCandyNameEvolutionCostGuess(String candyname, Optional<Integer> evolutionCost) {
+    private Pokemon getCandyNameEvolutionCostGuess(ArrayList<Pokemon> bestGuessEvolutionLine,
+                                                   Optional<Integer> evolutionCost) {
         if (!evolutionCost.isPresent()) {
             return null; //evolution cost scan failed
         }
 
-        ArrayList<Pokemon> evolutionLine = getBestGuessForEvolutionLine(candyname);
-        for (Pokemon pokemon : evolutionLine) {
+        for (Pokemon pokemon : bestGuessEvolutionLine) {
             if (pokemon.candyEvolutionCost == evolutionCost.get()) {
                 return pokemon;
             }

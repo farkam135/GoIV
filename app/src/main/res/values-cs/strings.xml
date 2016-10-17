@@ -70,4 +70,7 @@
     <string name="pokespam_not_available">Nedostupné</string>
     <string name="pokespam_setting_title">Povolit výpočet PokéSpamu</string>
     <string name="pokespam_setting_summary">Umožňuje načítání počtu candy a výpočet množství Pokémonů, které můžeš vyvinout, užitečné s lucky eggem</string>
+    <string name="token_pokemonname">Jméno Pokémona</string>
+    <string name="clipboard_modifier_preview">Náhled</string>
+    <string name="position_handler_toast">Přemísti okno táhnutím tohoto držáku.</string>
 </resources>

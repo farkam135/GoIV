@@ -41,8 +41,12 @@ public class PokemonNameCorrector {
      * Gets the best matching pokemon that can be found given the input, by doing the following:
      * 1. check if the nickname perfectly matches a pokemon
      * 2. check if candyname + evolution cost perfectly matches a pokemon
-     * 3. check if there's a cached result for the scanned pokemon name
-     * 4. get the pokemon with the closest name within the evolution line guessed from the candy
+     * 3. check if there's a cached result for the nickname bitmap hash
+     * 4. check if there's a stored user correction for the scanned pokemon name
+     * 5. get the pokemon with the closest name within the evolution line guessed from the candy
+     * <p>
+     * The order is decided by having high reliability guessing modules run first, and if they cant find an answer,
+     * fall back to less accurate methods.
      *
      * @param poketext         the scanned pokemon nickname
      * @param candytext        the scanned pokemon candy name
@@ -50,45 +54,40 @@ public class PokemonNameCorrector {
      * @return a Pokedist with the best guess of the pokemon
      */
     public PokeDist getPossiblePokemon(String poketext, String candytext, Optional<Integer> candyUpgradeCost) {
-        /* If the user previous corrected this text, go with that. */
-        if (userCorrections.containsKey(poketext)) {
-            poketext = userCorrections.get(poketext);
-        }
-
-        //1. if there's a cached result for the nickname, return that
-        /* Go with the cached value; if no entry is found, returning null is correct. */
-        PokeDist cacheGuess = cachedCorrections.get(poketext);
-        if (cacheGuess != null) {
-            return cacheGuess;
-        }
-
         ArrayList<Pokemon> bestGuessEvolutionLine = getBestGuessForEvolutionLine(candytext);
-        PokeDist guess;
+        PokeDist guess = null;
         //Warning: Don't forget to call cacheResult before exiting. Preferably keep a single return point.
 
-        //2. if nickname perfectly matches a pokemon, return that
-        Pokemon perfectMatch = pokeInfoCalculator.get(poketext);
-        if (perfectMatch != null) {
-            guess = new PokeDist(perfectMatch, 0);
-        } else {
-            //2.5 if there's no perfect match, get the pokemon that best matches the nickname within the best guess
-            // evo-line
-            guess = getNicknameGuess(poketext, bestGuessEvolutionLine);
+        //1. Check if nickname perfectly matches a pokemon (which means pokemon is probably not renamed)
+        guess = new PokeDist(pokeInfoCalculator.get(poketext), 0);
 
-            if (guess.dist != 0) {
-                //3. if we can get a perfect match with candy name & upgrade cost, return that
-                Pokemon candyAndUpgradeGuess = getCandyNameEvolutionCostGuess(bestGuessEvolutionLine,
-                        candyUpgradeCost);
-                if (candyAndUpgradeGuess != null) {
-                    guess = new PokeDist(candyAndUpgradeGuess, 0);
-                } else {
-                    //4. make a wild guess by returning whatever pokemon is closest to the nickname of the pokemon in
-                    // what we think is the evolution line from the candy
-                    guess = getNicknameGuess(poketext, pokeInfoCalculator.getPokedex());
-                }
+        //2. See if we can get a perfect match with candy name & upgrade cost
+        if (guess.pokemon == null) {
+            Pokemon candyAndUpgradeGuess = getCandyNameEvolutionCostGuess(bestGuessEvolutionLine,
+                    candyUpgradeCost);
+            if (candyAndUpgradeGuess != null) {
+                guess = new PokeDist(candyAndUpgradeGuess, 0);
             }
         }
 
+        //3. check if there's a cached guess for the hash of the bitmap of the nickname
+        if (guess.pokemon == null) {
+            PokeDist cacheGuess = cachedCorrections.get(poketext);
+            if (cacheGuess != null) {
+                return cacheGuess;
+            }
+        }
+
+        //4.  If the user previous corrected this text, go with that.
+        if (guess.pokemon == null) {
+            if (userCorrections.containsKey(poketext)) {
+                poketext = userCorrections.get(poketext);
+            }
+        }
+        //5. All else failed: make a wild guess based only on closest name match
+        if (guess.pokemon == null) {
+            guess = getNicknameGuess(poketext, pokeInfoCalculator.getPokedex());
+        }
         cacheResult(poketext, guess);
         return guess;
     }

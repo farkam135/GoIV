@@ -1,10 +1,12 @@
 package com.kamron.pogoiv.logic;
 
-import android.support.v4.util.Pair;
 import android.util.LruCache;
+
+import com.google.common.base.Optional;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import lombok.AllArgsConstructor;
@@ -18,7 +20,7 @@ public class PokemonNameCorrector {
     private final PokeInfoCalculator pokeInfoCalculator;
     private final HashMap<String, String> userCorrections;
     /* We don't want memory usage to get out of hand for stuff that can be computed. */
-    private final LruCache<String, Pair<String, Integer>> cachedCorrections;
+    private final LruCache<String, PokeDist> cachedCorrections;
 
     public PokemonNameCorrector(PokeInfoCalculator pokeInfoCalculator, Map<String, String> storedUserCorrections) {
         this.pokeInfoCalculator = pokeInfoCalculator;
@@ -35,89 +37,143 @@ public class PokemonNameCorrector {
         userCorrections.put(ocredPokemonName, correctedPokemonName);
     }
 
+    /**
+     * Gets the best matching pokemon that can be found given the input, by doing the following:
+     * 1. check if the nickname perfectly matches a pokemon
+     * 2. check if candyname + evolution cost perfectly matches a pokemon
+     * 3. check if there's a cached result for the nickname bitmap hash
+     * 4. check if there's a stored user correction for the scanned pokemon name
+     * 5. get the pokemon with the closest name within the evolution line guessed from the candy
+     *
+     * <p>The order is decided by having high reliability guessing modules run first, and if they cant find an answer,
+     * fall back to less accurate methods.
+     *
+     * @param poketext         the scanned pokemon nickname
+     * @param candytext        the scanned pokemon candy name
+     * @param candyUpgradeCost the scanned pokemon evolution candy cost
+     * @return a Pokedist with the best guess of the pokemon
+     */
+    public PokeDist getPossiblePokemon(String poketext, String candytext, Optional<Integer> candyUpgradeCost) {
+        ArrayList<Pokemon> bestGuessEvolutionLine = getBestGuessForEvolutionLine(candytext);
+        PokeDist guess = null;
+        //Warning: Don't forget to call cacheResult before exiting. Preferably keep a single return point.
+
+        //1. Check if nickname perfectly matches a pokemon (which means pokemon is probably not renamed)
+        guess = new PokeDist(pokeInfoCalculator.get(poketext), 0);
+
+        //2. See if we can get a perfect match with candy name & upgrade cost
+        if (guess.pokemon == null) {
+            Pokemon candyAndUpgradeGuess = getCandyNameEvolutionCostGuess(bestGuessEvolutionLine,
+                    candyUpgradeCost);
+            if (candyAndUpgradeGuess != null) {
+                guess = new PokeDist(candyAndUpgradeGuess, 0);
+            }
+        }
+
+        //3. check if there's a cached guess for the hash of the bitmap of the nickname
+        if (guess.pokemon == null) {
+            PokeDist cacheGuess = cachedCorrections.get(poketext);
+            if (cacheGuess != null) {
+                return cacheGuess;
+            }
+        }
+
+        //4.  If the user previous corrected this text, go with that.
+        if (guess.pokemon == null) {
+            if (userCorrections.containsKey(poketext)) {
+                poketext = userCorrections.get(poketext);
+            }
+        }
+        //5. All else failed: make a wild guess based only on closest name match
+        if (guess.pokemon == null) {
+            guess = getNicknameGuess(poketext, pokeInfoCalculator.getPokedex());
+        }
+        cacheResult(poketext, guess);
+        return guess;
+    }
+
+    /**
+     * Cache a result.
+     *
+     * @param poketext   the text to put in the cache as the scanned nickname
+     * @param cacheValue the value for the pokemon and the distance (how much we estimated)
+     */
+    private void cacheResult(String poketext, PokeDist cacheValue) {
+        cachedCorrections.put(poketext, cacheValue);
+    }
+
+    /**
+     * A method which returns if there's a pokemon which matches the candy name & evolution cost. This method will
+     * work regardless of whether the pokemon has been renamed or not.
+     * Will find the closest match to candy name as assumption
+     *
+     * @param bestGuessEvolutionLine The evolution line guessed from the candy name
+     * @param evolutionCost          the scanned cost to evolve the pokemon
+     * @return a pokemon that perfectly matches the input, or null if no match was found
+     */
+    private Pokemon getCandyNameEvolutionCostGuess(ArrayList<Pokemon> bestGuessEvolutionLine,
+                                                   Optional<Integer> evolutionCost) {
+        if (evolutionCost.isPresent()) {
+            for (Pokemon pokemon : bestGuessEvolutionLine) {
+                if (pokemon.candyEvolutionCost == evolutionCost.get()) {
+                    return pokemon;
+                }
+            }
+        }
+
+        //evolution cost scan failed, or no match
+        return null;
+    }
+
+    /**
+     * A method which returns the best guess at which pokemon it is according to similarity with the nickname
+     * in the given pokemon list.
+     *
+     * @param poketext the nickname to compare with
+     * @param pokemons the pokemon list to search the nickname into.
+     * @return a pokedist representing the search result.
+     */
+    private PokeDist getNicknameGuess(String poketext, List<Pokemon> pokemons) {
+        //if there's no perfect match, get the pokemon that best matches the nickname within the best guess evo-line
+        Pokemon bestMatchPokemon = null;
+        int lowestDist = Integer.MAX_VALUE;
+        for (Pokemon trypoke : pokemons) {
+            int dist = trypoke.getDistanceCaseInsensitive(poketext);
+            if (dist < lowestDist) {
+                bestMatchPokemon = trypoke;
+                lowestDist = dist;
+            }
+        }
+        return new PokeDist(bestMatchPokemon, lowestDist);
+    }
+
+    /**
+     * A class representing a result of pokemon search.
+     */
     @AllArgsConstructor
     public static class PokeDist {
-        public final int pokemonId;
+        /**
+         * A pokemon.
+         */
+        public final Pokemon pokemon;
+
+        /**
+         * A string distance between a searched pokemon name and the name of pokemonId.
+         * Since it's a distance, the smaller it is the closer is the match.
+         */
         public final int dist;
     }
 
     /**
-     * Compute the most likely pokemon ID based on the pokemon and candy names.
+     * Get the evolution line which closest matches the string. The string is supposed to be the base evolution of a
+     * line.
      *
-     * @return a PokeDist with pokemon ID and distance.
+     * @param input the base evolution (ex weedle) to find a match for
+     * @return an evolution line which the string best matches the base evolution pokemon name
      */
-    public PokeDist getPossiblePokemon(String poketext, String candytext) {
-        int poketextDist = 0;
-        int bestCandyMatch = Integer.MAX_VALUE;
-        Pokemon p;
-
-        /* If the user previous corrected this text, go with that. */
-        if (userCorrections.containsKey(poketext)) {
-            poketext = userCorrections.get(poketext);
-        }
-
-        /* If we already did similarity search for this, go with the cached value. */
-        Pair<String, Integer> cached = cachedCorrections.get(poketext);
-        if (cached != null) {
-            poketext = cached.first;
-            poketextDist = cached.second;
-        }
-
-        /* If the pokemon name was a perfect match, we are done. */
-        p = pokeInfoCalculator.get(poketext);
-        if (p != null) {
-            return new PokeDist(p.number, poketextDist);
-        }
-
-        /* If not, we limit the Pokemon search by candy name first since fewer valid candy names
-         * options should mean fewer false matches. */
-        p = pokeInfoCalculator.get(candytext);
-
-        /* If we can't find perfect candy match, do a distance/similarity based match */
-        if (p == null) {
-            for (Pokemon trypoke : pokeInfoCalculator.getPokedex()) {
-                /* Candy names won't match evolutions */
-                if (trypoke.devoNumber != -1) {
-                    continue;
-                }
-
-                int dist = trypoke.getDistanceCaseInsensitive(candytext);
-                if (dist < bestCandyMatch) {
-                    p = trypoke;
-                    bestCandyMatch = dist;
-                }
-            }
-            assert p != null;
-        } else {
-            bestCandyMatch = 0;
-        }
-
-        /* Search through all the pokemon with the same candy name and pick the one with the best
-         * match to the pokemon name (not the candy name) */
-        ArrayList<Pokemon> candylist = new ArrayList<>();
-        candylist.add(p);
-        candylist.addAll(p.evolutions);
-        /* If the base pokemon has only one evolution, they we consider another level of evolution */
-        if (p.evolutions.size() == 1) {
-            candylist.addAll(p.evolutions.get(0).evolutions);
-        }
-
-        int bestMatch = Integer.MAX_VALUE;
-        for (Pokemon candyp : candylist) {
-            int dist = candyp.getDistance(poketext);
-            if (dist < bestMatch) {
-                p = candyp;
-                bestMatch = dist;
-            }
-        }
-
-        /* Adding the candy distance and the pokemon name distance gives a better idea of how much
-         * guess is going on. */
-        int dist = bestCandyMatch + bestMatch;
-
-        /* Cache this correction. We don't really need to save this across launches. */
-        cachedCorrections.put(poketext, new Pair<>(p.name, dist));
-
-        return new PokeDist(p.number, dist);
+    private ArrayList<Pokemon> getBestGuessForEvolutionLine(String input) {
+        //candy name will only ever match the base evolution, so search in getBasePokemons().
+        PokeDist bestMatch = getNicknameGuess(input, pokeInfoCalculator.getBasePokemons());
+        return pokeInfoCalculator.getEvolutionLine(bestMatch.pokemon);
     }
 }

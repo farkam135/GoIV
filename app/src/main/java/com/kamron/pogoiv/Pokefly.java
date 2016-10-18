@@ -749,6 +749,7 @@ public class Pokefly extends Service {
 
     /**
      * Saves the current Info Window location to shared preferences.
+     *
      * @param appraisalWindowPosition Current Info Window Y offset for appraisal mode.
      */
     private void saveWindowPosition(int appraisalWindowPosition) {

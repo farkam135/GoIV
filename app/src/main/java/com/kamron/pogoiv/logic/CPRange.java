@@ -15,6 +15,7 @@ public class CPRange {
 
     /**
      * Compute integer average of the CP range.
+     *
      * @return Integer average of this CP range, truncated.
      */
     public int getAvg() {
@@ -23,6 +24,7 @@ public class CPRange {
 
     /**
      * Compute floating-point average of the CP range.
+     *
      * @return Double average of this CP range.
      */
     public double getFloatingAvg() {

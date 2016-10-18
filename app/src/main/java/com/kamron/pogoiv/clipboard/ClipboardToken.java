@@ -121,6 +121,7 @@ public abstract class ClipboardToken {
 
     /**
      * Get which category the token should be listed under.
+     *
      * @return A category name.
      */
     public abstract String getCategory();
@@ -129,6 +130,7 @@ public abstract class ClipboardToken {
     /**
      * Whether this token has logic which changes depending on if the maxEv boolean is set or not. For example, IV
      * does not change regardless of what evolution then pokemon is, but base stats do.
+     *
      * @return true if the token logic changes when maxEv is active.
      */
     public abstract boolean changesOnEvolutionMax();

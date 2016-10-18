@@ -17,9 +17,9 @@ import java.util.ArrayList;
 
 /**
  * Created by Johan on 2016-09-24.
- *
+ * <p>
  * <p>A class which keeps track of all the clipboardtokens that have been created
- *
+ * <p>
  * <p>Whenever a ClipboardToken is edited, the change needs to be reflected here.
  */
 

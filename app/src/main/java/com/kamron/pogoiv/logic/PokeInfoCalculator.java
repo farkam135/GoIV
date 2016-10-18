@@ -211,10 +211,10 @@ public class PokeInfoCalculator {
      * <p/>
      * Returns a string on the form of "\n CP at lvl X: A - B" where x is the pokemon level, A is minCP and B is maxCP
      *
-     * @param pokemon     the index of the pokemon species within the pokemon list (sorted)
-     * @param low         combination of lowest IVs
-     * @param high        combination of highest IVs
-     * @param level       pokemon level for CP calculation
+     * @param pokemon the index of the pokemon species within the pokemon list (sorted)
+     * @param low     combination of lowest IVs
+     * @param high    combination of highest IVs
+     * @param level   pokemon level for CP calculation
      * @return CPrange containing the CP range including the specified level.
      */
     public CPRange getCpRangeAtLevel(Pokemon pokemon, IVCombination low, IVCombination high, double level) {

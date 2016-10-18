@@ -218,6 +218,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Method that navigates the user to the custom clipboard builder activity.
+     *
      * @param v Param required for the xml onclick to work.
      */
     public void navigateToClipboardModifier(View v) {

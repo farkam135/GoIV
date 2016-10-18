@@ -44,8 +44,8 @@ public class PokemonNameCorrector {
      * 3. check if there's a cached result for the nickname bitmap hash
      * 4. check if there's a stored user correction for the scanned pokemon name
      * 5. get the pokemon with the closest name within the evolution line guessed from the candy
-     * <p>
-     * The order is decided by having high reliability guessing modules run first, and if they cant find an answer,
+     *
+     * <p>The order is decided by having high reliability guessing modules run first, and if they cant find an answer,
      * fall back to less accurate methods.
      *
      * @param poketext         the scanned pokemon nickname

@@ -458,7 +458,7 @@ public class OcrHelper {
         }
 
         try {
-            return Optional.of(Integer.parseInt(cpText));
+            return Optional.of(Integer.parseInt(fixOcrLettersToNums(cpText)));
         } catch (NumberFormatException e) {
             return Optional.absent();
         }

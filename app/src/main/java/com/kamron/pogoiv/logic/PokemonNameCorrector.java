@@ -71,17 +71,23 @@ public class PokemonNameCorrector {
         }
 
         //3. check if there's a cached guess for the hash of the bitmap of the nickname
+        //TODO
+        // Cacheguess and userCorrections are two different caches, one checks for the bitmap cache, one
+        // checks for the scanned string cache, however the bitmap cache does not seem to save properly - I'm
+        // disabling this module until it's been fixed. - Though we could maybe remove this guessing module altogether.
+        /*
         if (guess.pokemon == null) {
             PokeDist cacheGuess = cachedCorrections.get(poketext);
             if (cacheGuess != null) {
-                return cacheGuess;
+                guess =  new PokeDist(cacheGuess.pokemon, cacheGuess.dist);
             }
-        }
+        }*/
 
         //4.  If the user previous corrected this text, go with that.
         if (guess.pokemon == null) {
             if (userCorrections.containsKey(poketext)) {
                 poketext = userCorrections.get(poketext);
+                guess = new PokeDist(pokeInfoCalculator.get(poketext), 20);
             }
         }
         //5. All else failed: make a wild guess based only on closest name match
@@ -114,12 +120,17 @@ public class PokemonNameCorrector {
     private Pokemon getCandyNameEvolutionCostGuess(ArrayList<Pokemon> bestGuessEvolutionLine,
                                                    Optional<Integer> evolutionCost) {
         if (evolutionCost.isPresent()) {
+            if (bestGuessEvolutionLine.get(0).evolutions.size() > 1 && evolutionCost.get() == -1){
+                return null; //found multiple possible evolutions, dont know which one is the real answer
+            }
+
             for (Pokemon pokemon : bestGuessEvolutionLine) {
                 if (pokemon.candyEvolutionCost == evolutionCost.get()) {
                     return pokemon;
                 }
             }
         }
+
 
         //evolution cost scan failed, or no match
         return null;

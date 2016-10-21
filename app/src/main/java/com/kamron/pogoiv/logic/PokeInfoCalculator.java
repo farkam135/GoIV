@@ -1,5 +1,7 @@
 package com.kamron.pogoiv.logic;
 
+import com.google.common.base.Optional;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -164,7 +166,7 @@ public class PokeInfoCalculator {
      * many possibilities.
      */
     public IVScanResult getIVPossibilities(Pokemon selectedPokemon, double estimatedPokemonLevel, int pokemonHP,
-                                           int pokemonCP) {
+                                           int pokemonCP, String uniquePokemonID) {
         int baseAttack = selectedPokemon.baseAttack;
         int baseDefense = selectedPokemon.baseDefense;
         int baseStamina = selectedPokemon.baseStamina;
@@ -200,6 +202,8 @@ public class PokeInfoCalculator {
         } else {
             returner = ScanContainer.createIVScanResult(selectedPokemon, estimatedPokemonLevel, pokemonCP, true);
         }
+        returner.scannedHP = pokemonHP;
+        returner.uniquePokemonID = uniquePokemonID;
         return returner;
     }
 

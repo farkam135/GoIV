@@ -67,6 +67,9 @@ import com.kamron.pogoiv.logic.UpgradeCost;
 import com.kamron.pogoiv.widgets.IVResultsAdapter;
 import com.kamron.pogoiv.widgets.PokemonSpinnerAdapter;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -103,6 +106,7 @@ public class Pokefly extends Service {
     private static final String KEY_SEND_SCREENSHOT_FILE = "key_send_screenshot_file";
     private static final String KEY_SEND_INFO_CANDY_AMOUNT = "key_send_info_candy_amount";
     private static final String KEY_SEND_UPGRADE_CANDY_COST = "key_send_upgrade_candy_cost";
+    private static final String KEY_SEND_UNIQUE_ID = "key_send_unique_id";
 
     private static final String ACTION_PROCESS_BITMAP = "com.kamron.pogoiv.PROCESS_BITMAP";
     private static final String KEY_BITMAP = "bitmap";
@@ -154,6 +158,8 @@ public class Pokefly extends Service {
     @BindView(R.id.pokePickerToggleSpinnerVsInput)
     Button pokePickerToggleSpinnerVsInput;
 
+    @BindView(R.id.shareWithStorimod)
+    Button shareWithStorimod;
 
     private PokemonSpinnerAdapter pokeInputSpinnerAdapter;
     @BindView(R.id.spnPokemonName)
@@ -285,6 +291,7 @@ public class Pokefly extends Service {
     private Optional<Integer> pokemonCP = Optional.absent();
     private Optional<Integer> pokemonHP = Optional.absent();
     private Optional<Integer> candyUpgradeCost = Optional.absent();
+    private String pokemonUniqueID = "";
     private double estimatedPokemonLevel = 1.0;
     private @NonNull Optional<String> screenShotPath = Optional.absent();
 
@@ -339,6 +346,7 @@ public class Pokefly extends Service {
         intent.putExtra(KEY_SEND_SCREENSHOT_FILE, filePath);
         intent.putExtra(KEY_SEND_INFO_CANDY_AMOUNT, scanResult.getPokemonCandyAmount());
         intent.putExtra(KEY_SEND_UPGRADE_CANDY_COST, scanResult.getUpgradeCandyCost());
+        intent.putExtra(KEY_SEND_UNIQUE_ID, scanResult.getPokemonUniqueID());
     }
 
     public static Intent createProcessBitmapIntent(Bitmap bitmap, String file) {
@@ -910,6 +918,39 @@ public class Pokefly extends Service {
         }
     }
 
+    @OnClick({R.id.shareWithStorimod})
+    /**
+     * Creates an intent to share the result of the pokemon scan
+     */
+    public void shareScannedPokemonInformation() {
+        Toast.makeText(this, "Pressed", Toast.LENGTH_LONG);
+        IVScanResult ivScan = ScanContainer.scanContainer.currScan;
+
+        JSONObject jsonPokemon = new JSONObject();
+        try {
+            jsonPokemon.put("PokemonId", ivScan.pokemon.number + 1);
+            jsonPokemon.put("AtkMin", ivScan.lowAttack);
+            jsonPokemon.put("AtkMax", ivScan.highAttack);
+            jsonPokemon.put("DefMin", ivScan.lowDefense);
+            jsonPokemon.put("DefMax", ivScan.highDefense);
+            jsonPokemon.put("StamMin", ivScan.lowStamina);
+            jsonPokemon.put("StamMax", ivScan.highStamina);
+            jsonPokemon.put("OverallPower", ivScan.getAveragePercent());
+            jsonPokemon.put("Hp", ivScan.scannedHP);
+            jsonPokemon.put("Cp", ivScan.scannedCP);
+            jsonPokemon.put("uniquePokemon", ivScan.uniquePokemonID);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, jsonPokemon.toString());
+        sendIntent.setType("application/pokemon-stats");
+        sendIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(sendIntent);
+    }
+
     private void resetToSpinner() {
         autoCompleteTextView1.setVisibility(View.GONE);
         pokeInputSpinner.setVisibility(View.VISIBLE);
@@ -1070,8 +1111,7 @@ public class Pokefly extends Service {
         rememberUserInputForPokemonNameIfNewNickname(pokemon);
 
         IVScanResult ivScanResult = pokeInfoCalculator.getIVPossibilities(pokemon, estimatedPokemonLevel,
-                pokemonHP.get(),
-                pokemonCP.get());
+                pokemonHP.get(), pokemonCP.get(), pokemonUniqueID);
 
         refineByAvailableAppraisalInfo(ivScanResult);
 
@@ -1820,12 +1860,15 @@ public class Pokefly extends Service {
                             (Optional<Integer>) intent.getSerializableExtra(KEY_SEND_INFO_CANDY_AMOUNT);
                     @SuppressWarnings("unchecked") Optional<Integer> lCandyUpgradeCost =
                             (Optional<Integer>) intent.getSerializableExtra(KEY_SEND_UPGRADE_CANDY_COST);
+                    @SuppressWarnings("unchecked") String lUniqueID =
+                            (String) intent.getSerializableExtra(KEY_SEND_UNIQUE_ID);
 
                     screenShotPath = lScreenShotFile;
                     pokemonCP = lPokemonCP;
                     pokemonHP = lPokemonHP;
                     pokemonCandy = lCandyAmount;
                     candyUpgradeCost = lCandyUpgradeCost;
+                    pokemonUniqueID = lUniqueID;
 
                     estimatedPokemonLevel = intent.getDoubleExtra(KEY_SEND_INFO_LEVEL, estimatedPokemonLevel);
                     if (estimatedPokemonLevel < 1.0) {

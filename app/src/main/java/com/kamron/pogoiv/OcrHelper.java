@@ -451,11 +451,20 @@ public class OcrHelper {
                 (int) Math.round(heightPixels / 21.333333333));
         cp = replaceColors(cp, true, 255, 255, 255, Color.BLACK, 30, false);
         tesseract.setImage(cp);
-        String cpText = fixOcrLettersToNums(tesseract.getUTF8Text());
-        cp.recycle();
+        String cpText = tesseract.getUTF8Text();
+
+        /*
+         * Always remove the two first characters instead of non-numbers: the "CP" text is 
+         * sometimes OCR'ed to something containing numbers (e.g. cp, cP, Cp, c3, s3, 73, 53 etc),
+         * depending on backgrounds/screen sizes, but it's always OCRed as two characters.
+         * This also appears true for translations.
+         */
+        if (cpText.length() >= 2) { //gastly can block the "cp" text, so its not visible...
+            cpText = cpText.substring(2); //remove "cp".
+        }
 
         try {
-            return Optional.of(Integer.parseInt(cpText));
+            return Optional.of(Integer.parseInt(fixOcrLettersToNums(cpText)));
         } catch (NumberFormatException e) {
             return Optional.absent();
         }

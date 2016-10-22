@@ -1,7 +1,5 @@
 package com.kamron.pogoiv.logic;
 
-import com.google.common.base.Optional;
-
 import lombok.Getter;
 
 /**
@@ -20,7 +18,7 @@ public class PokeSpam {
     private int amountXPWithLuckyEgg;
 
     public PokeSpam(int candyPlayerHas, int candyEvolutionCost) {
-        calculatePokeSpam(candyPlayerHas, candyEvolutionCost, DEFAULT_BONUS);
+        this(candyPlayerHas, candyEvolutionCost, DEFAULT_BONUS);
     }
 
     /**
@@ -30,8 +28,8 @@ public class PokeSpam {
      * @param candyEvolutionCost How much candy it cost to evolve the pokemon
      * @param bonus              How much bonus for evolving, for example 1 is for regular evolve, 2 is for transferring
      */
-    public PokeSpam(int candyPlayerHas, int candyEvolutionCost, Optional<Integer> bonus) {
-        calculatePokeSpam(candyPlayerHas, candyEvolutionCost, bonus.or(DEFAULT_BONUS));
+    public PokeSpam(int candyPlayerHas, int candyEvolutionCost, int bonus) {
+        calculatePokeSpam(candyPlayerHas, candyEvolutionCost, bonus);
     }
 
     /**

@@ -120,7 +120,7 @@ public class PokemonNameCorrector {
     private Pokemon getCandyNameEvolutionCostGuess(ArrayList<Pokemon> bestGuessEvolutionLine,
                                                    Optional<Integer> evolutionCost) {
         if (evolutionCost.isPresent()) {
-            if (bestGuessEvolutionLine.get(0).evolutions.size() > 1 && evolutionCost.get() == -1){
+            if (bestGuessEvolutionLine.get(0).evolutions.size() > 1 && evolutionCost.get() == -1) {
                 return null; //found multiple possible evolutions, dont know which one is the real answer
             }
 

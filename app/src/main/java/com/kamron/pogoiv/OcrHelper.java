@@ -488,7 +488,7 @@ public class OcrHelper {
             return Optional.absent();
         }
 
-        Bitmap candyAmount = getImageCrop(pokemonImage, 0.66, 0.7, 0.2, 0.03);
+        Bitmap candyAmount = getImageCrop(pokemonImage, 0.65, 0.7, 0.15, 0.035);
         String hash = "candyAmount" + hashBitmap(candyAmount);
         String pokemonCandyStr = ocrCache.get(hash);
 

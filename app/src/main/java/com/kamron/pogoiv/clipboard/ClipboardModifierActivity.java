@@ -3,7 +3,6 @@ package com.kamron.pogoiv.clipboard;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.GridLayout;
@@ -62,7 +61,7 @@ public class ClipboardModifierActivity extends AppCompatActivity {
         for (ClipboardToken clipboardToken : cth.getTokens()) {
 
             TextView tokenEditingBox = new TextView(this);
-            tokenEditingBox.setText(clipboardToken.getPreview() + " ❌");
+            tokenEditingBox.setText(clipboardToken.getTokenName(this) + "\n" + clipboardToken.getPreview() + " ❌");
             tokenEditingBox.setPadding(0, 0, 0, 0);
             tokenEditingBox.setBackgroundColor(Color.parseColor("#fadede"));
 
@@ -173,7 +172,7 @@ public class ClipboardModifierActivity extends AppCompatActivity {
      * @param v needed for onclick xml.
      */
     public void addToken(View v) {
-        if (selectedToken != null){
+        if (selectedToken != null) {
             cth.addToken(selectedToken);
             updateEditField();
             updateClipPreview();
@@ -183,12 +182,22 @@ public class ClipboardModifierActivity extends AppCompatActivity {
 
     }
 
+
+    /**
+     * Finishes and exits the activity.
+     *
+     * @param v needed for onclick xml.
+     */
+    public void saveAndExit(View v) {
+        finish();
+    }
+
     /**
      * Updates the preview string and length indicator..
      */
     public void updateClipPreview() {
         clipboardPreview.setText(cth.getPreviewString());
-        clipboardMaxLength.setText("(" + cth.getMaxLength() + ")");
+        clipboardMaxLength.setText("(" + cth.getMaxLength() + " characters)");
     }
 
     /**

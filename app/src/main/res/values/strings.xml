@@ -139,4 +139,5 @@
     <string name="token_pokemonname">Pokémon name</string>
     <string name="clipboard_modifier_preview">Preview</string>
     <string name="position_handler_toast">Drag the window by this handler to relocate it.</string>
+    <string name="clipboard_no_token_selected">Please choose a token to add from the scrollable list.</string>
 </resources>

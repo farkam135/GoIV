@@ -3,11 +3,13 @@ package com.kamron.pogoiv.clipboard;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.kamron.pogoiv.R;
 
@@ -170,9 +172,14 @@ public class ClipboardModifierActivity extends AppCompatActivity {
      * @param v needed for onclick xml.
      */
     public void addToken(View v) {
-        cth.addToken(selectedToken);
-        updateEditField();
-        updateClipPreview();
+        if (selectedToken != null){
+            cth.addToken(selectedToken);
+            updateEditField();
+            updateClipPreview();
+        } else {
+            Toast.makeText(this, R.string.clipboard_no_token_selected, Toast.LENGTH_LONG).show();
+        }
+
     }
 
     /**

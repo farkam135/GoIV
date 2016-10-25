@@ -10,7 +10,6 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.graphics.Point;
 import android.graphics.Rect;
 import android.media.projection.MediaProjection;
 import android.media.projection.MediaProjectionManager;
@@ -26,14 +25,11 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.LinkMovementMethod;
-import android.util.DisplayMetrics;
-import android.view.Display;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.NumberPicker;
@@ -41,7 +37,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.kamron.pogoiv.clipboard.ClipboardModifierActivity;
-import com.kamron.pogoiv.logic.Data;
 import com.kamron.pogoiv.updater.AppUpdate;
 import com.kamron.pogoiv.updater.AppUpdateUtil;
 import com.kamron.pogoiv.updater.DownloadUpdateService;
@@ -63,17 +58,12 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences sharedPref;
     private ScreenGrabber screen;
 
-    private DisplayMetrics displayMetrics;
-    private DisplayMetrics rawDisplayMetrics;
-
     private boolean batterySaver;
 
     private int trainerLevel;
 
     private Button launchButton;
 
-    private final Point arcInit = new Point();
-    private int arcRadius;
     private final BroadcastReceiver pokeflyStateChanged = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -164,12 +154,6 @@ public class MainActivity extends AppCompatActivity {
         npTrainerLevel.setWrapSelectorWheel(false);
         npTrainerLevel.setValue(trainerLevel);
 
-        displayMetrics = this.getResources().getDisplayMetrics();
-        WindowManager windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
-        rawDisplayMetrics = new DisplayMetrics();
-        Display disp = windowManager.getDefaultDisplay();
-        disp.getRealMetrics(rawDisplayMetrics);
-
         launchButton = (Button) findViewById(R.id.start);
         launchButton.setOnClickListener(new View.OnClickListener() {
 
@@ -189,10 +173,10 @@ public class MainActivity extends AppCompatActivity {
                     }
                 } else if (!Pokefly.isRunning()) {
                     batterySaver = settings.isManualScreenshotModeEnabled();
-                    setupDisplaySizeInfo();
                     trainerLevel = setupTrainerLevel(npTrainerLevel);
 
-                    Data.setupArcPoints(arcInit, arcRadius, trainerLevel);
+                    ScreenInfo.init(MainActivity.this);
+                    ScreenInfo.getInstance().setupArcPoints(trainerLevel);
 
                     if (batterySaver) {
                         startPokeFly();
@@ -246,23 +230,6 @@ public class MainActivity extends AppCompatActivity {
 
         });
         spinner.setSelection(settings.playerTeam());
-    }
-
-    private void setupDisplaySizeInfo() {
-        arcInit.x = (int) (displayMetrics.widthPixels * 0.5);
-
-        arcInit.y = (int) Math.floor(displayMetrics.heightPixels / 2.803943);
-        if (displayMetrics.heightPixels == 2392 || displayMetrics.heightPixels == 800) {
-            arcInit.y--;
-        } else if (displayMetrics.heightPixels == 1920) {
-            arcInit.y++;
-        }
-
-        arcRadius = (int) Math.round(displayMetrics.heightPixels / 4.3760683);
-        if (displayMetrics.heightPixels == 1776 || displayMetrics.heightPixels == 960
-                || displayMetrics.heightPixels == 800) {
-            arcRadius++;
-        }
     }
 
     private int setupTrainerLevel(NumberPicker npTrainerLevel) {
@@ -381,7 +348,7 @@ public class MainActivity extends AppCompatActivity {
                 MediaProjectionManager projectionManager = (MediaProjectionManager) getSystemService(
                         Context.MEDIA_PROJECTION_SERVICE);
                 MediaProjection mProjection = projectionManager.getMediaProjection(resultCode, data);
-                screen = ScreenGrabber.init(mProjection, rawDisplayMetrics, displayMetrics);
+                screen = ScreenGrabber.init(mProjection, ScreenInfo.getInstance());
 
                 startPokeFly();
             } else {

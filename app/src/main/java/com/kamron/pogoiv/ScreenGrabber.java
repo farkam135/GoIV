@@ -33,9 +33,9 @@ public class ScreenGrabber {
     private VirtualDisplay virtualDisplay;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private ScreenGrabber(MediaProjection mediaProjection, DisplayMetrics raw, DisplayMetrics display) {
-        rawDisplayMetrics = raw;
-        displayMetrics = display;
+    private ScreenGrabber(MediaProjection mediaProjection, ScreenInfo screenInfo) {
+        rawDisplayMetrics = screenInfo.getRawDisplayMetrics();
+        displayMetrics = screenInfo.getDisplayMetrics();
         projection = mediaProjection;
         imageReader = ImageReader.newInstance(rawDisplayMetrics.widthPixels, rawDisplayMetrics.heightPixels,
                 PixelFormat.RGBA_8888, 2);
@@ -45,9 +45,9 @@ public class ScreenGrabber {
                 null, null);
     }
 
-    public static ScreenGrabber init(MediaProjection mediaProjection, DisplayMetrics raw, DisplayMetrics display) {
+    public static ScreenGrabber init(MediaProjection mediaProjection, ScreenInfo screenInfo) {
         if (instance == null) {
-            instance = new ScreenGrabber(mediaProjection, raw, display);
+            instance = new ScreenGrabber(mediaProjection, screenInfo);
         }
         return instance;
     }

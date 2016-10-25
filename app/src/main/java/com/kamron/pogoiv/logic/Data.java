@@ -1,7 +1,5 @@
 package com.kamron.pogoiv.logic;
 
-import android.graphics.Point;
-
 /**
  * Created by Pascal on 17.08.2016.
  */
@@ -24,38 +22,6 @@ public class Data {
             0.752729099732281, 0.75568550825119, 0.758630370209851, 0.761563837528229, 0.76448604959218,
             0.767397165298462, 0.770297293677362, 0.773186504840851, 0.776064947064992, 0.778932750225067,
             0.781790050767666, 0.784636974334717, 0.787473608513275, 0.790300011634827};
-
-    public static int[] arcX;
-    public static int[] arcY;
-
-    /**
-     * setupArcPoints
-     * Sets up the x,y coordinates of the arc using the trainer level, stores it in Data.arcX/arcY
-     */
-    public static void setupArcPoints(Point arcInit, int arcRadius, int trainerLevel) {
-        /*
-         * Pokemon levels go from 1 to trainerLevel + 1.5, in increments of 0.5.
-         * Here we use levelIdx for levels that are doubled and shifted by - 2; after this adjustment,
-         * the level can be used to index CpM, arcX and arcY.
-         */
-        int maxPokeLevelIdx = trainerLevelToMaxPokeLevelIdx(trainerLevel);
-        arcX = new int[maxPokeLevelIdx + 1]; //We access entries [0..maxPokeLevelIdx], hence + 1.
-        arcY = new int[maxPokeLevelIdx + 1];
-
-        double baseCpM = CpM[0];
-        //TODO: debug this formula when we get to the end of CpM (that is, levels 39/40).
-        double maxPokeCpMDelta = CpM[Math.min(maxPokeLevelIdx + 1, CpM.length - 1)] - baseCpM;
-
-        //pokeLevelIdx <= maxPokeLevelIdx ensures we never overflow CpM/arc/arcY.
-        for (int pokeLevelIdx = 0; pokeLevelIdx <= maxPokeLevelIdx; pokeLevelIdx++) {
-            double pokeCurrCpMDelta = CpM[pokeLevelIdx] - baseCpM;
-            double arcRatio = pokeCurrCpMDelta / maxPokeCpMDelta;
-            double angleInRadians = (arcRatio + 1) * Math.PI;
-
-            arcX[pokeLevelIdx] = (int) (arcInit.x + (arcRadius * Math.cos(angleInRadians)));
-            arcY[pokeLevelIdx] = (int) (arcInit.y + (arcRadius * Math.sin(angleInRadians)));
-        }
-    }
 
     /**
      * Convert a pokemon/trainer level to a <em>level index</em> (<code>levelIdx</code> in code).
@@ -86,7 +52,15 @@ public class Data {
      * @return Associated CpM.
      */
     public static double getLevelCpM(double level) {
-        return CpM[levelToLevelIdx(level)];
+        return getLevelIdxCpM(levelToLevelIdx(level));
+    }
+
+    public static double getLevelIdxCpM(int levelIdx) {
+        return CpM[levelIdx];
+    }
+
+    public static int getCpMLength() {
+        return CpM.length;
     }
 
     /**

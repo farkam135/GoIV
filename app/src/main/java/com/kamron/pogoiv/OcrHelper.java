@@ -2,6 +2,7 @@ package com.kamron.pogoiv;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.support.annotation.NonNull;
 import android.util.LruCache;
 
@@ -143,9 +144,8 @@ public class OcrHelper {
         double estimatedPokemonLevel = Data.trainerLevelToMaxPokeLevel(trainerLevel);
         for (double estPokemonLevel = estimatedPokemonLevel; estPokemonLevel >= 1.0; estPokemonLevel -= 0.5) {
             int index = Data.levelToLevelIdx(estPokemonLevel);
-            int x = Data.arcX[index];
-            int y = Data.arcY[index];
-            if (pokemonImage.getPixel(x, y) == Color.rgb(255, 255, 255)) {
+            Point point = ScreenInfo.getInstance().getArcPoint(index);
+            if (pokemonImage.getPixel(point.x, point.y) == Color.rgb(255, 255, 255)) {
                 return estPokemonLevel;
             }
         }

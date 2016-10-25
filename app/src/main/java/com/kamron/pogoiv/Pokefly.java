@@ -635,8 +635,9 @@ public class Pokefly extends Service {
      */
     private void setArcPointer(double pokeLevel) {
         int index = Data.levelToLevelIdx(pokeLevel);
-        arcParams.x = Data.arcX[index] - pointerWidth;
-        arcParams.y = Data.arcY[index] - pointerHeight - statusBarHeight;
+        Point point = ScreenInfo.getInstance().getArcPoint(index);
+        arcParams.x = point.x - pointerWidth;
+        arcParams.y = point.y - pointerHeight - statusBarHeight;
         //That is, (int) (arcCenter + (radius * Math.cos(angleInRadians))) and
         //(int) (arcInitialY + (radius * Math.sin(angleInRadians))).
         windowManager.updateViewLayout(arcPointer, arcParams);

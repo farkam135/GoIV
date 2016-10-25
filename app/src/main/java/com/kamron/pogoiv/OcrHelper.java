@@ -206,9 +206,7 @@ public class OcrHelper {
      * @return the evolution cost (or -1 if absent) wrapped in Optional.of(), or Optional.absent() on scan failure
      */
     private Optional<Integer> getPokemonEvolutionCostFromImg(Bitmap pokemonImage) {
-        Bitmap evolutionCostImage =
-                Bitmap.createBitmap(pokemonImage, (int) (widthPixels * 0.625), (int) (heightPixels * 0.86),
-                        (int) (widthPixels * 0.2), (int) (heightPixels * 0.05));
+        Bitmap evolutionCostImage = getImageCrop(pokemonImage, 0.625, 0.88, 0.2, 0.03);
         String hash = "candyCost" + hashBitmap(evolutionCostImage);
 
         //return cache if it exists
@@ -290,8 +288,7 @@ public class OcrHelper {
      * @return True if the nidoran is female
      */
     private boolean isNidoranFemale(Bitmap pokemonImage) {
-        Bitmap pokemon = Bitmap.createBitmap(pokemonImage, widthPixels / 3, Math.round(heightPixels / 4),
-                Math.round(widthPixels / 3), Math.round(heightPixels / 5));
+        Bitmap pokemon = getImageCrop(pokemonImage, 0.33, 0.25, 0.33, 0.2);
         int[] pixelArray = new int[pokemon.getHeight() * pokemon.getWidth()];
         pokemon.getPixels(pixelArray, 0, pokemon.getWidth(), 0, 0, pokemon.getWidth(), pokemon.getHeight());
         int greenSum = 0;
@@ -322,8 +319,7 @@ public class OcrHelper {
      * @return A string resulting from the scan
      */
     private String getPokemonNameFromImg(Bitmap pokemonImage) {
-        Bitmap name = Bitmap.createBitmap(pokemonImage, widthPixels / 4, (int) Math.round(heightPixels / 2.22608696),
-                (int) Math.round(widthPixels / 2.057), (int) Math.round(heightPixels / 18.2857143));
+        Bitmap name = getImageCrop(pokemonImage, 0.1, 0.45, 0.85, 0.055);
         String hash = "name" + hashBitmap(name);
         String pokemonName = ocrCache.get(hash);
 
@@ -338,6 +334,21 @@ public class OcrHelper {
             ocrCache.put(hash, pokemonName);
         }
         return pokemonName;
+    }
+
+    /**
+     * Get a cropped version of your image.
+     * @param img Which image to crop
+     * @param xStart % of how far in the top left corner of the crop should be x coordinate
+     * @param yStart % of how far in the top left corner of the crop should be y coordinate
+     * @param xWidth how many % of the width should be kept starting from the xstart.
+     * @param yHeight how many % of the height should be kept starting from the ystart.
+     * @return The crop of the image.
+     */
+    public Bitmap getImageCrop(Bitmap img, double xStart, double yStart, double xWidth, double yHeight){
+        Bitmap crop = Bitmap.createBitmap(img, (int)(widthPixels * xStart), (int)(heightPixels * yStart),
+                (int) (widthPixels * xWidth), (int)(heightPixels * yHeight));
+        return crop;
     }
 
     /**
@@ -377,8 +388,7 @@ public class OcrHelper {
      * @return the candy name, or "" if nothing was found
      */
     private String getCandyNameFromImg(Bitmap pokemonImage) {
-        Bitmap candy = Bitmap.createBitmap(pokemonImage, widthPixels / 2, (int) Math.round(heightPixels / 1.3724285),
-                (int) Math.round(widthPixels / 2.1), (int) Math.round(heightPixels / 38.4));
+        Bitmap candy = getImageCrop(pokemonImage, 0.5, 0.73, 0.47, 0.026);
         String hash = "candy" + hashBitmap(candy);
         String candyName = ocrCache.get(hash);
 
@@ -403,9 +413,7 @@ public class OcrHelper {
      * @return an integer of the interpreted pokemon name, 10 if scan failed
      */
     private Optional<Integer> getPokemonHPFromImg(Bitmap pokemonImage) {
-        Bitmap hp = Bitmap.createBitmap(pokemonImage, (int) Math.round(widthPixels / 2.8),
-                (int) Math.round(heightPixels / 1.8962963), (int) Math.round(widthPixels / 3.5),
-                (int) Math.round(heightPixels / 34.13333333));
+        Bitmap hp = getImageCrop(pokemonImage, 0.357, 0.52, 0.285, 0.0293);
         String hash = "hp" + hashBitmap(hp);
         String pokemonHPStr = ocrCache.get(hash);
 
@@ -446,9 +454,7 @@ public class OcrHelper {
      * @return a CP of the pokemon, 10 if scan failed
      */
     private Optional<Integer> getPokemonCPFromImg(Bitmap pokemonImage) {
-        Bitmap cp = Bitmap.createBitmap(pokemonImage, (int) Math.round(widthPixels / 3.0),
-                (int) Math.round(heightPixels / 15.5151515), (int) Math.round(widthPixels / 3.84),
-                (int) Math.round(heightPixels / 21.333333333));
+        Bitmap cp = getImageCrop(pokemonImage, 0.33, 0.064, 0.3, 0.046);
         cp = replaceColors(cp, true, 255, 255, 255, Color.BLACK, 30, false);
         tesseract.setImage(cp);
         String cpText = tesseract.getUTF8Text();
@@ -482,9 +488,7 @@ public class OcrHelper {
             return Optional.absent();
         }
 
-        Bitmap candyAmount = Bitmap.createBitmap(pokemonImage,
-                (int) Math.round(widthPixels / 1.515), (int) Math.round(heightPixels / 1.44),
-                (int) Math.round(widthPixels / 5.0), (int) Math.round(heightPixels / 38.4));
+        Bitmap candyAmount = getImageCrop(pokemonImage, 0.66, 0.7, 0.2, 0.03);
         String hash = "candyAmount" + hashBitmap(candyAmount);
         String pokemonCandyStr = ocrCache.get(hash);
 

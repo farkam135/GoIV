@@ -29,8 +29,16 @@
     <SwitchPreference
         android:key="copyToClipboard"
         android:title="@string/copy_to_clipboard_setting_title"
-        android:summary="@string/copy_to_clipboard_setting_summary"
+        android:summary="Automatically add scanned information to your copy &amp; paste clipboard."
         android:defaultValue="false"/>
+
+
+    <Preference
+        android:key="@string/clipboardButton"
+        android:summary="@string/clipboardButton_summary"
+        android:title="@string/clipboardButton_title"
+        />
+
 
     <SwitchPreference
         android:key="sendCrashReports"

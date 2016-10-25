@@ -32,6 +32,7 @@ public class ClipboardModifierActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().setTitle(R.string.clipboard_activity_title);
         setContentView(R.layout.activity_clipboard_modifier);
         initiateInstanceVariables();
         updateFields();

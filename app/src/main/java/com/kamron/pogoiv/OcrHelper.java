@@ -162,9 +162,9 @@ public class OcrHelper {
         //clean the image
         //the dark color used for text in pogo is approximately rgb 76,112,114 if you can afford evo
         //and the red color is rgb 255 95 100 when you cant afford the evolution
-        Bitmap evolutionCostImageCanAfford = replaceColors(evolutionCostImage, false, 80, 110, 110, Color.WHITE, 45,
+        Bitmap evolutionCostImageCanAfford = replaceColors(evolutionCostImage, false, 68, 105, 108, Color.WHITE, 28,
                 false);
-        Bitmap evolutionCostImageCannotAfford = replaceColors(evolutionCostImage, false, 255, 95, 100, Color.WHITE, 30,
+        Bitmap evolutionCostImageCannotAfford = replaceColors(evolutionCostImage, false, 255, 95, 100, Color.WHITE, 17,
                 false);
 
         boolean affordIsBlank = isOnlyWhite(evolutionCostImageCanAfford);
@@ -187,10 +187,14 @@ public class OcrHelper {
         String ocrResult = fixOcrLettersToNums(tesseract.getUTF8Text());
         try {
             result = Integer.parseInt(ocrResult);
-            if (result == 10) { //second zero hidden behind floating button
+            if (result == 10 || result == 1) { //second zero hidden behind floating button
                 result = 100;
-            } else if (result == 40) { //second zero hidden behind floating button
+            } else if (result == 40 || result == 4) { //second zero hidden behind floating button
                 result = 400; //damn magikarp
+            } else if (result == 5) {
+                result = 50; //second zero hidden behind button
+            } else if (result == 2) {
+                result = 25; //5 hidden behind button
             }
             return Optional.of(result);
         } catch (NumberFormatException e) {

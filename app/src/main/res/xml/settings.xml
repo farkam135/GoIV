@@ -29,7 +29,7 @@
     <SwitchPreference
         android:key="copyToClipboard"
         android:title="@string/copy_to_clipboard_setting_title"
-        android:summary="Automatically add scanned information to your copy &amp; paste clipboard."
+        android:summary="@string/copy_to_clipboard_setting_summary_new"
         android:defaultValue="false"/>
 
 

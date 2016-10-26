@@ -23,6 +23,9 @@ public class PokemonNameCorrector {
         this.pokeInfoCalculator = pokeInfoCalculator;
         userCorrections = new HashMap<>(pokeInfoCalculator.getPokedex().size());
         userCorrections.putAll(storedUserCorrections);
+        userCorrections.put("Sparky", pokeInfoCalculator.get(132).name);
+        userCorrections.put("Rainer", pokeInfoCalculator.get(132).name);
+        userCorrections.put("Pyro", pokeInfoCalculator.get(132).name);
     }
 
     /**

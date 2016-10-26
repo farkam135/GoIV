@@ -118,7 +118,7 @@
     <string name="checking_for_update">Checking for update…</string>
     <string name="ongoing_update">An update for GoIV is already being downloaded</string>
     <string name="iv_perfect" formatted="false">% Perfect</string>
-    <string name="wrongPokemonNameInput">" was not found."</string>
+    <string name="wrong_pokemon_name_input">" was not found."</string>
     <string name="avg">AVG</string>
     <string name="atk">ATK</string>
     <string name="def">DEF</string>
@@ -130,10 +130,13 @@
     <string name="cp_vs_iv" formatted="false">% CP vs max IV</string>
     <string name="alert_explanation_title">Explanation</string>
     <string name="perfection_explainer">The percentage shows how big the difference is between your Pokémon and a Pokémon of the same species which has perfect IVs.\n\nSo for example, if it says 92 percent, then your Pokémon maxes out at 8 percent less CP compared to the same species with maximum IVs.</string>
-    <string name="pokespam">PokeSpam</string>
+    <string name="pokespam">PokéSpam</string>
     <string name="pokespam_formatted_message">%1$d (%2$d rows + %3$d more)</string>
     <string name="candy">Candy</string>
     <string name="pokespam_not_available">Not Available</string>
-    <string name="PokeSpam_setting_title">Enable PokeSpam Calculation</string>
-    <string name="PokeSpam_setting_summary">This feature enables scanning for candy amount and allows you to see how many pokemon you can evolve, useful for use with lucky egg</string>
+    <string name="pokespam_setting_title">Enable PokéSpam Calculation</string>
+    <string name="pokespam_setting_summary">This feature enables scanning for candy amount and allows you to see how many Pokémon you can evolve, useful for use with lucky egg</string>
+    <string name="token_pokemonname">Pokémon name</string>
+    <string name="clipboard_modifier_preview">Preview</string>
+    <string name="position_handler_toast">Drag the window by this handler to relocate it.</string>
 </resources>

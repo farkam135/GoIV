@@ -1,42 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.kamron.pogoiv"
-    xmlns:tools="http://schemas.android.com/tools">
+    package="com.kamron.pogoiv">
 
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <compatible-screens>
         <!-- all small size screens -->
-        <screen android:screenSize="small" android:screenDensity="xhdpi" />
-        <screen android:screenSize="small" android:screenDensity="xxhdpi" />
-        <screen android:screenSize="small" android:screenDensity="xxxhdpi" />
-        <screen android:screenSize="small" android:screenDensity="420"  />
-        <screen android:screenSize="small" android:screenDensity="480"  />
-        <screen android:screenSize="small" android:screenDensity="560"  />
+        <screen
+            android:screenDensity="xhdpi"
+            android:screenSize="small" />
+        <screen
+            android:screenDensity="xxhdpi"
+            android:screenSize="small" />
+        <screen
+            android:screenDensity="xxxhdpi"
+            android:screenSize="small" />
+        <screen
+            android:screenDensity="420"
+            android:screenSize="small" />
+        <screen
+            android:screenDensity="480"
+            android:screenSize="small" />
+        <screen
+            android:screenDensity="560"
+            android:screenSize="small" />
         <!-- all normal size screens -->
-        <screen android:screenSize="normal" android:screenDensity="xhdpi" />
-        <screen android:screenSize="normal" android:screenDensity="xxhdpi" />
-        <screen android:screenSize="normal" android:screenDensity="xxxhdpi" />
-        <screen android:screenSize="normal" android:screenDensity="420"  />
-        <screen android:screenSize="normal" android:screenDensity="480"  />
-        <screen android:screenSize="normal" android:screenDensity="560"  />
+        <screen
+            android:screenDensity="xhdpi"
+            android:screenSize="normal" />
+        <screen
+            android:screenDensity="xxhdpi"
+            android:screenSize="normal" />
+        <screen
+            android:screenDensity="xxxhdpi"
+            android:screenSize="normal" />
+        <screen
+            android:screenDensity="420"
+            android:screenSize="normal" />
+        <screen
+            android:screenDensity="480"
+            android:screenSize="normal" />
+        <screen
+            android:screenDensity="560"
+            android:screenSize="normal" />
         <!-- all large size screens -->
-        <screen android:screenSize="large" android:screenDensity="xhdpi" />
-        <screen android:screenSize="large" android:screenDensity="xxhdpi" />
-        <screen android:screenSize="large" android:screenDensity="xxxhdpi" />
-        <screen android:screenSize="large" android:screenDensity="420"  />
-        <screen android:screenSize="large" android:screenDensity="480"  />
-        <screen android:screenSize="large" android:screenDensity="560"  />
+        <screen
+            android:screenDensity="xhdpi"
+            android:screenSize="large" />
+        <screen
+            android:screenDensity="xxhdpi"
+            android:screenSize="large" />
+        <screen
+            android:screenDensity="xxxhdpi"
+            android:screenSize="large" />
+        <screen
+            android:screenDensity="420"
+            android:screenSize="large" />
+        <screen
+            android:screenDensity="480"
+            android:screenSize="large" />
+        <screen
+            android:screenDensity="560"
+            android:screenSize="large" />
         <!-- all xlarge size screens -->
-        <screen android:screenSize="xlarge" android:screenDensity="xhdpi" />
-        <screen android:screenSize="xlarge" android:screenDensity="xxhdpi" />
-        <screen android:screenSize="xlarge" android:screenDensity="xxxhdpi" />
-        <screen android:screenSize="xlarge" android:screenDensity="420"  />
-        <screen android:screenSize="xlarge" android:screenDensity="480"  />
-        <screen android:screenSize="xlarge" android:screenDensity="560"  />
+        <screen
+            android:screenDensity="xhdpi"
+            android:screenSize="xlarge" />
+        <screen
+            android:screenDensity="xxhdpi"
+            android:screenSize="xlarge" />
+        <screen
+            android:screenDensity="xxxhdpi"
+            android:screenSize="xlarge" />
+        <screen
+            android:screenDensity="420"
+            android:screenSize="xlarge" />
+        <screen
+            android:screenDensity="480"
+            android:screenSize="xlarge" />
+        <screen
+            android:screenDensity="560"
+            android:screenSize="xlarge" />
     </compatible-screens>
 
     <application
@@ -47,10 +94,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".MainActivity" android:launchMode="singleTop"
-            android:windowSoftInputMode="stateHidden"
+        <activity
+            android:name=".MainActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:configChanges="orientation|keyboardHidden">
+            android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -63,7 +112,9 @@
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait" />
 
-        <activity android:name=".ShareHandlerActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar">
+        <activity
+            android:name=".ShareHandlerActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -72,12 +123,14 @@
         </activity>
 
         <service
-            android:name="com.kamron.pogoiv.Pokefly"
+            android:name=".Pokefly"
             android:exported="true" />
 
-        <service android:name=".updater.DownloadUpdateService"
+        <service
+            android:name=".updater.DownloadUpdateService"
             android:exported="false" />
 
+        <activity android:name=".clipboard.ClipboardModifierActivity" />
     </application>
 
 </manifest>

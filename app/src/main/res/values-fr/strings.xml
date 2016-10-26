@@ -118,7 +118,7 @@
     <string name="up_to_date">L\'appli est à jour</string>
     <string name="update_check_failed">Erreur pendant la recherche de mise à jour. Veuillez vérifier votre connexion internet</string>
     <string name="iv_perfect" formatted="false">% Parfait</string>
-    <string name="wrongPokemonNameInput">" n'a pas été trouvé."</string>
+    <string name="wrong_pokemon_name_input">" n'a pas été trouvé."</string>
     <string name="avg">MOY</string>
     <string name="atk">ATQ</string>
     <string name="def">DÉF</string>
@@ -127,4 +127,10 @@
     <string name="cp_vs_iv" formatted="false">% PC vs IV max</string>
     <string name="alert_explanation_title">Explications</string>
     <string name="perfection_explainer" formatted="false">"Le pourcentage correspond à la différence entre les PC de votre Pokémon, et ceux d'un Pokémon de la même espèce qui aurait des IV parfaites.\n\nPar exemple, si le pourcentage est 92%, alors votre Pokémon a 8% de PC en moins que s'il avait des IV parfaites."</string>
+    <string name="pokespam">PokéSpam</string>
+    <string name="pokespam_formatted_message">%1$d (%2$d lignes + %3$d)</string>
+    <string name="candy">Bonbons</string>
+    <string name="pokespam_not_available">Indisponible</string>
+    <string name="pokespam_setting_title">Activer le calcul de PokéSpam</string>
+    <string name="pokespam_setting_summary">Scanne le nombre de bonbons pour calculer combien de Pokémon vous pouvez faire évoluer ; utile pour prévoir quand utiliser un œuf chance</string>
 </resources>

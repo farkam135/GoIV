@@ -57,7 +57,7 @@
     <string name="checking_for_update">Kontroluji aktualizace…</string>
     <string name="ongoing_update">Aktualizace pro GoIV se již stahuje.</string>
     <string name="iv_perfect" formatted="false">% celkově</string>
-    <string name="wrongPokemonNameInput">" nebyl nalezen."</string>
+    <string name="wrong_pokemon_name_input">" nebyl nalezen."</string>
     <string name="avg">PRŮM</string>
     <string name="atk">ÚTK</string>
     <string name="def">OBR</string>
@@ -65,4 +65,12 @@
     <string name="cp_vs_iv" formatted="false">% CP vs max IV</string>
     <string name="alert_explanation_title">Vysvětlení</string>
     <string name="perfection_explainer">Procenta ukazují jak velký je rozdíl mezi tvým Pokémonem a Pokémonem stejného druhu s ideálními IV.\n\nNapříklad pokud říká 92 procent, pak bude mít tvůj Pokémon na maximálním levelu o 8 procent méně CP než Pokémon stejného druhu s ideálními IV.</string>
+    <string name="pokespam">PokéSpam</string>
+    <string name="pokespam_formatted_message">%1$d (%2$d řádek + %3$d navíc)</string>
+    <string name="pokespam_not_available">Nedostupné</string>
+    <string name="pokespam_setting_title">Povolit výpočet PokéSpamu</string>
+    <string name="pokespam_setting_summary">Umožňuje načítání počtu candy a výpočet množství Pokémonů, které můžeš vyvinout, užitečné s lucky eggem</string>
+    <string name="token_pokemonname">Jméno Pokémona</string>
+    <string name="clipboard_modifier_preview">Náhled</string>
+    <string name="position_handler_toast">Přemísti okno táhnutím tohoto držáku.</string>
 </resources>

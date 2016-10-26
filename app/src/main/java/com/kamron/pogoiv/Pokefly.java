@@ -33,6 +33,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -53,6 +54,7 @@ import android.widget.Toast;
 
 import com.google.common.base.Function;
 import com.google.common.base.Optional;
+import com.kamron.pogoiv.clipboard.ClipboardTokenHandler;
 import com.kamron.pogoiv.logic.CPRange;
 import com.kamron.pogoiv.logic.Data;
 import com.kamron.pogoiv.logic.IVCombination;
@@ -78,6 +80,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.apptik.widget.MultiSlider;
 
+import static com.kamron.pogoiv.GoIVSettings.APPRAISAL_WINDOW_POSITION;
+
 /**
  * Currently, the central service in Pokemon Go, dealing with everything except
  * the initial activity.
@@ -101,6 +105,7 @@ public class Pokefly extends Service {
     private static final String KEY_SEND_INFO_LEVEL = "key_send_info_level";
     private static final String KEY_SEND_SCREENSHOT_FILE = "key_send_screenshot_file";
     private static final String KEY_SEND_INFO_CANDY_AMOUNT = "key_send_info_candy_amount";
+    private static final String KEY_SEND_UPGRADE_CANDY_COST = "key_send_upgrade_candy_cost";
 
     private static final String ACTION_PROCESS_BITMAP = "com.kamron.pogoiv.PROCESS_BITMAP";
     private static final String KEY_BITMAP = "bitmap";
@@ -274,12 +279,15 @@ public class Pokefly extends Service {
     @BindView(R.id.staCheckbox)
     CheckBox staCheckbox;
 
+    @BindView(R.id.positionHandler)
+    ImageView positionHandler;
 
     private String pokemonName;
     private String candyName;
     private Optional<Integer> pokemonCandy = Optional.absent();
     private Optional<Integer> pokemonCP = Optional.absent();
     private Optional<Integer> pokemonHP = Optional.absent();
+    private Optional<Integer> candyUpgradeCost = Optional.absent();
     private double estimatedPokemonLevel = 1.0;
     private @NonNull Optional<String> screenShotPath = Optional.absent();
 
@@ -333,6 +341,7 @@ public class Pokefly extends Service {
         intent.putExtra(KEY_SEND_INFO_LEVEL, scanResult.getEstimatedPokemonLevel());
         intent.putExtra(KEY_SEND_SCREENSHOT_FILE, filePath);
         intent.putExtra(KEY_SEND_INFO_CANDY_AMOUNT, scanResult.getPokemonCandyAmount());
+        intent.putExtra(KEY_SEND_UPGRADE_CANDY_COST, scanResult.getUpgradeCandyCost());
     }
 
     public static Intent createProcessBitmapIntent(Bitmap bitmap, String file) {
@@ -715,6 +724,58 @@ public class Pokefly extends Service {
         createInputLayout();
         createResultLayout();
         createAllIvLayout();
+
+        initPositionHandler();
+    }
+
+    /**
+     * Creates an OnTouchListener for positionHandler and evaluates its events in order to determine
+     * the actions required to move the window and save its new location.
+     */
+    private void initPositionHandler() {
+        positionHandler.setOnTouchListener(new View.OnTouchListener() {
+            WindowManager.LayoutParams newParams = layoutParams;
+            double originalWindowY;
+            double initialTouchY;
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        originalWindowY = newParams.y;
+                        initialTouchY = event.getRawY();
+                        break;
+
+                    case MotionEvent.ACTION_MOVE:
+                        newParams.y = (int) (originalWindowY + (event.getRawY() - initialTouchY));
+                        windowManager.updateViewLayout(infoLayout, newParams);
+                        break;
+
+                    case MotionEvent.ACTION_UP:
+                        if (newParams.y != originalWindowY) {
+                            saveWindowPosition(newParams.y);
+                        } else {
+                            Toast.makeText(Pokefly.this, R.string.position_handler_toast, Toast.LENGTH_SHORT).show();
+                        }
+                        break;
+
+                    default:
+                        break;
+                }
+                return true;
+            }
+        });
+    }
+
+    /**
+     * Saves the current Info Window location to shared preferences.
+     *
+     * @param appraisalWindowPosition Current Info Window Y offset for appraisal mode.
+     */
+    private void saveWindowPosition(int appraisalWindowPosition) {
+        SharedPreferences.Editor edit = sharedPref.edit();
+        edit.putInt(APPRAISAL_WINDOW_POSITION, appraisalWindowPosition);
+        edit.apply();
     }
 
     /**
@@ -810,20 +871,20 @@ public class Pokefly extends Service {
         //Load the correct phrases from the text resources depending on what team is stored in app settings
         if (GoIVSettings.getInstance(getBaseContext()).playerTeam() == 0) {
             adapterIvRange = ArrayAdapter.createFromResource(this,
-                    R.array.mystic_ivrange, R.layout.goiv_spinner_item);
+                    R.array.mystic_ivrange, R.layout.spinner_appraisal);
             adapterPercentage = ArrayAdapter.createFromResource(this,
-                    R.array.mystic_percentage, R.layout.goiv_spinner_item);
+                    R.array.mystic_percentage, R.layout.spinner_appraisal);
 
         } else if (GoIVSettings.getInstance(getBaseContext()).playerTeam() == 1) {
             adapterIvRange = ArrayAdapter.createFromResource(this,
-                    R.array.valor_ivrange, R.layout.goiv_spinner_item);
+                    R.array.valor_ivrange, R.layout.spinner_appraisal);
             adapterPercentage = ArrayAdapter.createFromResource(this,
-                    R.array.valor_percentage, R.layout.goiv_spinner_item);
+                    R.array.valor_percentage, R.layout.spinner_appraisal);
         } else {
             adapterIvRange = ArrayAdapter.createFromResource(this,
-                    R.array.instinct_ivrange, R.layout.goiv_spinner_item);
+                    R.array.instinct_ivrange, R.layout.spinner_appraisal);
             adapterPercentage = ArrayAdapter.createFromResource(this,
-                    R.array.instinct_percentage, R.layout.goiv_spinner_item);
+                    R.array.instinct_percentage, R.layout.spinner_appraisal);
         }
 
         appraisalIvRange.setAdapter(adapterIvRange);
@@ -913,6 +974,7 @@ public class Pokefly extends Service {
      */
     public void toggleAppraisalBox() {
         toggleVisibility(inputAppraisalExpandBox, appraisalBox, true);
+        positionHandler.setVisibility(appraisalBox.getVisibility());
         moveOverlayUpOrDownToMatchAppraisalBox();
     }
 
@@ -925,8 +987,10 @@ public class Pokefly extends Service {
         WindowManager.LayoutParams newParams = (WindowManager.LayoutParams) infoLayout.getLayoutParams();
         if (moveUp) {
             newParams.gravity = Gravity.TOP;
+            newParams.y = sharedPref.getInt(APPRAISAL_WINDOW_POSITION, 0);
         } else {
             newParams.gravity = Gravity.BOTTOM;
+            newParams.y = 0;
         }
         windowManager.updateViewLayout(infoLayout, newParams);
     }
@@ -1038,7 +1102,7 @@ public class Pokefly extends Service {
             return;
         }
 
-        addToRangeToClipboardIfSettingOn(ivScanResult);
+        addClipboardInfoIfSettingOn(ivScanResult);
         populateResultsBox(ivScanResult);
         boolean enableCompare = ScanContainer.scanContainer.prevScan != null;
         exResCompare.setEnabled(enableCompare);
@@ -1090,7 +1154,8 @@ public class Pokefly extends Service {
             String userInput = autoCompleteTextView1.getText().toString();
             pokemon = pokeInfoCalculator.get(userInput);
             if (pokemon == null) { //no such pokemon was found, show error toast and abort showing results
-                Toast.makeText(this, userInput + getString(R.string.wrongPokemonNameInput), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, userInput + getString(R.string.wrong_pokemon_name_input),
+                        Toast.LENGTH_SHORT).show();
                 return null;
             }
         }
@@ -1138,14 +1203,13 @@ public class Pokefly extends Service {
     /**
      * Adds the iv range of the pokemon to the clipboard if the clipboard setting is on.
      */
-    private void addToRangeToClipboardIfSettingOn(IVScanResult ivScanResult) {
+    private void addClipboardInfoIfSettingOn(IVScanResult ivScanResult) {
         if (GoIVSettings.getInstance(getApplicationContext()).shouldCopyToClipboard()) {
-            if (!ivScanResult.tooManyPossibilities) {
-                String clipText = ivScanResult.getLowestIVCombination().percentPerfect + "-"
-                        + ivScanResult.getHighestIVCombination().percentPerfect;
-                ClipData clip = ClipData.newPlainText(clipText, clipText);
-                clipboard.setPrimaryClip(clip);
-            }
+            ClipboardTokenHandler cth = new ClipboardTokenHandler(getApplicationContext());
+            String clipResult = cth.getResults(ivScanResult, pokeInfoCalculator);
+            Log.d("NahojjjenClippy", "Clipboard content to add: " + clipResult);
+            ClipData clip = ClipData.newPlainText(clipResult, clipResult);
+            clipboard.setPrimaryClip(clip);
         }
 
     }
@@ -1343,12 +1407,11 @@ public class Pokefly extends Service {
      * @param selectedPokemon The pokemon to compare selected iv with max iv to.
      */
     private void setPokemonPerfectionPercentageText(IVScanResult ivScanResult, Pokemon selectedPokemon) {
-        CPRange cpRange = pokeInfoCalculator.getCpRangeAtLevel(selectedPokemon, ivScanResult.lowAttack, ivScanResult
-                .lowDefense, ivScanResult.lowStamina, ivScanResult.highAttack, ivScanResult.highDefense, ivScanResult
-                .highStamina, 40);
-        double averageCP = (cpRange.high + cpRange.low) / 2;
-        double maxCP = pokeInfoCalculator.getCpRangeAtLevel(selectedPokemon, 15, 15, 15, 15, 15, 15, 40).high;
-        double perfection = (100 * averageCP) / maxCP;
+        CPRange cpRange = pokeInfoCalculator.getCpRangeAtLevel(selectedPokemon,
+                ivScanResult.getCombinationLowIVs(), ivScanResult.getCombinationHighIVs(), 40);
+        double maxCP = pokeInfoCalculator.getCpRangeAtLevel(selectedPokemon,
+                IVCombination.MAX, IVCombination.MAX, 40).high;
+        double perfection = (100.0 * cpRange.getFloatingAvg()) / maxCP;
         DecimalFormat df = new DecimalFormat("#.#");
         String perfectionString = df.format(perfection) + "%";
         exResultPercentPerfection.setText(perfectionString);
@@ -1407,10 +1470,9 @@ public class Pokefly extends Service {
      */
     private void setEstimateCpTextBox(IVScanResult ivScanResult, double selectedLevel, Pokemon selectedPokemon) {
         CPRange expectedRange = pokeInfoCalculator.getCpRangeAtLevel(selectedPokemon,
-                ivScanResult.lowAttack, ivScanResult.lowDefense, ivScanResult.lowStamina,
-                ivScanResult.highAttack, ivScanResult.highDefense, ivScanResult.highStamina, selectedLevel);
+                ivScanResult.getCombinationLowIVs(), ivScanResult.getCombinationHighIVs(), selectedLevel);
         int realCP = ivScanResult.scannedCP;
-        int expectedAverage = (expectedRange.high + expectedRange.low) / 2;
+        int expectedAverage = expectedRange.getAvg();
 
         String exResultCPStr = String.valueOf(expectedAverage);
 
@@ -1565,6 +1627,7 @@ public class Pokefly extends Service {
             boolean changed = newResult.size() != thisScan.iVCombinations.size();
             thisScan.iVCombinations = newResult;
             if (changed) {
+                addClipboardInfoIfSettingOn(thisScan);
                 populateResultsBox(thisScan);
             } else {
                 Toast.makeText(this, R.string.refine_no_progress, Toast.LENGTH_SHORT).show();
@@ -1629,7 +1692,8 @@ public class Pokefly extends Service {
         if (!infoShownReceived) {
 
             infoShownReceived = true;
-            PokemonNameCorrector.PokeDist possiblePoke = corrector.getPossiblePokemon(pokemonName, candyName);
+            PokemonNameCorrector.PokeDist possiblePoke = corrector.getPossiblePokemon(pokemonName, candyName,
+                    candyUpgradeCost);
             initialButtonsLayout.setVisibility(View.VISIBLE);
             onCheckButtonsLayout.setVisibility(View.GONE);
 
@@ -1646,8 +1710,8 @@ public class Pokefly extends Service {
 
             autoCompleteTextView1.setText("");
             pokeInputSpinnerAdapter.updatePokemonList(
-                    pokeInfoCalculator.getEvolutionLine(pokeInfoCalculator.get(possiblePoke.pokemonId)));
-            int selection = pokeInputSpinnerAdapter.getPosition(pokeInfoCalculator.get(possiblePoke.pokemonId));
+                    pokeInfoCalculator.getEvolutionLine(possiblePoke.pokemon));
+            int selection = pokeInputSpinnerAdapter.getPosition(possiblePoke.pokemon);
             pokeInputSpinner.setSelection(selection);
 
             pokemonHPEdit.setText(optionalIntToString(pokemonHP));
@@ -1656,6 +1720,7 @@ public class Pokefly extends Service {
 
             showInfoLayoutArcPointer();
             setVisibility(inputAppraisalExpandBox, appraisalBox, false, false);
+            positionHandler.setVisibility(appraisalBox.getVisibility());
             moveOverlayUpOrDownToMatchAppraisalBox(); //move the overlay to correct position regarding appraisal box
             adjustArcPointerBar(estimatedPokemonLevel);
 
@@ -1771,13 +1836,16 @@ public class Pokefly extends Service {
                             (Optional<Integer>) intent.getSerializableExtra(KEY_SEND_INFO_CP);
                     @SuppressWarnings("unchecked") Optional<Integer> lPokemonHP =
                             (Optional<Integer>) intent.getSerializableExtra(KEY_SEND_INFO_HP);
+                    @SuppressWarnings("unchecked") Optional<Integer> lCandyAmount =
+                            (Optional<Integer>) intent.getSerializableExtra(KEY_SEND_INFO_CANDY_AMOUNT);
+                    @SuppressWarnings("unchecked") Optional<Integer> lCandyUpgradeCost =
+                            (Optional<Integer>) intent.getSerializableExtra(KEY_SEND_UPGRADE_CANDY_COST);
+
+                    screenShotPath = lScreenShotFile;
                     pokemonCP = lPokemonCP;
                     pokemonHP = lPokemonHP;
-                    screenShotPath = lScreenShotFile;
-
-                    @SuppressWarnings("unchecked") Optional<Integer> lcandyAmount =
-                            (Optional<Integer>) intent.getSerializableExtra(KEY_SEND_INFO_CANDY_AMOUNT);
-                    pokemonCandy = lcandyAmount;
+                    pokemonCandy = lCandyAmount;
+                    candyUpgradeCost = lCandyUpgradeCost;
 
                     estimatedPokemonLevel = intent.getDoubleExtra(KEY_SEND_INFO_LEVEL, estimatedPokemonLevel);
                     if (estimatedPokemonLevel < 1.0) {

@@ -46,8 +46,8 @@
 
     <SwitchPreference
         android:key="pokeSpamEnabled"
-        android:title="@string/PokeSpam_setting_title"
-        android:summary="@string/PokeSpam_setting_summary"
+        android:title="@string/pokespam_setting_title"
+        android:summary="@string/pokespam_setting_summary"
         android:defaultValue="true"/>
 
     <Preference

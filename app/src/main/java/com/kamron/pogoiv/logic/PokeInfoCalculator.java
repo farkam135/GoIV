@@ -12,8 +12,14 @@ import java.util.List;
 public class PokeInfoCalculator {
     private static PokeInfoCalculator instance;
 
-    private ArrayList<Pokemon> pokedex = null;
-    private HashMap<String, Pokemon> pokemap = null;
+    private ArrayList<Pokemon> pokedex = new ArrayList<>();
+
+    /**
+     * Pokemons that aren't evolutions of any other one.
+     */
+    private ArrayList<Pokemon> basePokemons = new ArrayList<>();
+
+    private HashMap<String, Pokemon> pokemap = new HashMap<>();
 
     public static PokeInfoCalculator getInstance(String[] namesArray, String[] displayNamesArray,
                                                  int[] attackArray, int[] defenceArray, int[] staminaArray,
@@ -43,7 +49,11 @@ public class PokeInfoCalculator {
     }
 
     public List<Pokemon> getPokedex() {
-        return Collections.unmodifiableList(this.pokedex);
+        return Collections.unmodifiableList(pokedex);
+    }
+
+    public List<Pokemon> getBasePokemons() {
+        return Collections.unmodifiableList(basePokemons);
     }
 
     /**
@@ -67,23 +77,23 @@ public class PokeInfoCalculator {
      * Fills the list "pokemon" with the information of all pokemon by reading the
      * arrays in integers.xml and the names from the strings.xml resources.
      */
-    private void populatePokemon(String[] names, String[] displayNames, int[] attack, int[] defense, int[] stamina,
-                                 int[] devolution, int[] evolutionCandyCost) {
-        pokedex = new ArrayList<>();
-        pokemap = new HashMap<>();
+    private void populatePokemon(String[] names, String[] displayNames, int[] attack, int[] defense, int[] stamina, int[] devolution,
+                                 int[] evolutionCandyCost) {
 
         int pokeListSize = names.length;
-        for (int i = 0; i <= pokeListSize - 1; i++) {
+        for (int i = 0; i < pokeListSize; i++) {
             Pokemon p = new Pokemon(names[i], displayNames[i], i, attack[i], defense[i], stamina[i], devolution[i],
                     evolutionCandyCost[i]);
             pokedex.add(p);
             pokemap.put(names[i].toLowerCase(), p);
         }
 
-        for (int i = 0; i <= pokeListSize - 1; i++) {
+        for (int i = 0; i < pokeListSize; i++) {
             if (devolution[i] != -1) {
                 Pokemon devo = pokedex.get(devolution[i]);
                 devo.evolutions.add(pokedex.get(i));
+            } else {
+                basePokemons.add(pokedex.get(i));
             }
         }
     }
@@ -204,27 +214,22 @@ public class PokeInfoCalculator {
      * <p/>
      * Returns a string on the form of "\n CP at lvl X: A - B" where x is the pokemon level, A is minCP and B is maxCP
      *
-     * @param pokemon     the index of the pokemon species within the pokemon list (sorted)
-     * @param lowAttack   attack IV of the lowest combination
-     * @param lowDefense  defense IV of the lowest combination
-     * @param lowStamina  stamina IV of the lowest combination
-     * @param highAttack  attack IV of the highest combination
-     * @param highDefense defense IV of the highest combination
-     * @param highStamina stamina IV of the highest combination
-     * @param level       pokemon level for CP calculation
-     * @return String containing the CP range including the specified level.
+     * @param pokemon the index of the pokemon species within the pokemon list (sorted)
+     * @param low     combination of lowest IVs
+     * @param high    combination of highest IVs
+     * @param level   pokemon level for CP calculation
+     * @return CPrange containing the CP range including the specified level.
      */
-    public CPRange getCpRangeAtLevel(Pokemon pokemon, int lowAttack, int lowDefense, int lowStamina, int highAttack,
-                                     int highDefense, int highStamina, double level) {
+    public CPRange getCpRangeAtLevel(Pokemon pokemon, IVCombination low, IVCombination high, double level) {
         int baseAttack = pokemon.baseAttack;
         int baseDefense = pokemon.baseDefense;
         int baseStamina = pokemon.baseStamina;
         double lvlScalar = Data.getLevelCpM(level);
         int cpMin = (int) Math.floor(
-                (baseAttack + lowAttack) * Math.sqrt(baseDefense + lowDefense) * Math.sqrt(baseStamina + lowStamina)
+                (baseAttack + low.att) * Math.sqrt(baseDefense + low.def) * Math.sqrt(baseStamina + low.sta)
                         * Math.pow(lvlScalar, 2) * 0.1);
-        int cpMax = (int) Math.floor((baseAttack + highAttack) * Math.sqrt(baseDefense + highDefense)
-                * Math.sqrt(baseStamina + highStamina) * Math.pow(lvlScalar, 2) * 0.1);
+        int cpMax = (int) Math.floor((baseAttack + high.att) * Math.sqrt(baseDefense + high.def)
+                * Math.sqrt(baseStamina + high.sta) * Math.pow(lvlScalar, 2) * 0.1);
         if (cpMin > cpMax) {
             int tmp = cpMax;
             cpMax = cpMin;

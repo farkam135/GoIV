@@ -2,6 +2,7 @@ package com.kamron.pogoiv.logic;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * Created by Johan on 2016-08-18.
@@ -19,6 +20,8 @@ public class IVCombination {
         this.sta = sta;
         percentPerfect = Math.round((att + def + sta) / 45f * 100);
     }
+
+    public static IVCombination MAX = new IVCombination(15, 15, 15);
 
     @Override
     public boolean equals(Object o) {
@@ -80,4 +83,15 @@ public class IVCombination {
     public String toString() {
         return "Att: " + this.att + " def: " + this.def + " sta: " + this.sta + " %: " + percentPerfect;
     }
+
+    /**
+     * A comparator that compares IVCombinations by their total.
+     * Note: this comparator imposes orderings that are inconsistent with equals: compare(o1, o2) == 0 does not imply
+     * o1.equals(o2).
+     */
+    public static Comparator<IVCombination> totalComparator = new Comparator<IVCombination>() {
+        @Override public int compare(IVCombination o1, IVCombination o2) {
+            return o1.getTotal() - o2.getTotal();
+        }
+    };
 }

@@ -1,5 +1,7 @@
 package com.kamron.pogoiv.logic;
 
+import android.support.annotation.Nullable;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -122,33 +124,37 @@ public class IVScanResult {
     /**
      * Get the IV combination which has the highest sum of att+def+sta, or tied to equal.
      */
-    public IVCombination getHighestIVCombination() {
+    public @Nullable IVCombination getHighestIVCombination() {
         if (iVCombinations.size() == 0) {
             return null;
         }
-        IVCombination max = iVCombinations.get(0);
-        for (IVCombination ivCombination : iVCombinations) {
-            if (ivCombination.getTotal() > max.getTotal()) {
-                max = ivCombination;
-            }
-        }
-        return max;
+        return Collections.max(iVCombinations, IVCombination.totalComparator);
     }
 
     /**
      * Get the IV combination which has the lowest sum of att+def+sta, or tied to equal.
      */
-    public IVCombination getLowestIVCombination() {
+    public @Nullable IVCombination getLowestIVCombination() {
         if (iVCombinations.size() == 0) {
             return null;
         }
-        IVCombination low = iVCombinations.get(0);
-        for (IVCombination ivCombination : iVCombinations) {
-            if (ivCombination.getTotal() < low.getTotal()) {
-                low = ivCombination;
-            }
-        }
-        return low;
+        return Collections.min(iVCombinations, IVCombination.totalComparator);
+    }
+
+    /**
+     * Get IVCombination of highest IVs. This is not the combination with the highest total, and is probably not a
+     * combination of possible IVs; see getHighestIVCombination() for that.
+     */
+    public IVCombination getCombinationHighIVs() {
+        return new IVCombination(highAttack, highDefense, highStamina);
+    }
+
+    /**
+     * Get IVCombination of lowest IVs. This is not the combination with the lowest total, and is probably not a
+     * combination of possible IVs; see getLowestIVCombination() for that.
+     */
+    public IVCombination getCombinationLowIVs() {
+        return new IVCombination(lowAttack, lowDefense, lowStamina);
     }
 
     /**

@@ -350,13 +350,14 @@ public class Pokefly extends Service {
 
     private String[] getPokemonNamesArray() {
         if (getResources().getBoolean(R.bool.use_default_pokemonsname_as_ocrstring)) {
+            //If flag ON, force to use English strings as pokemon name for OCR.
             Resources res = getResources();
             Configuration conf = res.getConfiguration();
-            Locale def = getResources().getConfiguration().locale;
+            Locale def = getResources().getConfiguration().locale;//Keep original locale
             conf.setLocale(new Locale("en"));
             res.updateConfiguration(conf, null);
             String[] rtn = res.getStringArray(R.array.pokemon);
-            conf.setLocale(def);
+            conf.setLocale(def);//Restore to original locale
             res.updateConfiguration(conf, null);
             return rtn;
         }

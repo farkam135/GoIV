@@ -8,6 +8,7 @@ import android.widget.CheckBox;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.kamron.pogoiv.R;
 
@@ -30,6 +31,7 @@ public class ClipboardModifierActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().setTitle(R.string.clipboard_activity_title);
         setContentView(R.layout.activity_clipboard_modifier);
         initiateInstanceVariables();
         updateFields();
@@ -59,7 +61,7 @@ public class ClipboardModifierActivity extends AppCompatActivity {
         for (ClipboardToken clipboardToken : cth.getTokens()) {
 
             TextView tokenEditingBox = new TextView(this);
-            tokenEditingBox.setText(clipboardToken.getPreview() + " ❌");
+            tokenEditingBox.setText(clipboardToken.getTokenName(this) + "\n" + clipboardToken.getPreview() + " ❌");
             tokenEditingBox.setPadding(0, 0, 0, 0);
             tokenEditingBox.setBackgroundColor(Color.parseColor("#fadede"));
 
@@ -170,9 +172,24 @@ public class ClipboardModifierActivity extends AppCompatActivity {
      * @param v needed for onclick xml.
      */
     public void addToken(View v) {
-        cth.addToken(selectedToken);
-        updateEditField();
-        updateClipPreview();
+        if (selectedToken != null) {
+            cth.addToken(selectedToken);
+            updateEditField();
+            updateClipPreview();
+        } else {
+            Toast.makeText(this, R.string.clipboard_no_token_selected, Toast.LENGTH_LONG).show();
+        }
+
+    }
+
+
+    /**
+     * Finishes and exits the activity.
+     *
+     * @param v needed for onclick xml.
+     */
+    public void saveAndExit(View v) {
+        finish();
     }
 
     /**
@@ -180,7 +197,7 @@ public class ClipboardModifierActivity extends AppCompatActivity {
      */
     public void updateClipPreview() {
         clipboardPreview.setText(cth.getPreviewString());
-        clipboardMaxLength.setText("(" + cth.getMaxLength() + ")");
+        clipboardMaxLength.setText("(" + cth.getMaxLength() + " characters)");
     }
 
     /**

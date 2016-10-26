@@ -153,11 +153,10 @@ public class ClipboardModifierActivity extends AppCompatActivity {
     private void updateClipboardDescription() {
 
         if (selectedToken == null) {
-            clipboardDescription.setText("No token selected...");
+            clipboardDescription.setText(getString(R.string.clipboard_modifier_no_token));
         } else if (selectedToken.maxEv) {
-            clipboardDescription.setText(selectedToken.getLongDescription(this) + " This token is a max evolution "
-                    + "variant, meaning that it will return a result as if your Pokémon was already fully evolved, "
-                    + "which might be more interesting in a lot of cases.");
+            clipboardDescription.setText(selectedToken.getLongDescription(this) + " " + getString(R.string
+                    .token_max_evo));
         } else { //selectedtoken not max ev
             clipboardDescription.setText(selectedToken.getLongDescription(this));
         }

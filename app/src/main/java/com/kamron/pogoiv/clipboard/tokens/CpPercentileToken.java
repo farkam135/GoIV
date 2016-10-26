@@ -2,6 +2,7 @@ package com.kamron.pogoiv.clipboard.tokens;
 
 import android.content.Context;
 
+import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.clipboard.ClipboardToken;
 import com.kamron.pogoiv.logic.IVScanResult;
 import com.kamron.pogoiv.logic.PokeInfoCalculator;
@@ -65,10 +66,7 @@ public class CpPercentileToken extends ClipboardToken {
 
     @Override
     public String getLongDescription(Context context) {
-        return "Returns how many percent of the iv combinations your Pokémon is compared to all other possible IV "
-                + "combinations. The distribution for IVs is not even, there are a lot of different combinations that "
-                + "can result in 20 IVs (Like 5,5,10 or 10,5,5) but there is only one resulting in 45. The closer to 0 "
-                + "the result is, the better it is.";
+        return context.getString(R.string.token_cp_percentile);
     }
 
     @Override

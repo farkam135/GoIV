@@ -6,9 +6,10 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/buttonText"
-        android:background="@color/colorPrimary"
-        android:text="  Preview"/>
+        android:textColor="#FFFFFF"
+        android:padding="6dp"
+        android:background="@color/colorPrimaryLight"
+        android:text="@string/clipboard_modifier_preview"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -38,10 +39,11 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/buttonText"
+        android:textColor="#FFFFFF"
         android:layout_marginTop="14dp"
-        android:background="@color/colorPrimary"
-        android:text="  Edit "/>
+        android:padding="6dp"
+        android:background="@color/colorPrimaryLight"
+        android:text="@string/clipboard_modifier_edit"/>
 
     <!-- Edit tokens layout -->
 
@@ -78,10 +80,11 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_marginTop="14dp"
-        android:textColor="@color/buttonText"
-        android:background="@color/colorPrimary"
+        android:textColor="#FFFFFF"
+        android:background="@color/colorPrimaryLight"
         android:layout_height="wrap_content"
-        android:text="  Tokens"/>
+        android:padding="6dp"
+        android:text="@string/clipboard_modifier_tokens"/>
 
     <!-- Token menu scroll container -->
     <ScrollView
@@ -97,22 +100,22 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Scroll down to see more tokens."
+                android:text="@string/clipboard_modifier_scroll_tokens"
                 android:textAlignment="center"
                 android:textSize="12sp"/>
 
             <CheckBox
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAlignment="center"
+                android:textAlignment="textStart"
                 android:id="@+id/clipboardMaxEvolutionVariant"
                 android:onClick="toggleEvolvedVariant"
-                android:text="Show max evolution token variants"/>
+                android:text="@string/clipboard_modifier_max_evo"/>
 
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_weight="1"
                 android:layout_gravity="center_horizontal"
                 android:id="@+id/clipboardShowcase"
@@ -121,61 +124,38 @@
 
     </ScrollView>
 
-    <!-- Description and add field -->
-    <LinearLayout
+    <!-- Description field -->
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="14dp">
+        android:textColor="#FFFFFF"
+        android:background="@color/colorPrimaryLight"
+        android:padding="6dp"
+        android:text="@string/clipboard_modifier_description"/>
 
-        <!-- Description field -->
-        <LinearLayout
-            android:layout_width="0dp"
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_height="120dp">
+        <TextView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="4"
-            android:orientation="vertical">
+            android:id="@+id/clipboardDescription"
+            android:textColor="@color/importantText"
+            android:text="@string/clipboard_modifier_no_token"/>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/colorPrimary"
-                android:textColor="@color/buttonText"
-                android:text="  Description"/>
+    </ScrollView>
 
-            <ScrollView
-                android:layout_width="match_parent"
-                android:layout_marginLeft="12dp"
-                android:layout_marginRight="12dp"
-                android:layout_height="170dp">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/clipboardDescription"
-                    android:textColor="@color/importantText"
-                    android:text="No token selected"/>
-
-            </ScrollView>
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center_vertical">
-
-            <Button
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:backgroundTint="@color/colorPrimary"
-                android:onClick="addToken"
-                android:textColor="@color/buttonText"
-                android:text="add"/>
-        </LinearLayout>
-
-
-    </LinearLayout>
-
-
+    <!-- Add button -->
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_gravity="right"
+        android:layout_margin="12dp"
+        android:backgroundTint="@color/colorPrimary"
+        android:onClick="addToken"
+        android:textColor="@color/buttonText"
+        android:text="@string/clipboard_modifier_add"/>
 
 </LinearLayout>

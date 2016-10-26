@@ -2,6 +2,7 @@ package com.kamron.pogoiv.clipboard.tokens;
 
 import android.content.Context;
 
+import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.clipboard.ClipboardToken;
 import com.kamron.pogoiv.logic.IVScanResult;
 import com.kamron.pogoiv.logic.PokeInfoCalculator;
@@ -78,17 +79,12 @@ public class LevelToken extends ClipboardToken {
     @Override
     public String getLongDescription(Context context) {
         if (mode == 0) {
-            return "This token represents the level of the Pokémon, as it was scanned, times 2. This avoids decimals,"
-                    + " which makes the text longer, but does not lose information like removing the decimal does. For "
-                    + "example, if the Pokémon is level 10.5, this will return 21.";
+            return context.getString(R.string.token_level_double);
         }
         if (mode == 1) {
-            return "This token represents the level of the Pokémon, as it was scanned, but removes the decimal."
-                    + " This potentially loses information. For example, a level 10.5 Pokémon will return 10.";
+            return context.getString(R.string.token_level_truncated);
         }
-        return "This token represents the level of the Pokémon, as it was scanned, including the decimal."
-                + " This makes the output longer than the alternatives, but is very accurate. For example, a level 10.5"
-                + " pokemon will return as 10.5.";
+        return context.getString(R.string.token_level);
     }
 
     @Override

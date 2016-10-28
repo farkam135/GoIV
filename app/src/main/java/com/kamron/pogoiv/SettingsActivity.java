@@ -99,6 +99,19 @@ public class SettingsActivity extends AppCompatActivity {
                 manualScreenshotModePreference.setChecked(true);
                 manualScreenshotModePreference.setEnabled(false);
             }
+
+            //If strings support use_default_pokemonsname_as_ocrstring, display pref and set default ON
+            if (getResources().getBoolean(R.bool.use_default_pokemonsname_as_ocrstring)) {
+                SwitchPreference useDefaultPokemonNamePreference = (SwitchPreference) getPreferenceManager()
+                        .findPreference(GoIVSettings.SHOW_TRANSLATED_POKEMON_NAME);
+                useDefaultPokemonNamePreference.setEnabled(true);
+                useDefaultPokemonNamePreference.setDefaultValue(true);
+            }
+            else {
+                SwitchPreference useDefaultPokemonNamePreference = (SwitchPreference) getPreferenceManager()
+                        .findPreference(GoIVSettings.SHOW_TRANSLATED_POKEMON_NAME);
+                getPreferenceScreen().removePreference(useDefaultPokemonNamePreference);
+            }
         }
     }
 }

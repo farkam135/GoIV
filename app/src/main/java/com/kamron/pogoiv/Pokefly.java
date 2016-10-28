@@ -373,6 +373,15 @@ public class Pokefly extends Service {
         return getResources().getStringArray(R.array.pokemon);
     }
 
+    private String[] getPokemonDisplayNamesArray() {
+        if (GoIVSettings.getInstance(getBaseContext()).isShowTranslatedPokemonName()) {
+            //If pref ON, use translated strings as pokemon name.
+            return getResources().getStringArray(R.array.pokemon);
+        }
+        //Otherwise, use default locale's pokemon name.
+        return getPokemonNamesArray();
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -383,7 +392,7 @@ public class Pokefly extends Service {
 
         pokeInfoCalculator = PokeInfoCalculator.getInstance(
                 getPokemonNamesArray(),
-                getResources().getStringArray(R.array.pokemon),
+                getPokemonDisplayNamesArray(),
                 getResources().getIntArray(R.array.attack),
                 getResources().getIntArray(R.array.defense),
                 getResources().getIntArray(R.array.stamina),

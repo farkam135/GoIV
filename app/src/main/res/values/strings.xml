@@ -139,4 +139,6 @@
     <string name="token_pokemonname">Pokémon name</string>
     <string name="clipboard_modifier_preview">Preview</string>
     <string name="position_handler_toast">Drag the window by this handler to relocate it.</string>
+    <string name="showtranslatedpokemonname_setting_title">Show translated Pokémon name</string>
+    <string name="showtranslatedpokemonname_setting_summary">Display translated Pokémon name on GoIV but use its English name for OCR. This is for Pokémon Go app is in English but user\'s native language is not.</string>
 </resources>

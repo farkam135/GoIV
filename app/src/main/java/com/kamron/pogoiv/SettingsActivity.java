@@ -106,8 +106,7 @@ public class SettingsActivity extends AppCompatActivity {
                         .findPreference(GoIVSettings.SHOW_TRANSLATED_POKEMON_NAME);
                 useDefaultPokemonNamePreference.setEnabled(true);
                 useDefaultPokemonNamePreference.setDefaultValue(true);
-            }
-            else {
+            } else {
                 SwitchPreference useDefaultPokemonNamePreference = (SwitchPreference) getPreferenceManager()
                         .findPreference(GoIVSettings.SHOW_TRANSLATED_POKEMON_NAME);
                 getPreferenceScreen().removePreference(useDefaultPokemonNamePreference);

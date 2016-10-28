@@ -86,8 +86,9 @@ public class PokeInfoCalculator {
                     evolutionCandyCost[i]);
             pokedex.add(p);
             pokemap.put(names[i].toLowerCase(), p);
-            if (!names[i].equals(displayNames[i]))
+            if (!names[i].equals(displayNames[i])) {
                 pokemap.put(displayNames[i], p);
+            }
         }
 
         for (int i = 0; i < pokeListSize; i++) {

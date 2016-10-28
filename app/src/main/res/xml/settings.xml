@@ -58,6 +58,12 @@
         android:summary="@string/pokespam_setting_summary"
         android:defaultValue="true"/>
 
+    <SwitchPreference
+        android:key="showTranslatedPokemonName"
+        android:title="@string/showtranslatedpokemonname_setting_title"
+        android:summary="@string/showtranslatedpokemonname_setting_summary"
+        android:defaultValue="false"/>
+
     <Preference
         android:key="checkForUpdate"
         android:title="@string/check_for_update_setting_title"

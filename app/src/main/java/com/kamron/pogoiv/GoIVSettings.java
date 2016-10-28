@@ -26,12 +26,15 @@ public class GoIVSettings {
     public static final String TEAM_NAME = "teamName";
     public static final String APPRAISAL_WINDOW_POSITION = "appraisalWindowPosition";
     public static final String GOIV_CLIPBOARDSETTINGS = "GoIV_ClipboardSettings";
+    public static final String SHOW_TRANSLATED_POKEMON_NAME = "showTranslatedPokemonName";
 
     private static GoIVSettings instance;
+    private Context context;
 
     private final SharedPreferences prefs;
 
     private GoIVSettings(Context context) {
+        this.context = context;
         prefs = context.getSharedPreferences(PREFS_GO_IV_SETTINGS, Context.MODE_PRIVATE);
     }
 
@@ -108,5 +111,12 @@ public class GoIVSettings {
 
     public boolean isPokeSpamEnabled() {
         return prefs.getBoolean(POKESPAM_ENABLED, true);
+    }
+
+    public boolean isShowTranslatedPokemonName() {
+        if (context.getResources().getBoolean(R.bool.use_default_pokemonsname_as_ocrstring)) {
+            return prefs.getBoolean(SHOW_TRANSLATED_POKEMON_NAME, false);
+        }
+        return false;
     }
 }

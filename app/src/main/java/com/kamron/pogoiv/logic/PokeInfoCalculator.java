@@ -21,12 +21,12 @@ public class PokeInfoCalculator {
 
     private HashMap<String, Pokemon> pokemap = new HashMap<>();
 
-    public static PokeInfoCalculator getInstance(String[] namesArray, int[] attackArray, int[] defenceArray,
-                                                 int[] staminaArray, int[] devolutionArray,
-                                                 int[] evolutionCandyCostArray) {
+    public static PokeInfoCalculator getInstance(String[] namesArray, String[] displayNamesArray,
+                                                 int[] attackArray, int[] defenceArray, int[] staminaArray,
+                                                 int[] devolutionArray, int[] evolutionCandyCostArray) {
         if (instance == null) {
-            instance = new PokeInfoCalculator(namesArray, attackArray, defenceArray, staminaArray, devolutionArray,
-                    evolutionCandyCostArray);
+            instance = new PokeInfoCalculator(namesArray, displayNamesArray, attackArray, defenceArray,
+                    staminaArray, devolutionArray, evolutionCandyCostArray);
         }
         return instance;
     }
@@ -34,15 +34,18 @@ public class PokeInfoCalculator {
     /**
      * Creates a pokemon info calculator with the pokemon as argument.
      *
-     * @param namesArray      array of all pokemon names
-     * @param attackArray     array of all pokemon base attack stat
-     * @param defenceArray    array of all pokemon base def stat
-     * @param staminaArray    array of all pokemon base stam stat
-     * @param devolutionArray array of what the pokemon evolved from, -1 if no devolution
+     * @param namesArray        array of all pokemon names
+     * @param displayNamesArray array of all pokemon display names
+     * @param attackArray       array of all pokemon base attack stat
+     * @param defenceArray      array of all pokemon base def stat
+     * @param staminaArray      array of all pokemon base stam stat
+     * @param devolutionArray   array of what the pokemon evolved from, -1 if no devolution
      */
-    private PokeInfoCalculator(String[] namesArray, int[] attackArray, int[] defenceArray, int[] staminaArray,
-                               int[] devolutionArray, int[] evolutionCandyCostArray) {
-        populatePokemon(namesArray, attackArray, defenceArray, staminaArray, devolutionArray, evolutionCandyCostArray);
+    private PokeInfoCalculator(String[] namesArray, String[] displayNamesArray, int[] attackArray,
+                               int[] defenceArray, int[] staminaArray, int[] devolutionArray,
+                               int[] evolutionCandyCostArray) {
+        populatePokemon(namesArray, displayNamesArray, attackArray, defenceArray, staminaArray, devolutionArray,
+                evolutionCandyCostArray);
     }
 
     public List<Pokemon> getPokedex() {
@@ -74,15 +77,18 @@ public class PokeInfoCalculator {
      * Fills the list "pokemon" with the information of all pokemon by reading the
      * arrays in integers.xml and the names from the strings.xml resources.
      */
-    private void populatePokemon(String[] names, int[] attack, int[] defense, int[] stamina, int[] devolution,
-                                 int[] evolutionCandyCost) {
+    private void populatePokemon(String[] names, String[] displayNames, int[] attack, int[] defense, int[] stamina,
+                                  int[] devolution, int[] evolutionCandyCost) {
 
         int pokeListSize = names.length;
         for (int i = 0; i < pokeListSize; i++) {
-            Pokemon p = new Pokemon(names[i], i, attack[i], defense[i], stamina[i], devolution[i],
+            Pokemon p = new Pokemon(names[i], displayNames[i], i, attack[i], defense[i], stamina[i], devolution[i],
                     evolutionCandyCost[i]);
             pokedex.add(p);
             pokemap.put(names[i].toLowerCase(), p);
+            if (!names[i].equals(displayNames[i])) {
+                pokemap.put(displayNames[i], p);
+            }
         }
 
         for (int i = 0; i < pokeListSize; i++) {

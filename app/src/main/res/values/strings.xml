@@ -144,4 +144,6 @@
     <string name="clipboardButton_summary">Define how you want the clipboard result to look.</string>
     <string name="clipboardButton_title">Edit Copy to clipboard</string>
     <string name="clipboard_activity_title">GoIV Clipboard configuration</string>
+    <string name="showtranslatedpokemonname_setting_title">Show translated Pokémon name</string>
+    <string name="showtranslatedpokemonname_setting_summary">Display translated Pokémon name on GoIV but use its English name for OCR. This is for Pokémon Go app is in English but user\'s native language is not.</string>
 </resources>

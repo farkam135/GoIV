@@ -6,6 +6,9 @@ import android.os.Build;
 import android.util.Log;
 
 import com.kamron.pogoiv.clipboard.ClipboardToken;
+import com.kamron.pogoiv.clipboard.tokens.IVPercentageToken;
+import com.kamron.pogoiv.clipboard.tokens.IVPercentageTokenMode;
+import com.kamron.pogoiv.clipboard.tokens.SeparatorToken;
 
 import java.util.ArrayList;
 
@@ -67,9 +70,17 @@ public class GoIVSettings {
     }
 
     public String getClipboardPreference() {
+
+        //Below code creates tokens so we can get the representation corresponding to how the previous default
+        // clipboard setting was - so that the default reflects what users had before they could configure the
+        // clipboard themselves.
+        String lowrep = new IVPercentageToken(IVPercentageTokenMode.MIN).getStringRepresentation();
+        String highrep = new IVPercentageToken(IVPercentageTokenMode.MAX).getStringRepresentation();
+        String dashRepresentation = new SeparatorToken("-").getStringRepresentation();
+
         Log.d("NahojjjenClippy", "String representation of token train from settings: "
                 + prefs.getString(GOIV_CLIPBOARDSETTINGS, "error"));
-        return prefs.getString(GOIV_CLIPBOARDSETTINGS, "");
+        return prefs.getString(GOIV_CLIPBOARDSETTINGS, lowrep + dashRepresentation + highrep);
     }
 
     public void setClipboardPreference(ArrayList<ClipboardToken> tokens) {

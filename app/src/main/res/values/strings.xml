@@ -85,7 +85,7 @@
     <string name="delete_screenshots_setting_title">Delete screenshots</string>
     <string name="delete_screenshots_setting_summary">Automatically delete screenshots taken by GoIV</string>
     <string name="copy_to_clipboard_setting_title">Copy to clipboard</string>
-    <string name="copy_to_clipboard_setting_summary" formatted="false">Copy worst IV% - best IV% to clipboard when the check IV button is clicked</string>
+    <string name="copy_to_clipboard_setting_summary_new" formatted="false">Automatically add scanned information to your copy &amp; paste clipboard.</string>
     <string name="send_crash_reports_setting_title">Send crash reports</string>
     <string name="send_crash_reports_setting_summary">Help the developers improve the application by sending anonymous crash-related information to them</string>
     <string name="auto_update_setting_title">Auto-update</string>
@@ -139,6 +139,11 @@
     <string name="token_pokemonname">Pokémon name</string>
     <string name="clipboard_modifier_preview">Preview</string>
     <string name="position_handler_toast">Drag the window by this handler to relocate it.</string>
+    <string name="clipboard_no_token_selected">Please choose a token to add from the scrollable list.</string>
+    <string name="clipboardButton">clipboardButton</string>
+    <string name="clipboardButton_summary">Define how you want the clipboard result to look.</string>
+    <string name="clipboardButton_title">Edit Copy to clipboard</string>
+    <string name="clipboard_activity_title">GoIV Clipboard configuration</string>
     <string name="showtranslatedpokemonname_setting_title">Show translated Pokémon name</string>
     <string name="showtranslatedpokemonname_setting_summary">Display translated Pokémon name on GoIV but use its English name for OCR. This is for Pokémon Go app is in English but user\'s native language is not.</string>
 </resources>

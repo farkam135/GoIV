@@ -15,6 +15,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
+import com.kamron.pogoiv.clipboard.ClipboardModifierActivity;
 import com.kamron.pogoiv.updater.AppUpdate;
 import com.kamron.pogoiv.updater.AppUpdateUtil;
 
@@ -60,6 +61,17 @@ public class SettingsActivity extends AppCompatActivity {
             super.onCreate(savedInstanceState);
             getPreferenceManager().setSharedPreferencesName(GoIVSettings.PREFS_GO_IV_SETTINGS);
             addPreferencesFromResource(R.xml.settings);
+
+            //Initialize the button which opens the clipboard modifier activity
+            Preference button = (Preference)findPreference(getString(R.string.clipboardButton));
+            button.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    Intent intent = new Intent(getActivity(), ClipboardModifierActivity.class);
+                    startActivity(intent);
+                    return true;
+                }
+            });
 
             if (BuildConfig.isInternetAvailable) {
                 Preference checkForUpdatePreference = getPreferenceManager().findPreference("checkForUpdate");

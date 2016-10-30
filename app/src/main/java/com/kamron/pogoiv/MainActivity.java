@@ -372,12 +372,13 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = Pokefly.createIntent(this, trainerLevel, statusBarHeight, batterySaver);
         startService(intent);
 
-        if (settings.shouldLaunchPokemonGo()) {
+        if (settings.shouldLaunchPokemonGo() && (!restartOnStop || !skipOpenPokemon)) {
             openPokemonGoApp();
         }
     }
 
     protected boolean restartOnStop = false;
+    protected boolean skipOpenPokemon = false;
 
     private void restartOnStop(boolean isPokeflyRunning) {
         if (restartOnStop && !isPokeflyRunning) {
@@ -457,6 +458,9 @@ public class MainActivity extends AppCompatActivity {
      */
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void startScreenService() {
+        if (restartOnStop) {
+            skipOpenPokemon = true;
+        }
         launchButton.setText(R.string.accept_screen_capture);
         MediaProjectionManager projectionManager = (MediaProjectionManager) getSystemService(
                 Context.MEDIA_PROJECTION_SERVICE);

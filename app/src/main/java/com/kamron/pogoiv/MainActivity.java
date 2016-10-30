@@ -39,8 +39,7 @@ import android.widget.Button;
 import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.TextView;
-
-
+import android.os.Handler;
 import com.kamron.pogoiv.logic.Data;
 import com.kamron.pogoiv.updater.AppUpdate;
 import com.kamron.pogoiv.updater.AppUpdateUtil;
@@ -79,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             updateLaunchButtonText(Pokefly.isRunning());
             launchButton.setEnabled(true);
+            restartOnStop(Pokefly.isRunning());
         }
     };
     private final BroadcastReceiver showUpdateDialog = new BroadcastReceiver() {
@@ -163,6 +163,50 @@ public class MainActivity extends AppCompatActivity {
         npTrainerLevel.setMinValue(1);
         npTrainerLevel.setWrapSelectorWheel(false);
         npTrainerLevel.setValue(trainerLevel);
+
+        class NpTrainerLevelPickerListener
+                implements NumberPicker.OnScrollListener, NumberPicker.OnValueChangeListener {
+            private int scrollState = 0;
+            final Handler handler = new Handler();
+
+            Runnable runnable = new Runnable() {
+                @Override
+                public void run() {
+                    if (Pokefly.isRunning()) {
+                        restartOnStop = true;
+                        launchButton.callOnClick();
+                    }
+                }
+            };
+
+            @Override
+            public void onScrollStateChange(NumberPicker view, int scrollState) {
+                this.scrollState = scrollState;
+                if (scrollState == SCROLL_STATE_IDLE) {
+                    update();
+                } else {
+                    //we are scrolling (or flinging) so we don't need to run update
+                    handler.removeCallbacks(runnable);
+                }
+            }
+
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                if (scrollState == SCROLL_STATE_IDLE) {
+                    update();
+                }
+            }
+
+            private void update() {
+                handler.removeCallbacks(runnable);
+                handler.postDelayed(runnable, 500);
+            }
+
+        }
+
+        NpTrainerLevelPickerListener  NpTrainerLevelPickerListenerClass = new NpTrainerLevelPickerListener();
+        npTrainerLevel.setOnScrollListener(NpTrainerLevelPickerListenerClass);
+        npTrainerLevel.setOnValueChangedListener(NpTrainerLevelPickerListenerClass);
 
         displayMetrics = this.getResources().getDisplayMetrics();
         WindowManager windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
@@ -330,6 +374,15 @@ public class MainActivity extends AppCompatActivity {
 
         if (settings.shouldLaunchPokemonGo()) {
             openPokemonGoApp();
+        }
+    }
+
+    protected boolean restartOnStop = false;
+
+    private void restartOnStop(boolean isPokeflyRunning) {
+        if (restartOnStop && !isPokeflyRunning) {
+            launchButton.callOnClick();
+            restartOnStop = false;
         }
     }
 

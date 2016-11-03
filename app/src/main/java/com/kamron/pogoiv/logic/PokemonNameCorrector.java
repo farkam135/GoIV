@@ -42,8 +42,9 @@ public class PokemonNameCorrector {
      * 1. check if the nickname perfectly matches a pokemon
      * 2. check if candyname + evolution cost perfectly matches a pokemon
      * 3. check if there's a stored user correction for the scanned pokemon name
-     * 4. get the pokemon with the closest name within the evolution line guessed from the candy
-     * 5. All else failed: make a wild guess based only on closest name match
+     * 4. check correction for Eevee’s Evolution
+     * 5. get the pokemon with the closest name within the evolution line guessed from the candy
+     * 6. All else failed: make a wild guess based only on closest name match
      * <p>
      * The order is decided by having high reliability guessing modules run first, and if they cant find an answer,
      * fall back to less accurate methods.
@@ -78,12 +79,24 @@ public class PokemonNameCorrector {
             }
         }
 
-        //4.  get the pokemon with the closest name within the evolution line guessed from the candy.
+        //4.  check correction for Eevee’s Evolution
+        if (guess.pokemon == null) {
+            HashMap<String, String> EeveelutionCorrection = new HashMap<String,String>();
+            EeveelutionCorrection.put("Rainer", pokeInfoCalculator.get(133).name); //Vaporeon
+            EeveelutionCorrection.put("Sparky", pokeInfoCalculator.get(134).name); //Jolteon
+            EeveelutionCorrection.put("Pyro",   pokeInfoCalculator.get(135).name); //Flareon
+            if (EeveelutionCorrection.containsKey(poketext)) {
+                poketext = EeveelutionCorrection.get(poketext);
+                guess = new PokeDist(pokeInfoCalculator.get(poketext), 20);
+            }
+        }
+
+        //5.  get the pokemon with the closest name within the evolution line guessed from the candy.
         if (guess.pokemon == null && candyAndUpgradeGuess != null) {
             guess =  getNicknameGuess(poketext, candyAndUpgradeGuess);
         }
 
-        //5. All else failed: make a wild guess based only on closest name match
+        //6. All else failed: make a wild guess based only on closest name match
         if (guess.pokemon == null) {
             guess = getNicknameGuess(poketext, pokeInfoCalculator.getPokedex());
         }

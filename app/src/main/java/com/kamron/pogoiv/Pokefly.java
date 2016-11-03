@@ -419,7 +419,9 @@ public class Pokefly extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (intent == null) {
-            return START_STICKY;
+            //We should not reach here with no intent, this wil error later due to view being null so we throw error now
+            //https://github.com/farkam135/GoIV/issues/477
+            throw new java.lang.IllegalArgumentException("No intent found.");
         }
 
         running = true;
@@ -443,8 +445,9 @@ public class Pokefly extends Service {
                 screenShotHelper = ScreenShotHelper.start(Pokefly.this);
             }
         }
-
-        return START_STICKY;
+        //We have intent data, it's possible this service will be killed and we would want to recreate it
+        //https://github.com/farkam135/GoIV/issues/477
+        return START_REDELIVER_INTENT;
     }
 
     private void watchScreen() {

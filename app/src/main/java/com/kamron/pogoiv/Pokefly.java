@@ -64,14 +64,12 @@ import com.kamron.pogoiv.logic.PokeInfoCalculator;
 import com.kamron.pogoiv.logic.PokeSpam;
 import com.kamron.pogoiv.logic.Pokemon;
 import com.kamron.pogoiv.logic.PokemonNameCorrector;
+import com.kamron.pogoiv.logic.PokemonShareHandler;
 import com.kamron.pogoiv.logic.ScanContainer;
 import com.kamron.pogoiv.logic.ScanResult;
 import com.kamron.pogoiv.logic.UpgradeCost;
 import com.kamron.pogoiv.widgets.IVResultsAdapter;
 import com.kamron.pogoiv.widgets.PokemonSpinnerAdapter;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.File;
 import java.text.DecimalFormat;
@@ -953,42 +951,12 @@ public class Pokefly extends Service {
      * Creates an intent to share the result of the pokemon scan, and closes the overlay.
      */
     public void shareScannedPokemonInformation() {
-        Toast.makeText(this, "Pressed", Toast.LENGTH_LONG);
-        shareResultIntent();
+        PokemonShareHandler communicator = new PokemonShareHandler();
+        communicator.spreadResultIntent(this, ScanContainer.scanContainer.currScan);
         cancelInfoDialog();
     }
 
-    /**
-     * Creates an intent to share the result of the pokemon scan,
-     */
-    private void shareResultIntent() {
-        IVScanResult ivScan = ScanContainer.scanContainer.currScan;
 
-
-        JSONObject jsonPokemon = new JSONObject();
-        try {
-            jsonPokemon.put("PokemonId", ivScan.pokemon.number + 1);
-            jsonPokemon.put("AtkMin", ivScan.lowAttack);
-            jsonPokemon.put("AtkMax", ivScan.highAttack);
-            jsonPokemon.put("DefMin", ivScan.lowDefense);
-            jsonPokemon.put("DefMax", ivScan.highDefense);
-            jsonPokemon.put("StamMin", ivScan.lowStamina);
-            jsonPokemon.put("StamMax", ivScan.highStamina);
-            jsonPokemon.put("OverallPower", ivScan.getAveragePercent());
-            jsonPokemon.put("Hp", ivScan.scannedHP);
-            jsonPokemon.put("Cp", ivScan.scannedCP);
-            jsonPokemon.put("uniquePokemon", ivScan.uniquePokemonID);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        Intent sendIntent = new Intent();
-        sendIntent.setAction(Intent.ACTION_SEND);
-        sendIntent.putExtra(Intent.EXTRA_TEXT, jsonPokemon.toString());
-        sendIntent.setType("application/pokemon-stats");
-        sendIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(sendIntent);
-    }
 
     private void resetToSpinner() {
         autoCompleteTextView1.setVisibility(View.GONE);

@@ -32,6 +32,23 @@
             android:text="@string/level"
             android:layout_marginLeft="5sp"/>
 
+        <View
+
+            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="1">
+
+        </View>
+
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@android:drawable/ic_menu_share"
+            android:background="#00000000"
+            android:text=""
+            android:id="@+id/shareWithStorimod"/>
+
 
 
     </LinearLayout>
@@ -342,10 +359,5 @@
 
     </LinearLayout>
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Test share button"
-        android:id="@+id/shareWithStorimod"/>
 
 </LinearLayout>

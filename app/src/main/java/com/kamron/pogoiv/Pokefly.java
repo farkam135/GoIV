@@ -45,6 +45,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
@@ -162,7 +163,7 @@ public class Pokefly extends Service {
     Button pokePickerToggleSpinnerVsInput;
 
     @BindView(R.id.shareWithStorimod)
-    Button shareWithStorimod;
+    ImageButton shareWithStorimod;
 
     private PokemonSpinnerAdapter pokeInputSpinnerAdapter;
     @BindView(R.id.spnPokemonName)

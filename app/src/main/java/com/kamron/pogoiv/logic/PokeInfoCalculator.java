@@ -1,6 +1,5 @@
 package com.kamron.pogoiv.logic;
 
-import com.google.common.base.Optional;
 
 import java.util.ArrayList;
 import java.util.Collections;

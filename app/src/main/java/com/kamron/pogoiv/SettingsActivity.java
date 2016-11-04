@@ -15,6 +15,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
+import com.kamron.pogoiv.clipboard.ClipboardModifierActivity;
 import com.kamron.pogoiv.updater.AppUpdate;
 import com.kamron.pogoiv.updater.AppUpdateUtil;
 
@@ -61,6 +62,17 @@ public class SettingsActivity extends AppCompatActivity {
             getPreferenceManager().setSharedPreferencesName(GoIVSettings.PREFS_GO_IV_SETTINGS);
             addPreferencesFromResource(R.xml.settings);
 
+            //Initialize the button which opens the clipboard modifier activity
+            Preference button = (Preference)findPreference(getString(R.string.clipboardButton));
+            button.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    Intent intent = new Intent(getActivity(), ClipboardModifierActivity.class);
+                    startActivity(intent);
+                    return true;
+                }
+            });
+
             if (BuildConfig.isInternetAvailable) {
                 Preference checkForUpdatePreference = getPreferenceManager().findPreference("checkForUpdate");
                 checkForUpdatePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -98,6 +110,18 @@ public class SettingsActivity extends AppCompatActivity {
                 manualScreenshotModePreference.setDefaultValue(true);
                 manualScreenshotModePreference.setChecked(true);
                 manualScreenshotModePreference.setEnabled(false);
+            }
+
+            //If strings support use_default_pokemonsname_as_ocrstring, display pref and set default ON
+            if (getResources().getBoolean(R.bool.use_default_pokemonsname_as_ocrstring)) {
+                SwitchPreference useDefaultPokemonNamePreference = (SwitchPreference) getPreferenceManager()
+                        .findPreference(GoIVSettings.SHOW_TRANSLATED_POKEMON_NAME);
+                useDefaultPokemonNamePreference.setEnabled(true);
+                useDefaultPokemonNamePreference.setDefaultValue(true);
+            } else {
+                SwitchPreference useDefaultPokemonNamePreference = (SwitchPreference) getPreferenceManager()
+                        .findPreference(GoIVSettings.SHOW_TRANSLATED_POKEMON_NAME);
+                getPreferenceScreen().removePreference(useDefaultPokemonNamePreference);
             }
         }
     }

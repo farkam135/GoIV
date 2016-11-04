@@ -1,7 +1,5 @@
 package com.kamron.pogoiv.logic;
 
-import com.google.common.base.Optional;
-
 import lombok.Getter;
 
 /**
@@ -10,8 +8,8 @@ import lombok.Getter;
 
 @Getter
 public class PokeSpam {
-    final int howManyPokemonWeHavePerRow = 3;
-    final int defaultBonus = 1;
+    private static final int HOW_MANY_POKEMON_WE_HAVE_PER_ROW = 3;
+    private static final int DEFAULT_BONUS = 1;
 
     private int totalEvolvable;
     private int evolveRows;
@@ -20,7 +18,7 @@ public class PokeSpam {
     private int amountXPWithLuckyEgg;
 
     public PokeSpam(int candyPlayerHas, int candyEvolutionCost) {
-        calculatePokeSpam(candyPlayerHas, candyEvolutionCost, defaultBonus);
+        this(candyPlayerHas, candyEvolutionCost, DEFAULT_BONUS);
     }
 
     /**
@@ -30,8 +28,8 @@ public class PokeSpam {
      * @param candyEvolutionCost How much candy it cost to evolve the pokemon
      * @param bonus              How much bonus for evolving, for example 1 is for regular evolve, 2 is for transferring
      */
-    public PokeSpam(int candyPlayerHas, int candyEvolutionCost, Optional<Integer> bonus) {
-        calculatePokeSpam(candyPlayerHas, candyEvolutionCost, bonus.or(defaultBonus));
+    public PokeSpam(int candyPlayerHas, int candyEvolutionCost, int bonus) {
+        calculatePokeSpam(candyPlayerHas, candyEvolutionCost, bonus);
     }
 
     /**
@@ -50,8 +48,8 @@ public class PokeSpam {
 
         //math.floor is not needed as int already does it, but its makes it explicit that we do it for readability
         totalEvolvable = (int) Math.floor((candyPlayerHas - bonus) / (candyEvolutionCost - bonus));
-        evolveRows = (int) Math.floor(totalEvolvable / howManyPokemonWeHavePerRow);
-        evolveExtra = (int) Math.floor(totalEvolvable % howManyPokemonWeHavePerRow);
+        evolveRows = (int) Math.floor(totalEvolvable / HOW_MANY_POKEMON_WE_HAVE_PER_ROW);
+        evolveExtra = (int) Math.floor(totalEvolvable % HOW_MANY_POKEMON_WE_HAVE_PER_ROW);
         amountXP = 500 * totalEvolvable;
         amountXPWithLuckyEgg = amountXP * 2;
     }

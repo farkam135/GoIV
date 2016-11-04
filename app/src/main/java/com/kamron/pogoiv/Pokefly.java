@@ -13,6 +13,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
@@ -73,6 +75,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -362,6 +365,31 @@ public class Pokefly extends Service {
         return null;
     }
 
+    private String[] getPokemonNamesArray() {
+        if (getResources().getBoolean(R.bool.use_default_pokemonsname_as_ocrstring)) {
+            //If flag ON, force to use English strings as pokemon name for OCR.
+            Resources res = getResources();
+            Configuration conf = res.getConfiguration();
+            Locale def = getResources().getConfiguration().locale;//Keep original locale
+            conf.setLocale(new Locale("en"));
+            res.updateConfiguration(conf, null);
+            String[] rtn = res.getStringArray(R.array.pokemon);
+            conf.setLocale(def);//Restore to original locale
+            res.updateConfiguration(conf, null);
+            return rtn;
+        }
+        return getResources().getStringArray(R.array.pokemon);
+    }
+
+    private String[] getPokemonDisplayNamesArray() {
+        if (GoIVSettings.getInstance(getBaseContext()).isShowTranslatedPokemonName()) {
+            //If pref ON, use translated strings as pokemon name.
+            return getResources().getStringArray(R.array.pokemon);
+        }
+        //Otherwise, use default locale's pokemon name.
+        return getPokemonNamesArray();
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -371,7 +399,8 @@ public class Pokefly extends Service {
         LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(ACTION_UPDATE_UI));
 
         pokeInfoCalculator = PokeInfoCalculator.getInstance(
-                getResources().getStringArray(R.array.pokemon),
+                getPokemonNamesArray(),
+                getPokemonDisplayNamesArray(),
                 getResources().getIntArray(R.array.attack),
                 getResources().getIntArray(R.array.defense),
                 getResources().getIntArray(R.array.stamina),
@@ -1194,6 +1223,11 @@ public class Pokefly extends Service {
         }
     }
 
+    /**
+     * Saves the pokemon nickname relation to picked pokemon, and saves it to sharedPref settings.
+     * @param ocredPokemonName The scanned nickname
+     * @param correctedPokemonName The pokemon to connect with the nickname
+     */
     private void putCorrection(String ocredPokemonName, String correctedPokemonName) {
         corrector.putCorrection(ocredPokemonName, correctedPokemonName);
         SharedPreferences.Editor edit = sharedPref.edit();
@@ -1334,7 +1368,7 @@ public class Pokefly extends Service {
      * Shows the name and level of the pokemon in the results dialog.
      */
     private void populateResultsHeader(IVScanResult ivScanResult) {
-        resultsPokemonName.setText(ivScanResult.pokemon.name);
+        resultsPokemonName.setText(ivScanResult.pokemon.toString());
         resultsPokemonLevel.setText(getString(R.string.level_num, ivScanResult.estimatedPokemonLevel));
     }
 

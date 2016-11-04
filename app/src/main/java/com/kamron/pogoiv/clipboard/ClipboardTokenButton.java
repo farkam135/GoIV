@@ -16,16 +16,18 @@ import android.widget.Button;
 
 public class ClipboardTokenButton extends Button {
 
+    private static final int maxEvColor = Color.parseColor("#dafaea");
+    private static final int normalBackgroundColor = Color.parseColor("#d9f5f9");
+    private static final int selectedBackgroundColor = Color.parseColor("#303F9F");
+    private static final int textColor = Color.parseColor("#0a0a0a");
+    private static final int selectedTextColor = Color.parseColor("#fafafa");
     private ClipboardToken token;
-    private ClipboardTokenHandler cth;
     private ClipboardModifierActivity clipboardModifierActivity;
-
 
     public ClipboardTokenButton(ClipboardModifierActivity clipboardModifierActivity, ClipboardToken token,
                                 ClipboardTokenHandler cth) {
         this(clipboardModifierActivity);
         this.setTransformationMethod(null); //dont capitalize the text
-        this.cth = cth;
         this.clipboardModifierActivity = clipboardModifierActivity;
         this.token = token;
 
@@ -60,7 +62,7 @@ public class ClipboardTokenButton extends Button {
         this.setLayoutParams(new ActionBar.LayoutParams(ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams
                 .WRAP_CONTENT));
 
-        String evPrefix = token.maxEv ? "Ev" : "";
+        String evPrefix = token.maxEv ? "♚" : "";
         this.setText(evPrefix + token.getTokenName(this.getContext()));
     }
 
@@ -69,19 +71,19 @@ public class ClipboardTokenButton extends Button {
      */
     public void resetColor() {
         if (token.maxEv) {
-            setBackgroundColor(Color.parseColor("#dafaea"));
+            setBackgroundColor(maxEvColor);
         } else {
-            setBackgroundColor(Color.parseColor("#fafafa"));
+            setBackgroundColor(normalBackgroundColor);
         }
-        setTextColor(Color.parseColor("#0a0a0a"));
+        setTextColor(textColor);
     }
 
     /**
      * Sets the color of the button to a selected color.
      */
     public void setSelectedColor() {
-        setBackgroundColor(Color.parseColor("#303F9F"));
-        setTextColor(Color.parseColor("#fafafa"));
+        setBackgroundColor(selectedBackgroundColor);
+        setTextColor(selectedTextColor);
     }
 
     /**

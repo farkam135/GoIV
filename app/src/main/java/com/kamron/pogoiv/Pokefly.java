@@ -949,11 +949,20 @@ public class Pokefly extends Service {
 
     @OnClick({R.id.shareWithStorimod})
     /**
-     * Creates an intent to share the result of the pokemon scan
+     * Creates an intent to share the result of the pokemon scan, and closes the overlay.
      */
     public void shareScannedPokemonInformation() {
         Toast.makeText(this, "Pressed", Toast.LENGTH_LONG);
+        shareResultIntent();
+        cancelInfoDialog();
+    }
+
+    /**
+     * Creates an intent to share the result of the pokemon scan,
+     */
+    private void shareResultIntent() {
         IVScanResult ivScan = ScanContainer.scanContainer.currScan;
+
 
         JSONObject jsonPokemon = new JSONObject();
         try {

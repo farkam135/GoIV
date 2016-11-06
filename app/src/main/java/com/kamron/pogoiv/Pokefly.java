@@ -1840,6 +1840,14 @@ public class Pokefly extends Service {
             } else {
                 screenShotPath = Optional.absent();
             }
+
+            // this should allow processing of images where the displaymetrics don't match, for example a different
+            // phone, it is known that the red dot might not display correctly.
+            if (displayMetrics.heightPixels != bitmap.getHeight() || displayMetrics.widthPixels != bitmap.getWidth()) {
+                bitmap = Bitmap.createScaledBitmap(bitmap, displayMetrics.widthPixels, displayMetrics.heightPixels,
+                        true);
+            }
+
             scanPokemon(bitmap, screenShotPath);
             bitmap.recycle();
         }

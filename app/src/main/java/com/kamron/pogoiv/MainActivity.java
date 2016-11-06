@@ -39,8 +39,6 @@ import android.widget.Button;
 import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.TextView;
-
-
 import com.kamron.pogoiv.logic.Data;
 import com.kamron.pogoiv.updater.AppUpdate;
 import com.kamron.pogoiv.updater.AppUpdateUtil;
@@ -52,6 +50,8 @@ import timber.log.Timber;
 public class MainActivity extends AppCompatActivity {
 
     public static final String ACTION_SHOW_UPDATE_DIALOG = "com.kamron.pogoiv.SHOW_UPDATE_DIALOG";
+    public static final String ACTION_CLICK_ON_BUTTON = "com.kamron.pogoiv.ACTION_CLICK_ON_BUTTON";
+
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final int OVERLAY_PERMISSION_REQ_CODE = 1234;
     private static final int WRITE_STORAGE_REQ_CODE = 1236;
@@ -79,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             updateLaunchButtonText(Pokefly.isRunning());
             launchButton.setEnabled(true);
+            restartOnStop(Pokefly.isRunning());
         }
     };
     private final BroadcastReceiver showUpdateDialog = new BroadcastReceiver() {
@@ -96,6 +97,14 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     };
+
+    private final BroadcastReceiver clickOnStopStart = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            launchButton.callOnClick();
+        }
+    };
+
     private GoIVSettings settings;
 
     public static Intent createUpdateDialogIntent(AppUpdate update) {
@@ -129,6 +138,8 @@ public class MainActivity extends AppCompatActivity {
         }
         return true;
     }
+
+    NpTrainerLevelPickerListener npTrainerLevelPickerListenerInstance = new NpTrainerLevelPickerListener(this);
 
     @TargetApi(Build.VERSION_CODES.M)
     @Override
@@ -164,6 +175,9 @@ public class MainActivity extends AppCompatActivity {
         npTrainerLevel.setWrapSelectorWheel(false);
         npTrainerLevel.setValue(trainerLevel);
 
+        npTrainerLevel.setOnScrollListener(npTrainerLevelPickerListenerInstance);
+        npTrainerLevel.setOnValueChangedListener(npTrainerLevelPickerListenerInstance);
+
         displayMetrics = this.getResources().getDisplayMetrics();
         WindowManager windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
         rawDisplayMetrics = new DisplayMetrics();
@@ -175,6 +189,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
+                skipOpenPokemon = false;
                 if (!hasAllPermissions()) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(
                             MainActivity.this)) {
@@ -212,7 +227,8 @@ public class MainActivity extends AppCompatActivity {
                 new IntentFilter(Pokefly.ACTION_UPDATE_UI));
         LocalBroadcastManager.getInstance(this).registerReceiver(showUpdateDialog,
                 new IntentFilter(ACTION_SHOW_UPDATE_DIALOG));
-
+        LocalBroadcastManager.getInstance(this).registerReceiver(clickOnStopStart,
+                new IntentFilter(ACTION_CLICK_ON_BUTTON));
         initiateTeamPickerSpinner();
     }
 
@@ -328,8 +344,18 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = Pokefly.createIntent(this, trainerLevel, statusBarHeight, batterySaver);
         startService(intent);
 
-        if (settings.shouldLaunchPokemonGo()) {
+        if (settings.shouldLaunchPokemonGo()
+                && !(npTrainerLevelPickerListenerInstance.getRestartingOnStop() || skipOpenPokemon)) {
             openPokemonGoApp();
+        }
+    }
+
+    protected boolean skipOpenPokemon = false;
+
+    private void restartOnStop(boolean isPokeflyRunning) {
+        if (npTrainerLevelPickerListenerInstance.getRestartingOnStop() && !isPokeflyRunning) {
+            launchButton.callOnClick();
+            npTrainerLevelPickerListenerInstance.setRestartingOnStop(false);
         }
     }
 
@@ -357,6 +383,7 @@ public class MainActivity extends AppCompatActivity {
     public void onDestroy() {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(pokeflyStateChanged);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(showUpdateDialog);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(clickOnStopStart);
         super.onDestroy();
     }
 
@@ -404,6 +431,9 @@ public class MainActivity extends AppCompatActivity {
      */
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void startScreenService() {
+        if (npTrainerLevelPickerListenerInstance.getRestartingOnStop()) {
+            skipOpenPokemon = true;
+        }
         launchButton.setText(R.string.accept_screen_capture);
         MediaProjectionManager projectionManager = (MediaProjectionManager) getSystemService(
                 Context.MEDIA_PROJECTION_SERVICE);

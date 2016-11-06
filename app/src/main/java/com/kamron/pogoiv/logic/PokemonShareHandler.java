@@ -31,6 +31,9 @@ public class PokemonShareHandler {
             jsonPokemon.put("Hp", ivScan.scannedHP);
             jsonPokemon.put("Cp", ivScan.scannedCP);
             jsonPokemon.put("uniquePokemon", ivScan.uniquePokemonID);
+            jsonPokemon.put("estimatedPokemonLevel", ivScan.estimatedPokemonLevel);
+            jsonPokemon.put("candyName", ivScan.pokemon.evolutions.get(0).name);
+
         } catch (JSONException e) {
             e.printStackTrace();
         }

@@ -63,9 +63,9 @@ public class PokemonNameCorrector {
         //2. See if we can get a perfect match with candy name & upgrade cost
         if (guess.pokemon == null) {
             bestGuessEvolutionLine = getBestGuessForEvolutionLine(candytext);
-            ArrayList<Pokemon> candyNameEvolutionCostGuess = bestGuessEvolutionLine = getCandyNameEvolutionCostGuess(
-                    bestGuessEvolutionLine,
-                    candyUpgradeCost);
+
+            ArrayList<Pokemon> candyNameEvolutionCostGuess =
+                    getCandyNameEvolutionCostGuess(bestGuessEvolutionLine, candyUpgradeCost);
             if (candyNameEvolutionCostGuess != null) {
                 if (candyNameEvolutionCostGuess.size() == 1) {
                     //we have only one guess this is the one
@@ -87,10 +87,10 @@ public class PokemonNameCorrector {
 
         //4.  check correction for Eevee’s Evolution
         if (guess.pokemon == null) {
-            HashMap<String, String> EeveelutionCorrection = new HashMap<String,String>();
+            HashMap<String, String> EeveelutionCorrection = new HashMap<String, String>();
             EeveelutionCorrection.put("Rainer", pokeInfoCalculator.get(133).name); //Vaporeon
             EeveelutionCorrection.put("Sparky", pokeInfoCalculator.get(134).name); //Jolteon
-            EeveelutionCorrection.put("Pyro",   pokeInfoCalculator.get(135).name); //Flareon
+            EeveelutionCorrection.put("Pyro", pokeInfoCalculator.get(135).name); //Flareon
             if (EeveelutionCorrection.containsKey(poketext)) {
                 poketext = EeveelutionCorrection.get(poketext);
                 guess = new PokeDist(pokeInfoCalculator.get(poketext), 20);

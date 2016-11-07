@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String ACTION_SHOW_UPDATE_DIALOG = "com.kamron.pogoiv.SHOW_UPDATE_DIALOG";
     public static final String ACTION_CLICK_ON_BUTTON = "com.kamron.pogoiv.ACTION_CLICK_ON_BUTTON";
+    public static final String ACTION_START_SETTINGS = "com.kamron.pogoiv.ACTION_START_SETTINGS";
 
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final int OVERLAY_PERMISSION_REQ_CODE = 1234;
@@ -438,5 +439,21 @@ public class MainActivity extends AppCompatActivity {
         MediaProjectionManager projectionManager = (MediaProjectionManager) getSystemService(
                 Context.MEDIA_PROJECTION_SERVICE);
         startActivityForResult(projectionManager.createScreenCaptureIntent(), SCREEN_CAPTURE_REQ_CODE);
+    }
+
+    /**
+     * Handles custom action intents probably from notification.
+     */
+    @Override
+    public void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        if (ACTION_CLICK_ON_BUTTON.equals(intent.getAction())) {
+            clickOnStopStart.onReceive(this,intent);
+        }
+        if (ACTION_START_SETTINGS.equals(intent.getAction())) {
+            Intent settingsIntent = new Intent(MainActivity.this, SettingsActivity.class);
+            startActivity(settingsIntent);
+        }
     }
 }

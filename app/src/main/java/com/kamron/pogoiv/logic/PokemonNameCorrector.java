@@ -121,7 +121,7 @@ public class PokemonNameCorrector {
      * @return a pokemon that perfectly matches the input, or null if no match was found
      */
     private ArrayList<Pokemon> getCandyNameEvolutionCostGuess(ArrayList<Pokemon> bestGuessEvolutionLine,
-                                                   Optional<Integer> evolutionCost) {
+                                                              Optional<Integer> evolutionCost) {
         if (evolutionCost.isPresent()) {
             ArrayList<Pokemon> PokemonValidOptions = new ArrayList<Pokemon>();
             for (Pokemon pokemon : bestGuessEvolutionLine) {

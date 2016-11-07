@@ -1185,7 +1185,8 @@ public class Pokefly extends Service {
 
     /**
      * Saves the pokemon nickname relation to picked pokemon, and saves it to sharedPref settings.
-     * @param ocredPokemonName The scanned nickname
+     *
+     * @param ocredPokemonName     The scanned nickname
      * @param correctedPokemonName The pokemon to connect with the nickname
      */
     private void putCorrection(String ocredPokemonName, String correctedPokemonName) {

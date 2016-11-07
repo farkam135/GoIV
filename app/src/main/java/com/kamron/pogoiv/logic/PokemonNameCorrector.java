@@ -87,12 +87,12 @@ public class PokemonNameCorrector {
 
         //4.  check correction for Eevee’s Evolution
         if (guess.pokemon == null) {
-            HashMap<String, String> EeveelutionCorrection = new HashMap<String, String>();
-            EeveelutionCorrection.put("Rainer", pokeInfoCalculator.get(133).name); //Vaporeon
-            EeveelutionCorrection.put("Sparky", pokeInfoCalculator.get(134).name); //Jolteon
-            EeveelutionCorrection.put("Pyro", pokeInfoCalculator.get(135).name); //Flareon
-            if (EeveelutionCorrection.containsKey(poketext)) {
-                poketext = EeveelutionCorrection.get(poketext);
+            HashMap<String, String> eeveelutionCorrection = new HashMap<>();
+            eeveelutionCorrection.put("Rainer", pokeInfoCalculator.get(133).name); //Vaporeon
+            eeveelutionCorrection.put("Sparky", pokeInfoCalculator.get(134).name); //Jolteon
+            eeveelutionCorrection.put("Pyro", pokeInfoCalculator.get(135).name); //Flareon
+            if (eeveelutionCorrection.containsKey(poketext)) {
+                poketext = eeveelutionCorrection.get(poketext);
                 guess = new PokeDist(pokeInfoCalculator.get(poketext), 20);
             }
         }

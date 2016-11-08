@@ -44,11 +44,10 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:src="@android:drawable/ic_menu_share"
+            android:src="@drawable/ic_share_black"
             android:background="#00000000"
             android:text=""
             android:id="@+id/shareWithStorimod"/>
-
 
 
     </LinearLayout>

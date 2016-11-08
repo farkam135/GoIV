@@ -6,11 +6,9 @@ import android.os.Handler;
 import android.support.v4.content.LocalBroadcastManager;
 import android.widget.NumberPicker;
 
-import lombok.Getter;
-import lombok.Setter;
-
-
 /**
+ * This handler will handle changes to NpTrainerLevelPickerListener and handles if we restart on complete and if we
+ * skip restarting Pogo.
  * Created by NightMadness on 11/5/2016.
  */
 
@@ -20,8 +18,6 @@ class NpTrainerLevelPickerListener implements NumberPicker.OnScrollListener, Num
     private final int delayTime = 500;
     private Context context;
 
-    @Getter @Setter
-    private boolean restartingOnStop;
 
     public NpTrainerLevelPickerListener(Context context) {
         this.context = context;
@@ -31,9 +27,8 @@ class NpTrainerLevelPickerListener implements NumberPicker.OnScrollListener, Num
         @Override
         public void run() {
             if (Pokefly.isRunning()) {
-                restartingOnStop = true;
                 LocalBroadcastManager.getInstance(context)
-                        .sendBroadcast(new Intent(MainActivity.ACTION_CLICK_ON_BUTTON));
+                        .sendBroadcast(new Intent(MainActivity.ACTION_RESTART_POKEFLY));
             }
         }
     };
@@ -45,12 +40,13 @@ class NpTrainerLevelPickerListener implements NumberPicker.OnScrollListener, Num
             update();
         } else {
             //we are scrolling (or flinging) so we don't need to run update
+            //just in case we had any pending posts in queue.
             handler.removeCallbacks(runnable);
         }
     }
 
     @Override
-    public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+    public void onValueChange(final NumberPicker picker, final int oldVal, final int newVal) {
         if (scrollState == SCROLL_STATE_IDLE) {
             update();
         }

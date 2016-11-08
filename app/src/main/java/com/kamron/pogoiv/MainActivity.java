@@ -50,8 +50,10 @@ import timber.log.Timber;
 public class MainActivity extends AppCompatActivity {
 
     public static final String ACTION_SHOW_UPDATE_DIALOG = "com.kamron.pogoiv.SHOW_UPDATE_DIALOG";
-    public static final String ACTION_CLICK_ON_BUTTON = "com.kamron.pogoiv.ACTION_CLICK_ON_BUTTON";
-    public static final String ACTION_START_SETTINGS = "com.kamron.pogoiv.ACTION_START_SETTINGS";
+    public static final String ACTION_START_POKEFLY = "com.kamron.pogoiv.ACTION_START_POKEFLY";
+    public static final String ACTION_RESTART_POKEFLY = "com.kamron.pogoiv.ACTION_RESTART_POKEFLY";
+    public static final String ACTION_INCREMENT_LEVEL = "com.kamron.pogoiv.ACTION_INCREMENT_LEVEL";
+    public static final String ACTION_OPEN_SETTINGS = "com.kamron.pogoiv.ACTION_OPEN_SETTINGS";
 
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final int OVERLAY_PERMISSION_REQ_CODE = 1234;
@@ -80,9 +82,10 @@ public class MainActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             updateLaunchButtonText(Pokefly.isRunning());
             launchButton.setEnabled(true);
-            restartOnStop(Pokefly.isRunning());
+            startPokeFlyOnStop();
         }
     };
+
     private final BroadcastReceiver showUpdateDialog = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -99,10 +102,13 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    private final BroadcastReceiver clickOnStopStart = new BroadcastReceiver() {
+    private boolean shouldRestartOnStopComplete;
+    private boolean skipStartPogo;
+
+    private final BroadcastReceiver restartPokeFly = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            launchButton.callOnClick();
+            restartPokeFly(true);
         }
     };
 
@@ -191,7 +197,6 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                skipOpenPokemon = false;
                 if (!hasAllPermissions()) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(
                             MainActivity.this)) {
@@ -229,8 +234,8 @@ public class MainActivity extends AppCompatActivity {
                 new IntentFilter(Pokefly.ACTION_UPDATE_UI));
         LocalBroadcastManager.getInstance(this).registerReceiver(showUpdateDialog,
                 new IntentFilter(ACTION_SHOW_UPDATE_DIALOG));
-        LocalBroadcastManager.getInstance(this).registerReceiver(clickOnStopStart,
-                new IntentFilter(ACTION_CLICK_ON_BUTTON));
+        LocalBroadcastManager.getInstance(this).registerReceiver(restartPokeFly,
+                new IntentFilter(ACTION_RESTART_POKEFLY));
         initiateTeamPickerSpinner();
 
         runActionOnIntent(getIntent());
@@ -348,20 +353,12 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = Pokefly.createIntent(this, trainerLevel, statusBarHeight, batterySaver);
         startService(intent);
 
-        if (settings.shouldLaunchPokemonGo()
-                && !(npTrainerLevelPickerListenerInstance.getRestartingOnStop() || skipOpenPokemon)) {
+        if (settings.shouldLaunchPokemonGo() && !skipStartPogo) {
             openPokemonGoApp();
         }
+        skipStartPogo = false;
     }
 
-    protected boolean skipOpenPokemon = false;
-
-    private void restartOnStop(boolean isPokeflyRunning) {
-        if (npTrainerLevelPickerListenerInstance.getRestartingOnStop() && !isPokeflyRunning) {
-            launchButton.callOnClick();
-            npTrainerLevelPickerListenerInstance.setRestartingOnStop(false);
-        }
-    }
 
     private void updateLaunchButtonText(boolean isPokeflyRunning) {
         if (!hasAllPermissions()) {
@@ -387,7 +384,7 @@ public class MainActivity extends AppCompatActivity {
     public void onDestroy() {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(pokeflyStateChanged);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(showUpdateDialog);
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(clickOnStopStart);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(restartPokeFly);
         super.onDestroy();
     }
 
@@ -435,9 +432,6 @@ public class MainActivity extends AppCompatActivity {
      */
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void startScreenService() {
-        if (npTrainerLevelPickerListenerInstance.getRestartingOnStop()) {
-            skipOpenPokemon = true;
-        }
         launchButton.setText(R.string.accept_screen_capture);
         MediaProjectionManager projectionManager = (MediaProjectionManager) getSystemService(
                 Context.MEDIA_PROJECTION_SERVICE);
@@ -446,6 +440,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * We will get custom intents from notifications.
+     * @param intent this paramater will not be stored and will only be available here.
      */
     @Override
     protected final void onNewIntent(Intent intent) {
@@ -460,11 +455,59 @@ public class MainActivity extends AppCompatActivity {
     private void runActionOnIntent(Intent intent) {
         if (intent == null || intent.getAction() == null ) {
             return;
-        } else if (ACTION_CLICK_ON_BUTTON.equals(intent.getAction())) {
-            clickOnStopStart.onReceive(this, intent);
-        } else if (ACTION_START_SETTINGS.equals(intent.getAction())) {
+        } else if (ACTION_START_POKEFLY.equals(intent.getAction())) {
+            if (!Pokefly.isRunning()) {
+                launchButton.callOnClick();
+            }
+        } else if (ACTION_INCREMENT_LEVEL.equals(intent.getAction())) {
+            incrementTrainerLevelByOne(true);
+        } else if (ACTION_OPEN_SETTINGS.equals(intent.getAction())) {
             Intent settingsIntent = new Intent(MainActivity.this, SettingsActivity.class);
             startActivity(settingsIntent);
+        }
+    }
+
+    /**
+     * Increment or decrement the trainer level.
+     * @param addition this parameter will check if we want to increment or decrement the trainer level.
+     */
+    private void incrementTrainerLevelByOne(boolean addition) {
+        if (Pokefly.isRunning()) {
+            final NumberPicker npTrainerLevel = (NumberPicker) findViewById(R.id.trainerLevel);
+            int newvalue;
+
+            if (addition && trainerLevel < npTrainerLevel.getMaxValue()) {
+                newvalue = trainerLevel + 1;
+            } else if (!addition && trainerLevel > npTrainerLevel.getMinValue()) {
+                newvalue = trainerLevel - 1;
+            } else {
+                return;
+            }
+            npTrainerLevel.setValue(newvalue);
+            restartPokeFly(false);
+        }
+    }
+
+    /**
+     * We want to reset pokefly settings, for now we will completely restart pokefly.
+     * @param skipStartPoGO this parameter will check if we want to skip restart PoGO.
+     */
+    private void restartPokeFly(final boolean skipStartPoGO) {
+        if (Pokefly.isRunning()) {
+            this.shouldRestartOnStopComplete = true;
+            this.skipStartPogo = skipStartPoGO;
+            launchButton.callOnClick();
+        }
+    }
+
+    /**
+     * We want to restart when pokefly is finally stopped, check that its not running, then call the button.
+     */
+    private void startPokeFlyOnStop() {
+        if (!Pokefly.isRunning() && shouldRestartOnStopComplete) {
+            //we are done restarting, no need to restart again
+            shouldRestartOnStopComplete = false;
+            launchButton.callOnClick();
         }
     }
 }

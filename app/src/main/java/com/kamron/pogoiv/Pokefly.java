@@ -582,24 +582,24 @@ public class Pokefly extends Service {
      * @param isStopping should we make starting or stopping notification
      */
     private void makeNotification(boolean isStopping) {
-        Intent startSettingAppIntent = new Intent(this, MainActivity.class);
-
-        startSettingAppIntent.setAction(MainActivity.ACTION_START_SETTINGS);
-
-        PendingIntent startSettingsPendingIntent = PendingIntent.getActivity(
-                this, 0, startSettingAppIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        NotificationCompat.Action startSettingsAction = new NotificationCompat.Action.Builder(
-                R.drawable.ic_settings_white_24dp,
-                getString(R.string.settings_page_title),
-                startSettingsPendingIntent).build();
-
         Intent openAppIntent = new Intent(this, MainActivity.class);
 
         PendingIntent openAppPendingIntent = PendingIntent.getActivity(
                 this, 0, openAppIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         if (!isStopping) {
+
+            Intent incrementLevelIntent = new Intent(this, MainActivity.class);
+
+            incrementLevelIntent.setAction(MainActivity.ACTION_INCREMENT_LEVEL);
+
+            PendingIntent incrementLevelPendingIntent = PendingIntent.getActivity(
+                    this, 0, incrementLevelIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+            NotificationCompat.Action incrementLevelAction = new NotificationCompat.Action.Builder(
+                    android.R.drawable.ic_input_add,
+                    getString(R.string.increment_level),
+                    incrementLevelPendingIntent).build();
 
             Intent stopServiceIntent = new Intent(this, Pokefly.class);
             stopServiceIntent.setAction(ACTION_STOP);
@@ -619,16 +619,29 @@ public class Pokefly extends Service {
                     .setSmallIcon(R.drawable.notification_icon)
                     .setContentTitle(getString(R.string.notification_title, trainerLevel))
                     .setContentIntent(openAppPendingIntent)
-                    .addAction(startSettingsAction)
+                    .addAction(incrementLevelAction)
                     .addAction(stopServiceAction)
                     .build();
 
             startForeground(NOTIFICATION_REQ_CODE, notification);
             
         } else {
+
+            Intent startSettingAppIntent = new Intent(this, MainActivity.class);
+            startSettingAppIntent.setAction(MainActivity.ACTION_OPEN_SETTINGS);
+
+            PendingIntent startSettingsPendingIntent = PendingIntent.getActivity(
+                    this, 0, startSettingAppIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+            NotificationCompat.Action startSettingsAction = new NotificationCompat.Action.Builder(
+                    R.drawable.ic_settings_white_24dp,
+                    getString(R.string.settings_page_title),
+                    startSettingsPendingIntent).build();
+
+
             Intent startAppIntent = new Intent(this, MainActivity.class);
 
-            startAppIntent.setAction(MainActivity.ACTION_CLICK_ON_BUTTON);
+            startAppIntent.setAction(MainActivity.ACTION_START_POKEFLY);
 
             PendingIntent startServicePendingIntent = PendingIntent.getActivity(
                     this, 0, startAppIntent, PendingIntent.FLAG_UPDATE_CURRENT);

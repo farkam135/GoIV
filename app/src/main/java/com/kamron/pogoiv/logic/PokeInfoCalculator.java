@@ -34,9 +34,10 @@ public class PokeInfoCalculator {
 
     /**
      * Get the instance of pokeinfoCalculator. Must have been initiated first!
+     *
      * @return the already activated instance of PokeInfoCalculator.
      */
-    public static PokeInfoCalculator getInstance(){
+    public static PokeInfoCalculator getInstance() {
         return instance;
     }
 

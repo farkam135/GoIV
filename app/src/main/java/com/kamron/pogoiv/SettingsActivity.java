@@ -63,7 +63,7 @@ public class SettingsActivity extends AppCompatActivity {
             addPreferencesFromResource(R.xml.settings);
 
             //Initialize the button which opens the clipboard modifier activity
-            Preference button = (Preference)findPreference(getString(R.string.clipboardButton));
+            Preference button = (Preference) findPreference(getString(R.string.clipboardButton));
             button.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {

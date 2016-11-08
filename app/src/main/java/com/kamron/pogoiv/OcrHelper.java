@@ -342,10 +342,11 @@ public class OcrHelper {
 
     /**
      * Get a cropped version of your image.
-     * @param img Which image to crop
-     * @param xStart % of how far in the top left corner of the crop should be x coordinate
-     * @param yStart % of how far in the top left corner of the crop should be y coordinate
-     * @param xWidth how many % of the width should be kept starting from the xstart.
+     *
+     * @param img     Which image to crop
+     * @param xStart  % of how far in the top left corner of the crop should be x coordinate
+     * @param yStart  % of how far in the top left corner of the crop should be y coordinate
+     * @param xWidth  how many % of the width should be kept starting from the xstart.
      * @param yHeight how many % of the height should be kept starting from the ystart.
      * @return The crop of the image.
      */

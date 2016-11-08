@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.BroadcastReceiver;
@@ -425,12 +426,16 @@ public class Pokefly extends Service {
         running = true;
 
         if (ACTION_STOP.equals(intent.getAction())) {
+            if (android.os.Build.VERSION.SDK_INT >= 24) {
+                stopForeground(STOP_FOREGROUND_DETACH);
+            }
             stopSelf();
+            makeNotification(true);
         } else if (intent.hasExtra(KEY_TRAINER_LEVEL)) {
             trainerLevel = intent.getIntExtra(KEY_TRAINER_LEVEL, 1);
             statusBarHeight = intent.getIntExtra(KEY_STATUS_BAR_HEIGHT, 0);
             batterySaver = intent.getBooleanExtra(KEY_BATTERY_SAVER, false);
-            makeNotification();
+            makeNotification(false);
             createInfoLayout();
             createIVButton();
             createArcPointer();
@@ -574,41 +579,93 @@ public class Pokefly extends Service {
 
     /**
      * Creates the GoIV notification.
+     * @param isStopping should we make starting or stopping notification
      */
-    private void makeNotification() {
+    private void makeNotification(boolean isStopping) {
         Intent openAppIntent = new Intent(this, MainActivity.class);
 
         PendingIntent openAppPendingIntent = PendingIntent.getActivity(
                 this, 0, openAppIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        NotificationCompat.Action openAppAction = new NotificationCompat.Action.Builder(
-                android.R.drawable.ic_menu_more,
-                getString(R.string.notification_open_app),
-                openAppPendingIntent).build();
+        if (!isStopping) {
 
-        Intent stopServiceIntent = new Intent(this, Pokefly.class);
-        stopServiceIntent.setAction(ACTION_STOP);
+            Intent incrementLevelIntent = new Intent(this, MainActivity.class);
 
-        PendingIntent stopServicePendingIntent = PendingIntent.getService(
-                this, 0, stopServiceIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            incrementLevelIntent.setAction(MainActivity.ACTION_INCREMENT_LEVEL);
 
-        NotificationCompat.Action stopServiceAction = new NotificationCompat.Action.Builder(
-                android.R.drawable.ic_menu_close_clear_cancel,
-                getString(R.string.main_stop),
-                stopServicePendingIntent).build();
+            PendingIntent incrementLevelPendingIntent = PendingIntent.getActivity(
+                    this, 0, incrementLevelIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        Notification notification = new NotificationCompat.Builder(this)
-                .setOngoing(true)
-                .setCategory(NotificationCompat.CATEGORY_SERVICE)
-                .setColor(getColorC(R.color.colorPrimary))
-                .setSmallIcon(R.drawable.notification_icon)
-                .setContentTitle(getString(R.string.notification_title, trainerLevel))
-                .setContentIntent(openAppPendingIntent)
-                .addAction(openAppAction)
-                .addAction(stopServiceAction)
-                .build();
+            NotificationCompat.Action incrementLevelAction = new NotificationCompat.Action.Builder(
+                    android.R.drawable.ic_input_add,
+                    getString(R.string.increment_level),
+                    incrementLevelPendingIntent).build();
 
-        startForeground(NOTIFICATION_REQ_CODE, notification);
+            Intent stopServiceIntent = new Intent(this, Pokefly.class);
+            stopServiceIntent.setAction(ACTION_STOP);
+
+            PendingIntent stopServicePendingIntent = PendingIntent.getService(
+                    this, 0, stopServiceIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+            NotificationCompat.Action stopServiceAction = new NotificationCompat.Action.Builder(
+                    android.R.drawable.ic_menu_close_clear_cancel,
+                    getString(R.string.main_stop),
+                    stopServicePendingIntent).build();
+
+            Notification notification = new NotificationCompat.Builder(this)
+                    .setOngoing(true)
+                    .setCategory(NotificationCompat.CATEGORY_SERVICE)
+                    .setColor(getColorC(R.color.colorPrimary))
+                    .setSmallIcon(R.drawable.notification_icon)
+                    .setContentTitle(getString(R.string.notification_title, trainerLevel))
+                    .setContentIntent(openAppPendingIntent)
+                    .addAction(incrementLevelAction)
+                    .addAction(stopServiceAction)
+                    .build();
+
+            startForeground(NOTIFICATION_REQ_CODE, notification);
+            
+        } else {
+
+            Intent startSettingAppIntent = new Intent(this, MainActivity.class);
+            startSettingAppIntent.setAction(MainActivity.ACTION_OPEN_SETTINGS);
+
+            PendingIntent startSettingsPendingIntent = PendingIntent.getActivity(
+                    this, 0, startSettingAppIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+            NotificationCompat.Action startSettingsAction = new NotificationCompat.Action.Builder(
+                    R.drawable.ic_settings_white_24dp,
+                    getString(R.string.settings_page_title),
+                    startSettingsPendingIntent).build();
+
+
+            Intent startAppIntent = new Intent(this, MainActivity.class);
+
+            startAppIntent.setAction(MainActivity.ACTION_START_POKEFLY);
+
+            PendingIntent startServicePendingIntent = PendingIntent.getActivity(
+                    this, 0, startAppIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+            NotificationCompat.Action startServiceAction = new NotificationCompat.Action.Builder(
+                    R.drawable.notification_icon,
+                    getString(R.string.main_start),
+                    startServicePendingIntent).build();
+
+            Notification notification = new NotificationCompat.Builder(getApplicationContext())
+                    .setOngoing(false)
+                    .setCategory(NotificationCompat.CATEGORY_SERVICE)
+                    .setColor(getColorC(R.color.colorPrimary))
+                    .setSmallIcon(R.drawable.notification_icon)
+                    .setContentTitle(getString(R.string.notification_titleStopped))
+                    .setContentIntent(openAppPendingIntent)
+                    .addAction(startSettingsAction)
+                    .addAction(startServiceAction)
+                    .build();
+
+            NotificationManager mNotifyMgr =
+                    (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            mNotifyMgr.notify(NOTIFICATION_REQ_CODE,notification);
+        }
     }
 
     /**

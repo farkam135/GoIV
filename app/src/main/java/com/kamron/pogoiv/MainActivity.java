@@ -146,6 +146,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         Timber.tag(TAG);
 
         settings = GoIVSettings.getInstance(this);
@@ -231,6 +232,8 @@ public class MainActivity extends AppCompatActivity {
         LocalBroadcastManager.getInstance(this).registerReceiver(clickOnStopStart,
                 new IntentFilter(ACTION_CLICK_ON_BUTTON));
         initiateTeamPickerSpinner();
+
+        runActionOnIntent(getIntent());
     }
 
     /**
@@ -442,16 +445,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Handles custom action intents probably from notification.
+     * We will get custom intents from notifications.
      */
     @Override
-    public void onNewIntent(Intent intent) {
+    protected final void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
+        runActionOnIntent(intent);
+    }
 
-        if (ACTION_CLICK_ON_BUTTON.equals(intent.getAction())) {
-            clickOnStopStart.onReceive(this,intent);
-        }
-        if (ACTION_START_SETTINGS.equals(intent.getAction())) {
+    /**
+     * Handles custom action intents action probably from notification.
+     * @param intent will get send the intent to check the action on.
+     */
+    private void runActionOnIntent(Intent intent) {
+        if (intent == null || intent.getAction() == null ) {
+            return;
+        } else if (ACTION_CLICK_ON_BUTTON.equals(intent.getAction())) {
+            clickOnStopStart.onReceive(this, intent);
+        } else if (ACTION_START_SETTINGS.equals(intent.getAction())) {
             Intent settingsIntent = new Intent(MainActivity.this, SettingsActivity.class);
             startActivity(settingsIntent);
         }

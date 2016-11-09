@@ -436,14 +436,14 @@ public class OcrHelper {
                 String[] hpParts = pokemonHPStr.split("/");
                 String hpStr;
                 if (hpParts.length >= 2) {
-                    hpStr = hpParts[1];
+                    hpStr = hpParts[1]; //Cant read part 0 because that changes if poke has low hp
                 } else if (hpParts.length == 1) {
                     hpStr = hpParts[0];
                 } else {
                     return Optional.absent();
                 }
 
-                return Optional.of(Integer.parseInt(fixOcrLettersToNums(hpStr)));
+                return Optional.of(Integer.parseInt(hpStr.replaceAll("[^0-9]", "")));
             } catch (NumberFormatException e) {
                 //Fall-through to default.
             }

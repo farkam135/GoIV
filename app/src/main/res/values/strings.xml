@@ -67,7 +67,9 @@
     <string name="cancel">Cancel</string>
     <string name="check_iv">Check IV</string>
     <string name="notification_title">GoIV Running - Level %1$d</string>
-    <string name="notification_titleStopped">GoIV is stopped.</string>
+    <string name="notification_title_goiv_stopped">GoIV stopped</string>
+    <string name="notification_title_increment_level">Level +1</string>
+    <string name="notification_title_tap_to_open">Tap to open GoIV.</string>
     <string name="notification_open_app">Open app</string>
     <string name="close">Close</string>
     <string name="main_permission">Grant Permissions</string>
@@ -147,5 +149,4 @@
     <string name="clipboard_activity_title">GoIV Clipboard configuration</string>
     <string name="showtranslatedpokemonname_setting_title">Show translated Pokémon name</string>
     <string name="showtranslatedpokemonname_setting_summary">Display translated Pokémon name on GoIV but use its English name for OCR. This is for Pokémon Go app is in English but user\'s native language is not.</string>
-    <string name="increment_level">Level +1</string>
 </resources>

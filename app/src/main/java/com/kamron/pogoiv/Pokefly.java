@@ -600,8 +600,8 @@ public class Pokefly extends Service {
                     this, 0, incrementLevelIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
             NotificationCompat.Action incrementLevelAction = new NotificationCompat.Action.Builder(
-                    android.R.drawable.ic_input_add,
-                    getString(R.string.increment_level),
+                    android.R.drawable.ic_menu_add,
+                    getString(R.string.notification_title_increment_level),
                     incrementLevelPendingIntent).build();
 
             Intent stopServiceIntent = new Intent(this, Pokefly.class);
@@ -621,7 +621,10 @@ public class Pokefly extends Service {
                     .setColor(getColorC(R.color.colorPrimary))
                     .setSmallIcon(R.drawable.notification_icon)
                     .setContentTitle(getString(R.string.notification_title, trainerLevel))
+                    .setContentText(getString(R.string.notification_title_tap_to_open))
                     .setContentIntent(openAppPendingIntent)
+                    .setVisibility(Notification.VISIBILITY_PUBLIC)
+                    .setPriority(Notification.PRIORITY_HIGH)
                     .addAction(incrementLevelAction)
                     .addAction(stopServiceAction)
                     .build();
@@ -659,10 +662,13 @@ public class Pokefly extends Service {
                     .setCategory(NotificationCompat.CATEGORY_SERVICE)
                     .setColor(getColorC(R.color.colorPrimary))
                     .setSmallIcon(R.drawable.notification_icon)
-                    .setContentTitle(getString(R.string.notification_titleStopped))
+                    .setContentTitle(getString(R.string.notification_title_goiv_stopped))
+                    .setContentText(getString(R.string.notification_title_tap_to_open))
                     .setContentIntent(openAppPendingIntent)
                     .addAction(startSettingsAction)
                     .addAction(startServiceAction)
+                    .setVisibility(Notification.VISIBILITY_PUBLIC)
+                    .setPriority(Notification.PRIORITY_HIGH)
                     .build();
 
             NotificationManager mNotifyMgr =

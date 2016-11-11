@@ -486,14 +486,14 @@ public class OcrHelper {
      * @param pokemonImage the image of the whole pokemon screen
      * @return a string which should remain the same even if you power up a pokemon
      */
-    private String getPokemonIdentifierFromImg(Bitmap pokemonImage) {
+    private Optional<String> getPokemonIdentifierFromImg(Bitmap pokemonImage) {
         Bitmap infoRow = Bitmap.createBitmap(pokemonImage,
                 (int)Math.round(widthPixels * .1f), (int)Math.round(heightPixels / 1.714286f),
                 (int)Math.round(widthPixels * .8f), (int)Math.round(heightPixels / 25.26316f));
         tesseract.setImage(infoRow);
         String uniqueText = tesseract.getUTF8Text();
 
-        return uniqueText;
+        return Optional.fromNullable(uniqueText);
     }
 
 
@@ -547,7 +547,7 @@ public class OcrHelper {
         Optional<Integer> pokemonCP = getPokemonCPFromImg(pokemonImage);
         Optional<Integer> pokemonCandyAmount = getCandyAmountFromImg(pokemonImage);
         Optional<Integer> pokemonUpgradeCost = getPokemonEvolutionCostFromImg(pokemonImage);
-        String pokemonUniqueIdentifier = getPokemonIdentifierFromImg(pokemonImage);
+        Optional<String> pokemonUniqueIdentifier = getPokemonIdentifierFromImg(pokemonImage);
 
         return new ScanResult(estimatedPokemonLevel, pokemonName, candyName, pokemonHP, pokemonCP,
                 pokemonCandyAmount, pokemonUpgradeCost, pokemonUniqueIdentifier);

@@ -293,7 +293,7 @@ public class Pokefly extends Service {
     private Optional<Integer> pokemonCP = Optional.absent();
     private Optional<Integer> pokemonHP = Optional.absent();
     private Optional<Integer> candyUpgradeCost = Optional.absent();
-    private String pokemonUniqueID = "";
+    private Optional<String>  pokemonUniqueID = Optional.absent();
     private double estimatedPokemonLevel = 1.0;
     private @NonNull Optional<String> screenShotPath = Optional.absent();
 
@@ -952,7 +952,7 @@ public class Pokefly extends Service {
      */
     public void shareScannedPokemonInformation() {
         PokemonShareHandler communicator = new PokemonShareHandler();
-        communicator.spreadResultIntent(this, ScanContainer.scanContainer.currScan);
+        communicator.spreadResultIntent(this, ScanContainer.scanContainer.currScan, pokemonUniqueID.or(""));
         cancelInfoDialog();
     }
 
@@ -1118,7 +1118,7 @@ public class Pokefly extends Service {
         rememberUserInputForPokemonNameIfNewNickname(pokemon);
 
         IVScanResult ivScanResult = pokeInfoCalculator.getIVPossibilities(pokemon, estimatedPokemonLevel,
-                pokemonHP.get(), pokemonCP.get(), pokemonUniqueID);
+                pokemonHP.get(), pokemonCP.get());
 
         refineByAvailableAppraisalInfo(ivScanResult);
 
@@ -1134,6 +1134,8 @@ public class Pokefly extends Service {
         boolean enableCompare = ScanContainer.scanContainer.prevScan != null;
         exResCompare.setEnabled(enableCompare);
         exResCompare.setTextColor(getColorC(enableCompare ? R.color.colorPrimary : R.color.unimportantText));
+
+        shareWithStorimod.setEnabled(pokemonUniqueID.isPresent());
 
         moveOverlay(false); //we dont want overlay to stay on top if user had appraisal box
         transitionOverlayViewFromInputToResults();
@@ -1880,8 +1882,8 @@ public class Pokefly extends Service {
                             (Optional<Integer>) intent.getSerializableExtra(KEY_SEND_INFO_CANDY_AMOUNT);
                     @SuppressWarnings("unchecked") Optional<Integer> lCandyUpgradeCost =
                             (Optional<Integer>) intent.getSerializableExtra(KEY_SEND_UPGRADE_CANDY_COST);
-                    @SuppressWarnings("unchecked") String lUniqueID =
-                            (String) intent.getSerializableExtra(KEY_SEND_UNIQUE_ID);
+                    @SuppressWarnings("unchecked") Optional<String> lUniqueID =
+                            (Optional<String>) intent.getSerializableExtra(KEY_SEND_UNIQUE_ID);
 
                     screenShotPath = lScreenShotFile;
                     pokemonCP = lPokemonCP;

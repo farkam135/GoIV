@@ -1,6 +1,7 @@
 package com.kamron.pogoiv.logic;
 
 import android.content.Intent;
+import android.util.Log;
 
 import com.kamron.pogoiv.Pokefly;
 
@@ -13,11 +14,13 @@ import org.json.JSONObject;
  */
 
 public class PokemonShareHandler {
+    private static final String TAG = PokemonShareHandler.class.getSimpleName();
+    public static final String APPLICATION_POKEMON_STATS = "application/pokemon-stats";
 
     /**
      * Creates an intent to share the result of the pokemon scan as a string formated json blob.
      */
-    public void spreadResultIntent(Pokefly pokefly, IVScanResult ivScan) {
+    public void spreadResultIntent(Pokefly pokefly, IVScanResult ivScan,String uniquePokemonID) {
         JSONObject jsonPokemon = new JSONObject();
         try {
             jsonPokemon.put("PokemonId", ivScan.pokemon.number + 1);
@@ -30,19 +33,19 @@ public class PokemonShareHandler {
             jsonPokemon.put("OverallPower", ivScan.getAveragePercent());
             jsonPokemon.put("Hp", ivScan.scannedHP);
             jsonPokemon.put("Cp", ivScan.scannedCP);
-            jsonPokemon.put("uniquePokemon", ivScan.uniquePokemonID);
+            jsonPokemon.put("uniquePokemon", uniquePokemonID);
             jsonPokemon.put("estimatedPokemonLevel", ivScan.estimatedPokemonLevel);
             PokeInfoCalculator calc = PokeInfoCalculator.getInstance();
             jsonPokemon.put("candyName", calc.getEvolutionLine(ivScan.pokemon).get(0));
 
         } catch (JSONException e) {
-            e.printStackTrace();
+            Log.e(TAG, "Tried to generate jsonPokemon when clicking the share button",e);
         }
 
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
         sendIntent.putExtra(Intent.EXTRA_TEXT, jsonPokemon.toString());
-        sendIntent.setType("application/pokemon-stats");
+        sendIntent.setType(APPLICATION_POKEMON_STATS);
         sendIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         pokefly.startActivity(sendIntent);
     }

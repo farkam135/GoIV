@@ -38,7 +38,6 @@ public class IVScanResult {
     public Pokemon pokemon = null;
     public final double estimatedPokemonLevel;
     public int scannedHP = 0;
-    public String uniquePokemonID = ""; //OCR of the entire row of type, weight and height.
 
     /**
      * Creates a holder object for IV scan results.

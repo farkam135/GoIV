@@ -75,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
     private int trainerLevel;
 
     private Button launchButton;
+    private NumberPicker npTrainerLevel;
 
     private final Point arcInit = new Point();
     private int arcRadius;
@@ -153,20 +154,73 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         Timber.tag(TAG);
-
         settings = GoIVSettings.getInstance(this);
 
+        runAutoUpdateStartupChecks();
+        initiateAndLoadSettings();
+        initiateUserScreenSettings();
+        initiateGui();
+
+        registerAllBroadcastRecievers();
+
+
+    }
+
+    /**
+     * Makes the localBroadcastManager register recievers for the different accepted intents, and tells the app to
+     * actually do something when those intents are received.
+     */
+    private void registerAllBroadcastRecievers() {
+        LocalBroadcastManager.getInstance(this).registerReceiver(pokeflyStateChanged,
+                new IntentFilter(Pokefly.ACTION_UPDATE_UI));
+        LocalBroadcastManager.getInstance(this).registerReceiver(showUpdateDialog,
+                new IntentFilter(ACTION_SHOW_UPDATE_DIALOG));
+        LocalBroadcastManager.getInstance(this).registerReceiver(restartPokeFly,
+                new IntentFilter(ACTION_RESTART_POKEFLY));
+        initiateTeamPickerSpinner();
+
+        runActionOnIntent(getIntent());
+    }
+
+    /**
+     * Runs the initialization logic related to the user screen, taking measurements so the ocr will scan the right
+     * areas.
+     */
+    private void initiateUserScreenSettings() {
+        displayMetrics = this.getResources().getDisplayMetrics();
+        WindowManager windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
+        rawDisplayMetrics = new DisplayMetrics();
+        Display disp = windowManager.getDefaultDisplay();
+        disp.getRealMetrics(rawDisplayMetrics);
+    }
+
+    /**
+     * Runs all the startup settings initialization.
+     */
+    private void initiateAndLoadSettings() {
+        PreferenceManager.setDefaultValues(this, R.xml.settings, false);
+        sharedPref = getPreferences(Context.MODE_PRIVATE);
+        trainerLevel = sharedPref.getInt(PREF_LEVEL, 1);
+        batterySaver = settings.isManualScreenshotModeEnabled();
+    }
+
+    /**
+     * Checks for any published updates if auto-updater settings is on.
+     */
+    private void runAutoUpdateStartupChecks() {
         shouldShowUpdateDialog = true;
 
         if (settings.isAutoUpdateEnabled()) {
             AppUpdateUtil.checkForUpdate(this);
         }
+    }
 
+    /**
+     * Initiates all the gui components in the mainactivity.
+     */
+    private void initiateGui() {
         setContentView(R.layout.activity_main);
-
-        PreferenceManager.setDefaultValues(this, R.xml.settings, false);
 
         TextView tvVersionNumber = (TextView) findViewById(R.id.version_number);
         tvVersionNumber.setText(getVersionName());
@@ -174,46 +228,25 @@ public class MainActivity extends AppCompatActivity {
         TextView goIvInfo = (TextView) findViewById(R.id.goiv_info);
         goIvInfo.setMovementMethod(LinkMovementMethod.getInstance());
 
-        sharedPref = getPreferences(Context.MODE_PRIVATE);
-        trainerLevel = sharedPref.getInt(PREF_LEVEL, 1);
-        batterySaver = settings.isManualScreenshotModeEnabled();
+        initiateLevelPicker();
+        initiateStartButton();
+    }
 
-        final NumberPicker npTrainerLevel = (NumberPicker) findViewById(R.id.trainerLevel);
-        npTrainerLevel.setMaxValue(40);
-        npTrainerLevel.setMinValue(1);
-        npTrainerLevel.setWrapSelectorWheel(false);
-        npTrainerLevel.setValue(trainerLevel);
-
-        npTrainerLevel.setOnScrollListener(npTrainerLevelPickerListenerInstance);
-        npTrainerLevel.setOnValueChangedListener(npTrainerLevelPickerListenerInstance);
-
-        displayMetrics = this.getResources().getDisplayMetrics();
-        WindowManager windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
-        rawDisplayMetrics = new DisplayMetrics();
-        Display disp = windowManager.getDefaultDisplay();
-        disp.getRealMetrics(rawDisplayMetrics);
-
+    /**
+     * Configures the logic for the start button.
+     */
+    private void initiateStartButton() {
         launchButton = (Button) findViewById(R.id.start);
         launchButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 if (!hasAllPermissions()) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(
-                            MainActivity.this)) {
-                        Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-                                Uri.parse("package:" + getPackageName()));
-                        startActivityForResult(intent, OVERLAY_PERMISSION_REQ_CODE);
-                    }
-                    if (ContextCompat.checkSelfPermission(MainActivity.this,
-                            Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
-                        ActivityCompat.requestPermissions(MainActivity.this,
-                                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_STORAGE_REQ_CODE);
-                    }
+                    getAllPermissions();
                 } else if (!Pokefly.isRunning()) {
                     batterySaver = settings.isManualScreenshotModeEnabled();
                     setupDisplaySizeInfo();
-                    trainerLevel = setupTrainerLevel(npTrainerLevel);
+                    trainerLevel = setupTrainerLevel();
 
                     Data.setupArcPoints(arcInit, arcRadius, trainerLevel);
 
@@ -230,16 +263,37 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
 
-        LocalBroadcastManager.getInstance(this).registerReceiver(pokeflyStateChanged,
-                new IntentFilter(Pokefly.ACTION_UPDATE_UI));
-        LocalBroadcastManager.getInstance(this).registerReceiver(showUpdateDialog,
-                new IntentFilter(ACTION_SHOW_UPDATE_DIALOG));
-        LocalBroadcastManager.getInstance(this).registerReceiver(restartPokeFly,
-                new IntentFilter(ACTION_RESTART_POKEFLY));
-        initiateTeamPickerSpinner();
+    /**
+     * Initiates the scrollable level picker.
+     */
+    private void initiateLevelPicker() {
+        npTrainerLevel = (NumberPicker) findViewById(R.id.trainerLevel);
+        npTrainerLevel.setMaxValue(40);
+        npTrainerLevel.setMinValue(1);
+        npTrainerLevel.setWrapSelectorWheel(false);
+        npTrainerLevel.setValue(trainerLevel);
 
-        runActionOnIntent(getIntent());
+        npTrainerLevel.setOnScrollListener(npTrainerLevelPickerListenerInstance);
+        npTrainerLevel.setOnValueChangedListener(npTrainerLevelPickerListenerInstance);
+    }
+
+    /**
+     * Requests overlay and storage permissions if android version allows it.
+     */
+    private void getAllPermissions() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(
+                MainActivity.this)) {
+            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                    Uri.parse("package:" + getPackageName()));
+            startActivityForResult(intent, OVERLAY_PERMISSION_REQ_CODE);
+        }
+        if (ContextCompat.checkSelfPermission(MainActivity.this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+            ActivityCompat.requestPermissions(MainActivity.this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_STORAGE_REQ_CODE);
+        }
     }
 
     /**
@@ -281,7 +335,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private int setupTrainerLevel(NumberPicker npTrainerLevel) {
+    private int setupTrainerLevel() {
         // This call to clearFocus will accept whatever input the user pressed, without
         // forcing him to press the green checkmark on the keyboard.
         // Otherwise the typed value won't be read if either:
@@ -441,6 +495,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * We will get custom intents from notifications.
+     *
      * @param intent this paramater will not be stored and will only be available here.
      */
     @Override
@@ -451,10 +506,11 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Handles custom action intents action probably from notification.
+     *
      * @param intent will get send the intent to check the action on.
      */
     private void runActionOnIntent(Intent intent) {
-        if (intent == null || intent.getAction() == null ) {
+        if (intent == null || intent.getAction() == null) {
             return;
         } else if (ACTION_START_POKEFLY.equals(intent.getAction())) {
             if (!Pokefly.isRunning()) {
@@ -470,11 +526,11 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Increment or decrement the trainer level.
+     *
      * @param addition this parameter will check if we want to increment or decrement the trainer level.
      */
     private void incrementTrainerLevelByOne(boolean addition) {
         if (Pokefly.isRunning()) {
-            final NumberPicker npTrainerLevel = (NumberPicker) findViewById(R.id.trainerLevel);
             int newvalue;
 
             if (addition && trainerLevel < npTrainerLevel.getMaxValue()) {
@@ -491,6 +547,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * We want to reset pokefly settings, for now we will completely restart pokefly.
+     *
      * @param skipStartPoGO this parameter will check if we want to skip restart PoGO.
      */
     private void restartPokeFly(final boolean skipStartPoGO) {

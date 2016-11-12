@@ -600,6 +600,7 @@ public class Pokefly extends Service {
                     this, 0, incrementLevelIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
             NotificationCompat.Action incrementLevelAction = new NotificationCompat.Action.Builder(
+                    R.drawable.ic_add_white_24px,
                     getString(R.string.notification_title_increment_level),
                     incrementLevelPendingIntent).build();
 
@@ -610,6 +611,7 @@ public class Pokefly extends Service {
                     this, 0, stopServiceIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
             NotificationCompat.Action stopServiceAction = new NotificationCompat.Action.Builder(
+                    R.drawable.ic_pause_white_24px,
                     getString(R.string.pause_goiv_notification),
                     stopServicePendingIntent).build();
 
@@ -651,6 +653,7 @@ public class Pokefly extends Service {
                     this, 0, startAppIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
             NotificationCompat.Action startServiceAction = new NotificationCompat.Action.Builder(
+                    R.drawable.ic_play_arrow_white_24px,
                     getString(R.string.main_start),
                     startServicePendingIntent).build();
 

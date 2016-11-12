@@ -590,7 +590,7 @@ public class Pokefly extends Service {
         PendingIntent openAppPendingIntent = PendingIntent.getActivity(
                 this, 0, openAppIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        if (!isStopping) {
+        if (!isStopping) { // GoIV is running
 
             Intent incrementLevelIntent = new Intent(this, MainActivity.class);
 
@@ -600,7 +600,6 @@ public class Pokefly extends Service {
                     this, 0, incrementLevelIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
             NotificationCompat.Action incrementLevelAction = new NotificationCompat.Action.Builder(
-                    android.R.drawable.ic_menu_add,
                     getString(R.string.notification_title_increment_level),
                     incrementLevelPendingIntent).build();
 
@@ -611,8 +610,7 @@ public class Pokefly extends Service {
                     this, 0, stopServiceIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
             NotificationCompat.Action stopServiceAction = new NotificationCompat.Action.Builder(
-                    android.R.drawable.ic_menu_close_clear_cancel,
-                    getString(R.string.main_stop),
+                    getString(R.string.pause_goiv_notification),
                     stopServicePendingIntent).build();
 
             Notification notification = new NotificationCompat.Builder(this)
@@ -631,7 +629,7 @@ public class Pokefly extends Service {
 
             startForeground(NOTIFICATION_REQ_CODE, notification);
 
-        } else {
+        } else { //GoIV is paused
 
             Intent startSettingAppIntent = new Intent(this, MainActivity.class);
             startSettingAppIntent.setAction(MainActivity.ACTION_OPEN_SETTINGS);
@@ -653,7 +651,6 @@ public class Pokefly extends Service {
                     this, 0, startAppIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
             NotificationCompat.Action startServiceAction = new NotificationCompat.Action.Builder(
-                    R.drawable.notification_icon,
                     getString(R.string.main_start),
                     startServicePendingIntent).build();
 

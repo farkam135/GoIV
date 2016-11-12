@@ -630,7 +630,7 @@ public class Pokefly extends Service {
                     .build();
 
             startForeground(NOTIFICATION_REQ_CODE, notification);
-            
+
         } else {
 
             Intent startSettingAppIntent = new Intent(this, MainActivity.class);
@@ -673,7 +673,7 @@ public class Pokefly extends Service {
 
             NotificationManager mNotifyMgr =
                     (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-            mNotifyMgr.notify(NOTIFICATION_REQ_CODE,notification);
+            mNotifyMgr.notify(NOTIFICATION_REQ_CODE, notification);
         }
     }
 

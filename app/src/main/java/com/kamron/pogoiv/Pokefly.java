@@ -590,7 +590,7 @@ public class Pokefly extends Service {
         PendingIntent openAppPendingIntent = PendingIntent.getActivity(
                 this, 0, openAppIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        if (!isStopping) {
+        if (!isStopping) { // GoIV is running
 
             Intent incrementLevelIntent = new Intent(this, MainActivity.class);
 
@@ -600,7 +600,7 @@ public class Pokefly extends Service {
                     this, 0, incrementLevelIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
             NotificationCompat.Action incrementLevelAction = new NotificationCompat.Action.Builder(
-                    android.R.drawable.ic_menu_add,
+                    R.drawable.ic_add_white_24px,
                     getString(R.string.notification_title_increment_level),
                     incrementLevelPendingIntent).build();
 
@@ -611,8 +611,8 @@ public class Pokefly extends Service {
                     this, 0, stopServiceIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
             NotificationCompat.Action stopServiceAction = new NotificationCompat.Action.Builder(
-                    android.R.drawable.ic_menu_close_clear_cancel,
-                    getString(R.string.main_stop),
+                    R.drawable.ic_pause_white_24px,
+                    getString(R.string.pause_goiv_notification),
                     stopServicePendingIntent).build();
 
             Notification notification = new NotificationCompat.Builder(this)
@@ -630,8 +630,8 @@ public class Pokefly extends Service {
                     .build();
 
             startForeground(NOTIFICATION_REQ_CODE, notification);
-            
-        } else {
+
+        } else { //GoIV is paused
 
             Intent startSettingAppIntent = new Intent(this, MainActivity.class);
             startSettingAppIntent.setAction(MainActivity.ACTION_OPEN_SETTINGS);
@@ -653,7 +653,7 @@ public class Pokefly extends Service {
                     this, 0, startAppIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
             NotificationCompat.Action startServiceAction = new NotificationCompat.Action.Builder(
-                    R.drawable.notification_icon,
+                    R.drawable.ic_play_arrow_white_24px,
                     getString(R.string.main_start),
                     startServicePendingIntent).build();
 
@@ -673,7 +673,7 @@ public class Pokefly extends Service {
 
             NotificationManager mNotifyMgr =
                     (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-            mNotifyMgr.notify(NOTIFICATION_REQ_CODE,notification);
+            mNotifyMgr.notify(NOTIFICATION_REQ_CODE, notification);
         }
     }
 

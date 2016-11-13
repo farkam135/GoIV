@@ -1,8 +1,7 @@
 package com.kamron.pogoiv.logic;
 
 import android.content.Intent;
-import android.util.Log;
-
+import timber.log.Timber;
 import com.kamron.pogoiv.Pokefly;
 
 import org.json.JSONException;
@@ -14,7 +13,6 @@ import org.json.JSONObject;
  */
 
 public class PokemonShareHandler {
-    private static final String TAG = PokemonShareHandler.class.getSimpleName();
     public static final String APPLICATION_POKEMON_STATS = "application/pokemon-stats";
 
     /**
@@ -39,7 +37,8 @@ public class PokemonShareHandler {
             jsonPokemon.put("candyName", calc.getEvolutionLine(ivScan.pokemon).get(0));
 
         } catch (JSONException e) {
-            Log.e(TAG, "Tried to generate jsonPokemon when clicking the share button",e);
+            Timber.e("Error when generating jsonPokemon after clicking the share button");
+            Timber.e(e);
         }
 
         Intent sendIntent = new Intent();

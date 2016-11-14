@@ -150,4 +150,6 @@
     <string name="showtranslatedpokemonname_setting_title">Show translated Pokémon name</string>
     <string name="showtranslatedpokemonname_setting_summary">Display translated Pokémon name on GoIV but use its English name for OCR. This is for Pokémon Go app is in English but user\'s native language is not.</string>
     <string name="pause_goiv_notification">Pause</string>
+    <string name="waiting_for_pogo_start">Waiting for Pokémon Go to start...</string>
+    <string name="goiv_started">GoIV started.</string>
 </resources>

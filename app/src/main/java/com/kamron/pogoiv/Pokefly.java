@@ -437,11 +437,7 @@ public class Pokefly extends Service {
             trainerLevel = intent.getIntExtra(KEY_TRAINER_LEVEL, 1);
             statusBarHeight = intent.getIntExtra(KEY_STATUS_BAR_HEIGHT, 0);
             batterySaver = intent.getBooleanExtra(KEY_BATTERY_SAVER, false);
-            makeNotification(false);
-            createInfoLayout();
-            createIVButton();
-            createArcPointer();
-            createArcAdjuster();
+            createFlyingComponents();
             /* Assumes MainActivity initialized ScreenGrabber before starting this service. */
             if (!batterySaver) {
                 screen = ScreenGrabber.getInstance();
@@ -449,10 +445,21 @@ public class Pokefly extends Service {
             } else {
                 screenShotHelper = ScreenShotHelper.start(Pokefly.this);
             }
+            makeNotification(false);
         }
         //We have intent data, it's possible this service will be killed and we would want to recreate it
         //https://github.com/farkam135/GoIV/issues/477
         return START_REDELIVER_INTENT;
+    }
+
+    /**
+     * Creates the infolayout, ivbutton, arcpointer and arc adjuster.
+     */
+    private void createFlyingComponents(){
+        createInfoLayout();
+        createIVButton();
+        createArcPointer();
+        createArcAdjuster();
     }
 
     private void watchScreen() {

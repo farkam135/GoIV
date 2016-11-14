@@ -243,26 +243,40 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (!hasAllPermissions()) {
                     getAllPermissions();
-                } else if (!Pokefly.isRunning()) {
-                    batterySaver = settings.isManualScreenshotModeEnabled();
-                    setupDisplaySizeInfo();
-                    trainerLevel = setupTrainerLevel();
+                } else if (!Pokefly.isRunning()) { //Will start goiv
+                    startGoIV();
+                } else { //Will stop goiv
+                    stopGoIV();
+                }
+            }
 
-                    Data.setupArcPoints(arcInit, arcRadius, trainerLevel);
+            private void stopGoIV() {
+                stopService(new Intent(MainActivity.this, Pokefly.class));
+                if (screen != null) {
+                    screen.exit();
+                }
+            }
 
-                    if (batterySaver) {
-                        startPokeFly();
-                    } else {
-                        startScreenService();
-                    }
+            private void startGoIV() {
+                batterySaver = settings.isManualScreenshotModeEnabled();
+                setupDisplaySizeInfo();
+                trainerLevel = setupTrainerLevel();
+
+                Data.setupArcPoints(arcInit, arcRadius, trainerLevel);
+
+                if (batterySaver) {
+                    startPokeFly();
                 } else {
-                    stopService(new Intent(MainActivity.this, Pokefly.class));
-                    if (screen != null) {
-                        screen.exit();
-                    }
+                    startScreenService();
                 }
             }
         });
+    }
+
+    private void startPoGoIfSettingOn() {
+        if (settings.shouldLaunchPokemonGo() && !skipStartPogo) {
+            openPokemonGoApp();
+        }
     }
 
     /**
@@ -335,6 +349,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * save the trainerlevel from the numberpicker to settings and return it.
+     * @return the level in the number picker.
+     */
     private int setupTrainerLevel() {
         // This call to clearFocus will accept whatever input the user pressed, without
         // forcing him to press the green checkmark on the keyboard.
@@ -408,9 +426,8 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = Pokefly.createIntent(this, trainerLevel, statusBarHeight, batterySaver);
         startService(intent);
 
-        if (settings.shouldLaunchPokemonGo() && !skipStartPogo) {
-            openPokemonGoApp();
-        }
+        startPoGoIfSettingOn();
+
         skipStartPogo = false;
     }
 
@@ -445,6 +462,10 @@ public class MainActivity extends AppCompatActivity {
 
     @TargetApi(Build.VERSION_CODES.M)
     @Override
+    /**
+     * Called when another activity has sent a result to this activity. For example when this activity starts the
+     * activity which calls for the projectionmanager, which tells this class if the screen capture has been enabled.
+     */
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == OVERLAY_PERMISSION_REQ_CODE) {
             updateLaunchButtonText(false);
@@ -491,7 +512,7 @@ public class MainActivity extends AppCompatActivity {
         MediaProjectionManager projectionManager = (MediaProjectionManager) getSystemService(
                 Context.MEDIA_PROJECTION_SERVICE);
         startActivityForResult(projectionManager.createScreenCaptureIntent(), SCREEN_CAPTURE_REQ_CODE);
-    }
+        }
 
     /**
      * We will get custom intents from notifications.

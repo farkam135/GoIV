@@ -659,7 +659,7 @@ public class Pokefly extends Service {
             Notification notification = new NotificationCompat.Builder(getApplicationContext())
                     .setOngoing(false)
                     .setCategory(NotificationCompat.CATEGORY_SERVICE)
-                    .setColor(getColorC(R.color.colorPrimary))
+                    .setColor(getColorC(R.color.colorAccent))
                     .setSmallIcon(R.drawable.notification_icon)
                     .setContentTitle(getString(R.string.notification_title_goiv_stopped))
                     .setContentText(getString(R.string.notification_title_tap_to_open))

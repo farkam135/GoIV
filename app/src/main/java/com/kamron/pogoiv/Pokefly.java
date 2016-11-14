@@ -34,7 +34,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -1288,11 +1287,15 @@ public class Pokefly extends Service {
         if (GoIVSettings.getInstance(getApplicationContext()).shouldCopyToClipboard()) {
             ClipboardTokenHandler cth = new ClipboardTokenHandler(getApplicationContext());
             String clipResult = cth.getResults(ivScanResult, pokeInfoCalculator);
-            Log.d("NahojjjenClippy", "Clipboard content to add: " + clipResult);
+
+            Toast toast = Toast.makeText(this, String.format(getString(R.string.clipboard_copy_toast),clipResult),
+                    Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER,0,0);
+            toast.show();
+
             ClipData clip = ClipData.newPlainText(clipResult, clipResult);
             clipboard.setPrimaryClip(clip);
         }
-
     }
 
     /**

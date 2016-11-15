@@ -952,7 +952,7 @@ public class Pokefly extends Service {
      */
     public void shareScannedPokemonInformation() {
         PokemonShareHandler communicator = new PokemonShareHandler();
-        communicator.spreadResultIntent(this, ScanContainer.scanContainer.currScan);
+        communicator.spreadResultIntent(this, ScanContainer.scanContainer.currScan, pokemonUniqueID);
         cancelInfoDialog();
     }
 
@@ -1118,7 +1118,7 @@ public class Pokefly extends Service {
         rememberUserInputForPokemonNameIfNewNickname(pokemon);
 
         IVScanResult ivScanResult = pokeInfoCalculator.getIVPossibilities(pokemon, estimatedPokemonLevel,
-                pokemonHP.get(), pokemonCP.get(), pokemonUniqueID);
+                pokemonHP.get(), pokemonCP.get());
 
         refineByAvailableAppraisalInfo(ivScanResult);
 

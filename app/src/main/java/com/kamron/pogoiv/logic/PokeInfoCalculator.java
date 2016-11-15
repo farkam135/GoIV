@@ -180,7 +180,7 @@ public class PokeInfoCalculator {
      * many possibilities.
      */
     public IVScanResult getIVPossibilities(Pokemon selectedPokemon, double estimatedPokemonLevel, int pokemonHP,
-                                           int pokemonCP, String uniquePokemonID) {
+                                           int pokemonCP) {
         int baseAttack = selectedPokemon.baseAttack;
         int baseDefense = selectedPokemon.baseDefense;
         int baseStamina = selectedPokemon.baseStamina;
@@ -217,7 +217,6 @@ public class PokeInfoCalculator {
             returner = ScanContainer.createIVScanResult(selectedPokemon, estimatedPokemonLevel, pokemonCP, true);
         }
         returner.scannedHP = pokemonHP;
-        returner.uniquePokemonID = uniquePokemonID;
         return returner;
     }
 

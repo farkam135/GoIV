@@ -39,6 +39,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -1773,15 +1774,23 @@ public class Pokefly extends Service {
             onCheckButtonsLayout.setVisibility(View.GONE);
         }
         moveOverlayUpOrDownToMatchAppraisalBox();
-        enableOrDisablePokeSpamBoxBasedOnSettings();
+        showCandyTextBoxBasedOnSettings();
     }
 
-    private void enableOrDisablePokeSpamBoxBasedOnSettings() {
+
+    /**
+     * showCandyTextBoxBasedOnSettings
+     * Shows candy text box if pokespam is enabled
+     * Will set the Text Edit box to use next action or done if its the last text box.
+     */
+    private void showCandyTextBoxBasedOnSettings() {
         //enable/disable visibility based on PokeSpam enabled or not
         if (GoIVSettings.getInstance(getApplicationContext()).isPokeSpamEnabled()) {
             pokeSpamDialogInputContentBox.setVisibility(View.VISIBLE);
+            pokemonHPEdit.setImeOptions(EditorInfo.IME_ACTION_NEXT);
         } else {
             pokeSpamDialogInputContentBox.setVisibility(View.GONE);
+            pokemonHPEdit.setImeOptions(EditorInfo.IME_ACTION_DONE);
         }
     }
 
@@ -1834,7 +1843,7 @@ public class Pokefly extends Service {
                 checkIv();
             }
         }
-        enableOrDisablePokeSpamBoxBasedOnSettings();
+        showCandyTextBoxBasedOnSettings();
     }
 
     private <T> String optionalIntToString(Optional<T> src) {

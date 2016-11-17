@@ -39,6 +39,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -1202,7 +1203,29 @@ public class Pokefly extends Service {
         exResCompare.setTextColor(getColorC(enableCompare ? R.color.colorPrimary : R.color.unimportantText));
 
         moveOverlay(false); //we dont want overlay to stay on top if user had appraisal box
+        closeKeyboard();
         transitionOverlayViewFromInputToResults();
+    }
+
+
+    /**
+     * Closes the android keyboard... But this method only works if focus is on a direct child of infolayout.
+     * <p>
+     * Why the fuck does android not have a good standard method for this.
+     */
+    private void closeKeyboard() {
+
+        //Get a list of all views inside the infoLayout
+        ArrayList<View> views = new ArrayList<>();
+        for (int i = 0; i < infoLayout.getChildCount(); i++) {
+            views.add(infoLayout.getChildAt(i));
+        }
+
+        //Tell each view inside infoLayout to close the keyboard if they currently have focus.
+        InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+        for (View view : views) {
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
     }
 
     /**

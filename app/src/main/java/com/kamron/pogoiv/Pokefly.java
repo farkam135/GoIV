@@ -40,12 +40,14 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
@@ -64,6 +66,7 @@ import com.kamron.pogoiv.logic.PokeInfoCalculator;
 import com.kamron.pogoiv.logic.PokeSpam;
 import com.kamron.pogoiv.logic.Pokemon;
 import com.kamron.pogoiv.logic.PokemonNameCorrector;
+import com.kamron.pogoiv.logic.PokemonShareHandler;
 import com.kamron.pogoiv.logic.ScanContainer;
 import com.kamron.pogoiv.logic.ScanResult;
 import com.kamron.pogoiv.logic.UpgradeCost;
@@ -107,6 +110,7 @@ public class Pokefly extends Service {
     private static final String KEY_SEND_SCREENSHOT_FILE = "key_send_screenshot_file";
     private static final String KEY_SEND_INFO_CANDY_AMOUNT = "key_send_info_candy_amount";
     private static final String KEY_SEND_UPGRADE_CANDY_COST = "key_send_upgrade_candy_cost";
+    private static final String KEY_SEND_UNIQUE_ID = "key_send_unique_id";
 
     private static final String ACTION_PROCESS_BITMAP = "com.kamron.pogoiv.PROCESS_BITMAP";
     private static final String KEY_BITMAP = "bitmap";
@@ -158,6 +162,8 @@ public class Pokefly extends Service {
     @BindView(R.id.pokePickerToggleSpinnerVsInput)
     Button pokePickerToggleSpinnerVsInput;
 
+    @BindView(R.id.shareWithStorimod)
+    ImageButton shareWithStorimod;
 
     private PokemonSpinnerAdapter pokeInputSpinnerAdapter;
     @BindView(R.id.spnPokemonName)
@@ -289,6 +295,7 @@ public class Pokefly extends Service {
     private Optional<Integer> pokemonCP = Optional.absent();
     private Optional<Integer> pokemonHP = Optional.absent();
     private Optional<Integer> candyUpgradeCost = Optional.absent();
+    private String pokemonUniqueID = "";
     private double estimatedPokemonLevel = 1.0;
     private @NonNull Optional<String> screenShotPath = Optional.absent();
 
@@ -343,6 +350,7 @@ public class Pokefly extends Service {
         intent.putExtra(KEY_SEND_SCREENSHOT_FILE, filePath);
         intent.putExtra(KEY_SEND_INFO_CANDY_AMOUNT, scanResult.getPokemonCandyAmount());
         intent.putExtra(KEY_SEND_UPGRADE_CANDY_COST, scanResult.getUpgradeCandyCost());
+        intent.putExtra(KEY_SEND_UNIQUE_ID, scanResult.getPokemonUniqueID());
     }
 
     public static Intent createProcessBitmapIntent(Bitmap bitmap, String file) {
@@ -660,7 +668,7 @@ public class Pokefly extends Service {
             Notification notification = new NotificationCompat.Builder(getApplicationContext())
                     .setOngoing(false)
                     .setCategory(NotificationCompat.CATEGORY_SERVICE)
-                    .setColor(getColorC(R.color.colorPrimary))
+                    .setColor(getColorC(R.color.colorAccent))
                     .setSmallIcon(R.drawable.notification_icon)
                     .setContentTitle(getString(R.string.notification_title_goiv_stopped))
                     .setContentText(getString(R.string.notification_title_tap_to_open))
@@ -1005,6 +1013,18 @@ public class Pokefly extends Service {
         }
     }
 
+    @OnClick({R.id.shareWithStorimod})
+    /**
+     * Creates an intent to share the result of the pokemon scan, and closes the overlay.
+     */
+    public void shareScannedPokemonInformation() {
+        PokemonShareHandler communicator = new PokemonShareHandler();
+        communicator.spreadResultIntent(this, ScanContainer.scanContainer.currScan, pokemonUniqueID);
+        cancelInfoDialog();
+    }
+
+
+
     private void resetToSpinner() {
         autoCompleteTextView1.setVisibility(View.GONE);
         pokeInputSpinner.setVisibility(View.VISIBLE);
@@ -1165,8 +1185,7 @@ public class Pokefly extends Service {
         rememberUserInputForPokemonNameIfNewNickname(pokemon);
 
         IVScanResult ivScanResult = pokeInfoCalculator.getIVPossibilities(pokemon, estimatedPokemonLevel,
-                pokemonHP.get(),
-                pokemonCP.get());
+                pokemonHP.get(), pokemonCP.get());
 
         refineByAvailableAppraisalInfo(ivScanResult);
 
@@ -1778,15 +1797,23 @@ public class Pokefly extends Service {
             onCheckButtonsLayout.setVisibility(View.GONE);
         }
         moveOverlayUpOrDownToMatchAppraisalBox();
-        enableOrDisablePokeSpamBoxBasedOnSettings();
+        showCandyTextBoxBasedOnSettings();
     }
 
-    private void enableOrDisablePokeSpamBoxBasedOnSettings() {
+
+    /**
+     * showCandyTextBoxBasedOnSettings
+     * Shows candy text box if pokespam is enabled
+     * Will set the Text Edit box to use next action or done if its the last text box.
+     */
+    private void showCandyTextBoxBasedOnSettings() {
         //enable/disable visibility based on PokeSpam enabled or not
         if (GoIVSettings.getInstance(getApplicationContext()).isPokeSpamEnabled()) {
             pokeSpamDialogInputContentBox.setVisibility(View.VISIBLE);
+            pokemonHPEdit.setImeOptions(EditorInfo.IME_ACTION_NEXT);
         } else {
             pokeSpamDialogInputContentBox.setVisibility(View.GONE);
+            pokemonHPEdit.setImeOptions(EditorInfo.IME_ACTION_DONE);
         }
     }
 
@@ -1839,7 +1866,7 @@ public class Pokefly extends Service {
                 checkIv();
             }
         }
-        enableOrDisablePokeSpamBoxBasedOnSettings();
+        showCandyTextBoxBasedOnSettings();
     }
 
     private <T> String optionalIntToString(Optional<T> src) {
@@ -1959,12 +1986,15 @@ public class Pokefly extends Service {
                             (Optional<Integer>) intent.getSerializableExtra(KEY_SEND_INFO_CANDY_AMOUNT);
                     @SuppressWarnings("unchecked") Optional<Integer> lCandyUpgradeCost =
                             (Optional<Integer>) intent.getSerializableExtra(KEY_SEND_UPGRADE_CANDY_COST);
+                    @SuppressWarnings("unchecked") String lUniqueID =
+                            (String) intent.getSerializableExtra(KEY_SEND_UNIQUE_ID);
 
                     screenShotPath = lScreenShotFile;
                     pokemonCP = lPokemonCP;
                     pokemonHP = lPokemonHP;
                     pokemonCandy = lCandyAmount;
                     candyUpgradeCost = lCandyUpgradeCost;
+                    pokemonUniqueID = lUniqueID;
 
                     estimatedPokemonLevel = intent.getDoubleExtra(KEY_SEND_INFO_LEVEL, estimatedPokemonLevel);
                     if (estimatedPokemonLevel < 1.0) {

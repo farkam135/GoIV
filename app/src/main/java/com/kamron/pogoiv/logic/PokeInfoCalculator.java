@@ -1,5 +1,6 @@
 package com.kamron.pogoiv.logic;
 
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -28,6 +29,15 @@ public class PokeInfoCalculator {
             instance = new PokeInfoCalculator(namesArray, displayNamesArray, attackArray, defenceArray,
                     staminaArray, devolutionArray, evolutionCandyCostArray);
         }
+        return instance;
+    }
+
+    /**
+     * Get the instance of pokeinfoCalculator. Must have been initiated first!
+     *
+     * @return the already activated instance of PokeInfoCalculator.
+     */
+    public static PokeInfoCalculator getInstance() {
         return instance;
     }
 
@@ -206,6 +216,7 @@ public class PokeInfoCalculator {
         } else {
             returner = ScanContainer.createIVScanResult(selectedPokemon, estimatedPokemonLevel, pokemonCP, true);
         }
+        returner.scannedHP = pokemonHP;
         return returner;
     }
 

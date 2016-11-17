@@ -67,7 +67,11 @@
                 android:maxLength="4"
                 android:minWidth="60dp"
                 android:textAlignment="center"
-                android:inputType="number"/>
+                android:inputType="number"
+                android:maxLines="1"
+                android:selectAllOnFocus="true"
+                android:nextFocusDown="@+id/etHp"
+                />
 
         </LinearLayout>
 
@@ -98,7 +102,12 @@
                 android:text="XX"
                 android:maxLength="4"
                 android:textAlignment="center"
-                android:inputType="number"/>
+                android:inputType="number"
+                android:selectAllOnFocus="true"
+                android:maxLines="1"
+                android:nextFocusDown="@+id/etCandy"
+                android:nextFocusForward="@+id/etCandy"
+                />
 
         </LinearLayout>
         <LinearLayout
@@ -127,7 +136,11 @@
                 android:text="XX"
                 android:maxLength="4"
                 android:textAlignment="center"
-                android:inputType="number"/>
+                android:inputType="number"
+                android:selectAllOnFocus="true"
+                android:imeOptions="actionDone"
+                android:maxLines="1"
+                />
 
         </LinearLayout>
 

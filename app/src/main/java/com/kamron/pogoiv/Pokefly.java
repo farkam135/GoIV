@@ -455,7 +455,7 @@ public class Pokefly extends Service {
     /**
      * Creates the infolayout, ivbutton, arcpointer and arc adjuster.
      */
-    private void createFlyingComponents(){
+    private void createFlyingComponents() {
         createInfoLayout();
         createIVButton();
         createArcPointer();

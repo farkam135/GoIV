@@ -455,7 +455,7 @@ public class MainActivity extends AppCompatActivity {
      * This method actually starts pokefly, but other thins need to be done first, such as updating the text on the
      * buttons, handling any delays and starting pogo.
      */
-    private void firePokeFlyIntent(){
+    private void firePokeFlyIntent() {
         int statusBarHeight = getStatusBarHeight();
         Intent intent = Pokefly.createIntent(this, trainerLevel, statusBarHeight, batterySaver);
         startService(intent);
@@ -541,7 +541,7 @@ public class MainActivity extends AppCompatActivity {
         MediaProjectionManager projectionManager = (MediaProjectionManager) getSystemService(
                 Context.MEDIA_PROJECTION_SERVICE);
         startActivityForResult(projectionManager.createScreenCaptureIntent(), SCREEN_CAPTURE_REQ_CODE);
-        }
+    }
 
     /**
      * We will get custom intents from notifications.

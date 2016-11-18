@@ -3,12 +3,13 @@ package com.kamron.pogoiv;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
-import android.util.Log;
 
 import com.kamron.pogoiv.clipboard.ClipboardToken;
 import com.kamron.pogoiv.clipboard.tokens.IVPercentageToken;
 import com.kamron.pogoiv.clipboard.tokens.IVPercentageTokenMode;
+import com.kamron.pogoiv.clipboard.tokens.PokemonNameToken;
 import com.kamron.pogoiv.clipboard.tokens.SeparatorToken;
+import com.kamron.pogoiv.clipboard.tokens.UnicodeToken;
 
 import java.util.ArrayList;
 
@@ -70,17 +71,24 @@ public class GoIVSettings {
     }
 
     public String getClipboardPreference() {
-
         //Below code creates tokens so we can get the representation corresponding to how the previous default
         // clipboard setting was - so that the default reflects what users had before they could configure the
         // clipboard themselves.
-        String lowrep = new IVPercentageToken(IVPercentageTokenMode.MIN).getStringRepresentation();
-        String highrep = new IVPercentageToken(IVPercentageTokenMode.MAX).getStringRepresentation();
-        String dashRepresentation = new SeparatorToken("-").getStringRepresentation();
+        StringBuilder defaultString = new StringBuilder(); // Name (3 char)+ MIN-MAX + Unicode not filled (MAX IV)
+        //pokemon name max 3 characters
+        defaultString.append(new PokemonNameToken(false, 3).getStringRepresentation());
 
-        Log.d("NahojjjenClippy", "String representation of token train from settings: "
-                + prefs.getString(GOIV_CLIPBOARDSETTINGS, "error"));
-        return prefs.getString(GOIV_CLIPBOARDSETTINGS, lowrep + dashRepresentation + highrep);
+        //lowrep
+        defaultString.append(new IVPercentageToken(IVPercentageTokenMode.MIN).getStringRepresentation());
+        //dashRepresentation
+        defaultString.append(new SeparatorToken("-").getStringRepresentation());
+        //highrep
+        defaultString.append(new IVPercentageToken(IVPercentageTokenMode.MAX).getStringRepresentation());
+
+        //Unicode iv circled numbers not filled in ex ⑦⑦⑦
+        defaultString.append(new UnicodeToken(false).getStringRepresentation());
+
+        return prefs.getString(GOIV_CLIPBOARDSETTINGS, defaultString.toString());
     }
 
     public void setClipboardPreference(ArrayList<ClipboardToken> tokens) {

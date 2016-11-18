@@ -481,6 +481,22 @@ public class OcrHelper {
         }
     }
 
+    /**
+     * Get the unique identifier of a pokemon, aka even if you power up the pokemon, the result stays the same.
+     *
+     * @param pokemonImage the image of the whole pokemon screen
+     * @return a string which should remain the same even if you power up a pokemon
+     */
+    private String getPokemonIdentifierFromImg(Bitmap pokemonImage) {
+        Bitmap infoRow = Bitmap.createBitmap(pokemonImage,
+                (int)Math.round(widthPixels * .1f), (int)Math.round(heightPixels / 1.714286f),
+                (int)Math.round(widthPixels * .8f), (int)Math.round(heightPixels / 25.26316f));
+        tesseract.setImage(infoRow);
+        String uniqueText = tesseract.getUTF8Text();
+
+        return uniqueText;
+    }
+
 
     /**
      * Gets the candy amount from a pokemon image, it will return absent if PokeSpam is disabled.
@@ -532,8 +548,9 @@ public class OcrHelper {
         Optional<Integer> pokemonCP = getPokemonCPFromImg(pokemonImage);
         Optional<Integer> pokemonCandyAmount = getCandyAmountFromImg(pokemonImage);
         Optional<Integer> pokemonUpgradeCost = getPokemonEvolutionCostFromImg(pokemonImage);
+        String pokemonUniqueIdentifier = getPokemonIdentifierFromImg(pokemonImage);
 
         return new ScanResult(estimatedPokemonLevel, pokemonName, candyName, pokemonHP, pokemonCP,
-                pokemonCandyAmount, pokemonUpgradeCost);
+                pokemonCandyAmount, pokemonUpgradeCost, pokemonUniqueIdentifier);
     }
 }

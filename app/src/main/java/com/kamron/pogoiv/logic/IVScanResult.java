@@ -17,6 +17,9 @@ import java.util.Comparator;
  * lowPercent: worst case IV%
  * low attack,defence,stamina - the value for the IV stat where the lowest % was found
  * high attack,defence,stamina - the value for hte IV stat where the highest % was found
+ *
+ * The ivscanresult object has evolved (bloated) to incluide several other things not needed to calculate the ivs,
+ * which are used by other methods, such as the scanned hp and an identifier for the pokemon.
  * <p/>
  * Created by Johan on 2016-08-18.
  */
@@ -34,6 +37,7 @@ public class IVScanResult {
     public ArrayList<IVCombination> iVCombinations = new ArrayList<>();
     public Pokemon pokemon = null;
     public final double estimatedPokemonLevel;
+    public int scannedHP = 0;
 
     /**
      * Creates a holder object for IV scan results.

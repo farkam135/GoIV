@@ -130,7 +130,8 @@
             android:name=".updater.DownloadUpdateService"
             android:exported="false" />
 
-        <activity android:name=".clipboard.ClipboardModifierActivity" />
+        <activity android:name=".clipboard.ClipboardModifierActivity"
+                  android:windowSoftInputMode="adjustPan"/>
     </application>
 
 </manifest>

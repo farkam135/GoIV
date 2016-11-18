@@ -5,12 +5,14 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.kamron.pogoiv.R;
+import com.kamron.pogoiv.clipboard.tokens.SeparatorToken;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,6 +26,7 @@ public class ClipboardModifierActivity extends AppCompatActivity {
     private LinearLayout clipboardShowcase;
     private CheckBox clipboardMaxEvolutionVariant;
     private LinearLayout clipTokenEditor;
+    private EditText customSeperator;
 
     private ArrayList<ClipboardTokenButton> tokenButtons = new ArrayList<>();
     private ClipboardToken selectedToken = null;
@@ -50,6 +53,7 @@ public class ClipboardModifierActivity extends AppCompatActivity {
         clipboardShowcase = (LinearLayout) findViewById(R.id.clipboardShowcase);
         clipTokenEditor = (LinearLayout) findViewById(R.id.clipTokenEditor);
         clipboardMaxEvolutionVariant = (CheckBox) findViewById(R.id.clipboardMaxEvolutionVariant);
+        customSeperator = (EditText) findViewById(R.id.customSeperator);
     }
 
     /**
@@ -127,7 +131,9 @@ public class ClipboardModifierActivity extends AppCompatActivity {
 
         }
         unColorallButtons();
+
     }
+
 
     /**
      * Select a token to show its description.
@@ -182,6 +188,20 @@ public class ClipboardModifierActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Adds a custom string token to the user settings.
+     *
+     * @param v needed for onclick xml
+     */
+    public void addCustomString(View v) {
+        if (customSeperator.getText() != null && !customSeperator.getText().toString().equals("")) {
+            cth.addToken(new SeparatorToken(customSeperator.getText().toString()));
+            updateEditField();
+            updateClipPreview();
+        } else {
+            Toast.makeText(this, "Please fill in your custom seperator", Toast.LENGTH_LONG).show();
+        }
+    }
 
     /**
      * Finishes and exits the activity.

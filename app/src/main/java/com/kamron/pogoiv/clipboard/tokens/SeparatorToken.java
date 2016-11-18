@@ -57,8 +57,8 @@ public class SeparatorToken extends ClipboardToken {
 
     @Override
     public String getStringRepresentation() {
-        if (string.contains(".")) {
-            return ".DotSeparator"; //edge case where the string contains something that'd break the way tokens are
+        if (string.contains(".") ) {
+            return ".DotSeparator" ; //edge case where the string contains something that'd break the way tokens are
             // stored and retrieved from memory.
         }
         //normal case

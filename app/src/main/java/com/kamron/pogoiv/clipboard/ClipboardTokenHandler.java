@@ -4,6 +4,8 @@ import android.content.Context;
 import android.util.Log;
 
 import com.kamron.pogoiv.GoIVSettings;
+import com.kamron.pogoiv.R;
+import com.kamron.pogoiv.clipboard.tokens.SeparatorToken;
 import com.kamron.pogoiv.logic.IVScanResult;
 import com.kamron.pogoiv.logic.PokeInfoCalculator;
 
@@ -57,7 +59,16 @@ public class ClipboardTokenHandler {
         String representation;
         for (int i = 0; i < tokenRepresentationArray.length; i++) { // for all saved tokens
             representation = tokenRepresentationArray[i];
-            for (ClipboardToken tokenExample : exampleTokens) { //compare it to library of known tokens
+
+            //Check for a custom user added seperator
+            String seperatorClassName = new SeparatorToken("").getClass().getSimpleName();
+            if (representation.contains(seperatorClassName)) {
+                tokens.add(new SeparatorToken(representation.substring(seperatorClassName.length())));
+                continue;
+            }
+
+            for (ClipboardToken tokenExample : exampleTokens) {
+                //compare it to library of known tokens
                 //substring is used because the . will be removed in the split
                 String tokenExampleString = tokenExample.getStringRepresentation().substring(1);
                 if (tokenExampleString.equals(representation)) { //when we found what kind of token was saved
@@ -67,6 +78,7 @@ public class ClipboardTokenHandler {
                     //will simply get duplicate output, which is what's expected.
                 }
             }
+
         }
 
 
@@ -90,7 +102,7 @@ public class ClipboardTokenHandler {
      */
     public String getPreviewString() {
         if (tokens.size() == 0) {
-            return "~~~~";
+            return context.getString(R.string.no_clipboard_preview);
         }
         String returner = "";
 

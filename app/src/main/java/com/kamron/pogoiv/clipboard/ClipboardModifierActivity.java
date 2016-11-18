@@ -195,11 +195,20 @@ public class ClipboardModifierActivity extends AppCompatActivity {
      */
     public void addCustomString(View v) {
         if (customSeperator.getText() != null && !customSeperator.getText().toString().equals("")) {
-            cth.addToken(new SeparatorToken(customSeperator.getText().toString()));
-            updateEditField();
-            updateClipPreview();
+            String inputString = customSeperator.getText().toString();
+            if (inputString.contains(".")) {
+
+                Toast.makeText(this, "Custom separator can't contain . because the developer is lazy",
+                        Toast.LENGTH_LONG)
+                        .show();
+            } else {
+                cth.addToken(new SeparatorToken(inputString));
+                updateEditField();
+                updateClipPreview();
+            }
+
         } else {
-            Toast.makeText(this, "Please fill in your custom seperator", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Please fill in your custom separator", Toast.LENGTH_LONG).show();
         }
     }
 

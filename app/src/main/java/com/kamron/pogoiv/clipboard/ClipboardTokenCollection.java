@@ -88,6 +88,7 @@ public class ClipboardTokenCollection {
         tokens.add(new SeparatorToken("⛨"));
         tokens.add(new SeparatorToken("❤"));
         tokens.add(new SeparatorToken("☢"));
+        tokens.add(new SeparatorToken("."));
 
         return tokens;
     }

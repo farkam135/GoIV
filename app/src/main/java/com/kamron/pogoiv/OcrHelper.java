@@ -459,7 +459,7 @@ public class OcrHelper {
      * @return a CP of the pokemon, 10 if scan failed
      */
     private Optional<Integer> getPokemonCPFromImg(Bitmap pokemonImage) {
-        Bitmap cp = getImageCrop(pokemonImage, 0.33, 0.064, 0.3, 0.046);
+        Bitmap cp = getImageCrop(pokemonImage, 0.25, 0.064, 0.5, 0.046);
         cp = replaceColors(cp, true, 255, 255, 255, Color.BLACK, 30, false);
         tesseract.setImage(cp);
         String cpText = tesseract.getUTF8Text();

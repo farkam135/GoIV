@@ -14,7 +14,7 @@ import com.kamron.pogoiv.logic.PokeInfoCalculator;
 
 public class UnicodeToken extends ClipboardToken {
     String[] unicode_0_15 = {"⓪", "①", "②", "③", "④", "⑤", "⑥", "⑦", "⑧", "⑨", "⑩", "⑪", "⑫", "⑬", "⑭", "⑮"};
-    String[] unicode_0_15filled = {"⓿", "❶", "➋", "➌", "➍", "➎", "➏", "➐", "➑", "➒", "➓", "⓫", "⓬", "⓭", "⓮", "⓯"};
+    String[] unicode_0_15filled = {"⓿", "❶", "❷", "❸", "❹", "❺", "❻", "❼", "❽", "❾", "❿", "⓫", "⓬", "⓭", "⓮", "⓯"};
     boolean filled;
 
     public UnicodeToken(boolean filled) {
@@ -48,7 +48,7 @@ public class UnicodeToken extends ClipboardToken {
 
     @Override
     public String getPreview() {
-        return filled ? "➒⓬❶" : "⑨⑫①";
+        return filled ? "❾⓬❶" : "⑨⑫①";
     }
 
     @Override

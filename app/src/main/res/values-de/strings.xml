@@ -67,7 +67,7 @@
     <string name="hp">KP</string>
     <string name="pokemon_name">Pokémon Name:</string>
 
-    <string name="use_the_slider_below_to_align_the_arc">Verwende den Schieberegler um den roten Punkt auszurichten</string>
+    <string name="use_the_slider_below_to_align_the_arc">Verschiebe den roten Punkt mit dem Slider</string>
     <string name="notification_title">GoIV läuft - Level %1$d</string>
     <string name="close">Schließen</string>
     <string name="main_permission">Berechtigungen erlauben</string>

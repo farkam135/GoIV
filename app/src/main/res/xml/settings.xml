@@ -32,6 +32,11 @@
         android:summary="@string/copy_to_clipboard_setting_summary_new"
         android:defaultValue="false"/>
 
+    <SwitchPreference
+        android:key="copyToClipboardSingle"
+        android:title="@string/copy_to_clip_single_setting"
+        android:summary="@string/copy_to_clip_single_setting_summary"
+        android:defaultValue="false"/>
 
     <Preference
         android:key="@string/clipboardButton"

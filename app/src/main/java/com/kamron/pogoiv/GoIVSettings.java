@@ -27,6 +27,7 @@ public class GoIVSettings {
     public static final String TEAM_NAME = "teamName";
     public static final String APPRAISAL_WINDOW_POSITION = "appraisalWindowPosition";
     public static final String GOIV_CLIPBOARDSETTINGS = "GoIV_ClipboardSettings";
+    public static final String GOIV_CLIPBOARDSINGLESETTINGS = "GoIV_ClipboardSingleSettings";
     public static final String SHOW_TRANSLATED_POKEMON_NAME = "showTranslatedPokemonName";
 
     private static GoIVSettings instance;
@@ -71,9 +72,8 @@ public class GoIVSettings {
     }
 
     public String getClipboardPreference() {
-        //Below code creates tokens so we can get the representation corresponding to how the previous default
-        // clipboard setting was - so that the default reflects what users had before they could configure the
-        // clipboard themselves.
+        //Below code gets the string representation of the "default" clipboard setting
+
         StringBuilder defaultString = new StringBuilder(); // Name (3 char)+ MIN-MAX + Unicode not filled (MAX IV)
         //pokemon name max 3 characters
         defaultString.append(new PokemonNameToken(false, 3).getStringRepresentation());
@@ -100,6 +100,23 @@ public class GoIVSettings {
         editor.putString(GoIVSettings.GOIV_CLIPBOARDSETTINGS, saveString);
         editor.apply();
     }
+    //Clipboard single is the add-on setting if you want different clipboards for 1 or many results
+    public void setClipboardSinglePreference(ArrayList<ClipboardToken> tokens) {
+        SharedPreferences.Editor editor = prefs.edit();
+        String saveString = "";
+        for (ClipboardToken token : tokens) {
+            saveString += token.getStringRepresentation();
+        }
+        editor.putString(GoIVSettings.GOIV_CLIPBOARDSINGLESETTINGS, saveString);
+        editor.apply();
+    }
+
+    public String getClipboardSinglePreference() {
+        //Default is the same as non-single preference.
+        String s = getClipboardPreference();
+        return prefs.getString(GOIV_CLIPBOARDSINGLESETTINGS, s);
+    }
+
 
     public boolean shouldDeleteScreenshots() {
         return prefs.getBoolean(DELETE_SCREENSHOTS, true);

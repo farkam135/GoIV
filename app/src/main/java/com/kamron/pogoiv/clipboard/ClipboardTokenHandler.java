@@ -1,7 +1,6 @@
 package com.kamron.pogoiv.clipboard;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.kamron.pogoiv.GoIVSettings;
 import com.kamron.pogoiv.R;
@@ -45,8 +44,8 @@ public class ClipboardTokenHandler {
      *
      * @return an unmodifiable list of the tokens currently in the user settings.
      */
-    public List<ClipboardToken> getTokens() {
-        return Collections.unmodifiableList(tokens);
+    public List<ClipboardToken> getTokens(boolean single) {
+        return Collections.unmodifiableList(getCorrectTokenList(single));
     }
 
 
@@ -88,30 +87,44 @@ public class ClipboardTokenHandler {
         return saveTo;
     }
 
+    /**
+     * A method which returns either the token list for single or multiple results
+     *
+     * @param single true to modify/work with the settings for single IV results, false for general setting.
+     * @return a list of clipboardtokens for single or multiple results.
+     */
+    private List<ClipboardToken> getCorrectTokenList(boolean single) {
+        if (single) {
+            return tokensSingle;
+        }
+        return tokens;
+    }
 
     /**
      * Remove the i:th token in the token list. If you have A,B,C,D and remove 2, you remove C and the resulting list
      * would be A,B,D. The D will have moved up, there wont be a null marker.
      *
-     * @param i which index to remove in the list.
+     * @param i      which index to remove in the list.
+     * @param single true to modify/work with the settings for single IV results, false for general setting.
      */
-    public void removeToken(int i) {
-        tokens.remove(i);
+    public void removeToken(int i, boolean single) {
+        getCorrectTokenList(single).remove(i);
         saveTokenChanges();
     }
 
     /**
      * Get a preview of how a string output with all the current tokens could look.
      *
+     * @param single true to modify/work with the settings for single IV results, false for general setting.
      * @return An example output that could be produced with the current token settings
      */
-    public String getPreviewString() {
-        if (tokens.size() == 0) {
+    public String getPreviewString(boolean single) {
+        if (getCorrectTokenList(single).size() == 0) {
             return context.getString(R.string.no_clipboard_preview);
         }
         String returner = "";
 
-        for (ClipboardToken token : tokens) {
+        for (ClipboardToken token : getCorrectTokenList(single)) {
             returner += token.getPreview();
         }
         return returner;
@@ -120,12 +133,13 @@ public class ClipboardTokenHandler {
     /**
      * Get the maximum possible length of the string produced by the current token settings.
      *
+     * @param single true to modify/work with the settings for single IV results, false for general setting.
      * @return An integer which represents the maximum possible size of the token inputs.
      */
-    public int getMaxLength() {
+    public int getMaxLength(boolean single) {
         int sum = 0;
 
-        for (ClipboardToken token : tokens) {
+        for (ClipboardToken token : getCorrectTokenList(single)) {
             sum += token.getMaxLength();
         }
         return sum;
@@ -134,18 +148,21 @@ public class ClipboardTokenHandler {
     /**
      * Add a token after all other current remembered tokens.
      *
-     * @param token Which token type to add.
+     * @param single true to modify/work with the settings for single IV results, false for general setting.
+     * @param token  Which token type to add.
      */
-    public void addToken(ClipboardToken token) {
-        tokens.add(token);
+    public void addToken(ClipboardToken token, boolean single) {
+        getCorrectTokenList(single).add(token);
         saveTokenChanges();
     }
 
     /**
      * Clears all tokens from the token list.
+     *
+     * @param single true to modify/work with the settings for single IV results, false for general setting.
      */
-    public void clearTokens() {
-        tokens.clear();
+    public void clearTokens(boolean single) {
+        getCorrectTokenList(single).clear();
         saveTokenChanges();
     }
 
@@ -154,36 +171,24 @@ public class ClipboardTokenHandler {
      *
      * @param ivScanResult       Used by some tokens to calculate information.
      * @param pokeInfoCalculator Used by some tokens to calculate information.
+     * @param single             true to modify/work with the settings for single IV results, false for general setting.
      * @return A string with all the tokens returned result on each other
      */
-    public String getResults(IVScanResult ivScanResult, PokeInfoCalculator pokeInfoCalculator) {
+    public String getResults(IVScanResult ivScanResult, PokeInfoCalculator pokeInfoCalculator, boolean single) {
         String returner = "";
-        for (ClipboardToken token : tokens) {
+        for (ClipboardToken token : getCorrectTokenList(single)) {
             returner += token.getValue(ivScanResult, pokeInfoCalculator);
         }
         return returner;
     }
 
     /**
-     * Saves the token changes to persistent memory.
+     * Saves the token changes to persistent memory. Saves both single and multi tokens.
      */
     private void saveTokenChanges() {
         GoIVSettings.getInstance(context).setClipboardPreference(tokens);
-        Log.d("NahojjjenClippy", "Saved token Changes");
+        GoIVSettings.getInstance(context).setClipboardSinglePreference(tokensSingle);
     }
 
-    /**
-     * Get the entire result from the all the Clipboard tokens in user settings for single results.
-     *
-     * @param ivScanResult       Used by some tokens to calculate information.
-     * @param pokeInfoCalculator Used by some tokens to calculate information.
-     * @return A string with all the tokens returned result on each other
-     */
-    public String getResultsSingle(IVScanResult ivScanResult, PokeInfoCalculator pokeInfoCalculator) {
-        String returner = "";
-        for (ClipboardToken token : tokensSingle) {
-            returner += token.getValue(ivScanResult, pokeInfoCalculator);
-        }
-        return returner;
-    }
+
 }

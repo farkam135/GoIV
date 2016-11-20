@@ -1330,11 +1330,11 @@ public class Pokefly extends Service {
             ClipboardTokenHandler cth = new ClipboardTokenHandler(getApplicationContext());
             String clipResult = "";
             boolean differentSingleResult = GoIVSettings.getInstance(getApplicationContext())
-                    .shouldCopyToClipboardSingle();
-            if (differentSingleResult && ivScanResult.getCount() == 1) {
-                clipResult = cth.getResultsSingle(ivScanResult, pokeInfoCalculator);
+                    .shouldCopyToClipboardSingle(); // has the user enabled the setting for different results?
+            if (differentSingleResult && ivScanResult.getCount() == 1) { //Is there just a single result?
+                clipResult = cth.getResults(ivScanResult, pokeInfoCalculator, true);
             } else {
-                clipResult = cth.getResults(ivScanResult, pokeInfoCalculator);
+                clipResult = cth.getResults(ivScanResult, pokeInfoCalculator, false);
             }
 
             Toast toast = Toast.makeText(this, String.format(getString(R.string.clipboard_copy_toast), clipResult),

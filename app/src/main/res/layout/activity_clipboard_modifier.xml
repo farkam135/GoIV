@@ -94,12 +94,24 @@
         android:text="List of values"
         android:textColor="@color/buttonText"/>
 
+    <CheckBox
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/singleResCheckbox"
+        android:checked="false"
+        android:background="#dadada"
+        android:text="Edit single result clipboard setting"
+        android:onClick="updateFields"
+        android:textAlignment="center"/>
+
     <!-- Token menu scroll container -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:fadeScrollbars="false">
+
+
 
         <LinearLayout
             android:layout_width="match_parent"

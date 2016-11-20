@@ -16,6 +16,7 @@ import com.kamron.pogoiv.clipboard.tokens.SeparatorToken;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class ClipboardModifierActivity extends AppCompatActivity {
 
@@ -25,6 +26,7 @@ public class ClipboardModifierActivity extends AppCompatActivity {
     private TextView clipboardDescription;
     private LinearLayout clipboardShowcase;
     private CheckBox clipboardMaxEvolutionVariant;
+    private CheckBox singleResCheckbox;
     private LinearLayout clipTokenEditor;
     private EditText customSeperator;
 
@@ -39,7 +41,6 @@ public class ClipboardModifierActivity extends AppCompatActivity {
         initiateInstanceVariables();
         updateFields();
         fillTokenList(clipboardMaxEvolutionVariant.isChecked());
-
     }
 
     /**
@@ -53,6 +54,7 @@ public class ClipboardModifierActivity extends AppCompatActivity {
         clipboardShowcase = (LinearLayout) findViewById(R.id.clipboardShowcase);
         clipTokenEditor = (LinearLayout) findViewById(R.id.clipTokenEditor);
         clipboardMaxEvolutionVariant = (CheckBox) findViewById(R.id.clipboardMaxEvolutionVariant);
+        singleResCheckbox = (CheckBox) findViewById(R.id.singleResCheckbox);
         customSeperator = (EditText) findViewById(R.id.customSeperator);
     }
 
@@ -62,7 +64,8 @@ public class ClipboardModifierActivity extends AppCompatActivity {
     private void updateEditField() {
         clipTokenEditor.removeAllViews();
         int index = 0;
-        for (ClipboardToken clipboardToken : cth.getTokens()) {
+
+        for (ClipboardToken clipboardToken : getCurrentlyModifyingList()) {
 
             TextView tokenEditingBox = new TextView(this);
             tokenEditingBox.setText(clipboardToken.getTokenName(this) + "\n" + clipboardToken.getPreview() + " ❌");
@@ -76,7 +79,7 @@ public class ClipboardModifierActivity extends AppCompatActivity {
             tokenEditingBox.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    cth.removeToken(finalI);
+                    cth.removeToken(finalI, singleResCheckbox.isChecked());
                     updateFields();
                 }
             });
@@ -85,6 +88,16 @@ public class ClipboardModifierActivity extends AppCompatActivity {
             clipTokenEditor.addView(divider);
             clipTokenEditor.addView(tokenEditingBox);
         }
+    }
+
+    /**
+     * Get a list of tokens, the default list if user is currently modifying the default list, or the single result
+     * user token list if that checkbox is marked.
+     *
+     * @return The users token setting for either single or multiple results
+     */
+    private List<ClipboardToken> getCurrentlyModifyingList() {
+        return cth.getTokens(singleResCheckbox.isChecked());
     }
 
     /**
@@ -156,6 +169,15 @@ public class ClipboardModifierActivity extends AppCompatActivity {
     }
 
     /**
+     * Updates the description, the preview window and the editor window.
+     *
+     * @param v needed for xml to find method
+     */
+    public void updateFields(View v) {
+        updateFields();
+    }
+
+    /**
      * Sets the clipboard description for the selected token.
      */
     private void updateClipboardDescription() {
@@ -179,7 +201,7 @@ public class ClipboardModifierActivity extends AppCompatActivity {
      */
     public void addToken(View v) {
         if (selectedToken != null) {
-            cth.addToken(selectedToken);
+            cth.addToken(selectedToken, singleResCheckbox.isChecked());
             updateEditField();
             updateClipPreview();
         } else {
@@ -202,7 +224,7 @@ public class ClipboardModifierActivity extends AppCompatActivity {
                         Toast.LENGTH_LONG)
                         .show();
             } else {
-                cth.addToken(new SeparatorToken(inputString));
+                cth.addToken(new SeparatorToken(inputString), singleResCheckbox.isChecked());
                 updateEditField();
                 updateClipPreview();
             }
@@ -225,8 +247,8 @@ public class ClipboardModifierActivity extends AppCompatActivity {
      * Updates the preview string and length indicator..
      */
     public void updateClipPreview() {
-        clipboardPreview.setText(cth.getPreviewString());
-        clipboardMaxLength.setText("(" + cth.getMaxLength() + " characters)");
+        clipboardPreview.setText(cth.getPreviewString(singleResCheckbox.isChecked()));
+        clipboardMaxLength.setText("(" + cth.getMaxLength(singleResCheckbox.isChecked()) + " characters)");
     }
 
     /**

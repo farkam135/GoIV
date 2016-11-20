@@ -40,7 +40,6 @@ public class ClipboardTokenHandler {
     }
 
 
-
     /**
      * Gets a peak at which tokens that exist. To modify the list, call ClipboardTokenHandler add or remove methods.
      *
@@ -56,7 +55,7 @@ public class ClipboardTokenHandler {
      *
      * @param storedSetting The stored string representation of users clipboard setting
      */
-    private ArrayList<ClipboardToken> initializeTokensFromSettings(String storedSetting){
+    private ArrayList<ClipboardToken> initializeTokensFromSettings(String storedSetting) {
         ArrayList<ClipboardToken> saveTo = new ArrayList<>();
         String[] tokenRepresentationArray = storedSetting.split("\\.");
 
@@ -158,7 +157,6 @@ public class ClipboardTokenHandler {
      * @return A string with all the tokens returned result on each other
      */
     public String getResults(IVScanResult ivScanResult, PokeInfoCalculator pokeInfoCalculator) {
-        Log.d("NahojjjenClippy", "Size of token train: " + tokens.size());
         String returner = "";
         for (ClipboardToken token : tokens) {
             returner += token.getValue(ivScanResult, pokeInfoCalculator);
@@ -172,5 +170,20 @@ public class ClipboardTokenHandler {
     private void saveTokenChanges() {
         GoIVSettings.getInstance(context).setClipboardPreference(tokens);
         Log.d("NahojjjenClippy", "Saved token Changes");
+    }
+
+    /**
+     * Get the entire result from the all the Clipboard tokens in user settings for single results.
+     *
+     * @param ivScanResult       Used by some tokens to calculate information.
+     * @param pokeInfoCalculator Used by some tokens to calculate information.
+     * @return A string with all the tokens returned result on each other
+     */
+    public String getResultsSingle(IVScanResult ivScanResult, PokeInfoCalculator pokeInfoCalculator) {
+        String returner = "";
+        for (ClipboardToken token : tokensSingle) {
+            returner += token.getValue(ivScanResult, pokeInfoCalculator);
+        }
+        return returner;
     }
 }

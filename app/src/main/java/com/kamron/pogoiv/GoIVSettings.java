@@ -101,8 +101,9 @@ public class GoIVSettings {
         editor.putString(GoIVSettings.GOIV_CLIPBOARDSETTINGS, saveString);
         editor.apply();
     }
-    //Clipboard single is the add-on setting if you want different clipboards for 1 or many results
+
     public void setClipboardSinglePreference(ArrayList<ClipboardToken> tokens) {
+        //Clipboard single is the add-on setting if you want different clipboards for 1 or many results
         SharedPreferences.Editor editor = prefs.edit();
         String saveString = "";
         for (ClipboardToken token : tokens) {

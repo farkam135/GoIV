@@ -50,7 +50,7 @@
         android:key="autoUpdateEnabled"
         android:title="@string/auto_update_setting_title"
         android:summary="@string/auto_update_setting_summary"
-        android:defaultValue="true"/>
+        android:defaultValue="false"/>
 
     <SwitchPreference
         android:key="pokeSpamEnabled"

@@ -30,9 +30,8 @@ public class GoIVSettings {
     public static final String SHOW_TRANSLATED_POKEMON_NAME = "showTranslatedPokemonName";
 
     private static GoIVSettings instance;
-    private Context context;
-
     private final SharedPreferences prefs;
+    private Context context;
 
     private GoIVSettings(Context context) {
         this.context = context;
@@ -114,7 +113,7 @@ public class GoIVSettings {
     }
 
     public boolean isAutoUpdateEnabled() {
-        return prefs.getBoolean(AUTO_UPDATE_ENABLED, true);
+        return prefs.getBoolean(AUTO_UPDATE_ENABLED, false);
     }
 
     public boolean isPokeSpamEnabled() {

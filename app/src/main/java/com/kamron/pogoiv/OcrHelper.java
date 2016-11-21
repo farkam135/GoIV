@@ -462,7 +462,7 @@ public class OcrHelper {
      * @return a CP of the pokemon, 10 if scan failed
      */
     private Optional<Integer> getPokemonCPFromImg(Bitmap pokemonImage) {
-        Bitmap cp = getImageCrop(pokemonImage, 0.33, 0.064, 0.3, 0.046);
+        Bitmap cp = getImageCrop(pokemonImage, 0.25, 0.064, 0.5, 0.046);
         cp = replaceColors(cp, true, 255, 255, 255, Color.BLACK, 30, false);
         tesseract.setImage(cp);
         String cpText = tesseract.getUTF8Text();
@@ -512,12 +512,12 @@ public class OcrHelper {
             return Optional.absent();
         }
 
-        Bitmap candyAmount = getImageCrop(pokemonImage, 0.65, 0.7, 0.15, 0.035);
+        Bitmap candyAmount = getImageCrop(pokemonImage, 0.60, 0.695, 0.20, 0.038);
         String hash = "candyAmount" + hashBitmap(candyAmount);
         String pokemonCandyStr = ocrCache.get(hash);
 
         if (pokemonCandyStr == null) {
-            candyAmount = replaceColors(candyAmount, true, 55, 66, 61, Color.WHITE, 200, true);
+            candyAmount = replaceColors(candyAmount, true, 68, 105, 108, Color.WHITE, 90, true);
             tesseract.setImage(candyAmount);
             pokemonCandyStr = tesseract.getUTF8Text();
             ocrCache.put(hash, pokemonCandyStr);

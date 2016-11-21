@@ -435,15 +435,18 @@ public class OcrHelper {
                 //If "/" comes at the end we'll get an array with only one component.
                 String[] hpParts = pokemonHPStr.split("/");
                 String hpStr;
-                if (hpParts.length >= 2) {
+                if (hpParts.length >= 2) {  //example read "30 / 55 hp"
+                    //Cant read part 0 because that changes if poke has low hp
                     hpStr = hpParts[1];
-                } else if (hpParts.length == 1) {
+                    hpStr = hpStr.substring(0, hpStr.length() - 2); //Removes the two last chars, like "hp" or "ps"
+                } else if (hpParts.length == 1) { //Failed to read "/", example "30 7 55 hp"
                     hpStr = hpParts[0];
+                    hpStr = hpStr.substring(0, hpStr.length() - 2); //Removes the two last chars, like "hp" or "ps"
                 } else {
                     return Optional.absent();
                 }
 
-                return Optional.of(Integer.parseInt(fixOcrLettersToNums(hpStr)));
+                return Optional.of(Integer.parseInt(hpStr.replaceAll("[^0-9]", "")));
             } catch (NumberFormatException e) {
                 //Fall-through to default.
             }

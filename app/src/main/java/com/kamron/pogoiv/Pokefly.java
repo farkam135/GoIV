@@ -58,6 +58,7 @@ import android.widget.Toast;
 import com.google.common.base.Function;
 import com.google.common.base.Optional;
 import com.kamron.pogoiv.clipboard.ClipboardTokenHandler;
+import com.kamron.pogoiv.logic.AppraisalHelper;
 import com.kamron.pogoiv.logic.CPRange;
 import com.kamron.pogoiv.logic.Data;
 import com.kamron.pogoiv.logic.IVCombination;
@@ -1692,17 +1693,36 @@ public class Pokefly extends Service {
         int low = 0;
         int ave = 0;
         int high = 0;
+        boolean appraisalEvaluated = false;
+
         if (ivScanResult.iVCombinations.size() != 0) {
             low = ivScanResult.getLowestIVCombination().percentPerfect;
             ave = ivScanResult.getAveragePercent();
             high = ivScanResult.getHighestIVCombination().percentPerfect;
+        } else if (ivScanResult.tooManyPossibilities) {
+           //if we have too many possibilities calculate based on appraisalPercentageRange and appraisalIvRange
+           //find the  lowest and highest percentages
+            int appraisalPercentageRangeSelected = appraisalPercentageRange.getSelectedItemPosition();
+            int appraisalIvRangeSelected = appraisalIvRange.getSelectedItemPosition();
+
+            AppraisalHelper.AppraisalPercentPrefect AppraisalPercentPrefect =
+                    AppraisalHelper.calculateAppraisalPercentPrefect(appraisalPercentageRangeSelected,
+                            appraisalIvRangeSelected);
+
+            if (AppraisalPercentPrefect != null) {
+                low = AppraisalPercentPrefect.getLow();
+                ave = AppraisalPercentPrefect.getAve();
+                high = AppraisalPercentPrefect.getHigh();
+                appraisalEvaluated = true;
+            }
+
         }
         GuiUtil.setTextColorByPercentage(resultsMinPercentage, low);
         GuiUtil.setTextColorByPercentage(resultsAvePercentage, ave);
         GuiUtil.setTextColorByPercentage(resultsMaxPercentage, high);
 
 
-        if (ivScanResult.iVCombinations.size() > 0) {
+        if (ivScanResult.iVCombinations.size() > 0 || appraisalEvaluated) {
             resultsMinPercentage.setText(getString(R.string.percent, low));
             resultsAvePercentage.setText(getString(R.string.percent, ave));
             resultsMaxPercentage.setText(getString(R.string.percent, high));
@@ -2029,4 +2049,5 @@ public class Pokefly extends Service {
     private int dpToPx(int dp) {
         return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
     }
+
 }

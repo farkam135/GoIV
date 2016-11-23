@@ -17,33 +17,18 @@ import lombok.AllArgsConstructor;
  */
 public class PokemonNameCorrector {
     private final PokeInfoCalculator pokeInfoCalculator;
-    private final HashMap<String, String> userCorrections;
 
     public PokemonNameCorrector(PokeInfoCalculator pokeInfoCalculator, Map<String, String> storedUserCorrections) {
         this.pokeInfoCalculator = pokeInfoCalculator;
-        userCorrections = new HashMap<>(pokeInfoCalculator.getPokedex().size());
-        userCorrections.putAll(storedUserCorrections);
-    }
-
-    /**
-     * Saves the pokemon nickname relation to picked pokemon.
-     *
-     * @param ocredPokemonName     The scanned nickname
-     * @param correctedPokemonName The pokemon to connect with the nickname
-     */
-    public void putCorrection(String ocredPokemonName, String correctedPokemonName) {
-        /* TODO: Should we set a size limit on that and throw away LRU entries? */
-        userCorrections.put(ocredPokemonName, correctedPokemonName);
     }
 
     /**
      * Gets the best matching pokemon that can be found given the input, by doing the following:
      * 1. check if the nickname perfectly matches a pokemon
      * 2. check if candyname + evolution cost perfectly matches a pokemon
-     * 3. check if there's a stored user correction for the scanned pokemon name
-     * 4. check correction for Eevee’s Evolution
-     * 5. get the pokemon with the closest name within the evolution line guessed from the candy
-     * 6. All else failed: make a wild guess based only on closest name match
+     * 3. check correction for Eevee’s Evolution
+     * 4. get the pokemon with the closest name within the evolution line guessed from the candy
+     * 5. All else failed: make a wild guess based only on closest name match
      * <p>
      * The order is decided by having high reliability guessing modules run first, and if they cant find an answer,
      * fall back to less accurate methods.
@@ -77,15 +62,8 @@ public class PokemonNameCorrector {
             }
         }
 
-        //3.  If the user previous corrected this text, go with that.
-        if (guess.pokemon == null) {
-            if (userCorrections.containsKey(poketext)) {
-                poketext = userCorrections.get(poketext);
-                guess = new PokeDist(pokeInfoCalculator.get(poketext), 20);
-            }
-        }
 
-        //4.  check correction for Eevee’s Evolution
+        //3.  check correction for Eevee’s Evolution
         if (guess.pokemon == null) {
             HashMap<String, String> eeveelutionCorrection = new HashMap<>();
             eeveelutionCorrection.put("Rainer", pokeInfoCalculator.get(133).name); //Vaporeon
@@ -97,13 +75,13 @@ public class PokemonNameCorrector {
             }
         }
 
-        //5.  get the pokemon with the closest name within the evolution line guessed from the candy (or candy and
+        //4.  get the pokemon with the closest name within the evolution line guessed from the candy (or candy and
         // cost calculation).
         if (guess.pokemon == null && bestGuessEvolutionLine != null) {
             guess = getNicknameGuess(poketext, bestGuessEvolutionLine);
         }
 
-        //6. All else failed: make a wild guess based only on closest name match
+        //5. All else failed: make a wild guess based only on closest name match
         if (guess.pokemon == null) {
             guess = getNicknameGuess(poketext, pokeInfoCalculator.getPokedex());
         }

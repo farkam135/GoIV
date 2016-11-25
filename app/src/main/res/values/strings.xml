@@ -81,7 +81,7 @@
     <string name="settings_page_title">Settings</string>
     <string name="launch_pokemon_go_setting_title">Auto launch Pokémon Go</string>
     <string name="launch_pokemon_go_setting_summary">Launch Pokémon Go when GoIV is started</string>
-    <string name="confirmation_dialog_setting_title">Enable input editing dialog</string>
+    <string name="confirmation_dialog_setting_title">Enable scan correction dialog</string>
     <string name="confirmation_dialog_setting_summary">Show a screen which allows you to manually edit the scanned information before showing results</string>
     <string name="manual_screenshot_mode_setting_title">Screenshot mode</string>
     <string name="manual_screenshot_mode_setting_summary">Save battery life by scanning screenshots instead of auto detecting. This setting has to be enabled for Android KitKat and below. Warning! In this mode the GoIV button does not auto appear</string>

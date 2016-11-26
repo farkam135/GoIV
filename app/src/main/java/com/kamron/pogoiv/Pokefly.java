@@ -411,13 +411,11 @@ public class Pokefly extends Service {
         windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
         clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
         sharedPref = getSharedPreferences(PREF_USER_CORRECTIONS, Context.MODE_PRIVATE);
+        corrector = new PokemonNameCorrector(pokeInfoCalculator);
 
         LocalBroadcastManager.getInstance(this).registerReceiver(displayInfo, new IntentFilter(ACTION_SEND_INFO));
         LocalBroadcastManager.getInstance(this).registerReceiver(processBitmap,
                 new IntentFilter(ACTION_PROCESS_BITMAP));
-    }
-
-    @SuppressWarnings("unchecked")
     }
 
     @Override

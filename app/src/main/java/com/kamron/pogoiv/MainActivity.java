@@ -166,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
 
         boolean userOnBelowAndroid5 = Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT_WATCH;
         boolean hasNotShownAndroid5Warning = !settings.hasShownNoScreenRecWarning();
-        if (hasNotShownAndroid5Warning && userOnBelowAndroid5){
+        if (hasNotShownAndroid5Warning && userOnBelowAndroid5) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage(R.string.android_sub5_warning);
             builder.create().show();

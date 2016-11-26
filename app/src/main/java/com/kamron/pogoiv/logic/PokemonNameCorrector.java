@@ -6,7 +6,6 @@ import com.google.common.base.Optional;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import lombok.AllArgsConstructor;
 
@@ -18,7 +17,7 @@ import lombok.AllArgsConstructor;
 public class PokemonNameCorrector {
     private final PokeInfoCalculator pokeInfoCalculator;
 
-    public PokemonNameCorrector(PokeInfoCalculator pokeInfoCalculator, Map<String, String> storedUserCorrections) {
+    public PokemonNameCorrector(PokeInfoCalculator pokeInfoCalculator) {
         this.pokeInfoCalculator = pokeInfoCalculator;
     }
 

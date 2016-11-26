@@ -77,7 +77,6 @@ import java.io.File;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Locale;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -412,7 +411,6 @@ public class Pokefly extends Service {
         windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
         clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
         sharedPref = getSharedPreferences(PREF_USER_CORRECTIONS, Context.MODE_PRIVATE);
-        corrector = initCorrectorFromPrefs(pokeInfoCalculator, sharedPref);
 
         LocalBroadcastManager.getInstance(this).registerReceiver(displayInfo, new IntentFilter(ACTION_SEND_INFO));
         LocalBroadcastManager.getInstance(this).registerReceiver(processBitmap,
@@ -420,9 +418,6 @@ public class Pokefly extends Service {
     }
 
     @SuppressWarnings("unchecked")
-    private static PokemonNameCorrector initCorrectorFromPrefs(PokeInfoCalculator pokeInfoCalculator,
-                                                               SharedPreferences sharedPref) {
-        return new PokemonNameCorrector(pokeInfoCalculator, (Map<String, String>) sharedPref.getAll());
     }
 
     @Override

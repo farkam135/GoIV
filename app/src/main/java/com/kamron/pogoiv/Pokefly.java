@@ -58,7 +58,7 @@ import android.widget.Toast;
 import com.google.common.base.Function;
 import com.google.common.base.Optional;
 import com.kamron.pogoiv.clipboard.ClipboardTokenHandler;
-import com.kamron.pogoiv.logic.AppraisalHelper;
+import com.kamron.pogoiv.logic.AppraisalHelper.AppraisalPercentPrefect;
 import com.kamron.pogoiv.logic.CPRange;
 import com.kamron.pogoiv.logic.Data;
 import com.kamron.pogoiv.logic.IVCombination;
@@ -77,6 +77,8 @@ import com.kamron.pogoiv.widgets.PokemonSpinnerAdapter;
 import java.io.File;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Locale;
 import java.util.Map;
 
@@ -86,6 +88,7 @@ import butterknife.OnClick;
 import io.apptik.widget.MultiSlider;
 
 import static com.kamron.pogoiv.GoIVSettings.APPRAISAL_WINDOW_POSITION;
+import static com.kamron.pogoiv.logic.AppraisalHelper.calculateAppraisalPercentPrefect;
 
 /**
  * Currently, the central service in Pokemon Go, dealing with everything except
@@ -1700,14 +1703,20 @@ public class Pokefly extends Service {
             ave = ivScanResult.getAveragePercent();
             high = ivScanResult.getHighestIVCombination().percentPerfect;
         } else if (ivScanResult.tooManyPossibilities) {
-           //if we have too many possibilities calculate based on appraisalPercentageRange and appraisalIvRange
-           //find the  lowest and highest percentages
+            /*
+            If we have too many possibilities find the lowest and highest percentages based on
+            Appraisal Percentage Range, Appraisal Checkboxes, and Appraisal Iv Range.
+            */
             int appraisalPercentageRangeSelected = appraisalPercentageRange.getSelectedItemPosition();
+
+            Boolean[] appraisalCheckboxes = {attCheckbox.isChecked(), defCheckbox.isChecked(), staCheckbox.isChecked()};
+            int howManyAppraisalChecked = Collections.frequency(Arrays.asList(appraisalCheckboxes), true);
+
             int appraisalIvRangeSelected = appraisalIvRange.getSelectedItemPosition();
 
-            AppraisalHelper.AppraisalPercentPrefect AppraisalPercentPrefect =
-                    AppraisalHelper.calculateAppraisalPercentPrefect(appraisalPercentageRangeSelected,
-                            appraisalIvRangeSelected);
+            AppraisalPercentPrefect AppraisalPercentPrefect =
+                    calculateAppraisalPercentPrefect(appraisalPercentageRangeSelected,
+                            howManyAppraisalChecked, appraisalIvRangeSelected);
 
             if (AppraisalPercentPrefect != null) {
                 low = AppraisalPercentPrefect.getLow();
@@ -1715,12 +1724,11 @@ public class Pokefly extends Service {
                 high = AppraisalPercentPrefect.getHigh();
                 appraisalEvaluated = true;
             }
-
         }
+
         GuiUtil.setTextColorByPercentage(resultsMinPercentage, low);
         GuiUtil.setTextColorByPercentage(resultsAvePercentage, ave);
         GuiUtil.setTextColorByPercentage(resultsMaxPercentage, high);
-
 
         if (ivScanResult.iVCombinations.size() > 0 || appraisalEvaluated) {
             resultsMinPercentage.setText(getString(R.string.percent, low));

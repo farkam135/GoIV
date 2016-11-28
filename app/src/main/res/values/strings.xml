@@ -156,4 +156,5 @@
     <string name="title_activity_credits">CreditsActivity</string>
     <string name="app_credits_title">Credits</string>
     <string name="view_credits_button">viewCredits</string>
+    <string name="android_sub5_warning">GoIV has detected that your phone does not have the MediaProjection API, which is used to automatically show the IV scan button. This might be fixed by updating your phone to Android 5 or above. The app will lock itself to screenshot mode to avoid crashing. You can use GoIV by manually triggering a screenshot, which most devices does by holding home+power for a short duration. We apologize for the inconvenience.</string>
 </resources>

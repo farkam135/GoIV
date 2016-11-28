@@ -28,6 +28,7 @@ public class GoIVSettings {
     public static final String APPRAISAL_WINDOW_POSITION = "appraisalWindowPosition";
     public static final String GOIV_CLIPBOARDSETTINGS = "GoIV_ClipboardSettings";
     public static final String SHOW_TRANSLATED_POKEMON_NAME = "showTranslatedPokemonName";
+    public static final String HAS_WARNED_USER_NO_SCREENREC = "GOIV_hasWarnedUserNoScreenRec";
 
     private static GoIVSettings instance;
     private final SharedPreferences prefs;
@@ -98,6 +99,14 @@ public class GoIVSettings {
         }
         editor.putString(GoIVSettings.GOIV_CLIPBOARDSETTINGS, saveString);
         editor.apply();
+    }
+
+    public boolean hasShownNoScreenRecWarning() {
+        return prefs.getBoolean(HAS_WARNED_USER_NO_SCREENREC, false);
+    }
+
+    public void setHasShownScreenRecWarning() {
+        prefs.edit().putBoolean(HAS_WARNED_USER_NO_SCREENREC, true).apply();
     }
 
     public boolean shouldDeleteScreenshots() {

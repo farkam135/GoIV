@@ -164,6 +164,16 @@ public class MainActivity extends AppCompatActivity {
             AppUpdateUtil.checkForUpdate(this);
         }
 
+        boolean userOnBelowAndroid5 = Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT_WATCH;
+        boolean hasNotShownAndroid5Warning = !settings.hasShownNoScreenRecWarning();
+        if (hasNotShownAndroid5Warning && userOnBelowAndroid5) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage(R.string.android_sub5_warning);
+            builder.create().show();
+
+            settings.setHasShownScreenRecWarning();
+        }
+
         setContentView(R.layout.activity_main);
 
         PreferenceManager.setDefaultValues(this, R.xml.settings, false);

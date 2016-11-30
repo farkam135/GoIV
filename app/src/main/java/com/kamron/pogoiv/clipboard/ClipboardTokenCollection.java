@@ -87,20 +87,11 @@ public class ClipboardTokenCollection {
 
 
         //Separators
-        tokens.add(new SeparatorToken(" "));
-        tokens.add(new SeparatorToken(","));
-        tokens.add(new SeparatorToken("-"));
-        tokens.add(new SeparatorToken("_"));
         tokens.add(new SeparatorToken("⚔"));
         tokens.add(new SeparatorToken("⛨"));
         tokens.add(new SeparatorToken("❤"));
-        tokens.add(new SeparatorToken("IV"));
-        tokens.add(new SeparatorToken("L"));
-        tokens.add(new SeparatorToken("Lv"));
         tokens.add(new SeparatorToken("☢"));
-        tokens.add(new SeparatorToken("%"));
-        tokens.add(new SeparatorToken("( ͡° ͜ʖ ͡°)"));
-        tokens.add(new SeparatorToken("r"));
+        tokens.add(new SeparatorToken("."));
 
         return tokens;
     }

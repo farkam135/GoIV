@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
 
     <PreferenceCategory
@@ -31,12 +30,19 @@
     <PreferenceCategory
         android:title="Optional GoIV Features">
 
+
         <SwitchPreference
             android:defaultValue="false"
             android:key="@string/copy_to_clipboard_setting_key"
             android:summary="@string/copy_to_clipboard_setting_summary_new"
             android:title="@string/copy_to_clipboard_setting_title"/>
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="@string/copy_to_clipboard_setting_key"
+            android:key="copyToClipboardSingle"
+            android:summary="@string/copy_to_clip_single_setting_summary"
+            android:title="@string/copy_to_clip_single_setting"/>
 
         <Preference
             android:dependency="@string/copy_to_clipboard_setting_key"
@@ -45,14 +51,13 @@
             android:title="@string/clipboardButton_title"
             />
 
-
         <SwitchPreference
             android:defaultValue="true"
             android:key="pokeSpamEnabled"
             android:summary="@string/pokespam_setting_summary"
             android:title="@string/pokespam_setting_title"/>
-
     </PreferenceCategory>
+
 
     <PreferenceCategory
         android:title="GoIV Mode">
@@ -102,6 +107,4 @@
             android:title="@string/view_credits"
             />
     </PreferenceCategory>
-
-
 </PreferenceScreen>

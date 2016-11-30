@@ -21,13 +21,16 @@ public class GoIVSettings {
     public static final String MANUAL_SCREENSHOT_MODE = "manualScreenshotMode";
     public static final String DELETE_SCREENSHOTS = "deleteScreenshots";
     public static final String COPY_TO_CLIPBOARD = "copyToClipboard";
+    public static final String COPY_TO_CLIPBOARD_SINGLE = "copyToClipboardSingle";
     public static final String SEND_CRASH_REPORTS = "sendCrashReports";
     public static final String AUTO_UPDATE_ENABLED = "autoUpdateEnabled";
     public static final String POKESPAM_ENABLED = "pokeSpamEnabled";
     public static final String TEAM_NAME = "teamName";
     public static final String APPRAISAL_WINDOW_POSITION = "appraisalWindowPosition";
     public static final String GOIV_CLIPBOARDSETTINGS = "GoIV_ClipboardSettings";
+    public static final String GOIV_CLIPBOARDSINGLESETTINGS = "GoIV_ClipboardSingleSettings";
     public static final String SHOW_TRANSLATED_POKEMON_NAME = "showTranslatedPokemonName";
+    public static final String HAS_WARNED_USER_NO_SCREENREC = "GOIV_hasWarnedUserNoScreenRec";
 
     private static GoIVSettings instance;
     private final SharedPreferences prefs;
@@ -70,9 +73,8 @@ public class GoIVSettings {
     }
 
     public String getClipboardPreference() {
-        //Below code creates tokens so we can get the representation corresponding to how the previous default
-        // clipboard setting was - so that the default reflects what users had before they could configure the
-        // clipboard themselves.
+        //Below code gets the string representation of the "default" clipboard setting
+
         StringBuilder defaultString = new StringBuilder(); // Name (3 char)+ MIN-MAX + Unicode not filled (MAX IV)
         //pokemon name max 3 characters
         defaultString.append(new PokemonNameToken(false, 3).getStringRepresentation());
@@ -100,12 +102,42 @@ public class GoIVSettings {
         editor.apply();
     }
 
+    public void setClipboardSinglePreference(ArrayList<ClipboardToken> tokens) {
+        //Clipboard single is the add-on setting if you want different clipboards for 1 or many results
+        SharedPreferences.Editor editor = prefs.edit();
+        String saveString = "";
+        for (ClipboardToken token : tokens) {
+            saveString += token.getStringRepresentation();
+        }
+        editor.putString(GoIVSettings.GOIV_CLIPBOARDSINGLESETTINGS, saveString);
+        editor.apply();
+    }
+
+    public String getClipboardSinglePreference() {
+        //Default is the same as non-single preference.
+        String s = getClipboardPreference();
+        return prefs.getString(GOIV_CLIPBOARDSINGLESETTINGS, s);
+    }
+
+
+    public boolean hasShownNoScreenRecWarning() {
+        return prefs.getBoolean(HAS_WARNED_USER_NO_SCREENREC, false);
+    }
+
+    public void setHasShownScreenRecWarning() {
+        prefs.edit().putBoolean(HAS_WARNED_USER_NO_SCREENREC, true).apply();
+    }
+
     public boolean shouldDeleteScreenshots() {
         return prefs.getBoolean(DELETE_SCREENSHOTS, true);
     }
 
     public boolean shouldCopyToClipboard() {
         return prefs.getBoolean(COPY_TO_CLIPBOARD, false);
+    }
+
+    public boolean shouldCopyToClipboardSingle() {
+        return prefs.getBoolean(COPY_TO_CLIPBOARD_SINGLE, false);
     }
 
     public boolean shouldSendCrashReports() {

@@ -150,7 +150,12 @@
     <string name="showtranslatedpokemonname_setting_title">Show translated Pokémon name</string>
     <string name="showtranslatedpokemonname_setting_summary">Display translated Pokémon name on GoIV but use its English name for OCR. This is for when the Pokémon Go app is in English but user\'s native language is not</string>
     <string name="pause_goiv_notification">Pause</string>
+    <string name="waiting_for_pogo_start">Waiting for Pokémon Go to start...</string>
+    <string name="goiv_started">GoIV started.</string>
     <string name="clipboard_copy_toast">Copied %s to clipboard</string>
+    <string name="no_clipboard_preview">No preview available</string>
+    <string name="copy_to_clip_single_setting">Copy differently on single result</string>
+    <string name="copy_to_clip_single_setting_summary">Allows you to define another setting for Copy to clipboard in Edit which will show a different result when a scan returns a single possibility.</string>
     <string name="view_credits">View credits</string>
     <string name="view_credits_summary">View application credits, used open source projects and thanks</string>
     <string name="title_activity_credits">CreditsActivity</string>
@@ -158,4 +163,5 @@
     <string name="view_credits_button">viewCredits</string>
     <string name="copy_to_clipboard_setting_key">copyToClipboard</string>
     <string name="manual_screenshot_mode_key">manualScreenshotMode</string>
+    <string name="android_sub5_warning">GoIV has detected that your phone does not have the MediaProjection API, which is used to automatically show the IV scan button. This might be fixed by updating your phone to Android 5 or above. The app will lock itself to screenshot mode to avoid crashing. You can use GoIV by manually triggering a screenshot, which most devices does by holding home+power for a short duration. We apologize for the inconvenience.</string>
 </resources>

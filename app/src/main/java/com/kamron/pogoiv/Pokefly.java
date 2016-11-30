@@ -39,8 +39,8 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -445,11 +445,7 @@ public class Pokefly extends Service {
             trainerLevel = intent.getIntExtra(KEY_TRAINER_LEVEL, 1);
             statusBarHeight = intent.getIntExtra(KEY_STATUS_BAR_HEIGHT, 0);
             batterySaver = intent.getBooleanExtra(KEY_BATTERY_SAVER, false);
-            makeNotification(false);
-            createInfoLayout();
-            createIVButton();
-            createArcPointer();
-            createArcAdjuster();
+            createFlyingComponents();
             /* Assumes MainActivity initialized ScreenGrabber before starting this service. */
             if (!batterySaver) {
                 screen = ScreenGrabber.getInstance();
@@ -457,10 +453,21 @@ public class Pokefly extends Service {
             } else {
                 screenShotHelper = ScreenShotHelper.start(Pokefly.this);
             }
+            makeNotification(false);
         }
         //We have intent data, it's possible this service will be killed and we would want to recreate it
         //https://github.com/farkam135/GoIV/issues/477
         return START_REDELIVER_INTENT;
+    }
+
+    /**
+     * Creates the infolayout, ivbutton, arcpointer and arc adjuster.
+     */
+    private void createFlyingComponents() {
+        createInfoLayout();
+        createIVButton();
+        createArcPointer();
+        createArcAdjuster();
     }
 
     private void watchScreen() {
@@ -627,7 +634,7 @@ public class Pokefly extends Service {
                     .setOngoing(true)
                     .setCategory(NotificationCompat.CATEGORY_SERVICE)
                     .setColor(getColorC(R.color.colorPrimary))
-                    .setSmallIcon(R.drawable.notification_icon)
+                    .setSmallIcon(R.drawable.notification_icon_play)
                     .setContentTitle(getString(R.string.notification_title, trainerLevel))
                     .setContentText(getString(R.string.notification_title_tap_to_open))
                     .setContentIntent(openAppPendingIntent)
@@ -1328,11 +1335,18 @@ public class Pokefly extends Service {
     private void addClipboardInfoIfSettingOn(IVScanResult ivScanResult) {
         if (GoIVSettings.getInstance(getApplicationContext()).shouldCopyToClipboard()) {
             ClipboardTokenHandler cth = new ClipboardTokenHandler(getApplicationContext());
-            String clipResult = cth.getResults(ivScanResult, pokeInfoCalculator);
+            String clipResult = "";
+            boolean differentSingleResult = GoIVSettings.getInstance(getApplicationContext())
+                    .shouldCopyToClipboardSingle(); // has the user enabled the setting for different results?
+            if (differentSingleResult && ivScanResult.getCount() == 1) { //Is there just a single result?
+                clipResult = cth.getResults(ivScanResult, pokeInfoCalculator, true);
+            } else {
+                clipResult = cth.getResults(ivScanResult, pokeInfoCalculator, false);
+            }
 
-            Toast toast = Toast.makeText(this, String.format(getString(R.string.clipboard_copy_toast),clipResult),
+            Toast toast = Toast.makeText(this, String.format(getString(R.string.clipboard_copy_toast), clipResult),
                     Toast.LENGTH_SHORT);
-            toast.setGravity(Gravity.CENTER,0,0);
+            toast.setGravity(Gravity.CENTER, 0, 0);
             toast.show();
 
             ClipData clip = ClipData.newPlainText(clipResult, clipResult);

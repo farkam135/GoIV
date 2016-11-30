@@ -278,7 +278,7 @@ public class OcrHelper {
      * Correct some OCR errors in argument where only numbers are expected.
      */
     private static String fixOcrLettersToNums(String src) {
-        return src.replace("S", "5").replace("s", "5").replace("O", "0").replace("o",
+        return src.replace("S", "5").replace("s", "5").replace("O", "0").replace("B","8").replace("o",
                 "0").replace("l", "1").replace("I", "1").replace("i", "1").replace("Z", "2").replaceAll("[^0-9]", "");
     }
 
@@ -446,7 +446,7 @@ public class OcrHelper {
                     return Optional.absent();
                 }
 
-                return Optional.of(Integer.parseInt(hpStr.replaceAll("[^0-9]", "")));
+                return Optional.of(Integer.parseInt(fixOcrLettersToNums(hpStr)));
             } catch (NumberFormatException e) {
                 //Fall-through to default.
             }

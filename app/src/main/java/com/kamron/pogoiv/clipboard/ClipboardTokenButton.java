@@ -95,7 +95,7 @@ public class ClipboardTokenButton extends Button {
             public void onClick(View view) {
 
                 clipboardModifierActivity.selectToken(token);
-                clipboardModifierActivity.updateClipPreview();
+                clipboardModifierActivity.updateLengthIndicator();
                 clipboardModifierActivity.unColorallButtons();
                 setSelectedColor();
 

@@ -1,16 +1,19 @@
 package com.kamron.pogoiv.clipboard;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.CheckBox;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.kamron.pogoiv.GoIVSettings;
 import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.clipboard.tokens.SeparatorToken;
 
@@ -21,14 +24,16 @@ import java.util.List;
 public class ClipboardModifierActivity extends AppCompatActivity {
 
     private ClipboardTokenHandler cth;
-    private TextView clipboardPreview;
     private TextView clipboardMaxLength;
+    private TextView multipleText;
+    private TextView singleText;
     private TextView clipboardDescription;
     private LinearLayout clipboardShowcase;
-    private CheckBox clipboardMaxEvolutionVariant;
-    private CheckBox singleResCheckbox;
+    private Switch clipboardMaxEvolutionVariant;
+    private Switch singleResSwitch;
     private LinearLayout clipTokenEditor;
     private EditText customSeperator;
+    private LinearLayout singleMultiLayout;
 
     private ArrayList<ClipboardTokenButton> tokenButtons = new ArrayList<>();
     private ClipboardToken selectedToken = null;
@@ -39,8 +44,21 @@ public class ClipboardModifierActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(R.string.clipboard_activity_title);
         setContentView(R.layout.activity_clipboard_modifier);
         initiateInstanceVariables();
+        setSingleCheckboxShownDependingOnSetting(); //must be done after initiateInstanceVariables
         updateFields();
         fillTokenList(clipboardMaxEvolutionVariant.isChecked());
+    }
+
+    /**
+     * Hides the checkfox for choosing to edit the single or multiple clipboard results.
+     */
+    private void setSingleCheckboxShownDependingOnSetting() {
+        GoIVSettings settings = GoIVSettings.getInstance(this);
+        if (settings.shouldCopyToClipboardSingle()) {
+            singleMultiLayout.setVisibility(View.VISIBLE);
+        } else {
+            singleMultiLayout.setVisibility(View.GONE);
+        }
     }
 
     /**
@@ -48,14 +66,16 @@ public class ClipboardModifierActivity extends AppCompatActivity {
      */
     private void initiateInstanceVariables() {
         cth = new ClipboardTokenHandler(this);
+        multipleText = (TextView) findViewById(R.id.multipleText);
+        singleText = (TextView) findViewById(R.id.singleText);
         clipboardMaxLength = (TextView) findViewById(R.id.clipboardMaxLength);
-        clipboardPreview = (TextView) findViewById(R.id.clipboardPreview);
         clipboardDescription = (TextView) findViewById(R.id.clipboardDescription);
         clipboardShowcase = (LinearLayout) findViewById(R.id.clipboardShowcase);
         clipTokenEditor = (LinearLayout) findViewById(R.id.clipTokenEditor);
-        clipboardMaxEvolutionVariant = (CheckBox) findViewById(R.id.clipboardMaxEvolutionVariant);
-        singleResCheckbox = (CheckBox) findViewById(R.id.singleResCheckbox);
+        clipboardMaxEvolutionVariant = (Switch) findViewById(R.id.clipboardMaxEvolutionVariant);
+        singleResSwitch = (Switch) findViewById(R.id.singleResCheckbox);
         customSeperator = (EditText) findViewById(R.id.customSeperator);
+        singleMultiLayout = (LinearLayout) findViewById(R.id.singleMultiLayout);
     }
 
     /**
@@ -64,13 +84,19 @@ public class ClipboardModifierActivity extends AppCompatActivity {
     private void updateEditField() {
         clipTokenEditor.removeAllViews();
         int index = 0;
+        String separatorTokenStringName = new SeparatorToken("").getCategory();
 
         for (ClipboardToken clipboardToken : getCurrentlyModifyingList()) {
 
             TextView tokenEditingBox = new TextView(this);
-            tokenEditingBox.setText(clipboardToken.getTokenName(this) + "\n" + clipboardToken.getPreview() + " ❌");
+            if (clipboardToken.getCategory().equals(separatorTokenStringName)) {
+                tokenEditingBox.setText(clipboardToken.getPreview() + " ❌");
+            } else {
+                tokenEditingBox.setText(clipboardToken.getTokenName(this) + "\n" + clipboardToken.getPreview() + " ❌");
+            }
             tokenEditingBox.setPadding(0, 0, 0, 0);
-            tokenEditingBox.setBackgroundColor(Color.parseColor("#fadede"));
+            tokenEditingBox.setBackgroundColor(Color.rgb(44, 57, 128)); //dark purplish blue
+            tokenEditingBox.setTextColor(Color.WHITE);
 
             TextView divider = new TextView(this);
             divider.setText("     ");
@@ -79,7 +105,7 @@ public class ClipboardModifierActivity extends AppCompatActivity {
             tokenEditingBox.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    cth.removeToken(finalI, singleResCheckbox.isChecked());
+                    cth.removeToken(finalI, singleResSwitch.isChecked());
                     updateFields();
                 }
             });
@@ -97,7 +123,7 @@ public class ClipboardModifierActivity extends AppCompatActivity {
      * @return The users token setting for either single or multiple results
      */
     private List<ClipboardToken> getCurrentlyModifyingList() {
-        return cth.getTokens(singleResCheckbox.isChecked());
+        return cth.getTokens(singleResSwitch.isChecked());
     }
 
     /**
@@ -159,11 +185,12 @@ public class ClipboardModifierActivity extends AppCompatActivity {
     }
 
     /**
-     * Updates the description, the preview window and the editor window.
+     * Updates the description, the preview window, the highlighted single/multi text,  and the editor window.
      */
     private void updateFields() {
+        highlightSingleOrMultiText();
         updateClipboardDescription();
-        updateClipPreview();
+        updateLengthIndicator();
         updateEditField();
 
     }
@@ -175,6 +202,19 @@ public class ClipboardModifierActivity extends AppCompatActivity {
      */
     public void updateFields(View v) {
         updateFields();
+    }
+
+    /**
+     * Makes either the "single" or "multi" text bold to highlight to the user which is selected.
+     */
+    private void highlightSingleOrMultiText() {
+        if (singleResSwitch.isChecked()) {
+            multipleText.setTextColor(Color.LTGRAY);
+            singleText.setTextColor(Color.BLACK);
+        } else {
+            multipleText.setTextColor(Color.BLACK);
+            singleText.setTextColor(Color.LTGRAY);
+        }
     }
 
     /**
@@ -201,9 +241,9 @@ public class ClipboardModifierActivity extends AppCompatActivity {
      */
     public void addToken(View v) {
         if (selectedToken != null) {
-            cth.addToken(selectedToken, singleResCheckbox.isChecked());
+            cth.addToken(selectedToken, singleResSwitch.isChecked());
             updateEditField();
-            updateClipPreview();
+            updateLengthIndicator();
         } else {
             Toast.makeText(this, R.string.clipboard_no_token_selected, Toast.LENGTH_LONG).show();
         }
@@ -216,17 +256,26 @@ public class ClipboardModifierActivity extends AppCompatActivity {
      * @param v needed for onclick xml
      */
     public void addCustomString(View v) {
-        if (customSeperator.getText() != null && !customSeperator.getText().toString().equals("")) {
+        if (customSeperator.getText() != null && !customSeperator.getText().toString().equals("")) { //no custom string
             String inputString = customSeperator.getText().toString();
-            if (inputString.contains(".")) {
+            if (inputString.contains(".")) { //invalid custom string
 
                 Toast.makeText(this, "Custom separator can't contain . because the developer is lazy",
                         Toast.LENGTH_LONG)
                         .show();
             } else {
-                cth.addToken(new SeparatorToken(inputString), singleResCheckbox.isChecked());
+                cth.addToken(new SeparatorToken(inputString), singleResSwitch.isChecked());
                 updateEditField();
-                updateClipPreview();
+                updateLengthIndicator();
+
+                //clear text field
+                customSeperator.setText("");
+
+                //close keyboard
+                InputMethodManager inputManager =
+                        (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(),
+                        InputMethodManager.HIDE_NOT_ALWAYS);
             }
 
         } else {
@@ -244,11 +293,10 @@ public class ClipboardModifierActivity extends AppCompatActivity {
     }
 
     /**
-     * Updates the preview string and length indicator..
+     * Updates the preview length indicator.
      */
-    public void updateClipPreview() {
-        clipboardPreview.setText(cth.getPreviewString(singleResCheckbox.isChecked()));
-        clipboardMaxLength.setText("(" + cth.getMaxLength(singleResCheckbox.isChecked()) + " characters)");
+    public void updateLengthIndicator() {
+        clipboardMaxLength.setText("(" + cth.getMaxLength(singleResSwitch.isChecked()) + " characters)");
     }
 
     /**

@@ -50,7 +50,7 @@ public class ClipboardModifierActivity extends AppCompatActivity {
     }
 
     /**
-     * Hides the checkfox for choosing to edit the single or multiple clipboard results
+     * Hides the checkfox for choosing to edit the single or multiple clipboard results.
      */
     private void setSingleCheckboxShownDependingOnSetting() {
         GoIVSettings settings = GoIVSettings.getInstance(this);
@@ -196,6 +196,15 @@ public class ClipboardModifierActivity extends AppCompatActivity {
     }
 
     /**
+     * Updates the description, the preview window and the editor window.
+     *
+     * @param v needed for xml to find method
+     */
+    public void updateFields(View v) {
+        updateFields();
+    }
+
+    /**
      * Makes either the "single" or "multi" text bold to highlight to the user which is selected.
      */
     private void highlightSingleOrMultiText() {
@@ -206,15 +215,6 @@ public class ClipboardModifierActivity extends AppCompatActivity {
             multipleText.setTextColor(Color.BLACK);
             singleText.setTextColor(Color.LTGRAY);
         }
-    }
-
-    /**
-     * Updates the description, the preview window and the editor window.
-     *
-     * @param v needed for xml to find method
-     */
-    public void updateFields(View v) {
-        updateFields();
     }
 
     /**

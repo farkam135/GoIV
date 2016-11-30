@@ -159,13 +159,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Timber.tag(TAG);
-        settings = GoIVSettings.getInstance(this);
+        initiateAndLoadSettings(); //Loading settings must be done before methods that use settings
 
         runAutoUpdateStartupChecks();
-        initiateAndLoadSettings();
         initiateUserScreenSettings();
         initiateGui();
-
+        warnUserFirstLaunchIfNoScreenRecording();
         registerAllBroadcastRecievers();
 
 
@@ -203,6 +202,7 @@ public class MainActivity extends AppCompatActivity {
      * Runs all the startup settings initialization.
      */
     private void initiateAndLoadSettings() {
+        settings = GoIVSettings.getInstance(this);
         PreferenceManager.setDefaultValues(this, R.xml.settings, false);
         sharedPref = getPreferences(Context.MODE_PRIVATE);
         trainerLevel = sharedPref.getInt(PREF_LEVEL, 1);
@@ -234,6 +234,21 @@ public class MainActivity extends AppCompatActivity {
 
         initiateLevelPicker();
         initiateStartButton();
+    }
+
+    /**
+     * Shows an alert warning the user about not being on android 5, and that the app is locked into screenshot mode.
+     */
+    private void warnUserFirstLaunchIfNoScreenRecording() {
+        boolean userOnBelowAndroid5 = Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT_WATCH;
+        boolean hasNotShownAndroid5Warning = !settings.hasShownNoScreenRecWarning();
+        if (hasNotShownAndroid5Warning && userOnBelowAndroid5) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage(R.string.android_sub5_warning);
+            builder.create().show();
+
+            settings.setHasShownScreenRecWarning();
+        }
     }
 
     /**

@@ -50,7 +50,7 @@
         android:key="autoUpdateEnabled"
         android:title="@string/auto_update_setting_title"
         android:summary="@string/auto_update_setting_summary"
-        android:defaultValue="true"/>
+        android:defaultValue="false"/>
 
     <SwitchPreference
         android:key="pokeSpamEnabled"
@@ -68,5 +68,12 @@
         android:key="checkForUpdate"
         android:title="@string/check_for_update_setting_title"
         android:summary="@string/check_for_update_setting_summary" />
+
+
+    <Preference
+        android:key="@string/view_credits_button"
+        android:summary="@string/view_credits_summary"
+        android:title="@string/view_credits"
+        />
 
 </PreferenceScreen>

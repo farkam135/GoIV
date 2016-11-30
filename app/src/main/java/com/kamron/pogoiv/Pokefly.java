@@ -634,7 +634,7 @@ public class Pokefly extends Service {
                     .setOngoing(true)
                     .setCategory(NotificationCompat.CATEGORY_SERVICE)
                     .setColor(getColorC(R.color.colorPrimary))
-                    .setSmallIcon(R.drawable.notification_icon)
+                    .setSmallIcon(R.drawable.notification_icon_play)
                     .setContentTitle(getString(R.string.notification_title, trainerLevel))
                     .setContentText(getString(R.string.notification_title_tap_to_open))
                     .setContentIntent(openAppPendingIntent)

@@ -30,11 +30,11 @@ public class GoIVSettings {
     public static final String GOIV_CLIPBOARDSETTINGS = "GoIV_ClipboardSettings";
     public static final String GOIV_CLIPBOARDSINGLESETTINGS = "GoIV_ClipboardSingleSettings";
     public static final String SHOW_TRANSLATED_POKEMON_NAME = "showTranslatedPokemonName";
+    public static final String HAS_WARNED_USER_NO_SCREENREC = "GOIV_hasWarnedUserNoScreenRec";
 
     private static GoIVSettings instance;
-    private Context context;
-
     private final SharedPreferences prefs;
+    private Context context;
 
     private GoIVSettings(Context context) {
         this.context = context;
@@ -120,6 +120,14 @@ public class GoIVSettings {
     }
 
 
+    public boolean hasShownNoScreenRecWarning() {
+        return prefs.getBoolean(HAS_WARNED_USER_NO_SCREENREC, false);
+    }
+
+    public void setHasShownScreenRecWarning() {
+        prefs.edit().putBoolean(HAS_WARNED_USER_NO_SCREENREC, true).apply();
+    }
+
     public boolean shouldDeleteScreenshots() {
         return prefs.getBoolean(DELETE_SCREENSHOTS, true);
     }
@@ -137,7 +145,7 @@ public class GoIVSettings {
     }
 
     public boolean isAutoUpdateEnabled() {
-        return prefs.getBoolean(AUTO_UPDATE_ENABLED, true);
+        return prefs.getBoolean(AUTO_UPDATE_ENABLED, false);
     }
 
     public boolean isPokeSpamEnabled() {

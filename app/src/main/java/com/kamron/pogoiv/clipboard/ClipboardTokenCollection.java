@@ -8,6 +8,7 @@ import com.kamron.pogoiv.clipboard.tokens.HpToken;
 import com.kamron.pogoiv.clipboard.tokens.IVPercentageToken;
 import com.kamron.pogoiv.clipboard.tokens.IVPercentageTokenMode;
 import com.kamron.pogoiv.clipboard.tokens.LevelToken;
+import com.kamron.pogoiv.clipboard.tokens.LevelUnicodeToken;
 import com.kamron.pogoiv.clipboard.tokens.PerfectionCPPercentageToken;
 import com.kamron.pogoiv.clipboard.tokens.PokemonNameToken;
 import com.kamron.pogoiv.clipboard.tokens.SeparatorToken;
@@ -45,6 +46,8 @@ public class ClipboardTokenCollection {
         tokens.add(new LevelToken(false, 0)); //level *2 representation of pokemon ex: 23
         tokens.add(new LevelToken(false, 1)); //level representation of pokemon no decimal ex: 11
         tokens.add(new LevelToken(false, 2)); //level  representation of pokemon ex: 11.5
+
+        tokens.add(new LevelUnicodeToken(false));//level representation ex: ㉒½
 
         tokens.add(new HpToken(true, true));  //HP on max evolution, current level
         tokens.add(new HpToken(true, false)); //hp on max evolution, level 40

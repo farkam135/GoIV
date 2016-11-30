@@ -73,6 +73,17 @@ public class SettingsActivity extends AppCompatActivity {
                 }
             });
 
+            //Initialize the button which opens the credits activity
+            Preference creditsButton = (Preference) findPreference(getString(R.string.view_credits_button));
+            creditsButton.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    Intent intent = new Intent(getActivity(), CreditsActivity.class);
+                    startActivity(intent);
+                    return true;
+                }
+            });
+
             if (BuildConfig.isInternetAvailable) {
                 Preference checkForUpdatePreference = getPreferenceManager().findPreference("checkForUpdate");
                 checkForUpdatePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {

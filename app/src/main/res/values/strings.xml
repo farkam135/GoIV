@@ -79,21 +79,21 @@
     <string name="back">Back</string>
     <string name="accept_screen_capture">Accept screen capture</string>
     <string name="settings_page_title">Settings</string>
-    <string name="launch_pokemon_go_setting_title">Launch Pokémon Go</string>
-    <string name="launch_pokemon_go_setting_summary">Switch to Pokémon Go when the start button is clicked</string>
-    <string name="confirmation_dialog_setting_title">Confirmation dialog</string>
-    <string name="confirmation_dialog_setting_summary">Allow editing of Pokémon information before calculating IV</string>
-    <string name="manual_screenshot_mode_setting_title">Use screenshots to calculate IV</string>
-    <string name="manual_screenshot_mode_setting_summary">Save battery life by scanning screenshots instead of auto detecting. This setting has to be enabled for Android KitKat and below</string>
+    <string name="launch_pokemon_go_setting_title">Auto launch Pokémon Go</string>
+    <string name="launch_pokemon_go_setting_summary">Launch Pokémon Go when GoIV is started</string>
+    <string name="confirmation_dialog_setting_title">Enable scan correction dialog</string>
+    <string name="confirmation_dialog_setting_summary">Show a screen which allows you to manually edit the scanned information before showing results</string>
+    <string name="manual_screenshot_mode_setting_title">Screenshot mode</string>
+    <string name="manual_screenshot_mode_setting_summary">Save battery life by scanning screenshots instead of auto detecting. This setting has to be enabled for Android KitKat and below. Warning! In this mode the GoIV button does not auto appear</string>
     <string name="delete_screenshots_setting_title">Delete screenshots</string>
     <string name="delete_screenshots_setting_summary">Automatically delete screenshots taken by GoIV</string>
-    <string name="copy_to_clipboard_setting_title">Copy to clipboard</string>
+    <string name="copy_to_clipboard_setting_title">Copy smart nickname to clipboard</string>
     <string name="copy_to_clipboard_setting_summary_new" formatted="false">Automatically add scanned information to your copy &amp; paste clipboard.</string>
     <string name="send_crash_reports_setting_title">Send crash reports</string>
-    <string name="send_crash_reports_setting_summary">Help the developers improve the application by sending anonymous crash-related information to them</string>
+    <string name="send_crash_reports_setting_summary">Help the developers improve the application by sending anonymous crash-related information to them and completely anonymous usage stats</string>
     <string name="auto_update_setting_title">Auto-update</string>
     <string name="auto_update_setting_summary">Automatically check for updates when the app is being used</string>
-    <string name="check_for_update_setting_title">Check for update</string>
+    <string name="check_for_update_setting_title">Check for update now</string>
     <string name="check_for_update_setting_summary">See if an update is available</string>
     <string name="scan_pokemon_failed">Scanning failed, please scroll up and try again!</string>
     <string name="see_all">See All</string>
@@ -137,7 +137,7 @@
     <string name="pokespam_formatted_message">%1$d (%2$d rows + %3$d more)</string>
     <string name="candy">Candy</string>
     <string name="pokespam_not_available">Not Available</string>
-    <string name="pokespam_setting_title">Enable PokéSpam Calculation</string>
+    <string name="pokespam_setting_title">Show how many you can evolve</string>
     <string name="pokespam_setting_summary">This feature enables scanning for candy amount and allows you to see how many Pokémon you can evolve, useful for use with lucky egg</string>
     <string name="token_pokemonname">Pokémon name</string>
     <string name="clipboard_modifier_preview">Preview</string>
@@ -145,10 +145,10 @@
     <string name="clipboard_no_token_selected">Please choose a token to add from the scrollable list.</string>
     <string name="clipboardButton">clipboardButton</string>
     <string name="clipboardButton_summary">Define how you want the clipboard result to look.</string>
-    <string name="clipboardButton_title">Edit Copy to clipboard</string>
+    <string name="clipboardButton_title">Edit copy to clipboard</string>
     <string name="clipboard_activity_title">GoIV Clipboard configuration</string>
     <string name="showtranslatedpokemonname_setting_title">Show translated Pokémon name</string>
-    <string name="showtranslatedpokemonname_setting_summary">Display translated Pokémon name on GoIV but use its English name for OCR. This is for Pokémon Go app is in English but user\'s native language is not.</string>
+    <string name="showtranslatedpokemonname_setting_summary">Display translated Pokémon name on GoIV but use its English name for OCR. This is for when the Pokémon Go app is in English but user\'s native language is not</string>
     <string name="pause_goiv_notification">Pause</string>
     <string name="waiting_for_pogo_start">Waiting for Pokémon Go to start...</string>
     <string name="goiv_started">GoIV started.</string>
@@ -161,5 +161,7 @@
     <string name="title_activity_credits">CreditsActivity</string>
     <string name="app_credits_title">Credits</string>
     <string name="view_credits_button">viewCredits</string>
+    <string name="copy_to_clipboard_setting_key">copyToClipboard</string>
+    <string name="manual_screenshot_mode_key">manualScreenshotMode</string>
     <string name="android_sub5_warning">GoIV has detected that your phone does not have the MediaProjection API, which is used to automatically show the IV scan button. This might be fixed by updating your phone to Android 5 or above. The app will lock itself to screenshot mode to avoid crashing. You can use GoIV by manually triggering a screenshot, which most devices does by holding home+power for a short duration. We apologize for the inconvenience.</string>
 </resources>

@@ -1,84 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen
-    xmlns:android="http://schemas.android.com/apk/res/android" >
-
-    <SwitchPreference
-        android:key="launchPokemonGo"
-        android:title="@string/launch_pokemon_go_setting_title"
-        android:summary="@string/launch_pokemon_go_setting_summary"
-        android:defaultValue="true"/>
-
-    <SwitchPreference
-        android:key="showConfirmationDialog"
-        android:title="@string/confirmation_dialog_setting_title"
-        android:summary="@string/confirmation_dialog_setting_summary"
-        android:defaultValue="true"/>
-
-    <SwitchPreference
-        android:key="manualScreenshotMode"
-        android:title="@string/manual_screenshot_mode_setting_title"
-        android:summary="@string/manual_screenshot_mode_setting_summary"
-        android:defaultValue="false" />
-
-    <SwitchPreference
-        android:key="deleteScreenshots"
-        android:title="@string/delete_screenshots_setting_title"
-        android:summary="@string/delete_screenshots_setting_summary"
-        android:defaultValue="true"/>
-
-    <SwitchPreference
-        android:key="copyToClipboard"
-        android:title="@string/copy_to_clipboard_setting_title"
-        android:summary="@string/copy_to_clipboard_setting_summary_new"
-        android:defaultValue="false"/>
-
-    <SwitchPreference
-        android:key="copyToClipboardSingle"
-        android:title="@string/copy_to_clip_single_setting"
-        android:summary="@string/copy_to_clip_single_setting_summary"
-        android:defaultValue="false"/>
-
-    <Preference
-        android:key="@string/clipboardButton"
-        android:summary="@string/clipboardButton_summary"
-        android:title="@string/clipboardButton_title"
-        />
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
 
-    <SwitchPreference
-        android:key="sendCrashReports"
-        android:title="@string/send_crash_reports_setting_title"
-        android:summary="@string/send_crash_reports_setting_summary"
-        android:defaultValue="true"/>
+    <PreferenceCategory
+        android:title="App behaviour preferences">
 
-    <SwitchPreference
-        android:key="autoUpdateEnabled"
-        android:title="@string/auto_update_setting_title"
-        android:summary="@string/auto_update_setting_summary"
-        android:defaultValue="false"/>
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="launchPokemonGo"
+            android:summary="@string/launch_pokemon_go_setting_summary"
+            android:title="@string/launch_pokemon_go_setting_title"/>
 
-    <SwitchPreference
-        android:key="pokeSpamEnabled"
-        android:title="@string/pokespam_setting_title"
-        android:summary="@string/pokespam_setting_summary"
-        android:defaultValue="true"/>
-
-    <SwitchPreference
-        android:key="showTranslatedPokemonName"
-        android:title="@string/showtranslatedpokemonname_setting_title"
-        android:summary="@string/showtranslatedpokemonname_setting_summary"
-        android:defaultValue="false"/>
-
-    <Preference
-        android:key="checkForUpdate"
-        android:title="@string/check_for_update_setting_title"
-        android:summary="@string/check_for_update_setting_summary" />
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="showConfirmationDialog"
+            android:summary="@string/confirmation_dialog_setting_summary"
+            android:title="@string/confirmation_dialog_setting_title"/>
 
 
-    <Preference
-        android:key="@string/view_credits_button"
-        android:summary="@string/view_credits_summary"
-        android:title="@string/view_credits"
-        />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="showTranslatedPokemonName"
+            android:summary="@string/showtranslatedpokemonname_setting_summary"
+            android:title="@string/showtranslatedpokemonname_setting_title"/>
 
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Optional GoIV Features">
+
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/copy_to_clipboard_setting_key"
+            android:summary="@string/copy_to_clipboard_setting_summary_new"
+            android:title="@string/copy_to_clipboard_setting_title"/>
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="@string/copy_to_clipboard_setting_key"
+            android:key="copyToClipboardSingle"
+            android:summary="@string/copy_to_clip_single_setting_summary"
+            android:title="@string/copy_to_clip_single_setting"/>
+
+        <Preference
+            android:dependency="@string/copy_to_clipboard_setting_key"
+            android:key="@string/clipboardButton"
+            android:summary="@string/clipboardButton_summary"
+            android:title="@string/clipboardButton_title"
+            />
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="pokeSpamEnabled"
+            android:summary="@string/pokespam_setting_summary"
+            android:title="@string/pokespam_setting_title"/>
+    </PreferenceCategory>
+
+
+    <PreferenceCategory
+        android:title="GoIV Mode">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/manual_screenshot_mode_key"
+            android:summary="@string/manual_screenshot_mode_setting_summary"
+            android:title="@string/manual_screenshot_mode_setting_title"/>
+
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:dependency="@string/manual_screenshot_mode_key"
+            android:key="deleteScreenshots"
+            android:summary="@string/delete_screenshots_setting_summary"
+            android:title="@string/delete_screenshots_setting_title"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Uninteresting settings">
+
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="autoUpdateEnabled"
+            android:summary="@string/auto_update_setting_summary"
+            android:title="@string/auto_update_setting_title"/>
+
+
+        <Preference
+            android:key="checkForUpdate"
+            android:summary="@string/check_for_update_setting_summary"
+            android:title="@string/check_for_update_setting_title"/>
+
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="sendCrashReports"
+            android:summary="@string/send_crash_reports_setting_summary"
+            android:title="@string/send_crash_reports_setting_title"/>
+
+
+        <Preference
+            android:key="@string/view_credits_button"
+            android:summary="@string/view_credits_summary"
+            android:title="@string/view_credits"
+            />
+    </PreferenceCategory>
 </PreferenceScreen>

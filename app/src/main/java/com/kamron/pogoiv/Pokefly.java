@@ -39,8 +39,8 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -1335,11 +1335,18 @@ public class Pokefly extends Service {
     private void addClipboardInfoIfSettingOn(IVScanResult ivScanResult) {
         if (GoIVSettings.getInstance(getApplicationContext()).shouldCopyToClipboard()) {
             ClipboardTokenHandler cth = new ClipboardTokenHandler(getApplicationContext());
-            String clipResult = cth.getResults(ivScanResult, pokeInfoCalculator);
+            String clipResult = "";
+            boolean differentSingleResult = GoIVSettings.getInstance(getApplicationContext())
+                    .shouldCopyToClipboardSingle(); // has the user enabled the setting for different results?
+            if (differentSingleResult && ivScanResult.getCount() == 1) { //Is there just a single result?
+                clipResult = cth.getResults(ivScanResult, pokeInfoCalculator, true);
+            } else {
+                clipResult = cth.getResults(ivScanResult, pokeInfoCalculator, false);
+            }
 
-            Toast toast = Toast.makeText(this, String.format(getString(R.string.clipboard_copy_toast),clipResult),
+            Toast toast = Toast.makeText(this, String.format(getString(R.string.clipboard_copy_toast), clipResult),
                     Toast.LENGTH_SHORT);
-            toast.setGravity(Gravity.CENTER,0,0);
+            toast.setGravity(Gravity.CENTER, 0, 0);
             toast.show();
 
             ClipData clip = ClipData.newPlainText(clipResult, clipResult);

@@ -1,10 +1,15 @@
 package com.kamron.pogoiv.updater;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Environment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 
 import com.kamron.pogoiv.BuildConfig;
 import com.kamron.pogoiv.MainActivity;
@@ -13,6 +18,7 @@ import com.kamron.pogoiv.R;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.IOException;
 
 import okhttp3.Call;
@@ -22,12 +28,15 @@ import okhttp3.Request;
 import okhttp3.Response;
 import timber.log.Timber;
 
+import static com.kamron.pogoiv.updater.DownloadUpdateService.FILE_NAME;
+
 
 public class AppUpdateUtil {
 
     private static final String GITHUB_RELEASES_URL = "https://api.github.com/repos/farkam135/GoIV/releases/latest";
 
     public static void checkForUpdate(final Context context) {
+
         OkHttpClient httpClient = new OkHttpClient();
 
         Request request = new Request.Builder().url(GITHUB_RELEASES_URL).build();
@@ -93,5 +102,16 @@ public class AppUpdateUtil {
                 }).setCancelable(false);
         AlertDialog dialog = builder.create();
         return dialog;
+    }
+
+    public static void deletePreviousApkFile(Context context) {
+        if (ContextCompat.checkSelfPermission(context,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+            String newApkFilePath = context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS) + "/" + FILE_NAME;
+            final File newApkFile = new File(newApkFilePath);
+            if(newApkFile.exists() && !MainActivity.isGoIVBeingUpdated(context)) {
+                newApkFile.delete();
+            }
+        }
     }
 }

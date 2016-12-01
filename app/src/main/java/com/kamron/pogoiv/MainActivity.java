@@ -210,11 +210,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Checks for any published updates if auto-updater settings is on.
+     * Checks for any published updates if auto-updater settings is on and deletes previous updates.
      */
     private void runAutoUpdateStartupChecks() {
         shouldShowUpdateDialog = true;
-
+        AppUpdateUtil.deletePreviousApkFile(MainActivity.this);
         if (settings.isAutoUpdateEnabled()) {
             AppUpdateUtil.checkForUpdate(this);
         }

@@ -556,4 +556,28 @@ public class OcrHelper {
         return new ScanResult(estimatedPokemonLevel, pokemonName, candyName, pokemonHP, pokemonCP,
                 pokemonCandyAmount, pokemonUpgradeCost, pokemonUniqueIdentifier);
     }
+
+
+    /**
+     * Reads the bottom part of the screen and returns the text there.
+     * @param screen The full phone screen.
+     * @return String of whats on the bottom of the sceen.
+     */
+    public String getAppraisalText(Bitmap screen) {
+
+        if (screen == null) return ""; //bitmap didnt load properly
+
+        Bitmap bottom = getImageCrop(screen, 0.07, 0.88, 0.84, 0.10);
+        //68,105,108 is the color of the appraisal text
+        bottom = replaceColors(bottom, true, 68,105,108, Color.WHITE, 100, true);
+        tesseract.setImage(bottom);
+        //Set tesseract not single line mode
+        tesseract.setPageSegMode(TessBaseAPI.PageSegMode.PSM_AUTO);
+        String uniqueText = tesseract.getUTF8Text();
+
+
+        tesseract.setPageSegMode(TessBaseAPI.PageSegMode.PSM_SINGLE_LINE);
+        return uniqueText;
+    }
+
 }

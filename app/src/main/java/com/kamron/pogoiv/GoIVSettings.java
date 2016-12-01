@@ -11,7 +11,14 @@ import com.kamron.pogoiv.clipboard.tokens.PokemonNameToken;
 import com.kamron.pogoiv.clipboard.tokens.SeparatorToken;
 import com.kamron.pogoiv.clipboard.tokens.UnicodeToken;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class GoIVSettings {
 
@@ -162,5 +169,62 @@ public class GoIVSettings {
 
     public boolean shouldCopyToClipboardShowToast() {
         return prefs.getBoolean(COPY_TO_CLIPBOARD_SHOW_TOAST, true);
+    }
+
+    public Map<String, String> loadAppraisalCache() {
+        Map<String, String> appraisalCache = new HashMap<>();
+
+        File fileName = new File(context.getCacheDir(), "appraisalCache.ser");
+
+        FileInputStream fis = null;
+        ObjectInputStream in = null;
+        try {
+            fis = new FileInputStream(fileName);
+            in = new ObjectInputStream(fis);
+            appraisalCache = (Map<String, String> ) in.readObject();
+        } catch (Exception ignored) {
+            //Fall-through
+        } finally {
+
+            try {
+                if (fis != null) {
+                    fis.close();
+                }
+                if (in != null) {
+                    in.close();
+                }
+            } catch (Exception ignored) {
+                //Fall-through
+            }
+        }
+
+        return appraisalCache;
+    }
+
+    public void saveAppraisalCache(Map<String, String> appraisalCache) {
+        File fileName = new File(context.getCacheDir(), "appraisalCache.ser");
+
+        FileOutputStream fos = null;
+        ObjectOutputStream out = null;
+        try {
+            fos = new FileOutputStream(fileName);
+            out = new ObjectOutputStream(fos);
+            out.writeObject(appraisalCache);
+        } catch (Exception ignored) {
+            //Fall-through
+        } finally {
+            try {
+                if (fos != null) {
+                    fos.flush();
+                    fos.close();
+                }
+                if (out != null) {
+                    out.flush();
+                    out.close();
+                }
+            } catch (Exception ignored) {
+                //Fall-through
+            }
+        }
     }
 }

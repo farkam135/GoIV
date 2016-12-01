@@ -13,6 +13,7 @@ import com.kamron.pogoiv.logic.ScanResult;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Locale;
+import java.util.Map;
 
 import timber.log.Timber;
 
@@ -24,7 +25,9 @@ public class OcrHelper {
 
     private static OcrHelper instance = null;
     private TessBaseAPI tesseract = null;
+    private final GoIVSettings settings;
     private final LruCache<String, String> ocrCache = new LruCache<>(200);
+    private final LruCache<String, String> appraisalCache = new LruCache<>(200);
     private final int heightPixels;
     private final int widthPixels;
     private final boolean candyWordFirst;
@@ -33,7 +36,7 @@ public class OcrHelper {
     private final boolean isPokeSpamEnabled;
 
     private OcrHelper(String dataPath, int widthPixels, int heightPixels, String nidoFemale, String nidoMale,
-                      boolean isPokeSpamEnabled) {
+                      GoIVSettings settings) {
         tesseract = new TessBaseAPI();
         tesseract.init(dataPath, "eng");
         tesseract.setPageSegMode(TessBaseAPI.PageSegMode.PSM_SINGLE_LINE);
@@ -44,7 +47,13 @@ public class OcrHelper {
         this.candyWordFirst = isCandyWordFirst();
         this.nidoFemale = nidoFemale;
         this.nidoMale = nidoMale;
-        this.isPokeSpamEnabled = isPokeSpamEnabled;
+        this.isPokeSpamEnabled = settings.isPokeSpamEnabled();
+        this.settings = settings;
+
+        Map<String, String> appraisalMap = settings.loadAppraisalCache();
+        for (Map.Entry<String, String> entry : appraisalMap.entrySet() ) {
+            appraisalCache.put(entry.getKey(), entry.getValue());
+        }
     }
 
     /**
@@ -55,9 +64,9 @@ public class OcrHelper {
      * @return Bitmap with replaced colors
      */
     public static OcrHelper init(String dataPath, int widthPixels, int heightPixels, String nidoFemale,
-                                 String nidoMale, boolean isPokeSpamEnabled) {
+                                 String nidoMale, GoIVSettings settings) {
         if (instance == null) {
-            instance = new OcrHelper(dataPath, widthPixels, heightPixels, nidoFemale, nidoMale, isPokeSpamEnabled);
+            instance = new OcrHelper(dataPath, widthPixels, heightPixels, nidoFemale, nidoMale, settings);
         }
         return instance;
     }
@@ -597,4 +606,46 @@ public class OcrHelper {
         return new ScanResult(estimatedPokemonLevel, pokemonName, candyName, pokemonHP, pokemonCP,
                 pokemonCandyAmount, pokemonUpgradeCost, pokemonUniqueIdentifier);
     }
+
+
+    /**
+     * Reads the bottom part of the screen and returns the text there.
+     * @param screen The full phone screen.
+     * @return String of whats on the bottom of the screen.
+     */
+    public String getAppraisalText(Bitmap screen) {
+
+        if (screen == null) { //bitmap didn't load properly
+            return "";
+        }
+
+        Bitmap bottom = getImageCrop(screen, 0.05, 0.89, 0.90, 0.07);
+        String hash = "appraisal" + hashBitmap(bottom);
+        String appraisalText = appraisalCache.get(hash);
+
+        if (appraisalText == null) {
+            //68,105,108 is the color of the appraisal text
+            bottom = replaceColors(bottom, true, 68,105,108, Color.WHITE, 100, true);
+            tesseract.setImage(bottom);
+            //Set tesseract not single line mode
+            tesseract.setPageSegMode(TessBaseAPI.PageSegMode.PSM_SINGLE_BLOCK);
+            appraisalText = tesseract.getUTF8Text();
+            appraisalCache.put(hash, appraisalText);
+            settings.saveAppraisalCache(appraisalCache.snapshot());
+        }
+        bottom.recycle();
+
+        return hash + "#" + appraisalText;
+
+    }
+
+    /**
+     * Removes an entry from the ocrCache.
+     * @param hash The hash of the entry to remove.
+     */
+    public void removeEntryFromApprisalCache(String hash) {
+        appraisalCache.remove(hash);
+        settings.saveAppraisalCache(appraisalCache.snapshot());
+    }
+
 }

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="highest_stat_att">attack</string>
+    <string name="highest_stat_def">defense</string>
+    <string name="highest_stat_hp">hp</string>
+
+    <string name="mystic_percentage1_phrase1">wonder</string>
+    <string name="mystic_percentage1_phrase2">breathtaking</string>
+    <string name="mystic_percentage2_phrase1">caught</string>
+    <string name="mystic_percentage2_phrase2">attention</string>
+    <string name="mystic_percentage3_phrase1">above</string>
+    <string name="mystic_percentage3_phrase2">average</string>
+    <string name="mystic_percentage4_phrase1">likely</string>
+    <string name="mystic_percentage4_phrase2">headway</string>
+
+    <string name="mystic_ivrange1_phrase1">calculations</string>
+    <string name="mystic_ivrange1_phrase2">incredible</string>
+    <string name="mystic_ivrange2_phrase1">impressed</string>
+    <string name="mystic_ivrange2_phrase2">stats</string>
+    <string name="mystic_ivrange3_phrase1">noticeably</string>
+    <string name="mystic_ivrange3_phrase2">trending</string>
+    <string name="mystic_ivrange4_phrase1">norm</string>
+    <string name="mystic_ivrange4_phrase2">opinion</string>
+
+    <string name="valor_percentage1_phrase1">todo</string>
+    <string name="valor_percentage1_phrase2">todo</string>
+    <string name="valor_percentage2_phrase1">todo</string>
+    <string name="valor_percentage2_phrase2">todo</string>
+    <string name="valor_percentage3_phrase1">todo</string>
+    <string name="valor_percentage3_phrase2">todo</string>
+    <string name="valor_percentage4_phrase1">todo</string>
+    <string name="valor_percentage4_phrase2">todo</string>
+
+    <string name="valor_ivrange1_phrase1">todo</string>
+    <string name="valor_ivrange1_phrase2">todo</string>
+    <string name="valor_ivrange2_phrase1">todo</string>
+    <string name="valor_ivrange2_phrase2">todo</string>
+    <string name="valor_ivrange3_phrase1">todo</string>
+    <string name="valor_ivrange3_phrase2">todo</string>
+    <string name="valor_ivrange4_phrase1">todo</string>
+    <string name="valor_ivrange4_phrase2">todo</string>
+
+    <string name="instinct_percentage1_phrase1">todo</string>
+    <string name="instinct_percentage1_phrase2">todo</string>
+    <string name="instinct_percentage2_phrase1">todo</string>
+    <string name="instinct_percentage2_phrase2">todo</string>
+    <string name="instinct_percentage3_phrase1">todo</string>
+    <string name="instinct_percentage3_phrase2">todo</string>
+    <string name="instinct_percentage4_phrase1">todo</string>
+    <string name="instinct_percentage4_phrase2">todo</string>
+
+    <string name="instinct_ivrange1_phrase1">todo</string>
+    <string name="instinct_ivrange1_phrase2">todo</string>
+    <string name="instinct_ivrange2_phrase1">todo</string>
+    <string name="instinct_ivrange2_phrase2">todo</string>
+    <string name="instinct_ivrange3_phrase1">todo</string>
+    <string name="instinct_ivrange3_phrase2">todo</string>
+    <string name="instinct_ivrange4_phrase1">todo</string>
+    <string name="instinct_ivrange4_phrase2">todo</string>
+</resources>

@@ -9,7 +9,6 @@ import android.os.Environment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 
 import com.kamron.pogoiv.BuildConfig;
 import com.kamron.pogoiv.MainActivity;
@@ -27,8 +26,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import timber.log.Timber;
-
-import static com.kamron.pogoiv.updater.DownloadUpdateService.FILE_NAME;
 
 
 public class AppUpdateUtil {
@@ -107,7 +104,7 @@ public class AppUpdateUtil {
     public static void deletePreviousApkFile(Context context) {
         if (ContextCompat.checkSelfPermission(context,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
-            String newApkFilePath = context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS) + "/" + FILE_NAME;
+            String newApkFilePath = context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS) + "/" + DownloadUpdateService.FILE_NAME;
             final File newApkFile = new File(newApkFilePath);
             if(newApkFile.exists() && !MainActivity.isGoIVBeingUpdated(context)) {
                 newApkFile.delete();

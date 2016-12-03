@@ -77,7 +77,6 @@ import java.io.File;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Locale;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -412,17 +411,11 @@ public class Pokefly extends Service {
         windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
         clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
         sharedPref = getSharedPreferences(PREF_USER_CORRECTIONS, Context.MODE_PRIVATE);
-        corrector = initCorrectorFromPrefs(pokeInfoCalculator, sharedPref);
+        corrector = new PokemonNameCorrector(pokeInfoCalculator);
 
         LocalBroadcastManager.getInstance(this).registerReceiver(displayInfo, new IntentFilter(ACTION_SEND_INFO));
         LocalBroadcastManager.getInstance(this).registerReceiver(processBitmap,
                 new IntentFilter(ACTION_PROCESS_BITMAP));
-    }
-
-    @SuppressWarnings("unchecked")
-    private static PokemonNameCorrector initCorrectorFromPrefs(PokeInfoCalculator pokeInfoCalculator,
-                                                               SharedPreferences sharedPref) {
-        return new PokemonNameCorrector(pokeInfoCalculator, (Map<String, String>) sharedPref.getAll());
     }
 
     @Override
@@ -1189,7 +1182,6 @@ public class Pokefly extends Service {
             return;
         }
 
-        rememberUserInputForPokemonNameIfNewNickname(pokemon);
 
         IVScanResult ivScanResult = pokeInfoCalculator.getIVPossibilities(pokemon, estimatedPokemonLevel,
                 pokemonHP.get(), pokemonCP.get());
@@ -1246,19 +1238,6 @@ public class Pokefly extends Service {
         onCheckButtonsLayout.setVisibility(View.VISIBLE);
     }
 
-    /**
-     * Adds the pokemon nickname to the ocr auto correction if the nickname does not match the pokemon name & does
-     * not match an existing pokemon.
-     * The method reads the OCR'd pokemon name from the variable pokemonName
-     *
-     * @param pokemon the pokemon to add the nickname to
-     */
-    private void rememberUserInputForPokemonNameIfNewNickname(Pokemon pokemon) {
-        // TODO: Move this into an event listener that triggers when the user actually changes the selection.
-        if (!pokemonName.equals(pokemon.name) && pokeInfoCalculator.get(pokemonName) == null) {
-            putCorrection(pokemonName, pokemon.name);
-        }
-    }
 
     /**
      * Checks whether the user input a pokemon using the spinner or the text input on the input screen
@@ -1295,19 +1274,6 @@ public class Pokefly extends Service {
                 screenShotHelper.deleteScreenShot(screenShotPath.get());
             }
         }
-    }
-
-    /**
-     * Saves the pokemon nickname relation to picked pokemon, and saves it to sharedPref settings.
-     *
-     * @param ocredPokemonName     The scanned nickname
-     * @param correctedPokemonName The pokemon to connect with the nickname
-     */
-    private void putCorrection(String ocredPokemonName, String correctedPokemonName) {
-        corrector.putCorrection(ocredPokemonName, correctedPokemonName);
-        SharedPreferences.Editor edit = sharedPref.edit();
-        edit.putString(ocredPokemonName, correctedPokemonName);
-        edit.apply();
     }
 
     /**

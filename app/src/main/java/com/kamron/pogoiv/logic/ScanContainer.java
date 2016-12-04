@@ -23,9 +23,8 @@ public class ScanContainer {
     /**
      * Create a new IVScanResult and updates the scanContainer singleton.
      */
-    public static IVScanResult createIVScanResult(Pokemon pokemon, double estimatedPokemonLevel, int pokemonCP,
-                                                  boolean b) {
-        IVScanResult res = new IVScanResult(pokemon, estimatedPokemonLevel, pokemonCP, b);
+    public static IVScanResult createIVScanResult(Pokemon pokemon, double estimatedPokemonLevel, int pokemonCP) {
+        IVScanResult res = new IVScanResult(pokemon, estimatedPokemonLevel, pokemonCP);
         scanContainer.addNewScan(res);
         return res;
     }

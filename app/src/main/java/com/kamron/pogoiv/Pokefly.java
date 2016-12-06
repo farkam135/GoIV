@@ -18,6 +18,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
@@ -1930,8 +1931,11 @@ public class Pokefly extends Service {
             // this should allow processing of images where the displaymetrics don't match, for example a different
             // phone, it is known that the red dot might not display correctly.
             if (displayMetrics.heightPixels != bitmap.getHeight() || displayMetrics.widthPixels != bitmap.getWidth()) {
-                bitmap = Bitmap.createScaledBitmap(bitmap, displayMetrics.widthPixels, displayMetrics.heightPixels,
-                        true);
+                Matrix matrix = new Matrix();
+                float ratio = displayMetrics.widthPixels / (float) bitmap.getWidth();
+                matrix.postScale(ratio, ratio);
+                bitmap = Bitmap.createBitmap(bitmap, 0, 0, displayMetrics.widthPixels, displayMetrics.heightPixels,
+                        matrix, true);
             }
 
             scanPokemon(bitmap, screenShotPath);

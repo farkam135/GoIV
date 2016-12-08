@@ -197,8 +197,7 @@ public class PokeInfoCalculator {
                 double lvlScalarStamina = Math.sqrt(baseStamina + staminaIV) * lvlScalarPow2;
                 for (int defenseIV = 0; defenseIV < 16; defenseIV++) {
                     for (int attackIV = 0; attackIV < 16; attackIV++) {
-                        int cp = (int) Math.floor(
-                                (baseAttack + attackIV) * Math.sqrt(baseDefense + defenseIV) * lvlScalarStamina);
+                                (baseAttack + attackIV) * Math.sqrt(baseDefense + defenseIV) * lvlScalarStamina));
                         if (cp == pokemonCP) {
                             returner.addIVCombination(attackIV, defenseIV, staminaIV);
                         }

@@ -33,7 +33,6 @@ public class IVScanResult {
     public int highDefense = 0;
     public int highStamina = 0;
     public final int scannedCP;
-    public boolean tooManyPossibilities = false; //flag that gets set to true if user tries to scan 10 hp 10 cp pokemon
     public ArrayList<IVCombination> iVCombinations = new ArrayList<>();
     public Pokemon pokemon = null;
     public final double estimatedPokemonLevel;
@@ -45,13 +44,11 @@ public class IVScanResult {
      * @param pokemon               which pokemon it is
      * @param pokemonCP             pokemon CP
      * @param estimatedPokemonLevel the estimated pokemon level (should be very low)
-     * @param tooManyPossibilities  true if there are too many possibilities
      */
-    IVScanResult(Pokemon pokemon, double estimatedPokemonLevel, int pokemonCP, boolean tooManyPossibilities) {
+    IVScanResult(Pokemon pokemon, double estimatedPokemonLevel, int pokemonCP) {
         this.pokemon = pokemon;
         this.estimatedPokemonLevel = estimatedPokemonLevel;
         this.scannedCP = pokemonCP;
-        this.tooManyPossibilities = tooManyPossibilities;
     }
 
     public int getCount() {

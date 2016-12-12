@@ -69,7 +69,7 @@ public class PokeInfoCalculator {
     /**
      * Returns a pokemon which corresponds to the number sent in.
      *
-     * @param number the number which this application internally uses to identify pokkemon
+     * @param number the number which this application internally uses to identify pokemon
      * @return The pokemon if valid number, null if no pokemon found.
      */
     public Pokemon get(int number) {
@@ -190,32 +190,25 @@ public class PokeInfoCalculator {
         //IV vars for lower and upper end cp ranges
 
 
-        IVScanResult returner;
-        //It's safe to proceed if *one* is not 10, though it takes a bit longer.
-        if (pokemonHP != 10 || pokemonCP != 10) {
-            returner = ScanContainer.createIVScanResult(selectedPokemon, estimatedPokemonLevel, pokemonCP, false);
-            for (int staminaIV = 0; staminaIV < 16; staminaIV++) {
-                int hp = (int) Math.max(Math.floor((baseStamina + staminaIV) * lvlScalar), 10);
-                if (hp == pokemonHP) {
-                    double lvlScalarStamina = Math.sqrt(baseStamina + staminaIV) * lvlScalarPow2;
-                    //Possible STA IV
-                    //System.out.println("Checking sta: " + staminaIV + ", gives " + hp);
-                    for (int defenseIV = 0; defenseIV < 16; defenseIV++) {
-                        for (int attackIV = 0; attackIV < 16; attackIV++) {
-                            int cp = (int) Math.floor(
-                                    (baseAttack + attackIV) * Math.sqrt(baseDefense + defenseIV) * lvlScalarStamina);
-                            if (cp == pokemonCP) {
-                                returner.addIVCombination(attackIV, defenseIV, staminaIV);
-                            }
+        IVScanResult returner = ScanContainer.createIVScanResult(selectedPokemon, estimatedPokemonLevel, pokemonCP);
+        for (int staminaIV = 0; staminaIV < 16; staminaIV++) {
+            int hp = (int) Math.max(Math.floor((baseStamina + staminaIV) * lvlScalar), 10);
+            if (hp == pokemonHP) {
+                double lvlScalarStamina = Math.sqrt(baseStamina + staminaIV) * lvlScalarPow2;
+                for (int defenseIV = 0; defenseIV < 16; defenseIV++) {
+                    for (int attackIV = 0; attackIV < 16; attackIV++) {
+                        int cp = Math.max(10, (int) Math.floor((baseAttack + attackIV) * Math.sqrt(baseDefense
+                                + defenseIV) * lvlScalarStamina));
+                        if (cp == pokemonCP) {
+                            returner.addIVCombination(attackIV, defenseIV, staminaIV);
                         }
                     }
-                } else if (hp > pokemonHP) {
-                    break;
                 }
+            } else if (hp > pokemonHP) {
+                break;
             }
-        } else {
-            returner = ScanContainer.createIVScanResult(selectedPokemon, estimatedPokemonLevel, pokemonCP, true);
         }
+
         returner.scannedHP = pokemonHP;
         return returner;
     }

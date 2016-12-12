@@ -1189,12 +1189,7 @@ public class Pokefly extends Service {
 
         refineByAvailableAppraisalInfo(ivScanResult);
 
-        // If no possible combinations, inform the user and abort.
-        // However, if tooManyPossibilities, a zero count does *not* mean no possibilities.
-        if (!ivScanResult.tooManyPossibilities && ivScanResult.getCount() == 0) {
-            Toast.makeText(this, R.string.ivtext_no_possibilities, Toast.LENGTH_SHORT).show();
-            return;
-        }
+
 
         addClipboardInfoIfSettingOn(ivScanResult);
         populateResultsBox(ivScanResult);
@@ -1348,23 +1343,10 @@ public class Pokefly extends Service {
         setResultScreenPercentageRange(ivScanResult); //color codes the result
         adjustSeekbarsThumbs();
 
-        hideSeeAllLinkIfFlagSet(ivScanResult);
         populateAdvancedInformation(ivScanResult);
         populatePrevScanNarrowing();
     }
 
-    /**
-     * Hides the "See all" iv possibilities link if the iv scan result reports that there are too many possibilities.
-     *
-     * @param ivScanResult The iv scan result to examine if it makes sense to have a "show all" button.
-     */
-    private void hideSeeAllLinkIfFlagSet(IVScanResult ivScanResult) {
-        if (ivScanResult.tooManyPossibilities) {
-            seeAllPossibilities.setVisibility(View.GONE);
-        } else {
-            seeAllPossibilities.setVisibility(View.VISIBLE);
-        }
-    }
 
     /**
      * Adjusts expandedLevelSeekbar and expandedLevelSeekbar thumbs.
@@ -1434,12 +1416,10 @@ public class Pokefly extends Service {
         llSingleMatch.setVisibility(View.GONE);
         llMultipleIVMatches.setVisibility(View.VISIBLE);
         tvAvgIV.setText(getString(R.string.avg));
-        if (ivScanResult.tooManyPossibilities) {
-            resultsCombinations.setText(getString(R.string.too_many_iv_combinations));
-        } else {
-            resultsCombinations.setText(
-                    String.format(getString(R.string.possible_iv_combinations), ivScanResult.iVCombinations.size()));
-        }
+
+        resultsCombinations.setText(
+                String.format(getString(R.string.possible_iv_combinations), ivScanResult.iVCombinations.size()));
+
 
         populateAllIvPossibilities(ivScanResult);
 

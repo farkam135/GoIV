@@ -31,6 +31,7 @@ public class GoIVSettings {
     public static final String GOIV_CLIPBOARDSINGLESETTINGS = "GoIV_ClipboardSingleSettings";
     public static final String SHOW_TRANSLATED_POKEMON_NAME = "showTranslatedPokemonName";
     public static final String HAS_WARNED_USER_NO_SCREENREC = "GOIV_hasWarnedUserNoScreenRec";
+    public static final String COPY_TO_CLIPBOARD_SHOW_TOAST = "copyToClipboardShowToast";
 
     private static GoIVSettings instance;
     private final SharedPreferences prefs;
@@ -157,5 +158,9 @@ public class GoIVSettings {
             return prefs.getBoolean(SHOW_TRANSLATED_POKEMON_NAME, false);
         }
         return false;
+    }
+
+    public boolean shouldCopyToClipboardShowToast() {
+        return prefs.getBoolean(COPY_TO_CLIPBOARD_SHOW_TOAST, true);
     }
 }

@@ -1308,10 +1308,12 @@ public class Pokefly extends Service {
                 clipResult = cth.getResults(ivScanResult, pokeInfoCalculator, false);
             }
 
-            Toast toast = Toast.makeText(this, String.format(getString(R.string.clipboard_copy_toast), clipResult),
-                    Toast.LENGTH_SHORT);
-            toast.setGravity(Gravity.CENTER, 0, 0);
-            toast.show();
+            if (settings.shouldCopyToClipboardShowToast()) {
+                Toast toast = Toast.makeText(this, String.format(getString(R.string.clipboard_copy_toast), clipResult),
+                        Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
+            }
 
             ClipData clip = ClipData.newPlainText(clipResult, clipResult);
             clipboard.setPrimaryClip(clip);

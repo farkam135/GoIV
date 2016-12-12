@@ -152,106 +152,104 @@
         <item>Dragoran</item>
         <item>Mewtu</item>
         <item>Mew</item>
-
-
-
-        <item>Chikorita</item>
-        <item>Bayleef</item>
-        <item>Meganium</item>
-        <item>Cyndaquil</item>
-        <item>Quilava</item>
-        <item>Typhlosio</item>n
-        <item>Totodile</item>
-        <item>Croconaw</item>
-        <item>Feraligat</item>r
-        <item>Sentret</item>
-        <item>Furret</item>
+        <!--gen 2-->
+        <item>Endivie</item>
+        <item>Lorblatt</item>
+        <item>Meganie</item>
+        <item>Feurigel</item>
+        <item>Igelavar</item>
+        <item>Tornupto</item>
+        <item>Karnimani</item>
+        <item>Tyracroc</item>
+        <item>Impergator</item>
+        <item>Wiesor</item>
+        <item>Wiesenior</item>
         <item>Hoothoot</item>
-        <item>Noctowl</item>
+        <item>Noctuh</item>
         <item>Ledyba</item>
         <item>Ledian</item>
-        <item>Spinarak</item>
+        <item>Webarak</item>
         <item>Ariados</item>
-        <item>Crobat</item>
-        <item>Chinchou</item>
+        <item>Iksbat</item>
+        <item>Lampi</item>
         <item>Lanturn</item>
         <item>Pichu</item>
-        <item>Cleffa</item>
-        <item>Igglybuff</item>
+        <item>Pii</item>
+        <item>Fluffeluff</item>
         <item>Togepi</item>
         <item>Togetic</item>
         <item>Natu</item>
         <item>Xatu</item>
-        <item>Mareep</item>
-        <item>Flaaffy</item>
+        <item>Voltilamm</item>
+        <item>Waaty</item>
         <item>Ampharos</item>
-        <item>Bellossom</item>
+        <item>Blubella</item>
         <item>Marill</item>
         <item>Azumarill</item>
-        <item>Sudowoodo</item>
-        <item>Politoed</item>
-        <item>Hoppip</item>
-        <item>Skiploom</item>
-        <item>Jumpluff</item>
-        <item>Aipom</item>
-        <item>Sunkern</item>
-        <item>Sunflora</item>
+        <item>Mogelbaum</item>
+        <item>Quaxo</item>
+        <item>Hoppspross</item>
+        <item>Hubelupf</item>
+        <item>Papungha</item>
+        <item>Griffel</item>
+        <item>Sonnkern</item>
+        <item>Sonnflora</item>
         <item>Yanma</item>
-        <item>Wooper</item>
-        <item>Quagsire</item>
-        <item>Espeon</item>
-        <item>Umbreon</item>
-        <item>Murkrow</item>
-        <item>Slowking</item>
-        <item>Misdreavu</item>s
-        <item>Unown</item>
-        <item>Wobbuffet</item>
+        <item>Felino</item>
+        <item>Morlord</item>
+        <item>Psiana</item>
+        <item>Nachtara</item>
+        <item>Kramurx</item>
+        <item>Laschoking</item>
+        <item>Traunfugil</item>
+        <item>Icognito</item>
+        <item>Woingenau</item>
         <item>Girafarig</item>
-        <item>Pineco</item>
-        <item>Forretres</item>s
-        <item>Dunsparce</item>
-        <item>Gligar</item>
-        <item>Steelix</item>
+        <item>Tannza</item>
+        <item>Forstellka</item>
+        <item>Dummisel</item>
+        <item>Skorgla</item>
+        <item>Stahlos</item>
         <item>Snubbull</item>
         <item>Granbull</item>
-        <item>Qwilfish</item>
-        <item>Scizor</item>
-        <item>Shuckle</item>
-        <item>Heracross</item>
-        <item>Sneasel</item>
+        <item>Baldorfish</item>
+        <item>Scherox</item>
+        <item>Pottrott</item>
+        <item>Skaraborn</item>
+        <item>Sniebel</item>
         <item>Teddiursa</item>
         <item>Ursaring</item>
-        <item>Slugma</item>
+        <item>Schneckmag</item>
         <item>Magcargo</item>
-        <item>Swinub</item>
-        <item>Piloswine</item>
-        <item>Corsola</item>
+        <item>Quiekel</item>
+        <item>Keifel</item>
+        <item>Corasonn</item>
         <item>Remoraid</item>
         <item>Octillery</item>
-        <item>Delibird</item>
-        <item>Mantine</item>
-        <item>Skarmory</item>
-        <item>Houndour</item>
-        <item>Houndoom</item>
-        <item>Kingdra</item>
+        <item>Botogel</item>
+        <item>Mantax</item>
+        <item>Panzaeron</item>
+        <item>Hunduster</item>
+        <item>Hundemon</item>
+        <item>Seedraking</item>
         <item>Phanpy</item>
         <item>Donphan</item>
         <item>Porygon2</item>
-        <item>Stantler</item>
-        <item>Smeargle</item>
-        <item>Tyrogue</item>
-        <item>Hitmontop</item>
-        <item>Smoochum</item>
+        <item>Damhirplex</item>
+        <item>Farbeagle</item>
+        <item>Rabauz</item>
+        <item>Kapoera</item>
+        <item>Kussilla</item>
         <item>Elekid</item>
         <item>Magby</item>
         <item>Miltank</item>
-        <item>Blissey</item>
+        <item>Heiteira</item>
         <item>Raikou</item>
         <item>Entei</item>
         <item>Suicune</item>
         <item>Larvitar</item>
         <item>Pupitar</item>
-        <item>Tyranitar</item>
+        <item>Despotar</item>
         <item>Lugia</item>
         <item>Ho-oh</item>
         <item>Celebi</item>

@@ -134,6 +134,7 @@ public class Pokefly extends Service {
     private ScreenGrabber screen;
     private ScreenShotHelper screenShotHelper;
     private OcrHelper ocr;
+    private GoIVSettings settings;
 
     private Point[] area = new Point[2];
 
@@ -383,7 +384,7 @@ public class Pokefly extends Service {
     }
 
     private String[] getPokemonDisplayNamesArray() {
-        if (GoIVSettings.getInstance(getBaseContext()).isShowTranslatedPokemonName()) {
+        if (settings.isShowTranslatedPokemonName()) {
             //If pref ON, use translated strings as pokemon name.
             return getResources().getStringArray(R.array.pokemon);
         }
@@ -399,6 +400,7 @@ public class Pokefly extends Service {
 
         LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(ACTION_UPDATE_UI));
 
+        settings = GoIVSettings.getInstance(this);
         pokeInfoCalculator = PokeInfoCalculator.getInstance(
                 getPokemonNamesArray(),
                 getPokemonDisplayNamesArray(),
@@ -953,13 +955,13 @@ public class Pokefly extends Service {
         ArrayAdapter<CharSequence> adapterPercentage;
 
         //Load the correct phrases from the text resources depending on what team is stored in app settings
-        if (GoIVSettings.getInstance(getBaseContext()).playerTeam() == 0) {
+        if (settings.playerTeam() == 0) {
             adapterIvRange = ArrayAdapter.createFromResource(this,
                     R.array.mystic_ivrange, R.layout.spinner_appraisal);
             adapterPercentage = ArrayAdapter.createFromResource(this,
                     R.array.mystic_percentage, R.layout.spinner_appraisal);
 
-        } else if (GoIVSettings.getInstance(getBaseContext()).playerTeam() == 1) {
+        } else if (settings.playerTeam() == 1) {
             adapterIvRange = ArrayAdapter.createFromResource(this,
                     R.array.valor_ivrange, R.layout.spinner_appraisal);
             adapterPercentage = ArrayAdapter.createFromResource(this,
@@ -1266,7 +1268,7 @@ public class Pokefly extends Service {
      */
     private void deleteScreenShotIfRequired() {
         if (batterySaver && screenShotPath.isPresent()) {
-            if (GoIVSettings.getInstance(getBaseContext()).shouldDeleteScreenshots()) {
+            if (settings.shouldDeleteScreenshots()) {
                 screenShotHelper.deleteScreenShot(screenShotPath.get());
             }
         }
@@ -1295,12 +1297,12 @@ public class Pokefly extends Service {
      * Adds the iv range of the pokemon to the clipboard if the clipboard setting is on.
      */
     private void addClipboardInfoIfSettingOn(IVScanResult ivScanResult) {
-        if (GoIVSettings.getInstance(getApplicationContext()).shouldCopyToClipboard()) {
+        if (settings.shouldCopyToClipboard()) {
             ClipboardTokenHandler cth = new ClipboardTokenHandler(getApplicationContext());
             String clipResult = "";
-            boolean differentSingleResult = GoIVSettings.getInstance(getApplicationContext())
-                    .shouldCopyToClipboardSingle(); // has the user enabled the setting for different results?
-            if (differentSingleResult && ivScanResult.getCount() == 1) { //Is there just a single result?
+
+            // has the user enabled the setting for different results and is there just a single result??
+            if (settings.shouldCopyToClipboardSingle() && ivScanResult.getCount() == 1) {
                 clipResult = cth.getResults(ivScanResult, pokeInfoCalculator, true);
             } else {
                 clipResult = cth.getResults(ivScanResult, pokeInfoCalculator, false);
@@ -1526,7 +1528,7 @@ public class Pokefly extends Service {
      *                     variable
      */
     private void setAndCalculatePokeSpamText(IVScanResult ivScanResult) {
-        if (GoIVSettings.getInstance(getApplicationContext()).isPokeSpamEnabled()
+        if (settings.isPokeSpamEnabled()
                 && ivScanResult.pokemon != null) {
             if (ivScanResult.pokemon.candyEvolutionCost < 0) {
                 exResPokeSpam.setText(getString(R.string.pokespam_not_available));
@@ -1769,7 +1771,7 @@ public class Pokefly extends Service {
      */
     private void showCandyTextBoxBasedOnSettings() {
         //enable/disable visibility based on PokeSpam enabled or not
-        if (GoIVSettings.getInstance(getApplicationContext()).isPokeSpamEnabled()) {
+        if (settings.isPokeSpamEnabled()) {
             pokeSpamDialogInputContentBox.setVisibility(View.VISIBLE);
             pokemonHPEdit.setImeOptions(EditorInfo.IME_ACTION_NEXT);
         } else {
@@ -1823,7 +1825,7 @@ public class Pokefly extends Service {
                 infoShownReceived = false;
             }
 
-            if (!GoIVSettings.getInstance(getBaseContext()).shouldShouldConfirmationDialogs()) {
+            if (!settings.shouldShouldConfirmationDialogs()) {
                 checkIv();
             }
         }
@@ -1851,7 +1853,7 @@ public class Pokefly extends Service {
         ocr = OcrHelper.init(extdir, displayMetrics.widthPixels, displayMetrics.heightPixels,
                 pokeInfoCalculator.get(28).name,
                 pokeInfoCalculator.get(31).name,
-                GoIVSettings.getInstance(this).isPokeSpamEnabled());
+                settings.isPokeSpamEnabled());
     }
 
 

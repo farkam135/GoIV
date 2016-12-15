@@ -84,12 +84,12 @@ public class ClipboardModifierActivity extends AppCompatActivity {
     private void updateEditField() {
         clipTokenEditor.removeAllViews();
         int index = 0;
-        String separatorTokenStringName = new SeparatorToken("").getCategory();
+        String separatorTokenStringName = new SeparatorToken("").getCategory(this);
 
         for (ClipboardToken clipboardToken : getCurrentlyModifyingList()) {
 
             TextView tokenEditingBox = new TextView(this);
-            if (clipboardToken.getCategory().equals(separatorTokenStringName)) {
+            if (clipboardToken.getCategory(this).equals(separatorTokenStringName)) {
                 tokenEditingBox.setText(clipboardToken.getPreview() + " ❌");
             } else {
                 tokenEditingBox.setText(clipboardToken.getTokenName(this) + "\n" + clipboardToken.getPreview() + " ❌");
@@ -145,7 +145,7 @@ public class ClipboardModifierActivity extends AppCompatActivity {
         HashMap<String, GridLayout> groups = new HashMap<>();
         //Create empty category gridlayotu holders for each category
         for (ClipboardToken tok : possibleTokens) {
-            String category = tok.getCategory();
+            String category = tok.getCategory(this);
             if (!groups.containsKey(category)) {
                 GridLayout layout = new GridLayout(this);
                 layout.setColumnCount(3);
@@ -165,7 +165,7 @@ public class ClipboardModifierActivity extends AppCompatActivity {
                 ClipboardTokenButton btnTag = new ClipboardTokenButton(this, token, cth);
                 tokenButtons.add(btnTag);
                 //add button to the layout
-                groups.get(token.getCategory()).addView(btnTag);
+                groups.get(token.getCategory(this)).addView(btnTag);
             }
 
         }
@@ -223,11 +223,10 @@ public class ClipboardModifierActivity extends AppCompatActivity {
     private void updateClipboardDescription() {
 
         if (selectedToken == null) {
-            clipboardDescription.setText("No token selected...");
+            clipboardDescription.setText(R.string.clipboard_no_token_selected);
         } else if (selectedToken.maxEv) {
-            clipboardDescription.setText(selectedToken.getLongDescription(this) + " This token is a max evolution "
-                    + "variant, meaning that it will return a result as if your Pokémon was already fully evolved, "
-                    + "which might be more interesting in a lot of cases.");
+            clipboardDescription.setText(selectedToken.getLongDescription(this)
+                    + getString(R.string.clipboard_description_max_evo_token));
         } else { //selectedtoken not max ev
             clipboardDescription.setText(selectedToken.getLongDescription(this));
         }
@@ -260,7 +259,7 @@ public class ClipboardModifierActivity extends AppCompatActivity {
             String inputString = customSeperator.getText().toString();
             if (inputString.contains(".")) { //invalid custom string
 
-                Toast.makeText(this, "Custom separator can't contain . because the developer is lazy",
+                Toast.makeText(this, R.string.clipboard_custom_seperator_no_dot,
                         Toast.LENGTH_LONG)
                         .show();
             } else {

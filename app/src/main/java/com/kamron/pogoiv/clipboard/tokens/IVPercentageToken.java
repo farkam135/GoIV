@@ -2,6 +2,7 @@ package com.kamron.pogoiv.clipboard.tokens;
 
 import android.content.Context;
 
+import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.clipboard.ClipboardToken;
 import com.kamron.pogoiv.logic.IVCombination;
 import com.kamron.pogoiv.logic.IVScanResult;
@@ -70,26 +71,23 @@ public class IVPercentageToken extends ClipboardToken {
     public String getLongDescription(Context context) {
         String modeText;
         if (mode == IVPercentageTokenMode.MIN) {
-            modeText = "minimum%";
+            modeText = context.getString(R.string.clipboard_token_ivpercentage_mode_mininum);
         } else if (mode == IVPercentageTokenMode.AVG) {
-            modeText = "average";
+            modeText = context.getString(R.string.clipboard_token_ivpercentage_mode_average);
         } else if (mode == IVPercentageTokenMode.MAX) {
             //mode 2 is max
-            modeText = "maximum";
+            modeText = context.getString(R.string.clipboard_token_ivpercentage_mode_maximum);
         } else {
             throw new IllegalArgumentException();
         }
 
-        String returner = "Get the " + modeText + " percent of the IV possibilities. If only one iv combination is "
-                + "possible, minimum, average and maximum will be the same."
-                + " For example, if the iv range is 55-75, the minimum will return 55, the average will return "
-                + "something between 55 and 75, and the maximum will return 75.";
+        String returner = String.format(context.getString(R.string.clipboard_token_ivpercentage_description), modeText);
         return returner;
     }
 
     @Override
-    public String getCategory() {
-        return "IV Info";
+    public String getCategory(Context context) {
+        return context.getString(R.string.clipboard_token_category_iv_info);
     }
 
     @Override

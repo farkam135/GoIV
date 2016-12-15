@@ -2,6 +2,7 @@ package com.kamron.pogoiv.clipboard.tokens;
 
 import android.content.Context;
 
+import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.clipboard.ClipboardToken;
 import com.kamron.pogoiv.logic.IVScanResult;
 import com.kamron.pogoiv.logic.PokeInfoCalculator;
@@ -52,16 +53,13 @@ public class CpTierToken extends ClipboardToken {
 
     @Override
     public String getLongDescription(Context context) {
-        return "This token gives you an idea of how powerful this pokemon can become, by measuring the maximum "
-                + "possible CP the pokemon can obtain. So for example, A lapras can max out at 2980 CP, while a "
-                + "dugtrio would max out at 1168 CP. So Lapras would get A while Dugtrio would get E-. This tier is "
-                + "adjusted based on the IV of your pokemon.";
+        return context.getString(R.string.clipboard_token_cptier_description);
 
     }
 
     @Override
-    public String getCategory() {
-        return "Evaluation Scores";
+    public String getCategory(Context context) {
+        return context.getString(R.string.clipboard_token_category_evaluation_scores);
     }
 
     @Override

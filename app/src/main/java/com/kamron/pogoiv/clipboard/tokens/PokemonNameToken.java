@@ -2,6 +2,7 @@ package com.kamron.pogoiv.clipboard.tokens;
 
 import android.content.Context;
 
+import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.clipboard.ClipboardToken;
 import com.kamron.pogoiv.logic.IVScanResult;
 import com.kamron.pogoiv.logic.PokeInfoCalculator;
@@ -79,21 +80,21 @@ public class PokemonNameToken extends ClipboardToken {
 
     @Override
     public String getLongDescription(Context context) {
-        String num = maxLength + "";
-        String pokeName = maxEv ? "Dragonite" : "Dratini";
-        String returner = "This token returns the name of the Pokemon, for example if you scan a Dratini, it will "
-                + "return " + getCappedLength(pokeName) + ".";
+        String pokeName = maxEv ? context.getString(R.string.clipboard_token_pokename_dragonite_description) : 
+                context.getString(R.string.clipboard_token_pokename_dratini_description);
+        String returner = String.format(context.getString(R.string.clipboard_token_pokename_description),
+                getCappedLength(pokeName));
 
         if (maxLength < 12) {
-            returner += " With the number cap, the length of the Pokémon name can not exceed " + num + " characters "
-                    + "long.";
+            returner = String.format(context.getString(R.string.clipboard_token_pokename_numbercap_description),
+                    returner, maxLength);
         }
         return returner;
     }
 
     @Override
-    public String getCategory() {
-        return "Pokémon name";
+    public String getCategory(Context context) {
+        return context.getString(R.string.clipboard_token_category_pokemon_name);
     }
 
     @Override

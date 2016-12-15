@@ -2,6 +2,7 @@ package com.kamron.pogoiv.clipboard.tokens;
 
 import android.content.Context;
 
+import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.clipboard.ClipboardToken;
 import com.kamron.pogoiv.logic.IVScanResult;
 import com.kamron.pogoiv.logic.PokeInfoCalculator;
@@ -125,22 +126,20 @@ public class BaseStatToken extends ClipboardToken {
 
     @Override
     public String getLongDescription(Context context) {
-        String returner = "This token gives you the base stats of the pokemon, such as 186 190 260 for lapras, which "
-                + "means that this pokemon without IV bonuses has 186 attack, 190 defense and 260 stamina. IVs can "
-                + "add an extra 15 to each stat.";
+        String returner = context.getString(R.string.clipboard_token_basestat_description);
         if (includeIV) {
-            returner += " This version of the token also adds the IV score so you can see the total for this specific"
-                    + " pokemon.";
+            returner = String.format(context.getString(R.string.clipboard_token_basestat_includeiv_description),
+                    returner);
         }
         if (mode != 0) {
-            returner += " This specific version of the token only displays one of the stats.";
+            returner = String.format(context.getString(R.string.clipboard_token_basestat_mode_description), returner);
         }
         return returner;
     }
 
     @Override
-    public String getCategory() {
-        return "Basic Stats";
+    public String getCategory(Context context) {
+        return context.getString(R.string.clipboard_token_category_basic_stats);
     }
 
     @Override

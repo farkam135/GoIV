@@ -122,9 +122,10 @@ public abstract class ClipboardToken {
     /**
      * Get which category the token should be listed under.
      *
+     * @param context used to get translation string resources
      * @return A category name.
      */
-    public abstract String getCategory();
+    public abstract String getCategory(Context context);
 
 
     /**

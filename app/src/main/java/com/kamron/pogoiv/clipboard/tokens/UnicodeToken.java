@@ -2,6 +2,7 @@ package com.kamron.pogoiv.clipboard.tokens;
 
 import android.content.Context;
 
+import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.clipboard.ClipboardToken;
 import com.kamron.pogoiv.logic.IVCombination;
 import com.kamron.pogoiv.logic.IVScanResult;
@@ -58,22 +59,19 @@ public class UnicodeToken extends ClipboardToken {
 
     @Override
     public String getLongDescription(Context context) {
-        String returner = "This token gives you a representation fo your pokemon IVs, but using UNICODE special "
-                + "characters which allows you to show numbers like 10 as a single character, like ⑪. This saves "
-                + "space.";
+        String returner = context.getString(R.string.clipboard_token_unicode_description);
 
         if (filled) {
-            returner += " This token is the filled version, which has a black inside for the numbers, like ⓭.";
+            returner = String.format(context.getString(R.string.clipboard_token_unicode_filled_description), returner);
         } else {
-
-            returner += " This token is the empty version, which has a white inside for the numbers, like ⑪.";
+            returner = String.format(context.getString(R.string.clipboard_token_unicode_empty_description), returner);
         }
         return returner;
     }
 
     @Override
-    public String getCategory() {
-        return "IV Info";
+    public String getCategory(Context context) {
+        return context.getString(R.string.clipboard_token_category_iv_info);
     }
 
     @Override

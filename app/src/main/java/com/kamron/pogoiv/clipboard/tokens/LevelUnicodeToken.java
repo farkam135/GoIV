@@ -2,6 +2,7 @@ package com.kamron.pogoiv.clipboard.tokens;
 
 import android.content.Context;
 
+import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.clipboard.ClipboardToken;
 import com.kamron.pogoiv.logic.IVScanResult;
 import com.kamron.pogoiv.logic.PokeInfoCalculator;
@@ -56,13 +57,12 @@ public class LevelUnicodeToken extends ClipboardToken {
 
     @Override
     public String getLongDescription(Context context) {
-        return "This token shows the level of the pokemon as one or two unicode tokens, the first to show the whole "
-                + "level such as ⑰, and if the pokemon is half-leveled, also adds a ½.";
+        return context.getString(R.string.clipboard_token_levelunicode_description);
     }
 
     @Override
-    public String getCategory() {
-        return "Basic Stats";
+    public String getCategory(Context context) {
+        return context.getString(R.string.clipboard_token_category_basic_stats);
     }
 
     @Override

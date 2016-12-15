@@ -14,7 +14,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Edit configuration for"/>
+            android:text="@string/clipboard_edit_configuration_for"/>
 
         <View
             android:layout_width="wrap_content"
@@ -25,7 +25,7 @@
             android:id="@+id/multipleText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=" Multiple"/>
+            android:text="@string/clipboard_multiple"/>
 
         <Switch
             android:id="@+id/singleResCheckbox"
@@ -40,12 +40,12 @@
             android:id="@+id/singleText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Single "/>
+            android:text="@string/clipboard_single"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=" results"/>
+            android:text="@string/clipboard_results"/>
 
         <View
             android:layout_width="wrap_content"
@@ -69,7 +69,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Preview"
+                android:text="@string/clipboard_preview"
                 android:textColor="@color/buttonText"/>
 
             <View
@@ -84,7 +84,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
                 android:layout_marginRight="12dp"
-                android:text="Max length: "
+                android:text="@string/clipboard_max_length"
                 android:textColor="@color/buttonText"/>
 
 
@@ -93,7 +93,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
-                android:text="(Max length)"
+                android:text="@string/clipboard_max_length_characters"
                 android:textColor="@color/unimportantText"/>
 
 
@@ -137,7 +137,7 @@
                 android:checked="true"
                 android:textColor="@color/buttonText"
                 android:onClick="toggleEvolvedVariant"
-                android:text="Show max evolution variants"
+                android:text="@string/clipboard_show_max_evolution_variants"
                 android:textAlignment="center"/>
         </LinearLayout>
 
@@ -165,7 +165,7 @@
                 android:layout_height="match_parent"
                 android:textAlignment="center"
                 android:paddingLeft="10dp"
-                android:text="Full list of available options"/>
+                android:text="@string/clipboard_full_list_of_available_options"/>
 
             <LinearLayout
                 android:id="@+id/clipboardShowcase"
@@ -187,7 +187,7 @@
                     android:id="@+id/customSeperator"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="Custom Separator Text"
+                    android:hint="@string/clipboard_custom_separator_text"
                     android:layout_weight="1"
                     android:minWidth="20dp"/>
 
@@ -224,7 +224,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/colorPrimary"
                 android:paddingLeft="10dp"
-                android:text="Description"
+                android:text="@string/clipboard_description"
                 android:textColor="@color/buttonText"/>
 
             <ScrollView
@@ -237,7 +237,7 @@
                     android:id="@+id/clipboardDescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="No token selected"
+                    android:text="@string/clipboard_no_token_selected"
                     android:textColor="@color/importantText"/>
 
             </ScrollView>
@@ -257,7 +257,7 @@
                 android:layout_height="60dp"
                 android:backgroundTint="@color/colorPrimary"
                 android:onClick="addToken"
-                android:text="add"
+                android:text="@string/clipboard_add"
                 android:textColor="@color/buttonText"/>
 
             <Button
@@ -265,7 +265,7 @@
                 android:layout_height="60dp"
                 android:backgroundTint="@color/colorPrimary"
                 android:onClick="saveAndExit"
-                android:text="Save and exit"
+                android:text="@string/clipboard_save_and_exit"
                 android:textColor="@color/buttonText"
                 android:textSize="10sp"/>
         </LinearLayout>

@@ -2,6 +2,7 @@ package com.kamron.pogoiv.clipboard.tokens;
 
 import android.content.Context;
 
+import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.clipboard.ClipboardToken;
 import com.kamron.pogoiv.logic.IVScanResult;
 import com.kamron.pogoiv.logic.PokeInfoCalculator;
@@ -40,12 +41,11 @@ public class PowerupsToMaxToken extends ClipboardToken {
     }
 
     @Override public String getLongDescription(Context context) {
-        return "Shos how many power-ups are left until pokemon would reach level 40. For example if the pokemon is "
-                + "level 15, there are 25 levels to level 40, which is 50 powerups.";
+        return context.getString(R.string.clipboard_token_poweruptomax_description);
     }
 
-    @Override public String getCategory() {
-        return "Basic Stats";
+    @Override public String getCategory(Context context) {
+        return context.getString(R.string.clipboard_token_category_basic_stats);
     }
 
     @Override public boolean changesOnEvolutionMax() {

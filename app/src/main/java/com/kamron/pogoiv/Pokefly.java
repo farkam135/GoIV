@@ -186,10 +186,6 @@ public class Pokefly extends Service {
     LinearLayout onCheckButtonsLayout;
 
 
-    @BindView(R.id.appraisalIvRange)
-    Spinner appraisalIvRange;
-    @BindView(R.id.appraisalPercentageRange)
-    Spinner appraisalPercentageRange;
 
     // Layouts
     @BindView(R.id.inputBox)
@@ -279,13 +275,34 @@ public class Pokefly extends Service {
     @BindView(R.id.exResPokeSpam)
     TextView exResPokeSpam;
 
+    
     // Refine by appraisal
+
+    @BindView(R.id.appraisalRange4)
+    CheckBox appraisalRange4;
+    @BindView(R.id.appraisalRange3)
+    CheckBox appraisalRange3;
+    @BindView(R.id.appraisalRange2)
+    CheckBox appraisalRange2;
+    @BindView(R.id.appraisalRange1)
+    CheckBox appraisalRange1;
+    
     @BindView(R.id.attCheckbox)
     CheckBox attCheckbox;
     @BindView(R.id.defCheckbox)
     CheckBox defCheckbox;
     @BindView(R.id.staCheckbox)
     CheckBox staCheckbox;
+
+    @BindView(R.id.appraisalStat4)
+    CheckBox appraisalStat4;
+    @BindView(R.id.appraisalStat3)
+    CheckBox appraisalStat3;
+    @BindView(R.id.appraisalStat2)
+    CheckBox appraisalStat2;
+    @BindView(R.id.appraisalStat1)
+    CheckBox appraisalStat1;
+    
 
     @BindView(R.id.positionHandler)
     ImageView positionHandler;
@@ -973,32 +990,6 @@ public class Pokefly extends Service {
                     R.array.instinct_percentage, R.layout.spinner_appraisal);
         }
 
-        appraisalIvRange.setAdapter(adapterIvRange);
-        appraisalPercentageRange.setAdapter(adapterPercentage);
-
-
-        appraisalIvRange.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parentView) {
-                //We don't want anything to happen when the user has selected an item that does not exist or the
-                // spinner disappears, but interface requires implementation so here's an empty method.
-            }
-        });
-        appraisalPercentageRange.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parentView) {
-
-            }
-        });
-
     }
 
     @OnClick({R.id.pokePickerToggleSpinnerVsInput})
@@ -1285,12 +1276,70 @@ public class Pokefly extends Service {
             ivScanResult.refineByHighest(attCheckbox.isChecked(), defCheckbox.isChecked(), staCheckbox.isChecked());
         }
 
-        if (appraisalPercentageRange.getSelectedItemPosition() != 0) {
-            ivScanResult.refineByAppraisalPercentageRange(appraisalPercentageRange.getSelectedItemPosition());
+        if (anyAppraisalIVRangeIsSelected()) {
+            ivScanResult.refineByAppraisalPercentageRange(getSelectedAppraiseIVRangeValue());
         }
-        if (appraisalIvRange.getSelectedItemPosition() != 0) {
-            ivScanResult.refineByAppraisalIVRange(appraisalIvRange.getSelectedItemPosition());
+        if (anyAppraisalStatRangeIsSelected()) {
+            ivScanResult.refineByAppraisalIVRange(getSelectedAppraiseStatRangeValue());
         }
+    }
+
+    /**
+     * Returns which value the user has selected related to the appraisal stat range
+     * @return
+     */
+    private int getSelectedAppraiseStatRangeValue() {
+        if (appraisalStat1.isChecked()){
+            return 1;
+        }
+        if (appraisalStat2.isChecked()){
+            return 2;
+        }
+        if (appraisalStat3.isChecked()){
+            return 3;
+        }
+        if (appraisalStat4.isChecked()){
+            return 4;
+        }
+        return 0;
+    }
+
+    /**
+     * Returns which value the user has selected related to the appraisal iv % range
+     * @return
+     */
+    private int getSelectedAppraiseIVRangeValue() {
+        if (appraisalRange1.isChecked()){
+            return 1;
+        }
+        if (appraisalRange2.isChecked()){
+            return 2;
+        }
+        if (appraisalRange3.isChecked()){
+            return 3;
+        }
+        if (appraisalRange4.isChecked()){
+            return 4;
+        }
+        return 0;
+    }
+
+    /**
+     * Checks if user has pressed any of the checkboxes related to iv % range
+     * @return
+     */
+    private boolean anyAppraisalIVRangeIsSelected() {
+        return (appraisalRange1.isChecked() || appraisalRange2.isChecked()|| appraisalRange3.isChecked()|| 
+                appraisalRange4.isChecked());
+    }
+
+    /**
+     * Checks if user has pressed any of the checkboxes related to iv stat range
+     * @return
+     */
+    private boolean anyAppraisalStatRangeIsSelected() {
+        return (appraisalStat1.isChecked() || appraisalStat2.isChecked()|| appraisalStat3.isChecked()||
+                appraisalStat4.isChecked());
     }
 
     /**
@@ -1689,8 +1738,6 @@ public class Pokefly extends Service {
         defCheckbox.setChecked(false);
         staCheckbox.setChecked(false);
 
-        appraisalIvRange.setSelection(0);
-        appraisalPercentageRange.setSelection(0);
 
         resetPokeflyStateMachine();
         resetInfoDialogue();
@@ -1698,6 +1745,9 @@ public class Pokefly extends Service {
             setIVButtonDisplay(true);
         }
     }
+
+
+
 
     /**
      * Displays the all possibilities dialog.
@@ -1997,4 +2047,6 @@ public class Pokefly extends Service {
     private int dpToPx(int dp) {
         return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
     }
+
+    
 }

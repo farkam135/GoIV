@@ -1,80 +1,153 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
+              android:orientation="horizontal"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
     android:paddingLeft="22dp"
     android:paddingRight="22dp"
     android:layout_marginBottom="12dp">
 
+
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:id="@+id/appraisalPercentageRange"/>
 
-        <LinearLayout
+
+        <CheckBox
+            android:id="@+id/appraisalRange4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:orientation="horizontal">
+            android:textColor="@color/importantText"
+            android:text="Headway"/>
 
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                />
-            <CheckBox
-                android:id="@+id/attCheckbox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/importantText"
-                android:text="@string/attack"/>
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                />
-            <CheckBox
-                android:id="@+id/defCheckbox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/importantText"
-                android:text="@string/defense"/>
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                />
-            <CheckBox
-                android:id="@+id/staCheckbox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/importantText"
-                android:text="@string/stamina_hp"/>
 
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                />
 
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="8dp"
-                />
-
-        </LinearLayout>
-
-        <Spinner
-            android:layout_width="match_parent"
+        <CheckBox
+            android:id="@+id/attCheckbox"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/appraisalIvRange"/>
+            android:textColor="@color/importantText"
+            android:layout_marginTop="10dp"
+            android:text="@string/attack"/>
+
+        <CheckBox
+            android:id="@+id/appraisalStat4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/importantText"
+            android:text="The norm"/>
+
+
     </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <CheckBox
+            android:id="@+id/appraisalRange3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/importantText"
+            android:text="Average"/>
+
+
+        <CheckBox
+            android:id="@+id/defCheckbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/importantText"
+            android:layout_marginTop="10dp"
+            android:text="@string/defense"/>
+
+        <CheckBox
+            android:id="@+id/appraisalStat3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/importantText"
+            android:layout_marginTop="10dp"
+            android:text="Positive"/>
+
+
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <CheckBox
+            android:id="@+id/appraisalRange2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/importantText"
+            android:text="Caught"/>
+
+
+        <CheckBox
+            android:id="@+id/staCheckbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/importantText"
+            android:layout_marginTop="10dp"
+            android:text="@string/stamina_hp"/>
+
+        <CheckBox
+            android:id="@+id/appraisalStat2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/importantText"
+            android:layout_marginTop="10dp"
+            android:text="Impressed"/>
+
+
+
+
+    </LinearLayout>
+
+
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <CheckBox
+            android:id="@+id/appraisalRange1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/importantText"
+            android:text="Wonder"/>
+
+
+
+
+            <!--placeholder to get correct height-->
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:visibility="invisible"
+            android:text="invis"/>
+
+        <CheckBox
+            android:id="@+id/appraisalStat1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/importantText"
+            android:layout_marginTop="10dp"
+            android:text="Incredible"/>
+
+
+    </LinearLayout>
+
+
+
 
 </LinearLayout>

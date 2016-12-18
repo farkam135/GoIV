@@ -77,7 +77,6 @@
     <string name="check_for_update_setting_title">Buscar actualización</string>
     <string name="confirmation_dialog_setting_summary">Permitir la modificación de los datos del Pokémon antes de calcular sus IV</string>
     <string name="confirmation_dialog_setting_title">Diálogo de confirmación</string>
-    <string name="copy_to_clipboard_setting_summary">Copiar peor IV% - mejor IV% al portapapeles al presionar el botón "Obtener IV"</string>
     <string name="copy_to_clipboard_setting_title">Portapapeles</string>
     <string name="delete_screenshots_setting_summary">Eliminar automáticamente las capturas de pantalla tomadas por GoIV</string>
     <string name="delete_screenshots_setting_title">Eliminar Capturas de Pantalla</string>

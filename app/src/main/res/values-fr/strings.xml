@@ -85,7 +85,6 @@
     <string name="delete_screenshots_setting_title">Effacer captures d\'écran</string>
     <string name="delete_screenshots_setting_summary">Effacer automatiquement les captures d\'écran prises par GoIV</string>
     <string name="copy_to_clipboard_setting_title">Copier vers presse-papier</string>
-    <string formatted="false" name="copy_to_clipboard_setting_summary">Copier pire IV% - meilleur IV% vers le presse-papier quand le bouton \'Obtenir IV\' est cliqué</string>
     <string name="send_crash_reports_setting_title">Envoyer rapports de plantage</string>
     <string name="send_crash_reports_setting_summary">Aider les développeurs à améliorer l\'application en leur envoyant des données de plantage de façon anonyme</string>
     <string name="auto_update_setting_title">Mises à jour automatiques</string>

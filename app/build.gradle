@@ -85,14 +85,14 @@ android {
      */
     productFlavors {
         offline {
-            applicationId "com.kamron.pogoiv.nointernet"
+            applicationId "com.swanberg.pogoiv.nointernet"
             buildConfigField "boolean", "isInternetAvailable", "false"
             resValue "string", "app_name", "GoIV Offline"
             ext.enableCrashlytics = false
         }
 
         online {
-            applicationId "com.kamron.pogoiv"
+            applicationId "com.swanberg.pogoiv"
             buildConfigField "boolean", "isInternetAvailable", "true"
             resValue "string", "app_name", "GoIV"
             ext.enableCrashlytics = true

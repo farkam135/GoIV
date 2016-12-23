@@ -86,7 +86,6 @@
     <string name="check_for_update_setting_title">Auf Update überprüfen</string>
     <string name="checking_for_update">Suchen nach Aktualisierungen…</string>
     <string name="confirmation_dialog_setting_title">Bestätigungsdialog</string>
-    <string name="copy_to_clipboard_setting_summary" formatted="false">Kopiere schlechteste IV% - beste IV% in die Zwischenablage, wenn die \"IV Überprüfen\"-Schaltfläche geklickt wird</string>
     <string name="copy_to_clipboard_setting_title">in Zwischenablage kopieren</string>
     <string name="defense">Verteidigung</string>
     <string name="delete_screenshots_setting_summary">Lösche Screenshots vom GoIV automatisch</string>

@@ -27,30 +27,16 @@ public class CpPercentileToken extends ClipboardToken {
         return 4;
     }
 
+    private static int compositionLookup(int total) {
+        int[] lookup = new int[] {100, 100, 100, 100, 100, 99, 99, 98, 97, 96, 95, 93, 91, 89, 86, 83, 80, 76, 72, 68,
+                64, 59, 55, 50, 45, 41, 36, 32, 28, 24, 20, 17, 14, 11, 9, 7, 5, 4, 3, 2, 1, 1, 0, 0, 0, 0};
+        return lookup[total];
+    }
+
     @Override
     public String getValue(IVScanResult isr, PokeInfoCalculator pokeInfoCalculator) {
         int thisResult = isr.lowAttack + isr.lowDefense + isr.lowStamina;
-        int totalCombinations = 16 * 16 * 16; //3 ivs between 0 to 15.
-        int[] countingArray = new int[46]; //Array which keeps track of how many combinations result in [i] total ivs.
-        for (int att = 0; att <= 15; att++) {
-            for (int def = 0; def <= 15; def++) {
-                for (int sta = 0; sta <= 15; sta++) {
-                    countingArray[att + def + sta]++;
-                    if (att + def + sta > thisResult) { //stop counting higher if we know we found our result.
-                        break;
-                    }
-                }
-            }
-        }
-        int lowerCombinations = 0;
-        for (int i = 0; i < thisResult; i++) {
-            lowerCombinations += countingArray[i];
-        }
-
-        double percent = 1d - (double) lowerCombinations / (double) totalCombinations;
-        percent = percent * 100; //convert example 0.01 to 10.0
-        int roundedPercent = (int) (percent + 0.5);
-        return String.valueOf(roundedPercent);
+        return String.valueOf(compositionLookup(thisResult));
     }
 
     @Override

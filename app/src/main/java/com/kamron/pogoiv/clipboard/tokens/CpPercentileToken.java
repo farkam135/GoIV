@@ -41,7 +41,7 @@ public class CpPercentileToken extends ClipboardToken {
 
     @Override
     public String getPreview() {
-        return "5.1";
+        return "5";
     }
 
     @Override

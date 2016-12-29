@@ -51,10 +51,8 @@ public class CpPercentileToken extends ClipboardToken {
 
     @Override
     public String getLongDescription(Context context) {
-        return "Returns how many percent of the iv combinations your Pokémon is compared to all other possible IV "
-                + "combinations. The distribution for IVs is not even, there are a lot of different combinations that "
-                + "can result in 20 IVs (Like 5,5,10 or 10,5,5) but there is only one resulting in 45. The closer to 0 "
-                + "the result is, the better it is.";
+        return "Returns a percentage expressing how many other possible permutations of IVs are better than this "
+                + "Pokémon's IVs. The smaller the result is, the better it is.";
     }
 
     @Override

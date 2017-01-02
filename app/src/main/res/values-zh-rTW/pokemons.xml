@@ -154,6 +154,7 @@
         <item>超夢</item>
         <item>夢幻</item>
         <!--gen 2-->
+        <item>菊草葉</item>
         <item>月桂葉</item>
         <item>大菊花</item>
         <item>火球鼠</item>
@@ -253,6 +254,5 @@
         <item>洛奇亞</item>
         <item>鳳王</item>
         <item>雪拉比</item>
-        <item>木守宮</item>
     </string-array>
 </resources>

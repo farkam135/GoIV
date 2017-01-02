@@ -26,7 +26,6 @@
     <string name="delete_screenshots_setting_title">Smazat screenshoty</string>
     <string name="delete_screenshots_setting_summary">Automaticky mazat screenshoty pořízené GoIV</string>
     <string name="copy_to_clipboard_setting_title">Zkopírovat do schránky</string>
-    <string name="copy_to_clipboard_setting_summary" formatted="false">Zkopírovat nejhorší IV% - nejlepší IV% do schránky při stisku tlačítka IV</string>
     <string name="send_crash_reports_setting_title">Zasílat hlášení o pádu</string>
     <string name="send_crash_reports_setting_summary">Chci pomoci vývojářům zlepšit aplikaci zasíláním anonymních informací o pádu aplikace</string>
     <string name="auto_update_setting_title">Automatická aktualizace</string>

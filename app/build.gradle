@@ -73,8 +73,8 @@ android {
     defaultConfig {
         minSdkVersion 19
         targetSdkVersion 24
-        versionCode 19
-        versionName "3.3.1"
+        versionCode 21
+        versionName "3.3.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
@@ -85,14 +85,14 @@ android {
      */
     productFlavors {
         offline {
-            applicationId "com.kamron.pogoiv.nointernet"
+            applicationId "com.swanberg.pogoiv.nointernet"
             buildConfigField "boolean", "isInternetAvailable", "false"
             resValue "string", "app_name", "GoIV Offline"
             ext.enableCrashlytics = false
         }
 
         online {
-            applicationId "com.kamron.pogoiv"
+            applicationId "com.swanberg.pogoiv"
             buildConfigField "boolean", "isInternetAvailable", "true"
             resValue "string", "app_name", "GoIV"
             ext.enableCrashlytics = true

@@ -27,7 +27,6 @@
     <string name="delete_screenshots_setting_title">Cancella gli screenshot</string>
     <string name="delete_screenshots_setting_summary">Cancella automaticamente gli screenshot usati da GoIV</string>
     <string name="copy_to_clipboard_setting_title">Copia negli appunti</string>
-    <string formatted="false" name="copy_to_clipboard_setting_summary">Copia min IV% - max IV% negli appunti quando il bottone Check IV viene premuto</string>
     <string name="send_crash_reports_setting_title">Invia rapporti di errore</string>
     <string name="send_crash_reports_setting_summary">Aiuta gli sviluppatori nel miglioramento dell\'app inviando informazioni anonime riguardo i crash</string>
     <string name="auto_update_setting_title">Auto aggiornamento</string>

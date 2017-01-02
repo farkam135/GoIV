@@ -964,7 +964,7 @@ public class Pokefly extends Service {
     }
 
     /**
-     * Changes the text in the appraisal checkboxes depending on what team the player is on
+     * Changes the text in the appraisal checkboxes depending on what team the player is on.
      */
     private void populateTeamAppraisalSpinners() {
 
@@ -1299,61 +1299,63 @@ public class Pokefly extends Service {
     }
 
     /**
-     * Returns which value the user has selected related to the appraisal stat range
-     * @return
+     * Returns which value the user has selected related to the appraisal stat range.
+     *
+     * @return a number corresponding to which appraisalstat is selected.
      */
     private int getSelectedAppraiseStatRangeValue() {
-        if (appraisalStat1.isChecked()){
+        if (appraisalStat1.isChecked()) {
             return 1;
         }
-        if (appraisalStat2.isChecked()){
+        if (appraisalStat2.isChecked()) {
             return 2;
         }
-        if (appraisalStat3.isChecked()){
+        if (appraisalStat3.isChecked()) {
             return 3;
         }
-        if (appraisalStat4.isChecked()){
+        if (appraisalStat4.isChecked()) {
             return 4;
         }
         return 0;
     }
 
     /**
-     * Returns which value the user has selected related to the appraisal iv % range
-     * @return
+     * Returns which value the user has selected related to the appraisal iv % range.
+     *
+     * @returna number corresponding to which appraisalrange is selected.
      */
     private int getSelectedAppraiseIVRangeValue() {
-        if (appraisalRange1.isChecked()){
+        if (appraisalRange1.isChecked()) {
             return 1;
         }
-        if (appraisalRange2.isChecked()){
+        if (appraisalRange2.isChecked()) {
             return 2;
         }
-        if (appraisalRange3.isChecked()){
+        if (appraisalRange3.isChecked()) {
             return 3;
         }
-        if (appraisalRange4.isChecked()){
+        if (appraisalRange4.isChecked()) {
             return 4;
         }
         return 0;
     }
 
     /**
-     * Checks if user has pressed any of the checkboxes related to iv % range
-     * @return
+     * Checks if user has pressed any of the checkboxes related to iv % range.
+     * @return true if any is pressed.
      */
     private boolean anyAppraisalIVRangeIsSelected() {
-        return (appraisalRange1.isChecked() || appraisalRange2.isChecked()|| appraisalRange3.isChecked()|| 
-                appraisalRange4.isChecked());
+        return (appraisalRange1.isChecked() || appraisalRange2.isChecked() || appraisalRange3.isChecked()
+                || appraisalRange4.isChecked());
     }
 
     /**
-     * Checks if user has pressed any of the checkboxes related to iv stat range
-     * @return
+     * Checks if user has pressed any of the checkboxes related to iv stat range.
+     * @return true if any is pressed.
      */
     private boolean anyAppraisalStatRangeIsSelected() {
-        return (appraisalStat1.isChecked() || appraisalStat2.isChecked()|| appraisalStat3.isChecked()||
-                appraisalStat4.isChecked());
+        return (appraisalStat1.isChecked() || appraisalStat2.isChecked() || appraisalStat3.isChecked()
+                || appraisalStat4.isChecked());
     }
 
     /**
@@ -1760,7 +1762,7 @@ public class Pokefly extends Service {
     }
 
     /**
-     * toggles all the appraisal boxes to false
+     * toggles all the appraisal boxes to false.
      */
     private void resetAppraisalCheckBoxes() {
 

@@ -3,42 +3,46 @@
               android:orientation="horizontal"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-    android:paddingLeft="22dp"
-    android:paddingRight="22dp"
+    android:paddingLeft="2dp"
+    android:paddingRight="2dp"
     android:layout_marginBottom="12dp">
 
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:orientation="vertical">
 
 
 
         <CheckBox
             android:id="@+id/appraisalRange4"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/importantText"
-            android:text="Headway"/>
+            android:textSize="12sp"
+            android:text="@string/mv1"/>
 
 
 
         <CheckBox
             android:id="@+id/attCheckbox"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/importantText"
+            android:textSize="12sp"
             android:layout_marginTop="10dp"
             android:text="@string/attack"/>
 
         <CheckBox
             android:id="@+id/appraisalStat4"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:textColor="@color/importantText"
-            android:text="The norm"/>
+            android:textSize="12sp"
+            android:text="@string/ms1"/>
 
 
     </LinearLayout>
@@ -47,30 +51,35 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:orientation="vertical">
+
         <CheckBox
             android:id="@+id/appraisalRange3"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/importantText"
-            android:text="Average"/>
+            android:textSize="12sp"
+            android:text="@string/mv2"/>
 
 
         <CheckBox
             android:id="@+id/defCheckbox"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/importantText"
+            android:textSize="12sp"
             android:layout_marginTop="10dp"
             android:text="@string/defense"/>
 
         <CheckBox
             android:id="@+id/appraisalStat3"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/importantText"
+            android:textSize="12sp"
             android:layout_marginTop="10dp"
-            android:text="Positive"/>
+            android:text="@string/ms2"/>
 
 
 
@@ -81,30 +90,34 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:orientation="vertical">
         <CheckBox
             android:id="@+id/appraisalRange2"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/importantText"
-            android:text="Caught"/>
+            android:textSize="12sp"
+            android:text="@string/mv3"/>
 
 
         <CheckBox
             android:id="@+id/staCheckbox"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/importantText"
+            android:textSize="12sp"
             android:layout_marginTop="10dp"
             android:text="@string/stamina_hp"/>
 
         <CheckBox
             android:id="@+id/appraisalStat2"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/importantText"
+            android:textSize="12sp"
             android:layout_marginTop="10dp"
-            android:text="Impressed"/>
+            android:text="@string/ms3"/>
 
 
 
@@ -117,32 +130,38 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:orientation="vertical">
         <CheckBox
             android:id="@+id/appraisalRange1"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/importantText"
-            android:text="Wonder"/>
+            android:textSize="12sp"
+            android:text="@string/mv4"/>
 
 
 
 
-            <!--placeholder to get correct height-->
+        <!--placeholder to get correct height    -->
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:visibility="invisible"
+            android:textSize="12sp"
             android:text="invis"/>
+
+
 
         <CheckBox
             android:id="@+id/appraisalStat1"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/importantText"
+            android:textSize="12sp"
             android:layout_marginTop="10dp"
-            android:text="Incredible"/>
+            android:text="@string/ms4"/>
 
 
     </LinearLayout>

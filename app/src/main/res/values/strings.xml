@@ -166,4 +166,36 @@
     <string name="android_sub5_warning">GoIV has detected that your phone does not have the MediaProjection API, which is used to automatically show the IV scan button. This might be fixed by updating your phone to Android 5 or above. The app will lock itself to screenshot mode to avoid crashing. You can use GoIV by manually triggering a screenshot, which most devices does by holding home+power for a short duration. We apologize for the inconvenience.</string>
     <string name="copy_to_clip_show_toast_setting_summary">Show a preview of what is copied to the clipboard in a small popup</string>
     <string name="copy_to_clip_show_toast_setting">Show clipboard preview popup</string>
+
+    <!-- Team mystic appraisal strings mv for iv % and ms for strongest stat range-->
+    <string name="mv4">Headway</string>
+    <string name="mv3">Average</string>
+    <string name="mv2">Caught</string>
+    <string name="mv1">Wonder</string>
+    <string name="ms4">The norm</string>
+    <string name="ms3">Positive</string>
+    <string name="ms2">Impre..</string>
+    <string name="ms1">Incredible</string>
+
+
+    <!-- Team valor appraisal strings mv for iv % and ms for strongest stat range-->
+    <string name="vv4">Like</string>
+    <string name="vv3">Dece..</string>
+    <string name="vv2">Proud</string>
+    <string name="vv1">Amaze</string>
+    <string name="vs4">Point</string>
+    <string name="vs3">Done</string>
+    <string name="vs2">Excit..</string>
+    <string name="vs1">WOW</string>
+
+
+    <!-- Team instinct appraisal strings mv for iv % and ms for strongest stat range-->
+    <string name="iv4">Battl..</string>
+    <string name="iv3">Decent</string>
+    <string name="iv2">Strong</string>
+    <string name="iv1">Best</string>
+    <string name="is4">Basic</string>
+    <string name="is3">Good</string>
+    <string name="is2">Strong</string>
+    <string name="is1">Best</string>
 </resources>

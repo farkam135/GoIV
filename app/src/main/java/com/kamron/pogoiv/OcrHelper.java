@@ -30,6 +30,7 @@ public class OcrHelper {
     private final boolean candyWordFirst;
     private final String nidoFemale;
     private final String nidoMale;
+    private static Optional<Boolean> isFemale = Optional.absent();
     private final boolean isPokeSpamEnabled;
 
     private OcrHelper(String dataPath, int widthPixels, int heightPixels, String nidoFemale, String nidoMale,
@@ -309,11 +310,11 @@ public class OcrHelper {
         //Average female nidoran has RGB value~ 135,190,140
         int femaleGreenLimit = 175; //if average green is over 175, its probably female
         int femaleBlueLimit = 130; //if average blue is over 130, its probably female
-        boolean isFemale = true;
         if (greenAverage < femaleGreenLimit && blueAverage < femaleBlueLimit) {
-            isFemale = false; //if neither average is above the female limit, then it's male.
+            return false; //if neither average is above the female limit, then it's male.
+        } else {
+            return true;
         }
-        return isFemale;
     }
 
     /**
@@ -363,7 +364,10 @@ public class OcrHelper {
      * @return The correct name of the pokemon, with the gender symbol at the end.
      */
     private String getNidoranGenderName(Bitmap pokemonImage) {
-        if (isNidoranFemale(pokemonImage)) {
+        if (!isFemale.isPresent()) {
+            isFemale =  Optional.of(isNidoranFemale(pokemonImage));
+        }
+        if (isFemale.get()) {
             return nidoFemale;
         } else {
             return nidoMale;
@@ -544,6 +548,7 @@ public class OcrHelper {
      * @return an object
      */
     public ScanResult scanPokemon(Bitmap pokemonImage, int trainerLevel) {
+        isFemale = Optional.absent(); //reset before every scan
         double estimatedPokemonLevel = getPokemonLevelFromImg(pokemonImage, trainerLevel);
         String pokemonName = getPokemonNameFromImg(pokemonImage);
         String candyName = getCandyNameFromImg(pokemonImage);

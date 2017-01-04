@@ -186,10 +186,6 @@ public class Pokefly extends Service {
     LinearLayout onCheckButtonsLayout;
 
 
-    @BindView(R.id.appraisalIvRange)
-    Spinner appraisalIvRange;
-    @BindView(R.id.appraisalPercentageRange)
-    Spinner appraisalPercentageRange;
 
     // Layouts
     @BindView(R.id.inputBox)
@@ -279,13 +275,34 @@ public class Pokefly extends Service {
     @BindView(R.id.exResPokeSpam)
     TextView exResPokeSpam;
 
+    
     // Refine by appraisal
+
+    @BindView(R.id.appraisalRange4)
+    CheckBox appraisalRange4;
+    @BindView(R.id.appraisalRange3)
+    CheckBox appraisalRange3;
+    @BindView(R.id.appraisalRange2)
+    CheckBox appraisalRange2;
+    @BindView(R.id.appraisalRange1)
+    CheckBox appraisalRange1;
+    
     @BindView(R.id.attCheckbox)
     CheckBox attCheckbox;
     @BindView(R.id.defCheckbox)
     CheckBox defCheckbox;
     @BindView(R.id.staCheckbox)
     CheckBox staCheckbox;
+
+    @BindView(R.id.appraisalStat4)
+    CheckBox appraisalStat4;
+    @BindView(R.id.appraisalStat3)
+    CheckBox appraisalStat3;
+    @BindView(R.id.appraisalStat2)
+    CheckBox appraisalStat2;
+    @BindView(R.id.appraisalStat1)
+    CheckBox appraisalStat1;
+    
 
     @BindView(R.id.positionHandler)
     ImageView positionHandler;
@@ -947,57 +964,45 @@ public class Pokefly extends Service {
     }
 
     /**
-     * Changes the text in the appraisal spinners depending on what team the user is on.
+     * Changes the text in the appraisal checkboxes depending on what team the player is on.
      */
     private void populateTeamAppraisalSpinners() {
-        //Create the adapters for the spinners
-        ArrayAdapter<CharSequence> adapterIvRange;
-        ArrayAdapter<CharSequence> adapterPercentage;
 
         //Load the correct phrases from the text resources depending on what team is stored in app settings
-        if (settings.playerTeam() == 0) {
-            adapterIvRange = ArrayAdapter.createFromResource(this,
-                    R.array.mystic_ivrange, R.layout.spinner_appraisal);
-            adapterPercentage = ArrayAdapter.createFromResource(this,
-                    R.array.mystic_percentage, R.layout.spinner_appraisal);
+        if (settings.playerTeam() == 0) { //mystic
+            appraisalRange4.setText(R.string.mv4);
+            appraisalRange3.setText(R.string.mv3);
+            appraisalRange2.setText(R.string.mv2);
+            appraisalRange1.setText(R.string.mv1);
 
-        } else if (settings.playerTeam() == 1) {
-            adapterIvRange = ArrayAdapter.createFromResource(this,
-                    R.array.valor_ivrange, R.layout.spinner_appraisal);
-            adapterPercentage = ArrayAdapter.createFromResource(this,
-                    R.array.valor_percentage, R.layout.spinner_appraisal);
-        } else {
-            adapterIvRange = ArrayAdapter.createFromResource(this,
-                    R.array.instinct_ivrange, R.layout.spinner_appraisal);
-            adapterPercentage = ArrayAdapter.createFromResource(this,
-                    R.array.instinct_percentage, R.layout.spinner_appraisal);
+            appraisalStat1.setText(R.string.ms1);
+            appraisalStat2.setText(R.string.ms2);
+            appraisalStat3.setText(R.string.ms3);
+            appraisalStat4.setText(R.string.ms4);
+
+        } else if (settings.playerTeam() == 1) { //valor
+
+            appraisalRange4.setText(R.string.vv4);
+            appraisalRange3.setText(R.string.vv3);
+            appraisalRange2.setText(R.string.vv2);
+            appraisalRange1.setText(R.string.vv1);
+
+            appraisalStat1.setText(R.string.vs1);
+            appraisalStat2.setText(R.string.vs2);
+            appraisalStat3.setText(R.string.vs3);
+            appraisalStat4.setText(R.string.vs4);
+        } else { //instinct
+
+            appraisalRange4.setText(R.string.iv4);
+            appraisalRange3.setText(R.string.iv3);
+            appraisalRange2.setText(R.string.iv2);
+            appraisalRange1.setText(R.string.iv1);
+
+            appraisalStat1.setText(R.string.is1);
+            appraisalStat2.setText(R.string.is2);
+            appraisalStat3.setText(R.string.is3);
+            appraisalStat4.setText(R.string.is4);
         }
-
-        appraisalIvRange.setAdapter(adapterIvRange);
-        appraisalPercentageRange.setAdapter(adapterPercentage);
-
-
-        appraisalIvRange.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parentView) {
-                //We don't want anything to happen when the user has selected an item that does not exist or the
-                // spinner disappears, but interface requires implementation so here's an empty method.
-            }
-        });
-        appraisalPercentageRange.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parentView) {
-
-            }
-        });
 
     }
 
@@ -1285,12 +1290,72 @@ public class Pokefly extends Service {
             ivScanResult.refineByHighest(attCheckbox.isChecked(), defCheckbox.isChecked(), staCheckbox.isChecked());
         }
 
-        if (appraisalPercentageRange.getSelectedItemPosition() != 0) {
-            ivScanResult.refineByAppraisalPercentageRange(appraisalPercentageRange.getSelectedItemPosition());
+        if (anyAppraisalIVRangeIsSelected()) {
+            ivScanResult.refineByAppraisalPercentageRange(getSelectedAppraiseIVRangeValue());
         }
-        if (appraisalIvRange.getSelectedItemPosition() != 0) {
-            ivScanResult.refineByAppraisalIVRange(appraisalIvRange.getSelectedItemPosition());
+        if (anyAppraisalStatRangeIsSelected()) {
+            ivScanResult.refineByAppraisalIVRange(getSelectedAppraiseStatRangeValue());
         }
+    }
+
+    /**
+     * Returns which value the user has selected related to the appraisal stat range.
+     *
+     * @return a number corresponding to which appraisalstat is selected.
+     */
+    private int getSelectedAppraiseStatRangeValue() {
+        if (appraisalStat1.isChecked()) {
+            return 1;
+        }
+        if (appraisalStat2.isChecked()) {
+            return 2;
+        }
+        if (appraisalStat3.isChecked()) {
+            return 3;
+        }
+        if (appraisalStat4.isChecked()) {
+            return 4;
+        }
+        return 0;
+    }
+
+    /**
+     * Returns which value the user has selected related to the appraisal iv % range.
+     *
+     * @returna number corresponding to which appraisalrange is selected.
+     */
+    private int getSelectedAppraiseIVRangeValue() {
+        if (appraisalRange1.isChecked()) {
+            return 1;
+        }
+        if (appraisalRange2.isChecked()) {
+            return 2;
+        }
+        if (appraisalRange3.isChecked()) {
+            return 3;
+        }
+        if (appraisalRange4.isChecked()) {
+            return 4;
+        }
+        return 0;
+    }
+
+    /**
+     * Checks if user has pressed any of the checkboxes related to iv % range.
+     * @return true if any is pressed.
+     */
+    private boolean anyAppraisalIVRangeIsSelected() {
+        return (appraisalRange1.isChecked() || appraisalRange2.isChecked() || appraisalRange3.isChecked()
+                || appraisalRange4.isChecked());
+    }
+
+    /**
+     * Checks if user has pressed any of the checkboxes related to iv stat range.
+     * @return true if any is pressed.
+     */
+    private boolean anyAppraisalStatRangeIsSelected() {
+        return (appraisalStat1.isChecked() || appraisalStat2.isChecked() || appraisalStat3.isChecked()
+                || appraisalStat4.isChecked());
     }
 
     /**
@@ -1685,12 +1750,9 @@ public class Pokefly extends Service {
      */
     public void cancelInfoDialog() {
         hideInfoLayoutArcPointer();
-        attCheckbox.setChecked(false);
-        defCheckbox.setChecked(false);
-        staCheckbox.setChecked(false);
 
-        appraisalIvRange.setSelection(0);
-        appraisalPercentageRange.setSelection(0);
+        resetAppraisalCheckBoxes();
+
 
         resetPokeflyStateMachine();
         resetInfoDialogue();
@@ -1698,6 +1760,27 @@ public class Pokefly extends Service {
             setIVButtonDisplay(true);
         }
     }
+
+    /**
+     * toggles all the appraisal boxes to false.
+     */
+    private void resetAppraisalCheckBoxes() {
+
+        attCheckbox.setChecked(false);
+        defCheckbox.setChecked(false);
+        staCheckbox.setChecked(false);
+
+        appraisalRange1.setChecked(false);
+        appraisalRange2.setChecked(false);
+        appraisalRange3.setChecked(false);
+        appraisalRange4.setChecked(false);
+
+        appraisalStat1.setChecked(false);
+        appraisalStat2.setChecked(false);
+        appraisalStat3.setChecked(false);
+        appraisalStat4.setChecked(false);
+    }
+
 
     /**
      * Displays the all possibilities dialog.
@@ -1997,4 +2080,6 @@ public class Pokefly extends Service {
     private int dpToPx(int dp) {
         return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
     }
+
+    
 }

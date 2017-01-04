@@ -182,10 +182,10 @@ public class OcrHelper {
         int d = 0; // Distance we have successfully searched for white pixels.
         while (true) {
             // If any pixel this distance is not white, return our successful search distance
-            if (pokemonImage.getPixel(x + d, y) != Color.rgb(255, 255, 255) ||
-                    pokemonImage.getPixel(x - d, y) != Color.rgb(255, 255, 255) ||
-                    pokemonImage.getPixel(x, y + d) != Color.rgb(255, 255, 255) ||
-                    pokemonImage.getPixel(x, y - d) != Color.rgb(255, 255, 255)){
+            if (pokemonImage.getPixel(x + d, y) != Color.rgb(255, 255, 255)
+                    || pokemonImage.getPixel(x - d, y) != Color.rgb(255, 255, 255)
+                    || pokemonImage.getPixel(x, y + d) != Color.rgb(255, 255, 255)
+                    || pokemonImage.getPixel(x, y - d) != Color.rgb(255, 255, 255)) {
                 return d;
             }
 

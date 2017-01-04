@@ -156,6 +156,8 @@ public class Pokefly extends Service {
 
     private PokeInfoCalculator pokeInfoCalculator;
 
+    private AutoAppraisal autoAppraisal;
+
     //results pokemon picker auto complete
     @BindView(R.id.autoCompleteTextView1)
     AutoCompleteTextView autoCompleteTextView1;
@@ -1074,6 +1076,9 @@ public class Pokefly extends Service {
         toggleVisibility(inputAppraisalExpandBox, appraisalBox, true);
         positionHandler.setVisibility(appraisalBox.getVisibility());
         moveOverlayUpOrDownToMatchAppraisalBox();
+        autoAppraisal = new AutoAppraisal(screen, ocr, this, attCheckbox, defCheckbox, staCheckbox,
+                appraisalPercentageRange, appraisalIvRange);
+        autoAppraisal.start(appraisalBox.getVisibility() == View.VISIBLE);
     }
 
     /**
@@ -1281,10 +1286,10 @@ public class Pokefly extends Service {
      * @param ivScanResult the scan result to refine
      */
     private void refineByAvailableAppraisalInfo(IVScanResult ivScanResult) {
+
         if (attCheckbox.isChecked() || defCheckbox.isChecked() || staCheckbox.isChecked()) {
             ivScanResult.refineByHighest(attCheckbox.isChecked(), defCheckbox.isChecked(), staCheckbox.isChecked());
         }
-
         if (appraisalPercentageRange.getSelectedItemPosition() != 0) {
             ivScanResult.refineByAppraisalPercentageRange(appraisalPercentageRange.getSelectedItemPosition());
         }

@@ -2,6 +2,9 @@ package com.kamron.pogoiv.logic;
 
 import android.support.annotation.Nullable;
 
+import com.kamron.pogoiv.logic.AppraisalHelper.AppraisalIVRange;
+import com.kamron.pogoiv.logic.AppraisalHelper.AppraisalPercentageRange;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -186,28 +189,10 @@ public class IVScanResult {
     public void refineByAppraisalPercentageRange(int selectedItemPosition) {
         int lowest;
         int highest;
-
-        switch (selectedItemPosition) {
-            case 1:
-                lowest = 81;
-                highest = 100;
-                break;
-            case 2:
-                lowest = 66;
-                highest = 80;
-                break;
-            case 3:
-                lowest = 51;
-                highest = 65;
-                break;
-            case 4:
-                lowest = 0;
-                highest = 50;
-                break;
-            default:
-                lowest = 0;
-                highest = 100;
-        }
+        //Get Percentage Range appraisal values
+        AppraisalPercentageRange appraisalPercentageRange = new AppraisalPercentageRange(selectedItemPosition);
+        lowest = appraisalPercentageRange.getLowest();
+        highest = appraisalPercentageRange.getHighest();
 
         ArrayList<IVCombination> refinedList = new ArrayList<>();
 
@@ -235,27 +220,10 @@ public class IVScanResult {
         int lowest;
         int highest;
 
-        switch (selectedItemPosition) {
-            case 1:
-                lowest = 15;
-                highest = 15;
-                break;
-            case 2:
-                lowest = 13;
-                highest = 14;
-                break;
-            case 3:
-                lowest = 8;
-                highest = 12;
-                break;
-            case 4:
-                lowest = 0;
-                highest = 7;
-                break;
-            default:
-                lowest = 0;
-                highest = 15;
-        }
+        //Get IV appraisal values
+        AppraisalIVRange appraisalIVRange = new AppraisalIVRange(selectedItemPosition);
+        lowest = appraisalIVRange.getLowest();
+        highest = appraisalIVRange.getHighest();
 
         ArrayList<IVCombination> refinedList = new ArrayList<>();
 

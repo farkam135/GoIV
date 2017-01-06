@@ -1,172 +1,190 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="horizontal"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent"
-    android:paddingLeft="2dp"
-    android:paddingRight="2dp"
+              android:layout_height="wrap_content"
     android:layout_marginBottom="12dp">
 
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:orientation="horizontal"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="vertical">
-
+        android:layout_width="match_parent"
+        android:layoutDirection="ltr"
+        android:padding="2dp">
 
 
         <CheckBox
             android:id="@+id/appraisalRange4"
-            android:layout_width="match_parent"
+            android:textColor="@color/importantText"
+            android:textSize="12sp"
+            android:text="@string/vv1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="left|center_vertical|clip_horizontal"
+            android:layout_gravity="center_vertical|clip_horizontal"
+            android:textScaleX=".9"
+            android:maxLines="2" />
+
+        <CheckBox
+            android:id="@+id/appraisalRange3"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textColor="@color/importantText"
             android:textSize="12sp"
-            android:text="@string/mv1"/>
+            android:text="@string/vv2"
+            android:layout_weight="1"
+            android:gravity="left|center_vertical|clip_horizontal"
+            android:layout_gravity="center_vertical|clip_horizontal"
+            android:textScaleX=".9"
+            android:maxLines="2" />
 
+        <CheckBox
+            android:id="@+id/appraisalRange2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/importantText"
+            android:textSize="12sp"
+            android:text="@string/vv3"
+            android:layout_weight="1"
+            android:gravity="left|center_vertical|clip_horizontal"
+            android:layout_gravity="center_vertical|clip_horizontal"
+            android:textScaleX=".9"
+            android:maxLines="2" />
+
+        <CheckBox
+            android:id="@+id/appraisalRange1"
+            android:layout_height="wrap_content"
+            android:textColor="@color/importantText"
+            android:textSize="12sp"
+            android:text="@string/vv4"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:gravity="left|center_vertical|clip_horizontal"
+            android:layout_gravity="center_vertical|clip_horizontal"
+            android:textScaleX=".9"
+            android:maxLines="2" />
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layoutDirection="ltr"
+        android:padding="2dp">
 
 
         <CheckBox
             android:id="@+id/attCheckbox"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/importantText"
-            android:textSize="12sp"
-            android:layout_marginTop="10dp"
-            android:text="@string/attack"/>
-
-        <CheckBox
-            android:id="@+id/appraisalStat4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:textColor="@color/importantText"
-            android:textSize="12sp"
-            android:text="@string/ms1"/>
-
-
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="vertical">
-
-        <CheckBox
-            android:id="@+id/appraisalRange3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/importantText"
-            android:textSize="12sp"
-            android:text="@string/mv2"/>
-
+            android:textSize="13sp"
+            android:text="@string/attack"
+            android:layout_gravity="center_vertical"
+            android:maxLines="1"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp" />
 
         <CheckBox
             android:id="@+id/defCheckbox"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/importantText"
-            android:textSize="12sp"
-            android:layout_marginTop="10dp"
-            android:text="@string/defense"/>
-
-        <CheckBox
-            android:id="@+id/appraisalStat3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/importantText"
-            android:textSize="12sp"
-            android:layout_marginTop="10dp"
-            android:text="@string/ms2"/>
-
-
-
-    </LinearLayout>
-
-
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="vertical">
-        <CheckBox
-            android:id="@+id/appraisalRange2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/importantText"
-            android:textSize="12sp"
-            android:text="@string/mv3"/>
-
+            android:textSize="13sp"
+            android:text="@string/defense"
+            android:layout_gravity="center_vertical"
+            android:maxLines="1"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp" />
 
         <CheckBox
             android:id="@+id/staCheckbox"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/importantText"
-            android:textSize="12sp"
-            android:layout_marginTop="10dp"
-            android:text="@string/stamina_hp"/>
-
-        <CheckBox
-            android:id="@+id/appraisalStat2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/importantText"
-            android:textSize="12sp"
-            android:layout_marginTop="10dp"
-            android:text="@string/ms3"/>
-
-
+            android:textSize="13sp"
+            android:text="@string/stamina_hp"
+            android:layout_gravity="center_vertical"
+            android:maxLines="1"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp" />
 
 
     </LinearLayout>
-
 
 
 
     <LinearLayout
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="vertical">
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layoutDirection="ltr"
+        android:padding="2dp">
+
+
         <CheckBox
-            android:id="@+id/appraisalRange1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:id="@+id/appraisalStat4"
+            android:layout_width="0dp"
             android:textColor="@color/importantText"
             android:textSize="12sp"
-            android:text="@string/mv4"/>
-
-
-
-
-        <!--placeholder to get correct height    -->
-        <CheckBox
-            android:layout_width="wrap_content"
+            android:text="@string/vs1"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical|fill"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:visibility="invisible"
+            android:gravity="center_vertical|clip_vertical"
+            android:textScaleX=".9"
+            android:maxLines="2" />
+
+        <CheckBox
+            android:id="@+id/appraisalStat3"
+            android:layout_width="0dp"
+            android:textColor="@color/importantText"
             android:textSize="12sp"
-            android:text="invis"/>
+            android:text="@string/vs2"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical|fill"
+            android:scrollHorizontally="false"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|clip_vertical"
+            android:textScaleX=".9"
+            android:maxLines="2" />
 
-
+        <CheckBox
+            android:id="@+id/appraisalStat2"
+            android:layout_width="0dp"
+            android:textColor="@color/importantText"
+            android:textSize="12sp"
+            android:text="@string/vs3"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical|fill"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|clip_vertical"
+            android:textScaleX=".9"
+            android:maxLines="2" />
 
         <CheckBox
             android:id="@+id/appraisalStat1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
             android:textColor="@color/importantText"
             android:textSize="12sp"
-            android:layout_marginTop="10dp"
-            android:text="@string/ms4"/>
+            android:text="@string/vs4"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical|fill"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|clip_vertical"
+            android:textScaleX=".9"
+            android:maxLines="2" />
 
 
     </LinearLayout>
-
-
 
 
 </LinearLayout>

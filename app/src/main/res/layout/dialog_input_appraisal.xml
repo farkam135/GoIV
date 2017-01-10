@@ -3,73 +3,77 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:layout_marginBottom="12dp">
 
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_height="wrap_content"
+
+    <RadioGroup
         android:layout_width="match_parent"
-        android:layoutDirection="ltr"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:id="@+id/appraisalRangeGroup"
         android:padding="2dp">
 
-
-        <CheckBox
+        <RadioButton
+            android:textColor="@color/importantText"
+            android:textSize="12sp"
+            android:text="@string/mv4"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:id="@+id/appraisalRange4"
+            android:layout_weight="1"
+            android:textScaleX=".9"
+            android:maxLines="2"
+            style="?android:attr/checkboxStyle"
+            android:gravity="center_vertical|clip_vertical|start"
+            android:layout_gravity="center_vertical|start" />
+
+        <RadioButton
             android:textColor="@color/importantText"
             android:textSize="12sp"
-            android:text="@string/vv4"
+            android:text="@string/mv3"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="start|center_vertical|clip_horizontal"
-            android:layout_gravity="center_vertical|clip_horizontal"
-            android:textScaleX=".9"
-            android:maxLines="2" />
-
-        <CheckBox
+            android:layout_height="match_parent"
             android:id="@+id/appraisalRange3"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textScaleX=".9"
+            android:maxLines="2"
+            style="?android:attr/checkboxStyle"
+            android:gravity="center_vertical|clip_vertical|start"
+            android:layout_gravity="center_vertical|start" />
+
+        <RadioButton
             android:textColor="@color/importantText"
             android:textSize="12sp"
-            android:text="@string/vv3"
-            android:layout_weight="1"
-            android:gravity="start|center_vertical|clip_horizontal"
-            android:layout_gravity="center_vertical|clip_horizontal"
-            android:textScaleX=".9"
-            android:maxLines="2" />
-
-        <CheckBox
+            android:text="@string/mv2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:id="@+id/appraisalRange2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textScaleX=".9"
+            android:maxLines="2"
+            style="?android:attr/checkboxStyle"
+            android:gravity="center_vertical|clip_vertical|start"
+            android:layout_gravity="center_vertical|start" />
+
+        <RadioButton
             android:textColor="@color/importantText"
             android:textSize="12sp"
-            android:text="@string/vv2"
-            android:layout_weight="1"
-            android:gravity="start|center_vertical|clip_horizontal"
-            android:layout_gravity="center_vertical|clip_horizontal"
-            android:textScaleX=".9"
-            android:maxLines="2" />
-
-        <CheckBox
+            android:text="@string/mv1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:id="@+id/appraisalRange1"
-            android:layout_height="wrap_content"
-            android:textColor="@color/importantText"
-            android:textSize="12sp"
-            android:text="@string/vv1"
             android:layout_weight="1"
-            android:layout_width="0dp"
-            android:gravity="start|center_vertical|clip_horizontal"
-            android:layout_gravity="center_vertical|clip_horizontal"
             android:textScaleX=".9"
-            android:maxLines="2" />
+            android:maxLines="2"
+            style="?android:attr/checkboxStyle"
+            android:gravity="center_vertical|clip_vertical|start"
+            android:layout_gravity="center_vertical|start" />
 
+    </RadioGroup>
 
-    </LinearLayout>
 
 
     <LinearLayout
@@ -87,9 +91,10 @@
             android:textColor="@color/importantText"
             android:textSize="13sp"
             android:text="@string/attack"
-            android:layout_gravity="center_vertical"
             android:maxLines="1"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:gravity="center_vertical|clip_vertical|start"
+            android:layout_gravity="center_vertical|start" />
 
         <CheckBox
             android:id="@+id/defCheckbox"
@@ -98,9 +103,10 @@
             android:textColor="@color/importantText"
             android:textSize="13sp"
             android:text="@string/defense"
-            android:layout_gravity="center_vertical"
             android:maxLines="1"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:gravity="center_vertical|clip_vertical|start"
+            android:layout_gravity="center_vertical|start" />
 
         <CheckBox
             android:id="@+id/staCheckbox"
@@ -109,9 +115,10 @@
             android:textColor="@color/importantText"
             android:textSize="13sp"
             android:text="@string/stamina_hp"
-            android:layout_gravity="center_vertical"
             android:maxLines="1"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:gravity="center_vertical|clip_vertical|start"
+            android:layout_gravity="center_vertical|start" />
 
         <CheckBox
             android:id="@+id/unused_checkBox"
@@ -120,76 +127,79 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:visibility="invisible"
-            android:textSize="13sp" />
+            android:textSize="13sp"
+            android:gravity="center_vertical|clip_vertical|start"
+            android:layout_gravity="center_vertical|start" />
 
 
     </LinearLayout>
 
 
-
-    <LinearLayout
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
+    <RadioGroup
         android:layout_width="match_parent"
-        android:layoutDirection="ltr"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:id="@+id/appraisalStatGroup"
         android:padding="2dp">
 
-
-        <CheckBox
+        <RadioButton
+            android:textColor="@color/importantText"
+            android:textSize="12sp"
+            android:text="@string/ms4"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:id="@+id/appraisalStat4"
-            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:textScaleX=".9"
+            android:maxLines="2"
+            style="?android:attr/checkboxStyle"
+            android:gravity="center_vertical|clip_vertical|start"
+            android:layout_gravity="center_vertical|start" />
+
+        <RadioButton
             android:textColor="@color/importantText"
             android:textSize="12sp"
-            android:text="@string/vs4"
-            android:layout_weight="1"
-            android:layout_gravity="center_vertical|fill"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical|clip_vertical"
-            android:textScaleX=".9"
-            android:maxLines="2" />
-
-        <CheckBox
+            android:text="@string/ms3"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:id="@+id/appraisalStat3"
-            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:textScaleX=".9"
+            android:maxLines="2"
+            style="?android:attr/checkboxStyle"
+            android:gravity="center_vertical|clip_vertical|start"
+            android:layout_gravity="center_vertical|start" />
+
+        <RadioButton
             android:textColor="@color/importantText"
             android:textSize="12sp"
-            android:text="@string/vs3"
-            android:layout_weight="1"
-            android:layout_gravity="center_vertical|fill"
-            android:scrollHorizontally="false"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical|clip_vertical"
-            android:textScaleX=".9"
-            android:maxLines="2" />
-
-        <CheckBox
+            android:text="@string/ms2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:id="@+id/appraisalStat2"
-            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:textScaleX=".9"
+            android:maxLines="2"
+            style="?android:attr/checkboxStyle"
+            android:gravity="center_vertical|clip_vertical|start"
+            android:layout_gravity="center_vertical|start" />
+
+        <RadioButton
             android:textColor="@color/importantText"
             android:textSize="12sp"
-            android:text="@string/vs2"
-            android:layout_weight="1"
-            android:layout_gravity="center_vertical|fill"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical|clip_vertical"
-            android:textScaleX=".9"
-            android:maxLines="2" />
-
-        <CheckBox
+            android:text="@string/ms1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:id="@+id/appraisalStat1"
-            android:layout_width="0dp"
-            android:textColor="@color/importantText"
-            android:textSize="12sp"
-            android:text="@string/vs1"
             android:layout_weight="1"
-            android:layout_gravity="center_vertical|fill"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical|clip_vertical"
             android:textScaleX=".9"
-            android:maxLines="2" />
+            android:maxLines="2"
+            style="?android:attr/checkboxStyle"
+            android:gravity="center_vertical|clip_vertical|start"
+            android:layout_gravity="center_vertical|start" />
 
+    </RadioGroup>
 
-    </LinearLayout>
 
 
 </LinearLayout>

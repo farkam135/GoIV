@@ -35,6 +35,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -51,6 +52,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -275,18 +278,20 @@ public class Pokefly extends Service {
     @BindView(R.id.exResPokeSpam)
     TextView exResPokeSpam;
 
-    
+
     // Refine by appraisal
+    @BindView(R.id.appraisalRangeGroup)
+    RadioGroup appraisalRangeGroup;
 
     @BindView(R.id.appraisalRange4)
-    CheckBox appraisalRange4;
+    RadioButton appraisalRange4;
     @BindView(R.id.appraisalRange3)
-    CheckBox appraisalRange3;
+    RadioButton appraisalRange3;
     @BindView(R.id.appraisalRange2)
-    CheckBox appraisalRange2;
+    RadioButton appraisalRange2;
     @BindView(R.id.appraisalRange1)
-    CheckBox appraisalRange1;
-    
+    RadioButton appraisalRange1;
+
     @BindView(R.id.attCheckbox)
     CheckBox attCheckbox;
     @BindView(R.id.defCheckbox)
@@ -294,15 +299,18 @@ public class Pokefly extends Service {
     @BindView(R.id.staCheckbox)
     CheckBox staCheckbox;
 
+    @BindView(R.id.appraisalStatGroup)
+    RadioGroup appraisalStatGroup;
+
     @BindView(R.id.appraisalStat4)
-    CheckBox appraisalStat4;
+    RadioButton appraisalStat4;
     @BindView(R.id.appraisalStat3)
-    CheckBox appraisalStat3;
+    RadioButton appraisalStat3;
     @BindView(R.id.appraisalStat2)
-    CheckBox appraisalStat2;
+    RadioButton appraisalStat2;
     @BindView(R.id.appraisalStat1)
-    CheckBox appraisalStat1;
-    
+    RadioButton appraisalStat1;
+
 
     @BindView(R.id.positionHandler)
     ImageView positionHandler;
@@ -1290,12 +1298,10 @@ public class Pokefly extends Service {
             ivScanResult.refineByHighest(attCheckbox.isChecked(), defCheckbox.isChecked(), staCheckbox.isChecked());
         }
 
-        if (anyAppraisalIVRangeIsSelected()) {
-            ivScanResult.refineByAppraisalPercentageRange(getSelectedAppraiseIVRangeValue());
-        }
-        if (anyAppraisalStatRangeIsSelected()) {
-            ivScanResult.refineByAppraisalIVRange(getSelectedAppraiseStatRangeValue());
-        }
+        ivScanResult.refineByAppraisalPercentageRange(getSelectedAppraiseIVRangeValue());
+
+        ivScanResult.refineByAppraisalIVRange(getSelectedAppraiseStatRangeValue());
+
     }
 
     /**
@@ -1322,7 +1328,7 @@ public class Pokefly extends Service {
     /**
      * Returns which value the user has selected related to the appraisal iv % range.
      *
-     * @returna number corresponding to which appraisalrange is selected.
+     * @return a number corresponding to which appraisalrange is selected.
      */
     private int getSelectedAppraiseIVRangeValue() {
         if (appraisalRange1.isChecked()) {
@@ -1340,23 +1346,6 @@ public class Pokefly extends Service {
         return 0;
     }
 
-    /**
-     * Checks if user has pressed any of the checkboxes related to iv % range.
-     * @return true if any is pressed.
-     */
-    private boolean anyAppraisalIVRangeIsSelected() {
-        return (appraisalRange1.isChecked() || appraisalRange2.isChecked() || appraisalRange3.isChecked()
-                || appraisalRange4.isChecked());
-    }
-
-    /**
-     * Checks if user has pressed any of the checkboxes related to iv stat range.
-     * @return true if any is pressed.
-     */
-    private boolean anyAppraisalStatRangeIsSelected() {
-        return (appraisalStat1.isChecked() || appraisalStat2.isChecked() || appraisalStat3.isChecked()
-                || appraisalStat4.isChecked());
-    }
 
     /**
      * Adds the iv range of the pokemon to the clipboard if the clipboard setting is on.
@@ -2081,5 +2070,5 @@ public class Pokefly extends Service {
         return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
     }
 
-    
+
 }

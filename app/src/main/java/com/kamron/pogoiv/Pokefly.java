@@ -1556,14 +1556,14 @@ public class Pokefly extends Service {
         double maxCP = pokeInfoCalculator.getCpRangeAtLevel(selectedPokemon,
                 IVCombination.MAX, IVCombination.MAX, 40).high;
         double perfection = (100.0 * cpRange.getFloatingAvg()) / maxCP;
-        int difference = (int)(cpRange.getFloatingAvg() - maxCP);
+        int difference = (int) (cpRange.getFloatingAvg() - maxCP);
         DecimalFormat df = new DecimalFormat("#.#");
         String sign = "";
         if (difference >= 0) {
             sign = "+";
         }
         String differenceString = "(" + sign + difference + ")";
-        String perfectionString = df.format(perfection) + "% "  + differenceString;
+        String perfectionString = df.format(perfection) + "% " + differenceString;
         exResultPercentPerfection.setText(perfectionString);
     }
 

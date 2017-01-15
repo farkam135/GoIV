@@ -16,8 +16,10 @@ import com.kamron.pogoiv.logic.PokeInfoCalculator;
  */
 
 public class MixedUnicodeToken extends ClipboardToken {
-    private String[] unicode_0_15 = {"⓪", "①", "②", "③", "④", "⑤", "⑥", "⑦", "⑧", "⑨", "⑩", "⑪", "⑫", "⑬", "⑭", "⑮"};
-    private String[] unicode_0_15filled = {"⓿", "❶", "❷", "❸", "❹", "❺", "❻", "❼", "❽", "❾", "❿", "⓫", "⓬", "⓭", "⓮", "⓯"};
+    private String[] unicode_0_15 = {"⓪", "①", "②", "③", "④", "⑤", "⑥", "⑦",
+                                     "⑧", "⑨", "⑩", "⑪", "⑫", "⑬", "⑭", "⑮"};
+    private String[] unicode_0_15filled = {"⓿", "❶", "❷", "❸", "❹", "❺", "❻", "❼",
+                                           "❽", "❾", "❿", "⓫", "⓬", "⓭", "⓮", "⓯"};
     private boolean filled;
 
     /**
@@ -55,8 +57,7 @@ public class MixedUnicodeToken extends ClipboardToken {
             attToUse = (lowest.att == highest.att) ? unicode_0_15filled : unicode_0_15;
             defToUse = (lowest.def == highest.def) ? unicode_0_15filled : unicode_0_15;
             staToUse = (lowest.sta == highest.sta) ? unicode_0_15filled : unicode_0_15;
-        }
-        else {
+        } else {
             attToUse = (lowest.att == highest.att) ? unicode_0_15 : unicode_0_15filled;
             defToUse = (lowest.def == highest.def) ? unicode_0_15 : unicode_0_15filled;
             staToUse = (lowest.sta == highest.sta) ? unicode_0_15 : unicode_0_15filled;
@@ -70,9 +71,9 @@ public class MixedUnicodeToken extends ClipboardToken {
             return "";
         }
 
-        return attToUse[lowestIVCombination.att] +
-                defToUse[lowestIVCombination.def] +
-                staToUse[lowestIVCombination.sta];
+        return attToUse[lowestIVCombination.att]
+                + defToUse[lowestIVCombination.def]
+                + staToUse[lowestIVCombination.sta];
 
     }
 

@@ -141,15 +141,56 @@ public class OcrHelper {
      */
     private double getPokemonLevelFromImg(Bitmap pokemonImage, int trainerLevel) {
         double estimatedPokemonLevel = Data.trainerLevelToMaxPokeLevel(trainerLevel);
+        double previousEstPokemonLevel = estimatedPokemonLevel + 0.5; // Initial value out of range
+        int previousLevelDistance = -1; // Initial value indicating no found white pixels
         for (double estPokemonLevel = estimatedPokemonLevel; estPokemonLevel >= 1.0; estPokemonLevel -= 0.5) {
             int index = Data.levelToLevelIdx(estPokemonLevel);
             int x = Data.arcX[index];
             int y = Data.arcY[index];
-            if (pokemonImage.getPixel(x, y) == Color.rgb(255, 255, 255)) {
-                return estPokemonLevel;
+            int whiteLineDistance = getCardinalWhiteLineDistFromImg(pokemonImage, x, y);
+
+            // If we found a lower white line distance than our last calculation, last calculation was best match.
+            // If the actual level is 1.0, we fall out to the default case below the for loop.
+            if (whiteLineDistance < previousLevelDistance) {
+                return previousEstPokemonLevel;
             }
+
+            // Have not passed the best match yet; store current values for next loop cycle
+            previousEstPokemonLevel = estPokemonLevel;
+            previousLevelDistance = whiteLineDistance;
         }
         return 1;
+    }
+
+    /**
+     * Examines the image from the given coordinates to determine the distance which is
+     * consistently white pixels in ALL cardinal directions. This helps identify the point
+     * closest to the center of the level indicator dot.
+     *
+     * @param pokemonImage The image of the entire screen
+     * @param x Horizontal ordinate to scan from
+     * @param y Vertical ordinate to scan from
+     * @return -1 if the given coordinate is not a white pixel, otherwise the distance from given
+     * coordinate which is white in each cardinal direction.
+     */
+    private int getCardinalWhiteLineDistFromImg(Bitmap pokemonImage, int x, int y) {
+        // Base case of not matching
+        if (pokemonImage.getPixel(x, y) != Color.rgb(255, 255, 255)) {
+            return -1;
+        }
+
+        int d = 0; // Distance we have successfully searched for white pixels.
+        while (true) {
+            // If any pixel this distance is not white, return our successful search distance
+            if (pokemonImage.getPixel(x + d, y) != Color.rgb(255, 255, 255)
+                    || pokemonImage.getPixel(x - d, y) != Color.rgb(255, 255, 255)
+                    || pokemonImage.getPixel(x, y + d) != Color.rgb(255, 255, 255)
+                    || pokemonImage.getPixel(x, y - d) != Color.rgb(255, 255, 255)) {
+                return d;
+            }
+
+            d++;
+        }
     }
 
     /**

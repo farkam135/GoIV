@@ -168,34 +168,34 @@
     <string name="copy_to_clip_show_toast_setting">Show clipboard preview popup</string>
 
     <!-- Team mystic appraisal strings mv for iv % and ms for strongest stat range-->
-    <string name="mv4">Headway</string>
-    <string name="mv3">Average</string>
-    <string name="mv2">Caught</string>
-    <string name="mv1">Wonder</string>
-    <string name="ms4">The norm</string>
-    <string name="ms3">Positive</string>
-    <string name="ms2">Impre..</string>
-    <string name="ms1">Incredible</string>
+    <string name="mv4">not likely headway</string>
+    <string name="mv3">above average</string>
+    <string name="mv2">caught attention</string>
+    <string name="mv1">wonder breathtaking</string>
+    <string name="ms4">out of\nthe norm</string>
+    <string name="ms3">trending..\npositive</string>
+    <string name="ms2">impress..\nmust say</string>
+    <string name="ms1">exceed..\nincred..</string>
 
 
     <!-- Team valor appraisal strings mv for iv % and ms for strongest stat range-->
-    <string name="vv4">Like</string>
-    <string name="vv3">Dece..</string>
-    <string name="vv2">Proud</string>
-    <string name="vv1">Amaze</string>
-    <string name="vs4">Point</string>
-    <string name="vs3">Done</string>
-    <string name="vs2">Excit..</string>
-    <string name="vs1">WOW</string>
+    <string name="vv4">not great\nstill like</string>
+    <string name="vv3">decent pokemon</string>
+    <string name="vv2">strong..\nbe proud</string>
+    <string name="vv1">amazes.. accomplish</string>
+    <string name="vs4">not greatness</string>
+    <string name="vs3">get the job done</string>
+    <string name="vs2">excellent\nexciting</string>
+    <string name="vs1">blown away\nWOW!</string>
 
 
     <!-- Team instinct appraisal strings mv for iv % and ms for strongest stat range-->
-    <string name="iv4">Battl..</string>
-    <string name="iv3">Decent</string>
-    <string name="iv2">Strong</string>
-    <string name="iv1">Best</string>
-    <string name="is4">Basic</string>
-    <string name="is3">Good</string>
-    <string name="is2">Strong</string>
-    <string name="is1">Best</string>
+    <string name="iv4">room for improvement</string>
+    <string name="iv3">pretty decent</string>
+    <string name="iv2">really strong</string>
+    <string name="iv1">battle best of them</string>
+    <string name="is4">all right.. basic</string>
+    <string name="is3">good stats definitely</string>
+    <string name="is2">strong..\nimpressive</string>
+    <string name="is1">best ..\nno doubt</string>
 </resources>

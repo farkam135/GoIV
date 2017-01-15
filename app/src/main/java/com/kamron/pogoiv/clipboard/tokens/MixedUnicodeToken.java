@@ -16,16 +16,17 @@ import com.kamron.pogoiv.logic.PokeInfoCalculator;
  */
 
 public class MixedUnicodeToken extends ClipboardToken {
-    private String[] unicode_0_15 = {"⓪", "①", "②", "③", "④", "⑤", "⑥", "⑦",
-                                     "⑧", "⑨", "⑩", "⑪", "⑫", "⑬", "⑭", "⑮"};
-    private String[] unicode_0_15filled = {"⓿", "❶", "❷", "❸", "❹", "❺", "❻", "❼",
-                                           "❽", "❾", "❿", "⓫", "⓬", "⓭", "⓮", "⓯"};
-    private boolean filled;
+    private final String[] unicode_0_15 = {"⓪", "①", "②", "③", "④", "⑤", "⑥", "⑦",
+                                           "⑧", "⑨", "⑩", "⑪", "⑫", "⑬", "⑭", "⑮"};
+    private final String[] unicode_0_15filled = {"⓿", "❶", "❷", "❸", "❹", "❺", "❻", "❼",
+                                                 "❽", "❾", "❿", "⓫", "⓬", "⓭", "⓮", "⓯"};
+    private final boolean filled;
 
     /**
      * Define which of the unicode character sets is the "default" set.  In this token, the default
-     * set will be the one that is used for single-result values.  The Non-default unicode character
-     * set will be used for multi-result values (showing lowest)
+     * set will be the one that is used when the stat value is comprised of only one value (ie: all attack stats are
+     * 14).  The Non-default unicode character set will be used for multi-result values (ie: if defense ranges from
+     * 7-10, the non-default character set will be used to show 7 for defense).
      * @param filled boolean indicating user preference for exact-match characters.
      */
     public MixedUnicodeToken(boolean filled) {
@@ -40,32 +41,58 @@ public class MixedUnicodeToken extends ClipboardToken {
 
     @Override
     public String getValue(IVScanResult ivScanResult, PokeInfoCalculator pokeInfoCalculator) {
-        //Get the absolute lowest stats for each att/def/sta
-        IVCombination lowest = ivScanResult.getAbsoluteLowestStats();
-        //Get the absolute highest stats for each att/def/sta
-        IVCombination highest = ivScanResult.getAbsoluteHighestStats();
+        //Initialize the lowest and highest of each stat
+        int lowestAttackStat = 15;
+        int lowestDefenseStat = 15;
+        int lowestStaminaStat = 15;
+        int highestAttackStat = 0;
+        int highestDefenseStat = 0;
+        int highestStaminaStat = 0;
 
-        if ((lowest == null) || (highest == null)) {
-            return "";
+        //Loop through all iVCombinations to find the lowest of each stat
+        for (IVCombination ivc : ivScanResult.iVCombinations) {
+            // Save the lowest and highest attackIV of any Combination
+            if (ivc.att < lowestAttackStat) {
+                lowestAttackStat = ivc.att;
+            }
+            if (ivc.att > highestAttackStat) {
+                highestAttackStat = ivc.att;
+            }
+            // Save the lowest and highest defenseIV of any Combination
+            if (ivc.def < lowestDefenseStat) {
+                lowestDefenseStat = ivc.def;
+            }
+            if (ivc.def > highestDefenseStat) {
+                highestDefenseStat = ivc.def;
+            }
+            // Save the lowest and highest staminaIV of any Combination
+            if (ivc.sta < lowestStaminaStat) {
+                lowestStaminaStat = ivc.sta;
+            }
+            if (ivc.sta > highestStaminaStat) {
+                highestStaminaStat = ivc.sta;
+            }
         }
 
+        //Since each stat will have it's own unicode character set, we initialize one for each
         String[] attToUse;
         String[] defToUse;
         String[] staToUse;
 
+        //If the user setting is set to filled, then use filled characters for exact matches,
+        //otherwise, use the empty characters for exact matches.
         if (filled) {
-            attToUse = (lowest.att == highest.att) ? unicode_0_15filled : unicode_0_15;
-            defToUse = (lowest.def == highest.def) ? unicode_0_15filled : unicode_0_15;
-            staToUse = (lowest.sta == highest.sta) ? unicode_0_15filled : unicode_0_15;
+            attToUse = (lowestAttackStat == highestAttackStat) ? unicode_0_15filled : unicode_0_15;
+            defToUse = (lowestDefenseStat == highestDefenseStat) ? unicode_0_15filled : unicode_0_15;
+            staToUse = (lowestStaminaStat == highestStaminaStat) ? unicode_0_15filled : unicode_0_15;
         } else {
-            attToUse = (lowest.att == highest.att) ? unicode_0_15 : unicode_0_15filled;
-            defToUse = (lowest.def == highest.def) ? unicode_0_15 : unicode_0_15filled;
-            staToUse = (lowest.sta == highest.sta) ? unicode_0_15 : unicode_0_15filled;
+            attToUse = (lowestAttackStat == highestAttackStat) ? unicode_0_15 : unicode_0_15filled;
+            defToUse = (lowestDefenseStat == highestDefenseStat) ? unicode_0_15 : unicode_0_15filled;
+            staToUse = (lowestStaminaStat == highestStaminaStat) ? unicode_0_15 : unicode_0_15filled;
         }
 
         //We still need to get thew lowest combination when showing the final result, but this time
-        //each unicode character will be filled or empty depending on whether multiple or exact values
-        //were calculated for each stat.
+        //the unicode character set to use is controlled by whether each stat is exactly known or multiple values
         IVCombination lowestIVCombination = ivScanResult.getLowestIVCombination();
         if (lowestIVCombination == null) {
             return "";
@@ -74,7 +101,6 @@ public class MixedUnicodeToken extends ClipboardToken {
         return attToUse[lowestIVCombination.att]
                 + defToUse[lowestIVCombination.def]
                 + staToUse[lowestIVCombination.sta];
-
     }
 
     @Override

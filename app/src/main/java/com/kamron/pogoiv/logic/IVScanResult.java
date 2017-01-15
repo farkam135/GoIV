@@ -32,12 +32,6 @@ public class IVScanResult {
     public int highAttack = 0;
     public int highDefense = 0;
     public int highStamina = 0;
-    int lowestAttackStat = 15;
-    int lowestDefenseStat = 15;
-    int lowestStaminaStat = 15;
-    int highestAttackStat = 0;
-    int highestDefenseStat = 0;
-    int highestStaminaStat = 0;
     public final int scannedCP;
     public ArrayList<IVCombination> iVCombinations = new ArrayList<>();
     public Pokemon pokemon = null;
@@ -123,28 +117,6 @@ public class IVScanResult {
             highStamina = staminaIV;
         }
 
-        // Save the lowest and highest attackIV of any Combination
-        if (attackIV < lowestAttackStat) {
-            lowestAttackStat = attackIV;
-        }
-        if (attackIV > highestAttackStat) {
-            highestAttackStat = attackIV;
-        }
-        // Save the lowest and highest defenseIV of any Combination
-        if (defenseIV < lowestDefenseStat) {
-            lowestDefenseStat = defenseIV;
-        }
-        if (defenseIV > highestDefenseStat) {
-            highestDefenseStat = defenseIV;
-        }
-        // Save the lowest and highest staminaIV of any Combination
-        if (staminaIV < lowestStaminaStat) {
-            lowestStaminaStat = staminaIV;
-        }
-        if (staminaIV > highestStaminaStat) {
-            highestStaminaStat = staminaIV;
-        }
-
         iVCombinations.add(new IVCombination(attackIV, defenseIV, staminaIV));
     }
 
@@ -184,27 +156,6 @@ public class IVScanResult {
     public IVCombination getCombinationLowIVs() {
         return new IVCombination(lowAttack, lowDefense, lowStamina);
     }
-
-    /**
-     * Return the list of the absolute lowest of each of the three statistics.  This set does not
-     * represent a valid IVCombination, since each of the values returned may not have came from
-     * the same IV Combination, or the LowestIVCombination for that matter.
-     * @return an array representing the lowest of each stat, regardless of combination
-     */
-    public IVCombination getAbsoluteLowestStats() {
-        return new IVCombination(lowestAttackStat, lowestDefenseStat, lowestStaminaStat);
-    }
-
-    /**
-     * Return the list of the absolute highest of each of the three statistics.  This set does not
-     * represent a valid IVCombination, since each of the values returned may not have came from
-     * the same IV Combination, or the HighestIVCombination for that matter
-     * @return an array representing the highest of each stat, regardless of combination
-     */
-    public IVCombination getAbsoluteHighestStats() {
-        return new IVCombination(highestAttackStat, highestDefenseStat, highestStaminaStat);
-    }
-
 
     /**
      * Removes all possible IV combinations where the boolean set to true stat isnt the highest.

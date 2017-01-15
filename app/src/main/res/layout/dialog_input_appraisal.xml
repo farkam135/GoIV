@@ -1,80 +1,205 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-    android:paddingLeft="22dp"
-    android:paddingRight="22dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:layout_marginBottom="12dp">
 
-    <LinearLayout
+
+
+    <RadioGroup
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:id="@+id/appraisalRangeGroup"
+        android:padding="2dp">
+
+        <RadioButton
+            android:textColor="@color/importantText"
+            android:textSize="12sp"
+            android:text="@string/mv4"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:id="@+id/appraisalRange4"
+            android:layout_weight="1"
+            android:textScaleX=".9"
+            android:maxLines="2"
+            style="?android:attr/checkboxStyle"
+            android:gravity="center_vertical|clip_vertical|start"
+            android:layout_gravity="center_vertical|start" />
+
+        <RadioButton
+            android:textColor="@color/importantText"
+            android:textSize="12sp"
+            android:text="@string/mv3"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:id="@+id/appraisalRange3"
+            android:layout_weight="1"
+            android:textScaleX=".9"
+            android:maxLines="2"
+            style="?android:attr/checkboxStyle"
+            android:gravity="center_vertical|clip_vertical|start"
+            android:layout_gravity="center_vertical|start" />
+
+        <RadioButton
+            android:textColor="@color/importantText"
+            android:textSize="12sp"
+            android:text="@string/mv2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:id="@+id/appraisalRange2"
+            android:layout_weight="1"
+            android:textScaleX=".9"
+            android:maxLines="2"
+            style="?android:attr/checkboxStyle"
+            android:gravity="center_vertical|clip_vertical|start"
+            android:layout_gravity="center_vertical|start" />
+
+        <RadioButton
+            android:textColor="@color/importantText"
+            android:textSize="12sp"
+            android:text="@string/mv1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:id="@+id/appraisalRange1"
+            android:layout_weight="1"
+            android:textScaleX=".9"
+            android:maxLines="2"
+            style="?android:attr/checkboxStyle"
+            android:gravity="center_vertical|clip_vertical|start"
+            android:layout_gravity="center_vertical|start" />
+
+    </RadioGroup>
+
+
+
+    <LinearLayout
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layoutDirection="ltr"
+        android:padding="2dp">
 
-        <Spinner
-            android:layout_width="match_parent"
+
+        <CheckBox
+            android:id="@+id/attCheckbox"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:id="@+id/appraisalPercentageRange"/>
+            android:textColor="@color/importantText"
+            android:textSize="13sp"
+            android:text="@string/attack"
+            android:maxLines="1"
+            android:layout_weight="1"
+            android:gravity="center_vertical|clip_vertical|start"
+            android:layout_gravity="center_vertical|start" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
+        <CheckBox
+            android:id="@+id/defCheckbox"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:orientation="horizontal">
+            android:textColor="@color/importantText"
+            android:textSize="13sp"
+            android:text="@string/defense"
+            android:maxLines="1"
+            android:layout_weight="1"
+            android:gravity="center_vertical|clip_vertical|start"
+            android:layout_gravity="center_vertical|start" />
 
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                />
-            <CheckBox
-                android:id="@+id/attCheckbox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/importantText"
-                android:text="@string/attack"/>
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                />
-            <CheckBox
-                android:id="@+id/defCheckbox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/importantText"
-                android:text="@string/defense"/>
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                />
-            <CheckBox
-                android:id="@+id/staCheckbox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/importantText"
-                android:text="@string/stamina_hp"/>
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                />
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="8dp"
-                />
-
-        </LinearLayout>
-
-        <Spinner
-            android:layout_width="match_parent"
+        <CheckBox
+            android:id="@+id/staCheckbox"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:id="@+id/appraisalIvRange"/>
+            android:textColor="@color/importantText"
+            android:textSize="13sp"
+            android:text="@string/stamina_hp"
+            android:maxLines="1"
+            android:layout_weight="1"
+            android:gravity="center_vertical|clip_vertical|start"
+            android:layout_gravity="center_vertical|start" />
+
+        <CheckBox
+            android:id="@+id/unused_checkBox"
+            android:text=""
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:visibility="invisible"
+            android:textSize="13sp"
+            android:gravity="center_vertical|clip_vertical|start"
+            android:layout_gravity="center_vertical|start" />
+
+
     </LinearLayout>
+
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:id="@+id/appraisalStatGroup"
+        android:padding="2dp">
+
+        <RadioButton
+            android:textColor="@color/importantText"
+            android:textSize="12sp"
+            android:text="@string/ms4"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:id="@+id/appraisalStat4"
+            android:layout_weight="1"
+            android:textScaleX=".9"
+            android:maxLines="2"
+            style="?android:attr/checkboxStyle"
+            android:gravity="center_vertical|clip_vertical|start"
+            android:layout_gravity="center_vertical|start" />
+
+        <RadioButton
+            android:textColor="@color/importantText"
+            android:textSize="12sp"
+            android:text="@string/ms3"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:id="@+id/appraisalStat3"
+            android:layout_weight="1"
+            android:textScaleX=".9"
+            android:maxLines="2"
+            style="?android:attr/checkboxStyle"
+            android:gravity="center_vertical|clip_vertical|start"
+            android:layout_gravity="center_vertical|start" />
+
+        <RadioButton
+            android:textColor="@color/importantText"
+            android:textSize="12sp"
+            android:text="@string/ms2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:id="@+id/appraisalStat2"
+            android:layout_weight="1"
+            android:textScaleX=".9"
+            android:maxLines="2"
+            style="?android:attr/checkboxStyle"
+            android:gravity="center_vertical|clip_vertical|start"
+            android:layout_gravity="center_vertical|start" />
+
+        <RadioButton
+            android:textColor="@color/importantText"
+            android:textSize="12sp"
+            android:text="@string/ms1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:id="@+id/appraisalStat1"
+            android:layout_weight="1"
+            android:textScaleX=".9"
+            android:maxLines="2"
+            style="?android:attr/checkboxStyle"
+            android:gravity="center_vertical|clip_vertical|start"
+            android:layout_gravity="center_vertical|start" />
+
+    </RadioGroup>
+
+
 
 </LinearLayout>

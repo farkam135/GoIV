@@ -86,8 +86,8 @@ public class ClipboardTokenCollection {
         //Unicode iv representations
         tokens.add(new UnicodeToken(false)); //Unicode iv circled numbers not filled in ex ⑦⑦⑦
         tokens.add(new UnicodeToken(true));//Unicode iv circled numbers  filled in black ex ⓿⓿⓿
-        tokens.add(new MixedUnicodeToken(false)); //Mixed Unicode IV circled numbers, empty exact, filled multiple ex ⑦⓿⑦
-        tokens.add(new MixedUnicodeToken(true)); //Mixed Unicode IV circled numbers, filled exact, empty multiple ex ⓿⓿⑦
+        tokens.add(new MixedUnicodeToken(false)); //Mixed Unicode IV, empty exact, filled multiple ex ⑦⓿⑦
+        tokens.add(new MixedUnicodeToken(true)); //Mixed Unicode IV, filled exact, empty multiple ex ⓿⓿⑦
         tokens.add(new HexIVToken()); //hex representation of iv (ex A4B)
         /////////////////////////////////////////////////////////
 

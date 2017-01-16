@@ -120,4 +120,37 @@
     <string name="wrong_pokemon_name_input">\" wurde nicht gefunden.\"</string>
     <string name="manual_screenshot_mode_setting_summary">Um Batterie zu sparen scanne Screenshots anstelle der automatischen Erkennung. Diese Einstellung muss für Android &lt;= Kitak (4.4) verwendet werden</string>
     <string name="confirmation_dialog_setting_summary">Manuelles anpassen der Pokémon-Informationen bevor IV Berechnung erlauben</string>
+	
+	   <!-- Team mystic appraisal strings mv for iv % and ms for strongest stat range-->
+    <string name="mv4">keine… Fortschr…</string>
+    <string name="mv3">ein gutes Pokémon</string>
+    <string name="mv2">wirklich aufgefall…</string>
+    <string name="mv1">atember… Exemplar</string>
+    <string name="ms4">insgesamt ganz okay</string>
+    <string name="ms3">recht beeindr…</string>
+    <string name="ms2">Werten …beeindr…</string>
+    <string name="ms1">Unglaublich!</string>
+
+
+    <!-- Team valor appraisal strings mv for iv % and ms for strongest stat range-->
+    <string name="vv4">mag es trotzdem</string>
+    <string name="vv3">ganz gut!</string>
+    <string name="vv2">sehr stark …stolz</string>
+    <string name="vv1">total beeindr…</string>
+    <string name="vs4">nicht viel bringen</string>
+    <string name="vs3">schlechten Eltern!</string>
+    <string name="vs2">Wie aufregend</string>
+    <string name="vs1">WOW!</string>
+
+
+    <!-- Team instinct appraisal strings mv for iv % and ms for strongest stat range-->
+    <string name="iv4">noch verbess…</string>
+    <string name="iv3">…ganz gut.</string>
+    <string name="iv2">…wirklich stark!</string>
+    <string name="iv1">mit allen aufneh…</string>
+    <string name="is4">…sind okay.</string>
+    <string name="is3">…sehen lassen</string>
+    <string name="is2">Hut ab!</string>
+    <string name="is1">die besten …gesehen</string>
+	
 </resources>

@@ -117,7 +117,6 @@ public class IVScanResult {
             highStamina = staminaIV;
         }
 
-
         iVCombinations.add(new IVCombination(attackIV, defenseIV, staminaIV));
     }
 

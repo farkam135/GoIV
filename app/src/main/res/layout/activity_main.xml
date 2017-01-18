@@ -34,6 +34,7 @@
             android:layout_height="100dp"
             android:gravity="end"
             android:inputType="number"
+            android:descendantFocusability="blocksDescendants"
             android:textAlignment="center"/>
 
         <Spinner

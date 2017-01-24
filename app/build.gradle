@@ -138,6 +138,7 @@ dependencies {
     compile 'com.jakewharton.timber:timber:4.3.0'
     compile 'com.rmtheis:tess-two:6.1.1'
     compile 'io.apptik.widget:multislider:1.2'
+    compile 'com.pavelsikun:material-seekbar-preference:2.3.0'
     provided 'org.projectlombok:lombok:1.16.10'
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
     apt "org.projectlombok:lombok:1.16.10"

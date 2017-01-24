@@ -572,7 +572,8 @@ public class Pokefly extends Service {
 
         if (pixels != null) {
             boolean shouldShow =
-                    pixels[0] == Color.rgb(250, 250, 250) && pixels[1] == Color.rgb(28, 135, 150);
+                    ( pixels[0] == Color.rgb(250, 250, 250) || pixels[0] == Color.rgb(249, 249, 249) )
+                            && pixels[1] == Color.rgb(28, 135, 150);
             setIVButtonDisplay(shouldShow);
             return shouldShow;
         }

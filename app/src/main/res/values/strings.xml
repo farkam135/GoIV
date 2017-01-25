@@ -167,6 +167,7 @@
     <string name="copy_to_clip_show_toast_setting_summary">Show a preview of what is copied to the clipboard in a small popup</string>
     <string name="copy_to_clip_show_toast_setting">Show clipboard preview popup</string>
     <string name="autoAppraisalScanDelay_title">Auto appraisal delay</string>
+    <string name="autoAppraisalScanDelay_summary">How long to wait for the appraisal text animation to end. Budget phones might need a 800 ms delay.</string>
 
     <!-- Team mystic appraisal strings mv for iv % and ms for strongest stat range-->
     <string name="mv4">not likely headway</string>

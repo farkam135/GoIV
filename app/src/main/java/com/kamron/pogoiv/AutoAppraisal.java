@@ -148,7 +148,10 @@ public class AutoAppraisal {
      * @param hash the hash of the bitmap used by ocr
      */
     private void addInfoFromAppraiseText(String appraiseText, String hash) {
-        boolean match = setIVRangeWith(appraiseText);
+        boolean match = false;
+        if (appraisalRangeGroup.getCheckedRadioButtonId() == -1) {
+            match = setIVRangeWith(appraiseText);
+        }
         if (!match) {
             match = setHighestStatsWith(appraiseText);
         }

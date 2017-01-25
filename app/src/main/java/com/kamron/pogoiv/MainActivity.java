@@ -507,9 +507,8 @@ public class MainActivity extends AppCompatActivity {
             if (screen != null) {
                 screen.exit();
             }
-        } else { // If Pokefly is not running, we probably have a Paused Notification to clear away
-            Pokefly.cancelNotification();
         }
+        //TODO: if !Pokefly.isRunning(), clear the "paused" notification
         super.onDestroy();
     }
 

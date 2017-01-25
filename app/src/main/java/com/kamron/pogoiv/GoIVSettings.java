@@ -39,6 +39,7 @@ public class GoIVSettings {
     public static final String SHOW_TRANSLATED_POKEMON_NAME = "showTranslatedPokemonName";
     public static final String HAS_WARNED_USER_NO_SCREENREC = "GOIV_hasWarnedUserNoScreenRec";
     public static final String COPY_TO_CLIPBOARD_SHOW_TOAST = "copyToClipboardShowToast";
+    public static final String AUTO_APPRAISAL_SCAN_DELAY = "autoAppraisalScanDelay";
 
     private static GoIVSettings instance;
     private final SharedPreferences prefs;
@@ -169,6 +170,10 @@ public class GoIVSettings {
 
     public boolean shouldCopyToClipboardShowToast() {
         return prefs.getBoolean(COPY_TO_CLIPBOARD_SHOW_TOAST, true);
+    }
+
+    public int getAutoAppraisalScanDelay() {
+        return prefs.getInt(AUTO_APPRAISAL_SCAN_DELAY, 400);
     }
 
     public Map<String, String> loadAppraisalCache() {

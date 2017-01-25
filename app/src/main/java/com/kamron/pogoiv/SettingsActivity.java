@@ -121,6 +121,10 @@ public class SettingsActivity extends AppCompatActivity {
                 manualScreenshotModePreference.setDefaultValue(true);
                 manualScreenshotModePreference.setChecked(true);
                 manualScreenshotModePreference.setEnabled(false);
+                Preference autoAppraisalScanDelay = getPreferenceManager()
+                        .findPreference(GoIVSettings.AUTO_APPRAISAL_SCAN_DELAY);
+                PreferenceScreen preferenceScreen = getPreferenceScreen();
+                preferenceScreen.removePreference(autoAppraisalScanDelay);
             }
 
             //If strings support use_default_pokemonsname_as_ocrstring, display pref and set default ON

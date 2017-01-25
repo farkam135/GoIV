@@ -12,8 +12,6 @@ import android.widget.RadioGroup;
  */
 public class AutoAppraisal {
 
-    private static final int SCANDELAY = 800; //in milliseconds
-
     ScreenScan screenScanner = new ScreenScan(); //The runnable that keeps scanning the screen
     Handler handler = new Handler();
     private GoIVSettings settings;
@@ -23,6 +21,8 @@ public class AutoAppraisal {
     Context context;
 
     private int numTouches = 0;
+
+    private int scanDelay;
 
     //UI elements in pokefly to modify.
     CheckBox attCheckbox;
@@ -132,8 +132,10 @@ public class AutoAppraisal {
         numTouches++;
 
         if (numTouches > 2) {
+            // pickup possible changes
+            scanDelay = settings.getAutoAppraisalScanDelay();
             handler.removeCallbacks(screenScanner);
-            handler.postDelayed(screenScanner, SCANDELAY);
+            handler.postDelayed(screenScanner, scanDelay);
         }
     }
 

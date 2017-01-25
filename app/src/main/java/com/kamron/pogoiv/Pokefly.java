@@ -724,13 +724,6 @@ public class Pokefly extends Service {
     }
 
     /**
-     * Cancel the previously generated notification by Pokefly.
-     */
-    public static void cancelNotification() {
-        mNotifyMgr.cancel(NOTIFICATION_REQ_CODE);
-    }
-
-    /**
      * Undeprecated version of getDrawable using the most appropriate underlying API.
      *
      * @param id ID of drawable to get

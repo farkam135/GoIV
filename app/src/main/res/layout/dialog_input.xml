@@ -148,7 +148,7 @@
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="10dp"/>
+        android:layout_height="2dp"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -207,14 +207,14 @@
             android:paddingTop="0dp"
             android:paddingLeft="8dp"
             android:paddingRight="60dp"
-            android:paddingBottom="16dp"
+            android:paddingBottom="4dp"
             android:drawableRight="@drawable/ic_keyboard_arrow_right_blue_18dp"
             android:textSize="18sp"
             android:layout_gravity="center" />
     </LinearLayout>
 
     <include layout="@layout/dialog_input_appraisal"
-        android:visibility="gone"
+        android:visibility="visible"
         android:id="@+id/appraisalBox"/>
 
 </LinearLayout>

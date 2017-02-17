@@ -501,14 +501,6 @@ public class MainActivity extends AppCompatActivity {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(pokeflyStateChanged);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(showUpdateDialog);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(restartPokeFly);
-
-        if (Pokefly.isRunning()) {
-            stopService(new Intent(MainActivity.this, Pokefly.class));
-            if (screen != null) {
-                screen.exit();
-            }
-        }
-        // TODO: What if !Pokefly.isRunning()
         super.onDestroy();
     }
 

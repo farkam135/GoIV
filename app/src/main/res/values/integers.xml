@@ -166,7 +166,7 @@
         <item>79</item>  <!--Sentret-->
         <item>148</item> <!--Furret-->
         <item>67</item>  <!--Hoothoot-->
-        <item>161</item> <!--Noctowl-->
+        <item>145</item> <!--Noctowl-->
         <item>72</item>  <!--Ledyba-->
         <item>107</item> <!--Ledian-->
         <item>105</item> <!--Spinarak-->
@@ -178,7 +178,7 @@
         <item>75</item>  <!--Cleffa-->
         <item>69</item>  <!--Igglybuff-->
         <item>67</item>  <!--Togepi-->
-        <item>140</item> <!--Togetic-->
+        <item>139</item> <!--Togetic-->
         <item>134</item> <!--Natu-->
         <item>192</item> <!--Xatu-->
         <item>114</item> <!--Mareep-->
@@ -221,15 +221,15 @@
         <item>142</item> <!--Teddiursa-->
         <item>236</item> <!--Ursaring-->
         <item>118</item> <!--Slugma-->
-        <item>155</item> <!--Magcargo-->
+        <item>139</item> <!--Magcargo-->
         <item>90</item>  <!--Swinub-->
         <item>181</item> <!--Piloswine-->
         <item>118</item> <!--Corsola-->
         <item>127</item> <!--Remoraid-->
         <item>197</item> <!--Octillery-->
         <item>128</item> <!--Delibird-->
-        <item>149</item> <!--Mantine-->
-        <item>149</item> <!--Skarmory-->
+        <item>148</item> <!--Mantine-->
+        <item>148</item> <!--Skarmory-->
         <item>152</item> <!--Houndour-->
         <item>224</item> <!--Houndoom-->
         <item>194</item> <!--Kingdra-->
@@ -243,7 +243,7 @@
         <item>153</item> <!--Smoochum-->
         <item>135</item> <!--Elekid-->
         <item>151</item> <!--Magby-->
-        <item>158</item> <!--Miltank-->
+        <item>157</item> <!--Miltank-->
         <item>129</item> <!--Blissey-->
         <item>241</item> <!--Raikou-->
         <item>235</item> <!--Entei-->
@@ -407,7 +407,7 @@
         <item>138</item> <!--Dragonair-->
         <item>201</item> <!--Dragonite-->
         <item>200</item> <!--Mewtwo-->
-        <item>209</item> <!--Mew-->
+        <item>210</item> <!--Mew-->
         <!--gen 2-->
         <item>122</item> <!--Chikorita-->
         <item>155</item> <!--Bayleef-->
@@ -425,7 +425,7 @@
         <item>142</item> <!--Ledyba-->
         <item>209</item> <!--Ledian-->
         <item>73</item>  <!--Spinarak-->
-        <item>130</item> <!--Ariados-->
+        <item>128</item> <!--Ariados-->
         <item>178</item> <!--Crobat-->
         <item>106</item> <!--Chinchou-->
         <item>146</item> <!--Lanturn-->
@@ -468,7 +468,7 @@
         <item>333</item> <!--Steelix-->
         <item>89</item>  <!--Snubbull-->
         <item>137</item> <!--Granbull-->
-        <item>166</item> <!--Qwilfish-->
+        <item>148</item> <!--Qwilfish-->
         <item>191</item> <!--Scizor-->
         <item>396</item> <!--Shuckle-->
         <item>189</item> <!--Heracross-->
@@ -479,7 +479,7 @@
         <item>209</item> <!--Magcargo-->
         <item>74</item>  <!--Swinub-->
         <item>147</item> <!--Piloswine-->
-        <item>175</item> <!--Corsola-->
+        <item>156</item> <!--Corsola-->
         <item>69</item>  <!--Remoraid-->
         <item>141</item> <!--Octillery-->
         <item>90</item>  <!--Delibird-->
@@ -731,14 +731,14 @@
         <item>120</item> <!--Teddiursa-->
         <item>180</item> <!--Ursaring-->
         <item>80</item>  <!--Slugma-->
-        <item>120</item> <!--Magcargo-->
+        <item>100</item> <!--Magcargo-->
         <item>100</item> <!--Swinub-->
         <item>200</item> <!--Piloswine-->
-        <item>130</item> <!--Corsola-->
+        <item>110</item> <!--Corsola-->
         <item>70</item>  <!--Remoraid-->
         <item>150</item> <!--Octillery-->
         <item>90</item>  <!--Delibird-->
-        <item>170</item> <!--Mantine-->
+        <item>130</item> <!--Mantine-->
         <item>130</item> <!--Skarmory-->
         <item>90</item>  <!--Houndour-->
         <item>150</item> <!--Houndoom-->

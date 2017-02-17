@@ -1175,49 +1175,49 @@
         <item>-1</item>  <!--Mewtwo-->
         <item>-1</item>  <!--Mew-->
         <!--gen 2-->
-        <item>-1</item>  <!--Chikorita-->
-        <item>-1</item>  <!--Bayleef-->
+        <item>25</item>  <!--Chikorita-->
+        <item>100</item> <!--Bayleef-->
         <item>-1</item>  <!--Meganium-->
-        <item>-1</item>  <!--Cyndaquil-->
-        <item>-1</item>  <!--Quilava-->
+        <item>25</item>  <!--Cyndaquil-->
+        <item>100</item> <!--Quilava-->
         <item>-1</item>  <!--Typhlosio-->
-        <item>-1</item>  <!--Totodile-->
-        <item>-1</item>  <!--Croconaw-->
+        <item>25</item>  <!--Totodile-->
+        <item>100</item> <!--Croconaw-->
         <item>-1</item>  <!--Feraligat-->
-        <item>-1</item>  <!--Sentret-->
+        <item>25</item>  <!--Sentret-->
         <item>-1</item>  <!--Furret-->
-        <item>-1</item>  <!--Hoothoot-->
+        <item>50</item>  <!--Hoothoot-->
         <item>-1</item>  <!--Noctowl-->
-        <item>-1</item>  <!--Ledyba-->
+        <item>25</item>  <!--Ledyba-->
         <item>-1</item>  <!--Ledian-->
-        <item>-1</item>  <!--Spinarak-->
+        <item>50</item>  <!--Spinarak-->
         <item>-1</item>  <!--Ariados-->
         <item>-1</item>  <!--Crobat-->
-        <item>-1</item>  <!--Chinchou-->
+        <item>50</item>  <!--Chinchou-->
         <item>-1</item>  <!--Lanturn-->
         <item>25</item>  <!--Pichu-->
         <item>25</item>  <!--Cleffa-->
         <item>25</item>  <!--Igglybuff-->
         <item>50</item>  <!--Togepi-->
         <item>-1</item>  <!--Togetic-->
-        <item>-1</item>  <!--Natu-->
+        <item>50</item>  <!--Natu-->
         <item>-1</item>  <!--Xatu-->
-        <item>-1</item>  <!--Mareep-->
-        <item>-1</item>  <!--Flaaffy-->
+        <item>25</item>  <!--Mareep-->
+        <item>25</item>  <!--Flaaffy TODO: CONFIRM-->
         <item>-1</item>  <!--Ampharos-->
         <item>-1</item>  <!--Bellossom-->
-        <item>-1</item>  <!--Marill-->
+        <item>25</item>  <!--Marill-->
         <item>-1</item>  <!--Azumarill-->
         <item>-1</item>  <!--Sudowoodo-->
         <item>-1</item>  <!--Politoed-->
-        <item>-1</item>  <!--Hoppip-->
-        <item>-1</item>  <!--Skiploom-->
+        <item>25</item>  <!--Hoppip-->
+        <item>100</item> <!--Skiploom-->
         <item>-1</item>  <!--Jumpluff-->
         <item>-1</item>  <!--Aipom-->
-        <item>-1</item>  <!--Sunkern-->
+        <item>50</item>  <!--Sunkern-->
         <item>-1</item>  <!--Sunflora-->
         <item>-1</item>  <!--Yanma-->
-        <item>-1</item>  <!--Wooper-->
+        <item>50</item>  <!--Wooper-->
         <item>-1</item>  <!--Quagsire-->
         <item>-1</item>  <!--Espeon-->
         <item>-1</item>  <!--Umbreon-->
@@ -1227,34 +1227,34 @@
         <item>-1</item>  <!--Unown-->
         <item>-1</item>  <!--Wobbuffet-->
         <item>-1</item>  <!--Girafarig-->
-        <item>-1</item>  <!--Pineco-->
+        <item>50</item>  <!--Pineco-->
         <item>-1</item>  <!--Forretres-->
         <item>-1</item>  <!--Dunsparce-->
         <item>-1</item>  <!--Gligar-->
         <item>-1</item>  <!--Steelix-->
-        <item>-1</item>  <!--Snubbull-->
+        <item>50</item>  <!--Snubbull TODO: CONFIRM-->
         <item>-1</item>  <!--Granbull-->
         <item>-1</item>  <!--Qwilfish-->
         <item>-1</item>  <!--Scizor-->
         <item>-1</item>  <!--Shuckle-->
         <item>-1</item>  <!--Heracross-->
         <item>-1</item>  <!--Sneasel-->
-        <item>-1</item>  <!--Teddiursa-->
+        <item>50</item>  <!--Teddiursa-->
         <item>-1</item>  <!--Ursaring-->
-        <item>-1</item>  <!--Slugma-->
+        <item>50</item>  <!--Slugma-->
         <item>-1</item>  <!--Magcargo-->
-        <item>-1</item>  <!--Swinub-->
+        <item>50</item>  <!--Swinub TODO: CONFIRM-->
         <item>-1</item>  <!--Piloswine-->
         <item>-1</item>  <!--Corsola-->
-        <item>-1</item>  <!--Remoraid-->
+        <item>50</item>  <!--Remoraid-->
         <item>-1</item>  <!--Octillery-->
         <item>-1</item>  <!--Delibird-->
         <item>-1</item>  <!--Mantine-->
         <item>-1</item>  <!--Skarmory-->
-        <item>-1</item>  <!--Houndour-->
+        <item>50</item>  <!--Houndour-->
         <item>-1</item>  <!--Houndoom-->
         <item>-1</item>  <!--Kingdra-->
-        <item>-1</item>  <!--Phanpy-->
+        <item>50</item>  <!--Phanpy TODO: CONFIRM-->
         <item>-1</item>  <!--Donphan-->
         <item>-1</item>  <!--Porygon2-->
         <item>-1</item>  <!--Stantler-->
@@ -1269,8 +1269,8 @@
         <item>-1</item>  <!--Raikou-->
         <item>-1</item>  <!--Entei-->
         <item>-1</item>  <!--Suicune-->
-        <item>-1</item>  <!--Larvitar-->
-        <item>-1</item>  <!--Pupitar-->
+        <item>25</item>  <!--Larvitar-->
+        <item>100</item> <!--Pupitar-->
         <item>-1</item>  <!--Tyranitar-->
         <item>-1</item>  <!--Lugia-->
         <item>-1</item>  <!--Ho-oh-->

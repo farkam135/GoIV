@@ -137,7 +137,6 @@ public class Pokefly extends Service {
     private ScreenShotHelper screenShotHelper;
     private OcrHelper ocr;
     private GoIVSettings settings;
-    private static NotificationManager mNotifyMgr;
 
     private Point[] area = new Point[2];
 
@@ -717,7 +716,7 @@ public class Pokefly extends Service {
                     .setPriority(Notification.PRIORITY_HIGH)
                     .build();
 
-            mNotifyMgr =
+            NotificationManager mNotifyMgr =
                     (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
             mNotifyMgr.notify(NOTIFICATION_REQ_CODE, notification);
         }

@@ -508,7 +508,7 @@ public class MainActivity extends AppCompatActivity {
                 screen.exit();
             }
         }
-        //TODO: if !Pokefly.isRunning(), clear the "paused" notification
+        // TODO: What if !Pokefly.isRunning()
         super.onDestroy();
     }
 

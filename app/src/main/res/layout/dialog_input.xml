@@ -214,7 +214,7 @@
     </LinearLayout>
 
     <include layout="@layout/dialog_input_appraisal"
-        android:visibility="visible"
+        android:visibility="gone"
         android:id="@+id/appraisalBox"/>
 
 </LinearLayout>

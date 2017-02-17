@@ -1064,7 +1064,7 @@
         <item>50</item>  <!--Jigglypuff-->
         <item>-1</item>  <!--Wigglytuff-->
         <item>50</item>  <!--Zubat-->
-        <item>-1</item>  <!--Golbat-->
+        <item>100</item>  <!--Golbat-->
         <item>25</item>  <!--Oddish-->
         <item>100</item> <!--Gloom-->
         <item>-1</item>  <!--Vileplume-->
@@ -1117,7 +1117,7 @@
         <item>25</item>  <!--Gastly-->
         <item>100</item> <!--Haunter-->
         <item>-1</item>  <!--Gengar-->
-        <item>-1</item>  <!--Onix-->
+        <item>50</item>  <!--Onix-->
         <item>50</item>  <!--Drowzee-->
         <item>-1</item>  <!--Hypno-->
         <item>50</item>  <!--Krabby-->
@@ -1135,17 +1135,17 @@
         <item>-1</item>  <!--Weezing-->
         <item>50</item>  <!--Rhyhorn-->
         <item>-1</item>  <!--Rhydon-->
-        <item>-1</item>  <!--Chansey-->
+        <item>50</item>  <!--Chansey-->
         <item>-1</item>  <!--Tangela-->
         <item>-1</item>  <!--Kangaskhan-->
         <item>50</item>  <!--Horsea-->
-        <item>-1</item>  <!--Seadra-->
+        <item>100</item>  <!--Seadra-->
         <item>50</item>  <!--Goldeen-->
         <item>-1</item>  <!--Seaking-->
         <item>50</item>  <!--Staryu-->
         <item>-1</item>  <!--Starmie-->
         <item>-1</item>  <!--Mr. Mime-->
-        <item>-1</item>  <!--Scyther-->
+        <item>50</item>  <!--Scyther-->
         <item>-1</item>  <!--Jynx-->
         <item>-1</item>  <!--Electabuzz-->
         <item>-1</item>  <!--Magmar-->
@@ -1159,7 +1159,7 @@
         <item>-1</item>  <!--Vaporeon-->
         <item>-1</item>  <!--Jolteon-->
         <item>-1</item>  <!--Flareon-->
-        <item>-1</item>  <!--Porygon-->
+        <item>50</item>  <!--Porygon-->
         <item>50</item>  <!--Omanyte-->
         <item>-1</item>  <!--Omastar-->
         <item>50</item>  <!--Kabuto-->
@@ -1259,7 +1259,7 @@
         <item>-1</item>  <!--Porygon2-->
         <item>-1</item>  <!--Stantler-->
         <item>-1</item>  <!--Smeargle-->
-        <item>-1</item>  <!--Tyrogue-->
+        <item>25</item>  <!--Tyrogue-->
         <item>-1</item>  <!--Hitmontop-->
         <item>25</item>  <!--Smoochum-->
         <item>25</item>  <!--Elekid-->

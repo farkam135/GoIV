@@ -1203,7 +1203,7 @@
         <item>50</item>  <!--Natu-->
         <item>-1</item>  <!--Xatu-->
         <item>25</item>  <!--Mareep-->
-        <item>25</item>  <!--Flaaffy TODO: CONFIRM-->
+        <item>100</item> <!--Flaaffy-->
         <item>-1</item>  <!--Ampharos-->
         <item>-1</item>  <!--Bellossom-->
         <item>25</item>  <!--Marill-->
@@ -1232,7 +1232,7 @@
         <item>-1</item>  <!--Dunsparce-->
         <item>-1</item>  <!--Gligar-->
         <item>-1</item>  <!--Steelix-->
-        <item>50</item>  <!--Snubbull TODO: CONFIRM-->
+        <item>50</item>  <!--Snubbull-->
         <item>-1</item>  <!--Granbull-->
         <item>-1</item>  <!--Qwilfish-->
         <item>-1</item>  <!--Scizor-->
@@ -1243,7 +1243,7 @@
         <item>-1</item>  <!--Ursaring-->
         <item>50</item>  <!--Slugma-->
         <item>-1</item>  <!--Magcargo-->
-        <item>50</item>  <!--Swinub TODO: CONFIRM-->
+        <item>50</item>  <!--Swinub-->
         <item>-1</item>  <!--Piloswine-->
         <item>-1</item>  <!--Corsola-->
         <item>50</item>  <!--Remoraid-->
@@ -1254,7 +1254,7 @@
         <item>50</item>  <!--Houndour-->
         <item>-1</item>  <!--Houndoom-->
         <item>-1</item>  <!--Kingdra-->
-        <item>50</item>  <!--Phanpy TODO: CONFIRM-->
+        <item>50</item>  <!--Phanpy-->
         <item>-1</item>  <!--Donphan-->
         <item>-1</item>  <!--Porygon2-->
         <item>-1</item>  <!--Stantler-->

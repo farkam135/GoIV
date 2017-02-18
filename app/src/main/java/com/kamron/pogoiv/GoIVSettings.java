@@ -40,6 +40,7 @@ public class GoIVSettings {
     public static final String HAS_WARNED_USER_NO_SCREENREC = "GOIV_hasWarnedUserNoScreenRec";
     public static final String COPY_TO_CLIPBOARD_SHOW_TOAST = "copyToClipboardShowToast";
     public static final String AUTO_APPRAISAL_SCAN_DELAY = "autoAppraisalScanDelay";
+    public static final String AUTO_OPEN_APPRAISE_DIALOGUE = "autoOpenAppraiseDialogue";
 
     private static GoIVSettings instance;
     private final SharedPreferences prefs;
@@ -159,6 +160,10 @@ public class GoIVSettings {
 
     public boolean isPokeSpamEnabled() {
         return prefs.getBoolean(POKESPAM_ENABLED, true);
+    }
+
+    public boolean shouldAutoOpenExpandedAppraise() {
+        return prefs.getBoolean(AUTO_OPEN_APPRAISE_DIALOGUE, false);
     }
 
     public boolean isShowTranslatedPokemonName() {

@@ -1761,7 +1761,6 @@ public class Pokefly extends Service {
 
         resetAppraisalCheckBoxes();
 
-
         resetPokeflyStateMachine();
         resetInfoDialogue();
         if (!batterySaver) {
@@ -1820,8 +1819,22 @@ public class Pokefly extends Service {
         extendedEvolutionSpinner.setSelection(-1);
         resultsBox.setVisibility(View.GONE);
         allPossibilitiesBox.setVisibility(View.GONE);
+
+        //Below code handles resetting appraisal box, and then expanding it if user has that setting enabled.
         if (appraisalBox.getVisibility() == View.VISIBLE) {
             toggleAppraisalBox();
+        }
+
+    }
+
+    /**
+     * Opens input appraisal expand box if setting for defaulting to expansion is on.
+     */
+    private void openAppraisalBoxIfSettingOn() {
+        if(settings.shouldAutoOpenExpandedAppraise()){
+            setVisibility(inputAppraisalExpandBox, appraisalBox, true, true);
+            positionHandler.setVisibility(appraisalBox.getVisibility());
+            moveOverlayUpOrDownToMatchAppraisalBox();
         }
     }
 
@@ -1921,6 +1934,7 @@ public class Pokefly extends Service {
             }
         }
         showCandyTextBoxBasedOnSettings();
+        openAppraisalBoxIfSettingOn();
     }
 
     private <T> String optionalIntToString(Optional<T> src) {

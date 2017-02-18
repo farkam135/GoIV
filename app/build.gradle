@@ -71,10 +71,10 @@ android {
      * versionName (Based on Semantic Versioning 2.0 - http://semver.org/)
      */
     defaultConfig {
-        minSdkVersion 19
-        targetSdkVersion 24
-        versionCode 23
-        versionName "3.4.0"
+        minSdkVersion 19 /*Dont change this unless you know why*/
+        targetSdkVersion 24 /*Dont change this unless you know why*/
+        versionCode 24
+        versionName "3.4.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 

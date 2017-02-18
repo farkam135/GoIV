@@ -872,8 +872,8 @@
         <item>101</item> <!--Exeggutor-->
         <item>-1</item>  <!--Cubone-->
         <item>103</item> <!--Marowak-->
-        <item>-1</item>  <!--Hitmonlee TODO:Set to 235-->
-        <item>-1</item>  <!--Hitmonchan TODO:Set to 235-->
+        <item>235</item>  <!--Hitmonlee-->
+        <item>235</item>  <!--Hitmonchan-->
         <item>-1</item>  <!--Lickitung-->
         <item>-1</item>  <!--Koffing-->
         <item>108</item> <!--Weezing-->
@@ -936,7 +936,7 @@
         <item>164</item> <!--Ledian-->
         <item>-1</item>  <!--Spinarak-->
         <item>166</item> <!--Ariados-->
-        <item>-1</item>  <!--Crobat TODO:Set to 41-->
+        <item>41</item>  <!--Crobat-->
         <item>-1</item>  <!--Chinchou-->
         <item>169</item> <!--Lanturn-->
         <item>-1</item>  <!--Pichu-->
@@ -949,11 +949,11 @@
         <item>-1</item>  <!--Mareep-->
         <item>178</item> <!--Flaaffy-->
         <item>179</item> <!--Ampharos-->
-        <item>-1</item>  <!--Bellossom TODO:Set to 43-->
+        <item>43</item>  <!--Bellossom-->
         <item>-1</item>  <!--Marill-->
         <item>182</item> <!--Azumarill-->
         <item>-1</item>  <!--Sudowoodo-->
-        <item>-1</item>  <!--Politoed TODO:Set to 60-->
+        <item>60</item>  <!--Politoed-->
         <item>-1</item>  <!--Hoppip-->
         <item>186</item> <!--Skiploom-->
         <item>187</item> <!--Jumpluff-->
@@ -966,7 +966,7 @@
         <item>132</item> <!--Espeon-->
         <item>132</item> <!--Umbreon-->
         <item>-1</item>  <!--Murkrow-->
-        <item>-1</item>  <!--Slowking TODO:Set to 78-->
+        <item>78</item>  <!--Slowking-->
         <item>-1</item>  <!--Misdreavus-->
         <item>-1</item>  <!--Unown-->
         <item>-1</item>  <!--Wobbuffet-->
@@ -975,11 +975,11 @@
         <item>203</item> <!--Forretres-->
         <item>-1</item>  <!--Dunsparce-->
         <item>-1</item>  <!--Gligar-->
-        <item>-1</item>  <!--Steelix TODO:Set to 94-->
+        <item>94</item>  <!--Steelix-->
         <item>-1</item>  <!--Snubbull-->
         <item>208</item> <!--Granbull-->
         <item>-1</item>  <!--Qwilfish-->
-        <item>-1</item>  <!--Scizor TODO:Set to 122-->
+        <item>122</item>  <!--Scizor-->
         <item>-1</item>  <!--Shuckle-->
         <item>-1</item>  <!--Heracross-->
         <item>-1</item>  <!--Sneasel-->
@@ -997,10 +997,10 @@
         <item>-1</item>  <!--Skarmory-->
         <item>-1</item>  <!--Houndour-->
         <item>227</item> <!--Houndoom-->
-        <item>-1</item>  <!--Kingdra TODO:Set to 116-->
+        <item>116</item>  <!--Kingdra-->
         <item>-1</item>  <!--Phanpy-->
         <item>230</item> <!--Donphan-->
-        <item>-1</item>  <!--Porygon2 TODO:Set to 136-->
+        <item>136</item>  <!--Porygon2-->
         <item>-1</item>  <!--Stantler-->
         <item>-1</item>  <!--Smeargle-->
         <item>-1</item>  <!--Tyrogue-->
@@ -1009,7 +1009,7 @@
         <item>-1</item>  <!--Elekid-->
         <item>-1</item>  <!--Magby-->
         <item>-1</item>  <!--Miltank-->
-        <item>-1</item>  <!--Blissey TODO:Set to 112-->
+        <item>112</item>  <!--Blissey-->
         <item>-1</item>  <!--Raikou-->
         <item>-1</item>  <!--Entei-->
         <item>-1</item>  <!--Suicune-->
@@ -1063,8 +1063,8 @@
         <item>-1</item>  <!--Ninetales-->
         <item>50</item>  <!--Jigglypuff-->
         <item>-1</item>  <!--Wigglytuff-->
-        <item>50</item>  <!--Zubat-->
-        <item>-1</item>  <!--Golbat-->
+        <item>25</item>  <!--Zubat-->
+        <item>100</item>  <!--Golbat-->
         <item>25</item>  <!--Oddish-->
         <item>100</item> <!--Gloom-->
         <item>-1</item>  <!--Vileplume-->
@@ -1117,7 +1117,7 @@
         <item>25</item>  <!--Gastly-->
         <item>100</item> <!--Haunter-->
         <item>-1</item>  <!--Gengar-->
-        <item>-1</item>  <!--Onix-->
+        <item>50</item>  <!--Onix-->
         <item>50</item>  <!--Drowzee-->
         <item>-1</item>  <!--Hypno-->
         <item>50</item>  <!--Krabby-->
@@ -1135,17 +1135,17 @@
         <item>-1</item>  <!--Weezing-->
         <item>50</item>  <!--Rhyhorn-->
         <item>-1</item>  <!--Rhydon-->
-        <item>-1</item>  <!--Chansey-->
+        <item>50</item>  <!--Chansey-->
         <item>-1</item>  <!--Tangela-->
         <item>-1</item>  <!--Kangaskhan-->
-        <item>50</item>  <!--Horsea-->
-        <item>-1</item>  <!--Seadra-->
+        <item>25</item>  <!--Horsea-->
+        <item>100</item>  <!--Seadra-->
         <item>50</item>  <!--Goldeen-->
         <item>-1</item>  <!--Seaking-->
         <item>50</item>  <!--Staryu-->
         <item>-1</item>  <!--Starmie-->
         <item>-1</item>  <!--Mr. Mime-->
-        <item>-1</item>  <!--Scyther-->
+        <item>50</item>  <!--Scyther-->
         <item>-1</item>  <!--Jynx-->
         <item>-1</item>  <!--Electabuzz-->
         <item>-1</item>  <!--Magmar-->
@@ -1159,7 +1159,7 @@
         <item>-1</item>  <!--Vaporeon-->
         <item>-1</item>  <!--Jolteon-->
         <item>-1</item>  <!--Flareon-->
-        <item>-1</item>  <!--Porygon-->
+        <item>50</item>  <!--Porygon-->
         <item>50</item>  <!--Omanyte-->
         <item>-1</item>  <!--Omastar-->
         <item>50</item>  <!--Kabuto-->
@@ -1259,7 +1259,7 @@
         <item>-1</item>  <!--Porygon2-->
         <item>-1</item>  <!--Stantler-->
         <item>-1</item>  <!--Smeargle-->
-        <item>-1</item>  <!--Tyrogue-->
+        <item>25</item>  <!--Tyrogue-->
         <item>-1</item>  <!--Hitmontop-->
         <item>25</item>  <!--Smoochum-->
         <item>25</item>  <!--Elekid-->

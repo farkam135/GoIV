@@ -1279,6 +1279,9 @@ public class Pokefly extends Service {
                 Toast.makeText(this, userInput + getString(R.string.wrong_pokemon_name_input),
                         Toast.LENGTH_SHORT).show();
                 return null;
+            } else {
+                // reset spinner selecction to avoid a crash
+                extendedEvolutionSpinner.setSelection(-1);
             }
         }
         return pokemon;

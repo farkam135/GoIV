@@ -14,7 +14,9 @@
         android:layout_height="match_parent"
         android:orientation="horizontal"
         android:id="@+id/appraisalRangeGroup"
-        android:padding="2dp">
+        android:paddingBottom="2dp"
+        android:paddingStart="2dp"
+        android:paddingEnd="2dp">
 
         <RadioButton
             android:textColor="@color/importantText"

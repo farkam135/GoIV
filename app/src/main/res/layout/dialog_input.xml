@@ -207,10 +207,11 @@
             android:paddingTop="0dp"
             android:paddingLeft="8dp"
             android:paddingRight="60dp"
-            android:paddingBottom="4dp"
+            android:paddingBottom="0dp"
             android:drawableRight="@drawable/ic_keyboard_arrow_right_blue_18dp"
             android:textSize="18sp"
-            android:layout_gravity="center" />
+            android:layout_gravity="center"
+            android:layout_marginBottom="6dp"/>
     </LinearLayout>
 
     <include layout="@layout/dialog_input_appraisal"

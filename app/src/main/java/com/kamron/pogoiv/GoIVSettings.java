@@ -191,7 +191,7 @@ public class GoIVSettings {
         try {
             fis = new FileInputStream(fileName);
             in = new ObjectInputStream(fis);
-            appraisalCache = (Map<String, String> ) in.readObject();
+            appraisalCache = (Map<String, String>) in.readObject();
         } catch (Exception ignored) {
             //Fall-through
         } finally {

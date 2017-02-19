@@ -190,7 +190,6 @@ public class Pokefly extends Service {
     LinearLayout onCheckButtonsLayout;
 
 
-
     // Layouts
     @BindView(R.id.inputBox)
     LinearLayout inputBox;
@@ -571,7 +570,7 @@ public class Pokefly extends Service {
 
         if (pixels != null) {
             boolean shouldShow =
-                    ( pixels[0] == Color.rgb(250, 250, 250) || pixels[0] == Color.rgb(249, 249, 249) )
+                    (pixels[0] == Color.rgb(250, 250, 250) || pixels[0] == Color.rgb(249, 249, 249))
                             && pixels[1] == Color.rgb(28, 135, 150);
             setIVButtonDisplay(shouldShow);
             return shouldShow;
@@ -627,6 +626,7 @@ public class Pokefly extends Service {
 
     /**
      * Creates the GoIV notification.
+     *
      * @param isStopping should we make starting or stopping notification
      */
     private void makeNotification(boolean isStopping) {
@@ -1049,7 +1049,6 @@ public class Pokefly extends Service {
     }
 
 
-
     private void resetToSpinner() {
         autoCompleteTextView1.setVisibility(View.GONE);
         pokeInputSpinner.setVisibility(View.VISIBLE);
@@ -1212,7 +1211,6 @@ public class Pokefly extends Service {
                 pokemonHP.get(), pokemonCP.get());
 
         refineByAvailableAppraisalInfo(ivScanResult);
-
 
 
         addClipboardInfoIfSettingOn(ivScanResult);
@@ -1831,7 +1829,7 @@ public class Pokefly extends Service {
      * Opens input appraisal expand box if setting for defaulting to expansion is on.
      */
     private void openAppraisalBoxIfSettingOn() {
-        if(settings.shouldAutoOpenExpandedAppraise()){
+        if (settings.shouldAutoOpenExpandedAppraise()) {
             setVisibility(inputAppraisalExpandBox, appraisalBox, true, true);
             positionHandler.setVisibility(appraisalBox.getVisibility());
             moveOverlayUpOrDownToMatchAppraisalBox();

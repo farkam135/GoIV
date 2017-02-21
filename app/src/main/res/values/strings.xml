@@ -150,7 +150,7 @@
     <string name="showtranslatedpokemonname_setting_title">Show translated Pokémon name</string>
     <string name="showtranslatedpokemonname_setting_summary">Display translated Pokémon name on GoIV but use its English name for OCR. This is for when the Pokémon Go app is in English but user\'s native language is not</string>
     <string name="pause_goiv_notification">Pause</string>
-    <string name="waiting_for_pogo_start">Waiting for Pokémon Go to start...</string>
+    <string name="waiting_for_pogo_start">Waiting for Pokémon Go to start…</string>
     <string name="goiv_started">GoIV started.</string>
     <string name="clipboard_copy_toast">Copied %s to clipboard</string>
     <string name="no_clipboard_preview">No preview available</string>
@@ -168,6 +168,10 @@
     <string name="copy_to_clip_show_toast_setting">Show clipboard preview popup</string>
     <string name="autoAppraisalScanDelay_title">Auto appraisal delay</string>
     <string name="autoAppraisalScanDelay_summary">How long to wait for the appraisal text animation to end. Budget phones might need a 800 ms delay.</string>
+    <string name="settings_title_behaviour">App behaviour preferences</string>
+    <string name="settings_title_optional">Optional GoIV features</string>
+    <string name="settings_title_mode">GoIV mode</string>
+    <string name="settings_title_uninteresting">Uninteresting settings</string>
 
     <!-- Team mystic appraisal strings mv for iv % and ms for strongest stat range-->
     <string name="mv4">not likely headway</string>

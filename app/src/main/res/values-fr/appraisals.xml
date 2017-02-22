@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="highest_stat_att">attaque</string>
+    <string name="highest_stat_def">fense</string><!-- "défense" isn't recognized, other words with accents aren't too? -->
+    <string name="highest_stat_hp">pv</string>
+
+    <string name="mystic_percentage1_phrase1">merveille</string>
+    <string name="mystic_percentage1_phrase2">captivant</string>
+    <string name="mystic_percentage2_phrase1">toute mon</string>
+    <string name="mystic_percentage2_phrase2">attention</string>
+    <string name="mystic_percentage3_phrase1">rieur</string>
+    <string name="mystic_percentage3_phrase2">moyenne</string>
+    <string name="mystic_percentage4_phrase1">pas tr</string>
+    <string name="mystic_percentage4_phrase2">loin</string>
+
+    <string name="mystic_ivrange1_phrase1">passent</string>
+    <string name="mystic_ivrange1_phrase2">calculs</string>
+    <string name="mystic_ivrange2_phrase1">impressionn</string>
+    <string name="mystic_ivrange2_phrase2">vrai dire</string>
+    <string name="mystic_ivrange3_phrase1">liorent</string>
+    <string name="mystic_ivrange3_phrase2">vue</string>
+    <string name="mystic_ivrange4_phrase1">anormal</string>
+    <string name="mystic_ivrange4_phrase2">priori</string>
+
+    <string name="valor_percentage1_phrase1">tonne beaucoup</string>
+    <string name="valor_percentage1_phrase2">tout faire</string>
+    <string name="valor_percentage2_phrase1">fort</string>
+    <string name="valor_percentage2_phrase2">fier</string>
+    <string name="valor_percentage3_phrase1">solide</string>
+    <string name="valor_percentage3_phrase2">solide</string><!-- no other possible phrase -->
+    <string name="valor_percentage4_phrase1">pas un</string>
+    <string name="valor_percentage4_phrase2">combattant</string>
+
+    <string name="valor_ivrange1_phrase1">estomaqu</string>
+    <string name="valor_ivrange1_phrase2">bravo</string>
+    <string name="valor_ivrange2_phrase1">excellentes</string>
+    <string name="valor_ivrange2_phrase2">super</string>
+    <string name="valor_ivrange3_phrase1">va faire des</string>
+    <string name="valor_ivrange3_phrase2">va faire des</string><!-- no other possible phrase -->
+    <string name="valor_ivrange4_phrase1">aideront pas</string>
+    <string name="valor_ivrange4_phrase2">aideront pas</string><!-- no other possible phrase -->
+
+    <string name="instinct_percentage1_phrase1">tenir</string>
+    <string name="instinct_percentage1_phrase2">aux meilleurs</string>
+    <string name="instinct_percentage2_phrase1">vraiment</string>
+    <string name="instinct_percentage2_phrase2">fort</string>
+    <string name="instinct_percentage3_phrase1">est plut</string>
+    <string name="instinct_percentage3_phrase2">est plut</string>
+    <string name="instinct_percentage4_phrase1">peut devenir</string>
+    <string name="instinct_percentage4_phrase2">meilleur combattant</string>
+
+    <string name="instinct_ivrange1_phrase1">meilleures que</string>
+    <string name="instinct_ivrange1_phrase2">vues</string>
+    <string name="instinct_ivrange2_phrase1">super</string>
+    <string name="instinct_ivrange2_phrase2">super</string><!-- no other possible phrase -->
+    <string name="instinct_ivrange3_phrase1">quelques</string>
+    <string name="instinct_ivrange3_phrase2">bonnes</string>
+    <string name="instinct_ivrange4_phrase1">un peu</string>
+    <string name="instinct_ivrange4_phrase2">basiques</string>
+</resources>

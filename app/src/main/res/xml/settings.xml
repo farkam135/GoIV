@@ -4,7 +4,7 @@
 
 
     <PreferenceCategory
-        android:title="App behaviour preferences">
+        android:title="@string/settings_title_behaviour">
 
         <SwitchPreference
             android:defaultValue="true"
@@ -34,7 +34,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="Optional GoIV Features">
+        android:title="@string/settings_title_optional">
 
 
         <SwitchPreference
@@ -86,7 +86,7 @@
 
 
     <PreferenceCategory
-        android:title="GoIV Mode">
+        android:title="@string/settings_title_mode">
         <SwitchPreference
             android:defaultValue="false"
             android:key="@string/manual_screenshot_mode_key"
@@ -104,7 +104,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="Uninteresting settings">
+        android:title="@string/settings_title_uninteresting">
 
 
         <SwitchPreference

@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        android:id="@+id/appraisalRangeGroup"
+        android:id="@+id/appraisalIVRangeGroup"
         android:paddingBottom="2dp"
         android:paddingStart="2dp"
         android:paddingEnd="2dp">
@@ -24,7 +24,7 @@
             android:text="@string/mv4"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:id="@+id/appraisalRange4"
+            android:id="@+id/appraisalIVRange4"
             android:layout_weight="1"
             android:textScaleX=".9"
             android:maxLines="2"
@@ -38,7 +38,7 @@
             android:text="@string/mv3"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:id="@+id/appraisalRange3"
+            android:id="@+id/appraisalIVRange3"
             android:layout_weight="1"
             android:textScaleX=".9"
             android:maxLines="2"
@@ -52,7 +52,7 @@
             android:text="@string/mv2"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:id="@+id/appraisalRange2"
+            android:id="@+id/appraisalIVRange2"
             android:layout_weight="1"
             android:textScaleX=".9"
             android:maxLines="2"
@@ -66,7 +66,7 @@
             android:text="@string/mv1"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:id="@+id/appraisalRange1"
+            android:id="@+id/appraisalIVRange1"
             android:layout_weight="1"
             android:textScaleX=".9"
             android:maxLines="2"
@@ -81,6 +81,7 @@
     <LinearLayout
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:id="@+id/attDefStaLayout"
         android:layout_width="match_parent"
         android:layoutDirection="ltr"
         android:padding="2dp">
@@ -144,7 +145,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        android:id="@+id/appraisalStatGroup"
+        android:id="@+id/appraisalStatsGroup"
         android:padding="2dp">
 
         <RadioButton

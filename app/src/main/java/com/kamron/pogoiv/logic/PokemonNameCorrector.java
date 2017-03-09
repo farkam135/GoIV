@@ -144,7 +144,7 @@ public class PokemonNameCorrector {
      */
     private ArrayList<Pokemon> getBestGuessForEvolutionLine(String input) {
         //candy name will only ever match the base evolution, so search in getBasePokemons().
-        PokeDist bestMatch = getNicknameGuess(input, pokeInfoCalculator.getBasePokemons());
+        PokeDist bestMatch = getNicknameGuess(input, pokeInfoCalculator.getCandyPokemons());
         return pokeInfoCalculator.getEvolutionLine(bestMatch.pokemon);
     }
 

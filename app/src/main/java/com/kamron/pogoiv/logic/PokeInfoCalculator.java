@@ -20,14 +20,22 @@ public class PokeInfoCalculator {
      */
     private ArrayList<Pokemon> basePokemons = new ArrayList<>();
 
+    /**
+     * Pokemons who's name appears as a type of candy.
+     * For most, this is the basePokemon (ie: Pidgey candies)
+     * For some, this is an original Gen1 Pokemon (ie: Magmar candies, instead of Magby candies)
+     */
+    private ArrayList<Pokemon> candyPokemons = new ArrayList<>();
+
     private HashMap<String, Pokemon> pokemap = new HashMap<>();
 
     public static PokeInfoCalculator getInstance(String[] namesArray, String[] displayNamesArray,
                                                  int[] attackArray, int[] defenceArray, int[] staminaArray,
-                                                 int[] devolutionArray, int[] evolutionCandyCostArray) {
+                                                 int[] devolutionArray, int[] evolutionCandyCostArray,
+                                                 int[] candyNamesArray) {
         if (instance == null) {
             instance = new PokeInfoCalculator(namesArray, displayNamesArray, attackArray, defenceArray,
-                    staminaArray, devolutionArray, evolutionCandyCostArray);
+                    staminaArray, devolutionArray, evolutionCandyCostArray, candyNamesArray);
         }
         return instance;
     }
@@ -50,12 +58,13 @@ public class PokeInfoCalculator {
      * @param defenceArray      array of all pokemon base def stat
      * @param staminaArray      array of all pokemon base stam stat
      * @param devolutionArray   array of what the pokemon evolved from, -1 if no devolution
+     * @param candyNamesArray   array of base pokemon and their associated candy pokemon, -1 if non-base pokemon
      */
     private PokeInfoCalculator(String[] namesArray, String[] displayNamesArray, int[] attackArray,
                                int[] defenceArray, int[] staminaArray, int[] devolutionArray,
-                               int[] evolutionCandyCostArray) {
+                               int[] evolutionCandyCostArray, int[] candyNamesArray) {
         populatePokemon(namesArray, displayNamesArray, attackArray, defenceArray, staminaArray, devolutionArray,
-                evolutionCandyCostArray);
+                evolutionCandyCostArray, candyNamesArray);
     }
 
     public List<Pokemon> getPokedex() {
@@ -64,6 +73,14 @@ public class PokeInfoCalculator {
 
     public List<Pokemon> getBasePokemons() {
         return Collections.unmodifiableList(basePokemons);
+    }
+
+    /**
+     * Returns the full list of possible candy names.
+     * @return List of all candy names that exist in Pokemon Go
+     */
+    public List<Pokemon> getCandyPokemons() {
+        return Collections.unmodifiableList(candyPokemons);
     }
 
     /**
@@ -88,7 +105,7 @@ public class PokeInfoCalculator {
      * arrays in integers.xml and the names from the strings.xml resources.
      */
     private void populatePokemon(String[] names, String[] displayNames, int[] attack, int[] defense, int[] stamina,
-                                 int[] devolution, int[] evolutionCandyCost) {
+                                 int[] devolution, int[] evolutionCandyCost, int[] candyNamesArray) {
 
         int pokeListSize = names.length;
         for (int i = 0; i < pokeListSize; i++) {
@@ -106,6 +123,7 @@ public class PokeInfoCalculator {
                 Pokemon devo = pokedex.get(devolution[i]);
                 devo.evolutions.add(pokedex.get(i));
             } else {
+                candyPokemons.add(pokedex.get(candyNamesArray[i]));
                 basePokemons.add(pokedex.get(i));
             }
         }

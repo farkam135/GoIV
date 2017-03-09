@@ -433,7 +433,8 @@ public class Pokefly extends Service {
                 getResources().getIntArray(R.array.defense),
                 getResources().getIntArray(R.array.stamina),
                 getResources().getIntArray(R.array.devolutionNumber),
-                getResources().getIntArray(R.array.evolutionCandyCost));
+                getResources().getIntArray(R.array.evolutionCandyCost),
+                getResources().getIntArray(R.array.candyNames));
         displayMetrics = this.getResources().getDisplayMetrics();
         initOcr();
         windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);

@@ -105,6 +105,7 @@ public class Pokefly extends Service {
     private static final String KEY_BATTERY_SAVER = "key_battery_saver";
 
     private static final String KEY_SEND_INFO_NAME = "key_send_info_name";
+    private static final String KEY_SEND_INFO_TYPE = "key_send_info_type";
     private static final String KEY_SEND_INFO_CANDY = "key_send_info_candy";
     private static final String KEY_SEND_INFO_HP = "key_send_info_hp";
     private static final String KEY_SEND_INFO_CP = "key_send_info_cp";
@@ -318,6 +319,7 @@ public class Pokefly extends Service {
     ImageView positionHandler;
 
     private String pokemonName;
+    private String pokemonType;
     private String candyName;
     private Optional<Integer> pokemonCandy = Optional.absent();
     private Optional<Integer> pokemonCP = Optional.absent();
@@ -371,6 +373,7 @@ public class Pokefly extends Service {
 
     public static void populateInfoIntent(Intent intent, ScanResult scanResult, @NonNull Optional<String> filePath) {
         intent.putExtra(KEY_SEND_INFO_NAME, scanResult.getPokemonName());
+        intent.putExtra(KEY_SEND_INFO_TYPE, scanResult.getPokemonType());
         intent.putExtra(KEY_SEND_INFO_CANDY, scanResult.getCandyName());
         intent.putExtra(KEY_SEND_INFO_HP, scanResult.getPokemonHP());
         intent.putExtra(KEY_SEND_INFO_CP, scanResult.getPokemonCP());
@@ -1901,7 +1904,7 @@ public class Pokefly extends Service {
 
             infoShownReceived = true;
             PokemonNameCorrector.PokeDist possiblePoke = corrector.getPossiblePokemon(pokemonName, candyName,
-                    candyUpgradeCost);
+                    candyUpgradeCost, pokemonType);
             initialButtonsLayout.setVisibility(View.VISIBLE);
             onCheckButtonsLayout.setVisibility(View.GONE);
 
@@ -2051,6 +2054,7 @@ public class Pokefly extends Service {
                     receivedInfo = true;
 
                     pokemonName = intent.getStringExtra(KEY_SEND_INFO_NAME);
+                    pokemonType = intent.getStringExtra(KEY_SEND_INFO_TYPE);
                     candyName = intent.getStringExtra(KEY_SEND_INFO_CANDY);
 
 

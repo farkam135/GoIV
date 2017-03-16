@@ -391,6 +391,30 @@ public class OcrHelper {
     }
 
     /**
+     * Get the pokemon type(s) as analysed from a pokemon image.
+     *
+     * @param pokemonImage the image of the whole screen
+     * @return A string resulting from the scan
+     */
+    private String getPokemonTypeFromImg(Bitmap pokemonImage) {
+        Bitmap type = getImageCrop(pokemonImage, 0.365278, 0.621094, 0.308333, 0.035156);
+        String hash = "type" + hashBitmap(type);
+        String pokemonType = ocrCache.get(hash);
+
+        if (pokemonType == null) {
+            type = replaceColors(type, true, 68, 105, 108, Color.WHITE, 200, true);
+            tesseract.setImage(type);
+            pokemonType = fixOcrNumsToLetters(tesseract.getUTF8Text().replace(" ", ""));
+            if (pokemonType.toLowerCase().contains("nidora")) {
+                pokemonType = getNidoranGenderName(pokemonImage);
+            }
+            type.recycle();
+            ocrCache.put(hash, pokemonType);
+        }
+        return pokemonType;
+    }
+
+    /**
      * Get a cropped version of your image.
      *
      * @param img     Which image to crop
@@ -400,6 +424,7 @@ public class OcrHelper {
      * @param yHeight how many % of the height should be kept starting from the ystart.
      * @return The crop of the image.
      */
+
     public Bitmap getImageCrop(Bitmap img, double xStart, double yStart, double xWidth, double yHeight) {
         Bitmap crop = Bitmap.createBitmap(img, (int) (widthPixels * xStart), (int) (heightPixels * yStart),
                 (int) (widthPixels * xWidth), (int) (heightPixels * yHeight));
@@ -596,6 +621,7 @@ public class OcrHelper {
     public ScanResult scanPokemon(Bitmap pokemonImage, int trainerLevel) {
         double estimatedPokemonLevel = getPokemonLevelFromImg(pokemonImage, trainerLevel);
         String pokemonName = getPokemonNameFromImg(pokemonImage);
+        String pokemonType = getPokemonTypeFromImg(pokemonImage);
         String candyName = getCandyNameFromImg(pokemonImage);
         Optional<Integer> pokemonHP = getPokemonHPFromImg(pokemonImage);
         Optional<Integer> pokemonCP = getPokemonCPFromImg(pokemonImage);
@@ -603,7 +629,7 @@ public class OcrHelper {
         Optional<Integer> pokemonUpgradeCost = getPokemonEvolutionCostFromImg(pokemonImage);
         String pokemonUniqueIdentifier = getPokemonIdentifierFromImg(pokemonImage);
 
-        return new ScanResult(estimatedPokemonLevel, pokemonName, candyName, pokemonHP, pokemonCP,
+        return new ScanResult(estimatedPokemonLevel, pokemonName, pokemonType, candyName, pokemonHP, pokemonCP,
                 pokemonCandyAmount, pokemonUpgradeCost, pokemonUniqueIdentifier);
     }
 

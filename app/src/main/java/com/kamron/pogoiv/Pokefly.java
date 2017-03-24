@@ -280,18 +280,20 @@ public class Pokefly extends Service {
 
 
     // Refine by appraisal
-    @BindView(R.id.appraisalRangeGroup)
-    RadioGroup appraisalRangeGroup;
+    @BindView(R.id.appraisalIVRangeGroup)
+    RadioGroup appraisalIVRangeGroup;
 
-    @BindView(R.id.appraisalRange4)
-    RadioButton appraisalRange4;
-    @BindView(R.id.appraisalRange3)
-    RadioButton appraisalRange3;
-    @BindView(R.id.appraisalRange2)
-    RadioButton appraisalRange2;
-    @BindView(R.id.appraisalRange1)
-    RadioButton appraisalRange1;
+    @BindView(R.id.appraisalIVRange4)
+    RadioButton appraisalIVRange4;
+    @BindView(R.id.appraisalIVRange3)
+    RadioButton appraisalIVRange3;
+    @BindView(R.id.appraisalIVRange2)
+    RadioButton appraisalIVRange2;
+    @BindView(R.id.appraisalIVRange1)
+    RadioButton appraisalIVRange1;
 
+    @BindView (R.id.attDefStaLayout)
+    LinearLayout attDefStaLayout;
     @BindView(R.id.attCheckbox)
     CheckBox attCheckbox;
     @BindView(R.id.defCheckbox)
@@ -299,8 +301,8 @@ public class Pokefly extends Service {
     @BindView(R.id.staCheckbox)
     CheckBox staCheckbox;
 
-    @BindView(R.id.appraisalStatGroup)
-    RadioGroup appraisalStatGroup;
+    @BindView(R.id.appraisalStatsGroup)
+    RadioGroup appraisalStatsGroup;
 
     @BindView(R.id.appraisalStat4)
     RadioButton appraisalStat4;
@@ -471,9 +473,9 @@ public class Pokefly extends Service {
             if (!batterySaver) {
                 screen = ScreenGrabber.getInstance();
                 watchScreen();
-                autoAppraisal = new AutoAppraisal(screen, ocr, this,
+                autoAppraisal = new AutoAppraisal(screen, ocr, this, attDefStaLayout,
                         attCheckbox, defCheckbox, staCheckbox,
-                        appraisalRangeGroup, appraisalStatGroup);
+                        appraisalIVRangeGroup, appraisalStatsGroup);
             } else {
                 screenShotHelper = ScreenShotHelper.start(Pokefly.this);
             }
@@ -532,13 +534,19 @@ public class Pokefly extends Service {
         touchView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if (event.getActionMasked() == MotionEvent.ACTION_OUTSIDE) {
-                    screenScanHandler.removeCallbacks(screenScanRunnable);
-                    screenScanHandler.postDelayed(screenScanRunnable, SCREEN_SCAN_DELAY_MS);
-                    screenScanRetries = SCREEN_SCAN_RETRIES;
-
+                if (event.getActionMasked() == MotionEvent.ACTION_OUTSIDE) { // Touch event outside of GoIV UI
+                    // Let's check first to see if the user is performing an Appraisal
                     if (!batterySaver && appraisalBox.getVisibility() == View.VISIBLE) {
+                        // Let autoAppraisal know that the user has touched the PokemonGo app while the
+                        // appraisalBox was Visible.  This is our indication that the user has started a Pogo appraisal
                         autoAppraisal.screenTouched();
+                    } else {
+                        // Not appraising, let's check to see if they're looking at a pokemon screen.
+                        // The postDelayed will wait SCREEN_SCAN_DELAY_MS after the user touches the screen before
+                        // performing a scan of the screen to detect the pixels associated with a Pokemon screen.
+                        screenScanHandler.removeCallbacks(screenScanRunnable);
+                        screenScanHandler.postDelayed(screenScanRunnable, SCREEN_SCAN_DELAY_MS);
+                        screenScanRetries = SCREEN_SCAN_RETRIES;
                     }
                 }
                 return false;
@@ -987,10 +995,10 @@ public class Pokefly extends Service {
 
         //Load the correct phrases from the text resources depending on what team is stored in app settings
         if (settings.playerTeam() == 0) { //mystic
-            appraisalRange4.setText(R.string.mv4);
-            appraisalRange3.setText(R.string.mv3);
-            appraisalRange2.setText(R.string.mv2);
-            appraisalRange1.setText(R.string.mv1);
+            appraisalIVRange4.setText(R.string.mv4);
+            appraisalIVRange3.setText(R.string.mv3);
+            appraisalIVRange2.setText(R.string.mv2);
+            appraisalIVRange1.setText(R.string.mv1);
 
             appraisalStat1.setText(R.string.ms1);
             appraisalStat2.setText(R.string.ms2);
@@ -999,10 +1007,10 @@ public class Pokefly extends Service {
 
         } else if (settings.playerTeam() == 1) { //valor
 
-            appraisalRange4.setText(R.string.vv4);
-            appraisalRange3.setText(R.string.vv3);
-            appraisalRange2.setText(R.string.vv2);
-            appraisalRange1.setText(R.string.vv1);
+            appraisalIVRange4.setText(R.string.vv4);
+            appraisalIVRange3.setText(R.string.vv3);
+            appraisalIVRange2.setText(R.string.vv2);
+            appraisalIVRange1.setText(R.string.vv1);
 
             appraisalStat1.setText(R.string.vs1);
             appraisalStat2.setText(R.string.vs2);
@@ -1010,10 +1018,10 @@ public class Pokefly extends Service {
             appraisalStat4.setText(R.string.vs4);
         } else { //instinct
 
-            appraisalRange4.setText(R.string.iv4);
-            appraisalRange3.setText(R.string.iv3);
-            appraisalRange2.setText(R.string.iv2);
-            appraisalRange1.setText(R.string.iv1);
+            appraisalIVRange4.setText(R.string.iv4);
+            appraisalIVRange3.setText(R.string.iv3);
+            appraisalIVRange2.setText(R.string.iv2);
+            appraisalIVRange1.setText(R.string.iv1);
 
             appraisalStat1.setText(R.string.is1);
             appraisalStat2.setText(R.string.is2);
@@ -1342,16 +1350,16 @@ public class Pokefly extends Service {
      * @return a number corresponding to which appraisalrange is selected.
      */
     private int getSelectedAppraiseIVRangeValue() {
-        if (appraisalRange1.isChecked()) {
+        if (appraisalIVRange1.isChecked()) {
             return 1;
         }
-        if (appraisalRange2.isChecked()) {
+        if (appraisalIVRange2.isChecked()) {
             return 2;
         }
-        if (appraisalRange3.isChecked()) {
+        if (appraisalIVRange3.isChecked()) {
             return 3;
         }
-        if (appraisalRange4.isChecked()) {
+        if (appraisalIVRange4.isChecked()) {
             return 4;
         }
         return 0;
@@ -1776,9 +1784,9 @@ public class Pokefly extends Service {
         defCheckbox.setChecked(false);
         staCheckbox.setChecked(false);
 
-        appraisalRangeGroup.clearCheck();
+        appraisalIVRangeGroup.clearCheck();
 
-        appraisalStatGroup.clearCheck();
+        appraisalStatsGroup.clearCheck();
     }
 
 

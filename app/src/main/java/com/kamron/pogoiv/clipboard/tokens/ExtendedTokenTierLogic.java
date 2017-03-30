@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.Semaphore;
 
+import static java.lang.Math.max;
+
 /**
  * Created by Danilo Pianini.
  * A class which translates a CP value to a tier string in the AA-ZZ range
@@ -49,7 +51,7 @@ public final class ExtendedTokenTierLogic {
         MUTEX.acquireUninterruptibly();
         if (MAX_IV == 0) {
             for (final Pokemon pokemon: calc.getPokedex()) {
-                MAX_IV = Math.max(MAX_IV, calc.getCpRangeAtLevel(pokemon, MAXIVCOMB, MAXIVCOMB, MAXLEVEL).getFloatingAvg());
+                MAX_IV = max(MAX_IV, calc.getCpRangeAtLevel(pokemon, MAXIVCOMB, MAXIVCOMB, MAXLEVEL).getFloatingAvg());
             }
         }
         MUTEX.release();

@@ -7,6 +7,7 @@ import com.kamron.pogoiv.logic.Pokemon;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.Semaphore;
 
 /**
@@ -23,7 +24,9 @@ public final class ExtendedTokenTierLogic {
     private static double MAX_IV;
 
     static {
-        final char[] alphabet = "abcdefghijklmnopqrstuvwxyz".toUpperCase().toCharArray();
+        final char[] alphabet = "abcdefghijklmnopqrstuvwxyz"
+                .toUpperCase(Locale.ENGLISH)
+                .toCharArray();
         final List<String> ratings = new ArrayList<>();
         for (final char a: alphabet) {
             for (final char b: alphabet) {

@@ -3,6 +3,7 @@ package com.kamron.pogoiv.clipboard.tokens;
 import android.content.Context;
 
 import com.kamron.pogoiv.clipboard.ClipboardToken;
+import com.kamron.pogoiv.logic.IVCombination;
 import com.kamron.pogoiv.logic.IVScanResult;
 import com.kamron.pogoiv.logic.PokeInfoCalculator;
 import com.kamron.pogoiv.logic.Pokemon;
@@ -31,9 +32,13 @@ public class ExtendedCpTierToken extends ClipboardToken {
 
     @Override
     public String getValue(IVScanResult ivs, PokeInfoCalculator pokeInfoCalculator) {
-        Pokemon poke = getRightPokemon(ivs.pokemon, pokeInfoCalculator);
+        final Pokemon poke = getRightPokemon(ivs.pokemon, pokeInfoCalculator);
+        final IVCombination comb = ivs.getHighestIVCombination();
+        if (comb == null) {
+            return "??";
+        }
         double cp = pokeInfoCalculator
-                        .getCpRangeAtLevel(poke, ivs.getHighestIVCombination(), ivs.getHighestIVCombination(), 40)
+                        .getCpRangeAtLevel(poke, comb, ivs.getHighestIVCombination(), 40)
                         .getFloatingAvg();
         return ExtendedTokenTierLogic.getRating(cp, pokeInfoCalculator);
     }

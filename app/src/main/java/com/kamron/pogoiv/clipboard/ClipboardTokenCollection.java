@@ -3,6 +3,7 @@ package com.kamron.pogoiv.clipboard;
 import com.kamron.pogoiv.clipboard.tokens.BaseStatToken;
 import com.kamron.pogoiv.clipboard.tokens.CpPercentileToken;
 import com.kamron.pogoiv.clipboard.tokens.CpTierToken;
+import com.kamron.pogoiv.clipboard.tokens.ExtendedCpTierToken;
 import com.kamron.pogoiv.clipboard.tokens.HexIVToken;
 import com.kamron.pogoiv.clipboard.tokens.HpToken;
 import com.kamron.pogoiv.clipboard.tokens.IVPercentageToken;
@@ -70,6 +71,8 @@ public class ClipboardTokenCollection {
         // Evaluating scores////////////////////////////////
         tokens.add(new CpTierToken(true)); //Pokemon max evolution  max level CP tier
         tokens.add(new CpTierToken(false)); //pokemon max level cp tier
+        tokens.add(new ExtendedCpTierToken(false)); // Max AA-ZZ cp tier
+        tokens.add(new ExtendedCpTierToken(true)); // Same as above, max evolution
 
         tokens.add(new CpPercentileToken(false));
 

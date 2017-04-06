@@ -81,11 +81,11 @@ public class PokemonNameToken extends ClipboardToken {
     public String getLongDescription(Context context) {
         String num = maxLength + "";
         String pokeName = maxEv ? "Dragonite" : "Dratini";
-        String returner = "This token returns the name of the Pokemon, for example if you scan a Dratini, it will "
+        String returner = "This token returns the name of the monster, for example if you scan a Dratini, it will "
                 + "return " + getCappedLength(pokeName) + ".";
 
         if (maxLength < 12) {
-            returner += " With the number cap, the length of the Pokémon name can not exceed " + num + " characters "
+            returner += " With the number cap, the length of the monster name can not exceed " + num + " characters "
                     + "long.";
         }
         return returner;
@@ -93,7 +93,7 @@ public class PokemonNameToken extends ClipboardToken {
 
     @Override
     public String getCategory() {
-        return "Pokémon name";
+        return "Name";
     }
 
     @Override

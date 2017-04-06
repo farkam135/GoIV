@@ -52,7 +52,7 @@ public class CpPercentileToken extends ClipboardToken {
     @Override
     public String getLongDescription(Context context) {
         return "Returns a percentage expressing how many other possible permutations of IVs are better than this "
-                + "Pokémon's IVs. The smaller the result is, the better it is.";
+                + "monster's IVs. The smaller the result is, the better it is.";
     }
 
     @Override

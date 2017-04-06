@@ -125,12 +125,12 @@ public class BaseStatToken extends ClipboardToken {
 
     @Override
     public String getLongDescription(Context context) {
-        String returner = "This token gives you the base stats of the pokemon, such as 186 190 260 for lapras, which "
-                + "means that this pokemon without IV bonuses has 186 attack, 190 defense and 260 stamina. IVs can "
+        String returner = "This token gives you the base stats of the monster, such as 186 190 260 for lapras, which "
+                + "means that this monster without IV bonuses has 186 attack, 190 defense and 260 stamina. IVs can "
                 + "add an extra 15 to each stat.";
         if (includeIV) {
             returner += " This version of the token also adds the IV score so you can see the total for this specific"
-                    + " pokemon.";
+                    + " monster.";
         }
         if (mode != 0) {
             returner += " This specific version of the token only displays one of the stats.";

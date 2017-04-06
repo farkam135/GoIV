@@ -8,6 +8,7 @@ import com.kamron.pogoiv.clipboard.tokens.HexIVToken;
 import com.kamron.pogoiv.clipboard.tokens.HpToken;
 import com.kamron.pogoiv.clipboard.tokens.IVPercentageToken;
 import com.kamron.pogoiv.clipboard.tokens.IVPercentageTokenMode;
+import com.kamron.pogoiv.clipboard.tokens.IVSum;
 import com.kamron.pogoiv.clipboard.tokens.LevelToken;
 import com.kamron.pogoiv.clipboard.tokens.LevelUnicodeToken;
 import com.kamron.pogoiv.clipboard.tokens.PerfectionCPPercentageToken;
@@ -85,6 +86,9 @@ public class ClipboardTokenCollection {
         tokens.add(new IVPercentageToken(IVPercentageTokenMode.MIN));
         tokens.add(new IVPercentageToken(IVPercentageTokenMode.AVG));
         tokens.add(new IVPercentageToken(IVPercentageTokenMode.MAX));
+
+        //Sum
+        tokens.add(new IVSum(true));
 
         //Unicode iv representations
         tokens.add(new UnicodeToken(false)); //Unicode iv circled numbers not filled in ex ⑦⑦⑦

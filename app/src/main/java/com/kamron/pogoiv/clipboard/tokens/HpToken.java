@@ -61,9 +61,9 @@ public class HpToken extends ClipboardToken {
     @Override
     public String getLongDescription(Context context) {
         if (currentLevel) {
-            return "Get how much hp the Pokémon has at the current level.";
+            return "Get how much hp the monster has at the current level.";
         }
-        return "Get how much hp the Pokémon will have at max level.";
+        return "Get how much hp the monster will have at max level.";
     }
 
     @Override

@@ -59,7 +59,7 @@ public class IVSum extends ClipboardToken {
 
     @Override
     public String getLongDescription(Context context) {
-        return "This token returns the sum of the " + getType() + " possible IV stats for this pokemon"
+        return "This token returns the sum of the " + getType() + " possible IV stats for this monster"
                 + ". Ranges in 00-45. Always returns two digits.";
     }
 

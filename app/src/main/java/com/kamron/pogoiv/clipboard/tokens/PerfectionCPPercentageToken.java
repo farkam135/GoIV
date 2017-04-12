@@ -53,9 +53,9 @@ public class PerfectionCPPercentageToken extends ClipboardToken {
 
     @Override
     public String getLongDescription(Context context) {
-        return "This token calculates how close your Pokémon is to its max potential, measured by CP. For example, if"
-                + " a Pokémon with max IVs maxes out at 2000cp, but your specific pokemon maxes out at 1900, then your "
-                + "pokemon perfection is 95%, so this token returns 95.";
+        return "This token calculates how close your monster is to its max potential, measured by CP. For example, if"
+                + " a monster with max IVs maxes out at 2000cp, but your specific monster maxes out at 1900, then your "
+                + "monster perfection is 95%, so this token returns 95.";
     }
 
     @Override

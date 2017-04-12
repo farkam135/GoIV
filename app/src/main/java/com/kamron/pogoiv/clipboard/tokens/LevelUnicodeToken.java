@@ -56,8 +56,8 @@ public class LevelUnicodeToken extends ClipboardToken {
 
     @Override
     public String getLongDescription(Context context) {
-        return "This token shows the level of the pokemon as one or two unicode tokens, the first to show the whole "
-                + "level such as ⑰, and if the pokemon is half-leveled, also adds a ½.";
+        return "This token shows the level of the monster as one or two unicode tokens, the first to show the whole "
+                + "level such as ⑰, and if the monster is half-leveled, also adds a ½.";
     }
 
     @Override

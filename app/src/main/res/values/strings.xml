@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="welcome_message">Instructions:\n1. Enter your trainer level\n2. Press the start button and allow screen capture\n3. Open up your desired Pokémon in \'Pokémon Go\'\n4. Tap the IV Button to scan the Pokémon\n5. Adjust the scanned data if necessary\n6. Check IV!</string>
+    <string name="welcome_message">First run instructions:\n1. Enter your trainer level above\n2. Press the start button and accept all prompts\n3. Open up your desired \'mon in the game Go\n4. Tap the new IV Button in the left corner\n5. Adjust the scanned data if necessary</string>
     <string name="goiv_is_open_source">GoIV is open source!\ngithub.com/farkam135/GoIV\nreddit.com/r/GoIV</string>
     <string name="trainer_level">Trainer Level</string>
 
@@ -60,7 +60,7 @@
         <item name="valoriv0_7">"…don't point to greatness"</item>
     </string-array>
 
-    <string name="pokemon_name">Pokémon name:</string>
+    <string name="pokemon_name">Species:</string>
     <string name="cp">CP</string>
     <string name="hp">HP</string>
     <string name="use_the_slider_below_to_align_the_arc">Use the slider below to align the arc:</string>
@@ -79,8 +79,8 @@
     <string name="back">Back</string>
     <string name="accept_screen_capture">Accept screen capture</string>
     <string name="settings_page_title">Settings</string>
-    <string name="launch_pokemon_go_setting_title">Auto launch Pokémon Go</string>
-    <string name="launch_pokemon_go_setting_summary">Launch Pokémon Go when GoIV is started</string>
+    <string name="launch_pokemon_go_setting_title">Auto launch the game</string>
+    <string name="launch_pokemon_go_setting_summary">Launch the game when GoIV is started</string>
     <string name="confirmation_dialog_setting_title">Enable scan correction dialog</string>
     <string name="confirmation_dialog_setting_summary">Show a screen which allows you to manually edit the scanned information before showing results</string>
     <string name="manual_screenshot_mode_setting_title">Screenshot mode</string>
@@ -109,7 +109,7 @@
     <string name="last_scan">Last scan: %1$s</string>
     <string name="possible_iv_combinations" tools:ignore="PluralsCandidate">"%1$d possible IV combinations"</string>
     <string name="too_many_iv_combinations">Too many IV combinations</string>
-    <string name="refining_instructions">Increase IV calculation precision by leveling up and comparing two scans of the same Pokémon</string>
+    <string name="refining_instructions">Increase IV calculation precision by leveling up and comparing two scans of the same monster</string>
     <string name="appraisal_refining">Appraisal Refining</string>
     <string name="autoappraisal_start">Auto Appraisal Started</string>
     <string name="autoappraisal_finish">Auto Appraisal Finished</string>
@@ -134,14 +134,14 @@
     <string name="hp_expanded_box">HP</string>
     <string name="cp_vs_iv" formatted="false">% CP vs max IV</string>
     <string name="alert_explanation_title">Explanation</string>
-    <string name="perfection_explainer">The percentage shows how big the difference is between your Pokémon and a Pokémon of the same species which has perfect IVs.\n\nSo for example, if it says 92 percent, then your Pokémon maxes out at 8 percent less CP compared to the same species with maximum IVs.</string>
+    <string name="perfection_explainer">The percentage shows how big the difference is between your monster and a monster of the same species which has perfect IVs and is level 40.\n\nSo for example, if it says 92 percent, then your Pokémon maxes out at 8 percent less CP compared to the same species with maximum IVs.</string>
     <string name="pokespam">PokéSpam</string>
     <string name="pokespam_formatted_message">%1$d (%2$d rows + %3$d more)</string>
     <string name="candy">Candy</string>
     <string name="pokespam_not_available">Not Available</string>
     <string name="pokespam_setting_title">Show how many you can evolve</string>
-    <string name="pokespam_setting_summary">This feature enables scanning for candy amount and allows you to see how many Pokémon you can evolve, useful for use with lucky egg</string>
-    <string name="token_pokemonname">Pokémon name</string>
+    <string name="pokespam_setting_summary">This feature enables scanning for candy amount and allows you to see how many monsters you can evolve, useful for use with lucky egg</string>
+    <string name="token_pokemonname">Name</string>
     <string name="clipboard_modifier_preview">Preview</string>
     <string name="position_handler_toast">Drag the window by this handler to relocate it.</string>
     <string name="clipboard_no_token_selected">Please choose a token to add from the scrollable list.</string>
@@ -149,10 +149,10 @@
     <string name="clipboardButton_summary">Define how you want the clipboard result to look.</string>
     <string name="clipboardButton_title">Edit copy to clipboard</string>
     <string name="clipboard_activity_title">GoIV Clipboard configuration</string>
-    <string name="showtranslatedpokemonname_setting_title">Show translated Pokémon name</string>
-    <string name="showtranslatedpokemonname_setting_summary">Display translated Pokémon name on GoIV but use its English name for OCR. This is for when the Pokémon Go app is in English but user\'s native language is not</string>
+    <string name="showtranslatedpokemonname_setting_title">Show translated monster name</string>
+    <string name="showtranslatedpokemonname_setting_summary">Display translated monster name on GoIV but use its English name for OCR. This is for when the game app is in English but user\'s native language is not</string>
     <string name="pause_goiv_notification">Pause</string>
-    <string name="waiting_for_pogo_start">Waiting for Pokémon Go to start…</string>
+    <string name="waiting_for_pogo_start">Waiting for the game to start…</string>
     <string name="goiv_started">GoIV started.</string>
     <string name="clipboard_copy_toast">Copied %s to clipboard</string>
     <string name="no_clipboard_preview">No preview available</string>

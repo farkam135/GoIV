@@ -55,9 +55,9 @@ public class ExtendedCpTierToken extends ClipboardToken {
 
     @Override
     public String getLongDescription(Context context) {
-        return "This token gives you an idea of how powerful this pokemon can become, by measuring the maximum "
-                + "possible CP the pokemon can obtain (considering the maximum possible IV from the scan) and "
-                + "confronting it to the maximum CP of the most powerful IV 100 Pokemon. Values are provided in the "
+        return "This token gives you an idea of how powerful this monster can become, by measuring the maximum "
+                + "possible CP the monster can obtain (considering the maximum possible IV from the scan) and "
+                + "confronting it to the maximum CP of the most powerful IV 100 monster. Values are provided in the "
                 + "AA-ZZ range.";
     }
 

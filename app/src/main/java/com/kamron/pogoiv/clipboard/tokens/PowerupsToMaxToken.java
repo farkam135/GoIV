@@ -40,7 +40,7 @@ public class PowerupsToMaxToken extends ClipboardToken {
     }
 
     @Override public String getLongDescription(Context context) {
-        return "Shos how many power-ups are left until pokemon would reach level 40. For example if the pokemon is "
+        return "Shos how many power-ups are left until monster would reach level 40. For example if the monster is "
                 + "level 15, there are 25 levels to level 40, which is 50 powerups.";
     }
 

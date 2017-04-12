@@ -58,7 +58,7 @@ public class UnicodeToken extends ClipboardToken {
 
     @Override
     public String getLongDescription(Context context) {
-        String returner = "This token gives you a representation fo your pokemon IVs, but using UNICODE special "
+        String returner = "This token gives you a representation fo your monster IVs, but using UNICODE special "
                 + "characters which allows you to show numbers like 10 as a single character, like ⑪. This saves "
                 + "space.";
 

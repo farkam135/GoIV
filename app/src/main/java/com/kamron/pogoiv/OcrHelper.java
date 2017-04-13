@@ -421,7 +421,6 @@ public class OcrHelper {
      * @param yHeight how many % of the height should be kept starting from the ystart.
      * @return The crop of the image.
      */
-
     public Bitmap getImageCrop(Bitmap img, double xStart, double yStart, double xWidth, double yHeight) {
         Bitmap crop = Bitmap.createBitmap(img, (int) (widthPixels * xStart), (int) (heightPixels * yStart),
                 (int) (widthPixels * xWidth), (int) (heightPixels * yHeight));
@@ -626,8 +625,8 @@ public class OcrHelper {
         Optional<Integer> pokemonUpgradeCost = getPokemonEvolutionCostFromImg(pokemonImage);
         String pokemonUniqueIdentifier = getPokemonIdentifierFromImg(pokemonImage);
 
-        return new ScanResult(estimatedPokemonLevel, pokemonName, pokemonType, candyName, pokemonHP, pokemonCP,
-                pokemonCandyAmount, pokemonUpgradeCost, pokemonUniqueIdentifier);
+        return new ScanResult(estimatedPokemonLevel, pokemonName, pokemonType, candyName, pokemonHP,
+                pokemonCP, pokemonCandyAmount, pokemonUpgradeCost, pokemonUniqueIdentifier);
     }
 
 

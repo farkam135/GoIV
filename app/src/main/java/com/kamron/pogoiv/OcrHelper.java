@@ -404,10 +404,7 @@ public class OcrHelper {
         if (pokemonType == null) {
             type = replaceColors(type, true, 68, 105, 108, Color.WHITE, 200, true);
             tesseract.setImage(type);
-            pokemonType = fixOcrNumsToLetters(tesseract.getUTF8Text().replace(" ", ""));
-            if (pokemonType.toLowerCase().contains("nidora")) {
-                pokemonType = getNidoranGenderName(pokemonImage);
-            }
+            pokemonType = tesseract.getUTF8Text();
             type.recycle();
             ocrCache.put(hash, pokemonType);
         }

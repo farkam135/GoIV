@@ -1,6 +1,7 @@
 package com.kamron.pogoiv.clipboard;
 
 import com.kamron.pogoiv.clipboard.tokens.BaseStatToken;
+import com.kamron.pogoiv.clipboard.tokens.CPMaxToken;
 import com.kamron.pogoiv.clipboard.tokens.CpPercentileToken;
 import com.kamron.pogoiv.clipboard.tokens.CpTierToken;
 import com.kamron.pogoiv.clipboard.tokens.ExtendedCpTierToken;
@@ -60,7 +61,8 @@ public class ClipboardTokenCollection {
         tokens.add(new HpToken(false, true)); // hp on current evolution, current level
         tokens.add(new HpToken(false, false)); //hp on current evolution, level 40
 
-
+        tokens.add(new CPMaxToken(true)); //CP on max evolution, level 40
+        tokens.add(new CPMaxToken(false)); //CP on current evolution, level 40
         //stat tokens
         tokens.add(new BaseStatToken(false, 0, false)); //base evolution, all stats, dont invlude iv
         tokens.add(new BaseStatToken(false, 0, true)); //base evolution, all stats,  invlude iv

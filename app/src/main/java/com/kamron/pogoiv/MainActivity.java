@@ -186,12 +186,20 @@ public class MainActivity extends AppCompatActivity {
         runActionOnIntent(getIntent());
     }
 
+
+    private boolean samsungS8Patch = false;
     /**
      * Runs the initialization logic related to the user screen, taking measurements so the ocr will scan the right
      * areas.
      */
     private void initiateUserScreenSettings() {
         displayMetrics = this.getResources().getDisplayMetrics();
+        if (displayMetrics.heightPixels == 2960 || (displayMetrics.heightPixels > 2780 && displayMetrics.heightPixels
+                < 2800)){
+            //Probably a samsung s8
+            samsungS8Patch = true;
+        }
+
         WindowManager windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
         rawDisplayMetrics = new DisplayMetrics();
         Display disp = windowManager.getDefaultDisplay();
@@ -352,19 +360,28 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupDisplaySizeInfo() {
-        arcInit.x = (int) (displayMetrics.widthPixels * 0.5);
+        String sizeText = String.valueOf(displayMetrics.heightPixels);
+        Toast.makeText(this, "Size: " + sizeText, Toast.LENGTH_LONG).show();
+        if (samsungS8Patch) {
+            arcInit.x = (int) (displayMetrics.widthPixels * 0.5);
+            arcInit.y = 896; //magical number measured in photoshop, "middle of circle" for S8
+            arcRadius = 583;
+            Toast.makeText(this, "This looks like a Samsung s8", Toast.LENGTH_LONG).show();
+        } else {
+            arcInit.x = (int) (displayMetrics.widthPixels * 0.5);
 
-        arcInit.y = (int) Math.floor(displayMetrics.heightPixels / 2.803943);
-        if (displayMetrics.heightPixels == 2392 || displayMetrics.heightPixels == 800) {
-            arcInit.y--;
-        } else if (displayMetrics.heightPixels == 1920) {
-            arcInit.y++;
-        }
+            arcInit.y = (int) Math.floor(displayMetrics.heightPixels * 0.35664);
+            if (displayMetrics.heightPixels == 2392 || displayMetrics.heightPixels == 800) {
+                arcInit.y--;
+            } else if (displayMetrics.heightPixels == 1920) {
+                arcInit.y++;
+            }
 
-        arcRadius = (int) Math.round(displayMetrics.heightPixels / 4.3760683);
-        if (displayMetrics.heightPixels == 1776 || displayMetrics.heightPixels == 960
-                || displayMetrics.heightPixels == 800) {
-            arcRadius++;
+            arcRadius = (int) Math.round(displayMetrics.heightPixels * 0.2285);
+            if (displayMetrics.heightPixels == 1776 || displayMetrics.heightPixels == 960
+                    || displayMetrics.heightPixels == 800) {
+                arcRadius++;
+            }
         }
     }
 

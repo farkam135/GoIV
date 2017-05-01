@@ -614,7 +614,7 @@ public class OcrHelper {
      * @param trainerLevel Current level of the trainer
      * @return an object
      */
-    public ScanResult scanPokemon(Bitmap pokemonImage, int trainerLevel) {
+    public ScanResult scanPokemon(Bitmap pokemonImage, int trainerLevel, boolean s8patch) {
         double estimatedPokemonLevel = getPokemonLevelFromImg(pokemonImage, trainerLevel);
         String pokemonName = getPokemonNameFromImg(pokemonImage);
         String pokemonType = getPokemonTypeFromImg(pokemonImage);

@@ -364,8 +364,8 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this, "Size: " + sizeText, Toast.LENGTH_LONG).show();
         if (samsungS8Patch) {
             arcInit.x = (int) (displayMetrics.widthPixels * 0.5);
-            arcInit.y = 896; //magical number measured in photoshop, "middle of circle" for S8
-            arcRadius = 583;
+            arcInit.y = 910; //magical number measured in photoshop, "middle of circle" for S8
+            arcRadius = 590;
             Toast.makeText(this, "This looks like a Samsung s8", Toast.LENGTH_LONG).show();
         } else {
             arcInit.x = (int) (displayMetrics.widthPixels * 0.5);

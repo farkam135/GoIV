@@ -1982,9 +1982,14 @@ public class Pokefly extends Service {
     private void scanPokemon(Bitmap pokemonImage, @NonNull Optional<String> screenShotPath) {
         //WARNING: this method *must* always send an intent at the end, no matter what, to avoid the application
         // hanging.
+        boolean s8Patch = false;
+        if (displayMetrics.heightPixels == 2960 || (displayMetrics.heightPixels > 2780 && displayMetrics.heightPixels
+                < 2800)){
+            s8Patch = true;
+        }
         Intent info = Pokefly.createNoInfoIntent();
         try {
-            ScanResult res = ocr.scanPokemon(pokemonImage, trainerLevel);
+            ScanResult res = ocr.scanPokemon(pokemonImage, trainerLevel, s8Patch);
             if (res.isFailed()) {
                 Toast.makeText(Pokefly.this, getString(R.string.scan_pokemon_failed), Toast.LENGTH_SHORT).show();
             }

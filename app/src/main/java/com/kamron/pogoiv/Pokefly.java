@@ -293,7 +293,7 @@ public class Pokefly extends Service {
     @BindView(R.id.appraisalIVRange1)
     RadioButton appraisalIVRange1;
 
-    @BindView (R.id.attDefStaLayout)
+    @BindView(R.id.attDefStaLayout)
     LinearLayout attDefStaLayout;
     @BindView(R.id.attCheckbox)
     CheckBox attCheckbox;
@@ -1398,6 +1398,30 @@ public class Pokefly extends Service {
     }
 
     /**
+     * Adds the iv range of the pokemon to the clipboard if the clipboard setting is on.
+     */
+    public void addSpecificClipboard(IVScanResult ivScanResult, IVCombination ivCombination) {
+
+
+        ClipboardTokenHandler cth = new ClipboardTokenHandler(getApplicationContext());
+        String clipResult = "";
+        IVScanResult singleIVScanResult = new IVScanResult(ivScanResult.pokemon, ivScanResult.estimatedPokemonLevel,
+                ivScanResult.scannedCP);
+        singleIVScanResult.addIVCombination(ivCombination.att, ivCombination.def, ivCombination.sta);
+        clipResult = cth.getResults(singleIVScanResult, pokeInfoCalculator, true);
+
+
+        Toast toast = Toast.makeText(this, String.format(getString(R.string.clipboard_copy_toast), clipResult),
+                Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
+
+        ClipData clip = ClipData.newPlainText(clipResult, clipResult);
+        clipboard.setPrimaryClip(clip);
+
+    }
+
+    /**
      * Initialises the autocompletetextview which allows people to search for pokemon names.
      */
     private void initializePokemonAutoCompleteTextView() {
@@ -1510,7 +1534,7 @@ public class Pokefly extends Service {
      * Adds all options in the all iv possibilities list.
      */
     private void populateAllIvPossibilities(IVScanResult ivScanResult) {
-        IVResultsAdapter ivResults = new IVResultsAdapter(ivScanResult);
+        IVResultsAdapter ivResults = new IVResultsAdapter(ivScanResult, this);
         rvResults.setAdapter(ivResults);
     }
 

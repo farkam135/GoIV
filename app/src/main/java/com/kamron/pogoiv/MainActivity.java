@@ -360,13 +360,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupDisplaySizeInfo() {
-        String sizeText = String.valueOf(displayMetrics.heightPixels);
-        Toast.makeText(this, "Size: " + sizeText, Toast.LENGTH_LONG).show();
         if (samsungS8Patch) {
             arcInit.x = (int) (displayMetrics.widthPixels * 0.5);
             arcInit.y = 905; //magical number measured in photoshop, "middle of circle" for S8
             arcRadius = 583;
-            Toast.makeText(this, "This looks like a Samsung s8", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Extra long screen, compatibility mode active", Toast.LENGTH_SHORT).show();
         } else {
             arcInit.x = (int) (displayMetrics.widthPixels * 0.5);
 

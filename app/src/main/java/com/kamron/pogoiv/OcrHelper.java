@@ -839,6 +839,7 @@ public class OcrHelper {
             return Optional.absent();
         }
     }
+
     /**
      * Gets the candy amount from a pokemon image, it will return absent if PokeSpam is disabled.
      *
@@ -872,6 +873,7 @@ public class OcrHelper {
 
         return Optional.absent();
     }
+
     /**
      * Get the evolution cost for a pokemon, example, weedle: 12.
      * If there was no detected upgrade cost, returns -1.
@@ -920,7 +922,6 @@ public class OcrHelper {
 
         return uniqueText;
     }
-
 
 
 }

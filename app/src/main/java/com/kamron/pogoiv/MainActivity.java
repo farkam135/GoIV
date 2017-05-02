@@ -188,6 +188,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private boolean samsungS8Patch = false;
+
     /**
      * Runs the initialization logic related to the user screen, taking measurements so the ocr will scan the right
      * areas.
@@ -195,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
     private void initiateUserScreenSettings() {
         displayMetrics = this.getResources().getDisplayMetrics();
         if (displayMetrics.heightPixels == 2960 || (displayMetrics.heightPixels > 2780 && displayMetrics.heightPixels
-                < 2800)){
+                < 2800)) {
             //Probably a samsung s8
             samsungS8Patch = true;
         }
@@ -385,6 +386,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * save the trainerlevel from the numberpicker to settings and return it.
+     *
      * @return the level in the number picker.
      */
     private int setupTrainerLevel() {

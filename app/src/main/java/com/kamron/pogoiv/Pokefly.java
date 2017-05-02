@@ -293,7 +293,7 @@ public class Pokefly extends Service {
     @BindView(R.id.appraisalIVRange1)
     RadioButton appraisalIVRange1;
 
-    @BindView (R.id.attDefStaLayout)
+    @BindView(R.id.attDefStaLayout)
     LinearLayout attDefStaLayout;
     @BindView(R.id.attCheckbox)
     CheckBox attCheckbox;
@@ -1984,7 +1984,7 @@ public class Pokefly extends Service {
         // hanging.
         boolean s8Patch = false;
         if (displayMetrics.heightPixels == 2960 || (displayMetrics.heightPixels > 2780 && displayMetrics.heightPixels
-                < 2800)){
+                < 2800)) {
             s8Patch = true;
         }
         Intent info = Pokefly.createNoInfoIntent();

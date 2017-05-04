@@ -195,11 +195,17 @@ public class MainActivity extends AppCompatActivity {
      */
     private void initiateUserScreenSettings() {
         displayMetrics = this.getResources().getDisplayMetrics();
+        double screenRatio = (double) displayMetrics.heightPixels / (double) displayMetrics.widthPixels;
+        if (screenRatio > 1.9 && screenRatio < 2.06) {
+            samsungS8Patch = true;
+        }
+        /*
         if (displayMetrics.heightPixels == 2960 || (displayMetrics.heightPixels > 2780 && displayMetrics.heightPixels
                 < 2800)) {
             //Probably a samsung s8
             samsungS8Patch = true;
         }
+        */
 
         WindowManager windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
         rawDisplayMetrics = new DisplayMetrics();
@@ -362,10 +368,16 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupDisplaySizeInfo() {
         if (samsungS8Patch) {
+            int displayHeight = (int) (displayMetrics.widthPixels * 2.0555555);
+            //displayheight is calculated from width because height is dependent on aspect ratio
+            //And s8 and s8+ have different height of navbar, which is not reported bby displaymetrics.
             arcInit.x = (int) (displayMetrics.widthPixels * 0.5);
-            arcInit.y = 905; //magical number measured in photoshop, "middle of circle" for S8
-            arcRadius = 583;
+            arcInit.y = (int) (displayHeight * 0.3067567);
+            //magical number measured in photoshop, "middle of circle" ~905
+
+            arcRadius = (int) (displayHeight * 0.19695945);//583;
             Toast.makeText(this, "Extra long screen, compatibility mode active", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Make sure the app does not have black bars!", Toast.LENGTH_SHORT).show();
         } else {
             arcInit.x = (int) (displayMetrics.widthPixels * 0.5);
 

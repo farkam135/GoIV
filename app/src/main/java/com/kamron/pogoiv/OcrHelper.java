@@ -606,6 +606,8 @@ public class OcrHelper {
         return Optional.absent();
     }
 
+    private int s8Screenheight = 2960;
+
     /**
      * scanPokemon
      * Performs OCR on an image of a pokemon and returns the pulled info.
@@ -625,6 +627,7 @@ public class OcrHelper {
         Optional<Integer> pokemonUpgradeCost;
         String pokemonUniqueIdentifier;
         if (s8patch) {
+            s8Screenheight = (int) (pokemonImage.getWidth() * 2.055555);
             pokemonName = getS8PokemonNameFromImg(pokemonImage);
             pokemonType = getS8PokemonTypeFromImg(pokemonImage);
             candyName = getS8CandyNameFromImg(pokemonImage);
@@ -704,7 +707,7 @@ public class OcrHelper {
      * @return A string resulting from the scan
      */
     private String getS8PokemonNameFromImg(Bitmap pokemonImage) {
-        Bitmap name = getImageCrop(pokemonImage, 0.1, 0.41, 0.85, 0.055);
+        Bitmap name = getImageCropS8(pokemonImage, 0.1, 0.38, 0.85, 0.055);
         String hash = "name" + hashBitmap(name);
         String pokemonName = ocrCache.get(hash);
 
@@ -728,7 +731,7 @@ public class OcrHelper {
      * @return A string resulting from the scan
      */
     private String getS8PokemonTypeFromImg(Bitmap pokemonImage) {
-        Bitmap type = getImageCrop(pokemonImage, 0.365278, 0.5732, 0.308333, 0.035156);
+        Bitmap type = getImageCropS8(pokemonImage, 0.365278, 0.53, 0.308333, 0.03);
         String hash = "type" + hashBitmap(type);
         String pokemonType = ocrCache.get(hash);
 
@@ -749,7 +752,7 @@ public class OcrHelper {
      * @return the candy name, or "" if nothing was found
      */
     private String getS8CandyNameFromImg(Bitmap pokemonImage) {
-        Bitmap candy = getImageCrop(pokemonImage, 0.5, 0.6735, 0.47, 0.036);
+        Bitmap candy = getImageCropS8(pokemonImage, 0.5, 0.6365, 0.47, 0.036);
         String hash = "candy" + hashBitmap(candy);
         String candyName = ocrCache.get(hash);
 
@@ -774,7 +777,7 @@ public class OcrHelper {
      * @return an integer of the interpreted pokemon name, 10 if scan failed
      */
     private Optional<Integer> getS8PokemonHPFromImg(Bitmap pokemonImage) {
-        Bitmap hp = getImageCrop(pokemonImage, 0.357, 0.48, 0.285, 0.0293);
+        Bitmap hp = getImageCropS8(pokemonImage, 0.357, 0.45, 0.285, 0.025);
         String hash = "hp" + hashBitmap(hp);
         String pokemonHPStr = ocrCache.get(hash);
 
@@ -818,7 +821,7 @@ public class OcrHelper {
      * @return a CP of the pokemon, 10 if scan failed
      */
     private Optional<Integer> getS8PokemonCPFromImg(Bitmap pokemonImage) {
-        Bitmap cp = getImageCrop(pokemonImage, 0.25, 0.06, 0.5, 0.046);
+        Bitmap cp = getImageCropS8(pokemonImage, 0.25, 0.05, 0.5, 0.046);
         cp = replaceColors(cp, true, 255, 255, 255, Color.BLACK, 30, false);
         tesseract.setImage(cp);
         String cpText = tesseract.getUTF8Text();
@@ -851,7 +854,7 @@ public class OcrHelper {
             return Optional.absent();
         }
 
-        Bitmap candyAmount = getImageCrop(pokemonImage, 0.60, 0.645, 0.20, 0.038);
+        Bitmap candyAmount = getImageCropS8(pokemonImage, 0.59, 0.60, 0.20, 0.038);
         String hash = "candyAmount" + hashBitmap(candyAmount);
         String pokemonCandyStr = ocrCache.get(hash);
 
@@ -882,7 +885,7 @@ public class OcrHelper {
      * @return the evolution cost (or -1 if absent) wrapped in Optional.of(), or Optional.absent() on scan failure
      */
     private Optional<Integer> getS8PokemonEvolutionCostFromImg(Bitmap pokemonImage) {
-        Bitmap evolutionCostImage = getImageCrop(pokemonImage, 0.625, 0.71, 0.2, 0.04);
+        Bitmap evolutionCostImage = getImageCropS8(pokemonImage, 0.625, 0.72, 0.2, 0.07);
         String hash = "candyCost" + hashBitmap(evolutionCostImage);
 
         //return cache if it exists
@@ -923,5 +926,22 @@ public class OcrHelper {
         return uniqueText;
     }
 
+    /**
+     * Get a cropped version of your image, specific to the S8. This method forcefully includes the
+     * bottom nav-bar of the S8 in the resolution and height calculations, so that the s8 and s8+ can
+     * use the same percentages
+     *
+     * @param img     Which image to crop
+     * @param xStart  % of how far in the top left corner of the crop should be x coordinate
+     * @param yStart  % of how far in the top left corner of the crop should be y coordinate
+     * @param xWidth  how many % of the width should be kept starting from the xstart.
+     * @param yHeight how many % of the height should be kept starting from the ystart.
+     * @return The crop of the image.
+     */
+    public Bitmap getImageCropS8(Bitmap img, double xStart, double yStart, double xWidth, double yHeight) {
+        Bitmap crop = Bitmap.createBitmap(img, (int) (widthPixels * xStart), (int) (s8Screenheight * yStart),
+                (int) (widthPixels * xWidth), (int) (s8Screenheight * yHeight));
+        return crop;
+    }
 
 }

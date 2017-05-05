@@ -752,7 +752,7 @@ public class OcrHelper {
      * @return the candy name, or "" if nothing was found
      */
     private String getS8CandyNameFromImg(Bitmap pokemonImage) {
-        Bitmap candy = getImageCropS8(pokemonImage, 0.5, 0.6365, 0.47, 0.036);
+        Bitmap candy = getImageCropS8(pokemonImage, 0.5, 0.62, 0.47, 0.036);
         String hash = "candy" + hashBitmap(candy);
         String candyName = ocrCache.get(hash);
 
@@ -885,7 +885,7 @@ public class OcrHelper {
      * @return the evolution cost (or -1 if absent) wrapped in Optional.of(), or Optional.absent() on scan failure
      */
     private Optional<Integer> getS8PokemonEvolutionCostFromImg(Bitmap pokemonImage) {
-        Bitmap evolutionCostImage = getImageCropS8(pokemonImage, 0.625, 0.72, 0.2, 0.07);
+        Bitmap evolutionCostImage = getImageCropS8(pokemonImage, 0.625, 0.74, 0.2, 0.07);
         String hash = "candyCost" + hashBitmap(evolutionCostImage);
 
         //return cache if it exists

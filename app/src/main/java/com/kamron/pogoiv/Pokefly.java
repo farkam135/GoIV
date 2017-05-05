@@ -502,11 +502,11 @@ public class Pokefly extends Service {
 
     private void watchScreen() {
         area[0] = new Point(                // these values used to get "white" left of "power up"
-                Math.round(displayMetrics.widthPixels / 24),
-                (int) Math.round(displayMetrics.heightPixels / 1.24271845));
+                (int) Math.round(displayMetrics.widthPixels * 0.041667),
+                (int) Math.round(displayMetrics.heightPixels * 0.8046875));
         area[1] = new Point(                // these values used to get greenish color in transfer button
-                (int) Math.round(displayMetrics.widthPixels / 1.15942029),
-                (int) Math.round(displayMetrics.heightPixels / 1.11062907));
+                (int) Math.round(displayMetrics.widthPixels * 0.862445),
+                (int) Math.round(displayMetrics.heightPixels * 0.9004));
 
         screenScanHandler = new Handler();
         screenScanRunnable = new Runnable() {
@@ -1983,8 +1983,8 @@ public class Pokefly extends Service {
         //WARNING: this method *must* always send an intent at the end, no matter what, to avoid the application
         // hanging.
         boolean s8Patch = false;
-        if (displayMetrics.heightPixels == 2960 || (displayMetrics.heightPixels > 2780 && displayMetrics.heightPixels
-                < 2800)) {
+        double screenRatio = (double) displayMetrics.heightPixels / (double) displayMetrics.widthPixels;
+        if (screenRatio > 1.9 && screenRatio < 2.06) {
             s8Patch = true;
         }
         Intent info = Pokefly.createNoInfoIntent();

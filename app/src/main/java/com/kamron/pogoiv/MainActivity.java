@@ -186,12 +186,27 @@ public class MainActivity extends AppCompatActivity {
         runActionOnIntent(getIntent());
     }
 
+
+    private boolean samsungS8Patch = false;
+
     /**
      * Runs the initialization logic related to the user screen, taking measurements so the ocr will scan the right
      * areas.
      */
     private void initiateUserScreenSettings() {
         displayMetrics = this.getResources().getDisplayMetrics();
+        double screenRatio = (double) displayMetrics.heightPixels / (double) displayMetrics.widthPixels;
+        if (screenRatio > 1.9 && screenRatio < 2.06) {
+            samsungS8Patch = true;
+        }
+        /*
+        if (displayMetrics.heightPixels == 2960 || (displayMetrics.heightPixels > 2780 && displayMetrics.heightPixels
+                < 2800)) {
+            //Probably a samsung s8
+            samsungS8Patch = true;
+        }
+        */
+
         WindowManager windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
         rawDisplayMetrics = new DisplayMetrics();
         Display disp = windowManager.getDefaultDisplay();
@@ -352,24 +367,38 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupDisplaySizeInfo() {
-        arcInit.x = (int) (displayMetrics.widthPixels * 0.5);
+        if (samsungS8Patch) {
+            int displayHeight = (int) (displayMetrics.widthPixels * 2.0555555);
+            //displayheight is calculated from width because height is dependent on aspect ratio
+            //And s8 and s8+ have different height of navbar, which is not reported bby displaymetrics.
+            arcInit.x = (int) (displayMetrics.widthPixels * 0.5);
+            arcInit.y = (int) (displayHeight * 0.3067567);
+            //magical number measured in photoshop, "middle of circle" ~905
 
-        arcInit.y = (int) Math.floor(displayMetrics.heightPixels / 2.803943);
-        if (displayMetrics.heightPixels == 2392 || displayMetrics.heightPixels == 800) {
-            arcInit.y--;
-        } else if (displayMetrics.heightPixels == 1920) {
-            arcInit.y++;
-        }
+            arcRadius = (int) (displayHeight * 0.19695945);//583;
+            Toast.makeText(this, "Extra long screen, compatibility mode active", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Make sure the app does not have black bars!", Toast.LENGTH_SHORT).show();
+        } else {
+            arcInit.x = (int) (displayMetrics.widthPixels * 0.5);
 
-        arcRadius = (int) Math.round(displayMetrics.heightPixels / 4.3760683);
-        if (displayMetrics.heightPixels == 1776 || displayMetrics.heightPixels == 960
-                || displayMetrics.heightPixels == 800) {
-            arcRadius++;
+            arcInit.y = (int) Math.floor(displayMetrics.heightPixels * 0.35664);
+            if (displayMetrics.heightPixels == 2392 || displayMetrics.heightPixels == 800) {
+                arcInit.y--;
+            } else if (displayMetrics.heightPixels == 1920) {
+                arcInit.y++;
+            }
+
+            arcRadius = (int) Math.round(displayMetrics.heightPixels * 0.2285);
+            if (displayMetrics.heightPixels == 1776 || displayMetrics.heightPixels == 960
+                    || displayMetrics.heightPixels == 800) {
+                arcRadius++;
+            }
         }
     }
 
     /**
      * save the trainerlevel from the numberpicker to settings and return it.
+     *
      * @return the level in the number picker.
      */
     private int setupTrainerLevel() {

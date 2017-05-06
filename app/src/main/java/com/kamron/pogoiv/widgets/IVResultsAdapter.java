@@ -1,22 +1,16 @@
 package com.kamron.pogoiv.widgets;
 
-import android.content.ClipData;
-import android.content.ClipboardManager;
-import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.kamron.pogoiv.GuiUtil;
 import com.kamron.pogoiv.Pokefly;
 import com.kamron.pogoiv.R;
-import com.kamron.pogoiv.clipboard.ClipboardTokenHandler;
 import com.kamron.pogoiv.logic.IVCombination;
 import com.kamron.pogoiv.logic.IVScanResult;
 

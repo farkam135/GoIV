@@ -17,7 +17,7 @@ import java.util.Comparator;
  * lowPercent: worst case IV%
  * low attack,defence,stamina - the value for the IV stat where the lowest % was found
  * high attack,defence,stamina - the value for hte IV stat where the highest % was found
- *
+ * <p>
  * The ivscanresult object has evolved (bloated) to incluide several other things not needed to calculate the ivs,
  * which are used by other methods, such as the scanned hp and an identifier for the pokemon.
  * <p/>
@@ -45,7 +45,7 @@ public class IVScanResult {
      * @param pokemonCP             pokemon CP
      * @param estimatedPokemonLevel the estimated pokemon level (should be very low)
      */
-    IVScanResult(Pokemon pokemon, double estimatedPokemonLevel, int pokemonCP) {
+    public IVScanResult(Pokemon pokemon, double estimatedPokemonLevel, int pokemonCP) {
         this.pokemon = pokemon;
         this.estimatedPokemonLevel = estimatedPokemonLevel;
         this.scannedCP = pokemonCP;

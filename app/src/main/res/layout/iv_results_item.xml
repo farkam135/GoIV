@@ -1,35 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/llRvResult"
-    android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
 
     <TextView
         android:id="@+id/resultAttack"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:textSize="18sp"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:textSize="18sp"/>
+
     <TextView
         android:id="@+id/resultDefense"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:textSize="18sp"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:textSize="18sp"/>
+
     <TextView
         android:id="@+id/resultHP"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:textSize="18sp"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:textSize="18sp"/>
+
     <TextView
         android:id="@+id/resultPercentage"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:textSize="18sp"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:textSize="18sp"/>
+
 </LinearLayout>

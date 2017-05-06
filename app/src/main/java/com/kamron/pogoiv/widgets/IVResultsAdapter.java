@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.kamron.pogoiv.GuiUtil;
+import com.kamron.pogoiv.Pokefly;
 import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.logic.IVCombination;
 import com.kamron.pogoiv.logic.IVScanResult;
@@ -18,9 +19,11 @@ import com.kamron.pogoiv.logic.IVScanResult;
  */
 public class IVResultsAdapter extends RecyclerView.Adapter<IVResultsAdapter.ResultsViewHolder> {
     private final IVScanResult dataSet;
+    private Pokefly pokefly;
 
-    public IVResultsAdapter(IVScanResult ivScanResult) {
+    public IVResultsAdapter(IVScanResult ivScanResult, Pokefly pokefly) {
         dataSet = ivScanResult;
+        this.pokefly = pokefly;
     }
 
     @Override
@@ -69,6 +72,19 @@ public class IVResultsAdapter extends RecyclerView.Adapter<IVResultsAdapter.Resu
             resultHP = (TextView) itemView.findViewById(R.id.resultHP);
             resultPercentage = (TextView) itemView.findViewById(R.id.resultPercentage);
             llRvResult = (LinearLayout) itemView.findViewById(R.id.llRvResult);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override public void onClick(View v) {
+                    pokefly.addSpecificClipboard(dataSet, new IVCombination(
+                            Integer.parseInt(resultAttack.getText().toString()),
+                            Integer.parseInt(resultDefense.getText().toString()),
+                            Integer.parseInt(resultHP.getText().toString())
+                    ));
+                }
+            });
         }
+
     }
+
+
 }

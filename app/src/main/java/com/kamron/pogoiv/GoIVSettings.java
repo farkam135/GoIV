@@ -155,7 +155,7 @@ public class GoIVSettings {
     }
 
     public boolean isAutoUpdateEnabled() {
-        return prefs.getBoolean(AUTO_UPDATE_ENABLED, false);
+        return prefs.getBoolean(AUTO_UPDATE_ENABLED, true);
     }
 
     public boolean isPokeSpamEnabled() {

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="highest_stat_att">attacco</string>
+    <string name="highest_stat_def">difesa</string>
+    <string name="highest_stat_hp">ps</string>
+
+    <string name="mystic_percentage1_phrase1">meraviglia</string>
+    <string name="mystic_percentage1_phrase2">esemplare</string>
+    <string name="mystic_percentage2_phrase1">attirato</string>
+    <string name="mystic_percentage2_phrase2">attenzione</string>
+    <string name="mystic_percentage3_phrase1">sopra</string>
+    <string name="mystic_percentage3_phrase2">media</string>
+    <string name="mystic_percentage4_phrase1">successo</string>
+    <string name="mystic_percentage4_phrase2">lotte</string>
+
+    <string name="mystic_ivrange1_phrase1">viste</string>
+    <string name="mystic_ivrange1_phrase2">incredibile</string>
+    <string name="mystic_ivrange2_phrase1">devo</string>
+    <string name="mystic_ivrange2_phrase2">eccellenti</string>
+    <string name="mystic_ivrange3_phrase1">piuttosto</string>
+    <string name="mystic_ivrange3_phrase2">buone</string>
+    <string name="mystic_ivrange4_phrase1">fuori</string>
+    <string name="mystic_ivrange4_phrase2">ordinario</string>
+
+    <string name="valor_percentage1_phrase1">stupefacente</string>
+    <string name="valor_percentage1_phrase2">rivali</string>
+    <string name="valor_percentage2_phrase1">molto</string> <!-- "forte" is not ok -->
+    <string name="valor_percentage2_phrase2">orgoglioso</string>
+    <string name="valor_percentage3_phrase1">niente</string>
+    <string name="valor_percentage3_phrase2">male</string>
+    <string name="valor_percentage4_phrase1">potrebbe</string>
+    <string name="valor_percentage4_phrase2">piace</string>
+
+    <string name="valor_ivrange1_phrase1">sbalorditive</string>
+    <string name="valor_ivrange1_phrase2">occhi</string>
+    <string name="valor_ivrange2_phrase1">incredibili</string>
+    <string name="valor_ivrange2_phrase2">incredibili</string><!-- no other phrase -->
+    <string name="valor_ivrange3_phrase1">dovrebbero</string><!-- "genere" is not ok -->
+    <string name="valor_ivrange3_phrase2">bastare</string>
+    <string name="valor_ivrange4_phrase1">saranno</string>
+    <string name="valor_ivrange4_phrase2">aiuto</string>
+
+    <string name="instinct_percentage1_phrase1">sembra</string>
+    <string name="instinct_percentage1_phrase2">potercela</string> <!-- "migliori" is not ok -->
+    <string name="instinct_percentage2_phrase1">molto</string>
+    <string name="instinct_percentage2_phrase2">forte</string>
+    <string name="instinct_percentage3_phrase1">malaccio</string>
+    <string name="instinct_percentage3_phrase2">malaccio</string><!-- no other phrase -->
+    <string name="instinct_percentage4_phrase1">potrebbe</string>
+    <string name="instinct_percentage4_phrase2">migliorare</string>
+
+    <string name="instinct_ivrange1_phrase1">dubbio</string>
+    <string name="instinct_ivrange1_phrase2">visto</string>
+    <string name="instinct_ivrange2_phrase1">incredibile</string>
+    <string name="instinct_ivrange2_phrase2">forti</string>
+    <string name="instinct_ivrange3_phrase1">qualcosa</string>
+    <string name="instinct_ivrange3_phrase2">valido</string>
+    <string name="instinct_ivrange4_phrase1">massimo</string>
+    <string name="instinct_ivrange4_phrase2">andare</string>
+</resources>

@@ -1224,8 +1224,10 @@ public class Pokefly extends Service {
 
         refineByAvailableAppraisalInfo(ivScanResult);
 
-
-        addClipboardInfoIfSettingOn(ivScanResult);
+        //Dont run clipboard logic if scan failed - some tokens might crash the program.
+        if (ivScanResult.iVCombinations.size() > 0) {
+            addClipboardInfoIfSettingOn(ivScanResult);
+        }
         populateResultsBox(ivScanResult);
         boolean enableCompare = ScanContainer.scanContainer.prevScan != null;
         exResCompare.setEnabled(enableCompare);

@@ -77,6 +77,7 @@ public class PokeInfoCalculator {
 
     /**
      * Returns the full list of possible candy names.
+     *
      * @return List of all candy names that exist in Pokemon Go
      */
     public List<Pokemon> getCandyPokemons() {
@@ -246,6 +247,9 @@ public class PokeInfoCalculator {
      * @return CPrange containing the CP range including the specified level.
      */
     public CPRange getCpRangeAtLevel(Pokemon pokemon, IVCombination low, IVCombination high, double level) {
+        if (low == null || high == null || level < 0 || pokemon == null) {
+            return new CPRange(0, 0);
+        }
         int baseAttack = pokemon.baseAttack;
         int baseDefense = pokemon.baseDefense;
         int baseStamina = pokemon.baseStamina;

@@ -20,6 +20,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * A singleton class which is used to access and modify the "persistant" settings saved in phone memory.
+ */
 public class GoIVSettings {
 
     public static final String PREFS_GO_IV_SETTINGS = "GoIV_settings";

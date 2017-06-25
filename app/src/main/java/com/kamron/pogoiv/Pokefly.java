@@ -516,6 +516,7 @@ public class Pokefly extends Service {
                     boolean ret = scanPokemonScreen();
                     if (ret) {
                         screenScanRetries = 0; //skip further retries.
+                        printIVPreview();
                     } else {
                         screenScanRetries--;
                         screenScanHandler.postDelayed(screenScanRunnable, SCREEN_SCAN_DELAY_MS);
@@ -585,10 +586,61 @@ public class Pokefly extends Service {
                     (pixels[0] == Color.rgb(250, 250, 250) || pixels[0] == Color.rgb(249, 249, 249))
                             && pixels[1] == Color.rgb(28, 135, 150);
             setIVButtonDisplay(shouldShow);
+
+
             return shouldShow;
         }
         return false;
     }
+
+    private void printIVPreview() {
+
+        final Context thisContext = this;
+
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Bitmap bmp = screen.grabScreen();
+                //
+                if (bmp == null) {
+                    Toast.makeText(thisContext, "Did not catch the screen X", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                boolean s8Patch = false;
+                double screenRatio = (double) displayMetrics.heightPixels / (double) displayMetrics.widthPixels;
+                if (screenRatio > 1.9 && screenRatio < 2.06) {
+                    s8Patch = true;
+                }
+                ScanResult res = ocr.scanPokemon(bmp, trainerLevel, s8Patch);
+                if (res.isFailed()) {
+                    Toast.makeText(Pokefly.this, getString(R.string.scan_pokemon_failed), Toast.LENGTH_SHORT).show();
+                }
+
+                if (res.getPokemonHP().isPresent() && res.getPokemonCP().isPresent()){
+                    Pokemon poke = corrector.getPossiblePokemon(res.getPokemonName(), res.getCandyName(), res.getUpgradeCandyCost(),
+                            res.getPokemonType()).pokemon;
+                    IVScanResult ivrs = pokeInfoCalculator.getIVPossibilities(poke, res.getEstimatedPokemonLevel(), res
+                            .getPokemonHP().get(), res
+                            .getPokemonCP().get() );
+
+                    if (ivrs.getCount() >0){
+                        String quickString = "Max potential. IV: " + " " + ivrs.getHighestIVCombination().percentPerfect + "%";
+                        Toast.makeText(thisContext, quickString, Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(thisContext, "Scan failed, screen read wrong", Toast.LENGTH_SHORT).show();
+                    }
+
+                }else{
+                    Toast.makeText(thisContext, "Scan failed, screen read wrong", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        }, 50);
+
+
+    }
+
 
     private boolean infoLayoutArcPointerVisible = false;
 
@@ -2128,7 +2180,9 @@ public class Pokefly extends Service {
      * hide the IV Button.
      */
     private void setIVButtonDisplay(boolean show) {
+
         if (show && !ivButtonShown && !infoShownSent) {
+
             windowManager.addView(ivButton, ivButtonParams);
             ivButtonShown = true;
         } else if (!show) {

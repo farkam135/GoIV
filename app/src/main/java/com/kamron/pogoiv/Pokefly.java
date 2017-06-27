@@ -604,7 +604,7 @@ public class Pokefly extends Service {
                 Bitmap bmp = screen.grabScreen();
                 //
                 if (bmp == null) {
-                    Toast.makeText(thisContext, "Did not catch the screen X", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(thisContext, R.string.scanFailed, Toast.LENGTH_SHORT).show();
                     return;
                 }
                 boolean s8Patch = false;

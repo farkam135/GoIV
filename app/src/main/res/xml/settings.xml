@@ -82,6 +82,22 @@
             app:msbp_measurementUnit="ms"
             app:msbp_dialogEnabled="false"/>
 
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="quick_iv_preview"
+            android:title="Show quick IV preview"
+            android:summary="Display a small preview automatically when on a 'mon screen."
+        />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="quick_iv_preview_clipboard"
+            android:dependency="quick_iv_preview"
+            android:title="Show your custom clipboard in the preview"
+            android:summary="Replace the normal quick preview with the content of your custom clipboard."
+            />
+
     </PreferenceCategory>
 
 

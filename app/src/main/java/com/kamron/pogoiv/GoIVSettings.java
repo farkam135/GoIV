@@ -44,6 +44,9 @@ public class GoIVSettings {
     public static final String COPY_TO_CLIPBOARD_SHOW_TOAST = "copyToClipboardShowToast";
     public static final String AUTO_APPRAISAL_SCAN_DELAY = "autoAppraisalScanDelay";
     public static final String AUTO_OPEN_APPRAISE_DIALOGUE = "autoOpenAppraiseDialogue";
+    public static final String QUICK_IV_PREVIEW = "quick_iv_preview";
+    public static final String QUICK_IV_PREVIEW_CLIPBOARD = "quick_iv_preview_clipboard";
+
 
     private static GoIVSettings instance;
     private final SharedPreferences prefs;
@@ -166,8 +169,13 @@ public class GoIVSettings {
     }
 
     public boolean shouldAutoOpenExpandedAppraise() {
-        return prefs.getBoolean(AUTO_OPEN_APPRAISE_DIALOGUE, false);
+        return prefs.getBoolean(AUTO_OPEN_APPRAISE_DIALOGUE, true);
     }
+
+    public boolean shouldReplaceQuickIvPreviewWithClipboard() {
+        return prefs.getBoolean(QUICK_IV_PREVIEW_CLIPBOARD, false);
+    }
+
 
     public boolean isShowTranslatedPokemonName() {
         if (context.getResources().getBoolean(R.bool.use_default_pokemonsname_as_ocrstring)) {
@@ -178,6 +186,11 @@ public class GoIVSettings {
 
     public boolean shouldCopyToClipboardShowToast() {
         return prefs.getBoolean(COPY_TO_CLIPBOARD_SHOW_TOAST, true);
+    }
+
+
+    public boolean shouldShowQuickIVPreview() {
+        return prefs.getBoolean(QUICK_IV_PREVIEW, true);
     }
 
     public int getAutoAppraisalScanDelay() {

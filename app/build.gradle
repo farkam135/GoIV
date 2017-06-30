@@ -136,7 +136,7 @@ dependencies {
     compile 'com.google.code.findbugs:jsr305:3.0.1'
     compile 'com.jakewharton:butterknife:8.4.0'
     compile 'com.jakewharton.timber:timber:4.3.0'
-    compile 'com.rmtheis:tess-two:6.1.1'
+    compile 'com.rmtheis:tess-two:7.0.0'
     compile 'io.apptik.widget:multislider:1.2'
     compile 'com.pavelsikun:material-seekbar-preference:2.3.0'
     provided 'org.projectlombok:lombok:1.16.10'

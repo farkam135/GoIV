@@ -516,6 +516,7 @@ public class Pokefly extends Service {
                     boolean ret = scanPokemonScreen();
                     if (ret) {
                         screenScanRetries = 0; //skip further retries.
+                        printIVPreview();
                     } else {
                         screenScanRetries--;
                         screenScanHandler.postDelayed(screenScanRunnable, SCREEN_SCAN_DELAY_MS);
@@ -585,10 +586,78 @@ public class Pokefly extends Service {
                     (pixels[0] == Color.rgb(250, 250, 250) || pixels[0] == Color.rgb(249, 249, 249))
                             && pixels[1] == Color.rgb(28, 135, 150);
             setIVButtonDisplay(shouldShow);
+
+
             return shouldShow;
         }
         return false;
     }
+
+    /**
+     * Shows a toast message that displays either a short message about the pokemon currently on the screen, or the
+     * users clipboard setting about the pokemon currently on the screen.
+     */
+    private void printIVPreview() {
+
+        if (settings.shouldShowQuickIVPreview()) {
+            final Context thisContext = this;
+
+            final Handler handler = new Handler();
+            //A delayed action, because the screengrabber needs to wait and ensure there's a frame to grab - fails if
+            //the delay is not long enough.
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Bitmap bmp = screen.grabScreen();
+                    //
+                    if (bmp == null) {
+                        Toast.makeText(thisContext, R.string.scanFailed, Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    boolean s8Patch = false;
+                    double screenRatio = (double) displayMetrics.heightPixels / (double) displayMetrics.widthPixels;
+                    if (screenRatio > 1.9 && screenRatio < 2.06) {
+                        s8Patch = true;
+                    }
+                    ScanResult res = ocr.scanPokemon(bmp, trainerLevel, s8Patch);
+
+                    //if scan is successful, this message will be overwritten and not shown.
+                    String toastMessage = "Failed to perform quickscan";
+                    if (res.isFailed()) {
+                        Toast.makeText(Pokefly.this, getString(R.string.scan_pokemon_failed), Toast.LENGTH_SHORT)
+                                .show();
+                    }
+
+                    if (res.getPokemonHP().isPresent() && res.getPokemonCP().isPresent()) {
+                        Pokemon poke = corrector.getPossiblePokemon(res.getPokemonName(), res.getCandyName(),
+                                res.getUpgradeCandyCost(),
+                                res.getPokemonType()).pokemon;
+                        IVScanResult ivrs = pokeInfoCalculator.getIVPossibilities(poke, res.getEstimatedPokemonLevel(),
+                                res
+                                        .getPokemonHP().get(), res
+                                        .getPokemonCP().get());
+
+                        if (ivrs.getCount() > 0) {
+                            if (settings.shouldReplaceQuickIvPreviewWithClipboard()) {
+                                toastMessage = getClipboardStringForIvScan(ivrs);
+                            } else {
+                                toastMessage = "IV: " + ivrs.getLowestIVCombination().percentPerfect + " - "
+                                        + ivrs.getHighestIVCombination().percentPerfect + "%";
+                            }
+                        }
+
+                    }
+
+                    Toast.makeText(thisContext, toastMessage, Toast.LENGTH_SHORT).show();
+
+                }
+            }, 50);
+
+        }
+
+
+    }
+
 
     private boolean infoLayoutArcPointerVisible = false;
 
@@ -1373,19 +1442,30 @@ public class Pokefly extends Service {
 
 
     /**
+     * Get the clipboard string as dictated by the current user settings for clipboard tokens and single/multi results
+     *
+     * @param ivScanResult The scan to populate the string with
+     * @return A string which is built differently based on the users settings.
+     */
+    private String getClipboardStringForIvScan(IVScanResult ivScanResult) {
+        ClipboardTokenHandler cth = new ClipboardTokenHandler(getApplicationContext());
+        String clipResult = "";
+
+        // has the user enabled the setting for different results and is there just a single result??
+        if (settings.shouldCopyToClipboardSingle() && ivScanResult.getCount() == 1) {
+            clipResult = cth.getResults(ivScanResult, pokeInfoCalculator, true);
+        } else {
+            clipResult = cth.getResults(ivScanResult, pokeInfoCalculator, false);
+        }
+        return clipResult;
+    }
+
+    /**
      * Adds the iv range of the pokemon to the clipboard if the clipboard setting is on.
      */
     private void addClipboardInfoIfSettingOn(IVScanResult ivScanResult) {
         if (settings.shouldCopyToClipboard()) {
-            ClipboardTokenHandler cth = new ClipboardTokenHandler(getApplicationContext());
-            String clipResult = "";
-
-            // has the user enabled the setting for different results and is there just a single result??
-            if (settings.shouldCopyToClipboardSingle() && ivScanResult.getCount() == 1) {
-                clipResult = cth.getResults(ivScanResult, pokeInfoCalculator, true);
-            } else {
-                clipResult = cth.getResults(ivScanResult, pokeInfoCalculator, false);
-            }
+            String clipResult = getClipboardStringForIvScan(ivScanResult);
 
             if (settings.shouldCopyToClipboardShowToast()) {
                 Toast toast = Toast.makeText(this, String.format(getString(R.string.clipboard_copy_toast), clipResult),
@@ -2128,7 +2208,9 @@ public class Pokefly extends Service {
      * hide the IV Button.
      */
     private void setIVButtonDisplay(boolean show) {
+
         if (show && !ivButtonShown && !infoShownSent) {
+
             windowManager.addView(ivButton, ivButtonParams);
             ivButtonShown = true;
         } else if (!show) {

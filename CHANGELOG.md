@@ -1,5 +1,90 @@
 # Changelog
 
+
+
+## 3.5.0
+ 
+### Changes
+
+  Added Quick IV preview - shows a quick message when you enter a pokemon page
+  Bugfix: The appraisal information is now correctly taken into account when predicting future CP in the evolution and powerup screen. 
+  Crashfixes for several situations related to custom clipboard settings.
+  Automatic appraisal för italian (made by MaicolPain), sorry the update was so slow!
+
+
+## 3.4.5
+
+### changes
+  Makes GoIV work on samsung s8 with fullscreen mode Pogo
+  Speeds up parts of the auto appraisal feature (+ small UI tweak)
+  You can now copy to clipboard by clicking an IV combination in the list of all possible combinations.
+  -a crashfix-
+  Changes for scan-related automatic clipboard names:
+  added AA-ZZ cp tier token
+  added IV-sum token
+  added lvl 40 cp token
+  ExtendedCPTierToken now defaults to the highest CP evolution
+
+## 3.4.1
+
+### Changes
+  Added option for opening Appraisal input on default
+  Updated GoIV database to match new Pokemon 2 information
+  Fixed a bug causing GoIV to crash when manually changing pokemon
+  Tweaked input-window size to allow smaller screen phones to press "appraise" below the input screen.
+
+## 3.4.0
+
+###  Changes
+  Appraisal input changed from dropdown to checkboxes
+  Implements automatic appraisal (https://www.youtube.com/watch?v=Lbl-O6mT7eQ) - You need to have goiv expanded for it to be in the mode where it searches for appraisal info. This feature is a little slow the first time it reads a sentence, but it will then cache the sentence for the future
+  Improved pokemon level detection algorithm for trainer level 30+.
+  Several bugfixes
+
+## 3.3.2
+
+### Changes
+
+  Adds base stats for all generation 2 pokemon! (They might not always be auto identified)
+  Fixes metapod stats (sorry)
+  Adds option to hide the popup of when something has been added to clipboard
+  Some small updates to the Clipboard Editor
+  The notification icon now shows if GoIV is running or not (The icon gets filled with white when its running)
+  Added a delay when starting which prevents some cases of black-screen
+
+
+## 3.3.1
+
+## Fixes
+  Updated for the new pokemon go CP balancing!
+  Fixes CP scanning area for some phones
+  Fixes candy scanning area for some phones
+  Should remove "5" from hp on languages that has hp as "PS"
+  Fixed a line in german which was slightly too long
+
+
+## 3.3.0
+
+###New features
+* Adds a user-modifiable clipboard editor (UI is not very pretty, sorry) So now you can create your own custom text for when you scan a pokemon, such as "maxIv - PokemonName"
+  You can now pause and play GoIV from the notification.
+  Adds "pokespam" calculator - shows how many of a pokemon you can upgrade. (Can be disabled in settings)
+  Adds hp estimate to estimate box
+  Adds perfection % to estimate box
+  Adds a "share" button on the results screen so other apps can use the information of a scanned pokemon. Currently supported by storimõd.
+  Enhancements
+
+  New pokemon identification module! - Better at identifying "half" evolutions, such as charmeleon or metapod. Can now also identify pokemon even when they've been renamed!
+  If you press to edit Cp or Hp, the keyboard will disappear when you press "check iv".
+  Defaults appraise box to closed
+  Added a handle for dragging the window when appraisal is open
+  Updated some translations
+  BugFixes
+
+Fixes some scanning issues with the latest Pokemon Go update which moved around parts of the UI
+GoIV stays alive in the background better
+Fixes a couple of ocr related crashes
+
 ## 3.2.0
 
 ### Features

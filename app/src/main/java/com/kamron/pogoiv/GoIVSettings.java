@@ -48,7 +48,6 @@ public class GoIVSettings {
     public static final String QUICK_IV_PREVIEW_CLIPBOARD = "quick_iv_preview_clipboard";
 
 
-
     private static GoIVSettings instance;
     private final SharedPreferences prefs;
     private Context context;
@@ -172,10 +171,10 @@ public class GoIVSettings {
     public boolean shouldAutoOpenExpandedAppraise() {
         return prefs.getBoolean(AUTO_OPEN_APPRAISE_DIALOGUE, true);
     }
+
     public boolean shouldReplaceQuickIvPreviewWithClipboard() {
         return prefs.getBoolean(QUICK_IV_PREVIEW_CLIPBOARD, false);
     }
-
 
 
     public boolean isShowTranslatedPokemonName() {

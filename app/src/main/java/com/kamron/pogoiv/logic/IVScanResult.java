@@ -175,13 +175,13 @@ public class IVScanResult {
             int sumIV = ivc.att + ivc.def + ivc.sta;
             int percentPerfect = Math.round(sumIV / 45f * 100);
 
-            if (ivc.att > lowAttack) {
+            if (ivc.att < lowAttack) {
                 lowAttack = ivc.att;
             }
-            if (ivc.def > lowDefense) {
+            if (ivc.def < lowDefense) {
                 lowDefense = ivc.def;
             }
-            if (ivc.sta > lowStamina) {
+            if (ivc.sta < lowStamina) {
                 lowStamina = ivc.sta;
             }
 

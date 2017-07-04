@@ -21,8 +21,8 @@
         <SwitchPreference
             android:defaultValue="false"
             android:key="autoOpenAppraiseDialogue"
-            android:summary="Automatically expand the full appraisal checkbox menu"
-            android:title="Expanded appraisal opened by default"/>
+            android:summary="@string/expanded_appraisal_default_setting_summary"
+            android:title="@string/expanded_appraisal_default_setting_title"/>
 
         <SwitchPreference
             android:defaultValue="false"

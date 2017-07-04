@@ -149,6 +149,8 @@
     <string name="clipboardButton_summary">Define how you want the clipboard result to look.</string>
     <string name="clipboardButton_title">Edit copy to clipboard</string>
     <string name="clipboard_activity_title">GoIV Clipboard configuration</string>
+    <string name="expanded_appraisal_default_setting_title">Expanded appraisal opened by default</string>
+    <string name="expanded_appraisal_default_setting_summary">Automatically expand the full appraisal checkbox menu</string>
     <string name="showtranslatedpokemonname_setting_title">Show translated monster name</string>
     <string name="showtranslatedpokemonname_setting_summary">Display translated monster name on GoIV but use its English name for OCR. This is for when the game app is in English but user\'s native language is not</string>
     <string name="pause_goiv_notification">Pause</string>

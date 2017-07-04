@@ -64,7 +64,7 @@ public class PokemonNameCorrector {
 
 
         //3.  check correction for Eevee’s Evolution using it's Pokemon Type
-        if (guess.pokemon == null && candytext.equals("EEVEE")) {
+        if (guess.pokemon == null && candytext.toLowerCase().contains(pokeInfoCalculator.get(132).name.toLowerCase())) {
             HashMap<String, String> eeveelutionCorrection = new HashMap<>();
             // It might be good to move this to a resource at some point
             eeveelutionCorrection.put("WATER", pokeInfoCalculator.get(133).name); //Vaporeon

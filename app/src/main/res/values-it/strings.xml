@@ -122,4 +122,82 @@
         <item name="valoriv8_12">"…dovrebbero bastare nelle lotte"</item>
         <item name="valoriv0_7">"…non gli saranno di grande aiuto…"</item>
     </string-array>
+
+
+    <!-- Team mystic appraisal strings mv for iv % and ms for strongest stat range-->
+    <string name="mv4">non avrà\nsuccesso</string>
+    <string name="mv3">sopra\nla media</string>
+    <string name="mv2">attirato attenzione</string>
+    <string name="mv1">meraviglia assoluta</string>
+    <string name="ms4">ordinario</string>
+    <string name="ms3">buone</string>
+    <string name="ms2">eccellenti</string>
+    <string name="ms1">incredibile</string>
+
+
+    <!-- Team valor appraisal strings mv for iv % and ms for strongest stat range-->
+    <string name="vv4">mi piace\nlo stesso</string>
+    <string name="vv3">niente male</string>
+    <string name="vv2">forte orgoglioso</string>
+    <string name="vv1">stupefa&#8230;\nno rivali</string>
+    <string name="vs4">no grande aiuto</string>
+    <string name="vs3">bastare\nnelle lotte</string>
+    <string name="vs2">eccellenti forte</string>
+    <string name="vs1">statistiche sbalorditive</string>
+
+
+    <!-- Team instinct appraisal strings mv for iv % and ms for strongest stat range-->
+    <string name="iv4">potrebbe migliorare</string>
+    <string name="iv3">non è\nmalaccio</string>
+    <string name="iv2">è molto\nforte</string>
+    <string name="iv1">contro i\nmigliori</string>
+    <string name="is4">possono andare</string>
+    <string name="is3">qualcosa\ndi valido</string>
+    <string name="is2">forti\nincredibile</string>
+    <string name="is1">migliori&#8230;\nmai visto</string>
+
+
+    <string name="app_credits_title">Riconoscimenti</string>
+    <string name="candy">Caramelle</string>
+    <string name="autoAppraisalScanDelay_summary">Quanto attendere che l\'animazione del testo di valutazione sia finita. Smartphone di fascia bassa potrebbero necessitare di 800ms.</string>
+    <string name="autoAppraisalScanDelay_title">Attesa auto valutazione</string>
+    <string name="clipboardButton_summary">Definisci come vuoi che appaiano i risultati copiati negli appunti</string>
+    <string name="clipboardButton_title">Modifica copia negli appunti</string>
+    <string name="clipboard_activity_title">Configurazione appunti GoIV</string>
+    <string name="clipboard_copy_toast">%s copiato negli appunti</string>
+    <string name="clipboard_modifier_preview">Anteprima</string>
+    <string name="clipboard_no_token_selected">Seleziona il token da aggiungere dalla lista scrollabile.</string>
+    <string name="copy_to_clip_show_toast_setting">Mostra popup di anteprima appunti</string>
+    <string name="copy_to_clip_show_toast_setting_summary">Mostra un\'anteprima di cosa è stato copiato negli appunti con un piccolo popup</string>
+    <string name="copy_to_clip_single_setting">Copia diversamente per risultati singoli</string>
+    <string name="copy_to_clip_single_setting_summary">Durante la modifica ti permette di definire una configurazione per la copia negli appunti da usare quando la scansione risulta in una singola possibilità.</string>
+    <string name="copy_to_clipboard_setting_summary_new">Aggiunge automaticamente le informazioni dello scan negli appunti (copia&amp;incolla).</string>
+    <string name="cp_vs_iv">% PL vs max IV</string>
+    <string name="goiv_started">GoIV avviato.</string>
+    <string name="hp_expanded_box">PS</string>
+    <string name="notification_title_goiv_stopped">"GoIV "</string>
+    <string name="pause_goiv_notification">Pausa</string>
+    <string name="notification_title_increment_level">Livello +1</string>
+    <string name="notification_title_tap_to_open">Tocca per aprire GoIV.</string>
+    <string name="no_clipboard_preview">Anteprima non disponibile</string>
+    <string name="perfection_explainer" formatted="false">La percentuale mostra quanto è ampia la differenza tra il tuo mostro e un mostro della stessa specie che ha IV perfetti e livello 40. Quindi, per esempio, se risulta 92% allora il tuo mostro al massimo avrà l\'8% in meno di PL in confronto ad un altro della stessa specie con IV massimi.</string>
+    <string name="pokespam_formatted_message">%1$d (%2$d righe + altre %3$d)</string>
+    <string name="pokespam_not_available">Non disponibile</string>
+    <string name="pokespam_setting_summary">Abilita la scansione della quantità di caramelle per consentirti di sapere quanti mostri puoi evolvere, utile quando usi i fortunuovo</string>
+    <string name="pokespam_setting_title">Mostra quanti ne puoi evolvere</string>
+    <string name="position_handler_toast">Trascina la finestra con questa maniglia per riposizionarla.</string>
+    <string name="settings_title_behaviour">Preferenze comportamento app</string>
+    <string name="settings_title_mode">Modalità GoIV</string>
+    <string name="settings_title_optional">Funzioni GoIV opzionali</string>
+    <string name="settings_title_uninteresting">Impostazioni poco interessanti</string>
+    <string name="showtranslatedpokemonname_setting_summary">Mostra il nome tradotto del mostro in GoIV ma usa i nomi inglesi per le scansioni. Questa opzione serve quando il gioco è in inglese perché non è tradotto nella lingua del giocatore.</string>
+    <string name="showtranslatedpokemonname_setting_title">Mostra nomi mostri tradotti</string>
+    <string name="token_pokemonname">Nome</string>
+    <string name="view_credits">Mostra riconoscimenti</string>
+    <string name="view_credits_summary">Mostra i riconoscimenti di questa app, i progetti open source usati ed i ringraziamenti</string>
+    <string name="waiting_for_pogo_start">In attesa dell\'avvio del gioco…</string>
+    <string name="alert_explanation_title">Spiegazioni</string>
+    <string name="android_sub5_warning">GoIV ha rilevato che il tuo smartphone non supporta le MediaProjection API, che sono usate per mostrare automaticamente il bottone di scan IV. Questo problema potrebbe risolversi aggiornando ad Android 5.0 o successivi. L\'app si imposterà in modalità screenshot per evitare crash. Puoi usare GoIV manualmente scattando uno screeshot, che nella maggior parte dei device si esegue tenendo premuti i tasti home+power del tuo smartphone per qualche istante. Ci scusiamo per l\'inconveniente.</string>
+    <string name="expanded_appraisal_default_setting_summary">Espandi automaticamente il menu di valutazione completo per mostrare tutte le checkbox</string>
+    <string name="expanded_appraisal_default_setting_title">Valutazione espansa di default</string>
 </resources>

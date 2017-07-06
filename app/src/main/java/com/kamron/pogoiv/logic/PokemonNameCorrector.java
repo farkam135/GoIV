@@ -85,7 +85,7 @@ public class PokemonNameCorrector {
         //4. maybe the candy upgrade cost was scanned wrong because the candy icon was interpreted as a number (for
         // example the black candy is not cleaned by the ocr). Try checking if any in the possible evolutions that
         // match without the first character.
-        if (guess.pokemon == null) {
+        if (guess.pokemon == null && candyUpgradeCost.isPresent()) {
             String textInterpretation = candyUpgradeCost.get().toString();
             String cleanedInterpretation = textInterpretation.substring(1, textInterpretation.length());
             Optional<Integer> cleanedInt = Optional.of(Integer.parseInt(cleanedInterpretation));

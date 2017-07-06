@@ -17,6 +17,9 @@ import com.kamron.pogoiv.logic.ScanResult;
 
 /**
  * Created by johan on 2017-07-06.
+ *
+ * An object which can show a quick indication of a pokemons IV or information based on the custom clipboard depening
+ * on user setting.
  */
 
 public class IVPreviewPrinter {

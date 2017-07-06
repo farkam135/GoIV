@@ -82,13 +82,35 @@ public class PokemonNameCorrector {
             }
         }
 
-        //4.  get the pokemon with the closest name within the evolution line guessed from the candy (or candy and
+        //4. maybe the candy upgrade cost was scanned wrong because the candy icon was interpreted as a number (for
+        // example the black candy is not cleaned by the ocr). Try checking if any in the possible evolutions that
+        // match without the first character.
+        if (guess.pokemon == null) {
+            String textInterpretation = candyUpgradeCost.get().toString();
+            String cleanedInterpretation = textInterpretation.substring(1, textInterpretation.length());
+            Optional<Integer> cleanedInt = Optional.of(Integer.parseInt(cleanedInterpretation));
+            ArrayList<Pokemon> candyNameEvolutionCostGuess =
+                    getCandyNameEvolutionCostGuess(bestGuessEvolutionLine, cleanedInt);
+            if (candyNameEvolutionCostGuess != null) {
+                if (candyNameEvolutionCostGuess.size() == 1) {
+                    //we have only one guess this is the one
+                    guess = new PokeDist(candyNameEvolutionCostGuess.get(0), 0);
+                }else if (candyNameEvolutionCostGuess.size() > 1) {
+                    //if we have multiple guesses let the PokeDist guess based on name
+                    bestGuessEvolutionLine = candyNameEvolutionCostGuess;
+                }
+            }
+        }
+
+        //5.  get the pokemon with the closest name within the evolution line guessed from the candy (or candy and
         // cost calculation).
         if (guess.pokemon == null && bestGuessEvolutionLine != null) {
             guess = getNicknameGuess(poketext, bestGuessEvolutionLine);
         }
 
-        //5. All else failed: make a wild guess based only on closest name match
+
+
+        //6. All else failed: make a wild guess based only on closest name match
         if (guess.pokemon == null) {
             guess = getNicknameGuess(poketext, pokeInfoCalculator.getPokedex());
         }

@@ -75,6 +75,7 @@ import com.kamron.pogoiv.logic.ScanResult;
 import com.kamron.pogoiv.logic.UpgradeCost;
 import com.kamron.pogoiv.pokeflycomponents.GoIVNotificationManager;
 import com.kamron.pogoiv.pokeflycomponents.IVPopupButton;
+import com.kamron.pogoiv.pokeflycomponents.IVPreviewPrinter;
 import com.kamron.pogoiv.pokeflycomponents.ScreenWatcher;
 import com.kamron.pogoiv.widgets.IVResultsAdapter;
 import com.kamron.pogoiv.widgets.PokemonSpinnerAdapter;
@@ -149,6 +150,7 @@ public class Pokefly extends Service {
     private ScreenWatcher screenWatcher;
     private IVPopupButton ivButton;
     private GoIVNotificationManager goIVNotificationManager;
+    private IVPreviewPrinter ivPreviewPrinter;
 
     private ImageView arcPointer;
     private LinearLayout infoLayout;
@@ -326,7 +328,6 @@ public class Pokefly extends Service {
     private double estimatedPokemonLevel = 1.0;
     private @NonNull Optional<String> screenShotPath = Optional.absent();
 
-    private PokemonNameCorrector corrector;
 
     private final WindowManager.LayoutParams arcParams = new WindowManager.LayoutParams(
             WindowManager.LayoutParams.WRAP_CONTENT,
@@ -408,6 +409,18 @@ public class Pokefly extends Service {
         return ivButton;
     }
 
+    public OcrHelper getOcr() {
+        return ocr;
+    }
+
+    public int getTrainerLevel() {
+        return trainerLevel;
+    }
+
+    public IVPreviewPrinter getIvPreviewPrinter() {
+        return ivPreviewPrinter;
+    }
+
     public boolean getInfoShownSent() {
         return infoShownSent;
     }
@@ -448,7 +461,6 @@ public class Pokefly extends Service {
         windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
         clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
         sharedPref = getSharedPreferences(PREF_USER_CORRECTIONS, Context.MODE_PRIVATE);
-        corrector = new PokemonNameCorrector(pokeInfoCalculator);
 
         LocalBroadcastManager.getInstance(this).registerReceiver(displayInfo, new IntentFilter(ACTION_SEND_INFO));
         LocalBroadcastManager.getInstance(this).registerReceiver(processBitmap,
@@ -465,6 +477,7 @@ public class Pokefly extends Service {
 
         running = true;
         goIVNotificationManager = new GoIVNotificationManager(this);
+        ivPreviewPrinter = new IVPreviewPrinter(this);
 
         if (ACTION_STOP.equals(intent.getAction())) {
             if (android.os.Build.VERSION.SDK_INT >= 24) {
@@ -504,72 +517,6 @@ public class Pokefly extends Service {
         ivButton = new IVPopupButton(this);
         createArcPointer();
         createArcAdjuster();
-    }
-
-
-    /**
-     * Shows a toast message that displays either a short message about the pokemon currently on the screen, or the
-     * users clipboard setting about the pokemon currently on the screen.
-     */
-    public void printIVPreview() {
-
-        if (settings.shouldShowQuickIVPreview()) {
-            final Context thisContext = this;
-
-            final Handler handler = new Handler();
-            //A delayed action, because the screengrabber needs to wait and ensure there's a frame to grab - fails if
-            //the delay is not long enough.
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    Bitmap bmp = screen.grabScreen();
-                    //
-                    if (bmp == null) {
-                        Toast.makeText(thisContext, R.string.scanFailed, Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    boolean s8Patch = false;
-                    double screenRatio = (double) displayMetrics.heightPixels / (double) displayMetrics.widthPixels;
-                    if (screenRatio > 1.9 && screenRatio < 2.06) {
-                        s8Patch = true;
-                    }
-                    ScanResult res = ocr.scanPokemon(bmp, trainerLevel, s8Patch);
-
-                    //if scan is successful, this message will be overwritten and not shown.
-                    String toastMessage = "Failed to perform quickscan";
-                    if (res.isFailed()) {
-                        Toast.makeText(Pokefly.this, getString(R.string.scan_pokemon_failed), Toast.LENGTH_SHORT)
-                                .show();
-                    }
-
-                    if (res.getPokemonHP().isPresent() && res.getPokemonCP().isPresent()) {
-                        Pokemon poke = corrector.getPossiblePokemon(res.getPokemonName(), res.getCandyName(),
-                                res.getUpgradeCandyCost(),
-                                res.getPokemonType()).pokemon;
-                        IVScanResult ivrs = pokeInfoCalculator.getIVPossibilities(poke, res.getEstimatedPokemonLevel(),
-                                res
-                                        .getPokemonHP().get(), res
-                                        .getPokemonCP().get());
-
-                        if (ivrs.getCount() > 0) {
-                            if (settings.shouldReplaceQuickIvPreviewWithClipboard()) {
-                                toastMessage = getClipboardStringForIvScan(ivrs);
-                            } else {
-                                toastMessage = "IV: " + ivrs.getLowestIVCombination().percentPerfect + " - "
-                                        + ivrs.getHighestIVCombination().percentPerfect + "%";
-                            }
-                        }
-
-                    }
-
-                    Toast.makeText(thisContext, toastMessage, Toast.LENGTH_SHORT).show();
-
-                }
-            }, 50);
-
-        }
-
-
     }
 
 
@@ -1252,7 +1199,7 @@ public class Pokefly extends Service {
      * @param ivScanResult The scan to populate the string with
      * @return A string which is built differently based on the users settings.
      */
-    private String getClipboardStringForIvScan(IVScanResult ivScanResult) {
+    public String getClipboardStringForIvScan(IVScanResult ivScanResult) {
         ClipboardTokenHandler cth = new ClipboardTokenHandler(getApplicationContext());
         String clipResult = "";
 
@@ -1814,8 +1761,8 @@ public class Pokefly extends Service {
         if (!infoShownReceived) {
 
             infoShownReceived = true;
-            PokemonNameCorrector.PokeDist possiblePoke = corrector.getPossiblePokemon(pokemonName, candyName,
-                    candyUpgradeCost, pokemonType);
+            PokemonNameCorrector.PokeDist possiblePoke = new PokemonNameCorrector(PokeInfoCalculator.getInstance())
+                    .getPossiblePokemon(pokemonName, candyName, candyUpgradeCost, pokemonType);
             initialButtonsLayout.setVisibility(View.VISIBLE);
             onCheckButtonsLayout.setVisibility(View.GONE);
 
@@ -1900,7 +1847,7 @@ public class Pokefly extends Service {
         }
         Intent info = Pokefly.createNoInfoIntent();
         try {
-            ScanResult res = ocr.scanPokemon(pokemonImage, trainerLevel, s8Patch);
+            ScanResult res = ocr.scanPokemon(pokemonImage, trainerLevel);
             if (res.isFailed()) {
                 Toast.makeText(Pokefly.this, getString(R.string.scan_pokemon_failed), Toast.LENGTH_SHORT).show();
             }

@@ -118,7 +118,7 @@ public class GoIVNotificationManager {
                 .setCategory(NotificationCompat.CATEGORY_SERVICE)
                 .setColor(pokefly.getColorC(R.color.colorPrimary))
                 .setSmallIcon(R.drawable.notification_icon_play)
-                .setContentTitle("Debug")//pokefly.getString(R.string.notification_title, "11"))
+                .setContentTitle(pokefly.getString(R.string.notification_title, pokefly.getTrainerLevel()))
                 .setContentText(pokefly.getString(R.string.notification_title_tap_to_open))
                 .setContentIntent(openAppPendingIntent)
                 .setVisibility(Notification.VISIBILITY_PUBLIC)

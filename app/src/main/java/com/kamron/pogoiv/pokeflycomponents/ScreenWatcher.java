@@ -130,7 +130,7 @@ public class ScreenWatcher {
                 boolean ret = scanPokemonScreen();
                 if (ret) {
                     screenScanRetries = 0; //skip further retries.
-                    pokefly.printIVPreview();
+                    pokefly.getIvPreviewPrinter().printIVPreview();
                     pokefly.getIvButton().setShown(true, pokefly.getInfoShownSent());
                 } else {
                     screenScanRetries--;

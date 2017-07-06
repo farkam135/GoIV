@@ -199,7 +199,12 @@ public class OcrHelper {
             }
 
             d++;
+            if (pokemonImage.getWidth() < x + d) { //if the level indicator is on white background, we need to break it
+                // before it loops off screen. Happens very rarely.
+                break;
+            }
         }
+        return d;
     }
 
     /**

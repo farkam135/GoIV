@@ -17,7 +17,7 @@ import com.kamron.pogoiv.logic.ScanResult;
 
 /**
  * Created by johan on 2017-07-06.
- *
+ * <p>
  * An object which can show a quick indication of a pokemons IV or information based on the custom clipboard depening
  * on user setting.
  */
@@ -69,7 +69,7 @@ public class IVPreviewPrinter {
             ScanResult res = pokefly.getOcr().scanPokemon(bmp, pokefly.getTrainerLevel());
 
             //if scan is successful, this message will be overwritten and not shown.
-            String toastMessage = "...";
+            String toastMessage = "Failed to perform quickscan";
             if (res.isFailed()) {
                 Toast.makeText(pokefly, pokefly.getString(R.string.scan_pokemon_failed), Toast.LENGTH_SHORT)
                         .show();
@@ -92,12 +92,7 @@ public class IVPreviewPrinter {
                         toastMessage = "IV: " + ivrs.getLowestIVCombination().percentPerfect + " - "
                                 + ivrs.getHighestIVCombination().percentPerfect + "%";
                     }
-                } else {
-
-                    toastMessage = "Failed to perform quickscan";
-
                 }
-
             }
 
             Toast.makeText(pokefly, toastMessage, Toast.LENGTH_SHORT).show();

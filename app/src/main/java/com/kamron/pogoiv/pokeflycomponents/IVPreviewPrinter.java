@@ -21,10 +21,18 @@ import com.kamron.pogoiv.logic.ScanResult;
 
 public class IVPreviewPrinter {
 
+    private final int DELAY_SCAN_MILLIS = 50;
+    private final int DELAY_RETRY_MILLIS = 100;
+
     private Pokefly pokefly;
+    private GoIVSettings settings;
+    private PokeInfoCalculator pokeInfoCalculator;
 
     public IVPreviewPrinter(Pokefly pokefly) {
         this.pokefly = pokefly;
+
+        settings = GoIVSettings.getInstance(pokefly);
+        pokeInfoCalculator = PokeInfoCalculator.getInstance();
     }
 
     /**
@@ -32,61 +40,67 @@ public class IVPreviewPrinter {
      * users clipboard setting about the pokemon currently on the screen.
      */
     public void printIVPreview() {
-
-        final GoIVSettings settings = GoIVSettings.getInstance(pokefly);
-        final PokeInfoCalculator pokeInfoCalculator = PokeInfoCalculator.getInstance();
-
         if (settings.shouldShowQuickIVPreview()) {
             Handler handler = new Handler();
             //A delayed action, because the screengrabber needs to wait and ensure there's a frame to grab - fails if
             //the delay is not long enough.
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    Bitmap bmp = ScreenGrabber.getInstance().grabScreen();
-                    //
-                    if (bmp == null) {
-                        Toast.makeText(pokefly, R.string.scanFailed, Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-
-                    ScanResult res = pokefly.getOcr().scanPokemon(bmp, pokefly.getTrainerLevel());
-
-                    //if scan is successful, this message will be overwritten and not shown.
-                    String toastMessage = "Failed to perform quickscan";
-                    if (res.isFailed()) {
-                        Toast.makeText(pokefly, pokefly.getString(R.string.scan_pokemon_failed), Toast.LENGTH_SHORT)
-                                .show();
-                    }
-
-                    if (res.getPokemonHP().isPresent() && res.getPokemonCP().isPresent()) {
-                        PokemonNameCorrector corrector = new PokemonNameCorrector(pokeInfoCalculator);
-                        Pokemon poke = corrector.getPossiblePokemon(res.getPokemonName(), res.getCandyName(),
-                                res.getUpgradeCandyCost(),
-                                res.getPokemonType()).pokemon;
-                        IVScanResult ivrs = pokeInfoCalculator.getIVPossibilities(poke, res.getEstimatedPokemonLevel(),
-                                res
-                                        .getPokemonHP().get(), res
-                                        .getPokemonCP().get());
-
-                        if (ivrs.getCount() > 0) {
-                            if (settings.shouldReplaceQuickIvPreviewWithClipboard()) {
-                                toastMessage = pokefly.getClipboardStringForIvScan(ivrs);
-                            } else {
-                                toastMessage = "IV: " + ivrs.getLowestIVCombination().percentPerfect + " - "
-                                        + ivrs.getHighestIVCombination().percentPerfect + "%";
-                            }
-                        }
-
-                    }
-
-                    Toast.makeText(pokefly, toastMessage, Toast.LENGTH_SHORT).show();
-
-                }
-            }, 50);
+            handler.postDelayed(new QuickIVScanAttempt(), DELAY_SCAN_MILLIS);
 
         }
+    }
 
+    /**
+     * A quick scan which will try to analyze the screen and show a quick iv preview message
+     */
+    private class QuickIVScanAttempt implements Runnable {
+
+
+        @Override
+        public void run() {
+            Bitmap bmp = ScreenGrabber.getInstance().grabScreen();
+            //
+            if (bmp == null) {
+                Toast.makeText(pokefly, R.string.scanFailed, Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            ScanResult res = pokefly.getOcr().scanPokemon(bmp, pokefly.getTrainerLevel());
+
+            //if scan is successful, this message will be overwritten and not shown.
+            String toastMessage = "...";
+            if (res.isFailed()) {
+                Toast.makeText(pokefly, pokefly.getString(R.string.scan_pokemon_failed), Toast.LENGTH_SHORT)
+                        .show();
+            }
+
+            if (res.getPokemonHP().isPresent() && res.getPokemonCP().isPresent()) {
+                PokemonNameCorrector corrector = new PokemonNameCorrector(pokeInfoCalculator);
+                Pokemon poke = corrector.getPossiblePokemon(res.getPokemonName(), res.getCandyName(),
+                        res.getUpgradeCandyCost(),
+                        res.getPokemonType()).pokemon;
+                IVScanResult ivrs = pokeInfoCalculator.getIVPossibilities(poke, res.getEstimatedPokemonLevel(),
+                        res
+                                .getPokemonHP().get(), res
+                                .getPokemonCP().get());
+
+                if (ivrs.getCount() > 0) { //successful scan
+                    if (settings.shouldReplaceQuickIvPreviewWithClipboard()) {
+                        toastMessage = pokefly.getClipboardStringForIvScan(ivrs);
+                    } else {
+                        toastMessage = "IV: " + ivrs.getLowestIVCombination().percentPerfect + " - "
+                                + ivrs.getHighestIVCombination().percentPerfect + "%";
+                    }
+                } else {
+
+                    toastMessage = "Failed to perform quickscan";
+
+                }
+
+            }
+
+            Toast.makeText(pokefly, toastMessage, Toast.LENGTH_SHORT).show();
+
+        }
 
     }
 }

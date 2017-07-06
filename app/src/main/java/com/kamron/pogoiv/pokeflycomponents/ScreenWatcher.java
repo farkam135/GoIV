@@ -65,8 +65,6 @@ public class ScreenWatcher {
      * he's on a pokemon screen.
      */
     public void watchScreen() {
-
-
         screenScanHandler = new Handler();
         screenScanRunnable = new ScreenScan();
 
@@ -81,37 +79,17 @@ public class ScreenWatcher {
                 PixelFormat.TRANSPARENT);
         touchViewParams.gravity = Gravity.LEFT | Gravity.TOP;
 
-        touchView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getActionMasked() == MotionEvent.ACTION_OUTSIDE) { // Touch event outside of GoIV UI
-                    // Let's check first to see if the user is performing an Appraisal
-                    if (!pokefly.isBatterySaver() && appraisalBox.getVisibility() == View.VISIBLE) {
-                        // Let autoAppraisal know that the user has touched the PokemonGo app while the
-                        // appraisalBox was Visible.  This is our indication that the user has started a Pogo appraisal
-                        autoAppraisal.screenTouched();
-                    } else {
-                        // Not appraising, let's check to see if they're looking at a pokemon screen.
-                        // The postDelayed will wait SCREEN_SCAN_DELAY_MS after the user touches the screen before
-                        // performing a scan of the screen to detect the pixels associated with a Pokemon screen.
-                        screenScanHandler.removeCallbacks(screenScanRunnable);
-                        screenScanHandler.postDelayed(screenScanRunnable, SCREEN_SCAN_DELAY_MS);
-                        screenScanRetries = SCREEN_SCAN_RETRIES;
-                    }
-                }
-                return false;
-            }
-        });
+        touchView.setOnTouchListener(new GoIVOnTouchEventLogic());
         WindowManager windowManager = (WindowManager) pokefly.getSystemService(pokefly.WINDOW_SERVICE);
         windowManager.addView(touchView, touchViewParams);
     }
 
     /**
-     * scanPokemonScreen
+     * isUserOnPokemonScreen
      * Scans the device screen to check area[0] for the white and area[1] for the transfer button.
      * If both exist then the user is on the pokemon screen.
      */
-    private boolean scanPokemonScreen() {
+    private boolean isUserOnPokemonScreen() {
         @ColorInt int[] pixels = ScreenGrabber.getInstance().grabPixels(area);
 
         if (pixels != null) {
@@ -123,20 +101,48 @@ public class ScreenWatcher {
         return false;
     }
 
+    /**
+     * The running method which is called initially by the touchevent, and which calls itself like an echo a couple
+     * of times just to retry - in case the user is running a particularly fast / slow phone.
+     */
     private class ScreenScan implements Runnable {
-
         @Override public void run() {
             if (screenScanRetries > 0) {
-                boolean ret = scanPokemonScreen();
-                if (ret) {
+                if (isUserOnPokemonScreen()) {
                     screenScanRetries = 0; //skip further retries.
                     pokefly.getIvPreviewPrinter().printIVPreview();
                     pokefly.getIvButton().setShown(true, pokefly.getInfoShownSent());
                 } else {
                     screenScanRetries--;
                     screenScanHandler.postDelayed(screenScanRunnable, SCREEN_SCAN_DELAY_MS);
+                    pokefly.getIvButton().setShown(false, pokefly.getInfoShownSent());
                 }
             }
+        }
+    }
+
+    /**
+     * The logic which should run every time goiv is running and the user presses the screen
+     */
+    private class GoIVOnTouchEventLogic implements View.OnTouchListener {
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            if (event.getActionMasked() == MotionEvent.ACTION_OUTSIDE) { // Touch event outside of GoIV UI
+                // Let's check first to see if the user is performing an Appraisal
+                if (!pokefly.isBatterySaver() && appraisalBox.getVisibility() == View.VISIBLE) {
+                    // Let autoAppraisal know that the user has touched the PokemonGo app while the
+                    // appraisalBox was Visible.  This is our indication that the user has started a Pogo appraisal
+                    autoAppraisal.screenTouched();
+                } else {
+                    // Not appraising, let's check to see if they're looking at a pokemon screen.
+                    // The postDelayed will wait SCREEN_SCAN_DELAY_MS after the user touches the screen before
+                    // performing a scan of the screen to detect the pixels associated with a Pokemon screen.
+                    screenScanHandler.removeCallbacks(screenScanRunnable);
+                    screenScanHandler.postDelayed(screenScanRunnable, SCREEN_SCAN_DELAY_MS);
+                    screenScanRetries = SCREEN_SCAN_RETRIES;
+                }
+            }
+            return false;
         }
     }
 

@@ -25,6 +25,7 @@ public class IVPopupButton extends ImageView {
 
     private Pokefly pokefly;
     private WindowManager windowManager;
+    private boolean showing = false;
 
     private final WindowManager.LayoutParams ivButtonParams = new WindowManager.LayoutParams(
             WindowManager.LayoutParams.WRAP_CONTENT,
@@ -33,10 +34,6 @@ public class IVPopupButton extends ImageView {
             WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
             PixelFormat.TRANSLUCENT);
 
-
-    public boolean isShown() {
-        return getParent() != null;
-    }
 
     /**
      * Create an instance of the IVPopupButton
@@ -65,13 +62,22 @@ public class IVPopupButton extends ImageView {
      */
     public void setShown(boolean shouldShow, boolean infoShownSent) {
         Log.d("infoShownSent", "infoShowSentValue:" + infoShownSent);
-        if (shouldShow && !isShown() && !infoShownSent) {
-            windowManager.addView(this, getLayoutParams());
+        if (shouldShow && !showing && !infoShownSent) {
+            showSelf();
+
         } else if (!shouldShow) {
-            if (isShown()) {
+            if (showing) {
                 removeSelf();
             }
         }
+    }
+
+    /**
+     * Shows the ivbutton
+     */
+    private void showSelf() {
+        windowManager.addView(this, getLayoutParams());
+        showing = true;
     }
 
     /**
@@ -94,6 +100,7 @@ public class IVPopupButton extends ImageView {
      */
     private void removeSelf() {
         windowManager.removeView(this);
+        showing = false;
     }
 
 

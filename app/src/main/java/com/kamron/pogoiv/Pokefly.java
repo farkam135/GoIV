@@ -1840,11 +1840,7 @@ public class Pokefly extends Service {
     private void scanPokemon(Bitmap pokemonImage, @NonNull Optional<String> screenShotPath) {
         //WARNING: this method *must* always send an intent at the end, no matter what, to avoid the application
         // hanging.
-        boolean s8Patch = false;
-        double screenRatio = (double) displayMetrics.heightPixels / (double) displayMetrics.widthPixels;
-        if (screenRatio > 1.9 && screenRatio < 2.06) {
-            s8Patch = true;
-        }
+
         Intent info = Pokefly.createNoInfoIntent();
         try {
             ScanResult res = ocr.scanPokemon(pokemonImage, trainerLevel);

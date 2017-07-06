@@ -16,7 +16,7 @@ import com.kamron.pogoiv.R;
 
 /**
  * Created by johan on 2017-07-06.
- *
+ * <p>
  * The class representing the floating button View in the bottom left corner of the pokemon screen which brings up the
  * full input modification screen
  */
@@ -40,6 +40,7 @@ public class IVPopupButton extends ImageView {
 
     /**
      * Create an instance of the IVPopupButton
+     *
      * @param context the pokefly context
      */
     public IVPopupButton(Context context) {
@@ -57,11 +58,12 @@ public class IVPopupButton extends ImageView {
 
     /**
      * Hides or shows the IV button
-     * @param shouldShow true if the button should attempt to show itself
+     *
+     * @param shouldShow    true if the button should attempt to show itself
      * @param infoShownSent the boolean in pokefly that indiates if the state is already in sent state.
      */
     public void setShown(boolean shouldShow, boolean infoShownSent) {
-        Log.d("infoShownSent" , "infoShowSentValue:" + infoShownSent);
+        Log.d("infoShownSent", "infoShowSentValue:" + infoShownSent);
         if (shouldShow && !isShown() && !infoShownSent) {
             windowManager.addView(this, getLayoutParams());
         } else if (!shouldShow) {
@@ -74,7 +76,7 @@ public class IVPopupButton extends ImageView {
     /**
      * The class which defines what happens when the IVPopupButton is clicked
      */
-    private class OnIVClick implements OnTouchListener{
+    private class OnIVClick implements OnTouchListener {
 
         @Override public boolean onTouch(View v, MotionEvent event) {
             if (event.getAction() == MotionEvent.ACTION_UP) {

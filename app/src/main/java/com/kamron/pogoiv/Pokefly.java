@@ -151,7 +151,6 @@ public class Pokefly extends Service {
     private LinearLayout infoLayout;
 
 
-
     private PokeInfoCalculator pokeInfoCalculator;
 
     private AutoAppraisal autoAppraisal;
@@ -344,7 +343,6 @@ public class Pokefly extends Service {
             PixelFormat.TRANSPARENT);
 
 
-
     public static boolean isRunning() {
         return running;
     }
@@ -403,17 +401,18 @@ public class Pokefly extends Service {
         return getResources().getStringArray(R.array.pokemon);
     }
 
-    public IVPopupButton getIvButton(){
+    public IVPopupButton getIvButton() {
         return ivButton;
     }
 
-    public boolean getInfoShownSent(){
+    public boolean getInfoShownSent() {
         return infoShownSent;
     }
 
-    public boolean isBatterySaver(){
+    public boolean isBatterySaver() {
         return batterySaver;
     }
+
     private String[] getPokemonDisplayNamesArray() {
         if (settings.isShowTranslatedPokemonName()) {
             //If pref ON, use translated strings as pokemon name.
@@ -502,8 +501,6 @@ public class Pokefly extends Service {
         createArcPointer();
         createArcAdjuster();
     }
-
-
 
 
     /**
@@ -810,7 +807,7 @@ public class Pokefly extends Service {
     /**
      * Sets the internal state that tells the broadcastrecievers to behave when the user has pressed the iv button.
      */
-    public void setIVButtonClickedStates(){
+    public void setIVButtonClickedStates() {
         receivedInfo = false;
         infoShownSent = true;
         infoShownReceived = false;

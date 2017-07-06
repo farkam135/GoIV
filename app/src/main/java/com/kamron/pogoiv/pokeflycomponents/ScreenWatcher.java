@@ -123,7 +123,7 @@ public class ScreenWatcher {
         return false;
     }
 
-    private class ScreenScan implements Runnable{
+    private class ScreenScan implements Runnable {
 
         @Override public void run() {
             if (screenScanRetries > 0) {

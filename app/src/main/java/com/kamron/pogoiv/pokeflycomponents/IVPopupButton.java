@@ -1,4 +1,4 @@
-package com.kamron.pogoiv.widgets;
+package com.kamron.pogoiv.pokeflycomponents;
 
 import android.content.Context;
 import android.graphics.PixelFormat;

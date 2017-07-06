@@ -73,6 +73,7 @@ import com.kamron.pogoiv.logic.PokemonShareHandler;
 import com.kamron.pogoiv.logic.ScanContainer;
 import com.kamron.pogoiv.logic.ScanResult;
 import com.kamron.pogoiv.logic.UpgradeCost;
+import com.kamron.pogoiv.pokeflycomponents.GoIVNotificationManager;
 import com.kamron.pogoiv.pokeflycomponents.IVPopupButton;
 import com.kamron.pogoiv.pokeflycomponents.ScreenWatcher;
 import com.kamron.pogoiv.widgets.IVResultsAdapter;
@@ -99,8 +100,8 @@ import static com.kamron.pogoiv.GoIVSettings.APPRAISAL_WINDOW_POSITION;
 public class Pokefly extends Service {
 
     public static final String ACTION_UPDATE_UI = "com.kamron.pogoiv.ACTION_UPDATE_UI";
-    public static final String ACTION_STOP = "com.kamron.pogoiv.ACTION_STOP";
     private static final String ACTION_SEND_INFO = "com.kamron.pogoiv.ACTION_SEND_INFO";
+    public static final String ACTION_STOP = "com.kamron.pogoiv.ACTION_STOP";
 
     private static final String KEY_TRAINER_LEVEL = "key_trainer_level";
     private static final String KEY_STATUS_BAR_HEIGHT = "key_status_bar_height";
@@ -123,7 +124,6 @@ public class Pokefly extends Service {
 
     private static final String PREF_USER_CORRECTIONS = "com.kamron.pogoiv.USER_CORRECTIONS";
 
-    private static final int NOTIFICATION_REQ_CODE = 8959;
 
     private static boolean running = false;
 
@@ -148,6 +148,7 @@ public class Pokefly extends Service {
     //Pokefly components
     private ScreenWatcher screenWatcher;
     private IVPopupButton ivButton;
+    private GoIVNotificationManager goIVNotificationManager;
 
     private ImageView arcPointer;
     private LinearLayout infoLayout;
@@ -463,13 +464,14 @@ public class Pokefly extends Service {
         }
 
         running = true;
+        goIVNotificationManager = new GoIVNotificationManager(this);
 
         if (ACTION_STOP.equals(intent.getAction())) {
             if (android.os.Build.VERSION.SDK_INT >= 24) {
                 stopForeground(STOP_FOREGROUND_DETACH);
             }
             stopSelf();
-            makeNotification(true);
+            goIVNotificationManager.showRunningNotification();
         } else if (intent.hasExtra(KEY_TRAINER_LEVEL)) {
             trainerLevel = intent.getIntExtra(KEY_TRAINER_LEVEL, 1);
             statusBarHeight = intent.getIntExtra(KEY_STATUS_BAR_HEIGHT, 0);
@@ -487,7 +489,7 @@ public class Pokefly extends Service {
             } else {
                 screenShotHelper = ScreenShotHelper.start(Pokefly.this);
             }
-            makeNotification(false);
+            goIVNotificationManager.showPausedNotification();
         }
         //We have intent data, it's possible this service will be killed and we would want to recreate it
         //https://github.com/farkam135/GoIV/issues/477
@@ -618,104 +620,6 @@ public class Pokefly extends Service {
     }
 
     /**
-     * Creates the GoIV notification.
-     *
-     * @param isStopping should we make starting or stopping notification
-     */
-    private void makeNotification(boolean isStopping) {
-        Intent openAppIntent = new Intent(this, MainActivity.class);
-
-        PendingIntent openAppPendingIntent = PendingIntent.getActivity(
-                this, 0, openAppIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        if (!isStopping) { // GoIV is running
-
-            Intent incrementLevelIntent = new Intent(this, MainActivity.class);
-
-            incrementLevelIntent.setAction(MainActivity.ACTION_INCREMENT_LEVEL);
-
-            PendingIntent incrementLevelPendingIntent = PendingIntent.getActivity(
-                    this, 0, incrementLevelIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-            NotificationCompat.Action incrementLevelAction = new NotificationCompat.Action.Builder(
-                    R.drawable.ic_add_white_24px,
-                    getString(R.string.notification_title_increment_level),
-                    incrementLevelPendingIntent).build();
-
-            Intent stopServiceIntent = new Intent(this, Pokefly.class);
-            stopServiceIntent.setAction(ACTION_STOP);
-
-            PendingIntent stopServicePendingIntent = PendingIntent.getService(
-                    this, 0, stopServiceIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-            NotificationCompat.Action stopServiceAction = new NotificationCompat.Action.Builder(
-                    R.drawable.ic_pause_white_24px,
-                    getString(R.string.pause_goiv_notification),
-                    stopServicePendingIntent).build();
-
-            Notification notification = new NotificationCompat.Builder(this)
-                    .setOngoing(true)
-                    .setCategory(NotificationCompat.CATEGORY_SERVICE)
-                    .setColor(getColorC(R.color.colorPrimary))
-                    .setSmallIcon(R.drawable.notification_icon_play)
-                    .setContentTitle(getString(R.string.notification_title, trainerLevel))
-                    .setContentText(getString(R.string.notification_title_tap_to_open))
-                    .setContentIntent(openAppPendingIntent)
-                    .setVisibility(Notification.VISIBILITY_PUBLIC)
-                    .setPriority(Notification.PRIORITY_HIGH)
-                    .addAction(incrementLevelAction)
-                    .addAction(stopServiceAction)
-                    .build();
-
-            startForeground(NOTIFICATION_REQ_CODE, notification);
-
-        } else { //GoIV is paused
-
-            Intent startSettingAppIntent = new Intent(this, MainActivity.class);
-            startSettingAppIntent.setAction(MainActivity.ACTION_OPEN_SETTINGS);
-
-            PendingIntent startSettingsPendingIntent = PendingIntent.getActivity(
-                    this, 0, startSettingAppIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-            NotificationCompat.Action startSettingsAction = new NotificationCompat.Action.Builder(
-                    R.drawable.ic_settings_white_24dp,
-                    getString(R.string.settings_page_title),
-                    startSettingsPendingIntent).build();
-
-
-            Intent startAppIntent = new Intent(this, MainActivity.class);
-
-            startAppIntent.setAction(MainActivity.ACTION_START_POKEFLY);
-
-            PendingIntent startServicePendingIntent = PendingIntent.getActivity(
-                    this, 0, startAppIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-            NotificationCompat.Action startServiceAction = new NotificationCompat.Action.Builder(
-                    R.drawable.ic_play_arrow_white_24px,
-                    getString(R.string.main_start),
-                    startServicePendingIntent).build();
-
-            Notification notification = new NotificationCompat.Builder(getApplicationContext())
-                    .setOngoing(false)
-                    .setCategory(NotificationCompat.CATEGORY_SERVICE)
-                    .setColor(getColorC(R.color.colorAccent))
-                    .setSmallIcon(R.drawable.notification_icon)
-                    .setContentTitle(getString(R.string.notification_title_goiv_stopped))
-                    .setContentText(getString(R.string.notification_title_tap_to_open))
-                    .setContentIntent(openAppPendingIntent)
-                    .addAction(startSettingsAction)
-                    .addAction(startServiceAction)
-                    .setVisibility(Notification.VISIBILITY_PUBLIC)
-                    .setPriority(Notification.PRIORITY_HIGH)
-                    .build();
-
-            NotificationManager mNotifyMgr =
-                    (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-            mNotifyMgr.notify(NOTIFICATION_REQ_CODE, notification);
-        }
-    }
-
-    /**
      * Undeprecated version of getDrawable using the most appropriate underlying API.
      *
      * @param id ID of drawable to get
@@ -737,7 +641,7 @@ public class Pokefly extends Service {
      * @return Desired color.
      */
     @SuppressWarnings("deprecation")
-    private @ColorInt int getColorC(@ColorRes int id) {
+    public @ColorInt int getColorC(@ColorRes int id) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             return getColor(id);
         } else {

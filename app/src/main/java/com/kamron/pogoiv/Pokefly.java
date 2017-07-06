@@ -74,6 +74,7 @@ import com.kamron.pogoiv.logic.ScanContainer;
 import com.kamron.pogoiv.logic.ScanResult;
 import com.kamron.pogoiv.logic.UpgradeCost;
 import com.kamron.pogoiv.pokeflycomponents.IVPopupButton;
+import com.kamron.pogoiv.pokeflycomponents.ScreenWatcher;
 import com.kamron.pogoiv.widgets.IVResultsAdapter;
 import com.kamron.pogoiv.widgets.PokemonSpinnerAdapter;
 
@@ -140,22 +141,16 @@ public class Pokefly extends Service {
     private OcrHelper ocr;
     private GoIVSettings settings;
 
-    private Point[] area = new Point[2];
 
     private boolean infoShownSent = false;
     private boolean infoShownReceived = false;
 
+    private ScreenWatcher screenWatcher;
     private IVPopupButton ivButton;
     private ImageView arcPointer;
     private LinearLayout infoLayout;
 
-    private LinearLayout touchView;
-    private WindowManager.LayoutParams touchViewParams;
-    private Handler screenScanHandler;
-    private Runnable screenScanRunnable;
-    private static final int SCREEN_SCAN_DELAY_MS = 1000;
-    private static final int SCREEN_SCAN_RETRIES = 3;
-    private int screenScanRetries;
+
 
     private PokeInfoCalculator pokeInfoCalculator;
 
@@ -408,6 +403,17 @@ public class Pokefly extends Service {
         return getResources().getStringArray(R.array.pokemon);
     }
 
+    public IVPopupButton getIvButton(){
+        return ivButton;
+    }
+
+    public boolean getInfoShownSent(){
+        return infoShownSent;
+    }
+
+    public boolean isBatterySaver(){
+        return batterySaver;
+    }
     private String[] getPokemonDisplayNamesArray() {
         if (settings.isShowTranslatedPokemonName()) {
             //If pref ON, use translated strings as pokemon name.
@@ -471,10 +477,12 @@ public class Pokefly extends Service {
             /* Assumes MainActivity initialized ScreenGrabber before starting this service. */
             if (!batterySaver) {
                 screen = ScreenGrabber.getInstance();
-                watchScreen();
                 autoAppraisal = new AutoAppraisal(screen, ocr, this, attDefStaLayout,
                         attCheckbox, defCheckbox, staCheckbox,
                         appraisalIVRangeGroup, appraisalStatsGroup);
+                screenWatcher = new ScreenWatcher(this, appraisalBox, autoAppraisal);
+                screenWatcher.watchScreen();
+
             } else {
                 screenShotHelper = ScreenShotHelper.start(Pokefly.this);
             }
@@ -495,106 +503,14 @@ public class Pokefly extends Service {
         createArcAdjuster();
     }
 
-    /**
-     * Starts the logic which checks if the user is on the pokemon screen every time he clicks, and tells the
-     * ivbutton and ivpreview to trigger if he is.
-     */
-    private void watchScreen() {
-        area[0] = new Point(                // these values used to get "white" left of "power up"
-                (int) Math.round(displayMetrics.widthPixels * 0.041667),
-                (int) Math.round(displayMetrics.heightPixels * 0.8046875));
-        area[1] = new Point(                // these values used to get greenish color in transfer button
-                (int) Math.round(displayMetrics.widthPixels * 0.862445),
-                (int) Math.round(displayMetrics.heightPixels * 0.9004));
 
-        screenScanHandler = new Handler();
-        screenScanRunnable = new Runnable() {
-            @Override
-            public void run() {
-                if (screenScanRetries > 0) {
-                    boolean ret = scanPokemonScreen();
-                    if (ret) {
-                        screenScanRetries = 0; //skip further retries.
-                        printIVPreview();
-                        ivButton.setShown(true, infoShownSent);
-                    } else {
-                        screenScanRetries--;
-                        screenScanHandler.postDelayed(screenScanRunnable, SCREEN_SCAN_DELAY_MS);
-                    }
-                }
-            }
-        };
 
-        touchView = new LinearLayout(this);
-        touchViewParams = new WindowManager.LayoutParams(
-                1,
-                1,
-                WindowManager.LayoutParams.TYPE_PHONE,
-                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-                        | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
-                        | WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH,
-                PixelFormat.TRANSPARENT);
-        touchViewParams.gravity = Gravity.LEFT | Gravity.TOP;
-
-        touchView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getActionMasked() == MotionEvent.ACTION_OUTSIDE) { // Touch event outside of GoIV UI
-                    // Let's check first to see if the user is performing an Appraisal
-                    if (!batterySaver && appraisalBox.getVisibility() == View.VISIBLE) {
-                        // Let autoAppraisal know that the user has touched the PokemonGo app while the
-                        // appraisalBox was Visible.  This is our indication that the user has started a Pogo appraisal
-                        autoAppraisal.screenTouched();
-                    } else {
-                        // Not appraising, let's check to see if they're looking at a pokemon screen.
-                        // The postDelayed will wait SCREEN_SCAN_DELAY_MS after the user touches the screen before
-                        // performing a scan of the screen to detect the pixels associated with a Pokemon screen.
-                        screenScanHandler.removeCallbacks(screenScanRunnable);
-                        screenScanHandler.postDelayed(screenScanRunnable, SCREEN_SCAN_DELAY_MS);
-                        screenScanRetries = SCREEN_SCAN_RETRIES;
-                    }
-                }
-                return false;
-            }
-        });
-
-        windowManager.addView(touchView, touchViewParams);
-    }
-
-    /**
-     * Undoes the effects of watchScreen.
-     */
-    private void unwatchScreen() {
-        windowManager.removeView(touchView);
-        touchViewParams = null;
-        touchView = null;
-        screenScanHandler.removeCallbacks(screenScanRunnable);
-        screenScanRunnable = null;
-        screenScanHandler = null;
-    }
-
-    /**
-     * scanPokemonScreen
-     * Scans the device screen to check area[0] for the white and area[1] for the transfer button.
-     * If both exist then the user is on the pokemon screen.
-     */
-    private boolean scanPokemonScreen() {
-        @ColorInt int[] pixels = screen.grabPixels(area);
-
-        if (pixels != null) {
-            boolean shouldShow =
-                    (pixels[0] == Color.rgb(250, 250, 250) || pixels[0] == Color.rgb(249, 249, 249))
-                            && pixels[1] == Color.rgb(28, 135, 150);
-            return shouldShow;
-        }
-        return false;
-    }
 
     /**
      * Shows a toast message that displays either a short message about the pokemon currently on the screen, or the
      * users clipboard setting about the pokemon currently on the screen.
      */
-    private void printIVPreview() {
+    public void printIVPreview() {
 
         if (settings.shouldShowQuickIVPreview()) {
             final Context thisContext = this;
@@ -680,7 +596,7 @@ public class Pokefly extends Service {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(processBitmap);
 
         if (!batterySaver) {
-            unwatchScreen();
+            screenWatcher.unwatchScreen();
             if (screen != null) {
                 screen.exit();
                 screen = null;

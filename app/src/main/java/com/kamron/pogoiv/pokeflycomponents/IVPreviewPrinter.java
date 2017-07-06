@@ -22,7 +22,6 @@ import com.kamron.pogoiv.logic.ScanResult;
 public class IVPreviewPrinter {
 
     private final int DELAY_SCAN_MILLIS = 50;
-    private final int DELAY_RETRY_MILLIS = 100;
 
     private Pokefly pokefly;
     private GoIVSettings settings;

@@ -145,8 +145,10 @@ public class Pokefly extends Service {
     private boolean infoShownSent = false;
     private boolean infoShownReceived = false;
 
+    //Pokefly components
     private ScreenWatcher screenWatcher;
     private IVPopupButton ivButton;
+
     private ImageView arcPointer;
     private LinearLayout infoLayout;
 
@@ -497,7 +499,7 @@ public class Pokefly extends Service {
      */
     private void createFlyingComponents() {
         createInfoLayout();
-        createIVButton();
+        ivButton = new IVPopupButton(this);
         createArcPointer();
         createArcAdjuster();
     }
@@ -800,8 +802,6 @@ public class Pokefly extends Service {
      * Creates the IV Button view.
      */
     private void createIVButton() {
-        ivButton = new IVPopupButton(this);
-        ivButton.setImageResource(R.drawable.button);
     }
 
     /**

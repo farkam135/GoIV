@@ -52,6 +52,7 @@ public class IVPopupButton extends ImageView {
         ivButtonParams.gravity = Gravity.BOTTOM | Gravity.START;
         ivButtonParams.x = dpToPx(20);
         ivButtonParams.y = dpToPx(15);
+        setImageResource(R.drawable.button);
 
         setOnTouchListener(new OnIVClick());
     }

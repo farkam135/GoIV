@@ -73,6 +73,7 @@ import com.kamron.pogoiv.logic.PokemonShareHandler;
 import com.kamron.pogoiv.logic.ScanContainer;
 import com.kamron.pogoiv.logic.ScanResult;
 import com.kamron.pogoiv.logic.UpgradeCost;
+import com.kamron.pogoiv.widgets.IVPopupButton;
 import com.kamron.pogoiv.widgets.IVResultsAdapter;
 import com.kamron.pogoiv.widgets.PokemonSpinnerAdapter;
 
@@ -143,9 +144,8 @@ public class Pokefly extends Service {
 
     private boolean infoShownSent = false;
     private boolean infoShownReceived = false;
-    private boolean ivButtonShown = false;
 
-    private ImageView ivButton;
+    private IVPopupButton ivButton;
     private ImageView arcPointer;
     private LinearLayout infoLayout;
 
@@ -348,12 +348,7 @@ public class Pokefly extends Service {
             WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN,
             PixelFormat.TRANSPARENT);
 
-    private final WindowManager.LayoutParams ivButtonParams = new WindowManager.LayoutParams(
-            WindowManager.LayoutParams.WRAP_CONTENT,
-            WindowManager.LayoutParams.WRAP_CONTENT,
-            WindowManager.LayoutParams.TYPE_PHONE,
-            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
-            PixelFormat.TRANSLUCENT);
+
 
     public static boolean isRunning() {
         return running;
@@ -500,6 +495,10 @@ public class Pokefly extends Service {
         createArcAdjuster();
     }
 
+    /**
+     * Starts the logic which checks if the user is on the pokemon screen every time he clicks, and tells the
+     * ivbutton and ivpreview to trigger if he is.
+     */
     private void watchScreen() {
         area[0] = new Point(                // these values used to get "white" left of "power up"
                 (int) Math.round(displayMetrics.widthPixels * 0.041667),
@@ -517,6 +516,7 @@ public class Pokefly extends Service {
                     if (ret) {
                         screenScanRetries = 0; //skip further retries.
                         printIVPreview();
+                        ivButton.setShown(true, infoShownSent);
                     } else {
                         screenScanRetries--;
                         screenScanHandler.postDelayed(screenScanRunnable, SCREEN_SCAN_DELAY_MS);
@@ -585,9 +585,6 @@ public class Pokefly extends Service {
             boolean shouldShow =
                     (pixels[0] == Color.rgb(250, 250, 250) || pixels[0] == Color.rgb(249, 249, 249))
                             && pixels[1] == Color.rgb(28, 135, 150);
-            setIVButtonDisplay(shouldShow);
-
-
             return shouldShow;
         }
         return false;
@@ -692,7 +689,7 @@ public class Pokefly extends Service {
             screenShotHelper.stop();
             screenShotHelper = null;
         }
-        setIVButtonDisplay(false);
+        ivButton.setShown(false, infoShownSent);
         hideInfoLayoutArcPointer();
 
         ocr.exit();
@@ -890,26 +887,17 @@ public class Pokefly extends Service {
      * Creates the IV Button view.
      */
     private void createIVButton() {
-        ivButton = new ImageView(this);
+        ivButton = new IVPopupButton(this);
         ivButton.setImageResource(R.drawable.button);
+    }
 
-        ivButtonParams.gravity = Gravity.BOTTOM | Gravity.START;
-        ivButtonParams.x = dpToPx(20);
-        ivButtonParams.y = dpToPx(15);
-
-        ivButton.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_UP) {
-                    setIVButtonDisplay(false);
-                    takeScreenshot();
-                    receivedInfo = false;
-                    infoShownSent = true;
-                    infoShownReceived = false;
-                }
-                return false;
-            }
-        });
+    /**
+     * Sets the internal state that tells the broadcastrecievers to behave when the user has pressed the iv button.
+     */
+    public void setIVButtonClickedStates(){
+        receivedInfo = false;
+        infoShownSent = true;
+        infoShownReceived = false;
     }
 
     /**
@@ -1881,7 +1869,7 @@ public class Pokefly extends Service {
         resetInfoDialogue();
         if (!batterySaver) {
             autoAppraisal.reset();
-            setIVButtonDisplay(true);
+            ivButton.setShown(true, infoShownSent);
         }
     }
 
@@ -2108,7 +2096,7 @@ public class Pokefly extends Service {
     /**
      * Called by intent from pokefly, captures the screen and runs it through scanPokemon.
      */
-    private void takeScreenshot() {
+    public void takeScreenshot() {
         Bitmap bmp = screen.grabScreen();
         if (bmp == null) {
             return;
@@ -2201,29 +2189,6 @@ public class Pokefly extends Service {
             }
         }
     };
-
-    /**
-     * setIVButtonDisplay
-     * Receiver called from MainActivity. Tells Pokefly to either show the IV Button (if on poke) or
-     * hide the IV Button.
-     */
-    private void setIVButtonDisplay(boolean show) {
-
-        if (show && !ivButtonShown && !infoShownSent) {
-
-            windowManager.addView(ivButton, ivButtonParams);
-            ivButtonShown = true;
-        } else if (!show) {
-            if (ivButtonShown) {
-                windowManager.removeView(ivButton);
-                ivButtonShown = false;
-            }
-        }
-    }
-
-    private int dpToPx(int dp) {
-        return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
-    }
 
 
 }

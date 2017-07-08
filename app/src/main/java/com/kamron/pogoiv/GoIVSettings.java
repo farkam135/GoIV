@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * A singleton class which is used to access and modify the "persistant" settings saved in phone memory.
+ * A singleton class which is used to access and modify the "persistent" settings saved in phone memory.
  */
 public class GoIVSettings {
 
@@ -46,6 +46,7 @@ public class GoIVSettings {
     public static final String AUTO_OPEN_APPRAISE_DIALOGUE = "autoOpenAppraiseDialogue";
     public static final String QUICK_IV_PREVIEW = "quick_iv_preview";
     public static final String QUICK_IV_PREVIEW_CLIPBOARD = "quick_iv_preview_clipboard";
+    public static final String QUICK_IV_PREVIEW_CLIPBOARD_AUTO_COPY = "quick_iv_preview_auto_copy_to_clipboard";
 
 
     private static GoIVSettings instance;
@@ -176,6 +177,10 @@ public class GoIVSettings {
         return prefs.getBoolean(QUICK_IV_PREVIEW_CLIPBOARD, false);
     }
 
+
+    public boolean shouldCopyQuickIVToClipoboard() {
+        return prefs.getBoolean(QUICK_IV_PREVIEW_CLIPBOARD_AUTO_COPY, false);
+    }
 
     public boolean isShowTranslatedPokemonName() {
         if (context.getResources().getBoolean(R.bool.use_default_pokemonsname_as_ocrstring)) {

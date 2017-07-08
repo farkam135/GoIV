@@ -1,6 +1,9 @@
 package com.kamron.pogoiv.clipboard;
 
+import android.content.ClipData;
 import android.content.Context;
+import android.view.Gravity;
+import android.widget.Toast;
 
 import com.kamron.pogoiv.GoIVSettings;
 import com.kamron.pogoiv.R;
@@ -24,6 +27,7 @@ public class ClipboardTokenHandler {
     private ArrayList<ClipboardToken> tokensSingle = new ArrayList<>(); //user setting for single results
     private Context context;
 
+
     /**
      * Create a new clipboardTokenHandler that can edit and read ClipboardToken information.
      *
@@ -36,6 +40,27 @@ public class ClipboardTokenHandler {
         tokens = initializeTokensFromSettings(storedSetting);
         tokensSingle = initializeTokensFromSettings(storedSettingSingle);
         this.context = context;
+    }
+
+
+    /**
+     * Analyze an ivscan and get a string which corresponds to what the users clipboard settings are
+     * @param ivScanResult Which scan result to base the string on
+     * @param pokeInfoCalculator An object used to calculate the logic for the clipboardtokens
+     * @return A string corresponding to the user settings which is based on the ivscan.
+     */
+    public  String getClipboardText(IVScanResult ivScanResult, PokeInfoCalculator pokeInfoCalculator){
+
+        GoIVSettings settings = GoIVSettings.getInstance(context);
+        String clipResult = "";
+
+        // has the user enabled the setting for different results and is there just a single result??
+        if (settings.shouldCopyToClipboardSingle() && ivScanResult.getCount() == 1) {
+            clipResult = getResults(ivScanResult, pokeInfoCalculator, true);
+        } else {
+            clipResult = getResults(ivScanResult, pokeInfoCalculator, false);
+        }
+        return clipResult;
     }
 
 

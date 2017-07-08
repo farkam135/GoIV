@@ -22,8 +22,9 @@ import com.kamron.pogoiv.ScreenGrabber;
 
 public class ScreenWatcher {
 
-    private static final int SCREEN_SCAN_DELAY_MS = 1000;
-    private static final int SCREEN_SCAN_RETRIES = 3;
+    private static final int SCREEN_SCAN_INITIAL_DELAY_MS = 1000; // just to check if we left the screen
+    private static final int SCREEN_SCAN_DELAY_MS = 700;
+    private static final int SCREEN_SCAN_RETRIES = 4;
 
     private LinearLayout touchView;
     private WindowManager.LayoutParams touchViewParams;
@@ -138,7 +139,7 @@ public class ScreenWatcher {
                     // The postDelayed will wait SCREEN_SCAN_DELAY_MS after the user touches the screen before
                     // performing a scan of the screen to detect the pixels associated with a Pokemon screen.
                     screenScanHandler.removeCallbacks(screenScanRunnable);
-                    screenScanHandler.postDelayed(screenScanRunnable, SCREEN_SCAN_DELAY_MS);
+                    screenScanHandler.postDelayed(screenScanRunnable, SCREEN_SCAN_INITIAL_DELAY_MS);
                     screenScanRetries = SCREEN_SCAN_RETRIES;
                 }
             }

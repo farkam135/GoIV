@@ -149,6 +149,7 @@ public class Pokefly extends Service {
     //Pokefly components
     private ScreenWatcher screenWatcher;
     private IVPopupButton ivButton;
+    private ClipboardTokenHandler clipboardTokenHandler;
     private GoIVNotificationManager goIVNotificationManager;
     private IVPreviewPrinter ivPreviewPrinter;
 
@@ -408,6 +409,9 @@ public class Pokefly extends Service {
     public IVPopupButton getIvButton() {
         return ivButton;
     }
+    public ClipboardTokenHandler getClipboardTokenHandler() {
+        return clipboardTokenHandler;
+    }
 
     public OcrHelper getOcr() {
         return ocr;
@@ -478,6 +482,7 @@ public class Pokefly extends Service {
         running = true;
         goIVNotificationManager = new GoIVNotificationManager(this);
         ivPreviewPrinter = new IVPreviewPrinter(this);
+        clipboardTokenHandler = new ClipboardTokenHandler(this);
 
         if (ACTION_STOP.equals(intent.getAction())) {
             if (android.os.Build.VERSION.SDK_INT >= 24) {
@@ -1193,31 +1198,14 @@ public class Pokefly extends Service {
     }
 
 
-    /**
-     * Get the clipboard string as dictated by the current user settings for clipboard tokens and single/multi results
-     *
-     * @param ivScanResult The scan to populate the string with
-     * @return A string which is built differently based on the users settings.
-     */
-    public String getClipboardStringForIvScan(IVScanResult ivScanResult) {
-        ClipboardTokenHandler cth = new ClipboardTokenHandler(getApplicationContext());
-        String clipResult = "";
 
-        // has the user enabled the setting for different results and is there just a single result??
-        if (settings.shouldCopyToClipboardSingle() && ivScanResult.getCount() == 1) {
-            clipResult = cth.getResults(ivScanResult, pokeInfoCalculator, true);
-        } else {
-            clipResult = cth.getResults(ivScanResult, pokeInfoCalculator, false);
-        }
-        return clipResult;
-    }
 
     /**
      * Adds the iv range of the pokemon to the clipboard if the clipboard setting is on.
      */
-    private void addClipboardInfoIfSettingOn(IVScanResult ivScanResult) {
+    public void addClipboardInfoIfSettingOn(IVScanResult ivScanResult) {
         if (settings.shouldCopyToClipboard()) {
-            String clipResult = getClipboardStringForIvScan(ivScanResult);
+            String clipResult = clipboardTokenHandler.getClipboardText(ivScanResult, pokeInfoCalculator);
 
             if (settings.shouldCopyToClipboardShowToast()) {
                 Toast toast = Toast.makeText(this, String.format(getString(R.string.clipboard_copy_toast), clipResult),
@@ -1237,12 +1225,12 @@ public class Pokefly extends Service {
     public void addSpecificClipboard(IVScanResult ivScanResult, IVCombination ivCombination) {
 
 
-        ClipboardTokenHandler cth = new ClipboardTokenHandler(getApplicationContext());
+
         String clipResult = "";
         IVScanResult singleIVScanResult = new IVScanResult(ivScanResult.pokemon, ivScanResult.estimatedPokemonLevel,
                 ivScanResult.scannedCP);
         singleIVScanResult.addIVCombination(ivCombination.att, ivCombination.def, ivCombination.sta);
-        clipResult = cth.getResults(singleIVScanResult, pokeInfoCalculator, true);
+        clipResult = clipboardTokenHandler.getResults(singleIVScanResult, pokeInfoCalculator, true);
 
 
         Toast toast = Toast.makeText(this, String.format(getString(R.string.clipboard_copy_toast), clipResult),

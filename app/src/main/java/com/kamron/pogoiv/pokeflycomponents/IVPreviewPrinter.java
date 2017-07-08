@@ -9,6 +9,7 @@ import com.kamron.pogoiv.GoIVSettings;
 import com.kamron.pogoiv.Pokefly;
 import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.ScreenGrabber;
+import com.kamron.pogoiv.clipboard.ClipboardTokenHandler;
 import com.kamron.pogoiv.logic.IVScanResult;
 import com.kamron.pogoiv.logic.PokeInfoCalculator;
 import com.kamron.pogoiv.logic.Pokemon;
@@ -59,45 +60,84 @@ public class IVPreviewPrinter {
 
         @Override
         public void run() {
-            Bitmap bmp = ScreenGrabber.getInstance().grabScreen();
-            //
-            if (bmp == null) {
-                Toast.makeText(pokefly, R.string.scanFailed, Toast.LENGTH_SHORT).show();
-                return;
+              boolean succeeded = runQuickScan();
+            if (!succeeded){
+                Toast.makeText(pokefly, "?", Toast.LENGTH_SHORT).show();
             }
 
-            ScanResult res = pokefly.getOcr().scanPokemon(bmp, pokefly.getTrainerLevel());
 
-            //if scan is successful, this message will be overwritten and not shown.
-            String toastMessage = "Failed to perform quickscan";
-            if (res.isFailed()) {
-                Toast.makeText(pokefly, pokefly.getString(R.string.scan_pokemon_failed), Toast.LENGTH_SHORT)
-                        .show();
-            }
-
-            if (res.getPokemonHP().isPresent() && res.getPokemonCP().isPresent()) {
-                PokemonNameCorrector corrector = new PokemonNameCorrector(pokeInfoCalculator);
-                Pokemon poke = corrector.getPossiblePokemon(res.getPokemonName(), res.getCandyName(),
-                        res.getUpgradeCandyCost(),
-                        res.getPokemonType()).pokemon;
-                IVScanResult ivrs = pokeInfoCalculator.getIVPossibilities(poke, res.getEstimatedPokemonLevel(),
-                        res
-                                .getPokemonHP().get(), res
-                                .getPokemonCP().get());
-
-                if (ivrs.getCount() > 0) { //successful scan
-                    if (settings.shouldReplaceQuickIvPreviewWithClipboard()) {
-                        toastMessage = pokefly.getClipboardStringForIvScan(ivrs);
-                    } else {
-                        toastMessage = "IV: " + ivrs.getLowestIVCombination().percentPerfect + " - "
-                                + ivrs.getHighestIVCombination().percentPerfect + "%";
-                    }
-                }
-            }
-
-            Toast.makeText(pokefly, toastMessage, Toast.LENGTH_SHORT).show();
 
         }
 
+        /**
+         * Attempts to generate and print a quickiv message, if it fails, does nothing and returns false.
+         *
+         * @return true if successfully printed message, false otherwise
+         */
+        private boolean runQuickScan() {
+            Bitmap bmp = ScreenGrabber.getInstance().grabScreen();
+
+            if (bmp == null) {
+                return false;
+            }
+
+            ScanResult res = pokefly.getOcr().scanPokemon(bmp, pokefly.getTrainerLevel());
+            if (!res.getPokemonHP().isPresent() || !res.getPokemonCP().isPresent()) {
+                return false;
+            }
+
+            IVScanResult ivrs = getIVScanResults(res);
+            if (ivrs.getCount() <= 0) { //unsuccessful scan
+                return false;
+            }
+
+            String toastMessage = getQuickIVMessage(ivrs);
+            //copyToClipboardIfSettingIsOn(ivrs);
+            Toast.makeText(pokefly, toastMessage, Toast.LENGTH_SHORT).show();
+            return true;
+
+        }
+    }
+
+    /**
+     * Get ivscanresults from a screen scan
+     *
+     * @param res The scan result which has not been processed to an ivscanresult containing pure screen ocr data
+     * @return the processed ivscanresult
+     */
+    private IVScanResult getIVScanResults(ScanResult res) {
+        PokemonNameCorrector corrector = new PokemonNameCorrector(pokeInfoCalculator);
+        Pokemon poke = corrector.getPossiblePokemon(res.getPokemonName(), res.getCandyName(),
+                res.getUpgradeCandyCost(), res.getPokemonType()).pokemon;
+        IVScanResult ivrs = pokeInfoCalculator.getIVPossibilities(poke, res.getEstimatedPokemonLevel(),
+                res.getPokemonHP().get(), res.getPokemonCP().get());
+        return ivrs;
+    }
+
+    /**
+     * Copies the quick-iv data to the clipboard
+     */
+    private void copyToClipboardIfSettingIsOn(IVScanResult ivrs) {
+        if (settings.shouldCopyQuickIVToClipoboard()) {
+            pokefly.addClipboardInfoIfSettingOn(ivrs);
+        }
+    }
+
+    /**
+     * Get a string which is either the default QuickIV message, or the clipboard setting depending on what the user
+     * preference is.
+     *
+     * @param ivrs The iv result to base the message on
+     * @return A string build up by the iv results
+     */
+    private String getQuickIVMessage(IVScanResult ivrs) {
+        String returner;
+        if (settings.shouldReplaceQuickIvPreviewWithClipboard()) {
+            returner = pokefly.getClipboardTokenHandler().getClipboardText(ivrs, pokeInfoCalculator);
+        } else {
+            returner = "IV: " + ivrs.getLowestIVCombination().percentPerfect + " - "
+                    + ivrs.getHighestIVCombination().percentPerfect + "%";
+        }
+        return returner;
     }
 }

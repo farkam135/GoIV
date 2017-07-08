@@ -98,6 +98,14 @@
             android:summary="Replace the normal quick preview with the content of your custom clipboard."
             />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="quick_iv_preview_auto_copy_to_clipboard"
+            android:dependency="quick_iv_preview"
+            android:title="Copy smart nickname to clipboard on quickIv"
+            android:summary="Copy your custom clipboard directly on quick iv scan."
+            />
+
     </PreferenceCategory>
 
 

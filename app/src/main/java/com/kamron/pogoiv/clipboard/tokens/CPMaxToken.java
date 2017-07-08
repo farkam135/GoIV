@@ -45,6 +45,12 @@ public class CPMaxToken extends ClipboardToken {
         return val;
     }
 
+
+    @Override
+    public String getStringRepresentation() {
+        return super.getStringRepresentation() + String.valueOf(currentLevel);
+    }
+
     @Override public String getPreview() {
         int cp = currentLevel ? 230 : 440;
         if (maxEv) {

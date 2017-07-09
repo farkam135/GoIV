@@ -17,6 +17,7 @@ import com.kamron.pogoiv.logic.Pokemon;
 public class CPMaxToken extends ClipboardToken {
 
     private boolean currentLevel; //whether the user wants to know cp for a level 40 pokemon, or the current level.
+
     /**
      * Create a clipboard token.
      * The boolean in the constructor can be set to false if pokemon evolution is not applicable.

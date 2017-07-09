@@ -17,6 +17,8 @@ import com.kamron.pogoiv.Pokefly;
 import com.kamron.pogoiv.ScreenGrabber;
 
 /**
+ * A class which checks the screen every time the user pressses the screen, and calls to the ivbutton and
+ * quickivpreview when the user is on the pokemon screen.
  * Created by johan on 2017-07-06.
  */
 
@@ -50,7 +52,7 @@ public class ScreenWatcher {
     }
 
     /**
-     * Initiates which pixels should be scanned during a screen scan to determine if the user is on the pokemon screen
+     * Initiates which pixels should be scanned during a screen scan to determine if the user is on the pokemon screen.
      */
     private void initMarkerPixels() {
         area[0] = new Point(                // these values used to get "white" left of "power up"
@@ -123,7 +125,7 @@ public class ScreenWatcher {
     }
 
     /**
-     * The logic which should run every time goiv is running and the user presses the screen
+     * The logic which should run every time goiv is running and the user presses the screen.
      */
     private class GoIVOnTouchEventLogic implements View.OnTouchListener {
         @Override

@@ -95,7 +95,7 @@ public class PokemonNameCorrector {
                 if (candyNameEvolutionCostGuess.size() == 1) {
                     //we have only one guess this is the one
                     guess = new PokeDist(candyNameEvolutionCostGuess.get(0), 0);
-                }else if (candyNameEvolutionCostGuess.size() > 1) {
+                } else if (candyNameEvolutionCostGuess.size() > 1) {
                     //if we have multiple guesses let the PokeDist guess based on name
                     bestGuessEvolutionLine = candyNameEvolutionCostGuess;
                 }
@@ -107,7 +107,6 @@ public class PokemonNameCorrector {
         if (guess.pokemon == null && bestGuessEvolutionLine != null) {
             guess = getNicknameGuess(poketext, bestGuessEvolutionLine);
         }
-
 
 
         //6. All else failed: make a wild guess based only on closest name match

@@ -1,15 +1,12 @@
 package com.kamron.pogoiv.pokeflycomponents;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Handler;
 import android.widget.Toast;
 
 import com.kamron.pogoiv.GoIVSettings;
 import com.kamron.pogoiv.Pokefly;
-import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.ScreenGrabber;
-import com.kamron.pogoiv.clipboard.ClipboardTokenHandler;
 import com.kamron.pogoiv.logic.IVScanResult;
 import com.kamron.pogoiv.logic.PokeInfoCalculator;
 import com.kamron.pogoiv.logic.Pokemon;
@@ -25,7 +22,7 @@ import com.kamron.pogoiv.logic.ScanResult;
 
 public class IVPreviewPrinter {
 
-    private final int DELAY_SCAN_MILLIS = 50;
+    private static final int DELAY_SCAN_MILLIS = 50;
 
     private Pokefly pokefly;
     private GoIVSettings settings;
@@ -53,18 +50,17 @@ public class IVPreviewPrinter {
     }
 
     /**
-     * A quick scan which will try to analyze the screen and show a quick iv preview message
+     * A quick scan which will try to analyze the screen and show a quick iv preview message.
      */
     private class QuickIVScanAttempt implements Runnable {
 
 
         @Override
         public void run() {
-              boolean succeeded = runQuickScan();
-            if (!succeeded){
+            boolean succeeded = runQuickScan();
+            if (!succeeded) {
                 Toast.makeText(pokefly, "Touch screen to retry", Toast.LENGTH_SHORT).show();
             }
-
 
 
         }
@@ -72,7 +68,7 @@ public class IVPreviewPrinter {
         /**
          * Attempts to generate and print a quickiv message, if it fails, does nothing and returns false.
          *
-         * @return true if successfully printed message, false otherwise
+         * @return true if successfully printed message, false otherwise.
          */
         private boolean runQuickScan() {
             Bitmap bmp = ScreenGrabber.getInstance().grabScreen();
@@ -99,9 +95,9 @@ public class IVPreviewPrinter {
     }
 
     /**
-     * Get ivscanresults from a screen scan
+     * Get ivscanresults from a screen scan.
      *
-     * @param res The scan result which has not been processed to an ivscanresult containing pure screen ocr data
+     * @param res The scan result which has not been processed to an ivscanresult containing pure screen ocr data.
      * @return the processed ivscanresult
      */
     private IVScanResult getIVScanResults(ScanResult res) {

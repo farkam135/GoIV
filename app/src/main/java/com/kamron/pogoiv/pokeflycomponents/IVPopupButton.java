@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
@@ -36,7 +35,7 @@ public class IVPopupButton extends ImageView {
 
 
     /**
-     * Create an instance of the IVPopupButton
+     * Create an instance of the IVPopupButton.
      *
      * @param context the pokefly context
      */
@@ -73,7 +72,7 @@ public class IVPopupButton extends ImageView {
     }
 
     /**
-     * Shows the ivbutton
+     * Shows the ivbutton.
      */
     private void showSelf() {
         windowManager.addView(this, getLayoutParams());
@@ -81,7 +80,7 @@ public class IVPopupButton extends ImageView {
     }
 
     /**
-     * The class which defines what happens when the IVPopupButton is clicked
+     * The class which defines what happens when the IVPopupButton is clicked.
      */
     private class OnIVClick implements OnTouchListener {
 
@@ -96,7 +95,7 @@ public class IVPopupButton extends ImageView {
     }
 
     /**
-     * Removes the button from its parent container
+     * Removes the button from its parent container.
      */
     private void removeSelf() {
         windowManager.removeView(this);

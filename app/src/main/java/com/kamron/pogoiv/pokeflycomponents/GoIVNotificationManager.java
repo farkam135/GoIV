@@ -28,7 +28,7 @@ public class GoIVNotificationManager {
 
 
     /**
-     * Show a paused notification in the system notification tray
+     * Show a running notification in the system notification tray.
      */
     public void showRunningNotification() {
 
@@ -81,7 +81,7 @@ public class GoIVNotificationManager {
     }
 
     /**
-     * Show a paused notification in the system notification tray
+     * Show a paused notification in the system notification tray.
      */
     public void showPausedNotification() {
 

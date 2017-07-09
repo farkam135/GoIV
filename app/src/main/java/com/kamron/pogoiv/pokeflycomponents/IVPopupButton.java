@@ -60,7 +60,6 @@ public class IVPopupButton extends ImageView {
      * @param infoShownSent the boolean in pokefly that indiates if the state is already in sent state.
      */
     public void setShown(boolean shouldShow, boolean infoShownSent) {
-        Log.d("infoShownSent", "infoShowSentValue:" + infoShownSent);
         if (shouldShow && !showing && !infoShownSent) {
             showSelf();
 

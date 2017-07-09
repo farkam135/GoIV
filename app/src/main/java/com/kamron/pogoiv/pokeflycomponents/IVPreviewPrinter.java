@@ -62,7 +62,7 @@ public class IVPreviewPrinter {
         public void run() {
               boolean succeeded = runQuickScan();
             if (!succeeded){
-                Toast.makeText(pokefly, "?", Toast.LENGTH_SHORT).show();
+                Toast.makeText(pokefly, "Touch screen to retry", Toast.LENGTH_SHORT).show();
             }
 
 
@@ -92,7 +92,6 @@ public class IVPreviewPrinter {
             }
 
             String toastMessage = getQuickIVMessage(ivrs);
-            //copyToClipboardIfSettingIsOn(ivrs);
             Toast.makeText(pokefly, toastMessage, Toast.LENGTH_SHORT).show();
             return true;
 
@@ -114,14 +113,6 @@ public class IVPreviewPrinter {
         return ivrs;
     }
 
-    /**
-     * Copies the quick-iv data to the clipboard
-     */
-    private void copyToClipboardIfSettingIsOn(IVScanResult ivrs) {
-        if (settings.shouldCopyQuickIVToClipoboard()) {
-            pokefly.addClipboardInfoIfSettingOn(ivrs);
-        }
-    }
 
     /**
      * Get a string which is either the default QuickIV message, or the clipboard setting depending on what the user

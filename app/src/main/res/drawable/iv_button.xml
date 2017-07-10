@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Shadow -->
+    <item>
+        <shape android:shape="oval">
+            <size
+                android:width="57dp"
+                android:height="57dp"/>
+            <solid android:color="#20000000"/>
+        </shape>
+    </item>
+
+    <!-- Outer -->
+    <item
+        android:bottom="1.75dp"
+        android:left="1.75dp"
+        android:right="1.75dp"
+        android:top="1.75dp">
+        <shape android:shape="oval">
+            <size
+                android:width="57dp"
+                android:height="57dp"/>
+            <solid android:color="#1C8796"/>
+        </shape>
+    </item>
+
+    <!-- Ring -->
+    <item
+        android:bottom="5dp"
+        android:left="5dp"
+        android:right="5dp"
+        android:top="5dp">
+        <shape android:shape="oval">
+            <size
+                android:width="57dp"
+                android:height="57dp"/>
+            <gradient
+                android:angle="270"
+                android:endColor="#68F0CE"
+                android:startColor="#AFFFAF"/>
+        </shape>
+    </item>
+
+    <!-- Inner -->
+    <item
+        android:bottom="6.3dp"
+        android:left="6.3dp"
+        android:right="6.3dp"
+        android:top="6.3dp">
+        <shape android:shape="oval">
+            <size
+                android:width="57dp"
+                android:height="57dp"/>
+            <solid android:color="#1C8796"/>
+        </shape>
+    </item>
+
+    <!-- I -->
+    <item
+        android:bottom="20.7dp"
+        android:left="20.7dp"
+        android:right="45dp"
+        android:top="20.7dp">
+        <shape android:shape="rectangle">
+            <corners android:radius="4dp"/>
+            <gradient
+                android:endColor="#A7FDB3"
+                android:startColor="#AFFFAF"/>
+        </shape>
+    </item>
+
+    <!-- V Left -->
+    <item
+        android:bottom="20.7dp"
+        android:left="32.85dp"
+        android:right="32dp"
+        android:top="20.7dp">
+        <rotate android:fromDegrees="-20">
+            <shape android:shape="rectangle">
+                <corners android:radius="8dp"/>
+                <gradient
+                    android:endColor="#7DF4C5"
+                    android:startColor="#9DFBB7"/>
+            </shape>
+        </rotate>
+    </item>
+
+    <!-- V Right -->
+    <item
+        android:bottom="20.7dp"
+        android:left="40.85dp"
+        android:right="23.5dp"
+        android:top="20.7dp">
+        <rotate android:fromDegrees="20">
+            <shape android:shape="rectangle">
+                <corners android:radius="8dp"/>
+                <gradient
+                    android:endColor="#68F0CE"
+                    android:startColor="#8AF7BF"/>
+            </shape>
+        </rotate>
+    </item>
+
+</layer-list>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+
+    <color name="p_red">#ffafaf</color>
+    <color name="p_yellow">#ffdfb0</color>
+    <color name="p_green">#c3ffac</color>
+    <color name="p_blue">#bcfdff</color>
+</resources>

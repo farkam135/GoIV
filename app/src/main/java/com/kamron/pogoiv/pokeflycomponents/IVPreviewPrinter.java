@@ -38,13 +38,14 @@ public class IVPreviewPrinter {
     /**
      * Shows a toast message that displays either a short message about the pokemon currently on the screen, or the
      * users clipboard setting about the pokemon currently on the screen.
+     * @param ivButton The ivButton to change the look of.
      */
-    public void printIVPreview() {
+    public void printIVPreview(IVPopupButton ivButton) {
         if (settings.shouldShowQuickIVPreview()) {
             Handler handler = new Handler();
             //A delayed action, because the screengrabber needs to wait and ensure there's a frame to grab - fails if
             //the delay is not long enough.
-            handler.postDelayed(new QuickIVScanAttempt(), DELAY_SCAN_MILLIS);
+            handler.postDelayed(new QuickIVScanAttempt(ivButton), DELAY_SCAN_MILLIS);
 
         }
     }
@@ -54,6 +55,11 @@ public class IVPreviewPrinter {
      */
     private class QuickIVScanAttempt implements Runnable {
 
+        private IVPopupButton ivButton;
+
+        public QuickIVScanAttempt(IVPopupButton ivButton) {
+            this.ivButton = ivButton;
+        }
 
         @Override
         public void run() {
@@ -61,8 +67,6 @@ public class IVPreviewPrinter {
             if (!succeeded) {
                 Toast.makeText(pokefly, "Touch screen to retry", Toast.LENGTH_SHORT).show();
             }
-
-
         }
 
         /**
@@ -87,8 +91,11 @@ public class IVPreviewPrinter {
                 return false;
             }
 
-            String toastMessage = getQuickIVMessage(ivrs);
-            Toast.makeText(pokefly, toastMessage, Toast.LENGTH_SHORT).show();
+            //String toastMessage = getQuickIVMessage(ivrs);
+            printClipboardIfSettingIsOn(ivrs);
+            ivButton.showQuickIVPreviewLook(ivrs);
+
+            //Toast.makeText(pokefly, toastMessage, Toast.LENGTH_SHORT).show();
             return true;
 
         }
@@ -109,6 +116,19 @@ public class IVPreviewPrinter {
         return ivrs;
     }
 
+    /**
+     * Makes a system toast for the clipboard is the setting is on
+     *
+     * @param ivrs The iv result to base the message on
+     * @return A string build up by the iv results
+     */
+    private void printClipboardIfSettingIsOn(IVScanResult ivrs) {
+        String returner;
+        if (settings.shouldReplaceQuickIvPreviewWithClipboard()) {
+            returner = pokefly.getClipboardTokenHandler().getClipboardText(ivrs, pokeInfoCalculator);
+            Toast.makeText(pokefly, returner, Toast.LENGTH_SHORT).show();
+        }
+    }
 
     /**
      * Get a string which is either the default QuickIV message, or the clipboard setting depending on what the user

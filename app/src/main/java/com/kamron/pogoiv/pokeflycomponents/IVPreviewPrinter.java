@@ -117,10 +117,10 @@ public class IVPreviewPrinter {
     }
 
     /**
-     * Makes a system toast for the clipboard is the setting is on
+     * Makes a system toast for the clipboard is the setting is on.
      *
-     * @param ivrs The iv result to base the message on
-     * @return A string build up by the iv results
+     * @param ivrs The iv result to base the message on.
+     * @return A string build up by the iv results.
      */
     private void printClipboardIfSettingIsOn(IVScanResult ivrs) {
         String returner;

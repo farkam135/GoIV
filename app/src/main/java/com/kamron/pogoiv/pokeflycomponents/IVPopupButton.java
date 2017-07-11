@@ -1,9 +1,7 @@
 package com.kamron.pogoiv.pokeflycomponents;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.PixelFormat;
-import android.graphics.Typeface;
 import android.support.v4.content.res.ResourcesCompat;
 import android.util.DisplayMetrics;
 import android.view.Gravity;

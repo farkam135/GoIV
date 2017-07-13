@@ -387,7 +387,7 @@ public class OcrHelper {
             name = replaceColors(name, true, 68, 105, 108, Color.WHITE, 200, true);
             tesseract.setImage(name);
             pokemonName = fixOcrNumsToLetters(tesseract.getUTF8Text().replace(" ", ""));
-            if (pokemonName.toLowerCase().contains("nidora")) {
+            if (pokemonName.toLowerCase().contains(nidoFemale.toLowerCase().replace("♀", ""))) {
                 pokemonName = getNidoranGenderName(pokemonImage);
             }
             name.recycle();
@@ -480,7 +480,7 @@ public class OcrHelper {
             candyName = fixOcrNumsToLetters(
                     removeFirstOrLastWord(tesseract.getUTF8Text().trim().replace("-", " "), candyWordFirst));
             candy.recycle();
-            if (candyName.toLowerCase().contains("nidora")) {
+            if (candyName.toLowerCase().contains(nidoFemale.toLowerCase().replace("♀", ""))) {
                 candyName = getNidoranGenderName(pokemonImage);
             }
             ocrCache.put(hash, candyName);

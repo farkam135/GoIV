@@ -623,7 +623,7 @@ public class OcrHelper {
      */
     public ScanResult scanPokemon(Bitmap pokemonImage, int trainerLevel) {
         boolean s8patch = false;
-        double screenRatio = (double) pokemonImage.getHeight() / (double) pokemonImage.getHeight();
+        double screenRatio = (double) pokemonImage.getHeight() / (double) pokemonImage.getWidth();
         if (screenRatio > 1.9 && screenRatio < 2.06) {
             s8patch = true;
         }

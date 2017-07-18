@@ -41,7 +41,7 @@ public class ScreenGrabber {
                 PixelFormat.RGBA_8888, 2);
         virtualDisplay = projection.createVirtualDisplay("screen-mirror", rawDisplayMetrics.widthPixels,
                 rawDisplayMetrics.heightPixels,
-                rawDisplayMetrics.densityDpi, DisplayManager.VIRTUAL_DISPLAY_FLAG_PUBLIC, imageReader.getSurface(),
+                rawDisplayMetrics.densityDpi, DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR, imageReader.getSurface(),
                 null, null);
     }
 

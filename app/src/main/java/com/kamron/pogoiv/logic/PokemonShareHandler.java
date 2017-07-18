@@ -4,6 +4,7 @@ import android.content.Intent;
 import timber.log.Timber;
 import com.kamron.pogoiv.Pokefly;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -36,6 +37,16 @@ public class PokemonShareHandler {
             PokeInfoCalculator calc = PokeInfoCalculator.getInstance();
             jsonPokemon.put("candyName", calc.getEvolutionLine(ivScan.pokemon).get(0));
 
+            JSONArray jsonCombinations = new JSONArray();
+            for (IVCombination ivCombination : ivScan.iVCombinations) {
+                JSONObject jsonCombination = new JSONObject();
+                jsonCombination.put("Atk", ivCombination.att);
+                jsonCombination.put("Def", ivCombination.def);
+                jsonCombination.put("Stam", ivCombination.sta);
+                jsonCombination.put("Percent", ivCombination.percentPerfect);
+                jsonCombinations.put(jsonCombination);
+            }
+            jsonPokemon.put("ivCombinations", jsonCombinations);
         } catch (JSONException e) {
             Timber.e("Error when generating jsonPokemon after clicking the share button");
             Timber.e(e);

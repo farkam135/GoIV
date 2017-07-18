@@ -144,6 +144,7 @@ public class ScreenWatcher {
                     screenScanHandler.removeCallbacks(screenScanRunnable);
                     screenScanHandler.postDelayed(screenScanRunnable, SCREEN_SCAN_INITIAL_DELAY_MS);
                     screenScanRetries = SCREEN_SCAN_RETRIES;
+                    pokefly.getIvButton().outsideScreenClicked();
                 }
             }
             return false;

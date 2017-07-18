@@ -551,6 +551,7 @@ public class OcrHelper {
          */
         if (cpText.length() >= 2) { //gastly can block the "cp" text, so its not visible...
             cpText = cpText.substring(2); //remove "cp".
+            cpText = cpText.replaceAll("[^0-9]]", ""); //remove any non integer character
         }
 
         try {

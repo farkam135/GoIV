@@ -104,7 +104,7 @@ public class IVPopupButton extends android.support.v7.widget.AppCompatButton {
         int low = ivrs.getLowestIVCombination().percentPerfect;
         int high = ivrs.getHighestIVCombination().percentPerfect;
         if (ivrs.getCount() == 1 || high == low) { // display something like "IV: 98%"
-            setText(ivrs.pokemon.name + "IV: " + low + "%");
+            setText(ivrs.pokemon.name + "\nIV: " + low + "%");
         } else { // display something like "IV: 55 - 87%"
             setText(ivrs.pokemon.name + "\nIV: " + low + " - " + high + "%");
         }

@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- Shadow -->
-    <item android:left="0dp"
-        android:right="0dp">
+    <item>
         <shape android:shape="rectangle">
             <size
                 android:width="60dp"
@@ -24,16 +23,18 @@
     </item>
 
     <!--Colored Ring-->
-    <item android:left="6dp"
+    <item
+        android:id="@+id/ivButtonRing"
+        android:left="6dp"
         android:right="6dp"
         android:bottom="6dp"
         android:top="6dp">
         <shape android:shape="rectangle">
             <corners android:radius="1000dp"/>
             <gradient
-            android:angle="270"
-            android:endColor="#68F0CE"
-            android:startColor="#AFFFAF"/>
+                android:angle="0"
+                android:endColor="#68F0CE"
+                android:startColor="#AFFFAF"/>
         </shape>
     </item>
 
@@ -48,52 +49,41 @@
         </shape>
     </item>
 
-
-
-    <!-- I -->
+    <!--Left Highlighted Color-->
     <item
-        android:bottom="18dp"
-        android:left="18dp"
-        android:right="39.2dp"
-        android:top="18dp">
+        android:id="@+id/ivPreviewMinIndicator"
+        android:left="8dp"
+        android:right="90dp"
+        android:bottom="8dp"
+        android:top="8dp">
         <shape android:shape="rectangle">
-            <corners android:radius="1000dp"/>
+            <corners
+                android:topLeftRadius="1000dp"
+                android:bottomLeftRadius="1000dp"/>
             <gradient
-                android:endColor="#A7FDB3"
-                android:startColor="#AFFFAF"/>
+                android:angle="0"
+                android:endColor="@color/p_background"
+                android:startColor="@color/p_background"/>
         </shape>
     </item>
 
-    <!-- V Left -->
+    <!--Right Highlighted Color-->
     <item
-        android:bottom="17.5dp"
-        android:left="29dp"
-        android:right="28dp"
-        android:top="17.5dp">
-        <rotate android:fromDegrees="-20">
-            <shape android:shape="rectangle">
-                <corners android:radius="1000dp"/>
-                <gradient
-                    android:endColor="#7DF4C5"
-                    android:startColor="#9DFBB7"/>
-            </shape>
-        </rotate>
+        android:id="@+id/ivPreviewMaxIndicator"
+        android:left="90dp"
+        android:right="8dp"
+        android:bottom="8dp"
+        android:top="8dp">
+        <shape android:shape="rectangle">
+            <corners
+                android:topRightRadius="1000dp"
+                android:bottomRightRadius="1000dp"/>
+            <gradient
+                android:angle="0"
+                android:endColor="@color/p_background"
+                android:startColor="@color/p_background"/>
+        </shape>
     </item>
 
-    <!-- V Right -->
-    <item
-        android:bottom="17.5dp"
-        android:left="37dp"
-        android:right="20dp"
-        android:top="17.5dp">
-        <rotate android:fromDegrees="20">
-            <shape android:shape="rectangle">
-                <corners android:radius="1000dp"/>
-                <gradient
-                    android:endColor="#68F0CE"
-                    android:startColor="#8AF7BF"/>
-            </shape>
-        </rotate>
-    </item>
 
 </layer-list>

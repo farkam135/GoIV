@@ -3,7 +3,6 @@ package com.kamron.pogoiv.pokeflycomponents;
 import android.content.Context;
 import android.graphics.PixelFormat;
 import android.support.v4.content.res.ResourcesCompat;
-import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -78,13 +77,13 @@ public class IVPopupButton extends android.support.v7.widget.AppCompatButton {
     /**
      * resets the visual look of the button to its default state.
      */
-    private void resetButtonLook() {
+    public void resetButtonLook() {
         setBackgroundResource(R.drawable.iv_button);
-
+        setWidth(dpToPx(60));
         setText("");
         ivButtonParams.gravity = Gravity.BOTTOM | Gravity.START;
-        ivButtonParams.x = dpToPx(15);
-        ivButtonParams.y = dpToPx(15);
+        ivButtonParams.x = dpToPx(16);
+        ivButtonParams.y = dpToPx(14);
         setLayoutParams(ivButtonParams);
 
         //setTypeface(null, Typeface.BOLD);
@@ -109,6 +108,8 @@ public class IVPopupButton extends android.support.v7.widget.AppCompatButton {
             setText(ivrs.pokemon.name + "\nIV: " + low + " - " + high + "%");
         }
 
+        setBackgroundResource(R.drawable.iv_button_background);
+        setWidth(dpToPx(120));
         setBackgroundGradient(ivrs);
         setTextColorFromIVs(ivrs);
 
@@ -116,20 +117,21 @@ public class IVPopupButton extends android.support.v7.widget.AppCompatButton {
     }
 
     private void setTextColorFromIVs(IVScanResult ivrs) {
-        int blue = ResourcesCompat.getColor(getResources(), R.color.p_blue, null);
-        int green = ResourcesCompat.getColor(getResources(), R.color.p_green, null);
-        int yellow = ResourcesCompat.getColor(getResources(), R.color.p_yellow, null);
-        int red = ResourcesCompat.getColor(getResources(), R.color.p_red, null);
+        int blue = ResourcesCompat.getColor(getResources(), R.color.p_text_blue, null);
+        int green = ResourcesCompat.getColor(getResources(), R.color.p_text_green, null);
+        int yellow = ResourcesCompat.getColor(getResources(), R.color.p_text_yellow, null);
+        int orange = ResourcesCompat.getColor(getResources(), R.color.p_text_orange, null);
+        int red = ResourcesCompat.getColor(getResources(), R.color.p_text_red, null);
 
         int percent = ivrs.getAveragePercent();
         if (percent < 51) {
             setTextColor(red);
         } else if (percent < 66) {
-            setTextColor(yellow);
+            setTextColor(orange);
         } else if (percent < 82) {
-            setTextColor(green);
+            setTextColor(yellow);
         } else if (percent < 101) {
-            setTextColor(blue);
+            setTextColor(green);
         }
     }
 
@@ -140,33 +142,44 @@ public class IVPopupButton extends android.support.v7.widget.AppCompatButton {
      */
     private void setBackgroundGradient(IVScanResult ivrs) {
 
+        int background = ResourcesCompat.getColor(getResources(), R.color.p_background, null);
+        int green = ResourcesCompat.getColor(getResources(), R.color.p_green, null);
+        int yellow = ResourcesCompat.getColor(getResources(), R.color.p_yellow, null);
+        int orange = ResourcesCompat.getColor(getResources(), R.color.p_orange, null);
+        int red = ResourcesCompat.getColor(getResources(), R.color.p_red, null);
+
         int low = ivrs.getLowestIVCombination().percentPerfect;
         int high = ivrs.getHighestIVCombination().percentPerfect;
 
+//        if (low < 51 && high < 51) {
+//            setBackgroundResource(R.drawable.preview_button_0_50);
+//        } else if (low < 51 && high < 66) {
+//            setBackgroundResource(R.drawable.preview_button_0_65);
+//        } else if (low < 51 && high < 82) {
+//            setBackgroundResource(R.drawable.preview_button_0_81);
+//        } else if (low < 51 && high < 101) {
+//            setBackgroundResource(R.drawable.preview_button_0_100);
+//        } else if (low < 66 && high < 66) {
+//            setBackgroundResource(R.drawable.preview_button_51_65);
+//        } else if (low < 66 && high < 82) {
+//            setBackgroundResource(R.drawable.preview_button_51_81);
+//        } else if (low < 66 && high < 101) {
+//            setBackgroundResource(R.drawable.preview_button_51_100);
+//        } else if (low < 82 && high < 82) {
+//            setBackgroundResource(R.drawable.preview_button_66_81);
+//        } else if (low < 82 && high < 101) {
+//            setBackgroundResource(R.drawable.preview_button_66_100);
+//        } else if (low < 101 && high < 101) {
+//            setBackgroundResource(R.drawable.preview_button_82_100);
+//        }
 
-        if (low < 51 && high < 51) {
-            setBackgroundResource(R.drawable.preview_button_0_50);
-        } else if (low < 51 && high < 66) {
-            setBackgroundResource(R.drawable.preview_button_0_65);
-        } else if (low < 51 && high < 82) {
-            setBackgroundResource(R.drawable.preview_button_0_81);
-        } else if (low < 51 && high < 101) {
-            setBackgroundResource(R.drawable.preview_button_0_100);
-        } else if (low < 66 && high < 66) {
-            setBackgroundResource(R.drawable.preview_button_51_65);
-        } else if (low < 66 && high < 82) {
-            setBackgroundResource(R.drawable.preview_button_51_81);
-        } else if (low < 66 && high < 101) {
-            setBackgroundResource(R.drawable.preview_button_51_100);
-        } else if (low < 82 && high < 82) {
-            setBackgroundResource(R.drawable.preview_button_66_81);
-        } else if (low < 82 && high < 101) {
-            setBackgroundResource(R.drawable.preview_button_66_100);
-        } else if (low < 101 && high < 101) {
-            setBackgroundResource(R.drawable.preview_button_82_100);
-        }
-
-
+//        View minIndicatorView = findViewById(R.id.ivPreviewMinIndicator);
+//        int[] colors = {red, background};
+//
+//        GradientDrawable gradientDrawable = new GradientDrawable(
+//                GradientDrawable.Orientation.LEFT_RIGHT, colors);
+//
+//        minIndicatorView.setBackground(gradientDrawable);
     }
 
     /**
@@ -174,6 +187,8 @@ public class IVPopupButton extends android.support.v7.widget.AppCompatButton {
      * navigate away from the screen and showing old IV preview would be missgiving.
      */
     public void outsideScreenClicked() {
+        setBackgroundResource(R.drawable.iv_button_background);
+        setWidth(dpToPx(60));
         setText("...");
     }
 
@@ -202,7 +217,7 @@ public class IVPopupButton extends android.support.v7.widget.AppCompatButton {
 
 
     private int dpToPx(int dp) {
-        return Math.round(dp * (getContext().getResources().getDisplayMetrics().xdpi / DisplayMetrics.DENSITY_DEFAULT));
+        return Math.round(dp * (getContext().getResources().getDisplayMetrics().density));
     }
 
 }

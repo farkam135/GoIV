@@ -17,7 +17,6 @@ import android.media.projection.MediaProjectionManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
@@ -58,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
     public static final String ACTION_INCREMENT_LEVEL = "com.kamron.pogoiv.ACTION_INCREMENT_LEVEL";
     public static final String ACTION_OPEN_SETTINGS = "com.kamron.pogoiv.ACTION_OPEN_SETTINGS";
 
-    private static final int POGO_LAUNCH_DELAY_MILLIS = 3000;
 
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final int OVERLAY_PERMISSION_REQ_CODE = 1234;
@@ -199,13 +197,6 @@ public class MainActivity extends AppCompatActivity {
         if (screenRatio > 1.9 && screenRatio < 2.06) {
             samsungS8Patch = true;
         }
-        /*
-        if (displayMetrics.heightPixels == 2960 || (displayMetrics.heightPixels > 2780 && displayMetrics.heightPixels
-                < 2800)) {
-            //Probably a samsung s8
-            samsungS8Patch = true;
-        }
-        */
 
         WindowManager windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
         rawDisplayMetrics = new DisplayMetrics();
@@ -471,33 +462,14 @@ public class MainActivity extends AppCompatActivity {
         launchButton.setEnabled(false);
 
         startPoGoIfSettingOn();
-
-        if (settings.shouldLaunchPokemonGo() && !skipStartPogo) {
-            firePokeFlyIntentDelayed();
-        } else {
-            firePokeFlyIntent();
-        }
+        firePokeFlyIntent();
         skipStartPogo = false;
     }
 
-    /**
-     * This method adds a delay wrapper and toast messages around firePokeFlyIntent.
-     */
-    private void firePokeFlyIntentDelayed() {
-        Toast.makeText(this, R.string.waiting_for_pogo_start, Toast.LENGTH_SHORT).show();
-        final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                firePokeFlyIntent();
-            }
-        }, POGO_LAUNCH_DELAY_MILLIS);
-        Toast.makeText(this, R.string.goiv_started, Toast.LENGTH_SHORT).show();
-    }
 
     /**
      * This method actually starts pokefly, but other thins need to be done first, such as updating the text on the
-     * buttons, handling any delays and starting pogo.
+     * buttons, and starting pogo.
      */
     private void firePokeFlyIntent() {
         int statusBarHeight = getStatusBarHeight();

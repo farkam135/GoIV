@@ -2,8 +2,9 @@ package com.kamron.pogoiv.pokeflycomponents;
 
 import android.content.Context;
 import android.graphics.PixelFormat;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.LayerDrawable;
 import android.support.v4.content.res.ResourcesCompat;
-import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -43,7 +44,6 @@ public class IVPopupButton extends android.support.v7.widget.AppCompatButton {
         super(context);
         pokefly = (Pokefly) context;
         windowManager = (WindowManager) pokefly.getSystemService(pokefly.WINDOW_SERVICE);
-        setBackgroundResource(R.drawable.iv_button);
         resetButtonLook();
 
         setOnTouchListener(new OnIVClick());
@@ -80,14 +80,12 @@ public class IVPopupButton extends android.support.v7.widget.AppCompatButton {
      */
     private void resetButtonLook() {
         setBackgroundResource(R.drawable.iv_button);
-
+        setWidth(dpToPx(60));
         setText("");
         ivButtonParams.gravity = Gravity.BOTTOM | Gravity.START;
-        ivButtonParams.x = dpToPx(15);
-        ivButtonParams.y = dpToPx(15);
+        ivButtonParams.x = dpToPx(16);
+        ivButtonParams.y = dpToPx(14);
         setLayoutParams(ivButtonParams);
-
-        //setTypeface(null, Typeface.BOLD);
         setGravity(Gravity.CENTER_VERTICAL);
     }
 
@@ -97,8 +95,6 @@ public class IVPopupButton extends android.support.v7.widget.AppCompatButton {
      * @param ivrs what data to base the look on.
      */
     public void showQuickIVPreviewLook(IVScanResult ivrs) {
-        //setBackgroundResource(R.drawable.preview_button);
-        //setBackgroundResource(R.mipmap.iv_preview_1);
         setTextAlignment(TEXT_ALIGNMENT_CENTER);
 
         int low = ivrs.getLowestIVCombination().percentPerfect;
@@ -116,10 +112,13 @@ public class IVPopupButton extends android.support.v7.widget.AppCompatButton {
     }
 
     private void setTextColorFromIVs(IVScanResult ivrs) {
-        int blue = ResourcesCompat.getColor(getResources(), R.color.p_blue, null);
-        int green = ResourcesCompat.getColor(getResources(), R.color.p_green, null);
-        int yellow = ResourcesCompat.getColor(getResources(), R.color.p_yellow, null);
-        int red = ResourcesCompat.getColor(getResources(), R.color.p_red, null);
+
+        //setTextColor(ResourcesCompat.getColor(getResources(), R.color.iv_text_color, null));
+
+        int blue = ResourcesCompat.getColor(getResources(), R.color.t_blue, null);
+        int green = ResourcesCompat.getColor(getResources(), R.color.t_green, null);
+        int yellow = ResourcesCompat.getColor(getResources(), R.color.t_yellow, null);
+        int red = ResourcesCompat.getColor(getResources(), R.color.t_red, null);
 
         int percent = ivrs.getAveragePercent();
         if (percent < 51) {
@@ -131,6 +130,7 @@ public class IVPopupButton extends android.support.v7.widget.AppCompatButton {
         } else if (percent < 101) {
             setTextColor(blue);
         }
+
     }
 
     /**
@@ -143,30 +143,45 @@ public class IVPopupButton extends android.support.v7.widget.AppCompatButton {
         int low = ivrs.getLowestIVCombination().percentPerfect;
         int high = ivrs.getHighestIVCombination().percentPerfect;
 
+        setWidth(dpToPx(60));
+        setBackgroundResource(R.drawable.preview_button_0_100);
 
-        if (low < 51 && high < 51) {
-            setBackgroundResource(R.drawable.preview_button_0_50);
-        } else if (low < 51 && high < 66) {
-            setBackgroundResource(R.drawable.preview_button_0_65);
-        } else if (low < 51 && high < 82) {
-            setBackgroundResource(R.drawable.preview_button_0_81);
-        } else if (low < 51 && high < 101) {
-            setBackgroundResource(R.drawable.preview_button_0_100);
-        } else if (low < 66 && high < 66) {
-            setBackgroundResource(R.drawable.preview_button_51_65);
-        } else if (low < 66 && high < 82) {
-            setBackgroundResource(R.drawable.preview_button_51_81);
-        } else if (low < 66 && high < 101) {
-            setBackgroundResource(R.drawable.preview_button_51_100);
-        } else if (low < 82 && high < 82) {
-            setBackgroundResource(R.drawable.preview_button_66_81);
-        } else if (low < 82 && high < 101) {
-            setBackgroundResource(R.drawable.preview_button_66_100);
-        } else if (low < 101 && high < 101) {
-            setBackgroundResource(R.drawable.preview_button_82_100);
+        setGradientColor(getColorForPercentIV(low), getColorForPercentIV(high));
+
+
+
+    }
+
+    /**
+     * Set the ivpreview button outer line color gradient
+     * @param c1 integer representing the color of the left side of the gradient
+     * @param c2 integer representing the color of the right side of the gradient
+     */
+    private void setGradientColor(int c1, int c2) {
+        LayerDrawable bgDrawable = (LayerDrawable) getBackground();
+        GradientDrawable inner = (GradientDrawable) bgDrawable.findDrawableByLayerId(R.id.iv_preview_ring_gradient);
+        if (inner != null){
+            inner.setColors(new int[]{c1, c2});
         }
 
+    }
 
+    /**
+     * Get the color that should be shown on the ivpopupbutton for a certain iv percentage
+     *
+     * @param percent an integer between 0 and 100 representing the iv %
+     * @return an integer representing a color
+     */
+    private int getColorForPercentIV(int percent) {
+        if (percent < 51) {
+            return ResourcesCompat.getColor(getResources(), R.color.p_red, null);
+        } else if (percent < 66) {
+            return ResourcesCompat.getColor(getResources(), R.color.p_yellow, null);
+        } else if (percent < 82) {
+            return ResourcesCompat.getColor(getResources(), R.color.p_green, null);
+        } else {
+            return ResourcesCompat.getColor(getResources(), R.color.p_blue, null);
+        }
     }
 
     /**
@@ -175,6 +190,7 @@ public class IVPopupButton extends android.support.v7.widget.AppCompatButton {
      */
     public void outsideScreenClicked() {
         setText("...");
+        setGradientColor(0,0); //makes gradient invisible
     }
 
     /**
@@ -202,7 +218,7 @@ public class IVPopupButton extends android.support.v7.widget.AppCompatButton {
 
 
     private int dpToPx(int dp) {
-        return Math.round(dp * (getContext().getResources().getDisplayMetrics().xdpi / DisplayMetrics.DENSITY_DEFAULT));
+        return Math.round(dp * (getContext().getResources().getDisplayMetrics().density));
     }
 
 }

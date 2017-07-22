@@ -8,23 +8,20 @@
                 android:width="96dp"
                 android:height="48dp"/>
 
-            <solid android:color="#20000000"/>
+            <solid android:color="@color/iv_button_shadow"/>
         </shape>
 
     </item>
 
     <!-- base -->
     <item
-        android:bottom="4dp"
-        android:left="4dp"
-        android:right="4dp"
-        android:top="4dp">
+        android:bottom="3dp"
+        android:left="3dp"
+        android:right="3dp"
+        android:top="3dp">
         <shape android:shape="rectangle">
             <corners android:radius="32dp"/>
-            <size
-                android:width="96dp"
-                android:height="48dp"/>
-            <solid android:color="#1C8796"/>
+            <solid android:color="@color/iv_button_base"/>
         </shape>
 
     </item>
@@ -35,12 +32,10 @@
         android:bottom="7dp"
         android:left="7dp"
         android:right="7dp"
-        android:top="7dp">
+        android:top="7dp"
+        android:id="@+id/iv_preview_ring_gradient">
         <shape android:shape="rectangle">
             <corners android:radius="32dp"/>
-            <size
-                android:width="96dp"
-                android:height="48dp"/>
             <gradient
                 android:angle="0"
                 android:endColor="@color/p_blue"
@@ -50,16 +45,16 @@
 
     <!-- Inner -->
     <item
-        android:bottom="9dp"
-        android:left="9dp"
-        android:right="9dp"
-        android:top="9dp">
+        android:bottom="8dp"
+        android:left="8dp"
+        android:right="8dp"
+        android:top="8dp">
         <shape android:shape="rectangle">
-            <corners android:radius="32dp"/>
             <size
                 android:width="96dp"
                 android:height="48dp"/>
-            <solid android:color="#1C8796"/>
+            <corners android:radius="32dp"/>
+            <solid android:color="@color/iv_button_base"/>
         </shape>
     </item>
 </layer-list>

@@ -65,7 +65,7 @@ public class IVPreviewPrinter {
         public void run() {
             boolean succeeded = runQuickScan();
             if (!succeeded) {
-                Toast.makeText(pokefly, "Touch screen to retry", Toast.LENGTH_SHORT).show();
+                Toast.makeText(pokefly, "Touch screen to retry quick IV scan", Toast.LENGTH_SHORT).show();
             }
         }
 

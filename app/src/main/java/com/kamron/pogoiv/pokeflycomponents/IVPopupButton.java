@@ -153,21 +153,21 @@ public class IVPopupButton extends android.support.v7.widget.AppCompatButton {
     }
 
     /**
-     * Set the ivpreview button outer line color gradient
+     * Set the ivpreview button outer line color gradient.
      * @param c1 integer representing the color of the left side of the gradient
      * @param c2 integer representing the color of the right side of the gradient
      */
     private void setGradientColor(int c1, int c2) {
         LayerDrawable bgDrawable = (LayerDrawable) getBackground();
         GradientDrawable inner = (GradientDrawable) bgDrawable.findDrawableByLayerId(R.id.iv_preview_ring_gradient);
-        if (inner != null){
+        if (inner != null) {
             inner.setColors(new int[]{c1, c2});
         }
 
     }
 
     /**
-     * Get the color that should be shown on the ivpopupbutton for a certain iv percentage
+     * Get the color that should be shown on the ivpopupbutton for a certain iv percentage.
      *
      * @param percent an integer between 0 and 100 representing the iv %
      * @return an integer representing a color

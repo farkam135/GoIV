@@ -3,9 +3,6 @@ package com.kamron.pogoiv;
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.ClipData;
@@ -20,17 +17,14 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.PixelFormat;
-import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -73,6 +67,10 @@ import com.kamron.pogoiv.logic.PokemonShareHandler;
 import com.kamron.pogoiv.logic.ScanContainer;
 import com.kamron.pogoiv.logic.ScanResult;
 import com.kamron.pogoiv.logic.UpgradeCost;
+import com.kamron.pogoiv.pokeflycomponents.GoIVNotificationManager;
+import com.kamron.pogoiv.pokeflycomponents.IVPopupButton;
+import com.kamron.pogoiv.pokeflycomponents.IVPreviewPrinter;
+import com.kamron.pogoiv.pokeflycomponents.ScreenWatcher;
 import com.kamron.pogoiv.widgets.IVResultsAdapter;
 import com.kamron.pogoiv.widgets.PokemonSpinnerAdapter;
 
@@ -97,8 +95,8 @@ import static com.kamron.pogoiv.GoIVSettings.APPRAISAL_WINDOW_POSITION;
 public class Pokefly extends Service {
 
     public static final String ACTION_UPDATE_UI = "com.kamron.pogoiv.ACTION_UPDATE_UI";
-    public static final String ACTION_STOP = "com.kamron.pogoiv.ACTION_STOP";
     private static final String ACTION_SEND_INFO = "com.kamron.pogoiv.ACTION_SEND_INFO";
+    public static final String ACTION_STOP = "com.kamron.pogoiv.ACTION_STOP";
 
     private static final String KEY_TRAINER_LEVEL = "key_trainer_level";
     private static final String KEY_STATUS_BAR_HEIGHT = "key_status_bar_height";
@@ -121,7 +119,6 @@ public class Pokefly extends Service {
 
     private static final String PREF_USER_CORRECTIONS = "com.kamron.pogoiv.USER_CORRECTIONS";
 
-    private static final int NOTIFICATION_REQ_CODE = 8959;
 
     private static boolean running = false;
 
@@ -139,23 +136,20 @@ public class Pokefly extends Service {
     private OcrHelper ocr;
     private GoIVSettings settings;
 
-    private Point[] area = new Point[2];
 
     private boolean infoShownSent = false;
     private boolean infoShownReceived = false;
-    private boolean ivButtonShown = false;
 
-    private ImageView ivButton;
+    //Pokefly components
+    private ScreenWatcher screenWatcher;
+    private IVPopupButton ivButton;
+    private ClipboardTokenHandler clipboardTokenHandler;
+    private GoIVNotificationManager goIVNotificationManager;
+    private IVPreviewPrinter ivPreviewPrinter;
+
     private ImageView arcPointer;
     private LinearLayout infoLayout;
 
-    private LinearLayout touchView;
-    private WindowManager.LayoutParams touchViewParams;
-    private Handler screenScanHandler;
-    private Runnable screenScanRunnable;
-    private static final int SCREEN_SCAN_DELAY_MS = 1000;
-    private static final int SCREEN_SCAN_RETRIES = 3;
-    private int screenScanRetries;
 
     private PokeInfoCalculator pokeInfoCalculator;
 
@@ -329,7 +323,6 @@ public class Pokefly extends Service {
     private double estimatedPokemonLevel = 1.0;
     private @NonNull Optional<String> screenShotPath = Optional.absent();
 
-    private PokemonNameCorrector corrector;
 
     private final WindowManager.LayoutParams arcParams = new WindowManager.LayoutParams(
             WindowManager.LayoutParams.WRAP_CONTENT,
@@ -348,12 +341,6 @@ public class Pokefly extends Service {
             WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN,
             PixelFormat.TRANSPARENT);
 
-    private final WindowManager.LayoutParams ivButtonParams = new WindowManager.LayoutParams(
-            WindowManager.LayoutParams.WRAP_CONTENT,
-            WindowManager.LayoutParams.WRAP_CONTENT,
-            WindowManager.LayoutParams.TYPE_PHONE,
-            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
-            PixelFormat.TRANSLUCENT);
 
     public static boolean isRunning() {
         return running;
@@ -413,6 +400,34 @@ public class Pokefly extends Service {
         return getResources().getStringArray(R.array.pokemon);
     }
 
+    public IVPopupButton getIvButton() {
+        return ivButton;
+    }
+
+    public ClipboardTokenHandler getClipboardTokenHandler() {
+        return clipboardTokenHandler;
+    }
+
+    public OcrHelper getOcr() {
+        return ocr;
+    }
+
+    public int getTrainerLevel() {
+        return trainerLevel;
+    }
+
+    public IVPreviewPrinter getIvPreviewPrinter() {
+        return ivPreviewPrinter;
+    }
+
+    public boolean getInfoShownSent() {
+        return infoShownSent;
+    }
+
+    public boolean isBatterySaver() {
+        return batterySaver;
+    }
+
     private String[] getPokemonDisplayNamesArray() {
         if (settings.isShowTranslatedPokemonName()) {
             //If pref ON, use translated strings as pokemon name.
@@ -445,7 +460,6 @@ public class Pokefly extends Service {
         windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
         clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
         sharedPref = getSharedPreferences(PREF_USER_CORRECTIONS, Context.MODE_PRIVATE);
-        corrector = new PokemonNameCorrector(pokeInfoCalculator);
 
         LocalBroadcastManager.getInstance(this).registerReceiver(displayInfo, new IntentFilter(ACTION_SEND_INFO));
         LocalBroadcastManager.getInstance(this).registerReceiver(processBitmap,
@@ -461,13 +475,16 @@ public class Pokefly extends Service {
         }
 
         running = true;
+        goIVNotificationManager = new GoIVNotificationManager(this);
+        ivPreviewPrinter = new IVPreviewPrinter(this);
+        clipboardTokenHandler = new ClipboardTokenHandler(this);
 
         if (ACTION_STOP.equals(intent.getAction())) {
             if (android.os.Build.VERSION.SDK_INT >= 24) {
                 stopForeground(STOP_FOREGROUND_DETACH);
             }
             stopSelf();
-            makeNotification(true);
+            goIVNotificationManager.showRunningNotification();
         } else if (intent.hasExtra(KEY_TRAINER_LEVEL)) {
             trainerLevel = intent.getIntExtra(KEY_TRAINER_LEVEL, 1);
             statusBarHeight = intent.getIntExtra(KEY_STATUS_BAR_HEIGHT, 0);
@@ -476,14 +493,16 @@ public class Pokefly extends Service {
             /* Assumes MainActivity initialized ScreenGrabber before starting this service. */
             if (!batterySaver) {
                 screen = ScreenGrabber.getInstance();
-                watchScreen();
                 autoAppraisal = new AutoAppraisal(screen, ocr, this, attDefStaLayout,
                         attCheckbox, defCheckbox, staCheckbox,
                         appraisalIVRangeGroup, appraisalStatsGroup);
+                screenWatcher = new ScreenWatcher(this, appraisalBox, autoAppraisal);
+                screenWatcher.watchScreen();
+
             } else {
                 screenShotHelper = ScreenShotHelper.start(Pokefly.this);
             }
-            makeNotification(false);
+            goIVNotificationManager.showPausedNotification();
         }
         //We have intent data, it's possible this service will be killed and we would want to recreate it
         //https://github.com/farkam135/GoIV/issues/477
@@ -495,167 +514,9 @@ public class Pokefly extends Service {
      */
     private void createFlyingComponents() {
         createInfoLayout();
-        createIVButton();
+        ivButton = new IVPopupButton(this);
         createArcPointer();
         createArcAdjuster();
-    }
-
-    private void watchScreen() {
-        area[0] = new Point(                // these values used to get "white" left of "power up"
-                (int) Math.round(displayMetrics.widthPixels * 0.041667),
-                (int) Math.round(displayMetrics.heightPixels * 0.8046875));
-        area[1] = new Point(                // these values used to get greenish color in transfer button
-                (int) Math.round(displayMetrics.widthPixels * 0.862445),
-                (int) Math.round(displayMetrics.heightPixels * 0.9004));
-
-        screenScanHandler = new Handler();
-        screenScanRunnable = new Runnable() {
-            @Override
-            public void run() {
-                if (screenScanRetries > 0) {
-                    boolean ret = scanPokemonScreen();
-                    if (ret) {
-                        screenScanRetries = 0; //skip further retries.
-                        printIVPreview();
-                    } else {
-                        screenScanRetries--;
-                        screenScanHandler.postDelayed(screenScanRunnable, SCREEN_SCAN_DELAY_MS);
-                    }
-                }
-            }
-        };
-
-        touchView = new LinearLayout(this);
-        touchViewParams = new WindowManager.LayoutParams(
-                1,
-                1,
-                WindowManager.LayoutParams.TYPE_PHONE,
-                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-                        | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
-                        | WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH,
-                PixelFormat.TRANSPARENT);
-        touchViewParams.gravity = Gravity.LEFT | Gravity.TOP;
-
-        touchView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getActionMasked() == MotionEvent.ACTION_OUTSIDE) { // Touch event outside of GoIV UI
-                    // Let's check first to see if the user is performing an Appraisal
-                    if (!batterySaver && appraisalBox.getVisibility() == View.VISIBLE) {
-                        // Let autoAppraisal know that the user has touched the PokemonGo app while the
-                        // appraisalBox was Visible.  This is our indication that the user has started a Pogo appraisal
-                        autoAppraisal.screenTouched();
-                    } else {
-                        // Not appraising, let's check to see if they're looking at a pokemon screen.
-                        // The postDelayed will wait SCREEN_SCAN_DELAY_MS after the user touches the screen before
-                        // performing a scan of the screen to detect the pixels associated with a Pokemon screen.
-                        screenScanHandler.removeCallbacks(screenScanRunnable);
-                        screenScanHandler.postDelayed(screenScanRunnable, SCREEN_SCAN_DELAY_MS);
-                        screenScanRetries = SCREEN_SCAN_RETRIES;
-                    }
-                }
-                return false;
-            }
-        });
-
-        windowManager.addView(touchView, touchViewParams);
-    }
-
-    /**
-     * Undoes the effects of watchScreen.
-     */
-    private void unwatchScreen() {
-        windowManager.removeView(touchView);
-        touchViewParams = null;
-        touchView = null;
-        screenScanHandler.removeCallbacks(screenScanRunnable);
-        screenScanRunnable = null;
-        screenScanHandler = null;
-    }
-
-    /**
-     * scanPokemonScreen
-     * Scans the device screen to check area[0] for the white and area[1] for the transfer button.
-     * If both exist then the user is on the pokemon screen.
-     */
-    private boolean scanPokemonScreen() {
-        @ColorInt int[] pixels = screen.grabPixels(area);
-
-        if (pixels != null) {
-            boolean shouldShow =
-                    (pixels[0] == Color.rgb(250, 250, 250) || pixels[0] == Color.rgb(249, 249, 249))
-                            && pixels[1] == Color.rgb(28, 135, 150);
-            setIVButtonDisplay(shouldShow);
-
-
-            return shouldShow;
-        }
-        return false;
-    }
-
-    /**
-     * Shows a toast message that displays either a short message about the pokemon currently on the screen, or the
-     * users clipboard setting about the pokemon currently on the screen.
-     */
-    private void printIVPreview() {
-
-        if (settings.shouldShowQuickIVPreview()) {
-            final Context thisContext = this;
-
-            final Handler handler = new Handler();
-            //A delayed action, because the screengrabber needs to wait and ensure there's a frame to grab - fails if
-            //the delay is not long enough.
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    Bitmap bmp = screen.grabScreen();
-                    //
-                    if (bmp == null) {
-                        Toast.makeText(thisContext, R.string.scanFailed, Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    boolean s8Patch = false;
-                    double screenRatio = (double) displayMetrics.heightPixels / (double) displayMetrics.widthPixels;
-                    if (screenRatio > 1.9 && screenRatio < 2.06) {
-                        s8Patch = true;
-                    }
-                    ScanResult res = ocr.scanPokemon(bmp, trainerLevel, s8Patch);
-
-                    //if scan is successful, this message will be overwritten and not shown.
-                    String toastMessage = "Failed to perform quickscan";
-                    if (res.isFailed()) {
-                        Toast.makeText(Pokefly.this, getString(R.string.scan_pokemon_failed), Toast.LENGTH_SHORT)
-                                .show();
-                    }
-
-                    if (res.getPokemonHP().isPresent() && res.getPokemonCP().isPresent()) {
-                        Pokemon poke = corrector.getPossiblePokemon(res.getPokemonName(), res.getCandyName(),
-                                res.getUpgradeCandyCost(),
-                                res.getPokemonType()).pokemon;
-                        IVScanResult ivrs = pokeInfoCalculator.getIVPossibilities(poke, res.getEstimatedPokemonLevel(),
-                                res
-                                        .getPokemonHP().get(), res
-                                        .getPokemonCP().get());
-
-                        if (ivrs.getCount() > 0) {
-                            if (settings.shouldReplaceQuickIvPreviewWithClipboard()) {
-                                toastMessage = getClipboardStringForIvScan(ivrs);
-                            } else {
-                                toastMessage = "IV: " + ivrs.getLowestIVCombination().percentPerfect + " - "
-                                        + ivrs.getHighestIVCombination().percentPerfect + "%";
-                            }
-                        }
-
-                    }
-
-                    Toast.makeText(thisContext, toastMessage, Toast.LENGTH_SHORT).show();
-
-                }
-            }, 50);
-
-        }
-
-
     }
 
 
@@ -683,7 +544,7 @@ public class Pokefly extends Service {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(processBitmap);
 
         if (!batterySaver) {
-            unwatchScreen();
+            screenWatcher.unwatchScreen();
             if (screen != null) {
                 screen.exit();
                 screen = null;
@@ -692,7 +553,7 @@ public class Pokefly extends Service {
             screenShotHelper.stop();
             screenShotHelper = null;
         }
-        setIVButtonDisplay(false);
+        ivButton.setShown(false, infoShownSent);
         hideInfoLayoutArcPointer();
 
         ocr.exit();
@@ -703,104 +564,6 @@ public class Pokefly extends Service {
         LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(ACTION_UPDATE_UI));
 
         super.onDestroy();
-    }
-
-    /**
-     * Creates the GoIV notification.
-     *
-     * @param isStopping should we make starting or stopping notification
-     */
-    private void makeNotification(boolean isStopping) {
-        Intent openAppIntent = new Intent(this, MainActivity.class);
-
-        PendingIntent openAppPendingIntent = PendingIntent.getActivity(
-                this, 0, openAppIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        if (!isStopping) { // GoIV is running
-
-            Intent incrementLevelIntent = new Intent(this, MainActivity.class);
-
-            incrementLevelIntent.setAction(MainActivity.ACTION_INCREMENT_LEVEL);
-
-            PendingIntent incrementLevelPendingIntent = PendingIntent.getActivity(
-                    this, 0, incrementLevelIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-            NotificationCompat.Action incrementLevelAction = new NotificationCompat.Action.Builder(
-                    R.drawable.ic_add_white_24px,
-                    getString(R.string.notification_title_increment_level),
-                    incrementLevelPendingIntent).build();
-
-            Intent stopServiceIntent = new Intent(this, Pokefly.class);
-            stopServiceIntent.setAction(ACTION_STOP);
-
-            PendingIntent stopServicePendingIntent = PendingIntent.getService(
-                    this, 0, stopServiceIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-            NotificationCompat.Action stopServiceAction = new NotificationCompat.Action.Builder(
-                    R.drawable.ic_pause_white_24px,
-                    getString(R.string.pause_goiv_notification),
-                    stopServicePendingIntent).build();
-
-            Notification notification = new NotificationCompat.Builder(this)
-                    .setOngoing(true)
-                    .setCategory(NotificationCompat.CATEGORY_SERVICE)
-                    .setColor(getColorC(R.color.colorPrimary))
-                    .setSmallIcon(R.drawable.notification_icon_play)
-                    .setContentTitle(getString(R.string.notification_title, trainerLevel))
-                    .setContentText(getString(R.string.notification_title_tap_to_open))
-                    .setContentIntent(openAppPendingIntent)
-                    .setVisibility(Notification.VISIBILITY_PUBLIC)
-                    .setPriority(Notification.PRIORITY_HIGH)
-                    .addAction(incrementLevelAction)
-                    .addAction(stopServiceAction)
-                    .build();
-
-            startForeground(NOTIFICATION_REQ_CODE, notification);
-
-        } else { //GoIV is paused
-
-            Intent startSettingAppIntent = new Intent(this, MainActivity.class);
-            startSettingAppIntent.setAction(MainActivity.ACTION_OPEN_SETTINGS);
-
-            PendingIntent startSettingsPendingIntent = PendingIntent.getActivity(
-                    this, 0, startSettingAppIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-            NotificationCompat.Action startSettingsAction = new NotificationCompat.Action.Builder(
-                    R.drawable.ic_settings_white_24dp,
-                    getString(R.string.settings_page_title),
-                    startSettingsPendingIntent).build();
-
-
-            Intent startAppIntent = new Intent(this, MainActivity.class);
-
-            startAppIntent.setAction(MainActivity.ACTION_START_POKEFLY);
-
-            PendingIntent startServicePendingIntent = PendingIntent.getActivity(
-                    this, 0, startAppIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-            NotificationCompat.Action startServiceAction = new NotificationCompat.Action.Builder(
-                    R.drawable.ic_play_arrow_white_24px,
-                    getString(R.string.main_start),
-                    startServicePendingIntent).build();
-
-            Notification notification = new NotificationCompat.Builder(getApplicationContext())
-                    .setOngoing(false)
-                    .setCategory(NotificationCompat.CATEGORY_SERVICE)
-                    .setColor(getColorC(R.color.colorAccent))
-                    .setSmallIcon(R.drawable.notification_icon)
-                    .setContentTitle(getString(R.string.notification_title_goiv_stopped))
-                    .setContentText(getString(R.string.notification_title_tap_to_open))
-                    .setContentIntent(openAppPendingIntent)
-                    .addAction(startSettingsAction)
-                    .addAction(startServiceAction)
-                    .setVisibility(Notification.VISIBILITY_PUBLIC)
-                    .setPriority(Notification.PRIORITY_HIGH)
-                    .build();
-
-            NotificationManager mNotifyMgr =
-                    (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-            mNotifyMgr.notify(NOTIFICATION_REQ_CODE, notification);
-        }
     }
 
     /**
@@ -825,7 +588,7 @@ public class Pokefly extends Service {
      * @return Desired color.
      */
     @SuppressWarnings("deprecation")
-    private @ColorInt int getColorC(@ColorRes int id) {
+    public @ColorInt int getColorC(@ColorRes int id) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             return getColor(id);
         } else {
@@ -890,26 +653,15 @@ public class Pokefly extends Service {
      * Creates the IV Button view.
      */
     private void createIVButton() {
-        ivButton = new ImageView(this);
-        ivButton.setImageResource(R.drawable.button);
+    }
 
-        ivButtonParams.gravity = Gravity.BOTTOM | Gravity.START;
-        ivButtonParams.x = dpToPx(20);
-        ivButtonParams.y = dpToPx(15);
-
-        ivButton.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_UP) {
-                    setIVButtonDisplay(false);
-                    takeScreenshot();
-                    receivedInfo = false;
-                    infoShownSent = true;
-                    infoShownReceived = false;
-                }
-                return false;
-            }
-        });
+    /**
+     * Sets the internal state that tells the broadcastrecievers to behave when the user has pressed the iv button.
+     */
+    public void setIVButtonClickedStates() {
+        receivedInfo = false;
+        infoShownSent = true;
+        infoShownReceived = false;
     }
 
     /**
@@ -1441,31 +1193,14 @@ public class Pokefly extends Service {
     }
 
 
-    /**
-     * Get the clipboard string as dictated by the current user settings for clipboard tokens and single/multi results
-     *
-     * @param ivScanResult The scan to populate the string with
-     * @return A string which is built differently based on the users settings.
-     */
-    private String getClipboardStringForIvScan(IVScanResult ivScanResult) {
-        ClipboardTokenHandler cth = new ClipboardTokenHandler(getApplicationContext());
-        String clipResult = "";
 
-        // has the user enabled the setting for different results and is there just a single result??
-        if (settings.shouldCopyToClipboardSingle() && ivScanResult.getCount() == 1) {
-            clipResult = cth.getResults(ivScanResult, pokeInfoCalculator, true);
-        } else {
-            clipResult = cth.getResults(ivScanResult, pokeInfoCalculator, false);
-        }
-        return clipResult;
-    }
 
     /**
      * Adds the iv range of the pokemon to the clipboard if the clipboard setting is on.
      */
-    private void addClipboardInfoIfSettingOn(IVScanResult ivScanResult) {
+    public void addClipboardInfoIfSettingOn(IVScanResult ivScanResult) {
         if (settings.shouldCopyToClipboard()) {
-            String clipResult = getClipboardStringForIvScan(ivScanResult);
+            String clipResult = clipboardTokenHandler.getClipboardText(ivScanResult, pokeInfoCalculator);
 
             if (settings.shouldCopyToClipboardShowToast()) {
                 Toast toast = Toast.makeText(this, String.format(getString(R.string.clipboard_copy_toast), clipResult),
@@ -1485,12 +1220,12 @@ public class Pokefly extends Service {
     public void addSpecificClipboard(IVScanResult ivScanResult, IVCombination ivCombination) {
 
 
-        ClipboardTokenHandler cth = new ClipboardTokenHandler(getApplicationContext());
+
         String clipResult = "";
         IVScanResult singleIVScanResult = new IVScanResult(ivScanResult.pokemon, ivScanResult.estimatedPokemonLevel,
                 ivScanResult.scannedCP);
         singleIVScanResult.addIVCombination(ivCombination.att, ivCombination.def, ivCombination.sta);
-        clipResult = cth.getResults(singleIVScanResult, pokeInfoCalculator, true);
+        clipResult = clipboardTokenHandler.getResults(singleIVScanResult, pokeInfoCalculator, true);
 
 
         Toast toast = Toast.makeText(this, String.format(getString(R.string.clipboard_copy_toast), clipResult),
@@ -1881,7 +1616,7 @@ public class Pokefly extends Service {
         resetInfoDialogue();
         if (!batterySaver) {
             autoAppraisal.reset();
-            setIVButtonDisplay(true);
+            ivButton.setShown(true, infoShownSent);
         }
     }
 
@@ -2009,8 +1744,8 @@ public class Pokefly extends Service {
         if (!infoShownReceived) {
 
             infoShownReceived = true;
-            PokemonNameCorrector.PokeDist possiblePoke = corrector.getPossiblePokemon(pokemonName, candyName,
-                    candyUpgradeCost, pokemonType);
+            PokemonNameCorrector.PokeDist possiblePoke = new PokemonNameCorrector(PokeInfoCalculator.getInstance())
+                    .getPossiblePokemon(pokemonName, candyName, candyUpgradeCost, pokemonType);
             initialButtonsLayout.setVisibility(View.VISIBLE);
             onCheckButtonsLayout.setVisibility(View.GONE);
 
@@ -2088,14 +1823,10 @@ public class Pokefly extends Service {
     private void scanPokemon(Bitmap pokemonImage, @NonNull Optional<String> screenShotPath) {
         //WARNING: this method *must* always send an intent at the end, no matter what, to avoid the application
         // hanging.
-        boolean s8Patch = false;
-        double screenRatio = (double) displayMetrics.heightPixels / (double) displayMetrics.widthPixels;
-        if (screenRatio > 1.9 && screenRatio < 2.06) {
-            s8Patch = true;
-        }
+
         Intent info = Pokefly.createNoInfoIntent();
         try {
-            ScanResult res = ocr.scanPokemon(pokemonImage, trainerLevel, s8Patch);
+            ScanResult res = ocr.scanPokemon(pokemonImage, trainerLevel);
             if (res.isFailed()) {
                 Toast.makeText(Pokefly.this, getString(R.string.scan_pokemon_failed), Toast.LENGTH_SHORT).show();
             }
@@ -2108,7 +1839,7 @@ public class Pokefly extends Service {
     /**
      * Called by intent from pokefly, captures the screen and runs it through scanPokemon.
      */
-    private void takeScreenshot() {
+    public void takeScreenshot() {
         Bitmap bmp = screen.grabScreen();
         if (bmp == null) {
             return;
@@ -2201,29 +1932,6 @@ public class Pokefly extends Service {
             }
         }
     };
-
-    /**
-     * setIVButtonDisplay
-     * Receiver called from MainActivity. Tells Pokefly to either show the IV Button (if on poke) or
-     * hide the IV Button.
-     */
-    private void setIVButtonDisplay(boolean show) {
-
-        if (show && !ivButtonShown && !infoShownSent) {
-
-            windowManager.addView(ivButton, ivButtonParams);
-            ivButtonShown = true;
-        } else if (!show) {
-            if (ivButtonShown) {
-                windowManager.removeView(ivButton);
-                ivButtonShown = false;
-            }
-        }
-    }
-
-    private int dpToPx(int dp) {
-        return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
-    }
 
 
 }

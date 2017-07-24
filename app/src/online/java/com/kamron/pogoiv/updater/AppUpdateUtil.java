@@ -103,10 +103,11 @@ public class AppUpdateUtil {
 
     public static void deletePreviousApkFile(Context context) {
         if (ContextCompat.checkSelfPermission(context,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
-            String newApkFilePath = context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS) + "/" + DownloadUpdateService.FILE_NAME;
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            String newApkFilePath = context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS) + "/"
+                    + DownloadUpdateService.FILE_NAME;
             final File newApkFile = new File(newApkFilePath);
-            if(newApkFile.exists() && !MainActivity.isGoIVBeingUpdated(context)) {
+            if (newApkFile.exists() && !MainActivity.isGoIVBeingUpdated(context)) {
                 newApkFile.delete();
             }
         }

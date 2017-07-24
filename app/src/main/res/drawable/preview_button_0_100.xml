@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Shadow -->
+    <item>
+        <shape android:shape="rectangle">
+            <corners android:radius="32dp"/>
+            <size
+                android:width="96dp"
+                android:height="48dp"/>
+
+            <solid android:color="@color/iv_button_shadow"/>
+        </shape>
+
+    </item>
+
+    <!-- base -->
+    <item
+        android:bottom="3dp"
+        android:left="3dp"
+        android:right="3dp"
+        android:top="3dp">
+        <shape android:shape="rectangle">
+            <corners android:radius="32dp"/>
+            <solid android:color="@color/iv_button_base"/>
+        </shape>
+
+    </item>
+
+
+    <!-- Ring -->
+    <item
+        android:bottom="7dp"
+        android:left="7dp"
+        android:right="7dp"
+        android:top="7dp"
+        android:id="@+id/iv_preview_ring_gradient">
+        <shape android:shape="rectangle">
+            <corners android:radius="32dp"/>
+            <gradient
+                android:angle="0"
+                android:endColor="@color/p_blue"
+                android:startColor="@color/p_red"/>
+        </shape>
+    </item>
+
+    <!-- Inner -->
+    <item
+        android:bottom="8dp"
+        android:left="8dp"
+        android:right="8dp"
+        android:top="8dp">
+        <shape android:shape="rectangle">
+            <size
+                android:width="96dp"
+                android:height="48dp"/>
+            <corners android:radius="32dp"/>
+            <solid android:color="@color/iv_button_base"/>
+        </shape>
+    </item>
+</layer-list>

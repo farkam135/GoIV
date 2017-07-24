@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * A singleton class which is used to access and modify the "persistant" settings saved in phone memory.
+ * A singleton class which is used to access and modify the "persistent" settings saved in phone memory.
  */
 public class GoIVSettings {
 

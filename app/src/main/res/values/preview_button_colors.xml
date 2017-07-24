@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+
+    <color name="p_red">#ff1744</color>
+    <color name="p_yellow">#fdd835</color>
+    <color name="p_green">#76ff03</color>
+    <color name="p_blue">#87ffff</color>
+    <color name="iv_button_base">#1C8796</color>
+    <color name="iv_button_shadow">#20000000</color>
+    <color name="iv_text_color">#b8f5b8</color>
+    <color name="t_red">#ffcdd2</color>
+    <color name="t_yellow">#fff9c4</color>
+    <color name="t_green">#dfffc4</color>
+    <color name="t_blue">#e0f7fa</color>
+
+
+</resources>

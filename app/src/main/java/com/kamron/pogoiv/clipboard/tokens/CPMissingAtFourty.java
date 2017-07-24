@@ -1,22 +1,23 @@
+
 package com.kamron.pogoiv.clipboard.tokens;
 
 import android.content.Context;
 
 import com.kamron.pogoiv.clipboard.ClipboardToken;
 import com.kamron.pogoiv.logic.CPRange;
+import com.kamron.pogoiv.logic.IVCombination;
 import com.kamron.pogoiv.logic.IVScanResult;
 import com.kamron.pogoiv.logic.PokeInfoCalculator;
 import com.kamron.pogoiv.logic.Pokemon;
 
 /**
- * Created by johan on 2017-04-12.
+ * Created by johan on 2017-07-11.
  * <p>
- * A token which returns the predicted CP a monster will have at level 40 or the current level.
+ * A token which returns the predicted CP a monster will be missing compared to a perfect pokemon at level 40.
  */
 
-public class CPMaxToken extends ClipboardToken {
+public class CPMissingAtFourty extends ClipboardToken {
 
-    private boolean currentLevel; //whether the user wants to know cp for a level 40 pokemon, or the current level.
 
     /**
      * Create a clipboard token.
@@ -24,9 +25,8 @@ public class CPMaxToken extends ClipboardToken {
      *
      * @param maxEv true if the token should change its logic to pretending the pokemon is fully evolved.
      */
-    public CPMaxToken(boolean maxEv, boolean currentLevel) {
+    public CPMissingAtFourty(boolean maxEv) {
         super(maxEv);
-        this.currentLevel = currentLevel;
     }
 
     @Override public int getMaxLength() {
@@ -37,38 +37,33 @@ public class CPMaxToken extends ClipboardToken {
         //pokemon low high level
         Pokemon poke = getRightPokemon(ivScanResult.pokemon, pokeInfoCalculator);
 
-        double level = currentLevel ? ivScanResult.estimatedPokemonLevel : 40;
-        CPRange r = pokeInfoCalculator.getCpRangeAtLevel(poke, ivScanResult.getLowestIVCombination(),
-                ivScanResult.getHighestIVCombination(), level);
+        IVCombination perfectIV = new IVCombination(15, 15, 15);
+        CPRange perfectPokemon = pokeInfoCalculator.getCpRangeAtLevel(poke, perfectIV, perfectIV, 40);
+        CPRange thisPokemon = pokeInfoCalculator.getCpRangeAtLevel(poke, ivScanResult.getLowestIVCombination(),
+                ivScanResult.getHighestIVCombination(), 40);
 
 
-        String val = String.valueOf(r.getAvg());
+        String val = String.valueOf(perfectPokemon.getAvg() - thisPokemon.getAvg());
         return val;
     }
 
 
     @Override
     public String getStringRepresentation() {
-        return super.getStringRepresentation() + String.valueOf(currentLevel);
+        return super.getStringRepresentation();
     }
 
     @Override public String getPreview() {
-        int cp = currentLevel ? 230 : 440;
-        if (maxEv) {
-            cp = cp * 2;
-        }
-        return String.valueOf(cp);
+
+        return "133";
     }
 
     @Override public String getTokenName(Context context) {
-        return currentLevel ? "Cp" : "Cp+";
+        return "-Cp40";
     }
 
     @Override public String getLongDescription(Context context) {
-        if (currentLevel) {
-            return "Get how much CP the monster has at the current level.";
-        }
-        return "Get how much CP the monster will have at max level.";
+        return "Get how much CP the monster will be missing compared to a perfect IV level 40 variant";
     }
 
     @Override public String getCategory() {

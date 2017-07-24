@@ -1,6 +1,31 @@
 # Changelog
 
+## 3.6.0
+ 
+### Changes
 
+Fixes black-screen bug on start.
+	Removed startup delay
+
+New design for IV preview
+	GoIV button automatically adjusts to show IV preview
+	GoIV button border color coded for IV results
+
+Fixes multiple crashes related to quick IV preview
+
+Scanning improvements
+	Fixes eevee's evolution auto detection on some phone screen resolutions
+	Small tweak to HP scanning
+	Small tweak to pokemon automatic recognition
+	
+Added IV combinations to shared results JSON blob for share button
+
+Added clipboard tokens:
+	CP missing at level 40 compared to perfect
+	Fixed / modified CPMax token to behave as HP+
+
+//Developer change
+Refactored out a ----ton of code from the "Pokefly" class into separate objects
 
 ## 3.5.0
  

@@ -28,9 +28,9 @@ public class GoIVNotificationManager {
 
 
     /**
-     * Show a running notification in the system notification tray.
+     * Show a paused notification in the system notification tray.
      */
-    public void showRunningNotification() {
+    public void showPausedNotification() {
 
         Intent openAppIntent = new Intent(pokefly, MainActivity.class);
 
@@ -81,9 +81,9 @@ public class GoIVNotificationManager {
     }
 
     /**
-     * Show a paused notification in the system notification tray.
+     * Show a running notification in the system notification tray.
      */
-    public void showPausedNotification() {
+    public void showRunningNotification() {
 
         Intent openAppIntent = new Intent(pokefly, MainActivity.class);
 

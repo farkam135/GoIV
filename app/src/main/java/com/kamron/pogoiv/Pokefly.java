@@ -484,7 +484,7 @@ public class Pokefly extends Service {
                 stopForeground(STOP_FOREGROUND_DETACH);
             }
             stopSelf();
-            goIVNotificationManager.showRunningNotification();
+            goIVNotificationManager.showPausedNotification();
         } else if (intent.hasExtra(KEY_TRAINER_LEVEL)) {
             trainerLevel = intent.getIntExtra(KEY_TRAINER_LEVEL, 1);
             statusBarHeight = intent.getIntExtra(KEY_STATUS_BAR_HEIGHT, 0);
@@ -502,7 +502,7 @@ public class Pokefly extends Service {
             } else {
                 screenShotHelper = ScreenShotHelper.start(Pokefly.this);
             }
-            goIVNotificationManager.showPausedNotification();
+            goIVNotificationManager.showRunningNotification();
         }
         //We have intent data, it's possible this service will be killed and we would want to recreate it
         //https://github.com/farkam135/GoIV/issues/477

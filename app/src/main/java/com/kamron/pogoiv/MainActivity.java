@@ -39,7 +39,6 @@ import android.widget.Button;
 import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.kamron.pogoiv.logic.Data;
 import com.kamron.pogoiv.updater.AppUpdate;
@@ -54,7 +53,6 @@ public class MainActivity extends AppCompatActivity {
     public static final String ACTION_SHOW_UPDATE_DIALOG = "com.kamron.pogoiv.SHOW_UPDATE_DIALOG";
     public static final String ACTION_START_POKEFLY = "com.kamron.pogoiv.ACTION_START_POKEFLY";
     public static final String ACTION_RESTART_POKEFLY = "com.kamron.pogoiv.ACTION_RESTART_POKEFLY";
-    public static final String ACTION_INCREMENT_LEVEL = "com.kamron.pogoiv.ACTION_INCREMENT_LEVEL";
     public static final String ACTION_OPEN_SETTINGS = "com.kamron.pogoiv.ACTION_OPEN_SETTINGS";
 
 
@@ -185,19 +183,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private boolean samsungS8Patch = false;
-
     /**
      * Runs the initialization logic related to the user screen, taking measurements so the ocr will scan the right
      * areas.
      */
     private void initiateUserScreenSettings() {
         displayMetrics = this.getResources().getDisplayMetrics();
-        double screenRatio = (double) displayMetrics.heightPixels / (double) displayMetrics.widthPixels;
-        if (screenRatio > 1.9 && screenRatio < 2.06) {
-            samsungS8Patch = true;
-        }
-
         WindowManager windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
         rawDisplayMetrics = new DisplayMetrics();
         Display disp = windowManager.getDefaultDisplay();
@@ -358,32 +349,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupDisplaySizeInfo() {
-        if (samsungS8Patch) {
-            int displayHeight = (int) (displayMetrics.widthPixels * 2.0555555);
-            //displayheight is calculated from width because height is dependent on aspect ratio
-            //And s8 and s8+ have different height of navbar, which is not reported bby displaymetrics.
-            arcInit.x = (int) (displayMetrics.widthPixels * 0.5);
-            arcInit.y = (int) (displayHeight * 0.3067567);
-            //magical number measured in photoshop, "middle of circle" ~905
+        arcInit.x = (int) (displayMetrics.widthPixels * 0.5);
+        arcInit.y = (int) Math.floor(displayMetrics.heightPixels * 0.35664);
+        if (displayMetrics.heightPixels == 2392 || displayMetrics.heightPixels == 800) {
+            arcInit.y--;
+        } else if (displayMetrics.heightPixels == 1920) {
+            arcInit.y++;
+        }
 
-            arcRadius = (int) (displayHeight * 0.19695945);//583;
-            Toast.makeText(this, "Extra long screen, compatibility mode active", Toast.LENGTH_SHORT).show();
-            Toast.makeText(this, "Make sure the app does not have black bars!", Toast.LENGTH_SHORT).show();
-        } else {
-            arcInit.x = (int) (displayMetrics.widthPixels * 0.5);
-
-            arcInit.y = (int) Math.floor(displayMetrics.heightPixels * 0.35664);
-            if (displayMetrics.heightPixels == 2392 || displayMetrics.heightPixels == 800) {
-                arcInit.y--;
-            } else if (displayMetrics.heightPixels == 1920) {
-                arcInit.y++;
-            }
-
-            arcRadius = (int) Math.round(displayMetrics.heightPixels * 0.2285);
-            if (displayMetrics.heightPixels == 1776 || displayMetrics.heightPixels == 960
-                    || displayMetrics.heightPixels == 800) {
-                arcRadius++;
-            }
+        arcRadius = (int) Math.round(displayMetrics.heightPixels * 0.2285);
+        if (displayMetrics.heightPixels == 1776 || displayMetrics.heightPixels == 960
+                || displayMetrics.heightPixels == 800) {
+            arcRadius++;
         }
     }
 
@@ -582,8 +559,6 @@ public class MainActivity extends AppCompatActivity {
             if (!Pokefly.isRunning()) {
                 launchButton.callOnClick();
             }
-        } else if (ACTION_INCREMENT_LEVEL.equals(intent.getAction())) {
-            incrementTrainerLevelByOne(true);
         } else if (ACTION_OPEN_SETTINGS.equals(intent.getAction())) {
             Intent settingsIntent = new Intent(MainActivity.this, SettingsActivity.class);
             startActivity(settingsIntent);

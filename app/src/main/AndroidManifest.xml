@@ -129,6 +129,8 @@
             android:name=".updater.DownloadUpdateService"
             android:exported="false"/>
 
+        <service android:name=".pokeflycomponents.GoIVNotificationManager$NotificationActionService" />
+
         <activity android:name=".clipboard.ClipboardModifierActivity"
                   android:windowSoftInputMode="adjustPan"/>
         <activity

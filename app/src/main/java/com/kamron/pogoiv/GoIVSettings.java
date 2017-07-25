@@ -46,6 +46,7 @@ public class GoIVSettings {
     public static final String AUTO_OPEN_APPRAISE_DIALOGUE = "autoOpenAppraiseDialogue";
     public static final String QUICK_IV_PREVIEW = "quick_iv_preview";
     public static final String QUICK_IV_PREVIEW_CLIPBOARD = "quick_iv_preview_clipboard";
+    public static final String MANUAL_SCREEN_CALIBRATION_ACTIVE = "manual_screen_calibration_active";
 
 
     private static GoIVSettings instance;
@@ -63,6 +64,28 @@ public class GoIVSettings {
         }
         return instance;
     }
+
+    public boolean hasManualScanCalibration() {
+        return prefs.getBoolean(MANUAL_SCREEN_CALIBRATION_ACTIVE, false);
+    }
+
+    public void setManualScanCalibration(boolean isManual) {
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean(GoIVSettings.MANUAL_SCREEN_CALIBRATION_ACTIVE, isManual);
+        editor.apply();
+    }
+
+    public String getCalibrationValue(String valueName) {
+    }
+
+    /**
+     */
+    public void saveScreenCalibrationValue(String valueName, String value) {
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(valueName, value);
+        editor.apply();
+    }
+
 
     public boolean shouldLaunchPokemonGo() {
         return prefs.getBoolean(LAUNCH_POKEMON_GO, true);

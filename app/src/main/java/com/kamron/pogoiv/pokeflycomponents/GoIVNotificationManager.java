@@ -1,14 +1,19 @@
 package com.kamron.pogoiv.pokeflycomponents;
 
+import android.app.IntentService;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v7.app.NotificationCompat;
 
 import com.kamron.pogoiv.MainActivity;
 import com.kamron.pogoiv.Pokefly;
 import com.kamron.pogoiv.R;
+import com.kamron.pogoiv.ScreenGrabber;
 
 /**
  * Created by johan on 2017-07-06.
@@ -20,7 +25,9 @@ public class GoIVNotificationManager {
 
     private static final int NOTIFICATION_REQ_CODE = 8959;
 
-    private Pokefly pokefly;
+    private static Pokefly pokefly;
+
+    public static final String ACTION_RECALIBRATE_SCANAREA = "com.kamron.pogoiv.ACTION_RECALIBRATE_SCANAREA";
 
     public GoIVNotificationManager(Pokefly pokefly) {
         this.pokefly = pokefly;
@@ -90,17 +97,17 @@ public class GoIVNotificationManager {
         PendingIntent openAppPendingIntent = PendingIntent.getActivity(
                 pokefly, 0, openAppIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        Intent incrementLevelIntent = new Intent(pokefly, MainActivity.class);
+        Intent recalibrateScreenScanningIntent = new Intent(pokefly, NotificationActionService.class);
 
-        incrementLevelIntent.setAction(MainActivity.ACTION_INCREMENT_LEVEL);
+        recalibrateScreenScanningIntent.setAction(ACTION_RECALIBRATE_SCANAREA);
 
-        PendingIntent incrementLevelPendingIntent = PendingIntent.getActivity(
-                pokefly, 0, incrementLevelIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent recalibrateScreenScanningPendingIntent = PendingIntent.getService(
+                pokefly, 0, recalibrateScreenScanningIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        NotificationCompat.Action incrementLevelAction = new NotificationCompat.Action.Builder(
+        NotificationCompat.Action recalibrateScreenScanAction = new NotificationCompat.Action.Builder(
                 R.drawable.ic_add_white_24px,
-                pokefly.getString(R.string.notification_title_increment_level),
-                incrementLevelPendingIntent).build();
+                "Recalibrate scanner",
+                recalibrateScreenScanningPendingIntent).build();
 
         Intent stopServiceIntent = new Intent(pokefly, Pokefly.class);
         stopServiceIntent.setAction(pokefly.ACTION_STOP);
@@ -123,10 +130,42 @@ public class GoIVNotificationManager {
                 .setContentIntent(openAppPendingIntent)
                 .setVisibility(Notification.VISIBILITY_PUBLIC)
                 .setPriority(Notification.PRIORITY_HIGH)
-                .addAction(incrementLevelAction)
+                .addAction(recalibrateScreenScanAction)
                 .addAction(stopServiceAction)
                 .build();
 
         pokefly.startForeground(NOTIFICATION_REQ_CODE, notification);
+    }
+
+    /**
+     * The class which receives the intent to recalibrate the scan area.
+     */
+    public static class NotificationActionService extends IntentService {
+        public NotificationActionService() {
+            super(NotificationActionService.class.getSimpleName());
+        }
+
+        @Override
+        protected void onHandleIntent(Intent intent) {
+            String action = intent.getAction();
+            if (ACTION_RECALIBRATE_SCANAREA.equals(action)) {
+
+                Handler handler = new Handler(Looper.getMainLooper());
+                Intent closeIntent = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
+                pokefly.sendBroadcast(closeIntent);
+
+
+                final Runnable r = new Runnable() {
+                    public void run() {
+                        Bitmap bmp = ScreenGrabber.getInstance().grabScreen();
+                        pokefly.getOcr().recalibrateScanAreas(bmp);
+
+                    }
+                };
+                handler.postDelayed(r, 2000);
+
+
+            }
+        }
     }
 }

@@ -13,6 +13,7 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 
 import com.kamron.pogoiv.AutoAppraisal;
+import com.kamron.pogoiv.GoIVSettings;
 import com.kamron.pogoiv.Pokefly;
 import com.kamron.pogoiv.ScreenGrabber;
 
@@ -55,12 +56,29 @@ public class ScreenWatcher {
      * Initiates which pixels should be scanned during a screen scan to determine if the user is on the pokemon screen.
      */
     private void initMarkerPixels() {
-        area[0] = new Point(                // these values used to get "white" left of "power up"
-                (int) Math.round(displayMetrics.widthPixels * 0.041667),
-                (int) Math.round(displayMetrics.heightPixels * 0.8046875));
-        area[1] = new Point(                // these values used to get greenish color in transfer button
-                (int) Math.round(displayMetrics.widthPixels * 0.862445),
-                (int) Math.round(displayMetrics.heightPixels * 0.9004));
+
+        GoIVSettings set = GoIVSettings.getInstance(pokefly);
+        if (set.hasManualScanCalibration()) {
+            String wpps = set.getCalibrationValue("whitePixelPokemonScreen");
+            int area0x = Integer.parseInt(wpps.split(",")[0]);
+            int area0y = Integer.parseInt(wpps.split(",")[1]);
+
+            String gpmp = set.getCalibrationValue("greenPokemonMenuPixel");
+            int area1x = Integer.parseInt(gpmp.split(",")[0]);
+            int area1y = Integer.parseInt(gpmp.split(",")[1]);
+
+            area[0] = new Point(area0x, area0y);
+            area[1] = new Point(area1x, area1y);
+        } else {
+            area[0] = new Point(                // these values used to get "white" left of "power up"
+                    (int) Math.round(displayMetrics.widthPixels * 0.041667),
+                    (int) Math.round(displayMetrics.heightPixels * 0.8046875));
+            area[1] = new Point(                // these values used to get greenish color in transfer button
+                    (int) Math.round(displayMetrics.widthPixels * 0.862445),
+                    (int) Math.round(displayMetrics.heightPixels * 0.9004));
+        }
+
+
     }
 
     /**
@@ -94,6 +112,7 @@ public class ScreenWatcher {
      */
     private boolean isUserOnPokemonScreen() {
         @ColorInt int[] pixels = ScreenGrabber.getInstance().grabPixels(area);
+
 
         if (pixels != null) {
             boolean shouldShow =

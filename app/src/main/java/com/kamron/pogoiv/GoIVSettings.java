@@ -76,9 +76,11 @@ public class GoIVSettings {
     }
 
     public String getCalibrationValue(String valueName) {
+        return prefs.getString(valueName, "Error- no value saved");
     }
 
     /**
+     * Save a string value for a certain name.
      */
     public void saveScreenCalibrationValue(String valueName, String value) {
         SharedPreferences.Editor editor = prefs.edit();

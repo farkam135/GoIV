@@ -1,4 +1,4 @@
-package com.kamron.pogoiv;
+package com.kamron.pogoiv.pokeflycomponents;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -8,6 +8,7 @@ import android.util.LruCache;
 
 import com.google.common.base.Optional;
 import com.googlecode.tesseract.android.TessBaseAPI;
+import com.kamron.pogoiv.GoIVSettings;
 import com.kamron.pogoiv.logic.Data;
 import com.kamron.pogoiv.logic.ScanResult;
 
@@ -791,7 +792,7 @@ public class OcrHelper {
      * @param bmp the bmp to analyze to get the settings
      */
     public void recalibrateScanAreas(Bitmap bmp) {
-        settings.setManualScanCalibration(true);
+        settings.setManualScanCalibration(false);
         settings.saveScreenCalibrationValue(pokemonName_area, findPokemonNameArea(bmp));
         settings.saveScreenCalibrationValue(pokemonType_area, findPokemonTypeArea(bmp));
         settings.saveScreenCalibrationValue(candyName_area, findPokemonCandyNameArea(bmp));

@@ -1,4 +1,4 @@
-package com.kamron.pogoiv;
+package com.kamron.pogoiv.pokeflycomponents;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -6,6 +6,11 @@ import android.os.Handler;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
+
+import com.kamron.pogoiv.GoIVSettings;
+import com.kamron.pogoiv.R;
+import com.kamron.pogoiv.ScreenGrabber;
+import com.kamron.pogoiv.pokeflycomponents.OcrHelper;
 
 /**
  * Created by Johan on 2016-12-01.

@@ -10,7 +10,7 @@ import android.widget.RadioGroup;
 import com.kamron.pogoiv.GoIVSettings;
 import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.ScreenGrabber;
-import com.kamron.pogoiv.pokeflycomponents.OcrHelper;
+import com.kamron.pogoiv.pokeflycomponents.ocrhelper.OcrHelper;
 
 /**
  * Created by Johan on 2016-12-01.

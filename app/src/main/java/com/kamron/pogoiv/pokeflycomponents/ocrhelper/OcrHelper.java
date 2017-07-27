@@ -1,4 +1,4 @@
-package com.kamron.pogoiv.pokeflycomponents;
+package com.kamron.pogoiv.pokeflycomponents.ocrhelper;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -282,7 +282,7 @@ public class OcrHelper {
 
         Bitmap evolutionCostImage;
         if (settings.hasManualScanCalibration()) {
-            ScanArea area = new ScanArea(pokemonName_area);
+            ScanArea area = new ScanArea(pokemonName_area, settings);
             evolutionCostImage = getImageCrop(pokemonImage, area);
         } else {
             evolutionCostImage = getImageCrop(pokemonImage, 0.625, 0.88, 0.2, 0.03);
@@ -403,7 +403,7 @@ public class OcrHelper {
     private String getPokemonNameFromImg(Bitmap pokemonImage) {
         Bitmap name;
         if (settings.hasManualScanCalibration()) {
-            ScanArea area = new ScanArea(pokemonName_area);
+            ScanArea area = new ScanArea(pokemonName_area, settings);
             name = getImageCrop(pokemonImage, area);
         } else {
             name = getImageCrop(pokemonImage, 0.1, 0.45, 0.85, 0.055);
@@ -435,7 +435,7 @@ public class OcrHelper {
 
         Bitmap type;
         if (settings.hasManualScanCalibration()) {
-            ScanArea area = new ScanArea(pokemonType_area);
+            ScanArea area = new ScanArea(pokemonType_area, settings);
             type = getImageCrop(pokemonImage, area);
         } else {
             type = getImageCrop(pokemonImage, 0.365278, 0.621094, 0.308333, 0.035156);
@@ -526,7 +526,7 @@ public class OcrHelper {
     private String getCandyNameFromImg(Bitmap pokemonImage) {
         Bitmap candy;
         if (settings.hasManualScanCalibration()) {
-            ScanArea area = new ScanArea(pokemonName_area);
+            ScanArea area = new ScanArea(pokemonName_area, settings);
             candy = getImageCrop(pokemonImage, area);
         } else {
             candy = getImageCrop(pokemonImage, 0.5, 0.73, 0.47, 0.026);
@@ -559,7 +559,7 @@ public class OcrHelper {
 
         Bitmap hp;
         if (settings.hasManualScanCalibration()) {
-            ScanArea area = new ScanArea(pokemonName_area);
+            ScanArea area = new ScanArea(pokemonName_area, settings);
             hp = getImageCrop(pokemonImage, area);
         } else {
             hp = getImageCrop(pokemonImage, 0.357, 0.52, 0.285, 0.0293);
@@ -609,7 +609,7 @@ public class OcrHelper {
     private Optional<Integer> getPokemonCPFromImg(Bitmap pokemonImage) {
         Bitmap cp;
         if (settings.hasManualScanCalibration()) {
-            ScanArea area = new ScanArea(pokemonName_area);
+            ScanArea area = new ScanArea(pokemonName_area, settings);
             cp = getImageCrop(pokemonImage, area);
         } else {
             cp = getImageCrop(pokemonImage, 0.25, 0.064, 0.5, 0.046);
@@ -666,7 +666,7 @@ public class OcrHelper {
         }
         Bitmap candyAmount;
         if (settings.hasManualScanCalibration()) {
-            ScanArea area = new ScanArea(pokemonName_area);
+            ScanArea area = new ScanArea(pokemonName_area, settings);
             candyAmount = getImageCrop(pokemonImage, area);
         } else {
             candyAmount = getImageCrop(pokemonImage, 0.60, 0.695, 0.20, 0.038);
@@ -792,155 +792,23 @@ public class OcrHelper {
      * @param bmp the bmp to analyze to get the settings
      */
     public void recalibrateScanAreas(Bitmap bmp) {
+        ScanFieldAutomaticLocator sfr = new ScanFieldAutomaticLocator();
+
         settings.setManualScanCalibration(false);
-        settings.saveScreenCalibrationValue(pokemonName_area, findPokemonNameArea(bmp));
-        settings.saveScreenCalibrationValue(pokemonType_area, findPokemonTypeArea(bmp));
-        settings.saveScreenCalibrationValue(candyName_area, findPokemonCandyNameArea(bmp));
-        settings.saveScreenCalibrationValue(pokemonHP_area, findPokemonHPArea(bmp));
-        settings.saveScreenCalibrationValue(pokemonCP_area, findPokemonScanArea(bmp));
-        settings.saveScreenCalibrationValue(pokemonCandyAmount_area, findPokemonCandyArea(bmp));
-        settings.saveScreenCalibrationValue(pokemonUpgradeCost_area, findPokemonUpgradeCostArea(bmp));
-        settings.saveScreenCalibrationValue(arcRadiusPoint, findArcRadius(bmp));
-        settings.saveScreenCalibrationValue(arcInit, findArcInit(bmp));
+        settings.saveScreenCalibrationValue(pokemonName_area, sfr.findPokemonNameArea(bmp));
+        settings.saveScreenCalibrationValue(pokemonType_area, sfr.findPokemonTypeArea(bmp));
+        settings.saveScreenCalibrationValue(candyName_area, sfr.findPokemonCandyNameArea(bmp));
+        settings.saveScreenCalibrationValue(pokemonHP_area, sfr.findPokemonHPArea(bmp));
+        settings.saveScreenCalibrationValue(pokemonCP_area, sfr.findPokemonScanArea(bmp));
+        settings.saveScreenCalibrationValue(pokemonCandyAmount_area, sfr.findPokemonCandyArea(bmp));
+        settings.saveScreenCalibrationValue(pokemonUpgradeCost_area, sfr.findPokemonUpgradeCostArea(bmp));
+        settings.saveScreenCalibrationValue(arcRadiusPoint, sfr.findArcRadius(bmp));
+        settings.saveScreenCalibrationValue(arcInit, sfr.findArcInit(bmp));
         //The hardcoded strings are the same names as the ones used in "ScreenWatcher".
-        settings.saveScreenCalibrationValue("whitePixelPokemonScreen", findWhitePixelPokemonScreen(bmp));
-        settings.saveScreenCalibrationValue("greenPokemonMenuPixel", findGreenPokemonScreen(bmp));
-    }
-
-    /**
-     * A class that represents an area, used for quickly loading user screen calibration settings.
-     */
-    private class ScanArea {
-        int xPoint = -1;
-        int yPoint = -1;
-        int width = -1;
-        int height = -1;
-
-        /**
-         * Create a screen area by reading a setting for a certain part. For example, loading the screen area where
-         * the pokemon HP might be.
-         *
-         * @param calibrationValue The key value used to find the saved user setting for the area, in the form of
-         *                         "x,y,x2,y2".
-         */
-        public ScanArea(String calibrationValue) {
-            String[] values = settings.getCalibrationValue(calibrationValue).split(",");
-            xPoint = Integer.valueOf(values[0]);
-            yPoint = Integer.valueOf(values[1]);
-            width = Integer.valueOf(values[2]);
-            height = Integer.valueOf(values[3]);
-
-        }
-    }
-
-    /**
-     * Get the x,y coordinate of the green pixel in the "hamburger menu" in the bottom right of the pokemon screen.
-     * (The dark green color.).
-     *
-     * @param bmp The image to analyze.
-     * @return A string representation of the x,y coordinate in the form of "123,123"
-     */
-    private String findGreenPokemonScreen(Bitmap bmp) {
-        return "123,123";
-    }
-
-    /**
-     * Get the x,y coordinate of the white pixel in the top left corner of where the white area begins in the pokemon
-     * screen.
-     *
-     * @param bmp The image to analyze.
-     * @return A string representation of the x,y coordinate in the form of "123,123"
-     */
-    private String findWhitePixelPokemonScreen(Bitmap bmp) {
-        return "120,120";
+        settings.saveScreenCalibrationValue("whitePixelPokemonScreen", sfr.findWhitePixelPokemonScreen(bmp));
+        settings.saveScreenCalibrationValue("greenPokemonMenuPixel", sfr.findGreenPokemonScreen(bmp));
     }
 
 
-    /**
-     * Find the "leftmost" part of the level arc. (The left endpoint of the arc).
-     *
-     * @param bmp The image to analyze.
-     * @return A string representation of the x,y coordinate in the form of "123,123"
-     */
-    private String findArcInit(Bitmap bmp) {
-        return "200,1000";
-    }
 
-    /**
-     * Find the radius of the level arc.
-     *
-     * @param bmp The image to analyze.
-     * @return A string representation of the x,y coordinate in the form of "123,123"
-     */
-    private String findArcRadius(Bitmap bmp) {
-        return "123";
-    }
-
-    /**
-     * Find the area where the pokemons upgrade cost is listed. (such as 12 for pidgey, empty for lugia)
-     *
-     * @param bmp The image to analyze.
-     * @return A string representation of the x,y coordinate in the form of "x,y,x2,y2"
-     */
-    private String findPokemonUpgradeCostArea(Bitmap bmp) {
-        return "1,1,1,1";
-    }
-
-    /**
-     * Find the area that lists how much candy the user currently has of a pokemon. Used for the "pokespam"
-     * functionallity.
-     *
-     * @param bmp The image to analyze.
-     * @return A string representation of the x,y coordinate in the form of "x,y,x2,y2"
-     */
-    private String findPokemonCandyArea(Bitmap bmp) {
-        return "1,1,1,1";
-    }
-
-
-    /**
-     * @param bmp The image to analyze.
-     * @return A string representation of the x,y coordinate in the form of "x,y,x2,y2"
-     */
-    private String findPokemonScanArea(Bitmap bmp) {
-        return "1,1,1,1";
-    }
-
-    /**
-     * @param bmp The image to analyze.
-     * @return A string representation of the x,y coordinate in the form of "x,y,x2,y2"
-     */
-    private String findPokemonHPArea(Bitmap bmp) {
-        return "1,1,1,1";
-    }
-
-    /**
-     * Find the area where the candy name (such as "eevee candy") is listed
-     *
-     * @param bmp The image to analyze.
-     * @return A string representation of the x,y coordinate in the form of "x,y,x2,y2"
-     */
-    private String findPokemonCandyNameArea(Bitmap bmp) {
-        return "1,1,1,1";
-    }
-
-    /**
-     * Find the area where the pokemon type is listed, between weight and height. On the form of "Psychic / flying".
-     *
-     * @param bmp The image to analyze.
-     * @return A string representation of the x,y coordinate in the form of "x,y,x2,y2"
-     */
-    private String findPokemonTypeArea(Bitmap bmp) {
-        return "1,1,1,1";
-    }
-
-    /**
-     * Find the area where the pokemon name is listed (The part that the user can manually change to a nickname).
-     *
-     * @param bmp The image to analyze.
-     * @return A string representation of the x,y coordinate in the form of "x,y,x2,y2"
-     */
-    private String findPokemonNameArea(Bitmap bmp) {
-        return "1,1,1,1";
-    }
 }

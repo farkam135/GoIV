@@ -13,7 +13,7 @@ import android.graphics.Point;
 
 public class ScanFieldAutomaticLocator {
 
-
+    private static final int whiteInt = Color.parseColor("#FAFAFA");
     private static final int greenInt = Color.parseColor("#1d8696"); // 1d8696 is the color used in pokemon go as green
     // background rgb (29 134 150)
 
@@ -27,7 +27,7 @@ public class ScanFieldAutomaticLocator {
      * @param size  The size of one of the sides of the dot in pixels
      * @param color The color the dot should be (use Color.parseColor("#FF0000") for example)
      */
-    void debugWriteDot(Bitmap bmp, Point point, int size, int color) {
+    private void debugWriteDot(Bitmap bmp, Point point, int size, int color) {
         for (int y = 0; y < size; y++) {
             for (int x = 0; x < size; x++) {
 
@@ -37,6 +37,13 @@ public class ScanFieldAutomaticLocator {
 
             }
         }
+    }
+
+    private String pointToString(Point p) {
+        if (p == null) {
+            return "0,0"; //error
+        }
+        return p.x + "," + p.y;
     }
 
     /**
@@ -82,20 +89,36 @@ public class ScanFieldAutomaticLocator {
         debugWriteDot(bmp, finalPoint, 20, Color.parseColor("#00FFFF"));
 
 
-        return finalPoint.x + "," + finalPoint.y;
+        return pointToString(finalPoint);
     }
 
 
-
     /**
-     * Get the x,y coordinate of the white pixel in the top left corner of where the white area begins in the pokemon
+     * Get the x,y coordinate of the white pixel in the top left corner of where the white area (the card under the
+     * 3d pokemon screen) begins in the pokemon
      * screen.
      *
      * @param bmp The image to analyze.
      * @return A string representation of the x,y coordinate in the form of "123,123"
      */
     String findWhitePixelPokemonScreen(Bitmap bmp) {
-        return "120,120";
+        Point whitePoint = null;
+
+        int y = (int) (bmp.getHeight() * 0.5);
+        for (int x = 0; x < bmp.getWidth(); x++) {
+            if (whitePoint != null) {
+                break; //Found our white point, stop looking
+            }
+            if (bmp.getPixel(x, y) == whiteInt) {
+                whitePoint = new Point(x * 2, y);
+            }
+            bmp.setPixel(x, y, Color.parseColor("#00FF00"));
+
+        }
+        debugWriteDot(bmp, whitePoint, 40, Color.parseColor("#FF0000"));
+
+        return pointToString(whitePoint);
+
     }
 
 

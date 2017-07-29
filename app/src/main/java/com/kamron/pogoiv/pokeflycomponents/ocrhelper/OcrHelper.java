@@ -31,7 +31,7 @@ public class OcrHelper {
     private static final String pokemonHP_area = "pokemonHP_area";
     private static final String pokemonCP_area = "pokemonCP_area";
     private static final String pokemonCandyAmount_area = "pokemonCandyAmount_area";
-    private static final String pokemonUpgradeCost_area = "pokemonUpgradeCost_area";
+    private static final String pokemonEvolutionCost_area = "pokemonEvolutionCost_area";
     private static final String arcRadiusPoint = "arcRadiusPoint";
     private static final String arcInit = "arcInit";
 
@@ -282,7 +282,7 @@ public class OcrHelper {
 
         Bitmap evolutionCostImage;
         if (settings.hasManualScanCalibration()) {
-            ScanArea area = new ScanArea(pokemonName_area, settings);
+            ScanArea area = new ScanArea(pokemonEvolutionCost_area, settings);
             evolutionCostImage = getImageCrop(pokemonImage, area);
         } else {
             evolutionCostImage = getImageCrop(pokemonImage, 0.625, 0.88, 0.2, 0.03);
@@ -526,7 +526,7 @@ public class OcrHelper {
     private String getCandyNameFromImg(Bitmap pokemonImage) {
         Bitmap candy;
         if (settings.hasManualScanCalibration()) {
-            ScanArea area = new ScanArea(pokemonName_area, settings);
+            ScanArea area = new ScanArea(candyName_area, settings);
             candy = getImageCrop(pokemonImage, area);
         } else {
             candy = getImageCrop(pokemonImage, 0.5, 0.73, 0.47, 0.026);
@@ -559,7 +559,7 @@ public class OcrHelper {
 
         Bitmap hp;
         if (settings.hasManualScanCalibration()) {
-            ScanArea area = new ScanArea(pokemonName_area, settings);
+            ScanArea area = new ScanArea(pokemonHP_area, settings);
             hp = getImageCrop(pokemonImage, area);
         } else {
             hp = getImageCrop(pokemonImage, 0.357, 0.52, 0.285, 0.0293);
@@ -609,7 +609,7 @@ public class OcrHelper {
     private Optional<Integer> getPokemonCPFromImg(Bitmap pokemonImage) {
         Bitmap cp;
         if (settings.hasManualScanCalibration()) {
-            ScanArea area = new ScanArea(pokemonName_area, settings);
+            ScanArea area = new ScanArea(pokemonCP_area, settings);
             cp = getImageCrop(pokemonImage, area);
         } else {
             cp = getImageCrop(pokemonImage, 0.25, 0.064, 0.5, 0.046);
@@ -666,7 +666,7 @@ public class OcrHelper {
         }
         Bitmap candyAmount;
         if (settings.hasManualScanCalibration()) {
-            ScanArea area = new ScanArea(pokemonName_area, settings);
+            ScanArea area = new ScanArea(pokemonCandyAmount_area, settings);
             candyAmount = getImageCrop(pokemonImage, area);
         } else {
             candyAmount = getImageCrop(pokemonImage, 0.60, 0.695, 0.20, 0.038);
@@ -794,21 +794,20 @@ public class OcrHelper {
     public void recalibrateScanAreas(Bitmap bmp) {
         ScanFieldAutomaticLocator sfr = new ScanFieldAutomaticLocator();
 
-        settings.setManualScanCalibration(false);
+        settings.setManualScanCalibration(true);
         settings.saveScreenCalibrationValue(pokemonName_area, sfr.findPokemonNameArea(bmp));
         settings.saveScreenCalibrationValue(pokemonType_area, sfr.findPokemonTypeArea(bmp));
         settings.saveScreenCalibrationValue(candyName_area, sfr.findPokemonCandyNameArea(bmp));
         settings.saveScreenCalibrationValue(pokemonHP_area, sfr.findPokemonHPArea(bmp));
         settings.saveScreenCalibrationValue(pokemonCP_area, sfr.findPokemonScanArea(bmp));
         settings.saveScreenCalibrationValue(pokemonCandyAmount_area, sfr.findPokemonCandyArea(bmp));
-        settings.saveScreenCalibrationValue(pokemonUpgradeCost_area, sfr.findPokemonUpgradeCostArea(bmp));
+        settings.saveScreenCalibrationValue(pokemonEvolutionCost_area, sfr.findPokemonUpgradeCostArea(bmp));
         settings.saveScreenCalibrationValue(arcRadiusPoint, sfr.findArcRadius(bmp));
         settings.saveScreenCalibrationValue(arcInit, sfr.findArcInit(bmp));
         //The hardcoded strings are the same names as the ones used in "ScreenWatcher".
         settings.saveScreenCalibrationValue("whitePixelPokemonScreen", sfr.findWhitePixelPokemonScreen(bmp));
         settings.saveScreenCalibrationValue("greenPokemonMenuPixel", sfr.findGreenPokemonScreen(bmp));
     }
-
 
 
 }

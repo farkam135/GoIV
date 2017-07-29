@@ -13,6 +13,8 @@ import android.graphics.Point;
 
 public class ScanFieldAutomaticLocator {
 
+    private static final int darkTextColorInt = Color.parseColor("#49696c"); // hp, pokemon name text etc
+    private static final int hpBarColorInt = Color.parseColor("#6dedb7");  //old color 81ecb6
     private static final int whiteInt = Color.parseColor("#FAFAFA");
     private static final int greenInt = Color.parseColor("#1d8696"); // 1d8696 is the color used in pokemon go as green
     // background rgb (29 134 150)
@@ -129,6 +131,10 @@ public class ScanFieldAutomaticLocator {
      * @return A string representation of the x,y coordinate in the form of "123,123"
      */
     String findArcInit(Bitmap bmp) {
+
+        //Go a straight line through the image from top to 25% down
+        //Remember all white pixels
+        //Flood fill the white area
         return "200,1000";
     }
 
@@ -177,7 +183,104 @@ public class ScanFieldAutomaticLocator {
      * @return A string representation of the x,y coordinate in the form of "x,y,x2,y2"
      */
     String findPokemonHPArea(Bitmap bmp) {
-        return "1,1,1,1";
+        int hpBarStartY = 0;
+
+        for (int y = 0; y < bmp.getHeight(); y++) {
+            if (bmp.getPixel(bmp.getWidth() / 2, y) == hpBarColorInt) {
+                hpBarStartY = y;
+                break;
+            }
+        }
+
+        debugWriteDot(bmp, new Point(bmp.getWidth() / 2 + 100, hpBarStartY), 15, Color.parseColor("#FF0000"));
+
+        int hpBarEndY = 0;
+
+
+        for (int y = hpBarStartY; y < bmp.getHeight(); y++) {
+
+            if (bmp.getPixel(bmp.getWidth() / 2, y) != hpBarColorInt) {
+                hpBarEndY = y;
+                break;
+            }
+        }
+
+
+        debugWriteDot(bmp, new Point(bmp.getWidth() / 2 + 100, hpBarEndY), 15, Color.parseColor("#00FF00"));
+
+        int hpTextStartY = 0;
+        for (int y = hpBarEndY + 5; y < bmp.getHeight() * 0.75; y++) {
+            //we could be unlucky and "miss" the hp text by going straight down from the hp bar, by going between two
+            // characters, so to decrease that risk, we do it on several parallel lines.
+            int half = bmp.getWidth() / 2;
+            boolean found1 = bmp.getPixel((int) (half - half * 0.001), y) != whiteInt;
+            boolean found2 = bmp.getPixel((int) (half - half * 0.01), y) != whiteInt;
+            boolean found3 = bmp.getPixel((int) (half - half * 0.003), y) != whiteInt;
+            boolean found4 = bmp.getPixel((int) (half - half * 0.007), y) != whiteInt;
+            boolean found5 = bmp.getPixel((int) (half + half * 0.001), y) != whiteInt;
+            boolean found6 = bmp.getPixel((int) (half + half * 0.01), y) != whiteInt;
+            boolean found7 = bmp.getPixel((int) (half + half * 0.003), y) != whiteInt;
+            boolean found8 = bmp.getPixel((int) (half + half * 0.007), y) != whiteInt;
+
+            if (found1 || found2 || found3 || found4 || found5 || found6 || found7 || found8) {
+                hpTextStartY = y;
+                break;
+            }
+
+        }
+
+
+        debugWriteDot(bmp, new Point(bmp.getWidth() / 2 + 100, hpTextStartY), 15, Color.parseColor("#0000FF"));
+
+        int hpTextStartX = 0;
+
+        for (int x = (int) (bmp.getWidth() * 0.1); x < bmp.getWidth() / 2; x++) {
+            if (isLikelyDarkText(bmp.getPixel(x, hpTextStartY + 3))) {
+                hpTextStartX = x;
+                break;
+            }
+        }
+
+        debugWriteDot(bmp, new Point(hpTextStartX + 10, hpTextStartY), 15, Color.parseColor("#FF00FF"));
+
+        int hpStartXWithPadding = (int) (hpTextStartX - (bmp.getWidth() * 0.05));
+
+        debugWriteDot(bmp, new Point(hpStartXWithPadding + 10, hpTextStartY), 15, Color.parseColor("#00FFFF"));
+
+        int hpTextEndY = 0;
+        for (int y = hpTextStartY + 3; y < hpTextStartY + (bmp.getHeight() * 0.2); y++) {
+            boolean traveledRowEncounteringText = false;
+            for (int x = hpStartXWithPadding; x < bmp.getWidth() / 2; x++) {
+                if (isLikelyDarkText(bmp.getPixel(x, y))) {
+                    traveledRowEncounteringText = true;
+                    break;
+                }
+            }
+            if (traveledRowEncounteringText == false) {
+                hpTextEndY = y;
+                break;
+            }
+        }
+
+        debugWriteDot(bmp, new Point(hpTextEndY + 100, hpTextStartY), 15, Color.parseColor("#FFFF00"));
+
+        int returnX = hpStartXWithPadding;
+        int returnY = hpTextStartY - 3; // -3 for some slight padding upwards
+        int returnHeight = hpTextEndY - hpTextStartY;
+        int returnWidth = (bmp.getWidth()) - 2 * hpStartXWithPadding;
+
+        debugWriteDot(bmp, new Point(returnX, returnY), 30, Color.parseColor("#FF00FF"));
+
+        return returnX + "," + returnY + "," + returnWidth + "," + returnHeight;
+
+    }
+
+    private boolean isLikelyDarkText(int color) {
+        int r = Color.red(color);
+        int g = Color.green(color);
+        int b = Color.blue(color);
+
+        return (r < 180 && g < 180 && b < 190);
     }
 
     /**

@@ -105,7 +105,7 @@ public class WorthTrainingToken extends ClipboardToken {
 
     @Override
     public String getTokenName(Context context) {
-        return "NorStat-" + getType();
+        return "Train-" + getType();
     }
 
     private String getType() {

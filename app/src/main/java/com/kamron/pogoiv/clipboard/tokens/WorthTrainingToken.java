@@ -33,6 +33,7 @@ public class WorthTrainingToken extends ClipboardToken {
      * Create a clipboard token.
      * The boolean in the constructor can be set to false if pokemon evolution is not applicable.
      *
+     * @param maxEv true if the token should search for the max evolution monster.
      * @param best true if the token should display the best combination, false for the worst.
      */
     public WorthTrainingToken(boolean maxEv, boolean best) {

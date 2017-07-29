@@ -30,7 +30,7 @@ public class ScanFieldAutomaticLocator {
      * @param color The color the dot should be (use Color.parseColor("#FF0000") for example)
      */
     private void debugWriteDot(Bitmap bmp, Point point, int size, int color) {
-        /*
+
         for (int y = 0; y < size; y++) {
             for (int x = 0; x < size; x++) {
 
@@ -40,7 +40,7 @@ public class ScanFieldAutomaticLocator {
 
             }
         }
-        */
+
     }
 
     private String pointToString(Point p) {
@@ -68,7 +68,6 @@ public class ScanFieldAutomaticLocator {
                 if (greenInt == bmp.getPixel(x, y)) {
                     System.out.println("Found it");
                     bottomPoint = new Point(x, y);
-                    debugWriteDot(bmp, bottomPoint, 30, Color.parseColor("#FF0000"));
                     break;
                 }
             }
@@ -80,7 +79,6 @@ public class ScanFieldAutomaticLocator {
             int lumiosity = Color.red(nextPx) + Color.green(nextPx) + Color.blue(nextPx);
             if (lumiosity > 650) {
                 topPoint = new Point(bottomPoint.x, bottomPoint.y - i);
-                debugWriteDot(bmp, topPoint, 30, Color.parseColor("#00FF00"));
                 break;
             }
         }
@@ -90,7 +88,6 @@ public class ScanFieldAutomaticLocator {
         int newY = (bottomPoint.y - topPoint.y) / 4;
 
         Point finalPoint = new Point(bottomPoint.x, topPoint.y + newY);
-        debugWriteDot(bmp, finalPoint, 20, Color.parseColor("#00FFFF"));
 
 
         return pointToString(finalPoint);
@@ -119,7 +116,6 @@ public class ScanFieldAutomaticLocator {
             bmp.setPixel(x, y, Color.parseColor("#00FF00"));
 
         }
-        debugWriteDot(bmp, whitePoint, 40, Color.parseColor("#FF0000"));
 
         return pointToString(whitePoint);
 
@@ -127,28 +123,51 @@ public class ScanFieldAutomaticLocator {
 
 
     /**
-     * Find the "leftmost" part of the level arc. (The left endpoint of the arc).
+     * Find the "leftmost" part of the level arc. (The left endpoint of the arc). Returns both the radius and the
+     * point of starting, in the form of x,y;radius
      *
      * @param bmp The image to analyze.
-     * @return A string representation of the x,y coordinate in the form of "123,123"
+     * @return A string representation of the x,y coordinate and radiusin the form of "123,123;123"
      */
-    String findArcInit(Bitmap bmp) {
+    String findArcValues(Bitmap bmp) {
 
-        //Go a straight line through the image from top to 25% down
-        //Remember all white pixels
-        //Flood fill the white area
-        return "200,1000";
+
+        // find where the white area begins
+        int whiteCardStartY = 0;
+        for (int y = (int) (bmp.getHeight() * 0.5); y > 0; y--) {
+            int thisPixel = bmp.getPixel((int) (bmp.getWidth() * 0.07), y);
+            if (thisPixel != whiteInt && !isLikelyDarkText(thisPixel)) {
+                whiteCardStartY = y;
+                break;
+            }
+        }
+
+
+        Point finalPoint = null;
+        for (int x = 1; x < bmp.getWidth() * 0.25; x++) {
+            for (int y = whiteCardStartY - 3; y > bmp.getHeight() * 0.1; y--) {
+                int r = Color.red(bmp.getPixel(x, y));
+                int g = Color.red(bmp.getPixel(x, y));
+                int b = Color.red(bmp.getPixel(x, y));
+
+                //if (bmp.getPixel(x,y) == whiteInt){
+                if (r > 235 && g > 235 && b > 235) {
+                    finalPoint = new Point(x, y);
+                    break;
+                }
+            }
+            if (finalPoint != null) {
+                break;
+            }
+        }
+
+        debugWriteDot(bmp, finalPoint, 30, Color.parseColor("#0000FF"));
+
+
+        int arcRadius = bmp.getWidth() / 2 - finalPoint.x;
+        return pointToString(finalPoint) + ";" + arcRadius;
     }
 
-    /**
-     * Find the radius of the level arc.
-     *
-     * @param bmp The image to analyze.
-     * @return A string representation of the x,y coordinate in the form of "123,123"
-     */
-    String findArcRadius(Bitmap bmp) {
-        return "123";
-    }
 
     /**
      * Find the area where the pokemons upgrade cost is listed. (such as 12 for pidgey, empty for lugia)
@@ -194,7 +213,6 @@ public class ScanFieldAutomaticLocator {
             }
         }
 
-        debugWriteDot(bmp, new Point(bmp.getWidth() / 2 + 100, hpBarStartY), 15, Color.parseColor("#FF0000"));
 
         int hpBarEndY = 0;
 
@@ -207,8 +225,6 @@ public class ScanFieldAutomaticLocator {
             }
         }
 
-
-        debugWriteDot(bmp, new Point(bmp.getWidth() / 2 + 100, hpBarEndY), 15, Color.parseColor("#00FF00"));
 
         int hpTextStartY = 0;
         for (int y = hpBarEndY + 5; y < bmp.getHeight() * 0.75; y++) {
@@ -232,8 +248,6 @@ public class ScanFieldAutomaticLocator {
         }
 
 
-        debugWriteDot(bmp, new Point(bmp.getWidth() / 2 + 100, hpTextStartY), 15, Color.parseColor("#0000FF"));
-
         int hpTextStartX = 0;
 
         for (int x = (int) (bmp.getWidth() * 0.1); x < bmp.getWidth() / 2; x++) {
@@ -243,11 +257,9 @@ public class ScanFieldAutomaticLocator {
             }
         }
 
-        debugWriteDot(bmp, new Point(hpTextStartX + 10, hpTextStartY), 15, Color.parseColor("#FF00FF"));
 
         int hpStartXWithPadding = (int) (hpTextStartX - (bmp.getWidth() * 0.05));
 
-        debugWriteDot(bmp, new Point(hpStartXWithPadding + 10, hpTextStartY), 15, Color.parseColor("#00FFFF"));
 
         int hpTextEndY = 0;
         for (int y = hpTextStartY + 3; y < hpTextStartY + (bmp.getHeight() * 0.2); y++) {
@@ -264,14 +276,11 @@ public class ScanFieldAutomaticLocator {
             }
         }
 
-        debugWriteDot(bmp, new Point(hpTextEndY + 100, hpTextStartY), 15, Color.parseColor("#FFFF00"));
-
         int returnX = hpStartXWithPadding;
         int returnY = hpTextStartY - 3; // -3 for some slight padding upwards
         int returnHeight = hpTextEndY - hpTextStartY;
         int returnWidth = (bmp.getWidth()) - 2 * hpStartXWithPadding;
 
-        debugWriteDot(bmp, new Point(returnX, returnY), 30, Color.parseColor("#FF00FF"));
 
         return returnX + "," + returnY + "," + returnWidth + "," + returnHeight;
 

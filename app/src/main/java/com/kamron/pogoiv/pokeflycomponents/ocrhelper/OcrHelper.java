@@ -798,7 +798,8 @@ public class OcrHelper {
     public void recalibrateScanAreas(Bitmap bmp, ProgressDialog dialog) {
         ScanFieldAutomaticLocator sfr = new ScanFieldAutomaticLocator();
 
-        settings.setManualScanCalibration(true);
+        settings.setManualScanCalibration(false);
+
         settings.saveScreenCalibrationValue(pokemonName_area, sfr.findPokemonNameArea(bmp));
         dialog.setMessage("Finding name area");
         settings.saveScreenCalibrationValue(pokemonType_area, sfr.findPokemonTypeArea(bmp));
@@ -813,9 +814,13 @@ public class OcrHelper {
         dialog.setMessage("Finding candy amount area");
         settings.saveScreenCalibrationValue(pokemonEvolutionCost_area, sfr.findPokemonUpgradeCostArea(bmp));
         dialog.setMessage("Finding evolution cost area");
-        settings.saveScreenCalibrationValue(arcRadiusPoint, sfr.findArcRadius(bmp));
+
+        String arcValues = sfr.findArcValues(bmp);
+        String arcInitVal = arcValues.split(";")[0];
+        String arcRadiusVal = arcValues.split(";")[1];
+        settings.saveScreenCalibrationValue(arcRadiusPoint, arcRadiusVal);
         dialog.setMessage("Finding level arc radius");
-        settings.saveScreenCalibrationValue(arcInit, sfr.findArcInit(bmp));
+        settings.saveScreenCalibrationValue(arcInit, arcInitVal);
         dialog.setMessage("Finding level arc starting point");
 
         //The hardcoded strings are the same names as the ones used in "ScreenWatcher".

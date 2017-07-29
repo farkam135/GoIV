@@ -28,6 +28,12 @@ public class ScanArea {
         yPoint = Integer.valueOf(values[1]);
         width = Integer.valueOf(values[2]);
         height = Integer.valueOf(values[3]);
+    }
 
+    public ScanArea(int xPoint, int yPoint, int width, int height) {
+        this.xPoint = xPoint;
+        this.yPoint = yPoint;
+        this.width = width;
+        this.height = height;
     }
 }

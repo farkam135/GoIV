@@ -72,13 +72,16 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
         showAreaIndicator(bmp, new ScanArea(pokemonCP_area, settings), Color.parseColor("#AA11BB"));
         showAreaIndicator(bmp, new ScanArea(pokemonCandyAmount_area, settings), Color.parseColor("#AA11BB"));
         showAreaIndicator(bmp, new ScanArea(pokemonEvolutionCost_area, settings), Color.parseColor("#AA11BB"));
+
         try {
-            showPointIndicator(bmp, getPointFromSettings(settings, arcRadiusPoint), 15, color);
-        } catch (IllegalArgumentException e) {
-            Toast.makeText(this, "Failed to find arc radius", Toast.LENGTH_SHORT).show();
-        }
-        try {
-            showPointIndicator(bmp, getPointFromSettings(settings, arcInit), 15, color);
+            Point arcInitPoint = getPointFromSettings(settings, arcInit);
+            showPointIndicator(bmp, arcInitPoint, 15, color);
+
+            String p = settings.getCalibrationValue(arcRadiusPoint);
+            int radius = Integer.valueOf(p);
+            showAreaIndicator(bmp, new ScanArea(arcInitPoint.x, arcInitPoint.y, radius, 15), color);
+
+
         } catch (IllegalArgumentException e) {
             Toast.makeText(this, "Failed to find level arc beginning point", Toast.LENGTH_SHORT).show();
         }

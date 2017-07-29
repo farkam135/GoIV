@@ -13,6 +13,7 @@ import com.kamron.pogoiv.clipboard.tokens.IVPercentageTokenMode;
 import com.kamron.pogoiv.clipboard.tokens.IVSum;
 import com.kamron.pogoiv.clipboard.tokens.LevelToken;
 import com.kamron.pogoiv.clipboard.tokens.LevelUnicodeToken;
+import com.kamron.pogoiv.clipboard.tokens.WorthTrainingToken;
 import com.kamron.pogoiv.clipboard.tokens.PerfectionCPPercentageToken;
 import com.kamron.pogoiv.clipboard.tokens.PokemonNameToken;
 import com.kamron.pogoiv.clipboard.tokens.PowerupsToMaxToken;
@@ -85,6 +86,8 @@ public class ClipboardTokenCollection {
         tokens.add(new CpTierToken(false)); //pokemon max level cp tier
         tokens.add(new ExtendedCpTierToken(false)); // Max AA-ZZ cp tier
         tokens.add(new ExtendedCpTierToken(true)); // Same as above, max evolution
+        tokens.add(new WorthTrainingToken(false, true)); // Max 00-99 stat evaluation
+        tokens.add(new WorthTrainingToken(true, true)); // As above, max evolution
 
         tokens.add(new CpPercentileToken(false));
 

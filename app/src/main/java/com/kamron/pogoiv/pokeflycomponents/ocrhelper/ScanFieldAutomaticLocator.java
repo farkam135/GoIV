@@ -30,6 +30,7 @@ public class ScanFieldAutomaticLocator {
      * @param color The color the dot should be (use Color.parseColor("#FF0000") for example)
      */
     private void debugWriteDot(Bitmap bmp, Point point, int size, int color) {
+        /*
         for (int y = 0; y < size; y++) {
             for (int x = 0; x < size; x++) {
 
@@ -39,6 +40,7 @@ public class ScanFieldAutomaticLocator {
 
             }
         }
+        */
     }
 
     private String pointToString(Point p) {

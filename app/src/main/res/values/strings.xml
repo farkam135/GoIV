@@ -208,4 +208,5 @@
     <string name="is2">strong..\nimpressive</string>
     <string name="is1">best ..\nno doubt</string>
     <string name="scanFailed">Scan failed</string>
+    <string name="title_activity_ocr_calibration_result">OcrCalibrationResultActivity</string>
 </resources>

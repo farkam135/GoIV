@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.kamron.pogoiv">
+    package="com.kamron.pogoiv">
 
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
@@ -128,26 +128,30 @@
         <service
             android:name=".updater.DownloadUpdateService"
             android:exported="false"/>
+        <service android:name=".pokeflycomponents.GoIVNotificationManager$NotificationActionService"/>
 
-        <service android:name=".pokeflycomponents.GoIVNotificationManager$NotificationActionService" />
-
-        <activity android:name=".activities.ClipboardModifierActivity"
-                  android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name=".activities.ClipboardModifierActivity"
+            android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name=".activities.CreditsActivity"
             android:label="@string/title_activity_credits"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
-        
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+
         <provider
-            android:authorities="${applicationId}.provider"
             android:name="android.support.v4.content.FileProvider"
+            android:authorities="${applicationId}.provider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
-            android:name="android.support.FILE_PROVIDER_PATHS"
-            android:resource="@xml/provider_paths"/>
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths"/>
         </provider>
+
+        <activity
+            android:name=".activities.OcrCalibrationResultActivity"
+            android:label="@string/title_activity_ocr_calibration_result"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

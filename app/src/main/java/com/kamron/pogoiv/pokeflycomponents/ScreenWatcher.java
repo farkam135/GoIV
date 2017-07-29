@@ -16,6 +16,9 @@ import com.kamron.pogoiv.GoIVSettings;
 import com.kamron.pogoiv.Pokefly;
 import com.kamron.pogoiv.ScreenGrabber;
 
+import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.greenPokemonMenuPixel;
+import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.whitePixelPokemonScreen;
+
 /**
  * A class which checks the screen every time the user pressses the screen, and calls to the ivbutton and
  * quickivpreview when the user is on the pokemon screen.
@@ -58,11 +61,11 @@ public class ScreenWatcher {
 
         GoIVSettings set = GoIVSettings.getInstance(pokefly);
         if (set.hasManualScanCalibration()) {
-            String wpps = set.getCalibrationValue("whitePixelPokemonScreen");
+            String wpps = set.getCalibrationValue(whitePixelPokemonScreen);
             int area0x = Integer.parseInt(wpps.split(",")[0]);
             int area0y = Integer.parseInt(wpps.split(",")[1]);
 
-            String gpmp = set.getCalibrationValue("greenPokemonMenuPixel");
+            String gpmp = set.getCalibrationValue(greenPokemonMenuPixel);
             int area1x = Integer.parseInt(gpmp.split(",")[0]);
             int area1y = Integer.parseInt(gpmp.split(",")[1]);
 

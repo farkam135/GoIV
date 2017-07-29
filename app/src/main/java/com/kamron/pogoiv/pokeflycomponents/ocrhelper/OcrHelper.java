@@ -1,5 +1,6 @@
 package com.kamron.pogoiv.pokeflycomponents.ocrhelper;
 
+import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Point;
@@ -19,21 +20,24 @@ import java.util.Map;
 
 import timber.log.Timber;
 
+import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.arcInit;
+import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.arcRadiusPoint;
+import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.candyName_area;
+import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.greenPokemonMenuPixel;
+import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.pokemonCP_area;
+import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.pokemonCandyAmount_area;
+import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.pokemonEvolutionCost_area;
+import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.pokemonHP_area;
+import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.pokemonName_area;
+import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.pokemonType_area;
+import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.whitePixelPokemonScreen;
+
+
 /**
  * Created by Sarav on 8/25/2016.
  * A class to scan a screenshot and extract useful information visible in the bitmap.
  */
 public class OcrHelper {
-
-    private static final String pokemonName_area = "pokemonName_area";
-    private static final String pokemonType_area = "pokemonType_area";
-    private static final String candyName_area = "candyName_area";
-    private static final String pokemonHP_area = "pokemonHP_area";
-    private static final String pokemonCP_area = "pokemonCP_area";
-    private static final String pokemonCandyAmount_area = "pokemonCandyAmount_area";
-    private static final String pokemonEvolutionCost_area = "pokemonEvolutionCost_area";
-    private static final String arcRadiusPoint = "arcRadiusPoint";
-    private static final String arcInit = "arcInit";
 
 
     private static OcrHelper instance = null;
@@ -791,22 +795,34 @@ public class OcrHelper {
      *
      * @param bmp the bmp to analyze to get the settings
      */
-    public void recalibrateScanAreas(Bitmap bmp) {
+    public void recalibrateScanAreas(Bitmap bmp, ProgressDialog dialog) {
         ScanFieldAutomaticLocator sfr = new ScanFieldAutomaticLocator();
 
         settings.setManualScanCalibration(true);
         settings.saveScreenCalibrationValue(pokemonName_area, sfr.findPokemonNameArea(bmp));
+        dialog.setMessage("Finding name area");
         settings.saveScreenCalibrationValue(pokemonType_area, sfr.findPokemonTypeArea(bmp));
+        dialog.setMessage("Finding type area");
         settings.saveScreenCalibrationValue(candyName_area, sfr.findPokemonCandyNameArea(bmp));
+        dialog.setMessage("Finding candy name area");
         settings.saveScreenCalibrationValue(pokemonHP_area, sfr.findPokemonHPArea(bmp));
+        dialog.setMessage("Finding hp area");
         settings.saveScreenCalibrationValue(pokemonCP_area, sfr.findPokemonScanArea(bmp));
+        dialog.setMessage("Finding cp area");
         settings.saveScreenCalibrationValue(pokemonCandyAmount_area, sfr.findPokemonCandyArea(bmp));
+        dialog.setMessage("Finding candy amount area");
         settings.saveScreenCalibrationValue(pokemonEvolutionCost_area, sfr.findPokemonUpgradeCostArea(bmp));
+        dialog.setMessage("Finding evolution cost area");
         settings.saveScreenCalibrationValue(arcRadiusPoint, sfr.findArcRadius(bmp));
+        dialog.setMessage("Finding level arc radius");
         settings.saveScreenCalibrationValue(arcInit, sfr.findArcInit(bmp));
+        dialog.setMessage("Finding level arc starting point");
+
         //The hardcoded strings are the same names as the ones used in "ScreenWatcher".
-        settings.saveScreenCalibrationValue("whitePixelPokemonScreen", sfr.findWhitePixelPokemonScreen(bmp));
-        settings.saveScreenCalibrationValue("greenPokemonMenuPixel", sfr.findGreenPokemonScreen(bmp));
+        settings.saveScreenCalibrationValue(whitePixelPokemonScreen, sfr.findWhitePixelPokemonScreen(bmp));
+        dialog.setMessage("Finding white marker pixel");
+        settings.saveScreenCalibrationValue(greenPokemonMenuPixel, sfr.findGreenPokemonScreen(bmp));
+        dialog.setMessage("Finding green marker pixel");
     }
 
 

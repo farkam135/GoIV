@@ -10,10 +10,12 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.v7.app.NotificationCompat;
 
-import com.kamron.pogoiv.activities.MainActivity;
 import com.kamron.pogoiv.Pokefly;
 import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.ScreenGrabber;
+import com.kamron.pogoiv.activities.MainActivity;
+import com.kamron.pogoiv.activities.OcrCalibrationResultActivity;
+import com.kamron.pogoiv.pokeflycomponents.ocrhelper.CalibrationImage;
 
 /**
  * Created by johan on 2017-07-06.
@@ -152,14 +154,18 @@ public class GoIVNotificationManager {
 
                 Handler handler = new Handler(Looper.getMainLooper());
                 Intent closeIntent = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
-                pokefly.sendBroadcast(closeIntent);
+                pokefly.sendBroadcast(closeIntent); //closes the notification window so we can screenshot pogo
 
 
                 final Runnable r = new Runnable() {
                     public void run() {
                         Bitmap bmp = ScreenGrabber.getInstance().grabScreen();
-                        pokefly.getOcr().recalibrateScanAreas(bmp);
-                        Intent showResultIntent = new Intent()
+                        CalibrationImage.calibrationImg = bmp;
+                        CalibrationImage.pokefly = pokefly;
+
+                        Intent showResultIntent = new Intent(pokefly, OcrCalibrationResultActivity.class);
+
+                        startActivity(showResultIntent);
 
                     }
                 };

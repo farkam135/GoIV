@@ -9,11 +9,11 @@ import com.kamron.pogoiv.GoIVSettings;
 /**
  * A class that represents an area, used for quickly loading user screen calibration settings.
  */
-class ScanArea {
-    int xPoint = -1;
-    int yPoint = -1;
-    int width = -1;
-    int height = -1;
+public class ScanArea {
+    public int xPoint = -1;
+    public int yPoint = -1;
+    public int width = -1;
+    public int height = -1;
 
     /**
      * Create a screen area by reading a setting for a certain part. For example, loading the screen area where

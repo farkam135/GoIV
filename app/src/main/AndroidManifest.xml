@@ -95,7 +95,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name=".activities.MainActivity"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
@@ -107,8 +107,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SettingsActivity"
-            android:parentActivityName=".MainActivity"
+            android:name=".activities.SettingsActivity"
+            android:parentActivityName=".activities.MainActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".ShareHandlerActivity"
@@ -131,10 +131,10 @@
 
         <service android:name=".pokeflycomponents.GoIVNotificationManager$NotificationActionService" />
 
-        <activity android:name=".clipboard.ClipboardModifierActivity"
+        <activity android:name=".activities.ClipboardModifierActivity"
                   android:windowSoftInputMode="adjustPan"/>
         <activity
-            android:name=".CreditsActivity"
+            android:name=".activities.CreditsActivity"
             android:label="@string/title_activity_credits"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>

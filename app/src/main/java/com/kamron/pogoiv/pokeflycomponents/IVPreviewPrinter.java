@@ -7,11 +7,11 @@ import android.widget.Toast;
 import com.kamron.pogoiv.GoIVSettings;
 import com.kamron.pogoiv.Pokefly;
 import com.kamron.pogoiv.ScreenGrabber;
-import com.kamron.pogoiv.logic.IVScanResult;
-import com.kamron.pogoiv.logic.PokeInfoCalculator;
-import com.kamron.pogoiv.logic.Pokemon;
-import com.kamron.pogoiv.logic.PokemonNameCorrector;
-import com.kamron.pogoiv.logic.ScanResult;
+import com.kamron.pogoiv.scan_logic.IVScanResult;
+import com.kamron.pogoiv.scan_logic.PokeInfoCalculator;
+import com.kamron.pogoiv.scan_logic.Pokemon;
+import com.kamron.pogoiv.scan_logic.PokemonNameCorrector;
+import com.kamron.pogoiv.scan_logic.ScanResult;
 
 /**
  * Created by johan on 2017-07-06.

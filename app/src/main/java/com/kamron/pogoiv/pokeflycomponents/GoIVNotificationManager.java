@@ -10,7 +10,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.v7.app.NotificationCompat;
 
-import com.kamron.pogoiv.MainActivity;
+import com.kamron.pogoiv.activities.MainActivity;
 import com.kamron.pogoiv.Pokefly;
 import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.ScreenGrabber;
@@ -159,6 +159,7 @@ public class GoIVNotificationManager {
                     public void run() {
                         Bitmap bmp = ScreenGrabber.getInstance().grabScreen();
                         pokefly.getOcr().recalibrateScanAreas(bmp);
+                        Intent showResultIntent = new Intent()
 
                     }
                 };

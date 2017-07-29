@@ -4,12 +4,12 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
 
-import com.kamron.pogoiv.clipboard.ClipboardToken;
-import com.kamron.pogoiv.clipboard.tokens.IVPercentageToken;
-import com.kamron.pogoiv.clipboard.tokens.IVPercentageTokenMode;
-import com.kamron.pogoiv.clipboard.tokens.PokemonNameToken;
-import com.kamron.pogoiv.clipboard.tokens.SeparatorToken;
-import com.kamron.pogoiv.clipboard.tokens.UnicodeToken;
+import com.kamron.pogoiv.clipboard_logic.ClipboardToken;
+import com.kamron.pogoiv.clipboard_logic.tokens.IVPercentageToken;
+import com.kamron.pogoiv.clipboard_logic.tokens.IVPercentageTokenMode;
+import com.kamron.pogoiv.clipboard_logic.tokens.PokemonNameToken;
+import com.kamron.pogoiv.clipboard_logic.tokens.SeparatorToken;
+import com.kamron.pogoiv.clipboard_logic.tokens.UnicodeToken;
 
 import java.io.File;
 import java.io.FileInputStream;

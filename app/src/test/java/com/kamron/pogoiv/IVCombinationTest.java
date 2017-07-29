@@ -1,6 +1,6 @@
 package com.kamron.pogoiv;
 
-import com.kamron.pogoiv.logic.IVCombination;
+import com.kamron.pogoiv.scan_logic.IVCombination;
 
 import org.junit.Test;
 

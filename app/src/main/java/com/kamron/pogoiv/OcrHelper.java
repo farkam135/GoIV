@@ -85,9 +85,10 @@ public class OcrHelper {
     }
 
     private boolean isCandyWordFirst() {
-        //Check if language makes the pokemon name in candy second; France/Spain/Italy have Bonbon/Caramelos pokeName.
+        //Check if language makes the pokemon name in candy second; France/Spain/Italy/Portuguese 
+        //have Bonbon/Caramelos/Doces pokeName.
         String language = Locale.getDefault().getLanguage();
-        HashSet<String> specialCandyOrderLangs = new HashSet<>(Arrays.asList("fr", "es", "it"));
+        HashSet<String> specialCandyOrderLangs = new HashSet<>(Arrays.asList("fr", "es", "it", "pt"));
         return specialCandyOrderLangs.contains(language);
     }
 

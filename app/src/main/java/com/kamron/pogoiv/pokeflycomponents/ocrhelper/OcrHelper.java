@@ -798,7 +798,7 @@ public class OcrHelper {
     public void recalibrateScanAreas(Bitmap bmp, ProgressDialog dialog) {
         ScanFieldAutomaticLocator sfr = new ScanFieldAutomaticLocator();
 
-        settings.setManualScanCalibration(false);
+        settings.setManualScanCalibration(true);
 
         settings.saveScreenCalibrationValue(pokemonName_area, sfr.findPokemonNameArea(bmp));
         dialog.setMessage("Finding name area");
@@ -808,7 +808,7 @@ public class OcrHelper {
         dialog.setMessage("Finding candy name area");
         settings.saveScreenCalibrationValue(pokemonHP_area, sfr.findPokemonHPArea(bmp));
         dialog.setMessage("Finding hp area");
-        settings.saveScreenCalibrationValue(pokemonCP_area, sfr.findPokemonScanArea(bmp));
+        settings.saveScreenCalibrationValue(pokemonCP_area, sfr.findPokemonCPScanArea(bmp));
         dialog.setMessage("Finding cp area");
         settings.saveScreenCalibrationValue(pokemonCandyAmount_area, sfr.findPokemonCandyArea(bmp));
         dialog.setMessage("Finding candy amount area");

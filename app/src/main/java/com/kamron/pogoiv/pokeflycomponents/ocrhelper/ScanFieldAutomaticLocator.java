@@ -13,6 +13,7 @@ import android.graphics.Point;
 
 public class ScanFieldAutomaticLocator {
 
+    private static final int pureWhite = Color.parseColor("#FFFFFF"); // hp, pokemon name text etc
     private static final int darkTextColorInt = Color.parseColor("#49696c"); // hp, pokemon name text etc
     private static final int hpBarColorInt = Color.parseColor("#6dedb7");  //old color 81ecb6
     private static final int whiteInt = Color.parseColor("#FAFAFA");
@@ -165,7 +166,8 @@ public class ScanFieldAutomaticLocator {
 
 
         int arcRadius = bmp.getWidth() / 2 - finalPoint.x;
-        return pointToString(finalPoint) + ";" + arcRadius;
+        int middle = bmp.getWidth() / 2;
+        return middle + "," + finalPoint.y + ";" + arcRadius;
     }
 
 
@@ -192,11 +194,69 @@ public class ScanFieldAutomaticLocator {
 
 
     /**
+     * Get the CP field of a pokemon. (The one at the top of the screen, on the form of CP XXX)
+     *
      * @param bmp The image to analyze.
      * @return A string representation of the x,y coordinate in the form of "x,y,x2,y2"
      */
-    String findPokemonScanArea(Bitmap bmp) {
-        return "1,1,1,1";
+    String findPokemonCPScanArea(Bitmap bmp) {
+
+        int cpStartY = 0;
+        for (int y = (int) (bmp.getHeight() * 0.05); y < bmp.getHeight() * 0.5; y++) {
+
+            int half = bmp.getWidth() / 2;
+            boolean found1 = bmp.getPixel((int) (half - half * 0.001), y) == pureWhite;
+            boolean found2 = bmp.getPixel((int) (half - half * 0.01), y) == pureWhite;
+            boolean found3 = bmp.getPixel((int) (half - half * 0.003), y) == pureWhite;
+            boolean found4 = bmp.getPixel((int) (half - half * 0.007), y) == pureWhite;
+            boolean found5 = bmp.getPixel((int) (half + half * 0.001), y) == pureWhite;
+            boolean found6 = bmp.getPixel((int) (half + half * 0.01), y) == pureWhite;
+            boolean found7 = bmp.getPixel((int) (half + half * 0.003), y) == pureWhite;
+            boolean found8 = bmp.getPixel((int) (half + half * 0.007), y) == pureWhite;
+            if (found1 || found2 || found3 || found4 || found5 || found6 || found7 || found8) {
+                cpStartY = y;
+                break;
+            }
+
+
+        }
+        int cpEndY = getEndOfText(bmp, cpStartY, (int) (bmp.getWidth() * 0.2), pureWhite);
+
+
+        int height = cpEndY - cpStartY;
+
+        int startX = (int) (bmp.getWidth() * 0.333);
+        int scanAreaWidth = (int) (bmp.getWidth() * 0.333);
+
+        return startX + "," + cpStartY + "," + scanAreaWidth + "," + height;
+    }
+
+    /**
+     * Helper method, that tries to find the end of a text field. It does so by looping through from the left, and
+     * checking if it "collides with" any text.
+     *
+     * @param bmp               The image to look in
+     * @param textStartY        Where we know there's some text
+     * @param startSearchX      the "start" we look from from the left
+     * @param searchingForColor The color of the text we want to find the end for
+     * @return the first row where we dont encounter the searchingforcolor, or 0 if none found.
+     */
+    private int getEndOfText(Bitmap bmp, int textStartY, int startSearchX, int searchingForColor) {
+        int returner = 0;
+        for (int y = textStartY + 3; y < textStartY + (bmp.getHeight() * 0.2); y++) {
+            boolean traveledRowEncounteringText = false;
+            for (int x = startSearchX; x < bmp.getWidth() / 2; x++) {
+                if (bmp.getPixel(x, y) == searchingForColor) {
+                    traveledRowEncounteringText = true;
+                    break;
+                }
+            }
+            if (traveledRowEncounteringText == false) {
+                returner = y;
+                break;
+            }
+        }
+        return returner;
     }
 
     /**

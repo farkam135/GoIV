@@ -17,7 +17,8 @@ import static java.lang.Math.max;
 
 /**
  * Created by Danilo Pianini.
- * A token which returns a "how worth is training tier" in the 00-99 range, considering the Pokémon stats and the IV values.
+ * A token which returns a "how worth is training tier" in the 00-99 range, considering the Pokémon stats and the IV
+ * values.
  */
 public class WorthTrainingToken extends ClipboardToken {
 
@@ -72,10 +73,10 @@ public class WorthTrainingToken extends ClipboardToken {
 
     private static int normalizedResult(Pokemon p, IVCombination combination) {
         return (int) Math.round(normalize(
-                        formula(p.baseAttack * combination.att,
-                                p.baseDefense * combination.def,
-                                p.baseStamina * combination.sta),
-                        0, BEST) * 99);
+                formula(p.baseAttack * combination.att,
+                        p.baseDefense * combination.def,
+                        p.baseStamina * combination.sta),
+                0, BEST) * 99);
     }
 
     private static double formula(final double a, final double d, final double h) {
@@ -96,8 +97,9 @@ public class WorthTrainingToken extends ClipboardToken {
         return max;
     }
 
-
-    private static double normalize(final double v, final double min, final double max) { return (v - min) / (max -min); }
+    private static double normalize(final double v, final double min, final double max) {
+        return (v - min) / (max -min);
+    }
 
     @Override
     public String getPreview() {
@@ -115,13 +117,13 @@ public class WorthTrainingToken extends ClipboardToken {
 
     @Override
     public String getLongDescription(Context context) {
-        return "This token returns an evaluation of how worth it is to train this monster, based both" +
-                "on the base stats and the " + getType() + " possible IV stats." +
-                "For instance, a 96% IV Alakazam will get a score higher than a 20% Tyranitar," +
-                "regardless the fact that the maximum possible IV for the latter is higher:" +
-                "since the probability of getting better Tyranitar is higher than the one of" +
-                "getting better Alakazams, the second represents a much better stardust investment." +
-                "Ranges in 00-99. Always returns two digits.";
+        return "This token returns an evaluation of how worth it is to train this monster, based both"
+                + "on the base stats and the " + getType() + " possible IV stats."
+                + "For instance, a 96% IV Alakazam will get a score higher than a 20% Tyranitar,"
+                + "regardless the fact that the maximum possible IV for the latter is higher:"
+                + "since the probability of getting better Tyranitar is higher than the one of"
+                + "getting better Alakazams, the second represents a much better stardust investment."
+                + "Ranges in 00-99. Always returns two digits.";
     }
 
     @Override

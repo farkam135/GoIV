@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.GridLayout;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -37,6 +38,13 @@ public class ClipboardModifierActivity extends AppCompatActivity {
 
     private ArrayList<ClipboardTokenButton> tokenButtons = new ArrayList<>();
     private ClipboardToken selectedToken = null;
+
+    private View.OnClickListener deleteTokenListener = new View.OnClickListener() {
+        @Override public void onClick(View view) {
+            cth.removeToken((Integer) view.getTag(), singleResSwitch.isChecked());
+            updateFields();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,32 +91,26 @@ public class ClipboardModifierActivity extends AppCompatActivity {
      */
     private void updateEditField() {
         clipTokenEditor.removeAllViews();
-        int index = 0;
         String separatorTokenStringName = new SeparatorToken("").getCategory();
 
+        Integer index = 0;
         for (ClipboardToken clipboardToken : getCurrentlyModifyingList()) {
+            final View rootTokenView =
+                    getLayoutInflater().inflate(R.layout.layout_token_preview, clipTokenEditor, false);
 
-            TextView tokenEditingBox = new TextView(this);
+            final TextView tokenTextView = (TextView) rootTokenView.findViewById(android.R.id.text1);
             if (clipboardToken.getCategory().equals(separatorTokenStringName)) {
-                tokenEditingBox.setText(clipboardToken.getPreview() + " ❌");
+                tokenTextView.setText(clipboardToken.getPreview());
             } else {
-                tokenEditingBox.setText(clipboardToken.getTokenName(this) + "\n" + clipboardToken.getPreview() + " ❌");
+                tokenTextView.setText(clipboardToken.getTokenName(this) + "\n" + clipboardToken.getPreview());
             }
-            tokenEditingBox.setPadding(0, 0, 0, 0);
-            tokenEditingBox.setBackgroundColor(Color.rgb(44, 57, 128)); //dark purplish blue
-            tokenEditingBox.setTextColor(Color.WHITE);
 
-            final int finalI = index;
-            tokenEditingBox.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    cth.removeToken(finalI, singleResSwitch.isChecked());
-                    updateFields();
-                }
-            });
+            final ImageButton tokenDeleteButton = (ImageButton) rootTokenView.findViewById(R.id.btnDelete);
+            tokenDeleteButton.setTag(index);
+            tokenDeleteButton.setOnClickListener(deleteTokenListener);
+
+            clipTokenEditor.addView(rootTokenView);
             index++;
-
-            clipTokenEditor.addView(tokenEditingBox);
         }
     }
 

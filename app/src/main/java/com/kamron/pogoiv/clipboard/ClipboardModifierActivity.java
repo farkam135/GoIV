@@ -98,9 +98,6 @@ public class ClipboardModifierActivity extends AppCompatActivity {
             tokenEditingBox.setBackgroundColor(Color.rgb(44, 57, 128)); //dark purplish blue
             tokenEditingBox.setTextColor(Color.WHITE);
 
-            TextView divider = new TextView(this);
-            divider.setText("     ");
-
             final int finalI = index;
             tokenEditingBox.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -111,7 +108,6 @@ public class ClipboardModifierActivity extends AppCompatActivity {
             });
             index++;
 
-            clipTokenEditor.addView(divider);
             clipTokenEditor.addView(tokenEditingBox);
         }
     }

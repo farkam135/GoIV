@@ -33,7 +33,7 @@ public class ClipboardModifierActivity extends AppCompatActivity {
     private Switch clipboardMaxEvolutionVariant;
     private Switch singleResSwitch;
     private LinearLayout clipTokenEditor;
-    private EditText customSeperator;
+    private EditText customSeparator;
     private LinearLayout singleMultiLayout;
 
     private ArrayList<ClipboardTokenButton> tokenButtons = new ArrayList<>();
@@ -82,7 +82,7 @@ public class ClipboardModifierActivity extends AppCompatActivity {
         clipTokenEditor = (LinearLayout) findViewById(R.id.clipTokenEditor);
         clipboardMaxEvolutionVariant = (Switch) findViewById(R.id.clipboardMaxEvolutionVariant);
         singleResSwitch = (Switch) findViewById(R.id.singleResCheckbox);
-        customSeperator = (EditText) findViewById(R.id.customSeperator);
+        customSeparator = (EditText) findViewById(R.id.customSeperator);
         singleMultiLayout = (LinearLayout) findViewById(R.id.singleMultiLayout);
     }
 
@@ -254,8 +254,8 @@ public class ClipboardModifierActivity extends AppCompatActivity {
      * @param v needed for onclick xml
      */
     public void addCustomString(View v) {
-        if (customSeperator.getText() != null && !customSeperator.getText().toString().equals("")) { //no custom string
-            String inputString = customSeperator.getText().toString();
+        if (customSeparator.getText() != null && !customSeparator.getText().toString().equals("")) { //no custom string
+            String inputString = customSeparator.getText().toString();
             if (inputString.contains(".")) { //invalid custom string
 
                 Toast.makeText(this, "Custom separator can't contain . because the developer is lazy",
@@ -267,7 +267,7 @@ public class ClipboardModifierActivity extends AppCompatActivity {
                 updateLengthIndicator();
 
                 //clear text field
-                customSeperator.setText("");
+                customSeparator.setText("");
 
                 //close keyboard
                 InputMethodManager inputManager =

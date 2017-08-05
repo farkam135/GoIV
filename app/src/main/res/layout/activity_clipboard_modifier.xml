@@ -1,22 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
-
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/singleMultiLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="10dp">
+        android:paddingLeft="8dp"
+        android:paddingTop="2dp"
+        android:paddingRight="8dp"
+        android:paddingBottom="2dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Edit configuration for"/>
 
-        <View
+        <android.support.v4.widget.Space
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_weight="1"/>
@@ -25,7 +27,7 @@
             android:id="@+id/multipleText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=" Multiple"/>
+            android:text="Multiple"/>
 
         <Switch
             android:id="@+id/singleResCheckbox"
@@ -35,19 +37,18 @@
             android:onClick="updateFields"
             android:textAlignment="center"/>
 
-
         <TextView
             android:id="@+id/singleText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Single "/>
+            android:text="Single"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=" results"/>
+            android:text="  results"/>
 
-        <View
+        <android.support.v4.widget.Space
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_weight="1"/>
@@ -59,7 +60,7 @@
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
         android:orientation="vertical"
-        android:padding="3dp">
+        android:padding="8dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -72,11 +73,10 @@
                 android:text="Preview"
                 android:textColor="@color/buttonText"/>
 
-            <View
+            <android.support.v4.widget.Space
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_weight="1"
-                />
+                android:layout_weight="1" />
 
             <TextView
                 android:id="@+id/clipboardPreview"
@@ -87,33 +87,30 @@
                 android:text="Max length: "
                 android:textColor="@color/buttonText"/>
 
-
             <TextView
                 android:id="@+id/clipboardMaxLength"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
                 android:text="(Max length)"
                 android:textColor="@color/unimportantText"/>
 
-
         </LinearLayout>
 
-
         <!-- Edit tokens layout -->
-
 
         <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="5dp">
-
+            android:fadeScrollbars="false"
+            android:scrollbarStyle="outsideOverlay"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp">
 
             <LinearLayout
                 android:id="@+id/clipTokenEditor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_gravity="center_horizontal"
                 android:orientation="horizontal"
                 android:divider="@drawable/divider_horizontal"
                 android:showDividers="middle">
@@ -127,7 +124,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <View
+            <android.support.v4.widget.Space
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_weight="1"/>
@@ -141,10 +138,8 @@
                 android:onClick="toggleEvolvedVariant"
                 android:text="Show max evolution variants"
                 android:textAlignment="center"/>
+
         </LinearLayout>
-
-
-
 
     </LinearLayout>
 
@@ -154,7 +149,6 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:fadeScrollbars="false">
-
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -184,7 +178,6 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp">
 
-
                 <EditText
                     android:id="@+id/customSeperator"
                     android:layout_width="wrap_content"
@@ -201,8 +194,8 @@
                     android:width="90dp"
                     android:text="✓"/>
 
-
             </LinearLayout>
+
         </LinearLayout>
 
     </ScrollView>
@@ -244,36 +237,33 @@
 
             </ScrollView>
 
-
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:gravity="center_vertical"
+            android:padding="4dp"
             android:orientation="vertical">
 
             <Button
                 android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:backgroundTint="@color/colorPrimary"
+                android:layout_height="wrap_content"
+                style="@style/TextAppearance.AppCompat.Widget.Button.Inverse"
+                android:backgroundTint="?attr/colorPrimary"
                 android:onClick="addToken"
-                android:text="add"
-                android:textColor="@color/buttonText"/>
+                android:text="add" />
 
             <Button
                 android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:backgroundTint="@color/colorPrimary"
+                android:layout_height="wrap_content"
+                style="@style/TextAppearance.AppCompat.Widget.Button.Inverse"
+                android:backgroundTint="?attr/colorPrimary"
                 android:onClick="saveAndExit"
-                android:text="Save and exit"
-                android:textColor="@color/buttonText"
-                android:textSize="10sp"/>
+                android:text="Save and exit" />
+
         </LinearLayout>
 
-
     </LinearLayout>
-
 
 </LinearLayout>

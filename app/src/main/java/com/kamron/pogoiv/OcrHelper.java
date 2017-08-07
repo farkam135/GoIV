@@ -591,13 +591,20 @@ public class OcrHelper {
         if (chunks.size() > 0) {
             // Compute the average height of the chunks
             int chunksHeightsSum = 0;
-            for (Rect chunk : chunks) {
-                chunksHeightsSum += chunk.height();
+            Iterator<Rect> chunksIterator = chunks.iterator();
+            while (chunksIterator.hasNext()) {
+                Rect chunk = chunksIterator.next();
+                if (chunk.width() <= increment * 2) {
+                    // Discard all the chunks smaller than the width of 2 columns
+                    chunksIterator.remove();
+                } else {
+                    chunksHeightsSum += chunk.height();
+                }
             }
             final int avgChunksHeight = chunksHeightsSum / chunks.size();
 
             // Discard all the chunks lower than the average height
-            Iterator<Rect> chunksIterator = chunks.iterator();
+            chunksIterator = chunks.iterator();
             while (chunksIterator.hasNext()) {
                 Rect chunk = chunksIterator.next();
                 if (chunk.height() < avgChunksHeight) {

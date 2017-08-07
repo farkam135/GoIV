@@ -563,6 +563,10 @@ public class OcrHelper {
                         // We found a non-black pixel, start a new character chunk
                         currentChunk = new Rect(x, y, x, height - 1);
                         break;
+                    } else if (y == height - 1) {
+                        // We reached the end of this column without finding any non-black pixel.
+                        // The next one probably wont be the start of a new chunk: skip it.
+                        x += increment;
                     }
 
                 } else {

@@ -1,5 +1,6 @@
 package com.kamron.pogoiv;
 
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Rect;
@@ -551,8 +552,10 @@ public class OcrHelper {
         // Every chunk will contain a character
         ArrayList<Rect> chunks = new ArrayList<>(6);
         Rect currentChunk = null;
-        for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
+        // On devices denser than XHDPI (2x) we can skip a pixel every two to increase performances
+        int increment = Resources.getSystem().getDisplayMetrics().density > 2 ? 2 : 1;
+        for (int x = 0; x < width; x += increment) {
+            for (int y = 0; y < height; y += increment) {
                 final int pxColor = cp.getPixel(x, y);
 
                 if (currentChunk == null) {

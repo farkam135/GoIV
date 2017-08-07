@@ -128,7 +128,7 @@ public class WorthTrainingToken extends ClipboardToken {
 
     @Override
     public String getCategory() {
-        return "IV Info";
+        return "Evaluation Scores";
     }
 
     @Override

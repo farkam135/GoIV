@@ -7,5 +7,19 @@ package com.kamron.pogoiv.clipboard.tokens;
 public enum IVPercentageTokenMode {
     MIN,
     AVG,
-    MAX
+    MAX,
+    MIN_SUP,
+    AVG_SUP,
+    MAX_SUP;
+
+    public boolean isSuperscript() {
+        switch (this) {
+            case MIN_SUP:
+            case AVG_SUP:
+            case MAX_SUP:
+                return true;
+            default:
+                return false;
+        }
+    }
 }

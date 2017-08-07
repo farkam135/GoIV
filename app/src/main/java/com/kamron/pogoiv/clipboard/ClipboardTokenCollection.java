@@ -100,6 +100,9 @@ public class ClipboardTokenCollection {
         tokens.add(new IVPercentageToken(IVPercentageTokenMode.MIN));
         tokens.add(new IVPercentageToken(IVPercentageTokenMode.AVG));
         tokens.add(new IVPercentageToken(IVPercentageTokenMode.MAX));
+        tokens.add(new IVPercentageToken(IVPercentageTokenMode.MIN_SUP));
+        tokens.add(new IVPercentageToken(IVPercentageTokenMode.AVG_SUP));
+        tokens.add(new IVPercentageToken(IVPercentageTokenMode.MAX_SUP));
 
         //Sum
         tokens.add(new IVSum(true));

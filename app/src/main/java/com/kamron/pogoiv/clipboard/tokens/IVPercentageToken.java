@@ -14,6 +14,8 @@ import com.kamron.pogoiv.logic.PokeInfoCalculator;
  */
 
 public class IVPercentageToken extends ClipboardToken {
+    private static final char[] SUP_DIGITS = new char[] {'⁰', '¹', '²', '³', '⁴', '⁵', '⁶', '⁷', '⁸', '⁹'};
+
     private IVPercentageTokenMode mode;
 
     public IVPercentageToken(IVPercentageTokenMode mode) {
@@ -28,23 +30,50 @@ public class IVPercentageToken extends ClipboardToken {
 
     @Override
     public String getValue(IVScanResult ivScanResult, PokeInfoCalculator pokeInfoCalculator) {
-        if (mode == IVPercentageTokenMode.MIN) {
-            IVCombination lowestIVCombination = ivScanResult.getLowestIVCombination();
-            return lowestIVCombination != null ? String.valueOf(lowestIVCombination.percentPerfect) : "";
-        } else if (mode == IVPercentageTokenMode.AVG) {
-            return String.valueOf(ivScanResult.getAveragePercent());
-        } else if (mode == IVPercentageTokenMode.MAX) {
-            IVCombination highestIVCombination = ivScanResult.getHighestIVCombination();
-            return highestIVCombination != null ? String.valueOf(highestIVCombination.percentPerfect) : "";
+        Integer percent = null;
+        IVCombination combination = null;
+        switch (mode) {
+            case MIN:
+            case MIN_SUP:
+                combination = ivScanResult.getLowestIVCombination();
+                break;
+            case AVG:
+            case AVG_SUP:
+                percent = ivScanResult.getAveragePercent();
+                break;
+            case MAX:
+            case MAX_SUP:
+                combination = ivScanResult.getHighestIVCombination();
+                break;
+            default:
+                throw new IllegalArgumentException();
+        }
+
+        if (combination != null) {
+            percent = combination.percentPerfect;
+        }
+
+        if (percent == null) {
+            return "";
+        }
+
+        final String percentString = String.valueOf(percent);
+        if (mode.isSuperscript()) {
+            return toSuperscript(percentString);
         } else {
-            throw new IllegalArgumentException();
+            return percentString;
         }
     }
 
     @Override
     public String getPreview() {
-        int example = 98 + mode.ordinal();
-        return String.valueOf(example);
+        final String example = String.valueOf(95 + mode.ordinal());
+
+        if (mode.isSuperscript()) {
+            return toSuperscript(example);
+        } else {
+            return example;
+        }
     }
 
     @Override
@@ -54,37 +83,54 @@ public class IVPercentageToken extends ClipboardToken {
 
     @Override
     public String getTokenName(Context context) {
-        if (mode == IVPercentageTokenMode.MIN) {
-            return "min%";
-        } else if (mode == IVPercentageTokenMode.AVG) {
-            return "avg%";
-        } else if (mode == IVPercentageTokenMode.MAX) {
-            //mode 2 is max
-            return "max%";
-        } else {
-            throw new IllegalArgumentException();
+        switch (mode) {
+            case MIN:
+                return "min%";
+            case MIN_SUP:
+                return "min%sup";
+            case AVG:
+                return "avg%";
+            case AVG_SUP:
+                return "avg%sup";
+            case MAX:
+                return "max%";
+            case MAX_SUP:
+                return "max%sup";
+            default:
+                throw new IllegalArgumentException();
         }
     }
 
     @Override
     public String getLongDescription(Context context) {
-        String modeText;
-        if (mode == IVPercentageTokenMode.MIN) {
-            modeText = "minimum%";
-        } else if (mode == IVPercentageTokenMode.AVG) {
-            modeText = "average";
-        } else if (mode == IVPercentageTokenMode.MAX) {
-            //mode 2 is max
-            modeText = "maximum";
-        } else {
-            throw new IllegalArgumentException();
+        final String modeText;
+        switch (mode) {
+            case MIN:
+                modeText = "minimum";
+                break;
+            case MIN_SUP:
+                modeText = "superscript minimum";
+                break;
+            case AVG:
+                modeText = "average";
+                break;
+            case AVG_SUP:
+                modeText = "superscript average";
+                break;
+            case MAX:
+                modeText = "maximum";
+                break;
+            case MAX_SUP:
+                modeText = "superscript maximum";
+                break;
+            default:
+                throw new IllegalArgumentException();
         }
 
-        String returner = "Get the " + modeText + " percent of the IV possibilities. If only one iv combination is "
+        return "Get the " + modeText + " percent of the IV possibilities. If only one iv combination is "
                 + "possible, minimum, average and maximum will be the same."
                 + " For example, if the iv range is 55-75, the minimum will return 55, the average will return "
                 + "something between 55 and 75, and the maximum will return 75.";
-        return returner;
     }
 
     @Override
@@ -95,5 +141,13 @@ public class IVPercentageToken extends ClipboardToken {
     @Override
     public boolean changesOnEvolutionMax() {
         return false;
+    }
+
+    private String toSuperscript(String percent) {
+        final StringBuilder resultBuilder = new StringBuilder(3);
+        for (int i = 0; i < percent.length(); i++) {
+            resultBuilder.append(SUP_DIGITS[percent.charAt(i) - '0']);
+        }
+        return resultBuilder.toString();
     }
 }

@@ -98,7 +98,7 @@ public class WorthTrainingToken extends ClipboardToken {
     }
 
     private static double normalize(final double v, final double min, final double max) {
-        return (v - min) / (max -min);
+        return (v - min) / (max - min);
     }
 
     @Override

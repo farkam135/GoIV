@@ -1,12 +1,11 @@
 package com.kamron.pogoiv.clipboard;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.AppCompatButton;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.Button;
 
 /**
  * Created by Johan on 2016-09-24.
@@ -14,7 +13,7 @@ import android.widget.Button;
  * when pressed
  */
 
-public class ClipboardTokenButton extends Button {
+public class ClipboardTokenButton extends AppCompatButton {
 
     private static final int maxEvColor = Color.parseColor("#dafaea");
     private static final int normalBackgroundColor = Color.parseColor("#d9f5f9");
@@ -45,14 +44,6 @@ public class ClipboardTokenButton extends Button {
 
     public ClipboardTokenButton(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-    }
-
-    @SuppressLint("NewApi")
-    /**
-     * Never call this method, only here because it's required when extending the button class
-     **/
-    public ClipboardTokenButton(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
     }
 
     /**

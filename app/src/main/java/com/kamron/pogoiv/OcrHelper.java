@@ -1,7 +1,9 @@
 package com.kamron.pogoiv;
 
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.util.LruCache;
 
@@ -10,8 +12,10 @@ import com.googlecode.tesseract.android.TessBaseAPI;
 import com.kamron.pogoiv.logic.Data;
 import com.kamron.pogoiv.logic.ScanResult;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 
@@ -541,19 +545,90 @@ public class OcrHelper {
     private Optional<Integer> getPokemonCPFromImg(Bitmap pokemonImage) {
         Bitmap cp = getImageCrop(pokemonImage, 0.25, 0.064, 0.5, 0.046);
         cp = replaceColors(cp, true, 255, 255, 255, Color.BLACK, 30, false);
-        tesseract.setImage(cp);
-        String cpText = tesseract.getUTF8Text();
 
-        /*
-         * Always remove the two first characters instead of non-numbers: the "CP" text is 
-         * sometimes OCR'ed to something containing numbers (e.g. cp, cP, Cp, c3, s3, 73, 53 etc),
-         * depending on backgrounds/screen sizes, but it's always OCRed as two characters.
-         * This also appears true for translations.
-         */
-        if (cpText.length() >= 2) { //gastly can block the "cp" text, so its not visible...
-            cpText = cpText.substring(2); //remove "cp".
-            cpText = cpText.replaceAll("[^0-9]]", ""); //remove any non integer character
+        final int width = cp.getWidth();
+        final int height = cp.getHeight();
+
+        // Every chunk will contain a character
+        ArrayList<Rect> chunks = new ArrayList<>(6);
+        Rect currentChunk = null;
+        // On devices denser than XHDPI (2x) we can skip a pixel every two to increase performances
+        int increment = Resources.getSystem().getDisplayMetrics().density > 2 ? 2 : 1;
+        for (int x = 0; x < width; x += increment) {
+            for (int y = 0; y < height; y += increment) {
+                final int pxColor = cp.getPixel(x, y);
+
+                if (currentChunk == null) {
+                    if (pxColor != Color.BLACK) {
+                        // We found a non-black pixel, start a new character chunk
+                        currentChunk = new Rect(x, y, x, height - 1);
+                        break;
+                    } else if (y == height - 1) {
+                        // We reached the end of this column without finding any non-black pixel.
+                        // The next one probably wont be the start of a new chunk: skip it.
+                        x += increment;
+                    }
+
+                } else {
+                    if (pxColor != Color.BLACK) {
+                        // We found a non-black pixel. If the current chunk top is below this pixel, update it
+                        if (currentChunk.top > y) {
+                            currentChunk.top = y;
+                        }
+                        currentChunk.right = x;
+                        break;
+
+                    } else if (y == height - 1) {
+                        // We reached the end of this column without finding any non-black pixel.
+                        // End and save the current chunk.
+                        chunks.add(currentChunk);
+                        currentChunk = null;
+                    }
+                }
+            }
         }
+
+        if (chunks.size() > 0) {
+            // Compute the average height of the chunks
+            int chunksHeightsSum = 0;
+            Iterator<Rect> chunksIterator = chunks.iterator();
+            while (chunksIterator.hasNext()) {
+                Rect chunk = chunksIterator.next();
+                if (chunk.width() <= increment * 2) {
+                    // Discard all the chunks smaller than the width of 2 columns
+                    chunksIterator.remove();
+                } else {
+                    chunksHeightsSum += chunk.height();
+                }
+            }
+            final int avgChunksHeight = chunksHeightsSum / chunks.size();
+
+            // Discard all the chunks lower than the average height
+            chunksIterator = chunks.iterator();
+            while (chunksIterator.hasNext()) {
+                Rect chunk = chunksIterator.next();
+                if (chunk.height() < avgChunksHeight) {
+                    chunksIterator.remove();
+                }
+            }
+        }
+
+        // Merge all the detected chunks in a larger Rect
+        Rect mergeRect = null;
+        for (Rect chunk : chunks) {
+            if (mergeRect == null) {
+                mergeRect = new Rect(chunk);
+            } else {
+                mergeRect.union(chunk);
+            }
+        }
+
+        tesseract.setImage(cp);
+        if (mergeRect != null) {
+            tesseract.setRectangle(mergeRect);
+        }
+        String cpText = tesseract.getUTF8Text();
+        cpText = fixOcrLettersToNums(cpText);
 
         try {
             return Optional.of(Integer.parseInt(fixOcrLettersToNums(cpText)));

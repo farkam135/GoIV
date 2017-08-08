@@ -64,8 +64,8 @@ public class IVSum extends ClipboardToken {
     }
 
     @Override
-    public String getCategory() {
-        return "IV Info";
+    public Category getCategory() {
+        return Category.IV_INFO;
     }
 
     @Override

@@ -44,8 +44,8 @@ public class PowerupsToMaxToken extends ClipboardToken {
                 + "level 15, there are 25 levels to level 40, which is 50 powerups.";
     }
 
-    @Override public String getCategory() {
-        return "Basic Stats";
+    @Override public Category getCategory() {
+        return Category.BASIC_STATS;
     }
 
     @Override public boolean changesOnEvolutionMax() {

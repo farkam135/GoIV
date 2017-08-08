@@ -46,8 +46,8 @@ public class SeparatorToken extends ClipboardToken {
     }
 
     @Override
-    public String getCategory() {
-        return "Separators";
+    public Category getCategory() {
+        return Category.SEPARATORS;
     }
 
     @Override

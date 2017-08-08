@@ -71,8 +71,8 @@ public class CPMaxToken extends ClipboardToken {
         return "Get how much CP the monster will have at max level.";
     }
 
-    @Override public String getCategory() {
-        return "Basic Stats";
+    @Override public Category getCategory() {
+        return Category.BASIC_STATS;
     }
 
     @Override public boolean changesOnEvolutionMax() {

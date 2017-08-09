@@ -8,70 +8,40 @@
         android:id="@+id/singleMultiLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="8dp"
-        android:paddingTop="2dp"
-        android:paddingRight="8dp"
-        android:paddingBottom="2dp">
+        android:gravity="center_vertical"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:background="@color/colorPrimary">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Edit configuration for"/>
+            android:text="Edit configuration for"
+            android:textAppearance="?android:attr/textAppearanceInverse"/>
 
-        <android.support.v4.widget.Space
+        <Spinner
+            android:id="@+id/resultModeSpinner"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="1"/>
-
-        <TextView
-            android:id="@+id/multipleText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Multiple"/>
-
-        <Switch
-            android:id="@+id/singleResCheckbox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checked="false"
-            android:onClick="updateFields"
-            android:textAlignment="center"/>
-
-        <TextView
-            android:id="@+id/singleText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Single"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="  results"/>
-
-        <android.support.v4.widget.Space
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="1"/>
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:orientation="vertical"
-        android:padding="8dp">
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Preview"
-                android:textColor="@color/buttonText"/>
+                android:text="Preview"/>
 
             <android.support.v4.widget.Space
                 android:layout_width="0dp"
@@ -84,15 +54,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
                 android:layout_marginRight="12dp"
-                android:text="Max length: "
-                android:textColor="@color/buttonText"/>
+                android:text="Max length: " />
 
             <TextView
                 android:id="@+id/clipboardMaxLength"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="(Max length)"
-                android:textColor="@color/unimportantText"/>
+                android:textColor="?android:attr/textColorHint" />
 
         </LinearLayout>
 
@@ -103,108 +72,91 @@
             android:layout_height="wrap_content"
             android:fadeScrollbars="false"
             android:scrollbarStyle="outsideOverlay"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp">
+            android:padding="4dp"
+            android:clipToPadding="false">
 
             <LinearLayout
                 android:id="@+id/clipTokenEditor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
                 android:orientation="horizontal"
                 android:divider="@drawable/divider_horizontal"
-                android:showDividers="middle">
-
-            </LinearLayout>
+                android:showDividers="middle" />
 
         </HorizontalScrollView>
 
-        <LinearLayout
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:background="@color/colorPrimary">
+
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:textAlignment="center"
+            android:text="Full list of available token types"
+            android:textAppearance="?android:attr/textAppearanceInverse" />
 
-            <android.support.v4.widget.Space
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1"/>
-
-            <Switch
-                android:id="@+id/clipboardMaxEvolutionVariant"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checked="true"
-                android:textColor="@color/buttonText"
-                android:onClick="toggleEvolvedVariant"
-                android:text="Show max evolution variants"
-                android:textAlignment="center"/>
-
-        </LinearLayout>
+        <CheckBox
+            android:id="@+id/clipboardMaxEvolutionVariant"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:onClick="toggleEvolvedVariant"
+            android:text="Show max evolution variants"
+            android:textAppearance="?android:attr/textAppearanceInverse" />
 
     </LinearLayout>
 
-    <!-- Token menu scroll container -->
-    <ScrollView
+    <!-- List of all available tokens -->
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/tokenShowcaseRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:fadeScrollbars="false">
+        android:paddingLeft="16dp"
+        android:paddingTop="8dp"
+        android:paddingRight="16dp"
+        android:paddingBottom="8dp"
+        android:clipToPadding="false"
+        android:scrollbars="vertical"
+        android:scrollbarStyle="outsideOverlay"
+        android:fadeScrollbars="false" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <EditText
+            android:id="@+id/customSeperator"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:orientation="vertical">
+            android:layout_weight="1"
+            android:hint="Custom Separator Text"
+            android:minWidth="20dp"/>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:textAlignment="center"
-                android:paddingLeft="10dp"
-                android:text="Full list of available options"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="addCustomString"
+            android:padding="0dp"
+            android:width="90dp"
+            android:text="✓"/>
 
-            <LinearLayout
-                android:id="@+id/clipboardShowcase"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_weight="1"
-                android:orientation="vertical"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp">
-
-                <EditText
-                    android:id="@+id/customSeperator"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="Custom Separator Text"
-                    android:layout_weight="1"
-                    android:minWidth="20dp"/>
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:onClick="addCustomString"
-                    android:padding="0dp"
-                    android:width="90dp"
-                    android:text="✓"/>
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-    </ScrollView>
+    </LinearLayout>
 
     <!-- Description and add field -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="14dp">
+        android:layout_height="wrap_content">
 
         <!-- Description field -->
         <LinearLayout

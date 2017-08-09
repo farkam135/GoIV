@@ -1,47 +1,47 @@
 package com.kamron.pogoiv.clipboard;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.Switch;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.kamron.pogoiv.GoIVSettings;
 import com.kamron.pogoiv.R;
+import com.kamron.pogoiv.clipboard.adapters.TokenListAdapter;
+import com.kamron.pogoiv.clipboard.layoutmanagers.TokenGridLayoutManager;
 import com.kamron.pogoiv.clipboard.tokens.SeparatorToken;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
-public class ClipboardModifierActivity extends AppCompatActivity {
+public class ClipboardModifierActivity extends AppCompatActivity implements ClipboardToken.OnTokenSelectedListener {
 
     private ClipboardTokenHandler cth;
     private TextView clipboardMaxLength;
-    private TextView multipleText;
-    private TextView singleText;
+    private Spinner resultModeSpinner;
     private TextView clipboardDescription;
-    private LinearLayout clipboardShowcase;
-    private Switch clipboardMaxEvolutionVariant;
-    private Switch singleResSwitch;
+    private CheckBox clipboardMaxEvolutionVariant;
     private LinearLayout clipTokenEditor;
     private EditText customSeparator;
     private LinearLayout singleMultiLayout;
+    private RecyclerView tokenShowcaseRecyclerView;
 
-    private ArrayList<ClipboardTokenButton> tokenButtons = new ArrayList<>();
+    private TokenListAdapter tokenListAdapter;
     private ClipboardToken selectedToken = null;
 
     private View.OnClickListener deleteTokenListener = new View.OnClickListener() {
         @Override public void onClick(View view) {
-            cth.removeToken((Integer) view.getTag(), singleResSwitch.isChecked());
+            cth.removeToken((Integer) view.getTag(), isSingleResultMode());
             updateFields();
         }
     };
@@ -54,7 +54,27 @@ public class ClipboardModifierActivity extends AppCompatActivity {
         initiateInstanceVariables();
         setSingleCheckboxShownDependingOnSetting(); //must be done after initiateInstanceVariables
         updateFields();
-        fillTokenList(clipboardMaxEvolutionVariant.isChecked());
+
+        // Init the spinner that let the user switch from multiple result to single result edit mode.
+        resultModeSpinner.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,
+                new String[] {"Multiple result", "Single result"}));
+        resultModeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                updateFields();
+            }
+
+            @Override public void onNothingSelected(AdapterView<?> parent) {
+                // Nothing to do
+            }
+        });
+
+        // Populate the token showcase RecyclerView with all possible tokens. The TokenListAdapter will put them in
+        // their respective category while TokenGridLayoutManager will arrange them in a grid with category headers
+        // that span the entire RecyclerView width.
+        tokenListAdapter = new TokenListAdapter(this, clipboardMaxEvolutionVariant.isChecked(), true, this);
+        tokenShowcaseRecyclerView.setHasFixedSize(false);
+        tokenShowcaseRecyclerView.setLayoutManager(new TokenGridLayoutManager(this, tokenListAdapter));
+        tokenShowcaseRecyclerView.setAdapter(tokenListAdapter);
     }
 
     /**
@@ -74,16 +94,14 @@ public class ClipboardModifierActivity extends AppCompatActivity {
      */
     private void initiateInstanceVariables() {
         cth = new ClipboardTokenHandler(this);
-        multipleText = (TextView) findViewById(R.id.multipleText);
-        singleText = (TextView) findViewById(R.id.singleText);
+        resultModeSpinner = (Spinner) findViewById(R.id.resultModeSpinner);
         clipboardMaxLength = (TextView) findViewById(R.id.clipboardMaxLength);
         clipboardDescription = (TextView) findViewById(R.id.clipboardDescription);
-        clipboardShowcase = (LinearLayout) findViewById(R.id.clipboardShowcase);
         clipTokenEditor = (LinearLayout) findViewById(R.id.clipTokenEditor);
-        clipboardMaxEvolutionVariant = (Switch) findViewById(R.id.clipboardMaxEvolutionVariant);
-        singleResSwitch = (Switch) findViewById(R.id.singleResCheckbox);
+        clipboardMaxEvolutionVariant = (CheckBox) findViewById(R.id.clipboardMaxEvolutionVariant);
         customSeparator = (EditText) findViewById(R.id.customSeperator);
         singleMultiLayout = (LinearLayout) findViewById(R.id.singleMultiLayout);
+        tokenShowcaseRecyclerView = (RecyclerView) findViewById(R.id.tokenShowcaseRecyclerView);
     }
 
     /**
@@ -91,7 +109,7 @@ public class ClipboardModifierActivity extends AppCompatActivity {
      */
     private void updateEditField() {
         clipTokenEditor.removeAllViews();
-        String separatorTokenStringName = new SeparatorToken("").getCategory();
+        String separatorTokenStringName = new SeparatorToken("").getCategory().toString();
 
         Integer index = 0;
         for (ClipboardToken clipboardToken : getCurrentlyModifyingList()) {
@@ -99,7 +117,7 @@ public class ClipboardModifierActivity extends AppCompatActivity {
                     getLayoutInflater().inflate(R.layout.layout_token_preview, clipTokenEditor, false);
 
             final TextView tokenTextView = (TextView) rootTokenView.findViewById(android.R.id.text1);
-            if (clipboardToken.getCategory().equals(separatorTokenStringName)) {
+            if (clipboardToken.getCategory().toString().equals(separatorTokenStringName)) {
                 tokenTextView.setText(clipboardToken.getPreview());
             } else {
                 tokenTextView.setText(clipboardToken.getTokenName(this) + "\n" + clipboardToken.getPreview());
@@ -114,6 +132,10 @@ public class ClipboardModifierActivity extends AppCompatActivity {
         }
     }
 
+    private boolean isSingleResultMode() {
+        return resultModeSpinner.getSelectedItemPosition() == 1;
+    }
+
     /**
      * Get a list of tokens, the default list if user is currently modifying the default list, or the single result
      * user token list if that checkbox is marked.
@@ -121,7 +143,7 @@ public class ClipboardModifierActivity extends AppCompatActivity {
      * @return The users token setting for either single or multiple results
      */
     private List<ClipboardToken> getCurrentlyModifyingList() {
-        return cth.getTokens(singleResSwitch.isChecked());
+        return cth.getTokens(isSingleResultMode());
     }
 
     /**
@@ -130,89 +152,27 @@ public class ClipboardModifierActivity extends AppCompatActivity {
      * @param v needed for xml onclick.
      */
     public void toggleEvolvedVariant(View v) {
-        fillTokenList(clipboardMaxEvolutionVariant.isChecked());
+        tokenListAdapter.setEvolvedVariant(clipboardMaxEvolutionVariant.isChecked());
     }
-
-    /**
-     * Populate the token picker gridview with all possible tokens in their respective groups.
-     */
-    private void fillTokenList(boolean evolvedVariant) {
-        ArrayList<ClipboardToken> possibleTokens = ClipboardTokenCollection.getSamples();
-        clipboardShowcase.removeAllViews();
-
-        HashMap<String, GridLayout> groups = new HashMap<>();
-        //Create empty category gridlayotu holders for each category
-        for (ClipboardToken tok : possibleTokens) {
-            String category = tok.getCategory();
-            if (!groups.containsKey(category)) {
-                GridLayout layout = new GridLayout(this);
-                layout.setColumnCount(3);
-                groups.put(category, layout);
-                TextView categoryTitle = new TextView(this);
-                categoryTitle.setText(category);
-                clipboardShowcase.addView(new TextView(this)); //simple way of getting padding
-                clipboardShowcase.addView(categoryTitle);
-                clipboardShowcase.addView(layout);
-            }
-        }
-
-        //populate the categories
-        for (ClipboardToken token : possibleTokens) {
-            //Add the token if it matches the selected evolution variant, or if it doesnt change on ev variant.
-            if (evolvedVariant == token.maxEv || !token.changesOnEvolutionMax()) {
-                ClipboardTokenButton btnTag = new ClipboardTokenButton(this, token, cth);
-                tokenButtons.add(btnTag);
-                //add button to the layout
-                groups.get(token.getCategory()).addView(btnTag);
-            }
-
-        }
-        unColorallButtons();
-
-    }
-
 
     /**
      * Select a token to show its description.
      *
      * @param token Which token to show.
      */
-    public void selectToken(ClipboardToken token) {
+    @Override public void onTokenSelected(ClipboardToken token, int adapterPosition) {
         selectedToken = token;
         updateClipboardDescription();
+        updateLengthIndicator();
     }
 
     /**
      * Updates the description, the preview window, the highlighted single/multi text,  and the editor window.
      */
     private void updateFields() {
-        highlightSingleOrMultiText();
         updateClipboardDescription();
         updateLengthIndicator();
         updateEditField();
-
-    }
-
-    /**
-     * Updates the description, the preview window and the editor window.
-     *
-     * @param v needed for xml to find method
-     */
-    public void updateFields(View v) {
-        updateFields();
-    }
-
-    /**
-     * Makes either the "single" or "multi" text bold to highlight to the user which is selected.
-     */
-    private void highlightSingleOrMultiText() {
-        if (singleResSwitch.isChecked()) {
-            multipleText.setTextColor(Color.LTGRAY);
-            singleText.setTextColor(Color.BLACK);
-        } else {
-            multipleText.setTextColor(Color.BLACK);
-            singleText.setTextColor(Color.LTGRAY);
-        }
     }
 
     /**
@@ -239,7 +199,7 @@ public class ClipboardModifierActivity extends AppCompatActivity {
      */
     public void addToken(View v) {
         if (selectedToken != null) {
-            cth.addToken(selectedToken, singleResSwitch.isChecked());
+            cth.addToken(selectedToken, isSingleResultMode());
             updateEditField();
             updateLengthIndicator();
         } else {
@@ -262,7 +222,7 @@ public class ClipboardModifierActivity extends AppCompatActivity {
                         Toast.LENGTH_LONG)
                         .show();
             } else {
-                cth.addToken(new SeparatorToken(inputString), singleResSwitch.isChecked());
+                cth.addToken(new SeparatorToken(inputString), isSingleResultMode());
                 updateEditField();
                 updateLengthIndicator();
 
@@ -294,15 +254,7 @@ public class ClipboardModifierActivity extends AppCompatActivity {
      * Updates the preview length indicator.
      */
     public void updateLengthIndicator() {
-        clipboardMaxLength.setText("(" + cth.getMaxLength(singleResSwitch.isChecked()) + " characters)");
+        clipboardMaxLength.setText("(" + cth.getMaxLength(isSingleResultMode()) + " characters)");
     }
 
-    /**
-     * Resets all Token buttons to default unselected color.
-     */
-    public void unColorallButtons() {
-        for (ClipboardTokenButton tokenButton : tokenButtons) {
-            tokenButton.resetColor();
-        }
-    }
 }

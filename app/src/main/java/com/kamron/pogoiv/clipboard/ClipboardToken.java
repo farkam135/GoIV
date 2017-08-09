@@ -1,6 +1,7 @@
 package com.kamron.pogoiv.clipboard;
 
 import android.content.Context;
+import android.view.View;
 
 import com.kamron.pogoiv.logic.IVScanResult;
 import com.kamron.pogoiv.logic.PokeInfoCalculator;
@@ -42,6 +43,10 @@ public abstract class ClipboardToken {
                     throw new IllegalArgumentException();
             }
         }
+    }
+
+    public interface OnTokenSelectedListener {
+        void onTokenSelected(ClipboardToken token, int adapterPosition);
     }
 
     public boolean maxEv; // if the token should change to accomodate to the last in the evolution line

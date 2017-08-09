@@ -20,16 +20,33 @@
         android:visibility="gone"
         tools:visibility="visible" />
 
-    <TextView
-        android:id="@android:id/text1"
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:layout_gravity="center_horizontal"
         android:padding="4dp"
-        android:textAppearance="?android:attr/textAppearanceInverse"
-        android:gravity="center_horizontal"
-        tools:text="Name3\nMac"
-        tools:ignore="RtlSymmetry" />
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@android:id/text1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceInverse"
+            android:layout_gravity="center_horizontal"
+            tools:text="Name3"
+            tools:ignore="RtlSymmetry" />
+
+        <TextView
+            android:id="@android:id/text2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceInverse"
+            android:layout_gravity="center_horizontal"
+            tools:text="Mac"
+            tools:ignore="RtlSymmetry" />
+
+    </LinearLayout>
 
     <ImageButton
         android:id="@+id/btnDelete"

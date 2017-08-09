@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 
-public class TokenListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
+public class TokensShowcaseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         implements ClipboardToken.OnTokenSelectedListener {
 
     public static final int VIEW_TYPE_HEADER = 1;
@@ -21,18 +21,16 @@ public class TokenListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     private Context context;
     private boolean evolvedVariant;
-    private boolean tokenWidthMatchParent;
     private ClipboardToken.OnTokenSelectedListener onTokenSelectedListener;
     private LinkedHashMap<ClipboardToken.Category, ArrayList<ClipboardToken>> tokenListsByCategoryMap;
     private int itemCount;
     private int selectedPosition = RecyclerView.NO_POSITION;
 
 
-    public TokenListAdapter(Context context, boolean evolvedVariant, boolean tokenWidthMatchParent,
-                            ClipboardToken.OnTokenSelectedListener onTokenSelectedListener) {
+    public TokensShowcaseAdapter(Context context, boolean evolvedVariant,
+                                 ClipboardToken.OnTokenSelectedListener onTokenSelectedListener) {
         this.context = context;
         this.evolvedVariant = evolvedVariant;
-        this.tokenWidthMatchParent = tokenWidthMatchParent;
         this.onTokenSelectedListener = onTokenSelectedListener;
 
         rebuildDataSet();
@@ -72,7 +70,7 @@ public class TokenListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             case VIEW_TYPE_HEADER:
                 return new TokenHeaderViewHolder(parent);
             case VIEW_TYPE_TOKEN:
-                return new TokenViewHolder(parent, this, false, tokenWidthMatchParent);
+                return new TokenViewHolder(parent, this, null, true, false);
             default:
                 throw new IllegalArgumentException();
         }

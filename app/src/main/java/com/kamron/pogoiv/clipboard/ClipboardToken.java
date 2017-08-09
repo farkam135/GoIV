@@ -49,6 +49,10 @@ public abstract class ClipboardToken {
         void onTokenSelected(ClipboardToken token, int adapterPosition);
     }
 
+    public interface OnTokenDeleteListener {
+        void onTokenDeleted(int adapterPosition);
+    }
+
     public boolean maxEv; // if the token should change to accomodate to the last in the evolution line
 
     /**

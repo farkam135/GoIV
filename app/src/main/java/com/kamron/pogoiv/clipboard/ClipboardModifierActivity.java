@@ -3,6 +3,7 @@ package com.kamron.pogoiv.clipboard;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -10,7 +11,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -18,33 +18,29 @@ import android.widget.Toast;
 
 import com.kamron.pogoiv.GoIVSettings;
 import com.kamron.pogoiv.R;
-import com.kamron.pogoiv.clipboard.adapters.TokenListAdapter;
+import com.kamron.pogoiv.clipboard.adapters.TokensPreviewAdapter;
+import com.kamron.pogoiv.clipboard.adapters.TokensShowcaseAdapter;
 import com.kamron.pogoiv.clipboard.layoutmanagers.TokenGridLayoutManager;
 import com.kamron.pogoiv.clipboard.tokens.SeparatorToken;
 
 import java.util.List;
 
-public class ClipboardModifierActivity extends AppCompatActivity implements ClipboardToken.OnTokenSelectedListener {
+public class ClipboardModifierActivity
+        extends AppCompatActivity
+        implements ClipboardToken.OnTokenSelectedListener, ClipboardToken.OnTokenDeleteListener {
 
     private ClipboardTokenHandler cth;
     private TextView clipboardMaxLength;
     private Spinner resultModeSpinner;
     private TextView clipboardDescription;
     private CheckBox clipboardMaxEvolutionVariant;
-    private LinearLayout clipTokenEditor;
     private EditText customSeparator;
     private LinearLayout singleMultiLayout;
-    private RecyclerView tokenShowcaseRecyclerView;
 
-    private TokenListAdapter tokenListAdapter;
+    private TokensPreviewAdapter tokenPreviewAdapter;
+    private TokensShowcaseAdapter tokenShowcaseAdapter;
     private ClipboardToken selectedToken = null;
 
-    private View.OnClickListener deleteTokenListener = new View.OnClickListener() {
-        @Override public void onClick(View view) {
-            cth.removeToken((Integer) view.getTag(), isSingleResultMode());
-            updateFields();
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,14 +63,6 @@ public class ClipboardModifierActivity extends AppCompatActivity implements Clip
                 // Nothing to do
             }
         });
-
-        // Populate the token showcase RecyclerView with all possible tokens. The TokenListAdapter will put them in
-        // their respective category while TokenGridLayoutManager will arrange them in a grid with category headers
-        // that span the entire RecyclerView width.
-        tokenListAdapter = new TokenListAdapter(this, clipboardMaxEvolutionVariant.isChecked(), true, this);
-        tokenShowcaseRecyclerView.setHasFixedSize(false);
-        tokenShowcaseRecyclerView.setLayoutManager(new TokenGridLayoutManager(this, tokenListAdapter));
-        tokenShowcaseRecyclerView.setAdapter(tokenListAdapter);
     }
 
     /**
@@ -97,39 +85,25 @@ public class ClipboardModifierActivity extends AppCompatActivity implements Clip
         resultModeSpinner = (Spinner) findViewById(R.id.resultModeSpinner);
         clipboardMaxLength = (TextView) findViewById(R.id.clipboardMaxLength);
         clipboardDescription = (TextView) findViewById(R.id.clipboardDescription);
-        clipTokenEditor = (LinearLayout) findViewById(R.id.clipTokenEditor);
+        RecyclerView tokenPreviewRecyclerView = (RecyclerView) findViewById(R.id.tokenPreviewRecyclerView);
         clipboardMaxEvolutionVariant = (CheckBox) findViewById(R.id.clipboardMaxEvolutionVariant);
         customSeparator = (EditText) findViewById(R.id.customSeperator);
         singleMultiLayout = (LinearLayout) findViewById(R.id.singleMultiLayout);
-        tokenShowcaseRecyclerView = (RecyclerView) findViewById(R.id.tokenShowcaseRecyclerView);
-    }
+        RecyclerView tokenShowcaseRecyclerView = (RecyclerView) findViewById(R.id.tokenShowcaseRecyclerView);
 
-    /**
-     * Removes, and re-adds markers for each token used, which when clicked removes the token from user settings.
-     */
-    private void updateEditField() {
-        clipTokenEditor.removeAllViews();
-        String separatorTokenStringName = new SeparatorToken("").getCategory().toString();
+        // Populate the token preview RecyclerView with all configured tokens.
+        tokenPreviewAdapter = new TokensPreviewAdapter(getCurrentlyModifyingList(), this);
+        tokenPreviewRecyclerView.setHasFixedSize(false);
+        tokenPreviewRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        tokenPreviewRecyclerView.setAdapter(tokenPreviewAdapter);
 
-        Integer index = 0;
-        for (ClipboardToken clipboardToken : getCurrentlyModifyingList()) {
-            final View rootTokenView =
-                    getLayoutInflater().inflate(R.layout.layout_token_preview, clipTokenEditor, false);
-
-            final TextView tokenTextView = (TextView) rootTokenView.findViewById(android.R.id.text1);
-            if (clipboardToken.getCategory().toString().equals(separatorTokenStringName)) {
-                tokenTextView.setText(clipboardToken.getPreview());
-            } else {
-                tokenTextView.setText(clipboardToken.getTokenName(this) + "\n" + clipboardToken.getPreview());
-            }
-
-            final ImageButton tokenDeleteButton = (ImageButton) rootTokenView.findViewById(R.id.btnDelete);
-            tokenDeleteButton.setTag(index);
-            tokenDeleteButton.setOnClickListener(deleteTokenListener);
-
-            clipTokenEditor.addView(rootTokenView);
-            index++;
-        }
+        // Populate the token showcase RecyclerView with all possible tokens. The TokenListAdapter will put them in
+        // their respective category while TokenGridLayoutManager will arrange them in a grid with category headers
+        // that span the entire RecyclerView width.
+        tokenShowcaseAdapter = new TokensShowcaseAdapter(this, clipboardMaxEvolutionVariant.isChecked(), this);
+        tokenShowcaseRecyclerView.setHasFixedSize(false);
+        tokenShowcaseRecyclerView.setLayoutManager(new TokenGridLayoutManager(this, tokenShowcaseAdapter));
+        tokenShowcaseRecyclerView.setAdapter(tokenShowcaseAdapter);
     }
 
     private boolean isSingleResultMode() {
@@ -152,7 +126,7 @@ public class ClipboardModifierActivity extends AppCompatActivity implements Clip
      * @param v needed for xml onclick.
      */
     public void toggleEvolvedVariant(View v) {
-        tokenListAdapter.setEvolvedVariant(clipboardMaxEvolutionVariant.isChecked());
+        tokenShowcaseAdapter.setEvolvedVariant(clipboardMaxEvolutionVariant.isChecked());
     }
 
     /**
@@ -166,13 +140,18 @@ public class ClipboardModifierActivity extends AppCompatActivity implements Clip
         updateLengthIndicator();
     }
 
+    @Override public void onTokenDeleted(int adapterPosition) {
+        cth.removeToken(adapterPosition, isSingleResultMode());
+        updateFields();
+    }
+
     /**
      * Updates the description, the preview window, the highlighted single/multi text,  and the editor window.
      */
     private void updateFields() {
         updateClipboardDescription();
         updateLengthIndicator();
-        updateEditField();
+        tokenPreviewAdapter.setData(getCurrentlyModifyingList());
     }
 
     /**
@@ -200,7 +179,7 @@ public class ClipboardModifierActivity extends AppCompatActivity implements Clip
     public void addToken(View v) {
         if (selectedToken != null) {
             cth.addToken(selectedToken, isSingleResultMode());
-            updateEditField();
+            tokenPreviewAdapter.setData(getCurrentlyModifyingList());
             updateLengthIndicator();
         } else {
             Toast.makeText(this, R.string.clipboard_no_token_selected, Toast.LENGTH_LONG).show();
@@ -223,7 +202,7 @@ public class ClipboardModifierActivity extends AppCompatActivity implements Clip
                         .show();
             } else {
                 cth.addToken(new SeparatorToken(inputString), isSingleResultMode());
-                updateEditField();
+                tokenPreviewAdapter.setData(getCurrentlyModifyingList());
                 updateLengthIndicator();
 
                 //clear text field
@@ -254,7 +233,7 @@ public class ClipboardModifierActivity extends AppCompatActivity implements Clip
      * Updates the preview length indicator.
      */
     public void updateLengthIndicator() {
-        clipboardMaxLength.setText("(" + cth.getMaxLength(isSingleResultMode()) + " characters)");
+        clipboardMaxLength.setText("(" + cth.getMaxLength(isSingleResultMode()) + "/12 characters)");
     }
 
 }

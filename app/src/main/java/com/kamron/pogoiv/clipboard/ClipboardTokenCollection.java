@@ -5,6 +5,7 @@ import com.kamron.pogoiv.clipboard.tokens.CPMaxToken;
 import com.kamron.pogoiv.clipboard.tokens.CPMissingAtFourty;
 import com.kamron.pogoiv.clipboard.tokens.CpPercentileToken;
 import com.kamron.pogoiv.clipboard.tokens.CpTierToken;
+import com.kamron.pogoiv.clipboard.tokens.CustomSeparatorToken;
 import com.kamron.pogoiv.clipboard.tokens.ExtendedCpTierToken;
 import com.kamron.pogoiv.clipboard.tokens.HexIVToken;
 import com.kamron.pogoiv.clipboard.tokens.HpToken;
@@ -122,6 +123,7 @@ public class ClipboardTokenCollection {
         tokens.add(new SeparatorToken("❤"));
         tokens.add(new SeparatorToken("☢"));
         tokens.add(new SeparatorToken("."));
+        tokens.add(new CustomSeparatorToken());
 
         return tokens;
     }

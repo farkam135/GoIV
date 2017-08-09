@@ -1,12 +1,13 @@
 package com.kamron.pogoiv.clipboard;
 
-import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
@@ -16,11 +17,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.common.base.Strings;
 import com.kamron.pogoiv.GoIVSettings;
 import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.clipboard.adapters.TokensPreviewAdapter;
 import com.kamron.pogoiv.clipboard.adapters.TokensShowcaseAdapter;
 import com.kamron.pogoiv.clipboard.layoutmanagers.TokenGridLayoutManager;
+import com.kamron.pogoiv.clipboard.tokens.CustomSeparatorToken;
 import com.kamron.pogoiv.clipboard.tokens.SeparatorToken;
 
 import java.util.List;
@@ -34,7 +37,6 @@ public class ClipboardModifierActivity
     private Spinner resultModeSpinner;
     private TextView clipboardDescription;
     private CheckBox clipboardMaxEvolutionVariant;
-    private EditText customSeparator;
     private LinearLayout singleMultiLayout;
 
     private TokensPreviewAdapter tokenPreviewAdapter;
@@ -87,7 +89,6 @@ public class ClipboardModifierActivity
         clipboardDescription = (TextView) findViewById(R.id.clipboardDescription);
         RecyclerView tokenPreviewRecyclerView = (RecyclerView) findViewById(R.id.tokenPreviewRecyclerView);
         clipboardMaxEvolutionVariant = (CheckBox) findViewById(R.id.clipboardMaxEvolutionVariant);
-        customSeparator = (EditText) findViewById(R.id.customSeperator);
         singleMultiLayout = (LinearLayout) findViewById(R.id.singleMultiLayout);
         RecyclerView tokenShowcaseRecyclerView = (RecyclerView) findViewById(R.id.tokenShowcaseRecyclerView);
 
@@ -178,46 +179,52 @@ public class ClipboardModifierActivity
      */
     public void addToken(View v) {
         if (selectedToken != null) {
-            cth.addToken(selectedToken, isSingleResultMode());
-            tokenPreviewAdapter.setData(getCurrentlyModifyingList());
-            updateLengthIndicator();
+            if (selectedToken instanceof CustomSeparatorToken) {
+                buildCustomSeparatorToken();
+            } else {
+                cth.addToken(selectedToken, isSingleResultMode());
+                tokenPreviewAdapter.setData(getCurrentlyModifyingList());
+                updateLengthIndicator();
+            }
         } else {
             Toast.makeText(this, R.string.clipboard_no_token_selected, Toast.LENGTH_LONG).show();
         }
-
     }
 
     /**
-     * Adds a custom string token to the user settings.
-     *
-     * @param v needed for onclick xml
+     * Builds a Dialog to create a custom string token to be added to the user settings.
      */
-    public void addCustomString(View v) {
-        if (customSeparator.getText() != null && !customSeparator.getText().toString().equals("")) { //no custom string
-            String inputString = customSeparator.getText().toString();
-            if (inputString.contains(".")) { //invalid custom string
+    public void buildCustomSeparatorToken() {
+        // The custom separator will be written in this EditText
+        final View dialogView = LayoutInflater.from(this).inflate(R.layout.edittext_dialog, null);
+        final EditText editText = (EditText) dialogView.findViewById(R.id.editText);
 
-                Toast.makeText(this, "Custom separator can't contain . because the developer is lazy",
-                        Toast.LENGTH_LONG)
-                        .show();
-            } else {
-                cth.addToken(new SeparatorToken(inputString), isSingleResultMode());
-                tokenPreviewAdapter.setData(getCurrentlyModifyingList());
-                updateLengthIndicator();
-
-                //clear text field
-                customSeparator.setText("");
-
-                //close keyboard
-                InputMethodManager inputManager =
-                        (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
-                inputManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(),
-                        InputMethodManager.HIDE_NOT_ALWAYS);
-            }
-
-        } else {
-            Toast.makeText(this, "Please fill in your custom separator", Toast.LENGTH_LONG).show();
-        }
+        // This dialog will implement the user interaction
+        new AlertDialog.Builder(this)
+                .setView(dialogView)
+                .setMessage("Please input your custom separator")
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override public void onClick(DialogInterface dialogInterface, int i) {
+                        String separator = editText.getText().toString().trim();
+                        if (Strings.isNullOrEmpty(separator)) {
+                            Toast.makeText(ClipboardModifierActivity.this,
+                                    "Please fill in your custom separator", Toast.LENGTH_LONG).show();
+                            return;
+                        }
+                        if (separator.contains(".")) {
+                            Toast.makeText(ClipboardModifierActivity.this, "Custom separator can't contain ."
+                                    + " because the developer is lazy", Toast.LENGTH_LONG).show();
+                        }
+                        selectedToken = new SeparatorToken(separator);
+                        addToken(null);
+                    }
+                })
+                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                })
+                .show();
     }
 
     /**

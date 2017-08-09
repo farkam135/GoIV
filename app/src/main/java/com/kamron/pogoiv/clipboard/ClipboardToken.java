@@ -1,7 +1,6 @@
 package com.kamron.pogoiv.clipboard;
 
 import android.content.Context;
-import android.view.View;
 
 import com.kamron.pogoiv.logic.IVScanResult;
 import com.kamron.pogoiv.logic.PokeInfoCalculator;

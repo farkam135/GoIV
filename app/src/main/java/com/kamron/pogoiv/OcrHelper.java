@@ -32,22 +32,17 @@ public class OcrHelper {
     private final GoIVSettings settings;
     private final LruCache<String, String> ocrCache = new LruCache<>(200);
     private final LruCache<String, String> appraisalCache = new LruCache<>(200);
-    private final int heightPixels;
-    private final int widthPixels;
     private final boolean candyWordFirst;
     private final String nidoFemale;
     private final String nidoMale;
     private final boolean isPokeSpamEnabled;
 
-    private OcrHelper(String dataPath, int widthPixels, int heightPixels, String nidoFemale, String nidoMale,
-                      GoIVSettings settings) {
+    private OcrHelper(String dataPath, String nidoFemale, String nidoMale, GoIVSettings settings) {
         tesseract = new TessBaseAPI();
         tesseract.init(dataPath, "eng");
         tesseract.setPageSegMode(TessBaseAPI.PageSegMode.PSM_SINGLE_LINE);
         tesseract.setVariable(TessBaseAPI.VAR_CHAR_WHITELIST,
                 "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789/♀♂");
-        this.heightPixels = heightPixels;
-        this.widthPixels = widthPixels;
         this.candyWordFirst = isCandyWordFirst();
         this.nidoFemale = nidoFemale;
         this.nidoMale = nidoMale;
@@ -67,10 +62,9 @@ public class OcrHelper {
      * @param dataPath Path the OCR data files.
      * @return Bitmap with replaced colors
      */
-    public static OcrHelper init(String dataPath, int widthPixels, int heightPixels, String nidoFemale,
-                                 String nidoMale, GoIVSettings settings) {
+    public static OcrHelper init(String dataPath, String nidoFemale, String nidoMale, GoIVSettings settings) {
         if (instance == null) {
-            instance = new OcrHelper(dataPath, widthPixels, heightPixels, nidoFemale, nidoMale, settings);
+            instance = new OcrHelper(dataPath, nidoFemale, nidoMale, settings);
         }
         return instance;
     }
@@ -270,7 +264,7 @@ public class OcrHelper {
      * @return the evolution cost (or -1 if absent) wrapped in Optional.of(), or Optional.absent() on scan failure
      */
     private Optional<Integer> getPokemonEvolutionCostFromImg(Bitmap pokemonImage) {
-        Bitmap evolutionCostImage = getImageCrop(pokemonImage, 0.625, 0.88, 0.2, 0.03);
+        Bitmap evolutionCostImage = getImageCrop(pokemonImage, ScreenGeometryHelper.INSTANCE.monEvolutionCostCrop);
         String hash = "candyCost" + hashBitmap(evolutionCostImage);
 
         //return cache if it exists
@@ -352,7 +346,7 @@ public class OcrHelper {
      * @return True if the nidoran is female
      */
     private boolean isNidoranFemale(Bitmap pokemonImage) {
-        Bitmap pokemon = getImageCrop(pokemonImage, 0.33, 0.25, 0.33, 0.2);
+        Bitmap pokemon = getImageCrop(pokemonImage, ScreenGeometryHelper.INSTANCE.mon3DModelCrop);
         int[] pixelArray = new int[pokemon.getHeight() * pokemon.getWidth()];
         pokemon.getPixels(pixelArray, 0, pokemon.getWidth(), 0, 0, pokemon.getWidth(), pokemon.getHeight());
         int greenSum = 0;
@@ -383,7 +377,7 @@ public class OcrHelper {
      * @return A string resulting from the scan
      */
     private String getPokemonNameFromImg(Bitmap pokemonImage) {
-        Bitmap name = getImageCrop(pokemonImage, 0.1, 0.45, 0.85, 0.055);
+        Bitmap name = getImageCrop(pokemonImage, ScreenGeometryHelper.INSTANCE.monNameCrop);
         String hash = "name" + hashBitmap(name);
         String pokemonName = ocrCache.get(hash);
 
@@ -407,7 +401,7 @@ public class OcrHelper {
      * @return A string resulting from the scan
      */
     private String getPokemonTypeFromImg(Bitmap pokemonImage) {
-        Bitmap type = getImageCrop(pokemonImage, 0.365278, 0.621094, 0.308333, 0.035156);
+        Bitmap type = getImageCrop(pokemonImage, ScreenGeometryHelper.INSTANCE.monTypeCrop);
         String hash = "type" + hashBitmap(type);
         String pokemonType = ocrCache.get(hash);
 
@@ -425,16 +419,11 @@ public class OcrHelper {
      * Get a cropped version of your image.
      *
      * @param img     Which image to crop
-     * @param xStart  % of how far in the top left corner of the crop should be x coordinate
-     * @param yStart  % of how far in the top left corner of the crop should be y coordinate
-     * @param xWidth  how many % of the width should be kept starting from the xstart.
-     * @param yHeight how many % of the height should be kept starting from the ystart.
+     * @param crop    Crop parameters
      * @return The crop of the image.
      */
-    public Bitmap getImageCrop(Bitmap img, double xStart, double yStart, double xWidth, double yHeight) {
-        Bitmap crop = Bitmap.createBitmap(img, (int) (widthPixels * xStart), (int) (heightPixels * yStart),
-                (int) (widthPixels * xWidth), (int) (heightPixels * yHeight));
-        return crop;
+    private Bitmap getImageCrop(Bitmap img, ScreenGeometryHelper.CropParameters crop) {
+        return Bitmap.createBitmap(img, crop.getXPx(), crop.getYPx(), crop.getWidthPx(), crop.getHeightPx());
     }
 
     /**
@@ -474,7 +463,7 @@ public class OcrHelper {
      * @return the candy name, or "" if nothing was found
      */
     private String getCandyNameFromImg(Bitmap pokemonImage) {
-        Bitmap candy = getImageCrop(pokemonImage, 0.5, 0.73, 0.47, 0.026);
+        Bitmap candy = getImageCrop(pokemonImage, ScreenGeometryHelper.INSTANCE.monCandyNameCrop);
         String hash = "candy" + hashBitmap(candy);
         String candyName = ocrCache.get(hash);
 
@@ -499,7 +488,7 @@ public class OcrHelper {
      * @return an integer of the interpreted pokemon name, 10 if scan failed
      */
     private Optional<Integer> getPokemonHPFromImg(Bitmap pokemonImage) {
-        Bitmap hp = getImageCrop(pokemonImage, 0.357, 0.52, 0.285, 0.0293);
+        Bitmap hp = getImageCrop(pokemonImage, ScreenGeometryHelper.INSTANCE.monHPCrop);
         String hash = "hp" + hashBitmap(hp);
         String pokemonHPStr = ocrCache.get(hash);
 
@@ -543,7 +532,7 @@ public class OcrHelper {
      * @return a CP of the pokemon, 10 if scan failed
      */
     private Optional<Integer> getPokemonCPFromImg(Bitmap pokemonImage) {
-        Bitmap cp = getImageCrop(pokemonImage, 0.25, 0.064, 0.5, 0.046);
+        Bitmap cp = getImageCrop(pokemonImage, ScreenGeometryHelper.INSTANCE.monCPCrop);
         cp = replaceColors(cp, true, 255, 255, 255, Color.BLACK, 30, false);
 
         final int width = cp.getWidth();
@@ -644,13 +633,9 @@ public class OcrHelper {
      * @return a string which should remain the same even if you power up a pokemon
      */
     private String getPokemonIdentifierFromImg(Bitmap pokemonImage) {
-        Bitmap infoRow = Bitmap.createBitmap(pokemonImage,
-                (int) Math.round(widthPixels * .1f), (int) Math.round(heightPixels / 1.714286f),
-                (int) Math.round(widthPixels * .8f), (int) Math.round(heightPixels / 25.26316f));
+        Bitmap infoRow = getImageCrop(pokemonImage, ScreenGeometryHelper.INSTANCE.monIdentifierCrop);
         tesseract.setImage(infoRow);
-        String uniqueText = tesseract.getUTF8Text();
-
-        return uniqueText;
+        return tesseract.getUTF8Text();
     }
 
 
@@ -665,7 +650,7 @@ public class OcrHelper {
             return Optional.absent();
         }
 
-        Bitmap candyAmount = getImageCrop(pokemonImage, 0.60, 0.695, 0.20, 0.038);
+        Bitmap candyAmount = getImageCrop(pokemonImage, ScreenGeometryHelper.INSTANCE.monCandyAmountCrop);
         String hash = "candyAmount" + hashBitmap(candyAmount);
         String pokemonCandyStr = ocrCache.get(hash);
 
@@ -688,8 +673,6 @@ public class OcrHelper {
         return Optional.absent();
     }
 
-    private int s8Screenheight = 2960;
-
     /**
      * scanPokemon
      * Performs OCR on an image of a pokemon and returns the pulled info.
@@ -699,42 +682,15 @@ public class OcrHelper {
      * @return an object
      */
     public ScanResult scanPokemon(Bitmap pokemonImage, int trainerLevel) {
-        boolean s8patch = false;
-        double screenRatio = (double) pokemonImage.getHeight() / (double) pokemonImage.getWidth();
-        if (screenRatio > 1.9 && screenRatio < 2.06) {
-            s8patch = true;
-        }
-
         double estimatedPokemonLevel = getPokemonLevelFromImg(pokemonImage, trainerLevel);
-        String pokemonName;
-        String pokemonType;
-        String candyName;
-        Optional<Integer> pokemonHP;
-        Optional<Integer> pokemonCP;
-        Optional<Integer> pokemonCandyAmount;
-        Optional<Integer> pokemonUpgradeCost;
-        String pokemonUniqueIdentifier;
-        if (s8patch) {
-            s8Screenheight = (int) (pokemonImage.getWidth() * 2.055555);
-            pokemonName = getS8PokemonNameFromImg(pokemonImage);
-            pokemonType = getS8PokemonTypeFromImg(pokemonImage);
-            candyName = getS8CandyNameFromImg(pokemonImage);
-            pokemonHP = getS8PokemonHPFromImg(pokemonImage);
-            pokemonCP = getS8PokemonCPFromImg(pokemonImage);
-            pokemonCandyAmount = getS8CandyAmountFromImg(pokemonImage);
-            pokemonUpgradeCost = getS8PokemonEvolutionCostFromImg(pokemonImage);
-            pokemonUniqueIdentifier = getS8PokemonIdentifierFromImg(pokemonImage);
-        } else { //normal execution
-            pokemonName = getPokemonNameFromImg(pokemonImage);
-            pokemonType = getPokemonTypeFromImg(pokemonImage);
-            candyName = getCandyNameFromImg(pokemonImage);
-            pokemonHP = getPokemonHPFromImg(pokemonImage);
-            pokemonCP = getPokemonCPFromImg(pokemonImage);
-            pokemonCandyAmount = getCandyAmountFromImg(pokemonImage);
-            pokemonUpgradeCost = getPokemonEvolutionCostFromImg(pokemonImage);
-            pokemonUniqueIdentifier = getPokemonIdentifierFromImg(pokemonImage);
-        }
-
+        String pokemonName = getPokemonNameFromImg(pokemonImage);
+        String pokemonType = getPokemonTypeFromImg(pokemonImage);
+        String candyName = getCandyNameFromImg(pokemonImage);
+        Optional<Integer> pokemonHP = getPokemonHPFromImg(pokemonImage);
+        Optional<Integer> pokemonCP = getPokemonCPFromImg(pokemonImage);
+        Optional<Integer> pokemonCandyAmount = getCandyAmountFromImg(pokemonImage);
+        Optional<Integer> pokemonUpgradeCost = getPokemonEvolutionCostFromImg(pokemonImage);
+        String pokemonUniqueIdentifier = getPokemonIdentifierFromImg(pokemonImage);
 
         return new ScanResult(estimatedPokemonLevel, pokemonName, pokemonType, candyName, pokemonHP,
                 pokemonCP, pokemonCandyAmount, pokemonUpgradeCost, pokemonUniqueIdentifier);
@@ -753,7 +709,7 @@ public class OcrHelper {
             return "";
         }
 
-        Bitmap bottom = getImageCrop(screen, 0.05, 0.89, 0.90, 0.07);
+        Bitmap bottom = getImageCrop(screen, ScreenGeometryHelper.INSTANCE.monAppraisalCrop);
         String hash = "appraisal" + hashBitmap(bottom);
         String appraisalText = appraisalCache.get(hash);
 
@@ -781,255 +737,6 @@ public class OcrHelper {
     public void removeEntryFromApprisalCache(String hash) {
         appraisalCache.remove(hash);
         settings.saveAppraisalCache(appraisalCache.snapshot());
-    }
-
-
-    ////////////////////////////////
-    //Dirty S8 patch logic below, would be better to generalize how pokemon screen scales!
-    //////////////////////////////////////////////
-
-    /**
-     * Get the pokemon name as analysed from a pokemon image.
-     *
-     * @param pokemonImage the image of the whole screen
-     * @return A string resulting from the scan
-     */
-    private String getS8PokemonNameFromImg(Bitmap pokemonImage) {
-        Bitmap name = getImageCropS8(pokemonImage, 0.1, 0.38, 0.85, 0.055);
-        String hash = "name" + hashBitmap(name);
-        String pokemonName = ocrCache.get(hash);
-
-        if (pokemonName == null) {
-            name = replaceColors(name, true, 68, 105, 108, Color.WHITE, 200, true);
-            tesseract.setImage(name);
-            pokemonName = fixOcrNumsToLetters(tesseract.getUTF8Text().replace(" ", ""));
-            if (pokemonName.toLowerCase().contains("nidora")) {
-                pokemonName = getNidoranGenderName(pokemonImage);
-            }
-            name.recycle();
-            ocrCache.put(hash, pokemonName);
-        }
-        return pokemonName;
-    }
-
-    /**
-     * Get the pokemon type(s) as analysed from a pokemon image.
-     *
-     * @param pokemonImage the image of the whole screen
-     * @return A string resulting from the scan
-     */
-    private String getS8PokemonTypeFromImg(Bitmap pokemonImage) {
-        Bitmap type = getImageCropS8(pokemonImage, 0.365278, 0.53, 0.308333, 0.03);
-        String hash = "type" + hashBitmap(type);
-        String pokemonType = ocrCache.get(hash);
-
-        if (pokemonType == null) {
-            type = replaceColors(type, true, 68, 105, 108, Color.WHITE, 200, true);
-            tesseract.setImage(type);
-            pokemonType = tesseract.getUTF8Text();
-            type.recycle();
-            ocrCache.put(hash, pokemonType);
-        }
-        return pokemonType;
-    }
-
-    /**
-     * Gets the candy name from a pokenon image.
-     *
-     * @param pokemonImage the image of the whole screen
-     * @return the candy name, or "" if nothing was found
-     */
-    private String getS8CandyNameFromImg(Bitmap pokemonImage) {
-        Bitmap candy = getImageCropS8(pokemonImage, 0.5, 0.62, 0.47, 0.036);
-        String hash = "candy" + hashBitmap(candy);
-        String candyName = ocrCache.get(hash);
-
-        if (candyName == null) {
-            candy = replaceColors(candy, true, 68, 105, 108, Color.WHITE, 200, true);
-            tesseract.setImage(candy);
-            candyName = fixOcrNumsToLetters(
-                    removeFirstOrLastWord(tesseract.getUTF8Text().trim().replace("-", " "), candyWordFirst));
-            candy.recycle();
-            if (candyName.toLowerCase().contains("nidora")) {
-                candyName = getNidoranGenderName(pokemonImage);
-            }
-            ocrCache.put(hash, candyName);
-        }
-        return candyName;
-    }
-
-    /**
-     * Get the pokemon hp from a picture.
-     *
-     * @param pokemonImage the image of the whole screen
-     * @return an integer of the interpreted pokemon name, 10 if scan failed
-     */
-    private Optional<Integer> getS8PokemonHPFromImg(Bitmap pokemonImage) {
-        Bitmap hp = getImageCropS8(pokemonImage, 0.357, 0.45, 0.285, 0.025);
-        String hash = "hp" + hashBitmap(hp);
-        String pokemonHPStr = ocrCache.get(hash);
-
-        if (pokemonHPStr == null) {
-            hp = replaceColors(hp, true, 55, 66, 61, Color.WHITE, 200, true);
-            tesseract.setImage(hp);
-            pokemonHPStr = tesseract.getUTF8Text();
-            ocrCache.put(hash, pokemonHPStr);
-        }
-        hp.recycle();
-
-        if (pokemonHPStr.contains("/")) {
-            try {
-                //If "/" comes at the end we'll get an array with only one component.
-                String[] hpParts = pokemonHPStr.split("/");
-                String hpStr;
-                if (hpParts.length >= 2) {  //example read "30 / 55 hp"
-                    //Cant read part 0 because that changes if poke has low hp
-                    hpStr = hpParts[1];
-                    hpStr = hpStr.substring(0, hpStr.length() - 2); //Removes the two last chars, like "hp" or "ps"
-                } else if (hpParts.length == 1) { //Failed to read "/", example "30 7 55 hp"
-                    hpStr = hpParts[0];
-                    hpStr = hpStr.substring(0, hpStr.length() - 2); //Removes the two last chars, like "hp" or "ps"
-                } else {
-                    return Optional.absent();
-                }
-
-                return Optional.of(Integer.parseInt(fixOcrLettersToNums(hpStr)));
-            } catch (NumberFormatException e) {
-                //Fall-through to default.
-            }
-        }
-
-        return Optional.absent();
-    }
-
-    /**
-     * Get the CP of a pokemon image.
-     *
-     * @param pokemonImage the image of the whole pokemon screen
-     * @return a CP of the pokemon, 10 if scan failed
-     */
-    private Optional<Integer> getS8PokemonCPFromImg(Bitmap pokemonImage) {
-        Bitmap cp = getImageCropS8(pokemonImage, 0.25, 0.05, 0.5, 0.046);
-        cp = replaceColors(cp, true, 255, 255, 255, Color.BLACK, 30, false);
-        tesseract.setImage(cp);
-        String cpText = tesseract.getUTF8Text();
-
-        /*
-         * Always remove the two first characters instead of non-numbers: the "CP" text is
-         * sometimes OCR'ed to something containing numbers (e.g. cp, cP, Cp, c3, s3, 73, 53 etc),
-         * depending on backgrounds/screen sizes, but it's always OCRed as two characters.
-         * This also appears true for translations.
-         */
-        if (cpText.length() >= 2) { //gastly can block the "cp" text, so its not visible...
-            cpText = cpText.substring(2); //remove "cp".
-        }
-
-        try {
-            return Optional.of(Integer.parseInt(fixOcrLettersToNums(cpText)));
-        } catch (NumberFormatException e) {
-            return Optional.absent();
-        }
-    }
-
-    /**
-     * Gets the candy amount from a pokemon image, it will return absent if PokeSpam is disabled.
-     *
-     * @param pokemonImage the image of the whole screen
-     * @return candyAmount the candy amount, or blank Optional object if nothing was found
-     */
-    private Optional<Integer> getS8CandyAmountFromImg(Bitmap pokemonImage) {
-        if (!isPokeSpamEnabled) {
-            return Optional.absent();
-        }
-
-        Bitmap candyAmount = getImageCropS8(pokemonImage, 0.59, 0.60, 0.20, 0.038);
-        String hash = "candyAmount" + hashBitmap(candyAmount);
-        String pokemonCandyStr = ocrCache.get(hash);
-
-        if (pokemonCandyStr == null) {
-            candyAmount = replaceColors(candyAmount, true, 68, 105, 108, Color.WHITE, 90, true);
-            tesseract.setImage(candyAmount);
-            pokemonCandyStr = tesseract.getUTF8Text();
-            ocrCache.put(hash, pokemonCandyStr);
-        }
-        candyAmount.recycle();
-
-        if (pokemonCandyStr.length() > 0) {
-            try {
-                return Optional.of(Integer.parseInt(fixOcrLettersToNums(pokemonCandyStr)));
-            } catch (NumberFormatException e) {
-                //Fall-through to default.
-            }
-        }
-
-        return Optional.absent();
-    }
-
-    /**
-     * Get the evolution cost for a pokemon, example, weedle: 12.
-     * If there was no detected upgrade cost, returns -1.
-     *
-     * @param pokemonImage The image of the full pokemon screen
-     * @return the evolution cost (or -1 if absent) wrapped in Optional.of(), or Optional.absent() on scan failure
-     */
-    private Optional<Integer> getS8PokemonEvolutionCostFromImg(Bitmap pokemonImage) {
-        Bitmap evolutionCostImage = getImageCropS8(pokemonImage, 0.625, 0.74, 0.2, 0.07);
-        String hash = "candyCost" + hashBitmap(evolutionCostImage);
-
-        //return cache if it exists
-        String stringCacheEvoCandyCost = ocrCache.get(hash);
-        if (stringCacheEvoCandyCost != null) {
-            //XXX in the cache, we encode "no result" as an empty string. That's a hack.
-            if (stringCacheEvoCandyCost.isEmpty()) {
-                return Optional.absent();
-            } else {
-                return Optional.of(Integer.parseInt(stringCacheEvoCandyCost));
-            }
-        }
-        Optional<Integer> result = getPokemonEvolutionCostFromImgUncached(evolutionCostImage);
-        String ocrResult;
-        if (result.isPresent()) {
-            ocrResult = String.valueOf(result.get()); //Store error code instead of scanned value
-        } else {
-            //XXX again, in the cache, we encode "no result" as an empty string.
-            ocrResult = "";
-        }
-        ocrCache.put(hash, ocrResult);
-        return result;
-    }
-
-    /**
-     * Get the unique identifier of a pokemon, aka even if you power up the pokemon, the result stays the same.
-     *
-     * @param pokemonImage the image of the whole pokemon screen
-     * @return a string which should remain the same even if you power up a pokemon
-     */
-    private String getS8PokemonIdentifierFromImg(Bitmap pokemonImage) {
-        Bitmap infoRow = Bitmap.createBitmap(pokemonImage,
-                (int) Math.round(widthPixels * .1f), (int) Math.round(heightPixels / 1.714286f),
-                (int) Math.round(widthPixels * .8f), (int) Math.round(heightPixels / 25.26316f));
-        tesseract.setImage(infoRow);
-        String uniqueText = tesseract.getUTF8Text();
-
-        return uniqueText;
-    }
-
-    /**
-     * Get a cropped version of your image, specific to the S8. This method forcefully includes the
-     * bottom nav-bar of the S8 in the resolution and height calculations, so that the s8 and s8+ can
-     * use the same percentages
-     *
-     * @param img     Which image to crop
-     * @param xStart  % of how far in the top left corner of the crop should be x coordinate
-     * @param yStart  % of how far in the top left corner of the crop should be y coordinate
-     * @param xWidth  how many % of the width should be kept starting from the xstart.
-     * @param yHeight how many % of the height should be kept starting from the ystart.
-     * @return The crop of the image.
-     */
-    public Bitmap getImageCropS8(Bitmap img, double xStart, double yStart, double xWidth, double yHeight) {
-        Bitmap crop = Bitmap.createBitmap(img, (int) (widthPixels * xStart), (int) (s8Screenheight * yStart),
-                (int) (widthPixels * xWidth), (int) (s8Screenheight * yHeight));
-        return crop;
     }
 
 }

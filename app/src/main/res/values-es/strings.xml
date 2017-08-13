@@ -79,15 +79,15 @@
     <string name="back">Atrás</string>
     <string name="accept_screen_capture">Permitir captura de pantalla</string>
     <string name="settings_page_title">Configuración</string>
-    <string name="launch_pokemon_go_setting_title">Iniciar automáticamente juego</string>
+    <string name="launch_pokemon_go_setting_title">Iniciar juego automáticamente</string>
     <string name="launch_pokemon_go_setting_summary">Abre el juego al presionar el botón "Iniciar"</string>
-    <string name="confirmation_dialog_setting_title">Diálogo de confirmación</string>
-    <string name="confirmation_dialog_setting_summary">Permite modificar los datos del Pokémon antes de calcular sus IV</string>
-    <string name="manual_screenshot_mode_setting_title">Usar captura de pantalla para calcular IV</string>
+    <string name="confirmation_dialog_setting_title">Habilitar diálogo de corrección escaneo</string>
+    <string name="confirmation_dialog_setting_summary">Muestra la pantalla que le permite editar manualmente la información escaneada antes de mostrar los resultados</string>
+    <string name="manual_screenshot_mode_setting_title">Modo captura de pantalla</string>
     <string name="manual_screenshot_mode_setting_summary">Ahorra batería obteniendo los datos mediante capturas de pantalla en lugar de hacerlo automáticamente. Esta opción debe estar activa para Android KitKat y versiones de Android más antiguas. ¡Advertencia! En este modo el botón GoIV no aparece automáticamente</string>
     <string name="delete_screenshots_setting_title">Eliminar capturas de pantalla</string>
     <string name="delete_screenshots_setting_summary">Elimina automáticamente las capturas de pantalla tomadas por GoIV</string>
-    <string name="copy_to_clipboard_setting_title">Portapapeles</string>
+    <string name="copy_to_clipboard_setting_title">Copia inteligente al portapapeles</string>
     <string name="copy_to_clipboard_setting_summary_new" formatted="false">Añade automáticamente la información escaneada al portapapeles</string>
 	<string name="send_crash_reports_setting_title">Enviar informes de errores</string>
 	<string name="send_crash_reports_setting_summary">Ayuda a los desarrolladores a mejorar la aplicación enviándoles información  de errores anónima</string>
@@ -99,8 +99,8 @@
     <string name="see_all">Ver todas</string>
     <string name="advanced_information">Evolución e info de más poder</string>
     <string name="powerup_calc_instructions">Cálculo de mejoras y evolución\nDeslizar el slider para visualizar diferentes predicciones</string>
-    <string name="candy_cost">Coste en Caramelos</string>
-    <string name="stardust_cost">Coste en Polvoestalar</string>
+    <string name="candy_cost">Coste en caramelos</string>
+    <string name="stardust_cost">Coste en polvoestelares</string>
     <string name="evolution">Evolución</string>
     <string name="level">Nivel</string>
     <string name="level_num">Nivel %1$.1f</string>
@@ -147,10 +147,10 @@
     <string name="clipboard_activity_title">Configuración del portapapeles de GoIV</string>
     <string name="expanded_appraisal_default_setting_title">Abrir por defecto refinación expandida</string>
     <string name="expanded_appraisal_default_setting_summary">Expande automáticamente el menú de refinación</string>
-    <string name="showtranslatedpokemonname_setting_title">Mostrar nombre traducido de Pokémon</string>
+    <string name="showtranslatedpokemonname_setting_title">Mostrar nombres traducidos</string>
 	<string name="showtranslatedpokemonname_setting_summary">Muestra el nombre del Pokémon traducido en GoIV pero usa su nombre en inglés para el OCR. Esto se hace así cuando la aplicación de Pokémon Go está en inglés, pero el idioma nativo del usuario no lo es</string>
     <string name="pause_goiv_notification">Pausar</string>
-    <string name="waiting_for_pogo_start">Esperando a que Pokémon Go se inicie…</string>
+    <string name="waiting_for_pogo_start">Esperando a que el juego se inicie…</string>
     <string name="goiv_started">GoIV iniciado.</string>
     <string name="clipboard_copy_toast">Copiado %s al portapapeles</string>
     <string name="no_clipboard_preview">Vista previa no disponible</string>
@@ -164,7 +164,7 @@
     <string name="copy_to_clip_show_toast_setting">Mostrar ventana emergente de la vista previa del portapapeles</string>
     <string name="autoAppraisalScanDelay_title">Retardar valoración automática</string>
     <string name="autoAppraisalScanDelay_summary">Tiempo de espera en el texto de valoración para finalizar. Los teléfonos de gama media pueden necesitar un retraso de 800 ms</string>
-    <string name="settings_title_behaviour">Preferencias comportamiento de aplicación</string>
+    <string name="settings_title_behaviour">Preferencias comportamiento de la aplicación</string>
     <string name="settings_title_optional">Características opcionales de GoIV</string>
     <string name="settings_title_mode">Modo GoIV</string>
     <string name="settings_title_uninteresting">Otras opciones</string>

@@ -1,10 +1,14 @@
 package com.kamron.pogoiv.pokeflycomponents.ocrhelper;
 
 import android.app.ProgressDialog;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Point;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.util.LruCache;
 
 import com.google.common.base.Optional;
@@ -13,8 +17,20 @@ import com.kamron.pogoiv.GoIVSettings;
 import com.kamron.pogoiv.scan_logic.Data;
 import com.kamron.pogoiv.scan_logic.ScanResult;
 
+import org.opencv.android.Utils;
+import org.opencv.core.Core;
+import org.opencv.core.CvType;
+import org.opencv.core.Mat;
+import org.opencv.core.MatOfPoint;
+import org.opencv.core.Rect;
+import org.opencv.core.Scalar;
+import org.opencv.core.Size;
+import org.opencv.imgproc.Imgproc;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -23,14 +39,12 @@ import timber.log.Timber;
 import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.arcInit;
 import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.arcRadiusPoint;
 import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.candyName_area;
-import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.greenPokemonMenuPixel;
 import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.pokemonCP_area;
 import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.pokemonCandyAmount_area;
 import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.pokemonEvolutionCost_area;
 import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.pokemonHP_area;
 import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.pokemonName_area;
 import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.pokemonType_area;
-import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.whitePixelPokemonScreen;
 
 
 /**
@@ -796,6 +810,70 @@ public class OcrHelper {
      * @param bmp the bmp to analyze to get the settings
      */
     public void recalibrateScanAreas(Bitmap bmp, ProgressDialog dialog) {
+        float screenDensity = Resources.getSystem().getDisplayMetrics().density;
+
+        // Graphical debug parameters
+        Paint boundRectPaint = new Paint();
+        boundRectPaint.setStyle(Paint.Style.STROKE);
+        boundRectPaint.setStrokeWidth(screenDensity);
+        boundRectPaint.setColor(Color.RED);
+        Canvas canvas = new Canvas(bmp);
+
+        // Computer vision parameters
+        int blurRadius = (int) (11 * screenDensity);
+        if (blurRadius % 2 == 0) {
+            blurRadius++;
+        }
+        int adaptThreshBlockSize = (int) (11 * screenDensity);
+        double minArea = 25 * screenDensity;
+        double maxArea = 172800 * screenDensity; // 1/4 of 16:9 mdpi screen
+
+
+        // Prepare image
+        Mat image = new Mat(bmp.getWidth(), bmp.getHeight(), CvType.CV_8UC1);
+        Utils.bitmapToMat(bmp, image);
+        Mat imageHSV = new Mat(image.size(), CvType.CV_8UC4);
+        Mat imageBlur = new Mat(image.size(), CvType.CV_8UC4);
+        Mat imageA = new Mat(image.size(), CvType.CV_32F);
+        Imgproc.cvtColor(image, imageHSV, Imgproc.COLOR_BGR2GRAY);
+        Imgproc.GaussianBlur(imageHSV, imageBlur, new Size(blurRadius, blurRadius), 0);
+        Imgproc.adaptiveThreshold(imageBlur, imageA, 255, Imgproc.ADAPTIVE_THRESH_MEAN_C, Imgproc.THRESH_BINARY,
+                adaptThreshBlockSize, 5);
+
+        // Find contours
+        List<MatOfPoint> contours = new ArrayList<>();
+        Imgproc.findContours(imageA, contours, new Mat(), Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_SIMPLE);
+
+        // Draw contours bounding rect. OpenCV use BGR Scalar, not RGB
+        Mat mask = new Mat(image.rows(), image.cols(), CvType.CV_8U);
+        Scalar grey = new Scalar(0xe1, 0xe1, 0xe1, 0xff);
+        Scalar fontDarkGreen = new Scalar(0x6c, 0x69, 0x44, 0xff);
+        for (MatOfPoint contour : contours) {
+            double contourArea = Imgproc.contourArea(contour);
+            if (contourArea > minArea && contourArea < maxArea) {
+                Rect rect = Imgproc.boundingRect(contour);
+                if (rect != null) {
+                    mask.setTo(new Scalar(0));
+                    Imgproc.drawContours(mask, contours, contours.indexOf(contour), new Scalar(255), 1);
+                    Scalar meanColor = Core.mean(image, mask);
+                    if (colorDiff(meanColor, grey) < 5) {
+                        boundRectPaint.setColor(Color.RED);
+                    } else if (colorDiff(meanColor, fontDarkGreen) < 5) {
+                        boundRectPaint.setColor(Color.BLUE);
+                    } else {
+                        boundRectPaint.setColor(Color.argb(255,
+                                (int) meanColor.val[0],
+                                (int) meanColor.val[1],
+                                (int) meanColor.val[2]));
+                    }
+                    canvas.drawRect(rect.x, rect.y, rect.x + rect.width, rect.y + rect.height, boundRectPaint);
+                }
+            }
+        }
+
+        Log.d("END", "Finished");
+
+        /*
         ScanFieldAutomaticLocator sfr = new ScanFieldAutomaticLocator();
 
         settings.setManualScanCalibration(true);
@@ -828,7 +906,13 @@ public class OcrHelper {
         dialog.setMessage("Finding white marker pixel");
         settings.saveScreenCalibrationValue(greenPokemonMenuPixel, sfr.findGreenPokemonScreen(bmp));
         dialog.setMessage("Finding green marker pixel");
+        */
     }
 
+    private double colorDiff (Scalar a, Scalar b) {
+        return (Math.abs(a.val[0] - b.val[0]) + Math.abs(a.val[1] - b.val[1]) + Math.abs(a.val[2] - b.val[2])) / 3;
+    }
+
+    static{ System.loadLibrary("opencv_java3"); }
 
 }

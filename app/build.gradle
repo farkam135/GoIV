@@ -117,6 +117,14 @@ android {
             signingConfig signingConfigs.releaseConfig
         }
     }
+
+    splits {
+        abi {
+            enable true
+            reset()
+            include 'armeabi', 'armeabi-v7a', 'arm64-v8a', 'mips', 'mips64', 'x86', 'x86_64'
+        }
+    }
 }
 
 /**
@@ -163,6 +171,7 @@ dependencies {
     onlineCompile 'com.squareup.okhttp3:okhttp:3.4.1'
     onlineCompile 'com.squareup.okio:okio:1.10.0'
     provided 'org.projectlombok:lombok:1.16.10'
+    compile project(':openCVLibrary330')
 }
 
 /**

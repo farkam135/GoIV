@@ -1,8 +1,24 @@
 package com.kamron.pogoiv.pokeflycomponents.ocrhelper;
 
+import android.annotation.SuppressLint;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Point;
+
+import org.opencv.core.Core;
+import org.opencv.core.CvType;
+import org.opencv.core.Mat;
+import org.opencv.core.MatOfPoint;
+import org.opencv.core.Rect;
+import org.opencv.core.Scalar;
+import org.opencv.imgproc.Imgproc;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created by johan on 2017-07-27.
@@ -31,17 +47,15 @@ public class ScanFieldAutomaticLocator {
      * @param color The color the dot should be (use Color.parseColor("#FF0000") for example)
      */
     private void debugWriteDot(Bitmap bmp, Point point, int size, int color) {
-
         for (int y = 0; y < size; y++) {
             for (int x = 0; x < size; x++) {
-
-                if (((point.x - size / 2) + x) < bmp.getWidth() && ((point.y - size / 2) + y) < bmp.getHeight()) {
-                    bmp.setPixel((point.x - size / 2) + x, (point.y - size / 2) + y, color);
+                int cx = (point.x - size / 2) + x;
+                int cy = (point.y - size / 2) + y;
+                if (cx >= 0 && cx < bmp.getWidth() && cy >= 0 && cy < bmp.getHeight()) {
+                    bmp.setPixel(cx, cy, color);
                 }
-
             }
         }
-
     }
 
     private String pointToString(Point p) {
@@ -162,12 +176,15 @@ public class ScanFieldAutomaticLocator {
             }
         }
 
-        debugWriteDot(bmp, finalPoint, 30, Color.parseColor("#0000FF"));
+        if (finalPoint != null) {
+            debugWriteDot(bmp, finalPoint, 30, Color.parseColor("#0000FF"));
 
 
-        int arcRadius = bmp.getWidth() / 2 - finalPoint.x;
-        int middle = bmp.getWidth() / 2;
-        return middle + "," + finalPoint.y + ";" + arcRadius;
+            int arcRadius = bmp.getWidth() / 2 - finalPoint.x;
+            int middle = bmp.getWidth() / 2;
+            return middle + "," + finalPoint.y + ";" + arcRadius;
+        }
+        return "1,1;1";
     }
 
 
@@ -318,7 +335,7 @@ public class ScanFieldAutomaticLocator {
         }
 
 
-        int hpStartXWithPadding = (int) (hpTextStartX - (bmp.getWidth() * 0.05));
+        int hpStartXWithPadding = Math.max(0, (int) (hpTextStartX - (bmp.getWidth() * 0.05)));
 
 
         int hpTextEndY = 0;
@@ -380,7 +397,101 @@ public class ScanFieldAutomaticLocator {
      * @param bmp The image to analyze.
      * @return A string representation of the x,y coordinate in the form of "x,y,x2,y2"
      */
-    String findPokemonNameArea(Bitmap bmp) {
-        return "1,1,1,1";
+    @SuppressLint("DefaultLocale")
+    String findPokemonNameArea(Bitmap bmp, Mat image, List<MatOfPoint> contours, List<Rect> boundingRects) {
+        final float screenDensity = Resources.getSystem().getDisplayMetrics().density;
+        final float charUppercaseHeight = 17 * screenDensity;
+        final float charLowercaseHeight = 12 * screenDensity;
+        final int width33Percent = bmp.getWidth() / 3;
+        final int width66Percent = bmp.getWidth() * 2 / 3;
+
+        Canvas c = new Canvas(bmp);
+        Paint p = new Paint();
+        p.setStyle(Paint.Style.STROKE);
+        p.setStrokeWidth(screenDensity);
+        p.setColor(Color.RED);
+
+        ArrayList<Rect> results = new ArrayList<>();
+        for (int i = 0; i < boundingRects.size(); i++) {
+            // Use height as primary choice
+            Rect boundBox = boundingRects.get(i);
+            if (boundBox.x > width33Percent && boundBox.x + boundBox.width < width66Percent
+                    && (Math.abs(boundBox.height - charUppercaseHeight) < screenDensity
+                    || Math.abs(boundBox.height - charLowercaseHeight) < screenDensity)) {
+                results.add(boundBox);
+                c.drawRect(boundBox.x, boundBox.y, boundBox.x + boundBox.width, boundBox.y + boundBox.height, p);
+            }
+        }
+
+        // Compute the average bottom Y coordinate
+        int sum = 0;
+        for (Rect boundRect : results) {
+            sum += boundRect.y + boundRect.height;
+        }
+        int avgBottom = sum / results.size();
+
+        // Compute the standard deviation
+        double variancesSum = 0;
+        for (Rect boundRect : results) {
+            variancesSum += Math.pow(boundRect.y + boundRect.height - avgBottom, 2);
+        }
+        int stdDeviation = (int) Math.round(Math.sqrt(variancesSum / results.size()));
+
+        // If the item is outside the standard deviation, remove it
+        Iterator<Rect> resultsIterator = results.iterator();
+        while (resultsIterator.hasNext()) {
+            Rect result = resultsIterator.next();
+            if (result.y + result.height < avgBottom - stdDeviation
+                    || result.y + result.height > avgBottom + stdDeviation) {
+                resultsIterator.remove();
+            }
+        }
+
+        // Check if the dominant color match the dark green hue of the text
+        float[] fontDarkGreenHsv = new float[] {183f, 0.32f, 0.46f};
+        Mat mask = new Mat(image.rows(), image.cols(), CvType.CV_8U);
+        Scalar off = new Scalar(0); // Black
+        Scalar on = new Scalar(255); // White
+        float[] meanHsv = new float[3];
+        resultsIterator = results.iterator();
+        while (resultsIterator.hasNext()) {
+            Rect result = resultsIterator.next();
+            MatOfPoint contour = contours.get(boundingRects.indexOf(result));
+
+            mask.setTo(off);
+            Imgproc.drawContours(mask, contours, contours.indexOf(contour), on, -1);
+            Scalar meanColor = Core.mean(image, mask);
+            Color.RGBToHSV((int) meanColor.val[0], (int) meanColor.val[1], (int) meanColor.val[2], meanHsv);
+            if (Math.abs(fontDarkGreenHsv[0] - meanHsv[0]) > 3
+                    || Math.abs(fontDarkGreenHsv[1] - meanHsv[1]) > 0.275
+                    || Math.abs(fontDarkGreenHsv[2] - meanHsv[2]) > 0.325) {
+                resultsIterator.remove();
+            }
+        }
+
+        p.setColor(Color.GREEN);
+
+        // Merge results
+        org.opencv.core.Point[] allEdgesArray = new org.opencv.core.Point[results.size() * 2];
+        for (int i = 0; i < results.size(); i++) {
+            Rect r = results.get(i);
+            allEdgesArray[i * 2] = r.tl();
+            allEdgesArray[i * 2 + 1] = r.br();
+            c.drawRect(r.x, r.y, r.x + r.width, r.y + r.height, p);
+        }
+        MatOfPoint allEdgesMat = new MatOfPoint();
+        allEdgesMat.fromArray(allEdgesArray);
+
+        Rect result = Imgproc.boundingRect(allEdgesMat);
+
+        // Ensure the pokemon name rect is wide at least 33% of the screen width
+        if (result.x > width33Percent) {
+            result.x = width33Percent;
+        }
+        if (result.x + result.width < width66Percent) {
+            result.width = width33Percent;
+        }
+
+        return String.format("%d,%d,%d,%d", result.x, result.y, result.width, result.height);
     }
 }

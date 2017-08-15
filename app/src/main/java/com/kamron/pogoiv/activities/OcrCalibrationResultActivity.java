@@ -1,8 +1,11 @@
 package com.kamron.pogoiv.activities;
 
 import android.app.ProgressDialog;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -122,11 +125,13 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
     }
 
     private void showAreaIndicator(Bitmap bmp, ScanArea scanArea, int color) {
-        for (int y = scanArea.yPoint; y < scanArea.yPoint + scanArea.height; y++) {
-            for (int x = scanArea.xPoint; x < scanArea.xPoint + scanArea.width; x++) {
-                bmp.setPixel(x, y, color);
-            }
-        }
+        Paint p = new Paint();
+        p.setStyle(Paint.Style.STROKE);
+        p.setColor(color);
+        p.setStrokeWidth(Resources.getSystem().getDisplayMetrics().density);
+        Canvas c = new Canvas(bmp);
+        c.drawRect(scanArea.xPoint, scanArea.yPoint,
+                scanArea.xPoint + scanArea.width, scanArea.yPoint + scanArea.height, p);
     }
 
 }

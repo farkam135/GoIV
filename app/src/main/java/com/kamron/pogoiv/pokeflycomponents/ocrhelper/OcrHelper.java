@@ -3,9 +3,7 @@ package com.kamron.pogoiv.pokeflycomponents.ocrhelper;
 import android.app.ProgressDialog;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Point;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -30,6 +28,7 @@ import org.opencv.imgproc.Imgproc;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -39,12 +38,14 @@ import timber.log.Timber;
 import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.arcInit;
 import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.arcRadiusPoint;
 import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.candyName_area;
+import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.greenPokemonMenuPixel;
 import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.pokemonCP_area;
 import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.pokemonCandyAmount_area;
 import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.pokemonEvolutionCost_area;
 import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.pokemonHP_area;
 import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.pokemonName_area;
 import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.pokemonType_area;
+import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.whitePixelPokemonScreen;
 
 
 /**
@@ -812,19 +813,15 @@ public class OcrHelper {
     public void recalibrateScanAreas(Bitmap bmp, ProgressDialog dialog) {
         float screenDensity = Resources.getSystem().getDisplayMetrics().density;
 
-        // Graphical debug parameters
-        Paint boundRectPaint = new Paint();
-        boundRectPaint.setStyle(Paint.Style.STROKE);
-        boundRectPaint.setStrokeWidth(screenDensity);
-        boundRectPaint.setColor(Color.RED);
-        Canvas canvas = new Canvas(bmp);
-
         // Computer vision parameters
-        int blurRadius = (int) (11 * screenDensity);
+        int blurRadius = (int) (3 * screenDensity);
         if (blurRadius % 2 == 0) {
             blurRadius++;
         }
-        int adaptThreshBlockSize = (int) (11 * screenDensity);
+        int adaptThreshBlockSize = (int) (5 * screenDensity);
+        if (adaptThreshBlockSize % 2 == 0) {
+            adaptThreshBlockSize++;
+        }
         double minArea = 25 * screenDensity;
         double maxArea = 172800 * screenDensity; // 1/4 of 16:9 mdpi screen
 
@@ -832,53 +829,101 @@ public class OcrHelper {
         // Prepare image
         Mat image = new Mat(bmp.getWidth(), bmp.getHeight(), CvType.CV_8UC1);
         Utils.bitmapToMat(bmp, image);
-        Mat imageHSV = new Mat(image.size(), CvType.CV_8UC4);
+
+        Mat imageHsv = new Mat(image.size(), CvType.CV_8UC4);
+        Imgproc.cvtColor(image, imageHsv, Imgproc.COLOR_BGR2GRAY);
+
         Mat imageBlur = new Mat(image.size(), CvType.CV_8UC4);
+        Imgproc.GaussianBlur(imageHsv, imageBlur, new Size(blurRadius, blurRadius), 0);
+
         Mat imageA = new Mat(image.size(), CvType.CV_32F);
-        Imgproc.cvtColor(image, imageHSV, Imgproc.COLOR_BGR2GRAY);
-        Imgproc.GaussianBlur(imageHSV, imageBlur, new Size(blurRadius, blurRadius), 0);
-        Imgproc.adaptiveThreshold(imageBlur, imageA, 255, Imgproc.ADAPTIVE_THRESH_MEAN_C, Imgproc.THRESH_BINARY,
-                adaptThreshBlockSize, 5);
+        Imgproc.adaptiveThreshold(imageBlur, imageA, 255, Imgproc.ADAPTIVE_THRESH_GAUSSIAN_C, Imgproc.THRESH_BINARY,
+                adaptThreshBlockSize, 3);
 
         // Find contours
         List<MatOfPoint> contours = new ArrayList<>();
         Imgproc.findContours(imageA, contours, new Mat(), Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_SIMPLE);
 
-        // Draw contours bounding rect. OpenCV use BGR Scalar, not RGB
-        Mat mask = new Mat(image.rows(), image.cols(), CvType.CV_8U);
-        Scalar grey = new Scalar(0xe1, 0xe1, 0xe1, 0xff);
-        Scalar fontDarkGreen = new Scalar(0x6c, 0x69, 0x44, 0xff);
-        for (MatOfPoint contour : contours) {
+        // Remove contours too small or too large
+        Iterator<MatOfPoint> contoursIterator = contours.iterator();
+        while (contoursIterator.hasNext()) {
+            MatOfPoint contour = contoursIterator.next();
             double contourArea = Imgproc.contourArea(contour);
-            if (contourArea > minArea && contourArea < maxArea) {
-                Rect rect = Imgproc.boundingRect(contour);
-                if (rect != null) {
-                    mask.setTo(new Scalar(0));
-                    Imgproc.drawContours(mask, contours, contours.indexOf(contour), new Scalar(255), 1);
-                    Scalar meanColor = Core.mean(image, mask);
-                    if (colorDiff(meanColor, grey) < 5) {
-                        boundRectPaint.setColor(Color.RED);
-                    } else if (colorDiff(meanColor, fontDarkGreen) < 5) {
-                        boundRectPaint.setColor(Color.BLUE);
-                    } else {
-                        boundRectPaint.setColor(Color.argb(255,
-                                (int) meanColor.val[0],
-                                (int) meanColor.val[1],
-                                (int) meanColor.val[2]));
-                    }
-                    canvas.drawRect(rect.x, rect.y, rect.x + rect.width, rect.y + rect.height, boundRectPaint);
-                }
+            if (contourArea < minArea || contourArea > maxArea) {
+                contoursIterator.remove();
             }
         }
 
-        Log.d("END", "Finished");
+        // Find countours bounding boxes
+        ArrayList<Rect> boundingRects = new ArrayList<>(contours.size());
+        for (MatOfPoint contour : contours) {
+            boundingRects.add(Imgproc.boundingRect(contour));
+        }
 
-        /*
+        /*Scalar red = new Scalar(0, 0, 255, 64);
+        for (int i = 0; i < contours.size(); i++) {
+            double contourArea = Imgproc.contourArea(contours.get(i));
+            if (contourArea > minArea && contourArea < maxArea) {
+                Imgproc.drawContours(image, contours, i, red, -1);
+            }
+        }
+        Utils.matToBitmap(image, bmp);*/
+
+
+        // Draw contours bounding rect
+        /*Mat mask = new Mat(image.rows(), image.cols(), CvType.CV_8U);
+        Scalar off = new Scalar(0);
+        Scalar on = new Scalar(255);
+        Scalar orange = new Scalar(0xff, 0x80, 0x0, 0xff);
+        Scalar red = new Scalar(0xff, 0x0, 0x0, 0xff);
+        Scalar green = new Scalar(0x0, 0xff, 0x0, 0xff);
+        Scalar blue = new Scalar(0x0, 0x0, 0xff, 0xff);
+        float[] fontDarkGreenHsv = new float[] {
+                183f,
+                0.32f,
+                0.46f
+        };
+        float[] fontDarkGreenCandiesHsv = new float[3];
+        Color.RGBToHSV(0x78, 0x94, 0x91, fontDarkGreenCandiesHsv);
+        float[] fontRedCandiesHsv = new float[3];
+        Color.RGBToHSV(0xf7, 0x88, 0x89, fontRedCandiesHsv);
+
+        float[] hsv = new float[3];
+        for (MatOfPoint contour : contours) {
+            mask.setTo(off);
+            Imgproc.drawContours(mask, contours, contours.indexOf(contour), on, -1);
+            Scalar meanColor = Core.mean(image, mask);
+            Color.RGBToHSV((int) meanColor.val[0], (int) meanColor.val[1], (int) meanColor.val[2], hsv);
+
+            Imgproc.drawContours(image, contours, contours.indexOf(contour), meanColor, -1);
+            if (Math.abs(fontDarkGreenHsv[0] - hsv[0]) < 3
+                    && Math.abs(fontDarkGreenHsv[1] - hsv[1]) < 0.275
+                    && Math.abs(fontDarkGreenHsv[2] - hsv[2]) < 0.325) {
+                Imgproc.drawContours(image, contours, contours.indexOf(contour), green, 1);
+            } else if (Math.abs(fontDarkGreenCandiesHsv[0] - hsv[0]) < 6
+                    && Math.abs(fontDarkGreenCandiesHsv[1] - hsv[1]) < 0.1
+                    && Math.abs(fontDarkGreenCandiesHsv[2] - hsv[2]) < 0.1) {
+                Imgproc.drawContours(image, contours, contours.indexOf(contour), blue, 1);
+            } else if ((Math.abs(fontRedCandiesHsv[0] - hsv[0]) < 3
+                    || (Math.abs(fontRedCandiesHsv[0] - 360 - hsv[0]) < 3))
+                    && Math.abs(fontRedCandiesHsv[1] - hsv[1]) < 0.1
+                    && Math.abs(fontRedCandiesHsv[2] - hsv[2]) < 0.1) {
+                Imgproc.drawContours(image, contours, contours.indexOf(contour), orange, 1);
+            } else {
+                Imgproc.drawContours(image, contours, contours.indexOf(contour), red, 1);
+            }
+        }
+
+        Utils.matToBitmap(image, bmp);
+
+        Log.d("END", "Finished");*/
+
         ScanFieldAutomaticLocator sfr = new ScanFieldAutomaticLocator();
 
         settings.setManualScanCalibration(true);
 
-        settings.saveScreenCalibrationValue(pokemonName_area, sfr.findPokemonNameArea(bmp));
+        settings.saveScreenCalibrationValue(pokemonName_area, sfr.findPokemonNameArea(bmp, image, contours,
+                boundingRects));
         dialog.setMessage("Finding name area");
         settings.saveScreenCalibrationValue(pokemonType_area, sfr.findPokemonTypeArea(bmp));
         dialog.setMessage("Finding type area");
@@ -906,7 +951,6 @@ public class OcrHelper {
         dialog.setMessage("Finding white marker pixel");
         settings.saveScreenCalibrationValue(greenPokemonMenuPixel, sfr.findGreenPokemonScreen(bmp));
         dialog.setMessage("Finding green marker pixel");
-        */
     }
 
     private double colorDiff (Scalar a, Scalar b) {

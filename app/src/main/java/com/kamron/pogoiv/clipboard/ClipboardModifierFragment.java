@@ -144,8 +144,13 @@ public class ClipboardModifierFragment
     }
 
     @Override public void onTokenDeleted(int adapterPosition) {
-        getClipboardTokenHandler().removeToken(adapterPosition, singleResultMode);
-        updateFields();
+        if (tokenPreviewAdapter.getItemCount() <= 1) {
+            Toast.makeText(getContext(), "You can't delete the last token of this configuration!", Toast.LENGTH_LONG)
+                    .show();
+        } else {
+            getClipboardTokenHandler().removeToken(adapterPosition, singleResultMode);
+            updateFields();
+        }
     }
 
     private @NonNull ClipboardTokenHandler getClipboardTokenHandler() {

@@ -89,7 +89,7 @@ public class ClipboardTokenHandler {
             representation = tokenRepresentationArray[i];
 
             //Check for a custom user added seperator
-            String seperatorClassName = new SeparatorToken("").getClass().getSimpleName();
+            String seperatorClassName = SeparatorToken.class.getSimpleName();
             if (representation.contains(seperatorClassName)) {
                 saveTo.add(new SeparatorToken(representation.substring(seperatorClassName.length())));
                 continue;

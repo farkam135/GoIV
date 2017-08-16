@@ -133,9 +133,23 @@ public class GoIVSettings {
     }
 
     public String getClipboardSinglePreference() {
-        //Default is the same as non-single preference.
-        String s = getClipboardPreference();
-        return prefs.getString(GOIV_CLIPBOARDSINGLESETTINGS, s);
+        String prefValue = prefs.getString(GOIV_CLIPBOARDSINGLESETTINGS, "");
+        if (!Strings.isNullOrEmpty(prefValue)) {
+            return prefValue;
+        }
+
+        //Below code gets the string representation of the "default" single clipboard setting
+        ArrayList<ClipboardToken> defaultTokens = new ArrayList<>();
+        // Name (5 char) + AVG + Unicode not filled (MAX IV)
+        defaultTokens.add(new PokemonNameToken(false, 5));
+        defaultTokens.add(new IVPercentageToken(IVPercentageTokenMode.AVG));
+        defaultTokens.add(new UnicodeToken(false));
+
+        for (ClipboardToken token : defaultTokens) {
+            prefValue += token.getStringRepresentation();
+        }
+
+        return prefValue;
     }
 
 

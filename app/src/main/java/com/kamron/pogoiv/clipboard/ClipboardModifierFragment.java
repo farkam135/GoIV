@@ -104,12 +104,16 @@ public class ClipboardModifierFragment
         tokenShowcaseRecyclerView.setLayoutManager(new TokenGridLayoutManager(getContext(), tokenShowcaseAdapter));
         tokenShowcaseRecyclerView.setAdapter(tokenShowcaseAdapter);
 
+        // Set the drawable here since app:srcCompat attribute in XML isn't working and android:src crashes on API 19
+        btnAdd.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_add_white_24px));
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
                 addToken();
             }
         });
 
+        // Set the drawable here since app:srcCompat attribute in XML isn't working and android:src crashes on API 19
+        btnMaxEvolution.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_star_white_18dp));
         btnMaxEvolution.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
                 maxEvolutionVariant = !maxEvolutionVariant;

@@ -1,6 +1,7 @@
 package com.kamron.pogoiv;
 
 import android.app.Application;
+import android.support.v7.app.AppCompatDelegate;
 
 import timber.log.Timber;
 
@@ -17,6 +18,8 @@ public class PoGoApplication extends Application {
 
             Timber.plant(new CrashlyticsWrapper.CrashReportingTree(this));
         }
+
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
         // Fonts overriding application wide
         FontsOverride.setDefaultFont(this, "DEFAULT", "fonts/Lato-Medium.ttf");

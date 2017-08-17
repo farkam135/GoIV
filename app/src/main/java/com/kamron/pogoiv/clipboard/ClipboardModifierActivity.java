@@ -71,7 +71,7 @@ public class ClipboardModifierActivity extends AppCompatActivity {
                 finish();
                 return true;
             case R.id.save:
-                finish();
+                save();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -87,9 +87,14 @@ public class ClipboardModifierActivity extends AppCompatActivity {
         return cth;
     }
 
+    private void save() {
+        // Mock implementation: at the moment, each token modification is persisted immediately, no need to save
+        Toast.makeText(this, "Configuration saved!", Toast.LENGTH_SHORT).show();
+    }
+
     @Override public void finish() {
         super.finish();
-        Toast.makeText(this, "Configuration saved!", Toast.LENGTH_SHORT).show();
+        save();
     }
 
     /**

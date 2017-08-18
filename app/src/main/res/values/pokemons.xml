@@ -255,4 +255,24 @@
         <item>Ho-oh</item>
         <item>Celebi</item>
     </string-array>
+    <string-array name="type">
+        <item>NORMAL</item>
+        <item>FIRE</item>
+        <item>WATER</item>
+        <item>ELECTRIC</item>
+        <item>GRASS</item>
+        <item>ICE</item>
+        <item>FIGHTING</item>
+        <item>POISON</item>
+        <item>GROUND</item>
+        <item>FLYING</item>
+        <item>PSYCHIC</item>
+        <item>BUG</item>
+        <item>ROCK</item>
+        <item>GHOST</item>
+        <item>DRAGON</item>
+        <item>DARK</item>
+        <item>STEEL</item>
+        <item>FAIRY</item>
+    </string-array>
 </resources>

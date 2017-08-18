@@ -45,15 +45,17 @@
 
         </LinearLayout>
 
+        <!-- height must be @dimen/token_height + 6dp*2 vertical padding  -->
         <android.support.v7.widget.RecyclerView
             android:id="@+id/tokenPreviewRecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="58dp"
             android:paddingStart="16dp"
-            android:paddingTop="4dp"
+            android:paddingTop="6dp"
             android:paddingEnd="16dp"
-            android:paddingBottom="4dp"
+            android:paddingBottom="6dp"
             android:clipToPadding="false"
+            android:clipChildren="false"
             android:scrollbars="horizontal"
             android:fadeScrollbars="false"
             android:scrollbarStyle="outsideOverlay" />
@@ -92,7 +94,7 @@
         android:id="@+id/btnAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_margin="@dimen/fab_margin"
         tools:src="@drawable/ic_add_white_24px"
         app:fabSize="mini"
         android:layout_gravity="bottom|end" />
@@ -101,10 +103,10 @@
         android:id="@+id/btnMaxEvolution"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="@dimen/fab_margin"
+        android:layout_marginTop="@dimen/fab_margin"
         android:layout_marginEnd="64dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="@dimen/fab_margin"
         tools:src="@drawable/ic_star_white_18dp"
         app:fabSize="mini"
         android:layout_gravity="bottom|end"/>

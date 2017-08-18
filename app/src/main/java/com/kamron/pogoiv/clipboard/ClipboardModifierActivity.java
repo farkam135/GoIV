@@ -1,5 +1,6 @@
 package com.kamron.pogoiv.clipboard;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -8,6 +9,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,16 +32,12 @@ public class ClipboardModifierActivity extends AppCompatActivity {
     @BindView(R.id.clipboardDescription)
     TextView clipboardDescription;
 
-    private ClipboardTokenHandler cth;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_clipboard_modifier);
         ButterKnife.bind(this);
-
-        cth = new ClipboardTokenHandler(this);
 
         boolean singleModeEnabled = isSingleModeEnabled();
         ModePagerAdapter pagerAdapter = new ModePagerAdapter(getSupportFragmentManager(), singleModeEnabled);
@@ -68,33 +66,52 @@ public class ClipboardModifierActivity extends AppCompatActivity {
     @Override public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                finish();
+                onBackPressed();
                 return true;
             case R.id.save:
-                save();
+                for (Fragment f : getSupportFragmentManager().getFragments()) {
+                    if (f instanceof ClipboardModifierFragment) {
+                        ((ClipboardModifierFragment) f).saveConfiguration();
+                    }
+                }
+                Toast.makeText(this, "Configuration saved!", Toast.LENGTH_LONG).show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
+    @Override public void onBackPressed() {
+        // Check for unsaved changes
+        boolean unsavedChanges = false;
+        for (Fragment f : getSupportFragmentManager().getFragments()) {
+            if (f instanceof ClipboardModifierFragment) {
+                unsavedChanges |= ((ClipboardModifierFragment) f).hasUnsavedChanges();
+            }
+        }
+        if (unsavedChanges) {
+            new AlertDialog.Builder(this)
+                    .setTitle(android.R.string.dialog_alert_title)
+                    .setMessage("There are unsaved changes.\nDo you really want to discard them?")
+                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                        @Override public void onClick(DialogInterface dialogInterface, int i) {
+                            ClipboardModifierActivity.super.onBackPressed();
+                        }
+                    })
+                    .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                        @Override public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.cancel();
+                        }
+                    })
+                    .show();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
     private boolean isSingleModeEnabled() {
         GoIVSettings settings = GoIVSettings.getInstance(this);
         return settings.shouldCopyToClipboardSingle();
-    }
-
-    public ClipboardTokenHandler getClipboardTokenHandler() {
-        return cth;
-    }
-
-    private void save() {
-        // Mock implementation: at the moment, each token modification is persisted immediately, no need to save
-        Toast.makeText(this, "Configuration saved!", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override public void finish() {
-        super.finish();
-        save();
     }
 
     /**
@@ -142,7 +159,7 @@ public class ClipboardModifierActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "Multiple result";
+                    return "Multiple results";
                 case 1:
                     return "Single result";
                 default:

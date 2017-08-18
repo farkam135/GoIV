@@ -154,21 +154,6 @@ public class ClipboardTokenHandler {
     }
 
     /**
-     * Get the maximum possible length of the string produced by the current token settings.
-     *
-     * @param single true to modify/work with the settings for single IV results, false for general setting.
-     * @return An integer which represents the maximum possible size of the token inputs.
-     */
-    public int getMaxLength(boolean single) {
-        int sum = 0;
-
-        for (ClipboardToken token : getCorrectTokenList(single)) {
-            sum += token.getMaxLength();
-        }
-        return sum;
-    }
-
-    /**
      * Clear the current remembered tokens and persist the new list
      *
      * @param tokenList Which token types to persist.
@@ -219,14 +204,40 @@ public class ClipboardTokenHandler {
 
     /**
      * Saves the token changes to persistent memory. Saves both single and multi tokens.
+     *
+     * @param single true to persist the settings for single IV results, false for general setting.
      */
     private void saveTokenChanges(boolean single) {
         if (single) {
-            GoIVSettings.getInstance(context).setClipboardSinglePreference(tokensSingle);
+            GoIVSettings.getInstance(context).setClipboardSinglePreference(tokenListToRepresentation(tokensSingle));
         } else {
-            GoIVSettings.getInstance(context).setClipboardPreference(tokens);
+            GoIVSettings.getInstance(context).setClipboardPreference(tokenListToRepresentation(tokens));
         }
     }
 
+    /**
+     * Utility method to check if a token list equals the saved one.
+     *
+     * @param tokenList List to check.
+     * @param single true to compare with the settings for single IV results, false for general setting.
+     * @return true if the configuration equals.
+     */
+    public boolean savedConfigurationEquals(List<ClipboardToken> tokenList, boolean single) {
+        String storedSettings;
+        if (single) {
+            storedSettings = GoIVSettings.getInstance(context).getClipboardSinglePreference();
+        } else {
+            storedSettings = GoIVSettings.getInstance(context).getClipboardPreference();
+        }
+        return storedSettings.equals(tokenListToRepresentation(tokenList));
+    }
+
+    public static String tokenListToRepresentation(List<ClipboardToken> tokenList) {
+        StringBuilder representation = new StringBuilder();
+        for (ClipboardToken token : tokenList) {
+            representation.append(token.getStringRepresentation());
+        }
+        return representation.toString();
+    }
 
 }

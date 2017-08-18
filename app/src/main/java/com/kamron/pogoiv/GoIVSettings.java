@@ -6,6 +6,7 @@ import android.os.Build;
 
 import com.google.common.base.Strings;
 import com.kamron.pogoiv.clipboard.ClipboardToken;
+import com.kamron.pogoiv.clipboard.ClipboardTokenHandler;
 import com.kamron.pogoiv.clipboard.tokens.IVPercentageToken;
 import com.kamron.pogoiv.clipboard.tokens.IVPercentageTokenMode;
 import com.kamron.pogoiv.clipboard.tokens.PokemonNameToken;
@@ -104,31 +105,20 @@ public class GoIVSettings {
         defaultTokens.add(new IVPercentageToken(IVPercentageTokenMode.MAX));
         defaultTokens.add(new UnicodeToken(false));
 
-        for (ClipboardToken token : defaultTokens) {
-            prefValue += token.getStringRepresentation();
-        }
-
-        return prefValue;
+        return ClipboardTokenHandler.tokenListToRepresentation(defaultTokens);
     }
 
-    public void setClipboardPreference(ArrayList<ClipboardToken> tokens) {
+    public void setClipboardPreference(String tokenListRepresentation) {
         SharedPreferences.Editor editor = prefs.edit();
-        String saveString = "";
-        for (ClipboardToken token : tokens) {
-            saveString += token.getStringRepresentation();
-        }
-        editor.putString(GoIVSettings.GOIV_CLIPBOARDSETTINGS, saveString);
+        editor.putString(GoIVSettings.GOIV_CLIPBOARDSETTINGS, tokenListRepresentation);
         editor.apply();
     }
 
-    public void setClipboardSinglePreference(ArrayList<ClipboardToken> tokens) {
+    public void setClipboardSinglePreference(String tokenListRepresentation) {
         //Clipboard single is the add-on setting if you want different clipboards for 1 or many results
         SharedPreferences.Editor editor = prefs.edit();
-        String saveString = "";
-        for (ClipboardToken token : tokens) {
-            saveString += token.getStringRepresentation();
-        }
-        editor.putString(GoIVSettings.GOIV_CLIPBOARDSINGLESETTINGS, saveString);
+
+        editor.putString(GoIVSettings.GOIV_CLIPBOARDSINGLESETTINGS, tokenListRepresentation);
         editor.apply();
     }
 
@@ -145,11 +135,7 @@ public class GoIVSettings {
         defaultTokens.add(new IVPercentageToken(IVPercentageTokenMode.AVG));
         defaultTokens.add(new UnicodeToken(false));
 
-        for (ClipboardToken token : defaultTokens) {
-            prefValue += token.getStringRepresentation();
-        }
-
-        return prefValue;
+        return ClipboardTokenHandler.tokenListToRepresentation(defaultTokens);
     }
 
 

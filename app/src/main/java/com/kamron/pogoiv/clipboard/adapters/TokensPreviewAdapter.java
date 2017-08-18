@@ -1,27 +1,32 @@
 package com.kamron.pogoiv.clipboard.adapters;
 
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.ViewGroup;
 
 import com.kamron.pogoiv.clipboard.ClipboardToken;
 import com.kamron.pogoiv.clipboard.adapters.viewholders.TokenViewHolder;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
-public class TokensPreviewAdapter extends RecyclerView.Adapter<TokenViewHolder> {
+public class TokensPreviewAdapter
+        extends RecyclerView.Adapter<TokenViewHolder>
+        implements ClipboardToken.OnTokenDeleteListener {
 
     private ArrayList<ClipboardToken> tokenList;
-    private ClipboardToken.OnTokenDeleteListener onTokenDeleteListener;
 
 
-    public TokensPreviewAdapter(List<ClipboardToken> tokenList,
-                                ClipboardToken.OnTokenDeleteListener onTokenDeleteListener) {
+    public TokensPreviewAdapter() {
         this.tokenList = new ArrayList<>();
-        this.onTokenDeleteListener = onTokenDeleteListener;
         setHasStableIds(false);
         setData(tokenList);
+    }
+
+    public ArrayList<ClipboardToken> getData() {
+        return new ArrayList<>(tokenList);
     }
 
     public void setData(List<ClipboardToken> tokenList) {
@@ -30,8 +35,32 @@ public class TokensPreviewAdapter extends RecyclerView.Adapter<TokenViewHolder> 
         notifyDataSetChanged();
     }
 
+    public void addItem(ClipboardToken token) {
+        tokenList.add(token);
+        notifyItemInserted(tokenList.indexOf(token));
+    }
+
+    private void deleteItem(int position) {
+        tokenList.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    private void moveItem(int fromPosition, int toPosition) {
+        if (fromPosition < toPosition) {
+            for (int i = fromPosition; i < toPosition; i++) {
+                Collections.swap(tokenList, i, i + 1);
+            }
+        } else {
+            for (int i = fromPosition; i > toPosition; i--) {
+                Collections.swap(tokenList, i, i - 1);
+            }
+        }
+
+        notifyItemMoved(fromPosition, toPosition);
+    }
+
     @Override public TokenViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new TokenViewHolder(parent, null, onTokenDeleteListener, false, true);
+        return new TokenViewHolder(parent, null, this, false, true);
     }
 
     @Override public void onBindViewHolder(TokenViewHolder holder, int position) {
@@ -40,6 +69,50 @@ public class TokensPreviewAdapter extends RecyclerView.Adapter<TokenViewHolder> 
 
     @Override public int getItemCount() {
         return tokenList.size();
+    }
+
+    @Override public void onTokenDeleted(int adapterPosition) {
+        deleteItem(adapterPosition);
+    }
+
+    /**
+     * Get the maximum possible length of the string produced by the current token settings.
+     *
+     * @return An integer which represents the maximum possible size of the token inputs.
+     */
+    public int getMaxLength() {
+        int sum = 0;
+        for (ClipboardToken token : tokenList) {
+            sum += token.getMaxLength();
+        }
+        return sum;
+    }
+
+    /**
+     * This class handles the events recognised by the ItemTouchHelper instance attached to the RecyclerView.
+     */
+    public static class TokenTouchCallback extends ItemTouchHelper.SimpleCallback {
+
+        private TokensPreviewAdapter adapter;
+
+        public TokenTouchCallback(TokensPreviewAdapter adapter) {
+            super(ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT, ItemTouchHelper.UP | ItemTouchHelper.DOWN);
+            this.adapter = adapter;
+        }
+
+        @Override
+        public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder,
+                              RecyclerView.ViewHolder target) {
+            final int fromPosition = viewHolder.getAdapterPosition();
+            final int toPosition = target.getAdapterPosition();
+            adapter.moveItem(fromPosition, toPosition); // Item dragged
+            return true;
+        }
+
+        @Override
+        public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
+            adapter.deleteItem(viewHolder.getAdapterPosition()); // Item swiped
+        }
     }
 
 }

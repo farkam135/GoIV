@@ -66,6 +66,8 @@ public class TokenViewHolder extends RecyclerView.ViewHolder implements View.OnC
         }
         if (showPreview) {
             textView2.setText(token.getPreview());
+        } else {
+            textView2.setVisibility(View.GONE);
         }
     }
 

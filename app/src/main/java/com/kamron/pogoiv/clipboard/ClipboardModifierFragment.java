@@ -5,7 +5,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -13,6 +12,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,11 +24,12 @@ import com.google.common.base.Strings;
 import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.clipboard.adapters.TokensPreviewAdapter;
 import com.kamron.pogoiv.clipboard.adapters.TokensShowcaseAdapter;
+import com.kamron.pogoiv.clipboard.adapters.decorators.MarginItemDecorator;
 import com.kamron.pogoiv.clipboard.layoutmanagers.TokenGridLayoutManager;
 import com.kamron.pogoiv.clipboard.tokens.CustomSeparatorToken;
 import com.kamron.pogoiv.clipboard.tokens.SeparatorToken;
 
-import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -38,7 +39,7 @@ import static android.support.v7.widget.LinearLayoutManager.HORIZONTAL;
 
 public class ClipboardModifierFragment
         extends Fragment
-        implements ClipboardToken.OnTokenSelectedListener, ClipboardToken.OnTokenDeleteListener {
+        implements ClipboardToken.OnTokenSelectedListener {
 
     private static final String ARG_SINGLE_RESULT_MODE = "a_srm";
 
@@ -60,6 +61,7 @@ public class ClipboardModifierFragment
     private TokensPreviewAdapter tokenPreviewAdapter;
     private TokensShowcaseAdapter tokenShowcaseAdapter;
     private ClipboardToken selectedToken = null;
+    private ClipboardTokenHandler cth;
 
 
     public static ClipboardModifierFragment newInstance(boolean singleResultMode) {
@@ -77,6 +79,7 @@ public class ClipboardModifierFragment
     @Override public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         singleResultMode = getArguments().getBoolean(ARG_SINGLE_RESULT_MODE, false);
+        cth = new ClipboardTokenHandler(getContext());
     }
 
     @Override
@@ -91,10 +94,32 @@ public class ClipboardModifierFragment
         super.onViewCreated(view, savedInstanceState);
 
         // Populate the token preview RecyclerView with all configured tokens.
-        tokenPreviewAdapter = new TokensPreviewAdapter(getCurrentlyModifyingList(), this);
+        tokenPreviewAdapter = new TokensPreviewAdapter();
+        tokenPreviewAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            private void updateMaxLength() {
+                clipboardMaxLength.setText(String.format(Locale.getDefault(),
+                        "(%1$d/12 characters)", tokenPreviewAdapter.getMaxLength()));
+            }
+
+            @Override public void onChanged() {
+                updateMaxLength();
+            }
+
+            @Override public void onItemRangeInserted(int positionStart, int itemCount) {
+                updateMaxLength();
+            }
+
+            @Override public void onItemRangeRemoved(int positionStart, int itemCount) {
+                updateMaxLength();
+            }
+        });
+        tokenPreviewAdapter.setData(cth.getTokens(singleResultMode));
         tokenPreviewRecyclerView.setHasFixedSize(false);
         tokenPreviewRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), HORIZONTAL, false));
+        tokenPreviewRecyclerView.addItemDecoration(new MarginItemDecorator(2, 0, 2, 0));
         tokenPreviewRecyclerView.setAdapter(tokenPreviewAdapter);
+        new ItemTouchHelper(new TokensPreviewAdapter.TokenTouchCallback(tokenPreviewAdapter))
+                .attachToRecyclerView(tokenPreviewRecyclerView);
 
         // Populate the token showcase RecyclerView with all possible tokens. The TokenListAdapter will put them in
         // their respective category while TokenGridLayoutManager will arrange them in a grid with category headers
@@ -102,6 +127,7 @@ public class ClipboardModifierFragment
         tokenShowcaseAdapter = new TokensShowcaseAdapter(getContext(), maxEvolutionVariant, this);
         tokenShowcaseRecyclerView.setHasFixedSize(false);
         tokenShowcaseRecyclerView.setLayoutManager(new TokenGridLayoutManager(getContext(), tokenShowcaseAdapter));
+        tokenShowcaseRecyclerView.addItemDecoration(new MarginItemDecorator(2, 4, 2, 4));
         tokenShowcaseRecyclerView.setAdapter(tokenShowcaseAdapter);
 
         // Set the drawable here since app:srcCompat attribute in XML isn't working and android:src crashes on API 19
@@ -131,9 +157,17 @@ public class ClipboardModifierFragment
         });
     }
 
-    @Override public void onResume() {
-        super.onResume();
-        updateFields();
+    public void saveConfiguration() {
+        cth.setTokenList(tokenPreviewAdapter.getData(), singleResultMode);
+    }
+
+    /**
+     * Check if the user has edited the list of tokens without saving.
+     *
+     * @return true if there are unsaved changes
+     */
+    public boolean hasUnsavedChanges() {
+        return !cth.savedConfigurationEquals(tokenPreviewAdapter.getData(), singleResultMode);
     }
 
     /**
@@ -143,36 +177,11 @@ public class ClipboardModifierFragment
      */
     @Override public void onTokenSelected(ClipboardToken token, int adapterPosition) {
         selectedToken = token;
-        updateClipboardDescription();
-        updateLengthIndicator();
-    }
 
-    @Override public void onTokenDeleted(int adapterPosition) {
-        if (tokenPreviewAdapter.getItemCount() <= 1) {
-            Toast.makeText(getContext(), "You can't delete the last token of this configuration!", Toast.LENGTH_LONG)
-                    .show();
-        } else {
-            getClipboardTokenHandler().removeToken(adapterPosition, singleResultMode);
-            updateFields();
-        }
-    }
-
-    private @NonNull ClipboardTokenHandler getClipboardTokenHandler() {
         final Activity activity = getActivity();
         if (activity instanceof ClipboardModifierActivity) {
-            return ((ClipboardModifierActivity) activity).getClipboardTokenHandler();
+            ((ClipboardModifierActivity) activity).updateTokenDescription(selectedToken);
         }
-        throw new IllegalStateException();
-    }
-
-    /**
-     * Get a list of tokens, the default list if user is currently modifying the default list, or the single result
-     * user token list if that checkbox is marked.
-     *
-     * @return The users token setting for either single or multiple results
-     */
-    private List<ClipboardToken> getCurrentlyModifyingList() {
-        return getClipboardTokenHandler().getTokens(singleResultMode);
     }
 
     /**
@@ -183,32 +192,11 @@ public class ClipboardModifierFragment
             if (selectedToken instanceof CustomSeparatorToken) {
                 buildCustomSeparatorToken();
             } else {
-                getClipboardTokenHandler().addToken(selectedToken, singleResultMode);
-                tokenPreviewAdapter.setData(getCurrentlyModifyingList());
+                tokenPreviewAdapter.addItem(selectedToken);
                 tokenPreviewRecyclerView.smoothScrollToPosition(tokenPreviewAdapter.getItemCount() - 1);
-                updateLengthIndicator();
             }
         } else {
             Toast.makeText(getContext(), R.string.clipboard_no_token_selected, Toast.LENGTH_LONG).show();
-        }
-    }
-
-    private void updateClipboardDescription() {
-        final Activity activity = getActivity();
-        if (activity instanceof ClipboardModifierActivity) {
-            ((ClipboardModifierActivity) activity).updateTokenDescription(selectedToken);
-        }
-    }
-
-    /**
-     * Updates the preview length indicator.
-     */
-    @SuppressLint("DefaultLocale")
-    private void updateLengthIndicator() {
-        final Activity activity = getActivity();
-        if (activity instanceof ClipboardModifierActivity) {
-            clipboardMaxLength.setText(String.format("(%1$d/12 characters)",
-                    getClipboardTokenHandler().getMaxLength(singleResultMode)));
         }
     }
 
@@ -217,6 +205,7 @@ public class ClipboardModifierFragment
      */
     public void buildCustomSeparatorToken() {
         // The custom separator will be written in this EditText
+        @SuppressLint("InflateParams")
         final View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.edittext_dialog, null);
         final EditText editText = (EditText) dialogView.findViewById(R.id.editText);
 
@@ -230,14 +219,13 @@ public class ClipboardModifierFragment
                         if (Strings.isNullOrEmpty(separator)) {
                             Toast.makeText(getContext(),
                                     "Please fill in your custom separator", Toast.LENGTH_LONG).show();
-                            return;
-                        }
-                        if (separator.contains(".")) {
+                        } else if (separator.contains(".")) {
                             Toast.makeText(getContext(), "Custom separator can't contain ."
                                     + " because the developer is lazy", Toast.LENGTH_LONG).show();
+                        } else {
+                            selectedToken = new SeparatorToken(separator);
+                            addToken();
                         }
-                        selectedToken = new SeparatorToken(separator);
-                        addToken();
                     }
                 })
                 .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
@@ -246,15 +234,6 @@ public class ClipboardModifierFragment
                     }
                 })
                 .show();
-    }
-
-    /**
-     * Updates the description, the preview window, the highlighted single/multi text,  and the editor window.
-     */
-    private void updateFields() {
-        // TODO updateClipboardDescription();
-        updateLengthIndicator();
-        tokenPreviewAdapter.setData(getCurrentlyModifyingList());
     }
 
 }

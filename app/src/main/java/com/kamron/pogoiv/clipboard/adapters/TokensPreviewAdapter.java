@@ -37,7 +37,7 @@ public class TokensPreviewAdapter
 
     public void addItem(ClipboardToken token) {
         tokenList.add(token);
-        notifyItemInserted(tokenList.indexOf(token));
+        notifyItemInserted(tokenList.size() - 1);
     }
 
     private void deleteItem(int position) {

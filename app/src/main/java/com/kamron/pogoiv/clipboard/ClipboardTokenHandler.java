@@ -132,7 +132,7 @@ public class ClipboardTokenHandler {
      */
     public void removeToken(int i, boolean single) {
         getCorrectTokenList(single).remove(i);
-        saveTokenChanges();
+        saveTokenChanges(single);
     }
 
     /**
@@ -169,6 +169,18 @@ public class ClipboardTokenHandler {
     }
 
     /**
+     * Clear the current remembered tokens and persist the new list
+     *
+     * @param tokenList Which token types to persist.
+     * @param single true to modify/work with the settings for single IV results, false for general setting.
+     */
+    public void setTokenList(List<ClipboardToken> tokenList, boolean single) {
+        getCorrectTokenList(single).clear();
+        getCorrectTokenList(single).addAll(tokenList);
+        saveTokenChanges(single);
+    }
+
+    /**
      * Add a token after all other current remembered tokens.
      *
      * @param single true to modify/work with the settings for single IV results, false for general setting.
@@ -176,7 +188,7 @@ public class ClipboardTokenHandler {
      */
     public void addToken(ClipboardToken token, boolean single) {
         getCorrectTokenList(single).add(token);
-        saveTokenChanges();
+        saveTokenChanges(single);
     }
 
     /**
@@ -186,7 +198,7 @@ public class ClipboardTokenHandler {
      */
     public void clearTokens(boolean single) {
         getCorrectTokenList(single).clear();
-        saveTokenChanges();
+        saveTokenChanges(single);
     }
 
     /**
@@ -208,9 +220,12 @@ public class ClipboardTokenHandler {
     /**
      * Saves the token changes to persistent memory. Saves both single and multi tokens.
      */
-    private void saveTokenChanges() {
-        GoIVSettings.getInstance(context).setClipboardPreference(tokens);
-        GoIVSettings.getInstance(context).setClipboardSinglePreference(tokensSingle);
+    private void saveTokenChanges(boolean single) {
+        if (single) {
+            GoIVSettings.getInstance(context).setClipboardSinglePreference(tokensSingle);
+        } else {
+            GoIVSettings.getInstance(context).setClipboardPreference(tokens);
+        }
     }
 
 

@@ -56,9 +56,10 @@ public class Pokemon {
     public final int baseStamina;
     public final int devoNumber;
     public final int candyEvolutionCost;
+    public final String types;
 
     public Pokemon(String name, String displayName, int number, int baseAttack, int baseDefense, int baseStamina,
-                   int devoNumber, int candyEvolutionCost) {
+                   int devoNumber, int candyEvolutionCost, String typesBase20) {
         this.name = name;
         this.displayName = displayName;
         this.number = number;
@@ -68,6 +69,7 @@ public class Pokemon {
         this.devoNumber = devoNumber;
         this.evolutions = new ArrayList<>();
         this.candyEvolutionCost = candyEvolutionCost;
+        this.types = typesBase20;
     }
 
     @Override

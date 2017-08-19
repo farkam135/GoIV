@@ -149,8 +149,38 @@ public class PokeInfoCalculator {
 
         int pokeListSize = names.length;
         for (int i = 0; i < pokeListSize; i++) {
-            Pokemon p = new Pokemon(names[i], displayNames[i], i, attack[i], defense[i], stamina[i], devolution[i],
-                    evolutionCandyCost[i]);
+            Pokemon p;
+            switch (i) {
+                case 133:
+                    p = new Pokemon(names[i], displayNames[i], i, attack[i], defense[i], stamina[i],
+                            devolution[i], evolutionCandyCost[i], "03" /* pokemon type WATER */);
+                    break;
+
+                case 134:
+                    p = new Pokemon(names[i], displayNames[i], i, attack[i], defense[i], stamina[i],
+                            devolution[i], evolutionCandyCost[i], "04" /* pokemon type ELECTRIC */);
+                    break;
+
+                case 135:
+                    p = new Pokemon(names[i], displayNames[i], i, attack[i], defense[i], stamina[i],
+                            devolution[i], evolutionCandyCost[i], "02" /* pokemon type FIRE */);
+                    break;
+
+                case 195:
+                    p = new Pokemon(names[i], displayNames[i], i, attack[i], defense[i], stamina[i],
+                            devolution[i], evolutionCandyCost[i], "0B" /* pokemon type PSYCHIC */);
+                    break;
+
+                case 196:
+                    p = new Pokemon(names[i], displayNames[i], i, attack[i], defense[i], stamina[i],
+                            devolution[i], evolutionCandyCost[i], "0G" /* pokemon type DARK */);
+                    break;
+
+                default:
+                    p = new Pokemon(names[i], displayNames[i], i, attack[i], defense[i], stamina[i],
+                            devolution[i], evolutionCandyCost[i], "00" /* pokemon type NULL */);
+                    break;
+            }
             pokedex.add(p);
             pokemap.put(names[i].toLowerCase(), p);
             if (!names[i].equals(displayNames[i])) {

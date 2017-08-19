@@ -12,15 +12,22 @@ import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.clipboard.ClipboardToken;
 import com.kamron.pogoiv.clipboard.tokens.SeparatorToken;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 
 public class TokenViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
     private ClipboardToken.OnTokenSelectedListener onTokenSelectedListener;
     private ClipboardToken.OnTokenDeleteListener onTokenDeleteListener;
-    private ImageView evolvedVariantImageView;
-    private TextView textView1;
-    private TextView textView2;
-    private ImageButton deleteButton;
+    @BindView(R.id.evolvedVariantImageView)
+    ImageView evolvedVariantImageView;
+    @BindView(android.R.id.text1)
+    TextView textView1;
+    @BindView(android.R.id.text2)
+    TextView textView2;
+    @BindView(R.id.btnDelete)
+    ImageButton deleteButton;
     private boolean showPreview;
 
     public TokenViewHolder(ViewGroup parent,
@@ -29,15 +36,11 @@ public class TokenViewHolder extends RecyclerView.ViewHolder implements View.OnC
                            boolean widthMatchParent,
                            boolean showPreview) {
         super(LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_token_preview, parent, false));
+        ButterKnife.bind(this, itemView);
 
         this.onTokenSelectedListener = onTokenSelectedListener;
         this.onTokenDeleteListener = onTokenDeleteListener;
         this.showPreview = showPreview;
-
-        evolvedVariantImageView = (ImageView) itemView.findViewById(R.id.evolvedVariantImageView);
-        textView1 = (TextView) itemView.findViewById(android.R.id.text1);
-        textView2 = (TextView) itemView.findViewById(android.R.id.text2);
-        deleteButton = (ImageButton) itemView.findViewById(R.id.btnDelete);
 
         if (!showPreview) {
             textView2.setVisibility(View.GONE);

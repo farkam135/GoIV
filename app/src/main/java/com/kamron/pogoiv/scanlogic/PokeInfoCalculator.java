@@ -446,14 +446,22 @@ public class PokeInfoCalculator {
 
     public String[] getTypeNames(String typeBase20) {
         String[] typeNames = new String[2];
-        int dec = Integer.parseInt(typeBase20, 20);
+        int typeNum;
 
-        if( dec < 19) {
-            typeNames[0] = typeNamesArray[dec - 1];
-            typeNames[1] = null;
+        typeNum = Integer.parseInt(typeBase20.substring(0, 1), 20);
+
+        if (0 < typeNum && typeNum < typeNamesArray.length) {
+            typeNames[0] = typeNamesArray[typeNum - 1];
         } else {
-            typeNames[0] = typeNamesArray[Integer.parseInt(typeBase20.substring(0, 1), 20) - 1];
-            typeNames[1] = typeNamesArray[Integer.parseInt(typeBase20.substring(1, 2), 20) - 1];
+            typeNames[0] = null;
+        }
+
+        typeNum = Integer.parseInt(typeBase20.substring(1, 2), 20);
+
+        if (0 < typeNum && typeNum < typeNamesArray.length) {
+            typeNames[1] = typeNamesArray[typeNum - 1];
+        } else {
+            typeNames[1] = null;
         }
 
         return typeNames;

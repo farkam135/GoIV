@@ -553,9 +553,9 @@
         <item>00</item> <!--Lapras-->
         <item>00</item> <!--Ditto-->
         <item>00</item> <!--Eevee-->
-        <item>03</item> <!--Vaporeon-->
-        <item>04</item> <!--Jolteon-->
-        <item>02</item> <!--Flareon-->
+        <item>30</item> <!--Vaporeon-->
+        <item>40</item> <!--Jolteon-->
+        <item>20</item> <!--Flareon-->
         <item>00</item> <!--Porygon-->
         <item>00</item> <!--Omanyte-->
         <item>00</item> <!--Omastar-->
@@ -616,8 +616,8 @@
         <item>00</item> <!--Yanma-->
         <item>00</item> <!--Wooper-->
         <item>00</item> <!--Quagsire-->
-        <item>0B</item> <!--Espeon-->
-        <item>0G</item> <!--Umbreon-->
+        <item>B0</item> <!--Espeon-->
+        <item>G0</item> <!--Umbreon-->
         <item>00</item> <!--Murkrow-->
         <item>00</item> <!--Slowking-->
         <item>00</item> <!--Misdreavus-->

@@ -923,7 +923,8 @@ public class OcrHelper {
         settings.saveScreenCalibrationValue(pokemonName_area, sfr.findPokemonNameArea(bmp, image, contours,
                 boundingRects));
         dialog.setMessage("Finding name area");
-        settings.saveScreenCalibrationValue(pokemonType_area, sfr.findPokemonTypeArea(bmp));
+        settings.saveScreenCalibrationValue(pokemonType_area, sfr.findPokemonTypeArea(bmp, image, contours,
+                boundingRects));
         dialog.setMessage("Finding type area");
         settings.saveScreenCalibrationValue(candyName_area, sfr.findPokemonCandyNameArea(bmp));
         dialog.setMessage("Finding candy name area");

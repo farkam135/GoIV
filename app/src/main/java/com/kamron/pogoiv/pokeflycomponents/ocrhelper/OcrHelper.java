@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.util.LruCache;
 
 import com.google.common.base.Optional;
@@ -16,7 +15,6 @@ import com.kamron.pogoiv.scan_logic.Data;
 import com.kamron.pogoiv.scan_logic.ScanResult;
 
 import org.opencv.android.Utils;
-import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
@@ -957,6 +955,8 @@ public class OcrHelper {
         return (Math.abs(a.val[0] - b.val[0]) + Math.abs(a.val[1] - b.val[1]) + Math.abs(a.val[2] - b.val[2])) / 3;
     }
 
-    static{ System.loadLibrary("opencv_java3"); }
+    static {
+        System.loadLibrary("opencv_java3");
+    }
 
 }

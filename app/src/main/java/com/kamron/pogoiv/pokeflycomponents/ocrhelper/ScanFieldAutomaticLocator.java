@@ -8,6 +8,11 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 
+import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
+import com.google.common.collect.FluentIterable;
+import com.kamron.pogoiv.BuildConfig;
+
 import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
@@ -16,9 +21,9 @@ import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
+
+import javax.annotation.Nullable;
 
 /**
  * Created by johan on 2017-07-27.
@@ -35,6 +40,9 @@ public class ScanFieldAutomaticLocator {
     private static final int whiteInt = Color.parseColor("#FAFAFA");
     private static final int greenInt = Color.parseColor("#1d8696"); // 1d8696 is the color used in pokemon go as green
     // background rgb (29 134 150)
+    private static final Scalar SCALAR_ON = new Scalar(255);
+    private static final Scalar SCALAR_OFF = new Scalar(0);
+    private static final float[] HSV_GREEN_DARK = new float[] {183f, 0.32f, 0.46f};
 
 
     /**
@@ -398,91 +406,68 @@ public class ScanFieldAutomaticLocator {
      * @return A string representation of the x,y coordinate in the form of "x,y,x2,y2"
      */
     @SuppressLint("DefaultLocale")
-    String findPokemonNameArea(Bitmap bmp, Mat image, List<MatOfPoint> contours, List<Rect> boundingRects) {
+    String findPokemonNameArea(Bitmap bmp, Mat image, List<MatOfPoint> contours, List<Rect> boundingRectList) {
         final float screenDensity = Resources.getSystem().getDisplayMetrics().density;
         final float charUppercaseHeight = 17 * screenDensity;
         final float charLowercaseHeight = 12 * screenDensity;
         final int width33Percent = bmp.getWidth() / 3;
         final int width66Percent = bmp.getWidth() * 2 / 3;
+        final boolean debugExecution = true; // Activate this flag to display the onscreen debug graphics
 
-        Canvas c = new Canvas(bmp);
-        Paint p = new Paint();
-        p.setStyle(Paint.Style.STROKE);
-        p.setStrokeWidth(screenDensity);
-        p.setColor(Color.RED);
+        Canvas c = null;
+        Paint p = null;
+        //noinspection PointlessBooleanExpression
+        if (BuildConfig.DEBUG && debugExecution) {
+            c = new Canvas(bmp);
+            p = new Paint();
+            p.setStyle(Paint.Style.STROKE);
+            p.setStrokeWidth(screenDensity);
+            p.setColor(Color.MAGENTA);
 
-        ArrayList<Rect> results = new ArrayList<>();
-        for (int i = 0; i < boundingRects.size(); i++) {
-            // Use height as primary choice
-            Rect boundBox = boundingRects.get(i);
-            if (boundBox.x > width33Percent && boundBox.x + boundBox.width < width66Percent
-                    && (Math.abs(boundBox.height - charUppercaseHeight) < screenDensity
-                    || Math.abs(boundBox.height - charLowercaseHeight) < screenDensity)) {
-                results.add(boundBox);
-                c.drawRect(boundBox.x, boundBox.y, boundBox.x + boundBox.width, boundBox.y + boundBox.height, p);
-            }
+            debugPrintRectList(boundingRectList, c, p);
         }
 
-        // Compute the average bottom Y coordinate
-        int sum = 0;
-        for (Rect boundRect : results) {
-            sum += boundRect.y + boundRect.height;
-        }
-        int avgBottom = sum / results.size();
+        List<Rect> results = FluentIterable.from(boundingRectList)
+                // Keep only bounding rect between 33% and 66% of the image width
+                .filter(Predicates.and(ByMinX.of(width33Percent), ByMaxX.of(width66Percent)))
+                // Try to guess the 'mon name characters basing on their height
+                .filter(Predicates.or(ByHeight.of(charUppercaseHeight, screenDensity / 2),
+                        ByHeight.of(charLowercaseHeight, screenDensity / 2)))
+                .toList();
 
-        // Compute the standard deviation
-        double variancesSum = 0;
-        for (Rect boundRect : results) {
-            variancesSum += Math.pow(boundRect.y + boundRect.height - avgBottom, 2);
-        }
-        int stdDeviation = (int) Math.round(Math.sqrt(variancesSum / results.size()));
-
-        // If the item is outside the standard deviation, remove it
-        Iterator<Rect> resultsIterator = results.iterator();
-        while (resultsIterator.hasNext()) {
-            Rect result = resultsIterator.next();
-            if (result.y + result.height < avgBottom - stdDeviation
-                    || result.y + result.height > avgBottom + stdDeviation) {
-                resultsIterator.remove();
-            }
+        //noinspection PointlessBooleanExpression
+        if (BuildConfig.DEBUG && debugExecution) {
+            //noinspection ConstantConditions
+            p.setColor(Color.RED);
+            debugPrintRectList(results, c, p);
         }
 
-        // Check if the dominant color match the dark green hue of the text
-        float[] fontDarkGreenHsv = new float[] {183f, 0.32f, 0.46f};
+        results = FluentIterable.from(results)
+                // Keep only rect with bottom coordinate inside half of the standard deviation
+                .filter(ByStandardDeviationOnBottomY.of(results, 0.5f))
+                .toList();
+
+        //noinspection PointlessBooleanExpression
+        if (BuildConfig.DEBUG && debugExecution) {
+            //noinspection ConstantConditions
+            p.setColor(Color.YELLOW);
+            debugPrintRectList(results, c, p);
+        }
+
         Mat mask = new Mat(image.rows(), image.cols(), CvType.CV_8U);
-        Scalar off = new Scalar(0); // Black
-        Scalar on = new Scalar(255); // White
-        float[] meanHsv = new float[3];
-        resultsIterator = results.iterator();
-        while (resultsIterator.hasNext()) {
-            Rect result = resultsIterator.next();
-            MatOfPoint contour = contours.get(boundingRects.indexOf(result));
+        results = FluentIterable.from(results)
+                // Check if the dominant color of the contour matches the dark green hue of PoGO text
+                .filter(ByHsvColor.of(image, mask, contours, boundingRectList, HSV_GREEN_DARK, 3, 0.275f, 0.325f))
+                .toList();
 
-            mask.setTo(off);
-            Imgproc.drawContours(mask, contours, contours.indexOf(contour), on, -1);
-            Scalar meanColor = Core.mean(image, mask);
-            Color.RGBToHSV((int) meanColor.val[0], (int) meanColor.val[1], (int) meanColor.val[2], meanHsv);
-            if (Math.abs(fontDarkGreenHsv[0] - meanHsv[0]) > 3
-                    || Math.abs(fontDarkGreenHsv[1] - meanHsv[1]) > 0.275
-                    || Math.abs(fontDarkGreenHsv[2] - meanHsv[2]) > 0.325) {
-                resultsIterator.remove();
-            }
+        //noinspection PointlessBooleanExpression
+        if (BuildConfig.DEBUG && debugExecution) {
+            //noinspection ConstantConditions
+            p.setColor(Color.GREEN);
+            debugPrintRectList(results, c, p);
         }
 
-        p.setColor(Color.GREEN);
-
-        // Merge results
-        org.opencv.core.Point[] allEdgesArray = new org.opencv.core.Point[results.size() * 2];
-        for (int i = 0; i < results.size(); i++) {
-            Rect r = results.get(i);
-            allEdgesArray[i * 2] = r.tl();
-            allEdgesArray[i * 2 + 1] = r.br();
-            c.drawRect(r.x, r.y, r.x + r.width, r.y + r.height, p);
-        }
-        MatOfPoint allEdgesMat = new MatOfPoint();
-        allEdgesMat.fromArray(allEdgesArray);
-
-        Rect result = Imgproc.boundingRect(allEdgesMat);
+        Rect result = mergeRectList(results);
 
         // Ensure the pokemon name rect is wide at least 33% of the screen width
         if (result.x > width33Percent) {
@@ -493,5 +478,155 @@ public class ScanFieldAutomaticLocator {
         }
 
         return String.format("%d,%d,%d,%d", result.x, result.y, result.width, result.height);
+    }
+
+    private static Rect mergeRectList(List<Rect> rectList) {
+        org.opencv.core.Point[] allEdgesArray = new org.opencv.core.Point[rectList.size() * 2];
+        for (int i = 0; i < rectList.size(); i++) {
+            Rect r = rectList.get(i);
+            allEdgesArray[i * 2] = r.tl();
+            allEdgesArray[i * 2 + 1] = r.br();
+        }
+        MatOfPoint allEdgesMat = new MatOfPoint();
+        allEdgesMat.fromArray(allEdgesArray);
+
+        return Imgproc.boundingRect(allEdgesMat);
+    }
+
+    private static void debugPrintRectList(List<Rect> rectList, Canvas c, Paint p) {
+        for (Rect r : rectList) {
+            c.drawRect(r.x, r.y, r.x + r.width, r.y + r.height, p);
+        }
+    }
+
+
+    private static class ByMinX implements Predicate<Rect> {
+        private int minX;
+
+        private ByMinX(int minX) {
+            this.minX = minX;
+        }
+
+        public static ByMinX of(int minX) {
+            return new ByMinX(minX);
+        }
+
+        @Override public boolean apply(@Nullable Rect input) {
+            return input != null && input.x >= minX;
+        }
+    }
+
+    private static class ByMaxX implements Predicate<Rect> {
+        private int maxX;
+
+        private ByMaxX(int maxX) {
+            this.maxX = maxX;
+        }
+
+        public static ByMaxX of(int maxX) {
+            return new ByMaxX(maxX);
+        }
+
+        @Override public boolean apply(@Nullable Rect input) {
+            return input != null && input.x + input.width <= maxX;
+        }
+    }
+
+    private static class ByHeight implements Predicate<Rect> {
+        private float targetHeight;
+        private float delta;
+
+        private ByHeight(float targetHeight, float delta) {
+            this.targetHeight = targetHeight;
+            this.delta = delta;
+        }
+
+        public static ByHeight of(float targetHeight, float delta) {
+            return new ByHeight(targetHeight, delta);
+        }
+
+        @Override public boolean apply(@Nullable Rect input) {
+            return input != null && Math.abs(input.height - targetHeight) < delta;
+        }
+    }
+
+    private static class ByStandardDeviationOnBottomY implements Predicate<Rect> {
+        private int avgBottom;
+        private int stdDeviation;
+        private float deviations;
+
+        private ByStandardDeviationOnBottomY(int avgBottom, int stdDeviation, float deviations) {
+            this.avgBottom = avgBottom;
+            this.stdDeviation = stdDeviation;
+            this.deviations = deviations;
+        }
+
+        public static ByStandardDeviationOnBottomY of(List<Rect> rectCollection, float deviations) {
+            // Compute the average bottom Y coordinate
+            int sum = 0;
+            for (Rect boundRect : rectCollection) {
+                sum += boundRect.y + boundRect.height;
+            }
+            int avgBottom = sum / rectCollection.size();
+
+            // Compute the standard deviation
+            double variancesSum = 0;
+            for (Rect boundRect : rectCollection) {
+                variancesSum += Math.pow(boundRect.y + boundRect.height - avgBottom, 2);
+            }
+            int stdDeviation = (int) Math.round(Math.sqrt(variancesSum / rectCollection.size()));
+
+            return new ByStandardDeviationOnBottomY(avgBottom, stdDeviation, deviations);
+        }
+
+        @Override public boolean apply(@Nullable Rect input) {
+            return input != null && (input.y + input.height >= avgBottom - stdDeviation * deviations
+                    && input.y + input.height <= avgBottom + stdDeviation * deviations);
+        }
+    }
+
+    private static class ByHsvColor implements Predicate<Rect> {
+        private Mat image;
+        private Mat mask;
+        private List<MatOfPoint> contours;
+        private List<Rect> allBoundingRectList;
+        private float[] color;
+        private float dH;
+        private float dS;
+        private float dV;
+
+        private ByHsvColor(Mat image, Mat mask, List<MatOfPoint> contours, List<Rect> allBoundingRectList,
+                           float[] hsvColor, float deltaH, float deltaS, float deltaV) {
+            this.image = image;
+            this.mask = mask;
+            this.contours = contours;
+            this.allBoundingRectList = allBoundingRectList;
+            this.color = hsvColor;
+            this.dH = deltaH;
+            this.dS = deltaS;
+            this.dV = deltaV;
+        }
+
+        public static ByHsvColor of(Mat image, Mat mask, List<MatOfPoint> contours, List<Rect> allBoundingRectList,
+                                    float[] hsvColor, float deltaH, float deltaS, float deltaV) {
+            return new ByHsvColor(image, mask, contours, allBoundingRectList, hsvColor, deltaH, deltaS, deltaV);
+        }
+
+        @Override public boolean apply(@Nullable Rect input) {
+            if (input != null) {
+                float[] meanHsv = new float[3];
+                MatOfPoint contour = contours.get(allBoundingRectList.indexOf(input));
+                mask.setTo(SCALAR_OFF);
+                Imgproc.drawContours(mask, contours, contours.indexOf(contour), SCALAR_ON, -1);
+                Scalar meanColor = Core.mean(image, mask);
+                Color.RGBToHSV((int) meanColor.val[0], (int) meanColor.val[1], (int) meanColor.val[2], meanHsv);
+                if (Math.abs(color[0] - meanHsv[0]) <= dH
+                        && Math.abs(color[1] - meanHsv[1]) <= dS
+                        && Math.abs(color[2] - meanHsv[2]) <= dV) {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }

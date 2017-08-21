@@ -94,8 +94,8 @@
             android:defaultValue="false"
             android:key="quick_iv_preview_clipboard"
             android:dependency="quick_iv_preview"
-            android:title="Show your custom clipboard in the preview"
-            android:summary="Replace the normal quick preview with the content of your custom clipboard."
+            android:title="Also preview clipboard"
+            android:summary="On a quick iv scan, also show a small popup previewing the smart-clipboard"
             />
 
 

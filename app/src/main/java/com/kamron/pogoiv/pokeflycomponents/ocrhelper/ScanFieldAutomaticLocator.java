@@ -215,8 +215,88 @@ public class ScanFieldAutomaticLocator {
      * @param bmp The image to analyze.
      * @return A string representation of the x,y coordinate in the form of "x,y,x2,y2"
      */
-    String findPokemonCandyArea(Bitmap bmp) {
-        return "1,1,1,1";
+    @SuppressLint("DefaultLocale")
+    String findPokemonCandyArea(Bitmap bmp, Mat image, List<MatOfPoint> contours, List<Rect> boundingRectList) {
+        final float screenDensity = Resources.getSystem().getDisplayMetrics().density;
+        final float charHeight = 12 * screenDensity;
+        final float greyLineHeight = 2 * screenDensity;
+        final int width33Percent = bmp.getWidth() / 3;
+        final int width50Percent = bmp.getWidth() / 2;
+        final int width80Percent = bmp.getWidth() / 5 * 4;
+        final boolean debugExecution = false; // Activate this flag to display the onscreen debug graphics
+
+        Canvas c = null;
+        Paint p = null;
+        //noinspection PointlessBooleanExpression
+        if (BuildConfig.DEBUG && debugExecution) {
+            c = new Canvas(bmp);
+            p = new Paint();
+            p.setStyle(Paint.Style.STROKE);
+            p.setStrokeWidth(screenDensity);
+            p.setColor(Color.MAGENTA);
+
+            debugPrintRectList(boundingRectList, c, p);
+        }
+
+        // Find horizontal grey divider line
+        List<Rect> greyLineCandidates = FluentIterable.from(boundingRectList)
+                .filter(ByHeight.of(greyLineHeight, screenDensity / 2))
+                .filter(ByMinWidth.of(width80Percent))
+                .toList();
+        Rect greyLine = greyLineCandidates.get(0);
+
+        List<Rect> results = FluentIterable.from(boundingRectList)
+                // Keep only bounding rect between 50% and 83% of the image width
+                .filter(Predicates.and(ByMinX.of(width50Percent), ByMaxX.of(width33Percent + width50Percent)))
+                // Keep only bounding rect below the grey divider line
+                .filter(ByMinY.of(greyLine.y + greyLine.height))
+                // Try to guess the 'mon candy characters basing on their height
+                .filter(ByHeight.of(charHeight, screenDensity / 2))
+                .toList();
+
+        //noinspection PointlessBooleanExpression
+        if (BuildConfig.DEBUG && debugExecution) {
+            //noinspection ConstantConditions
+            p.setColor(Color.RED);
+            debugPrintRectList(results, c, p);
+        }
+
+        results = FluentIterable.from(results)
+                // Keep only rect with bottom coordinate inside half of the standard deviation
+                .filter(ByStandardDeviationOnBottomY.of(results, 0.5f))
+                .toList();
+
+        //noinspection PointlessBooleanExpression
+        if (BuildConfig.DEBUG && debugExecution) {
+            //noinspection ConstantConditions
+            p.setColor(Color.YELLOW);
+            debugPrintRectList(results, c, p);
+        }
+
+        Mat mask = new Mat(image.rows(), image.cols(), CvType.CV_8U);
+        results = FluentIterable.from(results)
+                // Check if the dominant color of the contour matches the light green hue of PoGO text
+                .filter(ByHsvColor.of(image, mask, contours, boundingRectList, HSV_GREEN_DARK, 3, 0.275f, 0.325f))
+                .toList();
+
+        //noinspection PointlessBooleanExpression
+        if (BuildConfig.DEBUG && debugExecution) {
+            //noinspection ConstantConditions
+            p.setColor(Color.GREEN);
+            debugPrintRectList(results, c, p);
+        }
+
+        Rect result = mergeRectList(results);
+
+        // Ensure the rect is wide at least 33% of the screen width
+        if (result.x > width50Percent) {
+            result.x = width50Percent;
+        }
+        if (result.width < width33Percent) {
+            result.width = width33Percent;
+        }
+
+        return String.format("%d,%d,%d,%d", result.x, result.y, result.width, result.height);
     }
 
 

@@ -139,8 +139,8 @@ public class BaseStatToken extends ClipboardToken {
     }
 
     @Override
-    public String getCategory() {
-        return "Basic Stats";
+    public Category getCategory() {
+        return Category.BASIC_STATS;
     }
 
     @Override

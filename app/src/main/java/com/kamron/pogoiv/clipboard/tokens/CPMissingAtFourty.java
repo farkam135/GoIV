@@ -66,8 +66,8 @@ public class CPMissingAtFourty extends ClipboardToken {
         return "Get how much CP the monster will be missing compared to a perfect IV level 40 variant";
     }
 
-    @Override public String getCategory() {
-        return "Basic Stats";
+    @Override public Category getCategory() {
+        return Category.BASIC_STATS;
     }
 
     @Override public boolean changesOnEvolutionMax() {

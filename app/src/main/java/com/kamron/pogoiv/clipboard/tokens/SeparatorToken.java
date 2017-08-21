@@ -12,7 +12,7 @@ import com.kamron.pogoiv.logic.PokeInfoCalculator;
  */
 
 public class SeparatorToken extends ClipboardToken {
-    private String string;
+    protected String string;
 
     public SeparatorToken(String s) {
         super(false);
@@ -46,8 +46,8 @@ public class SeparatorToken extends ClipboardToken {
     }
 
     @Override
-    public String getCategory() {
-        return "Separators";
+    public Category getCategory() {
+        return Category.SEPARATORS;
     }
 
     @Override

@@ -92,8 +92,8 @@ public class PokemonNameToken extends ClipboardToken {
     }
 
     @Override
-    public String getCategory() {
-        return "Name";
+    public Category getCategory() {
+        return Category.NAME;
     }
 
     @Override

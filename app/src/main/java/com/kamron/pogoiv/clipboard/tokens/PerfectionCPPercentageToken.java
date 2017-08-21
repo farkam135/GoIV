@@ -59,8 +59,8 @@ public class PerfectionCPPercentageToken extends ClipboardToken {
     }
 
     @Override
-    public String getCategory() {
-        return "Evaluation Scores";
+    public Category getCategory() {
+        return Category.EVALUATION;
     }
 
     @Override

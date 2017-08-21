@@ -8,4 +8,6 @@
     <color name="buttonText">#E4FFDE</color>
     <color name="orange">#FAA61A</color>
     <color name="appraisalHighlight">#bb3e50b3</color>
+    <color name="colorButtonDark">#27CDAB</color>
+    <color name="colorButtonLight">#A0DB95</color>
 </resources>

@@ -18,6 +18,40 @@ import java.util.ArrayList;
 
 public abstract class ClipboardToken {
 
+    public enum Category {
+        NAME,
+        BASIC_STATS,
+        IV_INFO,
+        EVALUATION,
+        SEPARATORS;
+
+        @Override
+        public String toString() {
+            switch (this) {
+                case NAME:
+                    return "Name";
+                case BASIC_STATS:
+                    return "Basic Stats";
+                case IV_INFO:
+                    return "IV Info";
+                case EVALUATION:
+                    return "Evaluation Scores";
+                case SEPARATORS:
+                    return "Separators";
+                default:
+                    throw new IllegalArgumentException();
+            }
+        }
+    }
+
+    public interface OnTokenSelectedListener {
+        void onTokenSelected(ClipboardToken token, int adapterPosition);
+    }
+
+    public interface OnTokenDeleteListener {
+        void onTokenDeleted(int adapterPosition);
+    }
+
     public boolean maxEv; // if the token should change to accomodate to the last in the evolution line
 
     /**
@@ -122,9 +156,9 @@ public abstract class ClipboardToken {
     /**
      * Get which category the token should be listed under.
      *
-     * @return A category name.
+     * @return A token category.
      */
-    public abstract String getCategory();
+    public abstract Category getCategory();
 
 
     /**

@@ -44,6 +44,7 @@ public class ScanFieldAutomaticLocator {
     private static final Scalar SCALAR_OFF = new Scalar(0);
     private static final float[] HSV_GREEN_DARK = new float[] {183f, 0.32f, 0.46f};
     private static final float[] HSV_GREEN_LIGHT = new float[] {183f, 0.13f, 0.67f};
+    private static final float[] HSV_GREY_LIGHT = new float[] {0f, 0f, 0.88f};
 
 
     /**
@@ -386,8 +387,88 @@ public class ScanFieldAutomaticLocator {
      * @param bmp The image to analyze.
      * @return A string representation of the x,y coordinate in the form of "x,y,x2,y2"
      */
-    String findPokemonCandyNameArea(Bitmap bmp) {
-        return "1,1,1,1";
+    @SuppressLint("DefaultLocale")
+    String findPokemonCandyNameArea(Bitmap bmp, Mat image, List<MatOfPoint> contours, List<Rect> boundingRectList) {
+        final float screenDensity = Resources.getSystem().getDisplayMetrics().density;
+        final float charHeight = 8 * screenDensity;
+        final float greyLineHeight = 2 * screenDensity;
+        final int width33Percent = bmp.getWidth() / 3;
+        final int width50Percent = bmp.getWidth() / 2;
+        final int width80Percent = bmp.getWidth() / 5 * 4;
+        final boolean debugExecution = false; // Activate this flag to display the onscreen debug graphics
+
+        Canvas c = null;
+        Paint p = null;
+        //noinspection PointlessBooleanExpression
+        if (BuildConfig.DEBUG && debugExecution) {
+            c = new Canvas(bmp);
+            p = new Paint();
+            p.setStyle(Paint.Style.STROKE);
+            p.setStrokeWidth(screenDensity);
+            p.setColor(Color.MAGENTA);
+
+            debugPrintRectList(boundingRectList, c, p);
+        }
+
+        // Find horizontal grey divider line
+        List<Rect> greyLineCandidates = FluentIterable.from(boundingRectList)
+                .filter(ByHeight.of(greyLineHeight, screenDensity / 2))
+                .filter(ByMinWidth.of(width80Percent))
+                .toList();
+        Rect greyLine = greyLineCandidates.get(0);
+
+        List<Rect> results = FluentIterable.from(boundingRectList)
+                // Keep only bounding rect between 50% and 83% of the image width
+                .filter(Predicates.and(ByMinX.of(width50Percent), ByMaxX.of(width33Percent + width50Percent)))
+                // Keep only bounding rect below the grey divider line
+                .filter(ByMinY.of(greyLine.y + greyLine.height))
+                // Try to guess the 'mon candy characters basing on their height
+                .filter(ByHeight.of(charHeight, screenDensity / 2))
+                .toList();
+
+        //noinspection PointlessBooleanExpression
+        if (BuildConfig.DEBUG && debugExecution) {
+            //noinspection ConstantConditions
+            p.setColor(Color.RED);
+            debugPrintRectList(results, c, p);
+        }
+
+        results = FluentIterable.from(results)
+                // Keep only rect with bottom coordinate inside half of the standard deviation
+                .filter(ByStandardDeviationOnBottomY.of(results, 0.5f))
+                .toList();
+
+        //noinspection PointlessBooleanExpression
+        if (BuildConfig.DEBUG && debugExecution) {
+            //noinspection ConstantConditions
+            p.setColor(Color.YELLOW);
+            debugPrintRectList(results, c, p);
+        }
+
+        Mat mask = new Mat(image.rows(), image.cols(), CvType.CV_8U);
+        results = FluentIterable.from(results)
+                // Check if the dominant color of the contour matches the light green hue of PoGO text
+                .filter(ByHsvColor.of(image, mask, contours, boundingRectList, HSV_GREEN_LIGHT, 3, 0.275f, 0.325f))
+                .toList();
+
+        //noinspection PointlessBooleanExpression
+        if (BuildConfig.DEBUG && debugExecution) {
+            //noinspection ConstantConditions
+            p.setColor(Color.GREEN);
+            debugPrintRectList(results, c, p);
+        }
+
+        Rect result = mergeRectList(results);
+
+        // Ensure the rect is wide at least 33% of the screen width
+        if (result.x > width50Percent) {
+            result.x = width50Percent;
+        }
+        if (result.width < width33Percent) {
+            result.width = width33Percent;
+        }
+
+        return String.format("%d,%d,%d,%d", result.x, result.y, result.width, result.height);
     }
 
     /**
@@ -445,7 +526,7 @@ public class ScanFieldAutomaticLocator {
 
         Mat mask = new Mat(image.rows(), image.cols(), CvType.CV_8U);
         results = FluentIterable.from(results)
-                // Check if the dominant color of the contour matches the dark green hue of PoGO text
+                // Check if the dominant color of the contour matches the light green hue of PoGO text
                 .filter(ByHsvColor.of(image, mask, contours, boundingRectList, HSV_GREEN_LIGHT, 3, 0.275f, 0.325f))
                 .toList();
 
@@ -462,7 +543,7 @@ public class ScanFieldAutomaticLocator {
         if (result.x > width33Percent) {
             result.x = width33Percent;
         }
-        if (result.x + result.width < width66Percent) {
+        if (result.width < width33Percent) {
             result.width = width33Percent;
         }
 
@@ -543,7 +624,7 @@ public class ScanFieldAutomaticLocator {
         if (result.x > width33Percent) {
             result.x = width33Percent;
         }
-        if (result.x + result.width < width66Percent) {
+        if (result.width < width33Percent) {
             result.width = width33Percent;
         }
 
@@ -599,6 +680,38 @@ public class ScanFieldAutomaticLocator {
 
         @Override public boolean apply(@Nullable Rect input) {
             return input != null && input.x + input.width <= maxX;
+        }
+    }
+
+    private static class ByMinY implements Predicate<Rect> {
+        private int minY;
+
+        private ByMinY(int minY) {
+            this.minY = minY;
+        }
+
+        public static ByMinY of(int minY) {
+            return new ByMinY(minY);
+        }
+
+        @Override public boolean apply(@Nullable Rect input) {
+            return input != null && input.y >= minY;
+        }
+    }
+
+    private static class ByMinWidth implements Predicate<Rect> {
+        private float minWidth;
+
+        private ByMinWidth(float minWidth) {
+            this.minWidth = minWidth;
+        }
+
+        public static ByMinWidth of(float minWidth) {
+            return new ByMinWidth(minWidth);
+        }
+
+        @Override public boolean apply(@Nullable Rect input) {
+            return input != null && input.width >= minWidth;
         }
     }
 

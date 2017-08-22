@@ -1,11 +1,13 @@
 package com.kamron.pogoiv.pokeflycomponents;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
 import android.os.Handler;
 import android.support.annotation.ColorInt;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -39,7 +41,7 @@ public class ScreenWatcher {
     private Runnable screenScanRunnable;
     private int screenScanRetries;
 
-    LinearLayout appraisalBox;
+    private LinearLayout appraisalBox;
     private AutoAppraisal autoAppraisal;
 
     private Pokefly pokefly;
@@ -61,17 +63,23 @@ public class ScreenWatcher {
 
         GoIVSettings set = GoIVSettings.getInstance(pokefly);
         if (set.hasManualScanCalibration()) {
-            String wpps = set.getCalibrationValue(whitePixelPokemonScreen);
-            int area0x = Integer.parseInt(wpps.split(",")[0]);
-            int area0y = Integer.parseInt(wpps.split(",")[1]);
+            try {
+                String wpps = set.getCalibrationValue(whitePixelPokemonScreen);
+                int area0x = Integer.parseInt(wpps.split(",")[0]);
+                int area0y = Integer.parseInt(wpps.split(",")[1]);
 
-            String gpmp = set.getCalibrationValue(greenPokemonMenuPixel);
-            int area1x = Integer.parseInt(gpmp.split(",")[0]);
-            int area1y = Integer.parseInt(gpmp.split(",")[1]);
+                String gpmp = set.getCalibrationValue(greenPokemonMenuPixel);
+                int area1x = Integer.parseInt(gpmp.split(",")[0]);
+                int area1y = Integer.parseInt(gpmp.split(",")[1]);
 
-            area[0] = new Point(area0x, area0y);
-            area[1] = new Point(area1x, area1y);
-        } else {
+                area[0] = new Point(area0x, area0y);
+                area[1] = new Point(area1x, area1y);
+            } catch (Exception e) {
+                Log.e("ScreenWatcher", e.getMessage());
+            }
+        }
+
+        if (area[0] == null || area[1] == null) {
             area[0] = new Point(                // these values used to get "white" left of "power up"
                     (int) Math.round(displayMetrics.widthPixels * 0.041667),
                     (int) Math.round(displayMetrics.heightPixels * 0.8046875));
@@ -79,14 +87,13 @@ public class ScreenWatcher {
                     (int) Math.round(displayMetrics.widthPixels * 0.862445),
                     (int) Math.round(displayMetrics.heightPixels * 0.9004));
         }
-
-
     }
 
     /**
      * Scan a screen every time a user presses the screen, and trigger the quickIvPreview and IVButton to show if
      * he's on a pokemon screen.
      */
+    @SuppressLint("RtlHardcoded")
     public void watchScreen() {
         screenScanHandler = new Handler();
         screenScanRunnable = new ScreenScan();
@@ -103,7 +110,7 @@ public class ScreenWatcher {
         touchViewParams.gravity = Gravity.LEFT | Gravity.TOP;
 
         touchView.setOnTouchListener(new GoIVOnTouchEventLogic());
-        WindowManager windowManager = (WindowManager) pokefly.getSystemService(pokefly.WINDOW_SERVICE);
+        WindowManager windowManager = (WindowManager) pokefly.getSystemService(Pokefly.WINDOW_SERVICE);
         windowManager.addView(touchView, touchViewParams);
     }
 
@@ -114,15 +121,9 @@ public class ScreenWatcher {
      */
     private boolean isUserOnPokemonScreen() {
         @ColorInt int[] pixels = ScreenGrabber.getInstance().grabPixels(area);
-
-
-        if (pixels != null) {
-            boolean shouldShow =
-                    (pixels[0] == Color.rgb(250, 250, 250) || pixels[0] == Color.rgb(249, 249, 249))
-                            && pixels[1] == Color.rgb(28, 135, 150);
-            return shouldShow;
-        }
-        return false;
+        return pixels != null
+                && (pixels[0] == Color.rgb(250, 250, 250) || pixels[0] == Color.rgb(249, 249, 249))
+                && pixels[1] == Color.rgb(28, 135, 150);
     }
 
     /**
@@ -172,12 +173,11 @@ public class ScreenWatcher {
         }
     }
 
-
     /**
      * Undoes the effects of watchScreen.
      */
     public void unwatchScreen() {
-        WindowManager windowManager = (WindowManager) pokefly.getSystemService(pokefly.WINDOW_SERVICE);
+        WindowManager windowManager = (WindowManager) pokefly.getSystemService(Pokefly.WINDOW_SERVICE);
         windowManager.removeView(touchView);
         touchViewParams = null;
         touchView = null;

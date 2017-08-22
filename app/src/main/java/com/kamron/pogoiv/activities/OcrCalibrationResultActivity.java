@@ -6,132 +6,126 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Point;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.kamron.pogoiv.GoIVSettings;
-import com.kamron.pogoiv.Pokefly;
 import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.pokeflycomponents.ocrhelper.CalibrationImage;
 import com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanArea;
+import com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldAutomaticLocator;
+import com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldResults;
+import com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanPoint;
 
-import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.arcInit;
-import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.arcRadiusPoint;
-import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.candyName_area;
-import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.greenPokemonMenuPixel;
-import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.pokemonCP_area;
-import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.pokemonCandyAmount_area;
-import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.pokemonEvolutionCost_area;
-import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.pokemonHP_area;
-import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.pokemonName_area;
-import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.pokemonType_area;
-import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.whitePixelPokemonScreen;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class OcrCalibrationResultActivity extends AppCompatActivity {
+
+    @BindView(R.id.saveCalibrationButton)
+    Button saveCalibrationButton;
+    @BindView(R.id.ocr_result_image)
+    ImageView resultImageView;
+
+    private ScanFieldResults results;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ocr_calibration_result);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        ButterKnife.bind(this);
 
 
-        Bitmap bmp = CalibrationImage.calibrationImg;
-        Pokefly pokefly = CalibrationImage.pokefly;
+        final Bitmap bmp = CalibrationImage.calibrationImg;
 
         //Since these variables are public static, we need to null the connected objects to be garbage collected.
         CalibrationImage.calibrationImg = null;
-        CalibrationImage.pokefly = null;
 
-        ProgressDialog dialog = ProgressDialog.show(this, "Calibrating", "Loading. Please wait...", true);
+        final ProgressDialog dialog = ProgressDialog.show(this, "Calibrating", "Loading. Please wait...", true);
 
+        final Handler mainThreadHandler = new Handler();
+        final Runnable recalibrateRunner = new Runnable() {
+            @Override public void run() {
+                results = new ScanFieldAutomaticLocator(bmp).scan(mainThreadHandler, dialog);
+                mainThreadHandler.post(new Runnable() {
+                    @Override public void run() {
+                        dialog.setMessage("Done");
+                        dialog.dismiss();
+                        if (results.isCompleteCalibration()) {
+                            saveCalibrationButton.setEnabled(true);
+                        }
+                        drawResultIndicator(bmp);
+                        resultImageView.setImageBitmap(bmp);
+                    }
+                });
+            }
+        };
+        new Thread(recalibrateRunner).start();
 
-        pokefly.getOcr().recalibrateScanAreas(bmp, dialog);
-        dialog.setMessage("Done");
-        dialog.dismiss();
-
-        drawResultIndicator(bmp);
-
-        ImageView result = (ImageView) findViewById(R.id.ocr_result_image);
-        result.setImageBitmap(bmp);
-
-
+        saveCalibrationButton.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                if (results != null && results.isCompleteCalibration()) {
+                    GoIVSettings settings = GoIVSettings.getInstance(OcrCalibrationResultActivity.this);
+                    settings.saveScreenCalibrationResults(results);
+                    settings.setManualScanCalibration(true);
+                }
+            }
+        });
     }
 
     private void drawResultIndicator(Bitmap bmp) {
-        GoIVSettings settings = GoIVSettings.getInstance(null); //null because settings should always have been init.
+        float screenDensity = getResources().getDisplayMetrics().density;
+        int purpleBright = Color.parseColor("#FA33FA");
+        int purple = Color.parseColor("#AA00BB");
 
+        showAreaIndicator(bmp, results.pokemonNameArea, purple);
+        showAreaIndicator(bmp, results.pokemonTypeArea, purple);
+        showAreaIndicator(bmp, results.candyNameArea, purple);
+        showAreaIndicator(bmp, results.pokemonHpArea, purple);
+        showAreaIndicator(bmp, results.pokemonCpArea, purple);
+        showAreaIndicator(bmp, results.pokemonCandyAmountArea, purple);
+        showAreaIndicator(bmp, results.pokemonEvolutionCostArea, purple);
 
-        int color = Color.parseColor("#FA00FA");
-        showAreaIndicator(bmp, new ScanArea(pokemonName_area, settings), Color.parseColor("#AA11BB"));
-        showAreaIndicator(bmp, new ScanArea(pokemonType_area, settings), Color.parseColor("#AA11BB"));
-        showAreaIndicator(bmp, new ScanArea(candyName_area, settings), Color.parseColor("#AA11BB"));
-        showAreaIndicator(bmp, new ScanArea(pokemonHP_area, settings), Color.parseColor("#AA11BB"));
-        showAreaIndicator(bmp, new ScanArea(pokemonCP_area, settings), Color.parseColor("#AA11BB"));
-        showAreaIndicator(bmp, new ScanArea(pokemonCandyAmount_area, settings), Color.parseColor("#AA11BB"));
-        showAreaIndicator(bmp, new ScanArea(pokemonEvolutionCost_area, settings), Color.parseColor("#AA11BB"));
+        showPointIndicator(bmp, results.infoScreenCardWhitePixelPoint, 3 * screenDensity,
+                results.infoScreenCardWhitePixelColor, purpleBright);
+        showPointIndicator(bmp, results.infoScreenFabGreenPixelPoint, 3 * screenDensity,
+                results.infoScreenFabGreenPixelColor, purpleBright);
 
-        try {
-            Point arcInitPoint = getPointFromSettings(settings, arcInit);
-            showPointIndicator(bmp, arcInitPoint, 15, color);
-
-            String p = settings.getCalibrationValue(arcRadiusPoint);
-            int radius = Integer.valueOf(p);
-            showAreaIndicator(bmp, new ScanArea(arcInitPoint.x, arcInitPoint.y, radius, 15), color);
-
-
-        } catch (IllegalArgumentException e) {
-            Toast.makeText(this, "Failed to find level arc beginning point", Toast.LENGTH_SHORT).show();
-        }
-        try {
-            showPointIndicator(bmp, getPointFromSettings(settings, whitePixelPokemonScreen), 15, color);
-        } catch (IllegalArgumentException e) {
-            Toast.makeText(this, "Failed to find white indicator pixel", Toast.LENGTH_SHORT).show();
-        }
-        try {
-            showPointIndicator(bmp, getPointFromSettings(settings, greenPokemonMenuPixel), 15, color);
-        } catch (IllegalArgumentException e) {
-            Toast.makeText(this, "Failed to find green indicator pixel", Toast.LENGTH_SHORT).show();
-        }
-
-
+        showPointIndicator(bmp, results.arcCenter, 3 * screenDensity, null, purpleBright);
+        showAreaIndicator(bmp, new ScanArea(results.arcCenter.x, results.arcCenter.y, -results.arcRadius, 2), purple);
     }
 
-    private Point getPointFromSettings(GoIVSettings settings, String pointString) {
-        String p = settings.getCalibrationValue(pointString);
-        String[] pxy = p.split(",");
-
-        if (pxy.length < 2) {
-            return new Point(0, 0);
-        }
-        return new Point(Integer.valueOf(pxy[0]), Integer.valueOf(pxy[1]));
-
-
-    }
-
-    private void showPointIndicator(Bitmap bmp, Point point, int size, int color) {
-        for (int y = 0; y < size; y++) {
-            for (int x = 0; x < size; x++) {
-                if (((point.x - size / 2) + x) < bmp.getWidth() && ((point.y - size / 2) + y) < bmp.getHeight()) {
-                    bmp.setPixel((point.x - size / 2) + x, (point.y - size / 2) + y, color);
-                }
+    private void showPointIndicator(Bitmap bmp, ScanPoint point, float radius, Integer color, Integer strokeColor) {
+        if (point != null) {
+            Paint p = new Paint();
+            Canvas c = new Canvas(bmp);
+            if (color != null) {
+                p.setColor(color);
+                c.drawCircle(point.x, point.y, radius, p);
+            }
+            if (strokeColor != null) {
+                p.setStyle(Paint.Style.STROKE);
+                p.setColor(strokeColor);
+                p.setStrokeWidth(radius / 3);
+                c.drawCircle(point.x, point.y, radius, p);
             }
         }
     }
 
     private void showAreaIndicator(Bitmap bmp, ScanArea scanArea, int color) {
-        Paint p = new Paint();
-        p.setStyle(Paint.Style.STROKE);
-        p.setColor(color);
-        p.setStrokeWidth(Resources.getSystem().getDisplayMetrics().density);
-        Canvas c = new Canvas(bmp);
-        c.drawRect(scanArea.xPoint, scanArea.yPoint,
-                scanArea.xPoint + scanArea.width, scanArea.yPoint + scanArea.height, p);
+        if (scanArea != null) {
+            Paint p = new Paint();
+            p.setStyle(Paint.Style.STROKE);
+            p.setColor(color);
+            p.setStrokeWidth(Resources.getSystem().getDisplayMetrics().density);
+            Canvas c = new Canvas(bmp);
+            c.drawRect(scanArea.xPoint, scanArea.yPoint,
+                    scanArea.xPoint + scanArea.width, scanArea.yPoint + scanArea.height, p);
+        }
     }
 
 }

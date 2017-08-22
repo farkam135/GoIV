@@ -8,17 +8,17 @@ package com.kamron.pogoiv.pokeflycomponents.ocrhelper;
  */
 
 public class ScanFieldNames {
-
-
-   public static final String pokemonName_area = "pokemonName_area";
-   public static final String pokemonType_area = "pokemonType_area";
-   public static final String candyName_area = "candyName_area";
-   public static final String pokemonHP_area = "pokemonHP_area";
-   public static final String pokemonCP_area = "pokemonCP_area";
-   public static final String pokemonCandyAmount_area = "pokemonCandyAmount_area";
-   public static final String pokemonEvolutionCost_area = "pokemonEvolutionCost_area";
-   public static final String arcRadiusPoint = "arcRadiusPoint";
-   public static final String arcInit = "arcInit";
-   public static final String whitePixelPokemonScreen = "whitePixelPokemonScreen";
-   public static final String greenPokemonMenuPixel = "greenPokemonMenuPixel";
+    public static final String POKEMON_NAME_AREA = "pokemonName_area";
+    public static final String POKEMON_TYPE_AREA = "pokemonType_area";
+    public static final String CANDY_NAME_AREA = "candyName_area";
+    public static final String POKEMON_HP_AREA = "pokemonHP_area";
+    public static final String POKEMON_CP_AREA = "pokemonCP_area";
+    public static final String POKEMON_CANDY_AMOUNT_AREA = "pokemonCandyAmount_area";
+    public static final String POKEMON_EVOLUTION_COST_AREA = "pokemonEvolutionCost_area";
+    public static final String ARC_RADIUS = "arcRadiusPoint";
+    public static final String ARC_INIT_POINT = "arcInit";
+    public static final String SCREEN_INFO_CARD_WHITE_PIXEL = "whitePixelPokemonScreen";
+    public static final String SCREEN_INFO_CARD_WHITE_HEX = "whitePixelPokemonScreenHexColor";
+    public static final String SCREEN_INFO_FAB_GREEN_PIXEL = "greenPokemonMenuPixel";
+    public static final String SCREEN_INFO_FAB_GREEN_HEX = "greenPokemonMenuPixelHexColor";
 }

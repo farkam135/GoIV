@@ -1,6 +1,6 @@
 package com.kamron.pogoiv.scan_logic;
 
-import android.graphics.Point;
+import com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanPoint;
 
 /**
  * Created by Pascal on 17.08.2016.
@@ -32,7 +32,7 @@ public class Data {
      * setupArcPoints
      * Sets up the x,y coordinates of the arc using the trainer level, stores it in Data.arcX/arcY
      */
-    public static void setupArcPoints(Point arcInit, int arcRadius, int trainerLevel) {
+    public static void setupArcPoints(ScanPoint arcInit, int arcRadius, int trainerLevel) {
         /*
          * Pokemon levels go from 1 to trainerLevel + 1.5, in increments of 0.5.
          * Here we use levelIdx for levels that are doubled and shifted by - 2; after this adjustment,

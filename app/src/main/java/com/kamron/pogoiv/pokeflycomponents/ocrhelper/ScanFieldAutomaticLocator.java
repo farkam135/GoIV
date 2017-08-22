@@ -1,26 +1,31 @@
 package com.kamron.pogoiv.pokeflycomponents.ocrhelper;
 
-import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
+import android.os.Handler;
 
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.FluentIterable;
 import com.kamron.pogoiv.BuildConfig;
 
+import org.opencv.android.Utils;
 import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
+import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.Nullable;
@@ -34,56 +39,202 @@ import javax.annotation.Nullable;
 
 public class ScanFieldAutomaticLocator {
 
+    static {
+        System.loadLibrary("opencv_java3");
+    }
+
     private static final int pureWhite = Color.parseColor("#FFFFFF"); // hp, pokemon name text etc
-    private static final int darkTextColorInt = Color.parseColor("#49696c"); // hp, pokemon name text etc
     private static final int hpBarColorInt = Color.parseColor("#6dedb7");  //old color 81ecb6
     private static final int whiteInt = Color.parseColor("#FAFAFA");
     private static final int greenInt = Color.parseColor("#1d8696"); // 1d8696 is the color used in pokemon go as green
     // background rgb (29 134 150)
     private static final Scalar SCALAR_ON = new Scalar(255);
     private static final Scalar SCALAR_OFF = new Scalar(0);
+    private static final float[] HSV_GREEN_DARK_SMALL = new float[] {170, 0.16f, 0.62f};
     private static final float[] HSV_GREEN_DARK = new float[] {183f, 0.32f, 0.46f};
     private static final float[] HSV_GREEN_LIGHT = new float[] {183f, 0.13f, 0.67f};
-    private static final float[] HSV_GREY_LIGHT = new float[] {0f, 0f, 0.88f};
+    private static final float[] HSV_TEXT_RED = new float[] {2f, 0.39f, 0.96f};
+    private static final float[] HSV_BUTTON_ENABLED = new float[] {147, 0.45f, 0.84f};
+    //private static final float[] HSV_BUTTON_DISABLED = new float[] {177, 0.12f, 0.87f};
 
 
-    /**
-     * Method used during debuging  / creation of point finding algorithms, just draws a dot which can be seen on hte
-     * bitmap.
-     *
-     * @param bmp   The bmp to mark with a square "dot"
-     * @param point The point on the bitmap to mark
-     * @param size  The size of one of the sides of the dot in pixels
-     * @param color The color the dot should be (use Color.parseColor("#FF0000") for example)
-     */
-    private void debugWriteDot(Bitmap bmp, Point point, int size, int color) {
-        for (int y = 0; y < size; y++) {
-            for (int x = 0; x < size; x++) {
-                int cx = (point.x - size / 2) + x;
-                int cy = (point.y - size / 2) + y;
-                if (cx >= 0 && cx < bmp.getWidth() && cy >= 0 && cy < bmp.getHeight()) {
-                    bmp.setPixel(cx, cy, color);
+    private final Bitmap bmp;
+    private final Mat image;
+    private final List<MatOfPoint> contours;
+    private final ArrayList<Rect> boundingRectList;
+    private final Mat mask1;
+    private final Mat mask2;
+    private final Rect greyHorizontalLine;
+    private final Rect powerUpButton;
+
+    private final float screenDensity;
+    private final int width33Percent;
+    private final int width50Percent;
+    private final int width66Percent;
+    private final int width80Percent;
+
+    private final float charHeightSmall;
+    private final float charHeightMedium;
+    private final float charHeightBig;
+    private final float charHeightHugeUppercase;
+    private final float charHeightHugeLowercase;
+    private final float buttonHeight;
+    private final float buttonPadding;
+
+
+    public ScanFieldAutomaticLocator(Bitmap bmp) {
+        screenDensity = Resources.getSystem().getDisplayMetrics().density;
+        this.bmp = bmp;
+        width33Percent = bmp.getWidth() / 3;
+        width50Percent = bmp.getWidth() / 2;
+        width66Percent = bmp.getWidth() / 3 * 2;
+        width80Percent = bmp.getWidth() / 5 * 4;
+        charHeightSmall = 8 * screenDensity;
+        charHeightMedium = 10f * screenDensity;
+        charHeightBig = 12 * screenDensity;
+        charHeightHugeLowercase = 12 * screenDensity;
+        charHeightHugeUppercase = 17 * screenDensity;
+        buttonHeight = 41f * screenDensity;
+        buttonPadding = 8f * screenDensity;
+
+
+        // Computer vision parameters
+        int blurRadius = (int) (3 * screenDensity);
+        if (blurRadius % 2 == 0) {
+            blurRadius++;
+        }
+        int adaptThreshBlockSize = (int) (5 * screenDensity);
+        if (adaptThreshBlockSize % 2 == 0) {
+            adaptThreshBlockSize++;
+        }
+        double minArea = 25 * screenDensity;
+        double maxArea = 172800 * screenDensity; // 1/4 of 16:9 mdpi screen
+
+
+        // Prepare image
+        image = new Mat(bmp.getWidth(), bmp.getHeight(), CvType.CV_8UC1);
+        Utils.bitmapToMat(bmp, image);
+
+        Mat imageHsv = new Mat(image.size(), CvType.CV_8UC4);
+        Imgproc.cvtColor(image, imageHsv, Imgproc.COLOR_BGR2GRAY);
+
+        Mat imageBlur = new Mat(image.size(), CvType.CV_8UC4);
+        Imgproc.GaussianBlur(imageHsv, imageBlur, new Size(blurRadius, blurRadius), 0);
+
+        Mat imageA = new Mat(image.size(), CvType.CV_32F);
+        Imgproc.adaptiveThreshold(imageBlur, imageA, 255, Imgproc.ADAPTIVE_THRESH_GAUSSIAN_C, Imgproc.THRESH_BINARY,
+                adaptThreshBlockSize, 3);
+
+        // Prepare masks for later (average color computation)
+        mask1 = new Mat(image.rows(), image.cols(), CvType.CV_8U);
+        mask2 = new Mat(image.rows(), image.cols(), CvType.CV_8U);
+
+
+        // Find contours
+        contours = new ArrayList<>();
+        Imgproc.findContours(imageA, contours, new Mat(), Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_SIMPLE);
+
+        // Remove contours too small or too large
+        Iterator<MatOfPoint> contoursIterator = contours.iterator();
+        while (contoursIterator.hasNext()) {
+            MatOfPoint contour = contoursIterator.next();
+            double contourArea = Imgproc.contourArea(contour);
+            if (contourArea < minArea || contourArea > maxArea) {
+                contoursIterator.remove();
+            }
+        }
+
+
+        // Find contours bounding boxes
+        boundingRectList = new ArrayList<>(contours.size());
+        for (MatOfPoint contour : contours) {
+            boundingRectList.add(Imgproc.boundingRect(contour));
+        }
+
+
+        // Find horizontal grey divider line
+        final float greyLineHeight = 2 * screenDensity;
+        List<Rect> greyLineCandidates = FluentIterable.from(boundingRectList)
+                .filter(ByHeight.of(greyLineHeight, screenDensity / 2))
+                .filter(ByMinWidth.of(width80Percent))
+                .toList();
+        if (greyLineCandidates.size() > 0) {
+            greyHorizontalLine = greyLineCandidates.get(0);
+        } else {
+            greyHorizontalLine = null;
+        }
+
+        // Find power up button. This is always visible, as opposed to evolve button
+        List<Rect> powerUpButtonCandidates = FluentIterable.from(boundingRectList)
+                .filter(ByHeight.of(buttonHeight, screenDensity))
+                .filter(ByMinWidth.of(buttonHeight * 2))
+                .filter(ByHsvColor.of(image, mask1, contours, boundingRectList, HSV_BUTTON_ENABLED, 3, 0.15f, 0.15f))
+                .toList();
+
+        if (powerUpButtonCandidates.size() > 0) {
+            // Take the lower button
+            Rect candidate = powerUpButtonCandidates.get(0);
+            for (int i = 1; i < powerUpButtonCandidates.size(); i++) {
+                Rect currentCandidate = powerUpButtonCandidates.get(i);
+                if (currentCandidate.y + currentCandidate.height > candidate.y + candidate.height) {
+                    candidate = currentCandidate;
                 }
             }
+            powerUpButton = candidate;
+        } else {
+            powerUpButton = null;
         }
     }
 
-    private String pointToString(Point p) {
-        if (p == null) {
-            return "0,0"; //error
-        }
-        return p.x + "," + p.y;
+    public ScanFieldResults scan(Handler mainThreadHandler, ProgressDialog dialog) {
+        final ScanFieldResults results = new ScanFieldResults();
+
+        postMessage(mainThreadHandler, dialog, "Finding name area");
+        findPokemonNameArea(results);
+
+        postMessage(mainThreadHandler, dialog, "Finding type area");
+        findPokemonTypeArea(results);
+
+        postMessage(mainThreadHandler, dialog, "Finding candy name area");
+        findPokemonCandyNameArea(results);
+
+        postMessage(mainThreadHandler, dialog, "Finding hp area");
+        findPokemonHPArea(results);
+
+        postMessage(mainThreadHandler, dialog, "Finding cp area");
+        findPokemonCPScanArea(results);
+
+        postMessage(mainThreadHandler, dialog, "Finding candy amount area");
+        findPokemonCandyArea(results);
+
+        postMessage(mainThreadHandler, dialog, "Finding evolution cost area");
+        findPokemonEvolutionCostArea(results);
+
+        postMessage(mainThreadHandler, dialog, "Finding level arc starting point and radius");
+        findArcValues(results);
+
+        postMessage(mainThreadHandler, dialog, "Finding white marker pixel");
+        findWhitePixelPokemonScreen(results);
+
+        postMessage(mainThreadHandler, dialog, "Finding green marker pixel");
+        findGreenPokemonScreen(results);
+
+        return results;
+    }
+
+    private static void postMessage(Handler handler, final ProgressDialog dialog, final String message) {
+        handler.post(new Runnable() {
+            @Override public void run() {
+                dialog.setMessage(message);
+            }
+        });
     }
 
     /**
      * Get the x,y coordinate of the green pixel in the "hamburger menu" in the bottom right of the pokemon screen.
      * (The dark green color.).
-     *
-     * @param bmp The image to analyze.
-     * @return A string representation of the x,y coordinate in the form of "123,123"
      */
-    String findGreenPokemonScreen(Bitmap bmp) {
-
+    private void findGreenPokemonScreen(ScanFieldResults results) {
         Point bottomPoint = null;
         for (int y = bmp.getHeight() - 1; y > 0; y--) {
             if (bottomPoint != null) {
@@ -91,31 +242,37 @@ public class ScanFieldAutomaticLocator {
             }
             for (int x = bmp.getWidth() - 1; x > 0; x--) {
                 if (greenInt == bmp.getPixel(x, y)) {
-                    System.out.println("Found it");
                     bottomPoint = new Point(x, y);
                     break;
                 }
             }
         }
 
+        if (bottomPoint == null) {
+            return;
+        }
+
         Point topPoint = null;
         for (int i = 0; i < bmp.getHeight() / 2; i++) {
             int nextPx = bmp.getPixel(bottomPoint.x, bottomPoint.y - i);
-            int lumiosity = Color.red(nextPx) + Color.green(nextPx) + Color.blue(nextPx);
-            if (lumiosity > 650) {
+            int luminosity = Color.red(nextPx) + Color.green(nextPx) + Color.blue(nextPx);
+            if (luminosity > 650) {
                 topPoint = new Point(bottomPoint.x, bottomPoint.y - i);
                 break;
             }
+        }
+
+        if (topPoint == null) {
+            return;
         }
 
         //Find the dot 3/4ths up from the lowest point
 
         int newY = (bottomPoint.y - topPoint.y) / 4;
 
-        Point finalPoint = new Point(bottomPoint.x, topPoint.y + newY);
-
-
-        return pointToString(finalPoint);
+        results.infoScreenFabGreenPixelPoint = new ScanPoint(bottomPoint.x, topPoint.y + newY);
+        results.infoScreenFabGreenPixelColor =
+                bmp.getPixel(results.infoScreenFabGreenPixelPoint.x, results.infoScreenFabGreenPixelPoint.y);
     }
 
 
@@ -123,12 +280,9 @@ public class ScanFieldAutomaticLocator {
      * Get the x,y coordinate of the white pixel in the top left corner of where the white area (the card under the
      * 3d pokemon screen) begins in the pokemon
      * screen.
-     *
-     * @param bmp The image to analyze.
-     * @return A string representation of the x,y coordinate in the form of "123,123"
      */
-    String findWhitePixelPokemonScreen(Bitmap bmp) {
-        Point whitePoint = null;
+    private void findWhitePixelPokemonScreen(ScanFieldResults results) {
+        ScanPoint whitePoint = null;
 
         int y = (int) (bmp.getHeight() * 0.5);
         for (int x = 0; x < bmp.getWidth(); x++) {
@@ -136,27 +290,25 @@ public class ScanFieldAutomaticLocator {
                 break; //Found our white point, stop looking
             }
             if (bmp.getPixel(x, y) == whiteInt) {
-                whitePoint = new Point(x * 2, y);
+                whitePoint = new ScanPoint(x * 2, y);
             }
             bmp.setPixel(x, y, Color.parseColor("#00FF00"));
 
         }
 
-        return pointToString(whitePoint);
-
+        if (whitePoint != null) {
+            results.infoScreenCardWhitePixelPoint = whitePoint;
+            results.infoScreenCardWhitePixelColor =
+                    bmp.getPixel(results.infoScreenCardWhitePixelPoint.x, results.infoScreenCardWhitePixelPoint.y);
+        }
     }
 
 
     /**
      * Find the "leftmost" part of the level arc. (The left endpoint of the arc). Returns both the radius and the
      * point of starting, in the form of x,y;radius
-     *
-     * @param bmp The image to analyze.
-     * @return A string representation of the x,y coordinate and radiusin the form of "123,123;123"
      */
-    String findArcValues(Bitmap bmp) {
-
-
+    private void findArcValues(ScanFieldResults results) {
         // find where the white area begins
         int whiteCardStartY = 0;
         for (int y = (int) (bmp.getHeight() * 0.5); y > 0; y--) {
@@ -166,7 +318,6 @@ public class ScanFieldAutomaticLocator {
                 break;
             }
         }
-
 
         Point finalPoint = null;
         for (int x = 1; x < bmp.getWidth() * 0.25; x++) {
@@ -186,43 +337,19 @@ public class ScanFieldAutomaticLocator {
             }
         }
 
-        if (finalPoint != null) {
-            debugWriteDot(bmp, finalPoint, 30, Color.parseColor("#0000FF"));
-
-
-            int arcRadius = bmp.getWidth() / 2 - finalPoint.x;
-            int middle = bmp.getWidth() / 2;
-            return middle + "," + finalPoint.y + ";" + arcRadius;
+        if (finalPoint == null) {
+            return;
         }
-        return "1,1;1";
+
+        results.arcCenter = new ScanPoint(bmp.getWidth() / 2, finalPoint.y);
+        results.arcRadius = bmp.getWidth() / 2 - finalPoint.x;
     }
 
 
     /**
-     * Find the area where the pokemons upgrade cost is listed. (such as 12 for pidgey, empty for lugia)
-     *
-     * @param bmp The image to analyze.
-     * @return A string representation of the x,y coordinate in the form of "x,y,x2,y2"
+     * Find the area where the Pokémons evolution cost is listed. (such as 12 for Pidgey, empty for Lugia)
      */
-    String findPokemonUpgradeCostArea(Bitmap bmp) {
-        return "1,1,1,1";
-    }
-
-    /**
-     * Find the area that lists how much candy the user currently has of a pokemon. Used for the "pokespam"
-     * functionallity.
-     *
-     * @param bmp The image to analyze.
-     * @return A string representation of the x,y coordinate in the form of "x,y,x2,y2"
-     */
-    @SuppressLint("DefaultLocale")
-    String findPokemonCandyArea(Bitmap bmp, Mat image, List<MatOfPoint> contours, List<Rect> boundingRectList) {
-        final float screenDensity = Resources.getSystem().getDisplayMetrics().density;
-        final float charHeight = 12 * screenDensity;
-        final float greyLineHeight = 2 * screenDensity;
-        final int width33Percent = bmp.getWidth() / 3;
-        final int width50Percent = bmp.getWidth() / 2;
-        final int width80Percent = bmp.getWidth() / 5 * 4;
+    private void findPokemonEvolutionCostArea(ScanFieldResults results) {
         final boolean debugExecution = false; // Activate this flag to display the onscreen debug graphics
 
         Canvas c = null;
@@ -238,55 +365,46 @@ public class ScanFieldAutomaticLocator {
             debugPrintRectList(boundingRectList, c, p);
         }
 
-        // Find horizontal grey divider line
-        List<Rect> greyLineCandidates = FluentIterable.from(boundingRectList)
-                .filter(ByHeight.of(greyLineHeight, screenDensity / 2))
-                .filter(ByMinWidth.of(width80Percent))
-                .toList();
-        Rect greyLine = greyLineCandidates.get(0);
+        if (powerUpButton == null) {
+            return;
+        }
 
-        List<Rect> results = FluentIterable.from(boundingRectList)
+        List<Rect> candidates = FluentIterable.from(boundingRectList)
                 // Keep only bounding rect between 50% and 83% of the image width
                 .filter(Predicates.and(ByMinX.of(width50Percent), ByMaxX.of(width33Percent + width50Percent)))
                 // Keep only bounding rect below the grey divider line
-                .filter(ByMinY.of(greyLine.y + greyLine.height))
+                .filter(ByMinY.of((int) (powerUpButton.y + powerUpButton.height + buttonPadding)))
+                .filter(ByMaxY.of((int) (powerUpButton.y + powerUpButton.height + buttonPadding + buttonHeight)))
                 // Try to guess the 'mon candy characters basing on their height
-                .filter(ByHeight.of(charHeight, screenDensity / 2))
-                .toList();
-
-        //noinspection PointlessBooleanExpression
-        if (BuildConfig.DEBUG && debugExecution) {
-            //noinspection ConstantConditions
-            p.setColor(Color.RED);
-            debugPrintRectList(results, c, p);
-        }
-
-        results = FluentIterable.from(results)
-                // Keep only rect with bottom coordinate inside half of the standard deviation
-                .filter(ByStandardDeviationOnBottomY.of(results, 0.5f))
+                .filter(ByHeight.of(charHeightMedium, screenDensity))
                 .toList();
 
         //noinspection PointlessBooleanExpression
         if (BuildConfig.DEBUG && debugExecution) {
             //noinspection ConstantConditions
             p.setColor(Color.YELLOW);
-            debugPrintRectList(results, c, p);
+            debugPrintRectList(candidates, c, p);
         }
 
-        Mat mask = new Mat(image.rows(), image.cols(), CvType.CV_8U);
-        results = FluentIterable.from(results)
+        candidates = FluentIterable.from(candidates)
                 // Check if the dominant color of the contour matches the light green hue of PoGO text
-                .filter(ByHsvColor.of(image, mask, contours, boundingRectList, HSV_GREEN_DARK, 3, 0.275f, 0.325f))
+                .filter(Predicates.or(
+                        ByHsvColor.of(image, mask1, contours, boundingRectList, HSV_GREEN_DARK_SMALL, 3, 0.15f, 0.15f),
+                        ByHsvColor.of(image, mask2, contours, boundingRectList, HSV_TEXT_RED, 3, 0.15f, 0.15f)))
                 .toList();
 
         //noinspection PointlessBooleanExpression
         if (BuildConfig.DEBUG && debugExecution) {
             //noinspection ConstantConditions
             p.setColor(Color.GREEN);
-            debugPrintRectList(results, c, p);
+            debugPrintRectList(candidates, c, p);
         }
 
-        Rect result = mergeRectList(results);
+        if (candidates.size() == 0) {
+            return;
+        }
+
+        Rect result = mergeRectList(candidates);
 
         // Ensure the rect is wide at least 33% of the screen width
         if (result.x > width50Percent) {
@@ -296,21 +414,93 @@ public class ScanFieldAutomaticLocator {
             result.width = width33Percent;
         }
 
-        return String.format("%d,%d,%d,%d", result.x, result.y, result.width, result.height);
+        results.pokemonEvolutionCostArea = new ScanArea(result.x, result.y, result.width, result.height);
+    }
+
+    /**
+     * Find the area that lists how much candy the user currently has of a pokemon. Used for the "pokespam"
+     * functionality.
+     */
+    private void findPokemonCandyArea(ScanFieldResults results) {
+        final boolean debugExecution = false; // Activate this flag to display the onscreen debug graphics
+
+        Canvas c = null;
+        Paint p = null;
+        //noinspection PointlessBooleanExpression
+        if (BuildConfig.DEBUG && debugExecution) {
+            c = new Canvas(bmp);
+            p = new Paint();
+            p.setStyle(Paint.Style.STROKE);
+            p.setStrokeWidth(screenDensity);
+            p.setColor(Color.MAGENTA);
+
+            debugPrintRectList(boundingRectList, c, p);
+        }
+
+        List<Rect> candidates = FluentIterable.from(boundingRectList)
+                // Keep only bounding rect between 50% and 83% of the image width
+                .filter(Predicates.and(ByMinX.of(width50Percent), ByMaxX.of(width33Percent + width50Percent)))
+                // Keep only bounding rect below the grey divider line
+                .filter(ByMinY.of(greyHorizontalLine.y + greyHorizontalLine.height))
+                // Try to guess the 'mon candy characters basing on their height
+                .filter(ByHeight.of(charHeightBig, screenDensity / 2))
+                .toList();
+
+        //noinspection PointlessBooleanExpression
+        if (BuildConfig.DEBUG && debugExecution) {
+            //noinspection ConstantConditions
+            p.setColor(Color.RED);
+            debugPrintRectList(candidates, c, p);
+        }
+
+        candidates = FluentIterable.from(candidates)
+                // Keep only rect with bottom coordinate inside half of the standard deviation
+                .filter(ByStandardDeviationOnBottomY.of(candidates, 0.5f))
+                .toList();
+
+        //noinspection PointlessBooleanExpression
+        if (BuildConfig.DEBUG && debugExecution) {
+            //noinspection ConstantConditions
+            p.setColor(Color.YELLOW);
+            debugPrintRectList(candidates, c, p);
+        }
+
+        candidates = FluentIterable.from(candidates)
+                // Check if the dominant color of the contour matches the light green hue of PoGO text
+                .filter(ByHsvColor.of(image, mask1, contours, boundingRectList, HSV_GREEN_DARK, 3, 0.275f, 0.325f))
+                .toList();
+
+        //noinspection PointlessBooleanExpression
+        if (BuildConfig.DEBUG && debugExecution) {
+            //noinspection ConstantConditions
+            p.setColor(Color.GREEN);
+            debugPrintRectList(candidates, c, p);
+        }
+
+        if (candidates.size() == 0) {
+            return;
+        }
+
+        Rect result = mergeRectList(candidates);
+
+        // Ensure the rect is wide at least 33% of the screen width
+        if (result.x > width50Percent) {
+            result.x = width50Percent;
+        }
+        if (result.width < width33Percent) {
+            result.width = width33Percent;
+        }
+
+        results.pokemonCandyAmountArea = new ScanArea(result.x, result.y, result.width, result.height);
     }
 
 
     /**
      * Get the CP field of a pokemon. (The one at the top of the screen, on the form of CP XXX)
-     *
-     * @param bmp The image to analyze.
-     * @return A string representation of the x,y coordinate in the form of "x,y,x2,y2"
      */
-    String findPokemonCPScanArea(Bitmap bmp) {
-
+    private void findPokemonCPScanArea(ScanFieldResults results) {
         int cpStartY = 0;
         for (int y = (int) (bmp.getHeight() * 0.05); y < bmp.getHeight() * 0.5; y++) {
-
             int half = bmp.getWidth() / 2;
             boolean found1 = bmp.getPixel((int) (half - half * 0.001), y) == pureWhite;
             boolean found2 = bmp.getPixel((int) (half - half * 0.01), y) == pureWhite;
@@ -324,18 +514,14 @@ public class ScanFieldAutomaticLocator {
                 cpStartY = y;
                 break;
             }
-
-
         }
+
         int cpEndY = getEndOfText(bmp, cpStartY, (int) (bmp.getWidth() * 0.2), pureWhite);
-
-
         int height = cpEndY - cpStartY;
-
         int startX = (int) (bmp.getWidth() * 0.333);
         int scanAreaWidth = (int) (bmp.getWidth() * 0.333);
 
-        return startX + "," + cpStartY + "," + scanAreaWidth + "," + height;
+        results.pokemonCpArea = new ScanArea(startX, cpStartY, scanAreaWidth, height);
     }
 
     /**
@@ -367,10 +553,9 @@ public class ScanFieldAutomaticLocator {
     }
 
     /**
-     * @param bmp The image to analyze.
-     * @return A string representation of the x,y coordinate in the form of "x,y,x2,y2"
+     * Looks for the Pokémon HP area.
      */
-    String findPokemonHPArea(Bitmap bmp) {
+    private void findPokemonHPArea(ScanFieldResults results) {
         int hpBarStartY = 0;
 
         for (int y = 0; y < bmp.getHeight(); y++) {
@@ -448,9 +633,7 @@ public class ScanFieldAutomaticLocator {
         int returnHeight = hpTextEndY - hpTextStartY;
         int returnWidth = (bmp.getWidth()) - 2 * hpStartXWithPadding;
 
-
-        return returnX + "," + returnY + "," + returnWidth + "," + returnHeight;
-
+        results.pokemonHpArea = new ScanArea(returnX, returnY, returnWidth, returnHeight);
     }
 
     private boolean isLikelyDarkText(int color) {
@@ -462,19 +645,9 @@ public class ScanFieldAutomaticLocator {
     }
 
     /**
-     * Find the area where the candy name (such as "eevee candy") is listed
-     *
-     * @param bmp The image to analyze.
-     * @return A string representation of the x,y coordinate in the form of "x,y,x2,y2"
+     * Find the area where the candy name (such as "eevee candy") is listed.
      */
-    @SuppressLint("DefaultLocale")
-    String findPokemonCandyNameArea(Bitmap bmp, Mat image, List<MatOfPoint> contours, List<Rect> boundingRectList) {
-        final float screenDensity = Resources.getSystem().getDisplayMetrics().density;
-        final float charHeight = 8 * screenDensity;
-        final float greyLineHeight = 2 * screenDensity;
-        final int width33Percent = bmp.getWidth() / 3;
-        final int width50Percent = bmp.getWidth() / 2;
-        final int width80Percent = bmp.getWidth() / 5 * 4;
+    private void findPokemonCandyNameArea(ScanFieldResults results) {
         final boolean debugExecution = false; // Activate this flag to display the onscreen debug graphics
 
         Canvas c = null;
@@ -490,55 +663,55 @@ public class ScanFieldAutomaticLocator {
             debugPrintRectList(boundingRectList, c, p);
         }
 
-        // Find horizontal grey divider line
-        List<Rect> greyLineCandidates = FluentIterable.from(boundingRectList)
-                .filter(ByHeight.of(greyLineHeight, screenDensity / 2))
-                .filter(ByMinWidth.of(width80Percent))
-                .toList();
-        Rect greyLine = greyLineCandidates.get(0);
+        if (greyHorizontalLine == null) {
+            return;
+        }
 
-        List<Rect> results = FluentIterable.from(boundingRectList)
+        List<Rect> candidates = FluentIterable.from(boundingRectList)
                 // Keep only bounding rect between 50% and 83% of the image width
                 .filter(Predicates.and(ByMinX.of(width50Percent), ByMaxX.of(width33Percent + width50Percent)))
                 // Keep only bounding rect below the grey divider line
-                .filter(ByMinY.of(greyLine.y + greyLine.height))
+                .filter(ByMinY.of(greyHorizontalLine.y + greyHorizontalLine.height))
                 // Try to guess the 'mon candy characters basing on their height
-                .filter(ByHeight.of(charHeight, screenDensity / 2))
+                .filter(ByHeight.of(charHeightSmall, screenDensity / 2))
                 .toList();
 
         //noinspection PointlessBooleanExpression
         if (BuildConfig.DEBUG && debugExecution) {
             //noinspection ConstantConditions
             p.setColor(Color.RED);
-            debugPrintRectList(results, c, p);
+            debugPrintRectList(candidates, c, p);
         }
 
-        results = FluentIterable.from(results)
+        candidates = FluentIterable.from(candidates)
                 // Keep only rect with bottom coordinate inside half of the standard deviation
-                .filter(ByStandardDeviationOnBottomY.of(results, 0.5f))
+                .filter(ByStandardDeviationOnBottomY.of(candidates, 0.5f))
                 .toList();
 
         //noinspection PointlessBooleanExpression
         if (BuildConfig.DEBUG && debugExecution) {
             //noinspection ConstantConditions
             p.setColor(Color.YELLOW);
-            debugPrintRectList(results, c, p);
+            debugPrintRectList(candidates, c, p);
         }
 
-        Mat mask = new Mat(image.rows(), image.cols(), CvType.CV_8U);
-        results = FluentIterable.from(results)
+        candidates = FluentIterable.from(candidates)
                 // Check if the dominant color of the contour matches the light green hue of PoGO text
-                .filter(ByHsvColor.of(image, mask, contours, boundingRectList, HSV_GREEN_LIGHT, 3, 0.275f, 0.325f))
+                .filter(ByHsvColor.of(image, mask1, contours, boundingRectList, HSV_GREEN_LIGHT, 3, 0.275f, 0.325f))
                 .toList();
 
         //noinspection PointlessBooleanExpression
         if (BuildConfig.DEBUG && debugExecution) {
             //noinspection ConstantConditions
             p.setColor(Color.GREEN);
-            debugPrintRectList(results, c, p);
+            debugPrintRectList(candidates, c, p);
         }
 
-        Rect result = mergeRectList(results);
+        if (candidates.size() == 0) {
+            return;
+        }
+
+        Rect result = mergeRectList(candidates);
 
         // Ensure the rect is wide at least 33% of the screen width
         if (result.x > width50Percent) {
@@ -548,21 +721,13 @@ public class ScanFieldAutomaticLocator {
             result.width = width33Percent;
         }
 
-        return String.format("%d,%d,%d,%d", result.x, result.y, result.width, result.height);
+        results.candyNameArea = new ScanArea(result.x, result.y, result.width, result.height);
     }
 
     /**
      * Find the area where the pokemon type is listed, between weight and height. On the form of "Psychic / flying".
-     *
-     * @param bmp The image to analyze.
-     * @return A string representation of the x,y coordinate in the form of "x,y,x2,y2"
      */
-    @SuppressLint("DefaultLocale")
-    String findPokemonTypeArea(Bitmap bmp, Mat image, List<MatOfPoint> contours, List<Rect> boundingRectList) {
-        final float screenDensity = Resources.getSystem().getDisplayMetrics().density;
-        final float charHeight = 8 * screenDensity;
-        final int width33Percent = bmp.getWidth() / 3;
-        final int width66Percent = bmp.getWidth() * 2 / 3;
+    private void findPokemonTypeArea(ScanFieldResults results) {
         final boolean debugExecution = false; // Activate this flag to display the onscreen debug graphics
 
         Canvas c = null;
@@ -578,46 +743,49 @@ public class ScanFieldAutomaticLocator {
             debugPrintRectList(boundingRectList, c, p);
         }
 
-        List<Rect> results = FluentIterable.from(boundingRectList)
+        List<Rect> candidates = FluentIterable.from(boundingRectList)
                 // Keep only bounding rect between 33% and 66% of the image width
                 .filter(Predicates.and(ByMinX.of(width33Percent), ByMaxX.of(width66Percent)))
                 // Try to guess the 'mon name characters basing on their height
-                .filter(ByHeight.of(charHeight, screenDensity / 2))
+                .filter(ByHeight.of(charHeightSmall, screenDensity / 2))
                 .toList();
 
         //noinspection PointlessBooleanExpression
         if (BuildConfig.DEBUG && debugExecution) {
             //noinspection ConstantConditions
             p.setColor(Color.RED);
-            debugPrintRectList(results, c, p);
+            debugPrintRectList(candidates, c, p);
         }
 
-        results = FluentIterable.from(results)
+        candidates = FluentIterable.from(candidates)
                 // Keep only rect with bottom coordinate inside half of the standard deviation
-                .filter(ByStandardDeviationOnBottomY.of(results, 0.5f))
+                .filter(ByStandardDeviationOnBottomY.of(candidates, 0.5f))
                 .toList();
 
         //noinspection PointlessBooleanExpression
         if (BuildConfig.DEBUG && debugExecution) {
             //noinspection ConstantConditions
             p.setColor(Color.YELLOW);
-            debugPrintRectList(results, c, p);
+            debugPrintRectList(candidates, c, p);
         }
 
-        Mat mask = new Mat(image.rows(), image.cols(), CvType.CV_8U);
-        results = FluentIterable.from(results)
+        candidates = FluentIterable.from(candidates)
                 // Check if the dominant color of the contour matches the light green hue of PoGO text
-                .filter(ByHsvColor.of(image, mask, contours, boundingRectList, HSV_GREEN_LIGHT, 3, 0.275f, 0.325f))
+                .filter(ByHsvColor.of(image, mask1, contours, boundingRectList, HSV_GREEN_LIGHT, 3, 0.275f, 0.325f))
                 .toList();
 
         //noinspection PointlessBooleanExpression
         if (BuildConfig.DEBUG && debugExecution) {
             //noinspection ConstantConditions
             p.setColor(Color.GREEN);
-            debugPrintRectList(results, c, p);
+            debugPrintRectList(candidates, c, p);
         }
 
-        Rect result = mergeRectList(results);
+        if (candidates.size() == 0) {
+            return;
+        }
+
+        Rect result = mergeRectList(candidates);
 
         // Ensure the rect is wide at least 33% of the screen width
         if (result.x > width33Percent) {
@@ -627,22 +795,13 @@ public class ScanFieldAutomaticLocator {
             result.width = width33Percent;
         }
 
-        return String.format("%d,%d,%d,%d", result.x, result.y, result.width, result.height);
+        results.pokemonTypeArea = new ScanArea(result.x, result.y, result.width, result.height);
     }
 
     /**
      * Find the area where the pokemon name is listed (The part that the user can manually change to a nickname).
-     *
-     * @param bmp The image to analyze.
-     * @return A string representation of the x,y coordinate in the form of "x,y,x2,y2"
      */
-    @SuppressLint("DefaultLocale")
-    String findPokemonNameArea(Bitmap bmp, Mat image, List<MatOfPoint> contours, List<Rect> boundingRectList) {
-        final float screenDensity = Resources.getSystem().getDisplayMetrics().density;
-        final float charUppercaseHeight = 17 * screenDensity;
-        final float charLowercaseHeight = 12 * screenDensity;
-        final int width33Percent = bmp.getWidth() / 3;
-        final int width66Percent = bmp.getWidth() * 2 / 3;
+    void findPokemonNameArea(ScanFieldResults results) {
         final boolean debugExecution = false; // Activate this flag to display the onscreen debug graphics
 
         Canvas c = null;
@@ -658,47 +817,50 @@ public class ScanFieldAutomaticLocator {
             debugPrintRectList(boundingRectList, c, p);
         }
 
-        List<Rect> results = FluentIterable.from(boundingRectList)
+        List<Rect> candidates = FluentIterable.from(boundingRectList)
                 // Keep only bounding rect between 33% and 66% of the image width
                 .filter(Predicates.and(ByMinX.of(width33Percent), ByMaxX.of(width66Percent)))
                 // Try to guess the 'mon name characters basing on their height
-                .filter(Predicates.or(ByHeight.of(charUppercaseHeight, screenDensity / 2),
-                        ByHeight.of(charLowercaseHeight, screenDensity / 2)))
+                .filter(Predicates.or(ByHeight.of(charHeightHugeUppercase, screenDensity / 2),
+                        ByHeight.of(charHeightHugeLowercase, screenDensity / 2)))
                 .toList();
 
         //noinspection PointlessBooleanExpression
         if (BuildConfig.DEBUG && debugExecution) {
             //noinspection ConstantConditions
             p.setColor(Color.RED);
-            debugPrintRectList(results, c, p);
+            debugPrintRectList(candidates, c, p);
         }
 
-        results = FluentIterable.from(results)
+        candidates = FluentIterable.from(candidates)
                 // Keep only rect with bottom coordinate inside half of the standard deviation
-                .filter(ByStandardDeviationOnBottomY.of(results, 0.5f))
+                .filter(ByStandardDeviationOnBottomY.of(candidates, 0.5f))
                 .toList();
 
         //noinspection PointlessBooleanExpression
         if (BuildConfig.DEBUG && debugExecution) {
             //noinspection ConstantConditions
             p.setColor(Color.YELLOW);
-            debugPrintRectList(results, c, p);
+            debugPrintRectList(candidates, c, p);
         }
 
-        Mat mask = new Mat(image.rows(), image.cols(), CvType.CV_8U);
-        results = FluentIterable.from(results)
+        candidates = FluentIterable.from(candidates)
                 // Check if the dominant color of the contour matches the dark green hue of PoGO text
-                .filter(ByHsvColor.of(image, mask, contours, boundingRectList, HSV_GREEN_DARK, 3, 0.275f, 0.325f))
+                .filter(ByHsvColor.of(image, mask1, contours, boundingRectList, HSV_GREEN_DARK, 3, 0.275f, 0.325f))
                 .toList();
 
         //noinspection PointlessBooleanExpression
         if (BuildConfig.DEBUG && debugExecution) {
             //noinspection ConstantConditions
             p.setColor(Color.GREEN);
-            debugPrintRectList(results, c, p);
+            debugPrintRectList(candidates, c, p);
         }
 
-        Rect result = mergeRectList(results);
+        if (candidates.size() == 0) {
+            return;
+        }
+
+        Rect result = mergeRectList(candidates);
 
         // Ensure the pokemon name rect is wide at least 33% of the screen width
         if (result.x > width33Percent) {
@@ -708,7 +870,7 @@ public class ScanFieldAutomaticLocator {
             result.width = width33Percent;
         }
 
-        return String.format("%d,%d,%d,%d", result.x, result.y, result.width, result.height);
+        results.pokemonNameArea = new ScanArea(result.x, result.y, result.width, result.height);
     }
 
     private static Rect mergeRectList(List<Rect> rectList) {
@@ -779,6 +941,22 @@ public class ScanFieldAutomaticLocator {
         }
     }
 
+    private static class ByMaxY implements Predicate<Rect> {
+        private int maxY;
+
+        private ByMaxY(int maxY) {
+            this.maxY = maxY;
+        }
+
+        public static ByMaxY of(int maxY) {
+            return new ByMaxY(maxY);
+        }
+
+        @Override public boolean apply(@Nullable Rect input) {
+            return input != null && input.y + input.height <= maxY;
+        }
+    }
+
     private static class ByMinWidth implements Predicate<Rect> {
         private float minWidth;
 
@@ -792,6 +970,24 @@ public class ScanFieldAutomaticLocator {
 
         @Override public boolean apply(@Nullable Rect input) {
             return input != null && input.width >= minWidth;
+        }
+    }
+
+    private static class ByWidth implements Predicate<Rect> {
+        private float targetWidth;
+        private float delta;
+
+        private ByWidth(float targetWidth, float delta) {
+            this.targetWidth = targetWidth;
+            this.delta = delta;
+        }
+
+        public static ByWidth of(float targetWidth, float delta) {
+            return new ByWidth(targetWidth, delta);
+        }
+
+        @Override public boolean apply(@Nullable Rect input) {
+            return input != null && Math.abs(input.width - targetWidth) < delta;
         }
     }
 
@@ -883,7 +1079,9 @@ public class ScanFieldAutomaticLocator {
                 Imgproc.drawContours(mask, contours, contours.indexOf(contour), SCALAR_ON, -1);
                 Scalar meanColor = Core.mean(image, mask);
                 Color.RGBToHSV((int) meanColor.val[0], (int) meanColor.val[1], (int) meanColor.val[2], meanHsv);
-                if (Math.abs(color[0] - meanHsv[0]) <= dH
+                if ((Math.abs(color[0] - meanHsv[0]) <= dH
+                        || meanHsv[0] > 360 + color[0] - dH
+                        || meanHsv[0] < -color[0] + dH)
                         && Math.abs(color[1] - meanHsv[1]) <= dS
                         && Math.abs(color[2] - meanHsv[2]) <= dV) {
                     return true;

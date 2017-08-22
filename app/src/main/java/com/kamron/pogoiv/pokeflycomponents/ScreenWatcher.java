@@ -18,8 +18,8 @@ import com.kamron.pogoiv.GoIVSettings;
 import com.kamron.pogoiv.Pokefly;
 import com.kamron.pogoiv.ScreenGrabber;
 
-import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.greenPokemonMenuPixel;
-import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.whitePixelPokemonScreen;
+import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.SCREEN_INFO_FAB_GREEN_PIXEL;
+import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.SCREEN_INFO_CARD_WHITE_PIXEL;
 
 /**
  * A class which checks the screen every time the user pressses the screen, and calls to the ivbutton and
@@ -64,11 +64,11 @@ public class ScreenWatcher {
         GoIVSettings set = GoIVSettings.getInstance(pokefly);
         if (set.hasManualScanCalibration()) {
             try {
-                String wpps = set.getCalibrationValue(whitePixelPokemonScreen);
+                String wpps = set.getCalibrationValue(SCREEN_INFO_CARD_WHITE_PIXEL);
                 int area0x = Integer.parseInt(wpps.split(",")[0]);
                 int area0y = Integer.parseInt(wpps.split(",")[1]);
 
-                String gpmp = set.getCalibrationValue(greenPokemonMenuPixel);
+                String gpmp = set.getCalibrationValue(SCREEN_INFO_FAB_GREEN_PIXEL);
                 int area1x = Integer.parseInt(gpmp.split(",")[0]);
                 int area1y = Integer.parseInt(gpmp.split(",")[1]);
 

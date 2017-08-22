@@ -5,7 +5,6 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
@@ -158,20 +157,22 @@ public class GoIVNotificationManager {
                 Intent closeIntent = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
                 pokefly.sendBroadcast(closeIntent); //closes the notification window so we can screenshot pogo
 
+                handler.post(new Runnable() {
+                    @Override public void run() {
+                        pokefly.getIvButton().setShown(false, false); // Hide IV button: it might interfere
+                    }
+                });
 
-                final Runnable r = new Runnable() {
+                handler.postDelayed(new Runnable() {
                     public void run() {
-                        Bitmap bmp = ScreenGrabber.getInstance().grabScreen();
-                        CalibrationImage.calibrationImg = bmp;
+                        CalibrationImage.calibrationImg = ScreenGrabber.getInstance().grabScreen();
                         CalibrationImage.pokefly = pokefly;
 
-                        Intent showResultIntent = new Intent(pokefly, OcrCalibrationResultActivity.class);
-
+                        Intent showResultIntent = new Intent(pokefly, OcrCalibrationResultActivity.class)
+                                .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(showResultIntent);
-
                     }
-                };
-                handler.postDelayed(r, 2000);
+                }, 2000);
 
 
             }

@@ -4,7 +4,10 @@ package com.kamron.pogoiv.pokeflycomponents.ocrhelper;
  * Created by johan on 2017-07-28.
  */
 
+import android.graphics.Rect;
+
 import com.kamron.pogoiv.GoIVSettings;
+
 
 /**
  * A class that represents an area, used for quickly loading user screen calibration settings.
@@ -35,6 +38,10 @@ public class ScanArea {
         this.yPoint = yPoint;
         this.width = width;
         this.height = height;
+    }
+
+    public boolean contains(Rect r) {
+        return xPoint <= r.left && yPoint <= r.top && xPoint + width >= r.right && yPoint + height >= r.bottom;
     }
 
     @Override public String toString() {

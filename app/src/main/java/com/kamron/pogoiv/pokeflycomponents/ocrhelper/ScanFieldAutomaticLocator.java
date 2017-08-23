@@ -1,13 +1,14 @@
 package com.kamron.pogoiv.pokeflycomponents.ocrhelper;
 
 import android.app.ProgressDialog;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.os.Handler;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
@@ -28,7 +29,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.annotation.Nullable;
 
 /**
  * Created by johan on 2017-07-27.
@@ -82,8 +82,8 @@ public class ScanFieldAutomaticLocator {
     private final float buttonPadding;
 
 
-    public ScanFieldAutomaticLocator(Bitmap bmp) {
-        screenDensity = Resources.getSystem().getDisplayMetrics().density;
+    public ScanFieldAutomaticLocator(Bitmap bmp, float screenDensity) {
+        this.screenDensity = screenDensity;
         this.bmp = bmp;
         width33Percent = bmp.getWidth() / 3;
         width50Percent = bmp.getWidth() / 2;
@@ -186,7 +186,7 @@ public class ScanFieldAutomaticLocator {
         }
     }
 
-    public ScanFieldResults scan(Handler mainThreadHandler, ProgressDialog dialog) {
+    public ScanFieldResults scan(@Nullable Handler mainThreadHandler, @Nullable ProgressDialog dialog) {
         final ScanFieldResults results = new ScanFieldResults();
 
         postMessage(mainThreadHandler, dialog, "Finding name area");
@@ -222,12 +222,15 @@ public class ScanFieldAutomaticLocator {
         return results;
     }
 
-    private static void postMessage(Handler handler, final ProgressDialog dialog, final String message) {
-        handler.post(new Runnable() {
-            @Override public void run() {
-                dialog.setMessage(message);
-            }
-        });
+    private static void postMessage(@Nullable Handler handler, @Nullable final ProgressDialog dialog,
+                                    @NonNull final String message) {
+        if (handler != null && dialog != null) {
+            handler.post(new Runnable() {
+                @Override public void run() {
+                    dialog.setMessage(message);
+                }
+            });
+        }
     }
 
     /**
@@ -292,8 +295,6 @@ public class ScanFieldAutomaticLocator {
             if (bmp.getPixel(x, y) == whiteInt) {
                 whitePoint = new ScanPoint(x * 2, y);
             }
-            bmp.setPixel(x, y, Color.parseColor("#00FF00"));
-
         }
 
         if (whitePoint != null) {
@@ -357,11 +358,8 @@ public class ScanFieldAutomaticLocator {
         //noinspection PointlessBooleanExpression
         if (BuildConfig.DEBUG && debugExecution) {
             c = new Canvas(bmp);
-            p = new Paint();
-            p.setStyle(Paint.Style.STROKE);
-            p.setStrokeWidth(screenDensity);
+            p = getDebugPaint();
             p.setColor(Color.MAGENTA);
-
             debugPrintRectList(boundingRectList, c, p);
         }
 
@@ -429,11 +427,8 @@ public class ScanFieldAutomaticLocator {
         //noinspection PointlessBooleanExpression
         if (BuildConfig.DEBUG && debugExecution) {
             c = new Canvas(bmp);
-            p = new Paint();
-            p.setStyle(Paint.Style.STROKE);
-            p.setStrokeWidth(screenDensity);
+            p = getDebugPaint();
             p.setColor(Color.MAGENTA);
-
             debugPrintRectList(boundingRectList, c, p);
         }
 
@@ -655,11 +650,8 @@ public class ScanFieldAutomaticLocator {
         //noinspection PointlessBooleanExpression
         if (BuildConfig.DEBUG && debugExecution) {
             c = new Canvas(bmp);
-            p = new Paint();
-            p.setStyle(Paint.Style.STROKE);
-            p.setStrokeWidth(screenDensity);
+            p = getDebugPaint();
             p.setColor(Color.MAGENTA);
-
             debugPrintRectList(boundingRectList, c, p);
         }
 
@@ -735,11 +727,8 @@ public class ScanFieldAutomaticLocator {
         //noinspection PointlessBooleanExpression
         if (BuildConfig.DEBUG && debugExecution) {
             c = new Canvas(bmp);
-            p = new Paint();
-            p.setStyle(Paint.Style.STROKE);
-            p.setStrokeWidth(screenDensity);
+            p = getDebugPaint();
             p.setColor(Color.MAGENTA);
-
             debugPrintRectList(boundingRectList, c, p);
         }
 
@@ -809,11 +798,8 @@ public class ScanFieldAutomaticLocator {
         //noinspection PointlessBooleanExpression
         if (BuildConfig.DEBUG && debugExecution) {
             c = new Canvas(bmp);
-            p = new Paint();
-            p.setStyle(Paint.Style.STROKE);
-            p.setStrokeWidth(screenDensity);
+            p = getDebugPaint();
             p.setColor(Color.MAGENTA);
-
             debugPrintRectList(boundingRectList, c, p);
         }
 
@@ -873,6 +859,14 @@ public class ScanFieldAutomaticLocator {
         results.pokemonNameArea = new ScanArea(result.x, result.y, result.width, result.height);
     }
 
+    private Paint getDebugPaint() {
+        Paint p = new Paint();
+        p.setStyle(Paint.Style.STROKE);
+        p.setStrokeWidth(screenDensity);
+        p.setTextSize(4 * screenDensity);
+        return p;
+    }
+
     private static Rect mergeRectList(List<Rect> rectList) {
         org.opencv.core.Point[] allEdgesArray = new org.opencv.core.Point[rectList.size() * 2];
         for (int i = 0; i < rectList.size(); i++) {
@@ -889,6 +883,7 @@ public class ScanFieldAutomaticLocator {
     private static void debugPrintRectList(List<Rect> rectList, Canvas c, Paint p) {
         for (Rect r : rectList) {
             c.drawRect(r.x, r.y, r.x + r.width, r.y + r.height, p);
+            c.drawText(r.toString(), r.x, r.y - p.getTextSize() - 1, p);
         }
     }
 
@@ -1021,6 +1016,10 @@ public class ScanFieldAutomaticLocator {
         }
 
         public static ByStandardDeviationOnBottomY of(List<Rect> rectCollection, float deviations) {
+            if (rectCollection.size() == 0) {
+                return new ByStandardDeviationOnBottomY(0, 0, deviations);
+            }
+
             // Compute the average bottom Y coordinate
             int sum = 0;
             for (Rect boundRect : rectCollection) {

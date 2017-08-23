@@ -50,7 +50,8 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
         final Handler mainThreadHandler = new Handler();
         final Runnable recalibrateRunner = new Runnable() {
             @Override public void run() {
-                results = new ScanFieldAutomaticLocator(bmp).scan(mainThreadHandler, dialog);
+                results = new ScanFieldAutomaticLocator(bmp, Resources.getSystem().getDisplayMetrics().density)
+                        .scan(mainThreadHandler, dialog);
                 mainThreadHandler.post(new Runnable() {
                     @Override public void run() {
                         dialog.setMessage("Done");

@@ -52,8 +52,8 @@ public class Data {
             double arcRatio = pokeCurrCpMDelta / maxPokeCpMDelta;
             double angleInRadians = (arcRatio + 1) * Math.PI;
 
-            arcX[pokeLevelIdx] = (int) (arcInit.x + (arcRadius * Math.cos(angleInRadians)));
-            arcY[pokeLevelIdx] = (int) (arcInit.y + (arcRadius * Math.sin(angleInRadians)));
+            arcX[pokeLevelIdx] = (int) (arcInit.xCoord + (arcRadius * Math.cos(angleInRadians)));
+            arcY[pokeLevelIdx] = (int) (arcInit.yCoord + (arcRadius * Math.sin(angleInRadians)));
         }
     }
 

@@ -96,7 +96,8 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
                 results.infoScreenFabGreenPixelColor, purpleBright);
 
         showPointIndicator(bmp, results.arcCenter, 3 * screenDensity, null, purpleBright);
-        showAreaIndicator(bmp, new ScanArea(results.arcCenter.x, results.arcCenter.y, -results.arcRadius, 2), purple);
+        showAreaIndicator(bmp, new ScanArea(results.arcCenter.xCoord, results.arcCenter.yCoord,
+                -results.arcRadius, 2), purple);
     }
 
     private void showPointIndicator(Bitmap bmp, ScanPoint point, float radius, Integer color, Integer strokeColor) {
@@ -105,13 +106,13 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
             Canvas c = new Canvas(bmp);
             if (color != null) {
                 p.setColor(color);
-                c.drawCircle(point.x, point.y, radius, p);
+                c.drawCircle(point.xCoord, point.yCoord, radius, p);
             }
             if (strokeColor != null) {
                 p.setStyle(Paint.Style.STROKE);
                 p.setColor(strokeColor);
                 p.setStrokeWidth(radius / 3);
-                c.drawCircle(point.x, point.y, radius, p);
+                c.drawCircle(point.xCoord, point.yCoord, radius, p);
             }
         }
     }

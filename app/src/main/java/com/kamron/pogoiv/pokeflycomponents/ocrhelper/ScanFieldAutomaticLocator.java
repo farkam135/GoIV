@@ -272,7 +272,7 @@ public class ScanFieldAutomaticLocator {
 
         results.infoScreenFabGreenPixelPoint = new ScanPoint(bottomPoint.x, topPoint.y + newY);
         results.infoScreenFabGreenPixelColor =
-                bmp.getPixel(results.infoScreenFabGreenPixelPoint.x, results.infoScreenFabGreenPixelPoint.y);
+                bmp.getPixel(results.infoScreenFabGreenPixelPoint.xCoord, results.infoScreenFabGreenPixelPoint.yCoord);
     }
 
 
@@ -298,8 +298,8 @@ public class ScanFieldAutomaticLocator {
 
         if (whitePoint != null) {
             results.infoScreenCardWhitePixelPoint = whitePoint;
-            results.infoScreenCardWhitePixelColor =
-                    bmp.getPixel(results.infoScreenCardWhitePixelPoint.x, results.infoScreenCardWhitePixelPoint.y);
+            results.infoScreenCardWhitePixelColor = bmp.getPixel(results.infoScreenCardWhitePixelPoint.xCoord,
+                    results.infoScreenCardWhitePixelPoint.yCoord);
         }
     }
 

@@ -4,22 +4,22 @@ package com.kamron.pogoiv.pokeflycomponents.ocrhelper;
 import com.kamron.pogoiv.GoIVSettings;
 
 public class ScanPoint {
-    public int x = -1;
-    public int y = -1;
+    public int xCoord = -1;
+    public int yCoord = -1;
 
     public ScanPoint(String calibrationKey, GoIVSettings settings) {
         String[] values = settings.getCalibrationValue(calibrationKey).split(",");
-        x = Integer.valueOf(values[0]);
-        y = Integer.valueOf(values[1]);
+        xCoord = Integer.valueOf(values[0]);
+        yCoord = Integer.valueOf(values[1]);
     }
 
     public ScanPoint(int x, int y) {
-        this.x = x;
-        this.y = y;
+        this.xCoord = x;
+        this.yCoord = y;
     }
 
     @Override public String toString() {
-        return x + "," + y;
+        return xCoord + "," + yCoord;
     }
 
     @Override public boolean equals(Object o) {
@@ -32,16 +32,16 @@ public class ScanPoint {
 
         ScanPoint scanPoint = (ScanPoint) o;
 
-        if (x != scanPoint.x) {
+        if (xCoord != scanPoint.xCoord) {
             return false;
         }
-        return y == scanPoint.y;
+        return yCoord == scanPoint.yCoord;
 
     }
 
     @Override public int hashCode() {
-        int result = x;
-        result = 31 * result + y;
+        int result = xCoord;
+        result = 31 * result + yCoord;
         return result;
     }
 }

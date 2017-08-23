@@ -358,9 +358,9 @@ public class MainActivity extends AppCompatActivity {
         arcInit = new ScanPoint((int) (displayMetrics.widthPixels * 0.5),
                 (int) Math.floor(displayMetrics.heightPixels * 0.35664));
         if (displayMetrics.heightPixels == 2392 || displayMetrics.heightPixels == 800) {
-            arcInit.y--;
+            arcInit.yCoord--;
         } else if (displayMetrics.heightPixels == 1920) {
-            arcInit.y++;
+            arcInit.yCoord++;
         }
 
         arcRadius = (int) Math.round(displayMetrics.heightPixels * 0.2285);

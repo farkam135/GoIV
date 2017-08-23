@@ -97,8 +97,10 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
                 results.infoScreenFabGreenPixelColor, purpleBright);
 
         showPointIndicator(bmp, results.arcCenter, 3 * screenDensity, null, purpleBright);
-        showAreaIndicator(bmp, new ScanArea(results.arcCenter.xCoord, results.arcCenter.yCoord,
-                -results.arcRadius, 2), purple);
+        if (results.arcCenter != null && results.arcRadius != null) {
+            showAreaIndicator(bmp, new ScanArea(results.arcCenter.xCoord, results.arcCenter.yCoord,
+                    -results.arcRadius, 2), purple);
+        }
     }
 
     private void showPointIndicator(Bitmap bmp, ScanPoint point, float radius, Integer color, Integer strokeColor) {

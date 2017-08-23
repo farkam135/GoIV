@@ -11,8 +11,8 @@ import android.widget.TextView;
 import com.kamron.pogoiv.GuiUtil;
 import com.kamron.pogoiv.Pokefly;
 import com.kamron.pogoiv.R;
-import com.kamron.pogoiv.scan_logic.IVCombination;
-import com.kamron.pogoiv.scan_logic.IVScanResult;
+import com.kamron.pogoiv.scanlogic.IVCombination;
+import com.kamron.pogoiv.scanlogic.IVScanResult;
 
 /**
  * Created by OskO on 29/08/16.

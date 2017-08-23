@@ -4,12 +4,12 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
 
-import com.kamron.pogoiv.clipboard_logic.ClipboardToken;
-import com.kamron.pogoiv.clipboard_logic.tokens.IVPercentageToken;
-import com.kamron.pogoiv.clipboard_logic.tokens.IVPercentageTokenMode;
-import com.kamron.pogoiv.clipboard_logic.tokens.PokemonNameToken;
-import com.kamron.pogoiv.clipboard_logic.tokens.SeparatorToken;
-import com.kamron.pogoiv.clipboard_logic.tokens.UnicodeToken;
+import com.kamron.pogoiv.clipboardlogic.ClipboardToken;
+import com.kamron.pogoiv.clipboardlogic.tokens.IVPercentageToken;
+import com.kamron.pogoiv.clipboardlogic.tokens.IVPercentageTokenMode;
+import com.kamron.pogoiv.clipboardlogic.tokens.PokemonNameToken;
+import com.kamron.pogoiv.clipboardlogic.tokens.SeparatorToken;
+import com.kamron.pogoiv.clipboardlogic.tokens.UnicodeToken;
 import com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames;
 import com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldResults;
 

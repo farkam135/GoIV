@@ -8,8 +8,8 @@ import android.util.LruCache;
 import com.google.common.base.Optional;
 import com.googlecode.tesseract.android.TessBaseAPI;
 import com.kamron.pogoiv.GoIVSettings;
-import com.kamron.pogoiv.scan_logic.Data;
-import com.kamron.pogoiv.scan_logic.ScanResult;
+import com.kamron.pogoiv.scanlogic.Data;
+import com.kamron.pogoiv.scanlogic.ScanResult;
 
 import java.util.Arrays;
 import java.util.HashSet;

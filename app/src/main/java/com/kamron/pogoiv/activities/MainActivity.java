@@ -46,7 +46,7 @@ import com.kamron.pogoiv.Pokefly;
 import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.ScreenGrabber;
 import com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanPoint;
-import com.kamron.pogoiv.scan_logic.Data;
+import com.kamron.pogoiv.scanlogic.Data;
 import com.kamron.pogoiv.updater.AppUpdate;
 import com.kamron.pogoiv.updater.AppUpdateUtil;
 import com.kamron.pogoiv.updater.DownloadUpdateService;

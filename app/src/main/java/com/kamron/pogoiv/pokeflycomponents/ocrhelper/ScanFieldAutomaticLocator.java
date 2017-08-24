@@ -456,6 +456,10 @@ public class ScanFieldAutomaticLocator {
             result.width = width33Percent;
         }
 
+        // Increase the height of 20% on top and 20% below
+        result.y -= result.height * 0.2;
+        result.height += result.height * 0.4;
+
         results.pokemonEvolutionCostArea = new ScanArea(result.x, result.y, result.width, result.height);
     }
 
@@ -708,10 +712,10 @@ public class ScanFieldAutomaticLocator {
         }
 
         List<Rect> candidates = FluentIterable.from(boundingRectList)
-                // Keep only bounding rect between 50% and 83% of the image width, below the horizontal grey divider
-                // line and above the power up button
+                // Keep only bounding rect between 50% of the image width, before the end of the horizontal grey
+                // divider line and below it and above the power up button
                 .filter(Predicates.and(ByMinX.of(width50Percent),
-                        ByMaxX.of(width33Percent + width50Percent),
+                        ByMaxX.of(greyHorizontalLine.x + greyHorizontalLine.width),
                         ByMinY.of(greyHorizontalLine.y + greyHorizontalLine.height),
                         ByMaxY.of(powerUpButton.y)))
                 .toList();
@@ -753,12 +757,10 @@ public class ScanFieldAutomaticLocator {
 
         Rect result = mergeRectList(candidates);
 
-        // Ensure the rect is wide at least 33% of the screen width
+        // Ensure the rect starts at 50% of the width growing the rect in both directions (to the left and to the right)
         if (result.x > width50Percent) {
+            result.width += (result.x - width50Percent) * 2;
             result.x = width50Percent;
-        }
-        if (result.width < width33Percent) {
-            result.width = width33Percent;
         }
 
         // Increase the height of 20% on top and 20% below
@@ -910,9 +912,9 @@ public class ScanFieldAutomaticLocator {
             result.width = width50Percent;
         }
 
-        // Increase the height of 20% on top and 20% below
+        // Increase the height of 20% on top and 30% below
         result.y -= result.height * 0.2;
-        result.height += result.height * 0.4;
+        result.height += result.height * 0.5;
 
         results.pokemonNameArea = new ScanArea(result.x, result.y, result.width, result.height);
     }

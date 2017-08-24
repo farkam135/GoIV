@@ -818,9 +818,9 @@ public class ScanFieldAutomaticLocator {
         }
 
         List<Rect> candidates = FluentIterable.from(boundingRectList)
-                // Keep only bounding rect between 33% and 66% of the image width
+                // Keep only bounding rect between 20% and 80% of the image width
                 .filter(Predicates.and(ByMinX.of(width20Percent), ByMaxX.of(width80Percent)))
-                // Keep only bounding rect above the hp bar and below the pokemon area
+                // Keep only bounding rect above the hp bar and below the pokemon area (more or less)
                 .filter(Predicates.and(ByMinY.of(hpBar.y / 2), ByMaxY.of(hpBar.y)))
                 .toList();
 

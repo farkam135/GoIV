@@ -63,7 +63,7 @@ public class ScanFieldAutomaticLocatorTest {
                         + ": 'mon name area looks to big to me!"
                         + " Expected " + device.expectedNameArea + " got " + results.pokemonNameArea.toRectString(),
                 results.pokemonNameArea.width * results.pokemonNameArea.height
-                        < device.expectedNameArea.width() * 3f * device.expectedNameArea.height());
+                        < 3 * device.expectedNameArea.width() * device.expectedNameArea.height());
 
         // Execute checks on 'mon type area
         assertNotNull("File " + testAssetName + " on " + device.toString()
@@ -77,7 +77,7 @@ public class ScanFieldAutomaticLocatorTest {
                         + ": 'mon type area looks to big to me!"
                         + " Expected " + device.expectedTypeArea + " got " + results.pokemonTypeArea.toRectString(),
                 results.pokemonTypeArea.width * results.pokemonTypeArea.height
-                        < device.expectedTypeArea.width() * 3f * device.expectedTypeArea.height());
+                        < 3 * device.expectedTypeArea.width() * device.expectedTypeArea.height());
 
         // TODO check all the other fields of ScanFieldResults
     }

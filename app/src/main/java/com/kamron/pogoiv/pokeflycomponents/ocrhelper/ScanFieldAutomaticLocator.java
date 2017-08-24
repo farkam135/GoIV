@@ -1,5 +1,6 @@
 package com.kamron.pogoiv.pokeflycomponents.ocrhelper;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -22,7 +23,6 @@ import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
-import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 
 import java.util.ArrayList;
@@ -55,6 +55,7 @@ public class ScanFieldAutomaticLocator {
     private static final float[] HSV_GREEN_LIGHT = new float[] {183f, 0.13f, 0.67f};
     private static final float[] HSV_TEXT_RED = new float[] {2f, 0.39f, 0.96f};
     private static final float[] HSV_BUTTON_ENABLED = new float[] {147, 0.45f, 0.84f};
+    private static final float[] HSV_HP_BAR = new float[] {155, 0.54f, 0.93f};
     //private static final float[] HSV_BUTTON_DISABLED = new float[] {177, 0.12f, 0.87f};
 
 
@@ -64,10 +65,13 @@ public class ScanFieldAutomaticLocator {
     private final ArrayList<Rect> boundingRectList;
     private final Mat mask1;
     private final Mat mask2;
+    private final Rect hpBar;
     private final Rect greyHorizontalLine;
     private final Rect powerUpButton;
 
     private final float screenDensity;
+    private final int width20Percent;
+    private final int width25Percent;
     private final int width33Percent;
     private final int width50Percent;
     private final int width66Percent;
@@ -76,15 +80,15 @@ public class ScanFieldAutomaticLocator {
     private final float charHeightSmall;
     private final float charHeightMedium;
     private final float charHeightBig;
-    private final float charHeightHugeUppercase;
-    private final float charHeightHugeLowercase;
     private final float buttonHeight;
     private final float buttonPadding;
 
 
     public ScanFieldAutomaticLocator(Bitmap bmp, float screenDensity) {
-        this.screenDensity = screenDensity;
         this.bmp = bmp;
+        this.screenDensity = screenDensity;
+        width20Percent = bmp.getWidth() / 5;
+        width25Percent = bmp.getWidth() / 4;
         width33Percent = bmp.getWidth() / 3;
         width50Percent = bmp.getWidth() / 2;
         width66Percent = bmp.getWidth() / 3 * 2;
@@ -92,18 +96,12 @@ public class ScanFieldAutomaticLocator {
         charHeightSmall = 8 * screenDensity;
         charHeightMedium = 10f * screenDensity;
         charHeightBig = 12 * screenDensity;
-        charHeightHugeLowercase = 12 * screenDensity;
-        charHeightHugeUppercase = 17 * screenDensity;
         buttonHeight = 41f * screenDensity;
         buttonPadding = 8f * screenDensity;
 
 
         // Computer vision parameters
-        int blurRadius = (int) (3 * screenDensity);
-        if (blurRadius % 2 == 0) {
-            blurRadius++;
-        }
-        int adaptThreshBlockSize = (int) (5 * screenDensity);
+        int adaptThreshBlockSize = Math.round(5 * screenDensity);
         if (adaptThreshBlockSize % 2 == 0) {
             adaptThreshBlockSize++;
         }
@@ -118,11 +116,8 @@ public class ScanFieldAutomaticLocator {
         Mat imageHsv = new Mat(image.size(), CvType.CV_8UC4);
         Imgproc.cvtColor(image, imageHsv, Imgproc.COLOR_BGR2GRAY);
 
-        Mat imageBlur = new Mat(image.size(), CvType.CV_8UC4);
-        Imgproc.GaussianBlur(imageHsv, imageBlur, new Size(blurRadius, blurRadius), 0);
-
         Mat imageA = new Mat(image.size(), CvType.CV_32F);
-        Imgproc.adaptiveThreshold(imageBlur, imageA, 255, Imgproc.ADAPTIVE_THRESH_GAUSSIAN_C, Imgproc.THRESH_BINARY,
+        Imgproc.adaptiveThreshold(imageHsv, imageA, 255, Imgproc.ADAPTIVE_THRESH_GAUSSIAN_C, Imgproc.THRESH_BINARY,
                 adaptThreshBlockSize, 3);
 
         // Prepare masks for later (average color computation)
@@ -152,10 +147,21 @@ public class ScanFieldAutomaticLocator {
         }
 
 
+        // Find hp bar
+        List<Rect> hpBarCandidates = FluentIterable.from(boundingRectList)
+                .filter(Predicates.and(ByMinX.of(width20Percent), ByMaxX.of(width80Percent)))
+                .filter(Predicates.and(ByMinWidth.of(width20Percent), ByMaxHeight.of(8 * screenDensity)))
+                .filter(ByHsvColor.of(image, mask1, contours, boundingRectList, HSV_HP_BAR, 5, 0.15f, 0.15f))
+                .toList();
+        if (hpBarCandidates.size() > 0) {
+            hpBar = hpBarCandidates.get(0);
+        } else {
+            hpBar = null;
+        }
+
         // Find horizontal grey divider line
-        final float greyLineHeight = 2 * screenDensity;
         List<Rect> greyLineCandidates = FluentIterable.from(boundingRectList)
-                .filter(ByHeight.of(greyLineHeight, screenDensity / 2))
+                .filter(ByHeight.of(2 * screenDensity, screenDensity / 2))
                 .filter(ByMinWidth.of(width80Percent))
                 .toList();
         if (greyLineCandidates.size() > 0) {
@@ -430,6 +436,10 @@ public class ScanFieldAutomaticLocator {
             p = getDebugPaint();
             p.setColor(Color.MAGENTA);
             debugPrintRectList(boundingRectList, c, p);
+        }
+
+        if (greyHorizontalLine == null) {
+            return;
         }
 
         List<Rect> candidates = FluentIterable.from(boundingRectList)
@@ -803,24 +813,15 @@ public class ScanFieldAutomaticLocator {
             debugPrintRectList(boundingRectList, c, p);
         }
 
-        List<Rect> candidates = FluentIterable.from(boundingRectList)
-                // Keep only bounding rect between 33% and 66% of the image width
-                .filter(Predicates.and(ByMinX.of(width33Percent), ByMaxX.of(width66Percent)))
-                // Try to guess the 'mon name characters basing on their height
-                .filter(Predicates.or(ByHeight.of(charHeightHugeUppercase, screenDensity / 2),
-                        ByHeight.of(charHeightHugeLowercase, screenDensity / 2)))
-                .toList();
-
-        //noinspection PointlessBooleanExpression
-        if (BuildConfig.DEBUG && debugExecution) {
-            //noinspection ConstantConditions
-            p.setColor(Color.RED);
-            debugPrintRectList(candidates, c, p);
+        if (hpBar == null) {
+            return;
         }
 
-        candidates = FluentIterable.from(candidates)
-                // Keep only rect with bottom coordinate inside half of the standard deviation
-                .filter(ByStandardDeviationOnBottomY.of(candidates, 0.5f))
+        List<Rect> candidates = FluentIterable.from(boundingRectList)
+                // Keep only bounding rect between 33% and 66% of the image width
+                .filter(Predicates.and(ByMinX.of(width20Percent), ByMaxX.of(width80Percent)))
+                // Keep only bounding rect above the hp bar and below the pokemon area
+                .filter(Predicates.and(ByMinY.of(hpBar.y / 2), ByMaxY.of(hpBar.y)))
                 .toList();
 
         //noinspection PointlessBooleanExpression
@@ -832,7 +833,7 @@ public class ScanFieldAutomaticLocator {
 
         candidates = FluentIterable.from(candidates)
                 // Check if the dominant color of the contour matches the dark green hue of PoGO text
-                .filter(ByHsvColor.of(image, mask1, contours, boundingRectList, HSV_GREEN_DARK, 3, 0.275f, 0.325f))
+                .filter(ByHsvColor.of(image, mask1, contours, boundingRectList, HSV_GREEN_DARK, 5, 0.275f, 0.325f))
                 .toList();
 
         //noinspection PointlessBooleanExpression
@@ -848,13 +849,17 @@ public class ScanFieldAutomaticLocator {
 
         Rect result = mergeRectList(candidates);
 
-        // Ensure the pokemon name rect is wide at least 33% of the screen width
-        if (result.x > width33Percent) {
-            result.x = width33Percent;
+        // Ensure the pokemon name rect is wide at least 50% of the screen width
+        if (result.x > width25Percent) {
+            result.x = width25Percent;
         }
-        if (result.width < width33Percent) {
-            result.width = width33Percent;
+        if (result.width < width50Percent) {
+            result.width = width50Percent;
         }
+
+        // Increase the height of 20% on top and 20% below
+        result.y -= result.height * 0.2;
+        result.height += result.height * 0.4;
 
         results.pokemonNameArea = new ScanArea(result.x, result.y, result.width, result.height);
     }
@@ -863,7 +868,7 @@ public class ScanFieldAutomaticLocator {
         Paint p = new Paint();
         p.setStyle(Paint.Style.STROKE);
         p.setStrokeWidth(screenDensity);
-        p.setTextSize(4 * screenDensity);
+        p.setTextSize(10 * screenDensity);
         return p;
     }
 
@@ -880,10 +885,14 @@ public class ScanFieldAutomaticLocator {
         return Imgproc.boundingRect(allEdgesMat);
     }
 
+    @SuppressLint("DefaultLocale")
     private static void debugPrintRectList(List<Rect> rectList, Canvas c, Paint p) {
         for (Rect r : rectList) {
             c.drawRect(r.x, r.y, r.x + r.width, r.y + r.height, p);
-            c.drawText(r.toString(), r.x, r.y - p.getTextSize() - 1, p);
+            c.save();
+            c.rotate(270f, r.x, r.y);
+            c.drawText(String.format("%d,%d %dx%d", r.x, r.y, r.width, r.height), r.x, r.y, p);
+            c.restore();
         }
     }
 
@@ -965,6 +974,22 @@ public class ScanFieldAutomaticLocator {
 
         @Override public boolean apply(@Nullable Rect input) {
             return input != null && input.width >= minWidth;
+        }
+    }
+
+    private static class ByMaxHeight implements Predicate<Rect> {
+        private float maxHeight;
+
+        private ByMaxHeight(float maxHeight) {
+            this.maxHeight = maxHeight;
+        }
+
+        public static ByMaxHeight of(float maxHeight) {
+            return new ByMaxHeight(maxHeight);
+        }
+
+        @Override public boolean apply(@Nullable Rect input) {
+            return input != null && input.height <= maxHeight;
         }
     }
 

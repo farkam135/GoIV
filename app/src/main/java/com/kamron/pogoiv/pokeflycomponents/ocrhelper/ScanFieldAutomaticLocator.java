@@ -603,84 +603,79 @@ public class ScanFieldAutomaticLocator {
      * Looks for the Pokémon HP area.
      */
     private void findPokemonHPArea(ScanFieldResults results) {
-        int hpBarStartY = 0;
+        final boolean debugExecution = false; // Activate this flag to display the onscreen debug graphics
 
-        for (int y = 0; y < bmp.getHeight(); y++) {
-            if (bmp.getPixel(bmp.getWidth() / 2, y) == hpBarColorInt) {
-                hpBarStartY = y;
-                break;
-            }
+        Canvas c = null;
+        Paint p = null;
+        //noinspection PointlessBooleanExpression
+        if (BuildConfig.DEBUG && debugExecution) {
+            c = new Canvas(bmp);
+            p = getDebugPaint();
+            p.setColor(Color.MAGENTA);
+            debugPrintRectList(boundingRectList, c, p);
         }
 
-
-        int hpBarEndY = 0;
-
-
-        for (int y = hpBarStartY; y < bmp.getHeight(); y++) {
-
-            if (bmp.getPixel(bmp.getWidth() / 2, y) != hpBarColorInt) {
-                hpBarEndY = y;
-                break;
-            }
+        if (hpBar == null || greyVerticalLineLeft == null) {
+            return;
         }
 
+        List<Rect> candidates = FluentIterable.from(boundingRectList)
+                // Keep only bounding rect between the left and the right of the HP bar
+                .filter(Predicates.and(ByMinX.of(hpBar.x), ByMaxX.of(hpBar.x + hpBar.width)))
+                // Keep only bounding rect below the hp bar and above the vertical dividers
+                .filter(Predicates.and(ByMinY.of(hpBar.y + hpBar.height), ByMaxY.of(greyVerticalLineLeft.y)))
+                .toList();
 
-        int hpTextStartY = 0;
-        for (int y = hpBarEndY + 5; y < bmp.getHeight() * 0.75; y++) {
-            //we could be unlucky and "miss" the hp text by going straight down from the hp bar, by going between two
-            // characters, so to decrease that risk, we do it on several parallel lines.
-            int half = bmp.getWidth() / 2;
-            boolean found1 = bmp.getPixel((int) (half - half * 0.001), y) != whiteInt;
-            boolean found2 = bmp.getPixel((int) (half - half * 0.01), y) != whiteInt;
-            boolean found3 = bmp.getPixel((int) (half - half * 0.003), y) != whiteInt;
-            boolean found4 = bmp.getPixel((int) (half - half * 0.007), y) != whiteInt;
-            boolean found5 = bmp.getPixel((int) (half + half * 0.001), y) != whiteInt;
-            boolean found6 = bmp.getPixel((int) (half + half * 0.01), y) != whiteInt;
-            boolean found7 = bmp.getPixel((int) (half + half * 0.003), y) != whiteInt;
-            boolean found8 = bmp.getPixel((int) (half + half * 0.007), y) != whiteInt;
-
-            if (found1 || found2 || found3 || found4 || found5 || found6 || found7 || found8) {
-                hpTextStartY = y;
-                break;
-            }
-
+        //noinspection PointlessBooleanExpression
+        if (BuildConfig.DEBUG && debugExecution) {
+            //noinspection ConstantConditions
+            p.setColor(Color.RED);
+            debugPrintRectList(candidates, c, p);
         }
 
+        candidates = FluentIterable.from(candidates)
+                // Check if the dominant color of the contour matches the dark green hue of PoGO text
+                .filter(ByHsvColor.of(image, mask1, contours, boundingRectList, HSV_GREEN_DARK, 5, 0.275f, 0.325f))
+                .toList();
 
-        int hpTextStartX = 0;
-
-        for (int x = (int) (bmp.getWidth() * 0.1); x < bmp.getWidth() / 2; x++) {
-            if (isLikelyDarkText(bmp.getPixel(x, hpTextStartY + 3))) {
-                hpTextStartX = x;
-                break;
-            }
+        //noinspection PointlessBooleanExpression
+        if (BuildConfig.DEBUG && debugExecution) {
+            //noinspection ConstantConditions
+            p.setColor(Color.YELLOW);
+            debugPrintRectList(candidates, c, p);
         }
 
+        candidates = FluentIterable.from(candidates)
+                // Keep only rect with bottom coordinate inside half of the standard deviation
+                .filter(ByStandardDeviationOnBottomY.of(candidates, 0.5f))
+                .toList();
 
-        int hpStartXWithPadding = Math.max(0, (int) (hpTextStartX - (bmp.getWidth() * 0.05)));
-
-
-        int hpTextEndY = 0;
-        for (int y = hpTextStartY + 3; y < hpTextStartY + (bmp.getHeight() * 0.2); y++) {
-            boolean traveledRowEncounteringText = false;
-            for (int x = hpStartXWithPadding; x < bmp.getWidth() / 2; x++) {
-                if (isLikelyDarkText(bmp.getPixel(x, y))) {
-                    traveledRowEncounteringText = true;
-                    break;
-                }
-            }
-            if (traveledRowEncounteringText == false) {
-                hpTextEndY = y;
-                break;
-            }
+        //noinspection PointlessBooleanExpression
+        if (BuildConfig.DEBUG && debugExecution) {
+            //noinspection ConstantConditions
+            p.setColor(Color.GREEN);
+            debugPrintRectList(candidates, c, p);
         }
 
-        int returnX = hpStartXWithPadding;
-        int returnY = hpTextStartY - 3; // -3 for some slight padding upwards
-        int returnHeight = hpTextEndY - hpTextStartY;
-        int returnWidth = (bmp.getWidth()) - 2 * hpStartXWithPadding;
+        if (candidates.size() == 0) {
+            return;
+        }
 
-        results.pokemonHpArea = new ScanArea(returnX, returnY, returnWidth, returnHeight);
+        Rect result = mergeRectList(candidates);
+
+        // Ensure the pokemon HP rect is wide at least 50% of the HP bar
+        if (result.x > width50Percent - hpBar.width / 4) {
+            result.x = width50Percent - hpBar.width / 4;
+        }
+        if (result.width < hpBar.width / 2) {
+            result.width = hpBar.width / 2;
+        }
+
+        // Increase the height of 20% on top and 20% below
+        result.y -= result.height * 0.2;
+        result.height += result.height * 0.4;
+
+        results.pokemonHpArea = new ScanArea(result.x, result.y, result.width, result.height);
     }
 
     private boolean isLikelyDarkText(int color) {

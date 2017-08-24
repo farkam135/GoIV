@@ -65,6 +65,20 @@ public class ScanFieldAutomaticLocatorTest {
                 results.pokemonNameArea.width * results.pokemonNameArea.height
                         < device.expectedNameArea.width() * 3f * device.expectedNameArea.height());
 
+        // Execute checks on 'mon type area
+        assertNotNull("File " + testAssetName + " on " + device.toString()
+                        + ": 'mon type area wasn't detected",
+                results.pokemonTypeArea);
+        assertTrue("File " + testAssetName + " on " + device.toString()
+                        + ": 'mon type area doesn't contain the entire type."
+                        + " Expected " + device.expectedTypeArea + " got " + results.pokemonTypeArea.toRectString(),
+                results.pokemonTypeArea.contains(device.expectedTypeArea));
+        assertTrue("File " + testAssetName + " on " + device.toString()
+                        + ": 'mon type area looks to big to me!"
+                        + " Expected " + device.expectedTypeArea + " got " + results.pokemonTypeArea.toRectString(),
+                results.pokemonTypeArea.width * results.pokemonTypeArea.height
+                        < device.expectedTypeArea.width() * 3f * device.expectedTypeArea.height());
+
         // TODO check all the other fields of ScanFieldResults
     }
 

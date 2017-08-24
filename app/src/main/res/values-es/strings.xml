@@ -63,7 +63,7 @@
 	<string name="pokemon_name">Nombre:</string>
 	<string name="cp">PC</string>
     <string name="hp">PS</string>
-    <string name="use_the_slider_below_to_align_the_arc">Use el slider para alinear el marcador en el arco</string>
+    <string name="use_the_slider_below_to_align_the_arc">Usa el slider para alinear el marcador en el arco</string>
     <string name="cancel">Cancelar</string>
     <string name="check_iv">Obtener IV</string>
     <string name="notification_title">GoIV en Ejecución - Nivel %1$d</string>
@@ -98,7 +98,7 @@
     <string name="scan_pokemon_failed">¡Detección fallida. Por favor, desplácese hacia arriba y vuelva a intentarlo!</string>
     <string name="see_all">Ver todas</string>
     <string name="advanced_information">Evolución e info de más poder</string>
-    <string name="powerup_calc_instructions">Cálculo de mejoras y evolución\nDeslizar el slider para visualizar diferentes predicciones</string>
+    <string name="powerup_calc_instructions">Cálculo de mejoras y evolución\nDesliza el slider para visualizar diferentes predicciones</string>
     <string name="candy_cost">Coste en caramelos</string>
     <string name="stardust_cost">Coste en polvoestelares</string>
     <string name="evolution">Evolución</string>
@@ -124,10 +124,10 @@
     <string name="ongoing_update">Ya se está descargando una actualización para GoIV</string>
     <string name="iv_perfect" formatted="false">Perfección (%)</string>
     <string name="wrong_pokemon_name_input">" no encontrado."</string>
-    <string name="avg">AVG</string>
-    <string name="atk">ATK</string>
+    <string name="avg">MED</string>
+    <string name="atk">ATQ</string>
     <string name="def">DEF</string>
-    <string name="sta">STA</string>
+    <string name="sta">VID</string>
     <string name="hp_expanded_box">HP</string>
     <string name="cp_vs_iv" formatted="false">% CP vs máximo IV</string>
     <string name="alert_explanation_title">Explicación</string>    
@@ -136,7 +136,7 @@
     <string name="pokespam_formatted_message">%1$d (%2$d filas + %3$d más)</string>
     <string name="candy">Caramelos</string>
     <string name="pokespam_not_available">No disponible</string>
-    <string name="pokespam_setting_title">Mostrar cantidad evolucionables</string>
+    <string name="pokespam_setting_title">Mostrar cantidad evolucionable</string>
     <string name="pokespam_setting_summary">Esta característica activa el escaneo de la cantidad de caramelos y le permite ver cuántos Pokémon puede evolucionar, útil para usar con huevo de la suerte</string>
     <string name="token_pokemonname">Nombre</string>
     <string name="clipboard_modifier_preview">Vista previa</string>
@@ -164,6 +164,10 @@
     <string name="copy_to_clip_show_toast_setting">Mostrar ventana emergente de la vista previa del portapapeles</string>
     <string name="autoAppraisalScanDelay_title">Retardar valoración automática</string>
     <string name="autoAppraisalScanDelay_summary">Tiempo de espera en el texto de valoración para finalizar. Los teléfonos de gama media pueden necesitar un retraso de 800 ms</string>
+    <string name="quick_iv_preview_title">Mostrar previsualización del IV</string>
+    <string name="quick_iv_preview_summary">Muestra una pequeña ventana de vista previa en la ficha del Pokémon</string>
+    <string name="quick_iv_preview_clipboard_title">También previsualización portapapeles</string>
+    <string name="quick_iv_preview_clipboard_summary">En la previsualización de IV, muestra también una pequeña ventana con la vista previa de la copia inteligente del portapapeles</string>
     <string name="settings_title_behaviour">Preferencias comportamiento de la aplicación</string>
     <string name="settings_title_optional">Características opcionales de GoIV</string>
     <string name="settings_title_mode">Modo GoIV</string>

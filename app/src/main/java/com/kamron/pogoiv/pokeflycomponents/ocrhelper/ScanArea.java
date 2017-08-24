@@ -48,6 +48,10 @@ public class ScanArea {
         return xPoint + "," + yPoint + "," + width + "," + height;
     }
 
+    public String toRectString() {
+        return "Rect(" + xPoint + ", " + yPoint + " - " + (xPoint + width) + ", " + (yPoint + height) + ")";
+    }
+
     @Override public boolean equals(Object o) {
         if (this == o) {
             return true;

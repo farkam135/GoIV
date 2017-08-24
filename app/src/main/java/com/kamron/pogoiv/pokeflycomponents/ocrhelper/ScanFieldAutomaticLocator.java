@@ -52,11 +52,11 @@ public class ScanFieldAutomaticLocator {
     private static final Scalar SCALAR_OFF = new Scalar(0);
     private static final float[] HSV_GREEN_DARK_SMALL = new float[] {170, 0.16f, 0.62f};
     private static final float[] HSV_GREEN_DARK = new float[] {183f, 0.32f, 0.46f};
-    private static final float[] HSV_GREEN_LIGHT = new float[] {183f, 0.13f, 0.67f};
+    private static final float[] HSV_GREEN_LIGHT = new float[] {183f, 0.04f, 0.85f};
     private static final float[] HSV_TEXT_RED = new float[] {2f, 0.39f, 0.96f};
     private static final float[] HSV_BUTTON_ENABLED = new float[] {147, 0.45f, 0.84f};
     private static final float[] HSV_HP_BAR = new float[] {155, 0.54f, 0.93f};
-    //private static final float[] HSV_BUTTON_DISABLED = new float[] {177, 0.12f, 0.87f};
+    private static final float[] HSV_DIVIDER = new float[] {0, 0, 0.88f};
 
 
     private final Bitmap bmp;
@@ -67,6 +67,8 @@ public class ScanFieldAutomaticLocator {
     private final Mat mask2;
     private final Rect hpBar;
     private final Rect greyHorizontalLine;
+    private final Rect greyVerticalLineLeft;
+    private final Rect greyVerticalLineRight;
     private final Rect powerUpButton;
 
     private final float screenDensity;
@@ -153,21 +155,57 @@ public class ScanFieldAutomaticLocator {
                 .filter(Predicates.and(ByMinWidth.of(width20Percent), ByMaxHeight.of(8 * screenDensity)))
                 .filter(ByHsvColor.of(image, mask1, contours, boundingRectList, HSV_HP_BAR, 5, 0.15f, 0.15f))
                 .toList();
-        if (hpBarCandidates.size() > 0) {
-            hpBar = hpBarCandidates.get(0);
+        if (hpBarCandidates.size() >= 1) { // Take the largest
+            Rect maxRect = null;
+            for (Rect r : hpBarCandidates) {
+                if (maxRect == null || r.area() > maxRect.area()) {
+                    maxRect = hpBarCandidates.get(0);
+                }
+            }
+            hpBar = maxRect;
         } else {
             hpBar = null;
         }
 
         // Find horizontal grey divider line
         List<Rect> greyLineCandidates = FluentIterable.from(boundingRectList)
-                .filter(ByHeight.of(2 * screenDensity, screenDensity / 2))
-                .filter(ByMinWidth.of(width80Percent))
+                .filter(Predicates.and(ByMinWidth.of(width80Percent), ByMaxHeight.of(5 * screenDensity)))
+                .filter(ByHsvColor.of(image, mask1, contours, boundingRectList, HSV_DIVIDER, 3, 0.1f, 0.25f))
                 .toList();
-        if (greyLineCandidates.size() > 0) {
-            greyHorizontalLine = greyLineCandidates.get(0);
+        if (greyLineCandidates.size() >= 1) { // Take the largest
+            Rect maxRect = null;
+            for (Rect r : greyLineCandidates) {
+                if (maxRect == null || r.area() > maxRect.area()) {
+                    maxRect = greyLineCandidates.get(0);
+                }
+            }
+            greyHorizontalLine = maxRect;
         } else {
             greyHorizontalLine = null;
+        }
+
+        // Find vertical grey divider lines
+        if (hpBar != null && greyHorizontalLine != null) {
+            greyLineCandidates = FluentIterable.from(boundingRectList)
+                    .filter(Predicates.and(ByMinY.of(hpBar.y + hpBar.height), ByMaxY.of(greyHorizontalLine.y)))
+                    .filter(ByMaxWidth.of(5 * screenDensity))
+                    .filter(ByHsvColor.of(image, mask1, contours, boundingRectList, HSV_DIVIDER, 3, 0.1f, 0.25f))
+                    .toList();
+            if (greyLineCandidates.size() == 2) {
+                if (greyLineCandidates.get(0).x < greyLineCandidates.get(1).x) {
+                    greyVerticalLineLeft = greyLineCandidates.get(0);
+                    greyVerticalLineRight = greyLineCandidates.get(1);
+                } else {
+                    greyVerticalLineLeft = greyLineCandidates.get(1);
+                    greyVerticalLineRight = greyLineCandidates.get(0);
+                }
+            } else {
+                greyVerticalLineLeft = null;
+                greyVerticalLineRight = null;
+            }
+        } else {
+            greyVerticalLineLeft = null;
+            greyVerticalLineRight = null;
         }
 
         // Find power up button. This is always visible, as opposed to evolve button
@@ -742,11 +780,18 @@ public class ScanFieldAutomaticLocator {
             debugPrintRectList(boundingRectList, c, p);
         }
 
+        if (hpBar == null || greyHorizontalLine == null
+                || greyVerticalLineLeft == null || greyVerticalLineRight == null) {
+            return;
+        }
+
         List<Rect> candidates = FluentIterable.from(boundingRectList)
-                // Keep only bounding rect between 33% and 66% of the image width
-                .filter(Predicates.and(ByMinX.of(width33Percent), ByMaxX.of(width66Percent)))
-                // Try to guess the 'mon name characters basing on their height
-                .filter(ByHeight.of(charHeightSmall, screenDensity / 2))
+                // Keep only bounding rect between the two vertical dividers, the HP bar and the horizontal divider
+                .filter(Predicates.and(
+                        ByMinX.of(greyVerticalLineLeft.x + greyVerticalLineLeft.width),
+                        ByMaxX.of(greyVerticalLineRight.x),
+                        ByMinY.of(hpBar.y + hpBar.height),
+                        ByMaxY.of(greyHorizontalLine.y)))
                 .toList();
 
         //noinspection PointlessBooleanExpression
@@ -757,8 +802,8 @@ public class ScanFieldAutomaticLocator {
         }
 
         candidates = FluentIterable.from(candidates)
-                // Keep only rect with bottom coordinate inside half of the standard deviation
-                .filter(ByStandardDeviationOnBottomY.of(candidates, 0.5f))
+                // Check if the dominant color of the contour matches the light green hue of PoGO small text
+                .filter(ByHsvColor.of(image, mask1, contours, boundingRectList, HSV_GREEN_LIGHT, 5, 0.125f, 0.062f))
                 .toList();
 
         //noinspection PointlessBooleanExpression
@@ -769,8 +814,8 @@ public class ScanFieldAutomaticLocator {
         }
 
         candidates = FluentIterable.from(candidates)
-                // Check if the dominant color of the contour matches the light green hue of PoGO text
-                .filter(ByHsvColor.of(image, mask1, contours, boundingRectList, HSV_GREEN_LIGHT, 3, 0.275f, 0.325f))
+                // Keep only rect with bottom coordinate inside half of the standard deviation
+                .filter(ByStandardDeviationOnBottomY.of(candidates, 0.5f))
                 .toList();
 
         //noinspection PointlessBooleanExpression
@@ -786,13 +831,17 @@ public class ScanFieldAutomaticLocator {
 
         Rect result = mergeRectList(candidates);
 
-        // Ensure the rect is wide at least 33% of the screen width
-        if (result.x > width33Percent) {
-            result.x = width33Percent;
+        // Ensure the rect is wide at least the space between the two vertical dividers
+        if (result.x > greyVerticalLineLeft.x + greyVerticalLineLeft.width) {
+            result.x = greyVerticalLineLeft.x + greyVerticalLineLeft.width;
         }
-        if (result.width < width33Percent) {
-            result.width = width33Percent;
+        if (result.x + result.width < greyVerticalLineRight.x) {
+            result.width = greyVerticalLineRight.x - result.x;
         }
+
+        // Increase the height of 20% on top and 20% below
+        result.y -= result.height * 0.2;
+        result.height += result.height * 0.4;
 
         results.pokemonTypeArea = new ScanArea(result.x, result.y, result.width, result.height);
     }
@@ -800,7 +849,7 @@ public class ScanFieldAutomaticLocator {
     /**
      * Find the area where the pokemon name is listed (The part that the user can manually change to a nickname).
      */
-    void findPokemonNameArea(ScanFieldResults results) {
+    private void findPokemonNameArea(ScanFieldResults results) {
         final boolean debugExecution = false; // Activate this flag to display the onscreen debug graphics
 
         Canvas c = null;
@@ -974,6 +1023,22 @@ public class ScanFieldAutomaticLocator {
 
         @Override public boolean apply(@Nullable Rect input) {
             return input != null && input.width >= minWidth;
+        }
+    }
+
+    private static class ByMaxWidth implements Predicate<Rect> {
+        private float maxWidth;
+
+        private ByMaxWidth(float maxWidth) {
+            this.maxWidth = maxWidth;
+        }
+
+        public static ByMaxWidth of(float maxWidth) {
+            return new ByMaxWidth(maxWidth);
+        }
+
+        @Override public boolean apply(@Nullable Rect input) {
+            return input != null && input.width <= maxWidth;
         }
     }
 

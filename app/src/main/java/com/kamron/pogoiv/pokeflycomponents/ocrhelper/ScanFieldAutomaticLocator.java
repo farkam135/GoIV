@@ -703,17 +703,17 @@ public class ScanFieldAutomaticLocator {
             debugPrintRectList(boundingRectList, c, p);
         }
 
-        if (greyHorizontalLine == null) {
+        if (greyHorizontalLine == null || powerUpButton == null) {
             return;
         }
 
         List<Rect> candidates = FluentIterable.from(boundingRectList)
-                // Keep only bounding rect between 50% and 83% of the image width
-                .filter(Predicates.and(ByMinX.of(width50Percent), ByMaxX.of(width33Percent + width50Percent)))
-                // Keep only bounding rect below the grey divider line
-                .filter(ByMinY.of(greyHorizontalLine.y + greyHorizontalLine.height))
-                // Try to guess the 'mon candy characters basing on their height
-                .filter(ByHeight.of(charHeightSmall, screenDensity / 2))
+                // Keep only bounding rect between 50% and 83% of the image width, below the horizontal grey divider
+                // line and above the power up button
+                .filter(Predicates.and(ByMinX.of(width50Percent),
+                        ByMaxX.of(width33Percent + width50Percent),
+                        ByMinY.of(greyHorizontalLine.y + greyHorizontalLine.height),
+                        ByMaxY.of(powerUpButton.y)))
                 .toList();
 
         //noinspection PointlessBooleanExpression
@@ -724,8 +724,8 @@ public class ScanFieldAutomaticLocator {
         }
 
         candidates = FluentIterable.from(candidates)
-                // Keep only rect with bottom coordinate inside half of the standard deviation
-                .filter(ByStandardDeviationOnBottomY.of(candidates, 0.5f))
+                // Check if the dominant color of the contour matches the light green hue of PoGO small text
+                .filter(ByHsvColor.of(image, mask1, contours, boundingRectList, HSV_GREEN_LIGHT, 5, 0.125f, 0.062f))
                 .toList();
 
         //noinspection PointlessBooleanExpression
@@ -736,8 +736,8 @@ public class ScanFieldAutomaticLocator {
         }
 
         candidates = FluentIterable.from(candidates)
-                // Check if the dominant color of the contour matches the light green hue of PoGO text
-                .filter(ByHsvColor.of(image, mask1, contours, boundingRectList, HSV_GREEN_LIGHT, 3, 0.275f, 0.325f))
+                // Keep only rect with bottom coordinate inside half of the standard deviation
+                .filter(ByStandardDeviationOnBottomY.of(candidates, 0.5f))
                 .toList();
 
         //noinspection PointlessBooleanExpression
@@ -760,6 +760,10 @@ public class ScanFieldAutomaticLocator {
         if (result.width < width33Percent) {
             result.width = width33Percent;
         }
+
+        // Increase the height of 20% on top and 20% below
+        result.y -= result.height * 0.2;
+        result.height += result.height * 0.4;
 
         results.candyNameArea = new ScanArea(result.x, result.y, result.width, result.height);
     }

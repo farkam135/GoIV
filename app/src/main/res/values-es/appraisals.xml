@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="highest_stat_att">Ataque</string>
-    <string name="highest_stat_def">Defensa</string>
-    <string name="highest_stat_hp">Salud</string>
+    <string name="highest_stat_att">ataque</string>
+    <string name="highest_stat_def">defensa</string>
+    <string name="highest_stat_hp">salud</string>
     <string name="mystic_percentage1_phrase1">maravilla</string>
     <string name="mystic_percentage1_phrase2">impresionante</string>
     <string name="mystic_percentage2_phrase1">llamado</string>
@@ -31,7 +31,7 @@
     <string name="valor_percentage4_phrase2">gusta</string>
 
     <string name="valor_ivrange1_phrase1">flipando</string>
-    <string name="valor_ivrange1_phrase2">GUAU</string>
+    <string name="valor_ivrange1_phrase2">guau</string>
     <string name="valor_ivrange2_phrase1">excelentes</string>
     <string name="valor_ivrange2_phrase2">emocionante</string>
     <string name="valor_ivrange3_phrase1">cumplir</string>

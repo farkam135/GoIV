@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="highest_stat_att">ataque</string>
-    <string name="highest_stat_def">defensa</string>
-    <string name="highest_stat_hp">salud</string>
+    <string name="highest_stat_att">Ataque</string>
+    <string name="highest_stat_def">Defensa</string>
+    <string name="highest_stat_hp">Salud</string>
     <string name="mystic_percentage1_phrase1">maravilla</string>
     <string name="mystic_percentage1_phrase2">impresionante</string>
     <string name="mystic_percentage2_phrase1">llamado</string>
@@ -45,12 +45,12 @@
     <string name="instinct_percentage2_phrase2">fuerte</string>
     <string name="instinct_percentage3_phrase1">bastante</string>
     <string name="instinct_percentage3_phrase2">bien</string>
-    <string name="instinct_percentage4_phrase1">mejorar</string>
+    <string name="instinct_percentage4_phrase1">algo</string>
     <string name="instinct_percentage4_phrase2">combates</string>
 
-    <string name="instinct_ivrange1_phrase1">mejor</string>
+    <string name="instinct_ivrange1_phrase1">visto</string>
     <string name="instinct_ivrange1_phrase2">pasada</string>
-    <string name="instinct_ivrange2_phrase1">realmente</string>
+    <string name="instinct_ivrange2_phrase1">fuertes</string>
     <string name="instinct_ivrange2_phrase2">impresionante</string>
     <string name="instinct_ivrange3_phrase1">buenas</string>
     <string name="instinct_ivrange3_phrase2">duda</string>

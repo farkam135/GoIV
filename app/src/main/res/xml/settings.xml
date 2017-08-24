@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">>
-
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory
         android:title="@string/settings_title_behaviour">
@@ -30,12 +29,10 @@
             android:summary="@string/showtranslatedpokemonname_setting_summary"
             android:title="@string/showtranslatedpokemonname_setting_title"/>
 
-
     </PreferenceCategory>
 
     <PreferenceCategory
         android:title="@string/settings_title_optional">
-
 
         <SwitchPreference
             android:defaultValue="false"
@@ -61,8 +58,7 @@
             android:dependency="@string/copy_to_clipboard_setting_key"
             android:key="@string/clipboardButton"
             android:summary="@string/clipboardButton_summary"
-            android:title="@string/clipboardButton_title"
-            />
+            android:title="@string/clipboardButton_title"/>
 
         <SwitchPreference
             android:defaultValue="true"
@@ -82,34 +78,29 @@
             app:msbp_measurementUnit="ms"
             app:msbp_dialogEnabled="false"/>
 
-
         <SwitchPreference
             android:defaultValue="true"
             android:key="quick_iv_preview"
-            android:title="Show quick IV preview"
-            android:summary="Display a small preview automatically when on a 'mon screen."
-        />
+            android:title="@string/quick_iv_preview_title"
+            android:summary="@string/quick_iv_preview_summary"/>
 
         <SwitchPreference
             android:defaultValue="false"
             android:key="quick_iv_preview_clipboard"
             android:dependency="quick_iv_preview"
-            android:title="Also preview clipboard"
-            android:summary="On a quick iv scan, also show a small popup previewing the smart-clipboard"
-            />
-
+            android:title="@string/quick_iv_preview_clipboard_title"
+            android:summary="@string/quick_iv_preview_clipboard_summary"/>
 
     </PreferenceCategory>
 
-
     <PreferenceCategory
         android:title="@string/settings_title_mode">
+
         <SwitchPreference
             android:defaultValue="false"
             android:key="@string/manual_screenshot_mode_key"
             android:summary="@string/manual_screenshot_mode_setting_summary"
             android:title="@string/manual_screenshot_mode_setting_title"/>
-
 
         <SwitchPreference
             android:defaultValue="true"
@@ -123,19 +114,16 @@
     <PreferenceCategory
         android:title="@string/settings_title_uninteresting">
 
-
         <SwitchPreference
             android:defaultValue="false"
             android:key="autoUpdateEnabled"
             android:summary="@string/auto_update_setting_summary"
             android:title="@string/auto_update_setting_title"/>
 
-
         <Preference
             android:key="checkForUpdate"
             android:summary="@string/check_for_update_setting_summary"
             android:title="@string/check_for_update_setting_title"/>
-
 
         <SwitchPreference
             android:defaultValue="true"
@@ -143,11 +131,10 @@
             android:summary="@string/send_crash_reports_setting_summary"
             android:title="@string/send_crash_reports_setting_title"/>
 
-
         <Preference
             android:key="@string/view_credits_button"
             android:summary="@string/view_credits_summary"
-            android:title="@string/view_credits"
-            />
+            android:title="@string/view_credits"/>
+
     </PreferenceCategory>
 </PreferenceScreen>

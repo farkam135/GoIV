@@ -870,7 +870,7 @@ public class ScanFieldAutomaticLocator {
                 // Keep only bounding rect between 20% and 80% of the image width
                 .filter(Predicates.and(ByMinX.of(width20Percent), ByMaxX.of(width80Percent)))
                 // Keep only bounding rect above the hp bar and below the pokemon area (more or less)
-                .filter(Predicates.and(ByMinY.of(hpBar.y / 2), ByMaxY.of(hpBar.y)))
+                .filter(Predicates.and(ByMinY.of((int) (hpBar.y * 8.5f / 10f)), ByMaxY.of(hpBar.y)))
                 .toList();
 
         //noinspection PointlessBooleanExpression

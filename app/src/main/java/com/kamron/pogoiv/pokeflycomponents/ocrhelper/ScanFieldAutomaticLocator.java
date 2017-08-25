@@ -114,7 +114,7 @@ public class ScanFieldAutomaticLocator {
                 adaptThreshBlockSize, 3);
 
         Mat imageT = new Mat(image.size(), CvType.CV_32F);
-        Imgproc.threshold(imageHsv, imageT, 250, 255, Imgproc.THRESH_BINARY_INV);
+        Imgproc.threshold(imageHsv, imageT, 248, 255, Imgproc.THRESH_BINARY_INV);
 
         // Prepare masks for later (average color computation)
         mask1 = new Mat(image.rows(), image.cols(), CvType.CV_8U);

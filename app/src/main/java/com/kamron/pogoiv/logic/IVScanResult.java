@@ -322,10 +322,10 @@ public class IVScanResult {
      * Removes any combination that has stats that are lower than 10, for example 9 14 14. Egg and raid pokemon
      * cannot have stats that are lower than 10.
      */
-    public void refineByEggRaid(){
+    public void refineByEggRaid() {
         ArrayList<IVCombination> refinedList = new ArrayList<>();
-        for (IVCombination comb : iVCombinations){
-            if (comb.att >= 10 && comb.def >= 10 && comb.sta >= 10){
+        for (IVCombination comb : iVCombinations) {
+            if (comb.att >= 10 && comb.def >= 10 && comb.sta >= 10) {
                 refinedList.add(comb);
             }
         }

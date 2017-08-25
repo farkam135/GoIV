@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Point;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -51,7 +50,6 @@ public class ScanFieldAutomaticLocator {
     // background rgb (29 134 150)
     private static final Scalar SCALAR_ON = new Scalar(255);
     private static final Scalar SCALAR_OFF = new Scalar(0);
-    private static final float[] HSV_WHITE = new float[] {0, 0f, 1f};
     private static final float[] HSV_GREEN_DARK_SMALL = new float[] {170, 0.16f, 0.62f};
     private static final float[] HSV_GREEN_DARK = new float[] {183f, 0.32f, 0.46f};
     private static final float[] HSV_GREEN_LIGHT = new float[] {183f, 0.04f, 0.85f};
@@ -59,6 +57,7 @@ public class ScanFieldAutomaticLocator {
     private static final float[] HSV_BUTTON_ENABLED = new float[] {147, 0.45f, 0.84f};
     private static final float[] HSV_HP_BAR = new float[] {155, 0.54f, 0.93f};
     private static final float[] HSV_DIVIDER = new float[] {0, 0, 0.88f};
+    private static final float[] HSV_FAB = new float[] {181, 0.68f, 0.62f};
 
 
     private final Bitmap bmp;
@@ -277,7 +276,7 @@ public class ScanFieldAutomaticLocator {
         findWhitePixelPokemonScreen(results);
 
         postMessage(mainThreadHandler, dialog, "Finding green marker pixel");
-        findGreenPokemonScreen(results);
+        findGreenPixelPokemonScreen(results);
 
         return results;
     }
@@ -297,43 +296,59 @@ public class ScanFieldAutomaticLocator {
      * Get the x,y coordinate of the green pixel in the "hamburger menu" in the bottom right of the pokemon screen.
      * (The dark green color.).
      */
-    private void findGreenPokemonScreen(ScanFieldResults results) {
-        Point bottomPoint = null;
-        for (int y = bmp.getHeight() - 1; y > 0; y--) {
-            if (bottomPoint != null) {
-                break; // already found, stop looping
-            }
-            for (int x = bmp.getWidth() - 1; x > 0; x--) {
-                if (greenInt == bmp.getPixel(x, y)) {
-                    bottomPoint = new Point(x, y);
-                    break;
-                }
-            }
+    private void findGreenPixelPokemonScreen(ScanFieldResults results) {
+        final boolean debugExecution = false; // Activate this flag to display the onscreen debug graphics
+
+        //noinspection UnusedAssignment
+        Canvas c = null;
+        //noinspection UnusedAssignment
+        Paint p = null;
+        //noinspection PointlessBooleanExpression
+        if (BuildConfig.DEBUG && debugExecution) {
+            c = new Canvas(bmp);
+            p = getDebugPaint();
+            p.setColor(Color.MAGENTA);
+            debugPrintRectList(boundingRectList, c, p);
         }
 
-        if (bottomPoint == null) {
+        if (hpBar == null) {
             return;
         }
 
-        Point topPoint = null;
-        for (int i = 0; i < bmp.getHeight() / 2; i++) {
-            int nextPx = bmp.getPixel(bottomPoint.x, bottomPoint.y - i);
-            int luminosity = Color.red(nextPx) + Color.green(nextPx) + Color.blue(nextPx);
-            if (luminosity > 650) {
-                topPoint = new Point(bottomPoint.x, bottomPoint.y - i);
-                break;
-            }
+        List<Rect> candidates = FluentIterable.from(boundingRectList)
+                // Keep only bounding rect after the 66% of the image width and height
+                .filter(Predicates.and(ByMinX.of(width66Percent), ByMinY.of((int) (bmp.getHeight() / 3f * 2f))))
+                // Keep only bounding rect that are big enough
+                .filter(Predicates.and(ByMinWidth.of(50f * screenDensity), ByMinHeight.of(50f * screenDensity)))
+                .toList();
+
+        //noinspection PointlessBooleanExpression
+        if (BuildConfig.DEBUG && debugExecution) {
+            //noinspection ConstantConditions
+            p.setColor(Color.YELLOW);
+            debugPrintRectList(candidates, c, p);
         }
 
-        if (topPoint == null) {
+        candidates = FluentIterable.from(candidates)
+                // Check if the dominant color of the contour matches the color of the hamburger floating action button
+                .filter(ByHsvColor.of(image, mask1, contours, boundingRectList, HSV_FAB, 5, 0.125f, 0.125f))
+                .toList();
+
+        //noinspection PointlessBooleanExpression
+        if (BuildConfig.DEBUG && debugExecution) {
+            //noinspection ConstantConditions
+            p.setColor(Color.GREEN);
+            debugPrintRectList(candidates, c, p);
+        }
+
+        if (candidates.size() == 0) {
             return;
         }
 
-        //Find the dot 3/4ths up from the lowest point
+        Rect result = mergeRectList(candidates);
 
-        int newY = (bottomPoint.y - topPoint.y) / 4;
-
-        results.infoScreenFabGreenPixelPoint = new ScanPoint(bottomPoint.x, topPoint.y + newY);
+        results.infoScreenFabGreenPixelPoint = new ScanPoint(
+                result.x + result.width / 2, (int) (result.y + result.height / 4f * 3f));
         results.infoScreenFabGreenPixelColor =
                 bmp.getPixel(results.infoScreenFabGreenPixelPoint.xCoord, results.infoScreenFabGreenPixelPoint.yCoord);
     }
@@ -656,34 +671,6 @@ public class ScanFieldAutomaticLocator {
         result.height += result.height * 0.4;
 
         results.pokemonCpArea = new ScanArea(result.x, result.y, result.width, result.height);
-    }
-
-    /**
-     * Helper method, that tries to find the end of a text field. It does so by looping through from the left, and
-     * checking if it "collides with" any text.
-     *
-     * @param bmp               The image to look in
-     * @param textStartY        Where we know there's some text
-     * @param startSearchX      the "start" we look from from the left
-     * @param searchingForColor The color of the text we want to find the end for
-     * @return the first row where we dont encounter the searchingforcolor, or 0 if none found.
-     */
-    private int getEndOfText(Bitmap bmp, int textStartY, int startSearchX, int searchingForColor) {
-        int returner = 0;
-        for (int y = textStartY + 3; y < textStartY + (bmp.getHeight() * 0.2); y++) {
-            boolean traveledRowEncounteringText = false;
-            for (int x = startSearchX; x < bmp.getWidth() / 2; x++) {
-                if (bmp.getPixel(x, y) == searchingForColor) {
-                    traveledRowEncounteringText = true;
-                    break;
-                }
-            }
-            if (traveledRowEncounteringText == false) {
-                returner = y;
-                break;
-            }
-        }
-        return returner;
     }
 
     /**

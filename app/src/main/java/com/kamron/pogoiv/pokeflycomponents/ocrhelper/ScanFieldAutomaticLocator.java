@@ -79,11 +79,7 @@ public class ScanFieldAutomaticLocator {
     private final int width66Percent;
     private final int width80Percent;
 
-    private final float charHeightSmall;
-    private final float charHeightMedium;
-    private final float charHeightBig;
     private final float buttonHeight;
-    private final float buttonPadding;
 
 
     public ScanFieldAutomaticLocator(Bitmap bmp, float screenDensity) {
@@ -95,11 +91,7 @@ public class ScanFieldAutomaticLocator {
         width50Percent = bmp.getWidth() / 2;
         width66Percent = bmp.getWidth() / 3 * 2;
         width80Percent = bmp.getWidth() / 5 * 4;
-        charHeightSmall = 8 * screenDensity;
-        charHeightMedium = 10f * screenDensity;
-        charHeightBig = 12 * screenDensity;
         buttonHeight = 41f * screenDensity;
-        buttonPadding = 8f * screenDensity;
 
 
         // Computer vision parameters
@@ -412,14 +404,37 @@ public class ScanFieldAutomaticLocator {
         }
 
         List<Rect> candidates = FluentIterable.from(boundingRectList)
-                // Keep only bounding rect between 50% and 83% of the image width
-                .filter(Predicates.and(ByMinX.of(width50Percent), ByMaxX.of(width33Percent + width50Percent)))
-                // Keep only bounding rect below the grey divider line
-                .filter(ByMinY.of((int) (powerUpButton.y + powerUpButton.height + buttonPadding)))
-                .filter(ByMaxY.of((int) (powerUpButton.y + powerUpButton.height + buttonPadding + buttonHeight)))
-                // Try to guess the 'mon candy characters basing on their height
-                .filter(ByHeight.of(charHeightMedium, screenDensity))
+                // Keep only rect that are below the power up button and above the height of the evolution button
+                .filter(ByMinY.of(powerUpButton.y + powerUpButton.height))
+                .filter(ByMaxY.of((int) (powerUpButton.y + powerUpButton.height * 2.5f)))
+                // Keep only bounding rect in the right 50% of the image
+                .filter(ByMinX.of(width50Percent))
                 .toList();
+
+        //noinspection PointlessBooleanExpression
+        if (BuildConfig.DEBUG && debugExecution) {
+            //noinspection ConstantConditions
+            p.setColor(Color.RED);
+            debugPrintRectList(candidates, c, p);
+        }
+
+        List<Rect> digitsCandidates = FluentIterable.from(candidates)
+                // Check if the dominant color of the contour matches the light green hue of PoGO text
+                .filter(Predicates.or(
+                        ByHsvColor.of(image, mask1, contours, boundingRectList, HSV_GREEN_DARK_SMALL, 3, 0.15f, 0.15f),
+                        ByHsvColor.of(image, mask2, contours, boundingRectList, HSV_TEXT_RED, 3, 0.15f, 0.15f)))
+                .toList();
+
+        if (digitsCandidates.size() > 0) {
+            candidates = digitsCandidates;
+        } else {
+            // Didn't find any character for evolution cost. Maybe they are covered by the hamburger menu icon.
+            // Try to detect the "candy" icon instead. Its height is around one third of its enclosing button.
+            candidates  = FluentIterable.from(candidates)
+                    .filter(ByHeight.of(powerUpButton.height / 2.75f, powerUpButton.height / 25f))
+                    .filter(ByWidth.of(powerUpButton.height / 2.75f, powerUpButton.height / 25f))
+                    .toList();
+        }
 
         //noinspection PointlessBooleanExpression
         if (BuildConfig.DEBUG && debugExecution) {
@@ -429,10 +444,8 @@ public class ScanFieldAutomaticLocator {
         }
 
         candidates = FluentIterable.from(candidates)
-                // Check if the dominant color of the contour matches the light green hue of PoGO text
-                .filter(Predicates.or(
-                        ByHsvColor.of(image, mask1, contours, boundingRectList, HSV_GREEN_DARK_SMALL, 3, 0.15f, 0.15f),
-                        ByHsvColor.of(image, mask2, contours, boundingRectList, HSV_TEXT_RED, 3, 0.15f, 0.15f)))
+                // Keep only rect with bottom coordinate inside half of the standard deviation
+                .filter(ByStandardDeviationOnBottomY.of(candidates, 0.5f))
                 .toList();
 
         //noinspection PointlessBooleanExpression
@@ -448,17 +461,20 @@ public class ScanFieldAutomaticLocator {
 
         Rect result = mergeRectList(candidates);
 
-        // Ensure the rect is wide at least 33% of the screen width
-        if (result.x > width50Percent) {
-            result.x = width50Percent;
+        // Ensure the rect starts at 66% of the width and is wide at least 20% of the screen width
+        if (result.x > width66Percent) {
+            result.x = width66Percent;
         }
-        if (result.width < width33Percent) {
-            result.width = width33Percent;
+        if (result.width < width20Percent) {
+            result.width = width20Percent;
         }
 
-        // Increase the height of 20% on top and 20% below
-        result.y -= result.height * 0.2;
-        result.height += result.height * 0.4;
+        if (digitsCandidates.size() > 0) {
+            // Increase the height of 20% on top and 20% below only if the area wasn't detected through evolution
+            // cost digits and not with the candy icon
+            result.y -= result.height * 0.2;
+            result.height += result.height * 0.4;
+        }
 
         results.pokemonEvolutionCostArea = new ScanArea(result.x, result.y, result.width, result.height);
     }

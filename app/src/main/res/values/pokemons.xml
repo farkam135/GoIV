@@ -255,4 +255,24 @@
         <item>Ho-oh</item>
         <item>Celebi</item>
     </string-array>
+    <string-array name="typeName">
+        <!--  0   normal --> <item>NORMAL</item>
+        <!--  1     fire --> <item>FIRE</item>
+        <!--  2    water --> <item>WATER</item>
+        <!--  3 electric --> <item>ELECTRIC</item>
+        <!--  4    grass --> <item>GRASS</item>
+        <!--  5      ice --> <item>ICE</item>
+        <!--  6 fighting --> <item>FIGHTING</item>
+        <!--  7   poison --> <item>POISON</item>
+        <!--  8   ground --> <item>GROUND</item>
+        <!--  9   flying --> <item>FLYING</item>
+        <!-- 10  psychic --> <item>PSYCHIC</item>
+        <!-- 11      bug --> <item>BUG</item>
+        <!-- 12     rock --> <item>ROCK</item>
+        <!-- 13    ghost --> <item>GHOST</item>
+        <!-- 14   dragon --> <item>DRAGON</item>
+        <!-- 15     dark --> <item>DARK</item>
+        <!-- 16    steel --> <item>STEEL</item>
+        <!-- 17    fairy --> <item>FAIRY</item>
+    </string-array>
 </resources>

@@ -14,6 +14,7 @@ public class PokeInfoCalculator {
     private static PokeInfoCalculator instance;
 
     private ArrayList<Pokemon> pokedex = new ArrayList<>();
+    private String[] typeNamesArray;
 
     /**
      * Pokemons that aren't evolutions of any other one.
@@ -32,10 +33,10 @@ public class PokeInfoCalculator {
     public static PokeInfoCalculator getInstance(String[] namesArray, String[] displayNamesArray,
                                                  int[] attackArray, int[] defenceArray, int[] staminaArray,
                                                  int[] devolutionArray, int[] evolutionCandyCostArray,
-                                                 int[] candyNamesArray) {
+                                                 int[] candyNamesArray, String[] typeNamesArray) {
         if (instance == null) {
             instance = new PokeInfoCalculator(namesArray, displayNamesArray, attackArray, defenceArray,
-                    staminaArray, devolutionArray, evolutionCandyCostArray, candyNamesArray);
+                    staminaArray, devolutionArray, evolutionCandyCostArray, candyNamesArray, typeNamesArray);
         }
         return instance;
     }
@@ -59,12 +60,14 @@ public class PokeInfoCalculator {
      * @param staminaArray      array of all pokemon base stam stat
      * @param devolutionArray   array of what the pokemon evolved from, -1 if no devolution
      * @param candyNamesArray   array of base pokemon and their associated candy pokemon, -1 if non-base pokemon
+     * @param typeNamesArray    string array of all pokemon type names
      */
     private PokeInfoCalculator(String[] namesArray, String[] displayNamesArray, int[] attackArray,
                                int[] defenceArray, int[] staminaArray, int[] devolutionArray,
-                               int[] evolutionCandyCostArray, int[] candyNamesArray) {
+                               int[] evolutionCandyCostArray, int[] candyNamesArray, String[] typeNamesArray) {
         populatePokemon(namesArray, displayNamesArray, attackArray, defenceArray, staminaArray, devolutionArray,
                 evolutionCandyCostArray, candyNamesArray);
+        this.typeNamesArray = typeNamesArray;
     }
 
     public List<Pokemon> getPokedex() {
@@ -367,5 +370,9 @@ public class PokeInfoCalculator {
                 10);
         int averageHP = Math.round(highHp + lowHp) / 2;
         return averageHP;
+    }
+
+    public String getTypeName(int typeNameNum) {
+        return typeNamesArray[typeNameNum];
     }
 }

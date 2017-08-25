@@ -66,16 +66,23 @@ public class PokemonNameCorrector {
         //3.  check correction for Eevee’s Evolution using it's Pokemon Type
         if (guess.pokemon == null && candytext.toLowerCase().contains(pokeInfoCalculator.get(132).name.toLowerCase())) {
             HashMap<String, String> eeveelutionCorrection = new HashMap<>();
-            // It might be good to move this to a resource at some point
-            eeveelutionCorrection.put("WATER", pokeInfoCalculator.get(133).name); //Vaporeon
-            eeveelutionCorrection.put("ELECTRIC", pokeInfoCalculator.get(134).name); //Jolteon
-            eeveelutionCorrection.put("FIRE", pokeInfoCalculator.get(135).name); //Flareon
-            eeveelutionCorrection.put("PSYCHIC", pokeInfoCalculator.get(195).name); //Espeon
-            eeveelutionCorrection.put("DARK", pokeInfoCalculator.get(196).name); //Umbreon
+            eeveelutionCorrection.put(pokeInfoCalculator.getTypeName(2), //WATER
+                    pokeInfoCalculator.get(133).name); //Vaporeon
+            eeveelutionCorrection.put(pokeInfoCalculator.getTypeName(3), //ELECTRIC
+                    pokeInfoCalculator.get(134).name); //Jolteon
+            eeveelutionCorrection.put(pokeInfoCalculator.getTypeName(1), //FIRE
+                    pokeInfoCalculator.get(135).name); //Flareon
+            eeveelutionCorrection.put(pokeInfoCalculator.getTypeName(10), //PSYCHIC
+                    pokeInfoCalculator.get(195).name); //Espeon
+            eeveelutionCorrection.put(pokeInfoCalculator.getTypeName(15), //DARK
+                    pokeInfoCalculator.get(196).name); //Umbreon
             // Preparing for the future....
-            // eeveelutionCorrection.put("GRASS", pokeInfoCalculator.get(469).name); //Leafeon
-            // eeveelutionCorrection.put("ICE", pokeInfoCalculator.get(470).name); //Glaceon
-            // eeveelutionCorrection.put("FAIRY", pokeInfoCalculator.get(699).name); //Sylveon
+            // eeveelutionCorrection.put(pokeInfoCalculator.getTypeName(4), //GRASS
+            //         pokeInfoCalculator.get(469).name); //Leafeon
+            // eeveelutionCorrection.put(pokeInfoCalculator.getTypeName(5), //ICE
+            //         pokeInfoCalculator.get(470).name); //Glaceon
+            // eeveelutionCorrection.put(pokeInfoCalculator.getTypeName(17), //FAIRY
+            //         pokeInfoCalculator.get(699).name); //Sylveon
             if (eeveelutionCorrection.containsKey(pokemonType)) {
                 poketext = eeveelutionCorrection.get(pokemonType);
                 guess = new PokeDist(pokeInfoCalculator.get(poketext), 0);

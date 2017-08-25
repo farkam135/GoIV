@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.RectF;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -91,31 +92,29 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
         showAreaIndicator(bmp, results.pokemonCandyAmountArea, purple);
         showAreaIndicator(bmp, results.pokemonEvolutionCostArea, purple);
 
-        showPointIndicator(bmp, results.infoScreenCardWhitePixelPoint, 3 * screenDensity,
+        showPointIndicator(bmp, results.infoScreenCardWhitePixelPoint,
                 results.infoScreenCardWhitePixelColor, purpleBright);
-        showPointIndicator(bmp, results.infoScreenFabGreenPixelPoint, 3 * screenDensity,
+        showPointIndicator(bmp, results.infoScreenFabGreenPixelPoint,
                 results.infoScreenFabGreenPixelColor, purpleBright);
 
-        showPointIndicator(bmp, results.arcCenter, 3 * screenDensity, null, purpleBright);
-        if (results.arcCenter != null && results.arcRadius != null) {
-            showAreaIndicator(bmp, new ScanArea(results.arcCenter.xCoord, results.arcCenter.yCoord,
-                    -results.arcRadius, 2), purple);
-        }
+        showPointIndicator(bmp, results.arcCenter, null, purpleBright);
+        showArcIndicator(bmp, results.arcCenter, results.arcRadius, purple);
     }
 
-    private void showPointIndicator(Bitmap bmp, ScanPoint point, float radius, Integer color, Integer strokeColor) {
+    private void showPointIndicator(Bitmap bmp, ScanPoint point, Integer color, Integer strokeColor) {
+        float density = Resources.getSystem().getDisplayMetrics().density;
         if (point != null) {
             Paint p = new Paint();
             Canvas c = new Canvas(bmp);
             if (color != null) {
                 p.setColor(color);
-                c.drawCircle(point.xCoord, point.yCoord, radius, p);
+                c.drawCircle(point.xCoord, point.yCoord, 3 * density, p);
             }
             if (strokeColor != null) {
                 p.setStyle(Paint.Style.STROKE);
                 p.setColor(strokeColor);
-                p.setStrokeWidth(radius / 3);
-                c.drawCircle(point.xCoord, point.yCoord, radius, p);
+                p.setStrokeWidth(density);
+                c.drawCircle(point.xCoord, point.yCoord, 3 * density, p);
             }
         }
     }
@@ -132,4 +131,16 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
         }
     }
 
+    private void showArcIndicator(Bitmap bmp, ScanPoint point, float radius, int color) {
+        if (point != null) {
+            Canvas c = new Canvas(bmp);
+            Paint p = new Paint();
+            p.setStyle(Paint.Style.STROKE);
+            p.setStrokeWidth(Resources.getSystem().getDisplayMetrics().density);
+            p.setColor(color);
+            RectF oval = new RectF(point.xCoord - radius, point.yCoord - radius,
+                    point.xCoord + radius, point.yCoord + radius);
+            c.drawArc(oval, 180, 180, false, p);
+        }
+    }
 }

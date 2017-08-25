@@ -26,6 +26,7 @@ import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -61,8 +62,10 @@ public class ScanFieldAutomaticLocator {
 
     private final Bitmap bmp;
     private final Mat image;
-    private final List<MatOfPoint> contours;
-    private final ArrayList<Rect> boundingRectList;
+    private final List<MatOfPoint> contours; // Detected with adaptive threshold
+    private final List<MatOfPoint> contoursT; // Detected with binary threshold
+    private final ArrayList<Rect> boundingRectList; // Detected with adaptive threshold
+    private final ArrayList<Rect> boundingRectListT; // Detected with binary threshold
     private final Mat mask1;
     private final Mat mask2;
     private final Rect hpBar;
@@ -114,6 +117,9 @@ public class ScanFieldAutomaticLocator {
         Imgproc.adaptiveThreshold(imageHsv, imageA, 255, Imgproc.ADAPTIVE_THRESH_GAUSSIAN_C, Imgproc.THRESH_BINARY,
                 adaptThreshBlockSize, 3);
 
+        Mat imageT = new Mat(image.size(), CvType.CV_32F);
+        Imgproc.threshold(imageHsv, imageT, 250, 255, Imgproc.THRESH_BINARY_INV);
+
         // Prepare masks for later (average color computation)
         mask1 = new Mat(image.rows(), image.cols(), CvType.CV_8U);
         mask2 = new Mat(image.rows(), image.cols(), CvType.CV_8U);
@@ -123,8 +129,20 @@ public class ScanFieldAutomaticLocator {
         contours = new ArrayList<>();
         Imgproc.findContours(imageA, contours, new Mat(), Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_SIMPLE);
 
+        contoursT = new ArrayList<>();
+        Imgproc.findContours(imageT, contoursT, new Mat(), Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_SIMPLE);
+
         // Remove contours too small or too large
         Iterator<MatOfPoint> contoursIterator = contours.iterator();
+        while (contoursIterator.hasNext()) {
+            MatOfPoint contour = contoursIterator.next();
+            double contourArea = Imgproc.contourArea(contour);
+            if (contourArea < minArea || contourArea > maxArea) {
+                contoursIterator.remove();
+            }
+        }
+
+        contoursIterator = contoursT.iterator();
         while (contoursIterator.hasNext()) {
             MatOfPoint contour = contoursIterator.next();
             double contourArea = Imgproc.contourArea(contour);
@@ -138,6 +156,11 @@ public class ScanFieldAutomaticLocator {
         boundingRectList = new ArrayList<>(contours.size());
         for (MatOfPoint contour : contours) {
             boundingRectList.add(Imgproc.boundingRect(contour));
+        }
+
+        boundingRectListT = new ArrayList<>(contoursT.size());
+        for (MatOfPoint contour : contoursT) {
+            boundingRectListT.add(Imgproc.boundingRect(contour));
         }
 
 
@@ -346,40 +369,52 @@ public class ScanFieldAutomaticLocator {
      * point of starting, in the form of x,y;radius
      */
     private void findArcValues(ScanFieldResults results) {
-        // find where the white area begins
-        int whiteCardStartY = 0;
-        for (int y = (int) (bmp.getHeight() * 0.5); y > 0; y--) {
-            int thisPixel = bmp.getPixel((int) (bmp.getWidth() * 0.07), y);
-            if (thisPixel != whiteInt && !isLikelyDarkText(thisPixel)) {
-                whiteCardStartY = y;
-                break;
-            }
+        final boolean debugExecution = false; // Activate this flag to display the onscreen debug graphics
+
+        //noinspection UnusedAssignment
+        Canvas c = null;
+        //noinspection UnusedAssignment
+        Paint p = null;
+        //noinspection PointlessBooleanExpression
+        if (BuildConfig.DEBUG && debugExecution) {
+            c = new Canvas(bmp);
+            p = getDebugPaint();
+            p.setColor(Color.MAGENTA);
+            debugPrintRectList(boundingRectListT, c, p);
         }
 
-        Point finalPoint = null;
-        for (int x = 1; x < bmp.getWidth() * 0.25; x++) {
-            for (int y = whiteCardStartY - 3; y > bmp.getHeight() * 0.1; y--) {
-                int r = Color.red(bmp.getPixel(x, y));
-                int g = Color.red(bmp.getPixel(x, y));
-                int b = Color.red(bmp.getPixel(x, y));
-
-                //if (bmp.getPixel(x,y) == whiteInt){
-                if (r > 235 && g > 235 && b > 235) {
-                    finalPoint = new Point(x, y);
-                    break;
-                }
-            }
-            if (finalPoint != null) {
-                break;
-            }
-        }
-
-        if (finalPoint == null) {
+        if (boundingRectListT.size() == 0) {
             return;
         }
 
-        results.arcCenter = new ScanPoint(bmp.getWidth() / 2, finalPoint.y);
-        results.arcRadius = bmp.getWidth() / 2 - finalPoint.x;
+        List<Rect> candidates = FluentIterable.from(boundingRectListT)
+                // The level arc must be in the upper half of the screen
+                .filter(ByMaxY.of(bmp.getHeight() / 2))
+                .toList();
+
+        //noinspection PointlessBooleanExpression
+        if (BuildConfig.DEBUG && debugExecution) {
+            p.setColor(Color.YELLOW);
+            debugPrintRectList(candidates, c, p);
+        }
+
+        Rect maxBoundingRect = null;
+        for (Rect boundingRect : candidates) {
+            if (maxBoundingRect == null || maxBoundingRect.area() < boundingRect.area()) {
+                maxBoundingRect = boundingRect;
+            }
+        }
+
+        //noinspection PointlessBooleanExpression
+        if (BuildConfig.DEBUG && debugExecution) {
+            //noinspection ConstantConditions
+            p.setColor(Color.GREEN);
+            debugPrintRectList(Collections.singletonList(maxBoundingRect), c, p);
+        }
+
+        //noinspection ConstantConditions
+        results.arcCenter = new ScanPoint(bmp.getWidth() / 2, maxBoundingRect.y + maxBoundingRect.height);
+        results.arcRadius = bmp.getWidth() / 2 - maxBoundingRect.x;
     }
 
 
@@ -389,7 +424,9 @@ public class ScanFieldAutomaticLocator {
     private void findPokemonEvolutionCostArea(ScanFieldResults results) {
         final boolean debugExecution = false; // Activate this flag to display the onscreen debug graphics
 
+        //noinspection UnusedAssignment
         Canvas c = null;
+        //noinspection UnusedAssignment
         Paint p = null;
         //noinspection PointlessBooleanExpression
         if (BuildConfig.DEBUG && debugExecution) {
@@ -486,7 +523,9 @@ public class ScanFieldAutomaticLocator {
     private void findPokemonCandyArea(ScanFieldResults results) {
         final boolean debugExecution = false; // Activate this flag to display the onscreen debug graphics
 
+        //noinspection UnusedAssignment
         Canvas c = null;
+        //noinspection UnusedAssignment
         Paint p = null;
         //noinspection PointlessBooleanExpression
         if (BuildConfig.DEBUG && debugExecution) {
@@ -624,7 +663,9 @@ public class ScanFieldAutomaticLocator {
     private void findPokemonHPArea(ScanFieldResults results) {
         final boolean debugExecution = false; // Activate this flag to display the onscreen debug graphics
 
+        //noinspection UnusedAssignment
         Canvas c = null;
+        //noinspection UnusedAssignment
         Paint p = null;
         //noinspection PointlessBooleanExpression
         if (BuildConfig.DEBUG && debugExecution) {
@@ -697,21 +738,15 @@ public class ScanFieldAutomaticLocator {
         results.pokemonHpArea = new ScanArea(result.x, result.y, result.width, result.height);
     }
 
-    private boolean isLikelyDarkText(int color) {
-        int r = Color.red(color);
-        int g = Color.green(color);
-        int b = Color.blue(color);
-
-        return (r < 180 && g < 180 && b < 190);
-    }
-
     /**
      * Find the area where the candy name (such as "eevee candy") is listed.
      */
     private void findPokemonCandyNameArea(ScanFieldResults results) {
         final boolean debugExecution = false; // Activate this flag to display the onscreen debug graphics
 
+        //noinspection UnusedAssignment
         Canvas c = null;
+        //noinspection UnusedAssignment
         Paint p = null;
         //noinspection PointlessBooleanExpression
         if (BuildConfig.DEBUG && debugExecution) {
@@ -790,7 +825,9 @@ public class ScanFieldAutomaticLocator {
     private void findPokemonTypeArea(ScanFieldResults results) {
         final boolean debugExecution = false; // Activate this flag to display the onscreen debug graphics
 
+        //noinspection UnusedAssignment
         Canvas c = null;
+        //noinspection UnusedAssignment
         Paint p = null;
         //noinspection PointlessBooleanExpression
         if (BuildConfig.DEBUG && debugExecution) {
@@ -872,7 +909,9 @@ public class ScanFieldAutomaticLocator {
     private void findPokemonNameArea(ScanFieldResults results) {
         final boolean debugExecution = false; // Activate this flag to display the onscreen debug graphics
 
+        //noinspection UnusedAssignment
         Canvas c = null;
+        //noinspection UnusedAssignment
         Paint p = null;
         //noinspection PointlessBooleanExpression
         if (BuildConfig.DEBUG && debugExecution) {

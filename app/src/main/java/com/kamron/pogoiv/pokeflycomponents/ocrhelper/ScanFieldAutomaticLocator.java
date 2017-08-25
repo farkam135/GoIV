@@ -43,13 +43,9 @@ public class ScanFieldAutomaticLocator {
         System.loadLibrary("opencv_java3");
     }
 
-    private static final int pureWhite = Color.parseColor("#FFFFFF"); // hp, pokemon name text etc
-    private static final int hpBarColorInt = Color.parseColor("#6dedb7");  //old color 81ecb6
-    private static final int whiteInt = Color.parseColor("#FAFAFA");
-    private static final int greenInt = Color.parseColor("#1d8696"); // 1d8696 is the color used in pokemon go as green
-    // background rgb (29 134 150)
     private static final Scalar SCALAR_ON = new Scalar(255);
     private static final Scalar SCALAR_OFF = new Scalar(0);
+    private static final float[] HSV_WHITE_BACKGROUND = new float[] {0, 0f, 0.97f};
     private static final float[] HSV_GREEN_DARK_SMALL = new float[] {170, 0.16f, 0.62f};
     private static final float[] HSV_GREEN_DARK = new float[] {183f, 0.32f, 0.46f};
     private static final float[] HSV_GREEN_LIGHT = new float[] {183f, 0.04f, 0.85f};
@@ -361,14 +357,12 @@ public class ScanFieldAutomaticLocator {
      */
     private void findWhitePixelPokemonScreen(ScanFieldResults results) {
         ScanPoint whitePoint = null;
-
-        int y = (int) (bmp.getHeight() * 0.5);
-        for (int x = 0; x < bmp.getWidth(); x++) {
-            if (whitePoint != null) {
-                break; //Found our white point, stop looking
-            }
-            if (bmp.getPixel(x, y) == whiteInt) {
+        float[] hsv = new float[3];
+        for (int x = 0, y = bmp.getHeight() / 2; x < bmp.getWidth(); x++) {
+            Color.colorToHSV(bmp.getPixel(x, y), hsv);
+            if (hsv[0] < 3 && hsv[1] < 0.05 && hsv[2] > HSV_WHITE_BACKGROUND[2]) {
                 whitePoint = new ScanPoint(x * 2, y);
+                break;
             }
         }
 

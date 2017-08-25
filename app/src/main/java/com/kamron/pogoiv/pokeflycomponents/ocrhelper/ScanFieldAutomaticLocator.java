@@ -51,6 +51,7 @@ public class ScanFieldAutomaticLocator {
     // background rgb (29 134 150)
     private static final Scalar SCALAR_ON = new Scalar(255);
     private static final Scalar SCALAR_OFF = new Scalar(0);
+    private static final float[] HSV_WHITE = new float[] {0, 0f, 1f};
     private static final float[] HSV_GREEN_DARK_SMALL = new float[] {170, 0.16f, 0.62f};
     private static final float[] HSV_GREEN_DARK = new float[] {183f, 0.32f, 0.46f};
     private static final float[] HSV_GREEN_LIGHT = new float[] {183f, 0.04f, 0.85f};
@@ -604,29 +605,57 @@ public class ScanFieldAutomaticLocator {
      * Get the CP field of a pokemon. (The one at the top of the screen, on the form of CP XXX)
      */
     private void findPokemonCPScanArea(ScanFieldResults results) {
-        int cpStartY = 0;
-        for (int y = (int) (bmp.getHeight() * 0.05); y < bmp.getHeight() * 0.5; y++) {
-            int half = bmp.getWidth() / 2;
-            boolean found1 = bmp.getPixel((int) (half - half * 0.001), y) == pureWhite;
-            boolean found2 = bmp.getPixel((int) (half - half * 0.01), y) == pureWhite;
-            boolean found3 = bmp.getPixel((int) (half - half * 0.003), y) == pureWhite;
-            boolean found4 = bmp.getPixel((int) (half - half * 0.007), y) == pureWhite;
-            boolean found5 = bmp.getPixel((int) (half + half * 0.001), y) == pureWhite;
-            boolean found6 = bmp.getPixel((int) (half + half * 0.01), y) == pureWhite;
-            boolean found7 = bmp.getPixel((int) (half + half * 0.003), y) == pureWhite;
-            boolean found8 = bmp.getPixel((int) (half + half * 0.007), y) == pureWhite;
-            if (found1 || found2 || found3 || found4 || found5 || found6 || found7 || found8) {
-                cpStartY = y;
-                break;
-            }
+        final boolean debugExecution = false; // Activate this flag to display the onscreen debug graphics
+
+        //noinspection UnusedAssignment
+        Canvas c = null;
+        //noinspection UnusedAssignment
+        Paint p = null;
+        //noinspection PointlessBooleanExpression
+        if (BuildConfig.DEBUG && debugExecution) {
+            c = new Canvas(bmp);
+            p = getDebugPaint();
+            p.setColor(Color.MAGENTA);
+            debugPrintRectList(boundingRectListT, c, p);
         }
 
-        int cpEndY = getEndOfText(bmp, cpStartY, (int) (bmp.getWidth() * 0.2), pureWhite);
-        int height = cpEndY - cpStartY;
-        int startX = (int) (bmp.getWidth() * 0.333);
-        int scanAreaWidth = (int) (bmp.getWidth() * 0.333);
+        if (hpBar == null) {
+            return;
+        }
 
-        results.pokemonCpArea = new ScanArea(startX, cpStartY, scanAreaWidth, height);
+        List<Rect> candidates = FluentIterable.from(boundingRectListT)
+                // Keep only bounding rect inside the first 20% of the image height
+                .filter(ByMaxY.of(bmp.getHeight() / 5))
+                // Ensure it is high enough (this filters out the status bar notification icons)
+                .filter(ByMinHeight.of(17.5f * screenDensity))
+                .toList();
+
+        //noinspection PointlessBooleanExpression
+        if (BuildConfig.DEBUG && debugExecution) {
+            //noinspection ConstantConditions
+            p.setColor(Color.GREEN);
+            debugPrintRectList(candidates, c, p);
+        }
+
+        if (candidates.size() == 0) {
+            return;
+        }
+
+        Rect result = mergeRectList(candidates);
+
+        // Ensure the pokemon name rect is wide at least 50% of the screen width
+        if (result.x > width25Percent) {
+            result.x = width25Percent;
+        }
+        if (result.width < width50Percent) {
+            result.width = width50Percent;
+        }
+
+        // Increase the height of 20% on top and 20% below
+        result.y -= result.height * 0.2;
+        result.height += result.height * 0.4;
+
+        results.pokemonCpArea = new ScanArea(result.x, result.y, result.width, result.height);
     }
 
     /**
@@ -1098,6 +1127,22 @@ public class ScanFieldAutomaticLocator {
 
         @Override public boolean apply(@Nullable Rect input) {
             return input != null && input.width <= maxWidth;
+        }
+    }
+
+    private static class ByMinHeight implements Predicate<Rect> {
+        private float minHeight;
+
+        private ByMinHeight(float minHeight) {
+            this.minHeight = minHeight;
+        }
+
+        public static ByMinHeight of(float minHeight) {
+            return new ByMinHeight(minHeight);
+        }
+
+        @Override public boolean apply(@Nullable Rect input) {
+            return input != null && input.height >= minHeight;
         }
     }
 

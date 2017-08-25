@@ -18,8 +18,10 @@ import com.kamron.pogoiv.GoIVSettings;
 import com.kamron.pogoiv.Pokefly;
 import com.kamron.pogoiv.ScreenGrabber;
 
-import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.SCREEN_INFO_FAB_GREEN_PIXEL;
+import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.SCREEN_INFO_CARD_WHITE_HEX;
 import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.SCREEN_INFO_CARD_WHITE_PIXEL;
+import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.SCREEN_INFO_FAB_GREEN_HEX;
+import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.SCREEN_INFO_FAB_GREEN_PIXEL;
 
 /**
  * A class which checks the screen every time the user pressses the screen, and calls to the ivbutton and
@@ -36,6 +38,7 @@ public class ScreenWatcher {
     private LinearLayout touchView;
     private WindowManager.LayoutParams touchViewParams;
     private Point[] area = new Point[2];
+    private Integer[] areaColor = new Integer[2];
 
     private Handler screenScanHandler;
     private Runnable screenScanRunnable;
@@ -74,6 +77,9 @@ public class ScreenWatcher {
 
                 area[0] = new Point(area0x, area0y);
                 area[1] = new Point(area1x, area1y);
+
+                areaColor[0] = Color.parseColor(set.getCalibrationValue(SCREEN_INFO_CARD_WHITE_HEX));
+                areaColor[1] = Color.parseColor(set.getCalibrationValue(SCREEN_INFO_FAB_GREEN_HEX));
             } catch (Exception e) {
                 Log.e("ScreenWatcher", e.getMessage());
             }
@@ -121,9 +127,15 @@ public class ScreenWatcher {
      */
     private boolean isUserOnPokemonScreen() {
         @ColorInt int[] pixels = ScreenGrabber.getInstance().grabPixels(area);
-        return pixels != null
-                && (pixels[0] == Color.rgb(250, 250, 250) || pixels[0] == Color.rgb(249, 249, 249))
-                && pixels[1] == Color.rgb(28, 135, 150);
+        if (pixels != null) {
+            if (areaColor[0] != null) {
+                return pixels[0] == areaColor[0] && pixels[1] == areaColor[1];
+            } else {
+                return (pixels[0] == Color.rgb(250, 250, 250) || pixels[0] == Color.rgb(249, 249, 249))
+                        && pixels[1] == Color.rgb(28, 135, 150);
+            }
+        }
+        return false;
     }
 
     /**

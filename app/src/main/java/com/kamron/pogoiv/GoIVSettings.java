@@ -115,7 +115,7 @@ public class GoIVSettings {
         editor.putString(ScanFieldNames.SCREEN_INFO_CARD_WHITE_HEX,
                 String.format("#%06X", (0xFFFFFF & results.infoScreenCardWhitePixelColor)));
         editor.putString(ScanFieldNames.SCREEN_INFO_FAB_GREEN_PIXEL,
-                results.infoScreenCardWhitePixelPoint.toString());
+                results.infoScreenFabGreenPixelPoint.toString());
         editor.putString(ScanFieldNames.SCREEN_INFO_FAB_GREEN_HEX,
                 String.format("#%06X", (0xFFFFFF & results.infoScreenFabGreenPixelColor)));
         editor.apply();

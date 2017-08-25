@@ -255,7 +255,7 @@
         <item>Ho-oh</item>
         <item>Celebi</item>
     </string-array>
-    <string-array name="type">
+    <string-array name="typeName">
         <item>NORMAL</item>
         <item>FIRE</item>
         <item>WATER</item>

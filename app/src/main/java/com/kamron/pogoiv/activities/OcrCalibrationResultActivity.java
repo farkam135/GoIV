@@ -13,6 +13,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.kamron.pogoiv.GoIVSettings;
 import com.kamron.pogoiv.R;
@@ -27,6 +29,8 @@ import butterknife.ButterKnife;
 
 public class OcrCalibrationResultActivity extends AppCompatActivity {
 
+    @BindView(R.id.errorListTextView)
+    TextView errorListTextView;
     @BindView(R.id.saveCalibrationButton)
     Button saveCalibrationButton;
     @BindView(R.id.ocr_result_image)
@@ -37,13 +41,13 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        hideStatusBar();
         setContentView(R.layout.activity_ocr_calibration_result);
         ButterKnife.bind(this);
 
-
         final Bitmap bmp = CalibrationImage.calibrationImg;
 
-        //Since these variables are public static, we need to null the connected objects to be garbage collected.
+        // Since the variable is static, we need to null the referenced object to be garbage collected.
         CalibrationImage.calibrationImg = null;
 
         final ProgressDialog dialog = ProgressDialog.show(this, "Calibrating", "Loading. Please wait...", true);
@@ -59,6 +63,52 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
                         dialog.dismiss();
                         if (results.isCompleteCalibration()) {
                             saveCalibrationButton.setEnabled(true);
+                        } else {
+                            StringBuilder sb = new StringBuilder();
+                            if (results.pokemonNameArea == null) {
+                                sb.append("Unable to locate 'mon name\n");
+                            }
+                            if (results.pokemonTypeArea == null) {
+                                sb.append("Unable to locate 'mon type\n");
+                            }
+                            if (results.candyNameArea == null) {
+                                sb.append("Unable to locate 'mon candy name\n");
+                            }
+                            if (results.pokemonHpArea == null) {
+                                sb.append("Unable to locate 'mon HP value\n");
+                            }
+                            if (results.pokemonCpArea == null) {
+                                sb.append("Unable to locate 'mon CP value\n");
+                            }
+                            if (results.pokemonCandyAmountArea == null) {
+                                sb.append("Unable to locate 'mon candies amount\n");
+                            }
+                            if (results.pokemonEvolutionCostArea == null) {
+                                sb.append("Unable to locate 'mon evolution cost\n");
+                            }
+                            if (results.arcCenter == null) {
+                                sb.append("Unable to locate level arc center\n");
+                            }
+                            if (results.arcRadius == null) {
+                                sb.append("Unable to compute level arc radius\n");
+                            }
+                            if (results.infoScreenCardWhitePixelPoint == null) {
+                                sb.append("Unable to locate white marker pixel\n");
+                            }
+                            if (results.infoScreenCardWhitePixelColor == null) {
+                                sb.append("Unable to pick white marker pixel color\n");
+                            }
+                            if (results.infoScreenFabGreenPixelPoint == null) {
+                                sb.append("Unable to locate green marker pixel\n");
+                            }
+                            if (results.infoScreenFabGreenPixelColor == null) {
+                                sb.append("Unable to pick green marker pixel color\n");
+                            }
+                            sb.append("\nATTENTION! Please verify that:\n"
+                                    + "① The 'mon info screen is scrolled all the way up\n"
+                                    + "② The 'mon 3D model doesn't cover any important information\n"
+                                    + "③ The 'mon is not a final evolution! I suggest a Pidgey!");
+                            errorListTextView.setText(sb.toString());
                         }
                         drawResultIndicator(bmp);
                         resultImageView.setImageBitmap(bmp);
@@ -74,13 +124,20 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
                     GoIVSettings settings = GoIVSettings.getInstance(OcrCalibrationResultActivity.this);
                     settings.saveScreenCalibrationResults(results);
                     settings.setManualScanCalibration(true);
+                    Toast.makeText(OcrCalibrationResultActivity.this,
+                            "Calibration saved!\nRestart GoIV to apply the changes!", Toast.LENGTH_LONG).show();
                 }
             }
         });
     }
 
+    private void hideStatusBar() {
+        View decorView = getWindow().getDecorView();
+        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+        decorView.setSystemUiVisibility(uiOptions);
+    }
+
     private void drawResultIndicator(Bitmap bmp) {
-        float screenDensity = getResources().getDisplayMetrics().density;
         int purpleBright = Color.parseColor("#FA33FA");
         int purple = Color.parseColor("#AA00BB");
 

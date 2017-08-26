@@ -167,7 +167,7 @@ public class GoIVNotificationManager {
                     public void run() {
                         CalibrationImage.calibrationImg = ScreenGrabber.getInstance().grabScreen();
                         Intent showResultIntent = new Intent(pokefly, OcrCalibrationResultActivity.class)
-                                .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(showResultIntent);
                     }
                 }, 2000);

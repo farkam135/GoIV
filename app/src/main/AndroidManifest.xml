@@ -94,6 +94,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
             android:name=".activities.MainActivity"
             android:configChanges="orientation|keyboardHidden"
@@ -106,10 +107,12 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
         <activity
             android:name=".activities.SettingsActivity"
             android:parentActivityName=".activities.MainActivity"
             android:screenOrientation="portrait"/>
+
         <activity
             android:name=".ShareHandlerActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar">
@@ -125,18 +128,21 @@
         <service
             android:name=".Pokefly"
             android:exported="true"/>
+
         <service
             android:name=".updater.DownloadUpdateService"
             android:exported="false"/>
+
         <service android:name=".pokeflycomponents.GoIVNotificationManager$NotificationActionService"/>
 
         <activity
             android:name=".activities.ClipboardModifierActivity"
             android:windowSoftInputMode="adjustPan"/>
+
         <activity
             android:name=".activities.CreditsActivity"
             android:label="@string/title_activity_credits"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -151,7 +157,9 @@
         <activity
             android:name=".activities.OcrCalibrationResultActivity"
             android:label="@string/title_activity_ocr_calibration_result"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:noHistory="true" />
+
     </application>
 
 </manifest>

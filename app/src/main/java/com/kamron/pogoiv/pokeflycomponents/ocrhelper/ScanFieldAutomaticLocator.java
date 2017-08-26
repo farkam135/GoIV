@@ -22,7 +22,6 @@ import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
-import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 
 import java.util.ArrayList;
@@ -91,10 +90,6 @@ public class ScanFieldAutomaticLocator {
 
 
         // Computer vision parameters
-        int blurRadius = (int) (3 * screenDensity);
-        if (blurRadius % 2 == 0) {
-            blurRadius++;
-        }
         int adaptThreshBlockSize = Math.round(5 * screenDensity);
         if (adaptThreshBlockSize % 2 == 0) {
             adaptThreshBlockSize++;
@@ -110,15 +105,12 @@ public class ScanFieldAutomaticLocator {
         imageGray = new Mat(image.size(), CvType.CV_8UC4);
         Imgproc.cvtColor(image, imageGray, Imgproc.COLOR_BGR2GRAY);
 
-        Mat imageBlur = new Mat(image.size(), CvType.CV_8UC4);
-        Imgproc.GaussianBlur(imageGray, imageBlur, new Size(blurRadius, blurRadius), 0);
-
         Mat imageA = new Mat(image.size(), CvType.CV_32F);
-        Imgproc.adaptiveThreshold(imageBlur, imageA, 255, Imgproc.ADAPTIVE_THRESH_GAUSSIAN_C, Imgproc.THRESH_BINARY,
+        Imgproc.adaptiveThreshold(imageGray, imageA, 255, Imgproc.ADAPTIVE_THRESH_GAUSSIAN_C, Imgproc.THRESH_BINARY,
                 adaptThreshBlockSize, 3);
 
         Mat imageT = new Mat(image.size(), CvType.CV_32F);
-        Imgproc.threshold(imageBlur, imageT, 248, 255, Imgproc.THRESH_BINARY_INV);
+        Imgproc.threshold(imageGray, imageT, 248, 255, Imgproc.THRESH_BINARY_INV);
 
         // Prepare masks for later (average color computation)
         mask1 = new Mat(image.rows(), image.cols(), CvType.CV_8U);

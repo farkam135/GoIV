@@ -22,6 +22,7 @@ import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
+import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 
 import java.util.ArrayList;
@@ -46,7 +47,7 @@ public class ScanFieldAutomaticLocator {
     private static final Scalar SCALAR_ON = new Scalar(255);
     private static final Scalar SCALAR_OFF = new Scalar(0);
     private static final float[] HSV_WHITE_BACKGROUND = new float[] {0, 0f, 0.97f};
-    private static final float[] HSV_GREEN_DARK_SMALL = new float[] {170, 0.16f, 0.62f};
+    private static final float[] HSV_GREEN_DARK_SMALL = new float[] {165, 0.13f, 0.66f};
     private static final float[] HSV_GREEN_DARK = new float[] {183f, 0.32f, 0.46f};
     private static final float[] HSV_GREEN_LIGHT = new float[] {183f, 0.04f, 0.85f};
     private static final float[] HSV_TEXT_RED = new float[] {2f, 0.39f, 0.96f};
@@ -60,7 +61,6 @@ public class ScanFieldAutomaticLocator {
     private final Mat image;
     private final Mat imageGray;
     private final List<MatOfPoint> contours; // Detected with adaptive threshold
-    private final List<MatOfPoint> contoursT; // Detected with binary threshold
     private final ArrayList<Rect> boundingRectList; // Detected with adaptive threshold
     private final ArrayList<Rect> boundingRectListT; // Detected with binary threshold
     private final Mat mask1;
@@ -91,6 +91,10 @@ public class ScanFieldAutomaticLocator {
 
 
         // Computer vision parameters
+        int blurRadius = (int) (3 * screenDensity);
+        if (blurRadius % 2 == 0) {
+            blurRadius++;
+        }
         int adaptThreshBlockSize = Math.round(5 * screenDensity);
         if (adaptThreshBlockSize % 2 == 0) {
             adaptThreshBlockSize++;
@@ -106,12 +110,15 @@ public class ScanFieldAutomaticLocator {
         imageGray = new Mat(image.size(), CvType.CV_8UC4);
         Imgproc.cvtColor(image, imageGray, Imgproc.COLOR_BGR2GRAY);
 
+        Mat imageBlur = new Mat(image.size(), CvType.CV_8UC4);
+        Imgproc.GaussianBlur(imageGray, imageBlur, new Size(blurRadius, blurRadius), 0);
+
         Mat imageA = new Mat(image.size(), CvType.CV_32F);
-        Imgproc.adaptiveThreshold(imageGray, imageA, 255, Imgproc.ADAPTIVE_THRESH_GAUSSIAN_C, Imgproc.THRESH_BINARY,
+        Imgproc.adaptiveThreshold(imageBlur, imageA, 255, Imgproc.ADAPTIVE_THRESH_GAUSSIAN_C, Imgproc.THRESH_BINARY,
                 adaptThreshBlockSize, 3);
 
         Mat imageT = new Mat(image.size(), CvType.CV_32F);
-        Imgproc.threshold(imageGray, imageT, 248, 255, Imgproc.THRESH_BINARY_INV);
+        Imgproc.threshold(imageBlur, imageT, 248, 255, Imgproc.THRESH_BINARY_INV);
 
         // Prepare masks for later (average color computation)
         mask1 = new Mat(image.rows(), image.cols(), CvType.CV_8U);
@@ -122,7 +129,7 @@ public class ScanFieldAutomaticLocator {
         contours = new ArrayList<>();
         Imgproc.findContours(imageA, contours, new Mat(), Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_SIMPLE);
 
-        contoursT = new ArrayList<>();
+        List<MatOfPoint> contoursT = new ArrayList<>();
         Imgproc.findContours(imageT, contoursT, new Mat(), Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_SIMPLE);
 
         // Remove contours too small or too large
@@ -257,10 +264,10 @@ public class ScanFieldAutomaticLocator {
         findPokemonCPScanArea(results);
 
         postMessage(mainThreadHandler, dialog, "Finding candy amount area");
-        findPokemonCandyArea(results);
+        findPokemonCandyAmountArea(results);
 
         postMessage(mainThreadHandler, dialog, "Finding evolution cost area");
-        findPokemonEvolutionCostArea(results);
+        findPokemonEvolutionCostArea(results); // Always call after findPokemonCandyAmountArea
 
         postMessage(mainThreadHandler, dialog, "Finding level arc starting point and radius");
         findArcValues(results);
@@ -461,7 +468,7 @@ public class ScanFieldAutomaticLocator {
             debugPrintRectList(boundingRectList, c, p);
         }
 
-        if (powerUpButton == null) {
+        if (powerUpButton == null || results.pokemonCandyAmountArea == null) {
             return;
         }
 
@@ -469,8 +476,9 @@ public class ScanFieldAutomaticLocator {
                 // Keep only rect that are below the power up button and above the height of the evolution button
                 .filter(ByMinY.of(powerUpButton.y + powerUpButton.height))
                 .filter(ByMaxY.of((int) (powerUpButton.y + powerUpButton.height * 2.5f)))
-                // Keep only bounding rect in the right 50% of the image
-                .filter(ByMinX.of(width50Percent))
+                // Keep only bounding rect between the pokemonCandyAmountArea x coordinates
+                .filter(ByMinX.of(results.pokemonCandyAmountArea.xPoint))
+                .filter(ByMaxX.of(results.pokemonCandyAmountArea.xPoint + results.pokemonCandyAmountArea.width))
                 .toList();
 
         //noinspection PointlessBooleanExpression
@@ -483,15 +491,15 @@ public class ScanFieldAutomaticLocator {
         List<Rect> digitsCandidates = FluentIterable.from(candidates)
                 // Check if the dominant color of the contour matches the light green hue of PoGO text
                 .filter(Predicates.or(
-                        ByHsvColor.of(image, mask1, contours, boundingRectList, HSV_GREEN_DARK_SMALL, 3, 0.15f, 0.15f),
-                        ByHsvColor.of(image, mask2, contours, boundingRectList, HSV_TEXT_RED, 3, 0.15f, 0.15f)))
+                        ByHsvColor.of(image, mask1, contours, boundingRectList, HSV_GREEN_DARK_SMALL, 10, 0.25f, 0.25f),
+                        ByHsvColor.of(image, mask2, contours, boundingRectList, HSV_TEXT_RED, 10, 0.25f, 0.25f)))
                 .toList();
 
         if (digitsCandidates.size() > 0) {
             candidates = digitsCandidates;
         } else {
             // Didn't find any character for evolution cost. Maybe they are covered by the hamburger menu icon.
-            // Try to detect the "candy" icon instead. Its height is around one third of its enclosing button.
+            // Try to detect the "candy" icon instead. Its height and width are around 1/3 of its enclosing button.
             candidates  = FluentIterable.from(candidates)
                     .filter(ByHeight.of(powerUpButton.height / 2.75f, powerUpButton.height / 25f))
                     .filter(ByWidth.of(powerUpButton.height / 2.75f, powerUpButton.height / 25f))
@@ -545,7 +553,7 @@ public class ScanFieldAutomaticLocator {
      * Find the area that lists how much candy the user currently has of a pokemon. Used for the "pokespam"
      * functionality.
      */
-    private void findPokemonCandyArea(ScanFieldResults results) {
+    private void findPokemonCandyAmountArea(ScanFieldResults results) {
         final boolean debugExecution = false; // Activate this flag to display the onscreen debug graphics
 
         //noinspection UnusedAssignment

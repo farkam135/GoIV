@@ -58,6 +58,7 @@ public class ScanFieldAutomaticLocator {
 
     private final Bitmap bmp;
     private final Mat image;
+    private final Mat imageGray;
     private final List<MatOfPoint> contours; // Detected with adaptive threshold
     private final List<MatOfPoint> contoursT; // Detected with binary threshold
     private final ArrayList<Rect> boundingRectList; // Detected with adaptive threshold
@@ -73,12 +74,9 @@ public class ScanFieldAutomaticLocator {
     private final float screenDensity;
     private final int width20Percent;
     private final int width25Percent;
-    private final int width33Percent;
     private final int width50Percent;
     private final int width66Percent;
     private final int width80Percent;
-
-    private final float buttonHeight;
 
 
     public ScanFieldAutomaticLocator(Bitmap bmp, float screenDensity) {
@@ -86,11 +84,10 @@ public class ScanFieldAutomaticLocator {
         this.screenDensity = screenDensity;
         width20Percent = bmp.getWidth() / 5;
         width25Percent = bmp.getWidth() / 4;
-        width33Percent = bmp.getWidth() / 3;
         width50Percent = bmp.getWidth() / 2;
         width66Percent = bmp.getWidth() / 3 * 2;
         width80Percent = bmp.getWidth() / 5 * 4;
-        buttonHeight = 41f * screenDensity;
+        final float buttonHeight = 41f * screenDensity;
 
 
         // Computer vision parameters
@@ -106,15 +103,15 @@ public class ScanFieldAutomaticLocator {
         image = new Mat(bmp.getWidth(), bmp.getHeight(), CvType.CV_8UC1);
         Utils.bitmapToMat(bmp, image);
 
-        Mat imageHsv = new Mat(image.size(), CvType.CV_8UC4);
-        Imgproc.cvtColor(image, imageHsv, Imgproc.COLOR_BGR2GRAY);
+        imageGray = new Mat(image.size(), CvType.CV_8UC4);
+        Imgproc.cvtColor(image, imageGray, Imgproc.COLOR_BGR2GRAY);
 
         Mat imageA = new Mat(image.size(), CvType.CV_32F);
-        Imgproc.adaptiveThreshold(imageHsv, imageA, 255, Imgproc.ADAPTIVE_THRESH_GAUSSIAN_C, Imgproc.THRESH_BINARY,
+        Imgproc.adaptiveThreshold(imageGray, imageA, 255, Imgproc.ADAPTIVE_THRESH_GAUSSIAN_C, Imgproc.THRESH_BINARY,
                 adaptThreshBlockSize, 3);
 
         Mat imageT = new Mat(image.size(), CvType.CV_32F);
-        Imgproc.threshold(imageHsv, imageT, 248, 255, Imgproc.THRESH_BINARY_INV);
+        Imgproc.threshold(imageGray, imageT, 248, 255, Imgproc.THRESH_BINARY_INV);
 
         // Prepare masks for later (average color computation)
         mask1 = new Mat(image.rows(), image.cols(), CvType.CV_8U);
@@ -408,9 +405,14 @@ public class ScanFieldAutomaticLocator {
             debugPrintRectList(candidates, c, p);
         }
 
-        Rect maxBoundingRect = null;
-        for (Rect boundingRect : candidates) {
-            if (maxBoundingRect == null || maxBoundingRect.area() < boundingRect.area()) {
+        if (candidates.size() == 0) {
+            return;
+        }
+
+        Rect maxBoundingRect = candidates.get(0);
+        for (int i = 1; i < candidates.size(); i++) {
+            Rect boundingRect = candidates.get(i);
+            if (maxBoundingRect.area() < boundingRect.area()) {
                 maxBoundingRect = boundingRect;
             }
         }
@@ -422,9 +424,22 @@ public class ScanFieldAutomaticLocator {
             debugPrintRectList(Collections.singletonList(maxBoundingRect), c, p);
         }
 
-        //noinspection ConstantConditions
+        // Inspect the stroke width of the arc
+        int y = maxBoundingRect.y + maxBoundingRect.height - Math.round(2 * screenDensity); // Start 2dp higher
+        int arcEndX = maxBoundingRect.x + 1; // Start 1px to the right
+        for (; arcEndX < bmp.getWidth() / 2; arcEndX++) {
+            //noinspection PointlessBooleanExpression
+            if (BuildConfig.DEBUG && debugExecution) {
+                bmp.setPixel(arcEndX, y, Color.RED);
+            }
+            // Beware: OpenCV Mat coordinates are reversed!
+            if (imageGray.get(y, arcEndX)[0] < 235) { // Check if the grayscale color is dropping below a threshold
+                break; // We're at the arc stroke end! Stop searching!
+            }
+        }
+
         results.arcCenter = new ScanPoint(bmp.getWidth() / 2, maxBoundingRect.y + maxBoundingRect.height);
-        results.arcRadius = bmp.getWidth() / 2 - maxBoundingRect.x;
+        results.arcRadius = bmp.getWidth() / 2 - (maxBoundingRect.x + arcEndX) / 2;
     }
 
 

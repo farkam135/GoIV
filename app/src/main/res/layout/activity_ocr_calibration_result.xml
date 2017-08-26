@@ -24,6 +24,7 @@
                 android:text="This is the result of the automatic calibration, each field of interest that was detected has been marked. Restart GoIV to start using your result."/>
 
             <Button
+                style="@style/Widget.AppCompat.Button.Colored"
                 android:id="@+id/saveCalibrationButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

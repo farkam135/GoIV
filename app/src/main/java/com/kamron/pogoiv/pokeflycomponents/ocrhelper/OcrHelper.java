@@ -1,36 +1,36 @@
 package com.kamron.pogoiv.pokeflycomponents.ocrhelper;
 
-import android.app.ProgressDialog;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.Point;
+import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.util.LruCache;
 
 import com.google.common.base.Optional;
 import com.googlecode.tesseract.android.TessBaseAPI;
 import com.kamron.pogoiv.GoIVSettings;
-import com.kamron.pogoiv.scan_logic.Data;
-import com.kamron.pogoiv.scan_logic.ScanResult;
+import com.kamron.pogoiv.scanlogic.Data;
+import com.kamron.pogoiv.scanlogic.ScanResult;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 
 import timber.log.Timber;
 
-import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.arcInit;
-import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.arcRadiusPoint;
-import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.candyName_area;
-import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.greenPokemonMenuPixel;
-import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.pokemonCP_area;
-import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.pokemonCandyAmount_area;
-import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.pokemonEvolutionCost_area;
-import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.pokemonHP_area;
-import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.pokemonName_area;
-import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.pokemonType_area;
-import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.whitePixelPokemonScreen;
+import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.ARC_INIT_POINT;
+import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.ARC_RADIUS;
+import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.CANDY_NAME_AREA;
+import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.POKEMON_CANDY_AMOUNT_AREA;
+import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.POKEMON_CP_AREA;
+import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.POKEMON_EVOLUTION_COST_AREA;
+import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.POKEMON_HP_AREA;
+import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.POKEMON_NAME_AREA;
+import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.POKEMON_TYPE_AREA;
 
 
 /**
@@ -38,7 +38,6 @@ import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.white
  * A class to scan a screenshot and extract useful information visible in the bitmap.
  */
 public class OcrHelper {
-
 
     private static OcrHelper instance = null;
     private TessBaseAPI tesseract = null;
@@ -102,9 +101,10 @@ public class OcrHelper {
     }
 
     private boolean isCandyWordFirst() {
-        //Check if language makes the pokemon name in candy second; France/Spain/Italy have Bonbon/Caramelos pokeName.
+        //Check if language makes the pokemon name in candy second; France/Spain/Italy/Portuguese 
+        //have Bonbon/Caramelos/Doces pokeName.
         String language = Locale.getDefault().getLanguage();
-        HashSet<String> specialCandyOrderLangs = new HashSet<>(Arrays.asList("fr", "es", "it"));
+        HashSet<String> specialCandyOrderLangs = new HashSet<>(Arrays.asList("fr", "es", "it", "pt"));
         return specialCandyOrderLangs.contains(language);
     }
 
@@ -171,7 +171,6 @@ public class OcrHelper {
         int previousLevelDistance = -1; // Initial value indicating no found white pixels
         for (double estPokemonLevel = estimatedPokemonLevel; estPokemonLevel >= 1.0; estPokemonLevel -= 0.5) {
             int index = Data.levelToLevelIdx(estPokemonLevel);
-
             int x = Data.arcX[index];
             int y = Data.arcY[index];
             int whiteLineDistance = getCardinalWhiteLineDistFromImg(pokemonImage, x, y);
@@ -283,10 +282,9 @@ public class OcrHelper {
      * @return the evolution cost (or -1 if absent) wrapped in Optional.of(), or Optional.absent() on scan failure
      */
     private Optional<Integer> getPokemonEvolutionCostFromImg(Bitmap pokemonImage) {
-
         Bitmap evolutionCostImage;
         if (settings.hasManualScanCalibration()) {
-            ScanArea area = new ScanArea(pokemonEvolutionCost_area, settings);
+            ScanArea area = new ScanArea(POKEMON_EVOLUTION_COST_AREA, settings);
             evolutionCostImage = getImageCrop(pokemonImage, area);
         } else {
             evolutionCostImage = getImageCrop(pokemonImage, 0.625, 0.88, 0.2, 0.03);
@@ -407,7 +405,7 @@ public class OcrHelper {
     private String getPokemonNameFromImg(Bitmap pokemonImage) {
         Bitmap name;
         if (settings.hasManualScanCalibration()) {
-            ScanArea area = new ScanArea(pokemonName_area, settings);
+            ScanArea area = new ScanArea(POKEMON_NAME_AREA, settings);
             name = getImageCrop(pokemonImage, area);
         } else {
             name = getImageCrop(pokemonImage, 0.1, 0.45, 0.85, 0.055);
@@ -420,7 +418,7 @@ public class OcrHelper {
             name = replaceColors(name, true, 68, 105, 108, Color.WHITE, 200, true);
             tesseract.setImage(name);
             pokemonName = fixOcrNumsToLetters(tesseract.getUTF8Text().replace(" ", ""));
-            if (pokemonName.toLowerCase().contains("nidora")) {
+            if (isNidoranName(pokemonName)) {
                 pokemonName = getNidoranGenderName(pokemonImage);
             }
             name.recycle();
@@ -436,15 +434,13 @@ public class OcrHelper {
      * @return A string resulting from the scan
      */
     private String getPokemonTypeFromImg(Bitmap pokemonImage) {
-
         Bitmap type;
         if (settings.hasManualScanCalibration()) {
-            ScanArea area = new ScanArea(pokemonType_area, settings);
+            ScanArea area = new ScanArea(POKEMON_TYPE_AREA, settings);
             type = getImageCrop(pokemonImage, area);
         } else {
             type = getImageCrop(pokemonImage, 0.365278, 0.621094, 0.308333, 0.035156);
         }
-
 
         String hash = "type" + hashBitmap(type);
         String pokemonType = ocrCache.get(hash);
@@ -505,6 +501,14 @@ public class OcrHelper {
         }
     }
 
+    private boolean isNidoranName(String pokemonName) {
+        if (pokemonName.toLowerCase().contains(nidoFemale.toLowerCase().replace("♀", ""))) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     @NonNull
     private static String removeFirstOrLastWord(String src, boolean removeFirst) {
         if (removeFirst) {
@@ -530,7 +534,7 @@ public class OcrHelper {
     private String getCandyNameFromImg(Bitmap pokemonImage) {
         Bitmap candy;
         if (settings.hasManualScanCalibration()) {
-            ScanArea area = new ScanArea(candyName_area, settings);
+            ScanArea area = new ScanArea(CANDY_NAME_AREA, settings);
             candy = getImageCrop(pokemonImage, area);
         } else {
             candy = getImageCrop(pokemonImage, 0.5, 0.73, 0.47, 0.026);
@@ -543,9 +547,9 @@ public class OcrHelper {
             candy = replaceColors(candy, true, 68, 105, 108, Color.WHITE, 200, true);
             tesseract.setImage(candy);
             candyName = fixOcrNumsToLetters(
-                    removeFirstOrLastWord(tesseract.getUTF8Text().trim().replace("-", " "), candyWordFirst));
+                    removeFirstOrLastWord(tesseract.getUTF8Text().replace(" ", ""), candyWordFirst));
             candy.recycle();
-            if (candyName.toLowerCase().contains("nidora")) {
+            if (isNidoranName(candyName)) {
                 candyName = getNidoranGenderName(pokemonImage);
             }
             ocrCache.put(hash, candyName);
@@ -560,10 +564,9 @@ public class OcrHelper {
      * @return an integer of the interpreted pokemon name, 10 if scan failed
      */
     private Optional<Integer> getPokemonHPFromImg(Bitmap pokemonImage) {
-
         Bitmap hp;
         if (settings.hasManualScanCalibration()) {
-            ScanArea area = new ScanArea(pokemonHP_area, settings);
+            ScanArea area = new ScanArea(POKEMON_HP_AREA, settings);
             hp = getImageCrop(pokemonImage, area);
         } else {
             hp = getImageCrop(pokemonImage, 0.357, 0.52, 0.285, 0.0293);
@@ -613,26 +616,97 @@ public class OcrHelper {
     private Optional<Integer> getPokemonCPFromImg(Bitmap pokemonImage) {
         Bitmap cp;
         if (settings.hasManualScanCalibration()) {
-            ScanArea area = new ScanArea(pokemonCP_area, settings);
+            ScanArea area = new ScanArea(POKEMON_CP_AREA, settings);
             cp = getImageCrop(pokemonImage, area);
         } else {
             cp = getImageCrop(pokemonImage, 0.25, 0.064, 0.5, 0.046);
         }
 
         cp = replaceColors(cp, true, 255, 255, 255, Color.BLACK, 30, false);
-        tesseract.setImage(cp);
-        String cpText = tesseract.getUTF8Text();
 
-        /*
-         * Always remove the two first characters instead of non-numbers: the "CP" text is 
-         * sometimes OCR'ed to something containing numbers (e.g. cp, cP, Cp, c3, s3, 73, 53 etc),
-         * depending on backgrounds/screen sizes, but it's always OCRed as two characters.
-         * This also appears true for translations.
-         */
-        if (cpText.length() >= 2) { //gastly can block the "cp" text, so its not visible...
-            cpText = cpText.substring(2); //remove "cp".
-            cpText = cpText.replaceAll("[^0-9]]", ""); //remove any non integer character
+        final int width = cp.getWidth();
+        final int height = cp.getHeight();
+
+        // Every chunk will contain a character
+        ArrayList<Rect> chunks = new ArrayList<>(6);
+        Rect currentChunk = null;
+        // On devices denser than XHDPI (2x) we can skip a pixel every two to increase performances
+        int increment = Resources.getSystem().getDisplayMetrics().density > 2 ? 2 : 1;
+        for (int x = 0; x < width; x += increment) {
+            for (int y = 0; y < height; y += increment) {
+                final int pxColor = cp.getPixel(x, y);
+
+                if (currentChunk == null) {
+                    if (pxColor != Color.BLACK) {
+                        // We found a non-black pixel, start a new character chunk
+                        currentChunk = new Rect(x, y, x, height - 1);
+                        break;
+                    } else if (y == height - 1) {
+                        // We reached the end of this column without finding any non-black pixel.
+                        // The next one probably wont be the start of a new chunk: skip it.
+                        x += increment;
+                    }
+
+                } else {
+                    if (pxColor != Color.BLACK) {
+                        // We found a non-black pixel. If the current chunk top is below this pixel, update it
+                        if (currentChunk.top > y) {
+                            currentChunk.top = y;
+                        }
+                        currentChunk.right = x;
+                        break;
+
+                    } else if (y == height - 1) {
+                        // We reached the end of this column without finding any non-black pixel.
+                        // End and save the current chunk.
+                        chunks.add(currentChunk);
+                        currentChunk = null;
+                    }
+                }
+            }
         }
+
+        if (chunks.size() > 0) {
+            // Compute the average height of the chunks
+            int chunksHeightsSum = 0;
+            Iterator<Rect> chunksIterator = chunks.iterator();
+            while (chunksIterator.hasNext()) {
+                Rect chunk = chunksIterator.next();
+                if (chunk.width() <= increment * 2) {
+                    // Discard all the chunks smaller than the width of 2 columns
+                    chunksIterator.remove();
+                } else {
+                    chunksHeightsSum += chunk.height();
+                }
+            }
+            final int avgChunksHeight = chunksHeightsSum / chunks.size();
+
+            // Discard all the chunks lower than the average height
+            chunksIterator = chunks.iterator();
+            while (chunksIterator.hasNext()) {
+                Rect chunk = chunksIterator.next();
+                if (chunk.height() < avgChunksHeight) {
+                    chunksIterator.remove();
+                }
+            }
+        }
+
+        // Merge all the detected chunks in a larger Rect
+        Rect mergeRect = null;
+        for (Rect chunk : chunks) {
+            if (mergeRect == null) {
+                mergeRect = new Rect(chunk);
+            } else {
+                mergeRect.union(chunk);
+            }
+        }
+
+        tesseract.setImage(cp);
+        if (mergeRect != null) {
+            tesseract.setRectangle(mergeRect);
+        }
+        String cpText = tesseract.getUTF8Text();
+        cpText = fixOcrLettersToNums(cpText);
 
         try {
             return Optional.of(Integer.parseInt(fixOcrLettersToNums(cpText)));
@@ -670,7 +744,7 @@ public class OcrHelper {
         }
         Bitmap candyAmount;
         if (settings.hasManualScanCalibration()) {
-            ScanArea area = new ScanArea(pokemonCandyAmount_area, settings);
+            ScanArea area = new ScanArea(POKEMON_CANDY_AMOUNT_AREA, settings);
             candyAmount = getImageCrop(pokemonImage, area);
         } else {
             candyAmount = getImageCrop(pokemonImage, 0.60, 0.695, 0.20, 0.038);
@@ -734,14 +808,8 @@ public class OcrHelper {
      */
     private void ensureCorrectLevelArcSettings(int trainerLevel) {
         if (settings.hasManualScanCalibration()) {
-            String arcInitString = settings.getCalibrationValue(arcInit);
-            int x = Integer.valueOf(arcInitString.split(",")[0]);
-            int y = Integer.valueOf(arcInitString.split(",")[1]);
-
-            Point arcInit = new Point(x, y);
-
-            String arcRadiusString = settings.getCalibrationValue(arcRadiusPoint);
-            int arcRadius = Integer.valueOf(arcRadiusString);
+            ScanPoint arcInit = new ScanPoint(ARC_INIT_POINT, settings);
+            int arcRadius = Integer.valueOf(settings.getCalibrationValue(ARC_RADIUS));
             Data.setupArcPoints(arcInit, arcRadius, trainerLevel);
         }
     }
@@ -788,47 +856,4 @@ public class OcrHelper {
         appraisalCache.remove(hash);
         settings.saveAppraisalCache(appraisalCache.snapshot());
     }
-
-
-    /**
-     * Analyses a bmp, and saves all scan areas to settings.
-     *
-     * @param bmp the bmp to analyze to get the settings
-     */
-    public void recalibrateScanAreas(Bitmap bmp, ProgressDialog dialog) {
-        ScanFieldAutomaticLocator sfr = new ScanFieldAutomaticLocator();
-
-        settings.setManualScanCalibration(true);
-
-        settings.saveScreenCalibrationValue(pokemonName_area, sfr.findPokemonNameArea(bmp));
-        dialog.setMessage("Finding name area");
-        settings.saveScreenCalibrationValue(pokemonType_area, sfr.findPokemonTypeArea(bmp));
-        dialog.setMessage("Finding type area");
-        settings.saveScreenCalibrationValue(candyName_area, sfr.findPokemonCandyNameArea(bmp));
-        dialog.setMessage("Finding candy name area");
-        settings.saveScreenCalibrationValue(pokemonHP_area, sfr.findPokemonHPArea(bmp));
-        dialog.setMessage("Finding hp area");
-        settings.saveScreenCalibrationValue(pokemonCP_area, sfr.findPokemonCPScanArea(bmp));
-        dialog.setMessage("Finding cp area");
-        settings.saveScreenCalibrationValue(pokemonCandyAmount_area, sfr.findPokemonCandyArea(bmp));
-        dialog.setMessage("Finding candy amount area");
-        settings.saveScreenCalibrationValue(pokemonEvolutionCost_area, sfr.findPokemonUpgradeCostArea(bmp));
-        dialog.setMessage("Finding evolution cost area");
-
-        String arcValues = sfr.findArcValues(bmp);
-        String arcInitVal = arcValues.split(";")[0];
-        String arcRadiusVal = arcValues.split(";")[1];
-        settings.saveScreenCalibrationValue(arcRadiusPoint, arcRadiusVal);
-        dialog.setMessage("Finding level arc radius");
-        settings.saveScreenCalibrationValue(arcInit, arcInitVal);
-        dialog.setMessage("Finding level arc starting point");
-
-        //The hardcoded strings are the same names as the ones used in "ScreenWatcher".
-        settings.saveScreenCalibrationValue(whitePixelPokemonScreen, sfr.findWhitePixelPokemonScreen(bmp));
-        dialog.setMessage("Finding white marker pixel");
-        settings.saveScreenCalibrationValue(greenPokemonMenuPixel, sfr.findGreenPokemonScreen(bmp));
-        dialog.setMessage("Finding green marker pixel");
-    }
-
-
 }

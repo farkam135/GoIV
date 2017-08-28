@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="highest_stat_att">ataque</string>
+    <string name="highest_stat_def">defensa</string>
+    <string name="highest_stat_hp">salud</string>
+    <string name="mystic_percentage1_phrase1">maravilla</string>
+    <string name="mystic_percentage1_phrase2">impresionante</string>
+    <string name="mystic_percentage2_phrase1">llamado</string>
+    <string name="mystic_percentage2_phrase2">ciertamente</string>
+    <string name="mystic_percentage3_phrase1">encima</string>
+    <string name="mystic_percentage3_phrase2">media</string>
+    <string name="mystic_percentage4_phrase1">parece</string>
+    <string name="mystic_percentage4_phrase2">lejos</string>
+
+    <string name="mystic_ivrange1_phrase1">fuera</string>
+    <string name="mystic_ivrange1_phrase2">todo</string>
+    <string name="mystic_ivrange2_phrase1">realmente</string>
+    <string name="mystic_ivrange2_phrase2">impresionantes</string>
+    <string name="mystic_ivrange3_phrase1">bastante</string>
+    <string name="mystic_ivrange3_phrase2">bien</string>
+    <string name="mystic_ivrange4_phrase1">poco</string>
+    <string name="mystic_ivrange4_phrase2">desear</string>
+
+    <string name="valor_percentage1_phrase1">simplemente</string>
+    <string name="valor_percentage1_phrase2">fascina</string>
+    <string name="valor_percentage2_phrase1">orgullo</string>
+    <string name="valor_percentage2_phrase2">sentir</string>
+    <string name="valor_percentage3_phrase1">bastante</string>
+    <string name="valor_percentage3_phrase2">bien</string>
+    <string name="valor_percentage4_phrase1">combate</string>
+    <string name="valor_percentage4_phrase2">gusta</string>
+
+    <string name="valor_ivrange1_phrase1">flipando</string>
+    <string name="valor_ivrange1_phrase2">guau</string>
+    <string name="valor_ivrange2_phrase1">excelentes</string>
+    <string name="valor_ivrange2_phrase2">emocionante</string>
+    <string name="valor_ivrange3_phrase1">cumplir</string>
+    <string name="valor_ivrange3_phrase2">objetivo</string>
+    <string name="valor_ivrange4_phrase1">utilidad</string>
+    <string name="valor_ivrange4_phrase2">combate</string>
+
+    <string name="instinct_percentage1_phrase1">enfrentarse</string>
+    <string name="instinct_percentage1_phrase2">mejores</string>
+    <string name="instinct_percentage2_phrase1">realmente</string>
+    <string name="instinct_percentage2_phrase2">fuerte</string>
+    <string name="instinct_percentage3_phrase1">bastante</string>
+    <string name="instinct_percentage3_phrase2">bien</string>
+    <string name="instinct_percentage4_phrase1">algo</string>
+    <string name="instinct_percentage4_phrase2">combates</string>
+
+    <string name="instinct_ivrange1_phrase1">visto</string>
+    <string name="instinct_ivrange1_phrase2">pasada</string>
+    <string name="instinct_ivrange2_phrase1">fuertes</string>
+    <string name="instinct_ivrange2_phrase2">impresionante</string>
+    <string name="instinct_ivrange3_phrase1">buenas</string>
+    <string name="instinct_ivrange3_phrase2">duda</string>
+    <string name="instinct_ivrange4_phrase1">bien</string>
+    <string name="instinct_ivrange4_phrase2">supongo</string>
+</resources>

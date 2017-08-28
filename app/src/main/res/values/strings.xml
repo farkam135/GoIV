@@ -171,6 +171,10 @@
     <string name="copy_to_clip_show_toast_setting">Show clipboard preview popup</string>
     <string name="autoAppraisalScanDelay_title">Auto appraisal delay</string>
     <string name="autoAppraisalScanDelay_summary">How long to wait for the appraisal text animation to end. Budget phones might need a 800 ms delay.</string>
+    <string name="quick_iv_preview_title">Show quick IV preview</string>
+    <string name="quick_iv_preview_summary">Display a small preview automatically when on a \'mon screen</string>
+    <string name="quick_iv_preview_clipboard_title">Also preview clipboard</string>
+    <string name="quick_iv_preview_clipboard_summary">On a quick iv scan, also show a small popup previewing the smart-clipboard</string>
     <string name="settings_title_behaviour">App behaviour preferences</string>
     <string name="settings_title_optional">Optional GoIV features</string>
     <string name="settings_title_mode">GoIV mode</string>
@@ -208,5 +212,7 @@
     <string name="is2">strong..\nimpressive</string>
     <string name="is1">best ..\nno doubt</string>
     <string name="scanFailed">Scan failed</string>
-    <string name="title_activity_ocr_calibration_result">OcrCalibrationResultActivity</string>
+
+    <string name="title_activity_ocr_calibration_result">Calibration Result</string>
+
 </resources>

@@ -54,26 +54,26 @@ import android.widget.Toast;
 
 import com.google.common.base.Function;
 import com.google.common.base.Optional;
-import com.kamron.pogoiv.clipboard_logic.ClipboardTokenHandler;
-import com.kamron.pogoiv.scan_logic.CPRange;
-import com.kamron.pogoiv.scan_logic.Data;
-import com.kamron.pogoiv.scan_logic.IVCombination;
-import com.kamron.pogoiv.scan_logic.IVScanResult;
-import com.kamron.pogoiv.scan_logic.PokeInfoCalculator;
-import com.kamron.pogoiv.scan_logic.PokeSpam;
-import com.kamron.pogoiv.scan_logic.Pokemon;
-import com.kamron.pogoiv.scan_logic.PokemonNameCorrector;
-import com.kamron.pogoiv.scan_logic.PokemonShareHandler;
-import com.kamron.pogoiv.scan_logic.ScanContainer;
-import com.kamron.pogoiv.scan_logic.ScanResult;
-import com.kamron.pogoiv.scan_logic.UpgradeCost;
+import com.kamron.pogoiv.clipboardlogic.ClipboardTokenHandler;
+import com.kamron.pogoiv.scanlogic.CPRange;
+import com.kamron.pogoiv.scanlogic.Data;
+import com.kamron.pogoiv.scanlogic.IVCombination;
+import com.kamron.pogoiv.scanlogic.IVScanResult;
+import com.kamron.pogoiv.scanlogic.PokeInfoCalculator;
+import com.kamron.pogoiv.scanlogic.PokeSpam;
+import com.kamron.pogoiv.scanlogic.Pokemon;
+import com.kamron.pogoiv.scanlogic.PokemonNameCorrector;
+import com.kamron.pogoiv.scanlogic.PokemonShareHandler;
+import com.kamron.pogoiv.scanlogic.ScanContainer;
+import com.kamron.pogoiv.scanlogic.ScanResult;
+import com.kamron.pogoiv.scanlogic.UpgradeCost;
 import com.kamron.pogoiv.pokeflycomponents.AutoAppraisal;
 import com.kamron.pogoiv.pokeflycomponents.GoIVNotificationManager;
 import com.kamron.pogoiv.pokeflycomponents.IVPopupButton;
 import com.kamron.pogoiv.pokeflycomponents.IVPreviewPrinter;
 import com.kamron.pogoiv.pokeflycomponents.ocrhelper.OcrHelper;
 import com.kamron.pogoiv.pokeflycomponents.ScreenWatcher;
-import com.kamron.pogoiv.widgets.IVResultsAdapter;
+import com.kamron.pogoiv.widgets.recyclerviews.adapters.IVResultsAdapter;
 import com.kamron.pogoiv.widgets.PokemonSpinnerAdapter;
 
 import java.io.File;
@@ -456,7 +456,8 @@ public class Pokefly extends Service {
                 getResources().getIntArray(R.array.stamina),
                 getResources().getIntArray(R.array.devolutionNumber),
                 getResources().getIntArray(R.array.evolutionCandyCost),
-                getResources().getIntArray(R.array.candyNames));
+                getResources().getIntArray(R.array.candyNames),
+                getResources().getStringArray(R.array.typeName));
         displayMetrics = this.getResources().getDisplayMetrics();
         initOcr();
         windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);

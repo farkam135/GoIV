@@ -4,12 +4,16 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
 
-import com.kamron.pogoiv.clipboard_logic.ClipboardToken;
-import com.kamron.pogoiv.clipboard_logic.tokens.IVPercentageToken;
-import com.kamron.pogoiv.clipboard_logic.tokens.IVPercentageTokenMode;
-import com.kamron.pogoiv.clipboard_logic.tokens.PokemonNameToken;
-import com.kamron.pogoiv.clipboard_logic.tokens.SeparatorToken;
-import com.kamron.pogoiv.clipboard_logic.tokens.UnicodeToken;
+import com.google.common.base.Strings;
+import com.kamron.pogoiv.clipboardlogic.ClipboardToken;
+import com.kamron.pogoiv.clipboardlogic.ClipboardTokenHandler;
+import com.kamron.pogoiv.clipboardlogic.tokens.IVPercentageToken;
+import com.kamron.pogoiv.clipboardlogic.tokens.IVPercentageTokenMode;
+import com.kamron.pogoiv.clipboardlogic.tokens.PokemonNameToken;
+import com.kamron.pogoiv.clipboardlogic.tokens.SeparatorToken;
+import com.kamron.pogoiv.clipboardlogic.tokens.UnicodeToken;
+import com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames;
+import com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldResults;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -88,6 +92,36 @@ public class GoIVSettings {
         editor.apply();
     }
 
+    public void saveScreenCalibrationResults(ScanFieldResults results) {
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(ScanFieldNames.POKEMON_NAME_AREA,
+                results.pokemonNameArea.toString());
+        editor.putString(ScanFieldNames.POKEMON_TYPE_AREA,
+                results.pokemonTypeArea.toString());
+        editor.putString(ScanFieldNames.CANDY_NAME_AREA,
+                results.candyNameArea.toString());
+        editor.putString(ScanFieldNames.POKEMON_HP_AREA,
+                results.pokemonHpArea.toString());
+        editor.putString(ScanFieldNames.POKEMON_CP_AREA,
+                results.pokemonCpArea.toString());
+        editor.putString(ScanFieldNames.POKEMON_CANDY_AMOUNT_AREA,
+                results.pokemonCandyAmountArea.toString());
+        editor.putString(ScanFieldNames.POKEMON_EVOLUTION_COST_AREA,
+                results.pokemonEvolutionCostArea.toString());
+        editor.putString(ScanFieldNames.ARC_RADIUS,
+                String.valueOf(results.arcRadius));
+        editor.putString(ScanFieldNames.ARC_INIT_POINT,
+                results.arcCenter.toString());
+        editor.putString(ScanFieldNames.SCREEN_INFO_CARD_WHITE_PIXEL,
+                results.infoScreenCardWhitePixelPoint.toString());
+        editor.putString(ScanFieldNames.SCREEN_INFO_CARD_WHITE_HEX,
+                String.format("#%06X", (0xFFFFFF & results.infoScreenCardWhitePixelColor)));
+        editor.putString(ScanFieldNames.SCREEN_INFO_FAB_GREEN_PIXEL,
+                results.infoScreenFabGreenPixelPoint.toString());
+        editor.putString(ScanFieldNames.SCREEN_INFO_FAB_GREEN_HEX,
+                String.format("#%06X", (0xFFFFFF & results.infoScreenFabGreenPixelColor)));
+        editor.apply();
+    }
 
     public boolean shouldLaunchPokemonGo() {
         return prefs.getBoolean(LAUNCH_POKEMON_GO, true);
@@ -114,50 +148,51 @@ public class GoIVSettings {
     }
 
     public String getClipboardPreference() {
+        String prefValue = prefs.getString(GOIV_CLIPBOARDSETTINGS, "");
+        if (!Strings.isNullOrEmpty(prefValue)) {
+            return prefValue;
+        }
+
         //Below code gets the string representation of the "default" clipboard setting
+        ArrayList<ClipboardToken> defaultTokens = new ArrayList<>();
+        // Name (3 char) + MIN-MAX + Unicode not filled (MAX IV)
+        defaultTokens.add(new PokemonNameToken(false, 3));
+        defaultTokens.add(new IVPercentageToken(IVPercentageTokenMode.MIN));
+        defaultTokens.add(new SeparatorToken("-"));
+        defaultTokens.add(new IVPercentageToken(IVPercentageTokenMode.MAX));
+        defaultTokens.add(new UnicodeToken(false));
 
-        StringBuilder defaultString = new StringBuilder(); // Name (3 char)+ MIN-MAX + Unicode not filled (MAX IV)
-        //pokemon name max 3 characters
-        defaultString.append(new PokemonNameToken(false, 3).getStringRepresentation());
-
-        //lowrep
-        defaultString.append(new IVPercentageToken(IVPercentageTokenMode.MIN).getStringRepresentation());
-        //dashRepresentation
-        defaultString.append(new SeparatorToken("-").getStringRepresentation());
-        //highrep
-        defaultString.append(new IVPercentageToken(IVPercentageTokenMode.MAX).getStringRepresentation());
-
-        //Unicode iv circled numbers not filled in ex ⑦⑦⑦
-        defaultString.append(new UnicodeToken(false).getStringRepresentation());
-
-        return prefs.getString(GOIV_CLIPBOARDSETTINGS, defaultString.toString());
+        return ClipboardTokenHandler.tokenListToRepresentation(defaultTokens);
     }
 
-    public void setClipboardPreference(ArrayList<ClipboardToken> tokens) {
+    public void setClipboardPreference(String tokenListRepresentation) {
         SharedPreferences.Editor editor = prefs.edit();
-        String saveString = "";
-        for (ClipboardToken token : tokens) {
-            saveString += token.getStringRepresentation();
-        }
-        editor.putString(GoIVSettings.GOIV_CLIPBOARDSETTINGS, saveString);
+        editor.putString(GoIVSettings.GOIV_CLIPBOARDSETTINGS, tokenListRepresentation);
         editor.apply();
     }
 
-    public void setClipboardSinglePreference(ArrayList<ClipboardToken> tokens) {
+    public void setClipboardSinglePreference(String tokenListRepresentation) {
         //Clipboard single is the add-on setting if you want different clipboards for 1 or many results
         SharedPreferences.Editor editor = prefs.edit();
-        String saveString = "";
-        for (ClipboardToken token : tokens) {
-            saveString += token.getStringRepresentation();
-        }
-        editor.putString(GoIVSettings.GOIV_CLIPBOARDSINGLESETTINGS, saveString);
+
+        editor.putString(GoIVSettings.GOIV_CLIPBOARDSINGLESETTINGS, tokenListRepresentation);
         editor.apply();
     }
 
     public String getClipboardSinglePreference() {
-        //Default is the same as non-single preference.
-        String s = getClipboardPreference();
-        return prefs.getString(GOIV_CLIPBOARDSINGLESETTINGS, s);
+        String prefValue = prefs.getString(GOIV_CLIPBOARDSINGLESETTINGS, "");
+        if (!Strings.isNullOrEmpty(prefValue)) {
+            return prefValue;
+        }
+
+        //Below code gets the string representation of the "default" single clipboard setting
+        ArrayList<ClipboardToken> defaultTokens = new ArrayList<>();
+        // Name (5 char) + AVG + Unicode not filled (MAX IV)
+        defaultTokens.add(new PokemonNameToken(false, 5));
+        defaultTokens.add(new IVPercentageToken(IVPercentageTokenMode.AVG));
+        defaultTokens.add(new UnicodeToken(false));
+
+        return ClipboardTokenHandler.tokenListToRepresentation(defaultTokens);
     }
 
 

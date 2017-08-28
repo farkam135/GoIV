@@ -50,7 +50,7 @@
     <string name="instinct_percentage4_phrase2">migliorare</string>
 
     <string name="instinct_ivrange1_phrase1">dubbio</string>
-    <string name="instinct_ivrange1_phrase2">visto</string>
+    <string name="instinct_ivrange1_phrase2">senza</string> <!-- "visto" is not ok -->
     <string name="instinct_ivrange2_phrase1">incredibile</string>
     <string name="instinct_ivrange2_phrase2">forti</string>
     <string name="instinct_ivrange3_phrase1">qualcosa</string>

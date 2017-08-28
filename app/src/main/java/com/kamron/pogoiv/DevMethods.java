@@ -3,8 +3,8 @@ package com.kamron.pogoiv;
 import android.graphics.Bitmap;
 import android.os.Environment;
 
-import com.kamron.pogoiv.scan_logic.PokeInfoCalculator;
-import com.kamron.pogoiv.scan_logic.Pokemon;
+import com.kamron.pogoiv.scanlogic.PokeInfoCalculator;
+import com.kamron.pogoiv.scanlogic.Pokemon;
 
 import java.io.File;
 import java.io.FileOutputStream;

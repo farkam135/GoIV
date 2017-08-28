@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="wrap_content"
+    android:layout_height="@dimen/token_height"
+    android:gravity="center_vertical"
+    android:background="@drawable/token_preview_background"
+    android:elevation="4dp">
+
+    <ImageView
+        android:id="@+id/evolvedVariantImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:padding="4dp"
+        app:srcCompat="@drawable/ic_star_white_18dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:padding="4dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@android:id/text1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceInverse"
+            tools:text="Name3"
+            tools:ignore="RtlSymmetry" />
+
+        <TextView
+            android:id="@android:id/text2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceInverse"
+            tools:text="Mac"
+            tools:ignore="RtlSymmetry" />
+
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/btnDelete"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:padding="4dp"
+        app:srcCompat="@drawable/ic_delete_white_18dp"
+        android:background="?attr/selectableItemBackgroundBorderless" />
+
+</LinearLayout>

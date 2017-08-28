@@ -10,7 +10,6 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.graphics.Point;
 import android.graphics.Rect;
 import android.media.projection.MediaProjection;
 import android.media.projection.MediaProjectionManager;
@@ -46,7 +45,8 @@ import com.kamron.pogoiv.NpTrainerLevelPickerListener;
 import com.kamron.pogoiv.Pokefly;
 import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.ScreenGrabber;
-import com.kamron.pogoiv.scan_logic.Data;
+import com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanPoint;
+import com.kamron.pogoiv.scanlogic.Data;
 import com.kamron.pogoiv.updater.AppUpdate;
 import com.kamron.pogoiv.updater.AppUpdateUtil;
 import com.kamron.pogoiv.updater.DownloadUpdateService;
@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
     private Button launchButton;
     private NumberPicker npTrainerLevel;
 
-    private final Point arcInit = new Point();
+    private ScanPoint arcInit;
     private int arcRadius;
     private final BroadcastReceiver pokeflyStateChanged = new BroadcastReceiver() {
         @Override
@@ -355,12 +355,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupDisplaySizeInfo() {
-        arcInit.x = (int) (displayMetrics.widthPixels * 0.5);
-        arcInit.y = (int) Math.floor(displayMetrics.heightPixels * 0.35664);
+        arcInit = new ScanPoint((int) (displayMetrics.widthPixels * 0.5),
+                (int) Math.floor(displayMetrics.heightPixels * 0.35664));
         if (displayMetrics.heightPixels == 2392 || displayMetrics.heightPixels == 800) {
-            arcInit.y--;
+            arcInit.yCoord--;
         } else if (displayMetrics.heightPixels == 1920) {
-            arcInit.y++;
+            arcInit.yCoord++;
         }
 
         arcRadius = (int) Math.round(displayMetrics.heightPixels * 0.2285);

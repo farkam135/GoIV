@@ -15,11 +15,11 @@ import android.widget.Toast;
 
 import com.kamron.pogoiv.GoIVSettings;
 import com.kamron.pogoiv.R;
-import com.kamron.pogoiv.clipboard_logic.ClipboardToken;
-import com.kamron.pogoiv.clipboard_logic.ClipboardTokenButton;
-import com.kamron.pogoiv.clipboard_logic.ClipboardTokenCollection;
-import com.kamron.pogoiv.clipboard_logic.ClipboardTokenHandler;
-import com.kamron.pogoiv.clipboard_logic.tokens.SeparatorToken;
+import com.kamron.pogoiv.clipboardlogic.ClipboardToken;
+import com.kamron.pogoiv.clipboardlogic.ClipboardTokenButton;
+import com.kamron.pogoiv.clipboardlogic.ClipboardTokenCollection;
+import com.kamron.pogoiv.clipboardlogic.ClipboardTokenHandler;
+import com.kamron.pogoiv.clipboardlogic.tokens.SeparatorToken;
 
 import java.util.ArrayList;
 import java.util.HashMap;

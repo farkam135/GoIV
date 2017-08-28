@@ -1,17 +1,15 @@
 package com.kamron.pogoiv.pokeflycomponents.ocrhelper;
 
-import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.Point;
 import android.support.annotation.NonNull;
 import android.util.LruCache;
 
 import com.google.common.base.Optional;
 import com.googlecode.tesseract.android.TessBaseAPI;
 import com.kamron.pogoiv.GoIVSettings;
-import com.kamron.pogoiv.scan_logic.Data;
-import com.kamron.pogoiv.scan_logic.ScanResult;
+import com.kamron.pogoiv.scanlogic.Data;
+import com.kamron.pogoiv.scanlogic.ScanResult;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -20,17 +18,15 @@ import java.util.Map;
 
 import timber.log.Timber;
 
-import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.arcInit;
-import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.arcRadiusPoint;
-import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.candyName_area;
-import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.greenPokemonMenuPixel;
-import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.pokemonCP_area;
-import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.pokemonCandyAmount_area;
-import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.pokemonEvolutionCost_area;
-import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.pokemonHP_area;
-import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.pokemonName_area;
-import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.pokemonType_area;
-import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.whitePixelPokemonScreen;
+import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.ARC_INIT_POINT;
+import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.ARC_RADIUS;
+import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.CANDY_NAME_AREA;
+import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.POKEMON_CANDY_AMOUNT_AREA;
+import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.POKEMON_CP_AREA;
+import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.POKEMON_EVOLUTION_COST_AREA;
+import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.POKEMON_HP_AREA;
+import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.POKEMON_NAME_AREA;
+import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.POKEMON_TYPE_AREA;
 
 
 /**
@@ -286,7 +282,7 @@ public class OcrHelper {
 
         Bitmap evolutionCostImage;
         if (settings.hasManualScanCalibration()) {
-            ScanArea area = new ScanArea(pokemonEvolutionCost_area, settings);
+            ScanArea area = new ScanArea(POKEMON_EVOLUTION_COST_AREA, settings);
             evolutionCostImage = getImageCrop(pokemonImage, area);
         } else {
             evolutionCostImage = getImageCrop(pokemonImage, 0.625, 0.88, 0.2, 0.03);
@@ -407,7 +403,7 @@ public class OcrHelper {
     private String getPokemonNameFromImg(Bitmap pokemonImage) {
         Bitmap name;
         if (settings.hasManualScanCalibration()) {
-            ScanArea area = new ScanArea(pokemonName_area, settings);
+            ScanArea area = new ScanArea(POKEMON_NAME_AREA, settings);
             name = getImageCrop(pokemonImage, area);
         } else {
             name = getImageCrop(pokemonImage, 0.1, 0.45, 0.85, 0.055);
@@ -439,7 +435,7 @@ public class OcrHelper {
 
         Bitmap type;
         if (settings.hasManualScanCalibration()) {
-            ScanArea area = new ScanArea(pokemonType_area, settings);
+            ScanArea area = new ScanArea(POKEMON_TYPE_AREA, settings);
             type = getImageCrop(pokemonImage, area);
         } else {
             type = getImageCrop(pokemonImage, 0.365278, 0.621094, 0.308333, 0.035156);
@@ -530,7 +526,7 @@ public class OcrHelper {
     private String getCandyNameFromImg(Bitmap pokemonImage) {
         Bitmap candy;
         if (settings.hasManualScanCalibration()) {
-            ScanArea area = new ScanArea(candyName_area, settings);
+            ScanArea area = new ScanArea(CANDY_NAME_AREA, settings);
             candy = getImageCrop(pokemonImage, area);
         } else {
             candy = getImageCrop(pokemonImage, 0.5, 0.73, 0.47, 0.026);
@@ -563,7 +559,7 @@ public class OcrHelper {
 
         Bitmap hp;
         if (settings.hasManualScanCalibration()) {
-            ScanArea area = new ScanArea(pokemonHP_area, settings);
+            ScanArea area = new ScanArea(POKEMON_HP_AREA, settings);
             hp = getImageCrop(pokemonImage, area);
         } else {
             hp = getImageCrop(pokemonImage, 0.357, 0.52, 0.285, 0.0293);
@@ -613,7 +609,7 @@ public class OcrHelper {
     private Optional<Integer> getPokemonCPFromImg(Bitmap pokemonImage) {
         Bitmap cp;
         if (settings.hasManualScanCalibration()) {
-            ScanArea area = new ScanArea(pokemonCP_area, settings);
+            ScanArea area = new ScanArea(POKEMON_CP_AREA, settings);
             cp = getImageCrop(pokemonImage, area);
         } else {
             cp = getImageCrop(pokemonImage, 0.25, 0.064, 0.5, 0.046);
@@ -670,7 +666,7 @@ public class OcrHelper {
         }
         Bitmap candyAmount;
         if (settings.hasManualScanCalibration()) {
-            ScanArea area = new ScanArea(pokemonCandyAmount_area, settings);
+            ScanArea area = new ScanArea(POKEMON_CANDY_AMOUNT_AREA, settings);
             candyAmount = getImageCrop(pokemonImage, area);
         } else {
             candyAmount = getImageCrop(pokemonImage, 0.60, 0.695, 0.20, 0.038);
@@ -734,14 +730,8 @@ public class OcrHelper {
      */
     private void ensureCorrectLevelArcSettings(int trainerLevel) {
         if (settings.hasManualScanCalibration()) {
-            String arcInitString = settings.getCalibrationValue(arcInit);
-            int x = Integer.valueOf(arcInitString.split(",")[0]);
-            int y = Integer.valueOf(arcInitString.split(",")[1]);
-
-            Point arcInit = new Point(x, y);
-
-            String arcRadiusString = settings.getCalibrationValue(arcRadiusPoint);
-            int arcRadius = Integer.valueOf(arcRadiusString);
+            ScanPoint arcInit = new ScanPoint(ARC_INIT_POINT, settings);
+            int arcRadius = Integer.valueOf(settings.getCalibrationValue(ARC_RADIUS));
             Data.setupArcPoints(arcInit, arcRadius, trainerLevel);
         }
     }
@@ -788,47 +778,5 @@ public class OcrHelper {
         appraisalCache.remove(hash);
         settings.saveAppraisalCache(appraisalCache.snapshot());
     }
-
-
-    /**
-     * Analyses a bmp, and saves all scan areas to settings.
-     *
-     * @param bmp the bmp to analyze to get the settings
-     */
-    public void recalibrateScanAreas(Bitmap bmp, ProgressDialog dialog) {
-        ScanFieldAutomaticLocator sfr = new ScanFieldAutomaticLocator();
-
-        settings.setManualScanCalibration(true);
-
-        settings.saveScreenCalibrationValue(pokemonName_area, sfr.findPokemonNameArea(bmp));
-        dialog.setMessage("Finding name area");
-        settings.saveScreenCalibrationValue(pokemonType_area, sfr.findPokemonTypeArea(bmp));
-        dialog.setMessage("Finding type area");
-        settings.saveScreenCalibrationValue(candyName_area, sfr.findPokemonCandyNameArea(bmp));
-        dialog.setMessage("Finding candy name area");
-        settings.saveScreenCalibrationValue(pokemonHP_area, sfr.findPokemonHPArea(bmp));
-        dialog.setMessage("Finding hp area");
-        settings.saveScreenCalibrationValue(pokemonCP_area, sfr.findPokemonCPScanArea(bmp));
-        dialog.setMessage("Finding cp area");
-        settings.saveScreenCalibrationValue(pokemonCandyAmount_area, sfr.findPokemonCandyArea(bmp));
-        dialog.setMessage("Finding candy amount area");
-        settings.saveScreenCalibrationValue(pokemonEvolutionCost_area, sfr.findPokemonUpgradeCostArea(bmp));
-        dialog.setMessage("Finding evolution cost area");
-
-        String arcValues = sfr.findArcValues(bmp);
-        String arcInitVal = arcValues.split(";")[0];
-        String arcRadiusVal = arcValues.split(";")[1];
-        settings.saveScreenCalibrationValue(arcRadiusPoint, arcRadiusVal);
-        dialog.setMessage("Finding level arc radius");
-        settings.saveScreenCalibrationValue(arcInit, arcInitVal);
-        dialog.setMessage("Finding level arc starting point");
-
-        //The hardcoded strings are the same names as the ones used in "ScreenWatcher".
-        settings.saveScreenCalibrationValue(whitePixelPokemonScreen, sfr.findWhitePixelPokemonScreen(bmp));
-        dialog.setMessage("Finding white marker pixel");
-        settings.saveScreenCalibrationValue(greenPokemonMenuPixel, sfr.findGreenPokemonScreen(bmp));
-        dialog.setMessage("Finding green marker pixel");
-    }
-
 
 }

@@ -4,12 +4,14 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
 
-import com.kamron.pogoiv.clipboard_logic.ClipboardToken;
-import com.kamron.pogoiv.clipboard_logic.tokens.IVPercentageToken;
-import com.kamron.pogoiv.clipboard_logic.tokens.IVPercentageTokenMode;
-import com.kamron.pogoiv.clipboard_logic.tokens.PokemonNameToken;
-import com.kamron.pogoiv.clipboard_logic.tokens.SeparatorToken;
-import com.kamron.pogoiv.clipboard_logic.tokens.UnicodeToken;
+import com.kamron.pogoiv.clipboardlogic.ClipboardToken;
+import com.kamron.pogoiv.clipboardlogic.tokens.IVPercentageToken;
+import com.kamron.pogoiv.clipboardlogic.tokens.IVPercentageTokenMode;
+import com.kamron.pogoiv.clipboardlogic.tokens.PokemonNameToken;
+import com.kamron.pogoiv.clipboardlogic.tokens.SeparatorToken;
+import com.kamron.pogoiv.clipboardlogic.tokens.UnicodeToken;
+import com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames;
+import com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldResults;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -85,6 +87,37 @@ public class GoIVSettings {
     public void saveScreenCalibrationValue(String valueName, String value) {
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString(valueName, value);
+        editor.apply();
+    }
+
+    public void saveScreenCalibrationResults(ScanFieldResults results) {
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(ScanFieldNames.POKEMON_NAME_AREA,
+                results.pokemonNameArea.toString());
+        editor.putString(ScanFieldNames.POKEMON_TYPE_AREA,
+                results.pokemonTypeArea.toString());
+        editor.putString(ScanFieldNames.CANDY_NAME_AREA,
+                results.candyNameArea.toString());
+        editor.putString(ScanFieldNames.POKEMON_HP_AREA,
+                results.pokemonHpArea.toString());
+        editor.putString(ScanFieldNames.POKEMON_CP_AREA,
+                results.pokemonCpArea.toString());
+        editor.putString(ScanFieldNames.POKEMON_CANDY_AMOUNT_AREA,
+                results.pokemonCandyAmountArea.toString());
+        editor.putString(ScanFieldNames.POKEMON_EVOLUTION_COST_AREA,
+                results.pokemonEvolutionCostArea.toString());
+        editor.putString(ScanFieldNames.ARC_RADIUS,
+                String.valueOf(results.arcRadius));
+        editor.putString(ScanFieldNames.ARC_INIT_POINT,
+                results.arcCenter.toString());
+        editor.putString(ScanFieldNames.SCREEN_INFO_CARD_WHITE_PIXEL,
+                results.infoScreenCardWhitePixelPoint.toString());
+        editor.putString(ScanFieldNames.SCREEN_INFO_CARD_WHITE_HEX,
+                String.format("#%06X", (0xFFFFFF & results.infoScreenCardWhitePixelColor)));
+        editor.putString(ScanFieldNames.SCREEN_INFO_FAB_GREEN_PIXEL,
+                results.infoScreenFabGreenPixelPoint.toString());
+        editor.putString(ScanFieldNames.SCREEN_INFO_FAB_GREEN_HEX,
+                String.format("#%06X", (0xFFFFFF & results.infoScreenFabGreenPixelColor)));
         editor.apply();
     }
 

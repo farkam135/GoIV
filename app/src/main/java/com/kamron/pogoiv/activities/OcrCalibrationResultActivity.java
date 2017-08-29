@@ -10,6 +10,7 @@ import android.graphics.RectF;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -55,7 +56,9 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
         final Handler mainThreadHandler = new Handler();
         final Runnable recalibrateRunner = new Runnable() {
             @Override public void run() {
-                results = new ScanFieldAutomaticLocator(bmp, Resources.getSystem().getDisplayMetrics().density)
+                DisplayMetrics realDisplayMetrics = new DisplayMetrics();
+                getWindowManager().getDefaultDisplay().getRealMetrics(realDisplayMetrics);
+                results = new ScanFieldAutomaticLocator(bmp, realDisplayMetrics.widthPixels, realDisplayMetrics.density)
                         .scan(mainThreadHandler, dialog);
                 mainThreadHandler.post(new Runnable() {
                     @Override public void run() {

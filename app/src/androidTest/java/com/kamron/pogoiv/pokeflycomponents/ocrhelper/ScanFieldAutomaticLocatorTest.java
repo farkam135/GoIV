@@ -50,7 +50,8 @@ public class ScanFieldAutomaticLocatorTest {
         for (String assetFileName : pokemonInfoScreenFileNames) {
             Bitmap bmp = BitmapFactory.decodeStream(mContext.getAssets()
                     .open(device.infoScreensDirPath + "/" + assetFileName));
-            ScanFieldAutomaticLocator autoLocator = new ScanFieldAutomaticLocator(bmp, device.screenDensity);
+            ScanFieldAutomaticLocator autoLocator =
+                    new ScanFieldAutomaticLocator(bmp, bmp.getWidth(), device.screenDensity);
             ScanFieldResults results = autoLocator.scan(null, null);
             checkScanFieldResults(device, assetFileName, results);
         }

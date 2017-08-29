@@ -30,7 +30,6 @@ public class ScreenGrabber {
     private MediaProjection projection = null;
     private DisplayMetrics rawDisplayMetrics;
     private VirtualDisplay virtualDisplay;
-    private Integer rowPaddingPx;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private ScreenGrabber(MediaProjection mediaProjection, DisplayMetrics raw) {
@@ -96,13 +95,15 @@ public class ScreenGrabber {
             final ByteBuffer buffer = planes[0].getBuffer();
             int pixelStride = planes[0].getPixelStride();
             int rowStride = planes[0].getRowStride();
-            rowPaddingPx = (rowStride - pixelStride * rawDisplayMetrics.widthPixels) / pixelStride;
+            int rowPaddingPx = (rowStride - pixelStride * rawDisplayMetrics.widthPixels) / pixelStride;
             image.close();
 
             try {
                 bmp = Bitmap.createBitmap(rawDisplayMetrics.widthPixels + rowPaddingPx,
                         rawDisplayMetrics.heightPixels, Bitmap.Config.ARGB_8888);
                 bmp.copyPixelsFromBuffer(buffer);
+                // Crop padding
+                bmp = Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth() - rowPaddingPx, bmp.getHeight());
             } catch (Exception exception) {
                 Timber.e("Exception thrown in grabScreen() - when creating bitmap");
                 Timber.e(exception);
@@ -110,14 +111,6 @@ public class ScreenGrabber {
         }
 
         return bmp;
-    }
-
-    /**
-     * Get the row padding of the last acquired image.
-     * @return The row right padding in pixels
-     */
-    public Integer getRowPaddingPx() {
-        return rowPaddingPx;
     }
 
     /**

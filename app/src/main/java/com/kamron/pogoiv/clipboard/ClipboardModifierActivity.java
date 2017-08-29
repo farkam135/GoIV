@@ -121,7 +121,8 @@ public class ClipboardModifierActivity extends AppCompatActivity {
         if (selectedToken == null) {
             clipboardDescription.setText(R.string.no_token_selected);
         } else if (selectedToken.maxEv) {
-            clipboardDescription.setText(selectedToken.getLongDescription(this) + R.string.token_max_evolution);
+            clipboardDescription.setText(selectedToken.getLongDescription(this) + getResources().getString(R.string
+                    .token_max_evolution));
         } else { //selectedtoken not max ev
             clipboardDescription.setText(selectedToken.getLongDescription(this));
         }

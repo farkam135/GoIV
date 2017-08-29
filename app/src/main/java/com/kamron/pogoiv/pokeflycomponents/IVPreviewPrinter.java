@@ -6,6 +6,7 @@ import android.widget.Toast;
 
 import com.kamron.pogoiv.GoIVSettings;
 import com.kamron.pogoiv.Pokefly;
+import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.ScreenGrabber;
 import com.kamron.pogoiv.logic.IVScanResult;
 import com.kamron.pogoiv.logic.PokeInfoCalculator;

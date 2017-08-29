@@ -1,14 +1,21 @@
 package com.kamron.pogoiv.pokeflycomponents;
 
+import android.app.IntentService;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
-import android.support.v7.app.NotificationCompat;
+import android.os.Build;
+import android.os.Handler;
+import android.os.Looper;
+import android.support.v4.app.NotificationCompat;
 
-import com.kamron.pogoiv.MainActivity;
 import com.kamron.pogoiv.Pokefly;
 import com.kamron.pogoiv.R;
+import com.kamron.pogoiv.ScreenGrabber;
+import com.kamron.pogoiv.activities.MainActivity;
+import com.kamron.pogoiv.activities.OcrCalibrationResultActivity;
+import com.kamron.pogoiv.pokeflycomponents.ocrhelper.CalibrationImage;
 
 /**
  * Created by johan on 2017-07-06.
@@ -20,7 +27,9 @@ public class GoIVNotificationManager {
 
     private static final int NOTIFICATION_REQ_CODE = 8959;
 
-    private Pokefly pokefly;
+    private static Pokefly pokefly;
+
+    public static final String ACTION_RECALIBRATE_SCANAREA = "com.kamron.pogoiv.ACTION_RECALIBRATE_SCANAREA";
 
     public GoIVNotificationManager(Pokefly pokefly) {
         this.pokefly = pokefly;
@@ -90,20 +99,8 @@ public class GoIVNotificationManager {
         PendingIntent openAppPendingIntent = PendingIntent.getActivity(
                 pokefly, 0, openAppIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        Intent incrementLevelIntent = new Intent(pokefly, MainActivity.class);
-
-        incrementLevelIntent.setAction(MainActivity.ACTION_INCREMENT_LEVEL);
-
-        PendingIntent incrementLevelPendingIntent = PendingIntent.getActivity(
-                pokefly, 0, incrementLevelIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        NotificationCompat.Action incrementLevelAction = new NotificationCompat.Action.Builder(
-                R.drawable.ic_add_white_24px,
-                pokefly.getString(R.string.notification_title_increment_level),
-                incrementLevelPendingIntent).build();
-
         Intent stopServiceIntent = new Intent(pokefly, Pokefly.class);
-        stopServiceIntent.setAction(pokefly.ACTION_STOP);
+        stopServiceIntent.setAction(Pokefly.ACTION_STOP);
 
         PendingIntent stopServicePendingIntent = PendingIntent.getService(
                 pokefly, 0, stopServiceIntent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -113,7 +110,7 @@ public class GoIVNotificationManager {
                 pokefly.getString(R.string.pause_goiv_notification),
                 stopServicePendingIntent).build();
 
-        Notification notification = new NotificationCompat.Builder(pokefly)
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(pokefly)
                 .setOngoing(true)
                 .setCategory(NotificationCompat.CATEGORY_SERVICE)
                 .setColor(pokefly.getColorC(R.color.colorPrimary))
@@ -121,12 +118,60 @@ public class GoIVNotificationManager {
                 .setContentTitle(pokefly.getString(R.string.notification_title, pokefly.getTrainerLevel()))
                 .setContentText(pokefly.getString(R.string.notification_title_tap_to_open))
                 .setContentIntent(openAppPendingIntent)
-                .setVisibility(Notification.VISIBILITY_PUBLIC)
-                .setPriority(Notification.PRIORITY_HIGH)
-                .addAction(incrementLevelAction)
-                .addAction(stopServiceAction)
-                .build();
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .addAction(stopServiceAction);
 
-        pokefly.startForeground(NOTIFICATION_REQ_CODE, notification);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Intent recalibrateScreenScanningIntent = new Intent(pokefly, NotificationActionService.class)
+                    .setAction(ACTION_RECALIBRATE_SCANAREA);
+
+            PendingIntent recalibrateScreenScanningPendingIntent = PendingIntent.getService(
+                    pokefly, 0, recalibrateScreenScanningIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+            NotificationCompat.Action recalibrateScreenScanAction = new NotificationCompat.Action.Builder(
+                    R.drawable.ic_add_white_24px,
+                    "Recalibrate scanner",
+                    recalibrateScreenScanningPendingIntent).build();
+
+            notificationBuilder.addAction(recalibrateScreenScanAction);
+        }
+
+        pokefly.startForeground(NOTIFICATION_REQ_CODE, notificationBuilder.build());
+    }
+
+    /**
+     * The class which receives the intent to recalibrate the scan area.
+     */
+    public static class NotificationActionService extends IntentService {
+        public NotificationActionService() {
+            super(NotificationActionService.class.getSimpleName());
+        }
+
+        @Override
+        protected void onHandleIntent(Intent intent) {
+            String action = intent.getAction();
+            if (ACTION_RECALIBRATE_SCANAREA.equals(action)) {
+
+                Handler handler = new Handler(Looper.getMainLooper());
+                Intent closeIntent = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
+                pokefly.sendBroadcast(closeIntent); //closes the notification window so we can screenshot pogo
+
+                handler.post(new Runnable() {
+                    @Override public void run() {
+                        pokefly.getIvButton().setShown(false, false); // Hide IV button: it might interfere
+                    }
+                });
+
+                handler.postDelayed(new Runnable() {
+                    public void run() {
+                        CalibrationImage.calibrationImg = ScreenGrabber.getInstance().grabScreen();
+                        Intent showResultIntent = new Intent(pokefly, OcrCalibrationResultActivity.class)
+                                .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(showResultIntent);
+                    }
+                }, 2000);
+            }
+        }
     }
 }

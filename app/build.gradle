@@ -118,6 +118,14 @@ android {
             signingConfig signingConfigs.releaseConfig
         }
     }
+
+    splits {
+        abi {
+            enable true
+            reset()
+            include 'armeabi', 'armeabi-v7a', 'arm64-v8a', 'mips', 'mips64', 'x86', 'x86_64'
+        }
+    }
 }
 
 /**
@@ -131,6 +139,18 @@ dependencies {
     /**
      * Builds Dependencies for All Builds.
      */
+
+    /**
+     * Online Build Dependencies
+     */
+    //Include Crashlytics in the online build
+    onlineCompile('com.crashlytics.sdk.android:crashlytics:2.6.2@aar') {
+        transitive = true;
+    }
+
+    /**
+     * Test Build Dependencies
+     */
     compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.android.support:recyclerview-v7:24.2.1'
     compile 'com.google.guava:guava:19.0'
@@ -140,23 +160,6 @@ dependencies {
     compile 'com.rmtheis:tess-two:7.0.0'
     compile 'io.apptik.widget:multislider:1.2'
     compile 'com.pavelsikun:material-seekbar-preference:2.3.0'
-    provided 'org.projectlombok:lombok:1.16.10'
-    apt 'com.jakewharton:butterknife-compiler:8.4.0'
-    apt "org.projectlombok:lombok:1.16.10"
-
-    /**
-     * Online Build Dependencies
-     */
-    //Include Crashlytics in the online build
-    onlineCompile('com.crashlytics.sdk.android:crashlytics:2.6.2@aar') {
-        transitive = true;
-    }
-    onlineCompile 'com.squareup.okhttp3:okhttp:3.4.1'
-    onlineCompile 'com.squareup.okio:okio:1.10.0'
-
-    /**
-     * Test Build Dependencies
-     */
     testCompile 'junit:junit:4.12'
     testCompile 'com.squareup.assertj:assertj-android:1.1.1'
     testCompile 'org.mockito:mockito-core:1.10.19'
@@ -164,6 +167,12 @@ dependencies {
     testCompile 'com.android.support.test:runner:0.5'
     androidTestCompile 'com.android.support:support-annotations:24.2.1'
     androidTestCompile 'com.android.support.test:runner:0.5'
+    apt 'com.jakewharton:butterknife-compiler:8.4.0'
+    apt 'org.projectlombok:lombok:1.16.10'
+    onlineCompile 'com.squareup.okhttp3:okhttp:3.4.1'
+    onlineCompile 'com.squareup.okio:okio:1.10.0'
+    provided 'org.projectlombok:lombok:1.16.10'
+    compile project(':openCVLibrary330')
 }
 
 /**

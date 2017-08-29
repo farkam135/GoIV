@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.kamron.pogoiv">
+    package="com.kamron.pogoiv">
 
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
@@ -94,8 +94,9 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
-            android:name=".MainActivity"
+            android:name=".activities.MainActivity"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
@@ -106,10 +107,12 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
         <activity
-            android:name=".SettingsActivity"
-            android:parentActivityName=".MainActivity"
+            android:name=".activities.SettingsActivity"
+            android:parentActivityName=".activities.MainActivity"
             android:screenOrientation="portrait"/>
+
         <activity
             android:name=".ShareHandlerActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar">
@@ -125,27 +128,38 @@
         <service
             android:name=".Pokefly"
             android:exported="true"/>
+
         <service
             android:name=".updater.DownloadUpdateService"
             android:exported="false"/>
 
-        <activity android:name=".clipboard.ClipboardModifierActivity"
-                  android:windowSoftInputMode="adjustPan"/>
+        <service android:name=".pokeflycomponents.GoIVNotificationManager$NotificationActionService"/>
+
         <activity
-            android:name=".CreditsActivity"
+            android:name=".activities.ClipboardModifierActivity"
+            android:windowSoftInputMode="adjustPan"/>
+
+        <activity
+            android:name=".activities.CreditsActivity"
             android:label="@string/title_activity_credits"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
-        
+            android:theme="@style/AppTheme.NoActionBar" />
+
         <provider
-            android:authorities="${applicationId}.provider"
             android:name="android.support.v4.content.FileProvider"
+            android:authorities="${applicationId}.provider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
-            android:name="android.support.FILE_PROVIDER_PATHS"
-            android:resource="@xml/provider_paths"/>
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths"/>
         </provider>
+
+        <activity
+            android:name=".activities.OcrCalibrationResultActivity"
+            android:label="@string/title_activity_ocr_calibration_result"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:noHistory="true" />
+
     </application>
 
 </manifest>

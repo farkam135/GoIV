@@ -12,7 +12,7 @@ import android.view.WindowManager;
 
 import com.kamron.pogoiv.Pokefly;
 import com.kamron.pogoiv.R;
-import com.kamron.pogoiv.logic.IVScanResult;
+import com.kamron.pogoiv.scanlogic.IVScanResult;
 
 /**
  * Created by johan on 2017-07-06.

@@ -3,7 +3,7 @@ package com.kamron.pogoiv.updater;
 import android.content.Context;
 import android.support.v7.app.AlertDialog;
 
-import com.kamron.pogoiv.MainActivity;
+import com.kamron.pogoiv.activities.MainActivity;
 
 /**
  * Stub for AppUpdateUtil in offline builds.

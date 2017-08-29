@@ -211,8 +211,27 @@
     <string name="is3">good stats definitely</string>
     <string name="is2">strong..\nimpressive</string>
     <string name="is1">best ..\nno doubt</string>
+
     <string name="scanFailed">Scan failed</string>
+<<<<<<< HEAD
 
     <string name="title_activity_ocr_calibration_result">Calibration Result</string>
 
+=======
+    <string name="touch_screen_quick_iv_scan">Touch screen to retry quick IV scan</string>
+    <string name="discard_unsaved_changes">There are unsaved changes.\nDo you really want to discard them?</string>
+    <string name="configuration_saved">Configuration saved!</string>
+    <string name="no_token_selected">No token selected</string>
+    <string name="token_max_evolution">\n\nThis token is a max evolution variant, meaning that it will return a result as if your monster was already fully evolved, which might be more interesting in a lot of cases.</string>
+    <string name="token_max_characters">(%1$d/12 characters)</string>
+    <string name="token_show_max_evo_variant">Show tokens max evolution variant</string>
+    <string name="token_show_standard">Show standard tokens</string>
+    <string name="token_input_custom_separator">Please input your custom separator</string>
+    <string name="token_fill_custom_separator">Please fill in your custom separator</string>
+    <string name="token_not_dot_separator">Custom separator can\'t contain . because the developer is lazy</string>
+    <string name="token_max_length">Max length:</string>
+    <string name="token_max_length_parenthesis">(Max length)</string>
+    <string name="clipboard_token_list_available">Full list of available token types</string>
+    <string name="clipboard_token_description_title">Selected token description</string>
+>>>>>>> More hardcode text to strings.xml
 </resources>

@@ -32,7 +32,7 @@
         android:paddingTop="2dp"
         android:paddingEnd="8dp"
         android:paddingBottom="2dp"
-        android:text="Selected token description"
+        android:text="@string/clipboard_token_description_title"
         android:textAppearance="?android:attr/textAppearanceInverse"
         android:elevation="4dp" />
 
@@ -47,7 +47,7 @@
             android:id="@+id/clipboardDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="No token selected"
+            android:text="@string/no_token_selected"
             android:paddingStart="16dp"
             android:paddingTop="8dp"
             android:paddingEnd="16dp"

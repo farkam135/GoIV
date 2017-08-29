@@ -6,13 +6,15 @@ import android.os.Handler;
 import android.support.v4.content.LocalBroadcastManager;
 import android.widget.NumberPicker;
 
+import com.kamron.pogoiv.activities.MainActivity;
+
 /**
  * This handler will handle changes to NpTrainerLevelPickerListener and handles if we restart on complete and if we
  * skip restarting Pogo.
  * Created by NightMadness on 11/5/2016.
  */
 
-class NpTrainerLevelPickerListener implements NumberPicker.OnScrollListener, NumberPicker.OnValueChangeListener {
+public class NpTrainerLevelPickerListener implements NumberPicker.OnScrollListener, NumberPicker.OnValueChangeListener {
     private int scrollState = 0;
     private final Handler handler = new Handler();
     private final int delayTime = 500;

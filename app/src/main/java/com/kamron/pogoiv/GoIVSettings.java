@@ -5,13 +5,15 @@ import android.content.SharedPreferences;
 import android.os.Build;
 
 import com.google.common.base.Strings;
-import com.kamron.pogoiv.clipboard.ClipboardToken;
-import com.kamron.pogoiv.clipboard.ClipboardTokenHandler;
-import com.kamron.pogoiv.clipboard.tokens.IVPercentageToken;
-import com.kamron.pogoiv.clipboard.tokens.IVPercentageTokenMode;
-import com.kamron.pogoiv.clipboard.tokens.PokemonNameToken;
-import com.kamron.pogoiv.clipboard.tokens.SeparatorToken;
-import com.kamron.pogoiv.clipboard.tokens.UnicodeToken;
+import com.kamron.pogoiv.clipboardlogic.ClipboardToken;
+import com.kamron.pogoiv.clipboardlogic.ClipboardTokenHandler;
+import com.kamron.pogoiv.clipboardlogic.tokens.IVPercentageToken;
+import com.kamron.pogoiv.clipboardlogic.tokens.IVPercentageTokenMode;
+import com.kamron.pogoiv.clipboardlogic.tokens.PokemonNameToken;
+import com.kamron.pogoiv.clipboardlogic.tokens.SeparatorToken;
+import com.kamron.pogoiv.clipboardlogic.tokens.UnicodeToken;
+import com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames;
+import com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldResults;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -48,6 +50,7 @@ public class GoIVSettings {
     public static final String AUTO_OPEN_APPRAISE_DIALOGUE = "autoOpenAppraiseDialogue";
     public static final String QUICK_IV_PREVIEW = "quick_iv_preview";
     public static final String QUICK_IV_PREVIEW_CLIPBOARD = "quick_iv_preview_clipboard";
+    public static final String MANUAL_SCREEN_CALIBRATION_ACTIVE = "manual_screen_calibration_active";
 
 
     private static GoIVSettings instance;
@@ -64,6 +67,60 @@ public class GoIVSettings {
             instance = new GoIVSettings(context.getApplicationContext());
         }
         return instance;
+    }
+
+    public boolean hasManualScanCalibration() {
+        return prefs.getBoolean(MANUAL_SCREEN_CALIBRATION_ACTIVE, false);
+    }
+
+    public void setManualScanCalibration(boolean isManual) {
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean(GoIVSettings.MANUAL_SCREEN_CALIBRATION_ACTIVE, isManual);
+        editor.apply();
+    }
+
+    public String getCalibrationValue(String valueName) {
+        return prefs.getString(valueName, "Error- no value saved");
+    }
+
+    /**
+     * Save a string value for a certain name.
+     */
+    public void saveScreenCalibrationValue(String valueName, String value) {
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(valueName, value);
+        editor.apply();
+    }
+
+    public void saveScreenCalibrationResults(ScanFieldResults results) {
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(ScanFieldNames.POKEMON_NAME_AREA,
+                results.pokemonNameArea.toString());
+        editor.putString(ScanFieldNames.POKEMON_TYPE_AREA,
+                results.pokemonTypeArea.toString());
+        editor.putString(ScanFieldNames.CANDY_NAME_AREA,
+                results.candyNameArea.toString());
+        editor.putString(ScanFieldNames.POKEMON_HP_AREA,
+                results.pokemonHpArea.toString());
+        editor.putString(ScanFieldNames.POKEMON_CP_AREA,
+                results.pokemonCpArea.toString());
+        editor.putString(ScanFieldNames.POKEMON_CANDY_AMOUNT_AREA,
+                results.pokemonCandyAmountArea.toString());
+        editor.putString(ScanFieldNames.POKEMON_EVOLUTION_COST_AREA,
+                results.pokemonEvolutionCostArea.toString());
+        editor.putString(ScanFieldNames.ARC_RADIUS,
+                String.valueOf(results.arcRadius));
+        editor.putString(ScanFieldNames.ARC_INIT_POINT,
+                results.arcCenter.toString());
+        editor.putString(ScanFieldNames.SCREEN_INFO_CARD_WHITE_PIXEL,
+                results.infoScreenCardWhitePixelPoint.toString());
+        editor.putString(ScanFieldNames.SCREEN_INFO_CARD_WHITE_HEX,
+                String.format("#%06X", (0xFFFFFF & results.infoScreenCardWhitePixelColor)));
+        editor.putString(ScanFieldNames.SCREEN_INFO_FAB_GREEN_PIXEL,
+                results.infoScreenFabGreenPixelPoint.toString());
+        editor.putString(ScanFieldNames.SCREEN_INFO_FAB_GREEN_HEX,
+                String.format("#%06X", (0xFFFFFF & results.infoScreenFabGreenPixelColor)));
+        editor.apply();
     }
 
     public boolean shouldLaunchPokemonGo() {

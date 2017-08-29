@@ -8,7 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.kamron.pogoiv.GuiUtil;
-import com.kamron.pogoiv.logic.Pokemon;
+import com.kamron.pogoiv.scanlogic.Pokemon;
 
 import java.util.ArrayList;
 

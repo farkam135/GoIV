@@ -503,7 +503,7 @@ public class MainActivity extends AppCompatActivity {
                 MediaProjectionManager projectionManager = (MediaProjectionManager) getSystemService(
                         Context.MEDIA_PROJECTION_SERVICE);
                 MediaProjection mProjection = projectionManager.getMediaProjection(resultCode, data);
-                screen = ScreenGrabber.init(mProjection, rawDisplayMetrics, displayMetrics);
+                screen = ScreenGrabber.init(mProjection, rawDisplayMetrics);
 
                 startPokeFly();
             } else {

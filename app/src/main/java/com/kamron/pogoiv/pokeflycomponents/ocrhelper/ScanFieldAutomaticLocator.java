@@ -218,17 +218,17 @@ public class ScanFieldAutomaticLocator {
 
         // Find power up button. This is always visible, as opposed to evolve button
         List<Rect> powerUpButtonCandidates = FluentIterable.from(boundingRectList)
-                .filter(ByHeight.of(buttonHeight, screenDensity))
+                .filter(ByMinHeight.of(buttonHeight))
                 .filter(ByMinWidth.of(buttonHeight * 2))
                 .filter(ByHsvColor.of(image, mask1, contours, boundingRectList, HSV_BUTTON_ENABLED, 3, 0.15f, 0.15f))
                 .toList();
 
         if (powerUpButtonCandidates.size() > 0) {
-            // Take the lower button
+            // Take the upper button
             Rect candidate = powerUpButtonCandidates.get(0);
             for (int i = 1; i < powerUpButtonCandidates.size(); i++) {
                 Rect currentCandidate = powerUpButtonCandidates.get(i);
-                if (currentCandidate.y + currentCandidate.height > candidate.y + candidate.height) {
+                if (currentCandidate.y < candidate.y) {
                     candidate = currentCandidate;
                 }
             }

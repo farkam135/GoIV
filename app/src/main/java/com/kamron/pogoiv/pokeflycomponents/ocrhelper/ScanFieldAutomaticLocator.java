@@ -772,7 +772,7 @@ public class ScanFieldAutomaticLocator {
      * Find the area where the candy name (such as "eevee candy") is listed.
      */
     private void findPokemonCandyNameArea(ScanFieldResults results) {
-        final boolean debugExecution = true; // Activate this flag to display the onscreen debug graphics
+        final boolean debugExecution = false; // Activate this flag to display the onscreen debug graphics
 
         //noinspection UnusedAssignment
         Canvas c = null;
@@ -869,7 +869,7 @@ public class ScanFieldAutomaticLocator {
      * Find the area where the pokemon type is listed, between weight and height. On the form of "Psychic / flying".
      */
     private void findPokemonTypeArea(ScanFieldResults results) {
-        final boolean debugExecution = true; // Activate this flag to display the onscreen debug graphics
+        final boolean debugExecution = false; // Activate this flag to display the onscreen debug graphics
 
         //noinspection UnusedAssignment
         Canvas c = null;

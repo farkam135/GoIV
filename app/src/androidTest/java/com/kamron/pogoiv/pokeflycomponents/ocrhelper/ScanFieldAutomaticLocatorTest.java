@@ -55,21 +55,21 @@ public class ScanFieldAutomaticLocatorTest {
             ScanFieldAutomaticLocator autoLocator =
                     new ScanFieldAutomaticLocator(bmp, bmp.getWidth(), device.screenDensity);
             ScanFieldResults results = autoLocator.scan(null, null);
-            checkScanFieldResults(device, assetFileName, results);
+            checkScanFieldResults(device, assetFileName, bmp, results);
         }
     }
 
-    private void checkScanFieldResults(Device device, String testAssetName, ScanFieldResults results) {
+    private void checkScanFieldResults(Device device, String testAssetName, Bitmap bmp, ScanFieldResults results) {
         // Execute checks on 'mon name area
-        checkScanArea(device.toString(), testAssetName,
+        checkScanArea(device.toString(), testAssetName, bmp,
                 "name", results.pokemonNameArea, device.expectedNameArea);
 
         // Execute checks on 'mon type area
-        checkScanArea(device.toString(), testAssetName,
+        checkScanArea(device.toString(), testAssetName, bmp,
                 "type", results.pokemonTypeArea, device.expectedTypeArea);
 
         // Execute checks on 'mon candy name area
-        checkScanArea(device.toString(), testAssetName,
+        checkScanArea(device.toString(), testAssetName, bmp,
                 "candy name", results.candyNameArea, device.expectedCandyNameArea);
 
         // TODO check HP area
@@ -77,20 +77,34 @@ public class ScanFieldAutomaticLocatorTest {
         // TODO check CP area
 
         // Execute checks on 'mon candy amount
-        checkScanArea(device.toString(), testAssetName,
+        checkScanArea(device.toString(), testAssetName, bmp,
                 "candy amount", results.pokemonCandyAmountArea, device.expectedCandyAmountArea);
 
         // Execute checks on 'mon evolution cost
-        checkScanArea(device.toString(), testAssetName,
+        checkScanArea(device.toString(), testAssetName, bmp,
                 "evolution cost", results.pokemonEvolutionCostArea, device.expectedEvolutionCost);
 
         // TODO check all the other fields of ScanFieldResults
     }
 
-    private void checkScanArea(String deviceName, String testAssetName, String areaLabel,
+    private void checkScanArea(String deviceName, String testAssetName, Bitmap bmp, String areaLabel,
                                ScanArea result, Rect expected) {
         assertNotNull("File " + testAssetName + " on " + deviceName
                 + ": 'mon " + areaLabel + " area wasn't detected", result);
+
+        assertTrue("File " + testAssetName + " on " + deviceName
+                + ": 'mon " + areaLabel + " area x coordinate can't be lower than 0", result.xPoint >= 0);
+
+        assertTrue("File " + testAssetName + " on " + deviceName
+                + ": 'mon " + areaLabel + " area y coordinate can't be lower than 0", result.yPoint >= 0);
+
+        assertTrue("File " + testAssetName + " on " + deviceName
+                        + ": 'mon " + areaLabel + " area can't exceed the image width",
+                result.xPoint + result.width < bmp.getWidth());
+
+        assertTrue("File " + testAssetName + " on " + deviceName
+                        + ": 'mon " + areaLabel + " area can't exceed the image height",
+                result.yPoint + result.height < bmp.getHeight());
 
         assertTrue("File " + testAssetName + " on " + deviceName
                 + ": 'mon " + areaLabel + " area doesn't contain the entire " + areaLabel + "."

@@ -8,7 +8,7 @@ public enum Device {
     GOOGLE_NEXUS_5("Google Nexus 5", 3f, "testinfoscreens/nexus5",
             new Rect(398, 823, 398 + 286, 823 + 61),    // Name
             new Rect(388, 1119, 388 + 312, 1118 + 21),  // Type
-            new Rect(580, 1288, 280 + 345, 1288 + 21),  // Candy name
+            new Rect(580, 1313, 580 + 346, 1313 + 21),  // Candy name
             new Rect(0, 0, 0, 0),                       // TODO HP area
             new Rect(0, 0, 0, 0),                       // TODO CP area
             new Rect(728, 1253, 728 + 49, 1253 + 33),   // Candy amount

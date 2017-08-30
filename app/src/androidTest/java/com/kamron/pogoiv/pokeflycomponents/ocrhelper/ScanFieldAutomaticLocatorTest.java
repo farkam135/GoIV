@@ -48,8 +48,10 @@ public class ScanFieldAutomaticLocatorTest {
     private void checkDevice(Device device) throws IOException {
         String[] pokemonInfoScreenFileNames = mContext.getAssets().list(device.infoScreensDirPath);
         for (String assetFileName : pokemonInfoScreenFileNames) {
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inMutable = true;
             Bitmap bmp = BitmapFactory.decodeStream(mContext.getAssets()
-                    .open(device.infoScreensDirPath + "/" + assetFileName));
+                    .open(device.infoScreensDirPath + "/" + assetFileName), null, options);
             ScanFieldAutomaticLocator autoLocator =
                     new ScanFieldAutomaticLocator(bmp, bmp.getWidth(), device.screenDensity);
             ScanFieldResults results = autoLocator.scan(null, null);

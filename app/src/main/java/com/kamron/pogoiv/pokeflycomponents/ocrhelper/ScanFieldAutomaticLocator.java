@@ -76,6 +76,7 @@ public class ScanFieldAutomaticLocator {
     private final int width50Percent;
     private final int width66Percent;
     private final int width80Percent;
+    private final int width90Percent;
 
 
     public ScanFieldAutomaticLocator(Bitmap bmp, int displayWidth, float displayDensity) {
@@ -87,6 +88,7 @@ public class ScanFieldAutomaticLocator {
         width50Percent = bmp.getWidth() / 2;
         width66Percent = bmp.getWidth() / 3 * 2;
         width80Percent = bmp.getWidth() / 5 * 4;
+        width90Percent = bmp.getWidth() / 10 * 9;
         final float buttonHeight = 41f * screenshotDensity;
 
 
@@ -197,6 +199,7 @@ public class ScanFieldAutomaticLocator {
             greyLineCandidates = FluentIterable.from(boundingRectList)
                     .filter(Predicates.and(ByMinY.of(hpBar.y + hpBar.height), ByMaxY.of(greyHorizontalLine.y)))
                     .filter(ByMaxWidth.of(5 * screenshotDensity))
+                    .filter(ByMinHeight.of(12.5f * screenshotDensity))
                     .filter(ByHsvColor.of(image, mask1, contours, boundingRectList, HSV_DIVIDER, 3, 0.1f, 0.25f))
                     .toList();
             if (greyLineCandidates.size() == 2) {
@@ -218,6 +221,7 @@ public class ScanFieldAutomaticLocator {
 
         // Find power up button. This is always visible, as opposed to evolve button
         List<Rect> powerUpButtonCandidates = FluentIterable.from(boundingRectList)
+                .filter(ByMinY.of(bmp.getHeight() / 2))
                 .filter(ByMinHeight.of(buttonHeight))
                 .filter(ByMinWidth.of(buttonHeight * 2))
                 .filter(ByHsvColor.of(image, mask1, contours, boundingRectList, HSV_BUTTON_ENABLED, 3, 0.15f, 0.15f))
@@ -484,7 +488,7 @@ public class ScanFieldAutomaticLocator {
         List<Rect> digitsCandidates = FluentIterable.from(candidates)
                 // Check if the dominant color of the contour matches the light green hue of PoGO text
                 .filter(Predicates.or(
-                        ByHsvColor.of(image, mask1, contours, boundingRectList, HSV_GREEN_DARK_SMALL, 10, 0.25f, 0.25f),
+                        ByHsvColor.of(image, mask1, contours, boundingRectList, HSV_GREEN_DARK_SMALL, 12, 0.25f, 0.25f),
                         ByHsvColor.of(image, mask2, contours, boundingRectList, HSV_TEXT_RED, 10, 0.25f, 0.25f)))
                 .toList();
 
@@ -582,7 +586,7 @@ public class ScanFieldAutomaticLocator {
 
         candidates = FluentIterable.from(candidates)
                 // Check if the dominant color of the contour matches the light green hue of PoGO text
-                .filter(ByHsvColor.of(image, mask1, contours, boundingRectList, HSV_GREEN_DARK, 3, 0.275f, 0.325f))
+                .filter(ByHsvColor.of(image, mask1, contours, boundingRectList, HSV_GREEN_DARK, 3, 0.275f, 0.275f))
                 .toList();
 
         //noinspection PointlessBooleanExpression
@@ -768,7 +772,7 @@ public class ScanFieldAutomaticLocator {
      * Find the area where the candy name (such as "eevee candy") is listed.
      */
     private void findPokemonCandyNameArea(ScanFieldResults results) {
-        final boolean debugExecution = false; // Activate this flag to display the onscreen debug graphics
+        final boolean debugExecution = true; // Activate this flag to display the onscreen debug graphics
 
         //noinspection UnusedAssignment
         Canvas c = null;
@@ -784,6 +788,19 @@ public class ScanFieldAutomaticLocator {
 
         if (greyHorizontalLine == null || powerUpButton == null) {
             return;
+        }
+
+        //noinspection PointlessBooleanExpression
+        if (BuildConfig.DEBUG && debugExecution) {
+            c = new Canvas(bmp);
+            p = getDebugPaint();
+            p.setColor(Color.BLUE);
+            debugPrintRectList(Collections.singletonList(greyHorizontalLine), c, p);
+            debugPrintRectList(Collections.singletonList(powerUpButton), c, p);
+            debugPrintLineX(width50Percent, c, p);
+            debugPrintLineX(greyHorizontalLine.x + greyHorizontalLine.width, c, p);
+            debugPrintLineY(greyHorizontalLine.y + greyHorizontalLine.height, c, p);
+            debugPrintLineY(powerUpButton.y, c, p);
         }
 
         List<Rect> candidates = FluentIterable.from(boundingRectList)
@@ -832,10 +849,13 @@ public class ScanFieldAutomaticLocator {
 
         Rect result = mergeRectList(candidates);
 
-        // Ensure the rect starts at 50% of the width growing the rect in both directions (to the left and to the right)
+        // Ensure the rect starts at 50% of the width
         if (result.x > width50Percent) {
-            result.width += (result.x - width50Percent) * 2;
             result.x = width50Percent;
+        }
+        // Ensure the rect reaches the 90% of the width
+        if (result.x + result.width < width90Percent) {
+            result.width = width90Percent - result.x;
         }
 
         // Increase the height of 20% on top and 20% below
@@ -849,7 +869,7 @@ public class ScanFieldAutomaticLocator {
      * Find the area where the pokemon type is listed, between weight and height. On the form of "Psychic / flying".
      */
     private void findPokemonTypeArea(ScanFieldResults results) {
-        final boolean debugExecution = false; // Activate this flag to display the onscreen debug graphics
+        final boolean debugExecution = true; // Activate this flag to display the onscreen debug graphics
 
         //noinspection UnusedAssignment
         Canvas c = null;
@@ -1030,6 +1050,13 @@ public class ScanFieldAutomaticLocator {
         }
     }
 
+    private static void debugPrintLineX(int x, Canvas c, Paint p) {
+        c.drawLine(x, 0, x, c.getHeight(), p);
+    }
+
+    private static void debugPrintLineY(int y, Canvas c, Paint p) {
+        c.drawLine(0, y, c.getWidth(), y, p);
+    }
 
     private static class ByMinX implements Predicate<Rect> {
         private int minX;

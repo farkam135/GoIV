@@ -99,17 +99,6 @@ public class GoIVNotificationManager {
         PendingIntent openAppPendingIntent = PendingIntent.getActivity(
                 pokefly, 0, openAppIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        Intent stopServiceIntent = new Intent(pokefly, Pokefly.class);
-        stopServiceIntent.setAction(Pokefly.ACTION_STOP);
-
-        PendingIntent stopServicePendingIntent = PendingIntent.getService(
-                pokefly, 0, stopServiceIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        NotificationCompat.Action stopServiceAction = new NotificationCompat.Action.Builder(
-                R.drawable.ic_pause_white_24px,
-                pokefly.getString(R.string.pause_goiv_notification),
-                stopServicePendingIntent).build();
-
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(pokefly)
                 .setOngoing(true)
                 .setCategory(NotificationCompat.CATEGORY_SERVICE)
@@ -119,9 +108,9 @@ public class GoIVNotificationManager {
                 .setContentText(pokefly.getString(R.string.notification_title_tap_to_open))
                 .setContentIntent(openAppPendingIntent)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .addAction(stopServiceAction);
+                .setPriority(NotificationCompat.PRIORITY_HIGH);
 
+        // Recalibrate action
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Intent recalibrateScreenScanningIntent = new Intent(pokefly, NotificationActionService.class)
                     .setAction(ACTION_RECALIBRATE_SCANAREA);
@@ -136,6 +125,20 @@ public class GoIVNotificationManager {
 
             notificationBuilder.addAction(recalibrateScreenScanAction);
         }
+
+        // Stop service action
+        Intent stopServiceIntent = new Intent(pokefly, Pokefly.class);
+        stopServiceIntent.setAction(Pokefly.ACTION_STOP);
+
+        PendingIntent stopServicePendingIntent = PendingIntent.getService(
+                pokefly, 0, stopServiceIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        NotificationCompat.Action stopServiceAction = new NotificationCompat.Action.Builder(
+                R.drawable.ic_pause_white_24px,
+                pokefly.getString(R.string.pause_goiv_notification),
+                stopServicePendingIntent).build();
+
+        notificationBuilder.addAction(stopServiceAction);
 
         pokefly.startForeground(NOTIFICATION_REQ_CODE, notificationBuilder.build());
     }

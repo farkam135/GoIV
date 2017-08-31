@@ -832,8 +832,8 @@ public class ScanFieldAutomaticLocator {
         }
 
         candidates = FluentIterable.from(candidates)
-                // Keep only rect with bottom coordinate inside half of the standard deviation
-                .filter(ByStandardDeviationOnBottomY.of(candidates, 0.5f))
+                // Keep only rect with bottom coordinate inside the standard deviation
+                .filter(ByStandardDeviationOnBottomY.of(candidates, 1f))
                 .toList();
 
         //noinspection PointlessBooleanExpression
@@ -1256,8 +1256,7 @@ public class ScanFieldAutomaticLocator {
         }
 
         @Override public boolean apply(@Nullable Rect input) {
-            return input != null && (input.y + input.height >= avgBottom - stdDeviation * deviations
-                    && input.y + input.height <= avgBottom + stdDeviation * deviations);
+            return input != null && Math.abs(input.y + input.height - avgBottom) <= stdDeviation * deviations;
         }
     }
 

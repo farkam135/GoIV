@@ -22,7 +22,8 @@
             android:orientation="vertical"
             android:paddingLeft="28dp"
             android:paddingRight="28dp"
-            android:paddingTop="50dp">
+            android:paddingTop="50dp"
+            android:paddingBottom="16dp">
 
 
             <!-- Trainer input field-->
@@ -205,14 +206,21 @@
             </LinearLayout>
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:paddingTop="16dp"
+                android:text="@string/goiv_is_open_source" />
+
+            <TextView
                 android:id="@+id/version_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom|end"
-                android:layout_weight="1"
-                android:padding="16dp"
-                android:textAlignment="textEnd"/>
+                android:layout_gravity="center_horizontal"
+                android:paddingTop="4dp" />
+
         </LinearLayout>
+
     </ScrollView>
 
     <LinearLayout

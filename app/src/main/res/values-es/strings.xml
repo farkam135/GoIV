@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="welcome_title">Instrucciones</string>
     <string name="welcome_message">Como usar por primera vez:\n1. Ingresa tu nivel de entrenador arriba\n2. Presiona el botón de inicio y acepta todos los mensajes\n3. Abre el Pokémon que quieras\n4. Presiona el nuevo botón IV en la esquina izquierda\n5. Ajusta los datos escaneados en caso de ser necesario</string>
-	<string name="goiv_is_open_source">¡GoIV es código abierto!\ngithub.com/farkam135/GoIV\nreddit.com/r/GoIV</string>
+	<string name="goiv_is_open_source">¡GoIV es código abierto!</string>
 	<string name="trainer_level">Nivel entrenador</string>
     
     <string-array name="teams">

@@ -2,7 +2,7 @@
 <resources>
     <string name="welcome_title">Instructions</string>
     <string name="welcome_message">1. Entrer niveau de dresseur\n2. Presser bouton GO et permettre capture d\'écran\n3. Choisir un Pokémon dans \'Pokémon Go\'\n4. Presser bouton IV pour scanner le Pokémon\n5. Ajuster données si besoin\n6. Vérifier les IV !</string>
-    <string name="goiv_is_open_source">GoIV est open source !\ngithub.com/farkam135/GoIV\nreddit.com/r/GoIV</string>
+    <string name="goiv_is_open_source">GoIV est open source!</string>
     <string name="trainer_level">Niveau de Dresseur</string>
 
     <string-array name="teams">

@@ -8,7 +8,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:fadeScrollbars="false">
 
         <!-- Main content holder in the scrollview-->
         <LinearLayout
@@ -19,7 +20,7 @@
             android:orientation="vertical"
             android:paddingLeft="28dp"
             android:paddingRight="28dp"
-            android:paddingTop="50dp"
+            android:paddingTop="56dp"
             android:paddingBottom="16dp">
 
             <!-- Trainer input field-->
@@ -33,7 +34,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Trainer info"
+                    android:text="@string/trainer_info"
                     android:textAlignment="center"
                     android:textSize="22sp"/>
 
@@ -46,14 +47,14 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Level"
+                        android:text="@string/trainer_level"
                         android:textAlignment="center"/>
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
-                        android:text="Team"
+                        android:text="@string/trainer_team"
                         android:textAlignment="center"/>
 
                 </LinearLayout>
@@ -113,7 +114,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Notice"
+                    android:text="@string/notice"
                     android:textAlignment="center"
                     android:textSize="22sp"/>
 
@@ -151,7 +152,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:background="#0000"
-                android:text="help\?"
+                android:text="@string/welcome_title"
                 android:textColor="#365fda"
                 android:textSize="16sp"/>
 
@@ -169,7 +170,8 @@
                     android:padding="5dp"
                     android:layout_marginLeft="12dp"
                     android:layout_marginRight="12dp"
-                    android:background="@drawable/github"/>
+                    android:background="@drawable/github"
+                    tools:ignore="ButtonStyle"/>
 
                 <Button
                     android:id="@+id/reddit"
@@ -177,7 +179,8 @@
                     android:layout_height="50dp"
                     android:layout_marginLeft="12dp"
                     android:layout_marginRight="12dp"
-                    android:background="@drawable/reddit"/>
+                    android:background="@drawable/reddit"
+                    tools:ignore="ButtonStyle"/>
 
             </LinearLayout>
 

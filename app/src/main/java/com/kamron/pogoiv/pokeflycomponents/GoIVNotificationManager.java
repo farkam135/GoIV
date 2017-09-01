@@ -131,7 +131,7 @@ public class GoIVNotificationManager {
 
             NotificationCompat.Action recalibrateScreenScanAction = new NotificationCompat.Action.Builder(
                     R.drawable.ic_add_white_24px,
-                    "Recalibrate scanner",
+                    pokefly.getString(R.string.recalibrate_goiv_notification),
                     recalibrateScreenScanningPendingIntent).build();
 
             notificationBuilder.addAction(recalibrateScreenScanAction);

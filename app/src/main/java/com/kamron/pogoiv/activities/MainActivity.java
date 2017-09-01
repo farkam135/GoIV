@@ -242,7 +242,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Hide the optimization-warning and its components depending on if the user has a manual screen calibration
-     * saved, and if the device has weird screen ratio
+     * saved, and if the device has weird screen ratio.
      */
     private void initiateOptimizationWarning() {
         LinearLayout warningLayout = (LinearLayout) findViewById(R.id.optimizationWarning);
@@ -260,7 +260,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Initiates the links to reddit and github
+     * Initiates the links to reddit and github.
      */
     private void initiateCommunityButtons() {
         Button redditButton = (Button) findViewById(R.id.reddit);

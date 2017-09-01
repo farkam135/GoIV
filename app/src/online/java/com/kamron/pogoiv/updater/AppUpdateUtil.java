@@ -11,7 +11,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 
 import com.kamron.pogoiv.BuildConfig;
-import com.kamron.pogoiv.MainActivity;
+import com.kamron.pogoiv.activities.MainActivity;
 import com.kamron.pogoiv.R;
 
 import org.json.JSONException;

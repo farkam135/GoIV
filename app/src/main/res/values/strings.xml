@@ -68,9 +68,9 @@
     <string name="check_iv">Check IV</string>
     <string name="notification_title">GoIV Running - Level %1$d</string>
     <string name="notification_title_goiv_stopped">GoIV stopped</string>
-    <string name="notification_title_increment_level">Level +1</string>
     <string name="notification_title_tap_to_open">Tap to open GoIV.</string>
     <string name="notification_open_app">Open app</string>
+    <string name="notification_recalibrate">Recalibrate</string>
     <string name="close">Close</string>
     <string name="main_permission">Grant Permissions</string>
     <string name="main_start">Start</string>
@@ -214,4 +214,7 @@
     <string name="is1">best ..\nno doubt</string>
     <string name="scanFailed">Scan failed</string>
     <string name="acquired_from_egg_or_raid">Acquired from egg or raid</string>
+
+    <string name="title_activity_ocr_calibration_result">Calibration Result</string>
+
 </resources>

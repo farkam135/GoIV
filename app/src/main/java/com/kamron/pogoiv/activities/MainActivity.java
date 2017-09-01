@@ -290,7 +290,7 @@ public class MainActivity extends AppCompatActivity {
                 builder.setMessage(R.string.welcome_message)
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                // FIRE ZE MISSILES!
+                                // close dialog
                             }
                         });
                 builder.create().show();

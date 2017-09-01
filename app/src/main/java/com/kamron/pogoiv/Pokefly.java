@@ -937,7 +937,7 @@ public class Pokefly extends Service {
      */
     public void toggleAppraisalBox() {
         toggleVisibility(inputAppraisalExpandBox, appraisalBox, true);
-        defaultInputPart.setVisibility(defaultInputPart.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
+        setAppraisalBoxToMatchInputBox();
         positionHandler.setVisibility(appraisalBox.getVisibility());
         moveOverlayUpOrDownToMatchAppraisalBox();
     }
@@ -1710,6 +1710,15 @@ public class Pokefly extends Service {
             positionHandler.setVisibility(appraisalBox.getVisibility());
             moveOverlayUpOrDownToMatchAppraisalBox();
         }
+        setAppraisalBoxToMatchInputBox();
+    }
+
+    /**
+     * If input is open, appraisal should be closed, and vice versa. This method shows the appraisal box if the input
+     * is hidden, or hides the appraisal box if the input is visible.
+     */
+    private void setAppraisalBoxToMatchInputBox() {
+        defaultInputPart.setVisibility(defaultInputPart.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
     }
 
     /**

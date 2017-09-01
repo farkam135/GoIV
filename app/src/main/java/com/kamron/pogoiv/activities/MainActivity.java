@@ -230,7 +230,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         TextView tvVersionNumber = (TextView) findViewById(R.id.version_number);
-        tvVersionNumber.setText(getVersionName());
+        tvVersionNumber.setText(String.format("v%s", getVersionName()));
 
         initiateOptimizationWarning();
         initiateLevelPicker();

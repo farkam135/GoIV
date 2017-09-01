@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:visibility="visible"
     tools:context="com.kamron.pogoiv.activities.MainActivity">
-
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
 
         <!-- Main content holder in the scrollview-->
         <LinearLayout
@@ -25,15 +22,13 @@
             android:paddingTop="50dp"
             android:paddingBottom="16dp">
 
-
             <!-- Trainer input field-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="24dp"
                 android:background="#FFF"
                 android:orientation="vertical"
-                android:padding="12dp">
+                android:padding="16dp">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -48,66 +43,60 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Level"
                         android:textAlignment="center"/>
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
                         android:text="Team"
                         android:textAlignment="center"/>
+
                 </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="#ddd"
-                    android:paddingLeft="12dp"
-                    android:paddingRight="12dp" />
+                    android:layout_marginTop="2dp"
+                    android:background="#ddd" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:paddingBottom="12dp"
-                    android:paddingTop="12dp">
-
+                    android:layout_marginTop="8dp">
 
                     <NumberPicker
                         android:id="@+id/trainerLevel"
                         android:layout_width="wrap_content"
                         android:layout_height="100dp"
-                        android:layout_marginRight="12dp"
                         android:layout_weight="1"
                         android:descendantFocusability="blocksDescendants"
                         android:inputType="number"
                         android:textAlignment="center"/>
 
-
                     <View
                         android:layout_width="1dp"
                         android:layout_height="match_parent"
-                        android:layout_margin="5dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="4dp"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginRight="12dp"
                         android:background="#ddd" />
 
-
                     <Spinner
-
                         android:id="@+id/teamPickerSpinner"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="12dp"
-                        android:layout_weight="1">
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:layout_gravity="center_vertical">
 
                     </Spinner>
 
-
                 </LinearLayout>
-
 
             </LinearLayout>
 
@@ -116,9 +105,10 @@
                 android:id="@+id/optimizationWarning"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
                 android:background="#FFF"
                 android:orientation="vertical"
-                android:padding="12dp">
+                android:padding="16dp">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -130,16 +120,13 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_marginBottom="12dp"
-                    android:background="#ddd"
-                    android:paddingLeft="12dp"
-                    android:paddingRight="12dp" />
+                    android:background="#ddd" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
                     android:text="@string/scan_optimization_notice_text"/>
-
 
                 <TextView
                     android:id="@+id/nonStandardScreenWarning"
@@ -147,8 +134,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     android:text="@string/scan_optimization_screen_ratio_warning"
+                    android:textColor="@android:color/holo_red_dark" />
 
-                    android:textColor="#ca3232"/>
             </LinearLayout>
 
             <Button
@@ -168,23 +155,18 @@
                 android:textColor="#365fda"
                 android:textSize="16sp"/>
 
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
                 android:layout_marginTop="24dp"
-                android:orientation="horizontal">
-
-                <android.support.v4.widget.Space
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1" />
+                android:orientation="horizontal"
+                android:gravity="center_horizontal">
 
                 <Button
                     android:id="@+id/github"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:padding="5dp"
                     android:layout_marginLeft="12dp"
                     android:layout_marginRight="12dp"
                     android:background="@drawable/github"/>
@@ -197,19 +179,13 @@
                     android:layout_marginRight="12dp"
                     android:background="@drawable/reddit"/>
 
-                <android.support.v4.widget.Space
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1" />
-
-
             </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:paddingTop="16dp"
+                android:paddingTop="24dp"
                 android:text="@string/goiv_is_open_source" />
 
             <TextView
@@ -217,7 +193,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:paddingTop="4dp" />
+                android:paddingTop="4dp"
+                tools:text="v0.0.0"/>
 
         </LinearLayout>
 

@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="welcome_message">Starting GoIV for the first time:\n\n1. Enter your trainer info\n2. Press the GRANT PERMISSION button and accept all prompts\n3. Press start</string>
-    <string name="goiv_is_open_source">GoIV is open source!\ngithub.com/farkam135/GoIV\nreddit.com/r/GoIV</string>
-    <string name="trainer_level">Trainer Level</string>
+    <string name="instructions_title">Instructions</string>
+    <string name="instructions_message">Starting GoIV for the first time:\n\n1. Enter your trainer info\n2. Press the GRANT PERMISSION button and accept all prompts\n3. Press start</string>
+    <string name="goiv_is_open_source">GoIV is open source!</string>
+    <string name="trainer_info">Trainer Info</string>
+    <string name="trainer_level">Level</string>
+    <string name="trainer_team">Team</string>
+    <string name="notice">Notice</string>
 
     <string-array name="teams">
         <item name="mystic">"Mystic"</item>
@@ -213,8 +217,9 @@
     <string name="is1">best ..\nno doubt</string>
     <string name="scanFailed">Scan failed</string>
 
+    <string name="recalibrate_goiv_notification">Recalibrate</string>
     <string name="title_activity_ocr_calibration_result">Calibration Result</string>
-    <string name="scan_optimization_notice_text">You have not ran scan optimization. It\'s recommended to run scan optimization on all devices. To run a scan optimization:  1 Start GoIV  2. Go to a \'mon page 3. Open the GoIV notification 4. Select \'Recalibrate Scanner\'.</string>
+    <string name="scan_optimization_notice_text">You have not ran scan optimization. It\'s recommended to run scan optimization on all devices. To run a scan optimization:\n1. Start GoIV\n2. Go to a \'mon page\n3. Open the GoIV notification\n4. Select \'Recalibrate\'!</string>
     <string name="scan_optimization_screen_ratio_warning">GoIV has detected that your screen is not standard. You\'ll most likely need to perform scan optimization for GoIV to work.</string>
 
 </resources>

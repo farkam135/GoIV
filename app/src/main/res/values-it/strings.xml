@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="welcome_message">Istruzioni:\n1. Inserisci il tuo Livello Allenatore\n2. Premi start e consenti la registrazione schermo\n3. In \'Pokémon Go\' seleziona il Pokémon\n4. Premi il bottone IV per analizzare il Pokémon\n5. Correggi i dati se necessario\n6. Analizza IV!</string>
-    <string name="goiv_is_open_source">GoIV è open source!\ngithub.com/farkam135/GoIV\nreddit.com/r/GoIV</string>
-    <string name="trainer_level">Livello Allenatore</string>
+    <string name="instructions_title">Istruzioni</string>
+    <string name="instructions_message">Guida al primo avvio:\n1. Inserisci il tuo Livello Allenatore\n2. Premi start e consenti la registrazione schermo\n3. In \'Pokémon Go\' seleziona il Pokémon\n4. Premi il bottone IV per analizzare il Pokémon\n5. Correggi i dati se necessario\n6. IV analizzati!</string>
+    <string name="goiv_is_open_source">GoIV è open source!</string>
+    <string name="trainer_info">Informazioni allenatore</string>
+    <string name="trainer_level">Livello</string>
+    <string name="trainer_team">Squadra</string>
+    <string name="notice">Attenzione</string>
 
     <string name="pokemon_name">Nome Pokémon:</string>
     <string name="cp">PL</string>
@@ -200,4 +204,9 @@
     <string name="android_sub5_warning">GoIV ha rilevato che il tuo smartphone non supporta le MediaProjection API, che sono usate per mostrare automaticamente il bottone di scan IV. Questo problema potrebbe risolversi aggiornando ad Android 5.0 o successivi. L\'app si imposterà in modalità screenshot per evitare crash. Puoi usare GoIV manualmente scattando uno screeshot, che nella maggior parte dei device si esegue tenendo premuti i tasti home+power del tuo smartphone per qualche istante. Ci scusiamo per l\'inconveniente.</string>
     <string name="expanded_appraisal_default_setting_summary">Espandi automaticamente il menu di valutazione completo per mostrare tutte le checkbox</string>
     <string name="expanded_appraisal_default_setting_title">Valutazione espansa di default</string>
+
+    <string name="recalibrate_goiv_notification">Ricalibra</string>
+    <string name="title_activity_ocr_calibration_result">Risultati calibrazione</string>
+    <string name="scan_optimization_notice_text">Non hai ancora eseguito la calibrazione dello scanner. È consigliabile eseguire questa ottimizzazione su tutti i dispositivi. Per lanciarla:\n1. Avvia GoIV\n2. Apri la pagina di un \'mon \n3. Apri la notifica di GoIV\n4. Seleziona \'Ricalibra\'!</string>
+    <string name="scan_optimization_screen_ratio_warning">GoIV ha rilevato che il tuo display non ha dimensioni standard. Molto probabilmente dovrai eseguire la calibrazione dello scanner perché GoIV possa funzionare.</string>
 </resources>

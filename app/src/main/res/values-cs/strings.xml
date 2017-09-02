@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="welcome_message">Instrukce:\n1. Vyplň level trenéra\n2. Zmáčkni tlačítko start a povol snímání obrazovky\n3. Otevři cílového Pokémona v \'Pokémon Go\'\n4. Zmáčkni tlačítko IV pro načtení Pokémona\n5. V případě potřeby uprav načtená data\n6. Zkontroluj IV!</string>
-    <string name="goiv_is_open_source">GoIV je open source!\ngithub.com/farkam135/GoIV\nreddit.com/r/GoIV</string>
-    <string name="trainer_level">Level trenéra</string>
+    <string name="instructions_title">Instrukce</string>
+    <string name="instructions_message">1. Vyplň level trenéra\n2. Zmáčkni tlačítko start a povol snímání obrazovky\n3. Otevři cílového Pokémona v \'Pokémon Go\'\n4. Zmáčkni tlačítko IV pro načtení Pokémona\n5. V případě potřeby uprav načtená data\n6. Zkontroluj IV!</string>
+    <string name="goiv_is_open_source">GoIV je open source!</string>
+    <string name="trainer_level">Level</string>
     <string name="place1">Vyber celkovou větu:</string>
     <string name="place2">Vyber větu o statech:</string>
     <string name="pokemon_name">Jméno Pokémona:</string>

@@ -5,7 +5,6 @@ import android.annotation.TargetApi;
 import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -231,7 +230,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         TextView tvVersionNumber = (TextView) findViewById(R.id.version_number);
-        tvVersionNumber.setText(getVersionName());
+        tvVersionNumber.setText(String.format("v%s", getVersionName()));
 
         initiateOptimizationWarning();
         initiateLevelPicker();
@@ -286,14 +285,11 @@ public class MainActivity extends AppCompatActivity {
         Button helpButton = (Button) findViewById(R.id.help);
         helpButton.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                builder.setMessage(R.string.welcome_message)
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                // close dialog
-                            }
-                        });
-                builder.create().show();
+                new AlertDialog.Builder(MainActivity.this)
+                        .setTitle(R.string.instructions_title)
+                        .setMessage(R.string.instructions_message)
+                        .setPositiveButton(android.R.string.ok, null)
+                        .show();
             }
         });
 
@@ -306,9 +302,11 @@ public class MainActivity extends AppCompatActivity {
         boolean userOnBelowAndroid5 = Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT_WATCH;
         boolean hasNotShownAndroid5Warning = !settings.hasShownNoScreenRecWarning();
         if (hasNotShownAndroid5Warning && userOnBelowAndroid5) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage(R.string.android_sub5_warning);
-            builder.create().show();
+            new AlertDialog.Builder(this)
+                    .setTitle(android.R.string.dialog_alert_title)
+                    .setMessage(R.string.android_sub5_warning)
+                    .setPositiveButton(android.R.string.ok, null)
+                    .show();
 
             settings.setHasShownScreenRecWarning();
         }

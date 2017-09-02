@@ -47,16 +47,18 @@ public class PlayerTeamAdapter extends BaseAdapter implements SpinnerAdapter {
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
-
-        LayoutInflater inflater = LayoutInflater.from(context);
-        view = inflater.inflate(android.R.layout.simple_spinner_dropdown_item, null);
-        TextView txv = (TextView) view.findViewById(android.R.id.text1);
-        txv.setPadding(50, 50, 50, 50);
+    public View getView(int position, View convertView, ViewGroup parent) {
+        if (convertView == null) {
+            convertView = LayoutInflater.from(context)
+                    .inflate(android.R.layout.simple_spinner_dropdown_item, parent, false);
+        }
+        TextView txv = (TextView) convertView.findViewById(android.R.id.text1);
+        txv.setPadding(16, 16, 16, 16);
         txv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
-        txv.setTextColor(colors.get(i));
+        txv.setTextColor(colors.get(position));
         String[] list = context.getResources().getStringArray(R.array.teams);
-        txv.setText(list[i]);
-        return view;
+        txv.setText(list[position]);
+
+        return convertView;
     }
 }

@@ -90,7 +90,10 @@ android {
         dogfood {
             applicationIdSuffix ".dogfood"
             buildConfigField "boolean", "isInternetAvailable", "false"
-            resValue "string", "app_name", "GoIV Dogfood"
+            resValue "string", "app_name", "GoIV"
+            manifestPlaceholders = [
+                    appIcon: "@mipmap/ic_launcher_test"
+            ]
             ext.enableCrashlytics = false
         }
 
@@ -98,12 +101,18 @@ android {
             applicationIdSuffix ".nointernet"
             buildConfigField "boolean", "isInternetAvailable", "false"
             resValue "string", "app_name", "GoIV Offline"
+            manifestPlaceholders = [
+                    appIcon: "@mipmap/ic_launcher"
+            ]
             ext.enableCrashlytics = false
         }
 
         online {
             buildConfigField "boolean", "isInternetAvailable", "true"
             resValue "string", "app_name", "GoIV"
+            manifestPlaceholders = [
+                    appIcon: "@mipmap/ic_launcher"
+            ]
             ext.enableCrashlytics = true
         }
     }

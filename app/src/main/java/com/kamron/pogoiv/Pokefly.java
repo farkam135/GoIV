@@ -49,12 +49,19 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.common.base.Function;
 import com.google.common.base.Optional;
 import com.kamron.pogoiv.clipboardlogic.ClipboardTokenHandler;
+import com.kamron.pogoiv.pokeflycomponents.AutoAppraisal;
+import com.kamron.pogoiv.pokeflycomponents.GoIVNotificationManager;
+import com.kamron.pogoiv.pokeflycomponents.IVPopupButton;
+import com.kamron.pogoiv.pokeflycomponents.IVPreviewPrinter;
+import com.kamron.pogoiv.pokeflycomponents.ScreenWatcher;
+import com.kamron.pogoiv.pokeflycomponents.ocrhelper.OcrHelper;
 import com.kamron.pogoiv.scanlogic.CPRange;
 import com.kamron.pogoiv.scanlogic.Data;
 import com.kamron.pogoiv.scanlogic.IVCombination;
@@ -67,14 +74,8 @@ import com.kamron.pogoiv.scanlogic.PokemonShareHandler;
 import com.kamron.pogoiv.scanlogic.ScanContainer;
 import com.kamron.pogoiv.scanlogic.ScanResult;
 import com.kamron.pogoiv.scanlogic.UpgradeCost;
-import com.kamron.pogoiv.pokeflycomponents.AutoAppraisal;
-import com.kamron.pogoiv.pokeflycomponents.GoIVNotificationManager;
-import com.kamron.pogoiv.pokeflycomponents.IVPopupButton;
-import com.kamron.pogoiv.pokeflycomponents.IVPreviewPrinter;
-import com.kamron.pogoiv.pokeflycomponents.ocrhelper.OcrHelper;
-import com.kamron.pogoiv.pokeflycomponents.ScreenWatcher;
-import com.kamron.pogoiv.widgets.recyclerviews.adapters.IVResultsAdapter;
 import com.kamron.pogoiv.widgets.PokemonSpinnerAdapter;
+import com.kamron.pogoiv.widgets.recyclerviews.adapters.IVResultsAdapter;
 
 import java.io.File;
 import java.text.DecimalFormat;
@@ -181,6 +182,8 @@ public class Pokefly extends Service {
     EditText pokemonCandyEdit;
     @BindView(R.id.sbArcAdjust)
     SeekBar arcAdjustBar;
+    @BindView(R.id.levelIndicator)
+    TextView levelIndicator;
     @BindView(R.id.llButtonsInitial)
     LinearLayout initialButtonsLayout;
     @BindView(R.id.llButtonsOnCheck)
@@ -263,6 +266,11 @@ public class Pokefly extends Service {
 
     @BindView(R.id.inputAppraisalExpandBox)
     TextView inputAppraisalExpandBox;
+    @BindView(R.id.eggRaidSwitch)
+    Switch eggRaidSwitch;
+
+    @BindView(R.id.defaultInputPart)
+    LinearLayout defaultInputPart;
 
     @BindView(R.id.rvResults)
     RecyclerView rvResults;
@@ -640,6 +648,7 @@ public class Pokefly extends Service {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 estimatedPokemonLevel = Data.levelIdxToLevel(progress);
                 setArcPointer(estimatedPokemonLevel);
+                levelIndicator.setText(estimatedPokemonLevel + "");
             }
 
             @Override
@@ -925,10 +934,12 @@ public class Pokefly extends Service {
 
     @OnClick({R.id.inputAppraisalExpandBox})
     /**
-     * Method called when user presses the text to expand the appraisal box on the input screen
+     * Method called when user presses the text to expand the appraisal box on the input screen, also collapses the
+     * default view, since only either the appraisal or the default view is visible
      */
     public void toggleAppraisalBox() {
         toggleVisibility(inputAppraisalExpandBox, appraisalBox, true);
+        setInputBoxToMatchAppraisalBox();
         positionHandler.setVisibility(appraisalBox.getVisibility());
         moveOverlayUpOrDownToMatchAppraisalBox();
     }
@@ -1047,6 +1058,7 @@ public class Pokefly extends Service {
                 pokemonHP.get(), pokemonCP.get());
 
         refineByAvailableAppraisalInfo(ivScanResult);
+        refineByEggRaidInformation(ivScanResult);
 
         //Dont run clipboard logic if scan failed - some tokens might crash the program.
         if (ivScanResult.iVCombinations.size() > 0) {
@@ -1060,6 +1072,18 @@ public class Pokefly extends Service {
         moveOverlay(false); //we dont want overlay to stay on top if user had appraisal box
         closeKeyboard();
         transitionOverlayViewFromInputToResults();
+    }
+
+    /**
+     * Deletes impossible combinations from the ivScanResult that comes from the knowledge that a pokemon was aquired
+     * from an egg or a raid. Pokemon from eggs and raids cannot have stats lower than 10.
+     *
+     * @param ivScanResult The ivscanresult object to remove the impossible combinations from.
+     */
+    private void refineByEggRaidInformation(IVScanResult ivScanResult) {
+        if (eggRaidSwitch.isChecked()) {
+            ivScanResult.refineByEggRaid();
+        }
     }
 
 
@@ -1196,8 +1220,6 @@ public class Pokefly extends Service {
     }
 
 
-
-
     /**
      * Adds the iv range of the pokemon to the clipboard if the clipboard setting is on.
      */
@@ -1221,7 +1243,6 @@ public class Pokefly extends Service {
      * Adds the iv range of the pokemon to the clipboard if the clipboard setting is on.
      */
     public void addSpecificClipboard(IVScanResult ivScanResult, IVCombination ivCombination) {
-
 
 
         String clipResult = "";
@@ -1614,6 +1635,7 @@ public class Pokefly extends Service {
         hideInfoLayoutArcPointer();
 
         resetAppraisalCheckBoxes();
+        eggRaidSwitch.setChecked(false); //reset egg/raid checkbox
 
         resetPokeflyStateMachine();
         resetInfoDialogue();
@@ -1690,6 +1712,14 @@ public class Pokefly extends Service {
             positionHandler.setVisibility(appraisalBox.getVisibility());
             moveOverlayUpOrDownToMatchAppraisalBox();
         }
+    }
+
+    /**
+     * If input is open, appraisal should be closed, and vice versa. This method shows the appraisal box if the input
+     * is hidden, or hides the appraisal box if the input is visible.
+     */
+    private void setInputBoxToMatchAppraisalBox() {
+        defaultInputPart.setVisibility(appraisalBox.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
     }
 
     /**
@@ -1789,6 +1819,7 @@ public class Pokefly extends Service {
         }
         showCandyTextBoxBasedOnSettings();
         openAppraisalBoxIfSettingOn();
+        setInputBoxToMatchAppraisalBox();
     }
 
     private <T> String optionalIntToString(Optional<T> src) {

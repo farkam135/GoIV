@@ -74,6 +74,7 @@
     <string name="notification_title_goiv_stopped">GoIV stopped</string>
     <string name="notification_title_tap_to_open">Tap to open GoIV.</string>
     <string name="notification_open_app">Open app</string>
+    <string name="notification_recalibrate">Recalibrate</string>
     <string name="close">Close</string>
     <string name="main_permission">Grant Permissions</string>
     <string name="main_start">Start</string>
@@ -113,7 +114,7 @@
     <string name="possible_iv_combinations" tools:ignore="PluralsCandidate">"%1$d possible IV combinations"</string>
     <string name="too_many_iv_combinations">Too many IV combinations</string>
     <string name="refining_instructions">Increase IV calculation precision by leveling up and comparing two scans of the same monster</string>
-    <string name="appraisal_refining">Appraisal Refining</string>
+    <string name="appraisal_refining">Additional Refining</string>
     <string name="autoappraisal_start">Auto Appraisal Started</string>
     <string name="autoappraisal_finish">Auto Appraisal Finished</string>
     <string name="attack">Attack</string>
@@ -216,6 +217,7 @@
     <string name="is2">strong..\nimpressive</string>
     <string name="is1">best ..\nno doubt</string>
     <string name="scanFailed">Scan failed</string>
+    <string name="acquired_from_egg_or_raid">Acquired from egg or raid</string>
 
     <string name="recalibrate_goiv_notification">Recalibrate</string>
     <string name="title_activity_ocr_calibration_result">Calibration Result</string>

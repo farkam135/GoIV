@@ -206,6 +206,15 @@
 
     </RadioGroup>
 
+    <Switch
+        android:id="@+id/eggRaidSwitch"
+        android:textColor="@color/importantText"
+        android:padding="12dp"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+
+        android:text="@string/acquired_from_egg_or_raid"/>
+
 
 
 </LinearLayout>

@@ -3,6 +3,7 @@ package com.kamron.pogoiv.pokeflycomponents.ocrhelper;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Rect;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.filters.LargeTest;
 import android.support.test.runner.AndroidJUnit4;
@@ -39,62 +40,81 @@ public class ScanFieldAutomaticLocatorTest {
         checkDevice(Device.GOOGLE_NEXUS_5);
     }
 
+    @Test
+    public void scan_G930() throws IOException {
+        checkDevice(Device.SAMSUNG_G930);
+    }
+
     private void checkDevice(Device device) throws IOException {
         String[] pokemonInfoScreenFileNames = mContext.getAssets().list(device.infoScreensDirPath);
         for (String assetFileName : pokemonInfoScreenFileNames) {
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inMutable = true;
             Bitmap bmp = BitmapFactory.decodeStream(mContext.getAssets()
-                    .open(device.infoScreensDirPath + "/" + assetFileName));
-            ScanFieldAutomaticLocator autoLocator = new ScanFieldAutomaticLocator(bmp, device.screenDensity);
+                    .open(device.infoScreensDirPath + "/" + assetFileName), null, options);
+            ScanFieldAutomaticLocator autoLocator =
+                    new ScanFieldAutomaticLocator(bmp, bmp.getWidth(), device.screenDensity);
             ScanFieldResults results = autoLocator.scan(null, null);
-            checkScanFieldResults(device, assetFileName, results);
+            checkScanFieldResults(device, assetFileName, bmp, results);
         }
     }
 
-    private void checkScanFieldResults(Device device, String testAssetName, ScanFieldResults results) {
+    private void checkScanFieldResults(Device device, String testAssetName, Bitmap bmp, ScanFieldResults results) {
         // Execute checks on 'mon name area
-        assertNotNull("File " + testAssetName + " on " + device.toString()
-                        + ": 'mon name area wasn't detected",
-                results.pokemonNameArea);
-        assertTrue("File " + testAssetName + " on " + device.toString()
-                        + ": 'mon name area doesn't contain the entire name."
-                        + " Expected " + device.expectedNameArea + " got " + results.pokemonNameArea.toRectString(),
-                results.pokemonNameArea.contains(device.expectedNameArea));
-        assertTrue("File " + testAssetName + " on " + device.toString()
-                        + ": 'mon name area looks to big to me!"
-                        + " Expected " + device.expectedNameArea + " got " + results.pokemonNameArea.toRectString(),
-                results.pokemonNameArea.width * results.pokemonNameArea.height
-                        < 3 * device.expectedNameArea.width() * device.expectedNameArea.height());
+        checkScanArea(device.toString(), testAssetName, bmp,
+                "name", results.pokemonNameArea, device.expectedNameArea);
 
         // Execute checks on 'mon type area
-        assertNotNull("File " + testAssetName + " on " + device.toString()
-                        + ": 'mon type area wasn't detected",
-                results.pokemonTypeArea);
-        assertTrue("File " + testAssetName + " on " + device.toString()
-                        + ": 'mon type area doesn't contain the entire type."
-                        + " Expected " + device.expectedTypeArea + " got " + results.pokemonTypeArea.toRectString(),
-                results.pokemonTypeArea.contains(device.expectedTypeArea));
-        assertTrue("File " + testAssetName + " on " + device.toString()
-                        + ": 'mon type area looks to big to me!"
-                        + " Expected " + device.expectedTypeArea + " got " + results.pokemonTypeArea.toRectString(),
-                results.pokemonTypeArea.width * results.pokemonTypeArea.height
-                        < 3 * device.expectedTypeArea.width() * device.expectedTypeArea.height());
+        checkScanArea(device.toString(), testAssetName, bmp,
+                "type", results.pokemonTypeArea, device.expectedTypeArea);
 
         // Execute checks on 'mon candy name area
-        assertNotNull("File " + testAssetName + " on " + device.toString()
-                        + ": 'mon type area wasn't detected",
-                results.candyNameArea);
-        assertTrue("File " + testAssetName + " on " + device.toString()
-                        + ": 'mon type area doesn't contain the entire type."
-                        + " Expected " + device.expectedCandyNameArea + " got " + results.candyNameArea.toRectString(),
-                results.candyNameArea.contains(device.expectedCandyNameArea));
-        assertTrue("File " + testAssetName + " on " + device.toString()
-                        + ": 'mon type area looks to big to me!"
-                        + " Expected " + device.expectedCandyNameArea + " got " + results.candyNameArea.toRectString(),
-                results.candyNameArea.width * results.candyNameArea.height
-                        < 3 * device.expectedCandyNameArea.width() * device.expectedCandyNameArea.height());
+        checkScanArea(device.toString(), testAssetName, bmp,
+                "candy name", results.candyNameArea, device.expectedCandyNameArea);
 
+        // TODO check HP area
+
+        // TODO check CP area
+
+        // Execute checks on 'mon candy amount
+        checkScanArea(device.toString(), testAssetName, bmp,
+                "candy amount", results.pokemonCandyAmountArea, device.expectedCandyAmountArea);
+
+        // Execute checks on 'mon evolution cost
+        checkScanArea(device.toString(), testAssetName, bmp,
+                "evolution cost", results.pokemonEvolutionCostArea, device.expectedEvolutionCost);
 
         // TODO check all the other fields of ScanFieldResults
+    }
+
+    private void checkScanArea(String deviceName, String testAssetName, Bitmap bmp, String areaLabel,
+                               ScanArea result, Rect expected) {
+        assertNotNull("File " + testAssetName + " on " + deviceName
+                + ": 'mon " + areaLabel + " area wasn't detected", result);
+
+        assertTrue("File " + testAssetName + " on " + deviceName
+                + ": 'mon " + areaLabel + " area x coordinate can't be lower than 0", result.xPoint >= 0);
+
+        assertTrue("File " + testAssetName + " on " + deviceName
+                + ": 'mon " + areaLabel + " area y coordinate can't be lower than 0", result.yPoint >= 0);
+
+        assertTrue("File " + testAssetName + " on " + deviceName
+                        + ": 'mon " + areaLabel + " area can't exceed the image width",
+                result.xPoint + result.width < bmp.getWidth());
+
+        assertTrue("File " + testAssetName + " on " + deviceName
+                        + ": 'mon " + areaLabel + " area can't exceed the image height",
+                result.yPoint + result.height < bmp.getHeight());
+
+        assertTrue("File " + testAssetName + " on " + deviceName
+                + ": 'mon " + areaLabel + " area doesn't contain the entire " + areaLabel + "."
+                + " Expected " + expected + " got " + result.toRectString(), result.contains(expected));
+
+        int targetArea = 10 * expected.width() * expected.height();
+        assertTrue("File " + testAssetName + " on " + deviceName + ": 'mon " + areaLabel + " area looks to big to me!"
+                        + " Expected " + expected + " with area " + targetArea
+                        +  " got " + result.toRectString() + " with area " + result.width * result.height,
+                result.width * result.height < targetArea);
     }
 
 }

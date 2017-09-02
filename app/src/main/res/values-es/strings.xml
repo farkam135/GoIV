@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="instructions_title">Instrucciones</string>
     <string name="instructions_message">Utilizando GoIV por primera vez:\n\n1. Ingresa tu info de entrenador\n2. Presiona el botón de DAR PERMISOS y acepta todos los mensajes\n3. Dale a iniciar</string>
-	<string name="goiv_is_open_source">¡GoIV es código abierto!</string>
+    <string name="goiv_is_open_source">¡GoIV es código abierto!</string>
     <string name="trainer_info">Info entrenador</string>
     <string name="trainer_level">Nivel</string>
     <string name="trainer_team">Equipo</string>
@@ -64,8 +64,8 @@
         <item name="valoriv0_7">"…no te serán de utilidad"</item>
     </string-array>
 
-	<string name="pokemon_name">Nombre:</string>
-	<string name="cp">PC</string>
+    <string name="pokemon_name">Nombre:</string>
+    <string name="cp">PC</string>
     <string name="hp">PS</string>
     <string name="use_the_slider_below_to_align_the_arc">Usa el slider para alinear el marcador en el arco</string>
     <string name="cancel">Cancelar</string>
@@ -93,10 +93,10 @@
     <string name="delete_screenshots_setting_summary">Elimina automáticamente las capturas de pantalla tomadas por GoIV</string>
     <string name="copy_to_clipboard_setting_title">Copia inteligente al portapapeles</string>
     <string name="copy_to_clipboard_setting_summary_new" formatted="false">Añade automáticamente la información escaneada al portapapeles</string>
-	<string name="send_crash_reports_setting_title">Enviar informes de errores</string>
-	<string name="send_crash_reports_setting_summary">Ayuda a los desarrolladores a mejorar la aplicación enviándoles información  de errores anónima</string>
+    <string name="send_crash_reports_setting_title">Enviar informes de errores</string>
+    <string name="send_crash_reports_setting_summary">Ayuda a los desarrolladores a mejorar la aplicación enviándoles información  de errores anónima</string>
     <string name="auto_update_setting_title">Actualización automática</string>
-	<string name="auto_update_setting_summary">Busca actualizaciones al iniciar la aplicación</string>
+    <string name="auto_update_setting_summary">Busca actualizaciones al iniciar la aplicación</string>
     <string name="check_for_update_setting_title">Buscar actualización</string>
     <string name="check_for_update_setting_summary">Verifica si hay una actualización disponible</string>
     <string name="scan_pokemon_failed">¡Detección fallida. Por favor, desplácese hacia arriba y vuelva a intentarlo!</string>
@@ -152,7 +152,7 @@
     <string name="expanded_appraisal_default_setting_title">Abrir por defecto refinación expandida</string>
     <string name="expanded_appraisal_default_setting_summary">Expande automáticamente el menú de refinación</string>
     <string name="showtranslatedpokemonname_setting_title">Mostrar nombres traducidos</string>
-	<string name="showtranslatedpokemonname_setting_summary">Muestra el nombre del Pokémon traducido en GoIV pero usa su nombre en inglés para el OCR. Esto se hace así cuando la aplicación de Pokémon Go está en inglés, pero el idioma nativo del usuario no lo es</string>
+    <string name="showtranslatedpokemonname_setting_summary">Muestra el nombre del Pokémon traducido en GoIV pero usa su nombre en inglés para el OCR. Esto se hace así cuando la aplicación de Pokémon Go está en inglés, pero el idioma nativo del usuario no lo es</string>
     <string name="pause_goiv_notification">Pausar</string>
     <string name="waiting_for_pogo_start">Esperando a que el juego se inicie…</string>
     <string name="goiv_started">GoIV iniciado.</string>

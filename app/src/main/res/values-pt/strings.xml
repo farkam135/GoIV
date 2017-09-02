@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="welcome_message">Instruções:\n1. Insere o nível de treinador\n2. Carrega em START e permite a captura de ecrã\n3. Abre o teu Pokémon na aplicação \'Pokémon Go\'\n4. Carrega no botão IV para iniciar o exame\n5. Ajusta os dados se necessário\n6. Observa o IV!</string>
-    <string name="goiv_is_open_source">GoIV é agora em código aberto!\ngithub.com/farkam135/GoIV\nreddit.com/r/GoIV</string>
-    <string name="trainer_level">Nível de Treinador</string>
+    <string name="instructions_title">Instruções</string>
+    <string name="instructions_message">1. Insere o nível de treinador\n2. Carrega em START e permite a captura de ecrã\n3. Abre o teu Pokémon na aplicação \'Pokémon Go\'\n4. Carrega no botão IV para iniciar o exame\n5. Ajusta os dados se necessário\n6. Observa o IV!</string>
+    <string name="goiv_is_open_source">GoIV é agora em código aberto!</string>
+    <string name="trainer_level">Nível</string>
 
     <string name="pokemon_name">Nome do Pokémon:</string>
     <string name="cp">CP</string>

@@ -24,7 +24,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.text.method.LinkMovementMethod;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.Menu;
@@ -35,6 +34,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -230,13 +230,69 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         TextView tvVersionNumber = (TextView) findViewById(R.id.version_number);
-        tvVersionNumber.setText(getVersionName());
+        tvVersionNumber.setText(String.format("v%s", getVersionName()));
 
-        TextView goIvInfo = (TextView) findViewById(R.id.goiv_info);
-        goIvInfo.setMovementMethod(LinkMovementMethod.getInstance());
-
+        initiateOptimizationWarning();
         initiateLevelPicker();
+        initiateHelpButton();
+        initiateCommunityButtons();
         initiateStartButton();
+    }
+
+    /**
+     * Hide the optimization-warning and its components depending on if the user has a manual screen calibration
+     * saved, and if the device has weird screen ratio.
+     */
+    private void initiateOptimizationWarning() {
+        LinearLayout warningLayout = (LinearLayout) findViewById(R.id.optimizationWarning);
+        if (settings.hasManualScanCalibration()) {
+            warningLayout.setVisibility(View.GONE);
+        }
+
+        TextView nonStandardScreenWarningText = (TextView) findViewById(R.id.nonStandardScreenWarning);
+        double ratio = (double) displayMetrics.widthPixels / (double) displayMetrics.heightPixels;
+        if (ratio > 0.55 && ratio < 0.57) { //standard 9:16 ratio
+            nonStandardScreenWarningText.setVisibility(View.GONE);
+        } else {
+            nonStandardScreenWarningText.setVisibility(View.VISIBLE);
+        }
+    }
+
+    /**
+     * Initiates the links to reddit and github.
+     */
+    private void initiateCommunityButtons() {
+        Button redditButton = (Button) findViewById(R.id.reddit);
+        redditButton.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                Uri uriUrl = Uri.parse("https://www.reddit.com/r/GoIV/");
+                Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
+                startActivity(launchBrowser);
+            }
+        });
+
+        Button githubButton = (Button) findViewById(R.id.github);
+        githubButton.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                Uri uriUrl = Uri.parse("https://github.com/farkam135/GoIV");
+                Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
+                startActivity(launchBrowser);
+            }
+        });
+    }
+
+    private void initiateHelpButton() {
+        Button helpButton = (Button) findViewById(R.id.help);
+        helpButton.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                new AlertDialog.Builder(MainActivity.this)
+                        .setTitle(R.string.instructions_title)
+                        .setMessage(R.string.instructions_message)
+                        .setPositiveButton(android.R.string.ok, null)
+                        .show();
+            }
+        });
+
     }
 
     /**
@@ -246,9 +302,11 @@ public class MainActivity extends AppCompatActivity {
         boolean userOnBelowAndroid5 = Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT_WATCH;
         boolean hasNotShownAndroid5Warning = !settings.hasShownNoScreenRecWarning();
         if (hasNotShownAndroid5Warning && userOnBelowAndroid5) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage(R.string.android_sub5_warning);
-            builder.create().show();
+            new AlertDialog.Builder(this)
+                    .setTitle(android.R.string.dialog_alert_title)
+                    .setMessage(R.string.android_sub5_warning)
+                    .setPositiveButton(android.R.string.ok, null)
+                    .show();
 
             settings.setHasShownScreenRecWarning();
         }

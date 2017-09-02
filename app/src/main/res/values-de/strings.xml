@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="welcome_title">Anleitung</string>
-    <string name="welcome_message">1. Geben Sie Ihr Trainer Level ein\n2. Drücken Sie die Start-Taste und akzeptieren Sie die Berechtigungen\n3. Schauen Sie sich Ihr Pokémon in \'Pokémon Go\' an\n4. Tippen Sie auf die IV Taste, um das Pokémon zu scannen\n5. Passen Sie die gescannten Daten bei Bedarf an\n6. Überprüfen Sie die IV!</string>
+    <string name="instructions_title">Anleitung</string>
+    <string name="instructions_message">1. Geben Sie Ihr Trainer Level ein\n2. Drücken Sie die Start-Taste und akzeptieren Sie die Berechtigungen\n3. Schauen Sie sich Ihr Pokémon in \'Pokémon Go\' an\n4. Tippen Sie auf die IV Taste, um das Pokémon zu scannen\n5. Passen Sie die gescannten Daten bei Bedarf an\n6. Überprüfen Sie die IV!</string>
     <string name="goiv_is_open_source">GoIV ist open source!</string>
     <string name="trainer_level">Level</string>
 

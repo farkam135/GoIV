@@ -152,7 +152,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:background="#0000"
-                android:text="@string/welcome_title"
+                android:text="@string/instructions_title"
                 android:textColor="#365fda"
                 android:textSize="16sp"/>
 

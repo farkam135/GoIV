@@ -286,8 +286,8 @@ public class MainActivity extends AppCompatActivity {
         helpButton.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
                 new AlertDialog.Builder(MainActivity.this)
-                        .setTitle(R.string.welcome_title)
-                        .setMessage(R.string.welcome_message)
+                        .setTitle(R.string.instructions_title)
+                        .setMessage(R.string.instructions_message)
                         .setPositiveButton(android.R.string.ok, null)
                         .show();
             }

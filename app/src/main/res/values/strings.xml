@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="welcome_title">Instructions</string>
-    <string name="welcome_message">Starting GoIV for the first time:\n\n1. Enter your trainer info\n2. Press the GRANT PERMISSION button and accept all prompts\n3. Press start</string>
+    <string name="instructions_title">Instructions</string>
+    <string name="instructions_message">Starting GoIV for the first time:\n\n1. Enter your trainer info\n2. Press the GRANT PERMISSION button and accept all prompts\n3. Press start</string>
     <string name="goiv_is_open_source">GoIV is open source!</string>
     <string name="trainer_info">Trainer Info</string>
     <string name="trainer_level">Level</string>

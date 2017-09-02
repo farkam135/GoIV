@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="welcome_title">Istruzioni</string>
-    <string name="welcome_message">Guida al primo avvio:\n1. Inserisci il tuo Livello Allenatore\n2. Premi start e consenti la registrazione schermo\n3. In \'Pokémon Go\' seleziona il Pokémon\n4. Premi il bottone IV per analizzare il Pokémon\n5. Correggi i dati se necessario\n6. IV analizzati!</string>
+    <string name="instructions_title">Istruzioni</string>
+    <string name="instructions_message">Guida al primo avvio:\n1. Inserisci il tuo Livello Allenatore\n2. Premi start e consenti la registrazione schermo\n3. In \'Pokémon Go\' seleziona il Pokémon\n4. Premi il bottone IV per analizzare il Pokémon\n5. Correggi i dati se necessario\n6. IV analizzati!</string>
     <string name="goiv_is_open_source">GoIV è open source!</string>
     <string name="trainer_info">Informazioni allenatore</string>
     <string name="trainer_level">Livello</string>

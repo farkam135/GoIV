@@ -56,6 +56,12 @@ import android.widget.Toast;
 import com.google.common.base.Function;
 import com.google.common.base.Optional;
 import com.kamron.pogoiv.clipboardlogic.ClipboardTokenHandler;
+import com.kamron.pogoiv.pokeflycomponents.AutoAppraisal;
+import com.kamron.pogoiv.pokeflycomponents.GoIVNotificationManager;
+import com.kamron.pogoiv.pokeflycomponents.IVPopupButton;
+import com.kamron.pogoiv.pokeflycomponents.IVPreviewPrinter;
+import com.kamron.pogoiv.pokeflycomponents.ScreenWatcher;
+import com.kamron.pogoiv.pokeflycomponents.ocrhelper.OcrHelper;
 import com.kamron.pogoiv.scanlogic.CPRange;
 import com.kamron.pogoiv.scanlogic.Data;
 import com.kamron.pogoiv.scanlogic.IVCombination;
@@ -68,14 +74,8 @@ import com.kamron.pogoiv.scanlogic.PokemonShareHandler;
 import com.kamron.pogoiv.scanlogic.ScanContainer;
 import com.kamron.pogoiv.scanlogic.ScanResult;
 import com.kamron.pogoiv.scanlogic.UpgradeCost;
-import com.kamron.pogoiv.pokeflycomponents.AutoAppraisal;
-import com.kamron.pogoiv.pokeflycomponents.GoIVNotificationManager;
-import com.kamron.pogoiv.pokeflycomponents.IVPopupButton;
-import com.kamron.pogoiv.pokeflycomponents.IVPreviewPrinter;
-import com.kamron.pogoiv.pokeflycomponents.ocrhelper.OcrHelper;
-import com.kamron.pogoiv.pokeflycomponents.ScreenWatcher;
-import com.kamron.pogoiv.widgets.recyclerviews.adapters.IVResultsAdapter;
 import com.kamron.pogoiv.widgets.PokemonSpinnerAdapter;
+import com.kamron.pogoiv.widgets.recyclerviews.adapters.IVResultsAdapter;
 
 import java.io.File;
 import java.text.DecimalFormat;
@@ -939,7 +939,7 @@ public class Pokefly extends Service {
      */
     public void toggleAppraisalBox() {
         toggleVisibility(inputAppraisalExpandBox, appraisalBox, true);
-        setAppraisalBoxToMatchInputBox();
+        setInputBoxToMatchAppraisalBox();
         positionHandler.setVisibility(appraisalBox.getVisibility());
         moveOverlayUpOrDownToMatchAppraisalBox();
     }
@@ -1712,15 +1712,14 @@ public class Pokefly extends Service {
             positionHandler.setVisibility(appraisalBox.getVisibility());
             moveOverlayUpOrDownToMatchAppraisalBox();
         }
-        setAppraisalBoxToMatchInputBox();
     }
 
     /**
      * If input is open, appraisal should be closed, and vice versa. This method shows the appraisal box if the input
      * is hidden, or hides the appraisal box if the input is visible.
      */
-    private void setAppraisalBoxToMatchInputBox() {
-        defaultInputPart.setVisibility(defaultInputPart.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
+    private void setInputBoxToMatchAppraisalBox() {
+        defaultInputPart.setVisibility(appraisalBox.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
     }
 
     /**
@@ -1820,6 +1819,7 @@ public class Pokefly extends Service {
         }
         showCandyTextBoxBasedOnSettings();
         openAppraisalBoxIfSettingOn();
+        setInputBoxToMatchAppraisalBox();
     }
 
     private <T> String optionalIntToString(Optional<T> src) {

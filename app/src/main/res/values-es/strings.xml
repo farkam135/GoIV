@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="instructions_title">Instrucciones</string>
-    <string name="instructions_message">Como usar por primera vez:\n1. Ingresa tu nivel de entrenador arriba\n2. Presiona el botón de inicio y acepta todos los mensajes\n3. Abre el Pokémon que quieras\n4. Presiona el nuevo botón IV en la esquina izquierda\n5. Ajusta los datos escaneados en caso de ser necesario</string>
-	<string name="goiv_is_open_source">¡GoIV es código abierto!</string>
-	<string name="trainer_level">Nivel</string>
+    <string name="instructions_message">Utilizando GoIV por primera vez:\n\n1. Ingresa tu info de entrenador\n2. Presiona el botón de DAR PERMISOS y acepta todos los mensajes\n3. Dale a iniciar</string>
+    <string name="goiv_is_open_source">¡GoIV es código abierto!</string>
+    <string name="trainer_info">Info entrenador</string>
+    <string name="trainer_level">Nivel</string>
+    <string name="trainer_team">Equipo</string>
+    <string name="notice">Aviso</string>
     
     <string-array name="teams">
         <item name="mystic">"Sabiduría"</item>
@@ -61,17 +64,17 @@
         <item name="valoriv0_7">"…no te serán de utilidad"</item>
     </string-array>
 
-	<string name="pokemon_name">Nombre:</string>
-	<string name="cp">PC</string>
+    <string name="pokemon_name">Nombre:</string>
+    <string name="cp">PC</string>
     <string name="hp">PS</string>
     <string name="use_the_slider_below_to_align_the_arc">Usa el slider para alinear el marcador en el arco</string>
     <string name="cancel">Cancelar</string>
-    <string name="check_iv">Obtener IV</string>
+    <string name="check_iv">Comprobar IV</string>
     <string name="notification_title">GoIV en Ejecución - Nivel %1$d</string>
     <string name="notification_title_goiv_stopped">GoIV detenido</string>
-    <string name="notification_title_increment_level">Nivel +1</string>
     <string name="notification_title_tap_to_open">Presiona para abrir GoIV.</string>
     <string name="notification_open_app">Abrir app</string>
+    <string name="notification_recalibrate">Recalibrar</string>
     <string name="close">Cerrar</string>
     <string name="main_permission">Dar permisos</string>
     <string name="main_start">Iniciar</string>
@@ -90,10 +93,10 @@
     <string name="delete_screenshots_setting_summary">Elimina automáticamente las capturas de pantalla tomadas por GoIV</string>
     <string name="copy_to_clipboard_setting_title">Copia inteligente al portapapeles</string>
     <string name="copy_to_clipboard_setting_summary_new" formatted="false">Añade automáticamente la información escaneada al portapapeles</string>
-	<string name="send_crash_reports_setting_title">Enviar informes de errores</string>
-	<string name="send_crash_reports_setting_summary">Ayuda a los desarrolladores a mejorar la aplicación enviándoles información  de errores anónima</string>
+    <string name="send_crash_reports_setting_title">Enviar informes de errores</string>
+    <string name="send_crash_reports_setting_summary">Ayuda a los desarrolladores a mejorar la aplicación enviándoles información  de errores anónima</string>
     <string name="auto_update_setting_title">Actualización automática</string>
-	<string name="auto_update_setting_summary">Busca actualizaciones al iniciar la aplicación</string>
+    <string name="auto_update_setting_summary">Busca actualizaciones al iniciar la aplicación</string>
     <string name="check_for_update_setting_title">Buscar actualización</string>
     <string name="check_for_update_setting_summary">Verifica si hay una actualización disponible</string>
     <string name="scan_pokemon_failed">¡Detección fallida. Por favor, desplácese hacia arriba y vuelva a intentarlo!</string>
@@ -111,7 +114,7 @@
     <string name="possible_iv_combinations" tools:ignore="PluralsCandidate">"%1$d posibles combinaciones de IV"</string>
     <string name="too_many_iv_combinations">Demasiadas combinaciones de IV</string>
     <string name="refining_instructions">Refine la predicción de IV mejorando un Pokémon y comparando los resultados obtenidos</string>
-    <string name="appraisal_refining">Refinar valoración</string>
+    <string name="appraisal_refining">Refinación adicional</string>
     <string name="autoappraisal_start">Autorefinación iniciada</string>
     <string name="autoappraisal_finish">Autorefinación finalizada</string>
     <string name="attack">Ataque</string>
@@ -129,8 +132,8 @@
     <string name="atk">ATQ</string>
     <string name="def">DEF</string>
     <string name="sta">VID</string>
-    <string name="hp_expanded_box">HP</string>
-    <string name="cp_vs_iv" formatted="false">% CP vs máximo IV</string>
+    <string name="hp_expanded_box">PS</string>
+    <string name="cp_vs_iv" formatted="false">% PC vs máximo IV</string>
     <string name="alert_explanation_title">Explicación</string>    
     <string name="perfection_explainer">El porcentaje muestra cuán grande es la diferencia entre tu Pokémon y un Pokémon de la misma especie que tiene IVs perfectos.\n\nAsí, por ejemplo, si dice 92 por ciento, entonces su Pokémon tiene un 8 por ciento menos de CP máximo en comparación a otro de la misma especie con IVs al máximo.</string>
     <string name="pokespam">PokéSpam</string>
@@ -149,7 +152,7 @@
     <string name="expanded_appraisal_default_setting_title">Abrir por defecto refinación expandida</string>
     <string name="expanded_appraisal_default_setting_summary">Expande automáticamente el menú de refinación</string>
     <string name="showtranslatedpokemonname_setting_title">Mostrar nombres traducidos</string>
-	<string name="showtranslatedpokemonname_setting_summary">Muestra el nombre del Pokémon traducido en GoIV pero usa su nombre en inglés para el OCR. Esto se hace así cuando la aplicación de Pokémon Go está en inglés, pero el idioma nativo del usuario no lo es</string>
+    <string name="showtranslatedpokemonname_setting_summary">Muestra el nombre del Pokémon traducido en GoIV pero usa su nombre en inglés para el OCR. Esto se hace así cuando la aplicación de Pokémon Go está en inglés, pero el idioma nativo del usuario no lo es</string>
     <string name="pause_goiv_notification">Pausar</string>
     <string name="waiting_for_pogo_start">Esperando a que el juego se inicie…</string>
     <string name="goiv_started">GoIV iniciado.</string>
@@ -205,5 +208,11 @@
     <string name="is3">buenas\nsin duda</string>
     <string name="is2">fuertes…\nimpresio…</string>
     <string name="is1">lo mejor…\n¡Qué pas…</string>
+
     <string name="scanFailed">Escaneo fallido</string>
+    <string name="acquired_from_egg_or_raid">Conseguido de huevo o incursión</string>
+    <string name="recalibrate_goiv_notification">Recalibrar</string>
+    <string name="title_activity_ocr_calibration_result">Resultado calibración</string>
+    <string name="scan_optimization_notice_text">No has ejecutado la optimización de escaneo. Se recomienda hacer una optimización de escaneo en todos los dispositivos. Para iniciarla:\n1. Inicia GoIV\n2. Abre cualquier ficha de monstruo\n3. Despliega la notificación de GoIV\n4. Selecciona \'Recalibrar\'!</string>
+    <string name="scan_optimization_screen_ratio_warning">GoIV ha detectado que tu pantalla no es estándar. Es posible que necesite una calibración de escaneo para que GoIV funcione correctamente.</string>
 </resources>

@@ -182,7 +182,6 @@
     <string name="hp_expanded_box">PS</string>
     <string name="notification_title_goiv_stopped">"GoIV "</string>
     <string name="pause_goiv_notification">Pausa</string>
-    <string name="notification_title_increment_level">Livello +1</string>
     <string name="notification_title_tap_to_open">Tocca per aprire GoIV.</string>
     <string name="no_clipboard_preview">Anteprima non disponibile</string>
     <string name="perfection_explainer" formatted="false">La percentuale mostra quanto è ampia la differenza tra il tuo mostro e un mostro della stessa specie che ha IV perfetti e livello 40. Quindi, per esempio, se risulta 92% allora il tuo mostro al massimo avrà l\'8% in meno di PL in confronto ad un altro della stessa specie con IV massimi.</string>

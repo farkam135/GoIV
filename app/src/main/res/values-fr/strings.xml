@@ -195,7 +195,6 @@
 
 
     <string name="notification_title_goiv_stopped">GoIV s\'est arrêtée</string>
-    <string name="notification_title_increment_level">Niveau +1</string>
     <string name="notification_title_tap_to_open">Touchez pour ouvrir GoIV</string>
     <string name="token_pokemonname">Nom du Pokémon</string>
     <string name="copy_to_clipboard_setting_summary_new">Copier automatiquement les infos scannées vers le presse-papier de copier-coller</string>

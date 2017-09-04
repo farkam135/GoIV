@@ -88,14 +88,12 @@ android {
         offline {
             applicationId "com.swanberg.pogoiv.nointernet"
             buildConfigField "boolean", "isInternetAvailable", "false"
-            resValue "string", "app_name", "GoIV Offline"
             ext.enableCrashlytics = false
         }
 
         online {
             applicationId "com.swanberg.pogoiv"
             buildConfigField "boolean", "isInternetAvailable", "true"
-            resValue "string", "app_name", "GoIV"
             ext.enableCrashlytics = true
         }
     }

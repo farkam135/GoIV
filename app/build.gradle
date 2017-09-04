@@ -82,18 +82,10 @@ android {
 
     /**
      * Product flavors
-     * Dogfood - Internal test builds, no Internet permission and disable Crashlytics
      * Offline - No Internet permission and disable Crashlytics
      * Online - Internet permission and enable Crashlytics
      */
     productFlavors {
-        dogfood {
-            applicationIdSuffix ".dogfood"
-            buildConfigField "boolean", "isInternetAvailable", "false"
-            resValue "string", "app_name", "GoIV Dogfood"
-            ext.enableCrashlytics = false
-        }
-
         offline {
             applicationIdSuffix ".nointernet"
             buildConfigField "boolean", "isInternetAvailable", "false"
@@ -121,9 +113,11 @@ android {
      */
     buildTypes {
         debug {
+            applicationIdSuffix ".debug"
             ext.enableCrashlytics = false
         }
         release {
+            applicationIdSuffix ".release"
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             lintOptions {

@@ -75,42 +75,26 @@ android {
         targetSdkVersion 24 /*Dont change this unless you know why*/
         versionCode 27
         versionName "3.6.0"
-        applicationId "com.swanberg.pogoiv"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
 
     /**
      * Product flavors
-     * Dogfood - Internal test builds, no Internet permission and disable Crashlytics
      * Offline - No Internet permission and disable Crashlytics
      * Online - Internet permission and enable Crashlytics
      */
     productFlavors {
-        dogfood {
-            applicationIdSuffix ".dogfood"
-            buildConfigField "boolean", "isInternetAvailable", "false"
-            resValue "string", "app_name", "GoIV Dogfood"
-            ext.enableCrashlytics = false
-        }
-
         offline {
-            applicationIdSuffix ".nointernet"
+            applicationId "com.swanberg.pogoiv.nointernet"
             buildConfigField "boolean", "isInternetAvailable", "false"
-            resValue "string", "app_name", "GoIV Offline"
             ext.enableCrashlytics = false
         }
 
         online {
+            applicationId "com.swanberg.pogoiv"
             buildConfigField "boolean", "isInternetAvailable", "true"
-            resValue "string", "app_name", "GoIV"
             ext.enableCrashlytics = true
-        }
-    }
-
-    variantFilter { variant ->
-        if (variant.getFlavors().get(0).name == 'dogfood' && variant.buildType.name == 'release') {
-            setIgnore(true) // Shouldn't ever release a dogfood build in production!
         }
     }
 
@@ -121,6 +105,7 @@ android {
      */
     buildTypes {
         debug {
+            applicationIdSuffix ".debug"
             ext.enableCrashlytics = false
         }
         release {

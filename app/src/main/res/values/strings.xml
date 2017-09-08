@@ -216,7 +216,7 @@
     <string name="is3">good stats definitely</string>
     <string name="is2">strong..\nimpressive</string>
     <string name="is1">best ..\nno doubt</string>
-    
+
     <string name="scanFailed">Scan failed</string>
     <string name="acquired_from_egg_or_raid">Acquired from egg or raid</string>
     <string name="recalibrate_goiv_notification">Recalibrate</string>

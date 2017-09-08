@@ -244,7 +244,8 @@ public class ScanFieldAutomaticLocator {
         }
     }
 
-    public ScanFieldResults scan(@Nullable Handler mainThreadHandler, @Nullable ProgressDialog dialog, Context context) {
+    public ScanFieldResults scan(@Nullable Handler mainThreadHandler, @Nullable ProgressDialog dialog, Context
+            context) {
         final ScanFieldResults results = new ScanFieldResults();
 
         postMessage(mainThreadHandler, dialog, context.getString(R.string.ocr_finding_name));

@@ -2,6 +2,7 @@ package com.kamron.pogoiv.clipboardlogic.tokens;
 
 import android.content.Context;
 
+import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.clipboardlogic.ClipboardToken;
 import com.kamron.pogoiv.scanlogic.IVCombination;
 import com.kamron.pogoiv.scanlogic.IVScanResult;
@@ -50,8 +51,7 @@ public class HexIVToken extends ClipboardToken {
 
     @Override
     public String getLongDescription(Context context) {
-        return "Represents the monster IVs in a base 16 number system. This means that each IV can be represented by "
-                + "a single character. So for example, a monster with IVs 10, 13, 3 would be represented as AD3.";
+        return context.getString(R.string.token_msg_hexIV);
     }
 
     @Override

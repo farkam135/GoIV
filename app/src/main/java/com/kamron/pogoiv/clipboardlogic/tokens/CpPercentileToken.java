@@ -2,6 +2,7 @@ package com.kamron.pogoiv.clipboardlogic.tokens;
 
 import android.content.Context;
 
+import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.clipboardlogic.ClipboardToken;
 import com.kamron.pogoiv.scanlogic.IVScanResult;
 import com.kamron.pogoiv.scanlogic.PokeInfoCalculator;
@@ -51,8 +52,7 @@ public class CpPercentileToken extends ClipboardToken {
 
     @Override
     public String getLongDescription(Context context) {
-        return "Returns a percentage expressing how many other possible permutations of IVs are better than this "
-                + "monster's IVs. The smaller the result is, the better it is.";
+        return context.getString(R.string.token_msg_cpPerc);
     }
 
     @Override

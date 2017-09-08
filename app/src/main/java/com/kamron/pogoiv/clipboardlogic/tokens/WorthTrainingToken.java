@@ -2,6 +2,7 @@ package com.kamron.pogoiv.clipboardlogic.tokens;
 
 import android.content.Context;
 
+import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.clipboardlogic.ClipboardToken;
 import com.kamron.pogoiv.scanlogic.IVCombination;
 import com.kamron.pogoiv.scanlogic.IVScanResult;
@@ -108,22 +109,17 @@ public class WorthTrainingToken extends ClipboardToken {
 
     @Override
     public String getTokenName(Context context) {
-        return "Train-" + getType();
+        return "Train-" + getType(context);
     }
 
-    private String getType() {
-        return best ? "best" : "worst";
+    private String getType(Context context) {
+        return best ? context.getString(R.string.token_msg_best) : context.getString(R.string.token_msg_worst);
     }
 
     @Override
     public String getLongDescription(Context context) {
-        return "This token returns an evaluation of how worth it is to train this monster, based both"
-                + "on the base stats and the " + getType() + " possible IV stats."
-                + "For instance, a 96% IV Alakazam will get a score higher than a 20% Tyranitar,"
-                + "regardless the fact that the maximum possible IV for the latter is higher:"
-                + "since the probability of getting better Tyranitar is higher than the one of"
-                + "getting better Alakazams, the second represents a much better stardust investment."
-                + "Ranges in 00-99. Always returns two digits.";
+        return context.getString(R.string.token_msg_worthTra_msg1) + getType(context) + context.getString(R.string
+                .token_msg_worthTra_msg2);
     }
 
     @Override

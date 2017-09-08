@@ -75,7 +75,7 @@ public class ClipboardModifierActivity extends AppCompatActivity {
                         ((ClipboardModifierFragment) f).saveConfiguration();
                     }
                 }
-                Toast.makeText(this, "Configuration saved!", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, R.string.configuration_saved, Toast.LENGTH_LONG).show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -93,7 +93,7 @@ public class ClipboardModifierActivity extends AppCompatActivity {
         if (unsavedChanges) {
             new AlertDialog.Builder(this)
                     .setTitle(android.R.string.dialog_alert_title)
-                    .setMessage("There are unsaved changes.\nDo you really want to discard them?")
+                    .setMessage(R.string.discard_unsaved_changes)
                     .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                         @Override public void onClick(DialogInterface dialogInterface, int i) {
                             ClipboardModifierActivity.super.onBackPressed();
@@ -120,11 +120,10 @@ public class ClipboardModifierActivity extends AppCompatActivity {
      */
     public void updateTokenDescription(ClipboardToken selectedToken) {
         if (selectedToken == null) {
-            clipboardDescription.setText("No token selected...");
+            clipboardDescription.setText(R.string.no_token_selected);
         } else if (selectedToken.maxEv) {
-            clipboardDescription.setText(selectedToken.getLongDescription(this) + "\n\nThis token is a max evolution "
-                    + "variant, meaning that it will return a result as if your monster was already fully evolved, "
-                    + "which might be more interesting in a lot of cases.");
+            clipboardDescription.setText(selectedToken.getLongDescription(this) + getResources().getString(R.string
+                    .token_max_evolution));
         } else { //selectedtoken not max ev
             clipboardDescription.setText(selectedToken.getLongDescription(this));
         }

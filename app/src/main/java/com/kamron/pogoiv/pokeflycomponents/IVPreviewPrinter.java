@@ -6,6 +6,7 @@ import android.widget.Toast;
 
 import com.kamron.pogoiv.GoIVSettings;
 import com.kamron.pogoiv.Pokefly;
+import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.ScreenGrabber;
 import com.kamron.pogoiv.scanlogic.IVScanResult;
 import com.kamron.pogoiv.scanlogic.PokeInfoCalculator;
@@ -65,7 +66,7 @@ public class IVPreviewPrinter {
         public void run() {
             boolean succeeded = runQuickScan();
             if (!succeeded) {
-                Toast.makeText(pokefly, "Touch screen to retry quick IV scan", Toast.LENGTH_SHORT).show();
+                Toast.makeText(pokefly, R.string.touch_screen_quick_iv_scan, Toast.LENGTH_SHORT).show();
             }
         }
 

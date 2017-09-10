@@ -45,6 +45,11 @@ public class ScanFieldAutomaticLocatorTest {
         checkDevice(Device.SAMSUNG_G930);
     }
 
+    @Test
+    public void scan_A5000() throws IOException {
+        checkDevice(Device.ONEPLUS_A5000);
+    }
+
     private void checkDevice(Device device) throws IOException {
         String[] pokemonInfoScreenFileNames = mContext.getAssets().list(device.infoScreensDirPath);
         for (String assetFileName : pokemonInfoScreenFileNames) {

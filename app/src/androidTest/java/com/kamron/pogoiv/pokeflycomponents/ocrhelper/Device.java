@@ -44,6 +44,19 @@ public enum Device {
             new Point(0, 1280),                         // TODO White pixel
             new Point(0, 0)),                           // TODO Green pixel
 
+    SAMSUNG_G950("Samsung Galaxy S8", 3.5f, "testinfoscreens/g950",
+            new Rect(581, 1181, 581 + 286, 1181 + 91),  // Name
+            new Rect(546, 1611, 546 + 362, 1611 + 33),  // Type
+            new Rect(845, 1895, 845 + 309, 1895 + 31),  // Candy name
+            new Rect(626, 1357, 626 + 187, 1357 + 32),  // HP area
+            new Rect(526, 180, 526 + 289, 180 + 89),    // CP area
+            new Rect(944, 1806, 944 + 109, 1806 + 50),   // Candy amount
+            new Rect(1091, 2272, 1091 + 60, 2272 + 43), // Evolution cost
+            new Point(720, 906),                        // Arc center
+            583,                                        // Arc radius
+            new Point(0, 1480),                         // TODO White pixel
+            new Point(0, 0)),                           // TODO Green pixel
+
     ONEPLUS_A5000("OnePlus 5", 2.625f, "testinfoscreens/a5000",
             new Rect(435, 889, 435 + 208, 889 + 56),  // Name
             new Rect(418, 1210, 418 + 249, 1210 + 25),  // Type

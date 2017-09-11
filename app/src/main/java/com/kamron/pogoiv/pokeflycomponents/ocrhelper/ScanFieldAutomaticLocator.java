@@ -1043,16 +1043,28 @@ public class ScanFieldAutomaticLocator {
     }
 
     private static Rect mergeRectList(List<Rect> rectList) {
-        org.opencv.core.Point[] allEdgesArray = new org.opencv.core.Point[rectList.size() * 2];
-        for (int i = 0; i < rectList.size(); i++) {
-            Rect r = rectList.get(i);
-            allEdgesArray[i * 2] = r.tl();
-            allEdgesArray[i * 2 + 1] = r.br();
-        }
-        MatOfPoint allEdgesMat = new MatOfPoint();
-        allEdgesMat.fromArray(allEdgesArray);
+        Rect boundingRect = rectList.get(0).clone();
 
-        return Imgproc.boundingRect(allEdgesMat);
+        for (int i = 1; i < rectList.size(); i++) {
+            Rect r = rectList.get(i);
+
+            if (r.x < boundingRect.x) {
+                boundingRect.width += boundingRect.x - r.x;
+                boundingRect.x = r.x;
+            }
+            if (r.y < boundingRect.y) {
+                boundingRect.height += boundingRect.y - r.y;
+                boundingRect.y = r.y;
+            }
+            if (r.x + r.width > boundingRect.x + boundingRect.width) {
+                boundingRect.width +=  r.x + r.width - (boundingRect.x + boundingRect.width);
+            }
+            if (r.y + r.height > boundingRect.y + boundingRect.height) {
+                boundingRect.height += r.y + r.height - (boundingRect.y + boundingRect.height);
+            }
+        }
+
+        return boundingRect;
     }
 
     @SuppressLint("DefaultLocale")

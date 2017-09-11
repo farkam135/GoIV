@@ -184,11 +184,13 @@ public class ScanFieldAutomaticLocator {
                 .filter(Predicates.and(ByMinWidth.of(width80Percent), ByMaxHeight.of(5 * screenshotDensity)))
                 .filter(ByHsvColor.of(image, mask1, contours, boundingRectList, HSV_DIVIDER, 3, 0.1f, 0.25f))
                 .toList();
-        if (greyLineCandidates.size() >= 1) { // Take the largest
+        if (greyLineCandidates.size() >= 1) {
             Rect maxRect = null;
             for (Rect r : greyLineCandidates) {
-                if (maxRect == null || r.area() > maxRect.area()) {
-                    maxRect = greyLineCandidates.get(0);
+                if (maxRect == null || r.area() > maxRect.area()) { // Take the largest
+                    maxRect = r;
+                } else if (r.area() == maxRect.area() && r.y < maxRect.y) { // Take the upper
+                    maxRect = r;
                 }
             }
             greyHorizontalLine = maxRect;

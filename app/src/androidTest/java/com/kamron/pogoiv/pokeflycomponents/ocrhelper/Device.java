@@ -68,6 +68,19 @@ public enum Device {
             new Point(540, 680),                        // Arc center
             437,                                        // Arc radius
             new Point(0, 0),                         // TODO White pixel
+            new Point(0, 0)),                           // TODO Green pixel
+
+    LG_H870("LG G6", 4f, "testinfoscreens/h870",
+            new Rect(582, 1186, 582 + 283, 1186 + 90),  // Name
+            new Rect(514, 1613, 514 + 430, 1613 + 32),  // Type
+            new Rect(787, 1895, 787 + 422, 1895 + 30),  // Candy name
+            new Rect(631, 1359, 631 + 179, 1359 + 32),  // HP area
+            new Rect(528, 182, 528 + 289, 182 + 86),    // CP area
+            new Rect(946, 1808, 946 + 107, 1808 + 48),   // Candy amount
+            new Rect(1092, 2274, 1092 + 58, 2274 + 41), // Evolution cost
+            new Point(720, 907),                        // Arc center
+            583,                                        // Arc radius
+            new Point(0, 0),                         // TODO White pixel
             new Point(0, 0));                           // TODO Green pixel
 
     public final String makerModel;

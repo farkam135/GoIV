@@ -51,7 +51,8 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
         // Since the variable is static, we need to null the referenced object to be garbage collected.
         CalibrationImage.calibrationImg = null;
 
-        final ProgressDialog dialog = ProgressDialog.show(this, "Calibrating", "Loading. Please wait...", true);
+        final ProgressDialog dialog = ProgressDialog.show(this, getText(R.string.ocr_calibrating), getText(R.string
+                .ocr_loading), true);
 
         final Handler mainThreadHandler = new Handler();
         final Runnable recalibrateRunner = new Runnable() {
@@ -59,59 +60,56 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
                 DisplayMetrics realDisplayMetrics = new DisplayMetrics();
                 getWindowManager().getDefaultDisplay().getRealMetrics(realDisplayMetrics);
                 results = new ScanFieldAutomaticLocator(bmp, realDisplayMetrics.widthPixels, realDisplayMetrics.density)
-                        .scan(mainThreadHandler, dialog);
+                        .scan(mainThreadHandler, dialog, getBaseContext());
                 mainThreadHandler.post(new Runnable() {
                     @Override public void run() {
-                        dialog.setMessage("Done");
+                        dialog.setMessage(getText(R.string.done));
                         dialog.dismiss();
                         if (results.isCompleteCalibration()) {
                             saveCalibrationButton.setEnabled(true);
                         } else {
                             StringBuilder sb = new StringBuilder();
                             if (results.pokemonNameArea == null) {
-                                sb.append("Unable to locate 'mon name\n");
+                                sb.append(getText(R.string.ocr_error_name));
                             }
                             if (results.pokemonTypeArea == null) {
-                                sb.append("Unable to locate 'mon type\n");
+                                sb.append(getText(R.string.ocr_error_type));
                             }
                             if (results.candyNameArea == null) {
-                                sb.append("Unable to locate 'mon candy name\n");
+                                sb.append(getText(R.string.ocr_error_candy_name));
                             }
                             if (results.pokemonHpArea == null) {
-                                sb.append("Unable to locate 'mon HP value\n");
+                                sb.append(getText(R.string.ocr_error_hp));
                             }
                             if (results.pokemonCpArea == null) {
-                                sb.append("Unable to locate 'mon CP value\n");
+                                sb.append(getText(R.string.ocr_error_cp));
                             }
                             if (results.pokemonCandyAmountArea == null) {
-                                sb.append("Unable to locate 'mon candies amount\n");
+                                sb.append(getText(R.string.ocr_error_candy_amount));
                             }
                             if (results.pokemonEvolutionCostArea == null) {
-                                sb.append("Unable to locate 'mon evolution cost\n");
+                                sb.append(getText(R.string.ocr_error_evo_cost));
                             }
                             if (results.arcCenter == null) {
-                                sb.append("Unable to locate level arc center\n");
+                                sb.append(getText(R.string.ocr_error_arc_center));
                             }
                             if (results.arcRadius == null) {
-                                sb.append("Unable to compute level arc radius\n");
+                                sb.append(getText(R.string.ocr_error_arc_radius));
                             }
                             if (results.infoScreenCardWhitePixelPoint == null) {
-                                sb.append("Unable to locate white marker pixel\n");
+                                sb.append(getText(R.string.ocr_error_locate_pixel_white));
                             }
                             if (results.infoScreenCardWhitePixelColor == null) {
-                                sb.append("Unable to pick white marker pixel color\n");
+                                sb.append(getText(R.string.ocr_error_pick_pixel_white));
                             }
                             if (results.infoScreenFabGreenPixelPoint == null) {
-                                sb.append("Unable to locate green marker pixel\n");
+                                sb.append(getText(R.string.ocr_error_locate_pixel_green));
                             }
                             if (results.infoScreenFabGreenPixelColor == null) {
-                                sb.append("Unable to pick green marker pixel color\n");
+                                sb.append(getText(R.string.ocr_error_pick_pixel_green));
                             }
-                            sb.append("\nATTENTION! Please verify that:\n"
-                                    + "① The 'mon info screen is scrolled all the way up\n"
-                                    + "② The 'mon 3D model doesn't cover any important information\n"
-                                    + "③ The 'mon is not a final evolution! I suggest a Pidgey!");
-                            errorListTextView.setText(sb.toString());
+                            sb.append(getText(R.string.ocr_msg_verify));
+                            errorListTextView.setText(sb);
                         }
                         drawResultIndicator(bmp);
                         resultImageView.setImageBitmap(bmp);
@@ -128,7 +126,7 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
                     settings.saveScreenCalibrationResults(results);
                     settings.setManualScanCalibration(true);
                     Toast.makeText(OcrCalibrationResultActivity.this,
-                            "Calibration saved!\nRestart GoIV to apply the changes!", Toast.LENGTH_LONG).show();
+                            R.string.ocr_calibration_saved, Toast.LENGTH_LONG).show();
                 }
             }
         });

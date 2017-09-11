@@ -2,6 +2,7 @@ package com.kamron.pogoiv.clipboardlogic.tokens;
 
 import android.content.Context;
 
+import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.clipboardlogic.ClipboardToken;
 import com.kamron.pogoiv.scanlogic.IVCombination;
 import com.kamron.pogoiv.scanlogic.IVScanResult;
@@ -58,15 +59,13 @@ public class UnicodeToken extends ClipboardToken {
 
     @Override
     public String getLongDescription(Context context) {
-        String returner = "This token gives you a representation fo your monster IVs, but using UNICODE special "
-                + "characters which allows you to show numbers like 10 as a single character, like ⑪. This saves "
-                + "space.";
+        String returner = context.getString(R.string.token_msg_uniToken_msg1);
 
         if (filled) {
-            returner += " This token is the filled version, which has a black inside for the numbers, like ⓭.";
+            returner += context.getString(R.string.token_msg_uniToken_msg2);
         } else {
 
-            returner += " This token is the empty version, which has a white inside for the numbers, like ⑪.";
+            returner += context.getString(R.string.token_msg_uniToken_msg3);
         }
         return returner;
     }

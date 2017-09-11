@@ -30,7 +30,7 @@
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
             android:paddingBottom="8dp"
-            android:text="This is the result of the automatic calibration, each field of interest that was detected has been marked." />
+            android:text="@string/ocr_calibration_result_description" />
 
         <TextView
             android:id="@+id/errorListTextView"
@@ -40,7 +40,7 @@
             android:paddingEnd="16dp"
             android:paddingBottom="8dp"
             android:textColor="@android:color/holo_red_dark"
-            tools:text="Detection error one\nDetection error two\nDetection error three"/>
+            tools:text="@string/ocr_calibration_result_error"/>
 
         <Button
             style="@style/Widget.AppCompat.Button.Colored"
@@ -50,7 +50,7 @@
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
             android:paddingBottom="16dp"
-            android:text="Save calibration"
+            android:text="@string/ocr_calibration_save"
             android:enabled="false" />
 
         <TextView
@@ -60,7 +60,7 @@
             android:paddingEnd="32dp"
             android:paddingBottom="8dp"
             android:gravity="center_horizontal"
-            android:text="Before saving, check the result correctness in the screenshot below:" />
+            android:text="@string/ocr_calibration_check_before" />
 
         <ImageView
             android:id="@+id/ocr_result_image"

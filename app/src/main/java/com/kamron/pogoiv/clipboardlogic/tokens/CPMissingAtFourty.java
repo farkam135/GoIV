@@ -3,6 +3,7 @@ package com.kamron.pogoiv.clipboardlogic.tokens;
 
 import android.content.Context;
 
+import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.clipboardlogic.ClipboardToken;
 import com.kamron.pogoiv.scanlogic.CPRange;
 import com.kamron.pogoiv.scanlogic.IVCombination;
@@ -59,11 +60,11 @@ public class CPMissingAtFourty extends ClipboardToken {
     }
 
     @Override public String getTokenName(Context context) {
-        return "-Cp40";
+        return "-CP40";
     }
 
     @Override public String getLongDescription(Context context) {
-        return "Get how much CP the monster will be missing compared to a perfect IV level 40 variant";
+        return context.getString(R.string.token_msg_cpMis);
     }
 
     @Override public Category getCategory() {

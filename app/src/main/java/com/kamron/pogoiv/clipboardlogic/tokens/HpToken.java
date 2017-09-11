@@ -2,6 +2,7 @@ package com.kamron.pogoiv.clipboardlogic.tokens;
 
 import android.content.Context;
 
+import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.clipboardlogic.ClipboardToken;
 import com.kamron.pogoiv.scanlogic.IVScanResult;
 import com.kamron.pogoiv.scanlogic.PokeInfoCalculator;
@@ -55,15 +56,15 @@ public class HpToken extends ClipboardToken {
 
     @Override
     public String getTokenName(Context context) {
-        return currentLevel ? "HP" : "Hp+";
+        return currentLevel ? "HP" : "HP+";
     }
 
     @Override
     public String getLongDescription(Context context) {
         if (currentLevel) {
-            return "Get how much hp the monster has at the current level.";
+            return context.getString(R.string.token_msg_hpToken_msg1);
         }
-        return "Get how much hp the monster will have at max level.";
+        return context.getString(R.string.token_msg_hpToken_msg2);
     }
 
     @Override

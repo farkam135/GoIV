@@ -2,6 +2,7 @@ package com.kamron.pogoiv.pokeflycomponents.ocrhelper;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -14,6 +15,7 @@ import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.FluentIterable;
 import com.kamron.pogoiv.BuildConfig;
+import com.kamron.pogoiv.R;
 
 import org.opencv.android.Utils;
 import org.opencv.core.Core;
@@ -242,37 +244,38 @@ public class ScanFieldAutomaticLocator {
         }
     }
 
-    public ScanFieldResults scan(@Nullable Handler mainThreadHandler, @Nullable ProgressDialog dialog) {
+    public ScanFieldResults scan(@Nullable Handler mainThreadHandler, @Nullable ProgressDialog dialog, Context
+            context) {
         final ScanFieldResults results = new ScanFieldResults();
 
-        postMessage(mainThreadHandler, dialog, "Finding name area");
+        postMessage(mainThreadHandler, dialog, context.getString(R.string.ocr_finding_name));
         findPokemonNameArea(results);
 
-        postMessage(mainThreadHandler, dialog, "Finding type area");
+        postMessage(mainThreadHandler, dialog, context.getString(R.string.ocr_finding_type));
         findPokemonTypeArea(results);
 
-        postMessage(mainThreadHandler, dialog, "Finding candy name area");
+        postMessage(mainThreadHandler, dialog, context.getString(R.string.ocr_finding_candy_name));
         findPokemonCandyNameArea(results);
 
-        postMessage(mainThreadHandler, dialog, "Finding hp area");
+        postMessage(mainThreadHandler, dialog, context.getString(R.string.ocr_finding_hp));
         findPokemonHPArea(results);
 
-        postMessage(mainThreadHandler, dialog, "Finding cp area");
+        postMessage(mainThreadHandler, dialog, context.getString(R.string.ocr_finding_cp));
         findPokemonCPScanArea(results);
 
-        postMessage(mainThreadHandler, dialog, "Finding candy amount area");
+        postMessage(mainThreadHandler, dialog, context.getString(R.string.ocr_finding_candy_amount));
         findPokemonCandyAmountArea(results);
 
-        postMessage(mainThreadHandler, dialog, "Finding evolution cost area");
+        postMessage(mainThreadHandler, dialog, context.getString(R.string.ocr_finding_evo_cost));
         findPokemonEvolutionCostArea(results); // Always call after findPokemonCandyAmountArea
 
-        postMessage(mainThreadHandler, dialog, "Finding level arc starting point and radius");
+        postMessage(mainThreadHandler, dialog, context.getString(R.string.ocr_finding_arc_center_and_radius));
         findArcValues(results);
 
-        postMessage(mainThreadHandler, dialog, "Finding white marker pixel");
+        postMessage(mainThreadHandler, dialog, context.getString(R.string.ocr_finding_white_pixel));
         findWhitePixelPokemonScreen(results);
 
-        postMessage(mainThreadHandler, dialog, "Finding green marker pixel");
+        postMessage(mainThreadHandler, dialog, context.getString(R.string.ocr_finding_green_pixel));
         findGreenPixelPokemonScreen(results);
 
         return results;

@@ -2,6 +2,8 @@ package com.kamron.pogoiv.clipboardlogic.tokens;
 
 import android.content.Context;
 
+import com.kamron.pogoiv.R;
+
 public class CustomSeparatorToken extends SeparatorToken {
 
     public CustomSeparatorToken() {
@@ -14,8 +16,7 @@ public class CustomSeparatorToken extends SeparatorToken {
 
     @Override
     public String getLongDescription(Context context) {
-        return "This lets you pick a character of you choice to be put inbetween the smarter tokens to make the result"
-                + " more readable.";
+        return context.getString(R.string.token_msg_customSeparator);
     }
 
     public void setSeparator(String s) {

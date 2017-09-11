@@ -53,6 +53,7 @@ public class ScanFieldAutomaticLocator {
     private static final float[] HSV_GREEN_LIGHT = new float[] {183f, 0.04f, 0.85f};
     private static final float[] HSV_TEXT_RED = new float[] {2f, 0.39f, 0.96f};
     private static final float[] HSV_BUTTON_ENABLED = new float[] {147, 0.45f, 0.84f};
+    private static final float[] HSV_BUTTON_DISABLED = new float[] {143, 0.05f, 0.90f};
     private static final float[] HSV_HP_BAR = new float[] {155, 0.54f, 0.93f};
     private static final float[] HSV_DIVIDER = new float[] {0, 0, 0.88f};
     private static final float[] HSV_FAB = new float[] {181, 0.68f, 0.62f};
@@ -228,7 +229,11 @@ public class ScanFieldAutomaticLocator {
                 .filter(ByMinY.of(bmp.getHeight() / 2))
                 .filter(ByMinHeight.of(buttonHeight))
                 .filter(ByMinWidth.of(buttonHeight * 2))
-                .filter(ByHsvColor.of(image, mask1, contours, boundingRectList, HSV_BUTTON_ENABLED, 3, 0.15f, 0.15f))
+                .filter(Predicates.or(
+                        ByHsvColor.of(image, mask1, contours, boundingRectList,
+                                HSV_BUTTON_ENABLED, 3, 0.15f, 0.15f),
+                        ByHsvColor.of(image, mask2, contours, boundingRectList,
+                                HSV_BUTTON_DISABLED, 3, 0.15f,0.15f)))
                 .toList();
 
         if (powerUpButtonCandidates.size() > 0) {
@@ -240,6 +245,12 @@ public class ScanFieldAutomaticLocator {
                     candidate = currentCandidate;
                 }
             }
+
+            // Disabled buttons are OCR'ed merged with the text label at their right: crop it
+            if (candidate.width > width50Percent) {
+                candidate.width /= 2;
+            }
+
             powerUpButton = candidate;
         } else {
             powerUpButton = null;

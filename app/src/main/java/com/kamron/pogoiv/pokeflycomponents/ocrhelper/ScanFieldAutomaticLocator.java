@@ -48,7 +48,7 @@ public class ScanFieldAutomaticLocator {
     private static final Scalar SCALAR_ON = new Scalar(255);
     private static final Scalar SCALAR_OFF = new Scalar(0);
     private static final float[] HSV_WHITE_BACKGROUND = new float[] {0, 0f, 0.97f};
-    private static final float[] HSV_GREEN_DARK_SMALL = new float[] {165, 0.13f, 0.66f};
+    private static final float[] HSV_GREEN_DARK_SMALL = new float[] {166, 0.13f, 0.66f};
     private static final float[] HSV_GREEN_DARK = new float[] {183f, 0.32f, 0.46f};
     private static final float[] HSV_GREEN_LIGHT = new float[] {183f, 0.04f, 0.85f};
     private static final float[] HSV_TEXT_RED = new float[] {2f, 0.39f, 0.96f};
@@ -504,7 +504,7 @@ public class ScanFieldAutomaticLocator {
         List<Rect> digitsCandidates = FluentIterable.from(candidates)
                 // Check if the dominant color of the contour matches the light green hue of PoGO text
                 .filter(Predicates.or(
-                        ByHsvColor.of(image, mask1, contours, boundingRectList, HSV_GREEN_DARK_SMALL, 12, 0.25f, 0.25f),
+                        ByHsvColor.of(image, mask1, contours, boundingRectList, HSV_GREEN_DARK_SMALL, 13, 0.25f,0.25f),
                         ByHsvColor.of(image, mask2, contours, boundingRectList, HSV_TEXT_RED, 10, 0.25f, 0.25f)))
                 .toList();
 

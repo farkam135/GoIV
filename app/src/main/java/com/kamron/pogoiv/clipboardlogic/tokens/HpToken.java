@@ -56,7 +56,7 @@ public class HpToken extends ClipboardToken {
 
     @Override
     public String getTokenName(Context context) {
-        return currentLevel ? context.getString(R.string.hp) : context.getString(R.string.hp)+"+";
+        return currentLevel ? context.getString(R.string.hp) : context.getString(R.string.hp) + "+";
     }
 
     @Override

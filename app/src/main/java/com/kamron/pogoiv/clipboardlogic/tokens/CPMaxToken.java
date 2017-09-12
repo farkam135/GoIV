@@ -61,7 +61,7 @@ public class CPMaxToken extends ClipboardToken {
     }
 
     @Override public String getTokenName(Context context) {
-        return currentLevel ? context.getString(R.string.cp) : context.getString(R.string.cp)+"+";
+        return currentLevel ? context.getString(R.string.cp) : context.getString(R.string.cp) + "+";
     }
 
     @Override public String getLongDescription(Context context) {

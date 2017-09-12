@@ -56,7 +56,7 @@ public class CPMissingAtFourty extends ClipboardToken {
     }
 
     @Override public String getTokenName(Context context) {
-        return "-"+context.getString(R.string.cp)+"40";
+        return "-" + context.getString(R.string.cp) + "40";
     }
 
     @Override public String getLongDescription(Context context) {

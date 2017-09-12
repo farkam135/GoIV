@@ -52,7 +52,7 @@ public class LevelUnicodeToken extends ClipboardToken {
 
     @Override
     public String getTokenName(Context context) {
-        return "Uni"+context.getString(R.string.trainer_level);
+        return "Uni" + context.getString(R.string.trainer_level);
     }
 
     @Override

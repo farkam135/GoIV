@@ -239,7 +239,6 @@
     <string name="clipboard_token_list_available">Full list of available token types</string>
     <string name="clipboard_token_description_title">Selected token description</string>
     <string name="ocr_calibration_result_description">This is the result of the automatic calibration, each field of interest that was detected has been marked.</string>
-    <string name="ocr_calibration_result_error">Detection error one\nDetection error two\nDetection error three</string>
     <string name="ocr_calibration_save">Save calibration</string>
     <string name="ocr_calibration_check_before">Before saving, check the result correctness in the screenshot below:</string>
     <string name="done">Done</string>
@@ -278,7 +277,9 @@
     <string name="token_msg_cpMis">Get how much CP the monster will be missing compared to a perfect IV level 40 variant.</string>
     <string name="token_msg_cpPerc">Returns a percentage expressing how many other possible permutations of IVs are better than this monster\'s IVs. The smaller the result is, the better it is.</string>
     <string name="token_msg_cpTier">This token gives you an idea of how powerful this monster can become, by measuring the maximum possible CP the monster can obtain. So for example, A lapras can max out at 2980 CP, while a dugtrio would max out at 1168 CP. So Lapras would get A while Dugtrio would get E-. This tier is adjusted based on the IV of your monster.</string>
+    <string name="token_msg_tier">Tier</string>
     <string name="token_msg_customSeparator">This lets you pick a character of you choice to be put in between the smarter tokens to make the result more readable.</string>
+    <string name="token_msg_custom">Custom</string>
     <string name="token_msg_extendedCP">This token gives you an idea of how powerful this monster can become, by measuring the maximum possible CP the monster can obtain (considering the maximum possible IV from the scan) and confronting it to the maximum CP of the most powerful IV 100 monster. Values are provided in the AA-ZZ range.</string>
     <string name="token_msg_hexIV">Represents the monster IVs in a base 16 number system. This means that each IV can be represented by a single character. So for example, a monster with IVs 10, 13, 3 would be represented as AD3.</string>
     <string name="token_msg_hpToken_msg1">Get how much HP the monster has at the current level.</string>
@@ -298,6 +299,7 @@
     <string name="token_msg_lvl_msg1">This token represents the level of the monster, as it was scanned, times 2. This avoids decimals, which makes the text longer, but does not lose information like removing the decimal does. For example, if the monster is level 10.5, this will return 21.</string>
     <string name="token_msg_lvl_msg2">This token represents the level of the monster, as it was scanned, but removes the decimal. This potentially loses information. For example, a level 10.5 monster will return 10.</string>
     <string name="token_msg_lvl_msg3">This token represents the level of the monster, as it was scanned, including the decimal. This makes the output longer than the alternatives, but is very accurate. For example, a level 10.5 monster will return as 10.5.</string>
+    <string name="token_msg_lvl">Lvl</string>
     <string name="token_msg_lvlUnicode">This token shows the level of the monster as one or two unicode tokens, the first to show the whole level such as ⑰, and if the monster is half-leveled, also adds a ½.</string>
     <string name="token_msg_mixUnicode_msg1">Similar to UIV, UNICODE circular numbers are used to represent IV.</string>
     <string name="token_msg_mixUnicode_msg2">" This token uses filled characters to represent single values and empty characters to represent the lowest of multiple values. For example, ⓭ in the attack position would mean that all Attack values are 13, while ① in the defense or HP means there are multiple values possible and that 1 is the lowest."</string>
@@ -307,10 +309,12 @@
     <string name="token_msg_pkmName_msg2">" With the number cap, the length of the monster name can not exceed "</string>
     <string name="token_msg_pkmName_msg3">" characters long."</string>
     <string name="token_msg_powUp">Show how many power-ups are left until monster would reach level 40. For example if the monster is level 15, there are 25 levels to level 40, which is 50 powerups.</string>
+    <string name="token_msg_PUpTo">PUpTo</string>
     <string name="token_msg_separator">"This is simply a character you can put in between the smarter tokens to make the result more readable. The character you have chosen is: "</string>
-    <string name="token_msg_uniToken_msg1">This token gives you a representation fo your monster IVs, but using UNICODE special characters which allows you to show numbers like 10 as a single character, like ⑪. This saves space.</string>
+    <string name="token_msg_uniToken_msg1">This token gives you a representation for your monster IVs, but using UNICODE special characters which allows you to show numbers like 11 as a single character, like ⑪. This saves space.</string>
     <string name="token_msg_uniToken_msg2">" This token is the filled version, which has a black inside for the numbers, like ⓭."</string>
     <string name="token_msg_uniToken_msg3">" This token is the empty version, which has a white inside for the numbers, like ⑪."</string>
     <string name="token_msg_worthTra_msg1">"This token returns an evaluation of how worth it is to train this monster, based both on the base stats and the "</string>
-    <string name="token_msg_worthTra_msg2" formatted="false">" possible IV stats. For instance, a 96% IV Alakazam will get a score higher than a 20% Tyranitar, regardless the fact that the maximum possible IV for the latter is higher: since the probability of getting better Tyranitar is higher than the one of getting better Alakazams, the second represents a much better stardust investment. Ranges in 00–99. Always returns two digits."</string>
+    <string name="token_msg_worthTra_msg2" formatted="false">" possible IV stats. For instance, a 96% IV Alakazam will get a score higher than a 20% Tyranitar, regardless the fact that the maximum possible CP for the latter is higher: since the probability of getting better Tyranitar is higher than the one of getting better Alakazams, the second represents a much better stardust investment. Ranges in 00–99. Always returns two digits."</string>
+    <string name="token_msg_train">Train</string>
 </resources>

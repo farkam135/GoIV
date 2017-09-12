@@ -48,7 +48,7 @@ public class CpTierToken extends ClipboardToken {
 
     @Override
     public String getTokenName(Context context) {
-        return "CPTier";
+        return context.getString(R.string.cp)+context.getString(R.string.token_msg_tier);
     }
 
     @Override

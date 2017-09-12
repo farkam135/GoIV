@@ -40,7 +40,7 @@
             android:paddingEnd="16dp"
             android:paddingBottom="8dp"
             android:textColor="@android:color/holo_red_dark"
-            tools:text="@string/ocr_calibration_result_error"/>
+            tools:text="Detection error one\nDetection error two\nDetection error three"/>
 
         <Button
             style="@style/Widget.AppCompat.Button.Colored"

@@ -42,7 +42,7 @@ public class CPMissingAtFourty extends ClipboardToken {
         CPRange thisPokemon = pokeInfoCalculator.getCpRangeAtLevel(poke, ivScanResult.getLowestIVCombination(),
                 ivScanResult.getHighestIVCombination(), 40);
 
-    return String.valueOf(perfectPokemon.getAvg() - thisPokemon.getAvg());
+        return String.valueOf(perfectPokemon.getAvg() - thisPokemon.getAvg());
     }
 
 

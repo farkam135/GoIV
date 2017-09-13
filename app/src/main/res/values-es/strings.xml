@@ -219,7 +219,7 @@
     <string name="discard_unsaved_changes">Hay cambios sin guardar.\n¿Estás seguro de descartar los cambios?</string>
     <string name="configuration_saved">¡Configuración guardada!</string>
     <string name="no_token_selected">Ninguna ficha seleccionada</string>
-    <string name="token_max_evolution">\n\nEsta ficha es una variante de la máx. evolución, que significa que devolverá el resultado como si su monstruo ya estuviera evolucionado al máximo, lo que podría ser interesante en muchos casos.</string>
+    <string name="token_max_evolution">\n\nEsta ficha es una variante de máx. evolución, significa que devolverá el resultado como si su monstruo ya estuviera evolucionado al máximo, lo que podría ser interesante en muchos casos.</string>
     <string name="token_max_characters">(%1$d/12 caracteres)</string>
     <string name="token_show_max_evo_variant">Mostrar fichas de variantes máx. evolución</string>
     <string name="token_show_standard">Mostrar fichas estándar</string>
@@ -261,6 +261,11 @@
     <string name="ocr_finding_arc_center_and_radius">Buscando punto de inicio y radio arco de nivel</string>
     <string name="ocr_finding_white_pixel">Buscando marcador de pixel blanco</string>
     <string name="ocr_finding_green_pixel">Buscando marcador de pixel verde</string>
+    <string name="token_category_name">Nombre</string>
+    <string name="token_category_basic_stats">Estadísticas básicas</string>
+    <string name="token_category_iv_info">Info IV</string>
+    <string name="token_category_evaluation_scores">Puntuaciones evaluación</string>
+    <string name="token_category_separators">Separadores</string>
     <string name="token_msg_basStat_msg1">Esta ficha devuelve las estadísticas básicas del monstruo, como 186 190 260 para Lapras, lo que significa que este monstruo tiene sin bonus de IV 186 de ataque, 190 defensa y 260 de vida. Los IV pueden añadir un extra de 15 a cada estadística.</string>
     <string name="token_msg_basStat_msg2">\nEsta versión de la ficha también añade los puntos de IV para que puedas ver el total del monstruo.</string>
     <string name="token_msg_basStat_msg3">\nEsta versión específica de la ficha sólo muestra una de las estadísticas.</string>

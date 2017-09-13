@@ -11,7 +11,7 @@ public class CustomSeparatorToken extends SeparatorToken {
     }
 
     @Override public String getTokenName(Context context) {
-        return "Custom";
+        return context.getString(R.string.token_msg_custom);
     }
 
     @Override

@@ -37,7 +37,7 @@ public class PowerupsToMaxToken extends ClipboardToken {
     }
 
     @Override public String getTokenName(Context context) {
-        return "PUpTo40";
+        return context.getString(R.string.token_msg_PUpTo) + "40";
     }
 
     @Override public String getLongDescription(Context context) {

@@ -104,11 +104,11 @@ public class BaseStatToken extends ClipboardToken {
     public String getTokenName(Context context) {
         if (includeIV) {
             if (mode == 0) {
-                return "stat+i";
+                return "stat+iv";
             } else if (mode == 1) {
-                return "att+i";
+                return "att+iv";
             } else if (mode == 2) {
-                return "def+i";
+                return "def+iv";
             }
             return "Base sta + iv";
         } else {

@@ -2,6 +2,7 @@ package com.kamron.pogoiv.clipboardlogic;
 
 import android.content.Context;
 
+import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.scanlogic.IVScanResult;
 import com.kamron.pogoiv.scanlogic.PokeInfoCalculator;
 import com.kamron.pogoiv.scanlogic.Pokemon;
@@ -25,19 +26,18 @@ public abstract class ClipboardToken {
         EVALUATION,
         SEPARATORS;
 
-        @Override
-        public String toString() {
+        public String toString(Context context) {
             switch (this) {
                 case NAME:
-                    return "Name";
+                    return context.getString(R.string.token_category_name);
                 case BASIC_STATS:
-                    return "Basic Stats";
+                    return context.getString(R.string.token_category_basic_stats);
                 case IV_INFO:
-                    return "IV Info";
+                    return context.getString(R.string.token_category_iv_info);
                 case EVALUATION:
-                    return "Evaluation Scores";
+                    return context.getString(R.string.token_category_evaluation_scores);
                 case SEPARATORS:
-                    return "Separators";
+                    return context.getString(R.string.token_category_separators);
                 default:
                     throw new IllegalArgumentException();
             }

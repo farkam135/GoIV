@@ -19,7 +19,6 @@ import com.kamron.pogoiv.scanlogic.Pokemon;
 
 public class CPMissingAtFourty extends ClipboardToken {
 
-
     /**
      * Create a clipboard token.
      * The boolean in the constructor can be set to false if pokemon evolution is not applicable.
@@ -43,9 +42,7 @@ public class CPMissingAtFourty extends ClipboardToken {
         CPRange thisPokemon = pokeInfoCalculator.getCpRangeAtLevel(poke, ivScanResult.getLowestIVCombination(),
                 ivScanResult.getHighestIVCombination(), 40);
 
-
-        String val = String.valueOf(perfectPokemon.getAvg() - thisPokemon.getAvg());
-        return val;
+        return String.valueOf(perfectPokemon.getAvg() - thisPokemon.getAvg());
     }
 
 
@@ -55,12 +52,11 @@ public class CPMissingAtFourty extends ClipboardToken {
     }
 
     @Override public String getPreview() {
-
         return "133";
     }
 
     @Override public String getTokenName(Context context) {
-        return "-CP40";
+        return "-" + context.getString(R.string.cp) + "40";
     }
 
     @Override public String getLongDescription(Context context) {

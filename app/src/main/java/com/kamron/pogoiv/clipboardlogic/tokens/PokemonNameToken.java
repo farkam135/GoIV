@@ -73,9 +73,9 @@ public class PokemonNameToken extends ClipboardToken {
     @Override
     public String getTokenName(Context context) {
         if (maxLength < 12) {
-            return "Name" + maxLength;
+            return context.getString(R.string.token_pokemonname) + maxLength;
         }
-        return "Name";
+        return context.getString(R.string.token_pokemonname);
     }
 
     @Override

@@ -68,12 +68,12 @@ public class LevelToken extends ClipboardToken {
     @Override
     public String getTokenName(Context context) {
         if (mode == 0) {
-            return "Lvl2";
+            return context.getString(R.string.token_msg_lvl) + "x2";
         }
         if (mode == 1) {
-            return "Lvl";
+            return context.getString(R.string.token_msg_lvl);
         }
-        return "Lv.5";
+        return context.getString(R.string.token_msg_lvl) + ".5";
     }
 
     @Override

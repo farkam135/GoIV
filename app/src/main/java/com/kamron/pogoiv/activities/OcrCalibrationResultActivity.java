@@ -1,6 +1,7 @@
 package com.kamron.pogoiv.activities;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -36,6 +37,9 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
     Button saveCalibrationButton;
     @BindView(R.id.ocr_result_image)
     ImageView resultImageView;
+    @BindView(R.id.backToGoivButton)
+    Button backToGoivButton;
+
 
     private ScanFieldResults results;
 
@@ -46,6 +50,7 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
         setContentView(R.layout.activity_ocr_calibration_result);
         ButterKnife.bind(this);
 
+        fixHomeButton();
         final Bitmap bmp = CalibrationImage.calibrationImg;
 
         // Since the variable is static, we need to null the referenced object to be garbage collected.
@@ -121,6 +126,7 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
 
         saveCalibrationButton.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
+                backToGoivButton.setVisibility(View.VISIBLE);
                 if (results != null && results.isCompleteCalibration()) {
                     GoIVSettings settings = GoIVSettings.getInstance(OcrCalibrationResultActivity.this);
                     settings.saveScreenCalibrationResults(results);
@@ -128,6 +134,16 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
                     Toast.makeText(OcrCalibrationResultActivity.this,
                             R.string.ocr_calibration_saved, Toast.LENGTH_LONG).show();
                 }
+            }
+        });
+    }
+
+    private void fixHomeButton() {
+        backToGoivButton.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+
+                Intent intent = new Intent(OcrCalibrationResultActivity.this, MainActivity.class);
+                startActivity(intent);
             }
         });
     }

@@ -269,6 +269,11 @@
     <string name="ocr_finding_arc_center_and_radius">Finding level arc starting point and radius</string>
     <string name="ocr_finding_white_pixel">Finding white marker pixel</string>
     <string name="ocr_finding_green_pixel">Finding green marker pixel</string>
+    <string name="token_category_name">Name</string>
+    <string name="token_category_basic_stats">Basic Stats</string>
+    <string name="token_category_iv_info">IV Info</string>
+    <string name="token_category_evaluation_scores">Evaluation Scores</string>
+    <string name="token_category_separators">Separators</string>
     <string name="token_msg_basStat_msg1">This token gives you the base stats of the monster, such as 186 190 260 for lapras, which means that this monster without IV bonuses has 186 attack, 190 defense and 260 stamina. IVs can add an extra 15 to each stat.</string>
     <string name="token_msg_basStat_msg2">\nThis version of the token also adds the IV score so you can see the total for this specific monster.</string>
     <string name="token_msg_basStat_msg3">\nThis specific version of the token only displays one of the stats.</string>

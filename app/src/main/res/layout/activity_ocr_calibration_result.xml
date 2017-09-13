@@ -66,7 +66,7 @@
                     android:paddingBottom="16dp"
                     android:paddingEnd="16dp"
                     android:paddingStart="16dp"
-                    android:text="Go back to GoIV"
+                    android:text="@string/go_back_to_goiv"
                     android:visibility="gone"/>
 
             </LinearLayout>

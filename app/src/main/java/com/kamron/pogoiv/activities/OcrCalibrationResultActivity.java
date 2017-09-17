@@ -74,7 +74,8 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
                         if (results.isCompleteCalibration()) {
                             saveCalibrationButton.setEnabled(true);
                             errorListTextView.setText(R.string.ocr_all_correct);
-                            errorListTextView.setTextColor(ContextCompat.getColor(getBaseContext(), R.color.green_dark));
+                            errorListTextView.setTextColor(ContextCompat.getColor(getBaseContext(),
+                                    R.color.green_dark));
                         } else {
                             StringBuilder sb = new StringBuilder();
                             if (results.pokemonNameArea == null) {

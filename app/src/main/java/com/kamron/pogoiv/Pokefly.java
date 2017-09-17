@@ -401,9 +401,9 @@ public class Pokefly extends Service {
             Resources res = getResources();
             Locale def;
             Configuration conf = res.getConfiguration();
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 def = getResources().getConfiguration().getLocales().get(0);
-            } else{
+            } else {
                 def = getResources().getConfiguration().locale;//Keep original locale
             }
             conf.setLocale(new Locale("en"));

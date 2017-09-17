@@ -236,6 +236,7 @@
     <string name="done">Hecho</string>
     <string name="ocr_calibrating">Calibrando</string>
     <string name="ocr_loading">Cargando. Espere por favor…</string>
+    <string name="ocr_all_correct">Todos los campos detectados correctamente</string>
     <string name="ocr_error_name">No se pudo encontrar nombre\n</string>
     <string name="ocr_error_type">No se pudo encontrar tipo\n</string>
     <string name="ocr_error_candy_name">No se pudo encontrar nombre caramelo\n</string>
@@ -249,7 +250,7 @@
     <string name="ocr_error_pick_pixel_white">No se pudo seleccionar el marcador de pixel blanco\n</string>
     <string name="ocr_error_locate_pixel_green">No se pudo encontrar el marcador de pixel verde\n</string>
     <string name="ocr_error_pick_pixel_green">No se pudo seleccionar el marcador de pixel verde\n</string>
-    <string name="ocr_msg_verify">\n¡ATENCIÓN! Por favor verifica que:\n① La ficha de pokemon está subida hasta arriba del todo\n② El modelo 3D del pokemon no tape ninguna información importante\n③ ¡El pokemon no sea una evolución final! ¡Sugiero un Pidgey!</string>
+    <string name="ocr_msg_verify">\n¡ATENCIÓN! Por favor verifica que:\n① La ficha de pokemon está subida hasta arriba del todo\n② El modelo 3D del pokemon no tape ninguna información importante\n③ ¡El pokemon no sea una evolución final! ¡Se recomienda un Pidgey!</string>
     <string name="ocr_calibration_saved">¡Calibración guardada!\n¡Reinicia GoIV para aplicar los cambios!</string>
     <string name="ocr_finding_name">Buscando área nombre</string>
     <string name="ocr_finding_type">Buscando área tipo</string>
@@ -314,4 +315,5 @@
     <string name="token_msg_worthTra_msg1">"Esta ficha devuelve la evaluación sobre cómo vale la pena entrenar este monstruo, basado tanto en las estadísticas base como en la "</string>
     <string name="token_msg_worthTra_msg2" formatted="false">" estadística posible de IV. Por ejemplo, un Alakazam de 96% IV obtendrá una puntuación mayor que un Tyranitar de 20%, independientemente del hecho de que el PC máximo posible para este último sea mayor: ya que la probabilidad de mejorar Tyranitar es mayor que la de conseguir un Alakazam mejor, el segundo representa una inversión mucho mejor de polvoestelares. Rangos entre 00–99. Siempre devuelve dos dígitos."</string>
     <string name="token_msg_train">Entrenar</string>
+    <string name="go_back_to_goiv">Volver al GoIV</string>
 </resources>

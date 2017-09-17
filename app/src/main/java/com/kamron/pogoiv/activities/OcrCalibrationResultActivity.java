@@ -10,6 +10,7 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -72,6 +73,8 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
                         dialog.dismiss();
                         if (results.isCompleteCalibration()) {
                             saveCalibrationButton.setEnabled(true);
+                            errorListTextView.setText(R.string.ocr_all_correct);
+                            errorListTextView.setTextColor(ContextCompat.getColor(getBaseContext(), R.color.green_dark));
                         } else {
                             StringBuilder sb = new StringBuilder();
                             if (results.pokemonNameArea == null) {

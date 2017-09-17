@@ -244,6 +244,7 @@
     <string name="done">Done</string>
     <string name="ocr_calibrating">Calibrating</string>
     <string name="ocr_loading">Loading. Please wait…</string>
+    <string name="ocr_all_correct">All fields detected correctly</string>
     <string name="ocr_error_name">Unable to locate \'mon name\n</string>
     <string name="ocr_error_type">Unable to locate \'mon type\n</string>
     <string name="ocr_error_candy_name">Unable to locate \'mon candy name\n</string>

@@ -213,6 +213,7 @@
     <string name="acquired_from_egg_or_raid">Conseguido de huevo o incursión</string>
     <string name="recalibrate_goiv_notification">Recalibrar</string>
     <string name="title_activity_ocr_calibration_result">Resultado calibración</string>
+    <string name="title_activity_ocr_calibration_error">Error calibración</string>
     <string name="scan_optimization_notice_text">No has ejecutado la optimización de escaneo. Se recomienda hacer una optimización de escaneo en todos los dispositivos. Para iniciarla:\n1. Inicia GoIV\n2. Abre cualquier ficha de monstruo\n3. Despliega la notificación de GoIV\n4. Selecciona \'Recalibrar\'!</string>
     <string name="scan_optimization_screen_ratio_warning">GoIV ha detectado que tu pantalla no es estándar. Es posible que necesite una calibración de escaneo para que GoIV funcione correctamente.</string>
     <string name="touch_screen_quick_iv_scan">Toca pantalla para reprevisualizar IV</string>
@@ -236,7 +237,6 @@
     <string name="done">Hecho</string>
     <string name="ocr_calibrating">Calibrando</string>
     <string name="ocr_loading">Cargando. Espere por favor…</string>
-    <string name="ocr_all_correct">Todos los campos detectados correctamente</string>
     <string name="ocr_error_name">No se pudo encontrar nombre\n</string>
     <string name="ocr_error_type">No se pudo encontrar tipo\n</string>
     <string name="ocr_error_candy_name">No se pudo encontrar nombre caramelo\n</string>
@@ -316,4 +316,5 @@
     <string name="token_msg_worthTra_msg2" formatted="false">" estadística posible de IV. Por ejemplo, un Alakazam de 96% IV obtendrá una puntuación mayor que un Tyranitar de 20%, independientemente del hecho de que el PC máximo posible para este último sea mayor: ya que la probabilidad de mejorar Tyranitar es mayor que la de conseguir un Alakazam mejor, el segundo representa una inversión mucho mejor de polvoestelares. Rangos entre 00–99. Siempre devuelve dos dígitos."</string>
     <string name="token_msg_train">Entrenar</string>
     <string name="go_back_to_goiv">Volver al GoIV</string>
+    <string name="go_back">Volver atrás</string>
 </resources>

@@ -32,14 +32,22 @@ import butterknife.ButterKnife;
 
 public class OcrCalibrationResultActivity extends AppCompatActivity {
 
+    @BindView(R.id.ocr_calibration_title)
+    TextView ocr_calibration_title;
     @BindView(R.id.errorListTextView)
     TextView errorListTextView;
+    @BindView(R.id.ocr_calibration_description)
+    TextView ocr_calibration_description;
+    @BindView(R.id.ocr_calibration_check)
+    TextView ocr_calibration_check;
     @BindView(R.id.saveCalibrationButton)
     Button saveCalibrationButton;
     @BindView(R.id.ocr_result_image)
     ImageView resultImageView;
     @BindView(R.id.backToGoivButton)
     Button backToGoivButton;
+    @BindView(R.id.backButton)
+    Button backButton;
 
 
     private ScanFieldResults results;
@@ -73,9 +81,10 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
                         dialog.dismiss();
                         if (results.isCompleteCalibration()) {
                             saveCalibrationButton.setEnabled(true);
-                            errorListTextView.setText(R.string.ocr_all_correct);
-                            errorListTextView.setTextColor(ContextCompat.getColor(getBaseContext(),
-                                    R.color.green_dark));
+                            ocr_calibration_description.setVisibility(View.VISIBLE);
+                            ocr_calibration_check.setVisibility(View.VISIBLE);
+                            ocr_calibration_title.setBackgroundColor(ContextCompat.getColor(getBaseContext(),
+                                    R.color.colorPrimary));
                         } else {
                             StringBuilder sb = new StringBuilder();
                             if (results.pokemonNameArea == null) {
@@ -119,6 +128,11 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
                             }
                             sb.append(getText(R.string.ocr_msg_verify));
                             errorListTextView.setText(sb);
+                            ocr_calibration_title.setText(R.string.title_activity_ocr_calibration_error);
+                            ocr_calibration_description.setVisibility(View.GONE);
+                            ocr_calibration_check.setVisibility(View.GONE);
+                            saveCalibrationButton.setVisibility(View.GONE);
+                            backButton.setVisibility(View.VISIBLE);
                         }
                         drawResultIndicator(bmp);
                         resultImageView.setImageBitmap(bmp);
@@ -130,6 +144,7 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
 
         saveCalibrationButton.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
+                saveCalibrationButton.setVisibility(View.GONE);
                 backToGoivButton.setVisibility(View.VISIBLE);
                 if (results != null && results.isCompleteCalibration()) {
                     GoIVSettings settings = GoIVSettings.getInstance(OcrCalibrationResultActivity.this);
@@ -137,6 +152,15 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
                     settings.setManualScanCalibration(true);
                     Toast.makeText(OcrCalibrationResultActivity.this,
                             R.string.ocr_calibration_saved, Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                Intent i = getPackageManager().getLaunchIntentForPackage("com.nianticlabs.pokemongo");
+                if (i != null) {
+                    startActivity(i);
                 }
             }
         });

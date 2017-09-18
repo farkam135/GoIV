@@ -20,7 +20,7 @@
             android:id="@+id/ocr_calibration_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorAccent"
+            android:background="@color/colorPrimary"
             android:padding="8dp"
             android:text="@string/title_activity_ocr_calibration_result"
             android:textAppearance="?android:attr/textAppearanceMedium"

@@ -4,13 +4,14 @@ import android.app.IntentService;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.app.NotificationCompat;
+import android.view.View;
 import android.widget.RemoteViews;
-import android.widget.TextView;
 
 import com.kamron.pogoiv.Pokefly;
 import com.kamron.pogoiv.R;
@@ -42,128 +43,94 @@ public class GoIVNotificationManager {
      * Show a paused notification in the system notification tray.
      */
     public void showPausedNotification() {
+        // Prepare views
+        RemoteViews contentView = new RemoteViews(pokefly.getPackageName(), R.layout.notification_pokefly_paused);
 
+        // Open app action
         Intent openAppIntent = new Intent(pokefly, MainActivity.class);
-
         PendingIntent openAppPendingIntent = PendingIntent.getActivity(
                 pokefly, 0, openAppIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        contentView.setOnClickPendingIntent(R.id.root, openAppPendingIntent);
 
-        Intent startSettingAppIntent = new Intent(pokefly, MainActivity.class);
-        startSettingAppIntent.setAction(MainActivity.ACTION_OPEN_SETTINGS);
-
+        // Open settings action
+        Intent startSettingAppIntent = new Intent(pokefly, MainActivity.class)
+                .setAction(MainActivity.ACTION_OPEN_SETTINGS);
         PendingIntent startSettingsPendingIntent = PendingIntent.getActivity(
                 pokefly, 0, startSettingAppIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        contentView.setOnClickPendingIntent(R.id.settings, startSettingsPendingIntent);
 
-        NotificationCompat.Action startSettingsAction = new NotificationCompat.Action.Builder(
-                R.drawable.ic_settings_white_24dp,
-                pokefly.getString(R.string.settings_page_title),
-                startSettingsPendingIntent).build();
-
-
-        Intent startAppIntent = new Intent(pokefly, MainActivity.class);
-
-        startAppIntent.setAction(MainActivity.ACTION_START_POKEFLY);
-
+        // Start pokefly action
+        Intent startServiceIntent = new Intent(pokefly, MainActivity.class)
+                .setAction(MainActivity.ACTION_START_POKEFLY);
         PendingIntent startServicePendingIntent = PendingIntent.getActivity(
-                pokefly, 0, startAppIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                pokefly, 0, startServiceIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        contentView.setOnClickPendingIntent(R.id.start, startServicePendingIntent);
 
-        NotificationCompat.Action startServiceAction = new NotificationCompat.Action.Builder(
-                R.drawable.ic_play_arrow_white_24px,
-                pokefly.getString(R.string.main_start),
-                startServicePendingIntent).build();
-
-        Notification notification = new NotificationCompat.Builder(pokefly.getApplicationContext())
-                .setOngoing(false)
-                .setCategory(NotificationCompat.CATEGORY_SERVICE)
-                .setColor(pokefly.getColorC(R.color.colorAccent))
+        // Build notification
+        Notification notification = new NotificationCompat.Builder(pokefly)
                 .setSmallIcon(R.drawable.notification_icon)
                 .setContentTitle(pokefly.getString(R.string.notification_title_goiv_stopped))
-                .setContentText(pokefly.getString(R.string.notification_title_tap_to_open))
-                .setContentIntent(openAppPendingIntent)
-                .addAction(startSettingsAction)
-                .addAction(startServiceAction)
-                .setVisibility(Notification.VISIBILITY_PUBLIC)
-                .setPriority(Notification.PRIORITY_HIGH)
+                .setColor(pokefly.getColorC(R.color.colorAccent))
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .setPriority(NotificationCompat.PRIORITY_MAX)
+                .setCategory(NotificationCompat.CATEGORY_SERVICE)
+                .setCustomBigContentView(contentView)
+                .setOngoing(true)
                 .build();
 
-        NotificationManager mNotifyMgr =
-                (NotificationManager) pokefly.getSystemService(pokefly.NOTIFICATION_SERVICE);
-        mNotifyMgr.notify(NOTIFICATION_REQ_CODE, notification);
+        NotificationManager notificationManager =
+                (NotificationManager) pokefly.getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(NOTIFICATION_REQ_CODE, notification);
     }
 
     /**
      * Show a running notification in the system notification tray.
      */
     public void showRunningNotification() {
+        // Prepare views
+        RemoteViews contentView = new RemoteViews(pokefly.getPackageName(), R.layout.notification_pokefly_started);
+        contentView.setTextViewText(R.id.notification_title,
+                pokefly.getString(R.string.notification_title, pokefly.getTrainerLevel()));
 
+        // Open app action
         Intent openAppIntent = new Intent(pokefly, MainActivity.class);
-
         PendingIntent openAppPendingIntent = PendingIntent.getActivity(
                 pokefly, 0, openAppIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        contentView.setOnClickPendingIntent(R.id.root, openAppPendingIntent);
 
-        RemoteViews contentView = getRunningNotificationView();
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(pokefly)
-                .setContent(contentView)
-                .setSmallIcon(R.drawable.notification_icon);
-/*
-                .setOngoing(true)
-                .setCategory(NotificationCompat.CATEGORY_SERVICE);
-
-        /*
         // Recalibrate action
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Intent recalibrateScreenScanningIntent = new Intent(pokefly, NotificationActionService.class)
                     .setAction(ACTION_RECALIBRATE_SCANAREA);
-
             PendingIntent recalibrateScreenScanningPendingIntent = PendingIntent.getService(
                     pokefly, 0, recalibrateScreenScanningIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-            NotificationCompat.Action recalibrateScreenScanAction = new NotificationCompat.Action.Builder(
-                    R.drawable.ic_add_white_24px,
-                    pokefly.getString(R.string.notification_recalibrate),
-                    recalibrateScreenScanningPendingIntent).build();
-
-            notificationBuilder.addAction(recalibrateScreenScanAction);
+            contentView.setOnClickPendingIntent(R.id.recalibrate, recalibrateScreenScanningPendingIntent);
+        } else {
+            contentView.setViewVisibility(R.id.recalibrate, View.GONE);
         }
 
         // Stop service action
-        Intent stopServiceIntent = new Intent(pokefly, Pokefly.class);
-        stopServiceIntent.setAction(Pokefly.ACTION_STOP);
-
+        Intent stopServiceIntent = new Intent(pokefly, Pokefly.class)
+                .setAction(Pokefly.ACTION_STOP);
         PendingIntent stopServicePendingIntent = PendingIntent.getService(
                 pokefly, 0, stopServiceIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        contentView.setOnClickPendingIntent(R.id.pause, stopServicePendingIntent);
 
-        NotificationCompat.Action stopServiceAction = new NotificationCompat.Action.Builder(
-                R.drawable.ic_pause_white_24px,
-                pokefly.getString(R.string.pause_goiv_notification),
-                stopServicePendingIntent).build();
-
-        notificationBuilder.addAction(stopServiceAction);
-
-*/
-        NotificationManager notificationManager = (NotificationManager) pokefly.getSystemService(pokefly
-                .NOTIFICATION_SERVICE);
-        notificationManager.notify(NOTIFICATION_REQ_CODE, notificationBuilder.build());
-        // pokefly.startForeground(NOTIFICATION_REQ_CODE, notificationBuilder.build());
-    }
-
-    private RemoteViews getRunningNotificationView() {
-
-        /*
+        // Build notification
+        Notification notification = new NotificationCompat.Builder(pokefly)
+                .setSmallIcon(R.drawable.notification_icon)
                 .setContentTitle(pokefly.getString(R.string.notification_title, pokefly.getTrainerLevel()))
-                .setContentText(pokefly.getString(R.string.notification_title_tap_to_open))
-                .setContentIntent(openAppPendingIntent)
+                .setColor(pokefly.getColorC(R.color.colorPrimary))
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                .setPriority(NotificationCompat.PRIORITY_HIGH);
-         */
-        RemoteViews contentView = new RemoteViews(pokefly.getPackageName(), R.layout.notification);
+                .setPriority(NotificationCompat.PRIORITY_MAX)
+                .setCategory(NotificationCompat.CATEGORY_SERVICE)
+                .setCustomBigContentView(contentView)
+                .setOngoing(true)
+                .build();
 
-        contentView.setTextViewText(R.id.notification_title, pokefly.getString(R.string.notification_title, pokefly
-                .getTrainerLevel()));
-
-
-
-        return contentView;
+        NotificationManager notificationManager =
+                (NotificationManager) pokefly.getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(NOTIFICATION_REQ_CODE, notification);
     }
 
     /**

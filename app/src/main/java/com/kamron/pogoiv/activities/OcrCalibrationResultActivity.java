@@ -8,6 +8,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -61,6 +62,13 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
         fixHomeButton();
         final Bitmap bmp = CalibrationImage.calibrationImg;
 
+        View decor = getWindow().getDecorView();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        } else {
+            decor.setSystemUiVisibility(0);
+        }
+
         // Since the variable is static, we need to null the referenced object to be garbage collected.
         CalibrationImage.calibrationImg = null;
 
@@ -80,6 +88,7 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
                         dialog.dismiss();
                         if (results.isCompleteCalibration()) {
                             saveCalibrationButton.setEnabled(true);
+                            errorListTextView.setVisibility(View.GONE);
                             ocr_calibration_description.setVisibility(View.VISIBLE);
                             ocr_calibration_check.setVisibility(View.VISIBLE);
                         } else {

@@ -75,7 +75,7 @@ public class GoIVNotificationManager {
                 .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setCategory(NotificationCompat.CATEGORY_SERVICE)
                 .setCustomBigContentView(contentView)
-                .setOngoing(true)
+                .setOngoing(false)
                 .build();
 
         NotificationManager notificationManager =

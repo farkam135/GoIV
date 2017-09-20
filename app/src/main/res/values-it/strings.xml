@@ -15,6 +15,7 @@
     <string name="cancel">Cancella</string>
     <string name="check_iv">Analizza IV</string>
     <string name="notification_title">GoIV in esecuzione - Livello %1$d</string>
+    <string name="notification_title_short">GoIV - Liv %1$d</string>
     <string name="notification_open_app">Apri app</string>
     <string name="notification_recalibrate">Ricalibra</string>
     <string name="close">Chiudi</string>

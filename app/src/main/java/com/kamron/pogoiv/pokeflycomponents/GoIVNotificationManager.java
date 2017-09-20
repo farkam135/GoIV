@@ -9,7 +9,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.v4.app.NotificationCompat;
+import android.support.v7.app.NotificationCompat;
 import android.view.View;
 import android.widget.RemoteViews;
 
@@ -44,13 +44,17 @@ public class GoIVNotificationManager {
      */
     public void showPausedNotification() {
         // Prepare views
-        RemoteViews contentView = new RemoteViews(pokefly.getPackageName(), R.layout.notification_pokefly_paused);
+        RemoteViews contentView =
+                new RemoteViews(pokefly.getPackageName(), R.layout.notification_pokefly_paused);
+        RemoteViews contentBigView =
+                new RemoteViews(pokefly.getPackageName(), R.layout.notification_pokefly_paused_expanded);
 
         // Open app action
         Intent openAppIntent = new Intent(pokefly, MainActivity.class);
         PendingIntent openAppPendingIntent = PendingIntent.getActivity(
                 pokefly, 0, openAppIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         contentView.setOnClickPendingIntent(R.id.root, openAppPendingIntent);
+        contentBigView.setOnClickPendingIntent(R.id.root, openAppPendingIntent);
 
         // Open settings action
         Intent startSettingAppIntent = new Intent(pokefly, MainActivity.class)
@@ -58,6 +62,7 @@ public class GoIVNotificationManager {
         PendingIntent startSettingsPendingIntent = PendingIntent.getActivity(
                 pokefly, 0, startSettingAppIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         contentView.setOnClickPendingIntent(R.id.settings, startSettingsPendingIntent);
+        contentBigView.setOnClickPendingIntent(R.id.settings, startSettingsPendingIntent);
 
         // Start pokefly action
         Intent startServiceIntent = new Intent(pokefly, MainActivity.class)
@@ -65,16 +70,19 @@ public class GoIVNotificationManager {
         PendingIntent startServicePendingIntent = PendingIntent.getActivity(
                 pokefly, 0, startServiceIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         contentView.setOnClickPendingIntent(R.id.start, startServicePendingIntent);
+        contentBigView.setOnClickPendingIntent(R.id.start, startServicePendingIntent);
 
         // Build notification
         Notification notification = new NotificationCompat.Builder(pokefly)
                 .setSmallIcon(R.drawable.notification_icon)
                 .setContentTitle(pokefly.getString(R.string.notification_title_goiv_stopped))
+                .setContentText(pokefly.getString(R.string.notification_title_tap_to_open))
                 .setColor(pokefly.getColorC(R.color.colorAccent))
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setPriority(NotificationCompat.PRIORITY_MAX)
-                .setCategory(NotificationCompat.CATEGORY_SERVICE)
-                .setCustomBigContentView(contentView)
+                .setCategory(NotificationCompat.CATEGORY_PROGRESS)
+                .setContent(contentView)
+                .setCustomBigContentView(contentBigView)
                 .setOngoing(false)
                 .build();
 
@@ -88,8 +96,13 @@ public class GoIVNotificationManager {
      */
     public void showRunningNotification() {
         // Prepare views
-        RemoteViews contentView = new RemoteViews(pokefly.getPackageName(), R.layout.notification_pokefly_started);
+        RemoteViews contentView =
+                new RemoteViews(pokefly.getPackageName(), R.layout.notification_pokefly_started);
+        RemoteViews contentBigView =
+                new RemoteViews(pokefly.getPackageName(), R.layout.notification_pokefly_started_expanded);
         contentView.setTextViewText(R.id.notification_title,
+                pokefly.getString(R.string.notification_title_short, pokefly.getTrainerLevel()));
+        contentBigView.setTextViewText(R.id.notification_title,
                 pokefly.getString(R.string.notification_title, pokefly.getTrainerLevel()));
 
         // Open app action
@@ -97,6 +110,7 @@ public class GoIVNotificationManager {
         PendingIntent openAppPendingIntent = PendingIntent.getActivity(
                 pokefly, 0, openAppIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         contentView.setOnClickPendingIntent(R.id.root, openAppPendingIntent);
+        contentBigView.setOnClickPendingIntent(R.id.root, openAppPendingIntent);
 
         // Recalibrate action
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -105,8 +119,10 @@ public class GoIVNotificationManager {
             PendingIntent recalibrateScreenScanningPendingIntent = PendingIntent.getService(
                     pokefly, 0, recalibrateScreenScanningIntent, PendingIntent.FLAG_UPDATE_CURRENT);
             contentView.setOnClickPendingIntent(R.id.recalibrate, recalibrateScreenScanningPendingIntent);
+            contentBigView.setOnClickPendingIntent(R.id.recalibrate, recalibrateScreenScanningPendingIntent);
         } else {
             contentView.setViewVisibility(R.id.recalibrate, View.GONE);
+            contentBigView.setViewVisibility(R.id.recalibrate, View.GONE);
         }
 
         // Stop service action
@@ -115,16 +131,19 @@ public class GoIVNotificationManager {
         PendingIntent stopServicePendingIntent = PendingIntent.getService(
                 pokefly, 0, stopServiceIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         contentView.setOnClickPendingIntent(R.id.pause, stopServicePendingIntent);
+        contentBigView.setOnClickPendingIntent(R.id.pause, stopServicePendingIntent);
 
         // Build notification
         Notification notification = new NotificationCompat.Builder(pokefly)
                 .setSmallIcon(R.drawable.notification_icon)
                 .setContentTitle(pokefly.getString(R.string.notification_title, pokefly.getTrainerLevel()))
+                .setContentText(pokefly.getString(R.string.notification_title_tap_to_open))
                 .setColor(pokefly.getColorC(R.color.colorPrimary))
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setPriority(NotificationCompat.PRIORITY_MAX)
-                .setCategory(NotificationCompat.CATEGORY_SERVICE)
-                .setCustomBigContentView(contentView)
+                .setCategory(NotificationCompat.CATEGORY_PROGRESS)
+                .setContent(contentView)
+                .setCustomBigContentView(contentBigView)
                 .setOngoing(true)
                 .build();
 

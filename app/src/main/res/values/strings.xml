@@ -221,6 +221,7 @@
     <string name="acquired_from_egg_or_raid">Acquired from egg or raid</string>
     <string name="recalibrate_goiv_notification">Recalibrate</string>
     <string name="title_activity_ocr_calibration_result">Calibration Result</string>
+    <string name="title_activity_ocr_calibration_error">Calibration Error</string>
     <string name="scan_optimization_notice_text">You have not run scan optimization. It\'s recommended to run scan optimization on all devices. To run a scan optimization:\n1. Start GoIV\n2. Go to a \'mon page\n3. Open the GoIV notification\n4. Select \'Recalibrate\'!</string>
     <string name="scan_optimization_screen_ratio_warning">GoIV has detected that your screen is not standard. You\'ll most likely need to perform scan optimization for GoIV to work.</string>
     <string name="touch_screen_quick_iv_scan">Touch screen to retry quick IV scan</string>
@@ -244,20 +245,20 @@
     <string name="done">Done</string>
     <string name="ocr_calibrating">Calibrating</string>
     <string name="ocr_loading">Loading. Please wait…</string>
-    <string name="ocr_error_name">Unable to locate \'mon name\n</string>
-    <string name="ocr_error_type">Unable to locate \'mon type\n</string>
-    <string name="ocr_error_candy_name">Unable to locate \'mon candy name\n</string>
-    <string name="ocr_error_hp">Unable to locate \'mon HP value\n</string>
-    <string name="ocr_error_cp">Unable to locate \'mon CP value\n</string>
-    <string name="ocr_error_candy_amount">Unable to locate \'mon candies amount\n</string>
-    <string name="ocr_error_evo_cost">Unable to locate \'mon evolution cost\n</string>
+    <string name="ocr_error_name">Unable to locate name\n</string>
+    <string name="ocr_error_type">Unable to locate type\n</string>
+    <string name="ocr_error_candy_name">Unable to locate candy name\n</string>
+    <string name="ocr_error_hp">Unable to locate HP value\n</string>
+    <string name="ocr_error_cp">Unable to locate CP value\n</string>
+    <string name="ocr_error_candy_amount">Unable to locate candies amount\n</string>
+    <string name="ocr_error_evo_cost">Unable to locate evolution cost\n</string>
     <string name="ocr_error_arc_center">Unable to locate level arc center\n</string>
     <string name="ocr_error_arc_radius">Unable to compute level arc radius\n</string>
     <string name="ocr_error_locate_pixel_white">Unable to locate white marker pixel\n</string>
     <string name="ocr_error_pick_pixel_white">Unable to pick white marker pixel color\n</string>
     <string name="ocr_error_locate_pixel_green">Unable to locate green marker pixel\n</string>
     <string name="ocr_error_pick_pixel_green">Unable to pick green marker pixel color\n</string>
-    <string name="ocr_msg_verify">\nATTENTION! Please verify that:\n① The \'mon info screen is scrolled all the way up\n② The \'mon 3D model doesn\'t cover any important information\n③ The \'mon is not a final evolution! I suggest a Pidgey!</string>
+    <string name="ocr_msg_verify">\nATTENTION! Please verify that:\n① The info screen is scrolled all the way up\n② The 3D model doesn\'t cover any important information\n③ Is not a final evolution! I suggest a Pidgey!</string>
     <string name="ocr_calibration_saved">Calibration saved!\nRestart GoIV to apply the changes!</string>
     <string name="ocr_finding_name">Finding name area</string>
     <string name="ocr_finding_type">Finding type area</string>
@@ -323,4 +324,5 @@
     <string name="token_msg_worthTra_msg2" formatted="false">" possible IV stats. For instance, a 96% IV Alakazam will get a score higher than a 20% Tyranitar, regardless the fact that the maximum possible CP for the latter is higher: since the probability of getting better Tyranitar is higher than the one of getting better Alakazams, the second represents a much better stardust investment. Ranges in 00–99. Always returns two digits."</string>
     <string name="token_msg_train">Train</string>
     <string name="go_back_to_goiv">Go back to GoIV</string>
+    <string name="go_back">Go back</string>
 </resources>

@@ -17,9 +17,10 @@
         android:paddingTop="16dp">
 
         <TextView
+            android:id="@+id/ocr_calibration_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorAccent"
+            android:background="@color/colorPrimary"
             android:padding="8dp"
             android:text="@string/title_activity_ocr_calibration_result"
             android:textAppearance="?android:attr/textAppearanceMedium"
@@ -34,6 +35,7 @@
 
 
             <TextView
+                android:id="@+id/ocr_calibration_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="8dp"
@@ -82,6 +84,7 @@
                 tools:text="Detection error one\nDetection error two\nDetection error three"/>
 
             <TextView
+                android:id="@+id/ocr_calibration_check"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
@@ -89,6 +92,18 @@
                 android:paddingEnd="32dp"
                 android:paddingStart="32dp"
                 android:text="@string/ocr_calibration_check_before"/>
+
+            <Button
+                android:id="@+id/backButton"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:paddingBottom="16dp"
+                android:paddingEnd="16dp"
+                android:paddingStart="16dp"
+                android:text="@string/go_back"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:visibility="gone"/>
 
         </LinearLayout>
 

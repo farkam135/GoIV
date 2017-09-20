@@ -71,7 +71,7 @@
     <string name="cancel">Cancelar</string>
     <string name="check_iv">Comprobar IV</string>
     <string name="notification_title">GoIV en Ejecución - Nivel %1$d</string>
-    <string name="notification_title_goiv_stopped">GoIV detenido</string>
+    <string name="notification_title_goiv_stopped">GoIV pausado</string>
     <string name="notification_title_tap_to_open">Presiona para abrir GoIV.</string>
     <string name="notification_open_app">Abrir app</string>
     <string name="notification_recalibrate">Recalibrar</string>
@@ -213,6 +213,7 @@
     <string name="acquired_from_egg_or_raid">Conseguido de huevo o incursión</string>
     <string name="recalibrate_goiv_notification">Recalibrar</string>
     <string name="title_activity_ocr_calibration_result">Resultado calibración</string>
+    <string name="title_activity_ocr_calibration_error">Error calibración</string>
     <string name="scan_optimization_notice_text">No has ejecutado la optimización de escaneo. Se recomienda hacer una optimización de escaneo en todos los dispositivos. Para iniciarla:\n1. Inicia GoIV\n2. Abre cualquier ficha de monstruo\n3. Despliega la notificación de GoIV\n4. Selecciona \'Recalibrar\'!</string>
     <string name="scan_optimization_screen_ratio_warning">GoIV ha detectado que tu pantalla no es estándar. Es posible que necesite una calibración de escaneo para que GoIV funcione correctamente.</string>
     <string name="touch_screen_quick_iv_scan">Toca pantalla para reprevisualizar IV</string>
@@ -249,7 +250,7 @@
     <string name="ocr_error_pick_pixel_white">No se pudo seleccionar el marcador de pixel blanco\n</string>
     <string name="ocr_error_locate_pixel_green">No se pudo encontrar el marcador de pixel verde\n</string>
     <string name="ocr_error_pick_pixel_green">No se pudo seleccionar el marcador de pixel verde\n</string>
-    <string name="ocr_msg_verify">\n¡ATENCIÓN! Por favor verifica que:\n① La ficha de pokemon está subida hasta arriba del todo\n② El modelo 3D del pokemon no tape ninguna información importante\n③ ¡El pokemon no sea una evolución final! ¡Sugiero un Pidgey!</string>
+    <string name="ocr_msg_verify">\n¡ATENCIÓN! Por favor verifica que:\n① La ficha está subida hasta arriba del todo\n② El modelo 3D no tapa ninguna información importante\n③ ¡No es una evolución final! ¡Se recomienda un Pidgey!</string>
     <string name="ocr_calibration_saved">¡Calibración guardada!\n¡Reinicia GoIV para aplicar los cambios!</string>
     <string name="ocr_finding_name">Buscando área nombre</string>
     <string name="ocr_finding_type">Buscando área tipo</string>
@@ -314,4 +315,6 @@
     <string name="token_msg_worthTra_msg1">"Esta ficha devuelve la evaluación sobre cómo vale la pena entrenar este monstruo, basado tanto en las estadísticas base como en la "</string>
     <string name="token_msg_worthTra_msg2" formatted="false">" estadística posible de IV. Por ejemplo, un Alakazam de 96% IV obtendrá una puntuación mayor que un Tyranitar de 20%, independientemente del hecho de que el PC máximo posible para este último sea mayor: ya que la probabilidad de mejorar Tyranitar es mayor que la de conseguir un Alakazam mejor, el segundo representa una inversión mucho mejor de polvoestelares. Rangos entre 00–99. Siempre devuelve dos dígitos."</string>
     <string name="token_msg_train">Entrenar</string>
+    <string name="go_back_to_goiv">Volver al GoIV</string>
+    <string name="go_back">Volver atrás</string>
 </resources>

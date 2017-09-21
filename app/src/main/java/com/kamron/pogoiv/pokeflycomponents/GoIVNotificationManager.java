@@ -147,9 +147,7 @@ public class GoIVNotificationManager {
                 .setOngoing(true)
                 .build();
 
-        NotificationManager notificationManager =
-                (NotificationManager) pokefly.getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(NOTIFICATION_REQ_CODE, notification);
+        pokefly.startForeground(NOTIFICATION_REQ_CODE, notification);
     }
 
     /**

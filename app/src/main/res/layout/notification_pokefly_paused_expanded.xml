@@ -50,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="4dp"
                 android:text="@string/settings_page_title"
-                android:textColor="@color/primary_text_default_material_light"
+                android:textColor="@color/colorPrimary"
                 android:drawableEnd="@drawable/ic_settings_24px"
                 android:drawablePadding="4dp" />
 
@@ -60,7 +60,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/main_start"
-                android:textColor="@color/primary_text_default_material_light"
+                android:textColor="@color/colorPrimary"
                 android:drawableEnd="@drawable/ic_play_circle_outline_24px"
                 android:drawablePadding="4dp" />
 

@@ -15,6 +15,7 @@
     <string name="cancel">Cancella</string>
     <string name="check_iv">Analizza IV</string>
     <string name="notification_title">GoIV in esecuzione - Livello %1$d</string>
+    <string name="notification_title_short">GoIV - Liv %1$d</string>
     <string name="notification_open_app">Apri app</string>
     <string name="notification_recalibrate">Ricalibra</string>
     <string name="close">Chiudi</string>
@@ -180,7 +181,7 @@
     <string name="cp_vs_iv">% PL vs max IV</string>
     <string name="goiv_started">GoIV avviato.</string>
     <string name="hp_expanded_box">PS</string>
-    <string name="notification_title_goiv_stopped">"GoIV "</string>
+    <string name="notification_title_goiv_stopped">"GoIV in pausa"</string>
     <string name="pause_goiv_notification">Pausa</string>
     <string name="notification_title_tap_to_open">Tocca per aprire GoIV.</string>
     <string name="no_clipboard_preview">Anteprima non disponibile</string>

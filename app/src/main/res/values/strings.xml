@@ -71,6 +71,7 @@
     <string name="cancel">Cancel</string>
     <string name="check_iv">Check IV</string>
     <string name="notification_title">GoIV Running - Level %1$d</string>
+    <string name="notification_title_short">GoIV - Lvl %1$d</string>
     <string name="notification_title_goiv_stopped">GoIV stopped</string>
     <string name="notification_title_tap_to_open">Tap to open GoIV.</string>
     <string name="notification_open_app">Open app</string>

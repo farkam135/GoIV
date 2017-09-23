@@ -70,7 +70,8 @@
     <string name="use_the_slider_below_to_align_the_arc">Usa el slider para alinear el marcador en el arco</string>
     <string name="cancel">Cancelar</string>
     <string name="check_iv">Comprobar IV</string>
-    <string name="notification_title">GoIV en Ejecución - Nivel %1$d</string>
+    <string name="notification_title">GoIV en ejecución - Nivel %1$d</string>
+    <string name="notification_title_short">GoIV - Niv %1$d</string>
     <string name="notification_title_goiv_stopped">GoIV pausado</string>
     <string name="notification_title_tap_to_open">Presiona para abrir GoIV.</string>
     <string name="notification_open_app">Abrir app</string>
@@ -112,7 +113,7 @@
     <string name="refine_no_progress">El refinamiento no mejoró resultados</string>
     <string name="last_scan">Último analizado: %1$s</string>
     <string name="possible_iv_combinations" tools:ignore="PluralsCandidate">"%1$d posibles combinaciones de IV"</string>
-    <string name="too_many_iv_combinations">Demasiadas combinaciones de IV</string>
+    <string name="check_cp_or_level">¡Algo salió mal! Comprueba que los valores introducidos son correctos y que GoIV tiene el nivel de entrenador correcto en la pantalla de inicio.</string>
     <string name="refining_instructions">Refine la predicción de IV mejorando un Pokémon y comparando los resultados obtenidos</string>
     <string name="appraisal_refining">Refinación adicional</string>
     <string name="autoappraisal_start">Autorefinación iniciada</string>
@@ -128,7 +129,9 @@
     <string name="ongoing_update">Ya se está descargando una actualización para GoIV</string>
     <string name="iv_perfect" formatted="false">Perfección (%)</string>
     <string name="wrong_pokemon_name_input">" no encontrado."</string>
+    <string name="min">MÍN</string>
     <string name="avg">MED</string>
+    <string name="max">MÁX</string>
     <string name="atk">ATQ</string>
     <string name="def">DEF</string>
     <string name="sta">VID</string>
@@ -228,7 +231,6 @@
     <string name="token_fill_custom_separator">Por favor rellene su separador personalizado</string>
     <string name="token_not_dot_separator">El separador personalizado no puede contener . porque el desarrollador es perezoso</string>
     <string name="token_max_length">Máx. longitud:</string>
-    <string name="token_max_length_parenthesis">(máx. longitud)</string>
     <string name="clipboard_token_list_available">Lista completa de fichas disponibles</string>
     <string name="clipboard_token_description_title">Descripción de la ficha seleccionada</string>
     <string name="ocr_calibration_result_description">Este es el resultado de la calibración automática, cada campo de interés detectado ha sido marcado.</string>

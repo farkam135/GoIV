@@ -174,6 +174,8 @@ public class Pokefly extends Service {
 
     @BindView(R.id.tvSeeAllPossibilities)
     TextView seeAllPossibilities;
+    @BindView(R.id.correctCPLevel)
+    TextView correctCPorLevel;
     @BindView(R.id.etCp)
     EditText pokemonCPEdit;
     @BindView(R.id.etHp)
@@ -231,8 +233,6 @@ public class Pokefly extends Service {
     TextView exResultHP;
     @BindView(R.id.exResultPercentPerfection)
     TextView exResultPercentPerfection;
-    @BindView(R.id.explainCPPercentageComparedToMaxIV)
-    TextView explainCPPercentageComparedToMaxIV;
     @BindView(R.id.exResStardust)
     TextView exResStardust;
     @BindView(R.id.exResPrevScan)
@@ -654,7 +654,7 @@ public class Pokefly extends Service {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 estimatedPokemonLevel = Data.levelIdxToLevel(progress);
                 setArcPointer(estimatedPokemonLevel);
-                levelIndicator.setText(estimatedPokemonLevel + "");
+                levelIndicator.setText(String.valueOf(estimatedPokemonLevel));
             }
 
             @Override
@@ -1251,7 +1251,7 @@ public class Pokefly extends Service {
     public void addSpecificClipboard(IVScanResult ivScanResult, IVCombination ivCombination) {
 
 
-        String clipResult = "";
+        String clipResult;
         IVScanResult singleIVScanResult = new IVScanResult(ivScanResult.pokemon, ivScanResult.estimatedPokemonLevel,
                 ivScanResult.scannedCP);
         singleIVScanResult.addIVCombination(ivCombination.att, ivCombination.def, ivCombination.sta);
@@ -1287,7 +1287,10 @@ public class Pokefly extends Service {
         populateResultsHeader(ivScanResult);
 
 
-        if (ivScanResult.getCount() == 1) {
+        if (ivScanResult.getCount() == 0) {
+            populateNotIVMatch(ivScanResult);
+        }
+        else if (ivScanResult.getCount() == 1) {
             populateSingleIVMatch(ivScanResult);
         } else { // More than a match
             populateMultipleIVMatch(ivScanResult);
@@ -1360,7 +1363,7 @@ public class Pokefly extends Service {
     }
 
     /**
-     * Populates the reuslt screen with the layout as if its multiple results.
+     * Populates the result screen with the layout as if its multiple results.
      */
     private void populateMultipleIVMatch(IVScanResult ivScanResult) {
         llMaxIV.setVisibility(View.VISIBLE);
@@ -1374,7 +1377,8 @@ public class Pokefly extends Service {
 
 
         populateAllIvPossibilities(ivScanResult);
-
+        seeAllPossibilities.setVisibility(View.VISIBLE);
+        correctCPorLevel.setVisibility(View.GONE);
     }
 
     /**
@@ -1383,6 +1387,23 @@ public class Pokefly extends Service {
     private void populateAllIvPossibilities(IVScanResult ivScanResult) {
         IVResultsAdapter ivResults = new IVResultsAdapter(ivScanResult, this);
         rvResults.setAdapter(ivResults);
+    }
+
+    /**
+     * Populates the result screen with error warning.
+     */
+    private void populateNotIVMatch(IVScanResult ivScanResult) {
+        llMaxIV.setVisibility(View.VISIBLE);
+        llMinIV.setVisibility(View.VISIBLE);
+        llSingleMatch.setVisibility(View.GONE);
+        llMultipleIVMatches.setVisibility(View.VISIBLE);
+        tvAvgIV.setText(getString(R.string.avg));
+
+        resultsCombinations.setText(
+                String.format(getString(R.string.possible_iv_combinations), ivScanResult.iVCombinations.size()));
+
+        seeAllPossibilities.setVisibility(View.GONE);
+        correctCPorLevel.setVisibility(View.VISIBLE);
     }
 
     /**
@@ -1402,6 +1423,8 @@ public class Pokefly extends Service {
 
         llSingleMatch.setVisibility(View.VISIBLE);
         llMultipleIVMatches.setVisibility(View.GONE);
+        seeAllPossibilities.setVisibility(View.VISIBLE);
+        correctCPorLevel.setVisibility(View.GONE);
     }
 
     private int getSeekbarOffset() {
@@ -1895,7 +1918,7 @@ public class Pokefly extends Service {
     private final BroadcastReceiver processBitmap = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Bitmap bitmap = (Bitmap) intent.getParcelableExtra(KEY_BITMAP);
+            Bitmap bitmap = intent.getParcelableExtra(KEY_BITMAP);
             if (bitmap == null) {
                 return;
             }

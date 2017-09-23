@@ -115,7 +115,6 @@
     <string name="settings_page_title">Einstellungen</string>
     <string name="stamina_hp">KP</string>
     <string name="stardust_cost">Sternenstaub-Kosten</string>
-    <string name="too_many_iv_combinations">Zu viele IV-Kombinationen</string>
     <string name="up_to_date">Die App ist auf dem aktuellsten Stand</string>
     <string name="update_check_failed">Ein Fehler ist aufgetreten während auf nach eine neuen Version gesucht wurde. Bitte überprüfe deine Internetverbindung…</string>
     <string name="wrong_pokemon_name_input">\" wurde nicht gefunden.\"</string>

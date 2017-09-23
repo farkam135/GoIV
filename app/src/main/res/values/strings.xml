@@ -113,7 +113,7 @@
     <string name="refine_no_progress">Refinement didn\'t improve results</string>
     <string name="last_scan">Last scan: %1$s</string>
     <string name="possible_iv_combinations" tools:ignore="PluralsCandidate">"%1$d possible IV combinations"</string>
-    <string name="too_many_iv_combinations">Too many IV combinations</string>
+    <string name="check_cp_or_level">Something went wrong! Please check that the input values were correct, and that GoIV has the right trainer level in the launch screen.</string>
     <string name="refining_instructions">Increase IV calculation precision by leveling up and comparing two scans of the same monster</string>
     <string name="appraisal_refining">Additional Refining</string>
     <string name="autoappraisal_start">Auto Appraisal Started</string>
@@ -129,7 +129,9 @@
     <string name="ongoing_update">An update for GoIV is already being downloaded</string>
     <string name="iv_perfect" formatted="false">% Perfect</string>
     <string name="wrong_pokemon_name_input">" was not found."</string>
+    <string name="min">MIN</string>
     <string name="avg">AVG</string>
+    <string name="max">MAX</string>
     <string name="atk">ATK</string>
     <string name="def">DEF</string>
     <string name="sta">STA</string>
@@ -237,7 +239,6 @@
     <string name="token_fill_custom_separator">Please fill in your custom separator</string>
     <string name="token_not_dot_separator">Custom separator can\'t contain . because the developer is lazy</string>
     <string name="token_max_length">Max length:</string>
-    <string name="token_max_length_parenthesis">(Max length)</string>
     <string name="clipboard_token_list_available">Full list of available token types</string>
     <string name="clipboard_token_description_title">Selected token description</string>
     <string name="ocr_calibration_result_description">This is the result of the automatic calibration, each field of interest that was detected has been marked.</string>

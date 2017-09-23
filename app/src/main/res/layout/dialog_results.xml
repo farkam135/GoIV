@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -20,24 +19,21 @@
             android:textSize="24sp"
             android:textStyle="bold"
             android:textColor="@color/black"
-            android:gravity="bottom"
-            />
-        <TextView
+            android:gravity="bottom"/>
 
+        <TextView
             android:id="@+id/resultsPokemonLevel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="18sp"
             android:textColor="#888"
             android:text="@string/level"
-            android:layout_marginLeft="5sp"/>
+            android:layout_marginStart="5sp"/>
 
         <View
-
             android:layout_height="match_parent"
             android:layout_width="0dp"
             android:layout_weight="1">
-
         </View>
 
         <ImageButton
@@ -48,7 +44,6 @@
             android:background="#00000000"
             android:text=""
             android:id="@+id/shareWithStorimod"/>
-
 
     </LinearLayout>
 
@@ -87,8 +82,7 @@
                     android:textSize="24sp"
                     android:textStyle="bold"
                     android:text="15"
-                    android:textColor="#222"
-                    />
+                    android:textColor="#222"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -121,8 +115,7 @@
                     android:textSize="24sp"
                     android:textStyle="bold"
                     android:textColor="#222"
-                    android:text="15"
-                    />
+                    android:text="15"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -148,15 +141,13 @@
                 android:layout_gravity="center">
 
                 <TextView
-
                     android:id="@+id/resultsHP"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="24sp"
                     android:textStyle="bold"
                     android:textColor="#222"
-                    android:text="15"
-                    />
+                    android:text="15"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -191,18 +182,17 @@
                 android:textSize="24sp"
                 android:textStyle="bold"
                 android:text="76%"
-                android:textColor="#222"
-                />
+                android:textColor="#222"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="MIN"
+                android:text="@string/min"
                 android:layout_margin="0dp"
                 android:textSize="12sp"
                 android:gravity="center"
                 android:textColor="#222"
-                android:layout_marginLeft="5sp"/>
+                android:layout_marginStart="5sp"/>
 
         </LinearLayout>
 
@@ -221,25 +211,23 @@
             android:layout_gravity="center">
 
             <TextView
-
                 android:id="@+id/resultsAvePercentage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 android:textColor="#222"
-                android:text="82%"
-                />
+                android:text="82%"/>
 
             <TextView
                 android:id="@+id/tvAvgIV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="AVG"
+                android:text="@string/avg"
                 android:textSize="12sp"
                 android:layout_margin="0dp"
                 android:textColor="#222"
-                android:layout_marginLeft="5sp"/>
+                android:layout_marginStart="5sp"/>
 
         </LinearLayout>
 
@@ -258,24 +246,22 @@
             android:layout_gravity="center">
 
             <TextView
-
                 android:id="@+id/resultsMaxPercentage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 android:textColor="#222"
-                android:text="88%"
-                />
+                android:text="88%"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="MAX"
+                android:text="@string/max"
                 android:textSize="12sp"
                 android:layout_margin="0dp"
                 android:textColor="#222"
-                android:layout_marginLeft="5sp"/>
+                android:layout_marginStart="5sp"/>
 
         </LinearLayout>
 
@@ -296,7 +282,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="## Possible Combinations"
-                android:layout_gravity="left"
+                android:layout_gravity="start"
                 android:textSize="18sp"
                 android:textColor="#888"/>
 
@@ -308,13 +294,23 @@
                 android:textColor="@color/colorPrimary"
                 android:text="@string/see_all"
                 android:clickable="true"
-                android:gravity="right"/>
+                android:gravity="end"/>
         </LinearLayout>
 
         <include layout="@layout/dialog_refine_by_last_scan"
             android:id="@+id/refine_by_last_scan"/>
 
-
+        <TextView
+            android:id="@+id/correctCPLevel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/check_cp_or_level"
+            android:textColor="#B10000"
+            android:textAlignment="textStart"
+            android:layout_marginTop="5dp"
+            android:paddingLeft="12sp"
+            android:paddingRight="12sp"
+            android:visibility="gone"/>
 
     </LinearLayout>
 
@@ -346,17 +342,14 @@
                 android:layout_gravity="center"
                 android:textSize="18sp"
                 android:clickable="true"
-                android:drawableRight="@drawable/ic_keyboard_arrow_right_blue_18dp" />
+                android:drawableEnd="@drawable/ic_keyboard_arrow_right_blue_18dp"/>
 
         </LinearLayout>
 
-
         <include layout="@layout/expanded_results_box"
             android:id="@+id/expandedResultsBox"
-            android:visibility="gone"
-        />
+            android:visibility="gone"/>
 
     </LinearLayout>
-
 
 </LinearLayout>

@@ -41,7 +41,7 @@
                 android:id="@+id/clipboardMaxLength"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/token_max_length_parenthesis" />
+                android:text="#(Max length)" />
 
         </LinearLayout>
 

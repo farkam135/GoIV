@@ -52,7 +52,6 @@
     <string name="refine_no_progress">Affina non ha ottenuto risultati più precisi</string>
     <string name="last_scan">Scan precedente: %1$s</string>
     <string name="possible_iv_combinations">"%1$d combinazioni di IV"</string>
-    <string name="too_many_iv_combinations">Troppe combinazioni di IV</string>
     <string name="refining_instructions">Affina la precisione del calcolo IV potenziando e comparando due scansioni dello stesso Pokémon</string>
     <string name="attack">Attacco</string>
     <string name="defense">Difesa</string>

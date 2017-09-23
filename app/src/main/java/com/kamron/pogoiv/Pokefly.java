@@ -1289,8 +1289,7 @@ public class Pokefly extends Service {
 
         if (ivScanResult.getCount() == 0) {
             populateNotIVMatch(ivScanResult);
-        }
-        else if (ivScanResult.getCount() == 1) {
+        } else if (ivScanResult.getCount() == 1) {
             populateSingleIVMatch(ivScanResult);
         } else { // More than a match
             populateMultipleIVMatch(ivScanResult);

@@ -135,7 +135,7 @@ public class GoIVNotificationManager {
 
         // Build notification
         Notification notification = new NotificationCompat.Builder(pokefly)
-                .setSmallIcon(R.drawable.notification_icon)
+                .setSmallIcon(R.drawable.notification_icon_play)
                 .setContentTitle(pokefly.getString(R.string.notification_title, pokefly.getTrainerLevel()))
                 .setContentText(pokefly.getString(R.string.notification_title_tap_to_open))
                 .setColor(pokefly.getColorC(R.color.colorPrimary))

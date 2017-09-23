@@ -2,6 +2,7 @@ package com.kamron.pogoiv.clipboardlogic.tokens;
 
 import android.content.Context;
 
+import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.clipboardlogic.ClipboardToken;
 import com.kamron.pogoiv.scanlogic.IVScanResult;
 import com.kamron.pogoiv.scanlogic.PokeInfoCalculator;
@@ -67,28 +68,23 @@ public class LevelToken extends ClipboardToken {
     @Override
     public String getTokenName(Context context) {
         if (mode == 0) {
-            return "Lvl2";
+            return context.getString(R.string.token_msg_lvl) + "x2";
         }
         if (mode == 1) {
-            return "Lvl";
+            return context.getString(R.string.token_msg_lvl);
         }
-        return "Lv.5";
+        return context.getString(R.string.token_msg_lvl) + ".5";
     }
 
     @Override
     public String getLongDescription(Context context) {
         if (mode == 0) {
-            return "This token represents the level of the monster, as it was scanned, times 2. This avoids decimals,"
-                    + " which makes the text longer, but does not lose information like removing the decimal does. For "
-                    + "example, if the monster is level 10.5, this will return 21.";
+            return context.getString(R.string.token_msg_lvl_msg1);
         }
         if (mode == 1) {
-            return "This token represents the level of the monster, as it was scanned, but removes the decimal."
-                    + " This potentially loses information. For example, a level 10.5 monster will return 10.";
+            return context.getString(R.string.token_msg_lvl_msg2);
         }
-        return "This token represents the level of the monster, as it was scanned, including the decimal."
-                + " This makes the output longer than the alternatives, but is very accurate. For example, a level 10.5"
-                + " monster will return as 10.5.";
+        return context.getString(R.string.token_msg_lvl_msg3);
     }
 
     @Override

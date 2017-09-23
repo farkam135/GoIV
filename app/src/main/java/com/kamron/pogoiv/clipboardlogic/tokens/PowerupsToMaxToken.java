@@ -2,6 +2,7 @@ package com.kamron.pogoiv.clipboardlogic.tokens;
 
 import android.content.Context;
 
+import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.clipboardlogic.ClipboardToken;
 import com.kamron.pogoiv.scanlogic.IVScanResult;
 import com.kamron.pogoiv.scanlogic.PokeInfoCalculator;
@@ -36,12 +37,11 @@ public class PowerupsToMaxToken extends ClipboardToken {
     }
 
     @Override public String getTokenName(Context context) {
-        return "PUpTo40";
+        return context.getString(R.string.token_msg_PUpTo) + "40";
     }
 
     @Override public String getLongDescription(Context context) {
-        return "Shos how many power-ups are left until monster would reach level 40. For example if the monster is "
-                + "level 15, there are 25 levels to level 40, which is 50 powerups.";
+        return context.getString(R.string.token_msg_powUp);
     }
 
     @Override public Category getCategory() {

@@ -100,7 +100,7 @@ public class ClipboardModifierFragment
         tokenPreviewAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             private void updateMaxLength() {
                 clipboardMaxLength.setText(String.format(Locale.getDefault(),
-                        "(%1$d/12 characters)", tokenPreviewAdapter.getMaxLength()));
+                        getString(R.string.token_max_characters), tokenPreviewAdapter.getMaxLength()));
             }
 
             @Override public void onChanged() {
@@ -148,11 +148,11 @@ public class ClipboardModifierFragment
                 if (maxEvolutionVariant) {
                     btnMaxEvolution.setImageDrawable(
                             ContextCompat.getDrawable(getContext(), R.drawable.ic_star_white_18dp));
-                    Toast.makeText(getContext(), "Show tokens max evolution variant", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), R.string.token_show_max_evo_variant, Toast.LENGTH_SHORT).show();
                 } else {
                     btnMaxEvolution.setImageDrawable(
                             ContextCompat.getDrawable(getContext(), R.drawable.ic_star_border_white_18dp));
-                    Toast.makeText(getContext(), "Show standard tokens", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), R.string.token_show_standard, Toast.LENGTH_SHORT).show();
                 }
                 tokenShowcaseAdapter.setEvolvedVariant(maxEvolutionVariant);
             }
@@ -214,16 +214,16 @@ public class ClipboardModifierFragment
         // This dialog will implement the user interaction
         new AlertDialog.Builder(getContext())
                 .setView(dialogView)
-                .setMessage("Please input your custom separator")
+                .setMessage(R.string.token_input_custom_separator)
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     @Override public void onClick(DialogInterface dialogInterface, int i) {
                         String separator = editText.getText().toString().trim();
                         if (Strings.isNullOrEmpty(separator)) {
                             Toast.makeText(getContext(),
-                                    "Please fill in your custom separator", Toast.LENGTH_LONG).show();
+                                    R.string.token_fill_custom_separator, Toast.LENGTH_LONG).show();
                         } else if (separator.contains(".")) {
-                            Toast.makeText(getContext(), "Custom separator can't contain ."
-                                    + " because the developer is lazy", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getContext(),
+                                    R.string.token_not_dot_separator, Toast.LENGTH_LONG).show();
                         } else {
                             selectedToken = new SeparatorToken(separator);
                             addToken();

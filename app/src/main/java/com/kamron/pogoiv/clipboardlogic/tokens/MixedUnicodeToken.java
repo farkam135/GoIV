@@ -2,6 +2,7 @@ package com.kamron.pogoiv.clipboardlogic.tokens;
 
 import android.content.Context;
 
+import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.clipboardlogic.ClipboardToken;
 import com.kamron.pogoiv.scanlogic.IVCombination;
 import com.kamron.pogoiv.scanlogic.IVScanResult;
@@ -120,18 +121,12 @@ public class MixedUnicodeToken extends ClipboardToken {
 
     @Override
     public String getLongDescription(Context context) {
-        String returner = "Similar to UIV, UNICODE circular numbers are used to represent IV.";
+        String returner = context.getString(R.string.token_msg_mixUnicode_msg1);
 
         if (filled) {
-            returner += " This token uses filled characters to represent single values and empty characters "
-                    + "to represent the lowest of multiple values. For example, ⓭ in the attack position would "
-                    + "mean that all Attack values are 13, while ① in the defense or HP means there are "
-                    + "multiple values possible and that 1 is the lowest.";
+            returner += context.getString(R.string.token_msg_mixUnicode_msg2);
         } else {
-            returner += " This token uses empty characters to represent single values and filled characters "
-                    + "to represent the lowest of multiple values. For example, ⑪ in the attack position would "
-                    + "mean that all Attack values are 11, while ❾ in the defense or HP means there are "
-                    + "multiple values possible and that 9 is the lowest.";
+            returner += context.getString(R.string.token_msg_mixUnicode_msg3);
         }
         return returner;
     }

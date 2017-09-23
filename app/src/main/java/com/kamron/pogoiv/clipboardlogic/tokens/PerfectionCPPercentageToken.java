@@ -2,6 +2,7 @@ package com.kamron.pogoiv.clipboardlogic.tokens;
 
 import android.content.Context;
 
+import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.clipboardlogic.ClipboardToken;
 import com.kamron.pogoiv.scanlogic.IVCombination;
 import com.kamron.pogoiv.scanlogic.IVScanResult;
@@ -53,9 +54,7 @@ public class PerfectionCPPercentageToken extends ClipboardToken {
 
     @Override
     public String getLongDescription(Context context) {
-        return "This token calculates how close your monster is to its max potential, measured by CP. For example, if"
-                + " a monster with max IVs maxes out at 2000cp, but your specific monster maxes out at 1900, then your "
-                + "monster perfection is 95%, so this token returns 95.";
+        return context.getString(R.string.token_msg_perfCP);
     }
 
     @Override

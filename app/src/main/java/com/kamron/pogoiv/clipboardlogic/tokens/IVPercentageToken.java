@@ -2,6 +2,7 @@ package com.kamron.pogoiv.clipboardlogic.tokens;
 
 import android.content.Context;
 
+import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.clipboardlogic.ClipboardToken;
 import com.kamron.pogoiv.scanlogic.IVCombination;
 import com.kamron.pogoiv.scanlogic.IVScanResult;
@@ -106,31 +107,29 @@ public class IVPercentageToken extends ClipboardToken {
         final String modeText;
         switch (mode) {
             case MIN:
-                modeText = "minimum";
+                modeText = context.getString(R.string.token_msg_ivPerc_min);
                 break;
             case MIN_SUP:
-                modeText = "superscript minimum";
+                modeText = context.getString(R.string.token_msg_ivPerc_minSup);
                 break;
             case AVG:
-                modeText = "average";
+                modeText = context.getString(R.string.token_msg_ivPerc_avg);
                 break;
             case AVG_SUP:
-                modeText = "superscript average";
+                modeText = context.getString(R.string.token_msg_ivPerc_avgSup);
                 break;
             case MAX:
-                modeText = "maximum";
+                modeText = context.getString(R.string.token_msg_ivPerc_max);
                 break;
             case MAX_SUP:
-                modeText = "superscript maximum";
+                modeText = context.getString(R.string.token_msg_ivPerc_maxSup);
                 break;
             default:
                 throw new IllegalArgumentException();
         }
 
-        return "Get the " + modeText + " percent of the IV possibilities. If only one iv combination is "
-                + "possible, minimum, average and maximum will be the same."
-                + " For example, if the iv range is 55-75, the minimum will return 55, the average will return "
-                + "something between 55 and 75, and the maximum will return 75.";
+        return context.getString(R.string.token_msg_ivPerc_msg1) + modeText + context.getString(R.string
+                .token_msg_ivPerc_msg2);
     }
 
     @Override

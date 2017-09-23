@@ -23,7 +23,7 @@ public class TokenHeaderViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void bind(ClipboardToken.Category category) {
-        textView.setText(category.toString());
+        textView.setText(category.toString(textView.getContext()));
     }
 
 }

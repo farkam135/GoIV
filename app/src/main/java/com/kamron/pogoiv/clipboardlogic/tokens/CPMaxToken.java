@@ -2,6 +2,7 @@ package com.kamron.pogoiv.clipboardlogic.tokens;
 
 import android.content.Context;
 
+import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.clipboardlogic.ClipboardToken;
 import com.kamron.pogoiv.scanlogic.CPRange;
 import com.kamron.pogoiv.scanlogic.IVScanResult;
@@ -42,8 +43,7 @@ public class CPMaxToken extends ClipboardToken {
                 ivScanResult.getHighestIVCombination(), level);
 
 
-        String val = String.valueOf(r.getAvg());
-        return val;
+        return String.valueOf(r.getAvg());
     }
 
 
@@ -61,14 +61,14 @@ public class CPMaxToken extends ClipboardToken {
     }
 
     @Override public String getTokenName(Context context) {
-        return currentLevel ? "Cp" : "Cp+";
+        return currentLevel ? context.getString(R.string.cp) : context.getString(R.string.cp) + "+";
     }
 
     @Override public String getLongDescription(Context context) {
         if (currentLevel) {
-            return "Get how much CP the monster has at the current level.";
+            return context.getString(R.string.token_msg_cpMax_msg1);
         }
-        return "Get how much CP the monster will have at max level.";
+        return context.getString(R.string.token_msg_cpMax_msg2);
     }
 
     @Override public Category getCategory() {

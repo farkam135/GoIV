@@ -257,6 +257,7 @@ public class GoIVSettings {
         return prefs.getInt(AUTO_APPRAISAL_SCAN_DELAY, 400);
     }
 
+    @SuppressWarnings("unchecked")
     public Map<String, String> loadAppraisalCache() {
         Map<String, String> appraisalCache = new HashMap<>();
 

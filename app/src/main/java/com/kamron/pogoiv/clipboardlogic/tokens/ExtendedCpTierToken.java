@@ -2,6 +2,7 @@ package com.kamron.pogoiv.clipboardlogic.tokens;
 
 import android.content.Context;
 
+import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.clipboardlogic.ClipboardToken;
 import com.kamron.pogoiv.scanlogic.IVCombination;
 import com.kamron.pogoiv.scanlogic.IVScanResult;
@@ -71,15 +72,12 @@ public class ExtendedCpTierToken extends ClipboardToken {
 
     @Override
     public String getTokenName(Context context) {
-        return "ExtCPTier";
+        return "Ext" + context.getString(R.string.cp) + context.getString(R.string.token_msg_tier);
     }
 
     @Override
     public String getLongDescription(Context context) {
-        return "This token gives you an idea of how powerful this monster can become, by measuring the maximum "
-                + "possible CP the monster can obtain (considering the maximum possible IV from the scan) and "
-                + "confronting it to the maximum CP of the most powerful IV 100 monster. Values are provided in the "
-                + "AA-ZZ range.";
+        return context.getString(R.string.token_msg_extendedCP);
     }
 
     @Override

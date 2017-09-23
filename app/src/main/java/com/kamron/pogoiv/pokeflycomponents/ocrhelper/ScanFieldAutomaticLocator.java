@@ -2,6 +2,7 @@ package com.kamron.pogoiv.pokeflycomponents.ocrhelper;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -14,6 +15,7 @@ import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.FluentIterable;
 import com.kamron.pogoiv.BuildConfig;
+import com.kamron.pogoiv.R;
 
 import org.opencv.android.Utils;
 import org.opencv.core.Core;
@@ -46,11 +48,12 @@ public class ScanFieldAutomaticLocator {
     private static final Scalar SCALAR_ON = new Scalar(255);
     private static final Scalar SCALAR_OFF = new Scalar(0);
     private static final float[] HSV_WHITE_BACKGROUND = new float[] {0, 0f, 0.97f};
-    private static final float[] HSV_GREEN_DARK_SMALL = new float[] {165, 0.13f, 0.66f};
+    private static final float[] HSV_GREEN_DARK_SMALL = new float[] {166, 0.13f, 0.66f};
     private static final float[] HSV_GREEN_DARK = new float[] {183f, 0.32f, 0.46f};
     private static final float[] HSV_GREEN_LIGHT = new float[] {183f, 0.04f, 0.85f};
     private static final float[] HSV_TEXT_RED = new float[] {2f, 0.39f, 0.96f};
     private static final float[] HSV_BUTTON_ENABLED = new float[] {147, 0.45f, 0.84f};
+    private static final float[] HSV_BUTTON_DISABLED = new float[] {143, 0.05f, 0.90f};
     private static final float[] HSV_HP_BAR = new float[] {155, 0.54f, 0.93f};
     private static final float[] HSV_DIVIDER = new float[] {0, 0, 0.88f};
     private static final float[] HSV_FAB = new float[] {181, 0.68f, 0.62f};
@@ -182,11 +185,13 @@ public class ScanFieldAutomaticLocator {
                 .filter(Predicates.and(ByMinWidth.of(width80Percent), ByMaxHeight.of(5 * screenshotDensity)))
                 .filter(ByHsvColor.of(image, mask1, contours, boundingRectList, HSV_DIVIDER, 3, 0.1f, 0.25f))
                 .toList();
-        if (greyLineCandidates.size() >= 1) { // Take the largest
+        if (greyLineCandidates.size() >= 1) {
             Rect maxRect = null;
             for (Rect r : greyLineCandidates) {
-                if (maxRect == null || r.area() > maxRect.area()) {
-                    maxRect = greyLineCandidates.get(0);
+                if (maxRect == null || r.area() > maxRect.area()) { // Take the largest
+                    maxRect = r;
+                } else if (r.area() == maxRect.area() && r.y < maxRect.y) { // Take the upper
+                    maxRect = r;
                 }
             }
             greyHorizontalLine = maxRect;
@@ -224,7 +229,11 @@ public class ScanFieldAutomaticLocator {
                 .filter(ByMinY.of(bmp.getHeight() / 2))
                 .filter(ByMinHeight.of(buttonHeight))
                 .filter(ByMinWidth.of(buttonHeight * 2))
-                .filter(ByHsvColor.of(image, mask1, contours, boundingRectList, HSV_BUTTON_ENABLED, 3, 0.15f, 0.15f))
+                .filter(Predicates.or(
+                        ByHsvColor.of(image, mask1, contours, boundingRectList,
+                                HSV_BUTTON_ENABLED, 3, 0.15f, 0.15f),
+                        ByHsvColor.of(image, mask2, contours, boundingRectList,
+                                HSV_BUTTON_DISABLED, 3, 0.15f,0.15f)))
                 .toList();
 
         if (powerUpButtonCandidates.size() > 0) {
@@ -236,43 +245,50 @@ public class ScanFieldAutomaticLocator {
                     candidate = currentCandidate;
                 }
             }
+
+            // Disabled buttons are OCR'ed merged with the text label at their right: crop it
+            if (candidate.width > width50Percent) {
+                candidate.width /= 2;
+            }
+
             powerUpButton = candidate;
         } else {
             powerUpButton = null;
         }
     }
 
-    public ScanFieldResults scan(@Nullable Handler mainThreadHandler, @Nullable ProgressDialog dialog) {
+    public ScanFieldResults scan(@Nullable Handler mainThreadHandler, @Nullable ProgressDialog dialog, Context
+            context) {
         final ScanFieldResults results = new ScanFieldResults();
 
-        postMessage(mainThreadHandler, dialog, "Finding name area");
+        postMessage(mainThreadHandler, dialog, context.getString(R.string.ocr_finding_name));
         findPokemonNameArea(results);
 
-        postMessage(mainThreadHandler, dialog, "Finding type area");
+        postMessage(mainThreadHandler, dialog, context.getString(R.string.ocr_finding_type));
         findPokemonTypeArea(results);
 
-        postMessage(mainThreadHandler, dialog, "Finding candy name area");
+        postMessage(mainThreadHandler, dialog, context.getString(R.string.ocr_finding_candy_name));
         findPokemonCandyNameArea(results);
 
-        postMessage(mainThreadHandler, dialog, "Finding hp area");
+        postMessage(mainThreadHandler, dialog, context.getString(R.string.ocr_finding_hp));
         findPokemonHPArea(results);
 
-        postMessage(mainThreadHandler, dialog, "Finding cp area");
+        postMessage(mainThreadHandler, dialog, context.getString(R.string.ocr_finding_cp));
         findPokemonCPScanArea(results);
 
-        postMessage(mainThreadHandler, dialog, "Finding candy amount area");
+        postMessage(mainThreadHandler, dialog, context.getString(R.string.ocr_finding_candy_amount));
         findPokemonCandyAmountArea(results);
 
-        postMessage(mainThreadHandler, dialog, "Finding evolution cost area");
+        postMessage(mainThreadHandler, dialog, context.getString(R.string.ocr_finding_evo_cost));
         findPokemonEvolutionCostArea(results); // Always call after findPokemonCandyAmountArea
 
-        postMessage(mainThreadHandler, dialog, "Finding level arc starting point and radius");
+        postMessage(mainThreadHandler, dialog, context.getString(R.string.ocr_finding_arc_center_and_radius));
         findArcValues(results);
 
-        postMessage(mainThreadHandler, dialog, "Finding white marker pixel");
+        postMessage(mainThreadHandler, dialog, context.getString(R.string.ocr_finding_white_pixel));
         findWhitePixelPokemonScreen(results);
 
-        postMessage(mainThreadHandler, dialog, "Finding green marker pixel");
+        postMessage(mainThreadHandler, dialog, context.getString(R.string.ocr_finding_green_pixel));
         findGreenPixelPokemonScreen(results);
 
         return results;
@@ -488,7 +504,7 @@ public class ScanFieldAutomaticLocator {
         List<Rect> digitsCandidates = FluentIterable.from(candidates)
                 // Check if the dominant color of the contour matches the light green hue of PoGO text
                 .filter(Predicates.or(
-                        ByHsvColor.of(image, mask1, contours, boundingRectList, HSV_GREEN_DARK_SMALL, 12, 0.25f, 0.25f),
+                        ByHsvColor.of(image, mask1, contours, boundingRectList, HSV_GREEN_DARK_SMALL, 13, 0.25f,0.25f),
                         ByHsvColor.of(image, mask2, contours, boundingRectList, HSV_TEXT_RED, 10, 0.25f, 0.25f)))
                 .toList();
 
@@ -1027,16 +1043,28 @@ public class ScanFieldAutomaticLocator {
     }
 
     private static Rect mergeRectList(List<Rect> rectList) {
-        org.opencv.core.Point[] allEdgesArray = new org.opencv.core.Point[rectList.size() * 2];
-        for (int i = 0; i < rectList.size(); i++) {
-            Rect r = rectList.get(i);
-            allEdgesArray[i * 2] = r.tl();
-            allEdgesArray[i * 2 + 1] = r.br();
-        }
-        MatOfPoint allEdgesMat = new MatOfPoint();
-        allEdgesMat.fromArray(allEdgesArray);
+        Rect boundingRect = rectList.get(0).clone();
 
-        return Imgproc.boundingRect(allEdgesMat);
+        for (int i = 1; i < rectList.size(); i++) {
+            Rect r = rectList.get(i);
+
+            if (r.x < boundingRect.x) {
+                boundingRect.width += boundingRect.x - r.x;
+                boundingRect.x = r.x;
+            }
+            if (r.y < boundingRect.y) {
+                boundingRect.height += boundingRect.y - r.y;
+                boundingRect.y = r.y;
+            }
+            if (r.x + r.width > boundingRect.x + boundingRect.width) {
+                boundingRect.width +=  r.x + r.width - (boundingRect.x + boundingRect.width);
+            }
+            if (r.y + r.height > boundingRect.y + boundingRect.height) {
+                boundingRect.height += r.y + r.height - (boundingRect.y + boundingRect.height);
+            }
+        }
+
+        return boundingRect;
     }
 
     @SuppressLint("DefaultLocale")

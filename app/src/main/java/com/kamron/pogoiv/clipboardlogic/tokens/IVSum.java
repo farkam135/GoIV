@@ -2,6 +2,7 @@ package com.kamron.pogoiv.clipboardlogic.tokens;
 
 import android.content.Context;
 
+import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.clipboardlogic.ClipboardToken;
 import com.kamron.pogoiv.scanlogic.IVCombination;
 import com.kamron.pogoiv.scanlogic.IVScanResult;
@@ -50,17 +51,17 @@ public class IVSum extends ClipboardToken {
 
     @Override
     public String getTokenName(Context context) {
-        return "IV-" + getType() + "-sum";
+        return "IV-" + getType(context) + "-sum";
     }
 
-    private String getType() {
-        return best ? "best" : "worst";
+    private String getType(Context context) {
+        return best ? context.getString(R.string.token_msg_best) : context.getString(R.string.token_msg_worst);
     }
 
     @Override
     public String getLongDescription(Context context) {
-        return "This token returns the sum of the " + getType() + " possible IV stats for this monster"
-                + ". Ranges in 00-45. Always returns two digits.";
+        return context.getString(R.string.token_msg_ivSum_msg1) + getType(context) + context.getString(R.string
+                .token_msg_ivSum_msg2);
     }
 
     @Override

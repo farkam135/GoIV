@@ -1,73 +1,121 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#e1e1e1"
     android:fitsSystemWindows="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="16dp"
         android:clipToPadding="false"
         android:gravity="center_horizontal"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:paddingTop="16dp">
 
         <TextView
+            android:id="@+id/ocr_calibration_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:paddingBottom="8dp"
+            android:background="@color/colorPrimary"
+            android:padding="8dp"
             android:text="@string/title_activity_ocr_calibration_result"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/buttonText"/>
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:paddingBottom="8dp"
-            android:text="This is the result of the automatic calibration, each field of interest that was detected has been marked." />
+            android:background="#fff"
+            android:orientation="vertical"
+            android:padding="12dp">
 
-        <TextView
-            android:id="@+id/errorListTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:paddingBottom="8dp"
-            android:textColor="@android:color/holo_red_dark"
-            tools:text="Detection error one\nDetection error two\nDetection error three"/>
 
-        <Button
-            style="@style/Widget.AppCompat.Button.Colored"
-            android:id="@+id/saveCalibrationButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:paddingBottom="16dp"
-            android:text="Save calibration"
-            android:enabled="false" />
+            <TextView
+                android:id="@+id/ocr_calibration_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="8dp"
+                android:paddingEnd="16dp"
+                android:paddingStart="16dp"
+                android:text="@string/ocr_calibration_result_description"/>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingStart="32dp"
-            android:paddingEnd="32dp"
-            android:paddingBottom="8dp"
-            android:gravity="center_horizontal"
-            android:text="Before saving, check the result correctness in the screenshot below:" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/saveCalibrationButton"
+                    style="@style/Widget.AppCompat.Button.Colored"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:enabled="false"
+                    android:paddingBottom="16dp"
+                    android:paddingEnd="16dp"
+                    android:paddingStart="16dp"
+                    android:text="@string/ocr_calibration_save"/>
+
+                <Button
+                    android:id="@+id/backToGoivButton"
+                    style="@style/Widget.AppCompat.Button.Colored"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="16dp"
+                    android:paddingEnd="16dp"
+                    android:paddingStart="16dp"
+                    android:text="@string/go_back_to_goiv"
+                    android:visibility="gone"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/errorListTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="8dp"
+                android:paddingEnd="16dp"
+                android:paddingStart="16dp"
+                android:textColor="@android:color/holo_red_dark"
+                tools:text="Detection error one\nDetection error two\nDetection error three"/>
+
+            <TextView
+                android:id="@+id/ocr_calibration_check"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:paddingBottom="8dp"
+                android:paddingEnd="32dp"
+                android:paddingStart="32dp"
+                android:text="@string/ocr_calibration_check_before"/>
+
+            <Button
+                android:id="@+id/backButton"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:paddingBottom="16dp"
+                android:paddingEnd="16dp"
+                android:paddingStart="16dp"
+                android:text="@string/go_back"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:visibility="gone"/>
+
+        </LinearLayout>
+
 
         <ImageView
             android:id="@+id/ocr_result_image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/black"
-            android:contentDescription="@null" />
+            android:layout_marginTop="12dp"
+            android:adjustViewBounds="true"
+            android:background="@android:color/white"
+            android:minHeight="120dp"/>
 
     </LinearLayout>
 

@@ -45,6 +45,21 @@ public class ScanFieldAutomaticLocatorTest {
         checkDevice(Device.SAMSUNG_G930);
     }
 
+    @Test
+    public void scan_G950() throws IOException {
+        checkDevice(Device.SAMSUNG_G950);
+    }
+
+    @Test
+    public void scan_A5000() throws IOException {
+        checkDevice(Device.ONEPLUS_A5000);
+    }
+
+    @Test
+    public void scan_H870() throws IOException {
+        checkDevice(Device.LG_H870);
+    }
+
     private void checkDevice(Device device) throws IOException {
         String[] pokemonInfoScreenFileNames = mContext.getAssets().list(device.infoScreensDirPath);
         for (String assetFileName : pokemonInfoScreenFileNames) {
@@ -54,7 +69,7 @@ public class ScanFieldAutomaticLocatorTest {
                     .open(device.infoScreensDirPath + "/" + assetFileName), null, options);
             ScanFieldAutomaticLocator autoLocator =
                     new ScanFieldAutomaticLocator(bmp, bmp.getWidth(), device.screenDensity);
-            ScanFieldResults results = autoLocator.scan(null, null);
+            ScanFieldResults results = autoLocator.scan(null, null, mTargetContext);
             checkScanFieldResults(device, assetFileName, bmp, results);
         }
     }

@@ -41,7 +41,7 @@
                 android:id="@+id/clipboardMaxLength"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="#(Max length)" />
+                tools:text="#(Max length)" />
 
         </LinearLayout>
 

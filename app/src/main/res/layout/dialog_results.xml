@@ -10,45 +10,40 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="12sp"
+        android:padding="12dp"
         android:orientation="horizontal">
         <TextView
             android:id="@+id/resultsPokemonName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Pokename"
+            tools:text="Pokename"
             android:textSize="24sp"
             android:textStyle="bold"
             android:textColor="@color/black"
-            android:gravity="bottom"
-            />
-        <TextView
+            android:gravity="bottom"/>
 
+        <TextView
             android:id="@+id/resultsPokemonLevel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="18sp"
             android:textColor="#888"
             android:text="@string/level"
-            android:layout_marginLeft="5sp"/>
+            android:layout_marginStart="6dp"/>
 
         <View
-
             android:layout_height="match_parent"
             android:layout_width="0dp"
             android:layout_weight="1">
-
         </View>
 
         <ImageButton
-            android:layout_width="0dp"
+            android:id="@+id/shareWithStorimod"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:src="@drawable/ic_share_black"
+            android:layout_weight="0"
             android:background="#00000000"
-            android:text=""
-            android:id="@+id/shareWithStorimod"/>
-
+            android:src="@drawable/ic_share_black"/>
 
     </LinearLayout>
 
@@ -59,7 +54,6 @@
         android:layout_gravity="center">
 
         <LinearLayout
-
             android:id="@+id/llSingleMatch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -72,11 +66,11 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:background="@drawable/skin_iv_linearlayout"
-                android:paddingLeft="12sp"
-                android:paddingRight="12sp"
-                android:paddingTop="6sp"
-                android:paddingBottom="6sp"
-                android:layout_margin="6sp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:paddingTop="6dp"
+                android:paddingBottom="6dp"
+                android:layout_margin="6dp"
                 android:gravity="center"
                 android:layout_gravity="center">
 
@@ -86,9 +80,8 @@
                     android:layout_height="wrap_content"
                     android:textSize="24sp"
                     android:textStyle="bold"
-                    android:text="15"
-                    android:textColor="#222"
-                    />
+                    tools:text="15"
+                    android:textColor="#222"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -106,11 +99,11 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:background="@drawable/skin_iv_linearlayout"
-                android:paddingLeft="12sp"
-                android:paddingRight="12sp"
-                android:paddingTop="6sp"
-                android:paddingBottom="6sp"
-                android:layout_margin="6sp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:paddingTop="6dp"
+                android:paddingBottom="6dp"
+                android:layout_margin="6dp"
                 android:gravity="center"
                 android:layout_gravity="center">
 
@@ -121,8 +114,7 @@
                     android:textSize="24sp"
                     android:textStyle="bold"
                     android:textColor="#222"
-                    android:text="15"
-                    />
+                    tools:text="15"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -139,24 +131,22 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:background="@drawable/skin_iv_linearlayout"
-                android:paddingLeft="12sp"
-                android:paddingRight="12sp"
-                android:paddingTop="6sp"
-                android:paddingBottom="6sp"
-                android:layout_margin="6sp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:paddingTop="6dp"
+                android:paddingBottom="6dp"
+                android:layout_margin="6dp"
                 android:gravity="center"
                 android:layout_gravity="center">
 
                 <TextView
-
                     android:id="@+id/resultsHP"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="24sp"
                     android:textStyle="bold"
                     android:textColor="#222"
-                    android:text="15"
-                    />
+                    tools:text="15"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -176,11 +166,11 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:background="@drawable/skin_iv_linearlayout"
-            android:paddingLeft="12sp"
-            android:paddingRight="12sp"
-            android:paddingTop="6sp"
-            android:paddingBottom="6sp"
-            android:layout_margin="6sp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:layout_margin="6dp"
             android:gravity="center"
             android:layout_gravity="center">
 
@@ -190,19 +180,18 @@
                 android:layout_height="wrap_content"
                 android:textSize="24sp"
                 android:textStyle="bold"
-                android:text="76%"
-                android:textColor="#222"
-                />
+                tools:text="76%"
+                android:textColor="#222"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="MIN"
+                android:text="@string/min"
                 android:layout_margin="0dp"
                 android:textSize="12sp"
                 android:gravity="center"
                 android:textColor="#222"
-                android:layout_marginLeft="5sp"/>
+                android:layout_marginStart="6dp"/>
 
         </LinearLayout>
 
@@ -212,34 +201,32 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:background="@drawable/skin_iv_linearlayout"
-            android:paddingLeft="12sp"
-            android:paddingRight="12sp"
-            android:paddingTop="6sp"
-            android:paddingBottom="6sp"
-            android:layout_margin="6sp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:layout_margin="6dp"
             android:gravity="center"
             android:layout_gravity="center">
 
             <TextView
-
                 android:id="@+id/resultsAvePercentage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 android:textColor="#222"
-                android:text="82%"
-                />
+                tools:text="82%"/>
 
             <TextView
                 android:id="@+id/tvAvgIV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="AVG"
+                android:text="@string/avg"
                 android:textSize="12sp"
                 android:layout_margin="0dp"
                 android:textColor="#222"
-                android:layout_marginLeft="5sp"/>
+                android:layout_marginStart="6dp"/>
 
         </LinearLayout>
 
@@ -249,33 +236,31 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:background="@drawable/skin_iv_linearlayout"
-            android:paddingLeft="12sp"
-            android:paddingRight="12sp"
-            android:paddingTop="6sp"
-            android:paddingBottom="6sp"
-            android:layout_margin="6sp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:layout_margin="6dp"
             android:gravity="center"
             android:layout_gravity="center">
 
             <TextView
-
                 android:id="@+id/resultsMaxPercentage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 android:textColor="#222"
-                android:text="88%"
-                />
+                tools:text="88%"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="MAX"
+                android:text="@string/max"
                 android:textSize="12sp"
                 android:layout_margin="0dp"
                 android:textColor="#222"
-                android:layout_marginLeft="5sp"/>
+                android:layout_marginStart="6dp"/>
 
         </LinearLayout>
 
@@ -290,13 +275,13 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="12sp">
+            android:padding="12dp">
             <TextView
                 android:id="@+id/resultsCombinations"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="## Possible Combinations"
-                android:layout_gravity="left"
+                tools:text="## Possible Combinations"
+                android:layout_gravity="start"
                 android:textSize="18sp"
                 android:textColor="#888"/>
 
@@ -308,29 +293,39 @@
                 android:textColor="@color/colorPrimary"
                 android:text="@string/see_all"
                 android:clickable="true"
-                android:gravity="right"/>
+                android:gravity="end"/>
         </LinearLayout>
 
         <include layout="@layout/dialog_refine_by_last_scan"
             android:id="@+id/refine_by_last_scan"/>
 
-
+        <TextView
+            android:id="@+id/correctCPLevel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/check_cp_or_level"
+            android:textColor="#B10000"
+            android:textAlignment="textStart"
+            android:layout_marginTop="5dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:visibility="gone"/>
 
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="12sp"
-        android:layout_marginRight="12sp"
+        android:layout_marginTop="6dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
         android:background="@android:color/darker_gray"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="12sp">
+        android:padding="12dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -346,17 +341,14 @@
                 android:layout_gravity="center"
                 android:textSize="18sp"
                 android:clickable="true"
-                android:drawableRight="@drawable/ic_keyboard_arrow_right_blue_18dp" />
+                android:drawableEnd="@drawable/ic_keyboard_arrow_right_blue_18dp"/>
 
         </LinearLayout>
 
-
         <include layout="@layout/expanded_results_box"
             android:id="@+id/expandedResultsBox"
-            android:visibility="gone"
-        />
+            android:visibility="gone"/>
 
     </LinearLayout>
-
 
 </LinearLayout>

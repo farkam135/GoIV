@@ -44,7 +44,6 @@
     <string name="refine_no_progress">Zlepšení nebylo úspěšné</string>
     <string name="last_scan">Předchozí načtení: %1$s</string>
     <string name="possible_iv_combinations" tools:ignore="PluralsCandidate">"%1$d možných kombinací IV"</string>
-    <string name="too_many_iv_combinations">Příliš mnoho kombinací IV</string>
     <string name="refining_instructions">Zlepši přesnost výpočtu IV powerupováním a porovnáním dvou načtení stejného Pokémona</string>
     <string name="appraisal_refining">Zpřesnění díky Appraisal</string>
     <string name="attack">Útok</string>

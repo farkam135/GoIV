@@ -18,14 +18,12 @@
             android:layout_marginRight="12dp"
             android:layout_marginLeft="12dp"
             android:src="@drawable/position_handler"
-            android:visibility="gone"
-            />
-
+            android:visibility="gone"/>
 
         <View
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_weight="1"></View>
+            android:layout_weight="1"/>
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
@@ -45,9 +43,7 @@
         <View
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_weight="1"></View>
-
-
+            android:layout_weight="1"/>
 
     </LinearLayout>
     <!-- the top part (non appraisal part of the layout) -->
@@ -56,8 +52,6 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
-
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -75,6 +69,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:labelFor="@+id/etCp"
                     android:text="@string/cp"
                     android:textColor="@color/black"
                     android:textSize="18sp"
@@ -86,19 +81,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorPrimary"
-                    android:text="XX"
+                    tools:text="XX"
                     android:maxLength="4"
                     android:minWidth="60dp"
                     android:textAlignment="center"
                     android:inputType="number"
                     android:maxLines="1"
                     android:selectAllOnFocus="true"
-                    android:nextFocusDown="@+id/etHp"
-                    />
+                    android:nextFocusDown="@+id/etHp"/>
 
             </LinearLayout>
-
-
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -110,6 +102,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:labelFor="@+id/etHp"
                     android:text="@string/hp"
                     android:textColor="@color/black"
                     android:textSize="18sp"
@@ -122,17 +115,17 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorPrimary"
                     android:minWidth="60dp"
-                    android:text="XX"
+                    tools:text="XX"
                     android:maxLength="4"
                     android:textAlignment="center"
                     android:inputType="number"
                     android:selectAllOnFocus="true"
                     android:maxLines="1"
                     android:nextFocusDown="@+id/etCandy"
-                    android:nextFocusForward="@+id/etCandy"
-                    />
+                    android:nextFocusForward="@+id/etCandy"/>
 
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -144,6 +137,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:labelFor="@+id/etCandy"
                     android:text="@string/candy"
                     android:textColor="@color/black"
                     android:textSize="18sp"
@@ -156,14 +150,13 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorPrimary"
                     android:minWidth="60dp"
-                    android:text="XX"
+                    tools:text="XX"
                     android:maxLength="4"
                     android:textAlignment="center"
                     android:inputType="number"
                     android:selectAllOnFocus="true"
                     android:imeOptions="actionDone"
-                    android:maxLines="1"
-                    />
+                    android:maxLines="1"/>
 
             </LinearLayout>
 
@@ -219,8 +212,9 @@
                 android:id="@+id/levelIndicator"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="12dp"
-                android:text="0"/>
+                android:paddingStart="12dp"
+                android:paddingEnd="6dp"
+                tools:text="0"/>
 
         </LinearLayout>
 
@@ -236,10 +230,10 @@
             android:id="@+id/inputAppraisalExpandBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="8dp"
+            android:paddingStart="8dp"
             android:clickable="true"
-            android:drawableRight="@drawable/ic_keyboard_arrow_right_blue_18dp"
-            android:paddingRight="60dp"
+            android:drawableEnd="@drawable/ic_keyboard_arrow_right_blue_18dp"
+            android:paddingEnd="60dp"
             android:paddingBottom="12dp"
             android:paddingTop="6dp"
             android:text="@string/appraisal_refining"

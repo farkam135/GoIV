@@ -6,6 +6,12 @@
         <item name="android:statusBarColor">@android:color/white</item>
     </style>
 
+    <style name="AppTheme.NoActionBar.Blue">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:statusBarColor">@color/colorPrimaryDark</item>
+    </style>
+
     <style name="NotificationTitle" parent="android:style/TextAppearance.Material.Notification.Title" />
 
 </resources>

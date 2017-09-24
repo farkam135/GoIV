@@ -27,12 +27,6 @@
             android:verticalSpacing="10dp">
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/app_credits_title"
-                android:textSize="30sp"/>
-
-            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:autoLink="web"
@@ -45,6 +39,13 @@
                 android:autoLink="web"
                 android:linksClickable="true"
                 android:text="Optical character recognition by Tesseract \nhttps://github.com/tesseract-ocr \n"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:autoLink="web"
+                android:linksClickable="true"
+                android:text="OpenCV - Open Source Computer Vision Library \nhttps://github.com/opencv/opencv \n"/>
 
             <TextView
                 android:layout_width="wrap_content"

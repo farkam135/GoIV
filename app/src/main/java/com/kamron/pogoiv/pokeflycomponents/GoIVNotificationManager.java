@@ -18,7 +18,6 @@ import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.ScreenGrabber;
 import com.kamron.pogoiv.activities.MainActivity;
 import com.kamron.pogoiv.activities.OcrCalibrationResultActivity;
-import com.kamron.pogoiv.pokeflycomponents.ocrhelper.CalibrationImage;
 
 /**
  * Created by johan on 2017-07-06.
@@ -175,10 +174,16 @@ public class GoIVNotificationManager {
 
                 handler.postDelayed(new Runnable() {
                     public void run() {
-                        CalibrationImage.calibrationImg = ScreenGrabber.getInstance().grabScreen();
-                        Intent showResultIntent = new Intent(pokefly, OcrCalibrationResultActivity.class)
-                                .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(showResultIntent);
+                        // Retry trice
+                        for (int i = 0; i < 3; i++) {
+                            OcrCalibrationResultActivity.sCalibrationImage = ScreenGrabber.getInstance().grabScreen();
+                            if (OcrCalibrationResultActivity.sCalibrationImage != null) {
+                                Intent showResultIntent = new Intent(pokefly, OcrCalibrationResultActivity.class)
+                                        .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(showResultIntent);
+                                break; // Stop retries
+                            }
+                        }
                     }
                 }, 2000);
             }

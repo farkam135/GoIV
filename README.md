@@ -21,10 +21,10 @@
 GoIV is one of the simplest & fastest IV raters that does not eavesdrop on game servers.
 
 ## Screenshots
-![Overlays an IV Button](https://i.imgur.com/SxlmeqT.jpg "Overlays an IV Button")
-![Scans for Pokémon Info](https://i.imgur.com/0O3d8Vd.jpg "Scans for Pokémon Info")
-![Shows Result Popup](https://i.imgur.com/ekBae5R.jpg "Shows Result Popup")
-![Advanced Information in Results Popup](https://i.imgur.com/xXr9zzK.jpg "Advanced Information in Results Popup")
+![Overlays an IV Button (with IV preview)](https://i.imgur.com/8Gjvf9c.png "Overlays an IV Button (with IV preview)")
+![Scans for Pokémon Info](https://i.imgur.com/PxlHYEj.png "Scans for Pokémon Info")
+![Shows Result Popup](https://i.imgur.com/Ad7mNDC.png "Shows Result Popup")
+![Advanced Information in Results Popup](https://i.imgur.com/GhKaBMO.png "Advanced Information in Results Popup")
 
 ## FAQ
 - [Is there an iOS version?](#is-there-an-ios-version)
@@ -46,7 +46,7 @@ GoIV scans the Pokémon name to determine the Pokémon, if you have given your P
 ### Why doesn't my arc dot line up perfectly?
 The most common reason for the dot to be misaligned is when the user forgets to increase their trainer level in the app after leveling up in game. You can check your GoIV set trainer level in the persistent notification.
 
-The other reason for the dot to be misaligned is due to different devices having different screen resolutions (some having really unusual resolutions). This feature is always being revised to ensure more devices do not have this issue! You can help by contributing to this [thread] (https://www.reddit.com/r/GoIV/comments/4zi8cd/im_still_trying_to_fix_alignment_issues_i_need/).
+The other reason for the dot to be misaligned is due to different devices having different screen resolutions (some having really unusual resolutions). This feature is always being revised to ensure more devices do not have this issue! You can help by contributing to this [thread](https://www.reddit.com/r/GoIV/comments/4zi8cd/im_still_trying_to_fix_alignment_issues_i_need/).
 
 ### Why doesn't the IV button appear?
 The most common reasons are:

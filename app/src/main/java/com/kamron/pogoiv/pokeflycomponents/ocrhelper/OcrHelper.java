@@ -679,7 +679,12 @@ public class OcrHelper {
                     chunksHeightsSum += chunk.height();
                 }
             }
-            final int avgChunksHeight = chunksHeightsSum / chunks.size();
+            final int avgChunksHeight;
+            if (chunks.size() > 0) {
+                avgChunksHeight = chunksHeightsSum / chunks.size();
+            } else {
+                avgChunksHeight = 1; // Didn't find any chunk wider than 2 columns, fallback to a safe value
+            }
 
             // Discard all the chunks lower than the average height
             chunksIterator = chunks.iterator();

@@ -826,12 +826,7 @@ public class OcrHelper {
      * @param screen The full phone screen.
      * @return String of whats on the bottom of the screen.
      */
-    public String getAppraisalText(Bitmap screen) {
-
-        if (screen == null) { //bitmap didn't load properly
-            return "";
-        }
-
+    public String getAppraisalText(@NonNull Bitmap screen) {
         Bitmap bottom = getImageCrop(screen, 0.05, 0.89, 0.90, 0.07);
         String hash = "appraisal" + hashBitmap(bottom);
         String appraisalText = appraisalCache.get(hash);

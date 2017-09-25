@@ -337,10 +337,12 @@ public class AutoAppraisal {
         @Override
         public void run() {
             Bitmap screen = screenGrabber.grabScreen();
-            String appraiseText = ocr.getAppraisalText(screen);
-            String hash = appraiseText.substring(0, appraiseText.indexOf("#"));
-            String text = appraiseText.substring(appraiseText.indexOf("#") + 1);
-            addInfoFromAppraiseText(text, hash);
+            if (screen != null) {
+                String appraiseText = ocr.getAppraisalText(screen);
+                String hash = appraiseText.substring(0, appraiseText.indexOf("#"));
+                String text = appraiseText.substring(appraiseText.indexOf("#") + 1);
+                addInfoFromAppraiseText(text, hash);
+            }
         }
     }
 

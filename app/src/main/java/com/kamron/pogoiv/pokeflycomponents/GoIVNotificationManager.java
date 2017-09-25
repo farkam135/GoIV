@@ -12,7 +12,9 @@ import android.os.Looper;
 import android.support.v7.app.NotificationCompat;
 import android.view.View;
 import android.widget.RemoteViews;
+import android.widget.Toast;
 
+import com.kamron.pogoiv.GoIVSettings;
 import com.kamron.pogoiv.Pokefly;
 import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.ScreenGrabber;
@@ -161,31 +163,51 @@ public class GoIVNotificationManager {
         protected void onHandleIntent(Intent intent) {
             String action = intent.getAction();
             if (ACTION_RECALIBRATE_SCANAREA.equals(action)) {
+                Handler mainThreadHandler = new Handler(Looper.getMainLooper());
 
-                Handler handler = new Handler(Looper.getMainLooper());
-                Intent closeIntent = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
-                pokefly.sendBroadcast(closeIntent); //closes the notification window so we can screenshot pogo
+                if (GoIVSettings.getInstance(this).isManualScreenshotModeEnabled()) {
+                    // Can't execute calibration without screen grabbing
+                    // Close the notification shade so we can screenshot pogo
+                    sendBroadcast(new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS));
+                    mainThreadHandler.post(new Runnable() {
+                        @Override public void run() {
+                            Toast.makeText(NotificationActionService.this,
+                                    R.string.ocr_calibration_unavailable_screenshot_mode, Toast.LENGTH_LONG).show();
+                        }
+                    });
 
-                handler.post(new Runnable() {
-                    @Override public void run() {
-                        pokefly.getIvButton().setShown(false, false); // Hide IV button: it might interfere
-                    }
-                });
+                } else { // Start calibration!
+                    // Close the notification shade so we can screenshot pogo
+                    sendBroadcast(new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS));
 
-                handler.postDelayed(new Runnable() {
-                    public void run() {
-                        // Retry trice
-                        for (int i = 0; i < 3; i++) {
-                            OcrCalibrationResultActivity.sCalibrationImage = ScreenGrabber.getInstance().grabScreen();
-                            if (OcrCalibrationResultActivity.sCalibrationImage != null) {
-                                Intent showResultIntent = new Intent(pokefly, OcrCalibrationResultActivity.class)
-                                        .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                startActivity(showResultIntent);
-                                break; // Stop retries
+                    mainThreadHandler.post(new Runnable() {
+                        @Override public void run() {
+                            if (pokefly != null && pokefly.getIvButton() != null) {
+                                pokefly.getIvButton().setShown(false, false); // Hide IV button: it might interfere
                             }
                         }
-                    }
-                }, 2000);
+                    });
+                    mainThreadHandler.postDelayed(new Runnable() {
+                        public void run() {
+                            if (ScreenGrabber.getInstance() == null) {
+                                return; // Don't recalibrate when screen watching isn't running!!!
+                            }
+
+                            // Grab a screenshot to be analyzed. Retry trice if unsuccessful.
+                            for (int i = 0; i < 3; i++) {
+                                OcrCalibrationResultActivity.sCalibrationImage =
+                                        ScreenGrabber.getInstance().grabScreen();
+                                if (OcrCalibrationResultActivity.sCalibrationImage != null) {
+                                    Intent showResultIntent = new Intent(
+                                            NotificationActionService.this, OcrCalibrationResultActivity.class)
+                                            .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    startActivity(showResultIntent);
+                                    break; // Stop retries
+                                }
+                            }
+                        }
+                    }, 2000);
+                }
             }
         }
     }

@@ -126,13 +126,15 @@ public class ScreenWatcher {
      * If both exist then the user is on the pokemon screen.
      */
     private boolean isUserOnPokemonScreen() {
-        @ColorInt int[] pixels = ScreenGrabber.getInstance().grabPixels(area);
-        if (pixels != null) {
-            if (areaColor[0] != null) {
-                return pixels[0] == areaColor[0] && pixels[1] == areaColor[1];
-            } else {
-                return (pixels[0] == Color.rgb(250, 250, 250) || pixels[0] == Color.rgb(249, 249, 249))
-                        && pixels[1] == Color.rgb(28, 135, 150);
+        if (ScreenGrabber.getInstance() != null) {
+            @ColorInt int[] pixels = ScreenGrabber.getInstance().grabPixels(area);
+            if (pixels != null) {
+                if (areaColor[0] != null) {
+                    return pixels[0] == areaColor[0] && pixels[1] == areaColor[1];
+                } else {
+                    return (pixels[0] == Color.rgb(250, 250, 250) || pixels[0] == Color.rgb(249, 249, 249))
+                            && pixels[1] == Color.rgb(28, 135, 150);
+                }
             }
         }
         return false;

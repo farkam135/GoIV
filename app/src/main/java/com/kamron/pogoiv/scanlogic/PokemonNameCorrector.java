@@ -95,7 +95,12 @@ public class PokemonNameCorrector {
         if (guess.pokemon == null && candyUpgradeCost.isPresent()) {
             String textInterpretation = candyUpgradeCost.get().toString();
             String cleanedInterpretation = textInterpretation.substring(1, textInterpretation.length());
-            Optional<Integer> cleanedInt = Optional.of(Integer.parseInt(cleanedInterpretation));
+            Optional<Integer> cleanedInt;
+            try {
+                cleanedInt = Optional.of(Integer.parseInt(cleanedInterpretation));
+            } catch (NumberFormatException e) {
+                cleanedInt = Optional.absent();
+            }
             ArrayList<Pokemon> candyNameEvolutionCostGuess =
                     getCandyNameEvolutionCostGuess(bestGuessEvolutionLine, cleanedInt);
             if (candyNameEvolutionCostGuess != null) {

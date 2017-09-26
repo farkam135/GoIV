@@ -82,7 +82,7 @@ public class ScanFieldAutomaticLocator {
     private final int width90Percent;
 
 
-    public ScanFieldAutomaticLocator(Bitmap bmp, int displayWidth, float displayDensity) {
+    public ScanFieldAutomaticLocator(@NonNull Bitmap bmp, int displayWidth, float displayDensity) {
         this.bmp = bmp;
         // Compute scaled density since the acquired screenshot might be at a lower resolution than the screen
         screenshotDensity = bmp.getWidth() * displayDensity / displayWidth;

@@ -587,14 +587,18 @@ public class OcrHelper {
                 //If "/" comes at the end we'll get an array with only one component.
                 String[] hpParts = pokemonHPStr.split("/");
                 String hpStr;
-                if (hpParts.length >= 2) {  //example read "30 / 55 hp"
-                    //Cant read part 0 because that changes if poke has low hp
-                    hpStr = hpParts[1];
-                    hpStr = hpStr.substring(0, hpStr.length() - 2); //Removes the two last chars, like "hp" or "ps"
-                } else if (hpParts.length == 1) { //Failed to read "/", example "30 7 55 hp"
-                    hpStr = hpParts[0];
-                    hpStr = hpStr.substring(0, hpStr.length() - 2); //Removes the two last chars, like "hp" or "ps"
-                } else {
+                try {
+                    if (hpParts.length >= 2) {  //example read "30 / 55 hp"
+                        //Cant read part 0 because that changes if poke has low hp
+                        hpStr = hpParts[1];
+                        hpStr = hpStr.substring(0, hpStr.length() - 2); //Removes the two last chars, like "hp" or "ps"
+                    } else if (hpParts.length == 1) { //Failed to read "/", example "30 7 55 hp"
+                        hpStr = hpParts[0];
+                        hpStr = hpStr.substring(0, hpStr.length() - 2); //Removes the two last chars, like "hp" or "ps"
+                    } else {
+                        return Optional.absent();
+                    }
+                } catch (StringIndexOutOfBoundsException e) {
                     return Optional.absent();
                 }
 
@@ -679,7 +683,12 @@ public class OcrHelper {
                     chunksHeightsSum += chunk.height();
                 }
             }
-            final int avgChunksHeight = chunksHeightsSum / chunks.size();
+            final int avgChunksHeight;
+            if (chunks.size() > 0) {
+                avgChunksHeight = chunksHeightsSum / chunks.size();
+            } else {
+                avgChunksHeight = 1; // Didn't find any chunk wider than 2 columns, fallback to a safe value
+            }
 
             // Discard all the chunks lower than the average height
             chunksIterator = chunks.iterator();
@@ -821,12 +830,7 @@ public class OcrHelper {
      * @param screen The full phone screen.
      * @return String of whats on the bottom of the screen.
      */
-    public String getAppraisalText(Bitmap screen) {
-
-        if (screen == null) { //bitmap didn't load properly
-            return "";
-        }
-
+    public String getAppraisalText(@NonNull Bitmap screen) {
         Bitmap bottom = getImageCrop(screen, 0.05, 0.89, 0.90, 0.07);
         String hash = "appraisal" + hashBitmap(bottom);
         String appraisalText = appraisalCache.get(hash);

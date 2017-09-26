@@ -13,5 +13,6 @@
     </style>
 
     <style name="NotificationTitle" parent="android:style/TextAppearance.Material.Notification.Title" />
+    <style name="NotificationMessage" parent="android:style/TextAppearance.Material.Notification" />
 
 </resources>

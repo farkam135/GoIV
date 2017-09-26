@@ -1,0 +1,4 @@
+<resources>
+    <!-- Notification margins -->
+    <dimen name="notification_horizontal_padding">16dp</dimen>
+</resources>

@@ -375,7 +375,7 @@ public class ScanFieldAutomaticLocator {
     private void findWhitePixelPokemonScreen(ScanFieldResults results) {
         ScanPoint whitePoint = null;
         float[] hsv = new float[3];
-        for (int x = 0, y = bmp.getHeight() / 2; x < bmp.getWidth(); x++) {
+        for (int x = 0, y = bmp.getHeight() / 2; x < bmp.getWidth() / 2; x++) {
             Color.colorToHSV(bmp.getPixel(x, y), hsv);
             if (hsv[0] < 3 && hsv[1] < 0.05 && hsv[2] > HSV_WHITE_BACKGROUND[2]) {
                 whitePoint = new ScanPoint(x * 2, y);

@@ -1,5 +1,4 @@
 <LinearLayout
-    style="@style/Theme.AppCompat.Light"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
@@ -7,8 +6,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center_vertical"
-    android:padding="8dp"
-    android:background="@android:color/white">
+    android:paddingLeft="@dimen/notification_horizontal_padding"
+    android:paddingTop="8dp"
+    android:paddingRight="@dimen/notification_horizontal_padding"
+    android:paddingBottom="8dp">
 
     <ImageView
         android:layout_width="wrap_content"
@@ -28,11 +29,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:textColor="@color/primary_text_default_material_light"
             tools:text="@string/notification_title" />
 
         <TextView
-            style="@android:style/TextAppearance.StatusBar.EventContent"
+            style="@style/NotificationMessage"
             android:id="@+id/notification_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -61,6 +61,7 @@
                 android:id="@+id/pause"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="-12dp"
                 android:text="@string/pause_goiv_notification"
                 android:textColor="@color/colorPrimary"
                 android:drawableEnd="@drawable/ic_pause_circle_outline_24px"

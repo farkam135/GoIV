@@ -149,6 +149,7 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
                                 if (results.infoScreenFabGreenPixelColor == null) {
                                     sb.append(getText(R.string.ocr_error_pick_pixel_green));
                                 }
+                                enableUserEmailErrorReporting(sCalibrationImage, sb.toString());
                                 sb.append(getText(R.string.ocr_msg_verify));
                                 errorListTextView.setText(sb);
                                 ocr_calibration_title.setText(R.string.title_activity_ocr_calibration_error);
@@ -156,7 +157,6 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
                                 ocr_calibration_check.setVisibility(View.GONE);
                                 saveCalibrationButton.setVisibility(View.GONE);
                                 backButton.setVisibility(View.VISIBLE);
-                                enableUserEmailErrorReporting(sCalibrationImage, sb);
                             }
 
                             // Draw results on a copy of the original screenshot
@@ -200,10 +200,10 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
      * Shows the email error section of the view, and adds the button logic that creates an email
      * for the image.
      *
-     * @param sCalibrationImage the image that will be emailed.
-     * @param sb                The error message the user got.
+     * @param sCalibrationImage The image that will be emailed.
+     * @param errorText         The error message the user got.
      */
-    private void enableUserEmailErrorReporting(final Bitmap sCalibrationImage, final StringBuilder sb) {
+    private void enableUserEmailErrorReporting(final Bitmap sCalibrationImage, final String errorText) {
         errorLayout.setVisibility(View.VISIBLE);
 
         emailErrorButton.setOnClickListener(new View.OnClickListener() {
@@ -225,8 +225,7 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
                 email.putExtra(Intent.EXTRA_SUBJECT, "GoIV auto calibration image error");
                 email.putExtra(Intent.EXTRA_TEXT, "GoIV version: " + getVersionName()
                         + "\nScreenDensity: " + realDisplayMetrics.density
-                        + "\n\n\nError message: \n"
-                        + sb.toString());
+                        + "\n\n\nError message: \n" + errorText);
                 email.putExtra(Intent.EXTRA_STREAM, bmpUri);
 
                 // Grant read permission to candidate resolvers

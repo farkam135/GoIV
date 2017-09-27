@@ -24,6 +24,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.kamron.pogoiv.BuildConfig;
 import com.kamron.pogoiv.GoIVSettings;
 import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanArea;
@@ -223,8 +224,8 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
                 email.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 email.putExtra(Intent.EXTRA_EMAIL, new String[]{"goivdevelopment@gmail.com"});
                 email.putExtra(Intent.EXTRA_SUBJECT, "GoIV auto calibration image error");
-                email.putExtra(Intent.EXTRA_TEXT, "GoIV version: " + getVersionName()
-                        + "\nScreenDensity: " + realDisplayMetrics.density
+                email.putExtra(Intent.EXTRA_TEXT, getString(R.string.app_name) + " version: " + BuildConfig.VERSION_NAME
+                        + "\nScreen density: " + realDisplayMetrics.density
                         + "\n\n\nError message: \n" + errorText);
                 email.putExtra(Intent.EXTRA_STREAM, bmpUri);
 
@@ -239,16 +240,6 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
         });
 
 
-    }
-
-    private String getVersionName() {
-        try {
-            return getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
-        } catch (PackageManager.NameNotFoundException e) {
-            Timber.e("Exception thrown while getting version name");
-            Timber.e(e);
-        }
-        return "Error while getting version name";
     }
 
     @Override

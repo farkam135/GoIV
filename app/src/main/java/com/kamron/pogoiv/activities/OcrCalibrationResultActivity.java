@@ -3,6 +3,7 @@ package com.kamron.pogoiv.activities;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -15,7 +16,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutCompat;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
@@ -24,12 +24,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.kamron.pogoiv.BuildConfig;
 import com.kamron.pogoiv.GoIVSettings;
 import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanArea;
 import com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldAutomaticLocator;
 import com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldResults;
 import com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanPoint;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -147,6 +150,7 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
                                 if (results.infoScreenFabGreenPixelColor == null) {
                                     sb.append(getText(R.string.ocr_error_pick_pixel_green));
                                 }
+                                enableUserEmailErrorReporting(sCalibrationImage, sb.toString());
                                 sb.append(getText(R.string.ocr_msg_verify));
                                 errorListTextView.setText(sb);
                                 ocr_calibration_title.setText(R.string.title_activity_ocr_calibration_error);
@@ -154,7 +158,6 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
                                 ocr_calibration_check.setVisibility(View.GONE);
                                 saveCalibrationButton.setVisibility(View.GONE);
                                 backButton.setVisibility(View.VISIBLE);
-                                enableUserEmailErrorReporting(sCalibrationImage, sb);
                             }
 
                             // Draw results on a copy of the original screenshot
@@ -198,10 +201,10 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
      * Shows the email error section of the view, and adds the button logic that creates an email
      * for the image.
      *
-     * @param sCalibrationImage the image that will be emailed.
-     * @param sb                The error message the user got.
+     * @param sCalibrationImage The image that will be emailed.
+     * @param errorText         The error message the user got.
      */
-    private void enableUserEmailErrorReporting(final Bitmap sCalibrationImage, final StringBuilder sb) {
+    private void enableUserEmailErrorReporting(final Bitmap sCalibrationImage, final String errorText) {
         errorLayout.setVisibility(View.VISIBLE);
 
         emailErrorButton.setOnClickListener(new View.OnClickListener() {
@@ -221,26 +224,22 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
                 email.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 email.putExtra(Intent.EXTRA_EMAIL, new String[]{"goivdevelopment@gmail.com"});
                 email.putExtra(Intent.EXTRA_SUBJECT, "GoIV auto calibration image error");
-                email.putExtra(Intent.EXTRA_TEXT, "GoIV version: " + getVersionName()
-                        + "\nScreenDensity: " + realDisplayMetrics.density
-                        + "\n\n\nError message: \n"
-                        + sb.toString());
+                email.putExtra(Intent.EXTRA_TEXT, getString(R.string.app_name) + " version: " + BuildConfig.VERSION_NAME
+                        + "\nScreen density: " + realDisplayMetrics.density
+                        + "\n\n\nError message: \n" + errorText);
                 email.putExtra(Intent.EXTRA_STREAM, bmpUri);
+
+                // Grant read permission to candidate resolvers
+                List<ResolveInfo> resolvers = getPackageManager().queryIntentActivities(email, 0);
+                for (ResolveInfo r : resolvers) {
+                    grantUriPermission(r.activityInfo.packageName, bmpUri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                }
+
                 startActivity(Intent.createChooser(email, "Choose an Email App:"));
             }
         });
 
 
-    }
-
-    private String getVersionName() {
-        try {
-            return getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
-        } catch (PackageManager.NameNotFoundException e) {
-            Timber.e("Exception thrown while getting version name");
-            Timber.e(e);
-        }
-        return "Error while getting version name";
     }
 
     @Override

@@ -23,6 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.common.base.Strings;
 import com.kamron.pogoiv.BuildConfig;
 import com.kamron.pogoiv.GoIVSettings;
 import com.kamron.pogoiv.R;
@@ -217,12 +218,22 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
                         sCalibrationImage, "goivdebugimgremovable", null);
                 Uri bmpUri = Uri.parse(pathofBmp);
 
+                final String os;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+                        && !Strings.isNullOrEmpty(Build.VERSION.BASE_OS)) {
+                    os = Build.VERSION.BASE_OS;
+                } else {
+                    os = "Android";
+                }
+
                 final Intent email = new Intent(Intent.ACTION_SENDTO,
                         Uri.fromParts("mailto", "goivdevelopment@gmail.com", null));
                 email.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 email.putExtra(Intent.EXTRA_EMAIL, new String[]{"goivdevelopment@gmail.com"});
                 email.putExtra(Intent.EXTRA_SUBJECT, "GoIV auto calibration image error");
                 email.putExtra(Intent.EXTRA_TEXT, getString(R.string.app_name) + " version: " + BuildConfig.VERSION_NAME
+                        + "\nDevice maker and model: " + Build.MANUFACTURER + " " + Build.MODEL
+                        + "\nOS: " + os + " " + Build.VERSION.RELEASE
                         + "\nScreen density: " + realDisplayMetrics.density
                         + "\n\n\nError message: \n" + errorText);
                 email.putExtra(Intent.EXTRA_STREAM, bmpUri);

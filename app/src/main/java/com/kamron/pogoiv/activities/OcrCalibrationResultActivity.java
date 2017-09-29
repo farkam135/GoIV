@@ -2,29 +2,37 @@ package com.kamron.pogoiv.activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.common.base.Strings;
+import com.kamron.pogoiv.BuildConfig;
 import com.kamron.pogoiv.GoIVSettings;
 import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanArea;
 import com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldAutomaticLocator;
 import com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldResults;
 import com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanPoint;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -49,6 +57,10 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
     Button backToGoivButton;
     @BindView(R.id.backButton)
     Button backButton;
+    @BindView(R.id.errorField)
+    LinearLayout errorLayout;
+    @BindView(R.id.emailErrorButton)
+    Button emailErrorButton;
 
 
     private ScanFieldResults results;
@@ -77,7 +89,8 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
 
             final Handler mainThreadHandler = new Handler();
             final Runnable recalibrateRunner = new Runnable() {
-                @Override public void run() {
+                @Override
+                public void run() {
                     DisplayMetrics realDisplayMetrics = new DisplayMetrics();
                     getWindowManager().getDefaultDisplay().getRealMetrics(realDisplayMetrics);
 
@@ -86,7 +99,8 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
                             .scan(mainThreadHandler, dialog, getBaseContext());
 
                     mainThreadHandler.post(new Runnable() {
-                        @Override public void run() {
+                        @Override
+                        public void run() {
                             dialog.setMessage(getText(R.string.done));
                             dialog.dismiss();
                             if (results.isCompleteCalibration()) {
@@ -135,6 +149,7 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
                                 if (results.infoScreenFabGreenPixelColor == null) {
                                     sb.append(getText(R.string.ocr_error_pick_pixel_green));
                                 }
+                                enableUserEmailErrorReporting(sCalibrationImage, sb.toString());
                                 sb.append(getText(R.string.ocr_msg_verify));
                                 errorListTextView.setText(sb);
                                 ocr_calibration_title.setText(R.string.title_activity_ocr_calibration_error);
@@ -156,7 +171,8 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
         }
 
         saveCalibrationButton.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View v) {
+            @Override
+            public void onClick(View v) {
                 saveCalibrationButton.setVisibility(View.GONE);
                 backToGoivButton.setVisibility(View.VISIBLE);
                 if (results != null && results.isCompleteCalibration()) {
@@ -170,7 +186,8 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
         });
 
         backButton.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View v) {
+            @Override
+            public void onClick(View v) {
                 Intent i = getPackageManager().getLaunchIntentForPackage("com.nianticlabs.pokemongo");
                 if (i != null) {
                     startActivity(i);
@@ -179,14 +196,71 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
         });
     }
 
-    @Override protected void onDestroy() {
+    /**
+     * Shows the email error section of the view, and adds the button logic that creates an email
+     * for the image.
+     *
+     * @param sCalibrationImage The image that will be emailed.
+     * @param errorText         The error message the user got.
+     */
+    private void enableUserEmailErrorReporting(final Bitmap sCalibrationImage, final String errorText) {
+        errorLayout.setVisibility(View.VISIBLE);
+
+        emailErrorButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                DisplayMetrics realDisplayMetrics = new DisplayMetrics();
+                getWindowManager().getDefaultDisplay().getRealMetrics(realDisplayMetrics);
+
+
+                String pathofBmp = MediaStore.Images.Media.insertImage(getContentResolver(),
+                        sCalibrationImage, "goivdebugimgremovable", null);
+                Uri bmpUri = Uri.parse(pathofBmp);
+
+                final String os;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+                        && !Strings.isNullOrEmpty(Build.VERSION.BASE_OS)) {
+                    os = Build.VERSION.BASE_OS;
+                } else {
+                    os = "Android";
+                }
+
+                final Intent email = new Intent(Intent.ACTION_SENDTO,
+                        Uri.fromParts("mailto", "goivdevelopment@gmail.com", null));
+                email.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                email.putExtra(Intent.EXTRA_EMAIL, new String[]{"goivdevelopment@gmail.com"});
+                email.putExtra(Intent.EXTRA_SUBJECT, "GoIV auto calibration image error");
+                email.putExtra(Intent.EXTRA_TEXT, getString(R.string.app_name) + " version: " + BuildConfig.VERSION_NAME
+                        + "\nDevice maker and model: " + Build.MANUFACTURER + " " + Build.MODEL
+                        + "\nOS: " + os + " " + Build.VERSION.RELEASE
+                        + "\nScreen density: " + realDisplayMetrics.density
+                        + "\n\n\nError message: \n" + errorText);
+                email.putExtra(Intent.EXTRA_STREAM, bmpUri);
+
+                // Grant read permission to candidate resolvers
+                List<ResolveInfo> resolvers = getPackageManager().queryIntentActivities(email, 0);
+                for (ResolveInfo r : resolvers) {
+                    grantUriPermission(r.activityInfo.packageName, bmpUri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                }
+
+                startActivity(Intent.createChooser(email, "Choose an Email App:"));
+            }
+        });
+
+
+    }
+
+    @Override
+    protected void onDestroy() {
         super.onDestroy();
         sCalibrationImage = null; // This screenshot is no longer needed: let it be garbage collected
     }
 
     private void fixHomeButton() {
         backToGoivButton.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View v) {
+            @Override
+            public void onClick(View v) {
 
                 Intent intent = new Intent(OcrCalibrationResultActivity.this, MainActivity.class);
                 startActivity(intent);

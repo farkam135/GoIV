@@ -54,6 +54,8 @@ import com.kamron.pogoiv.widgets.PlayerTeamAdapter;
 
 import timber.log.Timber;
 
+import static android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP;
+
 public class MainActivity extends AppCompatActivity {
 
     public static final String ACTION_SHOW_UPDATE_DIALOG = "com.kamron.pogoiv.SHOW_UPDATE_DIALOG";
@@ -582,6 +584,7 @@ public class MainActivity extends AppCompatActivity {
     private void openPokemonGoApp() {
         Intent i = getPackageManager().getLaunchIntentForPackage("com.nianticlabs.pokemongo");
         if (i != null) {
+            i.addFlags(FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(i);
         }
     }

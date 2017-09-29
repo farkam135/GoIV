@@ -37,6 +37,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP;
+
 public class OcrCalibrationResultActivity extends AppCompatActivity {
 
     public static Bitmap sCalibrationImage;
@@ -190,6 +192,7 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent i = getPackageManager().getLaunchIntentForPackage("com.nianticlabs.pokemongo");
                 if (i != null) {
+                    i.addFlags(FLAG_ACTIVITY_SINGLE_TOP);
                     startActivity(i);
                 }
             }

@@ -217,7 +217,7 @@ public class ClipboardModifierFragment
                 .setMessage(R.string.token_input_custom_separator)
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     @Override public void onClick(DialogInterface dialogInterface, int i) {
-                        String separator = editText.getText().toString().trim();
+                        String separator = editText.getText().toString();
                         if (Strings.isNullOrEmpty(separator)) {
                             Toast.makeText(getContext(),
                                     R.string.token_fill_custom_separator, Toast.LENGTH_LONG).show();

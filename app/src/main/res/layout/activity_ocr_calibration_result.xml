@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#e1e1e1"
@@ -23,6 +22,7 @@
             android:background="@color/colorPrimary"
             android:padding="8dp"
             android:paddingStart="28dp"
+            android:paddingEnd="28dp"
             android:text="@string/title_activity_ocr_calibration_result"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/buttonText" />
@@ -35,7 +35,6 @@
             android:paddingEnd="28dp"
             android:paddingStart="28dp"
             android:paddingTop="8dp">
-
 
             <TextView
                 android:id="@+id/ocr_calibration_description"
@@ -56,7 +55,6 @@
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:enabled="false"
-                    android:paddingBottom="16dp"
                     android:text="@string/ocr_calibration_save" />
 
                 <Button
@@ -64,9 +62,6 @@
                     style="@style/Widget.AppCompat.Button.Colored"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="16dp"
-                    android:paddingEnd="16dp"
-                    android:paddingStart="16dp"
                     android:text="@string/go_back_to_goiv"
                     android:visibility="gone" />
 
@@ -95,14 +90,10 @@
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|center_horizontal"
-                android:paddingBottom="16dp"
-                android:paddingEnd="16dp"
-                android:paddingStart="16dp"
                 android:text="@string/go_back"
                 android:visibility="gone" />
 
         </LinearLayout>
-
 
         <LinearLayout
             android:id="@+id/errorField"
@@ -141,7 +132,8 @@
             android:layout_marginTop="12dp"
             android:adjustViewBounds="true"
             android:background="@android:color/white"
-            android:minHeight="120dp" />
+            android:minHeight="120dp"
+            tools:ignore="ContentDescription" />
 
     </LinearLayout>
 

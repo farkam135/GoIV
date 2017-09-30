@@ -3,6 +3,8 @@ package com.kamron.pogoiv;
 import android.app.Application;
 import android.support.v7.app.AppCompatDelegate;
 
+import com.kamron.pogoiv.utils.FontsOverride;
+
 import timber.log.Timber;
 
 public class PoGoApplication extends Application {

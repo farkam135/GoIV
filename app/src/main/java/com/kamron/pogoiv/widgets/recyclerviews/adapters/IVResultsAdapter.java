@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.kamron.pogoiv.GuiUtil;
+import com.kamron.pogoiv.utils.GuiUtil;
 import com.kamron.pogoiv.Pokefly;
 import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.scanlogic.IVCombination;

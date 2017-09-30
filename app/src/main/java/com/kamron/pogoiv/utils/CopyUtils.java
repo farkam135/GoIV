@@ -1,4 +1,4 @@
-package com.kamron.pogoiv;
+package com.kamron.pogoiv.utils;
 
 import android.content.res.AssetManager;
 
@@ -14,7 +14,7 @@ import timber.log.Timber;
  * Created by pgiarrusso on 4/9/2016.
  */
 public class CopyUtils {
-    static boolean copyAssetFolder(AssetManager assetManager, String fromAssetPath, String toPath) {
+    public static boolean copyAssetFolder(AssetManager assetManager, String fromAssetPath, String toPath) {
 
         String[] files = new String[0];
 

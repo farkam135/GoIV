@@ -2,6 +2,8 @@ package com.kamron.pogoiv;
 
 import android.content.Context;
 
+import com.kamron.pogoiv.utils.CommonLogger;
+
 import timber.log.Timber;
 
 public class CrashlyticsWrapper {

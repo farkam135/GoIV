@@ -13,7 +13,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -31,6 +30,7 @@ import com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanArea;
 import com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldAutomaticLocator;
 import com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldResults;
 import com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanPoint;
+import com.kamron.pogoiv.utils.MediaStoreUtils;
 
 import java.util.List;
 
@@ -214,8 +214,8 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
                 getWindowManager().getDefaultDisplay().getRealMetrics(realDisplayMetrics);
 
 
-                String pathofBmp = MediaStore.Images.Media.insertImage(getContentResolver(),
-                        sCalibrationImage, "goivdebugimgremovable", null);
+                String pathofBmp = MediaStoreUtils.insertPngImage(getContentResolver(),
+                        sCalibrationImage, "goivdebugimgremovable.png");
                 Uri bmpUri = Uri.parse(pathofBmp);
 
                 final String os;

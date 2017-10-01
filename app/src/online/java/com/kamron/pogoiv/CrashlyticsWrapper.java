@@ -5,6 +5,7 @@ import android.text.TextUtils;
 
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.core.CrashlyticsCore;
+import com.kamron.pogoiv.utils.CommonLogger;
 
 import io.fabric.sdk.android.Fabric;
 import timber.log.Timber;

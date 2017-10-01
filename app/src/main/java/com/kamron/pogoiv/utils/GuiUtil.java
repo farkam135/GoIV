@@ -1,4 +1,4 @@
-package com.kamron.pogoiv;
+package com.kamron.pogoiv.utils;
 
 import android.content.Context;
 import android.graphics.Color;

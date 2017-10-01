@@ -73,6 +73,8 @@ import com.kamron.pogoiv.scanlogic.PokemonShareHandler;
 import com.kamron.pogoiv.scanlogic.ScanContainer;
 import com.kamron.pogoiv.scanlogic.ScanResult;
 import com.kamron.pogoiv.scanlogic.UpgradeCost;
+import com.kamron.pogoiv.utils.CopyUtils;
+import com.kamron.pogoiv.utils.GuiUtil;
 import com.kamron.pogoiv.widgets.PokemonSpinnerAdapter;
 import com.kamron.pogoiv.widgets.recyclerviews.adapters.IVResultsAdapter;
 

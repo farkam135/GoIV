@@ -792,7 +792,7 @@ public class OcrHelper {
      * @param trainerLevel Current level of the trainer
      * @return an object
      */
-    public ScanResult scanPokemon(Bitmap pokemonImage, int trainerLevel) {
+    public ScanResult scanPokemon(@NonNull Bitmap pokemonImage, int trainerLevel) {
         ensureCorrectLevelArcSettings(trainerLevel); //todo, make it so it doesnt initiate on every scan?
         double estimatedPokemonLevel = getPokemonLevelFromImg(pokemonImage, trainerLevel);
 

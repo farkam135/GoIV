@@ -193,17 +193,13 @@ public class GoIVNotificationManager {
                                 return; // Don't recalibrate when screen watching isn't running!!!
                             }
 
-                            // Grab a screenshot to be analyzed. Retry trice if unsuccessful.
-                            for (int i = 0; i < 3; i++) {
-                                OcrCalibrationResultActivity.sCalibrationImage =
-                                        ScreenGrabber.getInstance().grabScreen();
-                                if (OcrCalibrationResultActivity.sCalibrationImage != null) {
-                                    Intent showResultIntent = new Intent(
-                                            NotificationActionService.this, OcrCalibrationResultActivity.class)
-                                            .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                    startActivity(showResultIntent);
-                                    break; // Stop retries
-                                }
+                            OcrCalibrationResultActivity.sCalibrationImage =
+                                    ScreenGrabber.getInstance().grabScreen();
+                            if (OcrCalibrationResultActivity.sCalibrationImage != null) {
+                                Intent showResultIntent = new Intent(
+                                        NotificationActionService.this, OcrCalibrationResultActivity.class)
+                                        .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(showResultIntent);
                             }
                         }
                     }, 2000);

@@ -1881,7 +1881,7 @@ public class Pokefly extends Service {
      * @param pokemonImage   The image of the pokemon
      * @param screenShotPath The screenshot path if it is a file, used to delete once checked
      */
-    private void scanPokemon(Bitmap pokemonImage, @NonNull Optional<String> screenShotPath) {
+    private void scanPokemon(@NonNull Bitmap pokemonImage, @NonNull Optional<String> screenShotPath) {
         //WARNING: this method *must* always send an intent at the end, no matter what, to avoid the application
         // hanging.
 

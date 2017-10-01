@@ -14,9 +14,11 @@ import android.media.projection.MediaProjection;
 import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.support.annotation.Nullable;
+import android.support.annotation.WorkerThread;
 import android.util.DisplayMetrics;
 
 import java.nio.ByteBuffer;
+import java.util.concurrent.TimeUnit;
 
 import timber.log.Timber;
 
@@ -74,19 +76,29 @@ public class ScreenGrabber {
         }
     }
 
+    @WorkerThread
     public @Nullable Bitmap grabScreen() {
         Image image = null;
         Bitmap bmp = null;
-        Integer retries = 100;
+        Integer retries = 60; // Retry for an entire second (given the rendering speed of 60fps)
 
-        while (image == null && retries > 0) {
+        while (retries > 0) {
             try {
                 //Note: imageReader shouldn't be null, but apparently sometimes is.
                 //Let's allow this to still happen.
                 image = imageReader.acquireLatestImage();
+                break;
             } catch (Exception exception) {
                 Timber.e("Error thrown in grabScreen() - acquireLatestImage()");
                 Timber.e(exception);
+            }
+            // If the screenshot failed, wait 16 milliseconds (1/60 seconds, the duration of a frame at 60fps).
+            // This avoid useless and very fast executions (100 loops on a n-GHz lasts less then a nanosecond) because
+            // a new video frame will never be available in time. This also greatly reduce battery drain.
+            try {
+                TimeUnit.MILLISECONDS.wait(16);
+            } catch (InterruptedException e) {
+                Timber.e(e);
             }
             retries--;
         }

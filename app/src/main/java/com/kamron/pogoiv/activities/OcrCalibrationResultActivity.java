@@ -1,12 +1,12 @@
 package com.kamron.pogoiv.activities;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.net.Uri;
@@ -14,6 +14,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.support.annotation.ColorInt;
+import android.support.annotation.MainThread;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -32,6 +35,7 @@ import com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldAutomaticLocator;
 import com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldResults;
 import com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanPoint;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 import butterknife.BindView;
@@ -84,90 +88,9 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
         if (sCalibrationImage == null) {
             finish(); // We don't have a screenshot: terminate here
         } else {
-            final ProgressDialog dialog = ProgressDialog.show(this, getText(R.string.ocr_calibrating), getText(R.string
-                    .ocr_loading), true);
-
-            final Handler mainThreadHandler = new Handler();
-            final Runnable recalibrateRunner = new Runnable() {
-                @Override
-                public void run() {
-                    DisplayMetrics realDisplayMetrics = new DisplayMetrics();
-                    getWindowManager().getDefaultDisplay().getRealMetrics(realDisplayMetrics);
-
-                    results = new ScanFieldAutomaticLocator(
-                            sCalibrationImage, realDisplayMetrics.widthPixels, realDisplayMetrics.density)
-                            .scan(mainThreadHandler, dialog, getBaseContext());
-
-                    mainThreadHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            dialog.setMessage(getText(R.string.done));
-                            dialog.dismiss();
-                            if (results.isCompleteCalibration()) {
-                                saveCalibrationButton.setEnabled(true);
-                                errorListTextView.setVisibility(View.GONE);
-                                ocr_calibration_description.setVisibility(View.VISIBLE);
-                                ocr_calibration_check.setVisibility(View.VISIBLE);
-                            } else {
-                                StringBuilder sb = new StringBuilder();
-                                if (results.pokemonNameArea == null) {
-                                    sb.append(getText(R.string.ocr_error_name));
-                                }
-                                if (results.pokemonTypeArea == null) {
-                                    sb.append(getText(R.string.ocr_error_type));
-                                }
-                                if (results.candyNameArea == null) {
-                                    sb.append(getText(R.string.ocr_error_candy_name));
-                                }
-                                if (results.pokemonHpArea == null) {
-                                    sb.append(getText(R.string.ocr_error_hp));
-                                }
-                                if (results.pokemonCpArea == null) {
-                                    sb.append(getText(R.string.ocr_error_cp));
-                                }
-                                if (results.pokemonCandyAmountArea == null) {
-                                    sb.append(getText(R.string.ocr_error_candy_amount));
-                                }
-                                if (results.pokemonEvolutionCostArea == null) {
-                                    sb.append(getText(R.string.ocr_error_evo_cost));
-                                }
-                                if (results.arcCenter == null) {
-                                    sb.append(getText(R.string.ocr_error_arc_center));
-                                }
-                                if (results.arcRadius == null) {
-                                    sb.append(getText(R.string.ocr_error_arc_radius));
-                                }
-                                if (results.infoScreenCardWhitePixelPoint == null) {
-                                    sb.append(getText(R.string.ocr_error_locate_pixel_white));
-                                }
-                                if (results.infoScreenCardWhitePixelColor == null) {
-                                    sb.append(getText(R.string.ocr_error_pick_pixel_white));
-                                }
-                                if (results.infoScreenFabGreenPixelPoint == null) {
-                                    sb.append(getText(R.string.ocr_error_locate_pixel_green));
-                                }
-                                if (results.infoScreenFabGreenPixelColor == null) {
-                                    sb.append(getText(R.string.ocr_error_pick_pixel_green));
-                                }
-                                enableUserEmailErrorReporting(sCalibrationImage, sb.toString());
-                                sb.append(getText(R.string.ocr_msg_verify));
-                                errorListTextView.setText(sb);
-                                ocr_calibration_title.setText(R.string.title_activity_ocr_calibration_error);
-                                ocr_calibration_description.setVisibility(View.GONE);
-                                ocr_calibration_check.setVisibility(View.GONE);
-                                saveCalibrationButton.setVisibility(View.GONE);
-                                backButton.setVisibility(View.VISIBLE);
-                            }
-
-                            // Draw results on a copy of the original screenshot
-                            Bitmap resultIndicatorImage = sCalibrationImage.copy(sCalibrationImage.getConfig(), true);
-                            drawResultIndicator(resultIndicatorImage);
-                            resultImageView.setImageBitmap(resultIndicatorImage);
-                        }
-                    });
-                }
-            };
-            new Thread(recalibrateRunner).start();
+            final ProgressDialog dialog = ProgressDialog.show(
+                    this, getText(R.string.ocr_calibrating), getText(R.string.ocr_loading), true);
+            new Thread(new RecalibrateRunnable(this, dialog)).start();
         }
 
         saveCalibrationButton.setOnClickListener(new View.OnClickListener() {
@@ -194,6 +117,136 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private static class RecalibrateRunnable implements Runnable {
+
+        private final Handler mainThreadHandler;
+        private final WeakReference<OcrCalibrationResultActivity> activityRef;
+        private final WeakReference<ProgressDialog> dialogRef;
+
+
+        @MainThread
+        private RecalibrateRunnable(OcrCalibrationResultActivity activity, ProgressDialog dialog) {
+            this.mainThreadHandler = new Handler();
+            this.activityRef = new WeakReference<>(activity);
+            this.dialogRef = new WeakReference<>(dialog);
+        }
+
+        @Override
+        public void run() {
+            final OcrCalibrationResultActivity activity = activityRef.get();
+            final ProgressDialog dialog = dialogRef.get();
+            if (activity == null || dialog == null) {
+                return;
+            }
+
+            DisplayMetrics realDisplayMetrics = new DisplayMetrics();
+            activity.getWindowManager().getDefaultDisplay().getRealMetrics(realDisplayMetrics);
+
+            ScanFieldResults results = new ScanFieldAutomaticLocator(
+                    sCalibrationImage, realDisplayMetrics.widthPixels, realDisplayMetrics.density)
+                    .scan(mainThreadHandler, dialogRef, new WeakReference<Context>(activity));
+
+            mainThreadHandler.post(new ResultRunnable(activityRef, dialogRef, results));
+        }
+    }
+
+    private static class ResultRunnable implements Runnable {
+
+        private final WeakReference<OcrCalibrationResultActivity> activityRef;
+        private final WeakReference<ProgressDialog> dialogRef;
+        private final ScanFieldResults results;
+        private final Bitmap resultIndicatorImage;
+
+
+        private ResultRunnable(WeakReference<OcrCalibrationResultActivity> activityRef,
+                               WeakReference<ProgressDialog> dialogRef, ScanFieldResults results) {
+            this.activityRef = activityRef;
+            this.dialogRef = dialogRef;
+            this.results = results;
+            if (sCalibrationImage != null) {
+                this.resultIndicatorImage = sCalibrationImage.copy(sCalibrationImage.getConfig(), true);
+            } else {
+                this.resultIndicatorImage = null;
+            }
+        }
+
+        @Override
+        public void run() {
+            if (resultIndicatorImage == null) {
+                return;
+            }
+            OcrCalibrationResultActivity activity = activityRef.get();
+            ProgressDialog dialog = dialogRef.get();
+            if (activity == null || dialog == null) {
+                return;
+            }
+
+            activity.results = results;
+
+            dialog.setMessage(activity.getText(R.string.done));
+            dialog.dismiss();
+            if (results.isCompleteCalibration()) {
+                activity.saveCalibrationButton.setEnabled(true);
+                activity.errorListTextView.setVisibility(View.GONE);
+                activity.ocr_calibration_description.setVisibility(View.VISIBLE);
+                activity.ocr_calibration_check.setVisibility(View.VISIBLE);
+            } else {
+                StringBuilder sb = new StringBuilder();
+                if (results.pokemonNameArea == null) {
+                    sb.append(activity.getText(R.string.ocr_error_name));
+                }
+                if (results.pokemonTypeArea == null) {
+                    sb.append(activity.getText(R.string.ocr_error_type));
+                }
+                if (results.candyNameArea == null) {
+                    sb.append(activity.getText(R.string.ocr_error_candy_name));
+                }
+                if (results.pokemonHpArea == null) {
+                    sb.append(activity.getText(R.string.ocr_error_hp));
+                }
+                if (results.pokemonCpArea == null) {
+                    sb.append(activity.getText(R.string.ocr_error_cp));
+                }
+                if (results.pokemonCandyAmountArea == null) {
+                    sb.append(activity.getText(R.string.ocr_error_candy_amount));
+                }
+                if (results.pokemonEvolutionCostArea == null) {
+                    sb.append(activity.getText(R.string.ocr_error_evo_cost));
+                }
+                if (results.arcCenter == null) {
+                    sb.append(activity.getText(R.string.ocr_error_arc_center));
+                }
+                if (results.arcRadius == null) {
+                    sb.append(activity.getText(R.string.ocr_error_arc_radius));
+                }
+                if (results.infoScreenCardWhitePixelPoint == null) {
+                    sb.append(activity.getText(R.string.ocr_error_locate_pixel_white));
+                }
+                if (results.infoScreenCardWhitePixelColor == null) {
+                    sb.append(activity.getText(R.string.ocr_error_pick_pixel_white));
+                }
+                if (results.infoScreenFabGreenPixelPoint == null) {
+                    sb.append(activity.getText(R.string.ocr_error_locate_pixel_green));
+                }
+                if (results.infoScreenFabGreenPixelColor == null) {
+                    sb.append(activity.getText(R.string.ocr_error_pick_pixel_green));
+                }
+                activity.enableUserEmailErrorReporting(sCalibrationImage, sb.toString());
+                sb.append(activity.getText(R.string.ocr_msg_verify));
+                activity.errorListTextView.setText(sb);
+                activity.ocr_calibration_title.setText(R.string.title_activity_ocr_calibration_error);
+                activity.ocr_calibration_description.setVisibility(View.GONE);
+                activity.ocr_calibration_check.setVisibility(View.GONE);
+                activity.saveCalibrationButton.setVisibility(View.GONE);
+                activity.backButton.setVisibility(View.VISIBLE);
+            }
+
+            // Draw results on a copy of the original screenshot
+            activity.drawResultIndicator(resultIndicatorImage, ContextCompat.getColor(activity, R.color.colorAccent));
+            activity.resultImageView.setImageBitmap(resultIndicatorImage);
+        }
     }
 
     /**
@@ -274,25 +327,22 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
         decorView.setSystemUiVisibility(uiOptions);
     }
 
-    private void drawResultIndicator(Bitmap bmp) {
-        int purpleBright = Color.parseColor("#FA33FA");
-        int purple = Color.parseColor("#AA00BB");
-
-        showAreaIndicator(bmp, results.pokemonNameArea, purple);
-        showAreaIndicator(bmp, results.pokemonTypeArea, purple);
-        showAreaIndicator(bmp, results.candyNameArea, purple);
-        showAreaIndicator(bmp, results.pokemonHpArea, purple);
-        showAreaIndicator(bmp, results.pokemonCpArea, purple);
-        showAreaIndicator(bmp, results.pokemonCandyAmountArea, purple);
-        showAreaIndicator(bmp, results.pokemonEvolutionCostArea, purple);
+    private void drawResultIndicator(Bitmap bmp, @ColorInt int colorAccent) {
+        showAreaIndicator(bmp, results.pokemonNameArea, colorAccent);
+        showAreaIndicator(bmp, results.pokemonTypeArea, colorAccent);
+        showAreaIndicator(bmp, results.candyNameArea, colorAccent);
+        showAreaIndicator(bmp, results.pokemonHpArea, colorAccent);
+        showAreaIndicator(bmp, results.pokemonCpArea, colorAccent);
+        showAreaIndicator(bmp, results.pokemonCandyAmountArea, colorAccent);
+        showAreaIndicator(bmp, results.pokemonEvolutionCostArea, colorAccent);
 
         showPointIndicator(bmp, results.infoScreenCardWhitePixelPoint,
-                results.infoScreenCardWhitePixelColor, purpleBright);
+                results.infoScreenCardWhitePixelColor, colorAccent);
         showPointIndicator(bmp, results.infoScreenFabGreenPixelPoint,
-                results.infoScreenFabGreenPixelColor, purpleBright);
+                results.infoScreenFabGreenPixelColor, colorAccent);
 
-        showPointIndicator(bmp, results.arcCenter, null, purpleBright);
-        showArcIndicator(bmp, results.arcCenter, results.arcRadius, purple);
+        showPointIndicator(bmp, results.arcCenter, null, colorAccent);
+        showArcIndicator(bmp, results.arcCenter, results.arcRadius, colorAccent);
     }
 
     private void showPointIndicator(Bitmap bmp, ScanPoint point, Integer color, Integer strokeColor) {

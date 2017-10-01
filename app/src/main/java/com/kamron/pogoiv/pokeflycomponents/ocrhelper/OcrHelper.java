@@ -201,23 +201,25 @@ public class OcrHelper {
      */
     private int getCardinalWhiteLineDistFromImg(Bitmap pokemonImage, int x, int y) {
         // Base case of not matching
-        if (pokemonImage.getPixel(x, y) != Color.rgb(255, 255, 255)) {
+        if (pokemonImage.getPixel(x, y) != Color.WHITE) {
             return -1;
         }
 
         int d = 0; // Distance we have successfully searched for white pixels.
         while (true) {
             // If any pixel this distance is not white, return our successful search distance
-            if (pokemonImage.getPixel(x + d, y) != Color.rgb(255, 255, 255)
-                    || pokemonImage.getPixel(x - d, y) != Color.rgb(255, 255, 255)
-                    || pokemonImage.getPixel(x, y + d) != Color.rgb(255, 255, 255)
-                    || pokemonImage.getPixel(x, y - d) != Color.rgb(255, 255, 255)) {
+            if (pokemonImage.getPixel(x + d, y) != Color.WHITE
+                    || pokemonImage.getPixel(x - d, y) != Color.WHITE
+                    || pokemonImage.getPixel(x, y + d) != Color.WHITE
+                    || pokemonImage.getPixel(x, y - d) != Color.WHITE) {
                 return d;
             }
 
             d++;
-            if (pokemonImage.getWidth() <= x + d) { //if the level indicator is on white background, we need to break it
-                // before it loops off screen. Happens very rarely.
+            if (x - d < 0 || y - d < 0
+                    || x + d > pokemonImage.getWidth() || y + d > pokemonImage.getHeight()) {
+                // If the level indicator is on white background, we need to break it before it loops off screen.
+                // Happens very rarely.
                 break;
             }
         }
@@ -790,7 +792,7 @@ public class OcrHelper {
      * @param trainerLevel Current level of the trainer
      * @return an object
      */
-    public ScanResult scanPokemon(Bitmap pokemonImage, int trainerLevel) {
+    public ScanResult scanPokemon(@NonNull Bitmap pokemonImage, int trainerLevel) {
         ensureCorrectLevelArcSettings(trainerLevel); //todo, make it so it doesnt initiate on every scan?
         double estimatedPokemonLevel = getPokemonLevelFromImg(pokemonImage, trainerLevel);
 

@@ -8,11 +8,14 @@ import com.kamron.pogoiv.GoIVSettings;
 import com.kamron.pogoiv.Pokefly;
 import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.ScreenGrabber;
+import com.kamron.pogoiv.pokeflycomponents.ocrhelper.OcrHelper;
 import com.kamron.pogoiv.scanlogic.IVScanResult;
 import com.kamron.pogoiv.scanlogic.PokeInfoCalculator;
 import com.kamron.pogoiv.scanlogic.Pokemon;
 import com.kamron.pogoiv.scanlogic.PokemonNameCorrector;
 import com.kamron.pogoiv.scanlogic.ScanResult;
+
+import java.lang.ref.WeakReference;
 
 /**
  * Created by johan on 2017-07-06.
@@ -44,28 +47,32 @@ public class IVPreviewPrinter {
     public void printIVPreview(IVPopupButton ivButton) {
         if (settings.shouldShowQuickIVPreview()) {
             Handler handler = new Handler();
-            //A delayed action, because the screengrabber needs to wait and ensure there's a frame to grab - fails if
-            //the delay is not long enough.
-            handler.postDelayed(new QuickIVScanAttempt(ivButton), DELAY_SCAN_MILLIS);
-
+            // A delayed action, because the screengrabber needs to wait and ensure there's a frame to grab - fails if
+            // the delay is not long enough.
+            handler.postDelayed(new QuickIVScanAttempt(pokefly, this, ivButton), DELAY_SCAN_MILLIS);
         }
     }
 
     /**
      * A quick scan which will try to analyze the screen and show a quick iv preview message.
      */
-    private class QuickIVScanAttempt implements Runnable {
+    private static class QuickIVScanAttempt implements Runnable {
 
-        private IVPopupButton ivButton;
+        private WeakReference<Pokefly> pokeflyRef;
+        private WeakReference<IVPreviewPrinter> ivPreviewPrinterRef;
+        private WeakReference<IVPopupButton> ivButtonRef;
 
-        public QuickIVScanAttempt(IVPopupButton ivButton) {
-            this.ivButton = ivButton;
+        public QuickIVScanAttempt(Pokefly pokefly, IVPreviewPrinter ivPreviewPrinter, IVPopupButton ivButton) {
+            this.pokeflyRef = new WeakReference<>(pokefly);
+            this.ivPreviewPrinterRef = new WeakReference<>(ivPreviewPrinter);
+            this.ivButtonRef = new WeakReference<>(ivButton);
         }
 
         @Override
         public void run() {
             boolean succeeded = runQuickScan();
-            if (!succeeded) {
+            Pokefly pokefly = pokeflyRef.get();
+            if (!succeeded && pokefly != null) {
                 Toast.makeText(pokefly, R.string.touch_screen_quick_iv_scan, Toast.LENGTH_SHORT).show();
             }
         }
@@ -82,23 +89,39 @@ public class IVPreviewPrinter {
                 return false;
             }
 
-            ScanResult res = pokefly.getOcr().scanPokemon(bmp, pokefly.getTrainerLevel());
+            Pokefly pokefly = pokeflyRef.get();
+            if (pokefly == null) {
+                return false; // This quick scan fired after Pokefly stopped
+            }
+
+            OcrHelper ocr = pokefly.getOcr();
+            if (ocr == null) {
+                return false; // This quick scan fired after Pokefly stopped
+            }
+
+            ScanResult res = ocr.scanPokemon(bmp, pokefly.getTrainerLevel());
             if (!res.getPokemonHP().isPresent() || !res.getPokemonCP().isPresent()) {
                 return false;
             }
 
-            IVScanResult ivrs = getIVScanResults(res);
-            if (ivrs.getCount() <= 0) { //unsuccessful scan
+            IVPreviewPrinter ivPreviewPrinter = ivPreviewPrinterRef.get();
+            if (ivPreviewPrinter == null) {
+                return false; // The class that scheduled this runnable has been garbage collected
+            }
+
+            IVScanResult ivScanResults = ivPreviewPrinter.getIVScanResults(res);
+            if (ivScanResults.getCount() <= 0) { //unsuccessful scan
                 return false;
             }
 
-            //String toastMessage = getQuickIVMessage(ivrs);
-            printClipboardIfSettingIsOn(ivrs);
-            ivButton.showQuickIVPreviewLook(ivrs);
+            ivPreviewPrinter.printClipboardIfSettingIsOn(ivScanResults);
 
-            //Toast.makeText(pokefly, toastMessage, Toast.LENGTH_SHORT).show();
+            IVPopupButton ivButton = ivButtonRef.get();
+            if (ivButton != null) {
+                ivButton.showQuickIVPreviewLook(ivScanResults);
+            }
+
             return true;
-
         }
     }
 

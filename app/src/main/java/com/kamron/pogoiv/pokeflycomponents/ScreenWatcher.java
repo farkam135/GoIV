@@ -177,10 +177,12 @@ public class ScreenWatcher {
                     // Not appraising, let's check to see if they're looking at a pokemon screen.
                     // The postDelayed will wait SCREEN_SCAN_DELAY_MS after the user touches the screen before
                     // performing a scan of the screen to detect the pixels associated with a Pokemon screen.
-                    screenScanHandler.removeCallbacks(screenScanRunnable);
-                    screenScanHandler.postDelayed(screenScanRunnable, SCREEN_SCAN_INITIAL_DELAY_MS);
-                    screenScanRetries = SCREEN_SCAN_RETRIES;
-                    pokefly.getIvButton().outsideScreenClicked();
+                    if (screenScanHandler != null) { // Ensure this is not executed after unwatchScreen()
+                        screenScanHandler.removeCallbacks(screenScanRunnable);
+                        screenScanHandler.postDelayed(screenScanRunnable, SCREEN_SCAN_INITIAL_DELAY_MS);
+                        screenScanRetries = SCREEN_SCAN_RETRIES;
+                        pokefly.getIvButton().outsideScreenClicked();
+                    }
                 }
             }
             return false;

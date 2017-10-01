@@ -1469,7 +1469,8 @@ public class Pokefly extends Service {
      * @param selectedLevel   Which level the prediction should me made for.
      * @param selectedPokemon The pokemon to compare selected iv with max iv to.
      */
-    private void setPokemonPerfectionPercentageText(IVScanResult ivScanResult, double selectedLevel, Pokemon selectedPokemon) {
+    private void setPokemonPerfectionPercentageText(IVScanResult ivScanResult,
+                                                    double selectedLevel, Pokemon selectedPokemon) {
         CPRange cpRange = pokeInfoCalculator.getCpRangeAtLevel(selectedPokemon,
                 ivScanResult.getCombinationLowIVs(), ivScanResult.getCombinationHighIVs(),
                 selectedLevel);

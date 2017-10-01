@@ -325,8 +325,8 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
         }
     }
 
-    private void showArcIndicator(Bitmap bmp, ScanPoint point, float radius, int color) {
-        if (point != null) {
+    private void showArcIndicator(Bitmap bmp, ScanPoint point, Integer radius, int color) {
+        if (point != null && radius != null) {
             Canvas c = new Canvas(bmp);
             Paint p = new Paint();
             p.setStyle(Paint.Style.STROKE);

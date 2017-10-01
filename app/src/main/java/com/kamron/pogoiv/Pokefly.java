@@ -22,8 +22,8 @@ import android.os.Build;
 import android.os.IBinder;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
-import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -341,8 +341,6 @@ public class Pokefly extends Service {
             WindowManager.LayoutParams.TYPE_PHONE,
             WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
             PixelFormat.TRANSLUCENT);
-    private int pointerHeight = 0;
-    private int pointerWidth = 0;
     private int statusBarHeight = 0;
 
     private final WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams(
@@ -585,21 +583,6 @@ public class Pokefly extends Service {
     }
 
     /**
-     * Undeprecated version of getDrawable using the most appropriate underlying API.
-     *
-     * @param id ID of drawable to get
-     * @return Desired drawable.
-     */
-    @SuppressWarnings("deprecation")
-    private Drawable getDrawableC(@DrawableRes int id) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            return getDrawable(id);
-        } else {
-            return getResources().getDrawable(id);
-        }
-    }
-
-    /**
      * Undeprecated version of getColor using the most appropriate underlying API.
      *
      * @param id ID of color to get
@@ -619,13 +602,12 @@ public class Pokefly extends Service {
      * Pokemon Go's arc pointer.
      */
     private void createArcPointer() {
+        Drawable dot = ContextCompat.getDrawable(this, R.drawable.dot);
         arcParams.gravity = Gravity.TOP | Gravity.START;
+        arcParams.width = dot.getIntrinsicWidth();
+        arcParams.height = dot.getIntrinsicHeight();
         arcPointer = new ImageView(this);
-        arcPointer.setImageResource(R.drawable.dot);
-
-        Drawable dot = getDrawableC(R.drawable.dot);
-        pointerHeight = dot.getIntrinsicHeight() / 2;
-        pointerWidth = dot.getIntrinsicWidth() / 2;
+        arcPointer.setImageDrawable(dot);
     }
 
 
@@ -637,8 +619,8 @@ public class Pokefly extends Service {
      */
     private void setArcPointer(double pokeLevel) {
         int index = Data.levelToLevelIdx(pokeLevel);
-        arcParams.x = Data.arcX[index] - pointerWidth;
-        arcParams.y = Data.arcY[index] - pointerHeight - statusBarHeight;
+        arcParams.x = Data.arcX[index] - arcParams.width / 2;
+        arcParams.y = Data.arcY[index] - arcParams.height / 2 - statusBarHeight;
         //That is, (int) (arcCenter + (radius * Math.cos(angleInRadians))) and
         //(int) (arcInitialY + (radius * Math.sin(angleInRadians))).
         windowManager.updateViewLayout(arcPointer, arcParams);
@@ -917,10 +899,10 @@ public class Pokefly extends Service {
         Drawable arrowDrawable;
         if (visible) {
             boxVisibility = View.VISIBLE;
-            arrowDrawable = getDrawableC(R.drawable.arrow_expand);
+            arrowDrawable = ContextCompat.getDrawable(this, R.drawable.arrow_expand);
         } else {
             boxVisibility = View.GONE;
-            arrowDrawable = getDrawableC(R.drawable.arrow_collapse);
+            arrowDrawable = ContextCompat.getDrawable(this, R.drawable.arrow_collapse);
         }
         expanderText.setCompoundDrawablesWithIntrinsicBounds(null, null, arrowDrawable, null);
         if (animate) {
@@ -1322,7 +1304,7 @@ public class Pokefly extends Service {
 
         // Set Thumb 1 drawable to an orange marker and value at the max possible Pokemon level at the current
         // trainer level
-        expandedLevelSeekbarBackground.getThumb(0).setThumb(getDrawableC(R.drawable
+        expandedLevelSeekbarBackground.getThumb(0).setThumb(ContextCompat.getDrawable(this, R.drawable
                 .orange_seekbar_thumb_marker));
         expandedLevelSeekbarBackground.getThumb(0).setValue(
                 levelToSeekbarProgress(Data.trainerLevelToMaxPokeLevel(trainerLevel)));

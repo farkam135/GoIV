@@ -1436,7 +1436,7 @@ public class Pokefly extends Service {
 
         setEstimateCpTextBox(ivScanResult, selectedLevel, selectedPokemon);
         setEstimateHPTextBox(ivScanResult, selectedLevel, selectedPokemon);
-        setPokemonPerfectionPercentageText(ivScanResult, selectedPokemon);
+        setPokemonPerfectionPercentageText(ivScanResult, selectedLevel, selectedPokemon);
         setEstimateCostTextboxes(ivScanResult, selectedLevel, selectedPokemon);
         exResLevel.setText(String.valueOf(selectedLevel));
         setEstimateLevelTextColor(selectedLevel);
@@ -1448,13 +1448,16 @@ public class Pokefly extends Service {
      * Sets the pokemon perfection % text in the powerup and evolution results box.
      *
      * @param ivScanResult    The object containing the ivs to base current pokemon on.
+     * @param selectedLevel   Which level the prediction should me made for.
      * @param selectedPokemon The pokemon to compare selected iv with max iv to.
      */
-    private void setPokemonPerfectionPercentageText(IVScanResult ivScanResult, Pokemon selectedPokemon) {
+    private void setPokemonPerfectionPercentageText(IVScanResult ivScanResult,
+                                                    double selectedLevel, Pokemon selectedPokemon) {
         CPRange cpRange = pokeInfoCalculator.getCpRangeAtLevel(selectedPokemon,
-                ivScanResult.getCombinationLowIVs(), ivScanResult.getCombinationHighIVs(), 40);
+                ivScanResult.getCombinationLowIVs(), ivScanResult.getCombinationHighIVs(),
+                selectedLevel);
         double maxCP = pokeInfoCalculator.getCpRangeAtLevel(selectedPokemon,
-                IVCombination.MAX, IVCombination.MAX, 40).high;
+                IVCombination.MAX, IVCombination.MAX, selectedLevel).high;
         double perfection = (100.0 * cpRange.getFloatingAvg()) / maxCP;
         int difference = (int) (cpRange.getFloatingAvg() - maxCP);
         DecimalFormat df = new DecimalFormat("#.#");
@@ -1835,7 +1838,8 @@ public class Pokefly extends Service {
 
     private <T> String optionalIntToString(Optional<T> src) {
         return src.transform(new Function<T, String>() {
-            @Override public String apply(T input) {
+            @Override
+            public String apply(T input) {
                 return input.toString();
             }
         }).or("");

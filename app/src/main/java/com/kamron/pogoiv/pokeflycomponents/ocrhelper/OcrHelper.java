@@ -636,9 +636,10 @@ public class OcrHelper {
         // Every chunk will contain a character
         ArrayList<Rect> chunks = new ArrayList<>(6);
         Rect currentChunk = null;
-        // On devices denser than XHDPI (2x) we can skip a pixel every two to increase performances
-        int increment = Resources.getSystem().getDisplayMetrics().density > 2 ? 2 : 1;
-        for (int x = 0; x < width; x += increment) {
+        // On devices denser than XHDPI (2x) we can skip a pixel every two (or more) to increase performances
+        int increment = (int) Math.max(1, Math.ceil(Resources.getSystem().getDisplayMetrics().density / 2));
+        // When we're over a chunk check every pixel instead of skipping so we're sure to find the blank space after it
+        for (int x = 0; x < width; x += (currentChunk != null) ? 1 : increment) {
             for (int y = 0; y < height; y += increment) {
                 final int pxColor = cp.getPixel(x, y);
 
@@ -647,7 +648,7 @@ public class OcrHelper {
                         // We found a non-black pixel, start a new character chunk
                         currentChunk = new Rect(x, y, x, height - 1);
                         break;
-                    } else if (y == height - 1) {
+                    } else if (y >= height - increment) {
                         // We reached the end of this column without finding any non-black pixel.
                         // The next one probably wont be the start of a new chunk: skip it.
                         x += increment;
@@ -662,7 +663,7 @@ public class OcrHelper {
                         currentChunk.right = x;
                         break;
 
-                    } else if (y == height - 1) {
+                    } else if (y >= height - increment) {
                         // We reached the end of this column without finding any non-black pixel.
                         // End and save the current chunk.
                         chunks.add(currentChunk);

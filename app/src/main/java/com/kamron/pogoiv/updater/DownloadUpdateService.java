@@ -8,9 +8,12 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.os.IBinder;
 import android.support.v4.content.FileProvider;
+
+import com.kamron.pogoiv.BuildConfig;
 
 import java.io.File;
 
@@ -57,19 +60,22 @@ public class DownloadUpdateService extends Service {
                             int status = cursor.getInt(columnIndex);
 
                             if (status == DownloadManager.STATUS_SUCCESSFUL) {
-                                //open the downloaded file
-                                Intent install = new Intent(Intent.ACTION_VIEW);
-                                install.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                                install.setDataAndType(downloadUri,
-//                                        manager.getMimeTypeForDownloadedFile(startedDownloadId));
-                                Uri apkUri = FileProvider.getUriForFile(
-                                        ctxt,
-                                        ctxt.getApplicationContext()
-                                                .getPackageName() + ".provider", newApkFile);
-                                install.setDataAndType(apkUri,
-                                        manager.getMimeTypeForDownloadedFile(startedDownloadId));
-                                install.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                                ctxt.startActivity(install);
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                                    Uri apkUri = FileProvider.getUriForFile(ctxt, BuildConfig.APPLICATION_ID + ""
+                                            + ".provider", newApkFile);
+                                    Intent startIntent = new Intent(Intent.ACTION_INSTALL_PACKAGE);
+                                    startIntent.setData(apkUri);
+                                    startIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                                    ctxt.startActivity(startIntent);
+                                } else {
+                                    Uri apkUri = Uri.fromFile(newApkFile);
+                                    Intent startIntent = new Intent(Intent.ACTION_VIEW);
+                                    startIntent.setDataAndType(apkUri, "application/vnd.android.package-archive");
+                                    startIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    ctxt.startActivity(startIntent);
+                                }
+
+
                             } else if (status == DownloadManager.STATUS_FAILED) {
                                 if (newApkFile.exists()) {
                                     newApkFile.delete();

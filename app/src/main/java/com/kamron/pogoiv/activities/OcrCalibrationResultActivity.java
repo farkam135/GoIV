@@ -45,7 +45,10 @@ import static android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP;
 
 public class OcrCalibrationResultActivity extends AppCompatActivity {
 
-    public static Bitmap sCalibrationImage;
+    private static Bitmap sCalibrationImage;
+
+
+    private ScanFieldResults results;
 
     @BindView(R.id.ocr_calibration_title)
     TextView ocr_calibration_title;
@@ -69,7 +72,16 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
     Button emailErrorButton;
 
 
-    private ScanFieldResults results;
+    public static void startCalibration(Context context, Bitmap bitmap) {
+        if (bitmap != null) {
+            sCalibrationImage = bitmap;
+
+            Intent startCalibration = new Intent(context, OcrCalibrationResultActivity.class)
+                    .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            context.startActivity(startCalibration);
+        }
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -6,11 +6,9 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v7.app.NotificationCompat;
-import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
@@ -18,6 +16,7 @@ import com.kamron.pogoiv.GoIVSettings;
 import com.kamron.pogoiv.Pokefly;
 import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.ScreenGrabber;
+import com.kamron.pogoiv.ScreenShotHelper;
 import com.kamron.pogoiv.activities.MainActivity;
 import com.kamron.pogoiv.activities.OcrCalibrationResultActivity;
 
@@ -114,17 +113,12 @@ public class GoIVNotificationManager {
         contentBigView.setOnClickPendingIntent(R.id.root, openAppPendingIntent);
 
         // Recalibrate action
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Intent recalibrateScreenScanningIntent = new Intent(pokefly, NotificationActionService.class)
-                    .setAction(ACTION_RECALIBRATE_SCANAREA);
-            PendingIntent recalibrateScreenScanningPendingIntent = PendingIntent.getService(
-                    pokefly, 0, recalibrateScreenScanningIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-            contentView.setOnClickPendingIntent(R.id.recalibrate, recalibrateScreenScanningPendingIntent);
-            contentBigView.setOnClickPendingIntent(R.id.recalibrate, recalibrateScreenScanningPendingIntent);
-        } else {
-            contentView.setViewVisibility(R.id.recalibrate, View.GONE);
-            contentBigView.setViewVisibility(R.id.recalibrate, View.GONE);
-        }
+        Intent recalibrateScreenScanningIntent = new Intent(pokefly, NotificationActionService.class)
+                .setAction(ACTION_RECALIBRATE_SCANAREA);
+        PendingIntent recalibrateScreenScanningPendingIntent = PendingIntent.getService(
+                pokefly, 0, recalibrateScreenScanningIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        contentView.setOnClickPendingIntent(R.id.recalibrate, recalibrateScreenScanningPendingIntent);
+        contentBigView.setOnClickPendingIntent(R.id.recalibrate, recalibrateScreenScanningPendingIntent);
 
         // Stop service action
         Intent stopServiceIntent = new Intent(pokefly, Pokefly.class)
@@ -166,13 +160,14 @@ public class GoIVNotificationManager {
                 Handler mainThreadHandler = new Handler(Looper.getMainLooper());
 
                 if (GoIVSettings.getInstance(this).isManualScreenshotModeEnabled()) {
-                    // Can't execute calibration without screen grabbing
-                    // Close the notification shade so we can screenshot pogo
+                    // Close the notification shade
                     sendBroadcast(new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS));
+                    // Tell the user that the next screenshot will be used to recalibrate GoIV
+                    ScreenShotHelper.sShouldRecalibrateWithNextScreenshot = true;
                     mainThreadHandler.post(new Runnable() {
                         @Override public void run() {
                             Toast.makeText(NotificationActionService.this,
-                                    R.string.ocr_calibration_unavailable_screenshot_mode, Toast.LENGTH_LONG).show();
+                                    R.string.ocr_calibration_screenshot_mode, Toast.LENGTH_LONG).show();
                         }
                     });
 
@@ -193,14 +188,8 @@ public class GoIVNotificationManager {
                                 return; // Don't recalibrate when screen watching isn't running!!!
                             }
 
-                            OcrCalibrationResultActivity.sCalibrationImage =
-                                    ScreenGrabber.getInstance().grabScreen();
-                            if (OcrCalibrationResultActivity.sCalibrationImage != null) {
-                                Intent showResultIntent = new Intent(
-                                        NotificationActionService.this, OcrCalibrationResultActivity.class)
-                                        .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                startActivity(showResultIntent);
-                            }
+                            OcrCalibrationResultActivity.startCalibration(NotificationActionService.this,
+                                    ScreenGrabber.getInstance().grabScreen());
                         }
                     }, 2000);
                 }

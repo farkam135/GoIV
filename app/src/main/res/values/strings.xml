@@ -241,7 +241,7 @@
     <string name="token_max_length">Max length:</string>
     <string name="clipboard_token_list_available">Full list of available token types</string>
     <string name="clipboard_token_description_title">Selected token description</string>
-    <string name="ocr_calibration_unavailable_screenshot_mode">"Automatic calibration isn't available in screenshot mode!"</string>
+    <string name="ocr_calibration_screenshot_mode">"The next 'mon screenshot taken will be used to recalibrate GoIV!"</string>
     <string name="ocr_calibration_result_description">This is the result of the automatic calibration, each field of interest that was detected has been marked.</string>
     <string name="ocr_calibration_save">Save calibration</string>
     <string name="ocr_calibration_check_before">Before saving, check the result correctness in the screenshot below:</string>

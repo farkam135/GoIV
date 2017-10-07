@@ -18,6 +18,19 @@ public enum Device {
             new Point(0, 0),                            // TODO White pixel
             new Point(0, 0)),                           // TODO Green pixel
 
+    GOOGLE_PIXEL_XL("Google Pixel XL", 3.5f, "testinfoscreens/pixelXL",
+            makeRect(589, 1109, 264, 82),               // Name
+            makeRect(553, 1508, 344, 30),               // Type
+            makeRect(859, 1771, 288, 28),               // Candy name
+            makeRect(632, 1270, 173, 31),               // HP area
+            makeRect(537, 170, 271, 82),                // CP area
+            makeRect(953, 1690, 98, 45),                // Candy amount
+            makeRect(1066, 2124, 55, 39),               // Evolution cost
+            new Point(720, 849),                        // Arc center
+            546,                                        // Arc radius
+            new Point(0, 0),                            // TODO White pixel
+            new Point(0, 0)),                           // TODO Green pixel
+
     VODAFONE_VDF_500("Vodafone Smart turbo 7", 1.3312501f, "testinfoscreens/vdf500",
             new Rect(178, 394, 178 + 122, 394 + 31),    // Name
             new Rect(187, 537, 187 + 122, 537 + 11),    // Type

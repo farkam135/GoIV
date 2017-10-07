@@ -18,6 +18,19 @@ public enum Device {
             new Point(0, 0),                            // TODO White pixel
             new Point(0, 0)),                           // TODO Green pixel
 
+    GOOGLE_NEXUS_6P("Google Nexus 6P", 3.5f, "testinfoscreens/nexus6P",
+            makeRect(588, 1109, 256, 67),               // Name
+            makeRect(572, 1508, 306, 30),               // Type
+            makeRect(837, 1771, 326, 28),               // Candy name
+            makeRect(634, 1270, 169, 30),               // HP area
+            makeRect(510, 170, 299, 82),                // CP area
+            makeRect(935, 1690, 131, 44),               // Candy amount
+            makeRect(1065, 2124, 56, 39),               // Evolution cost
+            new Point(720, 849),                        // Arc center
+            546,                                        // Arc radius
+            new Point(0, 0),                            // TODO White pixel
+            new Point(0, 0)),                           // TODO Green pixel
+
     GOOGLE_PIXEL_XL("Google Pixel XL", 3.5f, "testinfoscreens/pixelXL",
             makeRect(589, 1109, 264, 82),               // Name
             makeRect(553, 1508, 344, 30),               // Type

@@ -43,6 +43,11 @@ public class ScanFieldAutomaticLocatorTest {
     }
 
     @Test
+    public void scan_Nexus6P() throws IOException {
+        checkDevice(Device.GOOGLE_NEXUS_5);
+    }
+
+    @Test
     public void scan_PixelXL() throws IOException {
         checkDevice(Device.GOOGLE_PIXEL_XL);
     }

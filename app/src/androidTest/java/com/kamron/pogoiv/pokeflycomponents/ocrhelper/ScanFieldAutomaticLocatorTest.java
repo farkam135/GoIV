@@ -54,6 +54,11 @@ public class ScanFieldAutomaticLocatorTest {
     }
 
     @Test
+    public void scan_G950_game_mode() throws IOException {
+        checkDevice(Device.SAMSUNG_G950_game_mode);
+    }
+
+    @Test
     public void scan_G955() throws IOException {
         checkDevice(Device.SAMSUNG_G955);
     }

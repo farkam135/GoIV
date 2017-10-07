@@ -189,9 +189,10 @@ public class ScanFieldAutomaticLocator {
         if (greyLineCandidates.size() >= 1) {
             Rect maxRect = null;
             for (Rect r : greyLineCandidates) {
-                if (maxRect == null || r.area() > maxRect.area()) { // Take the largest
-                    maxRect = r;
-                } else if (r.area() == maxRect.area() && r.y < maxRect.y) { // Take the upper
+                if (maxRect == null
+                        || r.width - maxRect.width > screenshotDensity
+                        || (Math.abs(r.width - maxRect.width) < screenshotDensity && r.y < maxRect.y)) {
+                    // Take the largest or the upper with same width
                     maxRect = r;
                 }
             }
@@ -627,7 +628,7 @@ public class ScanFieldAutomaticLocator {
 
         candidates = FluentIterable.from(candidates)
                 // Check if the dominant color of the contour matches the light green hue of PoGO text
-                .filter(ByHsvColor.of(image, mask1, contours, boundingRectList, HSV_GREEN_DARK, 3, 0.275f, 0.275f))
+                .filter(ByHsvColor.of(image, mask1, contours, boundingRectList, HSV_GREEN_DARK, 5, 0.275f, 0.275f))
                 .toList();
 
         //noinspection PointlessBooleanExpression
@@ -862,7 +863,7 @@ public class ScanFieldAutomaticLocator {
 
         candidates = FluentIterable.from(candidates)
                 // Check if the dominant color of the contour matches the light green hue of PoGO small text
-                .filter(ByHsvColor.of(image, mask1, contours, boundingRectList, HSV_GREEN_LIGHT, 5, 0.125f, 0.062f))
+                .filter(ByHsvColor.of(image, mask1, contours, boundingRectList, HSV_GREEN_LIGHT, 5, 0.125f, 0.090f))
                 .toList();
 
         //noinspection PointlessBooleanExpression
@@ -924,17 +925,16 @@ public class ScanFieldAutomaticLocator {
             debugPrintRectList(boundingRectList, c, p);
         }
 
-        if (hpBar == null || greyHorizontalLine == null
-                || greyVerticalLineLeft == null || greyVerticalLineRight == null) {
+        if (greyHorizontalLine == null || greyVerticalLineLeft == null || greyVerticalLineRight == null) {
             return;
         }
 
         List<Rect> candidates = FluentIterable.from(boundingRectList)
-                // Keep only bounding rect between the two vertical dividers, the HP bar and the horizontal divider
+                // Keep only bounding rect between the two vertical dividers, and the horizontal divider
                 .filter(Predicates.and(
                         ByMinX.of(greyVerticalLineLeft.x + greyVerticalLineLeft.width),
                         ByMaxX.of(greyVerticalLineRight.x),
-                        ByMinY.of(hpBar.y + hpBar.height),
+                        ByMinY.of((greyVerticalLineLeft.y + greyVerticalLineRight.y) / 2),
                         ByMaxY.of(greyHorizontalLine.y)))
                 .toList();
 
@@ -947,7 +947,7 @@ public class ScanFieldAutomaticLocator {
 
         candidates = FluentIterable.from(candidates)
                 // Check if the dominant color of the contour matches the light green hue of PoGO small text
-                .filter(ByHsvColor.of(image, mask1, contours, boundingRectList, HSV_GREEN_LIGHT, 5, 0.125f, 0.062f))
+                .filter(ByHsvColor.of(image, mask1, contours, boundingRectList, HSV_GREEN_LIGHT, 5, 0.125f, 0.090f))
                 .toList();
 
         //noinspection PointlessBooleanExpression

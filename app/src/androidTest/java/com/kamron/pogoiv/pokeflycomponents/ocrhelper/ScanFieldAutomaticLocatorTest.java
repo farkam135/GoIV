@@ -1,9 +1,11 @@
 package com.kamron.pogoiv.pokeflycomponents.ocrhelper;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
+import android.os.Handler;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.filters.LargeTest;
 import android.support.test.runner.AndroidJUnit4;
@@ -13,6 +15,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.io.IOException;
+import java.lang.ref.WeakReference;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -51,6 +54,16 @@ public class ScanFieldAutomaticLocatorTest {
     }
 
     @Test
+    public void scan_G955() throws IOException {
+        checkDevice(Device.SAMSUNG_G955);
+    }
+
+    @Test
+    public void scan_G955_game_mode() throws IOException {
+        checkDevice(Device.SAMSUNG_G955_game_mode);
+    }
+
+    @Test
     public void scan_A5000() throws IOException {
         checkDevice(Device.ONEPLUS_A5000);
     }
@@ -69,7 +82,9 @@ public class ScanFieldAutomaticLocatorTest {
                     .open(device.infoScreensDirPath + "/" + assetFileName), null, options);
             ScanFieldAutomaticLocator autoLocator =
                     new ScanFieldAutomaticLocator(bmp, bmp.getWidth(), device.screenDensity);
-            ScanFieldResults results = autoLocator.scan(null, null, mTargetContext);
+            //noinspection ConstantConditions
+            ScanFieldResults results = autoLocator.scan(null, new WeakReference<ProgressDialog>(null),
+                    new WeakReference<>(mTargetContext));
             checkScanFieldResults(device, assetFileName, bmp, results);
         }
     }

@@ -11,16 +11,21 @@ import android.net.Uri;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
+
+import com.kamron.pogoiv.activities.OcrCalibrationResultActivity;
 
 import java.io.File;
 import java.util.Calendar;
 
-/**
- * Created by Sarav on 9/9/2016.
- */
+import timber.log.Timber;
+
+
 public class ScreenShotHelper {
 
     private static ScreenShotHelper instance = null;
+    public static boolean sShouldRecalibrateWithNextScreenshot = false;
+
     private ContentObserver mediaObserver;
     private ContentResolver contentResolver;
 
@@ -64,12 +69,26 @@ public class ScreenShotHelper {
                     return;
                 }
 
+                Bitmap bitmap = null;
                 try {
-                    Bitmap bitmap = BitmapFactory.decodeFile(pathChange);
-                    Intent newintent = Pokefly.createProcessBitmapIntent(bitmap, pathChange);
-                    LocalBroadcastManager.getInstance(context).sendBroadcast(newintent);
+                    bitmap = BitmapFactory.decodeFile(pathChange);
                 } catch (Exception e) {
-                    // TODO: Retry a few times after a wait
+                    Timber.log(Log.ERROR, e);
+                } finally {
+                    if (bitmap != null) {
+                        if (sShouldRecalibrateWithNextScreenshot) {
+                            // Use the screenshot to recalibrate GoIV
+                            OcrCalibrationResultActivity.startCalibration(context, bitmap);
+                            sShouldRecalibrateWithNextScreenshot = false;
+                            if (GoIVSettings.getInstance(context).shouldDeleteScreenshots()) {
+                                deleteScreenShot(pathChange);
+                            }
+                        } else {
+                            // Scan 'mon info
+                            Intent newintent = Pokefly.createProcessBitmapIntent(bitmap, pathChange);
+                            LocalBroadcastManager.getInstance(context).sendBroadcast(newintent);
+                        }
+                    }
                 }
             }
         };

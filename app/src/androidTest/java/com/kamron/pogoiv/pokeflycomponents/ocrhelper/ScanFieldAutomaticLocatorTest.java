@@ -5,7 +5,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
-import android.os.Handler;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.filters.LargeTest;
 import android.support.test.runner.AndroidJUnit4;
@@ -44,6 +43,16 @@ public class ScanFieldAutomaticLocatorTest {
     }
 
     @Test
+    public void scan_Nexus6P() throws IOException {
+        checkDevice(Device.GOOGLE_NEXUS_5);
+    }
+
+    @Test
+    public void scan_PixelXL() throws IOException {
+        checkDevice(Device.GOOGLE_PIXEL_XL);
+    }
+
+    @Test
     public void scan_G930() throws IOException {
         checkDevice(Device.SAMSUNG_G930);
     }
@@ -51,6 +60,11 @@ public class ScanFieldAutomaticLocatorTest {
     @Test
     public void scan_G950() throws IOException {
         checkDevice(Device.SAMSUNG_G950);
+    }
+
+    @Test
+    public void scan_G950_game_mode() throws IOException {
+        checkDevice(Device.SAMSUNG_G950_game_mode);
     }
 
     @Test
@@ -75,6 +89,9 @@ public class ScanFieldAutomaticLocatorTest {
 
     private void checkDevice(Device device) throws IOException {
         String[] pokemonInfoScreenFileNames = mContext.getAssets().list(device.infoScreensDirPath);
+
+        assertTrue("No test images found for " + device.toString(), pokemonInfoScreenFileNames.length > 0);
+
         for (String assetFileName : pokemonInfoScreenFileNames) {
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inMutable = true;

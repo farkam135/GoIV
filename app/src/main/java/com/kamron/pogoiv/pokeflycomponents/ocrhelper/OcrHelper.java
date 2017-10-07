@@ -210,7 +210,7 @@ public class OcrHelper {
         while (true) {
             //Check to see if we're out of bounds.
             if (x - d <= 0 || y - d <= 0
-                    || x + d > pokemonImage.getWidth() || y + d > pokemonImage.getHeight()) {
+                    || x + d >= pokemonImage.getWidth() || y + d >= pokemonImage.getHeight()) {
                 // If the level indicator is on white background, we need to break it before it loops off screen.
                 // Happens very rarely.
                 break;

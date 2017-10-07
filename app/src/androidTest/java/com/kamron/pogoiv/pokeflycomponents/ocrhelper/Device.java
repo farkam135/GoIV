@@ -57,6 +57,32 @@ public enum Device {
             new Point(0, 1480),                         // TODO White pixel
             new Point(0, 0)),                           // TODO Green pixel
 
+    SAMSUNG_G955("Samsung Galaxy S8+", 3.5f, "testinfoscreens/g955",
+            new Rect(582, 1186, 582 + 283, 1186 + 90),  // Name
+            new Rect(523, 1613, 523 + 372, 1613 + 32),  // Type
+            new Rect(844, 1895, 844 + 311, 1895 + 30),  // Candy name
+            new Rect(626, 1359, 626 + 189, 1359 + 32),  // HP area
+            new Rect(526, 182, 526 + 294, 182 + 86),    // CP area
+            new Rect(946, 1808, 946 + 106, 1808 + 49),  // Candy amount
+            new Rect(1092, 2274, 1092 + 58, 2274 + 41), // Evolution cost
+            new Point(720, 908),                        // Arc center
+            583,                                        // Arc radius
+            new Point(0, 1480),                         // TODO White pixel
+            new Point(0, 0)),                           // TODO Green pixel
+
+    SAMSUNG_G955_game_mode("Samsung Galaxy S8+ / Game Mode", 2.625f, "testinfoscreens/g955_game_mode",
+            makeRect(435, 886, 215, 69),                // Name
+            makeRect(409, 1208, 272, 25),               // Type
+            makeRect(634, 1421, 231, 24),               // Candy name
+            makeRect(470, 1017, 140, 25),               // HP area
+            makeRect(395, 135, 219, 67),                // CP area
+            makeRect(817, 1548, 22, 33),                // Candy amount
+            makeRect(818, 1704, 45, 32),                // Evolution cost
+            new Point(540, 679),                        // Arc center
+            437,                                        // Arc radius
+            new Point(0, 1480),                         // TODO White pixel
+            new Point(0, 0)),                           // TODO Green pixel
+
     ONEPLUS_A5000("OnePlus 5", 2.625f, "testinfoscreens/a5000",
             new Rect(435, 889, 435 + 208, 889 + 56),  // Name
             new Rect(418, 1210, 418 + 249, 1210 + 25),  // Type
@@ -128,5 +154,9 @@ public enum Device {
 
     @Override public String toString() {
         return makerModel;
+    }
+
+    private static Rect makeRect(int x, int y, int w, int h) {
+        return new Rect(x, y, x + w, y + h);
     }
 }

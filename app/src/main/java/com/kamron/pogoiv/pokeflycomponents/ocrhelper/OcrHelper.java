@@ -205,32 +205,29 @@ public class OcrHelper {
             return -1;
         }
 
-        //try-catch the pixel check, to prevent the distance going off-screen and crashing.
-        try {
-            int d = 0; // Distance we have successfully searched for white pixels.
-            while (true) {
-                // If any pixel this distance is not white, return our successful search distance
-                if (pokemonImage.getPixel(x + d, y) != Color.WHITE
-                        || pokemonImage.getPixel(x - d, y) != Color.WHITE
-                        || pokemonImage.getPixel(x, y + d) != Color.WHITE
-                        || pokemonImage.getPixel(x, y - d) != Color.WHITE) {
-                    return d;
-                }
 
-                d++;
-                if (x - d < 0 || y - d < 0
-                        || x + d > pokemonImage.getWidth() || y + d > pokemonImage.getHeight()) {
-                    // If the level indicator is on white background, we need to break it before it loops off screen.
-                    // Happens very rarely.
-                    break;
-                }
+        int d = 0; // Distance we have successfully searched for white pixels.
+        while (true) {
+            //Check to see if we're out of bounds.
+            if (x - d <= 0 || y - d <= 0
+                    || x + d > pokemonImage.getWidth() || y + d > pokemonImage.getHeight()) {
+                // If the level indicator is on white background, we need to break it before it loops off screen.
+                // Happens very rarely.
+                break;
             }
-            return d;
-        } catch (IllegalArgumentException e) {
-            return -1;
-        }
 
+            // If any pixel this distance is not white, return our successful search distance
+            if (pokemonImage.getPixel(x + d, y) != Color.WHITE
+                    || pokemonImage.getPixel(x - d, y) != Color.WHITE
+                    || pokemonImage.getPixel(x, y + d) != Color.WHITE
+                    || pokemonImage.getPixel(x, y - d) != Color.WHITE) {
+                return d;
+            }
+            d++;
+        }
+        return d;
     }
+
 
     /**
      * Get the evolution cost for a pokemon, like getPokemonEvolutionCostFromImg, but without caching.

@@ -71,7 +71,7 @@ public enum Device {
             new Point(0, 0)),                           // TODO Green pixel
 
     SAMSUNG_G950_game_mode("Samsung Galaxy S8 / Game Mode", 2.625f, "testinfoscreens/g950_game_mode",
-            makeRect(390, 879, 465, 77),                // Name
+            makeRect(309, 879, 465, 77),                // Name
             makeRect(410, 1208, 271, 25),               // Type
             makeRect(634, 1421, 231, 23),               // Candy name
             makeRect(468, 1017, 142, 25),               // HP area

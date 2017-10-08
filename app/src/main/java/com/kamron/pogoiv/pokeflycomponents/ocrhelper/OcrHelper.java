@@ -205,8 +205,17 @@ public class OcrHelper {
             return -1;
         }
 
+
         int d = 0; // Distance we have successfully searched for white pixels.
         while (true) {
+            //Check to see if we're out of bounds.
+            if (x - d <= 0 || y - d <= 0
+                    || x + d >= pokemonImage.getWidth() || y + d >= pokemonImage.getHeight()) {
+                // If the level indicator is on white background, we need to break it before it loops off screen.
+                // Happens very rarely.
+                break;
+            }
+
             // If any pixel this distance is not white, return our successful search distance
             if (pokemonImage.getPixel(x + d, y) != Color.WHITE
                     || pokemonImage.getPixel(x - d, y) != Color.WHITE
@@ -214,17 +223,11 @@ public class OcrHelper {
                     || pokemonImage.getPixel(x, y - d) != Color.WHITE) {
                 return d;
             }
-
             d++;
-            if (x - d < 0 || y - d < 0
-                    || x + d > pokemonImage.getWidth() || y + d > pokemonImage.getHeight()) {
-                // If the level indicator is on white background, we need to break it before it loops off screen.
-                // Happens very rarely.
-                break;
-            }
         }
         return d;
     }
+
 
     /**
      * Get the evolution cost for a pokemon, like getPokemonEvolutionCostFromImg, but without caching.

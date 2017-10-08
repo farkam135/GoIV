@@ -115,7 +115,7 @@
         android:title="@string/settings_title_uninteresting">
 
         <SwitchPreference
-            android:defaultValue="false"
+            android:defaultValue="true"
             android:key="autoUpdateEnabled"
             android:summary="@string/auto_update_setting_summary"
             android:title="@string/auto_update_setting_title"/>

@@ -145,6 +145,10 @@
             android:theme="@style/AppTheme.NoActionBar.Blue"
             android:parentActivityName=".activities.SettingsActivity"/>
 
+        <activity
+            android:name=".activities.TutorialActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.provider"

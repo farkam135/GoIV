@@ -70,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int SCREEN_CAPTURE_REQ_CODE = 1235;
 
     private static final String PREF_LEVEL = "level";
+    private static final String PREF_TUTORIAL = "tutorial";
 
     public static boolean shouldShowUpdateDialog;
     private SharedPreferences sharedPref;
@@ -164,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Timber.tag(TAG);
         initiateAndLoadSettings(); //Loading settings must be done before methods that use settings
-
+        initialTutorial();
         runAutoUpdateStartupChecks();
         initiateUserScreenSettings();
         initiateGui();
@@ -212,6 +213,18 @@ public class MainActivity extends AppCompatActivity {
         sharedPref = getPreferences(Context.MODE_PRIVATE);
         trainerLevel = sharedPref.getInt(PREF_LEVEL, 1);
         batterySaver = settings.isManualScreenshotModeEnabled();
+    }
+
+    /**
+     * Runs TutorialActivity in first run of GoIV.
+     */
+    private void initialTutorial(){
+        sharedPref = getPreferences(Context.MODE_PRIVATE);
+        if (!sharedPref.getBoolean(PREF_TUTORIAL, false)) {
+            sharedPref.edit().putBoolean(PREF_TUTORIAL, true).apply();
+            Intent tutorial = new Intent(this, TutorialActivity.class);
+            startActivity(tutorial);
+        }
     }
 
     /**

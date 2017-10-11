@@ -319,4 +319,19 @@
     <string name="token_msg_train">Entrenar</string>
     <string name="go_back_to_goiv">Volver al GoIV</string>
     <string name="go_back">Volver atrás</string>
+    <string name="send_email_to_devs_recalibration">Si GoIV falló al recalibrar cuando debería haber funcionado, presione el botón de abajo para generar un informe de error automático.</string>
+    <string name="send_email_to_devs_button">Email información error a desarrolladores</string>
+    <string name="report_error">Email de informe de error</string>
+    <string name="tut1_title">Bienvenido a GoIV</string>
+    <string name="tut1_desc">¡Un simple y rápido evaluador de IV!</string>
+    <string name="tut2_title">Solicitud de permisos</string>
+    <string name="tut2_desc">Para acceder a las funciones de escaneo de GoIV tendrá que permitir los permisos de almacenamiento, superposición con otras aplicaciones y captura de pantalla (depende de la versión de Android del dispositivo y del modo de escaneo).</string>
+    <string name="tut3_title">Configurar nivel y equipo</string>
+    <string name="tut3_desc">Para un correcto funcionamiento del GoIV al evaluar, asegúrese de ajustar correctamente su nivel y equipo.</string>
+    <string name="tut4_title">Botón IV flotante</string>
+    <string name="tut4_desc">En la esquina inferior izquierda de la pantalla verá el botón flotante, que sirve para calcular IV y ver otras opciones (si el modo de captura de pantalla está activado, no aparecerá).</string>
+    <string name="tut5_title">Comprobar IV</string>
+    <string name="tut5_desc">Al clicar en el botón IV verá la pantalla donde podrá verificar, corregir los datos y refinar la valoración para obtener el IV, y otras opciones como calcular la evolución/mejora, etc.</string>
+    <string name="tut6_title">Calibración</string>
+    <string name="tut6_desc">Para mejorar la detección de los campos de datos, recomendamos realizar una calibración buscando la notificación de GoIV y escaneando, por ejemplo, un Pidgey. Si todo se detecta correctamente verá aparecer el botón para guardar la calibración y volver a GoIV para reiniciarlo.</string>
 </resources>

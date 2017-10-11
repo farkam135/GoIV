@@ -218,7 +218,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Runs TutorialActivity in first run of GoIV.
      */
-    private void initialTutorial(){
+    private void initialTutorial() {
         sharedPref = getPreferences(Context.MODE_PRIVATE);
         if (!sharedPref.getBoolean(PREF_TUTORIAL, false)) {
             sharedPref.edit().putBoolean(PREF_TUTORIAL, true).apply();

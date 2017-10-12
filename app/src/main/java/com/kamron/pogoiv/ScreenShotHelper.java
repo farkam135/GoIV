@@ -35,6 +35,7 @@ public class ScreenShotHelper {
             String[] proj = {MediaStore.Images.Media.DATA};
             cursor = contentResolver.query(contentUri, proj, null, null,
                     MediaStore.Images.ImageColumns.DATE_TAKEN + " DESC");
+            assert cursor != null;
             int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
             cursor.moveToFirst();
             return cursor.getString(column_index);

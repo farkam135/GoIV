@@ -470,10 +470,9 @@ public class OcrHelper {
      * @param yHeight how many % of the height should be kept starting from the ystart.
      * @return The crop of the image.
      */
-    public Bitmap getImageCrop(Bitmap img, double xStart, double yStart, double xWidth, double yHeight) {
-        Bitmap crop = Bitmap.createBitmap(img, (int) (widthPixels * xStart), (int) (heightPixels * yStart),
+    private Bitmap getImageCrop(Bitmap img, double xStart, double yStart, double xWidth, double yHeight) {
+        return Bitmap.createBitmap(img, (int) (widthPixels * xStart), (int) (heightPixels * yStart),
                 (int) (widthPixels * xWidth), (int) (heightPixels * yHeight));
-        return crop;
     }
 
     /**
@@ -483,13 +482,12 @@ public class OcrHelper {
      * @param scanArea The area of the image to get
      * @return The scanarea
      */
-    public Bitmap getImageCrop(Bitmap img, ScanArea scanArea) {
+    private Bitmap getImageCrop(Bitmap img, ScanArea scanArea) {
         if (scanArea.width < 0 || scanArea.height < 0 || scanArea.xPoint < 0 || scanArea.yPoint < 0) {
             return null;
         }
-        Bitmap crop = Bitmap.createBitmap(img, (scanArea.xPoint), scanArea.yPoint,
+        return Bitmap.createBitmap(img, (scanArea.xPoint), scanArea.yPoint,
                 scanArea.width, scanArea.height);
-        return crop;
     }
 
     /**
@@ -585,6 +583,7 @@ public class OcrHelper {
             pokemonHPStr = tesseract.getUTF8Text();
             ocrCache.put(hash, pokemonHPStr);
         }
+        assert hp != null;
         hp.recycle();
 
         if (pokemonHPStr.contains("/")) {
@@ -738,12 +737,11 @@ public class OcrHelper {
      */
     private String getPokemonIdentifierFromImg(Bitmap pokemonImage) {
         Bitmap infoRow = Bitmap.createBitmap(pokemonImage,
-                (int) Math.round(widthPixels * .1f), (int) Math.round(heightPixels / 1.714286f),
-                (int) Math.round(widthPixels * .8f), (int) Math.round(heightPixels / 25.26316f));
+                Math.round(widthPixels * .1f), Math.round(heightPixels / 1.714286f),
+                Math.round(widthPixels * .8f), Math.round(heightPixels / 25.26316f));
         tesseract.setImage(infoRow);
-        String uniqueText = tesseract.getUTF8Text();
 
-        return uniqueText;
+        return tesseract.getUTF8Text();
     }
 
 
@@ -774,6 +772,7 @@ public class OcrHelper {
             pokemonCandyStr = tesseract.getUTF8Text();
             ocrCache.put(hash, pokemonCandyStr);
         }
+        assert candyAmount != null;
         candyAmount.recycle();
 
         if (pokemonCandyStr.length() > 0) {

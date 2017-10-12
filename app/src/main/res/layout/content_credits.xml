@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -14,79 +14,78 @@
     tools:context="com.kamron.pogoiv.activities.CreditsActivity"
     tools:showIn="@layout/activity_credits">
 
-    <ScrollView
+    <GridLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:horizontalSpacing="10dp"
+        android:numColumns="auto_fit"
+        android:orientation="vertical"
+        android:verticalSpacing="10dp">
 
-        <GridLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:horizontalSpacing="10dp"
-            android:numColumns="auto_fit"
-            android:orientation="vertical"
-            android:verticalSpacing="10dp">
+            android:autoLink="web"
+            android:linksClickable="true"
+            android:text="Crash reports and device statistics gathered by Fabric \nhttps://fabric.io/home \n"
+            tools:ignore="HardcodedText"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:autoLink="web"
-                android:linksClickable="true"
-                android:text="Crash reports and device statistics gathered by Fabric \nhttps://fabric.io/home \n"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:autoLink="web"
+            android:linksClickable="true"
+            android:text="Optical character recognition by Tesseract \nhttps://github.com/tesseract-ocr \n"
+            tools:ignore="HardcodedText"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:autoLink="web"
-                android:linksClickable="true"
-                android:text="Optical character recognition by Tesseract \nhttps://github.com/tesseract-ocr \n"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:autoLink="web"
+            android:linksClickable="true"
+            android:text="OpenCV - Open Source Computer Vision Library \nhttps://github.com/opencv/opencv \n"
+            tools:ignore="HardcodedText"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:autoLink="web"
-                android:linksClickable="true"
-                android:text="OpenCV - Open Source Computer Vision Library \nhttps://github.com/opencv/opencv \n"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:autoLink="web"
+            android:linksClickable="true"
+            android:text="Timber - used to seperate our internet and nointernet build logging \nhttps://github.com/JakeWharton/timber \n"
+            tools:ignore="HardcodedText"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:autoLink="web"
-                android:linksClickable="true"
-                android:text="Timber - used to seperate our internet and nointernet build logging \nhttps://github.com/JakeWharton/timber \n"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:autoLink="web"
+            android:linksClickable="true"
+            android:text="okhttp - used in the application self updating \nhttp://square.github.io/okhttp/ \n"
+            tools:ignore="HardcodedText"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:autoLink="web"
-                android:linksClickable="true"
-                android:text="okhttp - used in the application self updating \nhttp://square.github.io/okhttp/ \n"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:autoLink="web"
+            android:linksClickable="true"
+            android:text="Lombok - For keeping the codebase cleaner \nhttps://projectlombok.org/ \n"
+            tools:ignore="HardcodedText"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:autoLink="web"
-                android:linksClickable="true"
-                android:text="Lombok - For keeping the codebase cleaner \nhttps://projectlombok.org/ \n"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:autoLink="web"
+            android:linksClickable="true"
+            android:text="Butterknife - For keeping the UI element codebase cleaner \nhttp://jakewharton.github.io/butterknife \n"
+            tools:ignore="HardcodedText"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:autoLink="web"
-                android:linksClickable="true"
-                android:text="Butterknife - For keeping the UI element codebase cleaner \nhttp://jakewharton.github.io/butterknife \n"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:autoLink="web"
+            android:linksClickable="true"
+            android:text="MaterialSeekBarPreference - Used in the settings \nhttps://github.com/MrBIMC/MaterialSeekBarPreference \n"
+            tools:ignore="HardcodedText"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:autoLink="web"
-                android:linksClickable="true"
-                android:text="MaterialSeekBarPreference - Used in the settings \nhttps://github.com/MrBIMC/MaterialSeekBarPreference \n"/>
+    </GridLayout>
 
-
-        </GridLayout>
-
-
-    </ScrollView>
-
-
-</RelativeLayout>
+</ScrollView>

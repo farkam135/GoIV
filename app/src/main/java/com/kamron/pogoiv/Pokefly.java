@@ -767,7 +767,7 @@ public class Pokefly extends Service {
     }
 
     /**
-     * Creates and initializes the level seekbarr in the evolution and powerup prediction section in the results
+     * Creates and initializes the level seekbar in the evolution and powerup prediction section in the results
      * screen.
      */
     private void createExtendedResultLevelSeekbar() {
@@ -1619,7 +1619,8 @@ public class Pokefly extends Service {
         int low = 0;
         int ave = 0;
         int high = 0;
-        if (ivScanResult.iVCombinations.size() != 0) {
+        if (ivScanResult.iVCombinations.size() != 0 && ivScanResult.getLowestIVCombination() != null && ivScanResult
+                .getHighestIVCombination() != null) {
             low = ivScanResult.getLowestIVCombination().percentPerfect;
             ave = ivScanResult.getAveragePercent();
             high = ivScanResult.getHighestIVCombination().percentPerfect;

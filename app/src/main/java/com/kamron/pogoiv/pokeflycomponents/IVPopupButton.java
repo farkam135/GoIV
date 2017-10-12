@@ -43,7 +43,7 @@ public class IVPopupButton extends android.support.v7.widget.AppCompatButton {
     public IVPopupButton(Context context) {
         super(context);
         pokefly = (Pokefly) context;
-        windowManager = (WindowManager) pokefly.getSystemService(pokefly.WINDOW_SERVICE);
+        windowManager = (WindowManager) pokefly.getSystemService(Context.WINDOW_SERVICE);
         resetButtonLook();
 
         setOnTouchListener(new OnIVClick());
@@ -97,18 +97,17 @@ public class IVPopupButton extends android.support.v7.widget.AppCompatButton {
     public void showQuickIVPreviewLook(IVScanResult ivrs) {
         setTextAlignment(TEXT_ALIGNMENT_CENTER);
 
-        int low = ivrs.getLowestIVCombination().percentPerfect;
-        int high = ivrs.getHighestIVCombination().percentPerfect;
-        if (ivrs.getCount() == 1 || high == low) { // display something like "IV: 98%"
-            setText(ivrs.pokemon.name + "\nIV: " + low + "%");
-        } else { // display something like "IV: 55 - 87%"
-            setText(ivrs.pokemon.name + "\nIV: " + low + " - " + high + "%");
+        if (ivrs.getLowestIVCombination() != null && ivrs.getHighestIVCombination() != null) {
+            int low = ivrs.getLowestIVCombination().percentPerfect;
+            int high = ivrs.getHighestIVCombination().percentPerfect;
+            if (ivrs.getCount() == 1 || high == low) { // display something like "IV: 98%"
+                setText(ivrs.pokemon.name + "\nIV: " + low + "%");
+            } else { // display something like "IV: 55 - 87%"
+                setText(ivrs.pokemon.name + "\nIV: " + low + " - " + high + "%");
+            }
         }
-
         setBackgroundGradient(ivrs);
         setTextColorFromIVs(ivrs);
-
-
     }
 
     private void setTextColorFromIVs(IVScanResult ivrs) {
@@ -140,15 +139,15 @@ public class IVPopupButton extends android.support.v7.widget.AppCompatButton {
      */
     private void setBackgroundGradient(IVScanResult ivrs) {
 
-        int low = ivrs.getLowestIVCombination().percentPerfect;
-        int high = ivrs.getHighestIVCombination().percentPerfect;
-
         setWidth(dpToPx(60));
         setBackgroundResource(R.drawable.preview_button_0_100);
 
-        setGradientColor(getColorForPercentIV(low), getColorForPercentIV(high));
+        if (ivrs.getLowestIVCombination() != null && ivrs.getHighestIVCombination() != null) {
+            int low = ivrs.getLowestIVCombination().percentPerfect;
+            int high = ivrs.getHighestIVCombination().percentPerfect;
 
-
+            setGradientColor(getColorForPercentIV(low), getColorForPercentIV(high));
+        }
     }
 
     /**
@@ -215,7 +214,6 @@ public class IVPopupButton extends android.support.v7.widget.AppCompatButton {
         windowManager.removeView(this);
         showing = false;
     }
-
 
     private int dpToPx(int dp) {
         return Math.round(dp * (getContext().getResources().getDisplayMetrics().density));

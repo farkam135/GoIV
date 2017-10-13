@@ -331,4 +331,16 @@
     <string name="send_email_to_devs_recalibration">If GoIV failed recalibrating when it should have worked, please press the button below to generate an automatic bug report email.</string>
     <string name="send_email_to_devs_button">Email error information to developers</string>
     <string name="report_error">Email error report</string>
+    <string name="tut1_title">Welcome to GoIV</string>
+    <string name="tut1_desc">A simple &amp; fast IV rater!</string>
+    <string name="tut2_title">Permissions Request</string>
+    <string name="tut2_desc">To access the features of scan GoIV will have to allow storage, overlay with other applications and the screen capture permissions (depends on the Android version of the device and the scan mode).</string>
+    <string name="tut3_title">Set level and team</string>
+    <string name="tut3_desc">For a correct operation of the GoIV when evaluating, make sure to set your level and equipment correctly.</string>
+    <string name="tut4_title">Floating IV button</string>
+    <string name="tut4_desc">In the lower left corner of the screen will see the floating button, which serves to calculate IV and see other options (if screenshot mode is activated it will not appear).</string>
+    <string name="tut5_title">Check IV</string>
+    <string name="tut5_desc">When clicking the IV button you will see the screen where you can verify, correct the data and refine valuation to obtain the IV, and other options like calculating evolution/improvement, etc.</string>
+    <string name="tut6_title">Calibration</string>
+    <string name="tut6_desc">To improve the detection of the data fields, recommend made a calibration by looking for the GoIV notification and scanning for example a Pidgey. If everything is detected correctly you will see appeared the button to save calibration and return to GoIV to restart it.</string>
 </resources>

@@ -7,4 +7,5 @@
 
     <!-- Notification margins -->
     <dimen name="notification_horizontal_padding">8dp</dimen>
+    <dimen name="notification_vertical_padding">8dp</dimen>
 </resources>

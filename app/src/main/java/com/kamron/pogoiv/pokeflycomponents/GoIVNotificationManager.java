@@ -6,6 +6,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v7.app.NotificationCompat;
@@ -73,22 +74,44 @@ public class GoIVNotificationManager {
         contentBigView.setOnClickPendingIntent(R.id.start, startServicePendingIntent);
 
         // Build notification
-        Notification notification = new NotificationCompat.Builder(pokefly)
-                .setSmallIcon(R.drawable.notification_icon)
-                .setContentTitle(pokefly.getString(R.string.notification_title_goiv_stopped))
-                .setContentText(pokefly.getString(R.string.notification_title_tap_to_open))
-                .setColor(pokefly.getColorC(R.color.colorAccent))
-                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                .setPriority(NotificationCompat.PRIORITY_MAX)
-                .setCategory(NotificationCompat.CATEGORY_PROGRESS)
-                .setContent(contentView)
-                .setCustomBigContentView(contentBigView)
-                .setOngoing(false)
-                .build();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            // N style notification
+            Notification.Builder builder = new Notification.Builder(pokefly)
+                    .setCustomContentView(contentView)
+                    .setStyle(new Notification.DecoratedCustomViewStyle())
+                    .setCustomBigContentView(contentBigView)
+                    .setGroupSummary(false)
+                    .setSmallIcon(R.drawable.notification_icon)
+                    .setContentTitle(pokefly.getString(R.string.notification_title_goiv_stopped))
+                    .setContentText(pokefly.getString(R.string.notification_title_tap_to_open))
+                    .setColor(pokefly.getColorC(R.color.colorAccent))
+                    .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                    .setPriority(Notification.PRIORITY_MAX)
+                    .setCategory(NotificationCompat.CATEGORY_PROGRESS)
+                    .setOngoing(false);
 
-        NotificationManager notificationManager =
-                (NotificationManager) pokefly.getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(NOTIFICATION_REQ_CODE, notification);
+            NotificationManager notificationManager =
+                    (NotificationManager) pokefly.getSystemService(Context.NOTIFICATION_SERVICE);
+            notificationManager.notify(NOTIFICATION_REQ_CODE, builder.build());
+        } else {
+            // classic style notification
+            Notification notification = new NotificationCompat.Builder(pokefly)
+                    .setSmallIcon(R.drawable.notification_icon)
+                    .setContentTitle(pokefly.getString(R.string.notification_title_goiv_stopped))
+                    .setContentText(pokefly.getString(R.string.notification_title_tap_to_open))
+                    .setColor(pokefly.getColorC(R.color.colorAccent))
+                    .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                    .setPriority(NotificationCompat.PRIORITY_MAX)
+                    .setCategory(NotificationCompat.CATEGORY_PROGRESS)
+                    .setContent(contentView)
+                    .setCustomBigContentView(contentBigView)
+                    .setOngoing(false)
+                    .build();
+
+            NotificationManager notificationManager =
+                    (NotificationManager) pokefly.getSystemService(Context.NOTIFICATION_SERVICE);
+            notificationManager.notify(NOTIFICATION_REQ_CODE, notification);
+        }
     }
 
     /**
@@ -129,20 +152,39 @@ public class GoIVNotificationManager {
         contentBigView.setOnClickPendingIntent(R.id.pause, stopServicePendingIntent);
 
         // Build notification
-        Notification notification = new NotificationCompat.Builder(pokefly)
-                .setSmallIcon(R.drawable.notification_icon_play)
-                .setContentTitle(pokefly.getString(R.string.notification_title, pokefly.getTrainerLevel()))
-                .setContentText(pokefly.getString(R.string.notification_title_tap_to_open))
-                .setColor(pokefly.getColorC(R.color.colorPrimary))
-                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                .setPriority(NotificationCompat.PRIORITY_MAX)
-                .setCategory(NotificationCompat.CATEGORY_PROGRESS)
-                .setContent(contentView)
-                .setCustomBigContentView(contentBigView)
-                .setOngoing(true)
-                .build();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            // N style notification
+            Notification.Builder builder = new Notification.Builder(pokefly)
+                    .setCustomContentView(contentView)
+                    .setStyle(new Notification.DecoratedCustomViewStyle())
+                    .setCustomBigContentView(contentBigView)
+                    .setSmallIcon(R.drawable.notification_icon_play)
+                    .setContentTitle(pokefly.getString(R.string.notification_title, pokefly.getTrainerLevel()))
+                    .setContentText(pokefly.getString(R.string.notification_title_tap_to_open))
+                    .setColor(pokefly.getColorC(R.color.colorPrimary))
+                    .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                    .setPriority(Notification.PRIORITY_MAX)
+                    .setCategory(NotificationCompat.CATEGORY_PROGRESS)
+                    .setOngoing(false);
 
-        pokefly.startForeground(NOTIFICATION_REQ_CODE, notification);
+            pokefly.startForeground(NOTIFICATION_REQ_CODE, builder.build());
+        } else {
+            // classic style notification
+            Notification notification = new NotificationCompat.Builder(pokefly)
+                    .setSmallIcon(R.drawable.notification_icon_play)
+                    .setContentTitle(pokefly.getString(R.string.notification_title, pokefly.getTrainerLevel()))
+                    .setContentText(pokefly.getString(R.string.notification_title_tap_to_open))
+                    .setColor(pokefly.getColorC(R.color.colorPrimary))
+                    .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                    .setPriority(NotificationCompat.PRIORITY_MAX)
+                    .setCategory(NotificationCompat.CATEGORY_PROGRESS)
+                    .setContent(contentView)
+                    .setCustomBigContentView(contentBigView)
+                    .setOngoing(false)
+                    .build();
+
+            pokefly.startForeground(NOTIFICATION_REQ_CODE, notification);
+        }
     }
 
     /**

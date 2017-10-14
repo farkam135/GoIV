@@ -7,7 +7,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'io.fabric.tools:gradle:1.21.6'
+        classpath 'io.fabric.tools:gradle:1.24.3'
     }
 }
 
@@ -62,7 +62,7 @@ android {
      * Update (both Gradle and local SDK) whenever possible
      */
     compileSdkVersion 24
-    buildToolsVersion '25.0.0'
+    buildToolsVersion '26.0.2'
 
     /**
      * Build configurations for APK
@@ -168,8 +168,7 @@ dependencies {
     androidTestCompile 'com.android.support.test:runner:0.5'
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
     apt 'org.projectlombok:lombok:1.16.10'
-    onlineCompile 'com.squareup.okhttp3:okhttp:3.4.1'
-    onlineCompile 'com.squareup.okio:okio:1.10.0'
+    onlineCompile 'com.squareup.okhttp3:okhttp:3.7.0'
     provided 'org.projectlombok:lombok:1.16.10'
     compile project(':openCVLibrary330')
 }

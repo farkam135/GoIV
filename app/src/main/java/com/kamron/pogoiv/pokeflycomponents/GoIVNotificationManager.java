@@ -33,11 +33,9 @@ public class GoIVNotificationManager {
 
     private static Pokefly pokefly;
 
-    public static final String ACTION_RECALIBRATE_SCANAREA = "com.kamron.pogoiv.ACTION_RECALIBRATE_SCANAREA";
+    private static final String ACTION_RECALIBRATE_SCANAREA = "com.kamron.pogoiv.ACTION_RECALIBRATE_SCANAREA";
 
-    public GoIVNotificationManager(Pokefly pokefly) {
-        this.pokefly = pokefly;
-    }
+    public GoIVNotificationManager(Pokefly pokefly) { GoIVNotificationManager.pokefly = pokefly; }
 
 
     /**

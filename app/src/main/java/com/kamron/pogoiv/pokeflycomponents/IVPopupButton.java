@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
+import android.os.Build;
 import android.support.v4.content.res.ResourcesCompat;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -27,10 +28,13 @@ public class IVPopupButton extends android.support.v7.widget.AppCompatButton {
     private WindowManager windowManager;
     private boolean showing = false;
 
+    @SuppressWarnings("deprecation")
     private final WindowManager.LayoutParams ivButtonParams = new WindowManager.LayoutParams(
             WindowManager.LayoutParams.WRAP_CONTENT,
             WindowManager.LayoutParams.WRAP_CONTENT,
-            WindowManager.LayoutParams.TYPE_PHONE,
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
+                    ? WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
+                    : WindowManager.LayoutParams.TYPE_PHONE,
             WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
             PixelFormat.TRANSLUCENT);
 

@@ -23,7 +23,7 @@ public class ShareHandlerActivity extends Activity {
         String type = intent.getType();
 
         if (Intent.ACTION_SEND.equals(action) && type != null && type.startsWith("image/")) {
-            Uri imageUri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
+            Uri imageUri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
                 //Using null rather than some file name ensures we do not delete the shared screenshot.

@@ -50,7 +50,7 @@ public class ClipboardTokenHandler {
     public String getClipboardText(IVScanResult ivScanResult, PokeInfoCalculator pokeInfoCalculator) {
 
         GoIVSettings settings = GoIVSettings.getInstance(context);
-        String clipResult = "";
+        String clipResult;
 
         // has the user enabled the setting for different results and is there just a single result??
         if (settings.shouldCopyToClipboardSingle() && ivScanResult.getCount() == 1) {
@@ -85,10 +85,10 @@ public class ClipboardTokenHandler {
 
 
         String representation;
-        for (int i = 0; i < tokenRepresentationArray.length; i++) { // for all saved tokens
-            representation = tokenRepresentationArray[i];
+        for (String aTokenRepresentationArray : tokenRepresentationArray) { // for all saved tokens
+            representation = aTokenRepresentationArray;
 
-            //Check for a custom user added seperator
+            //Check for a custom user added separator
             String seperatorClassName = SeparatorToken.class.getSimpleName();
             if (representation.contains(seperatorClassName)) {
                 saveTo.add(new SeparatorToken(representation.substring(seperatorClassName.length())));

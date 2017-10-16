@@ -30,26 +30,16 @@ public class TutorialActivity extends AppIntro2 {
         sliderPage1.setTitle(res.getString(R.string.tut1_title));
         sliderPage1.setDescription(res.getString(R.string.tut1_desc));
         sliderPage1.setImageDrawable(R.drawable.goiv);
-        sliderPage1.setBgColor(Color.BLACK);
+        sliderPage1.setBgColor(Color.parseColor("#1976d2"));
         addSlide(AppIntroFragment.newInstance(sliderPage1));
 
-        // permissions
+        // setup
         SliderPage sliderPage2 = new SliderPage();
-        sliderPage2.setTitle(res.getString(R.string.tut2_title));
-        sliderPage2.setDescription(res.getString(R.string.tut2_desc));
-        sliderPage2.setImageDrawable(R.drawable.tut2);
-        sliderPage2.setBgColor(Color.parseColor("#20d2bb"));
-        sliderPage2.setDescColor(Color.BLACK);
-        sliderPage2.setTitleColor(Color.BLACK);
+        sliderPage2.setTitle(getString(R.string.tutorial_setup));
+        sliderPage2.setDescription(getString(R.string.tut_setup_description));
+        sliderPage2.setImageDrawable(R.drawable.tut3);
+        sliderPage2.setBgColor(Color.parseColor("#388e3c"));
         addSlide(AppIntroFragment.newInstance(sliderPage2));
-
-        // set level & team
-        SliderPage sliderPage3 = new SliderPage();
-        sliderPage3.setTitle(res.getString(R.string.tut3_title));
-        sliderPage3.setDescription(res.getString(R.string.tut3_desc));
-        sliderPage3.setImageDrawable(R.drawable.tut3);
-        sliderPage3.setBgColor(Color.parseColor("#3E50B3"));
-        addSlide(AppIntroFragment.newInstance(sliderPage3));
 
         // iv button
         SliderPage sliderPage4 = new SliderPage();

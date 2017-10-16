@@ -220,11 +220,11 @@ public class MainActivity extends AppCompatActivity {
      */
     private void initialTutorial() {
         sharedPref = getPreferences(Context.MODE_PRIVATE);
-        if (!sharedPref.getBoolean(PREF_TUTORIAL, false)) {
+        //if (!sharedPref.getBoolean(PREF_TUTORIAL, false)) {
             sharedPref.edit().putBoolean(PREF_TUTORIAL, true).apply();
             Intent tutorial = new Intent(this, TutorialActivity.class);
             startActivity(tutorial);
-        }
+        //}
     }
 
     /**

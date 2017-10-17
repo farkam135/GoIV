@@ -8,7 +8,7 @@
     <!-- Notification margins -->
     <dimen name="notification_horizontal_padding">8dp</dimen>
     <dimen name="notification_vertical_padding">8dp</dimen>
-    <!-- Notification size -->
+    <!-- Notification icon size -->
     <dimen name="icon_size">@dimen/wrap_content</dimen>
     <!-- wrap_content -->
     <item name="wrap_content" format="integer" type="dimen">-2</item>

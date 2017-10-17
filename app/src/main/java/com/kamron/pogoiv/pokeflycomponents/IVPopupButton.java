@@ -110,11 +110,8 @@ public class IVPopupButton extends android.support.v7.widget.AppCompatButton {
                 setText(ivrs.pokemon.name + "\nIV: " + low + " - " + high + "%");
             }
         }
-
         setBackgroundGradient(ivrs);
         setTextColorFromIVs(ivrs);
-
-
     }
 
     private void setTextColorFromIVs(IVScanResult ivrs) {
@@ -155,8 +152,6 @@ public class IVPopupButton extends android.support.v7.widget.AppCompatButton {
 
             setGradientColor(getColorForPercentIV(low), getColorForPercentIV(high));
         }
-
-
     }
 
     /**
@@ -171,7 +166,6 @@ public class IVPopupButton extends android.support.v7.widget.AppCompatButton {
         if (inner != null) {
             inner.setColors(new int[]{c1, c2});
         }
-
     }
 
     /**

@@ -161,7 +161,7 @@ public class IVPreviewPrinter {
      * @return A string build up by the iv results
      */
     private String getQuickIVMessage(IVScanResult ivrs) {
-        String returner = null;;
+        String returner = null;
         if (settings.shouldReplaceQuickIvPreviewWithClipboard()) {
             returner = pokefly.getClipboardTokenHandler().getClipboardText(ivrs, pokeInfoCalculator);
         } else {

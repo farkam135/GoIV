@@ -167,8 +167,8 @@ public class GoIVNotificationManager {
     }
 
     private void initNotificationChannel(NotificationManager notificationManager) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && notificationManager.getNotificationChannel
-                (NOTIFICATION_CHANNEL_ID) == null) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && notificationManager
+                .getNotificationChannel(NOTIFICATION_CHANNEL_ID) == null) {
             // Create notification channel
             NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID,
                     "GoIV", NotificationManager.IMPORTANCE_DEFAULT);

@@ -2,4 +2,7 @@
     <!-- Notification margins -->
     <dimen name="notification_horizontal_padding">0dp</dimen>
     <dimen name="notification_vertical_padding">0dp</dimen>
+    <!-- Notification size -->
+    <dimen name="notification_height_compact">40dp</dimen>
+    <dimen name="icon_size">40dp</dimen>
 </resources>

@@ -1,5 +1,6 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:id="@+id/root"
     android:layout_width="match_parent"
@@ -11,8 +12,8 @@
 
     <ImageView
         android:id="@+id/icon"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="@dimen/icon_size"
+        android:layout_height="@dimen/icon_size"
         android:layout_marginEnd="8dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
@@ -25,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_toEndOf="@id/icon"
         android:layout_toStartOf="@+id/recalibrate"
-        android:text="@string/notification_title_short" />
+        tools:text="@string/notification_title_short" />
 
     <TextView
         style="@style/NotificationMessage"
@@ -37,8 +38,8 @@
         android:text="@string/notification_title_tap_to_open" />
 
     <ImageButton
-        android:id="@+id/recalibrate"
         style="@style/Base.Widget.AppCompat.Button.Borderless"
+        android:id="@+id/recalibrate"
         android:layout_width="48dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -47,12 +48,12 @@
         android:adjustViewBounds="true"
         android:scaleType="centerInside"
         android:layout_centerInParent="true"
-        android:contentDescription="@string/recalibrate_goiv_notification"
-        android:src="@drawable/ic_recalibrate_24px"/>
+        android:src="@drawable/ic_recalibrate_24px"
+        android:contentDescription="@string/recalibrate_goiv_notification" />
 
     <ImageButton
-        android:id="@+id/pause"
         style="@style/Base.Widget.AppCompat.Button.Borderless"
+        android:id="@+id/pause"
         android:layout_width="48dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
@@ -60,7 +61,8 @@
         android:adjustViewBounds="true"
         android:scaleType="centerInside"
         android:layout_centerInParent="true"
-        android:contentDescription="@string/pause_goiv_notification"
-        android:src="@drawable/ic_pause_circle_outline_24px"/>
+        android:layout_marginEnd="-12dp"
+        android:src="@drawable/ic_pause_circle_outline_24px"
+        android:contentDescription="@string/pause_goiv_notification" />
 
 </RelativeLayout>

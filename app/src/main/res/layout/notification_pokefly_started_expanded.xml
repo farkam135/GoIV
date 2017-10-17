@@ -1,65 +1,74 @@
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_gravity="center_vertical"
     android:paddingLeft="@dimen/notification_horizontal_padding"
-    android:paddingRight="@dimen/notification_horizontal_padding"
     android:paddingTop="@dimen/notification_vertical_padding"
+    android:paddingRight="@dimen/notification_horizontal_padding"
     android:paddingBottom="@dimen/notification_vertical_padding">
 
     <ImageView
-        android:id="@+id/icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:layout_alignParentStart="true"
-        android:scaleType="centerInside"
-        android:layout_centerInParent="true"
+        android:layout_gravity="center_vertical"
         android:src="@mipmap/ic_launcher" />
 
-    <TextView
-        style="@style/NotificationTitle"
-        android:id="@+id/notification_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toEndOf="@id/icon"
-        android:text="@string/notification_title" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <TextView
-        style="@style/NotificationMessage"
-        android:id="@+id/notification_description"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toEndOf="@id/icon"
-        android:layout_below="@id/notification_title"
-        android:text="@string/notification_title_tap_to_open" />
+        <TextView
+            style="@style/NotificationTitle"
+            android:id="@+id/notification_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            tools:text="@string/notification_title" />
 
-    <Button
-        style="@style/Base.Widget.AppCompat.Button.Borderless"
-        android:id="@+id/recalibrate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toStartOf="@+id/pause"
-        android:layout_below="@id/notification_description"
-        android:adjustViewBounds="true"
-        android:scaleType="centerInside"
-        android:text="@string/recalibrate_goiv_notification"
-        android:textColor="@color/colorPrimary"
-        android:drawableEnd="@drawable/ic_recalibrate_24px" />
+        <TextView
+            style="@style/NotificationMessage"
+            android:id="@+id/notification_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/notification_title_tap_to_open" />
 
-    <Button
-        style="@style/Base.Widget.AppCompat.Button.Borderless"
-        android:id="@+id/pause"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@id/notification_description"
-        android:adjustViewBounds="true"
-        android:scaleType="centerInside"
-        android:text="@string/pause_goiv_notification"
-        android:textColor="@color/colorPrimary"
-        android:drawableEnd="@drawable/ic_pause_circle_outline_24px" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="end">
 
-</RelativeLayout>
+            <Button
+                style="@style/Base.Widget.AppCompat.Button.Borderless"
+                android:id="@+id/recalibrate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:text="@string/recalibrate_goiv_notification"
+                android:textColor="@color/colorPrimary"
+                android:drawableEnd="@drawable/ic_recalibrate_24px"
+                android:drawablePadding="4dp" />
+
+            <Button
+                style="@style/Base.Widget.AppCompat.Button.Borderless"
+                android:id="@+id/pause"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="-12dp"
+                android:text="@string/pause_goiv_notification"
+                android:textColor="@color/colorPrimary"
+                android:drawableEnd="@drawable/ic_pause_circle_outline_24px"
+                android:drawablePadding="4dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

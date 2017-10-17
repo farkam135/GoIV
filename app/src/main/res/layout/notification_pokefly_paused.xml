@@ -11,8 +11,8 @@
 
     <ImageView
         android:id="@+id/icon"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="@dimen/icon_size"
+        android:layout_height="@dimen/icon_size"
         android:layout_marginEnd="8dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
@@ -44,10 +44,10 @@
         android:layout_marginEnd="8dp"
         android:layout_alignParentTop="true"
         android:layout_toStartOf="@+id/start"
-        android:contentDescription="@string/settings_page_title"
         android:adjustViewBounds="true"
         android:scaleType="centerInside"
         android:layout_centerInParent="true"
+        android:contentDescription="@string/settings_page_title"
         android:src="@drawable/ic_settings_24px"/>
 
     <ImageButton
@@ -57,10 +57,11 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
-        android:contentDescription="@string/main_start"
         android:adjustViewBounds="true"
         android:scaleType="centerInside"
         android:layout_centerInParent="true"
+        android:layout_marginEnd="-12dp"
+        android:contentDescription="@string/main_start"
         android:src="@drawable/ic_play_circle_outline_24px"/>
 
 </RelativeLayout>

@@ -84,6 +84,7 @@ public class GoIVNotificationManager {
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setCategory(NotificationCompat.CATEGORY_PROGRESS)
+                .setWhen(0)
                 .setContent(contentView)
                 .setCustomBigContentView(contentBigView)
                 .setOngoing(false);
@@ -148,9 +149,10 @@ public class GoIVNotificationManager {
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setCategory(NotificationCompat.CATEGORY_PROGRESS)
+                .setWhen(0)
                 .setContent(contentView)
                 .setCustomBigContentView(contentBigView)
-                .setOngoing(true);
+                .setOngoing(false);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             notification
@@ -171,7 +173,10 @@ public class GoIVNotificationManager {
                 .getNotificationChannel(NOTIFICATION_CHANNEL_ID) == null) {
             // Create notification channel
             NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID,
-                    "GoIV", NotificationManager.IMPORTANCE_DEFAULT);
+                    "GoIV", NotificationManager.IMPORTANCE_LOW);
+
+            channel.setShowBadge(false);
+            channel.enableLights(false);
 
             notificationManager.createNotificationChannel(channel);
         }

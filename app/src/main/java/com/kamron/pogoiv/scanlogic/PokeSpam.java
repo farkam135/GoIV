@@ -8,7 +8,7 @@ import lombok.Getter;
 
 @Getter
 public class PokeSpam {
-    private static final int HOW_MANY_POKEMON_WE_HAVE_PER_ROW = 3;
+    public static final int HOW_MANY_POKEMON_WE_HAVE_PER_ROW = 3;
     private static final int DEFAULT_BONUS = 1;
 
     private int totalEvolvable;
@@ -28,7 +28,7 @@ public class PokeSpam {
      * @param candyEvolutionCost How much candy it cost to evolve the pokemon
      * @param bonus              How much bonus for evolving, for example 1 is for regular evolve, 2 is for transferring
      */
-    public PokeSpam(int candyPlayerHas, int candyEvolutionCost, int bonus) {
+    private PokeSpam(int candyPlayerHas, int candyEvolutionCost, int bonus) {
         calculatePokeSpam(candyPlayerHas, candyEvolutionCost, bonus);
     }
 
@@ -53,5 +53,4 @@ public class PokeSpam {
         amountXP = 500 * totalEvolvable;
         amountXPWithLuckyEgg = amountXP * 2;
     }
-
 }

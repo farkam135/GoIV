@@ -41,3 +41,6 @@ captures/
 **/*.jks
 keystore.properties
 fabric.properties
+
+# OS files
+.DS_Store

@@ -144,6 +144,7 @@
     <string name="perfection_explainer">The percentage shows how big the difference is between your monster and a monster of the same species which has perfect IVs.\n\nSo for example, if it says 92 percent, then your Pokémon maxes out at 8 percent less CP compared to the same species with maximum IVs.</string>
     <string name="pokespam">PokéSpam</string>
     <string name="pokespam_formatted_message">%1$d (%2$d rows + %3$d more)</string>
+    <string name="pokespam_formatted_message2">%1$d (%2$d rows)</string>
     <string name="candy">Candy</string>
     <string name="pokespam_not_available">Not Available</string>
     <string name="pokespam_setting_title">Show how many you can evolve</string>

@@ -1507,9 +1507,23 @@ public class Pokefly extends Service {
             }
 
             PokeSpam pokeSpamCalculator = new PokeSpam(pokemonCandy.or(0), ivScanResult.pokemon.candyEvolutionCost);
-            String text = getString(R.string.pokespam_formatted_message,
-                    pokeSpamCalculator.getTotalEvolvable(), pokeSpamCalculator.getEvolveRows(),
-                    pokeSpamCalculator.getEvolveExtra());
+
+            // number for total evolvable
+            int totEvol = pokeSpamCalculator.getTotalEvolvable();
+            // number for rows of evolvables
+            int evolRow = pokeSpamCalculator.getEvolveRows();
+            // number for evolvables in extra row (not complete row)
+            int evolExtra = pokeSpamCalculator.getEvolveExtra();
+
+            String text;
+
+            if (totEvol < PokeSpam.HOW_MANY_POKEMON_WE_HAVE_PER_ROW) {
+                text = String.valueOf(totEvol);
+            } else if (evolExtra == 0) {
+                text = getString(R.string.pokespam_formatted_message2, totEvol, evolRow);
+            } else {
+                text = getString(R.string.pokespam_formatted_message, totEvol, evolRow, evolExtra);
+            }
             exResPokeSpam.setText(text);
             pokeSpamView.setVisibility(View.VISIBLE);
         } else {
@@ -1570,7 +1584,7 @@ public class Pokefly extends Service {
      * @param selectedLevel The level to reach.
      */
     private void setEstimateLevelTextColor(double selectedLevel) {
-        // If selectedLevel exeeds trainer capabilities then show text in orange
+        // If selectedLevel exceeds trainer capabilities then show text in orange
         if (selectedLevel > Data.trainerLevelToMaxPokeLevel(trainerLevel)) {
             exResLevel.setTextColor(getColorC(R.color.orange));
         } else {

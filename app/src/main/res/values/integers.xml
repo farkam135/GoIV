@@ -294,7 +294,7 @@
         <item>159</item> <!--Vigoroth-->
         <item>319</item> <!--Slaking-->
         <item>80</item> <!--Nincada-->
-        <item>199</item> <!--Ninjask-->
+        <item>196</item> <!--Ninjask-->
         <item>153</item> <!--Shedinja-->
         <item>92</item> <!--Whismur-->
         <item>134</item> <!--Loudred-->
@@ -688,7 +688,7 @@
         <item>159</item> <!--Vigoroth-->
         <item>201</item> <!--Slaking-->
         <item>153</item> <!--Nincada-->
-        <item>116</item> <!--Ninjask-->
+        <item>114</item> <!--Ninjask-->
         <item>80</item> <!--Shedinja-->
         <item>42</item> <!--Whismur-->
         <item>81</item> <!--Loudred-->
@@ -773,7 +773,7 @@
         <item>168</item> <!--Salamence-->
         <item>141</item> <!--Beldum-->
         <item>185</item> <!--Metang-->
-        <item>248</item> <!--Metagross-->
+        <item>247</item> <!--Metagross-->
         <item>356</item> <!--Regirock-->
         <item>356</item> <!--Regice-->
         <item>285</item> <!--Registeel-->
@@ -1558,7 +1558,7 @@
         <item>-1</item> <!--Luvdisc-->
         <item>-1</item> <!--Bagon-->
         <item>370</item> <!--Shelgon-->
-        <item>-1</item> <!--Salamence-->
+        <item>371</item> <!--Salamence-->
         <item>-1</item> <!--Beldum-->
         <item>373</item> <!--Metang-->
         <item>374</item> <!--Metagross-->
@@ -1845,10 +1845,10 @@
         <item>-1</item> <!--Mightyena-->
         <item>50</item> <!--Zigzagoon-->
         <item>-1</item> <!--Linoone-->
-        <item>25</item> <!--Wurmple-->
-        <item>100</item> <!--Silcoon-->
+        <item>12</item> <!--Wurmple-->
+        <item>50</item> <!--Silcoon-->
         <item>-1</item> <!--Beautifly-->
-        <item>100</item> <!--Cascoon-->
+        <item>50</item> <!--Cascoon-->
         <item>-1</item> <!--Dustox-->
         <item>25</item> <!--Lotad-->
         <item>100</item> <!--Lombre-->
@@ -1873,8 +1873,8 @@
         <item>50</item> <!--Nincada-->
         <item>-1</item> <!--Ninjask-->
         <item>-1</item> <!--Shedinja-->
-        <item>25</item> <!--Whismur-->
-        <item>100</item> <!--Loudred-->
+        <item>12</item> <!--Whismur-->
+        <item>50</item> <!--Loudred-->
         <item>-1</item> <!--Exploud-->
         <item>50</item> <!--Makuhita-->
         <item>-1</item> <!--Hariyama-->
@@ -1929,7 +1929,7 @@
         <item>-1</item> <!--Cradily-->
         <item>50</item> <!--Anorith-->
         <item>-1</item> <!--Armaldo-->
-        <item>50</item> <!--Feebas-->
+        <item>100</item> <!--Feebas-->
         <item>-1</item> <!--Milotic-->
         <item>-1</item> <!--Castform-->
         <item>-1</item> <!--Kecleon-->
@@ -1940,7 +1940,7 @@
         <item>-1</item> <!--Tropius-->
         <item>-1</item> <!--Chimecho-->
         <item>-1</item> <!--Absol-->
-        <item>-1</item> <!--Wynaut-->
+        <item>50</item> <!--Wynaut-->
         <item>50</item> <!--Snorunt-->
         <item>-1</item> <!--Glalie-->
         <item>25</item> <!--Spheal-->
@@ -1951,8 +1951,8 @@
         <item>-1</item> <!--Gorebyss-->
         <item>-1</item> <!--Relicanth-->
         <item>-1</item> <!--Luvdisc-->
-        <item>50</item> <!--Bagon-->
-        <item>-1</item> <!--Shelgon-->
+        <item>25</item> <!--Bagon-->
+        <item>100</item> <!--Shelgon-->
         <item>-1</item> <!--Salamence-->
         <item>25</item> <!--Beldum-->
         <item>100</item> <!--Metang-->

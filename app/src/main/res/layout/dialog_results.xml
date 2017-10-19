@@ -34,14 +34,14 @@
             android:textSize="18sp"
             android:textColor="#888"
             android:text="@string/level"
-            android:layout_marginStart="6dp"/>
+            android:layout_marginStart="6dp" />
 
-        <ImageView
+        <android.support.v7.widget.AppCompatImageView
             android:id="@+id/shareWithStorimod"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="4dp"
-            app:srcCompat="@drawable/ic_share_black"/>
+            app:srcCompat="@drawable/ic_share_black" />
 
     </LinearLayout>
 
@@ -79,7 +79,7 @@
                     android:textSize="24sp"
                     android:textStyle="bold"
                     tools:text="15"
-                    android:textColor="#222"/>
+                    android:textColor="#222" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -88,7 +88,7 @@
                     android:layout_margin="0dp"
                     android:textSize="12sp"
                     android:gravity="center"
-                    android:textColor="#222"/>
+                    android:textColor="#222" />
 
             </LinearLayout>
 
@@ -112,7 +112,7 @@
                     android:textSize="24sp"
                     android:textStyle="bold"
                     android:textColor="#222"
-                    tools:text="15"/>
+                    tools:text="15" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -120,7 +120,7 @@
                     android:text="@string/def"
                     android:textSize="12sp"
                     android:layout_margin="0dp"
-                    android:textColor="#222"/>
+                    android:textColor="#222" />
 
             </LinearLayout>
 
@@ -144,7 +144,7 @@
                     android:textSize="24sp"
                     android:textStyle="bold"
                     android:textColor="#222"
-                    tools:text="15"/>
+                    tools:text="15" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -152,7 +152,7 @@
                     android:text="@string/sta"
                     android:textSize="12sp"
                     android:layout_margin="0dp"
-                    android:textColor="#222"/>
+                    android:textColor="#222" />
 
             </LinearLayout>
 
@@ -179,7 +179,7 @@
                 android:textSize="24sp"
                 android:textStyle="bold"
                 tools:text="76%"
-                android:textColor="#222"/>
+                android:textColor="#222" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -189,7 +189,7 @@
                 android:textSize="12sp"
                 android:gravity="center"
                 android:textColor="#222"
-                android:layout_marginStart="6dp"/>
+                android:layout_marginStart="6dp" />
 
         </LinearLayout>
 
@@ -214,7 +214,7 @@
                 android:textSize="24sp"
                 android:textStyle="bold"
                 android:textColor="#222"
-                tools:text="82%"/>
+                tools:text="82%" />
 
             <TextView
                 android:id="@+id/tvAvgIV"
@@ -224,7 +224,7 @@
                 android:textSize="12sp"
                 android:layout_margin="0dp"
                 android:textColor="#222"
-                android:layout_marginStart="6dp"/>
+                android:layout_marginStart="6dp" />
 
         </LinearLayout>
 
@@ -249,7 +249,7 @@
                 android:textSize="24sp"
                 android:textStyle="bold"
                 android:textColor="#222"
-                tools:text="88%"/>
+                tools:text="88%" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -258,7 +258,7 @@
                 android:textSize="12sp"
                 android:layout_margin="0dp"
                 android:textColor="#222"
-                android:layout_marginStart="6dp"/>
+                android:layout_marginStart="6dp" />
 
         </LinearLayout>
 
@@ -281,7 +281,7 @@
                 tools:text="## Possible Combinations"
                 android:layout_gravity="start"
                 android:textSize="18sp"
-                android:textColor="#888"/>
+                android:textColor="#888" />
 
             <TextView
                 android:id="@+id/tvSeeAllPossibilities"
@@ -291,11 +291,11 @@
                 android:textColor="@color/colorPrimary"
                 android:text="@string/see_all"
                 android:clickable="true"
-                android:gravity="end"/>
+                android:gravity="end" />
         </LinearLayout>
 
         <include layout="@layout/dialog_refine_by_last_scan"
-            android:id="@+id/refine_by_last_scan"/>
+            android:id="@+id/refine_by_last_scan" />
 
         <TextView
             android:id="@+id/correctCPLevel"
@@ -307,7 +307,7 @@
             android:layout_marginTop="5dp"
             android:paddingLeft="12dp"
             android:paddingRight="12dp"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
     </LinearLayout>
 
@@ -317,7 +317,7 @@
         android:layout_marginTop="6dp"
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
-        android:background="@android:color/darker_gray"/>
+        android:background="@android:color/darker_gray" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -339,13 +339,13 @@
                 android:layout_gravity="center"
                 android:textSize="18sp"
                 android:clickable="true"
-                android:drawableEnd="@drawable/ic_keyboard_arrow_right_blue_18dp"/>
+                android:drawableEnd="@drawable/ic_keyboard_arrow_right_blue_18dp" />
 
         </LinearLayout>
 
         <include layout="@layout/expanded_results_box"
             android:id="@+id/expandedResultsBox"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
     </LinearLayout>
 

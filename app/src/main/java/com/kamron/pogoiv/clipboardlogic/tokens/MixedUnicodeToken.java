@@ -116,7 +116,7 @@ public class MixedUnicodeToken extends ClipboardToken {
 
     @Override
     public String getTokenName(Context context) {
-        return "UIV-mixed";
+        return filled ? "UIV-mixed-⓿⑦" : "UIV-mixed-⑨⓫";
     }
 
     @Override

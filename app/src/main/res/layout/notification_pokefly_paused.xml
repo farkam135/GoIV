@@ -1,60 +1,67 @@
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="64dp"
     android:paddingLeft="@dimen/notification_horizontal_padding"
-    android:paddingTop="8dp"
     android:paddingRight="@dimen/notification_horizontal_padding"
-    android:paddingBottom="8dp">
+    android:paddingTop="@dimen/notification_vertical_padding"
+    android:paddingBottom="@dimen/notification_vertical_padding">
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/icon"
+        android:layout_width="@dimen/icon_size"
+        android:layout_height="@dimen/icon_size"
         android:layout_marginEnd="8dp"
-        android:layout_gravity="center_vertical"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
         android:src="@mipmap/ic_launcher" />
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="0dp"
+    <TextView
+        style="@style/NotificationTitle"
+        android:id="@+id/notification_title"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:layout_gravity="center_vertical">
+        android:layout_toEndOf="@id/icon"
+        android:layout_toStartOf="@+id/settings"
+        android:text="@string/notification_title_goiv_stopped" />
 
-        <TextView
-            style="@style/NotificationTitle"
-            android:id="@+id/notification_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/notification_title_goiv_stopped" />
-
-        <TextView
-            style="@style/NotificationMessage"
-            android:id="@+id/notification_description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/notification_title_tap_to_open" />
-
-    </LinearLayout>
+    <TextView
+        style="@style/NotificationMessage"
+        android:id="@+id/notification_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/icon"
+        android:layout_below="@id/notification_title"
+        android:text="@string/notification_title_tap_to_open" />
 
     <ImageButton
-        style="@style/Base.Widget.AppCompat.Button.Borderless"
         android:id="@+id/settings"
+        style="@style/Base.Widget.AppCompat.Button.Borderless"
         android:layout_width="48dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="4dp"
-        android:src="@drawable/ic_settings_24px"
-        android:contentDescription="@string/settings_page_title" />
+        android:layout_marginEnd="8dp"
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@+id/start"
+        android:adjustViewBounds="true"
+        android:scaleType="centerInside"
+        android:layout_centerInParent="true"
+        android:contentDescription="@string/settings_page_title"
+        android:src="@drawable/ic_settings_24px"/>
 
     <ImageButton
-        style="@style/Base.Widget.AppCompat.Button.Borderless"
         android:id="@+id/start"
+        style="@style/Base.Widget.AppCompat.Button.Borderless"
         android:layout_width="48dp"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:adjustViewBounds="true"
+        android:scaleType="centerInside"
+        android:layout_centerInParent="true"
         android:layout_marginEnd="-12dp"
-        android:src="@drawable/ic_play_circle_outline_24px"
-        android:contentDescription="@string/main_start" />
+        android:contentDescription="@string/main_start"
+        android:src="@drawable/ic_play_circle_outline_24px"/>
 
-</LinearLayout>
+</RelativeLayout>

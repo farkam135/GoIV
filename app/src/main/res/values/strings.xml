@@ -76,6 +76,7 @@
     <string name="notification_title_tap_to_open">Tap to open GoIV.</string>
     <string name="notification_open_app">Open app</string>
     <string name="notification_recalibrate">Recalibrate</string>
+    <string name="notification_channel">GoIV status</string>
     <string name="close">Close</string>
     <string name="main_permission">Grant Permissions</string>
     <string name="main_start">Start</string>

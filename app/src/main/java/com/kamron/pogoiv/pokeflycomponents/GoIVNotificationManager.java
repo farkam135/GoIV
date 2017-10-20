@@ -1,14 +1,15 @@
 package com.kamron.pogoiv.pokeflycomponents;
 
 import android.app.IntentService;
-import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.v7.app.NotificationCompat;
+import android.support.v4.app.NotificationCompat;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
@@ -29,6 +30,8 @@ import com.kamron.pogoiv.activities.OcrCalibrationResultActivity;
 public class GoIVNotificationManager {
 
     private static final int NOTIFICATION_REQ_CODE = 8959;
+
+    private static final String NOTIFICATION_CHANNEL_ID = "8959";
 
     private static Pokefly pokefly;
 
@@ -73,7 +76,7 @@ public class GoIVNotificationManager {
         contentBigView.setOnClickPendingIntent(R.id.start, startServicePendingIntent);
 
         // Build notification
-        Notification notification = new NotificationCompat.Builder(pokefly)
+        NotificationCompat.Builder notification = new NotificationCompat.Builder(pokefly, NOTIFICATION_CHANNEL_ID)
                 .setSmallIcon(R.drawable.notification_icon)
                 .setContentTitle(pokefly.getString(R.string.notification_title_goiv_stopped))
                 .setContentText(pokefly.getString(R.string.notification_title_tap_to_open))
@@ -83,12 +86,14 @@ public class GoIVNotificationManager {
                 .setCategory(NotificationCompat.CATEGORY_PROGRESS)
                 .setContent(contentView)
                 .setCustomBigContentView(contentBigView)
-                .setOngoing(false)
-                .build();
+                .setOngoing(false);
 
         NotificationManager notificationManager =
                 (NotificationManager) pokefly.getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(NOTIFICATION_REQ_CODE, notification);
+
+        initNotificationChannel(notificationManager);
+
+        notificationManager.notify(NOTIFICATION_REQ_CODE, notification.build());
     }
 
     /**
@@ -129,7 +134,7 @@ public class GoIVNotificationManager {
         contentBigView.setOnClickPendingIntent(R.id.pause, stopServicePendingIntent);
 
         // Build notification
-        Notification notification = new NotificationCompat.Builder(pokefly)
+        NotificationCompat.Builder notification = new NotificationCompat.Builder(pokefly, NOTIFICATION_CHANNEL_ID)
                 .setSmallIcon(R.drawable.notification_icon_play)
                 .setContentTitle(pokefly.getString(R.string.notification_title, pokefly.getTrainerLevel()))
                 .setContentText(pokefly.getString(R.string.notification_title_tap_to_open))
@@ -139,10 +144,31 @@ public class GoIVNotificationManager {
                 .setCategory(NotificationCompat.CATEGORY_PROGRESS)
                 .setContent(contentView)
                 .setCustomBigContentView(contentBigView)
-                .setOngoing(true)
-                .build();
+                .setOngoing(true);
 
-        pokefly.startForeground(NOTIFICATION_REQ_CODE, notification);
+        NotificationManager notificationManager =
+                (NotificationManager) pokefly.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        initNotificationChannel(notificationManager);
+
+        pokefly.startForeground(NOTIFICATION_REQ_CODE, notification.build());
+    }
+
+    /**
+     * The class which create channel notification for oreo.
+     */
+    private void initNotificationChannel(NotificationManager notificationManager) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && notificationManager
+                .getNotificationChannel(NOTIFICATION_CHANNEL_ID) == null) {
+            // Create notification channel
+            NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID,
+                    pokefly.getString(R.string.notification_channel), NotificationManager.IMPORTANCE_LOW);
+
+            channel.setShowBadge(false);
+            channel.enableLights(false);
+
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 
     /**

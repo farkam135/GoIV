@@ -54,7 +54,7 @@ public class UnicodeToken extends ClipboardToken {
 
     @Override
     public String getTokenName(Context context) {
-        return "UIV";
+        return filled ? "UIV-❻" : "UIV-②";
     }
 
     @Override

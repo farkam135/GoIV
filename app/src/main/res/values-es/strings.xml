@@ -141,6 +141,7 @@
     <string name="perfection_explainer">El porcentaje muestra cuán grande es la diferencia entre tu Pokémon y un Pokémon de la misma especie que tiene IVs perfectos.\n\nAsí, por ejemplo, si dice 92 por ciento, entonces su Pokémon tiene un 8 por ciento menos de CP máximo en comparación a otro de la misma especie con IVs al máximo.</string>
     <string name="pokespam">PokéSpam</string>
     <string name="pokespam_formatted_message">%1$d (%2$d filas + %3$d más)</string>
+    <string name="pokespam_formatted_message2">%1$d (%2$d filas)</string>
     <string name="candy">Caramelos</string>
     <string name="pokespam_not_available">No disponible</string>
     <string name="pokespam_setting_title">Mostrar cantidad evolucionable</string>
@@ -233,6 +234,7 @@
     <string name="token_max_length">Máx. longitud:</string>
     <string name="clipboard_token_list_available">Lista completa de fichas disponibles</string>
     <string name="clipboard_token_description_title">Descripción de la ficha seleccionada</string>
+    <string name="ocr_calibration_screenshot_mode">"¡La siguiente captura de pantalla será utilizada para recalibrar GoIV!"</string>
     <string name="ocr_calibration_result_description">Este es el resultado de la calibración automática, cada campo de interés detectado ha sido marcado.</string>
     <string name="ocr_calibration_save">Guardar calibración</string>
     <string name="ocr_calibration_check_before">Antes de guardar, compruebe el resultado de la corrección en la siguiente captura de pantalla:</string>
@@ -319,4 +321,7 @@
     <string name="token_msg_train">Entrenar</string>
     <string name="go_back_to_goiv">Volver al GoIV</string>
     <string name="go_back">Volver atrás</string>
+    <string name="send_email_to_devs_recalibration">Si GoIV no calibró correctamente, presione el botón a continuación para generar un email de informe automático de error.</string>
+    <string name="send_email_to_devs_button">Email con información sobre el error para desarrolladores</string>
+    <string name="report_error">Email de informe de error</string>
 </resources>

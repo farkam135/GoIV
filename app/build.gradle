@@ -17,7 +17,6 @@ buildscript {
  */
 repositories {
     maven { url 'https://maven.fabric.io/public' }
-    maven { url "https://maven.google.com" }
 }
 
 /**
@@ -25,7 +24,6 @@ repositories {
  */
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
-apply plugin: 'android-apt'
 apply from: '../checkstyle/checkstyle.gradle'
 
 /**
@@ -85,17 +83,21 @@ android {
      * Offline - No Internet permission and disable Crashlytics
      * Online - Internet permission and enable Crashlytics
      */
+    flavorDimensions "default"
+
     productFlavors {
         offline {
             applicationId "com.swanberg.pogoiv.nointernet"
             buildConfigField "boolean", "isInternetAvailable", "false"
             ext.enableCrashlytics = false
+            dimension "default"
         }
 
         online {
             applicationId "com.swanberg.pogoiv"
             buildConfigField "boolean", "isInternetAvailable", "true"
             ext.enableCrashlytics = true
+            dimension "default"
         }
     }
 
@@ -145,7 +147,7 @@ dependencies {
      */
     //Include Crashlytics in the online build
     onlineCompile('com.crashlytics.sdk.android:crashlytics:2.6.2@aar') {
-        transitive = true;
+        transitive = true
     }
 
     /**
@@ -155,9 +157,10 @@ dependencies {
     compile 'com.android.support:preference-v7:26.1.0'
     compile 'com.android.support:recyclerview-v7:26.1.0'
     compile 'com.android.support:design:26.1.0'
-    compile 'com.google.guava:guava:19.0'
+    compile 'com.google.guava:guava:23.5-android'
     compile 'com.google.code.findbugs:jsr305:3.0.1'
-    compile 'com.jakewharton:butterknife:8.4.0'
+    compile 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     compile 'com.jakewharton.timber:timber:4.3.0'
     compile 'com.rmtheis:tess-two:7.0.0'
     compile 'io.apptik.widget:multislider:1.2'
@@ -169,10 +172,9 @@ dependencies {
     testCompile 'com.android.support.test:runner:1.0.1'
     androidTestCompile 'com.android.support:support-annotations:26.1.0'
     androidTestCompile 'com.android.support.test:runner:1.0.1'
-    apt 'com.jakewharton:butterknife-compiler:8.4.0'
-    apt 'org.projectlombok:lombok:1.16.10'
+    annotationProcessor 'org.projectlombok:lombok:1.16.18'
     onlineCompile 'com.squareup.okhttp3:okhttp:3.7.0'
-    provided 'org.projectlombok:lombok:1.16.10'
+    compileOnly 'org.projectlombok:lombok:1.16.18'
     compile project(':openCVLibrary330')
 }
 

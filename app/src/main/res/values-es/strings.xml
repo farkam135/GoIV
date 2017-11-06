@@ -76,6 +76,7 @@
     <string name="notification_title_tap_to_open">Presiona para abrir GoIV.</string>
     <string name="notification_open_app">Abrir app</string>
     <string name="notification_recalibrate">Recalibrar</string>
+    <string name="notification_updating">Actualizando GoIV</string>
     <string name="close">Cerrar</string>
     <string name="main_permission">Dar permisos</string>
     <string name="main_start">Iniciar</string>

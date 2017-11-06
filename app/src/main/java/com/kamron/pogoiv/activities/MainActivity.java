@@ -49,7 +49,6 @@ import com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanPoint;
 import com.kamron.pogoiv.scanlogic.Data;
 import com.kamron.pogoiv.updater.AppUpdate;
 import com.kamron.pogoiv.updater.AppUpdateUtil;
-import com.kamron.pogoiv.updater.DownloadUpdateService;
 import com.kamron.pogoiv.widgets.PlayerTeamAdapter;
 
 import timber.log.Timber;
@@ -138,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
         Cursor c = downloadManager.query(q);
         if (c.moveToFirst()) {
             String fileName = c.getString(c.getColumnIndex(DownloadManager.COLUMN_TITLE));
-            if (fileName.equals(DownloadUpdateService.DOWNLOAD_UPDATE_TITLE)) {
+            if (fileName.equals(context.getString(R.string.notification_updating))) {
                 return true;
             }
         }

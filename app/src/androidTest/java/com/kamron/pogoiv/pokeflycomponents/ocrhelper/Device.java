@@ -89,7 +89,7 @@ public enum Device {
             makeRect(634, 1421, 231, 23),               // Candy name
             makeRect(468, 1017, 142, 25),               // HP area
             makeRect(395, 136, 218, 65),                // CP area
-            makeRect(693, 1355, 109, 36),               // Candy amount
+            makeRect(696, 1355, 106, 36),               // Candy amount
             makeRect(818, 1704, 45, 32),                // Evolution cost
             new Point(540, 679),                        // Arc center
             377,                                        // Arc radius

@@ -189,10 +189,18 @@ public class ScanFieldAutomaticLocator {
         if (greyLineCandidates.size() >= 1) {
             Rect maxRect = null;
             for (Rect r : greyLineCandidates) {
-                if (maxRect == null
-                        || r.width - maxRect.width > screenshotDensity
-                        || (Math.abs(r.width - maxRect.width) < screenshotDensity && r.y < maxRect.y)) {
-                    // Take the largest or the upper with same width
+                if (r.width >= width90Percent) {
+                    // Exclude lines wider than the 90% of the view
+                    continue;
+                }
+                if (maxRect == null) {
+                    // Take the first candidate
+                    maxRect = r;
+                } else if (r.width - maxRect.width > screenshotDensity) {
+                    // Take the largest
+                    maxRect = r;
+                } else if (Math.abs(r.width - maxRect.width) < screenshotDensity && r.y < maxRect.y) {
+                    // Take the upper with same width
                     maxRect = r;
                 }
             }
@@ -610,6 +618,12 @@ public class ScanFieldAutomaticLocator {
         if (greyHorizontalLine == null || powerUpButton == null) {
             return;
         }
+        //noinspection PointlessBooleanExpression
+        if (BuildConfig.DEBUG && debugExecution) {
+            p.setColor(Color.BLUE);
+            debugPrintRect(greyHorizontalLine, c, p);
+            debugPrintRect(powerUpButton, c, p);
+        }
 
         List<Rect> candidates = FluentIterable.from(boundingRectList)
                 // Keep only bounding rect below the grey divider line and above the power up button
@@ -839,10 +853,10 @@ public class ScanFieldAutomaticLocator {
             p.setColor(Color.BLUE);
             debugPrintRectList(Collections.singletonList(greyHorizontalLine), c, p);
             debugPrintRectList(Collections.singletonList(powerUpButton), c, p);
-            debugPrintLineX(width50Percent, c, p);
-            debugPrintLineX(greyHorizontalLine.x + greyHorizontalLine.width, c, p);
-            debugPrintLineY(greyHorizontalLine.y + greyHorizontalLine.height, c, p);
-            debugPrintLineY(powerUpButton.y, c, p);
+            debugPrintLineVertical(width50Percent, c, p);
+            debugPrintLineVertical(greyHorizontalLine.x + greyHorizontalLine.width, c, p);
+            debugPrintLineHorizontal(greyHorizontalLine.y + greyHorizontalLine.height, c, p);
+            debugPrintLineHorizontal(powerUpButton.y, c, p);
         }
 
         List<Rect> candidates = FluentIterable.from(boundingRectList)
@@ -927,6 +941,13 @@ public class ScanFieldAutomaticLocator {
 
         if (greyHorizontalLine == null || greyVerticalLineLeft == null || greyVerticalLineRight == null) {
             return;
+        }
+        //noinspection PointlessBooleanExpression
+        if (BuildConfig.DEBUG && debugExecution) {
+            p.setColor(Color.BLUE);
+            debugPrintRect(greyHorizontalLine, c, p);
+            debugPrintRect(greyVerticalLineLeft, c, p);
+            debugPrintRect(greyVerticalLineRight, c, p);
         }
 
         List<Rect> candidates = FluentIterable.from(boundingRectList)
@@ -1093,21 +1114,26 @@ public class ScanFieldAutomaticLocator {
     }
 
     @SuppressLint("DefaultLocale")
+    private static void debugPrintRect(Rect r, Canvas c, Paint p) {
+        c.drawRect(r.x, r.y, r.x + r.width, r.y + r.height, p);
+        c.save();
+        c.rotate(270f, r.x, r.y);
+        c.drawText(String.format("%d,%d %dx%d", r.x, r.y, r.width, r.height), r.x, r.y, p);
+        c.restore();
+    }
+
+    @SuppressLint("DefaultLocale")
     private static void debugPrintRectList(List<Rect> rectList, Canvas c, Paint p) {
         for (Rect r : rectList) {
-            c.drawRect(r.x, r.y, r.x + r.width, r.y + r.height, p);
-            c.save();
-            c.rotate(270f, r.x, r.y);
-            c.drawText(String.format("%d,%d %dx%d", r.x, r.y, r.width, r.height), r.x, r.y, p);
-            c.restore();
+            debugPrintRect(r, c, p);
         }
     }
 
-    private static void debugPrintLineX(int x, Canvas c, Paint p) {
+    private static void debugPrintLineVertical(int x, Canvas c, Paint p) {
         c.drawLine(x, 0, x, c.getHeight(), p);
     }
 
-    private static void debugPrintLineY(int y, Canvas c, Paint p) {
+    private static void debugPrintLineHorizontal(int y, Canvas c, Paint p) {
         c.drawLine(0, y, c.getWidth(), y, p);
     }
 

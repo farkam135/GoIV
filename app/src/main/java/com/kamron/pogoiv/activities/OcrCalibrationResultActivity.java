@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -46,6 +45,7 @@ import static android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP;
 public class OcrCalibrationResultActivity extends AppCompatActivity {
 
     private static Bitmap sCalibrationImage;
+    private static DisplayMetrics sDisplayMetrics;
 
 
     private ScanFieldResults results;
@@ -75,6 +75,8 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
     public static void startCalibration(Context context, Bitmap bitmap) {
         if (bitmap != null) {
             sCalibrationImage = bitmap;
+            sDisplayMetrics = new DisplayMetrics();
+            sDisplayMetrics.setTo(context.getResources().getDisplayMetrics());
 
             Intent startCalibration = new Intent(context, OcrCalibrationResultActivity.class)
                     .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -156,11 +158,8 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
                 return;
             }
 
-            DisplayMetrics realDisplayMetrics = new DisplayMetrics();
-            activity.getWindowManager().getDefaultDisplay().getRealMetrics(realDisplayMetrics);
-
             ScanFieldResults results = new ScanFieldAutomaticLocator(
-                    sCalibrationImage, realDisplayMetrics.widthPixels, realDisplayMetrics.density)
+                    sCalibrationImage, sDisplayMetrics.widthPixels, sDisplayMetrics.density)
                     .scan(mainThreadHandler, dialogRef, new WeakReference<Context>(activity));
 
             mainThreadHandler.post(new ResultRunnable(activityRef, dialogRef, results));
@@ -277,14 +276,9 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
         emailErrorButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                DisplayMetrics realDisplayMetrics = new DisplayMetrics();
-                getWindowManager().getDefaultDisplay().getRealMetrics(realDisplayMetrics);
-
-
-                String pathofBmp = MediaStoreUtils.insertPngImage(getContentResolver(),
+                String bmpPath = MediaStoreUtils.insertPngImage(getContentResolver(),
                         sCalibrationImage, "goivdebugimgremovable.png");
-                Uri bmpUri = Uri.parse(pathofBmp);
+                Uri bmpUri = Uri.parse(bmpPath);
 
                 final String os;
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
@@ -302,7 +296,7 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
                 email.putExtra(Intent.EXTRA_TEXT, getString(R.string.app_name) + " version: " + BuildConfig.VERSION_NAME
                         + "\nDevice maker and model: " + Build.MANUFACTURER + " " + Build.MODEL
                         + "\nOS: " + os + " " + Build.VERSION.RELEASE
-                        + "\nScreen density: " + realDisplayMetrics.density
+                        + "\nScreen density: " + sDisplayMetrics.density
                         + "\n\n\nError message: \n" + errorText);
                 email.putExtra(Intent.EXTRA_STREAM, bmpUri);
 
@@ -361,19 +355,18 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
     }
 
     private void showPointIndicator(Bitmap bmp, ScanPoint point, Integer color, Integer strokeColor) {
-        float density = Resources.getSystem().getDisplayMetrics().density;
         if (point != null) {
             Paint p = new Paint();
             Canvas c = new Canvas(bmp);
             if (color != null) {
                 p.setColor(color);
-                c.drawCircle(point.xCoord, point.yCoord, 3 * density, p);
+                c.drawCircle(point.xCoord, point.yCoord, 3 * sDisplayMetrics.density, p);
             }
             if (strokeColor != null) {
                 p.setStyle(Paint.Style.STROKE);
                 p.setColor(strokeColor);
-                p.setStrokeWidth(density);
-                c.drawCircle(point.xCoord, point.yCoord, 3 * density, p);
+                p.setStrokeWidth(sDisplayMetrics.density);
+                c.drawCircle(point.xCoord, point.yCoord, 3 * sDisplayMetrics.density, p);
             }
         }
     }
@@ -383,7 +376,7 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
             Paint p = new Paint();
             p.setStyle(Paint.Style.STROKE);
             p.setColor(color);
-            p.setStrokeWidth(Resources.getSystem().getDisplayMetrics().density);
+            p.setStrokeWidth(sDisplayMetrics.density);
             Canvas c = new Canvas(bmp);
             c.drawRect(scanArea.xPoint, scanArea.yPoint,
                     scanArea.xPoint + scanArea.width, scanArea.yPoint + scanArea.height, p);
@@ -395,7 +388,7 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
             Canvas c = new Canvas(bmp);
             Paint p = new Paint();
             p.setStyle(Paint.Style.STROKE);
-            p.setStrokeWidth(Resources.getSystem().getDisplayMetrics().density);
+            p.setStrokeWidth(sDisplayMetrics.density);
             p.setColor(color);
             RectF oval = new RectF(point.xCoord - radius, point.yCoord - radius,
                     point.xCoord + radius, point.yCoord + radius);

@@ -7,7 +7,7 @@
     <string name="trainer_level">Nivel</string>
     <string name="trainer_team">Equipo</string>
     <string name="notice">Aviso</string>
-    
+
     <string-array name="teams">
         <item name="mystic">"Sabiduría"</item>
         <item name="valor">"Valor"</item>
@@ -15,7 +15,7 @@
     </string-array>
     <string name="place1">Elija frase sobre conjunto:</string>
     <string name="place2">Elija frase sobre características:</string>
-    
+
     <string-array name="mystic_percentage">
         <item name="mplace1">@string/place1</item>
         <item name="mystic80_100">"…maravilla para la vista."</item>
@@ -80,7 +80,7 @@
     <string name="main_permission">Dar permisos</string>
     <string name="main_start">Iniciar</string>
     <string name="main_starting">Iniciando…</string>
-    <string name="main_stop">Detener</string>    
+    <string name="main_stop">Detener</string>
     <string name="back">Atrás</string>
     <string name="accept_screen_capture">Permitir captura de pantalla</string>
     <string name="settings_page_title">Configuración</string>
@@ -134,10 +134,10 @@
     <string name="max">MÁX</string>
     <string name="atk">ATQ</string>
     <string name="def">DEF</string>
-    <string name="sta">VID</string>
+    <string name="sta">SAL</string>
     <string name="hp_expanded_box">PS</string>
     <string name="cp_vs_iv" formatted="false">% PC vs máximo IV</string>
-    <string name="alert_explanation_title">Explicación</string>    
+    <string name="alert_explanation_title">Explicación</string>
     <string name="perfection_explainer">El porcentaje muestra cuán grande es la diferencia entre tu Pokémon y un Pokémon de la misma especie que tiene IVs perfectos.\n\nAsí, por ejemplo, si dice 92 por ciento, entonces su Pokémon tiene un 8 por ciento menos de CP máximo en comparación a otro de la misma especie con IVs al máximo.</string>
     <string name="pokespam">PokéSpam</string>
     <string name="pokespam_formatted_message">%1$d (%2$d filas + %3$d más)</string>

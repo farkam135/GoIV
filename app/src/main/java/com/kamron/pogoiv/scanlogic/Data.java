@@ -34,20 +34,22 @@ public class Data {
      */
     public static void setupArcPoints(ScanPoint arcInit, int arcRadius, int trainerLevel) {
         /*
-         * Pokemon levels go from 1 to trainerLevel + 1.5, in increments of 0.5.
+         * Pokemon levels go from 1 to trainerLevel + 2, in increments of 0.5.
          * Here we use levelIdx for levels that are doubled and shifted by - 2; after this adjustment,
          * the level can be used to index CpM, arcX and arcY.
          */
-        int maxPokeLevelIdx = trainerLevelToMaxPokeLevelIdx(trainerLevel);
-        arcX = new int[maxPokeLevelIdx + 1]; //We access entries [0..maxPokeLevelIdx], hence + 1.
-        arcY = new int[maxPokeLevelIdx + 1];
+        int maxPokeLevelIndex = (trainerLevelToMaxPokeLevelIndex(trainerLevel));
+        arcX = new int[maxPokeLevelIndex + 1]; //We access entries [0..maxPokeLevelIndex], hence + 1.
+        arcY = new int[maxPokeLevelIndex + 1];
 
         double baseCpM = CpM[0];
-        //TODO: debug this formula when we get to the end of CpM (that is, levels 39/40).
-        double maxPokeCpMDelta = CpM[Math.min(maxPokeLevelIdx + 1, CpM.length - 1)] - baseCpM;
 
-        //pokeLevelIdx <= maxPokeLevelIdx ensures we never overflow CpM/arc/arcY.
-        for (int pokeLevelIdx = 0; pokeLevelIdx <= maxPokeLevelIdx; pokeLevelIdx++) {
+
+        //amount of possible levels: level*2 + 3
+        double maxPokeCpMDelta = CpM[Math.min(maxPokeLevelIndex, CpM.length - 1)] - baseCpM;
+
+        //pokeLevelIdx <= maxPokeLevelIndex ensures we never overflow CpM/arc/arcY
+        for (int pokeLevelIdx = 0; pokeLevelIdx <= maxPokeLevelIndex; pokeLevelIdx++) {
             double pokeCurrCpMDelta = CpM[pokeLevelIdx] - baseCpM;
             double arcRatio = pokeCurrCpMDelta / maxPokeCpMDelta;
             double angleInRadians = (arcRatio + 1) * Math.PI;
@@ -62,16 +64,17 @@ public class Data {
      * The mapping is invertible, but level indexes can be used to index an array (like Data.CpM), or seekbars.
      * <p/>
      * Pokemon levels go from 1 to trainerLevelToMaxPokeLevel(trainerLevel), in increments of 0.5.
-     * Level indexes go from 0 to trainerLevelToMaxPokeLevelIdx(trainerLevel) in increments of 1.
+     * Level indexes go from 0 to trainerLevelToMaxPokeLevelIndex(trainerLevel) in increments of 1.
      * This method adjusts a level to a <em>level index</em> (<code>levelIdx</code>), by doubling it
      * and subtracting 2.
      */
-    public static int levelToLevelIdx(double level) {
+    public static int maxPokeLevelToIndex(double level) {
+
         return (int) ((level - 1) * 2);
     }
 
     /**
-     * Convert a <em>level index</em> back to a level. Inverse of levelToLevelIdx, see explanations
+     * Convert a <em>level index</em> back to a level. Inverse of maxPokeLevelToIndex, see explanations
      * there for rationale.
      */
     public static double levelIdxToLevel(int levelIdx) {
@@ -80,31 +83,31 @@ public class Data {
 
     /**
      * Return CpM (CP Multiplier) for a given pokemon level. Levels are described as documented for
-     * Data.levelToLevelIdx.
+     * Data.maxPokeLevelToIndex.
      *
      * @param level The desired level.
      * @return Associated CpM.
      */
     public static double getLevelCpM(double level) {
-        return CpM[levelToLevelIdx(level)];
+        return CpM[maxPokeLevelToIndex(level)];
     }
 
     /**
-     * Maximum pokemon level for a trainer, from the trainer level. That's usually trainerLevel + 1.5, but
-     * the maximum is 40 (http://pokemongo.gamepress.gg/power-up-costs).
+     * Maximum pokemon level for a trainer, from the trainer level. This is 2 levels above trainer level.
+     * It used to be 1.5, but was changed around december 2017.
      */
     public static double trainerLevelToMaxPokeLevel(int trainerLevel) {
-        return Math.min(trainerLevel + 1.5, 40);
+        return Math.min(trainerLevel + 2, 40);
     }
 
     /*
-     * Pokemon levels go from 1 to trainerLevel + 1.5, in increments of 0.5.
+     * Pokemon levels go from 1 to trainerLevel + 2, in increments of 0.5.
      * Here we use levelIdx for levels that are doubled and shifted by - 2; after this adjustment,
      * the level can be used to index CpM, arcX and arcY.
      */
-    public static int trainerLevelToMaxPokeLevelIdx(int trainerLevel) {
-        // This is Math.min(2 * trainerLevel + 1, 78).
-        return levelToLevelIdx(trainerLevelToMaxPokeLevel(trainerLevel));
+    public static int trainerLevelToMaxPokeLevelIndex(int trainerLevel) {
+        // This is Math.min(2 * trainerLevel + 1, 79).
+        return maxPokeLevelToIndex(trainerLevelToMaxPokeLevel(trainerLevel));
     }
 
     // should be pretty fast https://en.wikibooks.org/wiki/Algorithm_Implementation/Strings/Levenshtein_distance#Java

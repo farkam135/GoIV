@@ -170,7 +170,7 @@ public class OcrHelper {
         double previousEstPokemonLevel = estimatedPokemonLevel + 0.5; // Initial value out of range
         int previousLevelDistance = -1; // Initial value indicating no found white pixels
         for (double estPokemonLevel = estimatedPokemonLevel; estPokemonLevel >= 1.0; estPokemonLevel -= 0.5) {
-            int index = Data.levelToLevelIdx(estPokemonLevel);
+            int index = Data.maxPokeLevelToIndex(estPokemonLevel);
             int x = Data.arcX[index];
             int y = Data.arcY[index];
             int whiteLineDistance = getCardinalWhiteLineDistFromImg(pokemonImage, x, y);

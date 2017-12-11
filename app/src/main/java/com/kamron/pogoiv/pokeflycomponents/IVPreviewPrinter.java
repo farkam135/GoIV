@@ -73,7 +73,8 @@ public class IVPreviewPrinter {
             boolean succeeded = runQuickScan();
             Pokefly pokefly = pokeflyRef.get();
             if (!succeeded && pokefly != null) {
-                Toast.makeText(pokefly, R.string.touch_screen_quick_iv_scan, Toast.LENGTH_SHORT).show();
+                ivButtonRef.get().showError();
+                //Toast.makeText(pokefly, R.string.touch_screen_quick_iv_scan, Toast.LENGTH_SHORT).show();
             }
         }
 

@@ -624,7 +624,13 @@ public class Pokefly extends Service {
      * @param pokeLevel The pokemon level to set the arc pointer to.
      */
     private void setArcPointer(double pokeLevel) {
+
         int index = Data.maxPokeLevelToIndex(pokeLevel);
+
+        //If the pokemon is overleveled (Raid catch or weather modifier the arc indicator will be stuck at max)
+        if (index >= Data.arcX.length) {
+            index = Data.arcX.length - 1;
+        }
         arcParams.x = Data.arcX[index] - arcParams.width / 2;
         arcParams.y = Data.arcY[index] - arcParams.height / 2 - statusBarHeight;
         //That is, (int) (arcCenter + (radius * Math.cos(angleInRadians))) and
@@ -637,6 +643,7 @@ public class Pokefly extends Service {
      */
     private void createArcAdjuster() {
         arcAdjustBar.setMax(Data.trainerLevelToMaxPokeLevelIndex(trainerLevel));
+        arcAdjustBar.setMax(Data.trainerLevelToMaxPokeLevelIndex(40));
 
         arcAdjustBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override

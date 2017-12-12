@@ -6,7 +6,6 @@ import android.widget.Toast;
 
 import com.kamron.pogoiv.GoIVSettings;
 import com.kamron.pogoiv.Pokefly;
-import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.ScreenGrabber;
 import com.kamron.pogoiv.pokeflycomponents.ocrhelper.OcrHelper;
 import com.kamron.pogoiv.scanlogic.IVScanResult;
@@ -42,6 +41,7 @@ public class IVPreviewPrinter {
     /**
      * Shows a toast message that displays either a short message about the pokemon currently on the screen, or the
      * users clipboard setting about the pokemon currently on the screen.
+     *
      * @param ivButton The ivButton to change the look of.
      */
     public void printIVPreview(IVPopupButton ivButton) {

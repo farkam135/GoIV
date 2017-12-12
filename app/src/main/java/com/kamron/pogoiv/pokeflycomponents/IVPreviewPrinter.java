@@ -71,8 +71,7 @@ public class IVPreviewPrinter {
         @Override
         public void run() {
             boolean succeeded = runQuickScan();
-            Pokefly pokefly = pokeflyRef.get();
-            if (!succeeded && pokefly != null) {
+            if (!succeeded) {
                 IVPopupButton ivButton = ivButtonRef.get();
                 if (ivButton != null) {
                     ivButtonRef.get().showError();

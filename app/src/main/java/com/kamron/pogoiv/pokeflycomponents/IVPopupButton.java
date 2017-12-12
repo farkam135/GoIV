@@ -1,6 +1,7 @@
 package com.kamron.pogoiv.pokeflycomponents;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
@@ -83,6 +84,7 @@ public class IVPopupButton extends android.support.v7.widget.AppCompatButton {
      * resets the visual look of the button to its default state.
      */
     private void resetButtonLook() {
+        setTextColor(Color.WHITE);
         setBackgroundResource(R.drawable.iv_button);
         setWidth(dpToPx(60));
         setText("");
@@ -90,6 +92,7 @@ public class IVPopupButton extends android.support.v7.widget.AppCompatButton {
         ivButtonParams.x = dpToPx(16);
         ivButtonParams.y = dpToPx(14);
         setLayoutParams(ivButtonParams);
+        setTextAlignment(TEXT_ALIGNMENT_CENTER);
         setGravity(Gravity.CENTER_VERTICAL);
     }
 
@@ -195,6 +198,21 @@ public class IVPopupButton extends android.support.v7.widget.AppCompatButton {
     public void outsideScreenClicked() {
         setText("...");
         setGradientColor(0, 0); //makes gradient invisible
+        setBackgroundResource(R.drawable.preview_button_0_100);
+
+        int black = ResourcesCompat.getColor(getResources(), R.color.p_loading, null);
+        setGradientColor(black, black);
+    }
+
+    public void showError() {
+        resetButtonLook();
+
+        setBackgroundResource(R.drawable.preview_button_0_100);
+        int black = ResourcesCompat.getColor(getResources(), R.color.p_error, null);
+        setGradientColor(black, black);
+
+        setText("?");
+
     }
 
     /**

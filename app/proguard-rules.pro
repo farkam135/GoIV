@@ -27,5 +27,10 @@
 # For Guava
 -dontwarn sun.misc.Unsafe
 -dontwarn com.google.j2objc.annotations.Weak
+-dontwarn com.google.common.base.**
+-dontwarn com.google.errorprone.annotations.**
+-dontwarn com.google.j2objc.annotations.**
 -dontwarn java.lang.ClassValue
 -dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
+-dontwarn afu.org.checkerframework.**
+-dontwarn org.checkerframework.**

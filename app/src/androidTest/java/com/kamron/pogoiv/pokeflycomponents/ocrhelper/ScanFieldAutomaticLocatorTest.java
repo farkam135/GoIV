@@ -120,8 +120,12 @@ public class ScanFieldAutomaticLocatorTest {
                 "candy name", results.candyNameArea, device.expectedCandyNameArea);
 
         // TODO check HP area
+        assertNotNull("File " + testAssetName + " on " + device.toString()
+                + ": 'mon HP area wasn't detected", results.pokemonHpArea);
 
         // TODO check CP area
+        assertNotNull("File " + testAssetName + " on " + device.toString()
+                + ": 'mon CP area wasn't detected", results.pokemonCpArea);
 
         // Execute checks on 'mon candy amount
         checkScanArea(device.toString(), testAssetName, bmp,
@@ -131,7 +135,33 @@ public class ScanFieldAutomaticLocatorTest {
         checkScanArea(device.toString(), testAssetName, bmp,
                 "evolution cost", results.pokemonEvolutionCostArea, device.expectedEvolutionCost);
 
-        // TODO check all the other fields of ScanFieldResults
+        // TODO check power up stardust cost area
+        assertNotNull("File " + testAssetName + " on " + device.toString()
+                + ": 'mon power up stardust cost area wasn't detected", results.pokemonPowerUpStardustCostArea);
+
+        // TODO check arc center point
+        assertNotNull("File " + testAssetName + " on " + device.toString()
+                + ": 'mon arc center wasn't detected", results.arcCenter);
+
+        // TODO check arc radius value
+        assertNotNull("File " + testAssetName + " on " + device.toString()
+                + ": 'mon arc radius wasn't detected", results.arcRadius);
+
+        // TODO check white pixel point
+        assertNotNull("File " + testAssetName + " on " + device.toString()
+                + ": 'mon white pixel point wasn't detected", results.infoScreenCardWhitePixelPoint);
+
+        // TODO check white pixel color value
+        assertNotNull("File " + testAssetName + " on " + device.toString()
+                + ": 'mon white pixel color wasn't detected", results.infoScreenCardWhitePixelColor);
+
+        // TODO check green pixel point
+        assertNotNull("File " + testAssetName + " on " + device.toString()
+                + ": 'mon green pixel point wasn't detected", results.infoScreenFabGreenPixelPoint);
+
+        // TODO check green pixel color value
+        assertNotNull("File " + testAssetName + " on " + device.toString()
+                + ": 'mon green pixel color wasn't detected", results.infoScreenFabGreenPixelColor);
     }
 
     private void checkScanArea(String deviceName, String testAssetName, Bitmap bmp, String areaLabel,

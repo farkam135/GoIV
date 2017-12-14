@@ -229,6 +229,9 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
                 if (results.pokemonEvolutionCostArea == null) {
                     sb.append(activity.getText(R.string.ocr_error_evo_cost));
                 }
+                if (results.pokemonPowerUpStardustCostArea == null) {
+                    sb.append(activity.getText(R.string.ocr_error_power_up_stardust_cost));
+                }
                 if (results.arcCenter == null) {
                     sb.append(activity.getText(R.string.ocr_error_arc_center));
                 }
@@ -344,6 +347,7 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
         showAreaIndicator(bmp, results.pokemonCpArea, colorAccent);
         showAreaIndicator(bmp, results.pokemonCandyAmountArea, colorAccent);
         showAreaIndicator(bmp, results.pokemonEvolutionCostArea, colorAccent);
+        showAreaIndicator(bmp, results.pokemonPowerUpStardustCostArea, colorAccent);
 
         showPointIndicator(bmp, results.infoScreenCardWhitePixelPoint,
                 results.infoScreenCardWhitePixelColor, colorAccent);

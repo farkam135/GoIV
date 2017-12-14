@@ -475,7 +475,7 @@ public class ScanFieldAutomaticLocator {
         if (BuildConfig.DEBUG && debugExecution) {
             //noinspection ConstantConditions
             p.setColor(Color.GREEN);
-            debugPrintRectList(Collections.singletonList(maxBoundingRect), c, p);
+            debugPrintRect(maxBoundingRect, c, p);
         }
 
         // Inspect the stroke width of the arc
@@ -492,8 +492,11 @@ public class ScanFieldAutomaticLocator {
             }
         }
 
-        results.arcCenter = new ScanPoint(bmp.getWidth() / 2, maxBoundingRect.y + maxBoundingRect.height);
-        results.arcRadius = bmp.getWidth() / 2 - (maxBoundingRect.x + arcEndX) / 2;
+        int arcStrokeHalfWidth = (arcEndX - maxBoundingRect.x) / 2;
+
+        results.arcCenter = new ScanPoint(
+                bmp.getWidth() / 2, maxBoundingRect.y + maxBoundingRect.height + arcStrokeHalfWidth);
+        results.arcRadius = bmp.getWidth() / 2 - (maxBoundingRect.x + arcStrokeHalfWidth);
     }
 
 

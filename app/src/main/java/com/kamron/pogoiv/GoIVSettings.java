@@ -110,6 +110,8 @@ public class GoIVSettings {
                 results.pokemonEvolutionCostArea.toString());
         editor.putString(ScanFieldNames.POKEMON_POWER_UP_STARDUST_COST,
                 results.pokemonPowerUpStardustCostArea.toString());
+        editor.putString(ScanFieldNames.POKEMON_POWER_UP_CANDY_COST,
+                results.pokemonPowerUpCandyCostArea.toString());
         editor.putString(ScanFieldNames.ARC_RADIUS,
                 String.valueOf(results.arcRadius));
         editor.putString(ScanFieldNames.ARC_INIT_POINT,

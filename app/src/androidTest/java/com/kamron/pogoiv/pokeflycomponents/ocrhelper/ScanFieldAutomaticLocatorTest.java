@@ -139,6 +139,10 @@ public class ScanFieldAutomaticLocatorTest {
         assertNotNull("File " + testAssetName + " on " + device.toString()
                 + ": 'mon power up stardust cost area wasn't detected", results.pokemonPowerUpStardustCostArea);
 
+        // TODO check power up candy cost area
+        assertNotNull("File " + testAssetName + " on " + device.toString()
+                + ": 'mon power up candy cost area wasn't detected", results.pokemonPowerUpCandyCostArea);
+
         // TODO check arc center point
         assertNotNull("File " + testAssetName + " on " + device.toString()
                 + ": 'mon arc center wasn't detected", results.arcCenter);

@@ -13,6 +13,7 @@ public class ScanFieldResults {
     public ScanArea pokemonCandyAmountArea;
     public ScanArea pokemonEvolutionCostArea;
     public ScanArea pokemonPowerUpStardustCostArea;
+    public ScanArea pokemonPowerUpCandyCostArea;
     public ScanPoint arcCenter;
     public Integer arcRadius;
     public ScanPoint infoScreenCardWhitePixelPoint;
@@ -29,6 +30,7 @@ public class ScanFieldResults {
                 && pokemonCandyAmountArea != null
                 && pokemonEvolutionCostArea != null
                 && pokemonPowerUpStardustCostArea != null
+                && pokemonPowerUpCandyCostArea != null
                 && arcCenter != null
                 && arcRadius != null
                 && infoScreenCardWhitePixelPoint != null

@@ -14,6 +14,7 @@ import com.kamron.pogoiv.clipboardlogic.tokens.IVPercentageTokenMode;
 import com.kamron.pogoiv.clipboardlogic.tokens.IVSum;
 import com.kamron.pogoiv.clipboardlogic.tokens.LevelToken;
 import com.kamron.pogoiv.clipboardlogic.tokens.LevelUnicodeToken;
+import com.kamron.pogoiv.clipboardlogic.tokens.PokemonGenderToken;
 import com.kamron.pogoiv.clipboardlogic.tokens.WorthTrainingToken;
 import com.kamron.pogoiv.clipboardlogic.tokens.PerfectionCPPercentageToken;
 import com.kamron.pogoiv.clipboardlogic.tokens.PokemonNameToken;
@@ -58,6 +59,8 @@ public class ClipboardTokenCollection {
         tokens.add(new LevelUnicodeToken(false));//level representation ex: ㉒½
 
         tokens.add(new PowerupsToMaxToken(false));//Powerups left to pokemon level 40
+
+        tokens.add(new PokemonGenderToken(false)); // Gender
 
         tokens.add(new HpToken(true, true));  //HP on max evolution, current level
         tokens.add(new HpToken(true, false)); //hp on max evolution, level 40

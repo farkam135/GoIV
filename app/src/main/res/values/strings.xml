@@ -150,6 +150,7 @@
     <string name="pokespam_not_available">Not Available</string>
     <string name="pokespam_setting_title">Show how many you can evolve</string>
     <string name="pokespam_setting_summary">This feature enables scanning for candy amount and allows you to see how many monsters you can evolve, useful for use with lucky egg</string>
+    <string name="token_pokemon_gender">Gender</string>
     <string name="token_pokemonname">Name</string>
     <string name="clipboard_modifier_preview">Preview</string>
     <string name="position_handler_toast">Drag the window by this handler to relocate it.</string>
@@ -322,6 +323,7 @@
     <string name="token_msg_mixUnicode_msg2">" This token uses filled characters to represent single values and empty characters to represent the lowest of multiple values. For example, ⓭ in the attack position would mean that all Attack values are 13, while ① in the defense or HP means there are multiple values possible and that 1 is the lowest."</string>
     <string name="token_msg_mixUnicode_msg3">" This token uses empty characters to represent single values and filled characters to represent the lowest of multiple values. For example, ⑪ in the attack position would mean that all Attack values are 11, while ❾ in the defense or HP means there are multiple values possible and that 9 is the lowest."</string>
     <string name="token_msg_perfCP">This token calculates how close your monster is to its max potential, measured by CP. For example, if a monster with max IVs maxes out at 2000cp, but your specific monster maxes out at 1900, then your monster perfection is 95%, so this token returns 95.</string>
+    <string name="token_msg_gender">"This token returns the gender of the monster: ♂ if male, ♀ if female, empty otherwise.</string>
     <string name="token_msg_pkmName_msg1">"This token returns the name of the monster, for example if you scan a Dratini, it will return "</string>
     <string name="token_msg_pkmName_msg2">" With the number cap, the length of the monster name can not exceed "</string>
     <string name="token_msg_pkmName_msg3">" characters long."</string>

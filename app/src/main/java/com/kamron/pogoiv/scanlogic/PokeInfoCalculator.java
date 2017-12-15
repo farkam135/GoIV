@@ -1,6 +1,8 @@
 package com.kamron.pogoiv.scanlogic;
 
 
+import com.google.common.base.Optional;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -202,7 +204,7 @@ public class PokeInfoCalculator {
      * many possibilities.
      */
     public IVScanResult getIVPossibilities(Pokemon selectedPokemon, double estimatedPokemonLevel, int pokemonHP,
-                                           int pokemonCP) {
+                                           int pokemonCP, Optional<String> pokemonGender) {
         int baseAttack = selectedPokemon.baseAttack;
         int baseDefense = selectedPokemon.baseDefense;
         int baseStamina = selectedPokemon.baseStamina;
@@ -212,7 +214,8 @@ public class PokeInfoCalculator {
         //IV vars for lower and upper end cp ranges
 
 
-        IVScanResult returner = ScanContainer.createIVScanResult(selectedPokemon, estimatedPokemonLevel, pokemonCP);
+        IVScanResult returner =
+                ScanContainer.createIVScanResult(selectedPokemon, estimatedPokemonLevel, pokemonCP, pokemonGender);
         for (int staminaIV = 0; staminaIV < 16; staminaIV++) {
             int hp = (int) Math.max(Math.floor((baseStamina + staminaIV) * lvlScalar), 10);
             if (hp == pokemonHP) {

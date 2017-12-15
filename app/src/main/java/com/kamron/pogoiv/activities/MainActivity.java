@@ -32,10 +32,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -63,6 +67,8 @@ public class MainActivity extends AppCompatActivity {
     public static final String ACTION_RESTART_POKEFLY = "com.kamron.pogoiv.ACTION_RESTART_POKEFLY";
     public static final String ACTION_OPEN_SETTINGS = "com.kamron.pogoiv.ACTION_OPEN_SETTINGS";
 
+
+    private static final String youtubeTutorialCalibrationUrl = "https://www.youtube.com/embed/w7dNEW1FLjQ?rel=0";
 
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final int OVERLAY_PERMISSION_REQ_CODE = 1234;
@@ -169,15 +175,51 @@ public class MainActivity extends AppCompatActivity {
         initiateUserScreenSettings();
         initiateGui();
         warnUserFirstLaunchIfNoScreenRecording();
+
         registerAllBroadcastRecievers();
 
 
     }
 
     /**
-     * Makes the localBroadcastManager register recievers for the different accepted intents, and tells the app to
+     * Makes the help-buttons load and navigate to the tutorial youtube webview, or open the browser if using offline
+     * build.
+     */
+    private void setupTutorialButton() {
+        Button tuthelp = (Button) findViewById(R.id.recalibrationHelp);
+        Button tuthelp2 = (Button) findViewById(R.id.recalibrationHelp2);
+        tuthelp.setOnClickListener(new recalibrationTutListener());
+        tuthelp2.setOnClickListener(new recalibrationTutListener());
+    }
+
+    /**
+     * Loads the webview youtube video.
+     */
+    private void loadRecalibrationTutorialVideo() {
+        String frameVideo = "<html><iframe width=\"310\" height=\"480\" src=\""
+        + youtubeTutorialCalibrationUrl
+                + "\" frameborder=\"0\" gesture=\"media\" allow=\"encrypted-media\" "
+                + "allowfullscreen></iframe></html>";
+
+        WebView displayYoutubeVideo = (WebView) findViewById(R.id.webview_tutorial);
+        displayYoutubeVideo.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                return false;
+            }
+
+        });
+        WebSettings webSettings = displayYoutubeVideo.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+        displayYoutubeVideo.loadData(frameVideo, "text/html", "utf-8");
+    }
+
+    /**
+     * Makes the localBroadcastManager register recievers for the different accepted intents, and tells
+     * the app to
      * actually do something when those intents are received.
      */
+
     private void registerAllBroadcastRecievers() {
         LocalBroadcastManager.getInstance(this).registerReceiver(pokeflyStateChanged,
                 new IntentFilter(Pokefly.ACTION_UPDATE_UI));
@@ -234,11 +276,18 @@ public class MainActivity extends AppCompatActivity {
         TextView tvVersionNumber = (TextView) findViewById(R.id.version_number);
         tvVersionNumber.setText(String.format("v%s", getVersionName()));
 
+        setupTutorialButton();
+        hideWebviewIfOfflineFlavour();
         initiateOptimizationWarning();
         initiateLevelPicker();
         initiateHelpButton();
         initiateCommunityButtons();
         initiateStartButton();
+    }
+
+    private void hideWebviewIfOfflineFlavour() {
+        if (BuildConfig.FLAVOR.toLowerCase().contains("offline"))
+        findViewById(R.id.webview_tutorial).setVisibility(View.GONE);
     }
 
     /**
@@ -681,5 +730,44 @@ public class MainActivity extends AppCompatActivity {
             shouldRestartOnStopComplete = false;
             launchButton.callOnClick();
         }
+    }
+
+
+    /**
+     * An onclick class that shows the video tutorial and loads the tutorial video, and scrolls to the view, or hides
+     * it if its the second time someone clicks.
+     */
+    private class recalibrationTutListener implements View.OnClickListener {
+
+        @Override public void onClick(View view) {
+            if (BuildConfig.FLAVOR.toLowerCase().contains("online")){
+                final LinearLayout webLayout = findViewById(R.id.weblayout);
+                WebView displayYoutubeVideo = (WebView) findViewById(R.id.webview_tutorial);
+
+                if (webLayout.getVisibility() == View.GONE) {
+                    webLayout.setVisibility(View.VISIBLE);
+                    loadRecalibrationTutorialVideo();
+                    final ScrollView sw = findViewById(R.id.scrollviewMain);
+
+                    sw.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            sw.smoothScrollTo(0, webLayout.getTop());
+                        }
+                    });
+                } else {
+                    displayYoutubeVideo.stopLoading();
+                    webLayout.setVisibility(View.GONE);
+                }
+
+            } else{ //running offline version, we cant load the webpage inserted into the app, we need to open browser.
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(youtubeTutorialCalibrationUrl));
+                startActivity(i);
+            }
+
+
+        }
+
     }
 }

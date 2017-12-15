@@ -137,9 +137,8 @@ public class IVPreviewPrinter {
         PokemonNameCorrector corrector = new PokemonNameCorrector(pokeInfoCalculator);
         Pokemon poke = corrector.getPossiblePokemon(res.getPokemonName(), res.getCandyName(),
                 res.getUpgradeCandyCost(), res.getPokemonType()).pokemon;
-        IVScanResult ivrs = pokeInfoCalculator.getIVPossibilities(poke, res.getEstimatedPokemonLevel(),
+        return pokeInfoCalculator.getIVPossibilities(poke, res.getEstimatedPokemonLevel(),
                 res.getPokemonHP().get(), res.getPokemonCP().get());
-        return ivrs;
     }
 
     /**
@@ -164,12 +163,14 @@ public class IVPreviewPrinter {
      * @return A string build up by the iv results
      */
     private String getQuickIVMessage(IVScanResult ivrs) {
-        String returner;
+        String returner = null;
         if (settings.shouldReplaceQuickIvPreviewWithClipboard()) {
             returner = pokefly.getClipboardTokenHandler().getClipboardText(ivrs, pokeInfoCalculator);
         } else {
-            returner = "IV: " + ivrs.getLowestIVCombination().percentPerfect + " - "
-                    + ivrs.getHighestIVCombination().percentPerfect + "%";
+            if (ivrs.getLowestIVCombination() != null && ivrs.getHighestIVCombination() != null) {
+                returner = "IV: " + ivrs.getLowestIVCombination().percentPerfect + " - " + ivrs
+                        .getHighestIVCombination().percentPerfect + "%";
+            }
         }
         return returner;
     }

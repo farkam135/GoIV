@@ -75,6 +75,7 @@ import com.kamron.pogoiv.scanlogic.ScanResult;
 import com.kamron.pogoiv.scanlogic.UpgradeCost;
 import com.kamron.pogoiv.utils.CopyUtils;
 import com.kamron.pogoiv.utils.GuiUtil;
+import com.kamron.pogoiv.utils.Range;
 import com.kamron.pogoiv.widgets.PokemonSpinnerAdapter;
 import com.kamron.pogoiv.widgets.recyclerviews.adapters.IVResultsAdapter;
 
@@ -111,11 +112,14 @@ public class Pokefly extends Service {
     private static final String KEY_SEND_INFO_CANDY = "key_send_info_candy";
     private static final String KEY_SEND_INFO_HP = "key_send_info_hp";
     private static final String KEY_SEND_INFO_CP = "key_send_info_cp";
-    private static final String KEY_SEND_INFO_LEVEL = "key_send_info_level";
+    private static final String KEY_SEND_INFO_LEVEL_LOWER = "key_send_info_level_low";
+    private static final String KEY_SEND_INFO_LEVEL_HIGHER = "key_send_info_level_high";
     private static final String KEY_SEND_SCREENSHOT_FILE = "key_send_screenshot_file";
     private static final String KEY_SEND_INFO_CANDY_AMOUNT = "key_send_info_candy_amount";
     private static final String KEY_SEND_UPGRADE_CANDY_COST = "key_send_upgrade_candy_cost";
     private static final String KEY_SEND_UNIQUE_ID = "key_send_unique_id";
+    private static final String KEY_SEND_POWERUP_STARTDUST_COST = "key_send_powerup_stardust";
+    private static final String KEY_SEND_POWERUP_CANDYCOST = "key_send_powerup_candycost";
 
     private static final String ACTION_PROCESS_BITMAP = "com.kamron.pogoiv.PROCESS_BITMAP";
     private static final String KEY_BITMAP = "bitmap";
@@ -331,7 +335,7 @@ public class Pokefly extends Service {
     private Optional<Integer> pokemonHP = Optional.absent();
     private Optional<Integer> candyUpgradeCost = Optional.absent();
     private String pokemonUniqueID = "";
-    private double estimatedPokemonLevel = 1.0;
+    private Range estimatedPokemonLevelRange = new Range(1.0);
     private @NonNull Optional<String> screenShotPath = Optional.absent();
 
 
@@ -379,11 +383,14 @@ public class Pokefly extends Service {
         intent.putExtra(KEY_SEND_INFO_CANDY, scanResult.getCandyName());
         intent.putExtra(KEY_SEND_INFO_HP, scanResult.getPokemonHP());
         intent.putExtra(KEY_SEND_INFO_CP, scanResult.getPokemonCP());
-        intent.putExtra(KEY_SEND_INFO_LEVEL, scanResult.getEstimatedPokemonLevel());
+        intent.putExtra(KEY_SEND_INFO_LEVEL_LOWER, scanResult.getEstimatedPokemonLevel().min);
+        intent.putExtra(KEY_SEND_INFO_LEVEL_HIGHER, scanResult.getEstimatedPokemonLevel().max);
         intent.putExtra(KEY_SEND_SCREENSHOT_FILE, filePath);
         intent.putExtra(KEY_SEND_INFO_CANDY_AMOUNT, scanResult.getPokemonCandyAmount());
         intent.putExtra(KEY_SEND_UPGRADE_CANDY_COST, scanResult.getUpgradeCandyCost());
         intent.putExtra(KEY_SEND_UNIQUE_ID, scanResult.getPokemonUniqueID());
+        intent.putExtra(KEY_SEND_POWERUP_CANDYCOST, scanResult.getPokemonPowerUpCandyCost());
+        intent.putExtra(KEY_SEND_POWERUP_STARTDUST_COST, scanResult.getPokemonPowerUpStardustCost());
     }
 
     public static Intent createProcessBitmapIntent(Bitmap bitmap, String file) {
@@ -648,9 +655,9 @@ public class Pokefly extends Service {
         arcAdjustBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                estimatedPokemonLevel = Data.levelIdxToLevel(progress);
-                setArcPointer(estimatedPokemonLevel);
-                levelIndicator.setText(String.valueOf(estimatedPokemonLevel));
+                estimatedPokemonLevelRange = new Range(Data.levelIdxToLevel(progress));
+                setArcPointer(estimatedPokemonLevelRange.min);
+                levelIndicator.setText(String.valueOf(estimatedPokemonLevelRange.getTextRepresentation()));
             }
 
             @Override
@@ -663,11 +670,6 @@ public class Pokefly extends Service {
         });
     }
 
-    /**
-     * Creates the IV Button view.
-     */
-    private void createIVButton() {
-    }
 
     /**
      * Sets the internal state that tells the broadcastrecievers to behave when the user has pressed the iv button.
@@ -985,18 +987,18 @@ public class Pokefly extends Service {
 
     @OnClick(R.id.btnDecrementLevel)
     public void decrementLevel() {
-        if (estimatedPokemonLevel > 1.0) {
-            estimatedPokemonLevel -= 0.5;
+        if (estimatedPokemonLevelRange.min > 1.0) {
+            estimatedPokemonLevelRange.dec();
         }
-        adjustArcPointerBar(estimatedPokemonLevel);
+        adjustArcPointerBar(estimatedPokemonLevelRange.min);
     }
 
     @OnClick(R.id.btnIncrementLevel)
     public void incrementLevel() {
-        if (estimatedPokemonLevel < 40) { //40 is max trainer level. //dont allow increment if already at 40.
-            estimatedPokemonLevel += 0.5;
+        if (estimatedPokemonLevelRange.max < 40) { //40 is max trainer level. //dont allow increment if already at 40.
+            estimatedPokemonLevelRange.inc();
         }
-        adjustArcPointerBar(estimatedPokemonLevel);
+        adjustArcPointerBar(estimatedPokemonLevelRange.min);
     }
 
     @OnClick(R.id.btnIncrementLevelExpanded)
@@ -1056,7 +1058,8 @@ public class Pokefly extends Service {
         }
 
 
-        IVScanResult ivScanResult = pokeInfoCalculator.getIVPossibilities(pokemon, estimatedPokemonLevel,
+        IVScanResult ivScanResult = pokeInfoCalculator.getIVPossibilities(pokemon, estimatedPokemonLevelRange.min,
+                estimatedPokemonLevelRange.max,
                 pokemonHP.get(), pokemonCP.get());
 
         refineByAvailableAppraisalInfo(ivScanResult);
@@ -1310,7 +1313,7 @@ public class Pokefly extends Service {
         expandedLevelSeekbar.setMax(levelToSeekbarProgress(40));
 
         // Set Thumb value to current Pokemon level
-        expandedLevelSeekbar.setProgress(levelToSeekbarProgress(estimatedPokemonLevel));
+        expandedLevelSeekbar.setProgress(levelToSeekbarProgress(estimatedPokemonLevelRange.min));
 
         // Set Seekbar Background max value to max Pokemon level at trainer level 40
         expandedLevelSeekbarBackground.setMax(levelToSeekbarProgress(40));
@@ -1423,7 +1426,7 @@ public class Pokefly extends Service {
     }
 
     private int getSeekbarOffset() {
-        return (int) (2 * estimatedPokemonLevel);
+        return (int) (2 * estimatedPokemonLevelRange.min);
     }
 
     private double seekbarProgressToLevel(int progress) {
@@ -1491,7 +1494,7 @@ public class Pokefly extends Service {
      */
     private void setEstimateHPTextBox(IVScanResult ivScanResult, double selectedLevel, Pokemon selectedPokemon) {
         int newHP = pokeInfoCalculator.getHPAtLevel(ivScanResult, selectedLevel, selectedPokemon);
-        int oldHP = pokeInfoCalculator.getHPAtLevel(ivScanResult, estimatedPokemonLevel, ivScanResult.pokemon);
+        int oldHP = pokeInfoCalculator.getHPAtLevel(ivScanResult, estimatedPokemonLevelRange.min, ivScanResult.pokemon);
         int hpDiff = newHP - oldHP;
         String sign = (hpDiff >= 0) ? "+" : ""; //add plus in front if positive.
         String hpText = newHP + " (" + sign + hpDiff + ")";
@@ -1575,7 +1578,7 @@ public class Pokefly extends Service {
      * @param selectedPokemon The target pokemon. (example, ivScan pokemon can be weedle, selected can be beedrill.)
      */
     private void setEstimateCostTextboxes(IVScanResult ivScanResult, double selectedLevel, Pokemon selectedPokemon) {
-        UpgradeCost cost = pokeInfoCalculator.getUpgradeCost(selectedLevel, estimatedPokemonLevel);
+        UpgradeCost cost = pokeInfoCalculator.getUpgradeCost(selectedLevel, estimatedPokemonLevelRange.min);
         int evolutionCandyCost = pokeInfoCalculator.getCandyCostForEvolution(ivScanResult.pokemon, selectedPokemon);
         String candyCostText = cost.candy + evolutionCandyCost + "";
         exResCandy.setText(candyCostText);
@@ -1848,7 +1851,7 @@ public class Pokefly extends Service {
             setVisibility(inputAppraisalExpandBox, appraisalBox, false, false);
             positionHandler.setVisibility(appraisalBox.getVisibility());
             moveOverlayUpOrDownToMatchAppraisalBox(); //move the overlay to correct position regarding appraisal box
-            adjustArcPointerBar(estimatedPokemonLevel);
+            adjustArcPointerBar(estimatedPokemonLevelRange.min);
 
             if (batterySaver) {
                 infoShownReceived = false;
@@ -1966,7 +1969,7 @@ public class Pokefly extends Service {
         public void onReceive(Context context, Intent intent) {
             if (!receivedInfo) {
                 if (intent.hasExtra(KEY_SEND_INFO_NAME) && intent.hasExtra(KEY_SEND_INFO_CP) && intent.hasExtra(
-                        KEY_SEND_INFO_HP) && intent.hasExtra(KEY_SEND_INFO_LEVEL)) {
+                        KEY_SEND_INFO_HP) && intent.hasExtra(KEY_SEND_INFO_LEVEL_LOWER)) {
                     receivedInfo = true;
 
                     pokemonName = intent.getStringExtra(KEY_SEND_INFO_NAME);
@@ -1994,9 +1997,15 @@ public class Pokefly extends Service {
                     candyUpgradeCost = lCandyUpgradeCost;
                     pokemonUniqueID = lUniqueID;
 
-                    estimatedPokemonLevel = intent.getDoubleExtra(KEY_SEND_INFO_LEVEL, estimatedPokemonLevel);
-                    if (estimatedPokemonLevel < 1.0) {
-                        estimatedPokemonLevel = 1.0;
+
+                    double estimatedPokemonLevelMin = intent.getDoubleExtra(KEY_SEND_INFO_LEVEL_LOWER, 1);
+                    double estimatedPokemonLevelMax = intent.getDoubleExtra(KEY_SEND_INFO_LEVEL_HIGHER, 1);
+
+                    estimatedPokemonLevelRange = new Range (estimatedPokemonLevelMin, estimatedPokemonLevelMax);
+
+                    if (estimatedPokemonLevelRange.min < 1.0) {
+                        estimatedPokemonLevelRange.min = 1.0;
+                        estimatedPokemonLevelRange.max = 1.0;
                     }
 
                     showInfoLayout();

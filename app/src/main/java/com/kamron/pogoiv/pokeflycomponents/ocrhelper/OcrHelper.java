@@ -12,6 +12,7 @@ import com.googlecode.tesseract.android.TessBaseAPI;
 import com.kamron.pogoiv.GoIVSettings;
 import com.kamron.pogoiv.scanlogic.Data;
 import com.kamron.pogoiv.scanlogic.ScanResult;
+import com.kamron.pogoiv.utils.Range;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -892,6 +893,13 @@ public class OcrHelper {
     public ScanResult scanPokemon(@NonNull Bitmap pokemonImage, int trainerLevel) {
         ensureCorrectLevelArcSettings(trainerLevel); //todo, make it so it doesnt initiate on every scan?
         double estimatedPokemonLevel = getPokemonLevelFromImg(pokemonImage, trainerLevel);
+        Range estimatedPokemonLevelRange = new Range(estimatedPokemonLevel);
+        Optional<Integer> pokemonPowerUpStardustCost = Optional.absent();
+        //Optional<Integer> pokemonPowerUpStardustCost = getPokemonPowerUpStardustCostFromImg(pokemonImage);
+        Optional<Integer> pokemonPowerUpCandyCost = getPokemonPowerUpCandyCostFromImg(pokemonImage);
+
+        estimatedPokemonLevelRange = refineLevelEstimate(trainerLevel, pokemonPowerUpCandyCost, estimatedPokemonLevel);
+
 
         String pokemonName = getPokemonNameFromImg(pokemonImage);
         String pokemonType = getPokemonTypeFromImg(pokemonImage);
@@ -900,15 +908,48 @@ public class OcrHelper {
         Optional<Integer> pokemonCP = getPokemonCPFromImg(pokemonImage);
         Optional<Integer> pokemonCandyAmount = getCandyAmountFromImg(pokemonImage);
         Optional<Integer> pokemonUpgradeCost = getPokemonEvolutionCostFromImg(pokemonImage);
-        Optional<Integer> pokemonPowerUpStardustCost = getPokemonPowerUpStardustCostFromImg(pokemonImage);
-        Optional<Integer> pokemonPowerUpCandyCost = getPokemonPowerUpCandyCostFromImg(pokemonImage);
         String pokemonUniqueIdentifier = pokemonName + pokemonType + candyName + pokemonHP.toString() + pokemonCP
                 .toString() + pokemonPowerUpStardustCost.toString() + pokemonPowerUpCandyCost.toString();
 
 
-        return new ScanResult(estimatedPokemonLevel, pokemonName, pokemonType, candyName, pokemonHP,
+        return new ScanResult(estimatedPokemonLevelRange, pokemonName, pokemonType, candyName, pokemonHP,
                 pokemonCP, pokemonCandyAmount, pokemonUpgradeCost, pokemonPowerUpStardustCost, pokemonPowerUpCandyCost,
                 pokemonUniqueIdentifier);
+    }
+
+    /**
+     * Get the range of possible levels using candy upgrade cost, if the level is potentially outside the arc-range.
+     */
+    private Range refineLevelEstimate(int trainerLevel, Optional<Integer> pokemonPowerUpCandyCost,
+                                      double estimatedPokemonLevel) {
+        if (estimatedPokemonLevel < Data.trainerLevelToMaxPokeLevel(trainerLevel)) {
+            return new Range(estimatedPokemonLevel); // no need for level range, arc captured level perfectly.
+        }
+
+        //if scanned arc-level is maxed out, we need to consider that the pokemon might have an even
+        // higher level.
+        double lowerBound = 1;
+        double higherBound = 40;
+        int scannedPowerupCost;
+
+        if (pokemonPowerUpCandyCost.isPresent()) {
+            scannedPowerupCost = pokemonPowerUpCandyCost.get();
+        } else {
+            return new Range(estimatedPokemonLevel); //couldnt read powerup cost
+        }
+
+        for (int i = 1; i <= 40; i++) {
+            int powerupCostForLevel = Data.powerUpCandyCost[Data.maxPokeLevelToIndex(i)];
+            if (powerupCostForLevel == scannedPowerupCost) {
+                if (i < lowerBound) {
+                    lowerBound = i;
+                }
+                if (i > higherBound) {
+                    higherBound = i;
+                }
+            }
+        }
+        return new Range(lowerBound, higherBound);
     }
 
 

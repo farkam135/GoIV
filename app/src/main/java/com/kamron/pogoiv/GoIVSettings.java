@@ -98,6 +98,8 @@ public class GoIVSettings {
                 results.pokemonNameArea.toString());
         editor.putString(ScanFieldNames.POKEMON_TYPE_AREA,
                 results.pokemonTypeArea.toString());
+        editor.putString(ScanFieldNames.POKEMON_GENDER_AREA,
+                results.pokemonGenderArea.toString());
         editor.putString(ScanFieldNames.CANDY_NAME_AREA,
                 results.candyNameArea.toString());
         editor.putString(ScanFieldNames.POKEMON_HP_AREA,

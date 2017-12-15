@@ -252,6 +252,7 @@
     <string name="ocr_loading">Loading. Please wait…</string>
     <string name="ocr_error_name">Unable to locate name\n</string>
     <string name="ocr_error_type">Unable to locate type\n</string>
+    <string name="ocr_error_gender">Unable to locate gender\n</string>
     <string name="ocr_error_candy_name">Unable to locate candy name\n</string>
     <string name="ocr_error_hp">Unable to locate HP value\n</string>
     <string name="ocr_error_cp">Unable to locate CP value\n</string>
@@ -269,6 +270,7 @@
     <string name="ocr_calibration_saved">Calibration saved!\nRestart GoIV to apply the changes!</string>
     <string name="ocr_finding_name">Finding name area</string>
     <string name="ocr_finding_type">Finding type area</string>
+    <string name="ocr_finding_gender">Finding gender area</string>
     <string name="ocr_finding_candy_name">Finding candy name area</string>
     <string name="ocr_finding_hp">Finding hp area</string>
     <string name="ocr_finding_cp">Finding cp area</string>

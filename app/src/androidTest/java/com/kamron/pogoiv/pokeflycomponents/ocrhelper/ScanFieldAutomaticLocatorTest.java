@@ -115,6 +115,10 @@ public class ScanFieldAutomaticLocatorTest {
         checkScanArea(device.toString(), testAssetName, bmp,
                 "type", results.pokemonTypeArea, device.expectedTypeArea);
 
+        // TODO check gender area
+        assertNotNull("File " + testAssetName + " on " + device.toString()
+                + ": 'mon gender area wasn't detected", results.pokemonGenderArea);
+
         // Execute checks on 'mon candy name area
         checkScanArea(device.toString(), testAssetName, bmp,
                 "candy name", results.candyNameArea, device.expectedCandyNameArea);

@@ -188,8 +188,8 @@ public class MainActivity extends AppCompatActivity {
     private void setupTutorialButton() {
         Button tuthelp = (Button) findViewById(R.id.recalibrationHelp);
         Button tuthelp2 = (Button) findViewById(R.id.recalibrationHelp2);
-        tuthelp.setOnClickListener(new recalibrationTutListener());
-        tuthelp2.setOnClickListener(new recalibrationTutListener());
+        tuthelp.setOnClickListener(new RecalibrationTutListener());
+        tuthelp2.setOnClickListener(new RecalibrationTutListener());
     }
 
     /**
@@ -197,7 +197,7 @@ public class MainActivity extends AppCompatActivity {
      */
     private void loadRecalibrationTutorialVideo() {
         String frameVideo = "<html><iframe width=\"310\" height=\"480\" src=\""
-        + youtubeTutorialCalibrationUrl
+                + youtubeTutorialCalibrationUrl
                 + "\" frameborder=\"0\" gesture=\"media\" allow=\"encrypted-media\" "
                 + "allowfullscreen></iframe></html>";
 
@@ -286,8 +286,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void hideWebviewIfOfflineFlavour() {
-        if (BuildConfig.FLAVOR.toLowerCase().contains("offline"))
-        findViewById(R.id.webview_tutorial).setVisibility(View.GONE);
+        if (BuildConfig.FLAVOR.toLowerCase().contains("offline")) {
+            findViewById(R.id.webview_tutorial).setVisibility(View.GONE);
+        }
     }
 
     /**
@@ -737,10 +738,10 @@ public class MainActivity extends AppCompatActivity {
      * An onclick class that shows the video tutorial and loads the tutorial video, and scrolls to the view, or hides
      * it if its the second time someone clicks.
      */
-    private class recalibrationTutListener implements View.OnClickListener {
+    private class RecalibrationTutListener implements View.OnClickListener {
 
         @Override public void onClick(View view) {
-            if (BuildConfig.FLAVOR.toLowerCase().contains("online")){
+            if (BuildConfig.FLAVOR.toLowerCase().contains("online")) {
                 final LinearLayout webLayout = findViewById(R.id.weblayout);
                 WebView displayYoutubeVideo = (WebView) findViewById(R.id.webview_tutorial);
 
@@ -760,7 +761,7 @@ public class MainActivity extends AppCompatActivity {
                     webLayout.setVisibility(View.GONE);
                 }
 
-            } else{ //running offline version, we cant load the webpage inserted into the app, we need to open browser.
+            } else { //running offline version, we cant load the webpage inserted into the app, we need to open browser.
                 Intent i = new Intent(Intent.ACTION_VIEW);
                 i.setData(Uri.parse(youtubeTutorialCalibrationUrl));
                 startActivity(i);

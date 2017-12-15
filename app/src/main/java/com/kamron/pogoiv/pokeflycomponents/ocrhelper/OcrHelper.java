@@ -30,6 +30,8 @@ import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.POKEM
 import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.POKEMON_EVOLUTION_COST_AREA;
 import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.POKEMON_HP_AREA;
 import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.POKEMON_NAME_AREA;
+import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.POKEMON_POWER_UP_CANDY_COST;
+import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.POKEMON_POWER_UP_STARDUST_COST;
 import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.POKEMON_TYPE_AREA;
 
 
@@ -318,6 +320,102 @@ public class OcrHelper {
         }
         ocrCache.put(hash, ocrResult);
         return result;
+    }
+
+    /**
+     * Get the power up stardust cost for a pokemon.
+     *
+     * @param pokemonImage The image of the full pokemon screen
+     * @return the power up cost wrapped in Optional.of(), or Optional.absent() on scan failure
+     */
+    private Optional<Integer> getPokemonPowerUpStardustCostFromImg(Bitmap pokemonImage) {
+        Bitmap powerUpStardustCostImage;
+        if (settings.hasManualScanCalibration()) {
+            try {
+                ScanArea area = new ScanArea(POKEMON_POWER_UP_STARDUST_COST, settings);
+                powerUpStardustCostImage = getImageCrop(pokemonImage, area);
+            } catch (Exception e) {
+                return Optional.absent();
+            }
+        } else {
+            // TODO fallback to non-calibrated standard values
+            return Optional.absent();
+        }
+
+
+        String hash = "powerUpStardustCost" + hashBitmap(powerUpStardustCostImage);
+
+        //return cache if it exists
+        String stringCachePowerUpStardustCost = ocrCache.get(hash);
+        if (stringCachePowerUpStardustCost != null) {
+            //XXX in the cache, we encode "no result" as an empty string. That's a hack.
+            if (stringCachePowerUpStardustCost.isEmpty()) {
+                return Optional.absent();
+            } else {
+                return Optional.of(Integer.parseInt(stringCachePowerUpStardustCost));
+            }
+        }
+
+        tesseract.setImage(powerUpStardustCostImage);
+        String ocrResult = fixOcrLettersToNums(tesseract.getUTF8Text());
+        try {
+            int result = Integer.parseInt(ocrResult);
+            ocrCache.put(hash, ocrResult);
+            return Optional.of(result);
+
+        } catch (NumberFormatException e) {
+            //XXX again, in the cache, we encode "no result" as an empty string.
+            ocrCache.put(hash, "");
+            return Optional.absent(); //could not ocr text
+        }
+    }
+
+    /**
+     * Get the power up candy cost for a pokemon.
+     *
+     * @param pokemonImage The image of the full pokemon screen
+     * @return the power up cost wrapped in Optional.of(), or Optional.absent() on scan failure
+     */
+    private Optional<Integer> getPokemonPowerUpCandyCostFromImg(Bitmap pokemonImage) {
+        Bitmap powerUpCandyCostImage;
+        if (settings.hasManualScanCalibration()) {
+            try {
+                ScanArea area = new ScanArea(POKEMON_POWER_UP_CANDY_COST, settings);
+                powerUpCandyCostImage = getImageCrop(pokemonImage, area);
+            } catch (Exception e) {
+                return Optional.absent();
+            }
+        } else {
+            // TODO fallback to non-calibrated standard values
+            return Optional.absent();
+        }
+
+
+        String hash = "powerUpCandyCost" + hashBitmap(powerUpCandyCostImage);
+
+        //return cache if it exists
+        String stringCachePowerUpCandyCost = ocrCache.get(hash);
+        if (stringCachePowerUpCandyCost != null) {
+            //XXX in the cache, we encode "no result" as an empty string. That's a hack.
+            if (stringCachePowerUpCandyCost.isEmpty()) {
+                return Optional.absent();
+            } else {
+                return Optional.of(Integer.parseInt(stringCachePowerUpCandyCost));
+            }
+        }
+
+        tesseract.setImage(powerUpCandyCostImage);
+        String ocrResult = fixOcrLettersToNums(tesseract.getUTF8Text());
+        try {
+            int result = Integer.parseInt(ocrResult);
+            ocrCache.put(hash, ocrResult);
+            return Optional.of(result);
+
+        } catch (NumberFormatException e) {
+            //XXX again, in the cache, we encode "no result" as an empty string.
+            ocrCache.put(hash, "");
+            return Optional.absent(); //could not ocr text
+        }
     }
 
     /**
@@ -802,12 +900,15 @@ public class OcrHelper {
         Optional<Integer> pokemonCP = getPokemonCPFromImg(pokemonImage);
         Optional<Integer> pokemonCandyAmount = getCandyAmountFromImg(pokemonImage);
         Optional<Integer> pokemonUpgradeCost = getPokemonEvolutionCostFromImg(pokemonImage);
+        Optional<Integer> pokemonPowerUpStardustCost = getPokemonPowerUpStardustCostFromImg(pokemonImage);
+        Optional<Integer> pokemonPowerUpCandyCost = getPokemonPowerUpCandyCostFromImg(pokemonImage);
         String pokemonUniqueIdentifier = pokemonName + pokemonType + candyName + pokemonHP.toString() + pokemonCP
-                .toString() + pokemonCandyAmount.toString() + pokemonUpgradeCost.toString();
+                .toString() + pokemonPowerUpStardustCost.toString() + pokemonPowerUpCandyCost.toString();
 
 
         return new ScanResult(estimatedPokemonLevel, pokemonName, pokemonType, candyName, pokemonHP,
-                pokemonCP, pokemonCandyAmount, pokemonUpgradeCost, pokemonUniqueIdentifier);
+                pokemonCP, pokemonCandyAmount, pokemonUpgradeCost, pokemonPowerUpStardustCost, pokemonPowerUpCandyCost,
+                pokemonUniqueIdentifier);
     }
 
 

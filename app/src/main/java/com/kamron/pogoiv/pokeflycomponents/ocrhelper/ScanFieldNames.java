@@ -15,6 +15,8 @@ public class ScanFieldNames {
     public static final String POKEMON_CP_AREA = "pokemonCP_area";
     public static final String POKEMON_CANDY_AMOUNT_AREA = "pokemonCandyAmount_area";
     public static final String POKEMON_EVOLUTION_COST_AREA = "pokemonEvolutionCost_area";
+    public static final String POKEMON_POWER_UP_STARDUST_COST = "pokemonPowerUpStardustCost_area";
+    public static final String POKEMON_POWER_UP_CANDY_COST = "pokemonPowerUpCandyCost_area";
     public static final String ARC_RADIUS = "arcRadiusPoint";
     public static final String ARC_INIT_POINT = "arcInit";
     public static final String SCREEN_INFO_CARD_WHITE_PIXEL = "whitePixelPokemonScreen";

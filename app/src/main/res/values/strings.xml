@@ -257,6 +257,8 @@
     <string name="ocr_error_cp">Unable to locate CP value\n</string>
     <string name="ocr_error_candy_amount">Unable to locate candies amount\n</string>
     <string name="ocr_error_evo_cost">Unable to locate evolution cost\n</string>
+    <string name="ocr_error_power_up_stardust_cost">Unable to locate power up stardust cost\n</string>
+    <string name="ocr_error_power_up_candy_cost">Unable to locate power up candy cost\n</string>
     <string name="ocr_error_arc_center">Unable to locate level arc center\n</string>
     <string name="ocr_error_arc_radius">Unable to compute level arc radius\n</string>
     <string name="ocr_error_locate_pixel_white">Unable to locate white marker pixel\n</string>
@@ -272,6 +274,8 @@
     <string name="ocr_finding_cp">Finding cp area</string>
     <string name="ocr_finding_candy_amount">Finding candy amount area</string>
     <string name="ocr_finding_evo_cost">Finding evolution cost area</string>
+    <string name="ocr_finding_power_up_stardust_cost">Finding power up stardust cost area</string>
+    <string name="ocr_finding_power_up_candy_cost">Finding power up candy cost area</string>
     <string name="ocr_finding_arc_center_and_radius">Finding level arc starting point and radius</string>
     <string name="ocr_finding_white_pixel">Finding white marker pixel</string>
     <string name="ocr_finding_green_pixel">Finding green marker pixel</string>

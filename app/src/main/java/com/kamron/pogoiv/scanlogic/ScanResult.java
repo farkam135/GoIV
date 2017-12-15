@@ -17,11 +17,14 @@ public class ScanResult {
     private final Optional<Integer> pokemonCP;
     private final Optional<Integer> pokemonCandyAmount;
     private final Optional<Integer> upgradeCandyCost;
+    private final Optional<Integer> powerUpStardustCost;
+    private final Optional<Integer> powerUpCandyCost;
     private final String uniqueID;
 
     public ScanResult(double estimatedPokemonLevel, String pokemonName, String pokemonType, String candyName,
                       Optional<Integer> pokemonHP, Optional<Integer> pokemonCP,
-                      Optional<Integer> pokemonCandyAmount, Optional<Integer> upgradeCandyCost, String uniqueID) {
+                      Optional<Integer> pokemonCandyAmount, Optional<Integer> upgradeCandyCost,
+                      Optional<Integer> powerUpStardustCost, Optional<Integer> powerUpCandyCost, String uniqueID) {
         this.estimatedPokemonLevel = estimatedPokemonLevel;
         this.pokemonName = pokemonName;
         this.pokemonType = pokemonType;
@@ -30,6 +33,8 @@ public class ScanResult {
         this.pokemonCP = pokemonCP;
         this.pokemonCandyAmount = pokemonCandyAmount;
         this.upgradeCandyCost = upgradeCandyCost;
+        this.powerUpStardustCost = powerUpStardustCost;
+        this.powerUpCandyCost = powerUpCandyCost;
         this.uniqueID = uniqueID;
     }
 
@@ -59,6 +64,14 @@ public class ScanResult {
 
     public Optional<Integer> getPokemonCandyAmount() {
         return pokemonCandyAmount;
+    }
+
+    public Optional<Integer> getPokemonPowerUpStardustCost() {
+        return powerUpStardustCost;
+    }
+
+    public Optional<Integer> getPokemonPowerUpCandyCost() {
+        return powerUpCandyCost;
     }
 
     public String getPokemonUniqueID() {

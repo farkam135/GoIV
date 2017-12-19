@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="instructions_title">Instructions</string>
-    <string name="instructions_message">Starting GoIV for the first time:\n\n1. Enter your trainer info\n2. Press the GRANT PERMISSION button and accept all prompts\n3. Press start</string>
+    <string name="instructions_title">Setup Instructions</string>
+    <string name="instructions_message">Starting GoIV for the first time:\n\nEnter your trainer info.\n\nPress the GRANT PERMISSION button and accept all prompts.\n\nPress start.</string>
     <string name="goiv_is_open_source">GoIV is open source!</string>
     <string name="trainer_info">Trainer Info</string>
     <string name="trainer_level">Level</string>
@@ -150,6 +150,7 @@
     <string name="pokespam_not_available">Not Available</string>
     <string name="pokespam_setting_title">Show how many you can evolve</string>
     <string name="pokespam_setting_summary">This feature enables scanning for candy amount and allows you to see how many monsters you can evolve, useful for use with lucky egg</string>
+    <string name="token_pokemon_gender">Gender</string>
     <string name="token_pokemonname">Name</string>
     <string name="clipboard_modifier_preview">Preview</string>
     <string name="position_handler_toast">Drag the window by this handler to relocate it.</string>
@@ -227,7 +228,7 @@
     <string name="recalibrate_goiv_notification">Recalibrate</string>
     <string name="title_activity_ocr_calibration_result">Calibration Result</string>
     <string name="title_activity_ocr_calibration_error">Calibration Error</string>
-    <string name="scan_optimization_notice_text">You have not run scan optimization. It\'s recommended to run scan optimization on all devices. To run a scan optimization:\n1. Start GoIV\n2. Go to a \'mon page\n3. Open the GoIV notification\n4. Select \'Recalibrate\'!</string>
+    <string name="scan_optimization_notice_text">You have not run scan optimization. It\'s recommended to run scan optimization on all devices.</string>
     <string name="scan_optimization_screen_ratio_warning">GoIV has detected that your screen is not standard. You\'ll most likely need to perform scan optimization for GoIV to work.</string>
     <string name="touch_screen_quick_iv_scan">Touch screen to retry quick IV scan</string>
     <string name="discard_unsaved_changes">There are unsaved changes.\nDo you really want to discard them?</string>
@@ -252,6 +253,7 @@
     <string name="ocr_loading">Loading. Please wait…</string>
     <string name="ocr_error_name">Unable to locate name\n</string>
     <string name="ocr_error_type">Unable to locate type\n</string>
+    <string name="ocr_error_gender">Unable to locate gender\n</string>
     <string name="ocr_error_candy_name">Unable to locate candy name\n</string>
     <string name="ocr_error_hp">Unable to locate HP value\n</string>
     <string name="ocr_error_cp">Unable to locate CP value\n</string>
@@ -269,6 +271,7 @@
     <string name="ocr_calibration_saved">Calibration saved!\nRestart GoIV to apply the changes!</string>
     <string name="ocr_finding_name">Finding name area</string>
     <string name="ocr_finding_type">Finding type area</string>
+    <string name="ocr_finding_gender">Finding gender area</string>
     <string name="ocr_finding_candy_name">Finding candy name area</string>
     <string name="ocr_finding_hp">Finding hp area</string>
     <string name="ocr_finding_cp">Finding cp area</string>
@@ -320,6 +323,7 @@
     <string name="token_msg_mixUnicode_msg2">" This token uses filled characters to represent single values and empty characters to represent the lowest of multiple values. For example, ⓭ in the attack position would mean that all Attack values are 13, while ① in the defense or HP means there are multiple values possible and that 1 is the lowest."</string>
     <string name="token_msg_mixUnicode_msg3">" This token uses empty characters to represent single values and filled characters to represent the lowest of multiple values. For example, ⑪ in the attack position would mean that all Attack values are 11, while ❾ in the defense or HP means there are multiple values possible and that 9 is the lowest."</string>
     <string name="token_msg_perfCP">This token calculates how close your monster is to its max potential, measured by CP. For example, if a monster with max IVs maxes out at 2000cp, but your specific monster maxes out at 1900, then your monster perfection is 95%, so this token returns 95.</string>
+    <string name="token_msg_gender">"This token returns the gender of the monster: ♂ if male, ♀ if female, empty otherwise.</string>
     <string name="token_msg_pkmName_msg1">"This token returns the name of the monster, for example if you scan a Dratini, it will return "</string>
     <string name="token_msg_pkmName_msg2">" With the number cap, the length of the monster name can not exceed "</string>
     <string name="token_msg_pkmName_msg3">" characters long."</string>

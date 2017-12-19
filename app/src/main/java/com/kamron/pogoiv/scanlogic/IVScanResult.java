@@ -2,6 +2,8 @@ package com.kamron.pogoiv.scanlogic;
 
 import android.support.annotation.Nullable;
 
+import com.google.common.base.Optional;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -38,6 +40,7 @@ public class IVScanResult {
     public final double estimatedPokemonLevel;
     public int scannedHP = 0;
     public boolean rangeIVScan = false; //is this several levels worth of possible iv combinations?
+    public Optional<String> scannedGender;
 
     /**
      * Creates a holder object for IV scan results.
@@ -46,10 +49,11 @@ public class IVScanResult {
      * @param pokemonCP             pokemon CP
      * @param estimatedPokemonLevel the estimated pokemon level (should be very low)
      */
-    public IVScanResult(Pokemon pokemon, double estimatedPokemonLevel, int pokemonCP) {
+    public IVScanResult(Pokemon pokemon, double estimatedPokemonLevel, int pokemonCP, Optional<String> pokemonGender) {
         this.pokemon = pokemon;
         this.estimatedPokemonLevel = estimatedPokemonLevel;
         this.scannedCP = pokemonCP;
+        this.scannedGender = pokemonGender;
     }
 
     public int getCount() {

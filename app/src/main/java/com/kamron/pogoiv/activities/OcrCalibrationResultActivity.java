@@ -214,6 +214,9 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
                 if (results.pokemonTypeArea == null) {
                     sb.append(activity.getText(R.string.ocr_error_type));
                 }
+                if (results.pokemonGenderArea == null) {
+                    sb.append(activity.getText(R.string.ocr_error_gender));
+                }
                 if (results.candyNameArea == null) {
                     sb.append(activity.getText(R.string.ocr_error_candy_name));
                 }
@@ -345,6 +348,7 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
     private void drawResultIndicator(Bitmap bmp, @ColorInt int colorAccent) {
         showAreaIndicator(bmp, results.pokemonNameArea, colorAccent);
         showAreaIndicator(bmp, results.pokemonTypeArea, colorAccent);
+        showAreaIndicator(bmp, results.pokemonGenderArea, colorAccent);
         showAreaIndicator(bmp, results.candyNameArea, colorAccent);
         showAreaIndicator(bmp, results.pokemonHpArea, colorAccent);
         showAreaIndicator(bmp, results.pokemonCpArea, colorAccent);

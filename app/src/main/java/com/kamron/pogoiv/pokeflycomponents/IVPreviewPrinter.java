@@ -139,7 +139,7 @@ public class IVPreviewPrinter {
                 res.getUpgradeCandyCost(), res.getPokemonType()).pokemon;
         IVScanResult ivrs = pokeInfoCalculator.getIVPossibilities(poke, res.getEstimatedPokemonLevel().min, res
                         .getEstimatedPokemonLevel().max,
-                res.getPokemonHP().get(), res.getPokemonCP().get());
+                res.getPokemonHP().get(), res.getPokemonCP().get(), res.getPokemonGender());
         return ivrs;
     }
 

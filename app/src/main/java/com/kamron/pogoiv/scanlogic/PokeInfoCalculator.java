@@ -1,6 +1,8 @@
 package com.kamron.pogoiv.scanlogic;
 
 
+import com.google.common.base.Optional;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -197,26 +199,27 @@ public class PokeInfoCalculator {
      *
      * @param estimatedPokemonLevelMin The estimated pokemon level minimum range
      * @param estimatedPokemonLevelMax The estimated pokemon level minimum range
-     * @param pokemonHP             THe pokemon hp
-     * @param pokemonCP             The pokemonCP
+     * @param pokemonHP                THe pokemon hp
+     * @param pokemonCP                The pokemonCP
      * @return An IVScanResult which contains the information calculated about the pokemon, or null if there are too
      * many possibilities.
      */
     public IVScanResult getIVPossibilities(Pokemon selectedPokemon, double estimatedPokemonLevelMin,
                                            double estimatedPokemonLevelMax, int pokemonHP,
-                                           int pokemonCP) {
+                                           int pokemonCP, Optional<String> pokemonGender) {
 
-        if (estimatedPokemonLevelMax == estimatedPokemonLevelMin){
-            return getSingleLevelIVPossibility(selectedPokemon, estimatedPokemonLevelMax, pokemonHP, pokemonCP);
+        if (estimatedPokemonLevelMax == estimatedPokemonLevelMin) {
+            return getSingleLevelIVPossibility(selectedPokemon, estimatedPokemonLevelMax, pokemonHP, pokemonCP,
+                    pokemonGender);
         }
 
         List<IVScanResult> possibilities = new ArrayList<>();
-        for (double i = estimatedPokemonLevelMin; i <= estimatedPokemonLevelMax; i += 0.5){
-            possibilities.add(getSingleLevelIVPossibility(selectedPokemon, i, pokemonHP, pokemonCP));
+        for (double i = estimatedPokemonLevelMin; i <= estimatedPokemonLevelMax; i += 0.5) {
+            possibilities.add(getSingleLevelIVPossibility(selectedPokemon, i, pokemonHP, pokemonCP, pokemonGender));
         }
 
         IVScanResult combination = possibilities.get(0);
-        for (IVScanResult ivs : possibilities){
+        for (IVScanResult ivs : possibilities) {
             combination.addPossibilitiesFrom(ivs);
         }
 
@@ -236,7 +239,7 @@ public class PokeInfoCalculator {
      */
     private IVScanResult getSingleLevelIVPossibility(Pokemon selectedPokemon, double estimatedPokemonLevel,
                                                      int pokemonHP,
-                                                     int pokemonCP) {
+                                                     int pokemonCP, Optional<String> pokemonGender) {
         int baseAttack = selectedPokemon.baseAttack;
         int baseDefense = selectedPokemon.baseDefense;
         int baseStamina = selectedPokemon.baseStamina;
@@ -246,7 +249,8 @@ public class PokeInfoCalculator {
         //IV vars for lower and upper end cp ranges
 
 
-        IVScanResult returner = ScanContainer.createIVScanResult(selectedPokemon, estimatedPokemonLevel, pokemonCP);
+        IVScanResult returner =
+                ScanContainer.createIVScanResult(selectedPokemon, estimatedPokemonLevel, pokemonCP, pokemonGender);
         for (int staminaIV = 0; staminaIV < 16; staminaIV++) {
             int hp = (int) Math.max(Math.floor((baseStamina + staminaIV) * lvlScalar), 10);
             if (hp == pokemonHP) {

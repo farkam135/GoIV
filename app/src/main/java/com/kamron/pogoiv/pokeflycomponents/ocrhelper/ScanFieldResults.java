@@ -7,6 +7,7 @@ public class ScanFieldResults {
 
     public ScanArea pokemonNameArea;
     public ScanArea pokemonTypeArea;
+    public ScanArea pokemonGenderArea;
     public ScanArea candyNameArea;
     public ScanArea pokemonHpArea;
     public ScanArea pokemonCpArea;
@@ -24,6 +25,7 @@ public class ScanFieldResults {
     public boolean isCompleteCalibration() {
         return  pokemonNameArea != null
                 && pokemonTypeArea != null
+                && pokemonGenderArea != null
                 && candyNameArea != null
                 && pokemonHpArea != null
                 && pokemonCpArea != null

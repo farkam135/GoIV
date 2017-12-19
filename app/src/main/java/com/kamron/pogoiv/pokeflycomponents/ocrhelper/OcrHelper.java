@@ -29,6 +29,7 @@ import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.CANDY
 import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.POKEMON_CANDY_AMOUNT_AREA;
 import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.POKEMON_CP_AREA;
 import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.POKEMON_EVOLUTION_COST_AREA;
+import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.POKEMON_GENDER_AREA;
 import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.POKEMON_HP_AREA;
 import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.POKEMON_NAME_AREA;
 import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.POKEMON_POWER_UP_CANDY_COST;
@@ -559,6 +560,70 @@ public class OcrHelper {
     }
 
     /**
+     * Get the pokemon gender as analysed from a pokemon image.
+     *
+     * @param pokemonImage The image of the whole screen
+     * @return Optional.of("♂") if the pokémon is male, Optional.of("♀") if female, Optional.absent() otherwise
+     */
+    private Optional<String> getPokemonGenderFromImg(Bitmap pokemonImage) {
+        Bitmap genderImage;
+        if (settings.hasManualScanCalibration()) {
+            try {
+                ScanArea area = new ScanArea(POKEMON_GENDER_AREA, settings);
+                genderImage = getImageCrop(pokemonImage, area);
+            } catch (Exception e) {
+                return Optional.absent();
+            }
+        } else {
+            // TODO fallback to non-calibrated standard values
+            return Optional.absent();
+        }
+
+        int width = genderImage.getWidth();
+        int height = genderImage.getHeight();
+
+        // The top left pixel should always be empty
+        int bgColor = genderImage.getPixel(0, 0);
+
+        // Analyze the gender area to search for ♂ or ♀.
+        // Divide it in 2 vertical halves.
+        // Scan one line every two and search for the first non white pixel.
+        // Sum its X coordinate and repeat. The final sum will be used as score.
+        int upperHalfScore = 0;
+        int lowerHalfScore = 0;
+
+        // Top
+        for (int y = 0; y < height / 2; y += 2) {
+            for (int x = 0; x < width; x++) {
+                if (genderImage.getPixel(x, y) != bgColor
+                        || x == width - 1) {
+                    upperHalfScore += x;
+                    break;
+                }
+            }
+        }
+
+        // Bottom
+        for (int y = (int) Math.ceil(height / 2f); y < height; y += 2) {
+            for (int x = 0; x < width; x++) {
+                if (genderImage.getPixel(x, y) != bgColor
+                        || x == width - 1) {
+                    lowerHalfScore += x;
+                    break;
+                }
+            }
+        }
+
+        if (upperHalfScore > lowerHalfScore) {
+            return Optional.of("♂");
+        } else if (lowerHalfScore > upperHalfScore) {
+            return Optional.of("♀");
+        } else {
+            return Optional.absent();
+        }
+    }
+
+    /**
      * Get a cropped version of your image.
      *
      * @param img     Which image to crop
@@ -904,6 +969,7 @@ public class OcrHelper {
 
         String pokemonName = getPokemonNameFromImg(pokemonImage);
         String pokemonType = getPokemonTypeFromImg(pokemonImage);
+        Optional<String> pokemonGender = getPokemonGenderFromImg(pokemonImage);
         String candyName = getCandyNameFromImg(pokemonImage);
         Optional<Integer> pokemonHP = getPokemonHPFromImg(pokemonImage);
         Optional<Integer> pokemonCP = getPokemonCPFromImg(pokemonImage);
@@ -913,7 +979,7 @@ public class OcrHelper {
                 .toString() + pokemonPowerUpStardustCost.toString() + pokemonPowerUpCandyCost.toString();
 
 
-        return new ScanResult(estimatedPokemonLevelRange, pokemonName, pokemonType, candyName, pokemonHP,
+        return new ScanResult(estimatedPokemonLevelRange, pokemonName, pokemonType, candyName, pokemonGender, pokemonHP,
                 pokemonCP, pokemonCandyAmount, pokemonUpgradeCost, pokemonPowerUpStardustCost, pokemonPowerUpCandyCost,
                 pokemonUniqueIdentifier);
     }

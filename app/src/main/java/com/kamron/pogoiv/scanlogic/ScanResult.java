@@ -1,7 +1,7 @@
 package com.kamron.pogoiv.scanlogic;
 
 import com.google.common.base.Optional;
-import com.kamron.pogoiv.utils.Range;
+import com.kamron.pogoiv.utils.LeveLRange;
 
 /**
  * A ScanResult represents the result of an OCR scan.
@@ -10,7 +10,7 @@ import com.kamron.pogoiv.utils.Range;
 //TODO: we might want to make this Parcelable instead of sending the fields one by one?
 //But writing the instance by hand would call for unit test.
 public class ScanResult {
-    private final Range estimatedPokemonLevelRange;
+    private final LeveLRange estimatedPokemonLevelRange;
     private final String pokemonName;
     private final String pokemonType;
     private final String candyName;
@@ -22,7 +22,7 @@ public class ScanResult {
     private final Optional<Integer> powerUpCandyCost;
     private final String uniqueID;
 
-    public ScanResult(Range estimatedPokemonLevel, String pokemonName, String pokemonType, String candyName,
+    public ScanResult(LeveLRange estimatedPokemonLevel, String pokemonName, String pokemonType, String candyName,
                       Optional<Integer> pokemonHP, Optional<Integer> pokemonCP,
                       Optional<Integer> pokemonCandyAmount, Optional<Integer> upgradeCandyCost,
                       Optional<Integer> powerUpStardustCost, Optional<Integer> powerUpCandyCost, String uniqueID) {
@@ -39,7 +39,7 @@ public class ScanResult {
         this.uniqueID = uniqueID;
     }
 
-    public Range getEstimatedPokemonLevel() {
+    public LeveLRange getEstimatedPokemonLevel() {
         return estimatedPokemonLevelRange;
     }
 

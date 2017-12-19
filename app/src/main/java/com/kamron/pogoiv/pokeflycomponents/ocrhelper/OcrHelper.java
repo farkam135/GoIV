@@ -12,7 +12,7 @@ import com.googlecode.tesseract.android.TessBaseAPI;
 import com.kamron.pogoiv.GoIVSettings;
 import com.kamron.pogoiv.scanlogic.Data;
 import com.kamron.pogoiv.scanlogic.ScanResult;
-import com.kamron.pogoiv.utils.Range;
+import com.kamron.pogoiv.utils.LeveLRange;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -42,6 +42,7 @@ import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.POKEM
  */
 public class OcrHelper {
 
+    private static final int MAXIMUM_WILD_POKEMON_LEVEL = 35;
     private static OcrHelper instance = null;
     private TessBaseAPI tesseract = null;
     private final GoIVSettings settings;
@@ -893,7 +894,7 @@ public class OcrHelper {
     public ScanResult scanPokemon(@NonNull Bitmap pokemonImage, int trainerLevel) {
         ensureCorrectLevelArcSettings(trainerLevel); //todo, make it so it doesnt initiate on every scan?
         double estimatedPokemonLevel = getPokemonLevelFromImg(pokemonImage, trainerLevel);
-        Range estimatedPokemonLevelRange = new Range(estimatedPokemonLevel);
+        LeveLRange estimatedPokemonLevelRange = new LeveLRange(estimatedPokemonLevel);
         Optional<Integer> pokemonPowerUpStardustCost = Optional.absent();
         //Optional<Integer> pokemonPowerUpStardustCost = getPokemonPowerUpStardustCostFromImg(pokemonImage);
         Optional<Integer> pokemonPowerUpCandyCost = getPokemonPowerUpCandyCostFromImg(pokemonImage);
@@ -920,25 +921,25 @@ public class OcrHelper {
     /**
      * Get the range of possible levels using candy upgrade cost, if the level is potentially outside the arc-range.
      */
-    private Range refineLevelEstimate(int trainerLevel, Optional<Integer> pokemonPowerUpCandyCost,
-                                      double estimatedPokemonLevel) {
-        if (estimatedPokemonLevel < Data.trainerLevelToMaxPokeLevel(trainerLevel)) {
-            return new Range(estimatedPokemonLevel); // no need for level range, arc captured level perfectly.
+    private LeveLRange refineLevelEstimate(int trainerLevel, Optional<Integer> pokemonPowerUpCandyCost,
+                                           double estimatedPokemonLevel) {
+        if (estimatedPokemonLevel < Data.trainerLevelToMaxPokeLevel(trainerLevel) || estimatedPokemonLevel ==  40) {
+            return new LeveLRange(estimatedPokemonLevel); // no need for level range, arc captured level perfectly.
         }
 
         //if scanned arc-level is maxed out, we need to consider that the pokemon might have an even
         // higher level.
-        double lowerBound = 1;
-        double higherBound = 40;
+        double lowerBound = 40;
+        double higherBound = 1;
         int scannedPowerupCost;
 
         if (pokemonPowerUpCandyCost.isPresent()) {
             scannedPowerupCost = pokemonPowerUpCandyCost.get();
         } else {
-            return new Range(estimatedPokemonLevel); //couldnt read powerup cost
+            return new LeveLRange(estimatedPokemonLevel); //couldnt read powerup cost
         }
 
-        for (int i = 1; i <= 40; i++) {
+        for (int i = 1; i <= MAXIMUM_WILD_POKEMON_LEVEL; i++) {
             int powerupCostForLevel = Data.powerUpCandyCost[Data.maxPokeLevelToIndex(i)];
             if (powerupCostForLevel == scannedPowerupCost) {
                 if (i < lowerBound) {
@@ -949,7 +950,12 @@ public class OcrHelper {
                 }
             }
         }
-        return new Range(lowerBound, higherBound);
+        //We know that the lower bound cant be lower than the actual arc-value scanned
+        if (lowerBound < estimatedPokemonLevel){
+            lowerBound = estimatedPokemonLevel;
+        }
+
+        return new LeveLRange(lowerBound, higherBound);
     }
 
 

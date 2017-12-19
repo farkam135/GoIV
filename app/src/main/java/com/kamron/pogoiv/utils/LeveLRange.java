@@ -6,14 +6,14 @@ package com.kamron.pogoiv.utils;
  * A simple class to represent a minimum and a maximum.
  */
 
-public class Range {
+public class LeveLRange {
 
     public double min;
     public double max;
 
 
 
-    public Range(double min, double max) {
+    public LeveLRange(double min, double max) {
         this.min = min;
         this.max = max;
     }
@@ -22,19 +22,19 @@ public class Range {
      * Creates a range with both min and max value being the single input
      * @param both
      */
-    public Range(double both) {
+    public LeveLRange(double both) {
         this.min = both;
         this.max = both;
     }
 
     public void dec() {
-        min =- 0.5;
-        max =- 0.5;
+        min -= 0.5;
+        max = min;
     }
 
     public void inc() {
-        min =+ 0.5;
-        max =+ 0.5;
+        min += 0.5;
+        max = min;
     }
 
     public String getTextRepresentation() {

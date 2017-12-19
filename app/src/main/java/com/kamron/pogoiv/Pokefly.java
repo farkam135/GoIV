@@ -75,7 +75,7 @@ import com.kamron.pogoiv.scanlogic.ScanResult;
 import com.kamron.pogoiv.scanlogic.UpgradeCost;
 import com.kamron.pogoiv.utils.CopyUtils;
 import com.kamron.pogoiv.utils.GuiUtil;
-import com.kamron.pogoiv.utils.Range;
+import com.kamron.pogoiv.utils.LeveLRange;
 import com.kamron.pogoiv.widgets.PokemonSpinnerAdapter;
 import com.kamron.pogoiv.widgets.recyclerviews.adapters.IVResultsAdapter;
 
@@ -335,7 +335,7 @@ public class Pokefly extends Service {
     private Optional<Integer> pokemonHP = Optional.absent();
     private Optional<Integer> candyUpgradeCost = Optional.absent();
     private String pokemonUniqueID = "";
-    private Range estimatedPokemonLevelRange = new Range(1.0);
+    private LeveLRange estimatedPokemonLevelRange = new LeveLRange(1.0);
     private @NonNull Optional<String> screenShotPath = Optional.absent();
 
 
@@ -655,7 +655,7 @@ public class Pokefly extends Service {
         arcAdjustBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                estimatedPokemonLevelRange = new Range(Data.levelIdxToLevel(progress));
+                //estimatedPokemonLevelRange = new LeveLRange(Data.levelIdxToLevel(progress));
                 setArcPointer(estimatedPokemonLevelRange.min);
                 levelIndicator.setText(String.valueOf(estimatedPokemonLevelRange.getTextRepresentation()));
             }
@@ -2001,9 +2001,9 @@ public class Pokefly extends Service {
                     double estimatedPokemonLevelMin = intent.getDoubleExtra(KEY_SEND_INFO_LEVEL_LOWER, 1);
                     double estimatedPokemonLevelMax = intent.getDoubleExtra(KEY_SEND_INFO_LEVEL_HIGHER, 1);
 
-                    estimatedPokemonLevelRange = new Range (estimatedPokemonLevelMin, estimatedPokemonLevelMax);
+                    estimatedPokemonLevelRange = new LeveLRange(estimatedPokemonLevelMin, estimatedPokemonLevelMax);
 
-                    if (estimatedPokemonLevelRange.min < 1.0) {
+                    if (estimatedPokemonLevelRange.min < 1.0 || estimatedPokemonLevelRange.min  > 40) {
                         estimatedPokemonLevelRange.min = 1.0;
                         estimatedPokemonLevelRange.max = 1.0;
                     }

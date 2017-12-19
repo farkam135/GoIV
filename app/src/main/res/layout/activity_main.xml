@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#f0f0f0"
+        android:id="@+id/scrollviewMain"
         android:fadeScrollbars="false">
 
         <!-- Main content holder in the scrollview-->
@@ -18,10 +18,11 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="vertical"
+            android:paddingBottom="16dp"
             android:paddingLeft="28dp"
             android:paddingRight="28dp"
-            android:paddingTop="56dp"
-            android:paddingBottom="16dp">
+            android:paddingTop="56dp">
+
 
             <!-- Trainer input field-->
             <LinearLayout
@@ -63,7 +64,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="2dp"
-                    android:background="#ddd" />
+                    android:background="#ddd"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -82,18 +83,18 @@
                     <View
                         android:layout_width="1dp"
                         android:layout_height="match_parent"
-                        android:layout_marginTop="4dp"
                         android:layout_marginBottom="4dp"
                         android:layout_marginLeft="12dp"
                         android:layout_marginRight="12dp"
-                        android:background="#ddd" />
+                        android:layout_marginTop="4dp"
+                        android:background="#ddd"/>
 
                     <Spinner
                         android:id="@+id/teamPickerSpinner"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="2"
-                        android:layout_gravity="center_vertical">
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="2">
 
                     </Spinner>
 
@@ -105,7 +106,7 @@
             <LinearLayout
                 android:id="@+id/optimizationWarning"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginTop="24dp"
                 android:background="#FFF"
                 android:orientation="vertical"
@@ -121,7 +122,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="#ddd" />
+                    android:background="#ddd"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -129,13 +130,34 @@
                     android:layout_marginTop="12dp"
                     android:text="@string/scan_optimization_notice_text"/>
 
+
                 <TextView
                     android:id="@+id/nonStandardScreenWarning"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     android:text="@string/scan_optimization_screen_ratio_warning"
-                    android:textColor="@android:color/holo_red_dark" />
+                    android:textColor="@android:color/holo_red_dark"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center">
+
+                    <Button
+                        android:id="@+id/recalibrationHelp2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:background="#0000"
+                        android:text="Show me how"
+                        android:textColor="#365fda"
+                        android:textSize="16sp"/>
+                </LinearLayout>
+
+
+
+
 
             </LinearLayout>
 
@@ -155,22 +177,51 @@
                 android:text="@string/instructions_title"
                 android:textColor="#365fda"
                 android:textSize="16sp"/>
+            <Button
+                android:id="@+id/recalibrationHelp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:background="#0000"
+                android:text="How to automatically optimize"
+                android:textColor="#365fda"
+                android:textSize="16sp"/>
+
+            <LinearLayout
+                android:id="@+id/weblayout"
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                android:layout_height="480dp">
+                <WebView
+                    android:id="@+id/webview_tutorial"
+                    android:layout_width="320dp"
+                    android:layout_height="480dp"
+                    android:layout_marginTop="14dp"
+                    android:focusable="true">
+
+                </WebView>
+
+            </LinearLayout>
+
+
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:orientation="horizontal"
-                android:gravity="center_horizontal">
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/github"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:padding="5dp"
                     android:layout_marginLeft="12dp"
                     android:layout_marginRight="12dp"
                     android:background="@drawable/github"
+                    android:padding="5dp"
                     tools:ignore="ButtonStyle"/>
 
                 <Button
@@ -189,7 +240,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:paddingTop="24dp"
-                android:text="@string/goiv_is_open_source" />
+                android:text="@string/goiv_is_open_source"/>
 
             <TextView
                 android:id="@+id/version_number"

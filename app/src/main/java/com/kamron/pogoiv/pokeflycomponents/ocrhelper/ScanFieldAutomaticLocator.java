@@ -52,6 +52,7 @@ public class ScanFieldAutomaticLocator {
     private static final float[] HSV_GREEN_DARK_SMALL = new float[] {166, 0.13f, 0.66f};
     private static final float[] HSV_GREEN_DARK = new float[] {183f, 0.32f, 0.46f};
     private static final float[] HSV_GREEN_LIGHT = new float[] {183f, 0.04f, 0.85f};
+    private static final float[] HSV_BLUE_LIGHT = new float[] {197f, 0.12f, 0.93f};
     private static final float[] HSV_TEXT_RED = new float[] {2f, 0.39f, 0.96f};
     private static final float[] HSV_BUTTON_ENABLED = new float[] {147, 0.45f, 0.84f};
     private static final float[] HSV_BUTTON_DISABLED = new float[] {143, 0.05f, 0.90f};
@@ -271,6 +272,7 @@ public class ScanFieldAutomaticLocator {
                                  @NonNull WeakReference<Context> contextRef) {
         String findingName = null;
         String findingType = null;
+        String findingGender = null;
         String findingCandyName = null;
         String findingHp = null;
         String findingCp = null;
@@ -285,6 +287,7 @@ public class ScanFieldAutomaticLocator {
         if (context != null) {
             findingName = context.getString(R.string.ocr_finding_name);
             findingType = context.getString(R.string.ocr_finding_type);
+            findingGender = context.getString(R.string.ocr_finding_gender);
             findingCandyName = context.getString(R.string.ocr_finding_candy_name);
             findingHp = context.getString(R.string.ocr_finding_hp);
             findingCp = context.getString(R.string.ocr_finding_cp);
@@ -304,6 +307,9 @@ public class ScanFieldAutomaticLocator {
 
         postMessage(mainThreadHandler, dialog.get(), findingType);
         findPokemonTypeArea(results);
+
+        postMessage(mainThreadHandler, dialog.get(), findingGender);
+        findPokemonGenderArea(results);
 
         postMessage(mainThreadHandler, dialog.get(), findingCandyName);
         findPokemonCandyNameArea(results);
@@ -1185,6 +1191,75 @@ public class ScanFieldAutomaticLocator {
         result.height += result.height * 0.4;
 
         results.pokemonTypeArea = new ScanArea(result.x, result.y, result.width, result.height);
+    }
+
+    /**
+     * Find the area where the pokemon gender is listed.
+     */
+    private void findPokemonGenderArea(ScanFieldResults results) {
+        final boolean debugExecution = false; // Activate this flag to display the onscreen debug graphics
+
+        //noinspection UnusedAssignment
+        Canvas c = null;
+        //noinspection UnusedAssignment
+        Paint p = null;
+        //noinspection PointlessBooleanExpression
+        if (BuildConfig.DEBUG && debugExecution) {
+            c = new Canvas(bmp);
+            p = getDebugPaint();
+            p.setColor(Color.MAGENTA);
+            debugPrintRectList(boundingRectList, c, p);
+        }
+
+        if (hpBar == null || powerUpButton == null) {
+            return;
+        }
+
+        List<Rect> candidates = FluentIterable.from(boundingRectList)
+                // Keep only bounding rect at the right of the hp bar end
+                .filter(ByMinX.of(hpBar.x + hpBar.width))
+                // Keep only bounding rect that are big enough
+                .filter(ByMinY.of(hpBar.y - powerUpButton.height / 2))
+                .filter(ByMaxY.of(hpBar.y + hpBar.height + powerUpButton.height / 2))
+                .toList();
+
+        //noinspection PointlessBooleanExpression
+        if (BuildConfig.DEBUG && debugExecution) {
+            //noinspection ConstantConditions
+            p.setColor(Color.YELLOW);
+            debugPrintRectList(candidates, c, p);
+        }
+
+        candidates = FluentIterable.from(candidates)
+                // Check if the dominant color of the contour matches the color of the hamburger floating action button
+                .filter(ByHsvColor.of(image, mask1, contours, boundingRectList, HSV_BLUE_LIGHT, 5, 0.125f, 0.090f))
+                .toList();
+
+        //noinspection PointlessBooleanExpression
+        if (BuildConfig.DEBUG && debugExecution) {
+            //noinspection ConstantConditions
+            p.setColor(Color.GREEN);
+            debugPrintRectList(candidates, c, p);
+        }
+
+        if (candidates.size() == 0) {
+            return;
+        }
+
+        Rect result = mergeRectList(candidates);
+
+        // Gender area is a rect whose side is at least the power up button half height
+        int minSide = powerUpButton.height / 2;
+        if (result.width < minSide) {
+            result.x -= (minSide - result.width) / 2;
+            result.width = minSide;
+        }
+        if (result.height < minSide) {
+            result.y -= (minSide - result.height) / 2;
+            result.height = minSide;
+        }
+
+        results.pokemonGenderArea = new ScanArea(result.x, result.y, result.width, result.height);
     }
 
     /**

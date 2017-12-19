@@ -109,6 +109,7 @@ public class Pokefly extends Service {
     private static final String KEY_SEND_INFO_NAME = "key_send_info_name";
     private static final String KEY_SEND_INFO_TYPE = "key_send_info_type";
     private static final String KEY_SEND_INFO_CANDY = "key_send_info_candy";
+    private static final String KEY_SEND_INFO_GENDER = "key_send_info_gender";
     private static final String KEY_SEND_INFO_HP = "key_send_info_hp";
     private static final String KEY_SEND_INFO_CP = "key_send_info_cp";
     private static final String KEY_SEND_INFO_LEVEL = "key_send_info_level";
@@ -326,6 +327,7 @@ public class Pokefly extends Service {
     private String pokemonName;
     private String pokemonType;
     private String candyName;
+    private Optional<String> pokemonGender = Optional.absent();
     private Optional<Integer> pokemonCandy = Optional.absent();
     private Optional<Integer> pokemonCP = Optional.absent();
     private Optional<Integer> pokemonHP = Optional.absent();
@@ -377,6 +379,7 @@ public class Pokefly extends Service {
         intent.putExtra(KEY_SEND_INFO_NAME, scanResult.getPokemonName());
         intent.putExtra(KEY_SEND_INFO_TYPE, scanResult.getPokemonType());
         intent.putExtra(KEY_SEND_INFO_CANDY, scanResult.getCandyName());
+        intent.putExtra(KEY_SEND_INFO_GENDER, scanResult.getPokemonGender());
         intent.putExtra(KEY_SEND_INFO_HP, scanResult.getPokemonHP());
         intent.putExtra(KEY_SEND_INFO_CP, scanResult.getPokemonCP());
         intent.putExtra(KEY_SEND_INFO_LEVEL, scanResult.getEstimatedPokemonLevel());
@@ -1057,7 +1060,7 @@ public class Pokefly extends Service {
 
 
         IVScanResult ivScanResult = pokeInfoCalculator.getIVPossibilities(pokemon, estimatedPokemonLevel,
-                pokemonHP.get(), pokemonCP.get());
+                pokemonHP.get(), pokemonCP.get(), pokemonGender);
 
         refineByAvailableAppraisalInfo(ivScanResult);
         refineByEggRaidInformation(ivScanResult);
@@ -1249,7 +1252,7 @@ public class Pokefly extends Service {
 
         String clipResult;
         IVScanResult singleIVScanResult = new IVScanResult(ivScanResult.pokemon, ivScanResult.estimatedPokemonLevel,
-                ivScanResult.scannedCP);
+                ivScanResult.scannedCP, ivScanResult.scannedGender);
         singleIVScanResult.addIVCombination(ivCombination.att, ivCombination.def, ivCombination.sta);
         clipResult = clipboardTokenHandler.getResults(singleIVScanResult, pokeInfoCalculator, true);
 
@@ -1980,6 +1983,8 @@ public class Pokefly extends Service {
                             (Optional<Integer>) intent.getSerializableExtra(KEY_SEND_INFO_CP);
                     @SuppressWarnings("unchecked") Optional<Integer> lPokemonHP =
                             (Optional<Integer>) intent.getSerializableExtra(KEY_SEND_INFO_HP);
+                    @SuppressWarnings("unchecked") Optional<String> lPokemonGender =
+                            (Optional<String>) intent.getSerializableExtra(KEY_SEND_INFO_GENDER);
                     @SuppressWarnings("unchecked") Optional<Integer> lCandyAmount =
                             (Optional<Integer>) intent.getSerializableExtra(KEY_SEND_INFO_CANDY_AMOUNT);
                     @SuppressWarnings("unchecked") Optional<Integer> lCandyUpgradeCost =
@@ -1990,6 +1995,7 @@ public class Pokefly extends Service {
                     screenShotPath = lScreenShotFile;
                     pokemonCP = lPokemonCP;
                     pokemonHP = lPokemonHP;
+                    pokemonGender = lPokemonGender;
                     pokemonCandy = lCandyAmount;
                     candyUpgradeCost = lCandyUpgradeCost;
                     pokemonUniqueID = lUniqueID;

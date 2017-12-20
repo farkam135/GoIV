@@ -23,14 +23,16 @@
             android:paddingRight="28dp"
             android:paddingTop="56dp">
 
-
             <!-- Trainer input field-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#FFF"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:paddingLeft="16dp"
+                android:paddingTop="12dp"
+                android:paddingRight="16dp"
+                android:paddingBottom="12dp">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -42,6 +44,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
                     android:orientation="horizontal">
 
                     <TextView
@@ -146,18 +149,13 @@
 
                     <Button
                         android:id="@+id/recalibrationHelp2"
+                        style="?attr/borderlessButtonStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
-                        android:background="#0000"
                         android:text="Show me how"
-                        android:textColor="#365fda"
                         android:textSize="16sp"/>
                 </LinearLayout>
-
-
-
-
 
             </LinearLayout>
 
@@ -166,26 +164,24 @@
                 style="@style/PoGoStyleButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
                 android:text="@string/main_start"/>
 
             <Button
                 android:id="@+id/help"
+                style="?attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:background="#0000"
-                android:text="@string/instructions_title"
-                android:textColor="#365fda"
-                android:textSize="16sp"/>
+                android:layout_marginTop="16dp"
+                android:text="@string/instructions_title"/>
+
             <Button
                 android:id="@+id/recalibrationHelp"
+                style="?attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:background="#0000"
-                android:text="How to automatically optimize"
-                android:textColor="#365fda"
-                android:textSize="16sp"/>
+                android:layout_marginTop="8dp"
+                android:text="How to automatically optimize"/>
 
             <LinearLayout
                 android:id="@+id/weblayout"
@@ -205,32 +201,31 @@
 
             </LinearLayout>
 
-
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="12dp"
                 android:gravity="center_horizontal"
                 android:orientation="horizontal">
 
-                <Button
+                <ImageButton
                     android:id="@+id/github"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginLeft="12dp"
-                    android:layout_marginRight="12dp"
-                    android:background="@drawable/github"
-                    android:padding="5dp"
+                    style="?attr/borderlessButtonStyle"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:padding="12dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/github"
                     tools:ignore="ButtonStyle"/>
 
-                <Button
+                <ImageButton
                     android:id="@+id/reddit"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_marginLeft="12dp"
-                    android:layout_marginRight="12dp"
-                    android:background="@drawable/reddit"
+                    style="?attr/borderlessButtonStyle"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:padding="12dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/reddit"
                     tools:ignore="ButtonStyle"/>
 
             </LinearLayout>
@@ -239,7 +234,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:paddingTop="24dp"
+                android:paddingTop="12dp"
                 android:text="@string/goiv_is_open_source"/>
 
             <TextView

@@ -7,7 +7,7 @@
     android:padding="16dp"
     android:gravity="center|bottom"
     android:background="@android:drawable/alert_light_frame"
-    android:theme="@style/DialogTheme"
+    android:theme="@style/AppTheme.Dialog"
     android:alpha="225">
 
     <ScrollView
@@ -47,7 +47,6 @@
 
         <Button
             android:id="@+id/btnCancelInfo"
-            style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -55,7 +54,6 @@
 
         <Button
             android:id="@+id/btnCheckIv"
-            style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -71,7 +69,6 @@
 
         <Button
             android:id="@+id/btnBackInfo"
-            style="@style/Widget.AppCompat.Button.Colored"
             android:text="@string/back"
             android:layout_weight="1"
             android:layout_width="wrap_content"
@@ -79,7 +76,6 @@
 
         <Button
             android:id="@+id/btnCloseInfo"
-            style="@style/Widget.AppCompat.Button.Colored"
             android:text="@string/close"
             android:layout_weight="1"
             android:layout_width="wrap_content"

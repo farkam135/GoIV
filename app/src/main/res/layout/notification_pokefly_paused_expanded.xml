@@ -45,24 +45,22 @@
             android:gravity="end">
 
             <Button
-                style="@style/Base.Widget.AppCompat.Button.Borderless"
+                style="@style/Widget.GoIV.Button.Borderless"
                 android:id="@+id/settings"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="4dp"
                 android:text="@string/settings_page_title"
-                android:textColor="@color/colorPrimary"
                 android:drawableEnd="@drawable/ic_settings_24px"
                 android:drawablePadding="4dp" />
 
             <Button
-                style="@style/Base.Widget.AppCompat.Button.Borderless"
+                style="@style/Widget.GoIV.Button.Borderless"
                 android:id="@+id/start"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="-12dp"
                 android:text="@string/main_start"
-                android:textColor="@color/colorPrimary"
                 android:drawableEnd="@drawable/ic_play_circle_outline_24px"
                 android:drawablePadding="4dp" />
 

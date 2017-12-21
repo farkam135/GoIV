@@ -989,7 +989,7 @@ public class OcrHelper {
      */
     private LeveLRange refineLevelEstimate(int trainerLevel, Optional<Integer> pokemonPowerUpCandyCost,
                                            double estimatedPokemonLevel) {
-        if (estimatedPokemonLevel < Data.trainerLevelToMaxPokeLevel(trainerLevel) || estimatedPokemonLevel ==  40) {
+        if (estimatedPokemonLevel < Data.trainerLevelToMaxPokeLevel(trainerLevel) || estimatedPokemonLevel == 40) {
             return new LeveLRange(estimatedPokemonLevel); // no need for level range, arc captured level perfectly.
         }
 
@@ -1017,7 +1017,7 @@ public class OcrHelper {
             }
         }
         //We know that the lower bound cant be lower than the actual arc-value scanned
-        if (lowerBound < estimatedPokemonLevel){
+        if (lowerBound < estimatedPokemonLevel) {
             lowerBound = estimatedPokemonLevel;
         }
 

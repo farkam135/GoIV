@@ -660,7 +660,7 @@ public class Pokefly extends Service {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 //estimatedPokemonLevelRange = new LeveLRange(Data.levelIdxToLevel(progress));
                 setArcPointer(estimatedPokemonLevelRange.min);
-                levelIndicator.setText(String.valueOf(estimatedPokemonLevelRange.getTextRepresentation()));
+                levelIndicator.setText(String.valueOf(estimatedPokemonLevelRange.toString()));
             }
 
             @Override
@@ -2009,7 +2009,7 @@ public class Pokefly extends Service {
 
                     estimatedPokemonLevelRange = new LeveLRange(estimatedPokemonLevelMin, estimatedPokemonLevelMax);
 
-                    if (estimatedPokemonLevelRange.min < 1.0 || estimatedPokemonLevelRange.min  > 40) {
+                    if (estimatedPokemonLevelRange.min < 1.0 || estimatedPokemonLevelRange.min > 40) {
                         estimatedPokemonLevelRange.min = 1.0;
                         estimatedPokemonLevelRange.max = 1.0;
                     }

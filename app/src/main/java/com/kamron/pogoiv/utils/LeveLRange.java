@@ -18,7 +18,7 @@ public class LeveLRange {
     }
 
     /**
-     * Creates a range with both min and max value being the single input
+     * Creates a range with both min and max value being the single input.
      */
     public LeveLRange(double both) {
         this.min = both;
@@ -29,17 +29,18 @@ public class LeveLRange {
      * Removes the 'range' and sets both min and max to the same value, based on the previous low value -0.5.
      * Example use :
      * before: lower:5 - higher:7,
-     * after-> lower:4,5 - higher: 4.5
+     * after-> lower:4,5 - higher: 4.5.
      */
     public void dec() {
         min -= 0.5;
         max = min;
     }
+
     /**
      * Removes the 'range' and sets both min and max to the same value, based on the previous low value +0.5.
      * Example use :
      * before: lower:5 - higher:7,
-     * after-> lower:5,5 - higher: 5.5
+     * after-> lower:5,5 - higher: 5.5.
      */
     public void inc() {
         min += 0.5;

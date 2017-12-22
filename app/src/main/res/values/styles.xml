@@ -1,31 +1,40 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
+    <style name="BaseTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Base application theme. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
 
         <item name="android:typeface">sans</item>
+
+        <item name="android:buttonStyle">@style/Widget.GoIV.Button</item>
+        <item name="buttonStyle">@style/Widget.GoIV.Button</item>
+        <item name="borderlessButtonStyle">@style/Widget.GoIV.Button.Borderless</item>
     </style>
 
-    <style name="DialogTheme" parent="AppTheme">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+    <style name="AppTheme" parent="BaseTheme">
+        <!-- Here goes any API level specific attribute. -->
+    </style>
+
+    <style name="AppTheme.Dialog">
         <item name="colorAccent">@color/colorPrimary</item>
-        <item name="android:buttonStyle">@style/DialogStyleButton</item>
+        <item name="colorControlNormal">@color/colorPrimary</item>
     </style>
 
-    <style name="DialogStyleButton" parent="Widget.AppCompat.Button.Colored">
-        <item name="android:color">@color/buttonText</item>
+    <style name="Widget.GoIV.Button" parent="@style/Widget.AppCompat.Button.Colored">
+        <item name="backgroundTint">@color/colorPrimary</item>
+        <item name="android:textSize">16sp</item>
     </style>
 
-    <style name="PoGoStyleButton">
+    <style name="Widget.GoIV.Button.Borderless" parent="@style/Widget.AppCompat.Button.Borderless">
+        <item name="android:textColor">@color/goiv_btn_colored_borderless_text_material</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="PoGoStyleButton" parent="@style/Widget.AppCompat.Button">
         <item name="android:textColor">@color/buttonText</item>
-        <item name="android:textAllCaps">true</item>
         <item name="android:background">@drawable/skin_button</item>
-        <item name="android:layout_marginTop">16dp</item>
         <item name="android:paddingBottom">16dp</item>
         <item name="android:paddingEnd">32dp</item>
         <item name="android:paddingLeft">32dp</item>

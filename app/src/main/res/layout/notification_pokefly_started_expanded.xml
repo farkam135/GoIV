@@ -46,24 +46,22 @@
             android:gravity="end">
 
             <Button
-                style="@style/Base.Widget.AppCompat.Button.Borderless"
+                style="@style/Widget.GoIV.Button.Borderless"
                 android:id="@+id/recalibrate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="4dp"
                 android:text="@string/recalibrate_goiv_notification"
-                android:textColor="@color/colorPrimary"
                 android:drawableEnd="@drawable/ic_recalibrate_24px"
                 android:drawablePadding="4dp" />
 
             <Button
-                style="@style/Base.Widget.AppCompat.Button.Borderless"
+                style="@style/Widget.GoIV.Button.Borderless"
                 android:id="@+id/pause"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="-12dp"
                 android:text="@string/pause_goiv_notification"
-                android:textColor="@color/colorPrimary"
                 android:drawableEnd="@drawable/ic_pause_circle_outline_24px"
                 android:drawablePadding="4dp" />
 

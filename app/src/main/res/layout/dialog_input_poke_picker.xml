@@ -24,9 +24,10 @@
 
     </AutoCompleteTextView>
 
-    <Button
+    <ImageButton
         android:id="@+id/pokePickerToggleSpinnerVsInput"
-        android:background="@android:drawable/ic_menu_edit"
+        style="?attr/borderlessButtonStyle"
+        android:src="@android:drawable/ic_menu_edit"
         android:layout_width="40dp"
         android:layout_height="40dp"/>
 </LinearLayout>

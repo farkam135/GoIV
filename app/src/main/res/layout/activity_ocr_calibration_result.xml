@@ -51,7 +51,6 @@
 
                 <Button
                     android:id="@+id/saveCalibrationButton"
-                    style="@style/Widget.AppCompat.Button.Colored"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:enabled="false"
@@ -59,7 +58,6 @@
 
                 <Button
                     android:id="@+id/backToGoivButton"
-                    style="@style/Widget.AppCompat.Button.Colored"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:text="@string/go_back_to_goiv"
@@ -86,7 +84,6 @@
 
             <Button
                 android:id="@+id/backButton"
-                style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|center_horizontal"

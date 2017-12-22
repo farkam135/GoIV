@@ -22,6 +22,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
@@ -314,7 +315,7 @@ public class MainActivity extends AppCompatActivity {
      * Initiates the links to reddit and github.
      */
     private void initiateCommunityButtons() {
-        Button redditButton = (Button) findViewById(R.id.reddit);
+        View redditButton = findViewById(R.id.reddit);
         redditButton.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
                 Uri uriUrl = Uri.parse("https://www.reddit.com/r/GoIV/");
@@ -323,7 +324,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button githubButton = (Button) findViewById(R.id.github);
+        View githubButton = findViewById(R.id.github);
         githubButton.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
                 Uri uriUrl = Uri.parse("https://github.com/farkam135/GoIV");
@@ -369,7 +370,8 @@ public class MainActivity extends AppCompatActivity {
      */
     private void initiateStartButton() {
 
-        launchButton = (Button) findViewById(R.id.start);
+        launchButton = findViewById(R.id.start);
+        ViewCompat.setBackgroundTintList(launchButton, null);
         launchButton.setOnClickListener(new View.OnClickListener() {
 
             @Override

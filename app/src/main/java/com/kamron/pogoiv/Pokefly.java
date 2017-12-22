@@ -39,9 +39,9 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -169,7 +169,7 @@ public class Pokefly extends Service {
     AutoCompleteTextView autoCompleteTextView1;
 
     @BindView(R.id.pokePickerToggleSpinnerVsInput)
-    Button pokePickerToggleSpinnerVsInput;
+    ImageButton pokePickerToggleSpinnerVsInput;
 
     @BindView(R.id.shareWithStorimod)
     ImageView shareWithStorimod;
@@ -687,8 +687,7 @@ public class Pokefly extends Service {
      * creates the info layout which contains all the scanned data views and allows for correction.
      */
     private void createInfoLayout() {
-
-        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = LayoutInflater.from(this);
         infoLayout = (LinearLayout) inflater.inflate(R.layout.dialog_info_window, null);
         layoutParams.gravity = Gravity.CENTER | Gravity.BOTTOM;
         ButterKnife.bind(this, infoLayout);

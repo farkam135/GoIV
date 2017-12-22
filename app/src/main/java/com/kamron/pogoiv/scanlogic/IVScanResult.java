@@ -39,6 +39,7 @@ public class IVScanResult {
     public Pokemon pokemon = null;
     public final double estimatedPokemonLevel;
     public int scannedHP = 0;
+    public boolean rangeIVScan = false; //is this several levels worth of possible iv combinations?
     public Optional<String> scannedGender;
 
     /**
@@ -334,5 +335,18 @@ public class IVScanResult {
             }
         }
         iVCombinations = refinedList;
+    }
+
+    public void addPossibilitiesFrom(IVScanResult ivs) {
+
+        for (IVCombination ivc : ivs.iVCombinations) {
+            if (iVCombinations.contains(ivc) == false) { //dont add duplicates
+                addIVCombination(ivc.att, ivc.def, ivc.sta);
+                rangeIVScan = true;
+            }
+
+        }
+
+        updateHighAndLowValues();
     }
 }

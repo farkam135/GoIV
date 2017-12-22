@@ -197,14 +197,49 @@ public class PokeInfoCalculator {
      * Calculates all the IV information that can be gained from the pokemon level, hp and cp
      * and fills the information in an IVScanResult, which is returned.
      *
+     * @param estimatedPokemonLevelMin The estimated pokemon level minimum range
+     * @param estimatedPokemonLevelMax The estimated pokemon level minimum range
+     * @param pokemonHP                THe pokemon hp
+     * @param pokemonCP                The pokemonCP
+     * @return An IVScanResult which contains the information calculated about the pokemon, or null if there are too
+     * many possibilities.
+     */
+    public IVScanResult getIVPossibilities(Pokemon selectedPokemon, double estimatedPokemonLevelMin,
+                                           double estimatedPokemonLevelMax, int pokemonHP,
+                                           int pokemonCP, Optional<String> pokemonGender) {
+
+        if (estimatedPokemonLevelMax == estimatedPokemonLevelMin) {
+            return getSingleLevelIVPossibility(selectedPokemon, estimatedPokemonLevelMax, pokemonHP, pokemonCP,
+                    pokemonGender);
+        }
+
+        List<IVScanResult> possibilities = new ArrayList<>();
+        for (double i = estimatedPokemonLevelMin; i <= estimatedPokemonLevelMax; i += 0.5) {
+            possibilities.add(getSingleLevelIVPossibility(selectedPokemon, i, pokemonHP, pokemonCP, pokemonGender));
+        }
+
+        IVScanResult combination = possibilities.get(0);
+        for (IVScanResult ivs : possibilities) {
+            combination.addPossibilitiesFrom(ivs);
+        }
+
+        return combination;
+
+    }
+
+    /**
+     * Calculates all the IV information that can be gained from the pokemon level, hp and cp
+     * and fills the information in an IVScanResult, which is returned.
+     *
      * @param estimatedPokemonLevel The estimated pokemon level
      * @param pokemonHP             THe pokemon hp
      * @param pokemonCP             The pokemonCP
      * @return An IVScanResult which contains the information calculated about the pokemon, or null if there are too
      * many possibilities.
      */
-    public IVScanResult getIVPossibilities(Pokemon selectedPokemon, double estimatedPokemonLevel, int pokemonHP,
-                                           int pokemonCP, Optional<String> pokemonGender) {
+    private IVScanResult getSingleLevelIVPossibility(Pokemon selectedPokemon, double estimatedPokemonLevel,
+                                                     int pokemonHP,
+                                                     int pokemonCP, Optional<String> pokemonGender) {
         int baseAttack = selectedPokemon.baseAttack;
         int baseDefense = selectedPokemon.baseDefense;
         int baseStamina = selectedPokemon.baseStamina;

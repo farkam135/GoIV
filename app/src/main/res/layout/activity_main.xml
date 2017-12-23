@@ -107,13 +107,15 @@
 
             <!-- Notice of lack of screen calibration-->
             <LinearLayout
-                android:id="@+id/optimizationWarning"
+                android:id="@+id/optimizationWarningLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="24dp"
                 android:background="#FFF"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:padding="16dp"
+                android:visibility="gone"
+                tools:visibility="visible">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -128,11 +130,23 @@
                     android:background="#ddd"/>
 
                 <TextView
+                    android:id="@+id/neverRunOptimizationWarning"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:text="@string/scan_optimization_notice_text"/>
+                    android:text="@string/scan_optimization_notice_text"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
 
+                <TextView
+                    android:id="@+id/shouldRunOptimizationAgainWarning"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="@string/scan_optimization_outdated_warning"
+                    android:textColor="@android:color/holo_red_dark"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
 
                 <TextView
                     android:id="@+id/nonStandardScreenWarning"
@@ -140,7 +154,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     android:text="@string/scan_optimization_screen_ratio_warning"
-                    android:textColor="@android:color/holo_red_dark"/>
+                    android:textColor="@android:color/holo_red_dark"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
 
                 <LinearLayout
                     android:layout_width="match_parent"

@@ -51,6 +51,10 @@ public class GoIVSettings {
     public static final String QUICK_IV_PREVIEW = "quick_iv_preview";
     public static final String QUICK_IV_PREVIEW_CLIPBOARD = "quick_iv_preview_clipboard";
     public static final String MANUAL_SCREEN_CALIBRATION_ACTIVE = "manual_screen_calibration_active";
+    public static final String MANUAL_SCREEN_CALIBRATION_VERSION = "manual_screen_calibration_version";
+
+    // Increment this value when you want to make all users recalibrate GoIV
+    public static int LATEST_SCREEN_CALIBRATION_VERSION = 1;
 
 
     private static GoIVSettings instance;
@@ -73,23 +77,12 @@ public class GoIVSettings {
         return prefs.getBoolean(MANUAL_SCREEN_CALIBRATION_ACTIVE, false);
     }
 
-    public void setManualScanCalibration(boolean isManual) {
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putBoolean(GoIVSettings.MANUAL_SCREEN_CALIBRATION_ACTIVE, isManual);
-        editor.apply();
+    public boolean hasUpToDateManualScanCalibration() {
+        return prefs.getInt(MANUAL_SCREEN_CALIBRATION_VERSION, 0) == LATEST_SCREEN_CALIBRATION_VERSION;
     }
 
     public String getCalibrationValue(String valueName) {
         return prefs.getString(valueName, "Error- no value saved");
-    }
-
-    /**
-     * Save a string value for a certain name.
-     */
-    public void saveScreenCalibrationValue(String valueName, String value) {
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString(valueName, value);
-        editor.apply();
     }
 
     public void saveScreenCalibrationResults(ScanFieldResults results) {
@@ -126,6 +119,8 @@ public class GoIVSettings {
                 results.infoScreenFabGreenPixelPoint.toString());
         editor.putString(ScanFieldNames.SCREEN_INFO_FAB_GREEN_HEX,
                 String.format("#%06X", (0xFFFFFF & results.infoScreenFabGreenPixelColor)));
+        editor.putBoolean(GoIVSettings.MANUAL_SCREEN_CALIBRATION_ACTIVE, true);
+        editor.putInt(GoIVSettings.MANUAL_SCREEN_CALIBRATION_VERSION, LATEST_SCREEN_CALIBRATION_VERSION);
         editor.apply();
     }
 

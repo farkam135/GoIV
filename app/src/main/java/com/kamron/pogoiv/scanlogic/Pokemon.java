@@ -8,6 +8,23 @@ import java.util.List;
  */
 
 public class Pokemon {
+
+    public enum Gender {
+        M("♂"),
+        F("♀"),
+        N("");
+
+        private String symbol;
+
+        Gender(String symbol) {
+            this.symbol = symbol;
+        }
+
+        @Override public String toString() {
+            return symbol;
+        }
+    }
+
     /**
      * Evolutions of this Pokemon, sorted in alphabetical order.
      * Try to avoid assumptions that only hold for Gen. I Pokemon: evolutions can have smaller

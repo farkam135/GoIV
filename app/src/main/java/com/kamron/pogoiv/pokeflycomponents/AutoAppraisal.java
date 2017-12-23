@@ -230,12 +230,12 @@ public class AutoAppraisal {
         if (!match && numRetries < SCANRETRIES) { // If nothing matched and we have not yet reached maximum # of retries
             numRetries++;
             // Nothing matched, so this phrase should be thrown away.
-            ocr.removeEntryFromApprisalCache(hash);
+            ocr.removeEntryFromAppraisalCache(hash);
             // Let's schedule another scan to see if animation has finished.
             scanAppraisalText(RETRYDELAY);
         } else if (!match) { // Nothing matched and we've ran out of retry attempts.
             // Nothing matched, so this phrase should be thrown away.
-            ocr.removeEntryFromApprisalCache(hash);
+            ocr.removeEntryFromAppraisalCache(hash);
         }
     }
 

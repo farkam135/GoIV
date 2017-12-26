@@ -345,8 +345,7 @@ public class OcrHelper {
                 return Optional.absent();
             }
         } else {
-            // TODO fallback to non-calibrated standard values
-            return Optional.absent();
+            powerUpStardustCostImage = getImageCrop(pokemonImage, 0.544, 0.803, 0.139, 0.0247);
         }
 
 
@@ -393,8 +392,7 @@ public class OcrHelper {
                 return Optional.absent();
             }
         } else {
-            // TODO fallback to non-calibrated standard values
-            return Optional.absent();
+            powerUpCandyCostImage = getImageCrop(pokemonImage, 0.73, 0.803, 0.092, 0.0247);
         }
 
 
@@ -545,8 +543,7 @@ public class OcrHelper {
                 return Pokemon.Gender.N;
             }
         } else {
-            // TODO fallback to non-calibrated standard values
-            return Pokemon.Gender.N;
+            genderImage = getImageCrop(pokemonImage, 0.826, 0.495, 0.0565, 0.03434);
         }
 
         int width = genderImage.getWidth();

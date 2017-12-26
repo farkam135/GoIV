@@ -406,8 +406,7 @@ public class PokeInfoCalculator {
                 10);
         int lowHp = (int) Math.max(Math.floor((selectedPokemon.baseStamina + ivScanResult.highStamina) * lvlScalar),
                 10);
-        int averageHP = Math.round(highHp + lowHp) / 2;
-        return averageHP;
+        return Math.round(highHp + lowHp) / 2;
     }
 
     public String getTypeName(int typeNameNum) {

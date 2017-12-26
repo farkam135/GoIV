@@ -26,7 +26,9 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getFragmentManager().beginTransaction().replace(android.R.id.content, new SettingsFragment()).commit();
-        getSupportActionBar().setTitle(getResources().getString(R.string.settings_page_title));
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(getResources().getString(R.string.settings_page_title));
+        }
         LocalBroadcastManager.getInstance(this).registerReceiver(showUpdateDialog,
                 new IntentFilter(MainActivity.ACTION_SHOW_UPDATE_DIALOG));
     }
@@ -65,7 +67,7 @@ public class SettingsActivity extends AppCompatActivity {
             addPreferencesFromResource(R.xml.settings);
 
             //Initialize the button which opens the clipboard modifier activity
-            Preference button = (Preference) findPreference(getString(R.string.clipboardButton));
+            Preference button = findPreference(getString(R.string.clipboardButton));
             button.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
@@ -76,7 +78,7 @@ public class SettingsActivity extends AppCompatActivity {
             });
 
             //Initialize the button which opens the credits activity
-            Preference creditsButton = (Preference) findPreference(getString(R.string.view_credits_button));
+            Preference creditsButton = findPreference(getString(R.string.view_credits_button));
             creditsButton.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {

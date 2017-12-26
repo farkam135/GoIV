@@ -117,7 +117,6 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
                 if (results != null && results.isCompleteCalibration()) {
                     GoIVSettings settings = GoIVSettings.getInstance(OcrCalibrationResultActivity.this);
                     settings.saveScreenCalibrationResults(results);
-                    settings.setManualScanCalibration(true);
                     Toast.makeText(OcrCalibrationResultActivity.this,
                             R.string.ocr_calibration_saved, Toast.LENGTH_LONG).show();
                 }

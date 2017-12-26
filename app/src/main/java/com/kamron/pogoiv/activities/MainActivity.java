@@ -10,6 +10,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Point;
 import android.graphics.Rect;
 import android.media.projection.MediaProjection;
 import android.media.projection.MediaProjectionManager;
@@ -293,21 +294,35 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Hide the optimization-warning and its components depending on if the user has a manual screen calibration
-     * saved, and if the device has weird screen ratio.
+     * Show the optimization-warning and its components depending on if the user hasn't a manual screen calibration
+     * saved, if the calibration isn't updated and if the device has weird screen ratio.
      */
     private void initiateOptimizationWarning() {
-        LinearLayout warningLayout = (LinearLayout) findViewById(R.id.optimizationWarning);
-        if (settings.hasManualScanCalibration()) {
-            warningLayout.setVisibility(View.GONE);
-        }
+        if (settings.hasUpToDateManualScanCalibration()) {
+            findViewById(R.id.optimizationWarningLayout).setVisibility(View.GONE); // Ensure the layout isn't visible
 
-        TextView nonStandardScreenWarningText = (TextView) findViewById(R.id.nonStandardScreenWarning);
-        double ratio = (double) displayMetrics.widthPixels / (double) displayMetrics.heightPixels;
-        if (ratio > 0.55 && ratio < 0.57) { //standard 9:16 ratio
-            nonStandardScreenWarningText.setVisibility(View.GONE);
         } else {
-            nonStandardScreenWarningText.setVisibility(View.VISIBLE);
+            findViewById(R.id.optimizationWarningLayout).setVisibility(View.VISIBLE);
+
+            if (settings.hasManualScanCalibration()) {
+                // Has outdated calibration
+                findViewById(R.id.shouldRunOptimizationAgainWarning).setVisibility(View.VISIBLE);
+
+            } else {
+                // Has never calibrated
+                findViewById(R.id.neverRunOptimizationWarning).setVisibility(View.VISIBLE);
+
+                // If the screen ratio isn't standard the user must run calibration
+                Display display = getWindowManager().getDefaultDisplay();
+                Point size = new Point();
+                display.getRealSize(size);
+                float ratio = (float) size.x / size.y;
+                float standardRatio = 9 / 16f;
+                float tolerance = 1 / 400f;
+                if (ratio < (standardRatio - tolerance) || ratio > (standardRatio + tolerance)) {
+                    findViewById(R.id.nonStandardScreenWarning).setVisibility(View.VISIBLE);
+                }
+            }
         }
     }
 

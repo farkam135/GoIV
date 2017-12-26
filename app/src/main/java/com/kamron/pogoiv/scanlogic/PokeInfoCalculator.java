@@ -1,8 +1,6 @@
 package com.kamron.pogoiv.scanlogic;
 
 
-import com.google.common.base.Optional;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -206,7 +204,7 @@ public class PokeInfoCalculator {
      */
     public IVScanResult getIVPossibilities(Pokemon selectedPokemon, double estimatedPokemonLevelMin,
                                            double estimatedPokemonLevelMax, int pokemonHP,
-                                           int pokemonCP, Optional<String> pokemonGender) {
+                                           int pokemonCP, Pokemon.Gender pokemonGender) {
 
         if (estimatedPokemonLevelMax == estimatedPokemonLevelMin) {
             return getSingleLevelIVPossibility(selectedPokemon, estimatedPokemonLevelMax, pokemonHP, pokemonCP,
@@ -238,8 +236,7 @@ public class PokeInfoCalculator {
      * many possibilities.
      */
     private IVScanResult getSingleLevelIVPossibility(Pokemon selectedPokemon, double estimatedPokemonLevel,
-                                                     int pokemonHP,
-                                                     int pokemonCP, Optional<String> pokemonGender) {
+                                                     int pokemonHP, int pokemonCP, Pokemon.Gender pokemonGender) {
         int baseAttack = selectedPokemon.baseAttack;
         int baseDefense = selectedPokemon.baseDefense;
         int baseStamina = selectedPokemon.baseStamina;

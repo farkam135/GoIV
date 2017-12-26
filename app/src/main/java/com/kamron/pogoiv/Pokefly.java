@@ -331,7 +331,7 @@ public class Pokefly extends Service {
     private String pokemonName;
     private String pokemonType;
     private String candyName;
-    private Optional<String> pokemonGender = Optional.absent();
+    private Pokemon.Gender pokemonGender = Pokemon.Gender.N;
     private Optional<Integer> pokemonCandy = Optional.absent();
     private Optional<Integer> pokemonCP = Optional.absent();
     private Optional<Integer> pokemonHP = Optional.absent();
@@ -1061,8 +1061,7 @@ public class Pokefly extends Service {
 
 
         IVScanResult ivScanResult = pokeInfoCalculator.getIVPossibilities(pokemon, estimatedPokemonLevelRange.min,
-                estimatedPokemonLevelRange.max,
-                pokemonHP.get(), pokemonCP.get(), pokemonGender);
+                estimatedPokemonLevelRange.max, pokemonHP.get(), pokemonCP.get(), pokemonGender);
 
         refineByAvailableAppraisalInfo(ivScanResult);
         refineByEggRaidInformation(ivScanResult);
@@ -1887,9 +1886,7 @@ public class Pokefly extends Service {
             CopyUtils.copyAssetFolder(getAssets(), "tessdata", extdir + "/tessdata");
         }
 
-        ocr = OcrHelper.init(extdir, displayMetrics.widthPixels, displayMetrics.heightPixels,
-                pokeInfoCalculator.get(28).name,
-                pokeInfoCalculator.get(31).name,
+        ocr = OcrHelper.init(extdir, displayMetrics.widthPixels, displayMetrics.heightPixels, pokeInfoCalculator,
                 settings);
     }
 
@@ -1985,8 +1982,8 @@ public class Pokefly extends Service {
                             (Optional<Integer>) intent.getSerializableExtra(KEY_SEND_INFO_CP);
                     @SuppressWarnings("unchecked") Optional<Integer> lPokemonHP =
                             (Optional<Integer>) intent.getSerializableExtra(KEY_SEND_INFO_HP);
-                    @SuppressWarnings("unchecked") Optional<String> lPokemonGender =
-                            (Optional<String>) intent.getSerializableExtra(KEY_SEND_INFO_GENDER);
+                    @SuppressWarnings("unchecked") Pokemon.Gender lPokemonGender =
+                            (Pokemon.Gender) intent.getSerializableExtra(KEY_SEND_INFO_GENDER);
                     @SuppressWarnings("unchecked") Optional<Integer> lCandyAmount =
                             (Optional<Integer>) intent.getSerializableExtra(KEY_SEND_INFO_CANDY_AMOUNT);
                     @SuppressWarnings("unchecked") Optional<Integer> lCandyUpgradeCost =

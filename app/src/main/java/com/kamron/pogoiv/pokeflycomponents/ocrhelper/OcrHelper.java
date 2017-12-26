@@ -11,6 +11,8 @@ import com.google.common.base.Optional;
 import com.googlecode.tesseract.android.TessBaseAPI;
 import com.kamron.pogoiv.GoIVSettings;
 import com.kamron.pogoiv.scanlogic.Data;
+import com.kamron.pogoiv.scanlogic.PokeInfoCalculator;
+import com.kamron.pogoiv.scanlogic.Pokemon;
 import com.kamron.pogoiv.scanlogic.ScanResult;
 import com.kamron.pogoiv.utils.LeveLRange;
 
@@ -54,9 +56,10 @@ public class OcrHelper {
     private final boolean candyWordFirst;
     private final String nidoFemale;
     private final String nidoMale;
+    private final String nidoUngendered;
     private final boolean isPokeSpamEnabled;
 
-    private OcrHelper(String dataPath, int widthPixels, int heightPixels, String nidoFemale, String nidoMale,
+    private OcrHelper(String dataPath, int widthPixels, int heightPixels, PokeInfoCalculator pokeInfoCalculator,
                       GoIVSettings settings) {
         tesseract = new TessBaseAPI();
         tesseract.init(dataPath, "eng");
@@ -66,8 +69,9 @@ public class OcrHelper {
         this.heightPixels = heightPixels;
         this.widthPixels = widthPixels;
         this.candyWordFirst = isCandyWordFirst();
-        this.nidoFemale = nidoFemale;
-        this.nidoMale = nidoMale;
+        this.nidoFemale = pokeInfoCalculator.get(28).name;
+        this.nidoMale = pokeInfoCalculator.get(31).name;
+        this.nidoUngendered = nidoFemale.toLowerCase().replace("♀", "");
         this.isPokeSpamEnabled = settings.isPokeSpamEnabled();
         this.settings = settings;
 
@@ -84,10 +88,10 @@ public class OcrHelper {
      * @param dataPath Path the OCR data files.
      * @return Bitmap with replaced colors
      */
-    public static OcrHelper init(String dataPath, int widthPixels, int heightPixels, String nidoFemale,
-                                 String nidoMale, GoIVSettings settings) {
+    public static OcrHelper init(String dataPath, int widthPixels, int heightPixels,
+                                 PokeInfoCalculator pokeInfoCalculator, GoIVSettings settings) {
         if (instance == null) {
-            instance = new OcrHelper(dataPath, widthPixels, heightPixels, nidoFemale, nidoMale, settings);
+            instance = new OcrHelper(dataPath, widthPixels, heightPixels, pokeInfoCalculator, settings);
         }
         return instance;
     }
@@ -469,46 +473,12 @@ public class OcrHelper {
     }
 
     /**
-     * Dont missgender the poor nidorans.
-     * <p/>
-     * Takes a subportion of the screen, and averages the color to check the average values and compares to known
-     * male / female average
-     *
-     * @param pokemonImage The screenshot of the entire application
-     * @return True if the nidoran is female
-     */
-    private boolean isNidoranFemale(Bitmap pokemonImage) {
-        Bitmap pokemon = getImageCrop(pokemonImage, 0.33, 0.25, 0.33, 0.2);
-        int[] pixelArray = new int[pokemon.getHeight() * pokemon.getWidth()];
-        pokemon.getPixels(pixelArray, 0, pokemon.getWidth(), 0, 0, pokemon.getWidth(), pokemon.getHeight());
-        int greenSum = 0;
-        int blueSum = 0;
-
-        // a loop that sums the color values of all the pixels in the image of the nidoran
-        for (int pixel : pixelArray) {
-            blueSum += Color.green(pixel);
-            greenSum += Color.blue(pixel);
-        }
-        int greenAverage = greenSum / pixelArray.length;
-        int blueAverage = blueSum / pixelArray.length;
-        //Average male nidoran has RGB value ~~ 136,165,117
-        //Average female nidoran has RGB value~ 135,190,140
-        int femaleGreenLimit = 175; //if average green is over 175, its probably female
-        int femaleBlueLimit = 130; //if average blue is over 130, its probably female
-        boolean isFemale = true;
-        if (greenAverage < femaleGreenLimit && blueAverage < femaleBlueLimit) {
-            isFemale = false; //if neither average is above the female limit, then it's male.
-        }
-        return isFemale;
-    }
-
-    /**
      * Get the pokemon name as analysed from a pokemon image.
      *
      * @param pokemonImage the image of the whole screen
      * @return A string resulting from the scan
      */
-    private String getPokemonNameFromImg(Bitmap pokemonImage) {
+    private String getPokemonNameFromImg(Bitmap pokemonImage, Pokemon.Gender pokemonGender) {
         Bitmap name;
         if (settings.hasManualScanCalibration()) {
             ScanArea area = new ScanArea(POKEMON_NAME_AREA, settings);
@@ -525,7 +495,7 @@ public class OcrHelper {
             tesseract.setImage(name);
             pokemonName = fixOcrNumsToLetters(tesseract.getUTF8Text().replace(" ", ""));
             if (isNidoranName(pokemonName)) {
-                pokemonName = getNidoranGenderName(pokemonImage);
+                pokemonName = getNidoranGenderName(pokemonGender);
             }
             ocrCache.put(hash, pokemonName);
         }
@@ -565,18 +535,18 @@ public class OcrHelper {
      * @param pokemonImage The image of the whole screen
      * @return Optional.of("♂") if the pokémon is male, Optional.of("♀") if female, Optional.absent() otherwise
      */
-    private Optional<String> getPokemonGenderFromImg(Bitmap pokemonImage) {
+    private Pokemon.Gender getPokemonGenderFromImg(Bitmap pokemonImage) {
         Bitmap genderImage;
         if (settings.hasManualScanCalibration()) {
             try {
                 ScanArea area = new ScanArea(POKEMON_GENDER_AREA, settings);
                 genderImage = getImageCrop(pokemonImage, area);
             } catch (Exception e) {
-                return Optional.absent();
+                return Pokemon.Gender.N;
             }
         } else {
             // TODO fallback to non-calibrated standard values
-            return Optional.absent();
+            return Pokemon.Gender.N;
         }
 
         int width = genderImage.getWidth();
@@ -615,11 +585,11 @@ public class OcrHelper {
         }
 
         if (upperHalfScore > lowerHalfScore) {
-            return Optional.of("♂");
+            return Pokemon.Gender.M;
         } else if (lowerHalfScore > upperHalfScore) {
-            return Optional.of("♀");
+            return Pokemon.Gender.F;
         } else {
-            return Optional.absent();
+            return Pokemon.Gender.N;
         }
     }
 
@@ -633,7 +603,7 @@ public class OcrHelper {
      * @param yHeight how many % of the height should be kept starting from the ystart.
      * @return The crop of the image.
      */
-    public Bitmap getImageCrop(Bitmap img, double xStart, double yStart, double xWidth, double yHeight) {
+    private Bitmap getImageCrop(Bitmap img, double xStart, double yStart, double xWidth, double yHeight) {
         Bitmap crop = Bitmap.createBitmap(img, (int) (widthPixels * xStart), (int) (heightPixels * yStart),
                 (int) (widthPixels * xWidth), (int) (heightPixels * yHeight));
         return crop;
@@ -646,7 +616,7 @@ public class OcrHelper {
      * @param scanArea The area of the image to get
      * @return The scanarea
      */
-    public Bitmap getImageCrop(Bitmap img, ScanArea scanArea) {
+    private Bitmap getImageCrop(Bitmap img, ScanArea scanArea) {
         if (scanArea.width < 0 || scanArea.height < 0 || scanArea.xPoint < 0 || scanArea.yPoint < 0) {
             return null;
         }
@@ -658,23 +628,19 @@ public class OcrHelper {
     /**
      * Get the correctly gendered name of a pokemon.
      *
-     * @param pokemonImage The image of the nidoranX.
+     * @param pokemonGender The gender of the nidoranX.
      * @return The correct name of the pokemon, with the gender symbol at the end.
      */
-    private String getNidoranGenderName(Bitmap pokemonImage) {
-        if (isNidoranFemale(pokemonImage)) {
-            return nidoFemale;
-        } else {
-            return nidoMale;
+    private @NonNull String getNidoranGenderName(Pokemon.Gender pokemonGender) {
+        switch (pokemonGender) {
+            case F: return nidoFemale;
+            case M: return nidoMale;
+            default: return "";
         }
     }
 
     private boolean isNidoranName(String pokemonName) {
-        if (pokemonName.toLowerCase().contains(nidoFemale.toLowerCase().replace("♀", ""))) {
-            return true;
-        } else {
-            return false;
-        }
+        return pokemonName.toLowerCase().contains(nidoUngendered);
     }
 
     @NonNull
@@ -699,7 +665,7 @@ public class OcrHelper {
      * @param pokemonImage the image of the whole screen
      * @return the candy name, or "" if nothing was found
      */
-    private String getCandyNameFromImg(Bitmap pokemonImage) {
+    private String getCandyNameFromImg(Bitmap pokemonImage, Pokemon.Gender pokemonGender) {
         Bitmap candy;
         if (settings.hasManualScanCalibration()) {
             ScanArea area = new ScanArea(CANDY_NAME_AREA, settings);
@@ -717,7 +683,7 @@ public class OcrHelper {
             candyName = fixOcrNumsToLetters(
                     removeFirstOrLastWord(tesseract.getUTF8Text().trim().replace("-", " "), candyWordFirst));
             if (isNidoranName(candyName)) {
-                candyName = getNidoranGenderName(pokemonImage);
+                candyName = getNidoranGenderName(pokemonGender);
             }
             ocrCache.put(hash, candyName);
         }
@@ -967,10 +933,10 @@ public class OcrHelper {
         estimatedPokemonLevelRange = refineLevelEstimate(trainerLevel, pokemonPowerUpCandyCost, estimatedPokemonLevel);
 
 
-        String pokemonName = getPokemonNameFromImg(pokemonImage);
         String pokemonType = getPokemonTypeFromImg(pokemonImage);
-        Optional<String> pokemonGender = getPokemonGenderFromImg(pokemonImage);
-        String candyName = getCandyNameFromImg(pokemonImage);
+        Pokemon.Gender pokemonGender = getPokemonGenderFromImg(pokemonImage);
+        String pokemonName = getPokemonNameFromImg(pokemonImage, pokemonGender);
+        String candyName = getCandyNameFromImg(pokemonImage, pokemonGender);
         Optional<Integer> pokemonHP = getPokemonHPFromImg(pokemonImage);
         Optional<Integer> pokemonCP = getPokemonCPFromImg(pokemonImage);
         Optional<Integer> pokemonCandyAmount = getCandyAmountFromImg(pokemonImage);
@@ -1026,7 +992,7 @@ public class OcrHelper {
 
 
     /**
-     * Checks if the user has custom screen calibration, and if so, initiates the arc x,y parameters
+     * Checks if the user has custom screen calibration, and if so, initiates the arc x,y parameters.
      *
      * @param trainerLevel the trainer level to initiate the arc points to.
      */
@@ -1070,7 +1036,7 @@ public class OcrHelper {
      *
      * @param hash The hash of the entry to remove.
      */
-    public void removeEntryFromApprisalCache(String hash) {
+    public void removeEntryFromAppraisalCache(String hash) {
         appraisalCache.remove(hash);
         settings.saveAppraisalCache(appraisalCache.snapshot());
     }

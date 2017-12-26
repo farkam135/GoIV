@@ -13,7 +13,7 @@ public class ScanResult {
     private final LeveLRange estimatedPokemonLevelRange;
     private final String pokemonName;
     private final String pokemonType;
-    private final Optional<String> pokemonGender;
+    private final Pokemon.Gender pokemonGender;
     private final String candyName;
     private final Optional<Integer> pokemonHP;
     private final Optional<Integer> pokemonCP;
@@ -24,7 +24,7 @@ public class ScanResult {
     private final String uniqueID;
 
     public ScanResult(LeveLRange estimatedPokemonLevel, String pokemonName, String pokemonType, String candyName,
-                      Optional<String> pokemonGender,
+                      Pokemon.Gender pokemonGender,
                       Optional<Integer> pokemonHP, Optional<Integer> pokemonCP,
                       Optional<Integer> pokemonCandyAmount, Optional<Integer> upgradeCandyCost,
                       Optional<Integer> powerUpStardustCost, Optional<Integer> powerUpCandyCost, String uniqueID) {
@@ -54,7 +54,7 @@ public class ScanResult {
         return pokemonType;
     }
 
-    public Optional<String> getPokemonGender() {
+    public Pokemon.Gender getPokemonGender() {
         return pokemonGender;
     }
 

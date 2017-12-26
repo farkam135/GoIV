@@ -1,7 +1,5 @@
 package com.kamron.pogoiv.scanlogic;
 
-import com.google.common.base.Optional;
-
 import java.util.ArrayList;
 
 /**
@@ -26,7 +24,7 @@ public class ScanContainer {
      * Create a new IVScanResult and updates the scanContainer singleton.
      */
     public static IVScanResult createIVScanResult(Pokemon pokemon, double estimatedPokemonLevel, int pokemonCP,
-                                                  Optional<String> pokemonGender) {
+                                                  Pokemon.Gender pokemonGender) {
         IVScanResult res = new IVScanResult(pokemon, estimatedPokemonLevel, pokemonCP, pokemonGender);
         scanContainer.addNewScan(res);
         return res;

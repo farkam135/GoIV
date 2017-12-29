@@ -1,5 +1,7 @@
 package com.kamron.pogoiv.scanlogic;
 
+import com.kamron.pogoiv.utils.LevelRange;
+
 import java.util.ArrayList;
 
 /**
@@ -23,7 +25,7 @@ public class ScanContainer {
     /**
      * Create a new IVScanResult and updates the scanContainer singleton.
      */
-    public static IVScanResult createIVScanResult(Pokemon pokemon, double estimatedPokemonLevel, int pokemonCP,
+    public static IVScanResult createIVScanResult(Pokemon pokemon, LevelRange estimatedPokemonLevel, int pokemonCP,
                                                   Pokemon.Gender pokemonGender) {
         IVScanResult res = new IVScanResult(pokemon, estimatedPokemonLevel, pokemonCP, pokemonGender);
         scanContainer.addNewScan(res);
@@ -72,8 +74,8 @@ public class ScanContainer {
             /* Since pokemon can de-evolve, level down or change species, we must check that
              * both species and level are greater or equal, and at least one is strictly greater.
              */
-            boolean higherLevel = currScan.estimatedPokemonLevel > prevScan.estimatedPokemonLevel;
-            boolean sameOrHigherLevel = currScan.estimatedPokemonLevel >= prevScan.estimatedPokemonLevel;
+            boolean higherLevel = currScan.estimatedPokemonLevel.min > prevScan.estimatedPokemonLevel.min;
+            boolean sameOrHigherLevel = currScan.estimatedPokemonLevel.min >= prevScan.estimatedPokemonLevel.min;
             boolean evolved = currPokemon.isNextEvolutionOf(prevPokemon);
             boolean sameOrEvolved = currPokemon.number == prevPokemon.number || evolved;
 

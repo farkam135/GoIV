@@ -109,7 +109,7 @@
     <string name="stardust_cost">Stardust Cost</string>
     <string name="evolution">Evolution</string>
     <string name="level">Level</string>
-    <string name="level_num">Level %1$.1f</string>
+    <string name="level_num">Level %1$s</string>
     <string name="refine">Refine</string>
     <string name="refine_no_progress">Refinement didn\'t improve results</string>
     <string name="last_scan">Last scan: %1$s</string>

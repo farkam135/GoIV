@@ -1,6 +1,8 @@
 package com.kamron.pogoiv.scanlogic;
 
 
+import com.kamron.pogoiv.utils.LevelRange;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -195,34 +197,31 @@ public class PokeInfoCalculator {
      * Calculates all the IV information that can be gained from the pokemon level, hp and cp
      * and fills the information in an IVScanResult, which is returned.
      *
-     * @param estimatedPokemonLevelMin The estimated pokemon level minimum range
-     * @param estimatedPokemonLevelMax The estimated pokemon level minimum range
-     * @param pokemonHP                THe pokemon hp
-     * @param pokemonCP                The pokemonCP
+     * @param estimatedPokemonLevel The estimated pokemon level range
+     * @param pokemonHP             The pokemon HP
+     * @param pokemonCP             The pokemon CP
      * @return An IVScanResult which contains the information calculated about the pokemon, or null if there are too
-     * many possibilities.
+     * many possibilities or if there are none.
      */
-    public IVScanResult getIVPossibilities(Pokemon selectedPokemon, double estimatedPokemonLevelMin,
-                                           double estimatedPokemonLevelMax, int pokemonHP,
-                                           int pokemonCP, Pokemon.Gender pokemonGender) {
+    public IVScanResult getIVPossibilities(Pokemon selectedPokemon, LevelRange estimatedPokemonLevel,
+                                           int pokemonHP, int pokemonCP, Pokemon.Gender pokemonGender) {
 
-        if (estimatedPokemonLevelMax == estimatedPokemonLevelMin) {
-            return getSingleLevelIVPossibility(selectedPokemon, estimatedPokemonLevelMax, pokemonHP, pokemonCP,
+        if (estimatedPokemonLevel.min == estimatedPokemonLevel.max) {
+            return getSingleLevelIVPossibility(selectedPokemon, estimatedPokemonLevel.min, pokemonHP, pokemonCP,
                     pokemonGender);
         }
 
         List<IVScanResult> possibilities = new ArrayList<>();
-        for (double i = estimatedPokemonLevelMin; i <= estimatedPokemonLevelMax; i += 0.5) {
+        for (double i = estimatedPokemonLevel.min; i <= estimatedPokemonLevel.max; i += 0.5) {
             possibilities.add(getSingleLevelIVPossibility(selectedPokemon, i, pokemonHP, pokemonCP, pokemonGender));
         }
 
-        IVScanResult combination = possibilities.get(0);
+        IVScanResult result = new IVScanResult(selectedPokemon, estimatedPokemonLevel, pokemonCP, pokemonGender);
         for (IVScanResult ivs : possibilities) {
-            combination.addPossibilitiesFrom(ivs);
+            result.addPossibilitiesFrom(ivs);
         }
 
-        return combination;
-
+        return result;
     }
 
     /**
@@ -246,8 +245,8 @@ public class PokeInfoCalculator {
         //IV vars for lower and upper end cp ranges
 
 
-        IVScanResult returner =
-                ScanContainer.createIVScanResult(selectedPokemon, estimatedPokemonLevel, pokemonCP, pokemonGender);
+        IVScanResult returner = ScanContainer.createIVScanResult(selectedPokemon, new LevelRange(estimatedPokemonLevel),
+                pokemonCP, pokemonGender);
         for (int staminaIV = 0; staminaIV < 16; staminaIV++) {
             int hp = (int) Math.max(Math.floor((baseStamina + staminaIV) * lvlScalar), 10);
             if (hp == pokemonHP) {

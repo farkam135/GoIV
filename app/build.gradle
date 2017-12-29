@@ -61,7 +61,7 @@ android {
      * Update (both Gradle and local SDK) whenever possible
      */
     compileSdkVersion 26
-    buildToolsVersion '26.0.2'
+    buildToolsVersion '27.0.3'
 
     /**
      * Build configurations for APK
@@ -72,8 +72,8 @@ android {
     defaultConfig {
         minSdkVersion 19 /*Dont change this unless you know why*/
         targetSdkVersion 26 /*Dont change this unless you know why*/
-        versionCode 34
-        versionName "4.2.0"
+        versionCode 36
+        versionName "4.3.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
@@ -116,6 +116,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             lintOptions {
                 disable 'MissingTranslation'
+                checkReleaseBuilds false
             }
             signingConfig signingConfigs.releaseConfig
         }

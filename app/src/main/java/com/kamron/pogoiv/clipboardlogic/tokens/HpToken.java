@@ -35,7 +35,7 @@ public class HpToken extends ClipboardToken {
     @Override
     public String getValue(IVScanResult ivScanResult, PokeInfoCalculator pokeInfoCalculator) {
         Pokemon poke = getRightPokemon(ivScanResult.pokemon, pokeInfoCalculator);
-        double level = currentLevel ? ivScanResult.estimatedPokemonLevel : 40;
+        double level = currentLevel ? ivScanResult.estimatedPokemonLevel.min : 40;
         int hp = pokeInfoCalculator.getHPAtLevel(ivScanResult, level, poke);
         return String.valueOf(hp);
     }

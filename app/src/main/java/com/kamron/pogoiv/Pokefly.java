@@ -75,7 +75,7 @@ import com.kamron.pogoiv.scanlogic.ScanResult;
 import com.kamron.pogoiv.scanlogic.UpgradeCost;
 import com.kamron.pogoiv.utils.CopyUtils;
 import com.kamron.pogoiv.utils.GuiUtil;
-import com.kamron.pogoiv.utils.LeveLRange;
+import com.kamron.pogoiv.utils.LevelRange;
 import com.kamron.pogoiv.widgets.PokemonSpinnerAdapter;
 import com.kamron.pogoiv.widgets.recyclerviews.adapters.IVResultsAdapter;
 
@@ -337,7 +337,7 @@ public class Pokefly extends Service {
     private Optional<Integer> pokemonHP = Optional.absent();
     private Optional<Integer> candyUpgradeCost = Optional.absent();
     private String pokemonUniqueID = "";
-    private LeveLRange estimatedPokemonLevelRange = new LeveLRange(1.0);
+    private LevelRange estimatedPokemonLevelRange = new LevelRange(1.0);
     private @NonNull Optional<String> screenShotPath = Optional.absent();
 
 
@@ -658,7 +658,7 @@ public class Pokefly extends Service {
         arcAdjustBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                //estimatedPokemonLevelRange = new LeveLRange(Data.levelIdxToLevel(progress));
+                //estimatedPokemonLevelRange = new LevelRange(Data.levelIdxToLevel(progress));
                 setArcPointer(estimatedPokemonLevelRange.min);
                 levelIndicator.setText(String.valueOf(estimatedPokemonLevelRange.toString()));
             }
@@ -989,17 +989,13 @@ public class Pokefly extends Service {
 
     @OnClick(R.id.btnDecrementLevel)
     public void decrementLevel() {
-        if (estimatedPokemonLevelRange.min > 1.0) {
-            estimatedPokemonLevelRange.dec();
-        }
+        estimatedPokemonLevelRange.dec();
         adjustArcPointerBar(estimatedPokemonLevelRange.min);
     }
 
     @OnClick(R.id.btnIncrementLevel)
     public void incrementLevel() {
-        if (estimatedPokemonLevelRange.max < 40) { //40 is max trainer level. //dont allow increment if already at 40.
-            estimatedPokemonLevelRange.inc();
-        }
+        estimatedPokemonLevelRange.inc();
         adjustArcPointerBar(estimatedPokemonLevelRange.min);
     }
 
@@ -1060,8 +1056,8 @@ public class Pokefly extends Service {
         }
 
 
-        IVScanResult ivScanResult = pokeInfoCalculator.getIVPossibilities(pokemon, estimatedPokemonLevelRange.min,
-                estimatedPokemonLevelRange.max, pokemonHP.get(), pokemonCP.get(), pokemonGender);
+        IVScanResult ivScanResult = pokeInfoCalculator.getIVPossibilities(pokemon, estimatedPokemonLevelRange,
+                pokemonHP.get(), pokemonCP.get(), pokemonGender);
 
         refineByAvailableAppraisalInfo(ivScanResult);
         refineByEggRaidInformation(ivScanResult);
@@ -1358,7 +1354,7 @@ public class Pokefly extends Service {
      */
     private void populateResultsHeader(IVScanResult ivScanResult) {
         resultsPokemonName.setText(ivScanResult.pokemon.toString());
-        resultsPokemonLevel.setText(getString(R.string.level_num, ivScanResult.estimatedPokemonLevel));
+        resultsPokemonLevel.setText(getString(R.string.level_num, ivScanResult.estimatedPokemonLevel.toString()));
     }
 
     /**
@@ -2003,12 +1999,7 @@ public class Pokefly extends Service {
                     double estimatedPokemonLevelMin = intent.getDoubleExtra(KEY_SEND_INFO_LEVEL_LOWER, 1);
                     double estimatedPokemonLevelMax = intent.getDoubleExtra(KEY_SEND_INFO_LEVEL_HIGHER, 1);
 
-                    estimatedPokemonLevelRange = new LeveLRange(estimatedPokemonLevelMin, estimatedPokemonLevelMax);
-
-                    if (estimatedPokemonLevelRange.min < 1.0 || estimatedPokemonLevelRange.min > 40) {
-                        estimatedPokemonLevelRange.min = 1.0;
-                        estimatedPokemonLevelRange.max = 1.0;
-                    }
+                    estimatedPokemonLevelRange = new LevelRange(estimatedPokemonLevelMin, estimatedPokemonLevelMax);
 
                     showInfoLayout();
                 } else {

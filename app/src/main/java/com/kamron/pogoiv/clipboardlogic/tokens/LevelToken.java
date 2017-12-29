@@ -40,10 +40,10 @@ public class LevelToken extends ClipboardToken {
     @Override
     public String getValue(IVScanResult ivScanResult, PokeInfoCalculator pokeInfoCalculator) {
         if (mode == 0) {
-            return String.valueOf((int) ivScanResult.estimatedPokemonLevel * 2);
+            return String.valueOf((int) ivScanResult.estimatedPokemonLevel.min * 2);
         }
         if (mode == 1) {
-            return String.valueOf((int) ivScanResult.estimatedPokemonLevel);
+            return String.valueOf((int) ivScanResult.estimatedPokemonLevel.min);
         }
         DecimalFormat df = new DecimalFormat("##.#");
         return df.format(ivScanResult.estimatedPokemonLevel);

@@ -38,7 +38,7 @@ public class CPMaxToken extends ClipboardToken {
         //pokemon low high level
         Pokemon poke = getRightPokemon(ivScanResult.pokemon, pokeInfoCalculator);
 
-        double level = currentLevel ? ivScanResult.estimatedPokemonLevel : 40;
+        double level = currentLevel ? ivScanResult.estimatedPokemonLevel.min : 40;
         CPRange r = pokeInfoCalculator.getCpRangeAtLevel(poke, ivScanResult.getLowestIVCombination(),
                 ivScanResult.getHighestIVCombination(), level);
 

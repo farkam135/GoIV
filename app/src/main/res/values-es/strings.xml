@@ -108,7 +108,7 @@
     <string name="stardust_cost">Coste en polvoestelares</string>
     <string name="evolution">Evolución</string>
     <string name="level">Nivel</string>
-    <string name="level_num">Nivel %1$.1f</string>
+    <string name="level_num">Nivel %1$s</string>
     <string name="refine">Refinar</string>
     <string name="refine_no_progress">El refinamiento no mejoró resultados</string>
     <string name="last_scan">Último analizado: %1$s</string>

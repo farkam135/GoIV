@@ -52,7 +52,7 @@
     <string name="stardust_cost">Coût en Poussière</string>
     <string name="evolution">Évolution</string>
     <string name="level">Niveau</string>
-    <string name="level_num">Niveau %1$.1f</string>
+    <string name="level_num">Niveau %1$s</string>
     <string name="refine">Raffiner</string>
     <string name="refine_no_progress">Le raffinement n\'a pas amélioré les résultats</string>
     <string name="last_scan">Dernier scan : %1$s</string>

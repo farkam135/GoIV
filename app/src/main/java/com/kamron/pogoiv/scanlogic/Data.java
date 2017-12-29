@@ -7,6 +7,10 @@ import com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanPoint;
  */
 public class Data {
 
+    public static final int MINIMUM_POKEMON_LEVEL = 1;
+    public static final int MAXIMUM_POKEMON_LEVEL = 40;
+    public static final int MAXIMUM_WILD_POKEMON_LEVEL = 35;
+
     private static final float[] CpM = {
             0.0939999967813492f, 0.135137432089339f, 0.166397869586945f, 0.192650913155325f, 0.215732470154762f,
             0.236572651424822f, 0.255720049142838f, 0.273530372106572f, 0.290249884128571f, 0.306057381389863f,
@@ -25,10 +29,10 @@ public class Data {
             0.767397165298462f, 0.770297293677362f, 0.773186504840851f, 0.776064947064992f, 0.778932750225067f,
             0.781790050767666f, 0.784636974334717f, 0.787473608513275f, 0.790300011634827f};
 
-    public static final int[] powerUpCandyCost = {
+    public static final int[] POWER_UP_CANDY_COSTS = {
             1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
             2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 6, 6, 6, 6, 8, 8,
-            8, 8, 10, 10, 10, 10, 12, 12, 12, 12, 15, 15, 15, 15};
+            8, 8, 10, 10, 10, 10, 12, 12, 12, 12, 15, 15, 15, 15 };
     public static int[] arcX;
     public static int[] arcY;
 
@@ -112,6 +116,17 @@ public class Data {
     public static int trainerLevelToMaxPokeLevelIndex(int trainerLevel) {
         // This is Math.min(2 * trainerLevel + 1, 79).
         return maxPokeLevelToIndex(trainerLevelToMaxPokeLevel(trainerLevel));
+    }
+
+    public static boolean isValidPowerUpCandyCost(int powerUpCandyCost) {
+        for (int currentCost : POWER_UP_CANDY_COSTS) {
+            if (currentCost == powerUpCandyCost) {
+                return true;
+            } else if (currentCost > powerUpCandyCost) {
+                break; // Costs are ascending ordered. There won't be a cost equal to the input in the array.
+            }
+        }
+        return false;
     }
 
     // should be pretty fast https://en.wikibooks.org/wiki/Algorithm_Implementation/Strings/Levenshtein_distance#Java

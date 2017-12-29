@@ -29,7 +29,7 @@ public class PowerupsToMaxToken extends ClipboardToken {
     }
 
     @Override public String getValue(IVScanResult ivScanResult, PokeInfoCalculator pokeInfoCalculator) {
-        return ("" + (80 - (int) ((ivScanResult.estimatedPokemonLevel) * 2)));
+        return ("" + (80 - (int) (ivScanResult.estimatedPokemonLevel.min * 2)));
     }
 
     @Override public String getPreview() {

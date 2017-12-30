@@ -33,7 +33,8 @@ public class PokemonShareHandler {
             jsonPokemon.put("Hp", ivScan.scannedHP);
             jsonPokemon.put("Cp", ivScan.scannedCP);
             jsonPokemon.put("uniquePokemon", uniquePokemonID);
-            jsonPokemon.put("estimatedPokemonLevel", ivScan.estimatedPokemonLevel);
+            jsonPokemon.put("estimatedPokemonLevel", ivScan.estimatedPokemonLevel.min);
+            jsonPokemon.put("estimatedPokemonLevelMax", ivScan.estimatedPokemonLevel.max);
             PokeInfoCalculator calc = PokeInfoCalculator.getInstance();
             jsonPokemon.put("candyName", calc.getEvolutionLine(ivScan.pokemon).get(0));
 

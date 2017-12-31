@@ -46,7 +46,7 @@ public class LevelToken extends ClipboardToken {
             return String.valueOf((int) ivScanResult.estimatedPokemonLevel.min);
         }
         DecimalFormat df = new DecimalFormat("##.#");
-        return df.format(ivScanResult.estimatedPokemonLevel);
+        return df.format(ivScanResult.estimatedPokemonLevel.min);
     }
 
     @Override

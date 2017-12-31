@@ -5,6 +5,7 @@ package com.kamron.pogoiv.pokeflycomponents.ocrhelper;
  */
 
 import android.graphics.Rect;
+import android.support.annotation.Nullable;
 
 import com.kamron.pogoiv.GoIVSettings;
 
@@ -18,6 +19,7 @@ public class ScanArea {
     public int width = -1;
     public int height = -1;
 
+
     /**
      * Create a screen area by reading a setting for a certain part. For example, loading the screen area where
      * the pokemon HP might be.
@@ -25,12 +27,19 @@ public class ScanArea {
      * @param calibrationKey The key value used to find the saved user setting for the area, in the form of
      *                       "x,y,x2,y2".
      */
-    public ScanArea(String calibrationKey, GoIVSettings settings) {
-        String[] values = settings.getCalibrationValue(calibrationKey).split(",");
-        xPoint = Integer.valueOf(values[0]);
-        yPoint = Integer.valueOf(values[1]);
-        width = Integer.valueOf(values[2]);
-        height = Integer.valueOf(values[3]);
+
+    @Nullable
+    public static ScanArea calibratedFromSettings(String calibrationKey, GoIVSettings settings) {
+        if (settings.hasManualScanCalibration()) {
+            try {
+                String[] values = settings.getCalibrationValue(calibrationKey).split(",");
+                return new ScanArea(Integer.valueOf(values[0]), Integer.valueOf(values[1]),
+                        Integer.valueOf(values[2]), Integer.valueOf(values[3]));
+            } catch (Exception e) {
+                return null;
+            }
+        }
+        return null;
     }
 
     public ScanArea(int xPoint, int yPoint, int width, int height) {

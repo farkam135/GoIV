@@ -57,6 +57,19 @@ public enum Device {
             new Point(0, 0),                            // TODO White pixel
             new Point(0, 0)),                           // TODO Green pixel
 
+    SAMSUNG_GTI9305("Samsung Galaxy S3", 4f, "testinfoscreens/gt-i9305",
+            new Rect(0, 0, 0, 0),  // TODO Name
+            new Rect(0, 0, 0, 0),  // TODO Type
+            new Rect(0, 0, 0, 0),  // TODO Candy name
+            new Rect(0, 0, 0, 0),  // TODO HP area
+            new Rect(0, 0, 0, 0),    // TODO CP area
+            new Rect(0, 0, 0, 0),   // TODO Candy amount
+            new Rect(0, 0, 0, 0), // TODO Evolution cost
+            new Point(360, 0),                        // TODO Arc center
+            0,                                        // TODO Arc radius
+            new Point(0, 640),                         // TODO White pixel
+            new Point(0, 0)),                           // TODO Green pixel
+
     SAMSUNG_G930("Samsung Galaxy S7", 4f, "testinfoscreens/g930",
             new Rect(538, 1186, 538 + 365, 1186 + 88),  // Name
             new Rect(582, 1614, 583 + 292, 1614 + 31),  // Type

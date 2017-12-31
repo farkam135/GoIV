@@ -390,7 +390,7 @@ public class Pokefly extends Service {
         intent.putExtra(KEY_SEND_INFO_LEVEL_HIGHER, scanResult.getEstimatedPokemonLevel().max);
         intent.putExtra(KEY_SEND_SCREENSHOT_FILE, filePath);
         intent.putExtra(KEY_SEND_INFO_CANDY_AMOUNT, scanResult.getPokemonCandyAmount());
-        intent.putExtra(KEY_SEND_UPGRADE_CANDY_COST, scanResult.getUpgradeCandyCost());
+        intent.putExtra(KEY_SEND_UPGRADE_CANDY_COST, scanResult.getEvolutionCandyCost());
         intent.putExtra(KEY_SEND_UNIQUE_ID, scanResult.getPokemonUniqueID());
         intent.putExtra(KEY_SEND_POWERUP_CANDYCOST, scanResult.getPokemonPowerUpCandyCost());
         intent.putExtra(KEY_SEND_POWERUP_STARTDUST_COST, scanResult.getPokemonPowerUpStardustCost());
@@ -525,7 +525,7 @@ public class Pokefly extends Service {
             /* Assumes MainActivity initialized ScreenGrabber before starting this service. */
             if (!batterySaver) {
                 screen = ScreenGrabber.getInstance();
-                autoAppraisal = new AutoAppraisal(screen, ocr, this, attDefStaLayout,
+                autoAppraisal = new AutoAppraisal(screen, this, attDefStaLayout,
                         attCheckbox, defCheckbox, staCheckbox,
                         appraisalIVRangeGroup, appraisalStatsGroup);
                 screenWatcher = new ScreenWatcher(this, appraisalBox, autoAppraisal);
@@ -1877,13 +1877,12 @@ public class Pokefly extends Service {
         if (externalFilesDir == null) {
             externalFilesDir = getFilesDir();
         }
-        String extdir = externalFilesDir.toString();
-        if (!new File(extdir + "/tessdata/eng.traineddata").exists()) {
-            CopyUtils.copyAssetFolder(getAssets(), "tessdata", extdir + "/tessdata");
+        String extDir = externalFilesDir.toString();
+        if (!new File(extDir + "/tessdata/eng.traineddata").exists()) {
+            CopyUtils.copyAssetFolder(getAssets(), "tessdata", extDir + "/tessdata");
         }
 
-        ocr = OcrHelper.init(extdir, displayMetrics.widthPixels, displayMetrics.heightPixels, pokeInfoCalculator,
-                settings);
+        ocr = OcrHelper.init(extDir, pokeInfoCalculator, settings);
     }
 
 
@@ -1900,7 +1899,7 @@ public class Pokefly extends Service {
 
         Intent info = Pokefly.createNoInfoIntent();
         try {
-            ScanResult res = ocr.scanPokemon(pokemonImage, trainerLevel);
+            ScanResult res = ocr.scanPokemon(GoIVSettings.getInstance(this), pokemonImage, trainerLevel);
             if (res.isFailed()) {
                 Toast.makeText(Pokefly.this, getString(R.string.scan_pokemon_failed), Toast.LENGTH_SHORT).show();
             }

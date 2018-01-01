@@ -531,6 +531,8 @@ public class OcrHelper {
             genderImage = getImageCrop(pokemonImage, 0.822, 0.455, 0.0682, 0.03756);
         }
 
+        replaceColors(genderImage, true, 68, 105, 108, Color.WHITE, 200, true);
+
         int width = genderImage.getWidth();
         int height = genderImage.getHeight();
 
@@ -547,8 +549,7 @@ public class OcrHelper {
         // Top
         for (int y = 0; y < height / 2; y += 2) {
             for (int x = 0; x < width; x++) {
-                if (genderImage.getPixel(x, y) != bgColor
-                        || x == width - 1) {
+                if (genderImage.getPixel(x, y) != bgColor) {
                     upperHalfScore += x;
                     break;
                 }
@@ -558,8 +559,7 @@ public class OcrHelper {
         // Bottom
         for (int y = (int) Math.ceil(height / 2f); y < height; y += 2) {
             for (int x = 0; x < width; x++) {
-                if (genderImage.getPixel(x, y) != bgColor
-                        || x == width - 1) {
+                if (genderImage.getPixel(x, y) != bgColor) {
                     lowerHalfScore += x;
                     break;
                 }

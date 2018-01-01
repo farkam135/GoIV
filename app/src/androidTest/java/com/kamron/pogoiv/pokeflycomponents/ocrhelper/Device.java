@@ -57,7 +57,7 @@ public enum Device {
             new Point(0, 0),                            // TODO White pixel
             new Point(0, 0)),                           // TODO Green pixel
 
-    SAMSUNG_GTI9305("Samsung Galaxy S3", 4f, "testinfoscreens/gt-i9305",
+    SAMSUNG_GTI9305("Samsung Galaxy S3", 306/160f, "testinfoscreens/gt-i9305", // Display density is estimated
             new Rect(0, 0, 0, 0),  // TODO Name
             new Rect(0, 0, 0, 0),  // TODO Type
             new Rect(0, 0, 0, 0),  // TODO Candy name

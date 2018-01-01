@@ -1,5 +1,7 @@
 package com.kamron.pogoiv.scanlogic;
 
+import android.support.annotation.NonNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,18 +12,24 @@ import java.util.List;
 public class Pokemon {
 
     public enum Gender {
-        M("♂"),
-        F("♀"),
-        N("");
+        F("♀", "f"),
+        M("♂", "m"),
+        N("", "n");
 
         private String symbol;
+        private String character;
 
-        Gender(String symbol) {
+        Gender(@NonNull String symbol, @NonNull String character) {
             this.symbol = symbol;
+            this.character = character;
         }
 
         @Override public String toString() {
             return symbol;
+        }
+
+        public String getCharacter() {
+            return character;
         }
     }
 

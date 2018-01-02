@@ -22,7 +22,6 @@ public class AutoAppraisal {
     Handler handler = new Handler();
     private GoIVSettings settings;
 
-    private OcrHelper ocr;
     private ScreenGrabber screenGrabber;
     Context context;
 
@@ -64,10 +63,9 @@ public class AutoAppraisal {
     private String statsrange4_phrase2;
 
 
-    public AutoAppraisal(ScreenGrabber screenGrabber, OcrHelper ocr, Context context, LinearLayout attDefStaLayout,
+    public AutoAppraisal(ScreenGrabber screenGrabber, Context context, LinearLayout attDefStaLayout,
                          CheckBox attCheckbox, CheckBox defCheckbox, CheckBox staCheckbox,
                          RadioGroup appraisalIVRangeGroup, RadioGroup appraisalStatsGroup) {
-        this.ocr = ocr;
         this.context = context;
         this.screenGrabber = screenGrabber;
         this.attDefStaLayout = attDefStaLayout;
@@ -230,12 +228,12 @@ public class AutoAppraisal {
         if (!match && numRetries < SCANRETRIES) { // If nothing matched and we have not yet reached maximum # of retries
             numRetries++;
             // Nothing matched, so this phrase should be thrown away.
-            ocr.removeEntryFromAppraisalCache(hash);
+            OcrHelper.removeEntryFromAppraisalCache(settings, hash);
             // Let's schedule another scan to see if animation has finished.
             scanAppraisalText(RETRYDELAY);
         } else if (!match) { // Nothing matched and we've ran out of retry attempts.
             // Nothing matched, so this phrase should be thrown away.
-            ocr.removeEntryFromAppraisalCache(hash);
+            OcrHelper.removeEntryFromAppraisalCache(settings, hash);
         }
     }
 
@@ -338,7 +336,7 @@ public class AutoAppraisal {
         public void run() {
             Bitmap screen = screenGrabber.grabScreen();
             if (screen != null) {
-                String appraiseText = ocr.getAppraisalText(screen);
+                String appraiseText = OcrHelper.getAppraisalText(settings, screen);
                 String hash = appraiseText.substring(0, appraiseText.indexOf("#"));
                 String text = appraiseText.substring(appraiseText.indexOf("#") + 1);
                 addInfoFromAppraiseText(text, hash);

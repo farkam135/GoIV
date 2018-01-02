@@ -101,7 +101,7 @@ public class IVPreviewPrinter {
                 return false; // This quick scan fired after Pokefly stopped
             }
 
-            ScanResult res = ocr.scanPokemon(bmp, pokefly.getTrainerLevel());
+            ScanResult res = ocr.scanPokemon(GoIVSettings.getInstance(pokefly), bmp, pokefly.getTrainerLevel());
             if (!res.getPokemonHP().isPresent() || !res.getPokemonCP().isPresent()) {
                 return false;
             }
@@ -136,7 +136,7 @@ public class IVPreviewPrinter {
     private IVScanResult getIVScanResults(ScanResult res) {
         PokemonNameCorrector corrector = new PokemonNameCorrector(pokeInfoCalculator);
         Pokemon poke = corrector.getPossiblePokemon(res.getPokemonName(), res.getCandyName(),
-                res.getUpgradeCandyCost(), res.getPokemonType()).pokemon;
+                res.getEvolutionCandyCost(), res.getPokemonType()).pokemon;
         IVScanResult ivrs = pokeInfoCalculator.getIVPossibilities(poke, res.getEstimatedPokemonLevel(),
                 res.getPokemonHP().get(), res.getPokemonCP().get(), res.getPokemonGender());
         return ivrs;

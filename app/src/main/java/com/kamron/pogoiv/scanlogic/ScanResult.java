@@ -18,7 +18,7 @@ public class ScanResult {
     private final Optional<Integer> pokemonHP;
     private final Optional<Integer> pokemonCP;
     private final Optional<Integer> pokemonCandyAmount;
-    private final Optional<Integer> upgradeCandyCost;
+    private final Optional<Integer> evolutionCandyCost;
     private final Optional<Integer> powerUpStardustCost;
     private final Optional<Integer> powerUpCandyCost;
     private final String uniqueID;
@@ -26,7 +26,7 @@ public class ScanResult {
     public ScanResult(LevelRange estimatedPokemonLevel, String pokemonName, String pokemonType, String candyName,
                       Pokemon.Gender pokemonGender,
                       Optional<Integer> pokemonHP, Optional<Integer> pokemonCP,
-                      Optional<Integer> pokemonCandyAmount, Optional<Integer> upgradeCandyCost,
+                      Optional<Integer> pokemonCandyAmount, Optional<Integer> evolutionCandyCost,
                       Optional<Integer> powerUpStardustCost, Optional<Integer> powerUpCandyCost, String uniqueID) {
         this.estimatedPokemonLevelRange = estimatedPokemonLevel;
         this.pokemonName = pokemonName;
@@ -36,7 +36,7 @@ public class ScanResult {
         this.pokemonHP = pokemonHP;
         this.pokemonCP = pokemonCP;
         this.pokemonCandyAmount = pokemonCandyAmount;
-        this.upgradeCandyCost = upgradeCandyCost;
+        this.evolutionCandyCost = evolutionCandyCost;
         this.powerUpStardustCost = powerUpStardustCost;
         this.powerUpCandyCost = powerUpCandyCost;
         this.uniqueID = uniqueID;
@@ -96,7 +96,7 @@ public class ScanResult {
         return !pokemonHP.isPresent() && !pokemonCP.isPresent();
     }
 
-    public Optional<Integer> getUpgradeCandyCost() {
-        return upgradeCandyCost;
+    public Optional<Integer> getEvolutionCandyCost() {
+        return evolutionCandyCost;
     }
 }

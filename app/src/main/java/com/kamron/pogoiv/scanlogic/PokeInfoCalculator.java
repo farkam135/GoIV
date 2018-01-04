@@ -1,12 +1,21 @@
 package com.kamron.pogoiv.scanlogic;
 
 
+import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.os.Build;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
+import com.kamron.pogoiv.GoIVSettings;
+import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.utils.LevelRange;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Johan Swanberg on 2016-08-18.
@@ -32,22 +41,20 @@ public class PokeInfoCalculator {
 
     private HashMap<String, Pokemon> pokemap = new HashMap<>();
 
-    public static PokeInfoCalculator getInstance(String[] namesArray, String[] displayNamesArray,
-                                                 int[] attackArray, int[] defenceArray, int[] staminaArray,
-                                                 int[] devolutionArray, int[] evolutionCandyCostArray,
-                                                 int[] candyNamesArray, String[] typeNamesArray) {
+    @NonNull
+    public static synchronized PokeInfoCalculator getInstance(@NonNull GoIVSettings settings, @NonNull Resources res) {
         if (instance == null) {
-            instance = new PokeInfoCalculator(namesArray, displayNamesArray, attackArray, defenceArray,
-                    staminaArray, devolutionArray, evolutionCandyCostArray, candyNamesArray, typeNamesArray);
+            instance = new PokeInfoCalculator(settings, res);
         }
         return instance;
     }
 
     /**
-     * Get the instance of pokeinfoCalculator. Must have been initiated first!
+     * Get the instance of pokeInfoCalculator. Must have been initiated first!
      *
      * @return the already activated instance of PokeInfoCalculator.
      */
+    @Nullable
     public static PokeInfoCalculator getInstance() {
         return instance;
     }
@@ -55,21 +62,12 @@ public class PokeInfoCalculator {
     /**
      * Creates a pokemon info calculator with the pokemon as argument.
      *
-     * @param namesArray        array of all pokemon names
-     * @param displayNamesArray array of all pokemon display names
-     * @param attackArray       array of all pokemon base attack stat
-     * @param defenceArray      array of all pokemon base def stat
-     * @param staminaArray      array of all pokemon base stam stat
-     * @param devolutionArray   array of what the pokemon evolved from, -1 if no devolution
-     * @param candyNamesArray   array of base pokemon and their associated candy pokemon, -1 if non-base pokemon
-     * @param typeNamesArray    string array of all pokemon type names
+     * @param settings  Settings instance
+     * @param res       System resources
      */
-    private PokeInfoCalculator(String[] namesArray, String[] displayNamesArray, int[] attackArray,
-                               int[] defenceArray, int[] staminaArray, int[] devolutionArray,
-                               int[] evolutionCandyCostArray, int[] candyNamesArray, String[] typeNamesArray) {
-        populatePokemon(namesArray, displayNamesArray, attackArray, defenceArray, staminaArray, devolutionArray,
-                evolutionCandyCostArray, candyNamesArray);
-        this.typeNamesArray = typeNamesArray;
+    private PokeInfoCalculator(@NonNull GoIVSettings settings, @NonNull Resources res) {
+        populatePokemon(settings, res);
+        this.typeNamesArray = res.getStringArray(R.array.typeName);
     }
 
     public List<Pokemon> getPokedex() {
@@ -106,12 +104,48 @@ public class PokeInfoCalculator {
         return pokemap.get(name.toLowerCase());
     }
 
+    private static String[] getPokemonNamesArray(Resources res) {
+        if (res.getBoolean(R.bool.use_default_pokemonsname_as_ocrstring)) {
+            // If flag ON, force to use English strings as pokemon name for OCR.
+            Configuration conf = res.getConfiguration();
+            Locale originalLocale; // Save original locale
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                originalLocale = conf.getLocales().get(0);
+            } else {
+                originalLocale = conf.locale;
+            }
+            conf.setLocale(Locale.ENGLISH);
+            res.updateConfiguration(conf, null);
+            String[] rtn = res.getStringArray(R.array.pokemon);
+            conf.setLocale(originalLocale); // Restore to original locale
+            res.updateConfiguration(conf, null);
+            return rtn;
+        }
+        return res.getStringArray(R.array.pokemon);
+    }
+
+    private static String[] getPokemonDisplayNamesArray(GoIVSettings settings, Resources res) {
+        if (settings.isShowTranslatedPokemonName()) {
+            // If pref ON, use translated strings as pokemon name.
+            return res.getStringArray(R.array.pokemon);
+        }
+        // Otherwise, use default locale's pokemon name.
+        return getPokemonNamesArray(res);
+    }
+
     /**
      * Fills the list "pokemon" with the information of all pokemon by reading the
      * arrays in integers.xml and the names from the strings.xml resources.
      */
-    private void populatePokemon(String[] names, String[] displayNames, int[] attack, int[] defense, int[] stamina,
-                                 int[] devolution, int[] evolutionCandyCost, int[] candyNamesArray) {
+    private void populatePokemon(@NonNull GoIVSettings settings, @NonNull Resources res) {
+        final String[] names = getPokemonNamesArray(res);
+        final String[] displayNames = getPokemonDisplayNamesArray(settings, res);
+        final int[] attack = res.getIntArray(R.array.attack);
+        final int[] defense = res.getIntArray(R.array.defense);
+        final int[] stamina = res.getIntArray(R.array.stamina);
+        final int[] devolution = res.getIntArray(R.array.devolutionNumber);
+        final int[] evolutionCandyCost = res.getIntArray(R.array.evolutionCandyCost);
+        final int[] candyNamesArray = res.getIntArray(R.array.candyNames);
 
         int pokeListSize = names.length;
         for (int i = 0; i < pokeListSize; i++) {
@@ -136,7 +170,6 @@ public class PokeInfoCalculator {
     }
 
     /**
-     * getUpgradeCost
      * Gets the needed required candy and stardust to hit max level (relative to trainer level)
      *
      * @param goalLevel             The level to reach

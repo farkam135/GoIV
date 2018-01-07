@@ -11,8 +11,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Matrix;
@@ -82,7 +80,6 @@ import com.kamron.pogoiv.widgets.recyclerviews.adapters.IVResultsAdapter;
 import java.io.File;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -409,28 +406,6 @@ public class Pokefly extends Service {
         return null;
     }
 
-    @SuppressWarnings("deprecation")
-    private String[] getPokemonNamesArray() {
-        if (getResources().getBoolean(R.bool.use_default_pokemonsname_as_ocrstring)) {
-            //If flag ON, force to use English strings as pokemon name for OCR.
-            Resources res = getResources();
-            Locale def;
-            Configuration conf = res.getConfiguration();
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                def = getResources().getConfiguration().getLocales().get(0);
-            } else {
-                def = getResources().getConfiguration().locale;//Keep original locale
-            }
-            conf.setLocale(new Locale("en"));
-            res.updateConfiguration(conf, null);
-            String[] rtn = res.getStringArray(R.array.pokemon);
-            conf.setLocale(def);//Restore to original locale
-            res.updateConfiguration(conf, null);
-            return rtn;
-        }
-        return getResources().getStringArray(R.array.pokemon);
-    }
-
     public IVPopupButton getIvButton() {
         return ivButton;
     }
@@ -459,15 +434,6 @@ public class Pokefly extends Service {
         return batterySaver;
     }
 
-    private String[] getPokemonDisplayNamesArray() {
-        if (settings.isShowTranslatedPokemonName()) {
-            //If pref ON, use translated strings as pokemon name.
-            return getResources().getStringArray(R.array.pokemon);
-        }
-        //Otherwise, use default locale's pokemon name.
-        return getPokemonNamesArray();
-    }
-
     @Override
     public void onCreate() {
         super.onCreate();
@@ -477,17 +443,8 @@ public class Pokefly extends Service {
         LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(ACTION_UPDATE_UI));
 
         settings = GoIVSettings.getInstance(this);
-        pokeInfoCalculator = PokeInfoCalculator.getInstance(
-                getPokemonNamesArray(),
-                getPokemonDisplayNamesArray(),
-                getResources().getIntArray(R.array.attack),
-                getResources().getIntArray(R.array.defense),
-                getResources().getIntArray(R.array.stamina),
-                getResources().getIntArray(R.array.devolutionNumber),
-                getResources().getIntArray(R.array.evolutionCandyCost),
-                getResources().getIntArray(R.array.candyNames),
-                getResources().getStringArray(R.array.typeName));
-        displayMetrics = this.getResources().getDisplayMetrics();
+        pokeInfoCalculator = PokeInfoCalculator.getInstance(settings, getResources());
+        displayMetrics = getResources().getDisplayMetrics();
         initOcr();
         windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
         clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);

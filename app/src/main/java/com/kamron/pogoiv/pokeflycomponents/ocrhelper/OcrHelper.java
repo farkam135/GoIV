@@ -2,10 +2,10 @@ package com.kamron.pogoiv.pokeflycomponents.ocrhelper;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 import android.util.LruCache;
 
 import com.google.common.base.Optional;
@@ -17,10 +17,17 @@ import com.kamron.pogoiv.scanlogic.Pokemon;
 import com.kamron.pogoiv.scanlogic.ScanResult;
 import com.kamron.pogoiv.utils.LevelRange;
 
+import org.opencv.android.Utils;
+import org.opencv.core.Core;
+import org.opencv.core.CvType;
+import org.opencv.core.Mat;
+import org.opencv.core.Scalar;
+import org.opencv.imgproc.Imgproc;
+
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -43,15 +50,26 @@ import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.POKEM
  */
 public class OcrHelper {
 
-    private static OcrHelper instance = null;
+    private static final Scalar TEXT_GREEN_DARK = new Scalar(68, 105, 108, 255);
+    private static final Scalar TEXT_GREEN_LIGHT = new Scalar(150, 170, 170, 255);
+    private static final Scalar TEXT_RED = new Scalar(255, 115, 115, 255);
+
+
+    private static OcrHelper instance;
     private static String nidoFemale;
     private static String nidoMale;
     private static String nidoUngendered;
-    private static TessBaseAPI tesseract = null;
+    private static TessBaseAPI tesseract;
     private static boolean isPokeSpamEnabled;
     private static LruCache<String, String> ocrCache;
     private static LruCache<String, String> appraisalCache;
     private static boolean candyWordFirst;
+    private static int adaptThreshBlockSize;
+
+
+    static {
+        System.loadLibrary("opencv_java3");
+    }
 
 
     private OcrHelper() {
@@ -106,63 +124,84 @@ public class OcrHelper {
         appraisalCache = null;
     }
 
+    /**
+     * Sets up adaptive threshold parameters. This can be helpful when the screen capture API returns a screenshot not
+     * in full resolution; this make it possible to adjust our adaptive threshold call so it always uses the right block
+     * size, even if the screenshot width and DisplayMetrics screen width differs.
+     * @param imageWidth    Width in pixels of the screenshot width
+     * @param screenWidth   Width in pixels of the device display
+     * @param screenDensity Density factor of the device display
+     */
+    @VisibleForTesting
+    static void computeAdaptiveThresholdBlockSize(int imageWidth, int screenWidth, float screenDensity) {
+        float screenshotDensity = imageWidth * screenDensity / screenWidth;
+
+        adaptThreshBlockSize = Math.round(5 * screenshotDensity);
+        if (adaptThreshBlockSize % 2 == 0) {
+            adaptThreshBlockSize++;
+        }
+    }
+
     private static boolean isCandyWordFirst() {
         // Check if language makes the pokemon name in candy second; France/Spain/Italy/Portuguese
         // have Bonbon/Caramelos/Caramelle/Doces pokeName
         String language = Locale.getDefault().getLanguage();
-        HashSet<String> specialCandyOrderLangs = new HashSet<>(Arrays.asList("fr", "es", "it", "pt"));
-        return specialCandyOrderLangs.contains(language);
+        List<String> specialCandyOrderLanguages = Arrays.asList("fr", "es", "it", "pt");
+        return specialCandyOrderLanguages.contains(language);
+    }
+
+    private static void threshold(@NonNull Mat src, @NonNull Mat dst) {
+        Imgproc.cvtColor(src, dst, Imgproc.COLOR_BGR2GRAY);
+        Imgproc.threshold(dst, dst, 150, 255, Imgproc.THRESH_BINARY);
+    }
+
+    private static void invertedThreshold(@NonNull Mat src, @NonNull Mat dst) {
+        Imgproc.cvtColor(src, dst, Imgproc.COLOR_BGR2GRAY);
+        Imgproc.threshold(dst, dst, 240, 255, Imgproc.THRESH_BINARY_INV);
+    }
+
+    private static void adaptiveThreshold(@NonNull Mat src, @NonNull Mat dst) {
+        Imgproc.cvtColor(src, dst, Imgproc.COLOR_BGR2GRAY);
+        Imgproc.adaptiveThreshold(dst, dst, 255, Imgproc.ADAPTIVE_THRESH_GAUSSIAN_C, Imgproc.THRESH_BINARY,
+                adaptThreshBlockSize, 3);
     }
 
     /**
-     * Replaces colors in a bitmap that are not farther away from a specific color than a given
-     * threshold.
-     *
-     * @param srcBitmap    The source bitmap to scan.
-     * @param mutateSrc    Indicates whether to mutate srcBitmap or to produce a new one.
-     * @param keepCr       The red color to keep
-     * @param keepCg       The green color to keep
-     * @param keepCb       The blue color to keep
-     * @param replaceColor The color to replace mismatched colors with
-     * @param distance     The distance threshold.
-     * @param simpleBG     Whether the bitmap has a simple background
-     * @return Bitmap with replaced colors
+     * Set values to MAX_VAL if rgba1-15 < value < rgba1+15 or rgba2-15 < value < rgba2+15, 0 otherwise.
+     * @param src   Source image, must be 4 channels RGBA
+     * @param rgba1 First color to be used as threshold
+     * @param rgba2 Second color to be used as threshold
      */
-    private static Bitmap replaceColors(Bitmap srcBitmap, boolean mutateSrc, int keepCr, int keepCg, int keepCb,
-                                        int replaceColor, int distance, boolean simpleBG) {
-        int[] allpixels = new int[srcBitmap.getHeight() * srcBitmap.getWidth()];
-        srcBitmap.getPixels(allpixels, 0, srcBitmap.getWidth(), 0, 0, srcBitmap.getWidth(), srcBitmap.getHeight());
-        int bgColor = replaceColor;
-        int distanceSq = distance * distance;
+    private static void biColorThreshold(@NonNull Mat src, @NonNull Mat dst, Scalar rgba1, Scalar rgba2) {
+        Mat a = new Mat();
+        colorThreshold(src, a, rgba1);
+        Mat b = new Mat();
+        colorThreshold(src, b, rgba2);
+        Core.bitwise_or(a, b, dst);
+    }
 
-        if (simpleBG) {
-            bgColor = allpixels[0];
-        }
+    /**
+     * Set values to MAX_VAL if rgba-15 < value < rgba+15, 0 otherwise.
+     * @param src   Source image, must be 4 channels RGBA
+     * @param dst   Destination image
+     * @param rgba  Color to be used as threshold
+     */
+    private static void colorThreshold(@NonNull Mat src, @NonNull Mat dst, @NonNull Scalar rgba) {
+        colorThreshold(src, dst, rgba, 30);
+    }
 
-        for (int i = 0; i < allpixels.length; i++) {
-            /* Avoid unnecessary math for obviously background color. This removes most of the math
-             * for candy, HP and name bitmaps. */
-            if (allpixels[i] == bgColor) {
-                allpixels[i] = replaceColor;
-                continue;
-            }
-            int rDiff = keepCr - Color.red(allpixels[i]);
-            int gDiff = keepCg - Color.green(allpixels[i]);
-            int bDiff = keepCb - Color.blue(allpixels[i]);
-            int dSq = rDiff * rDiff + gDiff * gDiff + bDiff * bDiff;
-            if (dSq > distanceSq) {
-                allpixels[i] = replaceColor;
-            }
-        }
-
-        Bitmap dstBitmap;
-        if (mutateSrc) {
-            dstBitmap = srcBitmap;
-        } else {
-            dstBitmap = Bitmap.createBitmap(srcBitmap.getWidth(), srcBitmap.getHeight(), srcBitmap.getConfig());
-        }
-        dstBitmap.setPixels(allpixels, 0, srcBitmap.getWidth(), 0, 0, srcBitmap.getWidth(), srcBitmap.getHeight());
-        return dstBitmap;
+    /**
+     * Set values to MAX_VAL if rgba-rangeWidth/2 < value < rgba+rangeWidth/2, 0 otherwise.
+     * @param src        Source image, must be 4 channels RGBA
+     * @param dst        Destination image
+     * @param rgba       Color to be used as threshold
+     * @param rangeWidth The range of values to be considered valid
+     */
+    private static void colorThreshold(@NonNull Mat src, @NonNull Mat dst, @NonNull Scalar rgba, int rangeWidth) {
+        int d = rangeWidth / 2;
+        Scalar lower = new Scalar(rgba.val[0] - d, rgba.val[1] - d, rgba.val[2] - d, rgba.val[3]);
+        Scalar upper = new Scalar(rgba.val[0] + d, rgba.val[1] + d, rgba.val[2] + d, rgba.val[3]);
+        Core.inRange(src, lower, upper, dst);
     }
 
     /**
@@ -171,7 +210,12 @@ public class OcrHelper {
      * @param pokemonImage The image of the entire screen
      * @return the estimated pokemon level, or 1 if nothing found
      */
-    private static double getPokemonLevelFromImg(@NonNull Bitmap pokemonImage, int trainerLevel) {
+    private static double getPokemonLevelFromImg(@NonNull Mat pokemonImage, int trainerLevel) {
+        // Take only the upper half
+        Mat subMat = pokemonImage.submat(0, pokemonImage.rows() / 2, 0, pokemonImage.cols());
+
+        invertedThreshold(subMat, subMat);
+
         double estimatedPokemonLevel = Data.trainerLevelToMaxPokeLevel(trainerLevel);
         double previousEstPokemonLevel = estimatedPokemonLevel + 0.5; // Initial value out of range
         int previousLevelDistance = -1; // Initial value indicating no found white pixels
@@ -179,7 +223,7 @@ public class OcrHelper {
             int index = Data.maxPokeLevelToIndex(estPokemonLevel);
             int x = Data.arcX[index];
             int y = Data.arcY[index];
-            int whiteLineDistance = getCardinalWhiteLineDistFromImg(pokemonImage, x, y);
+            int whiteLineDistance = getCardinalWhiteLineDistFromImg(subMat, x, y);
 
             // If we found a lower white line distance than our last calculation, last calculation was best match.
             // If the actual level is 1.0, we fall out to the default case below the for loop.
@@ -199,15 +243,17 @@ public class OcrHelper {
      * consistently white pixels in ALL cardinal directions. This helps identify the point
      * closest to the center of the level indicator dot.
      *
-     * @param pokemonImage The image of the entire screen
+     * @param pokemonImage The image of the entire screen (with inverted colors!)
      * @param x            Horizontal ordinate to scan from
      * @param y            Vertical ordinate to scan from
      * @return -1 if the given coordinate is not a white pixel, otherwise the distance from given
      * coordinate which is white in each cardinal direction.
      */
-    private static int getCardinalWhiteLineDistFromImg(Bitmap pokemonImage, int x, int y) {
+    private static int getCardinalWhiteLineDistFromImg(@NonNull Mat pokemonImage, int x, int y) {
+        final int targetColor = 0; // 0 = black  255 = white  (look for black since the image is inverted)
+
         // Base case of not matching
-        if (pokemonImage.getPixel(x, y) != Color.WHITE) {
+        if (pokemonImage.get(y, x)[0] != targetColor) {
             return -1;
         }
 
@@ -215,17 +261,17 @@ public class OcrHelper {
         while (true) {
             //Check to see if we're out of bounds.
             if (x - d <= 0 || y - d <= 0
-                    || x + d >= pokemonImage.getWidth() || y + d >= pokemonImage.getHeight()) {
+                    || x + d >= pokemonImage.width() || y + d >= pokemonImage.height()) {
                 // If the level indicator is on white background, we need to break it before it loops off screen.
                 // Happens very rarely.
                 break;
             }
 
             // If any pixel this distance is not white, return our successful search distance
-            if (pokemonImage.getPixel(x + d, y) != Color.WHITE
-                    || pokemonImage.getPixel(x - d, y) != Color.WHITE
-                    || pokemonImage.getPixel(x, y + d) != Color.WHITE
-                    || pokemonImage.getPixel(x, y - d) != Color.WHITE) {
+            if (pokemonImage.get(y,x + d)[0] != targetColor
+                    || pokemonImage.get(y,x - d)[0] != targetColor
+                    || pokemonImage.get(y + d, x)[0] != targetColor
+                    || pokemonImage.get(y - d, x)[0] != targetColor) {
                 return d;
             }
             d++;
@@ -237,35 +283,18 @@ public class OcrHelper {
     /**
      * Get the evolution cost for a pokemon, like getPokemonEvolutionCostFromImg, but without caching.
      *
-     * @param evolutionCostImage The precut image of the evolution cost area.
+     * @param subMat The precut image of the evolution cost area.
      * @return the evolution cost (or -1 if absent) wrapped in Optional.of(), or Optional.absent() on scan failure
      */
-    private static Optional<Integer> getPokemonEvolutionCostFromImgUncached(@NonNull Bitmap evolutionCostImage) {
-        //clean the image
-        //the dark color used for text in pogo is approximately rgb 76,112,114 if you can afford evo
-        //and the red color is rgb 255 95 100 when you cant afford the evolution
-        Bitmap evolutionCostImageCanAfford = replaceColors(evolutionCostImage, false, 68, 105, 108, Color.WHITE, 30,
-                false);
-        Bitmap evolutionCostImageCannotAfford = replaceColors(evolutionCostImage, false, 255, 115, 115, Color.WHITE, 40,
-                false);
+    private static Optional<Integer> getPokemonEvolutionCostFromImgUncached(@NonNull Mat subMat) {
+        biColorThreshold(subMat, subMat, TEXT_GREEN_DARK, TEXT_RED);
 
-        boolean affordIsBlank = isOnlyWhite(evolutionCostImageCanAfford);
-        boolean cannotAffordIsBlank = isOnlyWhite(evolutionCostImageCannotAfford);
-        //check if fully evolved
-        if (affordIsBlank && cannotAffordIsBlank) { //if there's no red or black text, there's no text at all.
-            return Optional.of(-1);
-        }
-
-        //use the correctly refined image (refined for red or black text)
-        if (affordIsBlank) {
-            evolutionCostImage = evolutionCostImageCannotAfford;
-        } else {
-            evolutionCostImage = evolutionCostImageCanAfford;
-        }
+        byte[] buff = new byte[(int) (subMat.total() * subMat.channels())];
+        subMat.get(0, 0, buff);
 
         //If not cached or fully evolved, ocr text
         int result;
-        tesseract.setImage(evolutionCostImage);
+        tesseract.setImage(buff, subMat.width(), subMat.height(), subMat.channels(), subMat.width());
         String ocrResult = fixOcrLettersToNums(tesseract.getUTF8Text());
         try {
             result = Integer.parseInt(ocrResult);
@@ -291,16 +320,21 @@ public class OcrHelper {
      * @param pokemonImage The image of the full pokemon screen
      * @return the evolution cost (or -1 if absent) wrapped in Optional.of(), or Optional.absent() on scan failure
      */
-    private static Optional<Integer> getPokemonEvolutionCostFromImg(@NonNull Bitmap pokemonImage,
+    private static Optional<Integer> getPokemonEvolutionCostFromImg(@NonNull Mat pokemonImage,
                                                                     @Nullable ScanArea evolutionCostArea) {
-        Bitmap evolutionCostImage;
+        Mat subMat;
         if (evolutionCostArea != null) {
-            evolutionCostImage = getImageCrop(pokemonImage, evolutionCostArea);
+            subMat = getMatCrop(pokemonImage, evolutionCostArea);
         } else {
-            evolutionCostImage = getImageCrop(pokemonImage, 0.625, 0.815, 0.2, 0.03);
+            subMat = getMatCrop(pokemonImage, 0.625, 0.815, 0.2, 0.03);
         }
 
-        String hash = "candyCost" + hashBitmap(evolutionCostImage);
+        biColorThreshold(subMat, subMat, TEXT_GREEN_DARK, TEXT_RED);
+
+        byte[] buff = new byte[(int) (subMat.total() * subMat.channels())];
+        subMat.get(0, 0, buff);
+
+        String hash = "candyCost" + hashByteArray(buff);
 
         if (ocrCache != null) {
             //return cache if it exists
@@ -315,7 +349,7 @@ public class OcrHelper {
             }
         }
 
-        Optional<Integer> result = getPokemonEvolutionCostFromImgUncached(evolutionCostImage);
+        Optional<Integer> result = getPokemonEvolutionCostFromImgUncached(subMat);
         String ocrResult;
         if (result.isPresent()) {
             ocrResult = String.valueOf(result.get()); //Store error code instead of scanned value
@@ -335,16 +369,21 @@ public class OcrHelper {
      * @param pokemonImage The image of the full pokemon screen
      * @return the power up cost wrapped in Optional.of(), or Optional.absent() on scan failure
      */
-    private static Optional<Integer> getPokemonPowerUpStardustCostFromImg(@NonNull Bitmap pokemonImage,
+    private static Optional<Integer> getPokemonPowerUpStardustCostFromImg(@NonNull Mat pokemonImage,
                                                                           @Nullable ScanArea powerUpStardustCostArea) {
-        Bitmap powerUpStardustCostImage;
+        Mat subMat;
         if (powerUpStardustCostArea != null) {
-            powerUpStardustCostImage = getImageCrop(pokemonImage, powerUpStardustCostArea);
+            subMat = getMatCrop(pokemonImage, powerUpStardustCostArea);
         } else {
-            powerUpStardustCostImage = getImageCrop(pokemonImage, 0.544, 0.803, 0.139, 0.0247);
+            subMat = getMatCrop(pokemonImage, 0.544, 0.803, 0.139, 0.0247);
         }
 
-        String hash = "powerUpStardustCost" + hashBitmap(powerUpStardustCostImage);
+        biColorThreshold(subMat, subMat, TEXT_GREEN_DARK, TEXT_RED);
+
+        byte[] buff = new byte[(int) (subMat.total() * subMat.channels())];
+        subMat.get(0, 0, buff);
+
+        String hash = "powerUpStardustCost" + hashByteArray(buff);
 
         //return cache if it exists
         String stringCachePowerUpStardustCost = ocrCache.get(hash);
@@ -357,7 +396,7 @@ public class OcrHelper {
             }
         }
 
-        tesseract.setImage(powerUpStardustCostImage);
+        tesseract.setImage(buff, subMat.width(), subMat.height(), subMat.channels(), subMat.width());
         String ocrResult = fixOcrLettersToNums(tesseract.getUTF8Text());
         try {
             int result = Integer.parseInt(ocrResult);
@@ -377,16 +416,21 @@ public class OcrHelper {
      * @param pokemonImage The image of the full pokemon screen
      * @return the power up cost wrapped in Optional.of(), or Optional.absent() on scan failure
      */
-    private static Optional<Integer> getPokemonPowerUpCandyCostFromImg(@NonNull Bitmap pokemonImage,
+    private static Optional<Integer> getPokemonPowerUpCandyCostFromImg(@NonNull Mat pokemonImage,
                                                                        @Nullable ScanArea powerUpCandyCostArea) {
-        Bitmap powerUpCandyCostImage;
+        Mat subMat;
         if (powerUpCandyCostArea != null) {
-            powerUpCandyCostImage = getImageCrop(pokemonImage, powerUpCandyCostArea);
+            subMat = getMatCrop(pokemonImage, powerUpCandyCostArea);
         } else {
-            powerUpCandyCostImage = getImageCrop(pokemonImage, 0.73, 0.742, 0.092, 0.0247);
+            subMat = getMatCrop(pokemonImage, 0.73, 0.742, 0.092, 0.0247);
         }
 
-        String hash = "powerUpCandyCost" + hashBitmap(powerUpCandyCostImage);
+        biColorThreshold(subMat, subMat, TEXT_GREEN_DARK, TEXT_RED);
+
+        byte[] buff = new byte[(int) (subMat.total() * subMat.channels())];
+        subMat.get(0, 0, buff);
+
+        String hash = "powerUpCandyCost" + hashByteArray(buff);
 
         //return cache if it exists
         String stringCachePowerUpCandyCost = ocrCache.get(hash);
@@ -399,7 +443,7 @@ public class OcrHelper {
             }
         }
 
-        tesseract.setImage(powerUpCandyCostImage);
+        tesseract.setImage(buff, subMat.width(), subMat.height(), subMat.channels(), subMat.width());
         String ocrResult = fixOcrLettersToNums(tesseract.getUTF8Text());
         try {
             int result = Integer.parseInt(ocrResult);
@@ -414,35 +458,12 @@ public class OcrHelper {
     }
 
     /**
-     * Heuristic method to determine if the image looks empty. Works by taking a horisontal row of pixels from he
-     * middle, and looks if they're all pure white.
-     *
-     * @param refinedImage A pre-processed image of the evolution cost. (should be pre-refined to replace all non
-     *                     text colors with pure white)
-     * @return true if the image is likely only white
+     * Get the hashcode for a byte array.
+     * @param array The array to be hash coded
+     * @return An hexadecimal hashcode
      */
-    private static boolean isOnlyWhite(Bitmap refinedImage) {
-        int[] pixelArray = new int[refinedImage.getWidth()];
-
-        //below code takes one line of pixels in the middle of the pixture from left to right
-        refinedImage.getPixels(pixelArray, 0, refinedImage.getWidth(), 0, refinedImage.getHeight() / 2, refinedImage
-                .getWidth(), 1);
-
-        for (int pixel : pixelArray) {
-            if (pixel != Color.rgb(255, 255, 255)) { // if pixel is not white
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
-     * Get the hashcode for a bitmap.
-     */
-    private static String hashBitmap(Bitmap bmp) {
-        int[] allpixels = new int[bmp.getHeight() * bmp.getWidth()];
-        bmp.getPixels(allpixels, 0, bmp.getWidth(), 0, 0, bmp.getWidth(), bmp.getHeight());
-        return Integer.toHexString(Arrays.hashCode(allpixels));
+    private static String hashByteArray(@NonNull byte[] array) {
+        return Integer.toHexString(Arrays.hashCode(array));
     }
 
     /**
@@ -466,22 +487,26 @@ public class OcrHelper {
      * @param pokemonImage the image of the whole screen
      * @return A string resulting from the scan
      */
-    private static String getPokemonNameFromImg(@NonNull Bitmap pokemonImage,
+    private static String getPokemonNameFromImg(@NonNull Mat pokemonImage,
                                                 @NonNull Pokemon.Gender pokemonGender,
                                                 @Nullable ScanArea nameArea) {
-        Bitmap name;
+        Mat subMat;
         if (nameArea != null) {
-            name = getImageCrop(pokemonImage, nameArea);
+            subMat = getMatCrop(pokemonImage, nameArea);
         } else {
-            name = getImageCrop(pokemonImage, 0.1, 0.4125, 0.85, 0.055);
+            subMat = getMatCrop(pokemonImage, 0.1, 0.4125, 0.85, 0.055);
         }
 
-        String hash = "name" + hashBitmap(name);
+        threshold(subMat, subMat);
+
+        byte[] buff = new byte[(int) (subMat.total() * subMat.channels())];
+        subMat.get(0, 0, buff);
+
+        String hash = "name" + hashByteArray(buff);
         String pokemonName = ocrCache.get(hash);
 
         if (pokemonName == null) {
-            name = replaceColors(name, true, 68, 105, 108, Color.WHITE, 200, true);
-            tesseract.setImage(name);
+            tesseract.setImage(buff, subMat.width(), subMat.height(), subMat.channels(), subMat.width());
             pokemonName = fixOcrNumsToLetters(tesseract.getUTF8Text().replace(" ", ""));
             if (isNidoranName(pokemonName)) {
                 pokemonName = getNidoranGenderName(pokemonGender);
@@ -497,20 +522,24 @@ public class OcrHelper {
      * @param pokemonImage the image of the whole screen
      * @return A string resulting from the scan
      */
-    private static String getPokemonTypeFromImg(@NonNull Bitmap pokemonImage, @Nullable ScanArea typeArea) {
-        Bitmap type;
+    private static String getPokemonTypeFromImg(@NonNull Mat pokemonImage, @Nullable ScanArea typeArea) {
+        Mat subMat;
         if (typeArea != null) {
-            type = getImageCrop(pokemonImage, typeArea);
+            subMat = getMatCrop(pokemonImage, typeArea);
         } else {
-            type = getImageCrop(pokemonImage, 0.365278, 0.572, 0.308333, 0.035156);
+            subMat = getMatCrop(pokemonImage, 0.365278, 0.572, 0.308333, 0.035156);
         }
 
-        String hash = "type" + hashBitmap(type);
+        colorThreshold(subMat, subMat, TEXT_GREEN_LIGHT, 75);
+
+        byte[] buff = new byte[(int) (subMat.total() * subMat.channels())];
+        subMat.get(0, 0, buff);
+
+        String hash = "type" + hashByteArray(buff);
         String pokemonType = ocrCache.get(hash);
 
         if (pokemonType == null) {
-            type = replaceColors(type, true, 68, 105, 108, Color.WHITE, 200, true);
-            tesseract.setImage(type);
+            tesseract.setImage(buff, subMat.width(), subMat.height(), subMat.channels(), subMat.width());
             pokemonType = tesseract.getUTF8Text();
             ocrCache.put(hash, pokemonType);
         }
@@ -521,23 +550,24 @@ public class OcrHelper {
      * Get the pokemon gender as analysed from a pokemon image.
      *
      * @param pokemonImage The image of the whole screen
-     * @return Optional.of("♂") if the pokémon is male, Optional.of("♀") if female, Optional.absent() otherwise
+     * @return Gender.M if the pokémon is male, Gender.F if female, Gender.N otherwise
      */
-    public static Pokemon.Gender getPokemonGenderFromImg(@NonNull Bitmap pokemonImage, @Nullable ScanArea genderArea) {
-        Bitmap genderImage;
+    @VisibleForTesting
+    static Pokemon.Gender getPokemonGenderFromImg(@NonNull Mat pokemonImage, @Nullable ScanArea genderArea) {
+        Mat subMat;
         if (genderArea != null) {
-            genderImage = getImageCrop(pokemonImage, genderArea);
+            subMat = getMatCrop(pokemonImage, genderArea);
         } else {
-            genderImage = getImageCrop(pokemonImage, 0.822, 0.455, 0.0682, 0.03756);
+            subMat = getMatCrop(pokemonImage, 0.822, 0.455, 0.0682, 0.03756);
         }
 
-        replaceColors(genderImage, true, 68, 105, 108, Color.WHITE, 200, true);
+        adaptiveThreshold(subMat, subMat);
 
-        int width = genderImage.getWidth();
-        int height = genderImage.getHeight();
+        int width = subMat.width();
+        int height = subMat.height();
 
         // The top left pixel should always be empty
-        int bgColor = genderImage.getPixel(0, 0);
+        double bgColor = subMat.get(0, 0)[0];
 
         // Analyze the gender area to search for ♂ or ♀.
         // Divide it in 2 vertical halves.
@@ -549,7 +579,7 @@ public class OcrHelper {
         // Top
         for (int y = 0; y < height / 2; y += 2) {
             for (int x = 0; x < width; x++) {
-                if (genderImage.getPixel(x, y) != bgColor) {
+                if (subMat.get(y, x)[0] != bgColor) {
                     upperHalfScore += x;
                     break;
                 }
@@ -559,7 +589,7 @@ public class OcrHelper {
         // Bottom
         for (int y = (int) Math.ceil(height / 2f); y < height; y += 2) {
             for (int x = 0; x < width; x++) {
-                if (genderImage.getPixel(x, y) != bgColor) {
+                if (subMat.get(y, x)[0] != bgColor) {
                     lowerHalfScore += x;
                     break;
                 }
@@ -576,34 +606,34 @@ public class OcrHelper {
     }
 
     /**
-     * Get a cropped version of your image.
+     * Get a cropped version of your matrix.
      *
-     * @param img     Which image to crop
+     * @param mat     Which image to crop
      * @param xStart  % of how far in the top left corner of the crop should be x coordinate
      * @param yStart  % of how far in the top left corner of the crop should be y coordinate
-     * @param xWidth  how many % of the width should be kept starting from the xstart.
-     * @param yHeight how many % of the height should be kept starting from the ystart.
-     * @return The crop of the image.
+     * @param xWidth  how many % of the width should be kept starting from the xStart
+     * @param yHeight how many % of the height should be kept starting from the yStart
+     * @return The crop of the image
      */
-    private static Bitmap getImageCrop(Bitmap img, double xStart, double yStart, double xWidth, double yHeight) {
-        int w = img.getWidth();
-        int h = img.getHeight();
-        return Bitmap.createBitmap(img, (int) (w * xStart), (int) (h * yStart),
+    private static Mat getMatCrop(Mat mat, double xStart, double yStart, double xWidth, double yHeight) {
+        int w = mat.width();
+        int h = mat.height();
+        org.opencv.core.Rect roi = new org.opencv.core.Rect((int) (w * xStart), (int) (h * yStart),
                 (int) (w * xWidth), (int) (h * yHeight));
+        return mat.submat(roi);
     }
 
     /**
-     * Get an image crop using a scanarea.
+     * Get a matrix crop using a scan area.
      *
-     * @param img      The image to crop
+     * @param mat      The image to crop
      * @param scanArea The area of the image to get
-     * @return The scanarea
+     * @return The crop of the image
      */
-    private static Bitmap getImageCrop(Bitmap img, ScanArea scanArea) {
-        if (scanArea.width < 0 || scanArea.height < 0 || scanArea.xPoint < 0 || scanArea.yPoint < 0) {
-            return null;
-        }
-        return Bitmap.createBitmap(img, (scanArea.xPoint), scanArea.yPoint, scanArea.width, scanArea.height);
+    private static Mat getMatCrop(Mat mat, ScanArea scanArea) {
+        org.opencv.core.Rect roi = new org.opencv.core.Rect(scanArea.xPoint, scanArea.yPoint,
+                scanArea.width, scanArea.height);
+        return mat.submat(roi);
     }
 
     /**
@@ -647,24 +677,29 @@ public class OcrHelper {
      * @param pokemonImage the image of the whole screen
      * @return the candy name, or "" if nothing was found
      */
-    private static String getCandyNameFromImg(@NonNull Bitmap pokemonImage,
+    private static String getCandyNameFromImg(@NonNull Mat pokemonImage,
                                               @NonNull Pokemon.Gender pokemonGender,
                                               @Nullable ScanArea candyNameArea) {
-        Bitmap candy;
+        Mat subMat;
         if (candyNameArea != null) {
-            candy = getImageCrop(pokemonImage, candyNameArea);
+            subMat = getMatCrop(pokemonImage, candyNameArea);
         } else {
-            candy = getImageCrop(pokemonImage, 0.5, 0.678, 0.47, 0.026);
+            subMat = getMatCrop(pokemonImage, 0.5, 0.678, 0.47, 0.026);
         }
 
-        String hash = "candy" + hashBitmap(candy);
+        colorThreshold(subMat, subMat, TEXT_GREEN_LIGHT, 75);
+
+        byte[] buff = new byte[(int) (subMat.total() * subMat.channels())];
+        subMat.get(0, 0, buff);
+
+        String hash = "candy" + hashByteArray(buff);
         String candyName = ocrCache.get(hash);
 
         if (candyName == null) {
-            candy = replaceColors(candy, true, 68, 105, 108, Color.WHITE, 200, true);
-            tesseract.setImage(candy);
+            tesseract.setImage(buff, subMat.width(), subMat.height(), subMat.channels(), subMat.width());
+            String ocrText = tesseract.getUTF8Text();
             candyName = fixOcrNumsToLetters(
-                    removeFirstOrLastWord(tesseract.getUTF8Text().trim().replace("-", " "), candyWordFirst));
+                    removeFirstOrLastWord(ocrText.trim().replace("-", " "), candyWordFirst));
             if (isNidoranName(candyName)) {
                 candyName = getNidoranGenderName(pokemonGender);
             }
@@ -679,20 +714,24 @@ public class OcrHelper {
      * @param pokemonImage the image of the whole screen
      * @return an integer of the interpreted pokemon name, 10 if scan failed
      */
-    private static Optional<Integer> getPokemonHPFromImg(@NonNull Bitmap pokemonImage, @Nullable ScanArea hpArea) {
-        Bitmap hp;
+    private static Optional<Integer> getPokemonHPFromImg(@NonNull Mat pokemonImage, @Nullable ScanArea hpArea) {
+        Mat subMat;
         if (hpArea != null) {
-            hp = getImageCrop(pokemonImage, hpArea);
+            subMat = getMatCrop(pokemonImage, hpArea);
         } else {
-            hp = getImageCrop(pokemonImage, 0.357, 0.482, 0.285, 0.0293);
+            subMat = getMatCrop(pokemonImage, 0.357, 0.482, 0.285, 0.0293);
         }
 
-        String hash = "hp" + hashBitmap(hp);
+        colorThreshold(subMat, subMat, TEXT_GREEN_DARK, 150);
+
+        byte[] buff = new byte[(int) (subMat.total() * subMat.channels())];
+        subMat.get(0, 0, buff);
+
+        String hash = "hp" + hashByteArray(buff);
         String pokemonHPStr = ocrCache.get(hash);
 
         if (pokemonHPStr == null) {
-            hp = replaceColors(hp, true, 55, 66, 61, Color.WHITE, 200, true);
-            tesseract.setImage(hp);
+            tesseract.setImage(buff, subMat.width(), subMat.height(), subMat.channels(), subMat.width());
             pokemonHPStr = tesseract.getUTF8Text();
             ocrCache.put(hash, pokemonHPStr);
         }
@@ -732,18 +771,18 @@ public class OcrHelper {
      * @param pokemonImage the image of the whole pokemon screen
      * @return a CP of the pokemon, 10 if scan failed
      */
-    private Optional<Integer> getPokemonCPFromImg(@NonNull Bitmap pokemonImage, @Nullable ScanArea cpArea) {
-        Bitmap cp;
+    private Optional<Integer> getPokemonCPFromImg(@NonNull Mat pokemonImage, @Nullable ScanArea cpArea) {
+        Mat subMat;
         if (cpArea != null) {
-            cp = getImageCrop(pokemonImage, cpArea);
+            subMat = getMatCrop(pokemonImage, cpArea);
         } else {
-            cp = getImageCrop(pokemonImage, 0.25, 0.059, 0.5, 0.046);
+            subMat = getMatCrop(pokemonImage, 0.25, 0.059, 0.5, 0.046);
         }
 
-        cp = replaceColors(cp, true, 255, 255, 255, Color.BLACK, 30, false);
+        invertedThreshold(subMat, subMat);
 
-        final int width = cp.getWidth();
-        final int height = cp.getHeight();
+        final int width = subMat.width();
+        final int height = subMat.height();
 
         // Every chunk will contain a character
         ArrayList<Rect> chunks = new ArrayList<>(6);
@@ -753,10 +792,10 @@ public class OcrHelper {
         // When we're over a chunk check every pixel instead of skipping so we're sure to find the blank space after it
         for (int x = 0; x < width; x += (currentChunk != null) ? 1 : increment) {
             for (int y = 0; y < height; y += increment) {
-                final int pxColor = cp.getPixel(x, y);
+                final double pxColor = subMat.get(y, x)[0];
 
                 if (currentChunk == null) {
-                    if (pxColor != Color.BLACK) {
+                    if (pxColor != 255.0) {
                         // We found a non-black pixel, start a new character chunk
                         currentChunk = new Rect(x, y, x, height - 1);
                         break;
@@ -767,7 +806,7 @@ public class OcrHelper {
                     }
 
                 } else {
-                    if (pxColor != Color.BLACK) {
+                    if (pxColor != 255.0) {
                         // We found a non-black pixel. If the current chunk top is below this pixel, update it
                         if (currentChunk.top > y) {
                             currentChunk.top = y;
@@ -825,7 +864,10 @@ public class OcrHelper {
             }
         }
 
-        tesseract.setImage(cp);
+        byte[] buff = new byte[(int) (subMat.total() * subMat.channels())];
+        subMat.get(0, 0, buff);
+
+        tesseract.setImage(buff, subMat.width(), subMat.height(), subMat.channels(), subMat.width());
         if (mergeRect != null) {
             tesseract.setRectangle(mergeRect);
         }
@@ -862,25 +904,29 @@ public class OcrHelper {
      * @param pokemonImage the image of the whole screen
      * @return candyAmount the candy amount, or blank Optional object if nothing was found
      */
-    private static Optional<Integer> getCandyAmountFromImg(@NonNull Bitmap pokemonImage,
+    private static Optional<Integer> getCandyAmountFromImg(@NonNull Mat pokemonImage,
                                                            @Nullable ScanArea candyAmountArea) {
         if (!isPokeSpamEnabled) {
             return Optional.absent();
         }
-        Bitmap candyAmount;
+        Mat subMat;
         if (candyAmountArea != null) {
-            candyAmount = getImageCrop(pokemonImage, candyAmountArea);
+            subMat = getMatCrop(pokemonImage, candyAmountArea);
         } else {
-            candyAmount = getImageCrop(pokemonImage, 0.60, 0.644, 0.20, 0.038);
+            subMat = getMatCrop(pokemonImage, 0.60, 0.644, 0.20, 0.038);
         }
 
-        String hash = "candyAmount" + hashBitmap(candyAmount);
+        colorThreshold(subMat, subMat, TEXT_GREEN_DARK);
+
+        byte[] buff = new byte[(int) (subMat.total() * subMat.channels())];
+        subMat.get(0, 0, buff);
+
+        String hash = "candyAmount" + hashByteArray(buff);
         String pokemonCandyStr = ocrCache.get(hash);
 
         if (pokemonCandyStr == null) {
-            candyAmount = replaceColors(candyAmount, true, 68, 105, 108, Color.WHITE, 90, true);
-            tesseract.setImage(candyAmount);
-            pokemonCandyStr = tesseract.getUTF8Text();
+            tesseract.setImage(buff, subMat.width(), subMat.height(), subMat.channels(), subMat.width());
+            pokemonCandyStr = fixOcrLettersToNums(tesseract.getUTF8Text());
             ocrCache.put(hash, pokemonCandyStr);
         }
 
@@ -891,7 +937,6 @@ public class OcrHelper {
                 //Fall-through to default.
             }
         }
-
         return Optional.absent();
     }
 
@@ -904,34 +949,45 @@ public class OcrHelper {
      * @param trainerLevel Current level of the trainer
      * @return an object
      */
-    public ScanResult scanPokemon(@NonNull GoIVSettings settings, @NonNull Bitmap pokemonImage, int trainerLevel) {
+    public ScanResult scanPokemon(@NonNull GoIVSettings settings,
+                                  @NonNull Resources res,
+                                  @NonNull Bitmap pokemonImage,
+                                  int trainerLevel) {
         ensureCorrectLevelArcSettings(settings, trainerLevel); //todo, make it so it doesnt initiate on every scan?
 
+        computeAdaptiveThresholdBlockSize(
+                pokemonImage.getWidth(), res.getDisplayMetrics().widthPixels, res.getDisplayMetrics().density);
+
+        // Convert Android Bitmap to OpenCV Matrix
+        Mat image = new Mat(pokemonImage.getWidth(), pokemonImage.getHeight(), CvType.CV_8UC4);
+        Utils.bitmapToMat(pokemonImage, image);
+
+        // Begin scan
         Optional<Integer> powerUpStardustCost = Optional.absent();
-        /*Optional<Integer> powerUpStardustCost = getPokemonPowerUpStardustCostFromImg(tesseract, ocrCache,
-                pokemonImage, ScanArea.calibratedFromSettings(POKEMON_POWER_UP_STARDUST_COST, settings));*/
-        Optional<Integer> powerUpCandyCost = getPokemonPowerUpCandyCostFromImg(pokemonImage,
+        /*Optional<Integer> powerUpStardustCost = getPokemonPowerUpStardustCostFromImg(image,
+                ScanArea.calibratedFromSettings(POKEMON_POWER_UP_STARDUST_COST, settings));*/
+        Optional<Integer> powerUpCandyCost = getPokemonPowerUpCandyCostFromImg(image,
                 ScanArea.calibratedFromSettings(POKEMON_POWER_UP_CANDY_COST, settings));
 
-        double estimatedPokemonLevel = getPokemonLevelFromImg(pokemonImage, trainerLevel);
+        double estimatedPokemonLevel = getPokemonLevelFromImg(image, trainerLevel);
         LevelRange estimatedLevelRange =
                 refineLevelEstimate(trainerLevel, powerUpCandyCost, estimatedPokemonLevel);
 
-        String type = getPokemonTypeFromImg(pokemonImage,
+        String type = getPokemonTypeFromImg(image,
                 ScanArea.calibratedFromSettings(POKEMON_TYPE_AREA, settings));
-        Pokemon.Gender gender = getPokemonGenderFromImg(pokemonImage,
+        Pokemon.Gender gender = getPokemonGenderFromImg(image,
                 ScanArea.calibratedFromSettings(POKEMON_GENDER_AREA, settings));
-        String name = getPokemonNameFromImg(pokemonImage, gender,
+        String name = getPokemonNameFromImg(image, gender,
                 ScanArea.calibratedFromSettings(POKEMON_NAME_AREA, settings));
-        String candyName = getCandyNameFromImg(pokemonImage, gender,
+        String candyName = getCandyNameFromImg(image, gender,
                 ScanArea.calibratedFromSettings(CANDY_NAME_AREA, settings));
-        Optional<Integer> hp = getPokemonHPFromImg(pokemonImage,
+        Optional<Integer> hp = getPokemonHPFromImg(image,
                 ScanArea.calibratedFromSettings(POKEMON_HP_AREA, settings));
-        Optional<Integer> cp = getPokemonCPFromImg(pokemonImage,
+        Optional<Integer> cp = getPokemonCPFromImg(image,
                 ScanArea.calibratedFromSettings(POKEMON_CP_AREA, settings));
-        Optional<Integer> candyAmount = getCandyAmountFromImg(pokemonImage,
+        Optional<Integer> candyAmount = getCandyAmountFromImg(image,
                 ScanArea.calibratedFromSettings(POKEMON_CANDY_AMOUNT_AREA, settings));
-        Optional<Integer> evolutionCost = getPokemonEvolutionCostFromImg(pokemonImage,
+        Optional<Integer> evolutionCost = getPokemonEvolutionCostFromImg(image,
                 ScanArea.calibratedFromSettings(POKEMON_EVOLUTION_COST_AREA, settings));
         String uniqueIdentifier = name + type + candyName + hp.toString() + cp
                 .toString() + powerUpStardustCost.toString() + powerUpCandyCost.toString();
@@ -1000,23 +1056,29 @@ public class OcrHelper {
      * @return String of whats on the bottom of the screen.
      */
     public static String getAppraisalText(@NonNull GoIVSettings settings, @NonNull Bitmap screen) {
-        Bitmap bottom = getImageCrop(screen, 0.05, 0.822, 0.90, 0.07);
-        String hash = "appraisal" + hashBitmap(bottom);
+        Mat image = new Mat(screen.getWidth(), screen.getHeight(), CvType.CV_8UC4);
+        Utils.bitmapToMat(screen, image);
+
+        image = getMatCrop(image, 0.05, 0.822, 0.90, 0.07);
+
+        colorThreshold(image, image, TEXT_GREEN_DARK, 100);
+
+        byte[] buff = new byte[(int) (image.total() * image.channels())];
+        image.get(0, 0, buff);
+
+        String hash = "appraisal" + hashByteArray(buff);
         String appraisalText = appraisalCache.get(hash);
 
         if (appraisalText == null) {
-            //68,105,108 is the color of the appraisal text
-            bottom = replaceColors(bottom, true, 68, 105, 108, Color.WHITE, 100, true);
-            tesseract.setImage(bottom);
-            //Set tesseract not single line mode
-            tesseract.setPageSegMode(TessBaseAPI.PageSegMode.PSM_SINGLE_BLOCK);
+            tesseract.setImage(buff, image.width(), image.height(), image.channels(), image.width());
+            tesseract.setPageSegMode(TessBaseAPI.PageSegMode.PSM_SINGLE_BLOCK); // Set tesseract not single line mode
             appraisalText = tesseract.getUTF8Text();
+            tesseract.setPageSegMode(TessBaseAPI.PageSegMode.PSM_SINGLE_LINE); // Restore single line mode
             appraisalCache.put(hash, appraisalText);
             settings.saveAppraisalCache(appraisalCache.snapshot());
         }
 
         return hash + "#" + appraisalText;
-
     }
 
     /**

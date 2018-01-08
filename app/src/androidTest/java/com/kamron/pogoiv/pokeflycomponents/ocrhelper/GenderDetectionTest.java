@@ -14,6 +14,8 @@ import com.kamron.pogoiv.scanlogic.Pokemon;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.opencv.android.Utils;
+import org.opencv.core.Mat;
 
 import java.io.IOException;
 import java.lang.ref.WeakReference;
@@ -68,7 +70,11 @@ public class GenderDetectionTest {
 
                 assertNotNull(results.pokemonGenderArea);
 
-                Pokemon.Gender detectedGender = OcrHelper.getPokemonGenderFromImg(bmp, results.pokemonGenderArea);
+                Mat image = new Mat();
+                Utils.bitmapToMat(bmp, image);
+
+                OcrHelper.computeAdaptiveThresholdBlockSize(bmp.getWidth(), bmp.getWidth(), device.screenDensity);
+                Pokemon.Gender detectedGender = OcrHelper.getPokemonGenderFromImg(image, results.pokemonGenderArea);
 
                 assertEquals("Gender detection error;", detectedGender, gender);
             }

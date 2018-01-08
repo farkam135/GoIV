@@ -101,7 +101,8 @@ public class IVPreviewPrinter {
                 return false; // This quick scan fired after Pokefly stopped
             }
 
-            ScanResult res = ocr.scanPokemon(GoIVSettings.getInstance(pokefly), bmp, pokefly.getTrainerLevel());
+            ScanResult res = ocr.scanPokemon(
+                    GoIVSettings.getInstance(pokefly), pokefly.getResources(), bmp, pokefly.getTrainerLevel());
             if (!res.getPokemonHP().isPresent() || !res.getPokemonCP().isPresent()) {
                 return false;
             }

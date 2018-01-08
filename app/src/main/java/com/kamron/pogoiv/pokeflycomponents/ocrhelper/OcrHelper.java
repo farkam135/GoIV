@@ -295,7 +295,7 @@ public class OcrHelper {
         //If not cached or fully evolved, ocr text
         int result;
         tesseract.setImage(buff, subMat.width(), subMat.height(), subMat.channels(), subMat.width());
-        String ocrResult = fixOcrLettersToNums(tesseract.getUTF8Text());
+        String ocrResult = fixOcrLettersToDigits(tesseract.getUTF8Text());
         try {
             result = Integer.parseInt(ocrResult);
             if (result == 10 || result == 1) { //second zero hidden behind floating button
@@ -397,7 +397,7 @@ public class OcrHelper {
         }
 
         tesseract.setImage(buff, subMat.width(), subMat.height(), subMat.channels(), subMat.width());
-        String ocrResult = fixOcrLettersToNums(tesseract.getUTF8Text());
+        String ocrResult = fixOcrLettersToDigits(tesseract.getUTF8Text());
         try {
             int result = Integer.parseInt(ocrResult);
             ocrCache.put(hash, ocrResult);
@@ -444,7 +444,7 @@ public class OcrHelper {
         }
 
         tesseract.setImage(buff, subMat.width(), subMat.height(), subMat.channels(), subMat.width());
-        String ocrResult = fixOcrLettersToNums(tesseract.getUTF8Text());
+        String ocrResult = fixOcrLettersToDigits(tesseract.getUTF8Text());
         try {
             int result = Integer.parseInt(ocrResult);
             ocrCache.put(hash, ocrResult);
@@ -469,16 +469,64 @@ public class OcrHelper {
     /**
      * Correct some OCR errors in argument where only letters are expected.
      */
-    private static String fixOcrNumsToLetters(String src) {
-        return src.replace("1", "l").replace("0", "o").replace("5", "s").replace("2", "z");
+    private static String fixOcrDigitsToLetters(String src) {
+        StringBuilder sb = new StringBuilder(src.length());
+        for (int i = 0; i < src.length(); i++) {
+            switch (src.charAt(i)) {
+                case '0':
+                    sb.append('o');
+                    break;
+                case '1':
+                    sb.append('l');
+                    break;
+                case '2':
+                    sb.append('z');
+                    break;
+                case '5':
+                    sb.append('s');
+                    break;
+                default:
+                    sb.append(src.charAt(i));
+                    break;
+            }
+        }
+        return sb.toString();
     }
 
     /**
      * Correct some OCR errors in argument where only numbers are expected.
      */
-    private static String fixOcrLettersToNums(String src) {
-        return src.replace("S", "5").replace("s", "5").replace("O", "0").replace("B", "8").replace("o",
-                "0").replace("l", "1").replace("I", "1").replace("i", "1").replace("Z", "2").replaceAll("[^0-9]", "");
+    private static String fixOcrLettersToDigits(String src) {
+        StringBuilder sb = new StringBuilder(src.length());
+        for (int i = 0; i < src.length(); i++) {
+            switch (src.charAt(i)) {
+                case 'O':
+                case 'o':
+                    sb.append('0');
+                    break;
+                case 'I':
+                case 'i':
+                case 'l':
+                    sb.append('1');
+                    break;
+                case 'Z':
+                    sb.append('2');
+                    break;
+                case 'S':
+                case 's':
+                    sb.append('5');
+                    break;
+                case 'B':
+                    sb.append('8');
+                    break;
+                default:
+                    if (Character.isDigit(src.charAt(i))) {
+                        sb.append(src.charAt(i));
+                    }
+                    break;
+            }
+        }
+        return sb.toString();
     }
 
     /**
@@ -507,7 +555,7 @@ public class OcrHelper {
 
         if (pokemonName == null) {
             tesseract.setImage(buff, subMat.width(), subMat.height(), subMat.channels(), subMat.width());
-            pokemonName = fixOcrNumsToLetters(tesseract.getUTF8Text().replace(" ", ""));
+            pokemonName = fixOcrDigitsToLetters(tesseract.getUTF8Text().replace(" ", ""));
             if (isNidoranName(pokemonName)) {
                 pokemonName = getNidoranGenderName(pokemonGender);
             }
@@ -698,7 +746,7 @@ public class OcrHelper {
         if (candyName == null) {
             tesseract.setImage(buff, subMat.width(), subMat.height(), subMat.channels(), subMat.width());
             String ocrText = tesseract.getUTF8Text();
-            candyName = fixOcrNumsToLetters(
+            candyName = fixOcrDigitsToLetters(
                     removeFirstOrLastWord(ocrText.trim().replace("-", " "), candyWordFirst));
             if (isNidoranName(candyName)) {
                 candyName = getNidoranGenderName(pokemonGender);
@@ -756,7 +804,7 @@ public class OcrHelper {
                     return Optional.absent();
                 }
 
-                return Optional.of(Integer.parseInt(fixOcrLettersToNums(hpStr)));
+                return Optional.of(Integer.parseInt(fixOcrLettersToDigits(hpStr)));
             } catch (NumberFormatException e) {
                 //Fall-through to default.
             }
@@ -872,10 +920,10 @@ public class OcrHelper {
             tesseract.setRectangle(mergeRect);
         }
         String cpText = tesseract.getUTF8Text();
-        cpText = fixOcrLettersToNums(cpText);
+        cpText = fixOcrLettersToDigits(cpText);
 
         try {
-            return Optional.of(Integer.parseInt(fixOcrLettersToNums(cpText)));
+            return Optional.of(Integer.parseInt(fixOcrLettersToDigits(cpText)));
         } catch (NumberFormatException e) {
             return Optional.absent();
         }
@@ -926,13 +974,13 @@ public class OcrHelper {
 
         if (pokemonCandyStr == null) {
             tesseract.setImage(buff, subMat.width(), subMat.height(), subMat.channels(), subMat.width());
-            pokemonCandyStr = fixOcrLettersToNums(tesseract.getUTF8Text());
+            pokemonCandyStr = fixOcrLettersToDigits(tesseract.getUTF8Text());
             ocrCache.put(hash, pokemonCandyStr);
         }
 
         if (pokemonCandyStr.length() > 0) {
             try {
-                return Optional.of(Integer.parseInt(fixOcrLettersToNums(pokemonCandyStr)));
+                return Optional.of(Integer.parseInt(fixOcrLettersToDigits(pokemonCandyStr)));
             } catch (NumberFormatException e) {
                 //Fall-through to default.
             }

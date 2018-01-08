@@ -89,7 +89,7 @@ public class OcrHelper {
             tesseract.init(dataPath, "eng");
             tesseract.setPageSegMode(TessBaseAPI.PageSegMode.PSM_SINGLE_LINE);
             tesseract.setVariable(TessBaseAPI.VAR_CHAR_WHITELIST,
-                    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789/♀♂");
+                    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.!/♀♂");
 
             nidoFemale = pokeInfoCalculator.get(28).name;
             nidoMale = pokeInfoCalculator.get(31).name;

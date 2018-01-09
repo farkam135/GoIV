@@ -163,7 +163,7 @@ dependencies {
     compile 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     compile 'com.jakewharton.timber:timber:4.3.0'
-    compile 'com.rmtheis:tess-two:7.0.0'
+    compile 'com.rmtheis:tess-two:8.0.0'
     compile 'io.apptik.widget:multislider:1.2'
     compile 'com.pavelsikun:material-seekbar-preference:2.3.0'
     testCompile 'junit:junit:4.12'

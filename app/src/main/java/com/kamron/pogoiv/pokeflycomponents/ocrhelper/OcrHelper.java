@@ -21,6 +21,8 @@ import org.opencv.android.Utils;
 import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
+import org.opencv.core.MatOfPoint;
+import org.opencv.core.Point;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 
@@ -63,6 +65,7 @@ public class OcrHelper {
     private static boolean isPokeSpamEnabled;
     private static LruCache<String, String> ocrCache;
     private static LruCache<String, String> appraisalCache;
+    private static LruCache<ScanArea, Bitmap> cropBitmapCache;
     private static boolean candyWordFirst;
     private static int adaptThreshBlockSize;
 
@@ -97,6 +100,7 @@ public class OcrHelper {
 
             ocrCache = new LruCache<>(200);
             appraisalCache = new LruCache<>(200);
+            cropBitmapCache = new LruCache<>(20);
 
             candyWordFirst = isCandyWordFirst();
 
@@ -150,9 +154,29 @@ public class OcrHelper {
         return specialCandyOrderLanguages.contains(language);
     }
 
-    private static void threshold(@NonNull Mat src, @NonNull Mat dst) {
+    private static String runOcr(@NonNull ScanArea scanArea,
+                                 @NonNull Mat mat,
+                                 boolean multiLine) {
+        // For each ScanArea we allocate one Bitmap and reuse it in any subsequent call to optimize memory usage
+        Bitmap b = cropBitmapCache.get(scanArea);
+        if (b == null) {
+            b = Bitmap.createBitmap(mat.width(), mat.height(), Bitmap.Config.ARGB_8888);
+            cropBitmapCache.put(scanArea, b);
+        }
+        Utils.matToBitmap(mat, b);
+
+        tesseract.setImage(b);
+        if (multiLine) {
+            tesseract.setPageSegMode(TessBaseAPI.PageSegMode.PSM_SINGLE_BLOCK); // Set text block mode
+        } else {
+            tesseract.setPageSegMode(TessBaseAPI.PageSegMode.PSM_SINGLE_LINE); // Set single line mode
+        }
+        return tesseract.getUTF8Text().trim();
+    }
+
+    private static void threshold(@NonNull Mat src, @NonNull Mat dst, double threshold) {
         Imgproc.cvtColor(src, dst, Imgproc.COLOR_BGR2GRAY);
-        Imgproc.threshold(dst, dst, 150, 255, Imgproc.THRESH_BINARY);
+        Imgproc.threshold(dst, dst, threshold, 255, Imgproc.THRESH_BINARY);
     }
 
     private static void invertedThreshold(@NonNull Mat src, @NonNull Mat dst) {
@@ -167,7 +191,7 @@ public class OcrHelper {
     }
 
     /**
-     * Set values to MAX_VAL if rgba1-15 < value < rgba1+15 or rgba2-15 < value < rgba2+15, 0 otherwise.
+     * Set values to MAX_VAL if rgba1-20 < value < rgba1+20 or rgba2-20 < value < rgba2+20, 0 otherwise.
      * @param src   Source image, must be 4 channels RGBA
      * @param rgba1 First color to be used as threshold
      * @param rgba2 Second color to be used as threshold
@@ -181,13 +205,13 @@ public class OcrHelper {
     }
 
     /**
-     * Set values to MAX_VAL if rgba-15 < value < rgba+15, 0 otherwise.
+     * Set values to MAX_VAL if rgba-20 < value < rgba+20, 0 otherwise.
      * @param src   Source image, must be 4 channels RGBA
      * @param dst   Destination image
      * @param rgba  Color to be used as threshold
      */
     private static void colorThreshold(@NonNull Mat src, @NonNull Mat dst, @NonNull Scalar rgba) {
-        colorThreshold(src, dst, rgba, 30);
+        colorThreshold(src, dst, rgba, 40);
     }
 
     /**
@@ -279,40 +303,6 @@ public class OcrHelper {
         return d;
     }
 
-
-    /**
-     * Get the evolution cost for a pokemon, like getPokemonEvolutionCostFromImg, but without caching.
-     *
-     * @param subMat The precut image of the evolution cost area.
-     * @return the evolution cost (or -1 if absent) wrapped in Optional.of(), or Optional.absent() on scan failure
-     */
-    private static Optional<Integer> getPokemonEvolutionCostFromImgUncached(@NonNull Mat subMat) {
-        biColorThreshold(subMat, subMat, TEXT_GREEN_DARK, TEXT_RED);
-
-        byte[] buff = new byte[(int) (subMat.total() * subMat.channels())];
-        subMat.get(0, 0, buff);
-
-        //If not cached or fully evolved, ocr text
-        int result;
-        tesseract.setImage(buff, subMat.width(), subMat.height(), subMat.channels(), subMat.width());
-        String ocrResult = fixOcrLettersToDigits(tesseract.getUTF8Text());
-        try {
-            result = Integer.parseInt(ocrResult);
-            if (result == 10 || result == 1) { //second zero hidden behind floating button
-                result = 100;
-            } else if (result == 40 || result == 4) { //second zero hidden behind floating button
-                result = 400; //damn magikarp
-            } else if (result == 5) {
-                result = 50; //second zero hidden behind button
-            } else if (result == 2) {
-                result = 25; //5 hidden behind button
-            }
-            return Optional.of(result);
-        } catch (NumberFormatException e) {
-            return Optional.absent(); //could not ocr text
-        }
-    }
-
     /**
      * Get the evolution cost for a pokemon, example, weedle: 12.
      * If there was no detected upgrade cost, returns -1.
@@ -322,19 +312,15 @@ public class OcrHelper {
      */
     private static Optional<Integer> getPokemonEvolutionCostFromImg(@NonNull Mat pokemonImage,
                                                                     @Nullable ScanArea evolutionCostArea) {
-        Mat subMat;
-        if (evolutionCostArea != null) {
-            subMat = getMatCrop(pokemonImage, evolutionCostArea);
-        } else {
-            subMat = getMatCrop(pokemonImage, 0.625, 0.815, 0.2, 0.03);
+        if (evolutionCostArea == null) {
+            evolutionCostArea = new ScanArea(pokemonImage.width(), pokemonImage.height(), 0.625, 0.815, 0.2, 0.03);
         }
+
+        Mat subMat = getMatCrop(pokemonImage, evolutionCostArea);
 
         biColorThreshold(subMat, subMat, TEXT_GREEN_DARK, TEXT_RED);
 
-        byte[] buff = new byte[(int) (subMat.total() * subMat.channels())];
-        subMat.get(0, 0, buff);
-
-        String hash = "candyCost" + hashByteArray(buff);
+        String hash = "candyCost" + hashMat(subMat);
 
         if (ocrCache != null) {
             //return cache if it exists
@@ -349,7 +335,25 @@ public class OcrHelper {
             }
         }
 
-        Optional<Integer> result = getPokemonEvolutionCostFromImgUncached(subMat);
+        // If not cached or fully evolved, ocr text
+        Optional<Integer> result;
+        String ocrText = fixOcrLettersToDigits(runOcr(evolutionCostArea, subMat, false));
+        try {
+            int evoCost = Integer.parseInt(ocrText);
+            if (evoCost == 10 || evoCost == 1) { //second zero hidden behind floating button
+                evoCost = 100;
+            } else if (evoCost == 40 || evoCost == 4) { //second zero hidden behind floating button
+                evoCost = 400; //damn magikarp
+            } else if (evoCost == 5) {
+                evoCost = 50; //second zero hidden behind button
+            } else if (evoCost == 2) {
+                evoCost = 25; //5 hidden behind button
+            }
+            result = Optional.of(evoCost);
+        } catch (NumberFormatException e) {
+            result = Optional.absent(); //could not ocr text
+        }
+
         String ocrResult;
         if (result.isPresent()) {
             ocrResult = String.valueOf(result.get()); //Store error code instead of scanned value
@@ -371,19 +375,15 @@ public class OcrHelper {
      */
     private static Optional<Integer> getPokemonPowerUpStardustCostFromImg(@NonNull Mat pokemonImage,
                                                                           @Nullable ScanArea powerUpStardustCostArea) {
-        Mat subMat;
-        if (powerUpStardustCostArea != null) {
-            subMat = getMatCrop(pokemonImage, powerUpStardustCostArea);
-        } else {
-            subMat = getMatCrop(pokemonImage, 0.544, 0.803, 0.139, 0.0247);
+        if (powerUpStardustCostArea == null) {
+            powerUpStardustCostArea = new ScanArea(
+                    pokemonImage.width(), pokemonImage.height(), 0.544, 0.803, 0.139, 0.0247);
         }
+        Mat subMat = getMatCrop(pokemonImage, powerUpStardustCostArea);
 
         biColorThreshold(subMat, subMat, TEXT_GREEN_DARK, TEXT_RED);
 
-        byte[] buff = new byte[(int) (subMat.total() * subMat.channels())];
-        subMat.get(0, 0, buff);
-
-        String hash = "powerUpStardustCost" + hashByteArray(buff);
+        String hash = "powerUpStardustCost" + hashMat(subMat);
 
         //return cache if it exists
         String stringCachePowerUpStardustCost = ocrCache.get(hash);
@@ -396,8 +396,7 @@ public class OcrHelper {
             }
         }
 
-        tesseract.setImage(buff, subMat.width(), subMat.height(), subMat.channels(), subMat.width());
-        String ocrResult = fixOcrLettersToDigits(tesseract.getUTF8Text());
+        String ocrResult = fixOcrLettersToDigits(runOcr(powerUpStardustCostArea, subMat, false));
         try {
             int result = Integer.parseInt(ocrResult);
             ocrCache.put(hash, ocrResult);
@@ -418,19 +417,15 @@ public class OcrHelper {
      */
     private static Optional<Integer> getPokemonPowerUpCandyCostFromImg(@NonNull Mat pokemonImage,
                                                                        @Nullable ScanArea powerUpCandyCostArea) {
-        Mat subMat;
-        if (powerUpCandyCostArea != null) {
-            subMat = getMatCrop(pokemonImage, powerUpCandyCostArea);
-        } else {
-            subMat = getMatCrop(pokemonImage, 0.73, 0.742, 0.092, 0.0247);
+        if (powerUpCandyCostArea == null) {
+            powerUpCandyCostArea = new ScanArea(
+                    pokemonImage.width(), pokemonImage.height(), 0.73, 0.742, 0.092, 0.0247);
         }
+        Mat subMat = getMatCrop(pokemonImage, powerUpCandyCostArea);
 
         biColorThreshold(subMat, subMat, TEXT_GREEN_DARK, TEXT_RED);
 
-        byte[] buff = new byte[(int) (subMat.total() * subMat.channels())];
-        subMat.get(0, 0, buff);
-
-        String hash = "powerUpCandyCost" + hashByteArray(buff);
+        String hash = "powerUpCandyCost" + hashMat(subMat);
 
         //return cache if it exists
         String stringCachePowerUpCandyCost = ocrCache.get(hash);
@@ -443,8 +438,7 @@ public class OcrHelper {
             }
         }
 
-        tesseract.setImage(buff, subMat.width(), subMat.height(), subMat.channels(), subMat.width());
-        String ocrResult = fixOcrLettersToDigits(tesseract.getUTF8Text());
+        String ocrResult = fixOcrLettersToDigits(runOcr(powerUpCandyCostArea, subMat, false));
         try {
             int result = Integer.parseInt(ocrResult);
             ocrCache.put(hash, ocrResult);
@@ -458,12 +452,23 @@ public class OcrHelper {
     }
 
     /**
-     * Get the hashcode for a byte array.
-     * @param array The array to be hash coded
+     * Get the hashcode for an OpenCV Mat.
+     * @param mat The Mat to be hash coded
      * @return An hexadecimal hashcode
      */
-    private static String hashByteArray(@NonNull byte[] array) {
-        return Integer.toHexString(Arrays.hashCode(array));
+    private static String hashMat(@NonNull Mat mat) {
+        int increment = adaptThreshBlockSize / 5; // This is equal to the screen density
+        long value = 0;
+        for (int i = 0; i < mat.rows(); i += increment) {
+            for (int j = 0; j < mat.cols(); j += increment) {
+                long nextValue = 0;
+                for (int c = 0; c < mat.channels(); c++) {
+                    nextValue += mat.get(i, j)[c];
+                }
+                value += nextValue * i * j;
+            }
+        }
+        return Long.toHexString(value);
     }
 
     /**
@@ -538,25 +543,19 @@ public class OcrHelper {
     private static String getPokemonNameFromImg(@NonNull Mat pokemonImage,
                                                 @NonNull Pokemon.Gender pokemonGender,
                                                 @Nullable ScanArea nameArea) {
-        Mat subMat;
-        if (nameArea != null) {
-            subMat = getMatCrop(pokemonImage, nameArea);
-        } else {
-            subMat = getMatCrop(pokemonImage, 0.1, 0.4125, 0.85, 0.055);
+        if (nameArea == null) {
+            nameArea = new ScanArea(pokemonImage.width(), pokemonImage.height(), 0.1, 0.4125, 0.85, 0.055);
         }
+        Mat subMat = getMatCrop(pokemonImage, nameArea);
 
-        threshold(subMat, subMat);
+        threshold(subMat, subMat, 150);
 
-        byte[] buff = new byte[(int) (subMat.total() * subMat.channels())];
-        subMat.get(0, 0, buff);
-
-        String hash = "name" + hashByteArray(buff);
+        String hash = "name" + hashMat(subMat);
         String pokemonName = ocrCache.get(hash);
 
         if (pokemonName == null) {
-            tesseract.setImage(buff, subMat.width(), subMat.height(), subMat.channels(), subMat.width());
-            pokemonName = fixOcrDigitsToLetters(tesseract.getUTF8Text().replace(" ", ""));
-            if (isNidoranName(pokemonName)) {
+            pokemonName = runOcr(nameArea, subMat, false);
+            if (isNidoranName(fixOcrDigitsToLetters(pokemonName))) {
                 pokemonName = getNidoranGenderName(pokemonGender);
             }
             ocrCache.put(hash, pokemonName);
@@ -571,24 +570,19 @@ public class OcrHelper {
      * @return A string resulting from the scan
      */
     private static String getPokemonTypeFromImg(@NonNull Mat pokemonImage, @Nullable ScanArea typeArea) {
-        Mat subMat;
-        if (typeArea != null) {
-            subMat = getMatCrop(pokemonImage, typeArea);
-        } else {
-            subMat = getMatCrop(pokemonImage, 0.365278, 0.572, 0.308333, 0.035156);
+        if (typeArea == null) {
+            typeArea = new ScanArea(
+                    pokemonImage.width(), pokemonImage.height(), 0.365278, 0.572, 0.308333, 0.035156);
         }
+        Mat subMat = getMatCrop(pokemonImage, typeArea);
 
         colorThreshold(subMat, subMat, TEXT_GREEN_LIGHT, 75);
 
-        byte[] buff = new byte[(int) (subMat.total() * subMat.channels())];
-        subMat.get(0, 0, buff);
-
-        String hash = "type" + hashByteArray(buff);
+        String hash = "type" + hashMat(subMat);
         String pokemonType = ocrCache.get(hash);
 
         if (pokemonType == null) {
-            tesseract.setImage(buff, subMat.width(), subMat.height(), subMat.channels(), subMat.width());
-            pokemonType = tesseract.getUTF8Text();
+            pokemonType = fixOcrDigitsToLetters(runOcr(typeArea, subMat, false));
             ocrCache.put(hash, pokemonType);
         }
         return pokemonType;
@@ -602,12 +596,10 @@ public class OcrHelper {
      */
     @VisibleForTesting
     static Pokemon.Gender getPokemonGenderFromImg(@NonNull Mat pokemonImage, @Nullable ScanArea genderArea) {
-        Mat subMat;
-        if (genderArea != null) {
-            subMat = getMatCrop(pokemonImage, genderArea);
-        } else {
-            subMat = getMatCrop(pokemonImage, 0.822, 0.455, 0.0682, 0.03756);
+        if (genderArea == null) {
+            genderArea = new ScanArea(pokemonImage.width(), pokemonImage.height(), 0.822, 0.455, 0.0682, 0.03756);
         }
+        Mat subMat = getMatCrop(pokemonImage, genderArea);
 
         adaptiveThreshold(subMat, subMat);
 
@@ -651,24 +643,6 @@ public class OcrHelper {
         } else {
             return Pokemon.Gender.N;
         }
-    }
-
-    /**
-     * Get a cropped version of your matrix.
-     *
-     * @param mat     Which image to crop
-     * @param xStart  % of how far in the top left corner of the crop should be x coordinate
-     * @param yStart  % of how far in the top left corner of the crop should be y coordinate
-     * @param xWidth  how many % of the width should be kept starting from the xStart
-     * @param yHeight how many % of the height should be kept starting from the yStart
-     * @return The crop of the image
-     */
-    private static Mat getMatCrop(Mat mat, double xStart, double yStart, double xWidth, double yHeight) {
-        int w = mat.width();
-        int h = mat.height();
-        org.opencv.core.Rect roi = new org.opencv.core.Rect((int) (w * xStart), (int) (h * yStart),
-                (int) (w * xWidth), (int) (h * yHeight));
-        return mat.submat(roi);
     }
 
     /**
@@ -728,26 +702,19 @@ public class OcrHelper {
     private static String getCandyNameFromImg(@NonNull Mat pokemonImage,
                                               @NonNull Pokemon.Gender pokemonGender,
                                               @Nullable ScanArea candyNameArea) {
-        Mat subMat;
-        if (candyNameArea != null) {
-            subMat = getMatCrop(pokemonImage, candyNameArea);
-        } else {
-            subMat = getMatCrop(pokemonImage, 0.5, 0.678, 0.47, 0.026);
+        if (candyNameArea == null) {
+            candyNameArea = new ScanArea(pokemonImage.width(), pokemonImage.height(), 0.5, 0.678, 0.47, 0.026);
         }
+        Mat subMat = getMatCrop(pokemonImage, candyNameArea);
 
         colorThreshold(subMat, subMat, TEXT_GREEN_LIGHT, 75);
 
-        byte[] buff = new byte[(int) (subMat.total() * subMat.channels())];
-        subMat.get(0, 0, buff);
-
-        String hash = "candy" + hashByteArray(buff);
+        String hash = "candy" + hashMat(subMat);
         String candyName = ocrCache.get(hash);
 
         if (candyName == null) {
-            tesseract.setImage(buff, subMat.width(), subMat.height(), subMat.channels(), subMat.width());
-            String ocrText = tesseract.getUTF8Text();
-            candyName = fixOcrDigitsToLetters(
-                    removeFirstOrLastWord(ocrText.trim().replace("-", " "), candyWordFirst));
+            String ocrText = fixOcrDigitsToLetters(runOcr(candyNameArea, subMat, false));
+            candyName = removeFirstOrLastWord(ocrText, candyWordFirst);
             if (isNidoranName(candyName)) {
                 candyName = getNidoranGenderName(pokemonGender);
             }
@@ -763,24 +730,18 @@ public class OcrHelper {
      * @return an integer of the interpreted pokemon name, 10 if scan failed
      */
     private static Optional<Integer> getPokemonHPFromImg(@NonNull Mat pokemonImage, @Nullable ScanArea hpArea) {
-        Mat subMat;
-        if (hpArea != null) {
-            subMat = getMatCrop(pokemonImage, hpArea);
-        } else {
-            subMat = getMatCrop(pokemonImage, 0.357, 0.482, 0.285, 0.0293);
+        if (hpArea == null) {
+            hpArea = new ScanArea(pokemonImage.width(), pokemonImage.height(), 0.357, 0.482, 0.285, 0.0293);
         }
+        Mat subMat = getMatCrop(pokemonImage, hpArea);
 
         colorThreshold(subMat, subMat, TEXT_GREEN_DARK, 150);
 
-        byte[] buff = new byte[(int) (subMat.total() * subMat.channels())];
-        subMat.get(0, 0, buff);
-
-        String hash = "hp" + hashByteArray(buff);
+        String hash = "hp" + hashMat(subMat);
         String pokemonHPStr = ocrCache.get(hash);
 
         if (pokemonHPStr == null) {
-            tesseract.setImage(buff, subMat.width(), subMat.height(), subMat.channels(), subMat.width());
-            pokemonHPStr = tesseract.getUTF8Text();
+            pokemonHPStr = runOcr(hpArea, subMat, false);
             ocrCache.put(hash, pokemonHPStr);
         }
 
@@ -820,14 +781,12 @@ public class OcrHelper {
      * @return a CP of the pokemon, 10 if scan failed
      */
     private Optional<Integer> getPokemonCPFromImg(@NonNull Mat pokemonImage, @Nullable ScanArea cpArea) {
-        Mat subMat;
-        if (cpArea != null) {
-            subMat = getMatCrop(pokemonImage, cpArea);
-        } else {
-            subMat = getMatCrop(pokemonImage, 0.25, 0.059, 0.5, 0.046);
+        if (cpArea == null) {
+            cpArea = new ScanArea(pokemonImage.width(), pokemonImage.height(), 0.25, 0.059, 0.5, 0.046);
         }
+        Mat subMat = getMatCrop(pokemonImage, cpArea);
 
-        invertedThreshold(subMat, subMat);
+        threshold(subMat, subMat, 250);
 
         final int width = subMat.width();
         final int height = subMat.height();
@@ -843,7 +802,7 @@ public class OcrHelper {
                 final double pxColor = subMat.get(y, x)[0];
 
                 if (currentChunk == null) {
-                    if (pxColor != 255.0) {
+                    if (pxColor != 0) {
                         // We found a non-black pixel, start a new character chunk
                         currentChunk = new Rect(x, y, x, height - 1);
                         break;
@@ -854,7 +813,7 @@ public class OcrHelper {
                     }
 
                 } else {
-                    if (pxColor != 255.0) {
+                    if (pxColor != 0) {
                         // We found a non-black pixel. If the current chunk top is below this pixel, update it
                         if (currentChunk.top > y) {
                             currentChunk.top = y;
@@ -912,18 +871,24 @@ public class OcrHelper {
             }
         }
 
+        if (mergeRect != null) {
+            // Zero-out everything outside the detected rect
+            Mat mask = Mat.zeros(subMat.size(), CvType.CV_8U);
+            MatOfPoint points = new MatOfPoint(
+                    new Point(mergeRect.left, mergeRect.top),
+                    new Point(mergeRect.right, mergeRect.top),
+                    new Point(mergeRect.right, mergeRect.bottom),
+                    new Point(mergeRect.left, mergeRect.bottom));
+            Imgproc.fillConvexPoly(mask, points, new Scalar(255));
+            Core.bitwise_and(subMat, mask, subMat);
+        }
+
         byte[] buff = new byte[(int) (subMat.total() * subMat.channels())];
         subMat.get(0, 0, buff);
 
-        tesseract.setImage(buff, subMat.width(), subMat.height(), subMat.channels(), subMat.width());
-        if (mergeRect != null) {
-            tesseract.setRectangle(mergeRect);
-        }
-        String cpText = tesseract.getUTF8Text();
-        cpText = fixOcrLettersToDigits(cpText);
-
+        String cpText = fixOcrLettersToDigits(runOcr(cpArea, subMat, false));
         try {
-            return Optional.of(Integer.parseInt(fixOcrLettersToDigits(cpText)));
+            return Optional.of(Integer.parseInt(cpText));
         } catch (NumberFormatException e) {
             return Optional.absent();
         }
@@ -957,30 +922,24 @@ public class OcrHelper {
         if (!isPokeSpamEnabled) {
             return Optional.absent();
         }
-        Mat subMat;
-        if (candyAmountArea != null) {
-            subMat = getMatCrop(pokemonImage, candyAmountArea);
-        } else {
-            subMat = getMatCrop(pokemonImage, 0.60, 0.644, 0.20, 0.038);
+        if (candyAmountArea == null) {
+            candyAmountArea = new ScanArea(pokemonImage.width(), pokemonImage.height(), 0.60, 0.644, 0.20, 0.038);
         }
+        Mat subMat = getMatCrop(pokemonImage, candyAmountArea);
 
         colorThreshold(subMat, subMat, TEXT_GREEN_DARK);
 
-        byte[] buff = new byte[(int) (subMat.total() * subMat.channels())];
-        subMat.get(0, 0, buff);
-
-        String hash = "candyAmount" + hashByteArray(buff);
+        String hash = "candyAmount" + hashMat(subMat);
         String pokemonCandyStr = ocrCache.get(hash);
 
         if (pokemonCandyStr == null) {
-            tesseract.setImage(buff, subMat.width(), subMat.height(), subMat.channels(), subMat.width());
-            pokemonCandyStr = fixOcrLettersToDigits(tesseract.getUTF8Text());
+            pokemonCandyStr = fixOcrLettersToDigits(runOcr(candyAmountArea, subMat, false));
             ocrCache.put(hash, pokemonCandyStr);
         }
 
         if (pokemonCandyStr.length() > 0) {
             try {
-                return Optional.of(Integer.parseInt(fixOcrLettersToDigits(pokemonCandyStr)));
+                return Optional.of(Integer.parseInt(pokemonCandyStr));
             } catch (NumberFormatException e) {
                 //Fall-through to default.
             }
@@ -1107,21 +1066,16 @@ public class OcrHelper {
         Mat image = new Mat(screen.getWidth(), screen.getHeight(), CvType.CV_8UC4);
         Utils.bitmapToMat(screen, image);
 
-        image = getMatCrop(image, 0.05, 0.822, 0.90, 0.07);
+        ScanArea appraisalArea = new ScanArea(image.width(), image.height(), 0.05, 0.822, 0.90, 0.07);
+        image = getMatCrop(image, appraisalArea);
 
         colorThreshold(image, image, TEXT_GREEN_DARK, 100);
 
-        byte[] buff = new byte[(int) (image.total() * image.channels())];
-        image.get(0, 0, buff);
-
-        String hash = "appraisal" + hashByteArray(buff);
+        String hash = "appraisal" + hashMat(image);
         String appraisalText = appraisalCache.get(hash);
 
         if (appraisalText == null) {
-            tesseract.setImage(buff, image.width(), image.height(), image.channels(), image.width());
-            tesseract.setPageSegMode(TessBaseAPI.PageSegMode.PSM_SINGLE_BLOCK); // Set tesseract not single line mode
-            appraisalText = tesseract.getUTF8Text();
-            tesseract.setPageSegMode(TessBaseAPI.PageSegMode.PSM_SINGLE_LINE); // Restore single line mode
+            appraisalText = runOcr(appraisalArea, image, true);
             appraisalCache.put(hash, appraisalText);
             settings.saveAppraisalCache(appraisalCache.snapshot());
         }

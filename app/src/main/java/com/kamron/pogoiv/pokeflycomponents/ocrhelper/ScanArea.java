@@ -49,6 +49,13 @@ public class ScanArea {
         this.height = height;
     }
 
+    public ScanArea(int imgWidth, int imgHeight, double xFactor, double yFactor, double wFactor, double hFactor) {
+        this.xPoint = (int) (imgWidth * xFactor);
+        this.yPoint = (int) (imgHeight * yFactor);
+        this.width = (int) (imgWidth * wFactor);
+        this.height = (int) (imgHeight * hFactor);
+    }
+
     public boolean contains(Rect r) {
         return xPoint <= r.left && yPoint <= r.top && xPoint + width >= r.right && yPoint + height >= r.bottom;
     }

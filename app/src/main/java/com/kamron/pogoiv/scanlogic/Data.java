@@ -33,6 +33,8 @@ public class Data {
             1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
             2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 6, 6, 6, 6, 8, 8,
             8, 8, 10, 10, 10, 10, 12, 12, 12, 12, 15, 15, 15, 15 };
+    public static int arcInitX;
+    public static int arcInitY;
     public static int[] arcX;
     public static int[] arcY;
 
@@ -41,6 +43,8 @@ public class Data {
      * Sets up the x,y coordinates of the arc using the trainer level, stores it in Data.arcX/arcY
      */
     public static void setupArcPoints(ScanPoint arcInit, int arcRadius, int trainerLevel) {
+        arcInitX = arcInit.xCoord;
+        arcInitY = arcInit.yCoord;
         /*
          * Pokemon levels go from 1 to trainerLevel + 2, in increments of 0.5.
          * Here we use levelIdx for levels that are doubled and shifted by - 2; after this adjustment,
@@ -62,8 +66,8 @@ public class Data {
             double arcRatio = pokeCurrCpMDelta / maxPokeCpMDelta;
             double angleInRadians = (arcRatio + 1) * Math.PI;
 
-            arcX[pokeLevelIdx] = (int) (arcInit.xCoord + (arcRadius * Math.cos(angleInRadians)));
-            arcY[pokeLevelIdx] = (int) (arcInit.yCoord + (arcRadius * Math.sin(angleInRadians)));
+            arcX[pokeLevelIdx] = (int) Math.round(arcInit.xCoord + (arcRadius * Math.cos(angleInRadians)));
+            arcY[pokeLevelIdx] = (int) Math.round(arcInit.yCoord + (arcRadius * Math.sin(angleInRadians)));
         }
     }
 

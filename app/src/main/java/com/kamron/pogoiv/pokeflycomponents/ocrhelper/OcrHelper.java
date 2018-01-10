@@ -195,9 +195,9 @@ public class OcrHelper {
     }
 
     /**
-     * Examines the image from the given coordinates to determine the distance which is
-     * consistently white pixels in ALL cardinal directions. This helps identify the point
-     * closest to the center of the level indicator dot.
+     * Examines the image from the given coordinates to determine the distance which is consistently white pixels in
+     * 2 directions: towards and away the level arc center.
+     * This helps identify the point closest to the center of the level indicator dot.
      *
      * @param pokemonImage The image of the entire screen
      * @param x            Horizontal ordinate to scan from
@@ -206,33 +206,34 @@ public class OcrHelper {
      * coordinate which is white in each cardinal direction.
      */
     private static int getCardinalWhiteLineDistFromImg(Bitmap pokemonImage, int x, int y) {
-        // Base case of not matching
-        if (pokemonImage.getPixel(x, y) != Color.WHITE) {
-            return -1;
+        final int targetColor = Color.WHITE;
+
+        Double angle = null;
+        int r = -1;
+        int i1x = x;
+        int i1y = y;
+        int i2x = x;
+        int i2y = y;
+
+        while (pokemonImage.getPixel(i1x, i1y) == targetColor && pokemonImage.getPixel(i2x, i2y) == targetColor) {
+            r++;
+            if (angle == null) {
+                angle = Math.atan2(Data.arcInitY - y, Data.arcInitX - x);
+            }
+            i1x = (int) Math.round(x + r * Math.cos(angle));
+            i1y = (int) Math.round(y + r * Math.sin(angle));
+            i2x = (int) Math.round(x - r * Math.cos(angle));
+            i2y = (int) Math.round(y - r * Math.sin(angle));
+            if (i1x < 0 || i1x >= pokemonImage.getWidth()
+                    || i1y < 0 || i1y >= pokemonImage.getHeight()
+                    || i2x < 0 || i2x >= pokemonImage.getWidth()
+                    || i2y < 0 || i2y >= pokemonImage.getHeight()) {
+                return -1;
+            }
         }
 
-        int d = 0; // Distance we have successfully searched for white pixels.
-        while (true) {
-            //Check to see if we're out of bounds.
-            if (x - d <= 0 || y - d <= 0
-                    || x + d >= pokemonImage.getWidth() || y + d >= pokemonImage.getHeight()) {
-                // If the level indicator is on white background, we need to break it before it loops off screen.
-                // Happens very rarely.
-                break;
-            }
-
-            // If any pixel this distance is not white, return our successful search distance
-            if (pokemonImage.getPixel(x + d, y) != Color.WHITE
-                    || pokemonImage.getPixel(x - d, y) != Color.WHITE
-                    || pokemonImage.getPixel(x, y + d) != Color.WHITE
-                    || pokemonImage.getPixel(x, y - d) != Color.WHITE) {
-                return d;
-            }
-            d++;
-        }
-        return d;
+        return r;
     }
-
 
     /**
      * Get the evolution cost for a pokemon, like getPokemonEvolutionCostFromImg, but without caching.

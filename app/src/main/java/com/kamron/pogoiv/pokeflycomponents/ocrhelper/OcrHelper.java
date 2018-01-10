@@ -264,9 +264,9 @@ public class OcrHelper {
     }
 
     /**
-     * Examines the image from the given coordinates to determine the distance which is
-     * consistently white pixels in ALL cardinal directions. This helps identify the point
-     * closest to the center of the level indicator dot.
+     * Examines the image from the given coordinates to determine the distance which is consistently white pixels in
+     * 2 directions: towards and away the level arc center.
+     * This helps identify the point closest to the center of the level indicator dot.
      *
      * @param pokemonImage The image of the entire screen (with inverted colors!)
      * @param x            Horizontal ordinate to scan from
@@ -277,31 +277,22 @@ public class OcrHelper {
     private static int getCardinalWhiteLineDistFromImg(@NonNull Mat pokemonImage, int x, int y) {
         final int targetColor = 0; // 0 = black  255 = white  (look for black since the image is inverted)
 
-        // Base case of not matching
-        if (pokemonImage.get(y, x)[0] != targetColor) {
-            return -1;
+        double angle = Math.atan2(Data.arcInitY - y, Data.arcInitX - x);
+        int r = -1;
+        int i1x;
+        int i1y;
+        int i2x;
+        int i2y;
+        do {
+            r++;
+            i1x = (int) Math.round(x + r * Math.cos(angle));
+            i1y = (int) Math.round(y + r * Math.sin(angle));
+            i2x = (int) Math.round(x - r * Math.cos(angle));
+            i2y = (int) Math.round(y - r * Math.sin(angle));
         }
+        while (pokemonImage.get(i1y, i1x)[0] == targetColor && pokemonImage.get(i2y, i2x)[0] == targetColor);
 
-        int d = 0; // Distance we have successfully searched for white pixels.
-        while (true) {
-            //Check to see if we're out of bounds.
-            if (x - d <= 0 || y - d <= 0
-                    || x + d >= pokemonImage.width() || y + d >= pokemonImage.height()) {
-                // If the level indicator is on white background, we need to break it before it loops off screen.
-                // Happens very rarely.
-                break;
-            }
-
-            // If any pixel this distance is not white, return our successful search distance
-            if (pokemonImage.get(y,x + d)[0] != targetColor
-                    || pokemonImage.get(y,x - d)[0] != targetColor
-                    || pokemonImage.get(y + d, x)[0] != targetColor
-                    || pokemonImage.get(y - d, x)[0] != targetColor) {
-                return d;
-            }
-            d++;
-        }
-        return d;
+        return r;
     }
 
     /**

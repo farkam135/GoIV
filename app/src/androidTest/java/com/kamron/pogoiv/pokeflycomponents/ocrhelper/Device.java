@@ -159,6 +159,19 @@ public enum Device {
             new Point(720, 907),                        // Arc center
             583,                                        // Arc radius
             new Point(0, 0),                         // TODO White pixel
+            new Point(0, 0)),                           // TODO Green pixel
+
+    SONY_G8441("Sony XZ1 Compact", 2.0f, "testinfoscreens/G8441",
+            new Rect(0, 0, 0, 0),  // TODO Name
+            new Rect(0, 0, 0, 0),  // TODO Type
+            new Rect(0, 0, 0, 0),  // TODO Candy name
+            new Rect(0, 0, 0, 0),  // TODO HP area
+            new Rect(0, 0, 0, 0),    // TODO CP area
+            new Rect(0, 0, 0, 0),   // TODO Candy amount
+            new Rect(0, 0, 0, 0), // TODO Evolution cost
+            new Point(360, 0),                        // TODO Arc center
+            0,                                        // TODO Arc radius
+            new Point(0, 640),                         // TODO White pixel
             new Point(0, 0));                           // TODO Green pixel
 
     public final String makerModel;

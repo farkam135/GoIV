@@ -234,7 +234,8 @@ public class OcrHelper {
      * @param pokemonImage The image of the entire screen
      * @return the estimated pokemon level, or 1 if nothing found
      */
-    private static double getPokemonLevelFromImg(@NonNull Mat pokemonImage, int trainerLevel) {
+    @VisibleForTesting
+    static double getPokemonLevelFromImg(@NonNull Mat pokemonImage, int trainerLevel) {
         // Take only the upper half
         Mat subMat = pokemonImage.submat(0, pokemonImage.rows() / 2, 0, pokemonImage.cols());
 

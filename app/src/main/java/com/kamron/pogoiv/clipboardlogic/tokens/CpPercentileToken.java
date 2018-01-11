@@ -25,7 +25,7 @@ public class CpPercentileToken extends ClipboardToken {
 
     @Override
     public int getMaxLength() {
-        return 4;
+        return 3;
     }
 
     private static int compositionLookup(int total) {

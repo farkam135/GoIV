@@ -9,6 +9,7 @@ import com.kamron.pogoiv.clipboardlogic.tokens.CustomSeparatorToken;
 import com.kamron.pogoiv.clipboardlogic.tokens.ExtendedCpTierToken;
 import com.kamron.pogoiv.clipboardlogic.tokens.HexIVToken;
 import com.kamron.pogoiv.clipboardlogic.tokens.HpToken;
+import com.kamron.pogoiv.clipboardlogic.tokens.IVPercentageToPerfectionToken;
 import com.kamron.pogoiv.clipboardlogic.tokens.IVPercentageToken;
 import com.kamron.pogoiv.clipboardlogic.tokens.IVPercentageTokenMode;
 import com.kamron.pogoiv.clipboardlogic.tokens.IVSum;
@@ -94,6 +95,8 @@ public class ClipboardTokenCollection {
         tokens.add(new WorthTrainingToken(true, true)); // As above, max evolution
 
         tokens.add(new CpPercentileToken(false));
+
+        tokens.add(new IVPercentageToPerfectionToken(false));
 
         tokens.add(new PerfectionCPPercentageToken(true)); //how close your poke max evolved on lvl 40 cp is to 100% iv
         tokens.add(new PerfectionCPPercentageToken(false));//how close your poke on lvl 40 cp is to 100% iv

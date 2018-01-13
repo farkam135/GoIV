@@ -275,22 +275,31 @@ public class OcrHelper {
      * coordinate which is white in each cardinal direction.
      */
     private static int getCardinalWhiteLineDistFromImg(@NonNull Mat pokemonImage, int x, int y) {
-        final int targetColor = 0; // 0 = black  255 = white  (look for black since the image is inverted)
+        final double targetColor = 0; // 0 = black  255 = white  (look for black since the image is inverted)
 
-        double angle = Math.atan2(Data.arcInitY - y, Data.arcInitX - x);
+        Double angle = null;
         int r = -1;
-        int i1x;
-        int i1y;
-        int i2x;
-        int i2y;
-        do {
+        int i1x = x;
+        int i1y = y;
+        int i2x = x;
+        int i2y = y;
+
+        while (pokemonImage.get(i1y, i1x)[0] == targetColor && pokemonImage.get(i2y, i2x)[0] == targetColor) {
             r++;
+            if (angle == null) {
+                angle = Math.atan2(Data.arcInitY - y, Data.arcInitX - x);
+            }
             i1x = (int) Math.round(x + r * Math.cos(angle));
             i1y = (int) Math.round(y + r * Math.sin(angle));
             i2x = (int) Math.round(x - r * Math.cos(angle));
             i2y = (int) Math.round(y - r * Math.sin(angle));
+            if (i1x < 0 || i1x >= pokemonImage.width()
+                    || i1y < 0 || i1y >= pokemonImage.height()
+                    || i2x < 0 || i2x >= pokemonImage.width()
+                    || i2y < 0 || i2y >= pokemonImage.height()) {
+                return -1;
+            }
         }
-        while (pokemonImage.get(i1y, i1x)[0] == targetColor && pokemonImage.get(i2y, i2x)[0] == targetColor);
 
         return r;
     }

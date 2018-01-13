@@ -494,9 +494,9 @@ public class ScanFieldAutomaticLocator {
             debugPrintRect(maxBoundingRect, c, p);
         }
 
-        // Inspect the stroke width of the arc
-        int y = maxBoundingRect.y + maxBoundingRect.height - Math.round(2 * screenshotDensity); // Start 2dp higher
-        int arcEndX = maxBoundingRect.x + 1; // Start 1px to the right
+        // Inspect the stroke width of the arc; start 2.5dp higher
+        int y = (int) ((maxBoundingRect.y - 1) + maxBoundingRect.height - Math.round(2.5 * screenshotDensity));
+        int arcEndX = maxBoundingRect.x + 2; // Start 2px to the right
         for (; arcEndX < bmp.getWidth() / 2; arcEndX++) {
             //noinspection PointlessBooleanExpression
             if (BuildConfig.DEBUG && debugExecution) {
@@ -508,11 +508,11 @@ public class ScanFieldAutomaticLocator {
             }
         }
 
-        int arcStrokeHalfWidth = (arcEndX - maxBoundingRect.x) / 2;
+        double arcStrokeHalfWidth = (arcEndX - (maxBoundingRect.x + 1)) / 2.0;
 
-        results.arcCenter = new ScanPoint(
-                bmp.getWidth() / 2, maxBoundingRect.y + maxBoundingRect.height + arcStrokeHalfWidth);
-        results.arcRadius = bmp.getWidth() / 2 - (maxBoundingRect.x + arcStrokeHalfWidth);
+        results.arcCenter = new ScanPoint(bmp.getWidth() / 2,
+                (int) Math.round((maxBoundingRect.y - 2) + maxBoundingRect.height + arcStrokeHalfWidth));
+        results.arcRadius = (int) Math.round(bmp.getWidth() / 2.0 - ((maxBoundingRect.x + 2) + arcStrokeHalfWidth));
     }
 
 

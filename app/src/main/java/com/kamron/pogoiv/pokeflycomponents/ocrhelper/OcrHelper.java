@@ -215,7 +215,7 @@ public class OcrHelper {
         int i2x = x;
         int i2y = y;
 
-        while (pokemonImage.getPixel(i1x, i1y) == targetColor && pokemonImage.getPixel(i2x, i2y) == targetColor) {
+        while (pokemonImage.getPixel(i1x, i1y) == targetColor || pokemonImage.getPixel(i2x, i2y) == targetColor) {
             r++;
             if (angle == null) {
                 angle = Math.atan2(Data.arcInitY - y, Data.arcInitX - x);

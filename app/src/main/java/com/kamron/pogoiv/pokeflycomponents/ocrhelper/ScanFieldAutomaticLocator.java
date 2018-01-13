@@ -511,7 +511,7 @@ public class ScanFieldAutomaticLocator {
         double arcStrokeHalfWidth = (arcEndX - (maxBoundingRect.x + 1)) / 2.0;
 
         results.arcCenter = new ScanPoint(bmp.getWidth() / 2,
-                (int) Math.round((maxBoundingRect.y - 1) + maxBoundingRect.height + arcStrokeHalfWidth));
+                (int) Math.round((maxBoundingRect.y - 2) + maxBoundingRect.height + arcStrokeHalfWidth));
         results.arcRadius = (int) Math.round(bmp.getWidth() / 2.0 - ((maxBoundingRect.x + 2) + arcStrokeHalfWidth));
     }
 

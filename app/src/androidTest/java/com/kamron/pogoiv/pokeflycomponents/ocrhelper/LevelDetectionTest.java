@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.filters.LargeTest;
 import android.support.test.runner.AndroidJUnit4;
@@ -39,31 +40,45 @@ public class LevelDetectionTest {
 
     @Test
     public void scan_Trainer_35_Vaporeon_34_On_Sony_XZ1_Compact() throws IOException {
-        scanDevice(Device.SONY_G8441, "vaporeon.png", 35, 34);
+        scanDevice(Device.SONY_G8441, "vaporeon.png", null, 35, 34);
     }
 
     @Test
     public void scan_Trainer_35_Tyranitar_35_On_Sony_XZ1_Compact() throws IOException {
-        scanDevice(Device.SONY_G8441, "tyranitar.png", 35, 35);
+        scanDevice(Device.SONY_G8441, "tyranitar.png", null, 35, 35);
     }
 
     @Test
     public void scan_Trainer_35_Snorlax_33_On_Sony_XZ1_Compact() throws IOException {
-        scanDevice(Device.SONY_G8441, "snorlax.png", 35, 33);
+        scanDevice(Device.SONY_G8441, "snorlax.png", null, 35, 33);
+    }
+
+    @Test
+    public void scan_Trainer_35_Exeggutor_33_5_On_Sony_XZ1_Compact() throws IOException {
+        scanDevice(Device.SONY_G8441, "exeggutor.png", "vaporeon.png", 35, 33.5);
     }
 
     private void scanDevice(@NonNull Device device,
-                            @NonNull String fileName,
+                            @NonNull String screenshotFileName,
+                            @Nullable String calibrationFileName,
                             int trainerLevel,
                             double expectedMonsterLevel) throws IOException {
-        String path = device.infoScreensDirPath + "/" + fileName;
+        String screenshotPath = device.infoScreensDirPath + "/" + screenshotFileName;
 
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inMutable = true;
-        Bitmap bmp = BitmapFactory.decodeStream(mContext.getAssets().open(path), null, options);
+        Bitmap screenshotBmp = BitmapFactory.decodeStream(mContext.getAssets().open(screenshotPath), null, options);
+
+        Bitmap calibrationBmp;
+        if (calibrationFileName == null) {
+            calibrationBmp = screenshotBmp;
+        } else {
+            String calibrationPath = device.infoScreensDirPath + "/" + calibrationFileName;
+            calibrationBmp = BitmapFactory.decodeStream(mContext.getAssets().open(calibrationPath), null, options);
+        }
 
         ScanFieldAutomaticLocator autoLocator =
-                new ScanFieldAutomaticLocator(bmp, bmp.getWidth(), device.screenDensity);
+                new ScanFieldAutomaticLocator(calibrationBmp, calibrationBmp.getWidth(), device.screenDensity);
         //noinspection ConstantConditions
         ScanFieldResults results = autoLocator.scan(null, new WeakReference<ProgressDialog>(null),
                 new WeakReference<>(mTargetContext));
@@ -74,9 +89,10 @@ public class LevelDetectionTest {
         Data.setupArcPoints(results.arcCenter, results.arcRadius, trainerLevel);
 
         Mat image = new Mat();
-        Utils.bitmapToMat(bmp, image);
+        Utils.bitmapToMat(screenshotBmp, image);
 
-        OcrHelper.computeAdaptiveThresholdBlockSize(bmp.getWidth(), bmp.getWidth(), device.screenDensity);
+        OcrHelper.computeAdaptiveThresholdBlockSize(
+                screenshotBmp.getWidth(), screenshotBmp.getWidth(), device.screenDensity);
         double detectedMonsterLevel = OcrHelper.getPokemonLevelFromImg(image, trainerLevel);
 
         assertEquals("Level detection error;", expectedMonsterLevel, detectedMonsterLevel, 0.1);

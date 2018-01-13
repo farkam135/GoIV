@@ -1,25 +1,26 @@
 package com.kamron.pogoiv.clipboardlogic.tokens;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 
 import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.clipboardlogic.ClipboardToken;
+import com.kamron.pogoiv.scanlogic.IVCombination;
 import com.kamron.pogoiv.scanlogic.IVScanResult;
 import com.kamron.pogoiv.scanlogic.PokeInfoCalculator;
 
 /**
- * Created by Johan on 2016-10-06.
- * A token which says -compared to all possible iv combinations- how rare is an iv combination this good?
+ * Token representing how far in IVs % your pokemon is to perfect.
  */
 
-public class CpPercentileToken extends ClipboardToken {
+public class IVPercentageToPerfectionToken extends ClipboardToken {
     /**
      * Create a clipboard token.
      * The boolean in the constructor can be set to false if pokemon evolution is not applicable.
      *
      * @param maxEv true if the token should change its logic to pretending the pokemon is fully evolved.
      */
-    public CpPercentileToken(boolean maxEv) {
+    public IVPercentageToPerfectionToken(boolean maxEv) {
         super(maxEv);
     }
 
@@ -28,31 +29,31 @@ public class CpPercentileToken extends ClipboardToken {
         return 3;
     }
 
-    private static int compositionLookup(int total) {
-        int[] lookup = new int[] {100, 100, 100, 100, 100, 99, 99, 98, 97, 96, 95, 93, 91, 89, 86, 83, 80, 76, 72, 68,
-                64, 59, 55, 50, 45, 41, 36, 32, 28, 24, 20, 17, 14, 11, 9, 7, 5, 4, 3, 2, 1, 1, 0, 0, 0, 0};
-        return lookup[total];
-    }
-
-    @Override
-    public String getValue(IVScanResult isr, PokeInfoCalculator pokeInfoCalculator) {
-        int thisResult = isr.lowAttack + isr.lowDefense + isr.lowStamina;
-        return String.valueOf(compositionLookup(thisResult));
+    @SuppressLint("DefaultLocale") @Override
+    public String getValue(IVScanResult ivScanResult, PokeInfoCalculator pokeInfoCalculator) {
+        IVCombination combination = ivScanResult.getHighestIVCombination();
+        if (combination != null) {
+            int result = 100 - combination.percentPerfect;
+            return String.format("%02d", result);
+        } else {
+            return "";
+        }
     }
 
     @Override
     public String getPreview() {
-        return "5";
+        return "03";
     }
+
 
     @Override
     public String getTokenName(Context context) {
-        return "IV %top";
+        return "IV% to top";
     }
 
     @Override
     public String getLongDescription(Context context) {
-        return context.getString(R.string.token_msg_cpPerc);
+        return context.getString(R.string.token_msg_iv_perc_to_top);
     }
 
     @Override

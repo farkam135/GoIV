@@ -337,6 +337,7 @@
     <string name="token_msg_worthTra_msg1">"This token returns an evaluation of how worth it is to train this monster, based both on the base stats and the "</string>
     <string name="token_msg_worthTra_msg2" formatted="false">" possible IV stats. For instance, a 96% IV Alakazam will get a score higher than a 20% Tyranitar, regardless the fact that the maximum possible CP for the latter is higher: since the probability of getting better Tyranitar is higher than the one of getting better Alakazams, the second represents a much better stardust investment. Ranges in 00–99. Always returns two digits."</string>
     <string name="token_msg_train">Train</string>
+    <string name="token_msg_iv_perc_to_top">"Get the difference in percentage between the maximum and the perfect IV combination. For example, if the max IV combination percentage is 97, this token will return 03."</string>
     <string name="go_back_to_goiv">Go back to GoIV</string>
     <string name="go_back">Go back</string>
     <string name="send_email_to_devs_recalibration">If GoIV failed recalibrating when it should have worked, please press the button below to generate an automatic bug report email.</string>

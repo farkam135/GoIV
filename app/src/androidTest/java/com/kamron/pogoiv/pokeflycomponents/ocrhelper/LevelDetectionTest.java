@@ -38,8 +38,18 @@ public class LevelDetectionTest {
     }
 
     @Test
-    public void scan_Trainer_35_Monster_34_On_Sony_XZ1_Compact() throws IOException {
+    public void scan_Trainer_35_Vaporeon_34_On_Sony_XZ1_Compact() throws IOException {
         scanDevice(Device.SONY_G8441, "vaporeon.png", 35, 34);
+    }
+
+    @Test
+    public void scan_Trainer_35_Tyranitar_35_On_Sony_XZ1_Compact() throws IOException {
+        scanDevice(Device.SONY_G8441, "tyranitar.png", 35, 35);
+    }
+
+    @Test
+    public void scan_Trainer_35_Snorlax_33_On_Sony_XZ1_Compact() throws IOException {
+        scanDevice(Device.SONY_G8441, "snorlax.png", 35, 33);
     }
 
     private void scanDevice(@NonNull Device device,

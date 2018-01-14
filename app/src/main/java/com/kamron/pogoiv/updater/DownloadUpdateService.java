@@ -14,13 +14,13 @@ import android.os.IBinder;
 import android.support.v4.content.FileProvider;
 
 import com.kamron.pogoiv.BuildConfig;
+import com.kamron.pogoiv.R;
 
 import java.io.File;
 
 public class DownloadUpdateService extends Service {
 
     public static final String FILE_NAME = "GoIV_new.apk";
-    public static final String DOWNLOAD_UPDATE_TITLE = "Updating GoIV";
     public static final String KEY_DOWNLOAD_URL = "downloadURL";
 
     @Override
@@ -36,7 +36,7 @@ public class DownloadUpdateService extends Service {
                 newApkFile.delete();
             }
             DownloadManager.Request request = new DownloadManager.Request(Uri.parse(downloadUrl));
-            request.setTitle(DOWNLOAD_UPDATE_TITLE);
+            request.setTitle(getString(R.string.notification_updating));
 
             //set destination
             request.setDestinationUri(downloadUri);

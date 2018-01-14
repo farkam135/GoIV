@@ -1,12 +1,16 @@
 package com.kamron.pogoiv.pokeflycomponents.ocrhelper;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.LruCache;
+import android.view.Display;
+import android.view.WindowManager;
 
 import com.google.common.base.Optional;
 import com.googlecode.tesseract.android.TessBaseAPI;
@@ -993,6 +997,24 @@ public class OcrHelper {
         }
     }
 
+    /**
+     * Computes the navigation bar height comparing the usable screen height and the real display height.
+     * Please note that the system status bar is considered part of the usable screen height.
+     * @param context Android Context instance
+     * @return The height in pixels of the system navigation bar
+     */
+    public static int getNavigationBarSize(Context context) {
+        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        //noinspection ConstantConditions
+        Display display = windowManager.getDefaultDisplay();
+
+        Point appUsableSize = new Point();
+        display.getSize(appUsableSize);
+        Point realScreenSize = new Point();
+        display.getRealSize(realScreenSize);
+
+        return realScreenSize.y - appUsableSize.y;
+    }
 
     /**
      * Reads the bottom part of the screen and returns the text there.
@@ -1000,8 +1022,15 @@ public class OcrHelper {
      * @param screen The full phone screen.
      * @return String of whats on the bottom of the screen.
      */
-    public static String getAppraisalText(@NonNull GoIVSettings settings, @NonNull Bitmap screen) {
-        Bitmap bottom = getImageCrop(screen, 0.05, 0.822, 0.90, 0.07);
+    public static String getAppraisalText(@NonNull Context context,
+                                          @NonNull GoIVSettings settings,
+                                          @NonNull Bitmap screen) {
+        double appraisalBoxHeightFactor = 0.13;
+        int navBarHeight = getNavigationBarSize(context);
+        double appraisalBoxStartYFactor =
+                (double)(screen.getHeight() - navBarHeight) / screen.getHeight() - appraisalBoxHeightFactor;
+
+        Bitmap bottom = getImageCrop(screen, 0.05, appraisalBoxStartYFactor, 0.90, appraisalBoxHeightFactor);
         String hash = "appraisal" + hashBitmap(bottom);
         String appraisalText = appraisalCache.get(hash);
 

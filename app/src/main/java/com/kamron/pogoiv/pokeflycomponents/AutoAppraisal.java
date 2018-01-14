@@ -336,7 +336,7 @@ public class AutoAppraisal {
         public void run() {
             Bitmap screen = screenGrabber.grabScreen();
             if (screen != null) {
-                String appraiseText = OcrHelper.getAppraisalText(settings, screen);
+                String appraiseText = OcrHelper.getAppraisalText(context, settings, screen);
                 String hash = appraiseText.substring(0, appraiseText.indexOf("#"));
                 String text = appraiseText.substring(appraiseText.indexOf("#") + 1);
                 addInfoFromAppraiseText(text, hash);

@@ -60,7 +60,7 @@ android {
      * Android SDK and build-tools version
      * Update (both Gradle and local SDK) whenever possible
      */
-    compileSdkVersion 26
+    compileSdkVersion 27
     buildToolsVersion '27.0.3'
 
     /**
@@ -71,7 +71,7 @@ android {
      */
     defaultConfig {
         minSdkVersion 19 /*Dont change this unless you know why*/
-        targetSdkVersion 26 /*Dont change this unless you know why*/
+        targetSdkVersion 27 /*Dont change this unless you know why*/
         versionCode 37
         versionName "4.3.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -154,10 +154,10 @@ dependencies {
     /**
      * Test Build Dependencies
      */
-    compile 'com.android.support:appcompat-v7:26.1.0'
-    compile 'com.android.support:preference-v7:26.1.0'
-    compile 'com.android.support:recyclerview-v7:26.1.0'
-    compile 'com.android.support:design:26.1.0'
+    compile 'com.android.support:appcompat-v7:27.0.2'
+    compile 'com.android.support:preference-v7:27.0.2'
+    compile 'com.android.support:recyclerview-v7:27.0.2'
+    compile 'com.android.support:design:27.0.2'
     compile 'com.google.guava:guava:23.5-android'
     compile 'com.google.code.findbugs:jsr305:3.0.1'
     compile 'com.jakewharton:butterknife:8.8.1'
@@ -169,9 +169,9 @@ dependencies {
     testCompile 'junit:junit:4.12'
     testCompile 'com.squareup.assertj:assertj-android:1.1.1'
     testCompile 'org.mockito:mockito-core:1.10.19'
-    testCompile 'com.android.support:support-annotations:26.1.0'
+    testCompile 'com.android.support:support-annotations:27.0.2'
     testCompile 'com.android.support.test:runner:1.0.1'
-    androidTestCompile 'com.android.support:support-annotations:26.1.0'
+    androidTestCompile 'com.android.support:support-annotations:27.0.2'
     androidTestCompile 'com.android.support.test:runner:1.0.1'
     annotationProcessor 'org.projectlombok:lombok:1.16.18'
     onlineCompile 'com.squareup.okhttp3:okhttp:3.7.0'

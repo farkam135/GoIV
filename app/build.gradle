@@ -147,7 +147,7 @@ dependencies {
      * Online Build Dependencies
      */
     //Include Crashlytics in the online build
-    onlineCompile('com.crashlytics.sdk.android:crashlytics:2.6.2@aar') {
+    onlineCompile('com.crashlytics.sdk.android:crashlytics:2.8.0@aar') {
         transitive = true
     }
 

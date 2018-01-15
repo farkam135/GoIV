@@ -20,7 +20,7 @@ import java.io.File;
 public class DownloadUpdateService extends Service {
 
     public static final String FILE_NAME = "GoIV_new.apk";
-    public static final String DOWNLOAD_UPDATE_TITLE = "Updating GoIV";
+    public static final String DOWNLOAD_UPDATE_TITLE = "GoIV update";
     public static final String KEY_DOWNLOAD_URL = "downloadURL";
 
     @Override
@@ -61,7 +61,7 @@ public class DownloadUpdateService extends Service {
 
                             if (status == DownloadManager.STATUS_SUCCESSFUL) {
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                                    Uri apkUri = FileProvider.getUriForFile(ctxt, BuildConfig.APPLICATION_ID + ""
+                                    Uri apkUri = FileProvider.getUriForFile(ctxt, BuildConfig.APPLICATION_ID
                                             + ".provider", newApkFile);
                                     Intent startIntent = new Intent(Intent.ACTION_INSTALL_PACKAGE);
                                     startIntent.setData(apkUri);

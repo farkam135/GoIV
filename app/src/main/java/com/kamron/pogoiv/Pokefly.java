@@ -87,6 +87,7 @@ import butterknife.OnClick;
 import io.apptik.widget.MultiSlider;
 
 import static com.kamron.pogoiv.GoIVSettings.APPRAISAL_WINDOW_POSITION;
+import static com.kamron.pogoiv.clipboardlogic.ClipboardResultMode.SINGLE_RESULT;
 
 /**
  * Currently, the central service in Pokemon Go, dealing with everything except
@@ -1208,7 +1209,7 @@ public class Pokefly extends Service {
         IVScanResult singleIVScanResult = new IVScanResult(ivScanResult.pokemon, ivScanResult.estimatedPokemonLevel,
                 ivScanResult.scannedCP, ivScanResult.scannedGender);
         singleIVScanResult.addIVCombination(ivCombination.att, ivCombination.def, ivCombination.sta);
-        clipResult = clipboardTokenHandler.getResults(singleIVScanResult, pokeInfoCalculator, true);
+        clipResult = clipboardTokenHandler.getResults(singleIVScanResult, pokeInfoCalculator, SINGLE_RESULT);
 
 
         Toast toast = Toast.makeText(this, String.format(getString(R.string.clipboard_copy_toast), clipResult),
@@ -1389,6 +1390,8 @@ public class Pokefly extends Service {
     }
 
     /**
+     * Calculate the seekbar progress from a pokemon level.
+     *
      * @param level a valid pokemon level (hence <= 40).
      * @return a seekbar progress index.
      */
@@ -1397,7 +1400,7 @@ public class Pokefly extends Service {
     }
 
     /**
-     * Sets the growth estimate text boxes to correpond to the
+     * Sets the growth estimate text boxes to correspond to the
      * pokemon evolution and level set by the user.
      */
     private void populateAdvancedInformation(IVScanResult ivScanResult) {
@@ -1964,6 +1967,4 @@ public class Pokefly extends Service {
             }
         }
     };
-
-
 }

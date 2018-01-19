@@ -36,6 +36,7 @@ public class GoIVSettings {
     public static final String DELETE_SCREENSHOTS = "deleteScreenshots";
     public static final String COPY_TO_CLIPBOARD = "copyToClipboard";
     public static final String COPY_TO_CLIPBOARD_SINGLE = "copyToClipboardSingle";
+    public static final String COPY_TO_CLIPBOARD_PERFECTIV = "copyToClipboardPerfectIv";
     public static final String SEND_CRASH_REPORTS = "sendCrashReports";
     public static final String AUTO_UPDATE_ENABLED = "autoUpdateEnabled";
     public static final String POKESPAM_ENABLED = "pokeSpamEnabled";
@@ -43,6 +44,7 @@ public class GoIVSettings {
     public static final String APPRAISAL_WINDOW_POSITION = "appraisalWindowPosition";
     public static final String GOIV_CLIPBOARDSETTINGS = "GoIV_ClipboardSettings";
     public static final String GOIV_CLIPBOARDSINGLESETTINGS = "GoIV_ClipboardSingleSettings";
+    public static final String GOIV_CLIPBOARDPERFECTIVSETTINGS = "GoIV_ClipboardPerfectIvSettings";
     public static final String SHOW_TRANSLATED_POKEMON_NAME = "showTranslatedPokemonName";
     public static final String HAS_WARNED_USER_NO_SCREENREC = "GOIV_hasWarnedUserNoScreenRec";
     public static final String COPY_TO_CLIPBOARD_SHOW_TOAST = "copyToClipboardShowToast";
@@ -166,20 +168,6 @@ public class GoIVSettings {
         return ClipboardTokenHandler.tokenListToRepresentation(defaultTokens);
     }
 
-    public void setClipboardPreference(String tokenListRepresentation) {
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString(GoIVSettings.GOIV_CLIPBOARDSETTINGS, tokenListRepresentation);
-        editor.apply();
-    }
-
-    public void setClipboardSinglePreference(String tokenListRepresentation) {
-        //Clipboard single is the add-on setting if you want different clipboards for 1 or many results
-        SharedPreferences.Editor editor = prefs.edit();
-
-        editor.putString(GoIVSettings.GOIV_CLIPBOARDSINGLESETTINGS, tokenListRepresentation);
-        editor.apply();
-    }
-
     public String getClipboardSinglePreference() {
         String prefValue = prefs.getString(GOIV_CLIPBOARDSINGLESETTINGS, "");
         if (!Strings.isNullOrEmpty(prefValue)) {
@@ -196,6 +184,40 @@ public class GoIVSettings {
         return ClipboardTokenHandler.tokenListToRepresentation(defaultTokens);
     }
 
+    public String getClipboardPerfectIvPreference() {
+        String prefValue = prefs.getString(GOIV_CLIPBOARDPERFECTIVSETTINGS, "");
+        if (!Strings.isNullOrEmpty(prefValue)) {
+            return prefValue;
+        }
+
+        //Below code gets the string representation of the "default" perfect IV clipboard setting
+        ArrayList<ClipboardToken> defaultTokens = new ArrayList<>();
+        // Name (7 char) + average IV (should be 100%)
+        defaultTokens.add(new PokemonNameToken(false, 5));
+        defaultTokens.add(new IVPercentageToken(IVPercentageTokenMode.AVG));
+
+        return ClipboardTokenHandler.tokenListToRepresentation(defaultTokens);
+    }
+
+    public void setClipboardPreference(String tokenListRepresentation) {
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(GOIV_CLIPBOARDSETTINGS, tokenListRepresentation);
+        editor.apply();
+    }
+
+    public void setClipboardSinglePreference(String tokenListRepresentation) {
+        //Clipboard single is the add-on setting if you want different clipboards for 1 or many results
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(GOIV_CLIPBOARDSINGLESETTINGS, tokenListRepresentation);
+        editor.apply();
+    }
+
+    public void setClipboardPerfectIvPreference(String tokenListRepresentation) {
+        //Clipboard single is the add-on setting if you want different clipboards for 1 or many results
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(GOIV_CLIPBOARDPERFECTIVSETTINGS, tokenListRepresentation);
+        editor.apply();
+    }
 
     public boolean hasShownNoScreenRecWarning() {
         return prefs.getBoolean(HAS_WARNED_USER_NO_SCREENREC, false);
@@ -215,6 +237,10 @@ public class GoIVSettings {
 
     public boolean shouldCopyToClipboardSingle() {
         return prefs.getBoolean(COPY_TO_CLIPBOARD_SINGLE, false);
+    }
+
+    public boolean shouldCopyToClipboardPerfectIV() {
+        return prefs.getBoolean(COPY_TO_CLIPBOARD_PERFECTIV, false);
     }
 
     public boolean shouldSendCrashReports() {

@@ -170,6 +170,8 @@
     <string name="no_clipboard_preview">No preview available</string>
     <string name="copy_to_clip_single_setting">Copy differently on single result</string>
     <string name="copy_to_clip_single_setting_summary">Allows you to define another setting for Copy to clipboard in Edit which will show a different result when a scan returns a single possibility.</string>
+    <string name="copy_to_clip_perfectiv_setting">Copy differently when is IV 100%</string>
+    <string name="copy_to_clip_perfectiv_setting_summary">Allows you to define another setting for Copy to clipboard in Edit which will show a different result when a scan returns a 100% result.</string>
     <string name="view_credits">View credits</string>
     <string name="view_credits_summary">View application credits, used open source projects and thanks</string>
     <string name="title_activity_credits">CreditsActivity</string>
@@ -235,7 +237,7 @@
     <string name="discard_unsaved_changes">There are unsaved changes.\nDo you really want to discard them?</string>
     <string name="configuration_saved">Configuration saved!</string>
     <string name="no_token_selected">No token selected</string>
-    <string name="token_max_evolution">\n\nThis token is a max evolution variant, meaning that it will return a result as if your monster was already fully evolved, which might be more interesting in a lot of cases.</string>
+    <string name="token_max_evolution">%1$s\n\nThis token is a max evolution variant, meaning that it will return a result as if your monster was already fully evolved, which might be more interesting in a lot of cases.</string>
     <string name="token_max_characters">(%1$d/12 characters)</string>
     <string name="token_show_max_evo_variant">Show tokens max evolution variant</string>
     <string name="token_show_standard">Show standard tokens</string>

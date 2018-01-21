@@ -7,6 +7,8 @@ import com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanPoint;
  */
 public class Data {
 
+    public static final int MINIMUM_TRAINER_LEVEL = 1;
+    public static final int MAXIMUM_TRAINER_LEVEL = 40;
     public static final int MINIMUM_POKEMON_LEVEL = 1;
     public static final int MAXIMUM_POKEMON_LEVEL = 40;
     public static final int MAXIMUM_WILD_POKEMON_LEVEL = 35;

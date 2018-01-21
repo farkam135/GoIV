@@ -224,7 +224,7 @@
     <string name="discard_unsaved_changes">Hay cambios sin guardar.\n¿Estás seguro de descartar los cambios?</string>
     <string name="configuration_saved">¡Configuración guardada!</string>
     <string name="no_token_selected">Ninguna ficha seleccionada</string>
-    <string name="token_max_evolution">\n\nEsta ficha es una variante de máx. evolución, significa que devolverá el resultado como si su monstruo ya estuviera evolucionado al máximo, lo que podría ser interesante en muchos casos.</string>
+    <string name="token_max_evolution">%1$s\n\nEsta ficha es una variante de máx. evolución, significa que devolverá el resultado como si su monstruo ya estuviera evolucionado al máximo, lo que podría ser interesante en muchos casos.</string>
     <string name="token_max_characters">(%1$d/12 caracteres)</string>
     <string name="token_show_max_evo_variant">Mostrar fichas de variantes máx. evolución</string>
     <string name="token_show_standard">Mostrar fichas estándar</string>

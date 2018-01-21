@@ -48,6 +48,13 @@
             android:title="@string/copy_to_clip_single_setting"/>
 
         <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="@string/copy_to_clipboard_setting_key"
+            android:key="copyToClipboardPerfectIv"
+            android:summary="@string/copy_to_clip_perfectiv_setting_summary"
+            android:title="@string/copy_to_clip_perfectiv_setting"/>
+
+        <SwitchPreference
             android:defaultValue="true"
             android:dependency="@string/copy_to_clipboard_setting_key"
             android:key="copyToClipboardShowToast"

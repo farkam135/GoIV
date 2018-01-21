@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.google.common.base.Strings;
 import com.kamron.pogoiv.R;
+import com.kamron.pogoiv.clipboardlogic.ClipboardResultMode;
 import com.kamron.pogoiv.widgets.recyclerviews.adapters.TokensPreviewAdapter;
 import com.kamron.pogoiv.widgets.recyclerviews.adapters.TokensShowcaseAdapter;
 import com.kamron.pogoiv.widgets.recyclerviews.decorators.MarginItemDecorator;
@@ -58,7 +59,7 @@ public class ClipboardModifierFragment
     FloatingActionButton btnMaxEvolution;
 
 
-    private boolean singleResultMode;
+    private ClipboardResultMode resultMode;
     private boolean maxEvolutionVariant = true;
     private TokensPreviewAdapter tokenPreviewAdapter;
     private TokensShowcaseAdapter tokenShowcaseAdapter;
@@ -66,9 +67,9 @@ public class ClipboardModifierFragment
     private ClipboardTokenHandler cth;
 
 
-    public static ClipboardModifierFragment newInstance(boolean singleResultMode) {
+    public static ClipboardModifierFragment newInstance(ClipboardResultMode resultMode) {
         Bundle args = new Bundle();
-        args.putBoolean(ARG_SINGLE_RESULT_MODE, singleResultMode);
+        args.putSerializable(ARG_SINGLE_RESULT_MODE, resultMode);
         ClipboardModifierFragment f = new ClipboardModifierFragment();
         f.setArguments(args);
         return f;
@@ -80,7 +81,7 @@ public class ClipboardModifierFragment
 
     @Override public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        singleResultMode = getArguments().getBoolean(ARG_SINGLE_RESULT_MODE, false);
+        resultMode = (ClipboardResultMode) getArguments().get(ARG_SINGLE_RESULT_MODE);
         cth = new ClipboardTokenHandler(getContext());
     }
 
@@ -115,7 +116,7 @@ public class ClipboardModifierFragment
                 updateMaxLength();
             }
         });
-        tokenPreviewAdapter.setData(cth.getTokens(singleResultMode));
+        tokenPreviewAdapter.setData(cth.getTokens(resultMode));
         tokenPreviewRecyclerView.setHasFixedSize(false);
         tokenPreviewRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), HORIZONTAL, false));
         tokenPreviewRecyclerView.addItemDecoration(new MarginItemDecorator(2, 0, 2, 0));
@@ -160,7 +161,7 @@ public class ClipboardModifierFragment
     }
 
     public void saveConfiguration() {
-        cth.setTokenList(tokenPreviewAdapter.getData(), singleResultMode);
+        cth.setTokenList(tokenPreviewAdapter.getData(), resultMode);
     }
 
     /**
@@ -169,7 +170,7 @@ public class ClipboardModifierFragment
      * @return true if there are unsaved changes
      */
     public boolean hasUnsavedChanges() {
-        return !cth.savedConfigurationEquals(tokenPreviewAdapter.getData(), singleResultMode);
+        return !cth.savedConfigurationEquals(tokenPreviewAdapter.getData(), resultMode);
     }
 
     /**

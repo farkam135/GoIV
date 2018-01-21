@@ -19,10 +19,17 @@ import android.widget.Toast;
 
 import com.kamron.pogoiv.GoIVSettings;
 import com.kamron.pogoiv.R;
+import com.kamron.pogoiv.clipboardlogic.ClipboardResultMode;
 import com.kamron.pogoiv.clipboardlogic.ClipboardToken;
+
+import java.util.EnumSet;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.kamron.pogoiv.clipboardlogic.ClipboardResultMode.PERFECT_IV_RESULT;
+import static com.kamron.pogoiv.clipboardlogic.ClipboardResultMode.GENERAL_RESULT;
+import static com.kamron.pogoiv.clipboardlogic.ClipboardResultMode.SINGLE_RESULT;
 
 public class ClipboardModifierActivity extends AppCompatActivity {
 
@@ -33,15 +40,14 @@ public class ClipboardModifierActivity extends AppCompatActivity {
     @BindView(R.id.clipboardDescription)
     TextView clipboardDescription;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_clipboard_modifier);
         ButterKnife.bind(this);
 
-        boolean singleModeEnabled = isSingleModeEnabled();
-        ModePagerAdapter pagerAdapter = new ModePagerAdapter(getSupportFragmentManager(), singleModeEnabled);
+        ClipboardResultMode[] resultModesEnabled = getResultModesEnabled();
+        ModePagerAdapter pagerAdapter = new ModePagerAdapter(getSupportFragmentManager(), resultModesEnabled);
         viewPager.setAdapter(pagerAdapter);
 
         final ActionBar actionBar = getSupportActionBar();
@@ -49,11 +55,11 @@ public class ClipboardModifierActivity extends AppCompatActivity {
             actionBar.setTitle(R.string.clipboard_activity_title);
             actionBar.setDisplayHomeAsUpEnabled(true);
 
-            if (!singleModeEnabled) {
-                pagerTabStrip.setVisibility(View.GONE);
-            } else {
+            if (resultModesEnabled.length > 1) {
                 actionBar.setElevation(0);
                 pagerTabStrip.setTabIndicatorColor(ContextCompat.getColor(this, R.color.colorAccent));
+            } else {
+                pagerTabStrip.setVisibility(View.GONE);
             }
         }
     }
@@ -110,9 +116,18 @@ public class ClipboardModifierActivity extends AppCompatActivity {
         }
     }
 
-    private boolean isSingleModeEnabled() {
+    private ClipboardResultMode[] getResultModesEnabled() {
         GoIVSettings settings = GoIVSettings.getInstance(this);
-        return settings.shouldCopyToClipboardSingle();
+        EnumSet<ClipboardResultMode> clipboardResultModes = EnumSet.of(GENERAL_RESULT);
+
+        if (settings.shouldCopyToClipboardSingle()) {
+            clipboardResultModes.add(SINGLE_RESULT);
+        }
+        if (settings.shouldCopyToClipboardPerfectIV()) {
+            clipboardResultModes.add(PERFECT_IV_RESULT);
+        }
+
+        return clipboardResultModes.toArray(new ClipboardResultMode[clipboardResultModes.size()]);
     }
 
     /**
@@ -122,8 +137,8 @@ public class ClipboardModifierActivity extends AppCompatActivity {
         if (selectedToken == null) {
             clipboardDescription.setText(R.string.no_token_selected);
         } else if (selectedToken.maxEv) {
-            clipboardDescription.setText(selectedToken.getLongDescription(this) + getResources().getString(R.string
-                    .token_max_evolution));
+            clipboardDescription.setText(getResources().getString(R.string.token_max_evolution,
+                    selectedToken.getLongDescription(this)));
         } else { //selectedtoken not max ev
             clipboardDescription.setText(selectedToken.getLongDescription(this));
         }
@@ -131,37 +146,32 @@ public class ClipboardModifierActivity extends AppCompatActivity {
 
     private static class ModePagerAdapter extends FragmentPagerAdapter {
 
-        final boolean singleResultModeEnabled;
+        final ClipboardResultMode[] resultModesEnabled;
 
-        public ModePagerAdapter(FragmentManager fm, boolean singleResultModeEnabled) {
+        ModePagerAdapter(FragmentManager fm, ClipboardResultMode[] resultModesEnabled) {
             super(fm);
-            this.singleResultModeEnabled = singleResultModeEnabled;
+            this.resultModesEnabled = resultModesEnabled;
         }
 
         @Override
         public int getCount() {
-            return singleResultModeEnabled ? 2 : 1;
+            return resultModesEnabled.length;
         }
 
         @Override
         public Fragment getItem(int position) {
-            switch (position) {
-                case 0:
-                    return ClipboardModifierFragment.newInstance(false);
-                case 1:
-                    return ClipboardModifierFragment.newInstance(true);
-                default:
-                    return null;
-            }
+            return ClipboardModifierFragment.newInstance(resultModesEnabled[position]);
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
-            switch (position) {
-                case 0:
+            switch (resultModesEnabled[position]) {
+                case GENERAL_RESULT:
                     return "Multiple results";
-                case 1:
+                case SINGLE_RESULT:
                     return "Single result";
+                case PERFECT_IV_RESULT:
+                    return "Perfect IV result";
                 default:
                     return null;
             }

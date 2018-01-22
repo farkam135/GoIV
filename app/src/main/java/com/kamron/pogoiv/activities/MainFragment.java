@@ -121,7 +121,7 @@ public class MainFragment extends Fragment {
         if (enabled != null) {
             i.putExtra(EXTRA_BUTTON_ENABLED, enabled);
         }
-        LocalBroadcastManager.getInstance(context).sendBroadcast(i);
+        LocalBroadcastManager.getInstance(context).sendBroadcastSync(i);
     }
 
 

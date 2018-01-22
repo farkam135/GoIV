@@ -1,6 +1,7 @@
 package com.kamron.pogoiv.activities;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
@@ -35,8 +36,6 @@ import com.kamron.pogoiv.GoIVSettings;
 import com.kamron.pogoiv.Pokefly;
 import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.ScreenGrabber;
-import com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanPoint;
-import com.kamron.pogoiv.scanlogic.Data;
 import com.kamron.pogoiv.updater.AppUpdate;
 import com.kamron.pogoiv.updater.AppUpdateUtil;
 import com.kamron.pogoiv.updater.DownloadUpdateService;
@@ -61,16 +60,9 @@ public class MainActivity extends AppCompatActivity {
 
 
     private ScreenGrabber screen;
-
-    private DisplayMetrics displayMetrics;
     private DisplayMetrics rawDisplayMetrics;
-
-    private boolean batterySaver;
-
-    private int trainerLevel;
-
-    private ScanPoint arcInit;
-    private int arcRadius;
+    private boolean shouldRestartOnStopComplete;
+    private boolean skipStartPogo;
 
     private final BroadcastReceiver pokeflyStateChanged = new BroadcastReceiver() {
         @Override
@@ -95,15 +87,13 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    private boolean shouldRestartOnStopComplete;
-    private boolean skipStartPogo;
-
     private final BroadcastReceiver restartPokeFly = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             restartPokeFly(true);
         }
     };
+
 
     public static Intent createUpdateDialogIntent(AppUpdate update) {
         Intent updateIntent = new Intent(MainActivity.ACTION_SHOW_UPDATE_DIALOG);
@@ -112,7 +102,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public static boolean isGoIVBeingUpdated(Context context) {
-
         DownloadManager downloadManager = (DownloadManager) context.getSystemService(DOWNLOAD_SERVICE);
         DownloadManager.Query q = new DownloadManager.Query();
         q.setFilterByStatus(DownloadManager.STATUS_RUNNING);
@@ -180,11 +169,11 @@ public class MainActivity extends AppCompatActivity {
      * areas.
      */
     private void initiateUserScreenSettings() {
-        displayMetrics = this.getResources().getDisplayMetrics();
         WindowManager windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
         rawDisplayMetrics = new DisplayMetrics();
-        Display disp = windowManager.getDefaultDisplay();
-        disp.getRealMetrics(rawDisplayMetrics);
+        //noinspection ConstantConditions
+        Display display = windowManager.getDefaultDisplay();
+        display.getRealMetrics(rawDisplayMetrics);
     }
 
     /**
@@ -226,23 +215,25 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void stopGoIV() {
-        stopService(new Intent(MainActivity.this, Pokefly.class));
+        Intent stopIntent = Pokefly.createStopIntent(this);
+        startService(stopIntent);
         if (screen != null) {
             screen.exit();
         }
     }
 
+    @SuppressLint("NewApi")
     private void startGoIV() {
-        batterySaver = GoIVSettings.getInstance(this).isManualScreenshotModeEnabled();
-        trainerLevel = GoIVSettings.getInstance(this).getLevel();
-
-        setupDisplaySizeInfo();
-        Data.setupArcPoints(arcInit, arcRadius, trainerLevel);
-
-        if (batterySaver) {
+        boolean screenshotMode = GoIVSettings.getInstance(this).isManualScreenshotModeEnabled();
+        if (screenshotMode) {
             startPokeFly();
-        } else {
-            startScreenService();
+
+        } else { // Start screen capture then, when ready, Pokefly will be started
+            MainFragment.updateLaunchButtonText(this, R.string.accept_screen_capture, null);
+            MediaProjectionManager projectionManager =
+                    (MediaProjectionManager) getSystemService(Context.MEDIA_PROJECTION_SERVICE);
+            //noinspection ConstantConditions
+            startActivityForResult(projectionManager.createScreenCaptureIntent(), SCREEN_CAPTURE_REQ_CODE);
         }
     }
 
@@ -266,22 +257,6 @@ public class MainActivity extends AppCompatActivity {
                 Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
             ActivityCompat.requestPermissions(MainActivity.this,
                     new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_STORAGE_REQ_CODE);
-        }
-    }
-
-    private void setupDisplaySizeInfo() {
-        arcInit = new ScanPoint((int) (displayMetrics.widthPixels * 0.5),
-                (int) Math.floor(displayMetrics.heightPixels * 0.35664));
-        if (displayMetrics.heightPixels == 2392 || displayMetrics.heightPixels == 800) {
-            arcInit.yCoord--;
-        } else if (displayMetrics.heightPixels == 1920) {
-            arcInit.yCoord++;
-        }
-
-        arcRadius = (int) Math.round(displayMetrics.heightPixels * 0.2285);
-        if (displayMetrics.heightPixels == 1776 || displayMetrics.heightPixels == 960
-                || displayMetrics.heightPixels == 800) {
-            arcRadius++;
         }
     }
 
@@ -338,19 +313,11 @@ public class MainActivity extends AppCompatActivity {
         MainFragment.updateLaunchButtonText(this, R.string.main_starting, false);
 
         startPoGoIfSettingOn();
-        firePokeFlyIntent();
-        skipStartPogo = false;
-    }
 
-
-    /**
-     * This method actually starts pokefly, but other thins need to be done first, such as updating the text on the
-     * buttons, and starting pogo.
-     */
-    private void firePokeFlyIntent() {
-        int statusBarHeight = getStatusBarHeight();
-        Intent intent = Pokefly.createIntent(this, trainerLevel, statusBarHeight, batterySaver);
+        Intent intent = Pokefly.createStartIntent(this, getStatusBarHeight());
         startService(intent);
+
+        skipStartPogo = false;
     }
 
     private void updateLaunchButtonText(boolean isPokeflyRunning, @Nullable Boolean enableButton) {
@@ -415,18 +382,6 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == WRITE_STORAGE_REQ_CODE) {
             updateLaunchButtonText(false, null);
         }
-    }
-
-    /**
-     * Starts the screen capture.
-     */
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private void startScreenService() {
-        MainFragment.updateLaunchButtonText(this, R.string.accept_screen_capture, null);
-        MediaProjectionManager projectionManager =
-                (MediaProjectionManager) getSystemService(Context.MEDIA_PROJECTION_SERVICE);
-        //noinspection ConstantConditions
-        startActivityForResult(projectionManager.createScreenCaptureIntent(), SCREEN_CAPTURE_REQ_CODE);
     }
 
     /**

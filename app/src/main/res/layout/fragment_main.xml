@@ -179,6 +179,7 @@
                 style="@style/PoGoStyleButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:minWidth="144dp"
                 android:layout_marginTop="24dp"
                 android:text="@string/main_start"/>
 

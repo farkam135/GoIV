@@ -64,6 +64,8 @@
         <item name="valoriv0_7">"…don't point to greatness"</item>
     </string-array>
 
+    <string name="menu_recalibration">Recalibration</string>
+    <string name="menu_home">Home</string>
     <string name="pokemon_name">Species:</string>
     <string name="cp">CP</string>
     <string name="hp">HP</string>

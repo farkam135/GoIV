@@ -19,7 +19,9 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
@@ -40,6 +42,8 @@ import com.kamron.pogoiv.updater.AppUpdate;
 import com.kamron.pogoiv.updater.AppUpdateUtil;
 import com.kamron.pogoiv.updater.DownloadUpdateService;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import timber.log.Timber;
 
 import static android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP;
@@ -47,6 +51,7 @@ import static android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
+    private static final String TAG_FRAGMENT_CONTENT = "content";
 
     public static final String ACTION_SHOW_UPDATE_DIALOG = "com.kamron.pogoiv.SHOW_UPDATE_DIALOG";
     public static final String ACTION_START_POKEFLY = "com.kamron.pogoiv.ACTION_START_POKEFLY";
@@ -57,6 +62,10 @@ public class MainActivity extends AppCompatActivity {
     private static final int SCREEN_CAPTURE_REQ_CODE = 1235;
 
     public static boolean shouldShowUpdateDialog;
+
+
+    @BindView(R.id.bottomNavigation)
+    BottomNavigationView bottomNavigation;
 
 
     private ScreenGrabber screen;
@@ -132,14 +141,41 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
 
         Timber.tag(TAG);
 
         if (savedInstanceState == null) {
+            bottomNavigation.setSelectedItemId(R.id.menu_home);
+
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.content, new MainFragment(), "CHILD")
+                    .add(R.id.content, new MainFragment(), TAG_FRAGMENT_CONTENT)
                     .commit();
         }
+
+        bottomNavigation.setOnNavigationItemSelectedListener(
+                new BottomNavigationView.OnNavigationItemSelectedListener() {
+                    @Override public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        Fragment currentFragment = getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_CONTENT);
+                        switch (item.getItemId()) {
+                            case R.id.menu_recalibrate:
+                                if (!(currentFragment instanceof RecalibrateFragment)) {
+                                    getSupportFragmentManager().beginTransaction()
+                                            .replace(R.id.content, new RecalibrateFragment(), TAG_FRAGMENT_CONTENT)
+                                            .commit();
+                                }
+                                break;
+                            case R.id.menu_home:
+                                if (!(currentFragment instanceof MainFragment)) {
+                                    getSupportFragmentManager().beginTransaction()
+                                            .replace(R.id.content, new MainFragment(), TAG_FRAGMENT_CONTENT)
+                                            .commit();
+                                }
+                                break;
+                        }
+                        return true;
+                    }
+                });
 
         runAutoUpdateStartupChecks();
         initiateUserScreenSettings();

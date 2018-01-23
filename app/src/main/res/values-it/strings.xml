@@ -207,6 +207,6 @@
 
     <string name="recalibrate_goiv_notification">Ricalibra</string>
     <string name="title_activity_ocr_calibration_result">Risultati calibrazione</string>
-    <string name="scan_optimization_notice_text">Non hai ancora eseguito la calibrazione dello scanner. È consigliabile eseguire questa ottimizzazione su tutti i dispositivi. Per lanciarla:\n1. Avvia GoIV\n2. Apri la pagina di un \'mon \n3. Apri la notifica di GoIV\n4. Seleziona \'Ricalibra\'!</string>
+    <string name="scan_optimization_notice_text">Non hai ancora eseguito la calibrazione dello scanner. È consigliabile eseguire questa ottimizzazione su tutti i dispositivi.</string>
     <string name="scan_optimization_screen_ratio_warning">GoIV ha rilevato che il tuo display non ha dimensioni standard. Molto probabilmente dovrai eseguire la calibrazione dello scanner perché GoIV possa funzionare.</string>
 </resources>

@@ -5,7 +5,6 @@
     android:layout_height="match_parent">
 
     <ScrollView
-        android:id="@+id/mainScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fadeScrollbars="false"
@@ -104,76 +103,6 @@
 
             </LinearLayout>
 
-            <!-- Notice of lack of screen calibration-->
-            <LinearLayout
-                android:id="@+id/optimizationWarningLayout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="24dp"
-                android:background="#FFF"
-                android:orientation="vertical"
-                android:padding="16dp"
-                android:visibility="gone"
-                tools:visibility="visible">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/notice"
-                    android:textAlignment="center"
-                    android:textSize="22sp"/>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#ddd"/>
-
-                <TextView
-                    android:id="@+id/neverRunOptimizationWarning"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:text="@string/scan_optimization_notice_text"
-                    android:visibility="gone"
-                    tools:visibility="visible" />
-
-                <TextView
-                    android:id="@+id/shouldRunOptimizationAgainWarning"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:text="@string/scan_optimization_outdated_warning"
-                    android:textColor="@android:color/holo_red_dark"
-                    android:visibility="gone"
-                    tools:visibility="visible" />
-
-                <TextView
-                    android:id="@+id/nonStandardScreenWarning"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:text="@string/scan_optimization_screen_ratio_warning"
-                    android:textColor="@android:color/holo_red_dark"
-                    android:visibility="gone"
-                    tools:visibility="visible" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center">
-
-                    <Button
-                        android:id="@+id/recalibrationHelpButton2"
-                        style="?attr/borderlessButtonStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:text="Show me how"
-                        android:textSize="16sp"/>
-                </LinearLayout>
-
-            </LinearLayout>
-
             <Button
                 android:id="@+id/startButton"
                 style="@style/PoGoStyleButton"
@@ -190,31 +119,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="@string/instructions_title"/>
-
-            <Button
-                android:id="@+id/recalibrationHelpButton"
-                style="?attr/borderlessButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="How to automatically optimize"/>
-
-            <LinearLayout
-                android:id="@+id/optimizationVideoTutorialLayout"
-                android:layout_width="match_parent"
-                android:layout_height="480dp"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:visibility="gone">
-
-                <WebView
-                    android:id="@+id/optimizationVideoTutorial"
-                    android:layout_width="320dp"
-                    android:layout_height="480dp"
-                    android:layout_marginTop="14dp"
-                    android:focusable="true" />
-
-            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"

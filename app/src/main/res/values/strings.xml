@@ -232,6 +232,7 @@
     <string name="recalibrate_goiv_notification">Recalibrate</string>
     <string name="title_activity_ocr_calibration_result">Calibration Result</string>
     <string name="title_activity_ocr_calibration_error">Calibration Error</string>
+    <string name="recalibration_description">Recalibration enhances GoIV\'s performance by dynamically finding optimal scan locations for your phone.</string>
     <string name="scan_optimization_notice_text">You have not run scan optimization. It\'s recommended to run scan optimization on all devices.</string>
     <string name="scan_optimization_screen_ratio_warning">GoIV has detected that your screen is not standard. You\'ll most likely need to perform scan optimization for GoIV to work.</string>
     <string name="scan_optimization_outdated_warning">Your scan optimization is outdated. Please run screen optimization again to enjoy the latest features!</string>

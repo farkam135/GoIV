@@ -1,6 +1,10 @@
 package com.kamron.pogoiv.activities;
 
 import android.Manifest;
+import android.animation.AnimatorSet;
+import android.animation.Keyframe;
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.DownloadManager;
@@ -21,6 +25,8 @@ import android.provider.Settings;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.internal.BottomNavigationItemView;
+import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -29,10 +35,14 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.Display;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -74,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
     private DisplayMetrics rawDisplayMetrics;
     private boolean shouldRestartOnStopComplete;
     private boolean skipStartPogo;
+    private View alertBadgeView;
 
     private BottomNavigationView.OnNavigationItemSelectedListener navigationListener = new BottomNavigationView
             .OnNavigationItemSelectedListener() {
@@ -364,6 +375,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+        initRecalibrationAlertBadge();
+
         /*
          * This intent will update the button label, but later. This matters
          * when we start Pokefly: onResume can get called right away after
@@ -525,6 +538,68 @@ public class MainActivity extends AppCompatActivity {
             // No unsaved changes
             super.onBackPressed();
         }
+    }
+
+    @SuppressLint("RestrictedApi")
+    private void initRecalibrationAlertBadge() {
+        if (GoIVSettings.getInstance(this).hasUpToDateManualScanCalibration()) {
+            // Calibration is up-to-date
+            if (alertBadgeView != null && alertBadgeView.getParent() != null) {
+                // Remove badge view
+                ((ViewGroup) alertBadgeView.getParent()).removeView(alertBadgeView);
+            }
+
+        } else {
+            // Calibration is outdated: add an alert badge to recalibrate section bottom menu icon
+            if (alertBadgeView == null || alertBadgeView.getParent() == null) {
+                // Alert badge view is not attached to the layout, add it
+                BottomNavigationMenuView bottomNavigationMenuView =
+                        (BottomNavigationMenuView) bottomNavigation.getChildAt(0);
+                for (int i = 0; i < bottomNavigationMenuView.getChildCount(); i++) {
+                    View itemView = bottomNavigationMenuView.getChildAt(i);
+                    if (itemView instanceof BottomNavigationItemView) {
+                        int itemViewId = ((BottomNavigationItemView) itemView).getItemData().getItemId();
+                        if (R.id.menu_recalibrate == itemViewId) {
+                            if (alertBadgeView == null) {
+                                alertBadgeView = LayoutInflater.from(this)
+                                        .inflate(R.layout.alert_badge, (BottomNavigationItemView) itemView, false);
+                            }
+                            ((BottomNavigationItemView) itemView).addView(alertBadgeView);
+                        }
+                    }
+                }
+            }
+            // Animate the exclamation mark to draw user attention
+            startWobbleAnimator(alertBadgeView.findViewById(R.id.exclamationMark));
+        }
+    }
+
+    private void startWobbleAnimator(@NonNull View targetView) {
+        Keyframe rkf0 = Keyframe.ofFloat(0f, 0f);
+        Keyframe rkf1 = Keyframe.ofFloat(.25f, 10f);
+        Keyframe rkf2 = Keyframe.ofFloat(.75f, -10f);
+        Keyframe rkf3 = Keyframe.ofFloat(1f, 0f);
+        PropertyValuesHolder rpvh = PropertyValuesHolder.ofKeyframe(View.ROTATION, rkf0, rkf1, rkf2, rkf3);
+        ObjectAnimator rotate = ObjectAnimator.ofPropertyValuesHolder(targetView, rpvh);
+        rotate.setRepeatMode(ObjectAnimator.RESTART);
+        rotate.setRepeatCount(9);
+        rotate.setDuration(500);
+
+        float dX = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, getResources().getDisplayMetrics());
+        Keyframe tkf0 = Keyframe.ofFloat(0f, 0);
+        Keyframe tkf1 = Keyframe.ofFloat(.25f, dX);
+        Keyframe tkf2 = Keyframe.ofFloat(.75f, -dX);
+        Keyframe tkf3 = Keyframe.ofFloat(1f, 0f);
+        PropertyValuesHolder tpvh = PropertyValuesHolder.ofKeyframe(View.TRANSLATION_X, tkf0, tkf1, tkf2, tkf3);
+        ObjectAnimator translate = ObjectAnimator.ofPropertyValuesHolder(targetView, tpvh);
+        translate.setRepeatMode(ObjectAnimator.RESTART);
+        translate.setRepeatCount(9);
+        translate.setDuration(500);
+
+        AnimatorSet set = new AnimatorSet();
+        set.setStartDelay(1000);
+        set.playTogether(rotate, translate);
+        set.start();
     }
 
     /**

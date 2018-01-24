@@ -35,7 +35,7 @@
         android:title="@string/settings_title_optional">
 
         <SwitchPreference
-            android:defaultValue="false"
+            android:defaultValue="true"
             android:key="@string/copy_to_clipboard_setting_key"
             android:summary="@string/copy_to_clipboard_setting_summary_new"
             android:title="@string/copy_to_clipboard_setting_title"/>
@@ -60,12 +60,6 @@
             android:key="copyToClipboardShowToast"
             android:summary="@string/copy_to_clip_show_toast_setting_summary"
             android:title="@string/copy_to_clip_show_toast_setting"/>
-
-        <Preference
-            android:dependency="@string/copy_to_clipboard_setting_key"
-            android:key="@string/clipboardButton"
-            android:summary="@string/clipboardButton_summary"
-            android:title="@string/clipboardButton_title"/>
 
         <SwitchPreference
             android:defaultValue="true"

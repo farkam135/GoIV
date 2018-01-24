@@ -66,6 +66,7 @@
 
     <string name="menu_recalibration">Recalibration</string>
     <string name="menu_home">Home</string>
+    <string name="menu_clipboard">Clipboard</string>
     <string name="pokemon_name">Species:</string>
     <string name="cp">CP</string>
     <string name="hp">HP</string>
@@ -157,9 +158,6 @@
     <string name="clipboard_modifier_preview">Preview</string>
     <string name="position_handler_toast">Drag the window by this handler to relocate it.</string>
     <string name="clipboard_no_token_selected">Please choose a token to add from the scrollable list.</string>
-    <string name="clipboardButton">clipboardButton</string>
-    <string name="clipboardButton_summary">Define how you want the clipboard result to look.</string>
-    <string name="clipboardButton_title">Edit copy to clipboard</string>
     <string name="clipboard_activity_title">GoIV Clipboard configuration</string>
     <string name="expanded_appraisal_default_setting_title">Expanded appraisal opened by default</string>
     <string name="expanded_appraisal_default_setting_summary">Automatically expand the full appraisal checkbox menu</string>

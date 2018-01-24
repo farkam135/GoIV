@@ -43,7 +43,6 @@ public class MainFragment extends Fragment {
     private static final String EXTRA_BUTTON_ENABLED = "btn_enabled";
 
 
-
     @BindView(R.id.startButton)
     Button startButton;
 

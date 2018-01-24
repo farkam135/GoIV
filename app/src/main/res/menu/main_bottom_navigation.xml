@@ -13,4 +13,10 @@
         android:icon="@drawable/ic_goiv_cap_24dp"
         android:title="@string/menu_home"
         app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/menu_clipboard"
+        android:enabled="true"
+        android:icon="@drawable/ic_content_paste_white_24dp"
+        android:title="@string/menu_clipboard"
+        app:showAsAction="ifRoom" />
 </menu>

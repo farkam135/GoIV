@@ -6,6 +6,7 @@ import android.annotation.TargetApi;
 import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
@@ -17,6 +18,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
@@ -72,6 +74,13 @@ public class MainActivity extends AppCompatActivity {
     private DisplayMetrics rawDisplayMetrics;
     private boolean shouldRestartOnStopComplete;
     private boolean skipStartPogo;
+
+    private BottomNavigationView.OnNavigationItemSelectedListener navigationListener = new BottomNavigationView
+            .OnNavigationItemSelectedListener() {
+        @Override public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            return showSection(item.getItemId());
+        }
+    };
 
     private final BroadcastReceiver pokeflyStateChanged = new BroadcastReceiver() {
         @Override
@@ -153,34 +162,70 @@ public class MainActivity extends AppCompatActivity {
                     .commit();
         }
 
-        bottomNavigation.setOnNavigationItemSelectedListener(
-                new BottomNavigationView.OnNavigationItemSelectedListener() {
-                    @Override public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                        Fragment currentFragment = getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_CONTENT);
-                        switch (item.getItemId()) {
-                            case R.id.menu_recalibrate:
-                                if (!(currentFragment instanceof RecalibrateFragment)) {
-                                    getSupportFragmentManager().beginTransaction()
-                                            .replace(R.id.content, new RecalibrateFragment(), TAG_FRAGMENT_CONTENT)
-                                            .commit();
-                                }
-                                break;
-                            case R.id.menu_home:
-                                if (!(currentFragment instanceof MainFragment)) {
-                                    getSupportFragmentManager().beginTransaction()
-                                            .replace(R.id.content, new MainFragment(), TAG_FRAGMENT_CONTENT)
-                                            .commit();
-                                }
-                                break;
-                        }
-                        return true;
-                    }
-                });
+        bottomNavigation.setOnNavigationItemSelectedListener(navigationListener);
 
         runAutoUpdateStartupChecks();
         initiateUserScreenSettings();
         warnUserFirstLaunchIfNoScreenRecording();
         registerAllBroadcastReceivers();
+    }
+
+    private boolean showSection(final @IdRes int sectionId) {
+        final Class<? extends Fragment> newSectionClass;
+        switch (sectionId) {
+            case R.id.menu_recalibrate:
+                newSectionClass = RecalibrateFragment.class;
+                break;
+            default:
+            case R.id.menu_home:
+                newSectionClass = MainFragment.class;
+                break;
+            case R.id.menu_clipboard:
+                newSectionClass = ClipboardModifierParentFragment.class;
+                break;
+        }
+
+        Fragment currentFragment = getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_CONTENT);
+
+        if (!currentFragment.getClass().equals(newSectionClass)) {
+            // The user requested a section change
+
+            Runnable discardedChangesRunnable = new Runnable() {
+                @Override public void run() {
+                    // Changes discarded, go to the selected section
+                    try {
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.content,
+                                        newSectionClass.newInstance(),
+                                        TAG_FRAGMENT_CONTENT)
+                                .commitAllowingStateLoss();
+                        // Remove the listener so this callback won't be fired when setSelectedItemId() is called
+                        bottomNavigation.setOnNavigationItemSelectedListener(null);
+                        bottomNavigation.setSelectedItemId(sectionId);
+                        bottomNavigation.setOnNavigationItemSelectedListener(navigationListener);
+                    } catch (Exception e) {
+                        Timber.e(e);
+                    }
+                }
+            };
+
+            if (checkUnsavedClipboardBeforeLeaving(discardedChangesRunnable)) {
+                // Unsaved changes: stay on the current section
+                return false;
+            } else {
+                // No unsaved changes, go to the selected section
+                try {
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.content,
+                                    newSectionClass.newInstance(),
+                                    TAG_FRAGMENT_CONTENT)
+                            .commitAllowingStateLoss();
+                } catch (Exception e) {
+                    Timber.e(e);
+                }
+            }
+        }
+        return true;
     }
 
     /**
@@ -466,6 +511,55 @@ public class MainActivity extends AppCompatActivity {
             shouldRestartOnStopComplete = false;
             runStartButtonLogic();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Runnable onDiscardChangesRunnable = new Runnable() {
+            @Override public void run() {
+                // User discarded changes
+                MainActivity.super.onBackPressed();
+            }
+        };
+        if (!checkUnsavedClipboardBeforeLeaving(onDiscardChangesRunnable)) {
+            // No unsaved changes
+            super.onBackPressed();
+        }
+    }
+
+    /**
+     * Check if there are unsaved clipboard changes.
+     * @param onDiscardChangesRunnable This will be run on the main thread ig the user decides to discard the changes
+     * @return true if there are unsaved changes
+     */
+    private boolean checkUnsavedClipboardBeforeLeaving(final Runnable onDiscardChangesRunnable) {
+        boolean unsavedChanges = false;
+        for (Fragment pf : getSupportFragmentManager().getFragments()) {
+            if (pf instanceof ClipboardModifierParentFragment) {
+                for (Fragment cf : pf.getChildFragmentManager().getFragments()) {
+                    if (cf instanceof ClipboardModifierChildFragment) {
+                        unsavedChanges |= ((ClipboardModifierChildFragment) cf).hasUnsavedChanges();
+                    }
+                }
+            }
+        }
+        if (unsavedChanges) {
+            new AlertDialog.Builder(this)
+                    .setTitle(android.R.string.dialog_alert_title)
+                    .setMessage(R.string.discard_unsaved_changes)
+                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                        @Override public void onClick(DialogInterface dialogInterface, int i) {
+                            runOnUiThread(onDiscardChangesRunnable);
+                        }
+                    })
+                    .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                        @Override public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.cancel();
+                        }
+                    })
+                    .show();
+        }
+        return unsavedChanges;
     }
 
 }

@@ -150,8 +150,6 @@
     <string name="clipboard_modifier_preview">Vista previa</string>
     <string name="position_handler_toast">Arrastre la ventana desde este control para reubicarla.</string>
     <string name="clipboard_no_token_selected">Por favor, elija una ficha para agregar de la lista desplazable.</string>
-    <string name="clipboardButton_summary">Defina cómo desea que se vea el resultado del portapapeles</string>
-    <string name="clipboardButton_title">Editar copia al portapapeles</string>
     <string name="clipboard_activity_title">Configuración del portapapeles de GoIV</string>
     <string name="expanded_appraisal_default_setting_title">Abrir por defecto refinación expandida</string>
     <string name="expanded_appraisal_default_setting_summary">Expande automáticamente el menú de refinación</string>

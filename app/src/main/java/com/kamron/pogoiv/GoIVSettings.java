@@ -3,6 +3,7 @@ package com.kamron.pogoiv;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
+import android.support.annotation.NonNull;
 
 import com.google.common.base.Strings;
 import com.kamron.pogoiv.clipboardlogic.ClipboardToken;
@@ -14,6 +15,7 @@ import com.kamron.pogoiv.clipboardlogic.tokens.SeparatorToken;
 import com.kamron.pogoiv.clipboardlogic.tokens.UnicodeToken;
 import com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames;
 import com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldResults;
+import com.kamron.pogoiv.scanlogic.Data;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -66,18 +68,22 @@ public class GoIVSettings {
 
     private GoIVSettings(Context context) {
         this.context = context;
-        prefs = context.getSharedPreferences(PREFS_GO_IV_SETTINGS, Context.MODE_PRIVATE);
+        prefs = context.getSharedPreferences(PREFS_GO_IV_SETTINGS, Context.MODE_MULTI_PROCESS);
     }
 
-    public static GoIVSettings getInstance(Context context) {
+    public static @NonNull GoIVSettings getInstance(Context context) {
         if (instance == null) {
             instance = new GoIVSettings(context.getApplicationContext());
         }
         return instance;
     }
 
+    public static void reloadPreferences(Context context) {
+        instance = new GoIVSettings(context);
+    }
+
     public int getLevel() {
-        return prefs.getInt(PREF_LEVEL, 1);
+        return prefs.getInt(PREF_LEVEL, Data.MINIMUM_TRAINER_LEVEL);
     }
 
     public void setLevel(int level) {

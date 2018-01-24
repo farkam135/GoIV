@@ -28,6 +28,7 @@ import android.widget.TextView;
 
 import com.kamron.pogoiv.GoIVSettings;
 import com.kamron.pogoiv.NpTrainerLevelPickerListener;
+import com.kamron.pogoiv.Pokefly;
 import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.scanlogic.Data;
 import com.kamron.pogoiv.widgets.PlayerTeamAdapter;
@@ -118,6 +119,16 @@ public class MainFragment extends Fragment {
 
         if (savedInstanceState == null) {
             PreferenceManager.setDefaultValues(getContext(), R.xml.settings, false);
+        }
+    }
+
+    @Override public void onResume() {
+        super.onResume();
+
+        if (Pokefly.isRunning()) {
+            updateLaunchButtonText(getContext(), R.string.main_stop, true);
+        } else {
+            updateLaunchButtonText(getContext(), R.string.main_start, true);
         }
     }
 

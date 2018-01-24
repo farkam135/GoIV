@@ -173,7 +173,8 @@ public class ScreenWatcher {
         public boolean onTouch(View v, MotionEvent event) {
             if (event.getActionMasked() == MotionEvent.ACTION_OUTSIDE) { // Touch event outside of GoIV UI
                 // Let's check first to see if the user is performing an Appraisal
-                if (!pokefly.isBatterySaver() && appraisalBox.getVisibility() == View.VISIBLE) {
+                if (!GoIVSettings.getInstance(pokefly).isManualScreenshotModeEnabled()
+                        && appraisalBox.getVisibility() == View.VISIBLE) {
                     // Let autoAppraisal know that the user has touched the PokemonGo app while the
                     // appraisalBox was Visible.  This is our indication that the user has started a Pogo appraisal
                     autoAppraisal.screenTouched();

@@ -148,9 +148,11 @@ public class MainActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(this)) {
             return false;
         }
-        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                == PackageManager.PERMISSION_DENIED) {
-            return false;
+        if (GoIVSettings.getInstance(this).isManualScreenshotModeEnabled()) {
+            int writePermission = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            if (writePermission == PackageManager.PERMISSION_DENIED) {
+                return false;
+            }
         }
         return true;
     }
@@ -339,16 +341,19 @@ public class MainActivity extends AppCompatActivity {
      * Requests overlay and storage permissions if android version allows it.
      */
     private void getAllPermissions() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(
-                MainActivity.this)) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+                && !Settings.canDrawOverlays(this)) {
             Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
                     Uri.parse("package:" + getPackageName()));
             startActivityForResult(intent, OVERLAY_PERMISSION_REQ_CODE);
         }
-        if (ContextCompat.checkSelfPermission(MainActivity.this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
-            ActivityCompat.requestPermissions(MainActivity.this,
-                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_STORAGE_REQ_CODE);
+        if (GoIVSettings.getInstance(this).isManualScreenshotModeEnabled()) {
+            // In manual screenshot mode external storage write permission is needed
+            int writePermission = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            if (writePermission == PackageManager.PERMISSION_DENIED) {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_STORAGE_REQ_CODE);
+            }
         }
     }
 
@@ -442,6 +447,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == OVERLAY_PERMISSION_REQ_CODE) {
             updateLaunchButtonText(false, null);
+            if (Settings.canDrawOverlays(this)) {
+                runStartButtonLogic(); // We have obtained the overlay permission: start GoIV!
+            }
 
         } else if (requestCode == SCREEN_CAPTURE_REQ_CODE) {
             if (resultCode == RESULT_OK) {

@@ -861,7 +861,7 @@ public class Pokefly extends Service {
 
     /**
      * In the input screen, switches between the two methods the user has of picking pokemon - a dropdown list, or
-     * typing
+     * typing.
      */
     @OnClick({R.id.pokePickerToggleSpinnerVsInput})
     public void toggleSpinnerVsInput() {
@@ -925,7 +925,7 @@ public class Pokefly extends Service {
 
     /**
      * Method called when user presses the text to expand the appraisal box on the input screen, also collapses the
-     * default view, since only either the appraisal or the default view is visible
+     * default view, since only either the appraisal or the default view is visible.
      */
     @OnClick({R.id.inputAppraisalExpandBox})
     public void toggleAppraisalBox() {
@@ -1023,7 +1023,7 @@ public class Pokefly extends Service {
     }
 
     /**
-     * Method called when user presses "check iv" in the input screen, which takes the user to the result screen
+     * Method called when user presses "check iv" in the input screen, which takes the user to the result screen.
      */
     @OnClick(R.id.btnCheckIv)
     public void checkIv() {
@@ -1656,7 +1656,7 @@ public class Pokefly extends Service {
     }
 
     /**
-     * resets the info dialogue to its default state
+     * Resets the info dialogue to its default state.
      */
     @OnClick({R.id.btnCancelInfo, R.id.btnCloseInfo})
     public void cancelInfoDialog() {

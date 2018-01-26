@@ -18,7 +18,8 @@
         android:paddingLeft="28dp"
         android:paddingTop="16dp"
         android:paddingRight="28dp"
-        android:paddingBottom="16dp">
+        android:paddingBottom="16dp"
+        android:clipToPadding="false">
 
         <!-- Trainer input field-->
         <LinearLayout

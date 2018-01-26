@@ -17,7 +17,8 @@
         android:paddingBottom="16dp"
         android:paddingLeft="28dp"
         android:paddingRight="28dp"
-        android:paddingTop="16dp">
+        android:paddingTop="16dp"
+        android:clipToPadding="false">
 
         <LinearLayout
             android:layout_width="match_parent"

@@ -26,14 +26,21 @@
                 android:id="@+id/inputBox"
                 layout="@layout/dialog_input" />
 
+            <!--
             <include
                 android:id="@+id/resultsBox"
                 layout="@layout/dialog_results"
                 android:visibility="gone" />
+                -->
 
             <include
                 android:id="@+id/allPossibilitiesBox"
                 layout="@layout/dialog_all_possibilities"
+                android:visibility="gone" />
+
+            <include
+                android:id="@+id/resultsBox"
+                layout="@layout/fragment_result"
                 android:visibility="gone" />
 
         </LinearLayout>

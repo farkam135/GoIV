@@ -208,6 +208,8 @@ public class MainActivity extends AppCompatActivity {
                     // Changes discarded, go to the selected section
                     try {
                         getSupportFragmentManager().beginTransaction()
+                                .setCustomAnimations(R.animator.fragment_enter_from_top,
+                                        R.animator.fragment_exit_to_bottom)
                                 .replace(R.id.content,
                                         newSectionClass.newInstance(),
                                         TAG_FRAGMENT_CONTENT)
@@ -229,10 +231,12 @@ public class MainActivity extends AppCompatActivity {
                 // No unsaved changes, go to the selected section
                 try {
                     getSupportFragmentManager().beginTransaction()
+                            .setCustomAnimations(R.animator.fragment_enter_from_top,
+                                    R.animator.fragment_exit_to_bottom)
                             .replace(R.id.content,
                                     newSectionClass.newInstance(),
                                     TAG_FRAGMENT_CONTENT)
-                            .commitAllowingStateLoss();
+                            .commit();
                 } catch (Exception e) {
                     Timber.e(e);
                 }

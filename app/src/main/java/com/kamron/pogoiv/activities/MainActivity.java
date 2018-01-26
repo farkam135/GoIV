@@ -27,13 +27,17 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.internal.BottomNavigationMenuView;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Display;
@@ -53,6 +57,7 @@ import com.kamron.pogoiv.ScreenGrabber;
 import com.kamron.pogoiv.updater.AppUpdate;
 import com.kamron.pogoiv.updater.AppUpdateUtil;
 import com.kamron.pogoiv.updater.DownloadUpdateService;
+import com.kamron.pogoiv.widgets.behaviors.DisableableAppBarLayoutBehavior;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -73,12 +78,21 @@ public class MainActivity extends AppCompatActivity {
     private static final int WRITE_STORAGE_REQ_CODE = 1236;
     private static final int SCREEN_CAPTURE_REQ_CODE = 1235;
 
+
     public static boolean shouldShowUpdateDialog;
 
 
+    @BindView(R.id.collapsingToolbarLayout)
+    CollapsingToolbarLayout collapsingToolbarLayout;
+
+    @BindView(R.id.appBarLayout)
+    AppBarLayout appBarLayout;
+
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+
     @BindView(R.id.bottomNavigation)
     BottomNavigationView bottomNavigation;
-
 
     private ScreenGrabber screen;
     private DisplayMetrics rawDisplayMetrics;
@@ -124,7 +138,8 @@ public class MainActivity extends AppCompatActivity {
     };
 
 
-    public static Intent createUpdateDialogIntent(AppUpdate update) {
+    @SuppressWarnings("unused")
+    public static Intent createUpdateDialogIntent(AppUpdate update) { // This method is used in online builds
         Intent updateIntent = new Intent(MainActivity.ACTION_SHOW_UPDATE_DIALOG);
         updateIntent.putExtra("update", update);
         return updateIntent;
@@ -166,6 +181,8 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         Timber.tag(TAG);
+
+        setSupportActionBar(toolbar);
 
         if (savedInstanceState == null) {
             bottomNavigation.setSelectedItemId(R.id.menu_home);
@@ -214,6 +231,7 @@ public class MainActivity extends AppCompatActivity {
                                         newSectionClass.newInstance(),
                                         TAG_FRAGMENT_CONTENT)
                                 .commitAllowingStateLoss();
+                        updateAppBar(newSectionClass);
                         // Remove the listener so this callback won't be fired when setSelectedItemId() is called
                         bottomNavigation.setOnNavigationItemSelectedListener(null);
                         bottomNavigation.setSelectedItemId(sectionId);
@@ -237,12 +255,27 @@ public class MainActivity extends AppCompatActivity {
                                     newSectionClass.newInstance(),
                                     TAG_FRAGMENT_CONTENT)
                             .commit();
+                    updateAppBar(newSectionClass);
                 } catch (Exception e) {
                     Timber.e(e);
                 }
             }
         }
         return true;
+    }
+
+    private void updateAppBar(Class<? extends Fragment> newSectionClass) {
+        if (newSectionClass != MainFragment.class) {
+            // Compress AppBar by default outside MainFragment
+            appBarLayout.setExpanded(false, true);
+        }
+        // Disable expandable AppBar on Clipboard section
+        CoordinatorLayout.Behavior behavior =
+                ((CoordinatorLayout.LayoutParams) appBarLayout.getLayoutParams()).getBehavior();
+        if (behavior instanceof  DisableableAppBarLayoutBehavior) {
+            ((DisableableAppBarLayoutBehavior) behavior)
+                    .setEnabled(newSectionClass != ClipboardModifierParentFragment.class);
+        }
     }
 
     /**

@@ -10,4 +10,5 @@
     <color name="appraisalHighlight">#bb3e50b3</color>
     <color name="colorButtonDark">#27CDAB</color>
     <color name="colorButtonLight">#A0DB95</color>
+    <color name="transparentWhite">#00FFFFFF</color>
 </resources>

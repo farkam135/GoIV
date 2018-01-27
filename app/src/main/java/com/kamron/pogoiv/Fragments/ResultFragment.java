@@ -13,6 +13,7 @@ import android.widget.Button;
 
 import com.kamron.pogoiv.Pokefly;
 import com.kamron.pogoiv.R;
+import com.kamron.pogoiv.scanlogic.IVScanResult;
 
 
 /**
@@ -22,6 +23,7 @@ import com.kamron.pogoiv.R;
 public class ResultFragment extends Fragment {
 
 
+    private static ResultFragment instance = new ResultFragment();
     private FragmentManager fragmentManager;
     private Button ivButton;
     private Button movesButton;
@@ -29,15 +31,19 @@ public class ResultFragment extends Fragment {
 
 
     //The fragments initialized in createFragments
-    private Fragment powerupFragmentEstimate;
-    private Fragment ivFragment;
-    private Fragment movesFragment;
+    private PowerupEstimateFragment powerupFragmentEstimate;
+    private IVResultFragment ivFragment;
+    private MovesFragment movesFragment;
 
 
     private Pokefly pokefly;
 
+    public static ResultFragment getInstance(){
+        return instance;
+    }
 
     /**
+     * No not use this method, instead use getInstance.
      * Creates the resultfragment, which holds the other result-fragments and lets the user navigate between them.
      */
     public ResultFragment() {
@@ -111,4 +117,20 @@ public class ResultFragment extends Fragment {
 
         }
     }
+
+    /**
+     * Sets all the information in the result box.
+     */
+    public void populateFragmentInfos(IVScanResult ivScanResult) {
+        ivFragment.populateResultsBox(ivScanResult);
+        powerupFragmentEstimate.populateAdvancedInformation(ivScanResult);
+    }
+
+    /**
+     * Resets the state for the estimate spinner in the powerupFragment.
+     */
+    public void resetEstimateSpinner(){
+        powerupFragmentEstimate.resetEstimateSpinner();
+    }
+
 }

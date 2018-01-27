@@ -36,12 +36,6 @@
             android:text="@string/level"
             android:layout_marginStart="6dp" />
 
-        <android.support.v7.widget.AppCompatImageView
-            android:id="@+id/shareWithStorimod"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="4dp"
-            app:srcCompat="@drawable/ic_share_black" />
 
     </LinearLayout>
 
@@ -319,34 +313,5 @@
         android:layout_marginRight="12dp"
         android:background="@android:color/darker_gray" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="12dp">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/resultsMoreInformationText"
-                android:textColor="@color/colorPrimary"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/advanced_information"
-                android:layout_gravity="center"
-                android:textSize="18sp"
-                android:clickable="true"
-                android:drawableEnd="@drawable/ic_keyboard_arrow_right_blue_18dp" />
-
-        </LinearLayout>
-
-        <include layout="@layout/expanded_results_box"
-            android:id="@+id/expandedResultsBox"
-            android:visibility="gone" />
-
-    </LinearLayout>
 
 </LinearLayout>

@@ -38,7 +38,14 @@
                 layout="@layout/dialog_all_possibilities"
                 android:visibility="gone" />
 
-            <include
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+
+            </LinearLayout>
+            <fragment
                 android:id="@+id/resultsBox"
                 layout="@layout/fragment_result"
                 android:visibility="gone" />

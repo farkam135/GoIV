@@ -3,11 +3,39 @@ package com.kamron.pogoiv.Fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.LinearLayout;
+import android.widget.SeekBar;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.kamron.pogoiv.GoIVSettings;
+import com.kamron.pogoiv.Pokefly;
 import com.kamron.pogoiv.R;
+import com.kamron.pogoiv.scanlogic.CPRange;
+import com.kamron.pogoiv.scanlogic.Data;
+import com.kamron.pogoiv.scanlogic.IVCombination;
+import com.kamron.pogoiv.scanlogic.IVScanResult;
+import com.kamron.pogoiv.scanlogic.PokeInfoCalculator;
+import com.kamron.pogoiv.scanlogic.PokeSpam;
+import com.kamron.pogoiv.scanlogic.Pokemon;
+import com.kamron.pogoiv.scanlogic.ScanContainer;
+import com.kamron.pogoiv.scanlogic.UpgradeCost;
+import com.kamron.pogoiv.widgets.PokemonSpinnerAdapter;
+
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import io.apptik.widget.MultiSlider;
 
 
 /**
@@ -15,17 +43,382 @@ import com.kamron.pogoiv.R;
  */
 public class PowerupEstimateFragment extends Fragment {
 
+    Pokefly pokefly;
+
+
+    @BindView(R.id.expandedLevelSeekbar)
+    SeekBar expandedLevelSeekbar;
+    @BindView(R.id.exResLevel)
+    TextView exResLevel;
+    @BindView(R.id.exResultCP)
+    TextView exResultCP;
+    @BindView(R.id.extendedEvolutionSpinner)
+    Spinner extendedEvolutionSpinner;
+    @BindView(R.id.exResultHP)
+    TextView exResultHP;
+    @BindView(R.id.exResultPercentPerfection)
+    TextView exResultPercentPerfection;
+    @BindView(R.id.exResStardust)
+    TextView exResStardust;
+    @BindView(R.id.exResPokeSpam)
+    TextView exResPokeSpam;
+    @BindView(R.id.expandedLevelSeekbarBackground)
+    MultiSlider expandedLevelSeekbarBackground;
+
+    @BindView(R.id.llPokeSpam)
+    LinearLayout pokeSpamView;
+    @BindView(R.id.exResCandy)
+    TextView exResCandy;
+
+    // Result data
+    private PokemonSpinnerAdapter extendedEvolutionSpinnerAdapter;
 
     public PowerupEstimateFragment() {
-        // Required empty public constructor
+        createExtendedResultLevelSeekbar();
+        createExtendedResultEvolutionSpinner();
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_powerup_estimate, container, false);
+        View thisView = inflater.inflate(R.layout.fragment_powerup_estimate, container, false);
+        ButterKnife.bind(this, thisView);
+        return thisView;
+    }
+
+    /**
+     * Sets the growth estimate text boxes to correspond to the
+     * pokemon evolution and level set by the user.
+     */
+    public void populateAdvancedInformation(IVScanResult ivScanResult) {
+        adjustSeekbarsThumbs();
+        double selectedLevel = seekbarProgressToLevel(expandedLevelSeekbar.getProgress());
+        Pokemon selectedPokemon = initPokemonSpinnerIfNeeded(ivScanResult.pokemon);
+
+        setEstimateCpTextBox(ivScanResult, selectedLevel, selectedPokemon);
+        setEstimateHPTextBox(ivScanResult, selectedLevel, selectedPokemon);
+        setPokemonPerfectionPercentageText(ivScanResult, selectedLevel, selectedPokemon);
+        setEstimateCostTextboxes(ivScanResult, selectedLevel, selectedPokemon);
+        exResLevel.setText(String.valueOf(selectedLevel));
+        setEstimateLevelTextColor(selectedLevel);
+
+        setAndCalculatePokeSpamText(ivScanResult);
+    }
+
+    /**
+     * Initialize the pokemon spinner in the evolution and powerup box in the result window, and return picked pokemon.
+     * <p/>
+     * The method will populate the spinner with the correct pokemon evolution line, and disable the spinner if there's
+     * the evolution line contains only one pokemon. The method will also select by default either the evolution of
+     * the scanned pokemon (if there is one) or the pokemon itself.
+     * <p/>
+     * This method only does anything if it detects that the spinner was not previously initialized.
+     *
+     * @param scannedPokemon the pokemon to use for selecting a good default, if init is performed
+     */
+    private Pokemon initPokemonSpinnerIfNeeded(Pokemon scannedPokemon) {
+        ArrayList<Pokemon> evolutionLine = PokeInfoCalculator.getInstance().getEvolutionLine(scannedPokemon);
+        extendedEvolutionSpinnerAdapter.updatePokemonList(evolutionLine);
+
+        int spinnerSelectionIdx = extendedEvolutionSpinner.getSelectedItemPosition();
+
+        if (spinnerSelectionIdx == -1) {
+            // This happens at the beginning or after changing the pokemon list.
+            //if initialising list, act as if scanned pokemon is marked
+            for (int i = 0; i < evolutionLine.size(); i++) {
+                if (evolutionLine.get(i).number == scannedPokemon.number) {
+                    spinnerSelectionIdx = i;
+                    break;
+                }
+            }
+            if (!scannedPokemon.evolutions.isEmpty()) {
+                //Equivalently, if this pokemon is not the last of its evolution line.
+                spinnerSelectionIdx++;
+            }
+            //Invariant: evolutionLine.get(spinnerSelectionIdx).number == scannedPokemon.number., hence
+            //evolutionLine.get(spinnerSelectionIdx) == scannedPokemon.
+            extendedEvolutionSpinner.setSelection(spinnerSelectionIdx);
+            extendedEvolutionSpinner.setEnabled(evolutionLine.size() > 1);
+        }
+        return evolutionLine.get(spinnerSelectionIdx);
+    }
+
+    /**
+     * Sets the "expected cp textview" to (+x) or (-y) in the powerup and evolution estimate box depending on what's
+     * appropriate.
+     *
+     * @param ivScanResult    the ivscanresult of the current pokemon
+     * @param selectedLevel   The goal level the pokemon in ivScanresult pokemon should reach
+     * @param selectedPokemon The goal pokemon evolution he ivScanresult pokemon should reach
+     */
+    private void setEstimateCpTextBox(IVScanResult ivScanResult, double selectedLevel, Pokemon selectedPokemon) {
+        CPRange expectedRange = PokeInfoCalculator.getInstance().getCpRangeAtLevel(selectedPokemon,
+                ivScanResult.getCombinationLowIVs(), ivScanResult.getCombinationHighIVs(), selectedLevel);
+        int realCP = ivScanResult.scannedCP;
+        int expectedAverage = expectedRange.getAvg();
+
+        String exResultCPStr = String.valueOf(expectedAverage);
+
+        int diffCP = expectedAverage - realCP;
+        if (diffCP >= 0) {
+            exResultCPStr += " (+" + diffCP + ")";
+        } else {
+            exResultCPStr += " (" + diffCP + ")";
+        }
+        exResultCP.setText(exResultCPStr);
+    }
+
+    /**
+     * Sets the "expected HP  textview" to the estimat HP in the powerup and evolution estimate box.
+     *
+     * @param ivScanResult  the ivscanresult of the current pokemon
+     * @param selectedLevel The goal level the pokemon in ivScanresult pokemon should reach
+     */
+    private void setEstimateHPTextBox(IVScanResult ivScanResult, double selectedLevel, Pokemon selectedPokemon) {
+        int newHP = PokeInfoCalculator.getInstance().getHPAtLevel(ivScanResult, selectedLevel, selectedPokemon);
+        int oldHP = PokeInfoCalculator.getInstance().getHPAtLevel(ivScanResult, pokefly.estimatedPokemonLevelRange.min,
+                ivScanResult
+                .pokemon);
+        int hpDiff = newHP - oldHP;
+        String sign = (hpDiff >= 0) ? "+" : ""; //add plus in front if positive.
+        String hpText = newHP + " (" + sign + hpDiff + ")";
+        exResultHP.setText(hpText);
+    }
+
+    /**
+     * Sets the pokemon perfection % text in the powerup and evolution results box.
+     *
+     * @param ivScanResult    The object containing the ivs to base current pokemon on.
+     * @param selectedLevel   Which level the prediction should me made for.
+     * @param selectedPokemon The pokemon to compare selected iv with max iv to.
+     */
+    private void setPokemonPerfectionPercentageText(IVScanResult ivScanResult,
+                                                    double selectedLevel, Pokemon selectedPokemon) {
+        CPRange cpRange = PokeInfoCalculator.getInstance().getCpRangeAtLevel(selectedPokemon,
+                ivScanResult.getCombinationLowIVs(), ivScanResult.getCombinationHighIVs(),
+                selectedLevel);
+        double maxCP = PokeInfoCalculator.getInstance().getCpRangeAtLevel(selectedPokemon,
+                IVCombination.MAX, IVCombination.MAX, selectedLevel).high;
+        double perfection = (100.0 * cpRange.getFloatingAvg()) / maxCP;
+        int difference = (int) (cpRange.getFloatingAvg() - maxCP);
+        DecimalFormat df = new DecimalFormat("#.#");
+        String sign = "";
+        if (difference >= 0) {
+            sign = "+";
+        }
+        String differenceString = "(" + sign + difference + ")";
+        String perfectionString = df.format(perfection) + "% " + differenceString;
+        exResultPercentPerfection.setText(perfectionString);
+    }
+
+    /**
+     * Sets the candy cost and stardust cost textfields in the powerup and evolution estimate box. The textviews are
+     * populated with the cost in dust and candy required to go from the pokemon in ivscanresult to the desired
+     * selecterdLevel and selectedPokemon.
+     *
+     * @param ivScanResult    The pokemon to base the estimate on.
+     * @param selectedLevel   The level the pokemon needs to reach.
+     * @param selectedPokemon The target pokemon. (example, ivScan pokemon can be weedle, selected can be beedrill.)
+     */
+    private void setEstimateCostTextboxes(IVScanResult ivScanResult, double selectedLevel, Pokemon selectedPokemon) {
+        UpgradeCost cost = PokeInfoCalculator.getInstance().getUpgradeCost(selectedLevel, pokefly
+                .estimatedPokemonLevelRange
+                .min);
+        int evolutionCandyCost = PokeInfoCalculator.getInstance().getCandyCostForEvolution(ivScanResult.pokemon, selectedPokemon);
+        String candyCostText = cost.candy + evolutionCandyCost + "";
+        exResCandy.setText(candyCostText);
+        exResStardust.setText(String.valueOf(cost.dust));
+    }
+
+    /**
+     * Sets the text color of the level next to the slider in the estimate box to normal or orange depending on if
+     * the user can level up the pokemon that high with his current trainer level. For example, if the user has
+     * trainer level 20, then his pokemon can reach a max level of 22 - so any goalLevel above 22 would become
+     * orange.
+     *
+     * @param selectedLevel The level to reach.
+     */
+    private void setEstimateLevelTextColor(double selectedLevel) {
+        // If selectedLevel exceeds trainer capabilities then show text in orange
+        if (selectedLevel > Data.trainerLevelToMaxPokeLevel(pokefly.getTrainerLevel())) {
+            exResLevel.setTextColor(pokefly.getColorC(R.color.orange));
+        } else {
+            exResLevel.setTextColor(pokefly.getColorC(R.color.importantText));
+        }
+    }
+
+
+    /**
+     * setAndCalculatePokeSpamText sets pokespamtext and makes it visible.
+     *
+     * @param ivScanResult IVScanResult object that contains the scan results, mainly needed to get candEvolutionCost
+     *                     variable
+     */
+    private void setAndCalculatePokeSpamText(IVScanResult ivScanResult) {
+        if (GoIVSettings.getInstance(pokefly).isPokeSpamEnabled()
+                && ivScanResult.pokemon != null) {
+            if (ivScanResult.pokemon.candyEvolutionCost < 0) {
+                exResPokeSpam.setText(getString(R.string.pokespam_not_available));
+                pokeSpamView.setVisibility(View.VISIBLE);
+                return;
+            }
+
+            PokeSpam pokeSpamCalculator = new PokeSpam(pokefly.pokemonCandy.or(0), ivScanResult.pokemon
+                    .candyEvolutionCost);
+
+            // number for total evolvable
+            int totEvol = pokeSpamCalculator.getTotalEvolvable();
+            // number for rows of evolvables
+            int evolRow = pokeSpamCalculator.getEvolveRows();
+            // number for evolvables in extra row (not complete row)
+            int evolExtra = pokeSpamCalculator.getEvolveExtra();
+
+            String text;
+
+            if (totEvol < PokeSpam.HOW_MANY_POKEMON_WE_HAVE_PER_ROW) {
+                text = String.valueOf(totEvol);
+            } else if (evolExtra == 0) {
+                text = getString(R.string.pokespam_formatted_message2, totEvol, evolRow);
+            } else {
+                text = getString(R.string.pokespam_formatted_message, totEvol, evolRow, evolExtra);
+            }
+            exResPokeSpam.setText(text);
+            pokeSpamView.setVisibility(View.VISIBLE);
+        } else {
+            exResPokeSpam.setText("");
+            pokeSpamView.setVisibility(View.GONE);
+        }
+    }
+
+    /**
+     * Creates and initializes the level seekbarr in the evolution and powerup prediction section in the results
+     * screen.
+     */
+    private void createExtendedResultLevelSeekbar() {
+        expandedLevelSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean fromUser) {
+                if (fromUser) {
+                    populateAdvancedInformation(ScanContainer.scanContainer.currScan);
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+        });
+    }
+
+
+    /**
+     * Creates and initializes the evolution spinner in the evolution and powerup prediction section in the results
+     * screen.
+     */
+    private void createExtendedResultEvolutionSpinner() {
+        //The evolution picker for seeing estimates of how much cp and cost a pokemon will have at a different evolution
+        extendedEvolutionSpinnerAdapter = new PokemonSpinnerAdapter(pokefly, R.layout.spinner_evolution,
+                new ArrayList<Pokemon>());
+        extendedEvolutionSpinner.setAdapter(extendedEvolutionSpinnerAdapter);
+
+        extendedEvolutionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                populateAdvancedInformation(ScanContainer.scanContainer.currScan);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                populateAdvancedInformation(ScanContainer.scanContainer.currScan);
+            }
+
+        });
+
+    }
+    /**
+     * Adjusts expandedLevelSeekbar and expandedLevelSeekbar thumbs.
+     * expandedLevelSeekbar - Adjustable single thumb seekbar to allow users to check for more Pokemon stats at
+     * different Pokemon level
+     * expandedLevelSeekbarBackground - Static double thumb seekbar as background to identify area of Pokemon stats
+     * above Pokemon level at current trainer level
+     */
+    private void adjustSeekbarsThumbs() {
+        // Set Seekbar max value to max Pokemon level at trainer level 40
+        expandedLevelSeekbar.setMax(levelToSeekbarProgress(40));
+
+        // Set Thumb value to current Pokemon level
+        expandedLevelSeekbar.setProgress(levelToSeekbarProgress(pokefly.estimatedPokemonLevelRange.min));
+
+        // Set Seekbar Background max value to max Pokemon level at trainer level 40
+        expandedLevelSeekbarBackground.setMax(levelToSeekbarProgress(40));
+
+        // Set Thumb 1 drawable to an orange marker and value at the max possible Pokemon level at the current
+        // trainer level
+        expandedLevelSeekbarBackground.getThumb(0).setThumb(ContextCompat.getDrawable(pokefly, R.drawable
+                .orange_seekbar_thumb_marker));
+        expandedLevelSeekbarBackground.getThumb(0).setValue(
+                levelToSeekbarProgress(Data.trainerLevelToMaxPokeLevel(pokefly.getTrainerLevel())));
+
+        // Set Thumb 2 to invisible and value at max Pokemon level at trainer level 40
+        expandedLevelSeekbarBackground.getThumb(1).setInvisibleThumb(true);
+        expandedLevelSeekbarBackground.getThumb(1).setValue(levelToSeekbarProgress(40));
+
+        // Set empty on touch listener to prevent changing values of Thumb 1
+        expandedLevelSeekbarBackground.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return true;
+            }
+        });
+    }
+
+
+    /**
+     * Calculate the seekbar progress from a pokemon level.
+     *
+     * @param level a valid pokemon level (hence <= 40).
+     * @return a seekbar progress index.
+     */
+    private int levelToSeekbarProgress(double level) {
+        return (int) (2 * level - getSeekbarOffset());
+    }
+
+    /**
+     * Resets the state for the estimate spinner.
+     */
+    public void resetEstimateSpinner(){
+        extendedEvolutionSpinner.setSelection(-1);
+    }
+
+    @OnClick(R.id.explainCPPercentageComparedToMaxIV)
+    public void explainCPPercentageComparedToMaxIV() {
+        Toast.makeText(pokefly.getApplicationContext(), R.string.perfection_explainer, Toast.LENGTH_LONG).show();
+    }
+
+    @OnClick(R.id.btnIncrementLevelExpanded)
+    public void incrementLevelExpanded() {
+        expandedLevelSeekbar.setProgress(expandedLevelSeekbar.getProgress() + 1);
+        populateAdvancedInformation(ScanContainer.scanContainer.currScan);
+    }
+
+
+    @OnClick(R.id.btnDecrementLevelExpanded)
+    public void decrementLevelExpanded() {
+        expandedLevelSeekbar.setProgress(expandedLevelSeekbar.getProgress() - 1);
+        populateAdvancedInformation(ScanContainer.scanContainer.currScan);
+    }
+
+    private int getSeekbarOffset() {
+        return (int) (2 * pokefly.estimatedPokemonLevelRange.min);
+    }
+
+    private double seekbarProgressToLevel(int progress) {
+        return (progress + getSeekbarOffset()) / 2.0;
+        //seekbar only supports integers, so the seekbar works between 2 and 80.
     }
 
 }

@@ -13,7 +13,7 @@
 
 
     <android.support.v7.widget.AppCompatImageView
-        android:id="@+id/shareWithStorimod"
+        android:id="@+id/shareWithOtherApp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="4dp"

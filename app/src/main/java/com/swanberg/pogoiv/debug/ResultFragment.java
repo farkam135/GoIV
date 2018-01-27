@@ -5,11 +5,13 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.kamron.pogoiv.Pokefly;
 import com.kamron.pogoiv.R;
 
 
@@ -20,18 +22,50 @@ import com.kamron.pogoiv.R;
 public class ResultFragment extends Fragment {
 
 
-    Button ivButton;
-    Button movesButton;
-    Button estimateButton;
-    Fragment powerupFragmentEstimate;
-    Fragment ivFragment;
-    Fragment movesFragment;
+    private FragmentManager fragmentManager;
+    private Button ivButton;
+    private Button movesButton;
+    private Button estimateButton;
 
-    FragmentManager fragmentManager;
 
+    //The fragments initialized in createFragments
+    private Fragment powerupFragmentEstimate;
+    private Fragment ivFragment;
+    private Fragment movesFragment;
+
+
+    private Pokefly pokefly;
+
+
+    /**
+     * Creates the resultfragment, which holds the other result-fragments and lets the user navigate between them.
+     */
     public ResultFragment() {
-        // Required empty public constructor
+        fragmentManager = getChildFragmentManager();
+        createFragments();
+        addInitialFragment();
         setupButtons();
+    }
+
+    public void initConnections(Pokefly pokefly){
+        this.pokefly = pokefly;
+    }
+
+    /**
+     * Puts the default fragment in the fragmentContainer.
+     */
+    private void addInitialFragment() {
+        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+        transaction.add(R.id.fragmentContainer, ivFragment).commit();
+    }
+
+    /**
+     * Initializes the fragments that the resultfragment can hold.
+     */
+    private void createFragments() {
+        movesFragment = new MovesFragment();
+        ivFragment = new IVResultFragment();
+        powerupFragmentEstimate = new PowerupEstimateFragment();
     }
 
     /**
@@ -42,11 +76,6 @@ public class ResultFragment extends Fragment {
         estimateButton = (Button) getView().findViewById(R.id.powerupFragmentViewButton);
         ivButton = (Button) getView().findViewById(R.id.iVFragmentViewButton);
         movesButton = (Button) getView().findViewById(R.id.movesFragmentViewButton);
-
-        fragmentManager = getChildFragmentManager();
-        movesFragment = fragmentManager.findFragmentById(R.id.movesFragment);
-        ivFragment = fragmentManager.findFragmentById(R.id.iVFragment);
-        powerupFragmentEstimate = fragmentManager.findFragmentById(R.id.powerupFragmentEstimate);
 
         ivButton.setOnClickListener(new NavigateToListener(ivButton, ivFragment));
         ivButton.setOnClickListener(new NavigateToListener(movesButton, movesFragment));
@@ -64,6 +93,7 @@ public class ResultFragment extends Fragment {
     private class NavigateToListener implements View.OnClickListener {
         Button button;
         Fragment fragment;
+
         public NavigateToListener(Button button, Fragment fragment) {
             this.button = button;
             this.fragment = fragment;
@@ -76,7 +106,8 @@ public class ResultFragment extends Fragment {
 
             button.setBackgroundColor(Color.parseColor("#4444FF"));
 
-            fragmentManager.beginTransaction(). show(fragment).commit();
+            FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+            transaction.replace(R.id.fragmentContainer, fragment).commit();
 
         }
     }

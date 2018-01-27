@@ -3,6 +3,7 @@ package com.kamron.pogoiv;
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.ClipData;

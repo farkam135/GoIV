@@ -345,4 +345,5 @@
     <string name="send_email_to_devs_recalibration">If GoIV failed recalibrating when it should have worked, please press the button below to generate an automatic bug report email.</string>
     <string name="send_email_to_devs_button">Email error information to developers</string>
     <string name="report_error">Email error report</string>
+    <string name="recalibration_video_tutorial">Recalibration video tutorial</string>
 </resources>

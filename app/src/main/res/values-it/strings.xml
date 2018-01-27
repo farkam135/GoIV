@@ -339,4 +339,5 @@
     <string name="token_msg_lvl_msg1">Questo token rappresenta il livello del \'mon, così com\'è stato scansionato, moltiplicato per 2. Ciò permette di evitare i decimali, che renderebbero il testo più lungo, ma senza perdere informazione come succederebbe se si remuovessero i decimali. Per esempio, se il livello del \'mon è 10.5, ritornerà 21.</string>
     <string name="token_msg_lvl_msg2">Questo token rappresenta il livello del \'mon, così com\'è stato scansionato, rimuovendo la parte decimale. Implica una potenziale perdita di informazione. Ad esempio, per un \'mon di livello 10.5 ritorna 10.</string>
     <string name="token_msg_lvl_msg3">Questo token rappresenta il livello del \'mon, così com\'è stato scansionato, includendo la parte decimale. Questo rende il risultato più lungo rispetto ad altre alternative, in compenso è molto preciso. Ad esempio, per un \'mon di livello 10.5 ritorna 10.5.</string>
+    <string name="recalibration_video_tutorial">Video tutorial ricalibrazione</string>
 </resources>

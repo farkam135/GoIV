@@ -169,7 +169,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
-                        android:text="Show me how"
+                        android:text="@string/recalibration_help"
                         android:textSize="16sp"/>
                 </LinearLayout>
 
@@ -197,7 +197,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="How to automatically optimize"/>
+                android:text="@string/optimize_title"/>
 
             <LinearLayout
                 android:id="@+id/weblayout"

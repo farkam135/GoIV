@@ -2,6 +2,8 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="instructions_title">Setup Instructions</string>
     <string name="instructions_message">Starting GoIV for the first time:\n\nEnter your trainer info.\n\nPress the GRANT PERMISSION button and accept all prompts.\n\nPress start.</string>
+    <string name="recalibration_help">Show me how</string>
+    <string name="optimize_title">How to automatically optimize</string>
     <string name="goiv_is_open_source">GoIV is open source!</string>
     <string name="trainer_info">Trainer Info</string>
     <string name="trainer_level">Level</string>

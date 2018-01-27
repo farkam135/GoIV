@@ -78,6 +78,7 @@ import com.kamron.pogoiv.utils.GuiUtil;
 import com.kamron.pogoiv.utils.LevelRange;
 import com.kamron.pogoiv.widgets.PokemonSpinnerAdapter;
 import com.kamron.pogoiv.widgets.recyclerviews.adapters.IVResultsAdapter;
+import android.support.v4.app.Fragment;
 
 import java.io.File;
 import java.text.DecimalFormat;
@@ -97,7 +98,7 @@ import static com.kamron.pogoiv.clipboardlogic.ClipboardResultMode.SINGLE_RESULT
  * Created by Kamron on 7/25/2016.
  */
 
-public class Pokefly extends Service {
+public class Pokefly extends Service{
 
     public static final String ACTION_UPDATE_UI = "com.kamron.pogoiv.ACTION_UPDATE_UI";
     private static final String ACTION_SEND_INFO = "com.kamron.pogoiv.ACTION_SEND_INFO";

@@ -51,6 +51,7 @@ public class ResultFragment extends Fragment {
         createFragments();
         addInitialFragment();
         setupButtons();
+        instance = this;
     }
 
     public void initConnections(Pokefly pokefly){

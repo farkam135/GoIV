@@ -45,10 +45,11 @@
 
 
             </LinearLayout>
-            <fragment
+            <fragment android:name="com.kamron.pogoiv.Fragments.ResultFragment"
                 android:id="@+id/resultsBox"
                 layout="@layout/fragment_result"
-                android:visibility="gone" />
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"/>
 
         </LinearLayout>
     </ScrollView>

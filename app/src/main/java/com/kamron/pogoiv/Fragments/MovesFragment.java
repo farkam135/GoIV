@@ -1,4 +1,4 @@
-package com.swanberg.pogoiv.debug;
+package com.kamron.pogoiv.Fragments;
 
 
 import android.os.Bundle;
@@ -13,10 +13,10 @@ import com.kamron.pogoiv.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class PowerupEstimateFragment extends Fragment {
+public class MovesFragment extends Fragment {
 
 
-    public PowerupEstimateFragment() {
+    public MovesFragment() {
         // Required empty public constructor
     }
 
@@ -25,7 +25,7 @@ public class PowerupEstimateFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_powerup_estimate, container, false);
+        return inflater.inflate(R.layout.fragment_moves, container, false);
     }
 
 }

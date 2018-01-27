@@ -1,4 +1,4 @@
-package com.swanberg.pogoiv.debug;
+package com.kamron.pogoiv.Fragments;
 
 
 import android.graphics.Color;

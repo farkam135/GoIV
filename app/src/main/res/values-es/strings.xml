@@ -327,10 +327,8 @@
     <string name="token_msg_uniToken_msg1">Esta ficha da una representación del IV de tu monstruo, pero utilizando carácteres UNICODE especiales que permiten mostrar números como 11 en un solo carácter, como ⑪. Esto ahorra espacio.</string>
     <string name="token_msg_uniToken_msg2">" Esta ficha usa carácteres rellenos, que tiene un interior negro en los números, como ⓭."</string>
     <string name="token_msg_uniToken_msg3">" Esta ficha usa carácteres vacíos, que tiene un interior blanco en los números, como ⑪."</string>
-    <string name="token_msg_worthTra_msg1">"Esta ficha devuelve la evaluación sobre cómo vale la pena entrenar este monstruo, basado tanto en las estadísticas base como en la "</string>
-    <string name="token_msg_worthTra_msg2" formatted="false">" estadística posible de IV. Por ejemplo, un Alakazam de 96% IV obtendrá una puntuación mayor que un Tyranitar de 20%, independientemente del hecho de que el PC máximo posible para este último sea mayor: ya que la probabilidad de mejorar Tyranitar es mayor que la de conseguir un Alakazam mejor, el segundo representa una inversión mucho mejor de polvoestelares. Rangos entre 00–99. Siempre devuelve dos dígitos."</string>
-    <string name="token_msg_train">Entrenar</string>
-    <string name="token_msg_iv_perc_to_top">"Devuelve la diferencia en porcentaje entre la combinación de IV máxima y perfecta. Por ejemplo, si el porcentaje de combinación IV máximo es 97, esta ficha devolverá 03."</string>
+    <string name="token_msg_worthTra_msg">"Esta ficha devuelve la evaluación sobre cómo vale la pena entrenar este monstruo, basado tanto en las estadísticas base como en la %1$s estadística posible de IV. Por ejemplo, un Alakazam de 96%% IV obtendrá una puntuación mayor que un Tyranitar de 20%%, independientemente del hecho de que el PC máximo posible para este último sea mayor: ya que la probabilidad de mejorar Tyranitar es mayor que la de conseguir un Alakazam mejor, el segundo representa una inversión mucho mejor de polvoestelares. Rangos entre 00–99. Siempre devuelve dos dígitos."</string>
+    <string name="token_msg_train">%1$s entrenar</string>
     <string name="go_back_to_goiv">Volver al GoIV</string>
     <string name="go_back">Volver atrás</string>
     <string name="send_email_to_devs_recalibration">Si GoIV no calibró correctamente, presione el botón a continuación para generar un email de informe automático de error.</string>

@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="instructions_title">Instrucciones de configuración</string>
+    <string name="instructions_title">Instrucciones de uso</string>
     <string name="instructions_message">Utilizando GoIV por primera vez:\n\nIngresa tu info de entrenador\nPresiona el botón de DAR PERMISOS y acepta todos los mensajes\nPresiona iniciar.</string>
-    <string name="recalibration_help">Muéstrame cómo</string>
-    <string name="optimize_title">Cómo optimizar automáticamente</string>
     <string name="goiv_is_open_source">¡GoIV es código abierto!</string>
     <string name="trainer_info">Info entrenador</string>
     <string name="trainer_level">Nivel</string>
@@ -66,6 +64,9 @@
         <item name="valoriv0_7">"…no te serán de utilidad"</item>
     </string-array>
 
+    <string name="menu_recalibration">Recalibración</string>
+    <string name="menu_home">Inicio</string>
+    <string name="menu_clipboard">Portapapeles</string>
     <string name="pokemon_name">Nombre:</string>
     <string name="cp">PC</string>
     <string name="hp">PS</string>
@@ -221,6 +222,7 @@
     <string name="recalibrate_goiv_notification">Recalibrar</string>
     <string name="title_activity_ocr_calibration_result">Resultado calibración</string>
     <string name="title_activity_ocr_calibration_error">Error calibración</string>
+    <string name="recalibration_description">La recalibración mejora el rendimiento de GoIV mediante la búsqueda dinámica de posiciones de escaneo óptimas para su teléfono.</string>
     <string name="scan_optimization_notice_text">No has ejecutado la optimización de escaneo. Se recomienda hacer una optimización de escaneo en todos los dispositivos.</string>
     <string name="scan_optimization_screen_ratio_warning">GoIV ha detectado que tu pantalla no es estándar. Es posible que necesite una calibración de escaneo para que GoIV funcione correctamente.</string>
     <string name="scan_optimization_outdated_warning">La optimización de escaneo está desactualizada. ¡Realice otra calibración de escaneo para disfrutar de las últimas mejoras!</string>
@@ -235,7 +237,7 @@
     <string name="token_input_custom_separator">Por favor introduzca su separador personalizado</string>
     <string name="token_fill_custom_separator">Por favor rellene su separador personalizado</string>
     <string name="token_not_dot_separator">El separador personalizado no puede contener . porque el desarrollador es perezoso</string>
-    <string name="token_max_length">Máx. longitud:</string>
+    <string name="token_max_length">Longitud máx.:</string>
     <string name="clipboard_token_list_available">Lista completa de fichas disponibles</string>
     <string name="clipboard_token_description_title">Descripción de la ficha seleccionada</string>
     <string name="ocr_calibration_screenshot_mode">"¡La siguiente captura de pantalla será utilizada para recalibrar GoIV!"</string>
@@ -282,8 +284,8 @@
     <string name="token_category_evaluation_scores">Puntuaciones evaluación</string>
     <string name="token_category_separators">Separadores</string>
     <string name="token_msg_basStat_msg1">Esta ficha devuelve las estadísticas básicas del monstruo, como 186 190 260 para Lapras, lo que significa que este monstruo tiene sin bonus de IV 186 de ataque, 190 defensa y 260 de vida. Los IV pueden añadir un extra de 15 a cada estadística.</string>
-    <string name="token_msg_basStat_msg2">\nEsta versión de la ficha también añade los puntos de IV para que puedas ver el total del monstruo.</string>
-    <string name="token_msg_basStat_msg3">\nEsta versión específica de la ficha sólo muestra una de las estadísticas.</string>
+    <string name="token_msg_basStat_msg2">"\nEsta versión de la ficha también añade los puntos de IV para que puedas ver el total del monstruo."</string>
+    <string name="token_msg_basStat_msg3">"\nEsta versión específica de la ficha sólo muestra una de las estadísticas."</string>
     <string name="token_msg_cpMax_msg1">Devuelve la cantidad de PC que el monstruo tiene en el nivel actual.</string>
     <string name="token_msg_cpMax_msg2">Devuelve la cantidad de PC qe el monstruo tendrá al máximo nivel.</string>
     <string name="token_msg_cpMis">Devuelve la cantidad de PC que el monstruo pierde comparado con uno de máximo IV nivel 40.</string>
@@ -328,10 +330,12 @@
     <string name="token_msg_uniToken_msg2">" Esta ficha usa carácteres rellenos, que tiene un interior negro en los números, como ⓭."</string>
     <string name="token_msg_uniToken_msg3">" Esta ficha usa carácteres vacíos, que tiene un interior blanco en los números, como ⑪."</string>
     <string name="token_msg_worthTra_msg">"Esta ficha devuelve la evaluación sobre cómo vale la pena entrenar este monstruo, basado tanto en las estadísticas base como en la %1$s estadística posible de IV. Por ejemplo, un Alakazam de 96%% IV obtendrá una puntuación mayor que un Tyranitar de 20%%, independientemente del hecho de que el PC máximo posible para este último sea mayor: ya que la probabilidad de mejorar Tyranitar es mayor que la de conseguir un Alakazam mejor, el segundo representa una inversión mucho mejor de polvoestelares. Rangos entre 00–99. Siempre devuelve dos dígitos."</string>
-    <string name="token_msg_train">%1$s entrenar</string>
+    <string name="token_msg_train">%1$s a entrenar</string>
+    <string name="token_msg_iv_perc_to_top">"Devuelve la diferencia en porcentaje entre la combinación de IV máxima y perfecta. Por ejemplo, si el porcentaje de combinación IV máximo es 97, esta ficha devolverá 03."</string>
     <string name="go_back_to_goiv">Volver al GoIV</string>
     <string name="go_back">Volver atrás</string>
     <string name="send_email_to_devs_recalibration">Si GoIV no calibró correctamente, presione el botón a continuación para generar un email de informe automático de error.</string>
     <string name="send_email_to_devs_button">Email con información sobre el error para desarrolladores</string>
     <string name="report_error">Email de informe de error</string>
+    <string name="recalibration_video_tutorial">Videotutorial recalibración</string>
 </resources>

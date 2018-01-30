@@ -166,8 +166,6 @@
     <string name="candy">Caramelle</string>
     <string name="autoAppraisalScanDelay_summary">Quanto attendere che l\'animazione del testo di valutazione sia finita. Smartphone di fascia bassa potrebbero necessitare di 800ms.</string>
     <string name="autoAppraisalScanDelay_title">Attesa auto valutazione</string>
-    <string name="clipboardButton_summary">Definisci come vuoi che appaiano i risultati copiati negli appunti</string>
-    <string name="clipboardButton_title">Modifica copia negli appunti</string>
     <string name="clipboard_activity_title">Configurazione appunti GoIV</string>
     <string name="clipboard_copy_toast">%s copiato negli appunti</string>
     <string name="clipboard_modifier_preview">Anteprima</string>
@@ -207,6 +205,6 @@
 
     <string name="recalibrate_goiv_notification">Ricalibra</string>
     <string name="title_activity_ocr_calibration_result">Risultati calibrazione</string>
-    <string name="scan_optimization_notice_text">Non hai ancora eseguito la calibrazione dello scanner. È consigliabile eseguire questa ottimizzazione su tutti i dispositivi. Per lanciarla:\n1. Avvia GoIV\n2. Apri la pagina di un \'mon \n3. Apri la notifica di GoIV\n4. Seleziona \'Ricalibra\'!</string>
+    <string name="scan_optimization_notice_text">Non hai ancora eseguito la calibrazione dello scanner. È consigliabile eseguire questa ottimizzazione su tutti i dispositivi.</string>
     <string name="scan_optimization_screen_ratio_warning">GoIV ha rilevato che il tuo display non ha dimensioni standard. Molto probabilmente dovrai eseguire la calibrazione dello scanner perché GoIV possa funzionare.</string>
 </resources>

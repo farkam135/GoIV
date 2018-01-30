@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:layout_width="44dp"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="4dp"
+    android:layout_gravity="center_horizontal"
+    android:paddingLeft="4dp"
+    android:paddingRight="4dp"
+    android:clipToPadding="false"
+    android:clipChildren="false">
+
+    <TextView
+        android:id="@+id/exclamationMark"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:gravity="center"
+        android:text="!"
+        android:textSize="11dp"
+        android:textColor="@android:color/white"
+        android:background="@drawable/circle_red"
+        tools:ignore="HardcodedText,SpUsage" />
+
+</FrameLayout>

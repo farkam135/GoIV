@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu_recalibrate"
+        android:enabled="true"
+        android:icon="@drawable/ic_recalibrate_24px"
+        android:title="@string/menu_recalibration"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/menu_home"
+        android:enabled="true"
+        android:icon="@drawable/ic_goiv_cap_24dp"
+        android:title="@string/menu_home"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/menu_clipboard"
+        android:enabled="true"
+        android:icon="@drawable/ic_content_paste_white_24dp"
+        android:title="@string/menu_clipboard"
+        app:showAsAction="ifRoom" />
+</menu>

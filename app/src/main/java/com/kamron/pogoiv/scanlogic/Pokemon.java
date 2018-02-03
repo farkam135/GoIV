@@ -51,6 +51,7 @@ public class Pokemon {
     private final String displayName;
 
     public final int number; //index number in resources, pokedex number - 1
+    public final int pokedexNumber;
     public final int baseAttack;
     public final int baseDefense;
     public final int baseStamina;
@@ -62,6 +63,7 @@ public class Pokemon {
         this.name = name;
         this.displayName = displayName;
         this.number = number;
+        this.pokedexNumber = number + 1;
         this.baseAttack = baseAttack;
         this.baseDefense = baseDefense;
         this.baseStamina = baseStamina;

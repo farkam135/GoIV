@@ -18,6 +18,16 @@
         android:baselineAligned="true">
 
         <TextView
+            android:id="@+id/resultsPokedexNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="#888"
+            android:text="#ddd"
+            android:layout_marginStart="6dp"
+            android:layout_marginEnd="6dp"/>
+
+        <TextView
             android:id="@+id/resultsPokemonName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

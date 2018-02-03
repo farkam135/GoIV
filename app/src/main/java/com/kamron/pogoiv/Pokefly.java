@@ -225,6 +225,8 @@ public class Pokefly extends Service {
     TextView exResCandy;
     @BindView(R.id.exResLevel)
     TextView exResLevel;
+    @BindView(R.id.resultsPokedexNumber)
+    TextView resultPokedexNumber;
     @BindView(R.id.resultsPokemonName)
     TextView resultsPokemonName;
     @BindView(R.id.resultsCombinations)
@@ -1336,6 +1338,7 @@ public class Pokefly extends Service {
      * Shows the name and level of the pokemon in the results dialog.
      */
     private void populateResultsHeader(IVScanResult ivScanResult) {
+        resultPokedexNumber.setText("#" + (ivScanResult.pokemon.number + 1));
         resultsPokemonName.setText(ivScanResult.pokemon.toString());
         resultsPokemonLevel.setText(getString(R.string.level_num, ivScanResult.estimatedPokemonLevel.toString()));
     }

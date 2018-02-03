@@ -24,7 +24,6 @@
             android:textSize="18sp"
             android:textColor="#888"
             android:text="#ddd"
-            android:layout_marginStart="6dp"
             android:layout_marginEnd="6dp"/>
 
         <TextView

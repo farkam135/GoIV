@@ -288,9 +288,6 @@
                 android:gravity="end" />
         </LinearLayout>
 
-        <include layout="@layout/dialog_refine_by_last_scan"
-            android:id="@+id/refine_by_last_scan" />
-
         <TextView
             android:id="@+id/correctCPLevel"
             android:layout_width="wrap_content"

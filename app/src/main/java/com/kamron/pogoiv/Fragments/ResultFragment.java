@@ -13,6 +13,7 @@ import android.widget.Button;
 
 import com.kamron.pogoiv.Pokefly;
 import com.kamron.pogoiv.R;
+import com.kamron.pogoiv.pokeflycomponents.fractions.IVResultFraction;
 import com.kamron.pogoiv.scanlogic.IVScanResult;
 
 
@@ -24,7 +25,6 @@ public class ResultFragment extends Fragment {
 
 
     private static ResultFragment instance = new ResultFragment();
-    private FragmentManager fragmentManager;
     private Button ivButton;
     private Button movesButton;
     private Button estimateButton;
@@ -32,7 +32,6 @@ public class ResultFragment extends Fragment {
 
     //The fragments initialized in createFragments
     private PowerupEstimateFragment powerupFragmentEstimate;
-    private IVResultFragment ivFragment;
     private MovesFragment movesFragment;
 
 
@@ -47,7 +46,6 @@ public class ResultFragment extends Fragment {
      * Creates the resultfragment, which holds the other result-fragments and lets the user navigate between them.
      */
     public ResultFragment() {
-        fragmentManager = getChildFragmentManager();
         createFragments();
         addInitialFragment();
         setupButtons();
@@ -63,7 +61,6 @@ public class ResultFragment extends Fragment {
      */
     private void addInitialFragment() {
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-        transaction.add(R.id.fragmentContainer, ivFragment).commit();
     }
 
     /**
@@ -71,7 +68,6 @@ public class ResultFragment extends Fragment {
      */
     private void createFragments() {
         movesFragment = new MovesFragment();
-        ivFragment = new IVResultFragment();
         powerupFragmentEstimate = new PowerupEstimateFragment();
     }
 
@@ -84,7 +80,6 @@ public class ResultFragment extends Fragment {
         ivButton = (Button) getView().findViewById(R.id.iVFragmentViewButton);
         movesButton = (Button) getView().findViewById(R.id.movesFragmentViewButton);
 
-        ivButton.setOnClickListener(new NavigateToListener(ivButton, ivFragment));
         ivButton.setOnClickListener(new NavigateToListener(movesButton, movesFragment));
         ivButton.setOnClickListener(new NavigateToListener(estimateButton, powerupFragmentEstimate));
     }
@@ -123,14 +118,13 @@ public class ResultFragment extends Fragment {
      * Sets all the information in the result box.
      */
     public void populateFragmentInfos(IVScanResult ivScanResult) {
-        ivFragment.populateResultsBox(ivScanResult);
         powerupFragmentEstimate.populateAdvancedInformation(ivScanResult);
     }
 
     /**
      * Resets the state for the estimate spinner in the powerupFragment.
      */
-    public void resetEstimateSpinner(){
+    public void resetEstimateSpinner() {
         powerupFragmentEstimate.resetEstimateSpinner();
     }
 

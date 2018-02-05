@@ -20,6 +20,11 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <FrameLayout
+                android:id="@+id/fractionContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
             <!-- SHOWING JUST ONE AT A TIME -->
 
             <include
@@ -45,11 +50,6 @@
 
 
             </LinearLayout>
-            <fragment android:name="com.kamron.pogoiv.Fragments.ResultFragment"
-                android:id="@+id/resultsBox"
-                layout="@layout/fragment_result"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"/>
 
         </LinearLayout>
     </ScrollView>

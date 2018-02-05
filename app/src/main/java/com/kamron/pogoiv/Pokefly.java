@@ -3,7 +3,6 @@ package com.kamron.pogoiv;
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
-import android.app.FragmentManager;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.ClipData;
@@ -24,9 +23,6 @@ import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -35,11 +31,11 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -53,41 +49,33 @@ import android.widget.Toast;
 
 import com.google.common.base.Function;
 import com.google.common.base.Optional;
-import com.kamron.pogoiv.Fragments.ResultFragment;
 import com.kamron.pogoiv.clipboardlogic.ClipboardTokenHandler;
 import com.kamron.pogoiv.pokeflycomponents.AutoAppraisal;
 import com.kamron.pogoiv.pokeflycomponents.GoIVNotificationManager;
 import com.kamron.pogoiv.pokeflycomponents.IVPopupButton;
 import com.kamron.pogoiv.pokeflycomponents.IVPreviewPrinter;
 import com.kamron.pogoiv.pokeflycomponents.ScreenWatcher;
+import com.kamron.pogoiv.pokeflycomponents.fractions.IVCombinationsFraction;
+import com.kamron.pogoiv.pokeflycomponents.fractions.IVResultFraction;
 import com.kamron.pogoiv.pokeflycomponents.ocrhelper.OcrHelper;
-import com.kamron.pogoiv.scanlogic.CPRange;
 import com.kamron.pogoiv.scanlogic.Data;
 import com.kamron.pogoiv.scanlogic.IVCombination;
 import com.kamron.pogoiv.scanlogic.IVScanResult;
 import com.kamron.pogoiv.scanlogic.PokeInfoCalculator;
-import com.kamron.pogoiv.scanlogic.PokeSpam;
 import com.kamron.pogoiv.scanlogic.Pokemon;
 import com.kamron.pogoiv.scanlogic.PokemonNameCorrector;
-import com.kamron.pogoiv.scanlogic.PokemonShareHandler;
-import com.kamron.pogoiv.scanlogic.ScanContainer;
 import com.kamron.pogoiv.scanlogic.ScanResult;
-import com.kamron.pogoiv.scanlogic.UpgradeCost;
 import com.kamron.pogoiv.utils.CopyUtils;
-import com.kamron.pogoiv.utils.GuiUtil;
 import com.kamron.pogoiv.utils.LevelRange;
+import com.kamron.pogoiv.utils.fractions.FractionManager;
 import com.kamron.pogoiv.widgets.PokemonSpinnerAdapter;
-import com.kamron.pogoiv.widgets.recyclerviews.adapters.IVResultsAdapter;
-import android.support.v4.app.Fragment;
 
 import java.io.File;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.apptik.widget.MultiSlider;
 
 import static com.kamron.pogoiv.GoIVSettings.APPRAISAL_WINDOW_POSITION;
 import static com.kamron.pogoiv.clipboardlogic.ClipboardResultMode.SINGLE_RESULT;
@@ -98,7 +86,7 @@ import static com.kamron.pogoiv.clipboardlogic.ClipboardResultMode.SINGLE_RESULT
  * Created by Kamron on 7/25/2016.
  */
 
-public class Pokefly extends Service{
+public class Pokefly extends Service {
 
     public static final String ACTION_UPDATE_UI = "com.kamron.pogoiv.ACTION_UPDATE_UI";
     private static final String ACTION_SEND_INFO = "com.kamron.pogoiv.ACTION_SEND_INFO";
@@ -137,6 +125,7 @@ public class Pokefly extends Service{
 
     private boolean receivedInfo = false;
 
+    private FractionManager fractionManager;
     private WindowManager windowManager;
     private DisplayMetrics displayMetrics;
     private ClipboardManager clipboard;
@@ -144,8 +133,7 @@ public class Pokefly extends Service{
     private ScreenGrabber screen;
     private ScreenShotHelper screenShotHelper;
     private OcrHelper ocr;
-    public GoIVSettings settings;
-    private ResultFragment resultFragment;
+    private GoIVSettings settings;
 
 
     private boolean infoShownSent = false;
@@ -161,10 +149,12 @@ public class Pokefly extends Service{
     private ImageView arcPointer;
     private LinearLayout infoLayout;
 
-
     private PokeInfoCalculator pokeInfoCalculator;
 
     private AutoAppraisal autoAppraisal;
+
+    @BindView(R.id.fractionContainer)
+    FrameLayout fractionContainer;
 
     //results pokemon picker auto complete
     @BindView(R.id.autoCompleteTextView1)
@@ -199,8 +189,6 @@ public class Pokefly extends Service{
     // Layouts
     @BindView(R.id.inputBox)
     LinearLayout inputBox;
-    @BindView(R.id.resultsBox)
-    public LinearLayout resultsBox;
     @BindView(R.id.allPossibilitiesBox)
     public LinearLayout allPossibilitiesBox;
 
@@ -442,6 +430,8 @@ public class Pokefly extends Service{
         ivButton = new IVPopupButton(this);
         createArcPointer();
         createArcAdjuster();
+
+        fractionManager = new FractionManager(this, R.style.AppTheme_Dialog, fractionContainer);
     }
 
 
@@ -586,8 +576,6 @@ public class Pokefly extends Service{
         ButterKnife.bind(this, infoLayout);
 
         createInputLayout();
-        createResultLayout();
-
 
         initPositionHandler();
     }
@@ -655,19 +643,6 @@ public class Pokefly extends Service{
 
         populateTeamAppraisalSpinners();
     }
-
-    /**
-     * Creates and initializes the components in the second "screen" in the floating dialog, the result dialog.
-     */
-    private void createResultLayout() {
-
-        resultFragment = ResultFragment.getInstance();
-        resultFragment.initConnections(this);
-
-    }
-
-
-
 
     /**
      * Changes the text in the appraisal checkboxes depending on what team the player is on.
@@ -875,11 +850,12 @@ public class Pokefly extends Service{
         refineByAvailableAppraisalInfo(ivScanResult);
         refineByEggRaidInformation(ivScanResult);
 
-        //Dont run clipboard logic if scan failed - some tokens might crash the program.
+        // Don't run clipboard logic if scan failed - some tokens might crash the program.
         if (ivScanResult.iVCombinations.size() > 0) {
             addClipboardInfoIfSettingOn(ivScanResult);
         }
-        resultFragment.populateFragmentInfos(ivScanResult);;
+
+        fractionManager.show(new IVResultFraction(this, ivScanResult));
 
         moveOverlay(false); //we dont want overlay to stay on top if user had appraisal box
         closeKeyboard();
@@ -923,7 +899,6 @@ public class Pokefly extends Service{
      * Makes the input components invisible, and makes the result components visible.
      */
     private void transitionOverlayViewFromInputToResults() {
-        resultsBox.setVisibility(View.VISIBLE);
         inputBox.setVisibility(View.GONE);
 
         initialButtonsLayout.setVisibility(View.GONE);
@@ -953,7 +928,7 @@ public class Pokefly extends Service{
                 return null;
             } else {
                 // reset spinner selecction to avoid a crash
-                resultFragment.resetEstimateSpinner();
+                // TODO POWERUP ESTIMATE FRAGMENT.resetEstimateSpinner();
             }
         }
         return pokemon;
@@ -1126,8 +1101,7 @@ public class Pokefly extends Service{
      */
     private void resetInfoDialogue() {
         inputBox.setVisibility(View.VISIBLE);
-        resultFragment.resetEstimateSpinner();
-        resultsBox.setVisibility(View.GONE);
+        // TODO POWERUP ESTIMATE FRAGMENT.resetEstimateSpinner();
         allPossibilitiesBox.setVisibility(View.GONE);
 
         //Below code handles resetting appraisal box, and then expanding it if user has that setting enabled.
@@ -1172,11 +1146,9 @@ public class Pokefly extends Service{
     public void backToIvForm() {
         if (allPossibilitiesBox.getVisibility() == View.VISIBLE) {
             allPossibilitiesBox.setVisibility(View.GONE);
-            resultsBox.setVisibility(View.VISIBLE);
         } else {
             allPossibilitiesBox.setVisibility(View.GONE);
             inputBox.setVisibility(View.VISIBLE);
-            resultsBox.setVisibility(View.GONE);
 
             initialButtonsLayout.setVisibility(View.VISIBLE);
             onCheckButtonsLayout.setVisibility(View.GONE);
@@ -1345,6 +1317,10 @@ public class Pokefly extends Service{
             scanPokemon(bitmap, screenShotPath);
         }
     };
+
+    public void navigateToIVCombinationsFraction(IVScanResult ivScanResult) {
+        fractionManager.show(new IVCombinationsFraction(this, ivScanResult));
+    }
 
     /**
      * displayInfo

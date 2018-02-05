@@ -1,14 +1,9 @@
-package com.kamron.pogoiv.Fragments;
+package com.kamron.pogoiv.pokeflycomponents.fractions;
 
 
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
+import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -16,17 +11,15 @@ import com.kamron.pogoiv.Pokefly;
 import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.scanlogic.IVScanResult;
 import com.kamron.pogoiv.utils.GuiUtil;
-import com.kamron.pogoiv.widgets.recyclerviews.adapters.IVResultsAdapter;
+import com.kamron.pogoiv.utils.fractions.Fraction;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class IVResultFragment extends Fragment {
+
+public class IVResultFraction extends Fraction {
 
     @BindView(R.id.tvSeeAllPossibilities)
     TextView seeAllPossibilities;
@@ -37,16 +30,12 @@ public class IVResultFragment extends Fragment {
     LinearLayout llMinIV;
     @BindView(R.id.llMultipleIVMatches)
     LinearLayout llMultipleIVMatches;
-    @BindView(R.id.refine_by_last_scan)
-    LinearLayout refine_by_last_scan;
     @BindView(R.id.llSingleMatch)
     LinearLayout llSingleMatch;
     @BindView(R.id.tvAvgIV)
     TextView tvAvgIV;
     @BindView(R.id.resultsCombinations)
     TextView resultsCombinations;
-    @BindView(R.id.rvResults)
-    RecyclerView rvResults;
     @BindView(R.id.correctCPLevel)
     TextView correctCPorLevel;
     @BindView(R.id.resultsPokemonName)
@@ -60,7 +49,6 @@ public class IVResultFragment extends Fragment {
     @BindView(R.id.resultsPokemonLevel)
     TextView resultsPokemonLevel;
 
-
     @BindView(R.id.resultsMinPercentage)
     TextView resultsMinPercentage;
     @BindView(R.id.resultsAvePercentage)
@@ -69,19 +57,42 @@ public class IVResultFragment extends Fragment {
     TextView resultsMaxPercentage;
 
 
-    Pokefly pokefly;
+    private Context context;
+    private Pokefly pokefly;
+    private IVScanResult ivScanResult;
 
-    public IVResultFragment() {
-        createAllIvLayout();
+
+    public IVResultFraction(@NonNull Pokefly pokefly, @NonNull IVScanResult ivScanResult) {
+        this.context = pokefly;
+        this.pokefly = pokefly;
+        this.ivScanResult = ivScanResult;
     }
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View thisView = inflater.inflate(R.layout.fragment_ivresult, container, false);
-        ButterKnife.bind(this, thisView);
-        return thisView;
+    public int getLayoutResId() {
+        return R.layout.fragment_ivresult;
+    }
+
+    @Override public void onCreate(@NonNull View rootView) {
+        ButterKnife.bind(this, rootView);
+
+        // Show IV information
+        ivScanResult.sortCombinations();
+        populateResultsHeader(ivScanResult);
+
+        if (ivScanResult.getCount() == 0) {
+            populateNotIVMatch(ivScanResult);
+        } else if (ivScanResult.getCount() == 1) {
+            populateSingleIVMatch(ivScanResult);
+        } else { // More than a match
+            populateMultipleIVMatch(ivScanResult);
+        }
+        setResultScreenPercentageRange(ivScanResult); //color codes the result
+    }
+
+    @Override public void onDestroy() {
+        // Nothing to do
     }
 
     /**
@@ -92,37 +103,13 @@ public class IVResultFragment extends Fragment {
         llMinIV.setVisibility(View.VISIBLE);
         llSingleMatch.setVisibility(View.GONE);
         llMultipleIVMatches.setVisibility(View.VISIBLE);
-        tvAvgIV.setText(getString(R.string.avg));
+        tvAvgIV.setText(context.getString(R.string.avg));
 
         resultsCombinations.setText(
-                String.format(getString(R.string.possible_iv_combinations), ivScanResult.iVCombinations.size()));
+                context.getString(R.string.possible_iv_combinations, ivScanResult.iVCombinations.size()));
 
-
-        populateAllIvPossibilities(ivScanResult);
         seeAllPossibilities.setVisibility(View.VISIBLE);
         correctCPorLevel.setVisibility(View.GONE);
-    }
-
-    /**
-     * Adds all options in the all iv possibilities list.
-     */
-    private void populateAllIvPossibilities(IVScanResult ivScanResult) {
-        IVResultsAdapter ivResults = new IVResultsAdapter(ivScanResult, pokefly);
-        rvResults.setAdapter(ivResults);
-    }
-
-    /**
-     * Creates and initializes the components in the "screen" in he floating dialog that shows all possible iv
-     * combinations.
-     */
-    private void createAllIvLayout() {
-        // Setting up Recyclerview for further use.
-        LinearLayoutManager layoutManager = new LinearLayoutManager(pokefly);
-        rvResults.hasFixedSize();
-
-        rvResults.setLayoutManager(layoutManager);
-        rvResults.setItemAnimator(new DefaultItemAnimator());
-
     }
 
 
@@ -131,29 +118,7 @@ public class IVResultFragment extends Fragment {
      */
     @OnClick(R.id.tvSeeAllPossibilities)
     public void displayAllPossibilities() {
-        pokefly.resultsBox.setVisibility(View.GONE);
-        pokefly.allPossibilitiesBox.setVisibility(View.VISIBLE);
-    }
-
-
-    /**
-     * Sets all the information in the result box.
-     */
-    public void populateResultsBox(IVScanResult ivScanResult) {
-        ivScanResult.sortCombinations();
-        populateResultsHeader(ivScanResult);
-
-
-        if (ivScanResult.getCount() == 0) {
-            populateNotIVMatch(ivScanResult);
-        } else if (ivScanResult.getCount() == 1) {
-            populateSingleIVMatch(ivScanResult);
-        } else { // More than a match
-            populateMultipleIVMatch(ivScanResult);
-        }
-        setResultScreenPercentageRange(ivScanResult); //color codes the result
-
-
+        pokefly.navigateToIVCombinationsFraction(ivScanResult);
     }
 
     /**
@@ -161,7 +126,8 @@ public class IVResultFragment extends Fragment {
      */
     private void populateResultsHeader(IVScanResult ivScanResult) {
         resultsPokemonName.setText(ivScanResult.pokemon.toString());
-        resultsPokemonLevel.setText(getString(R.string.level_num, ivScanResult.estimatedPokemonLevel.toString()));
+        resultsPokemonLevel.setText(
+                context.getString(R.string.level_num, ivScanResult.estimatedPokemonLevel.toString()));
     }
 
 
@@ -173,10 +139,10 @@ public class IVResultFragment extends Fragment {
         llMinIV.setVisibility(View.VISIBLE);
         llSingleMatch.setVisibility(View.GONE);
         llMultipleIVMatches.setVisibility(View.VISIBLE);
-        tvAvgIV.setText(getString(R.string.avg));
+        tvAvgIV.setText(context.getString(R.string.avg));
 
         resultsCombinations.setText(
-                String.format(getString(R.string.possible_iv_combinations), ivScanResult.iVCombinations.size()));
+                context.getString(R.string.possible_iv_combinations, ivScanResult.iVCombinations.size()));
 
         seeAllPossibilities.setVisibility(View.GONE);
         correctCPorLevel.setVisibility(View.VISIBLE);
@@ -189,7 +155,7 @@ public class IVResultFragment extends Fragment {
     private void populateSingleIVMatch(IVScanResult ivScanResult) {
         llMaxIV.setVisibility(View.GONE);
         llMinIV.setVisibility(View.GONE);
-        tvAvgIV.setText(getString(R.string.iv));
+        tvAvgIV.setText(context.getString(R.string.iv));
         resultsAttack.setText(String.valueOf(ivScanResult.iVCombinations.get(0).att));
         resultsDefense.setText(String.valueOf(ivScanResult.iVCombinations.get(0).def));
         resultsHP.setText(String.valueOf(ivScanResult.iVCombinations.get(0).sta));
@@ -225,11 +191,11 @@ public class IVResultFragment extends Fragment {
 
 
         if (ivScanResult.iVCombinations.size() > 0) {
-            resultsMinPercentage.setText(getString(R.string.percent, low));
-            resultsAvePercentage.setText(getString(R.string.percent, ave));
-            resultsMaxPercentage.setText(getString(R.string.percent, high));
+            resultsMinPercentage.setText(context.getString(R.string.percent, low));
+            resultsAvePercentage.setText(context.getString(R.string.percent, ave));
+            resultsMaxPercentage.setText(context.getString(R.string.percent, high));
         } else {
-            String unknown_percent = getString(R.string.unknown_percent);
+            String unknown_percent = context.getString(R.string.unknown_percent);
             resultsMinPercentage.setText(unknown_percent);
             resultsAvePercentage.setText(unknown_percent);
             resultsMaxPercentage.setText(unknown_percent);

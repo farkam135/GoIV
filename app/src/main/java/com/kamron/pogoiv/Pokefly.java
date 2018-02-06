@@ -260,6 +260,7 @@ public class Pokefly extends Service {
     public String pokemonUniqueID = "";
     public LevelRange estimatedPokemonLevelRange = new LevelRange(1.0);
     private @NonNull Optional<String> screenShotPath = Optional.absent();
+    private IVScanResult lastIvScanResult;
 
 
     @SuppressWarnings("deprecation")
@@ -844,18 +845,18 @@ public class Pokefly extends Service {
         }
 
 
-        IVScanResult ivScanResult = pokeInfoCalculator.getIVPossibilities(pokemon, estimatedPokemonLevelRange,
+        lastIvScanResult = pokeInfoCalculator.getIVPossibilities(pokemon, estimatedPokemonLevelRange,
                 pokemonHP.get(), pokemonCP.get(), pokemonGender);
 
-        refineByAvailableAppraisalInfo(ivScanResult);
-        refineByEggRaidInformation(ivScanResult);
+        refineByAvailableAppraisalInfo(lastIvScanResult);
+        refineByEggRaidInformation(lastIvScanResult);
 
         // Don't run clipboard logic if scan failed - some tokens might crash the program.
-        if (ivScanResult.iVCombinations.size() > 0) {
-            addClipboardInfoIfSettingOn(ivScanResult);
+        if (lastIvScanResult.iVCombinations.size() > 0) {
+            addClipboardInfoIfSettingOn(lastIvScanResult);
         }
 
-        fractionManager.show(new IVResultFraction(this, ivScanResult));
+        fractionManager.show(new IVResultFraction(this, lastIvScanResult));
 
         moveOverlay(false); //we dont want overlay to stay on top if user had appraisal box
         closeKeyboard();
@@ -1318,8 +1319,8 @@ public class Pokefly extends Service {
         }
     };
 
-    public void navigateToIVCombinationsFraction(IVScanResult ivScanResult) {
-        fractionManager.show(new IVCombinationsFraction(this, ivScanResult));
+    public void navigateToIVCombinationsFraction() {
+        fractionManager.show(new IVCombinationsFraction(this, lastIvScanResult));
     }
 
     /**

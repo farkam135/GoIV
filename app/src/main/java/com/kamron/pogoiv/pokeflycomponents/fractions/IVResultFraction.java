@@ -1,6 +1,5 @@
 package com.kamron.pogoiv.pokeflycomponents.fractions;
 
-
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.view.View;
@@ -16,7 +15,6 @@ import com.kamron.pogoiv.utils.fractions.Fraction;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
 
 
 public class IVResultFraction extends Fraction {
@@ -79,16 +77,16 @@ public class IVResultFraction extends Fraction {
 
         // Show IV information
         ivScanResult.sortCombinations();
-        populateResultsHeader(ivScanResult);
+        populateResultsHeader();
 
         if (ivScanResult.getCount() == 0) {
-            populateNotIVMatch(ivScanResult);
+            populateNotIVMatch();
         } else if (ivScanResult.getCount() == 1) {
-            populateSingleIVMatch(ivScanResult);
+            populateSingleIVMatch();
         } else { // More than a match
-            populateMultipleIVMatch(ivScanResult);
+            populateMultipleIVMatch();
         }
-        setResultScreenPercentageRange(ivScanResult); //color codes the result
+        setResultScreenPercentageRange(); //color codes the result
     }
 
     @Override public void onDestroy() {
@@ -98,7 +96,7 @@ public class IVResultFraction extends Fraction {
     /**
      * Populates the result screen with the layout as if its multiple results.
      */
-    private void populateMultipleIVMatch(IVScanResult ivScanResult) {
+    private void populateMultipleIVMatch() {
         llMaxIV.setVisibility(View.VISIBLE);
         llMinIV.setVisibility(View.VISIBLE);
         llSingleMatch.setVisibility(View.GONE);
@@ -118,13 +116,13 @@ public class IVResultFraction extends Fraction {
      */
     @OnClick(R.id.tvSeeAllPossibilities)
     public void displayAllPossibilities() {
-        pokefly.navigateToIVCombinationsFraction(ivScanResult);
+        pokefly.navigateToIVCombinationsFraction();
     }
 
     /**
      * Shows the name and level of the pokemon in the results dialog.
      */
-    private void populateResultsHeader(IVScanResult ivScanResult) {
+    private void populateResultsHeader() {
         resultsPokemonName.setText(ivScanResult.pokemon.toString());
         resultsPokemonLevel.setText(
                 context.getString(R.string.level_num, ivScanResult.estimatedPokemonLevel.toString()));
@@ -134,7 +132,7 @@ public class IVResultFraction extends Fraction {
     /**
      * Populates the result screen with error warning.
      */
-    private void populateNotIVMatch(IVScanResult ivScanResult) {
+    private void populateNotIVMatch() {
         llMaxIV.setVisibility(View.VISIBLE);
         llMinIV.setVisibility(View.VISIBLE);
         llSingleMatch.setVisibility(View.GONE);
@@ -152,7 +150,7 @@ public class IVResultFraction extends Fraction {
     /**
      * Populates the result screen with the layout as if it's a single result.
      */
-    private void populateSingleIVMatch(IVScanResult ivScanResult) {
+    private void populateSingleIVMatch() {
         llMaxIV.setVisibility(View.GONE);
         llMinIV.setVisibility(View.GONE);
         tvAvgIV.setText(context.getString(R.string.iv));
@@ -173,14 +171,12 @@ public class IVResultFraction extends Fraction {
 
     /**
      * Fixes the three boxes that show iv range color and text.
-     *
-     * @param ivScanResult the scan result used to populate the TextViews
      */
-    private void setResultScreenPercentageRange(IVScanResult ivScanResult) {
+    private void setResultScreenPercentageRange() {
         int low = 0;
         int ave = 0;
         int high = 0;
-        if (ivScanResult.iVCombinations.size() != 0) {
+        if (ivScanResult.iVCombinations.size() > 0) {
             low = ivScanResult.getLowestIVCombination().percentPerfect;
             ave = ivScanResult.getAveragePercent();
             high = ivScanResult.getHighestIVCombination().percentPerfect;

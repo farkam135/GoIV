@@ -15,6 +15,7 @@ import com.kamron.pogoiv.widgets.recyclerviews.adapters.IVResultsAdapter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 
 public class IVCombinationsFraction extends Fraction {
@@ -37,7 +38,7 @@ public class IVCombinationsFraction extends Fraction {
 
     @Override
     public int getLayoutResId() {
-        return R.layout.dialog_all_possibilities;
+        return R.layout.fraction_iv_combinations;
     }
 
     @Override public void onCreate(@NonNull View rootView) {
@@ -54,6 +55,16 @@ public class IVCombinationsFraction extends Fraction {
 
     @Override public void onDestroy() {
         // Nothing to do
+    }
+
+    @OnClick(R.id.btnBack)
+    void onBack() {
+        pokefly.navigateToIVResultFraction();
+    }
+
+    @OnClick(R.id.btnClose)
+    void onClose() {
+        pokefly.closeInfoDialog();
     }
 
 }

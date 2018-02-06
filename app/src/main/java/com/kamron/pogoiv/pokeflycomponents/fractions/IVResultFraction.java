@@ -69,7 +69,7 @@ public class IVResultFraction extends Fraction {
 
     @Override
     public int getLayoutResId() {
-        return R.layout.fragment_ivresult;
+        return R.layout.fraction_iv_result;
     }
 
     @Override public void onCreate(@NonNull View rootView) {
@@ -94,29 +94,31 @@ public class IVResultFraction extends Fraction {
     }
 
     /**
-     * Populates the result screen with the layout as if its multiple results.
-     */
-    private void populateMultipleIVMatch() {
-        llMaxIV.setVisibility(View.VISIBLE);
-        llMinIV.setVisibility(View.VISIBLE);
-        llSingleMatch.setVisibility(View.GONE);
-        llMultipleIVMatches.setVisibility(View.VISIBLE);
-        tvAvgIV.setText(context.getString(R.string.avg));
-
-        resultsCombinations.setText(
-                context.getString(R.string.possible_iv_combinations, ivScanResult.iVCombinations.size()));
-
-        seeAllPossibilities.setVisibility(View.VISIBLE);
-        correctCPorLevel.setVisibility(View.GONE);
-    }
-
-
-    /**
      * Displays the all possibilities dialog.
      */
     @OnClick(R.id.tvSeeAllPossibilities)
     public void displayAllPossibilities() {
         pokefly.navigateToIVCombinationsFraction();
+    }
+
+    @OnClick(R.id.powerUpButton)
+    void onPowerUp() {
+        pokefly.navigateToPowerUpFraction();
+    }
+
+    @OnClick(R.id.movesetButton)
+    void onMoveset() {
+        pokefly.navigateToMovesetFraction();
+    }
+
+    @OnClick(R.id.btnBack)
+    void onBack() {
+        pokefly.navigateToInputFraction();
+    }
+
+    @OnClick(R.id.btnClose)
+    void onClose() {
+        pokefly.closeInfoDialog();
     }
 
     /**
@@ -127,7 +129,6 @@ public class IVResultFraction extends Fraction {
         resultsPokemonLevel.setText(
                 context.getString(R.string.level_num, ivScanResult.estimatedPokemonLevel.toString()));
     }
-
 
     /**
      * Populates the result screen with error warning.
@@ -168,6 +169,22 @@ public class IVResultFraction extends Fraction {
         correctCPorLevel.setVisibility(View.GONE);
     }
 
+    /**
+     * Populates the result screen with the layout as if its multiple results.
+     */
+    private void populateMultipleIVMatch() {
+        llMaxIV.setVisibility(View.VISIBLE);
+        llMinIV.setVisibility(View.VISIBLE);
+        llSingleMatch.setVisibility(View.GONE);
+        llMultipleIVMatches.setVisibility(View.VISIBLE);
+        tvAvgIV.setText(context.getString(R.string.avg));
+
+        resultsCombinations.setText(
+                context.getString(R.string.possible_iv_combinations, ivScanResult.iVCombinations.size()));
+
+        seeAllPossibilities.setVisibility(View.VISIBLE);
+        correctCPorLevel.setVisibility(View.GONE);
+    }
 
     /**
      * Fixes the three boxes that show iv range color and text.

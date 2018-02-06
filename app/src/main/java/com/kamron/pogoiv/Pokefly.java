@@ -57,6 +57,8 @@ import com.kamron.pogoiv.pokeflycomponents.IVPreviewPrinter;
 import com.kamron.pogoiv.pokeflycomponents.ScreenWatcher;
 import com.kamron.pogoiv.pokeflycomponents.fractions.IVCombinationsFraction;
 import com.kamron.pogoiv.pokeflycomponents.fractions.IVResultFraction;
+import com.kamron.pogoiv.pokeflycomponents.fractions.MovesetFraction;
+import com.kamron.pogoiv.pokeflycomponents.fractions.PowerUpFraction;
 import com.kamron.pogoiv.pokeflycomponents.ocrhelper.OcrHelper;
 import com.kamron.pogoiv.scanlogic.Data;
 import com.kamron.pogoiv.scanlogic.IVCombination;
@@ -182,15 +184,11 @@ public class Pokefly extends Service {
     TextView levelIndicator;
     @BindView(R.id.llButtonsInitial)
     LinearLayout initialButtonsLayout;
-    @BindView(R.id.llButtonsOnCheck)
-    LinearLayout onCheckButtonsLayout;
 
 
     // Layouts
     @BindView(R.id.inputBox)
     LinearLayout inputBox;
-    @BindView(R.id.allPossibilitiesBox)
-    public LinearLayout allPossibilitiesBox;
 
     @BindView(R.id.appraisalBox)
     LinearLayout appraisalBox;
@@ -856,7 +854,7 @@ public class Pokefly extends Service {
             addClipboardInfoIfSettingOn(lastIvScanResult);
         }
 
-        fractionManager.show(new IVResultFraction(this, lastIvScanResult));
+        navigateToIVResultFraction();
 
         moveOverlay(false); //we dont want overlay to stay on top if user had appraisal box
         closeKeyboard();
@@ -903,7 +901,6 @@ public class Pokefly extends Service {
         inputBox.setVisibility(View.GONE);
 
         initialButtonsLayout.setVisibility(View.GONE);
-        onCheckButtonsLayout.setVisibility(View.VISIBLE);
     }
 
 
@@ -1062,11 +1059,11 @@ public class Pokefly extends Service {
     }
 
 
-    @OnClick({R.id.btnCancelInfo, R.id.btnCloseInfo})
+    @OnClick(R.id.btnCancelInfo)
     /**
      * resets the info dialogue to its default state
      */
-    public void cancelInfoDialog() {
+    public void closeInfoDialog() {
         hideInfoLayoutArcPointer();
 
         resetAppraisalCheckBoxes();
@@ -1103,7 +1100,6 @@ public class Pokefly extends Service {
     private void resetInfoDialogue() {
         inputBox.setVisibility(View.VISIBLE);
         // TODO POWERUP ESTIMATE FRAGMENT.resetEstimateSpinner();
-        allPossibilitiesBox.setVisibility(View.GONE);
 
         //Below code handles resetting appraisal box, and then expanding it if user has that setting enabled.
         if (appraisalBox.getVisibility() == View.VISIBLE) {
@@ -1143,17 +1139,11 @@ public class Pokefly extends Service {
      * Goes back a section.
      */
     //TODO: Needs better implementation
-    @OnClick(R.id.btnBackInfo)
     public void backToIvForm() {
-        if (allPossibilitiesBox.getVisibility() == View.VISIBLE) {
-            allPossibilitiesBox.setVisibility(View.GONE);
-        } else {
-            allPossibilitiesBox.setVisibility(View.GONE);
-            inputBox.setVisibility(View.VISIBLE);
+        inputBox.setVisibility(View.VISIBLE);
 
-            initialButtonsLayout.setVisibility(View.VISIBLE);
-            onCheckButtonsLayout.setVisibility(View.GONE);
-        }
+        initialButtonsLayout.setVisibility(View.VISIBLE);
+
         moveOverlayUpOrDownToMatchAppraisalBox();
         showCandyTextBoxBasedOnSettings();
     }
@@ -1187,7 +1177,6 @@ public class Pokefly extends Service {
             PokemonNameCorrector.PokeDist possiblePoke = new PokemonNameCorrector(PokeInfoCalculator.getInstance())
                     .getPossiblePokemon(pokemonName, candyName, candyUpgradeCost, pokemonType);
             initialButtonsLayout.setVisibility(View.VISIBLE);
-            onCheckButtonsLayout.setVisibility(View.GONE);
 
             // set color based on similarity
             if (possiblePoke.dist == 0) {
@@ -1319,8 +1308,26 @@ public class Pokefly extends Service {
         }
     };
 
+    public void navigateToInputFraction() {
+        // TODO modify IV form to Fraction pattern
+        fractionManager.remove();
+        backToIvForm();
+    }
+
+    public void navigateToIVResultFraction() {
+        fractionManager.show(new IVResultFraction(this, lastIvScanResult));
+    }
+
     public void navigateToIVCombinationsFraction() {
         fractionManager.show(new IVCombinationsFraction(this, lastIvScanResult));
+    }
+
+    public void navigateToPowerUpFraction() {
+        fractionManager.show(new PowerUpFraction(this));
+    }
+
+    public void navigateToMovesetFraction() {
+        fractionManager.show(new MovesetFraction(this));
     }
 
     /**

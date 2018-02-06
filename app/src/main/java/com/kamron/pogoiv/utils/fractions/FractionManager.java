@@ -24,16 +24,21 @@ public class FractionManager {
     }
 
     public void show(Fraction fraction) {
+        remove();
+
+        View fractionRootView = addFractionView(fraction);
+        fraction.onCreate(fractionRootView);
+        currentFraction = fraction;
+    }
+
+    public void remove() {
         if (hasFractionViewAttached()) {
             removeFractionView();
         }
         if (currentFraction != null) {
             currentFraction.onDestroy();
+            currentFraction = null;
         }
-
-        View fractionRootView = addFractionView(fraction);
-        fraction.onCreate(fractionRootView);
-        currentFraction = fraction;
     }
 
     private boolean hasFractionViewAttached() {

@@ -1,13 +1,12 @@
-package com.kamron.pogoiv.Fragments;
+package com.kamron.pogoiv.pokeflycomponents.fractions;
 
 
-import android.os.Bundle;
+import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
@@ -27,6 +26,7 @@ import com.kamron.pogoiv.scanlogic.PokeSpam;
 import com.kamron.pogoiv.scanlogic.Pokemon;
 import com.kamron.pogoiv.scanlogic.ScanContainer;
 import com.kamron.pogoiv.scanlogic.UpgradeCost;
+import com.kamron.pogoiv.utils.fractions.Fraction;
 import com.kamron.pogoiv.widgets.PokemonSpinnerAdapter;
 
 import java.text.DecimalFormat;
@@ -41,10 +41,7 @@ import io.apptik.widget.MultiSlider;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class PowerupEstimateFragment extends Fragment {
-
-    Pokefly pokefly;
-
+public class PowerUpFraction extends Fraction {
 
     @BindView(R.id.expandedLevelSeekbar)
     SeekBar expandedLevelSeekbar;
@@ -70,21 +67,50 @@ public class PowerupEstimateFragment extends Fragment {
     @BindView(R.id.exResCandy)
     TextView exResCandy;
 
-    // Result data
+
+    private Context context;
+    private Pokefly pokefly;
     private PokemonSpinnerAdapter extendedEvolutionSpinnerAdapter;
 
-    public PowerupEstimateFragment() {
+
+    public PowerUpFraction(Pokefly pokefly) {
+        this.context = pokefly;
+        this.pokefly = pokefly;
+    }
+
+    @Override public int getLayoutResId() {
+        return R.layout.fraction_power_up;
+    }
+
+    @Override public void onCreate(@NonNull View rootView) {
+        ButterKnife.bind(this, rootView);
+
         createExtendedResultLevelSeekbar();
         createExtendedResultEvolutionSpinner();
     }
 
+    @Override public void onDestroy() {
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View thisView = inflater.inflate(R.layout.fragment_powerup_estimate, container, false);
-        ButterKnife.bind(this, thisView);
-        return thisView;
+    }
+
+    @OnClick(R.id.ivButton)
+    void onIV() {
+        pokefly.navigateToIVResultFraction();
+    }
+
+    @OnClick(R.id.movesetButton)
+    void onMoveset() {
+        pokefly.navigateToMovesetFraction();
+    }
+
+    @OnClick(R.id.btnBack)
+    void onBack() {
+        pokefly.navigateToInputFraction();
+    }
+
+    @OnClick(R.id.btnClose)
+    void onClose() {
+        pokefly.closeInfoDialog();
     }
 
     /**
@@ -179,7 +205,7 @@ public class PowerupEstimateFragment extends Fragment {
         int newHP = PokeInfoCalculator.getInstance().getHPAtLevel(ivScanResult, selectedLevel, selectedPokemon);
         int oldHP = PokeInfoCalculator.getInstance().getHPAtLevel(ivScanResult, pokefly.estimatedPokemonLevelRange.min,
                 ivScanResult
-                .pokemon);
+                        .pokemon);
         int hpDiff = newHP - oldHP;
         String sign = (hpDiff >= 0) ? "+" : ""; //add plus in front if positive.
         String hpText = newHP + " (" + sign + hpDiff + ")";
@@ -259,7 +285,7 @@ public class PowerupEstimateFragment extends Fragment {
         if (GoIVSettings.getInstance(pokefly).isPokeSpamEnabled()
                 && ivScanResult.pokemon != null) {
             if (ivScanResult.pokemon.candyEvolutionCost < 0) {
-                exResPokeSpam.setText(getString(R.string.pokespam_not_available));
+                exResPokeSpam.setText(context.getString(R.string.pokespam_not_available));
                 pokeSpamView.setVisibility(View.VISIBLE);
                 return;
             }
@@ -279,9 +305,9 @@ public class PowerupEstimateFragment extends Fragment {
             if (totEvol < PokeSpam.HOW_MANY_POKEMON_WE_HAVE_PER_ROW) {
                 text = String.valueOf(totEvol);
             } else if (evolExtra == 0) {
-                text = getString(R.string.pokespam_formatted_message2, totEvol, evolRow);
+                text = context.getString(R.string.pokespam_formatted_message2, totEvol, evolRow);
             } else {
-                text = getString(R.string.pokespam_formatted_message, totEvol, evolRow, evolExtra);
+                text = context.getString(R.string.pokespam_formatted_message, totEvol, evolRow, evolExtra);
             }
             exResPokeSpam.setText(text);
             pokeSpamView.setVisibility(View.VISIBLE);

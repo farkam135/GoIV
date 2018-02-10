@@ -130,6 +130,12 @@ android {
             include 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
         }
     }
+    sourceSets {
+        onlineRelease {
+            // Contains the io.fabric.ApiKey meta-data
+            manifest.srcFile 'src/onlineRelease/FabricManifest.xml'
+        }
+    }
 }
 
 /**

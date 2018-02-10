@@ -7,8 +7,79 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center|bottom"
-    android:alpha="225">
+    android:minHeight="266dp">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:baselineAligned="true"
+        android:background="?attr/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <ImageButton
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:id="@+id/btnBack"
+            android:layout_width="48dp"
+            android:layout_height="wrap_content"
+            android:text="@string/back"
+            android:src="?attr/homeAsUpIndicator" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="IV scan results" />
+
+        <ImageButton
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:id="@+id/btnClose"
+            android:layout_width="48dp"
+            android:layout_height="wrap_content"
+            android:text="@string/close"
+            android:src="@drawable/abc_ic_clear_material" />
+
+    </LinearLayout>
+
+    <info.hoang8f.android.segmented.SegmentedGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:orientation="horizontal"
+        app:sc_corner_radius="2dp"
+        app:sc_tint_color="@color/colorPrimary">
+
+        <RadioButton
+            android:id="@+id/powerUpButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Power up"
+            android:textAllCaps="true"
+            style="@style/RadioButton" />
+
+        <RadioButton
+            android:id="@+id/ivButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="IV"
+            android:textAllCaps="true"
+            android:checked="true"
+            style="@style/RadioButton" />
+
+        <RadioButton
+            android:id="@+id/movesetButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Moveset"
+            android:textAllCaps="true"
+            style="@style/RadioButton" />
+
+    </info.hoang8f.android.segmented.SegmentedGroup>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,21 +92,16 @@
             android:id="@+id/resultsPokemonName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="Pokename"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:textColor="@color/black" />
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            tools:text="Pokename" />
 
         <TextView
             android:id="@+id/resultsPokemonLevel"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textSize="18sp"
-            android:textColor="#888"
-            android:text="@string/level"
-            android:layout_marginStart="6dp" />
-
+            android:layout_marginStart="6dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            tools:text="@string/level" />
 
     </LinearLayout>
 
@@ -170,20 +236,16 @@
                 android:id="@+id/resultsMinPercentage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="24sp"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textStyle="bold"
-                tools:text="76%"
-                android:textColor="#222" />
+                tools:text="76%" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/min"
-                android:layout_margin="0dp"
-                android:textSize="12sp"
-                android:gravity="center"
-                android:textColor="#222"
-                android:layout_marginStart="6dp" />
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textAllCaps="true"
+                android:text="@string/min" />
 
         </LinearLayout>
 
@@ -205,20 +267,17 @@
                 android:id="@+id/resultsAvePercentage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="24sp"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textStyle="bold"
-                android:textColor="#222"
                 tools:text="82%" />
 
             <TextView
                 android:id="@+id/tvAvgIV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/avg"
-                android:textSize="12sp"
-                android:layout_margin="0dp"
-                android:textColor="#222"
-                android:layout_marginStart="6dp" />
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textAllCaps="true"
+                android:text="@string/avg" />
 
         </LinearLayout>
 
@@ -240,19 +299,16 @@
                 android:id="@+id/resultsMaxPercentage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="24sp"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textStyle="bold"
-                android:textColor="#222"
                 tools:text="88%" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/max"
-                android:textSize="12sp"
-                android:layout_margin="0dp"
-                android:textColor="#222"
-                android:layout_marginStart="6dp" />
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textAllCaps="true"
+                android:text="@string/max" />
 
         </LinearLayout>
 
@@ -267,25 +323,28 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="12dp">
+            android:padding="12dp"
+            android:baselineAligned="true">
+
             <TextView
                 android:id="@+id/resultsCombinations"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="## Possible Combinations"
-                android:layout_gravity="start"
-                android:textSize="18sp"
-                android:textColor="#888" />
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                tools:text="## Possible Combinations" />
 
             <TextView
                 android:id="@+id/tvSeeAllPossibilities"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
+                android:layout_weight="1"
+                android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/colorPrimary"
                 android:text="@string/see_all"
                 android:clickable="true"
+                android:focusable="true"
                 android:gravity="end" />
+
         </LinearLayout>
 
         <TextView
@@ -301,65 +360,5 @@
             android:visibility="gone" />
 
     </LinearLayout>
-
-    <info.hoang8f.android.segmented.SegmentedGroup
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="4dp"
-        android:orientation="horizontal"
-        app:sc_corner_radius="2dp"
-        app:sc_tint_color="@color/colorPrimary">
-
-        <RadioButton
-            android:id="@+id/powerUpButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Power up"
-            android:textAllCaps="true"
-            style="@style/RadioButton" />
-
-        <RadioButton
-            android:id="@+id/ivButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="IV"
-            android:textAllCaps="true"
-            android:checked="true"
-            style="@style/RadioButton" />
-
-        <RadioButton
-            android:id="@+id/movesetButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Moveset"
-            android:textAllCaps="true"
-            style="@style/RadioButton" />
-
-    </info.hoang8f.android.segmented.SegmentedGroup>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/btnBack"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/back" />
-
-        <Button
-            android:id="@+id/btnClose"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/close" />
-
-    </LinearLayout>
-
 
 </LinearLayout>

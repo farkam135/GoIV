@@ -7,7 +7,8 @@ buildscript {
     }
 
     dependencies {
-        classpath 'io.fabric.tools:gradle:1.24.3'
+        //noinspection GradleDynamicVersion
+        classpath 'io.fabric.tools:gradle:1.+'
     }
 }
 
@@ -72,8 +73,8 @@ android {
     defaultConfig {
         minSdkVersion 19 /*Dont change this unless you know why*/
         targetSdkVersion 27 /*Dont change this unless you know why*/
-        versionCode 38
-        versionName "4.3.2"
+        versionCode 39
+        versionName "4.3.3"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
@@ -129,6 +130,12 @@ android {
             include 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
         }
     }
+    sourceSets {
+        onlineRelease {
+            // Contains the io.fabric.ApiKey meta-data
+            manifest.srcFile 'src/onlineRelease/FabricManifest.xml'
+        }
+    }
 }
 
 /**
@@ -147,7 +154,7 @@ dependencies {
      * Online Build Dependencies
      */
     //Include Crashlytics in the online build
-    onlineCompile('com.crashlytics.sdk.android:crashlytics:2.8.0@aar') {
+    onlineCompile('com.crashlytics.sdk.android:crashlytics:2.9.0@aar') {
         transitive = true
     }
 

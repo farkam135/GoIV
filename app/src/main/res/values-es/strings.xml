@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="instructions_title">Instrucciones</string>
-    <string name="instructions_message">Utilizando GoIV por primera vez:\n\n1. Ingresa tu info de entrenador\n2. Presiona el botón de DAR PERMISOS y acepta todos los mensajes\n3. Dale a iniciar</string>
+    <string name="instructions_title">Instrucciones de uso</string>
+    <string name="instructions_message">Utilizando GoIV por primera vez:\n\nIngresa tu info de entrenador\nPresiona el botón de DAR PERMISOS y acepta todos los mensajes\nPresiona iniciar.</string>
     <string name="goiv_is_open_source">¡GoIV es código abierto!</string>
     <string name="trainer_info">Info entrenador</string>
     <string name="trainer_level">Nivel</string>
@@ -64,6 +64,9 @@
         <item name="valoriv0_7">"…no te serán de utilidad"</item>
     </string-array>
 
+    <string name="menu_recalibration">Recalibración</string>
+    <string name="menu_home">Inicio</string>
+    <string name="menu_clipboard">Portapapeles</string>
     <string name="pokemon_name">Nombre:</string>
     <string name="cp">PC</string>
     <string name="hp">PS</string>
@@ -146,12 +149,11 @@
     <string name="pokespam_not_available">No disponible</string>
     <string name="pokespam_setting_title">Mostrar cantidad evolucionable</string>
     <string name="pokespam_setting_summary">Esta característica activa el escaneo de la cantidad de caramelos y le permite ver cuántos Pokémon puede evolucionar, útil para usar con huevo de la suerte</string>
+    <string name="token_pokemon_gender">Género</string>
     <string name="token_pokemonname">Nombre</string>
     <string name="clipboard_modifier_preview">Vista previa</string>
     <string name="position_handler_toast">Arrastre la ventana desde este control para reubicarla.</string>
     <string name="clipboard_no_token_selected">Por favor, elija una ficha para agregar de la lista desplazable.</string>
-    <string name="clipboardButton_summary">Defina cómo desea que se vea el resultado del portapapeles</string>
-    <string name="clipboardButton_title">Editar copia al portapapeles</string>
     <string name="clipboard_activity_title">Configuración del portapapeles de GoIV</string>
     <string name="expanded_appraisal_default_setting_title">Abrir por defecto refinación expandida</string>
     <string name="expanded_appraisal_default_setting_summary">Expande automáticamente el menú de refinación</string>
@@ -164,6 +166,8 @@
     <string name="no_clipboard_preview">Vista previa no disponible</string>
     <string name="copy_to_clip_single_setting">Copia diferente con un solo resultado</string>
     <string name="copy_to_clip_single_setting_summary">Permite definir otra configuración para copiar al portapapeles en Editar que mostrará un resultado diferente cuando una valoración devuelve una sola posibilidad</string>
+    <string name="copy_to_clip_perfectiv_setting">Copiar diferente cuando el IV es 100%</string>
+    <string name="copy_to_clip_perfectiv_setting_summary">Permite definir otra configuración para Copiar al portapapeles en Editar cuando se muestre un resultado diferente cuando el escaneo muestre un resultado de 100%.</string>
     <string name="view_credits">Ver créditos</string>
     <string name="view_credits_summary">Vea los créditos de la aplicación, proyectos de código abierto utilizados y agradecimientos</string>
     <string name="app_credits_title">Créditos</string>
@@ -218,8 +222,10 @@
     <string name="recalibrate_goiv_notification">Recalibrar</string>
     <string name="title_activity_ocr_calibration_result">Resultado calibración</string>
     <string name="title_activity_ocr_calibration_error">Error calibración</string>
-    <string name="scan_optimization_notice_text">No has ejecutado la optimización de escaneo. Se recomienda hacer una optimización de escaneo en todos los dispositivos. Para iniciarla:\n1. Inicia GoIV\n2. Abre cualquier ficha de monstruo\n3. Despliega la notificación de GoIV\n4. Selecciona \'Recalibrar\'!</string>
+    <string name="recalibration_description">La recalibración mejora el rendimiento de GoIV mediante la búsqueda dinámica de posiciones de escaneo óptimas para su teléfono.</string>
+    <string name="scan_optimization_notice_text">No has ejecutado la optimización de escaneo. Se recomienda hacer una optimización de escaneo en todos los dispositivos.</string>
     <string name="scan_optimization_screen_ratio_warning">GoIV ha detectado que tu pantalla no es estándar. Es posible que necesite una calibración de escaneo para que GoIV funcione correctamente.</string>
+    <string name="scan_optimization_outdated_warning">La optimización de escaneo está desactualizada. ¡Realice otra calibración de escaneo para disfrutar de las últimas mejoras!</string>
     <string name="touch_screen_quick_iv_scan">Toca pantalla para reprevisualizar IV</string>
     <string name="discard_unsaved_changes">Hay cambios sin guardar.\n¿Estás seguro de descartar los cambios?</string>
     <string name="configuration_saved">¡Configuración guardada!</string>
@@ -231,7 +237,7 @@
     <string name="token_input_custom_separator">Por favor introduzca su separador personalizado</string>
     <string name="token_fill_custom_separator">Por favor rellene su separador personalizado</string>
     <string name="token_not_dot_separator">El separador personalizado no puede contener . porque el desarrollador es perezoso</string>
-    <string name="token_max_length">Máx. longitud:</string>
+    <string name="token_max_length">Longitud máx.:</string>
     <string name="clipboard_token_list_available">Lista completa de fichas disponibles</string>
     <string name="clipboard_token_description_title">Descripción de la ficha seleccionada</string>
     <string name="ocr_calibration_screenshot_mode">"¡La siguiente captura de pantalla será utilizada para recalibrar GoIV!"</string>
@@ -243,11 +249,14 @@
     <string name="ocr_loading">Cargando. Espere por favor…</string>
     <string name="ocr_error_name">No se pudo encontrar nombre\n</string>
     <string name="ocr_error_type">No se pudo encontrar tipo\n</string>
-    <string name="ocr_error_candy_name">No se pudo encontrar nombre caramelo\n</string>
+    <string name="ocr_error_gender">No se pudo encontrar género\n</string>
+    <string name="ocr_error_candy_name">No se pudo encontrar nombre caramelos\n</string>
     <string name="ocr_error_hp">No se pudo encontrar valor PS\n</string>
     <string name="ocr_error_cp">No se pudo encontrar valor PC\n</string>
-    <string name="ocr_error_candy_amount">No se pudo encontrar cantidad caramelo\n</string>
+    <string name="ocr_error_candy_amount">No se pudo encontrar cantidad caramelos\n</string>
     <string name="ocr_error_evo_cost">No se pudo encontrar coste evolución\n</string>
+    <string name="ocr_error_power_up_stardust_cost">No se pudo encontrar coste mejora de polvoestelares\n</string>
+    <string name="ocr_error_power_up_candy_cost">No se pudo encontrar coste mejora de caramelos\n</string>
     <string name="ocr_error_arc_center">No se pudo encontrar centro del arco de nivel\n</string>
     <string name="ocr_error_arc_radius">No se pudo encontrar radio del arco de nivel\n</string>
     <string name="ocr_error_locate_pixel_white">No se pudo encontrar el marcador de pixel blanco\n</string>
@@ -258,11 +267,14 @@
     <string name="ocr_calibration_saved">¡Calibración guardada!\n¡Reinicia GoIV para aplicar los cambios!</string>
     <string name="ocr_finding_name">Buscando área nombre</string>
     <string name="ocr_finding_type">Buscando área tipo</string>
-    <string name="ocr_finding_candy_name">Buscando área nombre caramelo</string>
+    <string name="ocr_finding_gender">Buscando área género</string>
+    <string name="ocr_finding_candy_name">Buscando área nombre caramelos</string>
     <string name="ocr_finding_hp">Buscando área PS</string>
     <string name="ocr_finding_cp">Buscando área PC</string>
-    <string name="ocr_finding_candy_amount">Buscando área cantidad caramelo</string>
+    <string name="ocr_finding_candy_amount">Buscando área cantidad caramelos</string>
     <string name="ocr_finding_evo_cost">Buscando área coste evolución</string>
+    <string name="ocr_finding_power_up_stardust_cost">Buscando área coste mejora de polvoestelares</string>
+    <string name="ocr_finding_power_up_candy_cost">Buscando área coste mejora de caramelos</string>
     <string name="ocr_finding_arc_center_and_radius">Buscando punto de inicio y radio arco de nivel</string>
     <string name="ocr_finding_white_pixel">Buscando marcador de pixel blanco</string>
     <string name="ocr_finding_green_pixel">Buscando marcador de pixel verde</string>
@@ -272,8 +284,8 @@
     <string name="token_category_evaluation_scores">Puntuaciones evaluación</string>
     <string name="token_category_separators">Separadores</string>
     <string name="token_msg_basStat_msg1">Esta ficha devuelve las estadísticas básicas del monstruo, como 186 190 260 para Lapras, lo que significa que este monstruo tiene sin bonus de IV 186 de ataque, 190 defensa y 260 de vida. Los IV pueden añadir un extra de 15 a cada estadística.</string>
-    <string name="token_msg_basStat_msg2">\nEsta versión de la ficha también añade los puntos de IV para que puedas ver el total del monstruo.</string>
-    <string name="token_msg_basStat_msg3">\nEsta versión específica de la ficha sólo muestra una de las estadísticas.</string>
+    <string name="token_msg_basStat_msg2">"\nEsta versión de la ficha también añade los puntos de IV para que puedas ver el total del monstruo."</string>
+    <string name="token_msg_basStat_msg3">"\nEsta versión específica de la ficha sólo muestra una de las estadísticas."</string>
     <string name="token_msg_cpMax_msg1">Devuelve la cantidad de PC que el monstruo tiene en el nivel actual.</string>
     <string name="token_msg_cpMax_msg2">Devuelve la cantidad de PC qe el monstruo tendrá al máximo nivel.</string>
     <string name="token_msg_cpMis">Devuelve la cantidad de PC que el monstruo pierde comparado con uno de máximo IV nivel 40.</string>
@@ -307,6 +319,7 @@
     <string name="token_msg_mixUnicode_msg2">" Esta ficha usa carácteres rellenos para representar los valores individuales y los carácteres vacíos para representar el más bajo de multiples valores. Por ejemplo, ⓭ en la posición de ataque significa que todos los valores de ataque son 13, mientras ① en la defensa o vida significa que hay varios valores posibles y 1 es el más bajo."</string>
     <string name="token_msg_mixUnicode_msg3">" Esta ficha usa carácteres vacíos para representar los valores individuales y los carácteres rellenos para representar el más bajo de multiples valores. Por ejemplo, ⑪ en la posición de ataque significa que todos los valores de ataque son 11, mientras ❾ en la defensa o vida significa que hay varios valores posibles y 9 es el más bajo."</string>
     <string name="token_msg_perfCP">Esta ficha calcula cuán cerca está su monstruo de su potencial máximo, calculado por CP. Por ejemplo, si un monstruo con IV máximo tiene un máximo posible de 2000 PC, pero tu pokemon tiene un máximo específico de 1900, entonces la perfección de tu monstruo es de 95%, por lo que esta ficha devuelve 95.</string>
+    <string name="token_msg_gender">"Esta ficha devuelve el género del monstruo: ♂ si es macho, ♀ si es hembra, o de lo contrario vacío.</string>
     <string name="token_msg_pkmName_msg1">"Esta ficha devuelve el nombre del monstruo, por ejemplo si escaneas un Dratini, devolverá "</string>
     <string name="token_msg_pkmName_msg2">" Con la ficha de nombre, la longitud del nombre del monstruo no puede exceder los "</string>
     <string name="token_msg_pkmName_msg3">" carácters."</string>
@@ -316,12 +329,13 @@
     <string name="token_msg_uniToken_msg1">Esta ficha da una representación del IV de tu monstruo, pero utilizando carácteres UNICODE especiales que permiten mostrar números como 11 en un solo carácter, como ⑪. Esto ahorra espacio.</string>
     <string name="token_msg_uniToken_msg2">" Esta ficha usa carácteres rellenos, que tiene un interior negro en los números, como ⓭."</string>
     <string name="token_msg_uniToken_msg3">" Esta ficha usa carácteres vacíos, que tiene un interior blanco en los números, como ⑪."</string>
-    <string name="token_msg_worthTra_msg1">"Esta ficha devuelve la evaluación sobre cómo vale la pena entrenar este monstruo, basado tanto en las estadísticas base como en la "</string>
-    <string name="token_msg_worthTra_msg2" formatted="false">" estadística posible de IV. Por ejemplo, un Alakazam de 96% IV obtendrá una puntuación mayor que un Tyranitar de 20%, independientemente del hecho de que el PC máximo posible para este último sea mayor: ya que la probabilidad de mejorar Tyranitar es mayor que la de conseguir un Alakazam mejor, el segundo representa una inversión mucho mejor de polvoestelares. Rangos entre 00–99. Siempre devuelve dos dígitos."</string>
-    <string name="token_msg_train">Entrenar</string>
+    <string name="token_msg_worthTra_msg">"Esta ficha devuelve la evaluación sobre cómo vale la pena entrenar este monstruo, basado tanto en las estadísticas base como en la %1$s estadística posible de IV. Por ejemplo, un Alakazam de 96%% IV obtendrá una puntuación mayor que un Tyranitar de 20%%, independientemente del hecho de que el PC máximo posible para este último sea mayor: ya que la probabilidad de mejorar Tyranitar es mayor que la de conseguir un Alakazam mejor, el segundo representa una inversión mucho mejor de polvoestelares. Rangos entre 00–99. Siempre devuelve dos dígitos."</string>
+    <string name="token_msg_train">%1$s a entrenar</string>
+    <string name="token_msg_iv_perc_to_top">"Devuelve la diferencia en porcentaje entre la combinación de IV máxima y perfecta. Por ejemplo, si el porcentaje de combinación IV máximo es 97, esta ficha devolverá 03."</string>
     <string name="go_back_to_goiv">Volver al GoIV</string>
     <string name="go_back">Volver atrás</string>
     <string name="send_email_to_devs_recalibration">Si GoIV no calibró correctamente, presione el botón a continuación para generar un email de informe automático de error.</string>
     <string name="send_email_to_devs_button">Email con información sobre el error para desarrolladores</string>
     <string name="report_error">Email de informe de error</string>
+    <string name="recalibration_video_tutorial">Videotutorial recalibración</string>
 </resources>

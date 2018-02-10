@@ -60,6 +60,7 @@ import com.kamron.pogoiv.pokeflycomponents.fractions.IVResultFraction;
 import com.kamron.pogoiv.pokeflycomponents.fractions.MovesetFraction;
 import com.kamron.pogoiv.pokeflycomponents.fractions.PowerUpFraction;
 import com.kamron.pogoiv.pokeflycomponents.ocrhelper.OcrHelper;
+import com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanPoint;
 import com.kamron.pogoiv.scanlogic.Data;
 import com.kamron.pogoiv.scanlogic.IVCombination;
 import com.kamron.pogoiv.scanlogic.IVScanResult;
@@ -92,11 +93,11 @@ public class Pokefly extends Service {
 
     public static final String ACTION_UPDATE_UI = "com.kamron.pogoiv.ACTION_UPDATE_UI";
     private static final String ACTION_SEND_INFO = "com.kamron.pogoiv.ACTION_SEND_INFO";
-    public static final String ACTION_STOP = "com.kamron.pogoiv.ACTION_STOP";
+    private static final String ACTION_START = "com.kamron.pogoiv.ACTION_START";
+    private static final String ACTION_STOP = "com.kamron.pogoiv.ACTION_STOP";
 
-    private static final String KEY_TRAINER_LEVEL = "key_trainer_level";
     private static final String KEY_STATUS_BAR_HEIGHT = "key_status_bar_height";
-    private static final String KEY_BATTERY_SAVER = "key_battery_saver";
+    private static final String KEY_TRAINER_LEVEL = "key_trainer_level";
 
     private static final String KEY_SEND_INFO_NAME = "key_send_info_name";
     private static final String KEY_SEND_INFO_TYPE = "key_send_info_type";
@@ -122,8 +123,7 @@ public class Pokefly extends Service {
 
     private static boolean running = false;
 
-    private int trainerLevel = -1;
-    private boolean batterySaver = false;
+    private int trainerLevel;
 
     private boolean receivedInfo = false;
 
@@ -135,7 +135,6 @@ public class Pokefly extends Service {
     private ScreenGrabber screen;
     private ScreenShotHelper screenShotHelper;
     private OcrHelper ocr;
-    private GoIVSettings settings;
 
 
     private boolean infoShownSent = false;
@@ -145,7 +144,6 @@ public class Pokefly extends Service {
     private ScreenWatcher screenWatcher;
     private IVPopupButton ivButton;
     private ClipboardTokenHandler clipboardTokenHandler;
-    private GoIVNotificationManager goIVNotificationManager;
     private IVPreviewPrinter ivPreviewPrinter;
 
     private ImageView arcPointer;
@@ -169,7 +167,6 @@ public class Pokefly extends Service {
     private PokemonSpinnerAdapter pokeInputSpinnerAdapter;
     @BindView(R.id.spnPokemonName)
     Spinner pokeInputSpinner;
-
 
 
     @BindView(R.id.etCp)
@@ -287,11 +284,17 @@ public class Pokefly extends Service {
         return running;
     }
 
-    public static Intent createIntent(Activity activity, int trainerLevel, int statusBarHeight, boolean batterySaver) {
-        Intent intent = new Intent(activity, Pokefly.class);
-        intent.putExtra(KEY_TRAINER_LEVEL, trainerLevel);
+    public static Intent createStopIntent(@NonNull Context context) {
+        Intent intent = new Intent(context, Pokefly.class);
+        intent.setAction(ACTION_STOP);
+        return intent;
+    }
+
+    public static Intent createStartIntent(@NonNull Context context, int statusBarHeight, int trainerLevel) {
+        Intent intent = new Intent(context, Pokefly.class);
+        intent.setAction(ACTION_START);
         intent.putExtra(KEY_STATUS_BAR_HEIGHT, statusBarHeight);
-        intent.putExtra(KEY_BATTERY_SAVER, batterySaver);
+        intent.putExtra(KEY_TRAINER_LEVEL, trainerLevel);
         return intent;
     }
 
@@ -353,10 +356,6 @@ public class Pokefly extends Service {
         return infoShownSent;
     }
 
-    public boolean isBatterySaver() {
-        return batterySaver;
-    }
-
     @Override
     public void onCreate() {
         super.onCreate();
@@ -365,8 +364,7 @@ public class Pokefly extends Service {
 
         LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(ACTION_UPDATE_UI));
 
-        settings = GoIVSettings.getInstance(this);
-        pokeInfoCalculator = PokeInfoCalculator.getInstance(settings, getResources());
+        pokeInfoCalculator = PokeInfoCalculator.getInstance(GoIVSettings.getInstance(this), getResources());
         displayMetrics = getResources().getDisplayMetrics();
         initOcr();
         windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
@@ -387,7 +385,7 @@ public class Pokefly extends Service {
         }
 
         running = true;
-        goIVNotificationManager = new GoIVNotificationManager(this);
+        GoIVNotificationManager goIVNotificationManager = new GoIVNotificationManager(this);
         ivPreviewPrinter = new IVPreviewPrinter(this);
         clipboardTokenHandler = new ClipboardTokenHandler(this);
 
@@ -397,13 +395,18 @@ public class Pokefly extends Service {
             }
             stopSelf();
             goIVNotificationManager.showPausedNotification();
-        } else if (intent.hasExtra(KEY_TRAINER_LEVEL)) {
-            trainerLevel = intent.getIntExtra(KEY_TRAINER_LEVEL, 1);
+
+        } else if (ACTION_START.equals(intent.getAction())) {
+            GoIVSettings.reloadPreferences(this);
             statusBarHeight = intent.getIntExtra(KEY_STATUS_BAR_HEIGHT, 0);
-            batterySaver = intent.getBooleanExtra(KEY_BATTERY_SAVER, false);
+            trainerLevel = intent.getIntExtra(KEY_TRAINER_LEVEL, Data.MINIMUM_TRAINER_LEVEL);
+
+            setupDisplaySizeInfo();
+
             createFlyingComponents();
+
             /* Assumes MainActivity initialized ScreenGrabber before starting this service. */
-            if (!batterySaver) {
+            if (!GoIVSettings.getInstance(this).isManualScreenshotModeEnabled()) {
                 screen = ScreenGrabber.getInstance();
                 autoAppraisal = new AutoAppraisal(screen, this, attDefStaLayout,
                         attCheckbox, defCheckbox, staCheckbox,
@@ -419,6 +422,24 @@ public class Pokefly extends Service {
         //We have intent data, it's possible this service will be killed and we would want to recreate it
         //https://github.com/farkam135/GoIV/issues/477
         return START_REDELIVER_INTENT;
+    }
+
+    private void setupDisplaySizeInfo() {
+        ScanPoint arcInit = new ScanPoint((int) (displayMetrics.widthPixels * 0.5),
+                (int) Math.floor(displayMetrics.heightPixels * 0.35664));
+        if (displayMetrics.heightPixels == 2392 || displayMetrics.heightPixels == 800) {
+            arcInit.yCoord--;
+        } else if (displayMetrics.heightPixels == 1920) {
+            arcInit.yCoord++;
+        }
+
+        int arcRadius = (int) Math.round(displayMetrics.heightPixels * 0.2285);
+        if (displayMetrics.heightPixels == 1776 || displayMetrics.heightPixels == 960
+                || displayMetrics.heightPixels == 800) {
+            arcRadius++;
+        }
+
+        Data.setupArcPoints(arcInit, arcRadius, trainerLevel);
     }
 
     /**
@@ -457,7 +478,7 @@ public class Pokefly extends Service {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(displayInfo);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(processBitmap);
 
-        if (!batterySaver) {
+        if (!GoIVSettings.getInstance(this).isManualScreenshotModeEnabled()) {
             screenWatcher.unwatchScreen();
             if (screen != null) {
                 screen.exit();
@@ -647,6 +668,7 @@ public class Pokefly extends Service {
      * Changes the text in the appraisal checkboxes depending on what team the player is on.
      */
     private void populateTeamAppraisalSpinners() {
+        GoIVSettings settings = GoIVSettings.getInstance(this);
 
         //Load the correct phrases from the text resources depending on what team is stored in app settings
         if (settings.playerTeam() == 0) { //mystic
@@ -686,11 +708,11 @@ public class Pokefly extends Service {
 
     }
 
-    @OnClick({R.id.pokePickerToggleSpinnerVsInput})
     /**
      * In the input screen, switches between the two methods the user has of picking pokemon - a dropdown list, or
-     * typing
+     * typing.
      */
+    @OnClick({R.id.pokePickerToggleSpinnerVsInput})
     public void toggleSpinnerVsInput() {
         if (autoCompleteTextView1.getVisibility() == View.GONE) {
             autoCompleteTextView1.setVisibility(View.VISIBLE);
@@ -700,9 +722,6 @@ public class Pokefly extends Service {
             resetToSpinner();
         }
     }
-
-
-
 
     private void resetToSpinner() {
         autoCompleteTextView1.setVisibility(View.GONE);
@@ -738,11 +757,11 @@ public class Pokefly extends Service {
 
 
 
-    @OnClick({R.id.inputAppraisalExpandBox})
     /**
      * Method called when user presses the text to expand the appraisal box on the input screen, also collapses the
-     * default view, since only either the appraisal or the default view is visible
+     * default view, since only either the appraisal or the default view is visible.
      */
+    @OnClick({R.id.inputAppraisalExpandBox})
     public void toggleAppraisalBox() {
         toggleVisibility(inputAppraisalExpandBox, appraisalBox, true);
         setInputBoxToMatchAppraisalBox();
@@ -824,10 +843,10 @@ public class Pokefly extends Service {
         return true;
     }
 
-    @OnClick(R.id.btnCheckIv)
     /**
-     * Method called when user presses "check iv" in the input screen, which takes the user to the result screen
+     * Method called when user presses "check iv" in the input screen, which takes the user to the result screen.
      */
+    @OnClick(R.id.btnCheckIv)
     public void checkIv() {
         //warn user and stop calculation if scan/input failed/is wrong
         if (!parseNumericInputs() || !pokemonHP.isPresent() || !pokemonCP.isPresent()) {
@@ -856,7 +875,7 @@ public class Pokefly extends Service {
 
         navigateToIVResultFraction();
 
-        moveOverlay(false); //we dont want overlay to stay on top if user had appraisal box
+        moveOverlay(false); // We don't want overlay to stay on top if user had appraisal box
         closeKeyboard();
         transitionOverlayViewFromInputToResults();
     }
@@ -937,8 +956,8 @@ public class Pokefly extends Service {
      * screenshot, and then deletes the screenshot.
      */
     private void deleteScreenShotIfRequired() {
-        if (batterySaver && screenShotPath.isPresent()) {
-            if (settings.shouldDeleteScreenshots()) {
+        if (GoIVSettings.getInstance(this).isManualScreenshotModeEnabled() && screenShotPath.isPresent()) {
+            if (GoIVSettings.getInstance(this).shouldDeleteScreenshots()) {
                 screenShotHelper.deleteScreenShot(screenShotPath.get());
             }
         }
@@ -1009,6 +1028,8 @@ public class Pokefly extends Service {
      * Adds the iv range of the pokemon to the clipboard if the clipboard setting is on.
      */
     public void addClipboardInfoIfSettingOn(IVScanResult ivScanResult) {
+        GoIVSettings settings = GoIVSettings.getInstance(this);
+
         if (settings.shouldCopyToClipboard()) {
             String clipResult = clipboardTokenHandler.getClipboardText(ivScanResult, pokeInfoCalculator);
 
@@ -1071,7 +1092,7 @@ public class Pokefly extends Service {
 
         resetPokeflyStateMachine();
         resetInfoDialogue();
-        if (!batterySaver) {
+        if (!GoIVSettings.getInstance(this).isManualScreenshotModeEnabled()) {
             autoAppraisal.reset();
             ivButton.setShown(true, infoShownSent);
         }
@@ -1112,7 +1133,7 @@ public class Pokefly extends Service {
      * Opens input appraisal expand box if setting for defaulting to expansion is on.
      */
     private void openAppraisalBoxIfSettingOn() {
-        if (settings.shouldAutoOpenExpandedAppraise()) {
+        if (GoIVSettings.getInstance(this).shouldAutoOpenExpandedAppraise()) {
             setVisibility(inputAppraisalExpandBox, appraisalBox, true, true);
             positionHandler.setVisibility(appraisalBox.getVisibility());
             moveOverlayUpOrDownToMatchAppraisalBox();
@@ -1156,7 +1177,7 @@ public class Pokefly extends Service {
      */
     private void showCandyTextBoxBasedOnSettings() {
         //enable/disable visibility based on PokeSpam enabled or not
-        if (settings.isPokeSpamEnabled()) {
+        if (GoIVSettings.getInstance(this).isPokeSpamEnabled()) {
             pokeSpamDialogInputContentBox.setVisibility(View.VISIBLE);
             pokemonHPEdit.setImeOptions(EditorInfo.IME_ACTION_NEXT);
         } else {
@@ -1205,11 +1226,11 @@ public class Pokefly extends Service {
             moveOverlayUpOrDownToMatchAppraisalBox(); //move the overlay to correct position regarding appraisal box
             adjustArcPointerBar(estimatedPokemonLevelRange.min);
 
-            if (batterySaver) {
+            if (GoIVSettings.getInstance(this).isManualScreenshotModeEnabled()) {
                 infoShownReceived = false;
             }
 
-            if (!settings.shouldShouldConfirmationDialogs()) {
+            if (!GoIVSettings.getInstance(this).shouldShouldConfirmationDialogs()) {
                 checkIv();
             }
         }
@@ -1237,7 +1258,7 @@ public class Pokefly extends Service {
             CopyUtils.copyAssetFolder(getAssets(), "tessdata", extDir + "/tessdata");
         }
 
-        ocr = OcrHelper.init(extDir, pokeInfoCalculator, settings);
+        ocr = OcrHelper.init(extDir, pokeInfoCalculator, GoIVSettings.getInstance(this));
     }
 
 

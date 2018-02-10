@@ -109,7 +109,7 @@ public class WorthTrainingToken extends ClipboardToken {
 
     @Override
     public String getTokenName(Context context) {
-        return context.getString(R.string.token_msg_train) + "-" + getType(context);
+        return context.getString(R.string.token_msg_train, getType(context));
     }
 
     private String getType(Context context) {
@@ -118,8 +118,7 @@ public class WorthTrainingToken extends ClipboardToken {
 
     @Override
     public String getLongDescription(Context context) {
-        return context.getString(R.string.token_msg_worthTra_msg1) + getType(context) + context.getString(R.string
-                .token_msg_worthTra_msg2);
+        return context.getString(R.string.token_msg_worthTra_msg, getType(context));
     }
 
     @Override

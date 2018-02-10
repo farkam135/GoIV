@@ -15,6 +15,7 @@ import com.kamron.pogoiv.activities.MainActivity;
  */
 
 public class NpTrainerLevelPickerListener implements NumberPicker.OnScrollListener, NumberPicker.OnValueChangeListener {
+    private int lastValue = 1;
     private int scrollState = 0;
     private final Handler handler = new Handler();
     private final int delayTime = 500;
@@ -25,9 +26,10 @@ public class NpTrainerLevelPickerListener implements NumberPicker.OnScrollListen
         this.context = context;
     }
 
-    Runnable runnable = new Runnable() {
+    private Runnable runnable = new Runnable() {
         @Override
         public void run() {
+            GoIVSettings.getInstance(context).setLevel(lastValue);
             if (Pokefly.isRunning()) {
                 LocalBroadcastManager.getInstance(context)
                         .sendBroadcast(new Intent(MainActivity.ACTION_RESTART_POKEFLY));
@@ -39,6 +41,7 @@ public class NpTrainerLevelPickerListener implements NumberPicker.OnScrollListen
     public void onScrollStateChange(NumberPicker view, int scrollState) {
         this.scrollState = scrollState;
         if (scrollState == SCROLL_STATE_IDLE) {
+            lastValue = view.getValue();
             update();
         } else {
             //we are scrolling (or flinging) so we don't need to run update
@@ -50,6 +53,7 @@ public class NpTrainerLevelPickerListener implements NumberPicker.OnScrollListen
     @Override
     public void onValueChange(final NumberPicker picker, final int oldVal, final int newVal) {
         if (scrollState == SCROLL_STATE_IDLE) {
+            lastValue = newVal;
             update();
         }
     }

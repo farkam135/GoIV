@@ -64,6 +64,9 @@
         <item name="valoriv0_7">"…don't point to greatness"</item>
     </string-array>
 
+    <string name="menu_recalibration">Recalibration</string>
+    <string name="menu_home">Home</string>
+    <string name="menu_clipboard">Clipboard</string>
     <string name="pokemon_name">Species:</string>
     <string name="cp">CP</string>
     <string name="hp">HP</string>
@@ -155,9 +158,6 @@
     <string name="clipboard_modifier_preview">Preview</string>
     <string name="position_handler_toast">Drag the window by this handler to relocate it.</string>
     <string name="clipboard_no_token_selected">Please choose a token to add from the scrollable list.</string>
-    <string name="clipboardButton">clipboardButton</string>
-    <string name="clipboardButton_summary">Define how you want the clipboard result to look.</string>
-    <string name="clipboardButton_title">Edit copy to clipboard</string>
     <string name="clipboard_activity_title">GoIV Clipboard configuration</string>
     <string name="expanded_appraisal_default_setting_title">Expanded appraisal opened by default</string>
     <string name="expanded_appraisal_default_setting_summary">Automatically expand the full appraisal checkbox menu</string>
@@ -177,8 +177,8 @@
     <string name="title_activity_credits">CreditsActivity</string>
     <string name="app_credits_title">Credits</string>
     <string name="view_credits_button">viewCredits</string>
-    <string name="copy_to_clipboard_setting_key">copyToClipboard</string>
-    <string name="manual_screenshot_mode_key">manualScreenshotMode</string>
+    <string name="copy_to_clipboard_setting_key" translatable="false">copyToClipboard</string>
+    <string name="manual_screenshot_mode_key" translatable="false">manualScreenshotMode</string>
     <string name="android_sub5_warning">GoIV has detected that your phone does not have the MediaProjection API, which is used to automatically show the IV scan button. This might be fixed by updating your phone to Android 5 or above. The app will lock itself to screenshot mode to avoid crashing. You can use GoIV by manually triggering a screenshot, which most devices does by holding home+power for a short duration. We apologize for the inconvenience.</string>
     <string name="copy_to_clip_show_toast_setting_summary">Show a preview of what is copied to the clipboard in a small popup</string>
     <string name="copy_to_clip_show_toast_setting">Show clipboard preview popup</string>
@@ -230,14 +230,15 @@
     <string name="recalibrate_goiv_notification">Recalibrate</string>
     <string name="title_activity_ocr_calibration_result">Calibration Result</string>
     <string name="title_activity_ocr_calibration_error">Calibration Error</string>
-    <string name="scan_optimization_notice_text">You have not run scan optimization. It\'s recommended to run scan optimization on all devices.</string>
-    <string name="scan_optimization_screen_ratio_warning">GoIV has detected that your screen is not standard. You\'ll most likely need to perform scan optimization for GoIV to work.</string>
-    <string name="scan_optimization_outdated_warning">Your scan optimization is outdated. Please run screen optimization again to enjoy the latest features!</string>
+    <string name="recalibration_description">Recalibration enhances GoIV\'s performance by dynamically finding optimal scan locations for your phone.</string>
+    <string name="scan_optimization_notice_text">You have not run scan calibration. It\'s recommended to run this optimization on all devices.</string>
+    <string name="scan_optimization_screen_ratio_warning">GoIV has detected that your screen is not standard. You\'ll most likely need to perform screen calibration for GoIV to work.</string>
+    <string name="scan_optimization_outdated_warning">Your calibration data is outdated. Please run screen calibration again to enjoy the latest features!</string>
     <string name="touch_screen_quick_iv_scan">Touch screen to retry quick IV scan</string>
     <string name="discard_unsaved_changes">There are unsaved changes.\nDo you really want to discard them?</string>
     <string name="configuration_saved">Configuration saved!</string>
     <string name="no_token_selected">No token selected</string>
-    <string name="token_max_evolution">%1$s\n\nThis token is a max evolution variant, meaning that it will return a result as if your monster was already fully evolved, which might be more interesting in a lot of cases.</string>
+    <string name="token_max_evolution">%1$s  This token is a max evolution variant, meaning that it will return a result as if your monster was already fully evolved, which might be more interesting in a lot of cases.</string>
     <string name="token_max_characters">(%1$d/12 characters)</string>
     <string name="token_show_max_evo_variant">Show tokens max evolution variant</string>
     <string name="token_show_standard">Show standard tokens</string>
@@ -291,8 +292,8 @@
     <string name="token_category_evaluation_scores">Evaluation Scores</string>
     <string name="token_category_separators">Separators</string>
     <string name="token_msg_basStat_msg1">This token gives you the base stats of the monster, such as 186 190 260 for lapras, which means that this monster without IV bonuses has 186 attack, 190 defense and 260 stamina. IVs can add an extra 15 to each stat.</string>
-    <string name="token_msg_basStat_msg2">\nThis version of the token also adds the IV score so you can see the total for this specific monster.</string>
-    <string name="token_msg_basStat_msg3">\nThis specific version of the token only displays one of the stats.</string>
+    <string name="token_msg_basStat_msg2">" This version of the token also adds the IV score so you can see the total for this specific monster."</string>
+    <string name="token_msg_basStat_msg3">" This specific version of the token only displays one of the stats."</string>
     <string name="token_msg_cpMax_msg1">Get how much CP the monster has at the current level.</string>
     <string name="token_msg_cpMax_msg2">Get how much CP the monster will have at max level.</string>
     <string name="token_msg_cpMis">Get how much CP the monster will be missing compared to a perfect IV level 40 variant.</string>
@@ -336,13 +337,13 @@
     <string name="token_msg_uniToken_msg1">This token gives you a representation for your monster IVs, but using UNICODE special characters which allows you to show numbers like 11 as a single character, like ⑪. This saves space.</string>
     <string name="token_msg_uniToken_msg2">" This token is the filled version, which has a black inside for the numbers, like ⓭."</string>
     <string name="token_msg_uniToken_msg3">" This token is the empty version, which has a white inside for the numbers, like ⑪."</string>
-    <string name="token_msg_worthTra_msg1">"This token returns an evaluation of how worth it is to train this monster, based both on the base stats and the "</string>
-    <string name="token_msg_worthTra_msg2" formatted="false">" possible IV stats. For instance, a 96% IV Alakazam will get a score higher than a 20% Tyranitar, regardless the fact that the maximum possible CP for the latter is higher: since the probability of getting better Tyranitar is higher than the one of getting better Alakazams, the second represents a much better stardust investment. Ranges in 00–99. Always returns two digits."</string>
-    <string name="token_msg_train">Train</string>
+    <string name="token_msg_worthTra_msg">"This token returns an evaluation of how worth it is to train this monster, based both on the base stats and the %1$s possible IV stats. For instance, a 96%% IV Alakazam will get a score higher than a 20%% Tyranitar, regardless the fact that the maximum possible CP for the latter is higher: since the probability of getting better Tyranitar is higher than the one of getting better Alakazams, the second represents a much better stardust investment. Ranges in 00–99. Always returns two digits."</string>
+    <string name="token_msg_train">Train %1$s</string>
     <string name="token_msg_iv_perc_to_top">"Get the difference in percentage between the maximum and the perfect IV combination. For example, if the max IV combination percentage is 97, this token will return 03."</string>
     <string name="go_back_to_goiv">Go back to GoIV</string>
     <string name="go_back">Go back</string>
     <string name="send_email_to_devs_recalibration">If GoIV failed recalibrating when it should have worked, please press the button below to generate an automatic bug report email.</string>
     <string name="send_email_to_devs_button">Email error information to developers</string>
     <string name="report_error">Email error report</string>
+    <string name="recalibration_video_tutorial">Recalibration video tutorial</string>
 </resources>

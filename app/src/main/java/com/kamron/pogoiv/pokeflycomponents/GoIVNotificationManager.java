@@ -20,6 +20,7 @@ import com.kamron.pogoiv.ScreenGrabber;
 import com.kamron.pogoiv.ScreenShotHelper;
 import com.kamron.pogoiv.activities.MainActivity;
 import com.kamron.pogoiv.activities.OcrCalibrationResultActivity;
+import com.kamron.pogoiv.activities.SettingsActivity;
 
 /**
  * Created by johan on 2017-07-06.
@@ -60,8 +61,7 @@ public class GoIVNotificationManager {
         contentBigView.setOnClickPendingIntent(R.id.root, openAppPendingIntent);
 
         // Open settings action
-        Intent startSettingAppIntent = new Intent(pokefly, MainActivity.class)
-                .setAction(MainActivity.ACTION_OPEN_SETTINGS);
+        Intent startSettingAppIntent = new Intent(pokefly, SettingsActivity.class);
         PendingIntent startSettingsPendingIntent = PendingIntent.getActivity(
                 pokefly, 0, startSettingAppIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         contentView.setOnClickPendingIntent(R.id.settings, startSettingsPendingIntent);
@@ -126,8 +126,7 @@ public class GoIVNotificationManager {
         contentBigView.setOnClickPendingIntent(R.id.recalibrate, recalibrateScreenScanningPendingIntent);
 
         // Stop service action
-        Intent stopServiceIntent = new Intent(pokefly, Pokefly.class)
-                .setAction(Pokefly.ACTION_STOP);
+        Intent stopServiceIntent = Pokefly.createStopIntent(pokefly);
         PendingIntent stopServicePendingIntent = PendingIntent.getService(
                 pokefly, 0, stopServiceIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         contentView.setOnClickPendingIntent(R.id.pause, stopServicePendingIntent);

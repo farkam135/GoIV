@@ -64,17 +64,6 @@ public class SettingsActivity extends AppCompatActivity {
             getPreferenceManager().setSharedPreferencesName(GoIVSettings.PREFS_GO_IV_SETTINGS);
             addPreferencesFromResource(R.xml.settings);
 
-            //Initialize the button which opens the clipboard modifier activity
-            Preference button = (Preference) findPreference(getString(R.string.clipboardButton));
-            button.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    Intent intent = new Intent(getActivity(), ClipboardModifierActivity.class);
-                    startActivity(intent);
-                    return true;
-                }
-            });
-
             //Initialize the button which opens the credits activity
             Preference creditsButton = (Preference) findPreference(getString(R.string.view_credits_button));
             creditsButton.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {

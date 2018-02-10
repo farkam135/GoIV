@@ -2,14 +2,15 @@ package com.kamron.pogoiv.activities;
 
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -23,14 +24,14 @@ import android.widget.Toast;
 import com.google.common.base.Strings;
 import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.clipboardlogic.ClipboardResultMode;
-import com.kamron.pogoiv.widgets.recyclerviews.adapters.TokensPreviewAdapter;
-import com.kamron.pogoiv.widgets.recyclerviews.adapters.TokensShowcaseAdapter;
-import com.kamron.pogoiv.widgets.recyclerviews.decorators.MarginItemDecorator;
-import com.kamron.pogoiv.widgets.recyclerviews.layoutmanagers.TokenGridLayoutManager;
 import com.kamron.pogoiv.clipboardlogic.ClipboardToken;
 import com.kamron.pogoiv.clipboardlogic.ClipboardTokenHandler;
 import com.kamron.pogoiv.clipboardlogic.tokens.CustomSeparatorToken;
 import com.kamron.pogoiv.clipboardlogic.tokens.SeparatorToken;
+import com.kamron.pogoiv.widgets.recyclerviews.adapters.TokensPreviewAdapter;
+import com.kamron.pogoiv.widgets.recyclerviews.adapters.TokensShowcaseAdapter;
+import com.kamron.pogoiv.widgets.recyclerviews.decorators.MarginItemDecorator;
+import com.kamron.pogoiv.widgets.recyclerviews.layoutmanagers.TokenGridLayoutManager;
 
 import java.util.Locale;
 
@@ -40,11 +41,11 @@ import butterknife.ButterKnife;
 import static android.support.v7.widget.LinearLayoutManager.HORIZONTAL;
 
 
-public class ClipboardModifierFragment
+public class ClipboardModifierChildFragment
         extends Fragment
         implements ClipboardToken.OnTokenSelectedListener {
 
-    private static final String ARG_SINGLE_RESULT_MODE = "a_srm";
+    private static final String ARG_RESULT_MODE = "a_srm";
 
 
     @BindView(R.id.clipboardMaxLength)
@@ -67,33 +68,33 @@ public class ClipboardModifierFragment
     private ClipboardTokenHandler cth;
 
 
-    public static ClipboardModifierFragment newInstance(ClipboardResultMode resultMode) {
+    public static ClipboardModifierChildFragment newInstance(ClipboardResultMode resultMode) {
         Bundle args = new Bundle();
-        args.putSerializable(ARG_SINGLE_RESULT_MODE, resultMode);
-        ClipboardModifierFragment f = new ClipboardModifierFragment();
+        args.putSerializable(ARG_RESULT_MODE, resultMode);
+        ClipboardModifierChildFragment f = new ClipboardModifierChildFragment();
         f.setArguments(args);
         return f;
     }
 
-    public ClipboardModifierFragment() {
+    public ClipboardModifierChildFragment() {
         super();
     }
 
     @Override public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        resultMode = (ClipboardResultMode) getArguments().get(ARG_SINGLE_RESULT_MODE);
+        resultMode = (ClipboardResultMode) getArguments().get(ARG_RESULT_MODE);
         cth = new ClipboardTokenHandler(getContext());
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_clipboard_modifier, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_clipboard_modifier_child, container, false);
         ButterKnife.bind(this, view);
         return view;
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         // Populate the token preview RecyclerView with all configured tokens.
@@ -181,9 +182,11 @@ public class ClipboardModifierFragment
     @Override public void onTokenSelected(ClipboardToken token, int adapterPosition) {
         selectedToken = token;
 
-        final Activity activity = getActivity();
-        if (activity instanceof ClipboardModifierActivity) {
-            ((ClipboardModifierActivity) activity).updateTokenDescription(selectedToken);
+        final AppCompatActivity activity = (AppCompatActivity) getActivity();
+        for (Fragment f : activity.getSupportFragmentManager().getFragments()) {
+            if (f instanceof ClipboardModifierParentFragment) {
+                ((ClipboardModifierParentFragment) f).updateTokenDescription(selectedToken);
+            }
         }
     }
 

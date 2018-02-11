@@ -122,21 +122,18 @@
             android:layout_gravity="center"
             android:visibility="gone">
 
-            <android.support.v4.widget.Space
-                android:layout_width="12dp"
-                android:layout_height="0dp" />
-
             <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="@drawable/skin_iv_linearlayout"
+                android:layout_marginLeft="6dp"
+                android:layout_marginRight="6dp"
                 android:paddingLeft="12dp"
                 android:paddingRight="12dp"
                 android:paddingTop="6dp"
                 android:paddingBottom="6dp"
                 android:gravity="center"
-                android:layout_gravity="center">
+                android:background="@drawable/skin_iv_linearlayout">
 
                 <TextView
                     android:id="@+id/resultsAttack"
@@ -155,21 +152,18 @@
 
             </LinearLayout>
 
-            <android.support.v4.widget.Space
-                android:layout_width="12dp"
-                android:layout_height="0dp" />
-
             <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="@drawable/skin_iv_linearlayout"
+                android:layout_marginLeft="6dp"
+                android:layout_marginRight="6dp"
                 android:paddingLeft="12dp"
                 android:paddingRight="12dp"
                 android:paddingTop="6dp"
                 android:paddingBottom="6dp"
                 android:gravity="center"
-                android:layout_gravity="center">
+                android:background="@drawable/skin_iv_linearlayout">
 
                 <TextView
                     android:id="@+id/resultsDefense"
@@ -188,21 +182,18 @@
 
             </LinearLayout>
 
-            <android.support.v4.widget.Space
-                android:layout_width="12dp"
-                android:layout_height="0dp" />
-
             <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="@drawable/skin_iv_linearlayout"
+                android:layout_marginLeft="6dp"
+                android:layout_marginRight="6dp"
                 android:paddingLeft="12dp"
                 android:paddingRight="12dp"
                 android:paddingTop="6dp"
                 android:paddingBottom="6dp"
                 android:gravity="center"
-                android:layout_gravity="center">
+                android:background="@drawable/skin_iv_linearlayout">
 
                 <TextView
                     android:id="@+id/resultsHP"
@@ -221,24 +212,21 @@
 
             </LinearLayout>
 
-            <android.support.v4.widget.Space
-                android:layout_width="12dp"
-                android:layout_height="0dp" />
-
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/llMinIV"
+            android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@drawable/skin_iv_linearlayout"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="6dp"
             android:paddingLeft="12dp"
             android:paddingRight="12dp"
             android:paddingTop="6dp"
             android:paddingBottom="6dp"
             android:gravity="center"
-            android:layout_gravity="center">
+            android:background="@drawable/skin_iv_linearlayout">
 
             <TextView
                 android:id="@+id/resultsMinPercentage"
@@ -257,22 +245,19 @@
 
         </LinearLayout>
 
-        <android.support.v4.widget.Space
-            android:layout_width="12dp"
-            android:layout_height="0dp" />
-
         <LinearLayout
             android:id="@+id/llAvgIV"
+            android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@drawable/skin_iv_linearlayout"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="6dp"
             android:paddingLeft="12dp"
             android:paddingRight="12dp"
             android:paddingTop="6dp"
             android:paddingBottom="6dp"
             android:gravity="center"
-            android:layout_gravity="center">
+            android:background="@drawable/skin_iv_linearlayout">
 
             <TextView
                 android:id="@+id/resultsAvePercentage"
@@ -292,22 +277,19 @@
 
         </LinearLayout>
 
-        <android.support.v4.widget.Space
-            android:layout_width="12dp"
-            android:layout_height="0dp" />
-
         <LinearLayout
             android:id="@+id/llMaxIV"
+            android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@drawable/skin_iv_linearlayout"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="6dp"
             android:paddingLeft="12dp"
             android:paddingRight="12dp"
             android:paddingTop="6dp"
             android:paddingBottom="6dp"
             android:gravity="center"
-            android:layout_gravity="center">
+            android:background="@drawable/skin_iv_linearlayout">
 
             <TextView
                 android:id="@+id/resultsMaxPercentage"

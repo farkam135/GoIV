@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="266dp">
+    android:minHeight="270dp">
 
     <LinearLayout
         android:orientation="horizontal"
@@ -83,7 +83,7 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="88dp">
+        android:layout_height="80dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -184,15 +184,15 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:background="@android:color/darker_gray"/>
+            android:background="@android:color/darker_gray" />
 
     </android.support.constraint.ConstraintLayout>
 
     <android.support.constraint.ConstraintLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_marginTop="8dp">
+        android:layout_height="60dp"
+        android:layout_marginTop="6dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -206,6 +206,7 @@
             android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:layout_constraintVertical_bias="0.75"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -237,6 +238,7 @@
             android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:layout_constraintVertical_bias="0.75"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/candyContainer"
@@ -268,14 +270,15 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="6dp"
         android:background="@android:color/darker_gray"/>
-
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
         android:orientation="vertical">
 
         <TextView
@@ -292,10 +295,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:text="@string/evolution"
-                android:textColor="@color/importantText"
-                android:textSize="@dimen/resultExpandedTextSize"/>
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textAllCaps="true"
+                android:text="@string/evolution" />
 
             <Spinner
                 android:id="@+id/extendedEvolutionSpinner"
@@ -305,10 +307,9 @@
                 android:background="@drawable/spinner"
                 android:gravity="end"
                 android:popupBackground="#fafafa"
-                tools:layout_height="20dp" />
+                tools:layout_height="24dp" />
 
         </LinearLayout>
-
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -316,37 +317,34 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:text="@string/level"
-                android:textColor="@color/importantText"
-                android:textSize="@dimen/resultExpandedTextSize"/>
-            <Button
-                android:id="@+id/btnDecrementLevelExpanded"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight=".15"
-                android:background="@android:color/transparent"
-                android:text="-"
-                android:textColor="@color/colorPrimary"
-                android:textSize="22sp"/>
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textAllCaps="true"
+                android:text="@string/level" />
 
-            <RelativeLayout
+            <Button
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:id="@+id/btnDecrementLevelExpanded"
+                android:layout_width="36dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
+                android:text="-"
+                tools:ignore="HardcodedText" />
+
+            <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.70"
-                android:clipChildren="false"
-                android:gravity="center">
+                android:layout_weight="1"
+                android:clipChildren="false">
 
                 <io.apptik.widget.MultiSlider
                     android:id="@+id/expandedLevelSeekbarBackground"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
+                    android:layout_gravity="center_vertical"
                     app:range1="@drawable/orange_scrubber_track_holo_light"
                     app:range2="@drawable/orange_scrubber_primary_holo"
                     app:thumbNumber="2"/>
@@ -355,93 +353,83 @@
                     android:id="@+id/expandedLevelSeekbar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"/>
-            </RelativeLayout>
+                    android:layout_gravity="center_vertical" />
+
+            </FrameLayout>
 
             <Button
+                style="@style/Widget.AppCompat.Button.Borderless"
                 android:id="@+id/btnIncrementLevelExpanded"
-                android:layout_width="0dp"
+                android:layout_width="36dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.15"
-                android:background="@android:color/transparent"
-                android:text="+"
                 android:textColor="@color/colorPrimary"
-                android:textSize="18sp"/>
+                android:textStyle="bold"
+                android:text="+"
+                tools:ignore="HardcodedText" />
 
             <TextView
                 android:id="@+id/exResLevel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:textColor="@color/importantText"
-                android:textSize="@dimen/resultExpandedTextSize"
-                tools:text="#level"/>
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textStyle="bold"
+                android:textAllCaps="true"
+                tools:text="15.0" />
+
+            <TextView
+                android:id="@+id/explainLevelSlider"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="6dp"
+                android:layout_marginStart="6dp"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/colorPrimary"
+                android:text="(?)"
+                tools:ignore="HardcodedText,RtlHardcoded" />
 
         </LinearLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="@string/powerup_calc_instructions"
-            android:textAlignment="center"
-            android:textColor="@color/unimportantText"/>
-
-
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1"/>
-
-
-    </LinearLayout>
-
-
-
-
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="5dp"
-        android:background="@android:color/darker_gray"/>
 
     <LinearLayout
         android:id="@+id/llPokeSpam"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:visibility="visible">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:text="@string/pokespam"
-            android:textColor="@color/importantText"
-            android:textSize="@dimen/resultExpandedTextSize"/>
+        android:layout_height="wrap_content">
 
         <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1"/>
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="6dp"
+            android:background="@android:color/darker_gray"/>
 
-        <TextView
-            android:id="@+id/exResPokeSpam"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:textColor="@color/importantText"
-            android:textSize="@dimen/resultExpandedTextSize"
-            tools:text="#ofSpam"/>
+            android:paddingLeft="12dp"
+            android:paddingTop="8dp"
+            android:paddingRight="12dp"
+            android:paddingBottom="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textAllCaps="true"
+                android:text="@string/pokespam" />
+
+            <TextView
+                android:id="@+id/exResPokeSpam"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                tools:text="#ofSpam" />
+
+        </LinearLayout>
 
     </LinearLayout>
 

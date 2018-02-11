@@ -2,6 +2,7 @@ package com.kamron.pogoiv.pokeflycomponents.fractions;
 
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -71,6 +72,7 @@ public class PowerUpFraction extends Fraction {
     private Context context;
     private Pokefly pokefly;
     private PokemonSpinnerAdapter extendedEvolutionSpinnerAdapter;
+    private ColorStateList exResLevelDefaultColor;
 
 
     public PowerUpFraction(Pokefly pokefly) {
@@ -85,12 +87,15 @@ public class PowerUpFraction extends Fraction {
     @Override public void onCreate(@NonNull View rootView) {
         ButterKnife.bind(this, rootView);
 
+        exResLevelDefaultColor = exResLevel.getTextColors();
+
         createExtendedResultLevelSeekbar();
         createExtendedResultEvolutionSpinner();
+        adjustSeekbarsThumbs();
+        populateAdvancedInformation();
     }
 
     @Override public void onDestroy() {
-
     }
 
     @OnClick(R.id.ivButton)
@@ -117,8 +122,9 @@ public class PowerUpFraction extends Fraction {
      * Sets the growth estimate text boxes to correspond to the
      * pokemon evolution and level set by the user.
      */
-    public void populateAdvancedInformation(IVScanResult ivScanResult) {
-        adjustSeekbarsThumbs();
+    public void populateAdvancedInformation() {
+        IVScanResult ivScanResult = ScanContainer.scanContainer.currScan;
+
         double selectedLevel = seekbarProgressToLevel(expandedLevelSeekbar.getProgress());
         Pokemon selectedPokemon = initPokemonSpinnerIfNeeded(ivScanResult.pokemon);
 
@@ -251,7 +257,8 @@ public class PowerUpFraction extends Fraction {
         UpgradeCost cost = PokeInfoCalculator.getInstance().getUpgradeCost(selectedLevel, pokefly
                 .estimatedPokemonLevelRange
                 .min);
-        int evolutionCandyCost = PokeInfoCalculator.getInstance().getCandyCostForEvolution(ivScanResult.pokemon, selectedPokemon);
+        int evolutionCandyCost = PokeInfoCalculator.getInstance()
+                .getCandyCostForEvolution(ivScanResult.pokemon, selectedPokemon);
         String candyCostText = cost.candy + evolutionCandyCost + "";
         exResCandy.setText(candyCostText);
         exResStardust.setText(String.valueOf(cost.dust));
@@ -270,7 +277,7 @@ public class PowerUpFraction extends Fraction {
         if (selectedLevel > Data.trainerLevelToMaxPokeLevel(pokefly.getTrainerLevel())) {
             exResLevel.setTextColor(pokefly.getColorC(R.color.orange));
         } else {
-            exResLevel.setTextColor(pokefly.getColorC(R.color.importantText));
+            exResLevel.setTextColor(exResLevelDefaultColor);
         }
     }
 
@@ -326,7 +333,7 @@ public class PowerUpFraction extends Fraction {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean fromUser) {
                 if (fromUser) {
-                    populateAdvancedInformation(ScanContainer.scanContainer.currScan);
+                    populateAdvancedInformation();
                 }
             }
 
@@ -354,17 +361,18 @@ public class PowerUpFraction extends Fraction {
         extendedEvolutionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                populateAdvancedInformation(ScanContainer.scanContainer.currScan);
+                populateAdvancedInformation();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
-                populateAdvancedInformation(ScanContainer.scanContainer.currScan);
+                populateAdvancedInformation();
             }
 
         });
 
     }
+
     /**
      * Adjusts expandedLevelSeekbar and expandedLevelSeekbar thumbs.
      * expandedLevelSeekbar - Adjustable single thumb seekbar to allow users to check for more Pokemon stats at
@@ -374,24 +382,24 @@ public class PowerUpFraction extends Fraction {
      */
     private void adjustSeekbarsThumbs() {
         // Set Seekbar max value to max Pokemon level at trainer level 40
-        expandedLevelSeekbar.setMax(levelToSeekbarProgress(40));
+        expandedLevelSeekbar.setMax(levelToSeekbarProgress(Data.MAXIMUM_POKEMON_LEVEL));
 
         // Set Thumb value to current Pokemon level
         expandedLevelSeekbar.setProgress(levelToSeekbarProgress(pokefly.estimatedPokemonLevelRange.min));
 
         // Set Seekbar Background max value to max Pokemon level at trainer level 40
-        expandedLevelSeekbarBackground.setMax(levelToSeekbarProgress(40));
+        expandedLevelSeekbarBackground.setMax(levelToSeekbarProgress(Data.MAXIMUM_POKEMON_LEVEL));
 
         // Set Thumb 1 drawable to an orange marker and value at the max possible Pokemon level at the current
         // trainer level
-        expandedLevelSeekbarBackground.getThumb(0).setThumb(ContextCompat.getDrawable(pokefly, R.drawable
-                .orange_seekbar_thumb_marker));
+        expandedLevelSeekbarBackground.getThumb(0).setThumb(
+                ContextCompat.getDrawable(pokefly, R.drawable.orange_seekbar_thumb_marker));
         expandedLevelSeekbarBackground.getThumb(0).setValue(
                 levelToSeekbarProgress(Data.trainerLevelToMaxPokeLevel(pokefly.getTrainerLevel())));
 
         // Set Thumb 2 to invisible and value at max Pokemon level at trainer level 40
         expandedLevelSeekbarBackground.getThumb(1).setInvisibleThumb(true);
-        expandedLevelSeekbarBackground.getThumb(1).setValue(levelToSeekbarProgress(40));
+        expandedLevelSeekbarBackground.getThumb(1).setValue(levelToSeekbarProgress(Data.MAXIMUM_POKEMON_LEVEL));
 
         // Set empty on touch listener to prevent changing values of Thumb 1
         expandedLevelSeekbarBackground.setOnTouchListener(new View.OnTouchListener() {
@@ -413,29 +421,27 @@ public class PowerUpFraction extends Fraction {
         return (int) (2 * level - getSeekbarOffset());
     }
 
-    /**
-     * Resets the state for the estimate spinner.
-     */
-    public void resetEstimateSpinner(){
-        extendedEvolutionSpinner.setSelection(-1);
-    }
-
     @OnClick(R.id.explainCPPercentageComparedToMaxIV)
     public void explainCPPercentageComparedToMaxIV() {
         Toast.makeText(pokefly.getApplicationContext(), R.string.perfection_explainer, Toast.LENGTH_LONG).show();
     }
 
+    @OnClick(R.id.explainLevelSlider)
+    public void explainLevelSlider() {
+        Toast.makeText(pokefly.getApplicationContext(), R.string.powerup_calc_instructions, Toast.LENGTH_LONG).show();
+    }
+
     @OnClick(R.id.btnIncrementLevelExpanded)
     public void incrementLevelExpanded() {
         expandedLevelSeekbar.setProgress(expandedLevelSeekbar.getProgress() + 1);
-        populateAdvancedInformation(ScanContainer.scanContainer.currScan);
+        populateAdvancedInformation();
     }
 
 
     @OnClick(R.id.btnDecrementLevelExpanded)
     public void decrementLevelExpanded() {
         expandedLevelSeekbar.setProgress(expandedLevelSeekbar.getProgress() - 1);
-        populateAdvancedInformation(ScanContainer.scanContainer.currScan);
+        populateAdvancedInformation();
     }
 
     private int getSeekbarOffset() {

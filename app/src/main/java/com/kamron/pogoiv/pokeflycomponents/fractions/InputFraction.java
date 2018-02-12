@@ -211,7 +211,7 @@ public class InputFraction extends Fraction {
 
     @OnClick(R.id.btnIncrementLevel)
     public void incrementLevel() {
-        pokefly.estimatedPokemonLevelRange.inc();
+        pokefly.estimatedPokemonLevelRange.inc(pokefly.getTrainerLevel());
         adjustArcPointerBar(pokefly.estimatedPokemonLevelRange.min);
     }
 
@@ -219,8 +219,7 @@ public class InputFraction extends Fraction {
      * Creates the arc adjuster used to move the arc pointer in the scan screen.
      */
     private void createArcAdjuster() {
-        //arcAdjustBar.setMax(Data.trainerLevelToMaxPokeLevelIndex(trainerLevel));
-        arcAdjustBar.setMax(Data.trainerLevelToMaxPokeLevelIndex(40));
+        arcAdjustBar.setMax(Data.trainerLevelToMaxPokeLevelIndex(pokefly.getTrainerLevel()));
 
         arcAdjustBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override

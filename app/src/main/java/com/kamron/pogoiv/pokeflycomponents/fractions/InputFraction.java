@@ -138,8 +138,33 @@ public class InputFraction extends Fraction {
         showCandyTextBoxBasedOnSettings();
     }
 
-    @Override public void onDestroy() {
+    @Override
+    public void onDestroy() {
+        saveToPokefly();
+    }
 
+    private void saveToPokefly() {
+        try {
+            pokefly.pokemonHP = Optional.of(Integer.parseInt(pokemonHPEdit.getText().toString()));
+        } catch (NumberFormatException e) {
+            pokefly.pokemonHP = Optional.absent();
+        }
+        try {
+            pokefly.pokemonCP = Optional.of(Integer.parseInt(pokemonCPEdit.getText().toString()));
+        } catch (NumberFormatException e) {
+            pokefly.pokemonCP = Optional.absent();
+        }
+        try {
+            pokefly.pokemonCandy = Optional.of(Integer.parseInt(pokemonCandyEdit.getText().toString()));
+        } catch (NumberFormatException e) {
+            pokefly.pokemonCandy = Optional.absent();
+        }
+        Pokemon pokemon = interpretWhichPokemonUserInput();
+        if (pokemon != null) {
+            pokefly.pokemon = Optional.of(pokemon);
+        } else {
+            pokefly.pokemon = Optional.absent();
+        }
     }
 
     /**
@@ -240,27 +265,6 @@ public class InputFraction extends Fraction {
     }
 
     /**
-     * Parse numeric inputs.
-     *
-     * @return true if the numeric inputs are valid.
-     */
-    private boolean parseNumericInputs() {
-        try {
-            pokemonHP = Optional.of(Integer.parseInt(pokemonHPEdit.getText().toString()));
-            pokemonCP = Optional.of(Integer.parseInt(pokemonCPEdit.getText().toString()));
-        } catch (NumberFormatException e) {
-            return false;
-        }
-        //do not require pokemon candy to be filled
-        try {
-            pokemonCandy = Optional.of(Integer.parseInt(pokemonCandyEdit.getText().toString()));
-        } catch (NumberFormatException e) {
-            pokemonCandy = Optional.absent();
-        }
-        return true;
-    }
-
-    /**
      * Checks whether the user input a pokemon using the spinner or the text input on the input screen
      * null if no correct input was provided (user typed non-existant pokemon or spinner error)
      * If user typed in incorrect pokemon, a toast will be displayed.
@@ -289,21 +293,9 @@ public class InputFraction extends Fraction {
      * Method called when user presses "check iv" in the input screen, which takes the user to the result screen.
      */
     @OnClick(R.id.btnCheckIv)
-    public void checkIv() {
-        //warn user and stop calculation if scan/input failed/is wrong
-        if (!parseNumericInputs() || !pokemonHP.isPresent() || !pokemonCP.isPresent()) {
-            Toast.makeText(pokefly, R.string.missing_inputs, Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        pokefly.deleteScreenShotIfRequired();
-
-        Pokemon pokemon = interpretWhichPokemonUserInput();
-        if (pokemon == null) {
-            return;
-        }
-
-        pokefly.computeIv(pokemon, pokemonHP.get(), pokemonCP.get(), pokemonGender);
+    void checkIv() {
+        saveToPokefly();
+        pokefly.computeIv();
     }
 
     @OnClick(R.id.appraisalButton)

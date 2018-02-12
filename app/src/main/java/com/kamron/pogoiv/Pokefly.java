@@ -135,13 +135,14 @@ public class Pokefly extends Service {
     FrameLayout fractionContainer;
 
 
+    public Optional<Pokemon> pokemon = Optional.absent();
     private String pokemonName;
     private String pokemonType;
     private String candyName;
-    private Pokemon.Gender pokemonGender = Pokemon.Gender.N;
+    public Pokemon.Gender pokemonGender = Pokemon.Gender.N;
     public Optional<Integer> pokemonCandy = Optional.absent();
-    private Optional<Integer> pokemonCP = Optional.absent();
-    private Optional<Integer> pokemonHP = Optional.absent();
+    public Optional<Integer> pokemonCP = Optional.absent();
+    public Optional<Integer> pokemonHP = Optional.absent();
     private Optional<Integer> candyUpgradeCost = Optional.absent();
     public String pokemonUniqueID = "";
     public LevelRange estimatedPokemonLevelRange = new LevelRange(1.0);
@@ -505,8 +506,16 @@ public class Pokefly extends Service {
         }
     }
 
-    public void computeIv(@NonNull Pokemon pokemon, int hp, int cp, Pokemon.Gender gender) {
-        lastIvScanResult = pokeInfoCalculator.getIVPossibilities(pokemon, estimatedPokemonLevelRange, hp, cp, gender);
+    public void computeIv() {
+        if (!pokemon.isPresent() || !pokemonHP.isPresent() || !pokemonCP.isPresent()) {
+            Toast.makeText(this, R.string.missing_inputs, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        deleteScreenShotIfRequired();
+
+        lastIvScanResult = pokeInfoCalculator.getIVPossibilities(pokemon.get(), estimatedPokemonLevelRange,
+                pokemonHP.get(), pokemonCP.get(), pokemonGender);
 
         lastIvScanResult.refineWithAvailableInfoFrom(autoAppraisal);
 

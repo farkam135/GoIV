@@ -87,13 +87,13 @@
 
         <Spinner
             android:id="@+id/spnPokemonName"
-            android:layout_width="160dp"
+            android:layout_width="136dp"
             android:layout_height="wrap_content"
             android:gravity="center" />
 
         <AutoCompleteTextView
             android:id="@+id/autoCompleteTextView1"
-            android:layout_width="160dp"
+            android:layout_width="136dp"
             android:layout_height="wrap_content"
             android:inputType="textCapWords"
             android:imeOptions="actionDone"

@@ -348,4 +348,9 @@ public class AppraisalFraction extends Fraction implements AutoAppraisal.OnAppra
         pokefly.closeInfoDialog();
     }
 
+    @OnClick(R.id.btnCheckIv)
+    void checkIv() {
+        pokefly.computeIv();
+    }
+
 }

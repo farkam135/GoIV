@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="@dimen/dialog_height_min">
+    android:minHeight="@dimen/dialog_large_height_min">
 
     <LinearLayout
         android:orientation="horizontal"
@@ -16,10 +16,10 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <ImageButton
-            style="@style/Widget.AppCompat.Button.Borderless"
+            style="?attr/borderlessButtonStyle"
             android:id="@+id/btnBack"
             android:layout_width="48dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:text="@string/back"
             android:src="?attr/homeAsUpIndicator" />
 
@@ -31,10 +31,10 @@
             android:text="Moveset scan results" />
 
         <ImageButton
-            style="@style/Widget.AppCompat.Button.Borderless"
+            style="?attr/borderlessButtonStyle"
             android:id="@+id/btnClose"
             android:layout_width="48dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:text="@string/close"
             android:src="@drawable/abc_ic_clear_material" />
 

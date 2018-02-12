@@ -6,7 +6,8 @@
     <dimen name="token_height">46dp</dimen>
 
     <!-- Pokefly dialogs -->
-    <dimen name="dialog_height_min">270dp</dimen>
+    <dimen name="dialog_small_height_min">244dp</dimen>
+    <dimen name="dialog_large_height_min">270dp</dimen>
 
     <!-- Notification margins -->
     <dimen name="notification_horizontal_padding">8dp</dimen>

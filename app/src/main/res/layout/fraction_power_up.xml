@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="@dimen/dialog_height_min">
+    android:minHeight="@dimen/dialog_large_height_min">
 
     <LinearLayout
         android:orientation="horizontal"
@@ -19,10 +19,10 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <ImageButton
-            style="@style/Widget.AppCompat.Button.Borderless"
+            style="?attr/borderlessButtonStyle"
             android:id="@+id/btnBack"
             android:layout_width="48dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:text="@string/back"
             android:src="?attr/homeAsUpIndicator" />
 
@@ -34,10 +34,10 @@
             android:text="Power up predictions" />
 
         <ImageButton
-            style="@style/Widget.AppCompat.Button.Borderless"
+            style="?attr/borderlessButtonStyle"
             android:id="@+id/btnClose"
             android:layout_width="48dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:text="@string/close"
             android:src="@drawable/abc_ic_clear_material" />
 
@@ -325,10 +325,11 @@
                 android:text="@string/level" />
 
             <Button
-                style="@style/Widget.AppCompat.Button.Borderless"
+                style="?attr/borderlessButtonStyle"
                 android:id="@+id/btnDecrementLevelExpanded"
                 android:layout_width="36dp"
                 android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="@color/colorPrimary"
                 android:textStyle="bold"
                 android:text="-"
@@ -358,10 +359,11 @@
             </FrameLayout>
 
             <Button
-                style="@style/Widget.AppCompat.Button.Borderless"
+                style="?attr/borderlessButtonStyle"
                 android:id="@+id/btnIncrementLevelExpanded"
                 android:layout_width="36dp"
                 android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="@color/colorPrimary"
                 android:textStyle="bold"
                 android:text="+"
@@ -374,7 +376,7 @@
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textStyle="bold"
                 android:textAllCaps="true"
-                tools:text="15.0" />
+                tools:text="20.0" />
 
             <TextView
                 android:id="@+id/explainLevelSlider"

@@ -2,10 +2,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="@dimen/dialog_height_min">
+    android:paddingBottom="8dp"
+    android:minHeight="@dimen/dialog_small_height_min">
 
     <LinearLayout
         android:orientation="horizontal"
@@ -27,10 +29,10 @@
             tools:ignore="RtlHardcoded" />
 
         <ImageButton
-            style="@style/Widget.AppCompat.Button.Borderless"
+            style="?attr/borderlessButtonStyle"
             android:id="@+id/btnClose"
             android:layout_width="48dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:text="@string/close"
             android:src="@drawable/abc_ic_clear_material" />
 
@@ -69,13 +71,14 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
         android:gravity="center_horizontal"
         android:baselineAligned="true">
 
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="12dp"
             android:layout_marginRight="12dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
@@ -92,7 +95,7 @@
             android:id="@+id/autoCompleteTextView1"
             android:layout_width="160dp"
             android:layout_height="wrap_content"
-            android:inputType="text"
+            android:inputType="textCapWords"
             android:imeOptions="actionDone"
             android:visibility="gone">
 
@@ -102,8 +105,8 @@
             android:id="@+id/pokePickerToggleSpinnerVsInput"
             style="?attr/borderlessButtonStyle"
             android:src="@android:drawable/ic_menu_edit"
-            android:layout_width="40dp"
-            android:layout_height="40dp" />
+            android:layout_width="48dp"
+            android:layout_height="36dp" />
 
     </LinearLayout>
 
@@ -220,7 +223,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:text="@string/use_the_slider_below_to_align_the_arc"
         android:textSize="14sp"
         android:textStyle="bold"
@@ -231,11 +234,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="12dp"
-        android:paddingRight="12dp"
-        android:gravity="center_vertical">
+        android:paddingRight="8dp"
+        android:gravity="center_vertical"
+        tools:ignore="RtlHardcoded">
+
+        <TextView
+            android:id="@+id/levelIndicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textStyle="bold"
+            android:textAllCaps="true"
+            tools:text="20.0" />
 
         <Button
-            style="@style/Widget.AppCompat.Button.Borderless"
+            style="?attr/borderlessButtonStyle"
             android:id="@+id/btnDecrementLevel"
             android:layout_width="36dp"
             android:layout_height="wrap_content"
@@ -252,7 +265,7 @@
             android:layout_weight="1" />
 
         <Button
-            style="@style/Widget.AppCompat.Button.Borderless"
+            style="?attr/borderlessButtonStyle"
             android:id="@+id/btnIncrementLevel"
             android:layout_width="36dp"
             android:layout_height="wrap_content"
@@ -262,20 +275,13 @@
             android:text="+"
             tools:ignore="HardcodedText" />
 
-        <TextView
-            android:id="@+id/levelIndicator"
+        <Button
+            android:id="@+id/btnCheckIv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingStart="4dp"
-            tools:text="20.5" />
+            android:layout_gravity="center_horizontal"
+            android:text="@string/check_iv" />
 
     </LinearLayout>
-
-    <Button
-        android:id="@+id/btnCheckIv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="@string/check_iv" />
 
 </LinearLayout>

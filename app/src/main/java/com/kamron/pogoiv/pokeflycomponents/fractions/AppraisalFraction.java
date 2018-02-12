@@ -8,6 +8,7 @@ import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.kamron.pogoiv.GoIVSettings;
@@ -59,6 +60,9 @@ public class AppraisalFraction extends Fraction implements AutoAppraisal.OnAppra
     @BindView(R.id.appraisalStat1)
     RadioButton appraisalStat1;
 
+    @BindView(R.id.eggRaidSwitch)
+    Switch eggRaidSwitch;
+
 
     private Pokefly pokefly;
     private AutoAppraisal autoAppraisal;
@@ -90,6 +94,9 @@ public class AppraisalFraction extends Fraction implements AutoAppraisal.OnAppra
             selectHighestStat(highestStat);
         }
         selectIVValueRange(autoAppraisal.appraisalHighestStatValueRange);
+        for (AutoAppraisal.StatModifier statModifier : autoAppraisal.statModifiers) {
+            selectStatModifier(statModifier);
+        }
 
         // Listen for new appraisal info
         autoAppraisal.addOnAppraisalEventListener(this);
@@ -194,6 +201,19 @@ public class AppraisalFraction extends Fraction implements AutoAppraisal.OnAppra
             default:
             case UNKNOWN:
                 appraisalStatsGroup.clearCheck();
+                break;
+        }
+    }
+
+    public void selectStatModifier(AutoAppraisal.StatModifier modifier) {
+        switch (modifier) {
+            case EGG_OR_RAID:
+                eggRaidSwitch.setChecked(true);
+                break;
+            case WEATHER_BOOST:
+                // TODO weatherSwitch.setChecked(true);
+                break;
+            default:
                 break;
         }
     }

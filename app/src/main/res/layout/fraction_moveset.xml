@@ -78,11 +78,12 @@
 
     </info.hoang8f.android.segmented.SegmentedGroup>
 
-    <android.support.v7.widget.AppCompatImageView
+    <android.support.v7.widget.AppCompatImageButton
+        style="?attr/borderlessButtonStyle"
         android:id="@+id/shareWithOtherApp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="4dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:scaleType="center"
         app:srcCompat="@drawable/ic_share_black" />
 
 </LinearLayout>

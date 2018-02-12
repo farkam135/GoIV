@@ -81,14 +81,12 @@
 
     </info.hoang8f.android.segmented.SegmentedGroup>
 
-    <LinearLayout
+    <android.support.constraint.ConstraintLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="12dp"
-        android:paddingTop="8dp"
-        android:paddingRight="12dp"
-        android:paddingBottom="12dp"
-        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="12dp"
         android:baselineAligned="true">
 
         <TextView
@@ -96,6 +94,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             tools:text="Pokename" />
 
         <TextView
@@ -104,9 +104,20 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="6dp"
             android:textAppearance="?android:attr/textAppearanceMedium"
+            app:layout_constraintStart_toEndOf="@id/resultsPokemonName"
+            app:layout_constraintBaseline_toBaselineOf="@id/resultsPokemonName"
             tools:text="@string/level" />
 
-    </LinearLayout>
+        <android.support.v7.widget.AppCompatImageButton
+            style="?attr/borderlessButtonStyle"
+            android:id="@+id/shareWithOtherApp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:scaleType="center"
+            app:srcCompat="@drawable/ic_share_black" />
+
+    </android.support.constraint.ConstraintLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"

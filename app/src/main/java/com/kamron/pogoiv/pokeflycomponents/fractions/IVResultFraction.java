@@ -9,6 +9,8 @@ import android.widget.TextView;
 import com.kamron.pogoiv.Pokefly;
 import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.scanlogic.IVScanResult;
+import com.kamron.pogoiv.scanlogic.PokemonShareHandler;
+import com.kamron.pogoiv.scanlogic.ScanContainer;
 import com.kamron.pogoiv.utils.GuiUtil;
 import com.kamron.pogoiv.utils.fractions.Fraction;
 
@@ -213,6 +215,16 @@ public class IVResultFraction extends Fraction {
             resultsAvePercentage.setText(unknown_percent);
             resultsMaxPercentage.setText(unknown_percent);
         }
+    }
+
+    /**
+     * Creates an intent to share the result of the pokemon scan, and closes the overlay.
+     */
+    @OnClick({R.id.shareWithOtherApp})
+    void shareScannedPokemonInformation() {
+        PokemonShareHandler communicator = new PokemonShareHandler();
+        communicator.spreadResultIntent(pokefly, ScanContainer.scanContainer.currScan, pokefly.pokemonUniqueID);
+        pokefly.closeInfoDialog();
     }
 
 }

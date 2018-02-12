@@ -360,6 +360,7 @@ public class Pokefly extends Service {
             windowManager.removeView(arcPointer);
             windowManager.removeView(fractionContainer);
             infoLayoutArcPointerVisible = false;
+            fractionManager.remove();
         }
     }
 
@@ -771,9 +772,13 @@ public class Pokefly extends Service {
                         }
                         showInfoLayoutArcPointer();
                         if (settings.shouldAutoOpenExpandedAppraise()) {
+                            // Ensure arc pointer is in the right place
+                            setArcPointer(estimatedPokemonLevelRange.min);
+                            // Guess the pokemon name
                             PokemonNameCorrector.PokeDist possiblePoke = new PokemonNameCorrector(pokeInfoCalculator)
                                     .getPossiblePokemon(pokemonName, candyName, candyUpgradeCost, pokemonType);
                             pokemon = Optional.of(possiblePoke.pokemon);
+                            // Now that we've done what's usually taken care by InputFraction, we can skip it
                             navigateToAppraisalFraction();
                         } else {
                             navigateToInputFraction();

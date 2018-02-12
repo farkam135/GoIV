@@ -149,7 +149,7 @@ public class Pokefly extends Service {
     public LevelRange estimatedPokemonLevelRange = new LevelRange(1.0);
     private @NonNull Optional<String> screenShotPath = Optional.absent();
     private IVScanResult lastIvScanResult;
-    private boolean startedInManualScreenshotMode = false;
+    public boolean startedInManualScreenshotMode = false;
 
 
     @SuppressWarnings("deprecation")
@@ -773,7 +773,7 @@ public class Pokefly extends Service {
                             infoShownReceived = true;
                         }
                         showInfoLayoutArcPointer();
-                        if (settings.shouldAutoOpenExpandedAppraise()) {
+                        if (!startedInManualScreenshotMode && settings.shouldAutoOpenExpandedAppraise()) {
                             // Ensure arc pointer is in the right place
                             setArcPointer(estimatedPokemonLevelRange.min);
                             // Guess the pokemon name

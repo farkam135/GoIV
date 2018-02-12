@@ -39,6 +39,7 @@
     </LinearLayout>
 
     <info.hoang8f.android.segmented.SegmentedGroup
+        android:id="@+id/navigationButtons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="4dp"

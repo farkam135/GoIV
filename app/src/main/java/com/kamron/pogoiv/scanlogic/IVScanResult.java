@@ -213,11 +213,13 @@ public class IVScanResult {
 
     }
 
-    public void refineWithAvailableInfoFrom(@NonNull AutoAppraisal autoAppraisal) {
-        refineByStatModifiers(autoAppraisal.statModifiers);
-        refineByHighest(autoAppraisal.highestStats);
-        refineByAppraisalPercentageRange(autoAppraisal.appraisalIVPercentRange);
-        refineByAppraisalIVRange(autoAppraisal.appraisalHighestStatValueRange);
+    public void refineWithAvailableInfoFrom(@Nullable AutoAppraisal autoAppraisal) {
+        if (autoAppraisal != null) {
+            refineByStatModifiers(autoAppraisal.statModifiers);
+            refineByHighest(autoAppraisal.highestStats);
+            refineByAppraisalPercentageRange(autoAppraisal.appraisalIVPercentRange);
+            refineByAppraisalIVRange(autoAppraisal.appraisalHighestStatValueRange);
+        }
     }
 
     /**

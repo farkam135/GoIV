@@ -32,9 +32,13 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import info.hoang8f.android.segmented.SegmentedGroup;
 
 
 public class InputFraction extends Fraction {
+
+    @BindView(R.id.navigationButtons)
+    SegmentedGroup navigationButtons;
 
     private PokemonSpinnerAdapter pokeInputAdapter;
     @BindView(R.id.spnPokemonName)
@@ -99,13 +103,20 @@ public class InputFraction extends Fraction {
     @Override public void onCreate(@NonNull View rootView) {
         ButterKnife.bind(this, rootView);
 
+        // Don't let the user reach appraisal screen if is manual screenshot mode
+        navigationButtons.setVisibility(pokefly.startedInManualScreenshotMode ? View.GONE : View.VISIBLE);
+
+        // Initialize pokemon species spinner
         pokeInputAdapter = new PokemonSpinnerAdapter(pokefly, R.layout.spinner_pokemon, new ArrayList<Pokemon>());
         pokeInputSpinner.setAdapter(pokeInputAdapter);
 
+        // Fix arc when level is changed
         createArcAdjuster();
+
+        // Setup manual pokemon species input
         initializePokemonAutoCompleteTextView();
 
-
+        // Guess the species
         PokemonNameCorrector.PokeDist possiblePoke = new PokemonNameCorrector(PokeInfoCalculator.getInstance())
                 .getPossiblePokemon(pokemonName, candyName, candyUpgradeCost, pokemonType);
 

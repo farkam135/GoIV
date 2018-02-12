@@ -84,6 +84,14 @@ public class AppraisalFraction extends Fraction implements AutoAppraisal.OnAppra
     public void onCreate(@NonNull View rootView) {
         ButterKnife.bind(this, rootView);
 
+        // Restore any previously selected appraisal info
+        selectIVPercentRange(autoAppraisal.appraisalIVPercentRange);
+        for (AutoAppraisal.HighestStat highestStat : autoAppraisal.highestStats) {
+            selectHighestStat(highestStat);
+        }
+        selectIVValueRange(autoAppraisal.appraisalHighestStatValueRange);
+
+        // Listen for new appraisal info
         autoAppraisal.addOnAppraisalEventListener(this);
 
         // Load the correct phrases from the text resources depending on what team is stored in app settings
@@ -133,16 +141,16 @@ public class AppraisalFraction extends Fraction implements AutoAppraisal.OnAppra
     public void selectIVPercentRange(AutoAppraisal.IVPercentRange range) {
         switch (range) {
             case RANGE_81_100:
-                appraisalIVRange1.setSelected(true);
+                appraisalIVRange1.setChecked(true);
                 break;
             case RANGE_61_80:
-                appraisalIVRange2.setSelected(true);
+                appraisalIVRange2.setChecked(true);
                 break;
             case RANGE_41_60:
-                appraisalIVRange3.setSelected(true);
+                appraisalIVRange3.setChecked(true);
                 break;
             case RANGE_0_40:
-                appraisalIVRange4.setSelected(true);
+                appraisalIVRange4.setChecked(true);
                 break;
             default:
             case UNKNOWN:
@@ -172,16 +180,16 @@ public class AppraisalFraction extends Fraction implements AutoAppraisal.OnAppra
     public void selectIVValueRange(AutoAppraisal.IVValueRange range) {
         switch (range) {
             case RANGE_15:
-                appraisalStat1.setSelected(true);
+                appraisalStat1.setChecked(true);
                 break;
             case RANGE_13_14:
-                appraisalStat2.setSelected(true);
+                appraisalStat2.setChecked(true);
                 break;
             case RANGE_8_12:
-                appraisalStat3.setSelected(true);
+                appraisalStat3.setChecked(true);
                 break;
             case RANGE_0_7:
-                appraisalStat4.setSelected(true);
+                appraisalStat4.setChecked(true);
                 break;
             default:
             case UNKNOWN:

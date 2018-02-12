@@ -48,6 +48,7 @@ import com.kamron.pogoiv.scanlogic.IVCombination;
 import com.kamron.pogoiv.scanlogic.IVScanResult;
 import com.kamron.pogoiv.scanlogic.PokeInfoCalculator;
 import com.kamron.pogoiv.scanlogic.Pokemon;
+import com.kamron.pogoiv.scanlogic.PokemonNameCorrector;
 import com.kamron.pogoiv.scanlogic.ScanResult;
 import com.kamron.pogoiv.utils.CopyUtils;
 import com.kamron.pogoiv.utils.LevelRange;
@@ -770,6 +771,9 @@ public class Pokefly extends Service {
                         }
                         showInfoLayoutArcPointer();
                         if (settings.shouldAutoOpenExpandedAppraise()) {
+                            PokemonNameCorrector.PokeDist possiblePoke = new PokemonNameCorrector(pokeInfoCalculator)
+                                    .getPossiblePokemon(pokemonName, candyName, candyUpgradeCost, pokemonType);
+                            pokemon = Optional.of(possiblePoke.pokemon);
                             navigateToAppraisalFraction();
                         } else {
                             navigateToInputFraction();

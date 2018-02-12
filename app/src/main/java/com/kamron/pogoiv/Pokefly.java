@@ -149,6 +149,7 @@ public class Pokefly extends Service {
     public LevelRange estimatedPokemonLevelRange = new LevelRange(1.0);
     private @NonNull Optional<String> screenShotPath = Optional.absent();
     private IVScanResult lastIvScanResult;
+    private boolean startedInManualScreenshotMode = false;
 
 
     @SuppressWarnings("deprecation")
@@ -298,8 +299,9 @@ public class Pokefly extends Service {
 
             createFlyingComponents();
 
+            startedInManualScreenshotMode = GoIVSettings.getInstance(this).isManualScreenshotModeEnabled();
             /* Assumes MainActivity initialized ScreenGrabber before starting this service. */
-            if (!GoIVSettings.getInstance(this).isManualScreenshotModeEnabled()) {
+            if (!startedInManualScreenshotMode) {
                 screen = ScreenGrabber.getInstance();
                 autoAppraisal = new AutoAppraisal(screen, this);
                 screenWatcher = new ScreenWatcher(this, fractionManager, autoAppraisal);
@@ -371,7 +373,7 @@ public class Pokefly extends Service {
 
         fractionManager.remove();
 
-        if (!GoIVSettings.getInstance(this).isManualScreenshotModeEnabled()) {
+        if (!startedInManualScreenshotMode) {
             screenWatcher.unwatchScreen();
             if (screen != null) {
                 screen.exit();
@@ -535,7 +537,7 @@ public class Pokefly extends Service {
      * screenshot, and then deletes the screenshot.
      */
     public void deleteScreenShotIfRequired() {
-        if (GoIVSettings.getInstance(this).isManualScreenshotModeEnabled() && screenShotPath.isPresent()) {
+        if (startedInManualScreenshotMode && screenShotPath.isPresent()) {
             if (GoIVSettings.getInstance(this).shouldDeleteScreenshots()) {
                 screenShotHelper.deleteScreenShot(screenShotPath.get());
             }
@@ -592,7 +594,7 @@ public class Pokefly extends Service {
     public void closeInfoDialog() {
         hideInfoLayoutArcPointer();
         resetPokeflyStateMachine();
-        if (!GoIVSettings.getInstance(this).isManualScreenshotModeEnabled()) {
+        if (!startedInManualScreenshotMode) {
             autoAppraisal.reset();
             ivButton.setShown(true, infoShownSent);
         }
@@ -767,7 +769,7 @@ public class Pokefly extends Service {
 
                     if (!infoShownReceived) {
                         GoIVSettings settings = GoIVSettings.getInstance(Pokefly.this);
-                        if (!settings.isManualScreenshotModeEnabled()) {
+                        if (!startedInManualScreenshotMode) {
                             infoShownReceived = true;
                         }
                         showInfoLayoutArcPointer();

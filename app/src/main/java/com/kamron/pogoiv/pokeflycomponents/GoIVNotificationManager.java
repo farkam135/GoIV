@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.ContextCompat;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
@@ -80,7 +81,7 @@ public class GoIVNotificationManager {
                 .setSmallIcon(R.drawable.notification_icon)
                 .setContentTitle(pokefly.getString(R.string.notification_title_goiv_stopped))
                 .setContentText(pokefly.getString(R.string.notification_title_tap_to_open))
-                .setColor(pokefly.getColorC(R.color.colorAccent))
+                .setColor(ContextCompat.getColor(pokefly, R.color.colorAccent))
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setCategory(NotificationCompat.CATEGORY_PROGRESS)
@@ -137,7 +138,7 @@ public class GoIVNotificationManager {
                 .setSmallIcon(R.drawable.notification_icon_play)
                 .setContentTitle(pokefly.getString(R.string.notification_title, pokefly.getTrainerLevel()))
                 .setContentText(pokefly.getString(R.string.notification_title_tap_to_open))
-                .setColor(pokefly.getColorC(R.color.colorPrimary))
+                .setColor(ContextCompat.getColor(pokefly, R.color.colorPrimary))
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setCategory(NotificationCompat.CATEGORY_PROGRESS)

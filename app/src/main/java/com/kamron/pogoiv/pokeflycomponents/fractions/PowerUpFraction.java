@@ -275,7 +275,7 @@ public class PowerUpFraction extends Fraction {
     private void setEstimateLevelTextColor(double selectedLevel) {
         // If selectedLevel exceeds trainer capabilities then show text in orange
         if (selectedLevel > Data.trainerLevelToMaxPokeLevel(pokefly.getTrainerLevel())) {
-            exResLevel.setTextColor(pokefly.getColorC(R.color.orange));
+            exResLevel.setTextColor(ContextCompat.getColor(pokefly, R.color.orange));
         } else {
             exResLevel.setTextColor(exResLevelDefaultColor);
         }

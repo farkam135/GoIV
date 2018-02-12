@@ -18,6 +18,8 @@ import android.widget.LinearLayout;
 import com.kamron.pogoiv.GoIVSettings;
 import com.kamron.pogoiv.Pokefly;
 import com.kamron.pogoiv.ScreenGrabber;
+import com.kamron.pogoiv.pokeflycomponents.fractions.AppraisalFraction;
+import com.kamron.pogoiv.utils.fractions.FractionManager;
 
 import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.SCREEN_INFO_CARD_WHITE_HEX;
 import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.SCREEN_INFO_CARD_WHITE_PIXEL;
@@ -45,16 +47,16 @@ public class ScreenWatcher {
     private Runnable screenScanRunnable;
     private int screenScanRetries;
 
-    private LinearLayout appraisalBox;
     private AutoAppraisal autoAppraisal;
 
     private Pokefly pokefly;
     private DisplayMetrics displayMetrics;
+    private FractionManager fractionManager;
 
-    public ScreenWatcher(Pokefly pokefly, LinearLayout appraisalBox, AutoAppraisal autoAppraisal) {
+    public ScreenWatcher(Pokefly pokefly, FractionManager fractionManager, AutoAppraisal autoAppraisal) {
         this.pokefly = pokefly;
         this.displayMetrics = pokefly.getResources().getDisplayMetrics();
-        this.appraisalBox = appraisalBox;
+        this.fractionManager = fractionManager;
         this.autoAppraisal = autoAppraisal;
 
         initMarkerPixels();
@@ -174,7 +176,7 @@ public class ScreenWatcher {
             if (event.getActionMasked() == MotionEvent.ACTION_OUTSIDE) { // Touch event outside of GoIV UI
                 // Let's check first to see if the user is performing an Appraisal
                 if (!GoIVSettings.getInstance(pokefly).isManualScreenshotModeEnabled()
-                        && appraisalBox.getVisibility() == View.VISIBLE) {
+                        && fractionManager.currentFractionIsInstanceOf(AppraisalFraction.class)) {
                     // Let autoAppraisal know that the user has touched the PokemonGo app while the
                     // appraisalBox was Visible.  This is our indication that the user has started a Pogo appraisal
                     autoAppraisal.screenTouched();

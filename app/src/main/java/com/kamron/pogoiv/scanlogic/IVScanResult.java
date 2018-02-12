@@ -1,13 +1,16 @@
 package com.kamron.pogoiv.scanlogic;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.kamron.pogoiv.pokeflycomponents.AutoAppraisal;
 import com.kamron.pogoiv.utils.LevelRange;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 
 /**
  * A class which represents all possible iv combinations for a pokemon.
@@ -210,112 +213,68 @@ public class IVScanResult {
 
     }
 
+    public void refineWithAvailableInfoFrom(@NonNull AutoAppraisal autoAppraisal) {
+        refineByStatModifiers(autoAppraisal.statModifiers);
+        refineByHighest(autoAppraisal.highestStats);
+        refineByAppraisalPercentageRange(autoAppraisal.appraisalIVPercentRange);
+        refineByAppraisalIVRange(autoAppraisal.appraisalHighestStatValueRange);
+    }
+
     /**
-     * Removes all possible IV combinations where the boolean set to true stat isnt the highest.
+     * Removes all possible IV combinations where the boolean set to true stat isn't the highest.
      * Several stats can be highest if they're equal.
      */
-    public void refineByHighest(boolean attIsHighest, boolean defIsHighest, boolean staIsHighest) {
-        ArrayList<IVCombination> refinedList = new ArrayList<>();
+    public void refineByHighest(@NonNull HashSet<AutoAppraisal.HighestStat> highestStats) {
+        if (highestStats.isEmpty()) {
+            return;
+        }
 
+        Boolean[] knownAttDefSta = { highestStats.contains(AutoAppraisal.HighestStat.ATK),
+                                     highestStats.contains(AutoAppraisal.HighestStat.DEF),
+                                     highestStats.contains(AutoAppraisal.HighestStat.STA) };
+        ArrayList<IVCombination> refinedList = new ArrayList<>();
         for (IVCombination comb : iVCombinations) {
-            Boolean[] knownAttDefSta = {attIsHighest, defIsHighest, staIsHighest};
             if (Arrays.equals(comb.getHighestStatSignature(), knownAttDefSta)) {
                 refinedList.add(comb);
             }
         }
         iVCombinations = refinedList;
+
         updateHighAndLowValues();
     }
 
     /**
      * Removes any iv combination that is outside the scope of the input percentage range.
-     * 1: 81-100%
-     * 2: 66-80%
-     * 3: 51-65%
-     * 4: 0-50%
-     *
-     * @param selectedItemPosition a number between 1 to 4 as detailed above
+     * @param range IV percent range
      */
-    public void refineByAppraisalPercentageRange(int selectedItemPosition) {
-        int lowest;
-        int highest;
-
-        switch (selectedItemPosition) {
-            case 1:
-                lowest = 81;
-                highest = 100;
-                break;
-            case 2:
-                lowest = 66;
-                highest = 80;
-                break;
-            case 3:
-                lowest = 51;
-                highest = 65;
-                break;
-            case 4:
-                lowest = 0;
-                highest = 50;
-                break;
-            default:
-                lowest = 0;
-                highest = 100;
+    public void refineByAppraisalPercentageRange(AutoAppraisal.IVPercentRange range) {
+        if (range == AutoAppraisal.IVPercentRange.UNKNOWN) {
+            return;
         }
 
         ArrayList<IVCombination> refinedList = new ArrayList<>();
-
         for (IVCombination comb : iVCombinations) {
-
-            if (comb.percentPerfect >= lowest && comb.percentPerfect <= highest) {
+            if (comb.percentPerfect >= range.minPercent && comb.percentPerfect <= range.maxPercent) {
                 refinedList.add(comb);
             }
         }
-
         iVCombinations = refinedList;
+
         updateHighAndLowValues();
     }
 
     /**
      * Removes any iv combination where the highest IV is outside the scope of he input range.
-     * Input:
-     * 1: 15
-     * 2: 13-14
-     * 3: 8-12
-     * 4: 0-7
-     *
-     * @param selectedItemPosition a number between 1 to 4 as detailed above
+     * @param range Range of the highest stat IV value
      */
-    public void refineByAppraisalIVRange(int selectedItemPosition) {
-        int lowest;
-        int highest;
-
-        switch (selectedItemPosition) {
-            case 1:
-                lowest = 15;
-                highest = 15;
-                break;
-            case 2:
-                lowest = 13;
-                highest = 14;
-                break;
-            case 3:
-                lowest = 8;
-                highest = 12;
-                break;
-            case 4:
-                lowest = 0;
-                highest = 7;
-                break;
-            default:
-                lowest = 0;
-                highest = 15;
+    public void refineByAppraisalIVRange(AutoAppraisal.IVValueRange range) {
+        if (range == AutoAppraisal.IVValueRange.UNKNOWN) {
+            return;
         }
 
         ArrayList<IVCombination> refinedList = new ArrayList<>();
-
         for (IVCombination comb : iVCombinations) {
-
-            if (comb.getHighestStat() >= lowest && comb.getHighestStat() <= highest) {
+            if (comb.getHighestStat() >= range.minValue && comb.getHighestStat() <= range.maxValue) {
                 refinedList.add(comb);
             }
         }
@@ -325,17 +284,28 @@ public class IVScanResult {
     }
 
     /**
-     * Removes any combination that has stats that are lower than 10, for example 9 14 14. Egg and raid pokemon
-     * cannot have stats that are lower than 10.
+     * Removes any combination that has stats that are lower than a certain amount. Egg and raid pokemon cannot have
+     * stats that are lower than 10, weather boosted can't be lower than 4.
      */
-    public void refineByEggRaid() {
+    public void refineByStatModifiers(@NonNull HashSet<AutoAppraisal.StatModifier> statModifiers) {
+        if (statModifiers.isEmpty()) {
+            return;
+        }
+
+        int minStat = 0;
+        for (AutoAppraisal.StatModifier statModifier : statModifiers) {
+            minStat = Math.max(minStat, statModifier.minStat);
+        }
+
         ArrayList<IVCombination> refinedList = new ArrayList<>();
         for (IVCombination comb : iVCombinations) {
-            if (comb.att >= 10 && comb.def >= 10 && comb.sta >= 10) {
+            if (comb.att >= minStat && comb.def >= minStat && comb.sta >= minStat) {
                 refinedList.add(comb);
             }
         }
         iVCombinations = refinedList;
+
+        updateHighAndLowValues();
     }
 
     public void addPossibilitiesFrom(IVScanResult ivs) {

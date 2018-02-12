@@ -119,6 +119,7 @@
     <string name="possible_iv_combinations" tools:ignore="PluralsCandidate">"%1$d possible IV combinations"</string>
     <string name="check_cp_or_level">Something went wrong! Please check that the input values were correct, and that GoIV has the right trainer level in the launch screen.</string>
     <string name="refining_instructions">Increase IV calculation precision by leveling up and comparing two scans of the same monster</string>
+    <string name="appraisal">Appraisal</string>
     <string name="appraisal_refining">Additional Refining</string>
     <string name="autoappraisal_start">Auto Appraisal Started</string>
     <string name="autoappraisal_finish">Auto Appraisal Finished</string>

@@ -45,6 +45,10 @@ public class FractionManager {
         return containerView.getChildCount() > 0;
     }
 
+    public boolean currentFractionIsInstanceOf(@NonNull Class<? extends Fraction> fractionClass) {
+        return currentFraction != null && currentFraction.getClass().equals(fractionClass);
+    }
+
     private void removeFractionView() {
         containerView.removeView(containerView.getChildAt(0));
     }

@@ -1,59 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+
+    android:id="@+id/fractionContainer"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center|bottom"
     android:background="@android:drawable/alert_light_frame"
     android:theme="@style/AppTheme.Dialog">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="5">
+    <!-- Panels will appear in this container -->
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <!-- Panels will appear in this container -->
-            <FrameLayout
-                android:id="@+id/fractionContainer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <!-- SHOWING JUST ONE AT A TIME -->
-
-            <include
-                android:id="@+id/inputBox"
-                layout="@layout/dialog_input" />
-
-        </LinearLayout>
-
-    </ScrollView>
-
-    <LinearLayout
-        android:id="@+id/llButtonsInitial"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/btnCancelInfo"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/cancel" />
-
-        <Button
-            android:id="@+id/btnCheckIv"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/check_iv" />
-
-    </LinearLayout>
-
-</LinearLayout>
+</FrameLayout>

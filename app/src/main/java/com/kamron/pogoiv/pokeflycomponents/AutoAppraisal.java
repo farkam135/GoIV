@@ -3,14 +3,15 @@ package com.kamron.pogoiv.pokeflycomponents;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Handler;
-import android.widget.CheckBox;
-import android.widget.LinearLayout;
-import android.widget.RadioGroup;
+import android.support.annotation.NonNull;
 
 import com.kamron.pogoiv.GoIVSettings;
 import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.ScreenGrabber;
 import com.kamron.pogoiv.pokeflycomponents.ocrhelper.OcrHelper;
+
+import java.util.ArrayList;
+import java.util.HashSet;
 
 /**
  * Created by Johan on 2016-12-01.
@@ -25,21 +26,18 @@ public class AutoAppraisal {
     private ScreenGrabber screenGrabber;
     Context context;
 
+    private ArrayList<OnAppraisalEventListener> eventListeners = new ArrayList<>();
+
     private static final int SCANRETRIES = 3; // max num of retries if appraisal text doesn't match
     private static final int RETRYDELAY = 50; // ms delay between retry scans
     private int numTouches = 0;
     private int numRetries = 0;
-    private int scanDelay;
     private boolean autoAppraisalDone = false;
 
-    //UI elements in pokefly to modify.
-    CheckBox attCheckbox;
-    CheckBox defCheckbox;
-    CheckBox staCheckbox;
-
-    RadioGroup appraisalIVRangeGroup;
-    RadioGroup appraisalStatsGroup;
-    LinearLayout attDefStaLayout;
+    public IVPercentRange appraisalIVPercentRange = IVPercentRange.UNKNOWN;
+    public HashSet<HighestStat> highestStats = new HashSet<>();
+    public IVValueRange appraisalHighestStatValueRange = IVValueRange.UNKNOWN;
+    public HashSet<StatModifier> statModifiers = new HashSet<>();
 
     //Appraisal phrases
     private String highest_stat_att;
@@ -63,19 +61,19 @@ public class AutoAppraisal {
     private String statsrange4_phrase2;
 
 
-    public AutoAppraisal(ScreenGrabber screenGrabber, Context context, LinearLayout attDefStaLayout,
-                         CheckBox attCheckbox, CheckBox defCheckbox, CheckBox staCheckbox,
-                         RadioGroup appraisalIVRangeGroup, RadioGroup appraisalStatsGroup) {
+    public AutoAppraisal(@NonNull ScreenGrabber screenGrabber, @NonNull Context context) {
         this.context = context;
         this.screenGrabber = screenGrabber;
-        this.attDefStaLayout = attDefStaLayout;
-        this.attCheckbox = attCheckbox;
-        this.defCheckbox = defCheckbox;
-        this.staCheckbox = staCheckbox;
-        this.appraisalIVRangeGroup = appraisalIVRangeGroup;
-        this.appraisalStatsGroup = appraisalStatsGroup;
         settings = GoIVSettings.getInstance(context);
         getAppraisalPhrases();
+    }
+
+    public void addOnAppraisalEventListener(OnAppraisalEventListener eventListener) {
+        eventListeners.add(eventListener);
+    }
+
+    public void removeOnAppraisalEventListener(OnAppraisalEventListener eventListener) {
+        eventListeners.remove(eventListener);
     }
 
     private void getAppraisalPhrases() {
@@ -147,15 +145,19 @@ public class AutoAppraisal {
 
         if (numTouches == 2) { // Second touch is usually the "Appraise" menu item.
             // Signal to the user that we're now looking for the first appraisal phase.
-            highlightActiveCheckboxGroup();
+            for (OnAppraisalEventListener eventListener : eventListeners) {
+                eventListener.highlightActiveUserInterface();
+            }
         } else if ((numTouches > 2) && (!autoAppraisalDone)) {
-            // pickup possible changes of the setting
-            scanDelay = settings.getAutoAppraisalScanDelay();
-            highlightActiveCheckboxGroup();
+            for (OnAppraisalEventListener eventListener : eventListeners) {
+                eventListener.highlightActiveUserInterface();
+            }
             // Scan Appraisal text after the configured delay.
-            scanAppraisalText(scanDelay);
+            scanAppraisalText(settings.getAutoAppraisalScanDelay());
         } else if (autoAppraisalDone) {
-            resetBackgroundHighlights();
+            for (OnAppraisalEventListener eventListener : eventListeners) {
+                eventListener.resetActivatedUserInterface();
+            }
         }
     }
 
@@ -172,37 +174,23 @@ public class AutoAppraisal {
     }
 
     /**
-     * Sets the background for the appropriate checkbox group depending on where we are at in the appraisal process.
-     */
-    private void highlightActiveCheckboxGroup() {
-        resetBackgroundHighlights();
-        if (!isIVRangeGroupDone()) {
-            appraisalIVRangeGroup.setBackgroundResource(R.drawable.highlight_rectangle);
-        } else if (isIVRangeGroupDone() && !isStatsGroupDone()) {
-            attDefStaLayout.setBackgroundResource(R.drawable.highlight_rectangle);
-        } else {
-            appraisalStatsGroup.setBackgroundResource(R.drawable.highlight_rectangle);
-        }
-    }
-
-    /**
-     * Disables any background highlight that had previously been set.  This method is used as a quick way to remove
-     * all backgrounds prior to setting again or when the auto appraisal process has completed.
-     */
-    private void resetBackgroundHighlights() {
-        appraisalIVRangeGroup.setBackground(null);
-        attDefStaLayout.setBackground(null);
-        appraisalStatsGroup.setBackground(null);
-    }
-
-    /**
      * Resets any necessary variables to their default states for the next Appraisal process.
      */
     public void reset() {
+        // Delete values
+        appraisalIVPercentRange = IVPercentRange.UNKNOWN;
+        highestStats.clear();
+        appraisalHighestStatValueRange = IVValueRange.UNKNOWN;
+        statModifiers.clear();
+
+        // Reset state
         numTouches = 0;
         numRetries = 0;
         autoAppraisalDone = false;
-        resetBackgroundHighlights();
+
+        for (OnAppraisalEventListener eventListener : eventListeners) {
+            eventListener.resetActivatedUserInterface();
+        }
     }
 
     /**
@@ -214,11 +202,13 @@ public class AutoAppraisal {
     private void addInfoFromAppraiseText(String appraiseText, String hash) {
         boolean match = false;
 
-        if (!isIVRangeGroupDone()) { // Only if none of the IVRange checkboxes have been checked.
+        if (appraisalIVPercentRange == AutoAppraisal.IVPercentRange.UNKNOWN) {
+            // Only if none of the IVRange checkboxes have been checked.
             // See if appraiseText matches any of the IVRange strings
             match = setIVRangeWith(appraiseText);
         }
-        if (!match && isIVRangeGroupDone()) { // Only if IVRange is done and have not matched yet.
+        if (!match && appraisalIVPercentRange != AutoAppraisal.IVPercentRange.UNKNOWN) {
+            // Only if IVRange is done and have not matched yet.
             // See if appraiseText matches any of the Highest Stats strings
             match = setHighestStatsWith(appraiseText);
         }
@@ -246,29 +236,37 @@ public class AutoAppraisal {
     private boolean setStatsRangeWith(String appraiseText) {
         if (appraiseText.toLowerCase().contains(statsrange1_phrase1)
                 || (appraiseText.toLowerCase().contains(statsrange1_phrase2))) {
-            appraisalStatsGroup.check(R.id.appraisalStat1);
-            highlightActiveCheckboxGroup();
+            for (OnAppraisalEventListener eventListener: eventListeners) {
+                eventListener.selectIVValueRange(IVValueRange.RANGE_15);
+                eventListener.highlightActiveUserInterface();
+            }
             autoAppraisalDone = true;
             return true;
         }
         if (appraiseText.toLowerCase().contains(statsrange2_phrase1)
                 || (appraiseText.toLowerCase().contains(statsrange2_phrase2))) {
-            appraisalStatsGroup.check(R.id.appraisalStat2);
-            highlightActiveCheckboxGroup();
+            for (OnAppraisalEventListener eventListener: eventListeners) {
+                eventListener.selectIVValueRange(IVValueRange.RANGE_13_14);
+                eventListener.highlightActiveUserInterface();
+            }
             autoAppraisalDone = true;
             return true;
         }
         if (appraiseText.toLowerCase().contains(statsrange3_phrase1)
                 || (appraiseText.toLowerCase().contains(statsrange3_phrase2))) {
-            appraisalStatsGroup.check(R.id.appraisalStat3);
-            highlightActiveCheckboxGroup();
+            for (OnAppraisalEventListener eventListener: eventListeners) {
+                eventListener.selectIVValueRange(IVValueRange.RANGE_8_12);
+                eventListener.highlightActiveUserInterface();
+            }
             autoAppraisalDone = true;
             return true;
         }
         if (appraiseText.toLowerCase().contains(statsrange4_phrase1)
                 || (appraiseText.toLowerCase().contains(statsrange4_phrase2))) {
-            appraisalStatsGroup.check(R.id.appraisalStat4);
-            highlightActiveCheckboxGroup();
+            for (OnAppraisalEventListener eventListener: eventListeners) {
+                eventListener.selectIVValueRange(IVValueRange.RANGE_0_7);
+                eventListener.highlightActiveUserInterface();
+            }
             autoAppraisalDone = true;
             return true;
         }
@@ -276,22 +274,28 @@ public class AutoAppraisal {
     }
 
     /**
-     * Sets each of the highest stats as found within the appraisal phrases given
+     * Sets each of the highest stats as found within the appraisal phrases given.
      *
      * @param appraiseText the text to interpret.
      * @return boolean returns true if one of the highest stats phrase was matched.
      */
     private boolean setHighestStatsWith(String appraiseText) {
         if (appraiseText.toLowerCase().contains(highest_stat_att)) {
-            attCheckbox.setChecked(true);
+            for (OnAppraisalEventListener eventListener : eventListeners) {
+                eventListener.selectHighestStat(HighestStat.ATK);
+            }
             return true;
         }
         if (appraiseText.toLowerCase().contains(highest_stat_def)) {
-            defCheckbox.setChecked(true);
+            for (OnAppraisalEventListener eventListener : eventListeners) {
+                eventListener.selectHighestStat(HighestStat.DEF);
+            }
             return true;
         }
         if (appraiseText.toLowerCase().contains(highest_stat_hp)) {
-            staCheckbox.setChecked(true);
+            for (OnAppraisalEventListener eventListener : eventListeners) {
+                eventListener.selectHighestStat(HighestStat.STA);
+            }
             return true;
         }
         return false;
@@ -306,26 +310,35 @@ public class AutoAppraisal {
     private boolean setIVRangeWith(String appraiseText) {
         if (appraiseText.toLowerCase().contains(ivrange1_phrase1)
                 || (appraiseText.toLowerCase().contains(ivrange1_phrase2))) {
-            appraisalIVRangeGroup.check(R.id.appraisalIVRange1);
+            for (OnAppraisalEventListener eventListener : eventListeners) {
+                eventListener.selectIVPercentRange(IVPercentRange.RANGE_81_100);
+            }
             return true;
         }
         if (appraiseText.toLowerCase().contains(ivrange2_phrase1)
                 || (appraiseText.toLowerCase().contains(ivrange2_phrase2))) {
-            appraisalIVRangeGroup.check(R.id.appraisalIVRange2);
+            for (OnAppraisalEventListener eventListener : eventListeners) {
+                eventListener.selectIVPercentRange(IVPercentRange.RANGE_61_80);
+            }
             return true;
         }
         if (appraiseText.toLowerCase().contains(ivrange3_phrase1)
                 || (appraiseText.toLowerCase().contains(ivrange3_phrase2))) {
-            appraisalIVRangeGroup.check(R.id.appraisalIVRange3);
+            for (OnAppraisalEventListener eventListener : eventListeners) {
+                eventListener.selectIVPercentRange(IVPercentRange.RANGE_41_60);
+            }
             return true;
         }
         if (appraiseText.toLowerCase().contains(ivrange4_phrase1)
                 || (appraiseText.toLowerCase().contains(ivrange4_phrase2))) {
-            appraisalIVRangeGroup.check(R.id.appraisalIVRange4);
+            for (OnAppraisalEventListener eventListener : eventListeners) {
+                eventListener.selectIVPercentRange(IVPercentRange.RANGE_0_40);
+            }
             return true;
         }
         return false;
     }
+
 
     /**
      * The task which looks at the bottom of the screen, and adds any info it finds.  This method then calls
@@ -344,22 +357,65 @@ public class AutoAppraisal {
         }
     }
 
-    /**
-     * Return whether any of the checkboxes for appraisalStatsGroup are selected.
-     *
-     * @return true if any checkbox is selected.
-     */
-    private boolean isStatsGroupDone() {
-        return appraisalStatsGroup.getCheckedRadioButtonId() != -1;
+    public enum IVPercentRange {
+        UNKNOWN(0, 100),
+        RANGE_0_40(0, 40),
+        RANGE_41_60(41, 60),
+        RANGE_61_80(61, 80),
+        RANGE_81_100(81, 100);
+
+        public int minPercent;
+        public int maxPercent;
+
+        IVPercentRange(int minPercent, int maxPercent) {
+            this.minPercent = minPercent;
+            this.maxPercent = maxPercent;
+        }
     }
 
-    /**
-     * Return whether any of the checkboxes for appraisalIVRangeGroup are selected.
-     *
-     * @return true if any checkbox is selected.
-     */
-    private boolean isIVRangeGroupDone() {
-        return appraisalIVRangeGroup.getCheckedRadioButtonId() != -1;
+    public enum HighestStat {
+        ATK,
+        DEF,
+        STA
+    }
+
+    public enum IVValueRange {
+        UNKNOWN(0, 15),
+        RANGE_0_7(0, 7),
+        RANGE_8_12(8, 12),
+        RANGE_13_14(13, 14),
+        RANGE_15(15, 15);
+
+        public int minValue;
+        public int maxValue;
+
+        IVValueRange(int minValue, int maxValue) {
+            this.minValue = minValue;
+            this.maxValue = maxValue;
+        }
+    }
+
+    public enum StatModifier {
+        EGG_OR_RAID(10),
+        WEATHER_BOOST(4);
+
+        public int minStat;
+
+        StatModifier(int minStat) {
+            this.minStat = minStat;
+        }
+    }
+
+    public interface OnAppraisalEventListener {
+        void selectIVPercentRange(IVPercentRange range);
+
+        void selectHighestStat(HighestStat stat);
+
+        void selectIVValueRange(IVValueRange range);
+
+        void highlightActiveUserInterface();
+
+        void resetActivatedUserInterface();
     }
 
 }

@@ -66,235 +66,216 @@
     </info.hoang8f.android.segmented.SegmentedGroup>
 
     <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:gravity="center_horizontal"
+        android:baselineAligned="true">
 
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1"/>
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginLeft="12dp"
             android:layout_marginRight="12dp"
-            android:gravity="center"
-            android:text="@string/pokemon_name"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            android:textStyle="bold"/>
-
-        <include layout="@layout/dialog_input_poke_picker"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"/>
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1"/>
-
-    </LinearLayout>
-    <!-- the top part (non appraisal part of the layout) -->
-    <LinearLayout
-        android:id="@+id/defaultInputPart"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:baselineAligned="false">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center"
-                android:layout_weight="1">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:labelFor="@+id/etCp"
-                    android:text="@string/cp"
-                    android:textColor="@color/black"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:gravity="center"/>
-
-                <EditText
-                    android:id="@+id/etCp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/colorPrimary"
-                    tools:text="XX"
-                    android:maxLength="4"
-                    android:minWidth="60dp"
-                    android:textAlignment="center"
-                    android:inputType="number"
-                    android:maxLines="1"
-                    android:selectAllOnFocus="true"
-                    android:nextFocusDown="@+id/etHp"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center"
-                android:layout_weight="1">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:labelFor="@+id/etHp"
-                    android:text="@string/hp"
-                    android:textColor="@color/black"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:gravity="center"/>
-
-                <EditText
-                    android:id="@+id/etHp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/colorPrimary"
-                    android:minWidth="60dp"
-                    tools:text="XX"
-                    android:maxLength="4"
-                    android:textAlignment="center"
-                    android:inputType="number"
-                    android:selectAllOnFocus="true"
-                    android:maxLines="1"
-                    android:nextFocusDown="@+id/etCandy"
-                    android:nextFocusForward="@+id/etCandy"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center"
-                android:layout_weight="1"
-                android:id="@+id/llPokeSpamDialogInputContentBox">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:labelFor="@+id/etCandy"
-                    android:text="@string/candy"
-                    android:textColor="@color/black"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:gravity="center"/>
-
-                <EditText
-                    android:id="@+id/etCandy"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/colorPrimary"
-                    android:minWidth="60dp"
-                    tools:text="XX"
-                    android:maxLength="4"
-                    android:textAlignment="center"
-                    android:inputType="number"
-                    android:selectAllOnFocus="true"
-                    android:imeOptions="actionDone"
-                    android:maxLines="1"/>
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="2dp"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/use_the_slider_below_to_align_the_arc"
-            android:textColor="@color/importantText"
-            android:textSize="14sp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
             android:textStyle="bold"
-            android:gravity="center"/>
+            android:text="@string/pokemon_name" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:orientation="horizontal"
-            android:paddingLeft="12dp"
-            android:paddingRight="12dp"
-            android:gravity="center">
+        <Spinner
+            android:id="@+id/spnPokemonName"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:gravity="center" />
 
-            <Button
-                android:id="@+id/btnDecrementLevel"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight=".15"
-                android:text="-"
-                android:textSize="22sp"
-                android:textColor="@color/colorPrimary"
-                android:background="@android:color/transparent"/>
+        <AutoCompleteTextView
+            android:id="@+id/autoCompleteTextView1"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:imeOptions="actionDone"
+            android:visibility="gone">
 
-            <SeekBar
-                android:id="@+id/sbArcAdjust"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.7"/>
+        </AutoCompleteTextView>
 
-            <Button
-                android:id="@+id/btnIncrementLevel"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="+"
-                android:layout_weight=".15"
-                android:textSize="22sp"
-                android:textColor="@color/colorPrimary"
-                android:background="@android:color/transparent"/>
-
-            <TextView
-                android:id="@+id/levelIndicator"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingStart="12dp"
-                android:paddingEnd="6dp"
-                tools:text="0"/>
-
-        </LinearLayout>
+        <ImageButton
+            android:id="@+id/pokePickerToggleSpinnerVsInput"
+            style="?attr/borderlessButtonStyle"
+            android:src="@android:drawable/ic_menu_edit"
+            android:layout_width="40dp"
+            android:layout_height="40dp" />
 
     </LinearLayout>
 
-
     <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp">
 
-        <TextView
-            android:id="@+id/inputAppraisalExpandBox"
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingStart="8dp"
-            android:clickable="true"
-            android:drawableEnd="@drawable/ic_keyboard_arrow_right_blue_18dp"
-            android:paddingEnd="60dp"
-            android:paddingBottom="12dp"
-            android:paddingTop="6dp"
-            android:text="@string/appraisal_refining"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:baselineAligned="true">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:labelFor="@+id/etCp"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textStyle="bold"
+                android:text="@string/cp" />
+
+            <EditText
+                android:id="@+id/etCp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="56dp"
+                android:textColor="@color/colorPrimary"
+                android:maxLength="4"
+                android:textAlignment="center"
+                android:inputType="number"
+                android:maxLines="1"
+                android:selectAllOnFocus="true"
+                android:nextFocusDown="@+id/etHp"
+                android:nextFocusForward="@+id/etHp"
+                android:imeOptions="actionNext"
+                tools:text="XXXX" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:baselineAligned="true">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:labelFor="@+id/etHp"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textStyle="bold"
+                android:text="@string/hp" />
+
+            <EditText
+                android:id="@+id/etHp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="56dp"
+                android:textColor="@color/colorPrimary"
+                android:maxLength="4"
+                android:textAlignment="center"
+                android:inputType="number"
+                android:maxLines="1"
+                android:selectAllOnFocus="true"
+                android:nextFocusDown="@+id/etCandy"
+                android:nextFocusForward="@+id/etCandy"
+                android:imeOptions="actionNext"
+                tools:text="XXX" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llPokeSpamDialogInputContentBox"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:baselineAligned="true">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:labelFor="@+id/etCp"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textStyle="bold"
+                android:text="@string/candy" />
+
+            <EditText
+                android:id="@+id/etCandy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="56dp"
+                android:textColor="@color/colorPrimary"
+                android:maxLength="4"
+                android:textAlignment="center"
+                android:inputType="number"
+                android:maxLines="1"
+                android:selectAllOnFocus="true"
+                android:imeOptions="actionDone"
+                tools:text="XXX" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/use_the_slider_below_to_align_the_arc"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:gravity="center"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:gravity="center_vertical">
+
+        <Button
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:id="@+id/btnDecrementLevel"
+            android:layout_width="36dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@color/colorPrimary"
-            android:textSize="18sp"/>
+            android:textStyle="bold"
+            android:text="-"
+            tools:ignore="HardcodedText" />
+
+        <SeekBar
+            android:id="@+id/sbArcAdjust"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <Button
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:id="@+id/btnIncrementLevel"
+            android:layout_width="36dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold"
+            android:text="+"
+            tools:ignore="HardcodedText" />
+
+        <TextView
+            android:id="@+id/levelIndicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="4dp"
+            tools:text="20.5" />
+
     </LinearLayout>
 
     <Button
         android:id="@+id/btnCheckIv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:text="@string/check_iv" />
 
 </LinearLayout>

@@ -322,7 +322,18 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textAllCaps="true"
-                android:text="@string/level" />
+                android:text="@string/level_acronym" />
+
+            <TextView
+                android:id="@+id/explainLevelSlider"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:layout_marginStart="4dp"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/colorPrimary"
+                android:text="(?)"
+                tools:ignore="HardcodedText,RtlHardcoded" />
 
             <Button
                 style="?attr/borderlessButtonStyle"
@@ -377,17 +388,6 @@
                 android:textStyle="bold"
                 android:textAllCaps="true"
                 tools:text="20.0" />
-
-            <TextView
-                android:id="@+id/explainLevelSlider"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="6dp"
-                android:layout_marginStart="6dp"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/colorPrimary"
-                android:text="(?)"
-                tools:ignore="HardcodedText,RtlHardcoded" />
 
         </LinearLayout>
 

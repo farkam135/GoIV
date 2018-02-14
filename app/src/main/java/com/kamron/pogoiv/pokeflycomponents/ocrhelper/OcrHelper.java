@@ -302,7 +302,7 @@ public class OcrHelper {
         if (evolutionCostArea != null) {
             evolutionCostImage = getImageCrop(pokemonImage, evolutionCostArea);
         } else {
-            evolutionCostImage = getImageCrop(pokemonImage, 0.625, 0.815, 0.2, 0.03);
+            evolutionCostImage = getImageCrop(pokemonImage, 0.625, 0.87, 0.2, 0.05);
         }
 
         String hash = "candyCost" + hashBitmap(evolutionCostImage);
@@ -478,7 +478,7 @@ public class OcrHelper {
         if (nameArea != null) {
             name = getImageCrop(pokemonImage, nameArea);
         } else {
-            name = getImageCrop(pokemonImage, 0.1, 0.4125, 0.85, 0.055);
+            name = getImageCrop(pokemonImage, 0.1, 0.44, 0.85, 0.058);
         }
 
         String hash = "name" + hashBitmap(name);
@@ -533,7 +533,7 @@ public class OcrHelper {
         if (genderArea != null) {
             genderImage = getImageCrop(pokemonImage, genderArea);
         } else {
-            genderImage = getImageCrop(pokemonImage, 0.822, 0.455, 0.0682, 0.03756);
+            genderImage = getImageCrop(pokemonImage, 0.822, 0.47, 0.1, 0.06);
         }
 
         replaceColors(genderImage, true, 68, 105, 108, Color.WHITE, 200, true);
@@ -659,7 +659,7 @@ public class OcrHelper {
         if (candyNameArea != null) {
             candy = getImageCrop(pokemonImage, candyNameArea);
         } else {
-            candy = getImageCrop(pokemonImage, 0.5, 0.678, 0.47, 0.026);
+            candy = getImageCrop(pokemonImage, 0.5, 0.725, 0.47, 0.032);
         }
 
         String hash = "candy" + hashBitmap(candy);
@@ -689,7 +689,7 @@ public class OcrHelper {
         if (hpArea != null) {
             hp = getImageCrop(pokemonImage, hpArea);
         } else {
-            hp = getImageCrop(pokemonImage, 0.357, 0.482, 0.285, 0.0293);
+            hp = getImageCrop(pokemonImage, 0.357, 0.52, 0.285, 0.03);
         }
 
         String hash = "hp" + hashBitmap(hp);
@@ -742,7 +742,7 @@ public class OcrHelper {
         if (cpArea != null) {
             cp = getImageCrop(pokemonImage, cpArea);
         } else {
-            cp = getImageCrop(pokemonImage, 0.25, 0.059, 0.5, 0.046);
+            cp = getImageCrop(pokemonImage, 0.25, 0.059, 0.5, 0.049);
         }
 
         cp = replaceColors(cp, true, 255, 255, 255, Color.BLACK, 30, false);
@@ -876,7 +876,7 @@ public class OcrHelper {
         if (candyAmountArea != null) {
             candyAmount = getImageCrop(pokemonImage, candyAmountArea);
         } else {
-            candyAmount = getImageCrop(pokemonImage, 0.60, 0.644, 0.20, 0.038);
+            candyAmount = getImageCrop(pokemonImage, 0.60, 0.685, 0.20, 0.047);
         }
 
         String hash = "candyAmount" + hashBitmap(candyAmount);

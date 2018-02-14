@@ -320,18 +320,7 @@ public class Pokefly extends Service {
     private void setupDisplaySizeInfo() {
         ScanPoint arcInit = new ScanPoint((int) (displayMetrics.widthPixels * 0.5),
                 (int) Math.floor(displayMetrics.heightPixels * 0.35664));
-        if (displayMetrics.heightPixels == 2392 || displayMetrics.heightPixels == 800) {
-            arcInit.yCoord--;
-        } else if (displayMetrics.heightPixels == 1920) {
-            arcInit.yCoord++;
-        }
-
         int arcRadius = (int) Math.round(displayMetrics.heightPixels * 0.2285);
-        if (displayMetrics.heightPixels == 1776 || displayMetrics.heightPixels == 960
-                || displayMetrics.heightPixels == 800) {
-            arcRadius++;
-        }
-
         Data.setupArcPoints(arcInit, arcRadius, trainerLevel);
     }
 

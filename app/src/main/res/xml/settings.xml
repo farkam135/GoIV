@@ -62,7 +62,7 @@
             android:title="@string/copy_to_clip_show_toast_setting"/>
 
         <SwitchPreference
-            android:defaultValue="true"
+            android:defaultValue="false"
             android:key="pokeSpamEnabled"
             android:summary="@string/pokespam_setting_summary"
             android:title="@string/pokespam_setting_title"/>

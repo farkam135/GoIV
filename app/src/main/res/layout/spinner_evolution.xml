@@ -2,8 +2,8 @@
 <TextView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:textSize="20sp"
-    android:gravity="right"
-    android:textColor="@drawable/spinner_color_set"
-    android:backgroundTint="#FFFFFF"/>
+    android:layout_height="wrap_content"
+    android:textAlignment="textEnd"
+    android:textAppearance="?android:attr/textAppearanceLarge"
+    android:textStyle="bold"
+    android:textColor="@drawable/spinner_color_set" />

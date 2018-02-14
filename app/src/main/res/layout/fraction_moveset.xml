@@ -1,0 +1,89 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="@dimen/dialog_large_height_min">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:baselineAligned="true"
+        android:background="?attr/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <ImageButton
+            style="?attr/borderlessButtonStyle"
+            android:id="@+id/btnBack"
+            android:layout_width="48dp"
+            android:layout_height="40dp"
+            android:text="@string/back"
+            android:src="?attr/homeAsUpIndicator" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Moveset scan results" />
+
+        <ImageButton
+            style="?attr/borderlessButtonStyle"
+            android:id="@+id/btnClose"
+            android:layout_width="48dp"
+            android:layout_height="40dp"
+            android:text="@string/close"
+            android:src="@drawable/abc_ic_clear_material" />
+
+    </LinearLayout>
+
+    <info.hoang8f.android.segmented.SegmentedGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:orientation="horizontal"
+        app:sc_corner_radius="2dp"
+        app:sc_tint_color="@color/colorPrimary">
+
+        <RadioButton
+            android:id="@+id/powerUpButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Power up"
+            android:textAllCaps="true"
+            style="@style/RadioButton" />
+
+        <RadioButton
+            android:id="@+id/ivButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="IV"
+            android:textAllCaps="true"
+            style="@style/RadioButton" />
+
+        <RadioButton
+            android:id="@+id/movesetButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Moveset"
+            android:textAllCaps="true"
+            android:checked="true"
+            style="@style/RadioButton" />
+
+    </info.hoang8f.android.segmented.SegmentedGroup>
+
+    <android.support.v7.widget.AppCompatImageButton
+        style="?attr/borderlessButtonStyle"
+        android:id="@+id/shareWithOtherApp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:scaleType="center"
+        app:srcCompat="@drawable/ic_share_black" />
+
+</LinearLayout>

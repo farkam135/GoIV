@@ -112,6 +112,7 @@
     <string name="stardust_cost">Stardust Cost</string>
     <string name="evolution">Evolution</string>
     <string name="level">Level</string>
+    <string name="level_acronym">lvl</string>
     <string name="level_num">Level %1$s</string>
     <string name="refine">Refine</string>
     <string name="refine_no_progress">Refinement didn\'t improve results</string>
@@ -119,6 +120,7 @@
     <string name="possible_iv_combinations" tools:ignore="PluralsCandidate">"%1$d possible IV combinations"</string>
     <string name="check_cp_or_level">Something went wrong! Please check that the input values were correct, and that GoIV has the right trainer level in the launch screen.</string>
     <string name="refining_instructions">Increase IV calculation precision by leveling up and comparing two scans of the same monster</string>
+    <string name="appraisal">Appraisal</string>
     <string name="appraisal_refining">Additional Refining</string>
     <string name="autoappraisal_start">Auto Appraisal Started</string>
     <string name="autoappraisal_finish">Auto Appraisal Finished</string>
@@ -150,6 +152,7 @@
     <string name="pokespam_formatted_message">%1$d (%2$d rows + %3$d more)</string>
     <string name="pokespam_formatted_message2">%1$d (%2$d rows)</string>
     <string name="candy">Candy</string>
+    <string name="stardust">Stardust</string>
     <string name="pokespam_not_available">Not Available</string>
     <string name="pokespam_setting_title">Show how many you can evolve</string>
     <string name="pokespam_setting_summary">This feature enables scanning for candy amount and allows you to see how many monsters you can evolve, useful for use with lucky egg</string>

@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="@dimen/dialog_large_height_min">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:baselineAligned="true"
+        android:background="?attr/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <ImageButton
+            style="?attr/borderlessButtonStyle"
+            android:id="@+id/btnBack"
+            android:layout_width="48dp"
+            android:layout_height="40dp"
+            android:text="@string/back"
+            android:src="?attr/homeAsUpIndicator" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="IV scan results" />
+
+        <ImageButton
+            style="?attr/borderlessButtonStyle"
+            android:id="@+id/btnClose"
+            android:layout_width="48dp"
+            android:layout_height="40dp"
+            android:text="@string/close"
+            android:src="@drawable/abc_ic_clear_material" />
+
+    </LinearLayout>
+
+    <info.hoang8f.android.segmented.SegmentedGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:orientation="horizontal"
+        app:sc_corner_radius="2dp"
+        app:sc_tint_color="@color/colorPrimary">
+
+        <RadioButton
+            android:id="@+id/powerUpButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Power up"
+            android:textAllCaps="true"
+            style="@style/RadioButton" />
+
+        <RadioButton
+            android:id="@+id/ivButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="IV"
+            android:textAllCaps="true"
+            android:checked="true"
+            style="@style/RadioButton" />
+
+        <RadioButton
+            android:id="@+id/movesetButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Moveset"
+            android:textAllCaps="true"
+            style="@style/RadioButton" />
+
+    </info.hoang8f.android.segmented.SegmentedGroup>
+
+    <android.support.constraint.ConstraintLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:paddingStart="12dp"
+        android:baselineAligned="true">
+
+        <TextView
+            android:id="@+id/resultsPokemonName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:text="Pokename" />
+
+        <TextView
+            android:id="@+id/resultsPokemonLevel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            app:layout_constraintStart_toEndOf="@id/resultsPokemonName"
+            app:layout_constraintBaseline_toBaselineOf="@id/resultsPokemonName"
+            tools:text="@string/level" />
+
+        <android.support.v7.widget.AppCompatImageButton
+            style="?attr/borderlessButtonStyle"
+            android:id="@+id/shareWithOtherApp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:scaleType="center"
+            app:srcCompat="@drawable/ic_share_black" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center">
+
+        <LinearLayout
+            android:id="@+id/llSingleMatch"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="6dp"
+                android:layout_marginRight="6dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:paddingTop="6dp"
+                android:paddingBottom="6dp"
+                android:gravity="center"
+                android:background="@drawable/skin_iv_linearlayout">
+
+                <TextView
+                    android:id="@+id/resultsAttack"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textStyle="bold"
+                    tools:text="15" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textAllCaps="true"
+                    android:text="@string/atk" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="6dp"
+                android:layout_marginRight="6dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:paddingTop="6dp"
+                android:paddingBottom="6dp"
+                android:gravity="center"
+                android:background="@drawable/skin_iv_linearlayout">
+
+                <TextView
+                    android:id="@+id/resultsDefense"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textStyle="bold"
+                    tools:text="15" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textAllCaps="true"
+                    android:text="@string/def" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="6dp"
+                android:layout_marginRight="6dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:paddingTop="6dp"
+                android:paddingBottom="6dp"
+                android:gravity="center"
+                android:background="@drawable/skin_iv_linearlayout">
+
+                <TextView
+                    android:id="@+id/resultsHP"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textStyle="bold"
+                    tools:text="15" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textAllCaps="true"
+                    android:text="@string/sta" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llMinIV"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="6dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:gravity="center"
+            android:background="@drawable/skin_iv_linearlayout">
+
+            <TextView
+                android:id="@+id/resultsMinPercentage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textStyle="bold"
+                tools:text="76%" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textAllCaps="true"
+                android:text="@string/min" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llAvgIV"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="6dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:gravity="center"
+            android:background="@drawable/skin_iv_linearlayout">
+
+            <TextView
+                android:id="@+id/resultsAvePercentage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textStyle="bold"
+                tools:text="82%" />
+
+            <TextView
+                android:id="@+id/tvAvgIV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textAllCaps="true"
+                android:text="@string/avg" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llMaxIV"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="6dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:gravity="center"
+            android:background="@drawable/skin_iv_linearlayout">
+
+            <TextView
+                android:id="@+id/resultsMaxPercentage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textStyle="bold"
+                tools:text="88%" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textAllCaps="true"
+                android:text="@string/max" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llMultipleIVMatches"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="12dp"
+        android:paddingTop="12dp"
+        android:paddingRight="12dp"
+        android:paddingBottom="16dp"
+        android:baselineAligned="true">
+
+        <TextView
+            android:id="@+id/resultsCombinations"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            tools:text="## Possible Combinations" />
+
+        <TextView
+            android:id="@+id/tvSeeAllPossibilities"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/colorPrimary"
+            android:textAlignment="textEnd"
+            android:text="@string/see_all"
+            android:clickable="true"
+            android:focusable="true" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/correctCPLevel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="12dp"
+        android:paddingTop="12dp"
+        android:paddingRight="12dp"
+        android:paddingBottom="16dp"
+        android:text="@string/check_cp_or_level"
+        android:textColor="@android:color/holo_red_dark"
+        android:textAlignment="center"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
+</LinearLayout>

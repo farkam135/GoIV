@@ -1,0 +1,438 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="@dimen/dialog_large_height_min">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:baselineAligned="true"
+        android:background="?attr/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <ImageButton
+            style="?attr/borderlessButtonStyle"
+            android:id="@+id/btnBack"
+            android:layout_width="48dp"
+            android:layout_height="40dp"
+            android:text="@string/back"
+            android:src="?attr/homeAsUpIndicator" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Power up predictions" />
+
+        <ImageButton
+            style="?attr/borderlessButtonStyle"
+            android:id="@+id/btnClose"
+            android:layout_width="48dp"
+            android:layout_height="40dp"
+            android:text="@string/close"
+            android:src="@drawable/abc_ic_clear_material" />
+
+    </LinearLayout>
+
+    <info.hoang8f.android.segmented.SegmentedGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:orientation="horizontal"
+        app:sc_corner_radius="2dp"
+        app:sc_tint_color="@color/colorPrimary">
+
+        <RadioButton
+            android:id="@+id/powerUpButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Power up"
+            android:textAllCaps="true"
+            android:checked="true"
+            style="@style/RadioButton" />
+
+        <RadioButton
+            android:id="@+id/ivButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="IV"
+            android:textAllCaps="true"
+            style="@style/RadioButton" />
+
+        <RadioButton
+            android:id="@+id/movesetButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Moveset"
+            android:textAllCaps="true"
+            style="@style/RadioButton" />
+
+    </info.hoang8f.android.segmented.SegmentedGroup>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="Prediction" />
+
+        <LinearLayout
+            android:id="@+id/cpContainer"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/hpContainer"
+            android:baselineAligned="true">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="6dp"
+                android:layout_marginRight="6dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textAllCaps="true"
+                android:text="@string/cp"
+                tools:ignore="RtlHardcoded" />
+
+            <TextView
+                android:id="@+id/exResultCP"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textStyle="bold"
+                tools:text="2012" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/hpContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/cpContainer"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:baselineAligned="true">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="6dp"
+                android:layout_marginRight="6dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textAllCaps="true"
+                android:text="@string/hp_expanded_box"
+                tools:ignore="RtlHardcoded" />
+
+            <TextView
+                android:id="@+id/exResultHP"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textStyle="bold"
+                tools:text="200"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/cpContainer"
+            app:layout_constraintStart_toStartOf="@id/cpContainer"
+            app:layout_constraintEnd_toEndOf="@id/cpContainer">
+
+            <TextView
+                android:id="@+id/exResultPercentPerfection"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                tools:text="98.1% (-61)" />
+
+            <TextView
+                android:id="@+id/explainCPPercentageComparedToMaxIV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="6dp"
+                android:layout_marginStart="6dp"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/colorPrimary"
+                android:text="(?)"
+                tools:ignore="HardcodedText,RtlHardcoded" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@android:color/darker_gray" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="6dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="Cost" />
+
+        <LinearLayout
+            android:id="@+id/candyContainer"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintVertical_bias="0.75"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/stardustContainer"
+            android:baselineAligned="true">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="6dp"
+                android:layout_marginRight="6dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textAllCaps="true"
+                android:text="@string/candy"
+                tools:ignore="RtlHardcoded" />
+
+            <TextView
+                android:id="@+id/exResCandy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textStyle="bold"
+                tools:text="24" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/stardustContainer"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintVertical_bias="0.75"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/candyContainer"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:baselineAligned="true">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="6dp"
+                android:layout_marginRight="6dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textAllCaps="true"
+                android:text="@string/stardust"
+                tools:ignore="RtlHardcoded" />
+
+            <TextView
+                android:id="@+id/exResStardust"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textStyle="bold"
+                tools:text="3200" />
+
+        </LinearLayout>
+
+    </android.support.constraint.ConstraintLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="6dp"
+        android:background="@android:color/darker_gray"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Input" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:baselineAligned="true">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textAllCaps="true"
+                android:text="@string/evolution" />
+
+            <Spinner
+                android:id="@+id/extendedEvolutionSpinner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/spinner"
+                android:gravity="end"
+                android:popupBackground="#fafafa"
+                tools:layout_height="24dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textAllCaps="true"
+                android:text="@string/level_acronym" />
+
+            <TextView
+                android:id="@+id/explainLevelSlider"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:layout_marginStart="4dp"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/colorPrimary"
+                android:text="(?)"
+                tools:ignore="HardcodedText,RtlHardcoded" />
+
+            <Button
+                style="?attr/borderlessButtonStyle"
+                android:id="@+id/btnDecrementLevelExpanded"
+                android:layout_width="36dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
+                android:text="-"
+                tools:ignore="HardcodedText" />
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:clipChildren="false">
+
+                <io.apptik.widget.MultiSlider
+                    android:id="@+id/expandedLevelSeekbarBackground"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    app:range1="@drawable/orange_scrubber_track_holo_light"
+                    app:range2="@drawable/orange_scrubber_primary_holo"
+                    app:thumbNumber="2"/>
+
+                <SeekBar
+                    android:id="@+id/expandedLevelSeekbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical" />
+
+            </FrameLayout>
+
+            <Button
+                style="?attr/borderlessButtonStyle"
+                android:id="@+id/btnIncrementLevelExpanded"
+                android:layout_width="36dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
+                android:text="+"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/exResLevel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textStyle="bold"
+                android:textAllCaps="true"
+                tools:text="20.0" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llPokeSpam"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="6dp"
+            android:background="@android:color/darker_gray"/>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="12dp"
+            android:paddingTop="8dp"
+            android:paddingRight="12dp"
+            android:paddingBottom="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textAllCaps="true"
+                android:text="@string/pokespam" />
+
+            <TextView
+                android:id="@+id/exResPokeSpam"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                tools:text="#ofSpam" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

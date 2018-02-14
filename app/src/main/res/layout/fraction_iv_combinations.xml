@@ -3,8 +3,41 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center|bottom"
-    android:alpha="225">
+    android:minHeight="@dimen/dialog_large_height_min">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:baselineAligned="true"
+        android:background="?attr/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <ImageButton
+            style="?attr/borderlessButtonStyle"
+            android:id="@+id/btnBack"
+            android:layout_width="48dp"
+            android:layout_height="40dp"
+            android:text="@string/back"
+            android:src="?attr/homeAsUpIndicator" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="IV Combinations" />
+
+        <ImageButton
+            style="?attr/borderlessButtonStyle"
+            android:id="@+id/btnClose"
+            android:layout_width="48dp"
+            android:layout_height="40dp"
+            android:text="@string/close"
+            android:src="@drawable/abc_ic_clear_material" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -64,4 +97,5 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="6dp"/>
+
 </LinearLayout>

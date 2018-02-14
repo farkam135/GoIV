@@ -161,16 +161,19 @@ dependencies {
     /**
      * Test Build Dependencies
      */
+    implementation 'com.android.support:support-v4:27.0.2'
     compile 'com.android.support:appcompat-v7:27.0.2'
     compile 'com.android.support:preference-v7:27.0.2'
     compile 'com.android.support:recyclerview-v7:27.0.2'
     compile 'com.android.support:design:27.0.2'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.google.guava:guava:23.5-android'
     compile 'com.google.code.findbugs:jsr305:3.0.1'
     compile 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     compile 'com.jakewharton.timber:timber:4.3.0'
     compile 'com.rmtheis:tess-two:7.0.0'
+    compile 'info.hoang8f:android-segmented:1.0.6'
     compile 'io.apptik.widget:multislider:1.2'
     compile 'com.pavelsikun:material-seekbar-preference:2.3.0'
     testCompile 'junit:junit:4.12'

@@ -1,6 +1,5 @@
 package com.kamron.pogoiv.utils.fractions;
 
-import android.content.Context;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.view.View;

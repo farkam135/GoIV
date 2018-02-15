@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<rotate xmlns:android="http://schemas.android.com/apk/res/android"
-    android:fromDegrees="0"
-    android:toDegrees="90"
-    android:pivotY="55.5%"
-    android:drawable="@drawable/ic_keyboard_arrow_right_blue_18dp" >
-</rotate>

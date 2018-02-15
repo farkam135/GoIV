@@ -1,288 +1,297 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
 
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingBottom="8dp"
-    android:minHeight="@dimen/dialog_small_height_min">
+    android:minHeight="@dimen/dialog_small_height_min"
+    android:orientation="vertical"
+    android:paddingBottom="8dp">
 
+    <!-- header-->
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:baselineAligned="true"
         android:background="?attr/colorPrimary"
+        android:baselineAligned="true"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
             android:layout_weight="1"
-            android:layout_marginLeft="48dp"
-            android:layout_marginStart="48dp"
+            android:text="Input"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Stats input"
-            tools:ignore="RtlHardcoded" />
+            tools:ignore="RtlHardcoded"/>
 
         <ImageButton
-            style="?attr/borderlessButtonStyle"
             android:id="@+id/btnClose"
+            style="?attr/borderlessButtonStyle"
             android:layout_width="48dp"
             android:layout_height="40dp"
-            android:text="@string/close"
-            android:src="@drawable/abc_ic_clear_material" />
+            android:src="@drawable/abc_ic_clear_material"
+            android:text="@string/close"/>
 
     </LinearLayout>
 
+    <!-- navigation tabs-->
     <info.hoang8f.android.segmented.SegmentedGroup
         android:id="@+id/navigationButtons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="4dp"
         android:orientation="horizontal"
-        app:sc_corner_radius="2dp"
+        app:sc_corner_radius="0dp"
         app:sc_tint_color="@color/colorPrimary">
 
         <RadioButton
             android:id="@+id/statsButton"
+            style="@style/RadioButton"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_weight="1"
-            android:text="@string/token_category_basic_stats"
-            android:textAllCaps="true"
             android:checked="true"
-            style="@style/RadioButton" />
+            android:text="@string/token_category_basic_stats"
+            android:textAllCaps="true"/>
 
         <RadioButton
             android:id="@+id/appraisalButton"
+            style="@style/RadioButton"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_weight="1"
             android:text="@string/appraisal"
-            android:textAllCaps="true"
-            style="@style/RadioButton" />
+            android:textAllCaps="true"/>
 
     </info.hoang8f.android.segmented.SegmentedGroup>
 
+    <!-- container for all components, that keeps the left and right padding-->
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:gravity="center_horizontal"
-        android:baselineAligned="true">
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp"
-            android:layout_marginRight="12dp"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textStyle="bold"
-            android:text="@string/pokemon_name" />
-
-        <Spinner
-            android:id="@+id/spnPokemonName"
-            android:layout_width="136dp"
-            android:layout_height="wrap_content"
-            android:gravity="center" />
-
-        <AutoCompleteTextView
-            android:id="@+id/autoCompleteTextView1"
-            android:layout_width="136dp"
-            android:layout_height="wrap_content"
-            android:inputType="textCapWords"
-            android:imeOptions="actionDone"
-            android:visibility="gone">
-
-        </AutoCompleteTextView>
-
-        <ImageButton
-            android:id="@+id/pokePickerToggleSpinnerVsInput"
-            style="?attr/borderlessButtonStyle"
-            android:src="@android:drawable/ic_menu_edit"
-            android:layout_width="48dp"
-            android:layout_height="36dp" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:paddingLeft="12dp"
         android:paddingRight="12dp">
 
+        <!-- Pokemon species input-->
         <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:baselineAligned="true">
+            android:layout_marginTop="8dp"
+            android:baselineAligned="true"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <Spinner
+                android:id="@+id/spnPokemonName"
+                android:layout_width="160dp"
                 android:layout_height="wrap_content"
-                android:labelFor="@+id/etCp"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textStyle="bold"
-                android:text="@string/cp" />
+                android:gravity="center"/>
 
-            <EditText
-                android:id="@+id/etCp"
-                android:layout_width="wrap_content"
+            <AutoCompleteTextView
+                android:id="@+id/autoCompleteTextView1"
+                android:layout_width="136dp"
                 android:layout_height="wrap_content"
-                android:minWidth="56dp"
-                android:textColor="@color/colorPrimary"
-                android:maxLength="4"
-                android:textAlignment="center"
-                android:inputType="number"
-                android:maxLines="1"
-                android:selectAllOnFocus="true"
-                android:nextFocusDown="@+id/etHp"
-                android:nextFocusForward="@+id/etHp"
-                android:imeOptions="actionNext"
-                tools:text="XXXX" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:baselineAligned="true">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:labelFor="@+id/etHp"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textStyle="bold"
-                android:text="@string/hp" />
-
-            <EditText
-                android:id="@+id/etHp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:minWidth="56dp"
-                android:textColor="@color/colorPrimary"
-                android:maxLength="4"
-                android:textAlignment="center"
-                android:inputType="number"
-                android:maxLines="1"
-                android:selectAllOnFocus="true"
-                android:nextFocusDown="@+id/etCandy"
-                android:nextFocusForward="@+id/etCandy"
-                android:imeOptions="actionNext"
-                tools:text="XXX" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/llPokeSpamDialogInputContentBox"
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:baselineAligned="true">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:labelFor="@+id/etCp"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textStyle="bold"
-                android:text="@string/candy" />
-
-            <EditText
-                android:id="@+id/etCandy"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:minWidth="56dp"
-                android:textColor="@color/colorPrimary"
-                android:maxLength="4"
-                android:textAlignment="center"
-                android:inputType="number"
-                android:maxLines="1"
-                android:selectAllOnFocus="true"
                 android:imeOptions="actionDone"
-                tools:text="XXX" />
+                android:inputType="textCapWords"
+                android:visibility="gone">
+
+            </AutoCompleteTextView>
+
+            <ImageButton
+                android:id="@+id/pokePickerToggleSpinnerVsInput"
+                style="?attr/borderlessButtonStyle"
+                android:layout_width="48dp"
+                android:layout_height="36dp"
+                android:src="@android:drawable/ic_menu_edit"/>
+
+        </LinearLayout>
+
+        <!-- Pokemon stat number input-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:baselineAligned="true"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:labelFor="@+id/etCp"
+                    android:text="@string/cp"
+                    android:textSize="16sp"
+                    android:textStyle="bold"/>
+
+                <EditText
+                    android:id="@+id/etCp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionNext"
+                    android:inputType="number"
+                    android:maxLength="4"
+                    android:maxLines="1"
+                    android:minWidth="56dp"
+                    android:nextFocusDown="@+id/etHp"
+                    android:nextFocusForward="@+id/etHp"
+                    android:selectAllOnFocus="true"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorPrimary"
+                    tools:text="XXXX"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:baselineAligned="true"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:labelFor="@+id/etHp"
+                    android:text="@string/hp"
+                    android:textSize="16sp"
+                    android:textStyle="bold"/>
+
+                <EditText
+                    android:id="@+id/etHp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionNext"
+                    android:inputType="number"
+                    android:maxLength="4"
+                    android:maxLines="1"
+                    android:minWidth="56dp"
+                    android:nextFocusDown="@+id/etCandy"
+                    android:nextFocusForward="@+id/etCandy"
+                    android:selectAllOnFocus="true"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorPrimary"
+                    tools:text="XXX"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llPokeSpamDialogInputContentBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:baselineAligned="true"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:labelFor="@+id/etCp"
+                    android:text="@string/candy"
+                    android:textSize="16sp"
+                    android:textStyle="bold"/>
+
+                <EditText
+                    android:id="@+id/etCandy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionDone"
+                    android:inputType="number"
+                    android:maxLength="4"
+                    android:maxLines="1"
+                    android:minWidth="56dp"
+                    android:selectAllOnFocus="true"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorPrimary"
+                    tools:text="XXX"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+        <!-- Pokemon level input-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            tools:ignore="RtlHardcoded">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Lv: "
+                android:textSize="16sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/levelIndicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAllCaps="true"
+                android:textSize="16sp"
+
+                android:textStyle="bold"
+                tools:text="20.0"/>
+
+            <Button
+                android:id="@+id/btnDecrementLevel"
+                style="?attr/borderlessButtonStyle"
+                android:layout_width="36dp"
+                android:layout_height="wrap_content"
+                android:text="-"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
+                tools:ignore="HardcodedText"/>
+
+            <SeekBar
+                android:id="@+id/sbArcAdjust"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+
+            <Button
+                android:id="@+id/btnIncrementLevel"
+                style="?attr/borderlessButtonStyle"
+                android:layout_width="36dp"
+                android:layout_height="wrap_content"
+                android:text="+"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
+                tools:ignore="HardcodedText"/>
+
+
+        </LinearLayout>
+        <!-- Check Iv button-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/btnCheckIv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/check_iv"/>
 
         </LinearLayout>
 
     </LinearLayout>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:text="@string/use_the_slider_below_to_align_the_arc"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        android:gravity="center"/>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="12dp"
-        android:paddingRight="8dp"
-        android:gravity="center_vertical"
-        tools:ignore="RtlHardcoded">
-
-        <TextView
-            android:id="@+id/levelIndicator"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textStyle="bold"
-            android:textAllCaps="true"
-            tools:text="20.0" />
-
-        <Button
-            style="?attr/borderlessButtonStyle"
-            android:id="@+id/btnDecrementLevel"
-            android:layout_width="36dp"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/colorPrimary"
-            android:textStyle="bold"
-            android:text="-"
-            tools:ignore="HardcodedText" />
-
-        <SeekBar
-            android:id="@+id/sbArcAdjust"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-
-        <Button
-            style="?attr/borderlessButtonStyle"
-            android:id="@+id/btnIncrementLevel"
-            android:layout_width="36dp"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/colorPrimary"
-            android:textStyle="bold"
-            android:text="+"
-            tools:ignore="HardcodedText" />
-
-        <Button
-            android:id="@+id/btnCheckIv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="@string/check_iv" />
-
-    </LinearLayout>
 
 </LinearLayout>

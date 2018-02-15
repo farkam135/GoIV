@@ -267,11 +267,11 @@ public class GoIVSettings {
     }
 
     public boolean isPokeSpamEnabled() {
-        return prefs.getBoolean(POKESPAM_ENABLED, true);
+        return prefs.getBoolean(POKESPAM_ENABLED, false);
     }
 
     public boolean shouldAutoOpenExpandedAppraise() {
-        return prefs.getBoolean(AUTO_OPEN_APPRAISE_DIALOGUE, true);
+        return prefs.getBoolean(AUTO_OPEN_APPRAISE_DIALOGUE, false);
     }
 
     public boolean shouldReplaceQuickIvPreviewWithClipboard() {

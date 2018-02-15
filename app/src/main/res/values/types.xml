@@ -5,8 +5,8 @@
         <!-- 1    normal --> <item>NORMAL</item>
         <!-- 2      fire --> <item>FIRE</item>
         <!-- 3     water --> <item>WATER</item>
-        <!-- 4  electric --> <item>ELECTRIC</item>
-        <!-- 5     grass --> <item>GRASS</item>
+        <!-- 4     grass --> <item>GRASS</item>
+        <!-- 5  electric --> <item>ELECTRIC</item>
         <!-- 6       ice --> <item>ICE</item>
         <!-- 7  fighting --> <item>FIGHTING</item>
         <!-- 8    poison --> <item>POISON</item>
@@ -160,7 +160,7 @@
         <item>00</item> <!--Ditto-->
         <item>00</item> <!--Eevee-->
         <item>30</item> <!--Vaporeon-->
-        <item>40</item> <!--Jolteon-->
+        <item>50</item> <!--Jolteon-->
         <item>20</item> <!--Flareon-->
         <item>00</item> <!--Porygon-->
         <item>00</item> <!--Omanyte-->

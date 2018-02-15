@@ -5,8 +5,8 @@
         <!-- 1    normal --> <item>NORMALE</item>
         <!-- 2      fire --> <item>FUOCO</item>
         <!-- 3     water --> <item>ACQUA</item>
-        <!-- 4  electric --> <item>ELETTRO</item>
-        <!-- 5     grass --> <item>ERBA</item>
+        <!-- 4     grass --> <item>ERBA</item>
+        <!-- 5  electric --> <item>ELETTRO</item>
         <!-- 6       ice --> <item>GHIACCIO</item>
         <!-- 7  fighting --> <item>LOTTA</item>
         <!-- 8    poison --> <item>VELENO</item>

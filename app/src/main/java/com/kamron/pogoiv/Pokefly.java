@@ -401,7 +401,7 @@ public class Pokefly extends Service {
      * Pokemon Go's arc pointer.
      */
     private void createArcPointer() {
-        Drawable dot = ContextCompat.getDrawable(this, R.drawable.dot);
+        Drawable dot = ContextCompat.getDrawable(this, R.drawable.level_arc_dot);
         arcParams.gravity = Gravity.TOP | Gravity.START;
         arcParams.width = dot.getIntrinsicWidth();
         arcParams.height = dot.getIntrinsicHeight();

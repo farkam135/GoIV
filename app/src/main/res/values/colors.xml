@@ -3,8 +3,6 @@
     <color name="colorPrimary">#1c49b0</color>
     <color name="colorPrimaryDark">#1b2c88</color>
     <color name="colorAccent">#ee6666</color>
-    <color name="black">#000000</color>
-    <color name="red">#FF0000</color>
     <color name="buttonText">#E4FFDE</color>
     <color name="orange">#FAA61A</color>
     <color name="appraisalHighlight">#bb3e50b3</color>

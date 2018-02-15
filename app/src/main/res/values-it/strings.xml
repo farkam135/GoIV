@@ -16,8 +16,6 @@
     <string name="check_iv">Analizza IV</string>
     <string name="notification_title">GoIV in esecuzione - Livello %1$d</string>
     <string name="notification_title_short">GoIV - Liv %1$d</string>
-    <string name="notification_open_app">Apri app</string>
-    <string name="notification_recalibrate">Ricalibra</string>
     <string name="close">Chiudi</string>
     <string name="main_permission">Concedi i permessi</string>
     <string name="main_start">Start</string>
@@ -41,23 +39,15 @@
     <string name="check_for_update_setting_summary">Verifica se sono disponibili aggiornamenti</string>
     <string name="scan_pokemon_failed">Scansione fallita, scrolla su e prova di nuovo!</string>
     <string name="see_all">Elenca tutte</string>
-    <string name="advanced_information">Info dettagliate</string>
     <string name="powerup_calc_instructions">Calcolo potenziamenti ed evoluzioni\nTrascina lo slider del livello per ottenere diverse previsioni</string>
-    <string name="candy_cost">Costo caramelle</string>
-    <string name="stardust_cost">Costo polvere di stelle</string>
     <string name="evolution">Evoluzione</string>
     <string name="level">Livello</string>
     <string name="level_num">Livello %1$s</string>
-    <string name="refine">Affina</string>
-    <string name="refine_no_progress">Affina non ha ottenuto risultati più precisi</string>
-    <string name="last_scan">Scan precedente: %1$s</string>
     <string name="possible_iv_combinations">"%1$d combinazioni di IV"</string>
-    <string name="refining_instructions">Affina la precisione del calcolo IV potenziando e comparando due scansioni dello stesso Pokémon</string>
     <string name="attack">Attacco</string>
     <string name="defense">Difesa</string>
     <string name="stamina_hp">PS</string>
     <string name="missing_inputs">Dati mancanti. Inserisci PL e PS.</string>
-    <string name="ivtext_no_possibilities">Non ci sono combinazioni di IV possibili. Ricontrolla i valori inseriti.</string>
     <string name="accept_screen_capture">Consenti cattura schermo</string>
     <string name="appraisal_refining">Affina con \"Valutazione\"</string>
     <string name="atk">ATT</string>
@@ -67,8 +57,6 @@
     <string name="iv_perfect">% Perfezione</string>
     <string name="main_starting">Avvio…</string>
     <string name="ongoing_update">Un aggiornamento di GoIV è già in download</string>
-    <string name="place1">"Nel complesso, il tuo pokémon…"</string>
-    <string name="place2">"Le sue statistiche…"</string>
     <string name="sta">PS</string>
     <string name="up_to_date">L\'app è già aggiornata</string>
     <string name="update_check_failed">Si è verificato un errore durante la verifica degli aggiornamenti. Controlla la connessione internet</string>
@@ -78,54 +66,6 @@
         <item name="mystic">"Saggezza"</item>
         <item name="valor">"Coraggio"</item>
         <item name="instinct">"Istinto"</item>
-    </string-array>
-
-    <string-array name="mystic_percentage">
-        <item name="mplace1">@string/place1</item>
-        <item name="mystic80_100">"…meraviglia …esemplare unico!"</item>
-        <item name="mystic67_79">"…ha attirato la mia attenzione"</item>
-        <item name="mystic51_66">"…è sopra la media"</item>
-        <item name="mystic0_50">"…non avrà grande successo…"</item>
-    </string-array>
-
-    <string-array name="mystic_ivrange">
-        <item name="mplace2">@string/place2</item>
-        <item name="mysticiv15">"…mai viste. Incredibile!"</item>
-        <item name="mysticiv13_14">"…sono eccellenti!"</item>
-        <item name="mysticiv8_12">"…piuttosto buone"</item>
-        <item name="mysticiv0_7">"…non siano fuori dall'ordinario"</item>
-    </string-array>
-
-    <string-array name="instinct_percentage">
-        <item name="iplace1">@string/place1</item>
-        <item name="instinct80_100">"…contro i migliori"</item>
-        <item name="instinct67_79">"…è molto forte"</item>
-        <item name="instinct51_66">"…non è malaccio"</item>
-        <item name="instinct0_50">"…potrebbe migliorare…"</item>
-    </string-array>
-
-    <string-array name="instinct_ivrange">
-        <item name="iplace2">@string/place2</item>
-        <item name="instinctiv15">"…migliori …abbia mai visto"</item>
-        <item name="instinctiv13_14">"…forti! Incredibile!"</item>
-        <item name="instinctiv8_12">"…c'è qualcosa di valido…"</item>
-        <item name="instinctiv0_7">"…non siano il massimo …possono andare"</item>
-    </string-array>
-
-    <string-array name="valor_percentage">
-        <item name="vplace1">@string/place1</item>
-        <item name="valor80_100">"…stupefacente. Non ha rivali!"</item>
-        <item name="valor67_79">"…molto forte. Devi esserne orgoglioso"</item>
-        <item name="valor51_66">"…non è niente male"</item>
-        <item name="valor0_50">"…non essere forte …mi piace lo stesso"</item>
-    </string-array>
-
-    <string-array name="valor_ivrange">
-        <item name="vplace2">@string/place2</item>
-        <item name="valoriv15">"…sbalorditive …credere ai miei occhi!"</item>
-        <item name="valoriv13_14">"…incredibili. Forte!"</item>
-        <item name="valoriv8_12">"…dovrebbero bastare nelle lotte"</item>
-        <item name="valoriv0_7">"…non gli saranno di grande aiuto…"</item>
     </string-array>
 
 
@@ -166,7 +106,6 @@
     <string name="candy">Caramelle</string>
     <string name="autoAppraisalScanDelay_summary">Quanto attendere che l\'animazione del testo di valutazione sia finita. Smartphone di fascia bassa potrebbero necessitare di 800ms.</string>
     <string name="autoAppraisalScanDelay_title">Attesa auto valutazione</string>
-    <string name="clipboard_activity_title">Configurazione appunti GoIV</string>
     <string name="clipboard_copy_toast">%s copiato negli appunti</string>
     <string name="clipboard_modifier_preview">Anteprima</string>
     <string name="clipboard_no_token_selected">Seleziona il token da aggiungere dalla lista scrollabile.</string>
@@ -175,8 +114,6 @@
     <string name="copy_to_clip_single_setting">Copia diversamente per risultati singoli</string>
     <string name="copy_to_clip_single_setting_summary">Durante la modifica ti permette di definire una configurazione per la copia negli appunti da usare quando la scansione risulta in una singola possibilità.</string>
     <string name="copy_to_clipboard_setting_summary_new">Aggiunge automaticamente le informazioni dello scan negli appunti (copia&amp;incolla).</string>
-    <string name="cp_vs_iv">% PL vs max IV</string>
-    <string name="goiv_started">GoIV avviato.</string>
     <string name="hp_expanded_box">PS</string>
     <string name="notification_title_goiv_stopped">"GoIV in pausa"</string>
     <string name="pause_goiv_notification">Pausa</string>
@@ -197,8 +134,6 @@
     <string name="token_pokemonname">Nome</string>
     <string name="view_credits">Mostra riconoscimenti</string>
     <string name="view_credits_summary">Mostra i riconoscimenti di questa app, i progetti open source usati ed i ringraziamenti</string>
-    <string name="waiting_for_pogo_start">In attesa dell\'avvio del gioco…</string>
-    <string name="alert_explanation_title">Spiegazioni</string>
     <string name="android_sub5_warning">GoIV ha rilevato che il tuo smartphone non supporta le MediaProjection API, che sono usate per mostrare automaticamente il bottone di scan IV. Questo problema potrebbe risolversi aggiornando ad Android 5.0 o successivi. L\'app si imposterà in modalità screenshot per evitare crash. Puoi usare GoIV manualmente scattando uno screeshot, che nella maggior parte dei device si esegue tenendo premuti i tasti home+power del tuo smartphone per qualche istante. Ci scusiamo per l\'inconveniente.</string>
     <string name="expanded_appraisal_default_setting_summary">Espandi automaticamente il menu di valutazione completo per mostrare tutte le checkbox</string>
     <string name="expanded_appraisal_default_setting_title">Valutazione espansa di default</string>
@@ -212,8 +147,6 @@
     <string name="menu_clipboard">Rinomina</string>
     <string name="notification_channel">Stato GoIV</string>
     <string name="check_cp_or_level">Qualcosa è andato storto! Controlla che i valori in input siano corretti e che il livello allenatore sia impostato correttamente nella home di GoIV.</string>
-    <string name="autoappraisal_start">Auto Valutazione Avviata</string>
-    <string name="autoappraisal_finish">Auto Valutazione Terminata</string>
     <string name="pokespam_formatted_message2">%1$d (%2$d righe)</string>
     <string name="token_pokemon_gender">Sesso</string>
     <string name="copy_to_clip_perfectiv_setting">Copia diversamente per IV 100%</string>
@@ -222,12 +155,10 @@
     <string name="quick_iv_preview_summary">Visualizza una piccola anteprima automatica quando sei sulla schermata di un \'mon</string>
     <string name="quick_iv_preview_clipboard_title">Anteprima anche per rinomina</string>
     <string name="quick_iv_preview_clipboard_summary">A seguito di una IV scan veloce, mostra anche un popup di anteprima del risultato della rinominazione</string>
-    <string name="scanFailed">Scan fallito</string>
     <string name="acquired_from_egg_or_raid">Ottenuto da uovo o raid</string>
     <string name="title_activity_ocr_calibration_error">Errore di calibrazione</string>
     <string name="recalibration_description">La ricalibrazione incrementa le performance di GoIV trovando dinamicamente le aree di scansione specifiche per il tuo telefono.</string>
     <string name="scan_optimization_outdated_warning">I tuoi dati di calibrazione sono obsoleti. Esegui una nuova ricalibrazione dello schermo per godere di tutte le ultime funzionalità!</string>
-    <string name="touch_screen_quick_iv_scan">Tocca il display per riprovare una scansione IV veloce</string>
     <string name="discard_unsaved_changes">Ci sono modifiche non salvate. Vuoi veramente scartarle?</string>
     <string name="configuration_saved">Configurazione salvata!</string>
     <string name="no_token_selected">Nessun token selezionato</string>

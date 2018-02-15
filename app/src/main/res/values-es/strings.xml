@@ -13,56 +13,6 @@
         <item name="valor">"Valor"</item>
         <item name="instinct">"Instinto"</item>
     </string-array>
-    <string name="place1">Elija frase sobre conjunto:</string>
-    <string name="place2">Elija frase sobre características:</string>
-
-    <string-array name="mystic_percentage">
-        <item name="mplace1">@string/place1</item>
-        <item name="mystic80_100">"…maravilla para la vista."</item>
-        <item name="mystic67_79">"…llamado ciertamente la atención."</item>
-        <item name="mystic51_66">"…por encima de la media."</item>
-        <item name="mystic0_50">"…no parece que vaya a llegar muy lejos."</item>
-    </string-array>
-
-    <string-array name="mystic_ivrange">
-        <item name="mplace2">@string/place2</item>
-        <item name="mysticiv15">"…fuera de todo cálculo …increíble"</item>
-        <item name="mysticiv13_14">"…realmente impresionantes"</item>
-        <item name="mysticiv8_12">"…bastante bien."</item>
-        <item name="mysticiv0_7">"…dejan un poco que desear"</item>
-    </string-array>
-
-    <string-array name="instinct_percentage">
-        <item name="iplace1">@string/place1</item>
-        <item name="instinct80_100">"…puede enfrentarse a mejores"</item>
-        <item name="instinct67_79">"…realmente fuerte!"</item>
-        <item name="instinct51_66">"…está bastante bien."</item>
-        <item name="instinct0_50">"…podría mejorar algo."</item>
-    </string-array>
-
-    <string-array name="instinct_ivrange">
-        <item name="iplace2">@string/place2</item>
-        <item name="instinctiv15">"…lo mejor que he visto nunca"</item>
-        <item name="instinctiv13_14">"…realmente fuertes …impresionante."</item>
-        <item name="instinctiv8_12">"…buenas características …sin duda."</item>
-        <item name="instinctiv0_7">"…están …bien, supongo."</item>
-    </string-array>
-
-    <string-array name="valor_percentage">
-        <item name="vplace1">@string/place1</item>
-        <item name="valor80_100">"…simplemente me fascina"</item>
-        <item name="valor67_79">"…es muy fuerte"</item>
-        <item name="valor51_66">"…está bastante bien."</item>
-        <item name="valor0_50">"…no sea mejor en combate"</item>
-    </string-array>
-
-    <string-array name="valor_ivrange">
-        <item name="vplace2">@string/place2</item>
-        <item name="valoriv15">"…flipando con …características."</item>
-        <item name="valoriv13_14">"…excelentes"</item>
-        <item name="valoriv8_12">"…ayudarán a cumplir"</item>
-        <item name="valoriv0_7">"…no te serán de utilidad"</item>
-    </string-array>
 
     <string name="menu_recalibration">Recalibración</string>
     <string name="menu_home">Inicio</string>
@@ -77,8 +27,6 @@
     <string name="notification_title_short">GoIV - Niv %1$d</string>
     <string name="notification_title_goiv_stopped">GoIV pausado</string>
     <string name="notification_title_tap_to_open">Presiona para abrir GoIV.</string>
-    <string name="notification_open_app">Abrir app</string>
-    <string name="notification_recalibrate">Recalibrar</string>
     <string name="close">Cerrar</string>
     <string name="main_permission">Dar permisos</string>
     <string name="main_start">Iniciar</string>
@@ -105,27 +53,17 @@
     <string name="check_for_update_setting_summary">Verifica si hay una actualización disponible</string>
     <string name="scan_pokemon_failed">¡Detección fallida. Por favor, desplácese hacia arriba y vuelva a intentarlo!</string>
     <string name="see_all">Ver todas</string>
-    <string name="advanced_information">Evolución e info de más poder</string>
     <string name="powerup_calc_instructions">Cálculo de mejoras y evolución\nDesliza el slider para visualizar diferentes predicciones</string>
-    <string name="candy_cost">Coste en caramelos</string>
-    <string name="stardust_cost">Coste en polvoestelares</string>
     <string name="evolution">Evolución</string>
     <string name="level">Nivel</string>
     <string name="level_num">Nivel %1$s</string>
-    <string name="refine">Refinar</string>
-    <string name="refine_no_progress">El refinamiento no mejoró resultados</string>
-    <string name="last_scan">Último analizado: %1$s</string>
     <string name="possible_iv_combinations" tools:ignore="PluralsCandidate">"%1$d posibles combinaciones de IV"</string>
     <string name="check_cp_or_level">¡Algo salió mal! Comprueba que los valores introducidos son correctos y que GoIV tiene el nivel de entrenador correcto en la pantalla de inicio.</string>
-    <string name="refining_instructions">Refine la predicción de IV mejorando un Pokémon y comparando los resultados obtenidos</string>
     <string name="appraisal_refining">Refinación adicional</string>
-    <string name="autoappraisal_start">Autorefinación iniciada</string>
-    <string name="autoappraisal_finish">Autorefinación finalizada</string>
     <string name="attack">Ataque</string>
     <string name="defense">Defensa</string>
     <string name="stamina_hp">Salud</string>
     <string name="missing_inputs">Campos PC y PS requeridos.</string>
-    <string name="ivtext_no_possibilities">No hay combinaciones de IV para estos datos. Por favor verifique que la información introducida sea correcta.</string>
     <string name="update_check_failed">Ocurrió un error durante la búsqueda de actualizaciones. Por favor, verifique su conexión a Internet.</string>
     <string name="up_to_date">La aplicación se encuentra actualizada</string>
     <string name="checking_for_update">Buscando actualización…</string>
@@ -139,8 +77,6 @@
     <string name="def">DEF</string>
     <string name="sta">SAL</string>
     <string name="hp_expanded_box">PS</string>
-    <string name="cp_vs_iv" formatted="false">% PC vs máximo IV</string>
-    <string name="alert_explanation_title">Explicación</string>
     <string name="perfection_explainer">El porcentaje muestra cuán grande es la diferencia entre tu Pokémon y un Pokémon de la misma especie que tiene IVs perfectos.\n\nAsí, por ejemplo, si dice 92 por ciento, entonces su Pokémon tiene un 8 por ciento menos de CP máximo en comparación a otro de la misma especie con IVs al máximo.</string>
     <string name="pokespam">PokéSpam</string>
     <string name="pokespam_formatted_message">%1$d (%2$d filas + %3$d más)</string>
@@ -154,14 +90,11 @@
     <string name="clipboard_modifier_preview">Vista previa</string>
     <string name="position_handler_toast">Arrastre la ventana desde este control para reubicarla.</string>
     <string name="clipboard_no_token_selected">Por favor, elija una ficha para agregar de la lista desplazable.</string>
-    <string name="clipboard_activity_title">Configuración del portapapeles de GoIV</string>
     <string name="expanded_appraisal_default_setting_title">Abrir por defecto refinación expandida</string>
     <string name="expanded_appraisal_default_setting_summary">Expande automáticamente el menú de refinación</string>
     <string name="showtranslatedpokemonname_setting_title">Mostrar nombres traducidos</string>
     <string name="showtranslatedpokemonname_setting_summary">Muestra el nombre del Pokémon traducido en GoIV pero usa su nombre en inglés para el OCR. Esto se hace así cuando la aplicación de Pokémon Go está en inglés, pero el idioma nativo del usuario no lo es</string>
     <string name="pause_goiv_notification">Pausar</string>
-    <string name="waiting_for_pogo_start">Esperando a que el juego se inicie…</string>
-    <string name="goiv_started">GoIV iniciado.</string>
     <string name="clipboard_copy_toast">Copiado %s al portapapeles</string>
     <string name="no_clipboard_preview">Vista previa no disponible</string>
     <string name="copy_to_clip_single_setting">Copia diferente con un solo resultado</string>
@@ -217,7 +150,6 @@
     <string name="is2">fuertes…\nimpresio…</string>
     <string name="is1">lo mejor…\n¡Qué pas…</string>
 
-    <string name="scanFailed">Escaneo fallido</string>
     <string name="acquired_from_egg_or_raid">Conseguido de huevo o incursión</string>
     <string name="recalibrate_goiv_notification">Recalibrar</string>
     <string name="title_activity_ocr_calibration_result">Resultado calibración</string>
@@ -226,7 +158,6 @@
     <string name="scan_optimization_notice_text">No has ejecutado la optimización de escaneo. Se recomienda hacer una optimización de escaneo en todos los dispositivos.</string>
     <string name="scan_optimization_screen_ratio_warning">GoIV ha detectado que tu pantalla no es estándar. Es posible que necesite una calibración de escaneo para que GoIV funcione correctamente.</string>
     <string name="scan_optimization_outdated_warning">La optimización de escaneo está desactualizada. ¡Realice otra calibración de escaneo para disfrutar de las últimas mejoras!</string>
-    <string name="touch_screen_quick_iv_scan">Toca pantalla para reprevisualizar IV</string>
     <string name="discard_unsaved_changes">Hay cambios sin guardar.\n¿Estás seguro de descartar los cambios?</string>
     <string name="configuration_saved">¡Configuración guardada!</string>
     <string name="no_token_selected">Ninguna ficha seleccionada</string>

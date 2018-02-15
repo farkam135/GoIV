@@ -10,56 +10,6 @@
         <item name="valor">"Wagemut"</item>
         <item name="instinct">"Intuition"</item>
     </string-array>
-    <string name="place1">\"Insgesamt…\"</string>
-    <string name="place2">\"Seine Werte…\"</string>
-
-    <string-array name="mystic_percentage">
-        <item name="mplace1">@string/place1</item>
-        <item name="mystic80_100">"…einfach erstaunlich …atemberaubendes Exemplar"</item>
-        <item name="mystic67_79">"…wirklich aufgefallen"</item>
-        <item name="mystic51_66">"…ein gutes Pokémon"</item>
-        <item name="mystic0_50">"…wahrscheinlich keine großen Fortschritte machen"</item>
-    </string-array>
-
-    <string-array name="mystic_ivrange">
-        <item name="mplace2">@string/place2</item>
-        <item name="mysticiv15">"…sind so hoch …Unglaublich!"</item>
-        <item name="mysticiv13_14">…von seinen Werten sehr beeindruckt"</item>
-        <item name="mysticiv8_12">"…sind recht beeindruckend"</item>
-        <item name="mysticiv0_7">"…sind insgesamt ganz okay"</item>
-    </string-array>
-
-    <string-array name="instinct_percentage">
-        <item name="iplace1">@string/place1</item>
-        <item name="instinct80_100">"…kann es im Kampf mit allen aufnehmen!"</item>
-        <item name="instinct67_79">"…wirklich stark!"</item>
-        <item name="instinct51_66">"…ganz gut."</item>
-        <item name="instinct0_50">"…kann sich im Kampf noch verbessern!"</item>
-    </string-array>
-
-    <string-array name="instinct_ivrange">
-        <item name="iplace2">@string/place2</item>
-        <item name="instinctiv15">"…sind die besten, die ich je gesehen habe!"</item>
-        <item name="instinctiv13_14">"…sind wirklich hoch! Hut ab!"</item>
-        <item name="instinctiv8_12">"…können sich sehen lassen!"</item>
-        <item name="instinctiv0_7">"… sind okay."</item>
-    </string-array>
-
-    <string-array name="valor_percentage">
-        <item name="vplace1">@string/place1</item>
-        <item name="valor80_100">"…bin ich insgesamt total beeindruckt. Es kann einfach alles!"</item>
-        <item name="valor67_79">"…sehr stark. Du kannst stolz sein!"</item>
-        <item name="valor51_66">"…ganz gut!"</item>
-        <item name="valor0_50">"…im Kampf nicht allzu beeindruckend, aber ich mag es trotzdem!"</item>
-    </string-array>
-
-    <string-array name="valor_ivrange">
-        <item name="vplace2">@string/place2</item>
-        <item name="valoriv15">"…hauen mich um. WOW!"</item>
-        <item name="valoriv13_14">"…hervorragende Werte! Wie aufregend!"</item>
-        <item name="valoriv8_12">"…sind nicht von schlechten Eltern!"</item>
-        <item name="valoriv0_7">"…werden dir im Kampf nicht viel bringen."</item>
-    </string-array>
 
 
     <string name="cancel">Abbrechen</string>
@@ -74,7 +24,6 @@
     <string name="main_permission">Berechtigungen erlauben</string>
     <string name="main_start">Starten</string>
     <string name="accept_screen_capture">Bildschirmaufnahme akzeptieren</string>
-    <string name="advanced_information">Entwicklungs und Power-up Informationen</string>
     <string name="appraisal_refining">Bewertung verfeinern</string>
     <string name="attack">Angriff</string>
     <string name="atk">ANG</string>
@@ -82,7 +31,6 @@
     <string name="auto_update_setting_title">automatische Aktualisierung</string>
     <string name="back">Zurück</string>
     <string name="avg">i.D.</string>
-    <string name="candy_cost">Bonbon-Kosten</string>
     <string name="check_for_update_setting_summary">Prüfe, ob ein Update verfügbar ist</string>
     <string name="check_for_update_setting_title">Auf Update überprüfen</string>
     <string name="checking_for_update">Suchen nach Aktualisierungen…</string>
@@ -93,28 +41,21 @@
     <string name="delete_screenshots_setting_title">lösche Screenshots</string>
     <string name="evolution">Entwicklung</string>
     <string name="iv_perfect" formatted="false">% Perfekt</string>
-    <string name="ivtext_no_possibilities">Es gibt keine möglichen Kombinationen. Stellen Sie sicher, dass die Werte, die Sie eingegeben haben, korrekt sind.</string>
-    <string name="last_scan">Zuletzt analysiert: %1$s</string>
     <string name="launch_pokemon_go_setting_summary">Wechsel zu Pokémon Go, wenn die Starttaste geklickt wird</string>
     <string name="launch_pokemon_go_setting_title">Starte Pokémon Go</string>
     <string name="main_starting">Startet…</string>
     <string name="main_stop">Stopp</string>
     <string name="manual_screenshot_mode_setting_title">Verwende Screenshots um IVs zu berechnen</string>
     <string name="missing_inputs">WP und KP werden benötigt.</string>
-    <string name="notification_open_app">Öffne die App</string>
     <string name="ongoing_update">Ein Update für GoIV wird bereits heruntergeladen</string>
     <string name="possible_iv_combinations">\"%1$d möglich IV Kombinationen\"</string>
     <string name="powerup_calc_instructions">Power-up und Entwicklung Berechnung. Ziehe den Schieberegler um unterschiedliche Prognosen anzuzeigen</string>
-    <string name="refine">Verfeinern</string>
-    <string name="refine_no_progress">Verfeinerung hat die Ergebnisse nicht verbessern</string>
-    <string name="refining_instructions">IV-Rechengenauigkeit erhöhen durch Leveln und Vergleich von zwei Scans des gleichen Pokémon</string>
     <string name="scan_pokemon_failed">Scanvorgang fehlgeschlagen, bitte scrolle nach oben und versuche es nochmal!</string>
     <string name="see_all">Alle anzeigen</string>
     <string name="send_crash_reports_setting_summary">Hilfe die Entwicklung der App zu verbessern, indem anonyme crashrelevant Daten gesendet werden.</string>
     <string name="send_crash_reports_setting_title">Sende Absturzberichte</string>
     <string name="settings_page_title">Einstellungen</string>
     <string name="stamina_hp">KP</string>
-    <string name="stardust_cost">Sternenstaub-Kosten</string>
     <string name="up_to_date">Die App ist auf dem aktuellsten Stand</string>
     <string name="update_check_failed">Ein Fehler ist aufgetreten während auf nach eine neuen Version gesucht wurde. Bitte überprüfe deine Internetverbindung…</string>
     <string name="wrong_pokemon_name_input">\" wurde nicht gefunden.\"</string>

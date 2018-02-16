@@ -8,6 +8,7 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.util.Pair;
 import android.util.LruCache;
 import android.view.Display;
 import android.view.WindowManager;
@@ -332,6 +333,62 @@ public class OcrHelper {
             ocrCache.put(hash, ocrResult);
         }
         return result;
+    }
+
+    /**
+     * Get the moveset for a pokémon.
+     *
+     * @param pokemonImage      The image of the full pokemon screen
+     * @param evolutionCostArea The pokémon evolution cost are, moveset is always located below this information
+     * @return A pair of strings that represent the fast and charged moves
+     */
+    private static Optional<Pair<String, String>> getMovesetFromImg(@NonNull Bitmap pokemonImage,
+                                                                    @Nullable ScanArea evolutionCostArea) {
+        if (evolutionCostArea == null) {
+            return Optional.absent();
+        }
+        int x = (int) (pokemonImage.getWidth() / 10 * 1.3f);
+        int y = evolutionCostArea.yPoint + evolutionCostArea.height;
+        int w = (int) (pokemonImage.getWidth() / 10 * 5.0f) - x;
+        int h = (int) (pokemonImage.getHeight() / 10 * 9.7f) - y;
+        ScanArea movesetArea = new ScanArea(x, y, w, h);
+        Bitmap movesetImage = getImageCrop(pokemonImage, movesetArea);
+
+        String hash = "moveset" + hashBitmap(movesetImage);
+
+        if (ocrCache != null) {
+            //return cache if it exists
+            String stringCacheMoveset = ocrCache.get(hash);
+            if (stringCacheMoveset != null) {
+                //XXX in the cache, we encode "no result" as an empty string. That's a hack.
+                if (stringCacheMoveset.isEmpty()) {
+                    return Optional.absent();
+                } else {
+                    String[] moves = stringCacheMoveset.split("\n");
+                    return Optional.of(new Pair<>(moves[0], moves[1]));
+                }
+            }
+        }
+
+        movesetImage = replaceColors(movesetImage, false, 68, 105, 108, Color.WHITE, 45, false);
+
+        tesseract.setImage(movesetImage);
+        tesseract.setPageSegMode(TessBaseAPI.PageSegMode.PSM_SINGLE_BLOCK);
+        String ocrResult = tesseract.getUTF8Text();
+        tesseract.setPageSegMode(TessBaseAPI.PageSegMode.PSM_SINGLE_LINE);
+
+        String[] lines = ocrResult.split("\n");
+        if (lines.length == 2 && lines[0].trim().length() >= 3 && lines[1].trim().length() >= 3) {
+            // Just 2 lines were detected with at least 3 characters
+            String fast = lines[0].trim();
+            String charged = lines[1].trim();
+            Optional<Pair<String, String>> result = Optional.of(new Pair<>(fast, charged));
+            if (ocrCache != null) {
+                ocrCache.put(hash, fast + "\n" + charged);
+            }
+            return result;
+        }
+        return Optional.absent();
     }
 
     /**
@@ -938,11 +995,13 @@ public class OcrHelper {
                 ScanArea.calibratedFromSettings(POKEMON_CANDY_AMOUNT_AREA, settings));
         Optional<Integer> evolutionCost = getPokemonEvolutionCostFromImg(pokemonImage,
                 ScanArea.calibratedFromSettings(POKEMON_EVOLUTION_COST_AREA, settings));
+        Optional<Pair<String, String>> moveset = getMovesetFromImg(pokemonImage,
+                ScanArea.calibratedFromSettings(POKEMON_EVOLUTION_COST_AREA, settings));
         String uniqueIdentifier = name + type + candyName + hp.toString() + cp
                 .toString() + powerUpStardustCost.toString() + powerUpCandyCost.toString();
 
         return new ScanResult(estimatedLevelRange, name, type, candyName, gender, hp, cp, candyAmount, evolutionCost,
-                powerUpStardustCost, powerUpCandyCost, uniqueIdentifier);
+                powerUpStardustCost, powerUpCandyCost, moveset, uniqueIdentifier);
     }
 
     /**

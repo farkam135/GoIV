@@ -74,7 +74,7 @@ public class IVPreviewPrinter {
             if (!succeeded) {
                 IVPopupButton ivButton = ivButtonRef.get();
                 if (ivButton != null) {
-                    ivButtonRef.get().showError();
+                    ivButton.showError();
                 }
             }
         }

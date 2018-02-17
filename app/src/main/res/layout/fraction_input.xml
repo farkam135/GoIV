@@ -22,10 +22,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_marginLeft="48dp"
-            android:layout_marginStart="48dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Stats input"
+            android:text="Input"
             tools:ignore="RtlHardcoded" />
 
         <ImageButton
@@ -42,9 +42,9 @@
         android:id="@+id/navigationButtons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="4dp"
+        android:layout_margin="0dp"
         android:orientation="horizontal"
-        app:sc_corner_radius="2dp"
+        app:sc_corner_radius="0dp"
         app:sc_tint_color="@color/colorPrimary">
 
         <RadioButton
@@ -71,31 +71,26 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_marginTop="4dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
         android:gravity="center_horizontal"
         android:baselineAligned="true">
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp"
-            android:layout_marginRight="12dp"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textStyle="bold"
-            android:text="@string/pokemon_name" />
 
         <Spinner
             android:id="@+id/spnPokemonName"
-            android:layout_width="136dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:gravity="center" />
 
         <AutoCompleteTextView
             android:id="@+id/autoCompleteTextView1"
-            android:layout_width="136dp"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="40dp"
             android:inputType="textCapWords"
             android:imeOptions="actionDone"
             android:visibility="gone">
@@ -130,7 +125,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:labelFor="@+id/etCp"
-                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textAppearance="@style/weakText"
                 android:textStyle="bold"
                 android:text="@string/cp" />
 
@@ -164,7 +159,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:labelFor="@+id/etHp"
-                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textAppearance="@style/weakText"
                 android:textStyle="bold"
                 android:text="@string/hp" />
 
@@ -199,7 +194,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:labelFor="@+id/etCp"
-                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textAppearance="@style/weakText"
                 android:textStyle="bold"
                 android:text="@string/candy" />
 
@@ -221,14 +216,6 @@
 
     </LinearLayout>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:text="@string/use_the_slider_below_to_align_the_arc"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        android:gravity="center"/>
 
     <LinearLayout
         android:orientation="horizontal"
@@ -240,12 +227,17 @@
         tools:ignore="RtlHardcoded">
 
         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/weakText"
+            android:layout_marginRight="4dp"
+            android:text="Lv: "/>
+
+        <TextView
             android:id="@+id/levelIndicator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textStyle="bold"
-            android:textAllCaps="true"
             tools:text="20.0" />
 
         <Button
@@ -276,13 +268,23 @@
             android:text="+"
             tools:ignore="HardcodedText" />
 
+
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="4dp">
+
+
         <Button
             android:id="@+id/btnCheckIv"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:text="@string/check_iv" />
-
     </LinearLayout>
-
 </LinearLayout>

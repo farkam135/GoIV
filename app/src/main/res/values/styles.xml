@@ -1,5 +1,20 @@
 <resources>
 
+
+    <style name="weakText" parent="android:TextAppearance">
+        <item name="android:textColor">#6b6b6b</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="evalResultText" parent="android:TextAppearance">
+        <item name="android:textColor">#2e2e2e</item>
+        <item name="android:textSize">24sp</item>
+    </style>
+    <style name="evalMinorResult" parent="android:TextAppearance">
+        <item name="android:textColor">#2e2e2e</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
     <style name="BaseTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Base application theme. -->
         <item name="colorPrimary">@color/colorPrimary</item>

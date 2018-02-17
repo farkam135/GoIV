@@ -55,9 +55,9 @@
     <string name="scan_pokemon_failed">Scanning failed, please scroll up and try again!</string>
     <string name="see_all">See All</string>
     <string name="powerup_calc_instructions">Power up and evolution calculation\nDrag the level slider to view different predictions</string>
-    <string name="evolution">Evolution</string>
+    <string name="evolution">Evo:</string>
     <string name="level">Level</string>
-    <string name="level_acronym">lvl</string>
+    <string name="level_acronym">Lv:</string>
     <string name="level_num">Level %1$s</string>
     <string name="possible_iv_combinations" tools:ignore="PluralsCandidate">"%1$d possible IV combinations"</string>
     <string name="check_cp_or_level">Something went wrong! Please check that the input values were correct, and that GoIV has the right trainer level in the launch screen.</string>

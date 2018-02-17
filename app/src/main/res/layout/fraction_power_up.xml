@@ -46,9 +46,9 @@
     <info.hoang8f.android.segmented.SegmentedGroup
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="4dp"
+        android:layout_margin="0dp"
         android:orientation="horizontal"
-        app:sc_corner_radius="2dp"
+        app:sc_corner_radius="0dp"
         app:sc_tint_color="@color/colorPrimary">
 
         <RadioButton
@@ -81,211 +81,230 @@
 
     </info.hoang8f.android.segmented.SegmentedGroup>
 
-    <android.support.constraint.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="80dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:text="Prediction" />
-
-        <LinearLayout
-            android:id="@+id/cpContainer"
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/hpContainer"
-            android:baselineAligned="true">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="6dp"
-                android:layout_marginRight="6dp"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textAllCaps="true"
-                android:text="@string/cp"
-                tools:ignore="RtlHardcoded" />
-
-            <TextView
-                android:id="@+id/exResultCP"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textStyle="bold"
-                tools:text="2012" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/hpContainer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/cpContainer"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:baselineAligned="true">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="6dp"
-                android:layout_marginRight="6dp"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textAllCaps="true"
-                android:text="@string/hp_expanded_box"
-                tools:ignore="RtlHardcoded" />
-
-            <TextView
-                android:id="@+id/exResultHP"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textStyle="bold"
-                tools:text="200"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/cpContainer"
-            app:layout_constraintStart_toStartOf="@id/cpContainer"
-            app:layout_constraintEnd_toEndOf="@id/cpContainer">
-
-            <TextView
-                android:id="@+id/exResultPercentPerfection"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                tools:text="98.1% (-61)" />
-
-            <TextView
-                android:id="@+id/explainCPPercentageComparedToMaxIV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="6dp"
-                android:layout_marginStart="6dp"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/colorPrimary"
-                android:text="(?)"
-                tools:ignore="HardcodedText,RtlHardcoded" />
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:background="@android:color/darker_gray" />
-
-    </android.support.constraint.ConstraintLayout>
-
-    <android.support.constraint.ConstraintLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginTop="6dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:text="Cost" />
-
-        <LinearLayout
-            android:id="@+id/candyContainer"
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintVertical_bias="0.75"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/stardustContainer"
-            android:baselineAligned="true">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="6dp"
-                android:layout_marginRight="6dp"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textAllCaps="true"
-                android:text="@string/candy"
-                tools:ignore="RtlHardcoded" />
-
-            <TextView
-                android:id="@+id/exResCandy"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textStyle="bold"
-                tools:text="24" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/stardustContainer"
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintVertical_bias="0.75"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/candyContainer"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:baselineAligned="true">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="6dp"
-                android:layout_marginRight="6dp"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textAllCaps="true"
-                android:text="@string/stardust"
-                tools:ignore="RtlHardcoded" />
-
-            <TextView
-                android:id="@+id/exResStardust"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textStyle="bold"
-                tools:text="3200" />
-
-        </LinearLayout>
-
-    </android.support.constraint.ConstraintLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="6dp"
-        android:layout_marginBottom="6dp"
-        android:background="@android:color/darker_gray"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
         android:paddingLeft="12dp"
         android:paddingRight="12dp"
         android:orientation="vertical">
 
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="Predicted stats"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <TextView
+                android:id="@+id/exResultCPPlus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="8dp"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                app:layout_constraintBottom_toTopOf="@+id/cpDetailsLinearLayout"
+                app:layout_constraintStart_toEndOf="@+id/cpContainer"
+                app:layout_constraintTop_toTopOf="@+id/cpContainer"
+                tools:text="(+612)"/>
+
+
+            <LinearLayout
+                android:id="@+id/cpContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:baselineAligned="true"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/hpContainer"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="6dp"
+                    android:layout_marginRight="6dp"
+                    android:text="@string/cp"
+                    android:textAllCaps="true"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    tools:ignore="RtlHardcoded"/>
+
+
+                <TextView
+                    android:id="@+id/exResultCP"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/evalResultText"
+                    tools:text="2012"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/exResultHPPlus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="8dp"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                app:layout_constraintBottom_toBottomOf="@+id/hpContainer"
+                app:layout_constraintStart_toEndOf="@+id/hpContainer"
+                app:layout_constraintTop_toTopOf="@+id/hpContainer"
+                tools:text="(+24)"/>
+
+            <LinearLayout
+                android:id="@+id/hpContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:baselineAligned="true"
+                app:layout_constraintBottom_toTopOf="@+id/cpDetailsLinearLayout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/cpContainer">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="6dp"
+                    android:layout_marginRight="6dp"
+                    android:text="@string/hp_expanded_box"
+                    android:textAllCaps="true"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    tools:ignore="RtlHardcoded"/>
+
+                <TextView
+                    android:id="@+id/exResultHP"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/evalResultText"
+                    tools:text="200"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/cpDetailsLinearLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@id/cpContainer"
+                app:layout_constraintTop_toBottomOf="@id/cpContainer">
+
+                <TextView
+                    android:id="@+id/exResultPercentPerfection"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    tools:text="98.1% (-61)"/>
+
+                <TextView
+                    android:id="@+id/explainCPPercentageComparedToMaxIV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="6dp"
+                    android:layout_marginStart="6dp"
+                    android:text="(?)"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/colorPrimary"
+                    tools:ignore="HardcodedText,RtlHardcoded"/>
+
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Cost"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.501"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cpDetailsLinearLayout"/>
+
+
+            <LinearLayout
+                android:id="@+id/candyContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:baselineAligned="true"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="@+id/cpContainer"
+                app:layout_constraintTop_toBottomOf="@+id/textView2">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="6dp"
+                    android:layout_marginRight="6dp"
+                    android:text="@string/candy"
+                    android:textAllCaps="true"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    tools:ignore="RtlHardcoded"/>
+
+                <TextView
+                    android:id="@+id/exResCandy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/evalMinorResult"
+                    tools:text="24"/>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/stardustContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:baselineAligned="true"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="@+id/hpContainer"
+                app:layout_constraintTop_toTopOf="@+id/candyContainer">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="6dp"
+                    android:layout_marginRight="6dp"
+                    android:text="@string/stardust"
+                    android:textAllCaps="true"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    tools:ignore="RtlHardcoded"/>
+
+                <TextView
+                    android:id="@+id/exResStardust"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/evalMinorResult"
+                    tools:text="3200"/>
+
+            </LinearLayout>
+        </android.support.constraint.ConstraintLayout>
+
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="6dp"
+            android:background="@android:color/darker_gray"/>
+
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="Input" />
+            android:text="Input"
+            android:textAlignment="center"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -293,21 +312,22 @@
             android:baselineAligned="true">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="50dp"
+                android:textAlignment="textEnd"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textAllCaps="true"
                 android:text="@string/evolution" />
 
             <Spinner
+                android:layout_marginLeft="44dp"
                 android:id="@+id/extendedEvolutionSpinner"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:background="@drawable/spinner"
-                android:gravity="end"
+                android:gravity="left"
                 android:popupBackground="#fafafa"
-                tools:layout_height="24dp" />
+                tools:layout_height="24dp"
+                tools:layout_width="150dp" />
 
         </LinearLayout>
 
@@ -317,23 +337,16 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textAllCaps="true"
-                android:text="@string/level_acronym" />
+
 
             <TextView
-                android:id="@+id/explainLevelSlider"
-                android:layout_width="wrap_content"
+                android:layout_width="50dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="4dp"
-                android:layout_marginStart="4dp"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/colorPrimary"
-                android:text="(?)"
-                tools:ignore="HardcodedText,RtlHardcoded" />
+                android:textAlignment="textEnd"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/level_acronym" />
+
+
 
             <Button
                 style="?attr/borderlessButtonStyle"
@@ -384,12 +397,12 @@
                 android:id="@+id/exResLevel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textStyle="bold"
+                android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textAllCaps="true"
                 tools:text="20.0" />
 
         </LinearLayout>
+
 
     </LinearLayout>
 
@@ -418,7 +431,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textAllCaps="true"
                 android:text="@string/pokespam" />
 
@@ -428,7 +441,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="end"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textAppearance="?android:attr/textAppearanceSmall"
                 tools:text="#ofSpam" />
 
         </LinearLayout>

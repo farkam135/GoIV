@@ -50,10 +50,14 @@ public class PowerUpFraction extends Fraction {
     TextView exResLevel;
     @BindView(R.id.exResultCP)
     TextView exResultCP;
+    @BindView(R.id.exResultCPPlus)
+    TextView exResultCPPlus;
     @BindView(R.id.extendedEvolutionSpinner)
     Spinner extendedEvolutionSpinner;
     @BindView(R.id.exResultHP)
     TextView exResultHP;
+    @BindView(R.id.exResultHPPlus)
+    TextView exResultHPPlus;
     @BindView(R.id.exResultPercentPerfection)
     TextView exResultPercentPerfection;
     @BindView(R.id.exResStardust)
@@ -190,15 +194,16 @@ public class PowerUpFraction extends Fraction {
         int realCP = ivScanResult.scannedCP;
         int expectedAverage = expectedRange.getAvg();
 
-        String exResultCPStr = String.valueOf(expectedAverage);
+        exResultCP.setText(String.valueOf(expectedAverage));
 
+        String exResultCPStrPlus = "";
         int diffCP = expectedAverage - realCP;
         if (diffCP >= 0) {
-            exResultCPStr += " (+" + diffCP + ")";
+            exResultCPStrPlus += " (+" + diffCP + ")";
         } else {
-            exResultCPStr += " (" + diffCP + ")";
+            exResultCPStrPlus += " (" + diffCP + ")";
         }
-        exResultCP.setText(exResultCPStr);
+        exResultCPPlus.setText(exResultCPStrPlus);
     }
 
     /**
@@ -209,13 +214,16 @@ public class PowerUpFraction extends Fraction {
      */
     private void setEstimateHPTextBox(IVScanResult ivScanResult, double selectedLevel, Pokemon selectedPokemon) {
         int newHP = PokeInfoCalculator.getInstance().getHPAtLevel(ivScanResult, selectedLevel, selectedPokemon);
+
+        exResultHP.setText(String.valueOf(newHP));
+
         int oldHP = PokeInfoCalculator.getInstance().getHPAtLevel(ivScanResult, pokefly.estimatedPokemonLevelRange.min,
                 ivScanResult
                         .pokemon);
         int hpDiff = newHP - oldHP;
         String sign = (hpDiff >= 0) ? "+" : ""; //add plus in front if positive.
-        String hpText = newHP + " (" + sign + hpDiff + ")";
-        exResultHP.setText(hpText);
+        String hpTextPlus = " (" + sign + hpDiff + ")";
+        exResultHPPlus.setText(hpTextPlus);
     }
 
     /**
@@ -426,10 +434,6 @@ public class PowerUpFraction extends Fraction {
         Toast.makeText(pokefly.getApplicationContext(), R.string.perfection_explainer, Toast.LENGTH_LONG).show();
     }
 
-    @OnClick(R.id.explainLevelSlider)
-    public void explainLevelSlider() {
-        Toast.makeText(pokefly.getApplicationContext(), R.string.powerup_calc_instructions, Toast.LENGTH_LONG).show();
-    }
 
     @OnClick(R.id.btnIncrementLevelExpanded)
     public void incrementLevelExpanded() {

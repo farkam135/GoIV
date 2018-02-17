@@ -1,23 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="typeName">
-        <!--  0   normal --> <item>NORMAL</item>
-        <!--  1     fire --> <item>FUEGO</item>
-        <!--  2    water --> <item>AGUA</item>
-        <!--  3 electric --> <item>ELÉCTRICO</item>
-        <!--  4    grass --> <item>PLANTA</item>
-        <!--  5      ice --> <item>HIELO</item>
-        <!--  6 fighting --> <item>LUCHA</item>
-        <!--  7   poison --> <item>VENENO</item>
-        <!--  8   ground --> <item>TIERRA</item>
-        <!--  9   flying --> <item>VOLADOR</item>
-        <!-- 10  psychic --> <item>PSÍQUICO</item>
-        <!-- 11      bug --> <item>BICHO</item>
-        <!-- 12     rock --> <item>ROCA</item>
-        <!-- 13    ghost --> <item>FANTASMA</item>
-        <!-- 14   dragon --> <item>DRAGÓN</item>
-        <!-- 15     dark --> <item>SINIESTRO</item>
-        <!-- 16    steel --> <item>ACERO</item>
-        <!-- 17    fairy --> <item>HADA</item>
+        <!-- 0 NONE -->
+        <!-- 1    normal --> <item>NORMAL</item>
+        <!-- 2      fire --> <item>FUEGO</item>
+        <!-- 3     water --> <item>AGUA</item>
+        <!-- 4  electric --> <item>ELÉCTRICO</item>
+        <!-- 5     grass --> <item>PLANTA</item>
+        <!-- 6       ice --> <item>HIELO</item>
+        <!-- 7  fighting --> <item>LUCHA</item>
+        <!-- 8    poison --> <item>VENENO</item>
+        <!-- 9    ground --> <item>TIERRA</item>
+        <!-- A    flying --> <item>VOLADOR</item>
+        <!-- B   psychic --> <item>PSÍQUICO</item>
+        <!-- C       bug --> <item>BICHO</item>
+        <!-- D      rock --> <item>ROCA</item>
+        <!-- E     ghost --> <item>FANTASMA</item>
+        <!-- F    dragon --> <item>DRAGÓN</item>
+        <!-- G      dark --> <item>SINIESTRO</item>
+        <!-- H     steel --> <item>ACERO</item>
+        <!-- I     fairy --> <item>HADA</item>
+        <!-- J RESERVED  -->
     </string-array>
 </resources>

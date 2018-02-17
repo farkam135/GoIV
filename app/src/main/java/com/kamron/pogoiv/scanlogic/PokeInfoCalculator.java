@@ -67,7 +67,6 @@ public class PokeInfoCalculator {
      */
     private PokeInfoCalculator(@NonNull GoIVSettings settings, @NonNull Resources res) {
         populatePokemon(settings, res);
-        this.typeNamesArray = res.getStringArray(R.array.typeName);
     }
 
     public List<Pokemon> getPokedex() {
@@ -149,9 +148,11 @@ public class PokeInfoCalculator {
         final String[] types = res.getStringArray(R.array.type);
 
         int pokeListSize = names.length;
+        typeNamesArray = res.getStringArray(R.array.typeName);
+
         for (int i = 0; i < pokeListSize; i++) {
-            Pokemon p = new Pokemon(names[i], displayNames[i], i, attack[i], defense[i], stamina[i],
-                    devolution[i], evolutionCandyCost[i], types[i]);
+            Pokemon p = new Pokemon(names[i], displayNames[i], i, attack[i], defense[i], stamina[i], devolution[i],
+                    evolutionCandyCost[i], getTypeNames(types[i]));
             pokedex.add(p);
             pokemap.put(names[i].toLowerCase(), p);
             if (!names[i].equals(displayNames[i])) {
@@ -440,11 +441,7 @@ public class PokeInfoCalculator {
         return averageHP;
     }
 
-    public String getTypeName(int typeNameNum) {
-        return typeNamesArray[typeNameNum];
-    }
-
-    public String[] getTypeNames(String typeBase20) {
+    private String[] getTypeNames(String typeBase20) {
         String[] typeNames = new String[2];
         int typeNum;
 

@@ -56,10 +56,10 @@ public class Pokemon {
     public final int baseStamina;
     public final int devoNumber;
     public final int candyEvolutionCost;
-    public final String types;
+    public final String[] types;
 
     public Pokemon(String name, String displayName, int number, int baseAttack, int baseDefense, int baseStamina,
-                   int devoNumber, int candyEvolutionCost, String types) {
+                   int devoNumber, int candyEvolutionCost, String[] types) {
         this.name = name;
         this.displayName = displayName;
         this.number = number;

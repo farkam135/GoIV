@@ -441,26 +441,43 @@ public class PokeInfoCalculator {
         return averageHP;
     }
 
+    /**
+     * Get localized pokemon type names as a string array from a base20 value defined in types.xml.
+     *
+     * @param typeBase20 a pokemon type value indicated with 2 digits base20 value defined in types.xml
+     * @return A string array including localized pokemon type names. This array has 2 elements as max-length for a
+     * multi-type pokemon, or 1 element as min-length for a single type pokemon.
+     * If invalid value input, currently "N/A" returned as 1 element string array.
+     */
     private String[] getTypeNames(String typeBase20) {
-        String[] typeNames = new String[2];
-        int typeNum;
-
-        typeNum = Integer.parseInt(typeBase20.substring(0, 1), 20);
-
-        if (0 < typeNum && typeNum < typeNamesArray.length) {
-            typeNames[0] = typeNamesArray[typeNum - 1];
-        } else {
-            typeNames[0] = null;
+        // check invalid value
+        if (typeBase20.length() != 2) {
+            //TODO error handling
+            String[] typeNames = {"N/A"};
+            return typeNames;
         }
 
-        typeNum = Integer.parseInt(typeBase20.substring(1, 2), 20);
+        Integer[] typeNum = new Integer[2];
 
-        if (0 < typeNum && typeNum < typeNamesArray.length) {
-            typeNames[1] = typeNamesArray[typeNum - 1];
-        } else {
-            typeNames[1] = null;
+        typeNum[0] = Integer.parseInt(typeBase20.substring(0, 1), 20); // 1st type
+        typeNum[1] = Integer.parseInt(typeBase20.substring(1, 2), 20); // 2nd type
+
+        // check invalid value
+        if (!(0 < typeNum[0] && typeNum[0] < typeNamesArray.length)
+                || !(0 <= typeNum[1] && typeNum[1] < typeNamesArray.length)) {
+            //TODO error handling
+            String[] typeNames = {"N/A"};
+            return typeNames;
         }
 
-        return typeNames;
+        if (typeNum[1] == 0) {
+            // Single-type Pokemon
+            String[] typeNames = {typeNamesArray[typeNum[0] - 1]};
+            return typeNames;
+        } else {
+            // Multi-type Pokemon
+            String[] typeNames = {typeNamesArray[typeNum[0] - 1], typeNamesArray[typeNum[1] - 1]};
+            return typeNames;
+        }
     }
 }

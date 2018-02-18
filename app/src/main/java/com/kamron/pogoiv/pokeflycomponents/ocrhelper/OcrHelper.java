@@ -1018,7 +1018,10 @@ public class OcrHelper {
      * @param trainerLevel Current level of the trainer
      * @return an object
      */
-    public ScanResult scanPokemon(@NonNull GoIVSettings settings, @NonNull Bitmap pokemonImage, int trainerLevel) {
+    public ScanResult scanPokemon(@NonNull GoIVSettings settings,
+                                  @NonNull Bitmap pokemonImage,
+                                  int trainerLevel,
+                                  boolean requestFullScan) {
         ensureCorrectLevelArcSettings(settings, trainerLevel); //todo, make it so it doesnt initiate on every scan?
 
         Optional<Integer> powerUpStardustCost = Optional.absent();
@@ -1035,20 +1038,35 @@ public class OcrHelper {
                 ScanArea.calibratedFromSettings(POKEMON_TYPE_AREA, settings));
         Pokemon.Gender gender = getPokemonGenderFromImg(pokemonImage,
                 ScanArea.calibratedFromSettings(POKEMON_GENDER_AREA, settings));
-        String name = getPokemonNameFromImg(pokemonImage, gender,
-                ScanArea.calibratedFromSettings(POKEMON_NAME_AREA, settings));
+        String name;
+        if (requestFullScan) {
+            name = getPokemonNameFromImg(pokemonImage, gender,
+                    ScanArea.calibratedFromSettings(POKEMON_NAME_AREA, settings));
+        } else {
+            name = "";
+        }
         String candyName = getCandyNameFromImg(pokemonImage, gender,
                 ScanArea.calibratedFromSettings(CANDY_NAME_AREA, settings));
         Optional<Integer> hp = getPokemonHPFromImg(pokemonImage,
                 ScanArea.calibratedFromSettings(POKEMON_HP_AREA, settings));
         Optional<Integer> cp = getPokemonCPFromImg(pokemonImage,
                 ScanArea.calibratedFromSettings(POKEMON_CP_AREA, settings));
-        Optional<Integer> candyAmount = getCandyAmountFromImg(pokemonImage,
-                ScanArea.calibratedFromSettings(POKEMON_CANDY_AMOUNT_AREA, settings));
+        Optional<Integer> candyAmount;
+        if (requestFullScan && isPokeSpamEnabled) {
+            candyAmount = getCandyAmountFromImg(pokemonImage,
+                    ScanArea.calibratedFromSettings(POKEMON_CANDY_AMOUNT_AREA, settings));
+        } else {
+            candyAmount = Optional.absent();
+        }
         Optional<Integer> evolutionCost = getPokemonEvolutionCostFromImg(pokemonImage,
                 ScanArea.calibratedFromSettings(POKEMON_EVOLUTION_COST_AREA, settings));
-        Optional<Pair<String, String>> moveset = getMovesetFromImg(pokemonImage,
-                ScanArea.calibratedFromSettings(POKEMON_EVOLUTION_COST_AREA, settings));
+        Optional<Pair<String, String>> moveset;
+        if (requestFullScan) {
+            moveset = getMovesetFromImg(pokemonImage,
+                    ScanArea.calibratedFromSettings(POKEMON_EVOLUTION_COST_AREA, settings));
+        } else {
+            moveset = Optional.absent();
+        }
         String uniqueIdentifier = name + type + candyName + hp.toString() + cp
                 .toString() + powerUpStardustCost.toString() + powerUpCandyCost.toString();
 

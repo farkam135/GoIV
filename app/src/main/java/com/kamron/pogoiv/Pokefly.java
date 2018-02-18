@@ -637,7 +637,7 @@ public class Pokefly extends Service {
 
         Intent info = Pokefly.createNoInfoIntent();
         try {
-            ScanResult res = ocr.scanPokemon(GoIVSettings.getInstance(this), pokemonImage, trainerLevel);
+            ScanResult res = ocr.scanPokemon(GoIVSettings.getInstance(this), pokemonImage, trainerLevel, true);
             if (res.isFailed()) {
                 Toast.makeText(Pokefly.this, getString(R.string.scan_pokemon_failed), Toast.LENGTH_SHORT).show();
             }

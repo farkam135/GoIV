@@ -1,9 +1,10 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="300dp"
     android:minHeight="@dimen/dialog_large_height_min">
 
     <LinearLayout
@@ -78,12 +79,398 @@
 
     </info.hoang8f.android.segmented.SegmentedGroup>
 
-    <android.support.v7.widget.AppCompatImageButton
-        style="?attr/borderlessButtonStyle"
-        android:id="@+id/shareWithOtherApp"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:scaleType="center"
-        app:srcCompat="@drawable/ic_share_black" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.AppCompatImageButton
+                android:id="@+id/shareWithOtherApp"
+                style="?attr/borderlessButtonStyle"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="8dp"
+                android:scaleType="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_share_black"/>
+
+            <Button
+                android:id="@+id/exportWebButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:text="Export to SOMETHING"
+                app:layout_constraintBottom_toBottomOf="@+id/shareWithOtherApp"
+                app:layout_constraintEnd_toStartOf="@+id/shareWithOtherApp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/shareWithOtherApp"/>
+
+            <TextView
+                android:id="@+id/fastMoveHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="Fast Move"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/exportWebButton"/>
+
+            <TextView
+                android:id="@+id/chargeMoveHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:text="Charge Move"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@id/fastMoveHeader"
+                app:layout_constraintTop_toTopOf="@id/fastMoveHeader"/>
+
+            <TextView
+                android:id="@+id/atkHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:text="Atk"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/defHeader"
+                app:layout_constraintTop_toTopOf="@id/fastMoveHeader"/>
+
+            <TextView
+                android:id="@+id/defHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="Def"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/fastMoveHeader"/>
+
+
+            <TextView
+                android:id="@+id/fastMoveValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="Snarl\nBite\nFire Fang\nFire Fang\nFire Fang\nSnarl\nBite\nFire Fang\nFire Fang\nSnarl\nSnarl\nSnarl\nBite\nBite\nBite"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fastMoveHeader"/>
+
+            <TextView
+                android:id="@+id/chargeMoveValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Wild Charge\nWild Charge\nWild Charge\nFlameThrower\nFire Blast\nFlamethrower\nFlamethrower\nCrunch\nBulldoze\nFire Blast\nCrunch\nBulldoze\nFire Blast\nCrunch\nBulldoze"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@id/chargeMoveHeader"
+                app:layout_constraintTop_toTopOf="@id/fastMoveValue"/>
+
+            <TextView
+                android:id="@+id/defValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="9.4"
+                android:textSize="18sp"
+                android:textColor="#0db5c7"
+                app:layout_constraintStart_toStartOf="@id/defHeader"
+                app:layout_constraintTop_toTopOf="@id/fastMoveValue"/>
+
+            <TextView
+                android:id="@+id/defValue2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="9.4"
+                android:textSize="18sp"
+                android:textColor="#0db5c7"
+                app:layout_constraintStart_toStartOf="@id/defValue"
+                app:layout_constraintTop_toBottomOf="@+id/defValue"/>
+
+
+            <TextView
+                android:id="@+id/defValue3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="9.3"
+                android:textSize="18sp"
+                android:textColor="#0dc77d"
+                app:layout_constraintStart_toStartOf="@id/defValue2"
+                app:layout_constraintTop_toBottomOf="@+id/defValue2"/>
+
+
+            <TextView
+                android:id="@+id/defValue4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="9.2"
+                android:textSize="18sp"
+                android:textColor="#0dc77d"
+                app:layout_constraintStart_toStartOf="@id/defValue3"
+                app:layout_constraintTop_toBottomOf="@+id/defValue3"/>
+
+
+            <TextView
+                android:id="@+id/defValue5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="9.1"
+                android:textSize="18sp"
+                android:textColor="#0dc77d"
+                app:layout_constraintStart_toStartOf="@id/defValue4"
+                app:layout_constraintTop_toBottomOf="@+id/defValue4"/>
+
+            <TextView
+                android:id="@+id/defValue6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="8.6"
+                android:textSize="18sp"
+                android:textColor="#0dc77d"
+                app:layout_constraintStart_toStartOf="@id/defValue5"
+                app:layout_constraintTop_toBottomOf="@+id/defValue5"/>
+            <TextView
+                android:id="@+id/defValue7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="8.5"
+                android:textSize="18sp"
+                android:textColor="#0dc77d"
+                app:layout_constraintStart_toStartOf="@id/defValue6"
+                app:layout_constraintTop_toBottomOf="@+id/defValue6"/>
+            <TextView
+                android:id="@+id/defValue8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="7.8"
+                android:textSize="18sp"
+                android:textColor="#c7c40d"
+                app:layout_constraintStart_toStartOf="@id/defValue7"
+                app:layout_constraintTop_toBottomOf="@+id/defValue7"/>
+            <TextView
+                android:id="@+id/defValue9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="7.7"
+                android:textSize="18sp"
+                android:textColor="#c7c40d"
+                app:layout_constraintStart_toStartOf="@id/defValue8"
+                app:layout_constraintTop_toBottomOf="@+id/defValue8"/>
+            <TextView
+                android:id="@+id/defValue10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="7.3"
+                android:textSize="18sp"
+                android:textColor="#c7c40d"
+                app:layout_constraintStart_toStartOf="@id/defValue9"
+                app:layout_constraintTop_toBottomOf="@+id/defValue9"/>
+            <TextView
+                android:id="@+id/defValue11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="7.2"
+                android:textSize="18sp"
+                android:textColor="#c7c40d"
+                app:layout_constraintStart_toStartOf="@id/defValue10"
+                app:layout_constraintTop_toBottomOf="@+id/defValue10"/>
+            <TextView
+                android:id="@+id/defValue12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="6.7"
+                android:textSize="18sp"
+                android:textColor="#c7c40d"
+                app:layout_constraintStart_toStartOf="@id/defValue11"
+                app:layout_constraintTop_toBottomOf="@+id/defValue11"/>
+            <TextView
+                android:id="@+id/defValue13"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="6.3"
+                android:textSize="18sp"
+                android:textColor="#c74b0d"
+                app:layout_constraintStart_toStartOf="@id/defValue12"
+                app:layout_constraintTop_toBottomOf="@+id/defValue12"/>
+            <TextView
+                android:id="@+id/defValue14"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="6.3"
+                android:textSize="18sp"
+                android:textColor="#c74b0d"
+                app:layout_constraintStart_toStartOf="@id/defValue13"
+                app:layout_constraintTop_toBottomOf="@+id/defValue13"/>
+
+
+
+
+            <TextView
+                android:id="@+id/atkValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="9.4"
+                android:textSize="18sp"
+                android:textColor="#0d35c7"
+                app:layout_constraintStart_toStartOf="@id/atkHeader"
+                app:layout_constraintTop_toTopOf="@id/fastMoveValue"/>
+
+            <TextView
+                android:id="@+id/atkValue2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="9.4"
+                android:textSize="18sp"
+                android:textColor="#0d35c7"
+                app:layout_constraintStart_toStartOf="@id/atkValue"
+                app:layout_constraintTop_toBottomOf="@+id/atkValue"/>
+
+
+            <TextView
+                android:id="@+id/atkValue3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="9.3"
+                android:textSize="18sp"
+                android:textColor="#0dc77d"
+                app:layout_constraintStart_toStartOf="@id/atkValue2"
+                app:layout_constraintTop_toBottomOf="@+id/atkValue2"/>
+
+
+            <TextView
+                android:id="@+id/atkValue4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="9.2"
+                android:textSize="18sp"
+                android:textColor="#0dc77d"
+                app:layout_constraintStart_toStartOf="@id/atkValue3"
+                app:layout_constraintTop_toBottomOf="@+id/atkValue3"/>
+
+
+            <TextView
+                android:id="@+id/atkValue5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="9.1"
+                android:textSize="18sp"
+                android:textColor="#0dc77d"
+                app:layout_constraintStart_toStartOf="@id/atkValue4"
+                app:layout_constraintTop_toBottomOf="@+id/atkValue4"/>
+
+            <TextView
+                android:id="@+id/atkValue6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="8.6"
+                android:textSize="18sp"
+                android:textColor="#0dc77d"
+                app:layout_constraintStart_toStartOf="@id/atkValue5"
+                app:layout_constraintTop_toBottomOf="@+id/atkValue5"/>
+            <TextView
+                android:id="@+id/atkValue7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="8.5"
+                android:textSize="18sp"
+                android:textColor="#0dc77d"
+                app:layout_constraintStart_toStartOf="@id/atkValue6"
+                app:layout_constraintTop_toBottomOf="@+id/atkValue6"/>
+            <TextView
+                android:id="@+id/atkValue8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="7.8"
+                android:textSize="18sp"
+                android:textColor="#c7c40d"
+                app:layout_constraintStart_toStartOf="@id/atkValue7"
+                app:layout_constraintTop_toBottomOf="@+id/atkValue7"/>
+            <TextView
+                android:id="@+id/atkValue9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="7.7"
+                android:textSize="18sp"
+                android:textColor="#c7c40d"
+                app:layout_constraintStart_toStartOf="@id/atkValue8"
+                app:layout_constraintTop_toBottomOf="@+id/atkValue8"/>
+            <TextView
+                android:id="@+id/atkValue10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="7.3"
+                android:textSize="18sp"
+                android:textColor="#c7c40d"
+                app:layout_constraintStart_toStartOf="@id/atkValue9"
+                app:layout_constraintTop_toBottomOf="@+id/atkValue9"/>
+            <TextView
+                android:id="@+id/atkValue11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="7.2"
+                android:textSize="18sp"
+                android:textColor="#c7c40d"
+                app:layout_constraintStart_toStartOf="@id/atkValue10"
+                app:layout_constraintTop_toBottomOf="@+id/atkValue10"/>
+            <TextView
+                android:id="@+id/atkValue12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="6.7"
+                android:textSize="18sp"
+                android:textColor="#c7c40d"
+                app:layout_constraintStart_toStartOf="@id/atkValue11"
+                app:layout_constraintTop_toBottomOf="@+id/atkValue11"/>
+            <TextView
+                android:id="@+id/atkValue13"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="6.3"
+                android:textSize="18sp"
+                android:textColor="#c74b0d"
+                app:layout_constraintStart_toStartOf="@id/atkValue12"
+                app:layout_constraintTop_toBottomOf="@+id/atkValue12"/>
+            <TextView
+                android:id="@+id/atkValue14"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="6.3"
+                android:textSize="18sp"
+                android:textColor="#c74b0d"
+                app:layout_constraintStart_toStartOf="@id/atkValue13"
+                app:layout_constraintTop_toBottomOf="@+id/atkValue13"/>
+            
+            
+            
+            
+            
+
+
+
+            <TextView
+                android:id="@+id/disclaimerText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Score based on data from _____. \nOptimal moveset can change in certain matchups.\nThis score is only a guideline."
+                android:textAlignment="center"
+                android:textColor="#9c9c9c"
+                android:textSize="12sp"
+                app:layout_constraintTop_toBottomOf="@id/chargeMoveValue"/>
+
+
+        </android.support.constraint.ConstraintLayout>
+
+    </ScrollView>
 
 </LinearLayout>

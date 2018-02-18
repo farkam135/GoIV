@@ -341,6 +341,7 @@ public class Pokefly extends Service {
     private void createFlyingComponents() {
         createInfoLayout();
         ivButton = new IVPopupButton(this);
+        windowManager.addView(ivButton, IVPopupButton.layoutParams);
         createArcPointer();
 
         fractionManager = new FractionManager(this, R.style.AppTheme_Dialog, fractionContainer);
@@ -384,6 +385,7 @@ public class Pokefly extends Service {
             screenShotHelper = null;
         }
         ivButton.setShown(false, infoShownSent);
+        windowManager.removeView(ivButton);
         hideInfoLayoutArcPointer();
 
         ocr.exit();

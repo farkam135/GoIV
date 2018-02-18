@@ -30,12 +30,16 @@ public class IVPreviewPrinter {
     private Pokefly pokefly;
     private GoIVSettings settings;
     private PokeInfoCalculator pokeInfoCalculator;
+    private Handler handler;
+    private QuickIVScanAttempt quickIVScanAttempt;
 
     public IVPreviewPrinter(Pokefly pokefly) {
         this.pokefly = pokefly;
 
         settings = GoIVSettings.getInstance(pokefly);
         pokeInfoCalculator = PokeInfoCalculator.getInstance();
+        handler = new Handler();
+        quickIVScanAttempt = new QuickIVScanAttempt();
     }
 
     /**
@@ -46,10 +50,11 @@ public class IVPreviewPrinter {
      */
     public void printIVPreview(IVPopupButton ivButton) {
         if (settings.shouldShowQuickIVPreview()) {
-            Handler handler = new Handler();
-            // A delayed action, because the screengrabber needs to wait and ensure there's a frame to grab - fails if
+            // A delayed action, because the screen grabber needs to wait and ensure there's a frame to grab - fails if
             // the delay is not long enough.
-            handler.postDelayed(new QuickIVScanAttempt(pokefly, this, ivButton), DELAY_SCAN_MILLIS);
+            handler.removeCallbacks(quickIVScanAttempt);
+            quickIVScanAttempt.updateReferences(pokefly, this, ivButton);
+            handler.postDelayed(quickIVScanAttempt, DELAY_SCAN_MILLIS);
         }
     }
 
@@ -62,10 +67,10 @@ public class IVPreviewPrinter {
         private WeakReference<IVPreviewPrinter> ivPreviewPrinterRef;
         private WeakReference<IVPopupButton> ivButtonRef;
 
-        public QuickIVScanAttempt(Pokefly pokefly, IVPreviewPrinter ivPreviewPrinter, IVPopupButton ivButton) {
-            this.pokeflyRef = new WeakReference<>(pokefly);
-            this.ivPreviewPrinterRef = new WeakReference<>(ivPreviewPrinter);
-            this.ivButtonRef = new WeakReference<>(ivButton);
+        void updateReferences(Pokefly pokefly, IVPreviewPrinter ivPreviewPrinter, IVPopupButton ivButton) {
+            pokeflyRef = new WeakReference<>(pokefly);
+            ivPreviewPrinterRef = new WeakReference<>(ivPreviewPrinter);
+            ivButtonRef = new WeakReference<>(ivButton);
         }
 
         @Override

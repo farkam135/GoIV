@@ -234,7 +234,7 @@ public class IVPopupButton extends android.support.v7.widget.AppCompatButton {
         public boolean onTouch(View v, MotionEvent event) {
             if (event.getAction() == MotionEvent.ACTION_UP) {
                 setVisibility(GONE);
-                pokefly.takeScreenshot();
+                pokefly.requestScan();
                 pokefly.setIVButtonClickedStates();
             }
             return false;

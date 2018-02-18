@@ -87,7 +87,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="12dp"
-        android:paddingBottom="12dp"
+        android:paddingBottom="6dp"
         android:paddingLeft="12dp"
         android:paddingRight="12dp"
         android:orientation="vertical">
@@ -95,109 +95,93 @@
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="160dp"
-            android:layout_marginTop="10dp">
+            android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
                 android:text="Predicted stats"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"/>
+
+
+
+            <TextView
+                android:id="@+id/exResultCP"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/evalResultText"
+                app:layout_constraintHorizontal_bias="0.2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView"
+                tools:text="2012"/>
 
             <TextView
                 android:id="@+id/exResultCPPlus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="2dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginLeft="2dp"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                app:layout_constraintBottom_toTopOf="@+id/cpDetailsLinearLayout"
-                app:layout_constraintStart_toEndOf="@+id/cpContainer"
-                app:layout_constraintTop_toTopOf="@+id/cpContainer"
+                app:layout_constraintBaseline_toBaselineOf="@id/exResultCP"
+                app:layout_constraintStart_toEndOf="@+id/exResultCP"
                 tools:text="(+612)"/>
 
-
-            <LinearLayout
-                android:id="@+id/cpContainer"
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:baselineAligned="true"
-                android:orientation="horizontal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/hpContainer"
+                android:layout_marginEnd="4dp"
+                android:layout_marginRight="4dp"
+                android:text="@string/cp"
+                android:textAllCaps="true"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                app:layout_constraintBaseline_toBaselineOf="@id/exResultCP"
+                app:layout_constraintEnd_toStartOf="@id/exResultCP"
+                tools:ignore="RtlHardcoded"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:layout_marginRight="4dp"
+                android:text="@string/hp_expanded_box"
+                android:textAllCaps="true"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                app:layout_constraintBaseline_toBaselineOf="@id/exResultCP"
+                app:layout_constraintEnd_toStartOf="@id/exResultHP"
+                tools:ignore="RtlHardcoded"/>
+
+            <TextView
+                android:id="@+id/exResultHP"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/evalResultText"
+                app:layout_constraintHorizontal_bias="0.8"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="6dp"
-                    android:layout_marginRight="6dp"
-                    android:text="@string/cp"
-                    android:textAllCaps="true"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    tools:ignore="RtlHardcoded"/>
-
-
-                <TextView
-                    android:id="@+id/exResultCP"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="@style/evalResultText"
-                    tools:text="2012"/>
-
-            </LinearLayout>
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBaseline_toBaselineOf="@id/exResultCP"
+                tools:text="200"/>
 
             <TextView
                 android:id="@+id/exResultHPPlus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="2dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginLeft="2dp"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                app:layout_constraintBottom_toBottomOf="@+id/hpContainer"
-                app:layout_constraintStart_toEndOf="@+id/hpContainer"
-                app:layout_constraintTop_toTopOf="@+id/hpContainer"
+                app:layout_constraintBaseline_toBaselineOf="@id/exResultCP"
+                app:layout_constraintStart_toEndOf="@id/exResultHP"
                 tools:text="(+24)"/>
-
-            <LinearLayout
-                android:id="@+id/hpContainer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:baselineAligned="true"
-                app:layout_constraintBottom_toTopOf="@+id/cpDetailsLinearLayout"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/cpContainer">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="6dp"
-                    android:layout_marginRight="6dp"
-                    android:text="@string/hp_expanded_box"
-                    android:textAllCaps="true"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    tools:ignore="RtlHardcoded"/>
-
-                <TextView
-                    android:id="@+id/exResultHP"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="@style/evalResultText"
-                    tools:text="200"/>
-
-            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/cpDetailsLinearLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="@id/cpContainer"
-                app:layout_constraintTop_toBottomOf="@id/cpContainer">
+                app:layout_constraintTop_toBottomOf="@id/exResultCP"
+                app:layout_constraintStart_toStartOf="@id/exResultCP"
+                app:layout_constraintEnd_toEndOf="@id/exResultCP">
 
                 <TextView
                     android:id="@+id/exResultPercentPerfection"
@@ -224,10 +208,9 @@
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="6dp"
                 android:text="Cost"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.501"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cpDetailsLinearLayout"/>
 
@@ -236,11 +219,13 @@
                 android:id="@+id/candyContainer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="4dp"
                 android:baselineAligned="true"
                 android:orientation="horizontal"
-                app:layout_constraintStart_toStartOf="@+id/cpContainer"
-                app:layout_constraintTop_toBottomOf="@+id/textView2">
+                app:layout_constraintStart_toStartOf="@+id/exResultCP"
+                app:layout_constraintEnd_toEndOf="@id/exResultCP"
+                app:layout_constraintTop_toBottomOf="@+id/textView2"
+                app:layout_constraintBottom_toBottomOf="parent">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -268,8 +253,10 @@
                 android:layout_height="wrap_content"
                 android:baselineAligned="true"
                 android:orientation="horizontal"
-                app:layout_constraintStart_toStartOf="@+id/hpContainer"
-                app:layout_constraintTop_toTopOf="@+id/candyContainer">
+                app:layout_constraintStart_toStartOf="@+id/exResultHP"
+                app:layout_constraintEnd_toEndOf="@+id/exResultHP"
+                app:layout_constraintTop_toTopOf="@+id/candyContainer"
+                app:layout_constraintBottom_toBottomOf="parent">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -286,48 +273,56 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="@style/evalMinorResult"
-                    tools:text="3200"/>
+                    tools:text="255400"/>
 
             </LinearLayout>
-        </android.support.constraint.ConstraintLayout>
 
+        </android.support.constraint.ConstraintLayout>
 
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginTop="6dp"
+            android:layout_marginTop="12dp"
             android:layout_marginBottom="6dp"
             android:background="@android:color/darker_gray"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
             android:text="Input"
             android:textAlignment="center"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:baselineAligned="true">
+            android:gravity="bottom">
 
             <TextView
-                android:layout_width="50dp"
-                android:textAlignment="textEnd"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:minWidth="42dp"
+                android:textAlignment="textEnd"
+                android:textAllCaps="true"
+                android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="@string/evolution" />
 
             <Spinner
-                android:layout_marginLeft="44dp"
                 android:id="@+id/extendedEvolutionSpinner"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:background="@drawable/spinner"
-                android:gravity="left"
                 android:popupBackground="#fafafa"
+                android:gravity="center"
                 tools:layout_height="24dp"
                 tools:layout_width="150dp" />
+
+            <android.support.v4.widget.Space
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:minWidth="42dp" />
 
         </LinearLayout>
 
@@ -337,22 +332,21 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-
-
             <TextView
-                android:layout_width="50dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:minWidth="42dp"
                 android:textAlignment="textEnd"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textAllCaps="true"
+                android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="@string/level_acronym" />
-
-
 
             <Button
                 style="?attr/borderlessButtonStyle"
                 android:id="@+id/btnDecrementLevelExpanded"
                 android:layout_width="36dp"
                 android:layout_height="wrap_content"
+                android:minHeight="36dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="@color/colorPrimary"
                 android:textStyle="bold"
@@ -363,6 +357,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:clipToPadding="false"
                 android:clipChildren="false">
 
                 <io.apptik.widget.MultiSlider
@@ -370,6 +365,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="-6dp"
+                    android:layout_marginRight="-6dp"
                     app:range1="@drawable/orange_scrubber_track_holo_light"
                     app:range2="@drawable/orange_scrubber_primary_holo"
                     app:thumbNumber="2"/>
@@ -378,7 +375,9 @@
                     android:id="@+id/expandedLevelSeekbar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical" />
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="-6dp"
+                    android:layout_marginRight="-6dp" />
 
             </FrameLayout>
 
@@ -387,6 +386,7 @@
                 android:id="@+id/btnIncrementLevelExpanded"
                 android:layout_width="36dp"
                 android:layout_height="wrap_content"
+                android:minHeight="36dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="@color/colorPrimary"
                 android:textStyle="bold"
@@ -397,8 +397,8 @@
                 android:id="@+id/exResLevel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textAllCaps="true"
+                android:minWidth="42dp"
+                android:textAppearance="@style/evalMinorResult"
                 tools:text="20.0" />
 
         </LinearLayout>
@@ -415,7 +415,6 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginTop="6dp"
             android:layout_marginBottom="6dp"
             android:background="@android:color/darker_gray"/>
 

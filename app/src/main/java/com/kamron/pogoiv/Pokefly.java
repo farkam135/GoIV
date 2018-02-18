@@ -651,6 +651,8 @@ public class Pokefly extends Service {
      * Called by intent from pokefly, captures the screen and runs it through scanPokemon.
      */
     public void takeScreenshot() {
+        screenWatcher.cancelPendingScreenScan();
+
         Bitmap bmp = screen.grabScreen();
         if (bmp == null) {
             return;

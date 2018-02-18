@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingBottom="8dp"
+    android:paddingBottom="4dp"
     android:minHeight="@dimen/dialog_small_height_min">
 
     <LinearLayout
@@ -22,8 +22,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_marginLeft="20dp"
-            android:layout_marginStart="20dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginStart="24dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Input"
             tools:ignore="RtlHardcoded" />
@@ -75,9 +75,12 @@
         android:layout_marginTop="4dp"
         android:paddingLeft="12dp"
         android:paddingRight="12dp"
-        android:gravity="center_horizontal"
+        android:gravity="center_vertical"
         android:baselineAligned="true">
 
+        <android.support.v4.widget.Space
+            android:layout_width="48dp"
+            android:layout_height="0dp" />
 
         <Spinner
             android:id="@+id/spnPokemonName"
@@ -115,7 +118,7 @@
 
         <LinearLayout
             android:orientation="horizontal"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
@@ -126,7 +129,6 @@
                 android:layout_height="wrap_content"
                 android:labelFor="@+id/etCp"
                 android:textAppearance="@style/weakText"
-                android:textStyle="bold"
                 android:text="@string/cp" />
 
             <EditText
@@ -134,6 +136,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:minWidth="56dp"
+                android:paddingTop="6dp"
+                android:paddingBottom="6dp"
                 android:textColor="@color/colorPrimary"
                 android:maxLength="4"
                 android:textAlignment="center"
@@ -149,7 +153,7 @@
 
         <LinearLayout
             android:orientation="horizontal"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
@@ -160,7 +164,6 @@
                 android:layout_height="wrap_content"
                 android:labelFor="@+id/etHp"
                 android:textAppearance="@style/weakText"
-                android:textStyle="bold"
                 android:text="@string/hp" />
 
             <EditText
@@ -168,6 +171,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:minWidth="56dp"
+                android:paddingTop="6dp"
+                android:paddingBottom="6dp"
                 android:textColor="@color/colorPrimary"
                 android:maxLength="4"
                 android:textAlignment="center"
@@ -184,7 +189,7 @@
         <LinearLayout
             android:id="@+id/llPokeSpamDialogInputContentBox"
             android:orientation="horizontal"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
@@ -195,7 +200,6 @@
                 android:layout_height="wrap_content"
                 android:labelFor="@+id/etCp"
                 android:textAppearance="@style/weakText"
-                android:textStyle="bold"
                 android:text="@string/candy" />
 
             <EditText
@@ -203,6 +207,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:minWidth="56dp"
+                android:paddingTop="6dp"
+                android:paddingBottom="6dp"
                 android:textColor="@color/colorPrimary"
                 android:maxLength="4"
                 android:textAlignment="center"
@@ -224,6 +230,8 @@
         android:paddingLeft="12dp"
         android:paddingRight="8dp"
         android:gravity="center_vertical"
+        android:clipToPadding="false"
+        android:clipChildren="false"
         tools:ignore="RtlHardcoded">
 
         <TextView
@@ -231,13 +239,13 @@
             android:layout_height="wrap_content"
             android:textAppearance="@style/weakText"
             android:layout_marginRight="4dp"
-            android:text="Lv: "/>
+            android:text="@string/level_acronym" />
 
         <TextView
             android:id="@+id/levelIndicator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textAppearance="@style/evalMinorResult"
             tools:text="20.0" />
 
         <Button
@@ -245,6 +253,7 @@
             android:id="@+id/btnDecrementLevel"
             android:layout_width="36dp"
             android:layout_height="wrap_content"
+            android:minHeight="36dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@color/colorPrimary"
             android:textStyle="bold"
@@ -254,37 +263,32 @@
         <SeekBar
             android:id="@+id/sbArcAdjust"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginLeft="-6dp"
+            android:layout_marginRight="-6dp" />
 
         <Button
             style="?attr/borderlessButtonStyle"
             android:id="@+id/btnIncrementLevel"
             android:layout_width="36dp"
             android:layout_height="wrap_content"
+            android:minHeight="36dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@color/colorPrimary"
             android:textStyle="bold"
             android:text="+"
             tools:ignore="HardcodedText" />
 
-
-
-
     </LinearLayout>
-    <LinearLayout
+
+    <Button
+        android:id="@+id/btnCheckIv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:layout_marginRight="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="4dp">
+        android:text="@string/check_iv" />
 
-
-        <Button
-            android:id="@+id/btnCheckIv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="@string/check_iv" />
-    </LinearLayout>
 </LinearLayout>

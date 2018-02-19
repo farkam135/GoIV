@@ -18,11 +18,13 @@ public class MovesetData {
     private boolean isScannedCharge;
     private double atkScore;
     private double defScore;
-
+    private String quickMoveType;
+    private String chargeMoveType;
 
 
     public MovesetData(String quick, String charge, boolean quickIsLegacy, boolean chargeIsLegacy, double atkScore,
-                       double defScore, boolean isScannedQuick, boolean isScannedCharge) {
+                       double defScore, boolean isScannedQuick, boolean isScannedCharge,
+                       String chargeMoveType, String quickMoveType) {
         this.quick = quick;
         this.charge = charge;
         this.quickIsLegacy = quickIsLegacy;
@@ -31,11 +33,22 @@ public class MovesetData {
         this.defScore = defScore;
         this.isScannedQuick = isScannedQuick;
         this.isScannedCharge = isScannedCharge;
+        this.chargeMoveType = chargeMoveType;
+        this.quickMoveType = quickMoveType;
+
 
     }
 
     public boolean isScannedQuick() {
         return isScannedQuick;
+    }
+
+    public String getQuickMoveType() {
+        return quickMoveType;
+    }
+
+    public String getChargeMoveType() {
+        return chargeMoveType;
     }
 
     public boolean isScannedCharge() {

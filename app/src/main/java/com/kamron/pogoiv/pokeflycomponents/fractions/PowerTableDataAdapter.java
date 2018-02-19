@@ -25,39 +25,46 @@ public class PowerTableDataAdapter extends TableDataAdapter<MovesetData> {
 
     @Override public View getCellView(int rowIndex, int columnIndex, ViewGroup parentView) {
         MovesetData move = getRowData(rowIndex);
+        float DP = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, getContext().getResources()
+                        .getDisplayMetrics());
         View renderedView = null;
 
         TextView tv = new TextView(getContext());
         if (columnIndex == 0) {
             tv.setTextColor(getMoveColor(move.isQuickIsLegacy()));
-            tv.setText(move.getQuick());
+            tv.setText(move.getQuick() + "\n" + move.getQuickMoveType());
             tv.setBackgroundColor(getIsSelectedColor(move.isScannedQuick()));
         } else if (columnIndex == 1) {
             tv.setTextColor(getMoveColor(move.isChargeIsLegacy()));
-            tv.setText(move.getCharge());
+            tv.setText(move.getCharge()+ "\n" + move.getChargeMoveType());
             tv.setBackgroundColor(getIsSelectedColor(move.isScannedCharge()));
         } else if (columnIndex == 2) {
-            tv.setTextColor(getPowerColor(move.getAtkScore()));
+            tv.setTextColor(Color.parseColor("#ffffff"));
+            tv.setBackgroundColor(getPowerColor(move.getAtkScore()));
             tv.setText(move.getAtkScore() + "");
+            tv.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
         } else if (columnIndex == 3) {
-            tv.setTextColor(getPowerColor(move.getDefScore()));
+            tv.setTextColor(Color.parseColor("#ffffff"));
+            tv.setBackgroundColor(getPowerColor(move.getDefScore()));
             tv.setText(move.getDefScore() + "");
+            tv.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
         }
 
         tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
 
-        tv.setMaxLines(1);
-        tv.setEllipsize(TextUtils.TruncateAt.END);
+        tv.setPadding((int)(DP*2),0,(int)(DP*2),0);
+        //tv.setMaxLines(1);
+        //tv.setEllipsize(TextUtils.TruncateAt.END);
         renderedView = tv;
         return renderedView;
     }
 
     private int getIsSelectedColor(boolean scanned) {
         if (scanned) {
-            return Color.parseColor("#dbdcdd");
+            return Color.parseColor("#edfcef");
         } else{
 
-            return Color.parseColor("#fafafa");
+            return Color.parseColor("#ffffff");
         }
     }
 
@@ -72,10 +79,10 @@ public class PowerTableDataAdapter extends TableDataAdapter<MovesetData> {
 
     private int getPowerColor(double atkScore) {
         if (atkScore > 10) {
-            return Color.parseColor("#0d47a1");
+            return Color.parseColor("#4c8fdb");
         }
         if (atkScore > 8) {
-            return Color.parseColor("#2e7d32");
+            return Color.parseColor("#8eed94");
         }
         if (atkScore > 6) {
             return Color.parseColor("#f9a825");

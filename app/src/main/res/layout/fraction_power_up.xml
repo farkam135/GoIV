@@ -268,14 +268,14 @@
                 app:layout_constraintStart_toStartOf="@+id/exResultHP"
                 app:layout_constraintTop_toTopOf="@+id/candyContainer">
 
-                <!--
+
                 <ImageView
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
+                    android:layout_width="17dp"
+                    android:layout_height="17dp"
                     android:layout_marginEnd="6dp"
                     android:layout_marginTop="4dp"
-                    android:tint="#6A6A6A"
-                    app:src="stardust"/> -->
+                    android:src="@drawable/star"
+                    android:tint="#6A6A6A"/>
 
                 <TextView
                     android:id="@+id/exResStardust"

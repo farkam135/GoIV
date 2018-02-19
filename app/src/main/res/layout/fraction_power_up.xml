@@ -300,6 +300,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAllCaps="true"
+                android:minWidth="42dp"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="@string/evolution" />
 
@@ -331,6 +332,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAllCaps="true"
+                android:minWidth="42dp"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="@string/level_acronym" />
 

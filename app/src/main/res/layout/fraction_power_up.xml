@@ -227,13 +227,14 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView2"
                 app:layout_constraintBottom_toBottomOf="parent">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <ImageView
+                    android:src="@drawable/candy_icon"
+                    android:layout_width="17dp"
+                    android:layout_height="17dp"
                     android:layout_marginEnd="6dp"
-                    android:layout_marginRight="6dp"
                     android:text="@string/candy"
                     android:textAllCaps="true"
+                    android:layout_marginTop="5dp"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     tools:ignore="RtlHardcoded"/>
 
@@ -246,6 +247,16 @@
 
             </LinearLayout>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/veryWeakText"
+                android:text="@string/candy"
+                app:layout_constraintTop_toBottomOf="@id/candyContainer"
+                app:layout_constraintStart_toStartOf="@id/candyContainer"
+                app:layout_constraintEnd_toEndOf="@id/candyContainer"
+                />
+
 
             <LinearLayout
                 android:id="@+id/stardustContainer"
@@ -253,20 +264,18 @@
                 android:layout_height="wrap_content"
                 android:baselineAligned="true"
                 android:orientation="horizontal"
-                app:layout_constraintStart_toStartOf="@+id/exResultHP"
                 app:layout_constraintEnd_toEndOf="@+id/exResultHP"
-                app:layout_constraintTop_toTopOf="@+id/candyContainer"
-                app:layout_constraintBottom_toBottomOf="parent">
+                app:layout_constraintStart_toStartOf="@+id/exResultHP"
+                app:layout_constraintTop_toTopOf="@+id/candyContainer">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <!--
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
                     android:layout_marginEnd="6dp"
-                    android:layout_marginRight="6dp"
-                    android:text="@string/stardust"
-                    android:textAllCaps="true"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    tools:ignore="RtlHardcoded"/>
+                    android:layout_marginTop="4dp"
+                    android:tint="#6A6A6A"
+                    app:src="stardust"/> -->
 
                 <TextView
                     android:id="@+id/exResStardust"
@@ -277,6 +286,15 @@
 
             </LinearLayout>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/veryWeakText"
+                android:text="@string/stardust"
+                app:layout_constraintTop_toBottomOf="@id/stardustContainer"
+                app:layout_constraintStart_toStartOf="@id/stardustContainer"
+                app:layout_constraintEnd_toEndOf="@id/stardustContainer"
+                />
         </android.support.constraint.ConstraintLayout>
 
 

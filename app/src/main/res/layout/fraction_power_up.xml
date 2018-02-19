@@ -175,34 +175,16 @@
                 app:layout_constraintStart_toEndOf="@id/exResultHP"
                 tools:text="(+24)"/>
 
-            <LinearLayout
-                android:id="@+id/cpDetailsLinearLayout"
+            <TextView
+                android:id="@+id/exResultPercentPerfection"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/exResultCP"
                 app:layout_constraintStart_toStartOf="@id/exResultCP"
-                app:layout_constraintEnd_toEndOf="@id/exResultCP">
-
-                <TextView
-                    android:id="@+id/exResultPercentPerfection"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    tools:text="98.1% (-61)"/>
-
-                <TextView
-                    android:id="@+id/explainCPPercentageComparedToMaxIV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="6dp"
-                    android:layout_marginStart="6dp"
-                    android:text="(?)"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="@color/colorPrimary"
-                    tools:ignore="HardcodedText,RtlHardcoded"/>
-
-            </LinearLayout>
-
+                app:layout_constraintEnd_toEndOf="@id/exResultCP"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/colorPrimary"
+                tools:text="98.1% (-61)"/>
 
             <TextView
                 android:id="@+id/textView2"
@@ -212,7 +194,7 @@
                 android:text="Cost"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cpDetailsLinearLayout"/>
+                app:layout_constraintTop_toBottomOf="@id/exResultPercentPerfection"/>
 
 
             <LinearLayout

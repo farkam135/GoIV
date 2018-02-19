@@ -83,7 +83,7 @@
     <string name="percent" translatable="false">%d%%</string>
     <string name="unknown_percent" translatable="false">"?%"</string>
     <string name="hp_expanded_box">HP</string>
-    <string name="perfection_explainer">The percentage shows how big the difference is between your monster and a monster of the same species which has perfect IVs.\n\nSo for example, if it says 92 percent, then your Pokémon maxes out at 8 percent less CP compared to the same species with maximum IVs.</string>
+    <string name="perfection_explainer">The \% shows the difference between your monster and a one that\'s 15/15/15.\n\nThe number in parenthesis is how much CP is loses compared to a 15/15/15.</string>
     <string name="pokespam">PokéSpam</string>
     <string name="pokespam_formatted_message">%1$d (%2$d rows + %3$d more)</string>
     <string name="pokespam_formatted_message2">%1$d (%2$d rows)</string>

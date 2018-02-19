@@ -429,7 +429,7 @@ public class PowerUpFraction extends Fraction {
         return (int) (2 * level - getSeekbarOffset());
     }
 
-    @OnClick(R.id.explainCPPercentageComparedToMaxIV)
+    @OnClick(R.id.exResultPercentPerfection)
     public void explainCPPercentageComparedToMaxIV() {
         Toast.makeText(pokefly.getApplicationContext(), R.string.perfection_explainer, Toast.LENGTH_LONG).show();
     }

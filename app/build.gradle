@@ -150,6 +150,7 @@ dependencies {
      * Builds Dependencies for All Builds.
      */
 
+    compile 'de.codecrafters.tableview:tableview:2.8.0'
     /**
      * Online Build Dependencies
      */

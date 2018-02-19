@@ -84,6 +84,7 @@
         android:layout_height="match_parent">
 
         <android.support.constraint.ConstraintLayout
+            android:id="@+id/movesetConstrainLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -111,6 +112,21 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/shareWithOtherApp"/>
 
+
+            <de.codecrafters.tableview.SortableTableView
+                android:id="@+id/sortableTable"
+                android:layout_width="match_parent"
+                android:layout_height="500dp"
+                android:layout_marginTop="18dp"
+                app:layout_constraintTop_toBottomOf="@+id/exportWebButton"
+                app:tableView_columnCount="4"
+                app:tableView_headerColor="#ffffff"
+                app:tableView_headerElevation="0">
+
+
+            </de.codecrafters.tableview.SortableTableView>
+
+            <!--
             <TextView
                 android:id="@+id/fastMoveHeader"
                 android:layout_width="wrap_content"
@@ -450,7 +466,7 @@
                 app:layout_constraintStart_toStartOf="@id/atkValue13"
                 app:layout_constraintTop_toBottomOf="@+id/atkValue13"/>
             
-            
+            -->
             
             
             
@@ -466,7 +482,7 @@
                 android:textAlignment="center"
                 android:textColor="#9c9c9c"
                 android:textSize="12sp"
-                app:layout_constraintTop_toBottomOf="@id/chargeMoveValue"/>
+                app:layout_constraintTop_toBottomOf="@id/sortableTable"/>
 
 
         </android.support.constraint.ConstraintLayout>

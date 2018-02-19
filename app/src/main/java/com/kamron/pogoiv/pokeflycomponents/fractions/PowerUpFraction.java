@@ -269,7 +269,8 @@ public class PowerUpFraction extends Fraction {
                 .getCandyCostForEvolution(ivScanResult.pokemon, selectedPokemon);
         String candyCostText = cost.candy + evolutionCandyCost + "";
         exResCandy.setText(candyCostText);
-        exResStardust.setText(String.valueOf(cost.dust));
+        DecimalFormat formater = new DecimalFormat();
+        exResStardust.setText(formater.format(cost.dust));
     }
 
     /**

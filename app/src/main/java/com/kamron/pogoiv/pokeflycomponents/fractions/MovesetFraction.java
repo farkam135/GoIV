@@ -61,18 +61,17 @@ public class MovesetFraction extends Fraction {
      */
     private void fixTableConstrainLayoutHeight() {
         float DP = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, pokefly.getResources()
-                        .getDisplayMetrics());
+                .getDisplayMetrics());
 
-        ViewGroup.LayoutParams params =movesetConstrainLayout.getLayoutParams();
+        ViewGroup.LayoutParams params = movesetConstrainLayout.getLayoutParams();
         //constant length for header + length for every data row.
-        params.height= (int)((DP*100) + (DP*movesets.size()*10));
+        params.height = (int) ((DP * 100) + (DP * movesets.size() * 10));
         movesetConstrainLayout.setLayoutParams(params);
 
 
-
-        ViewGroup.LayoutParams params2 =sortableTable.getLayoutParams();
+        ViewGroup.LayoutParams params2 = sortableTable.getLayoutParams();
         //constant length for header + length for every data row.
-        params2.height= (int)((DP*50) + (DP*movesets.size()*20));
+        params2.height = (int) ((DP * 50) + (DP * movesets.size() * 20));
         sortableTable.setLayoutParams(params2);
     }
 
@@ -111,7 +110,6 @@ public class MovesetFraction extends Fraction {
     }
 
 
-
     private void loadMovesetData() {
         //todo - not implemented : add the moveset data to the "moveset" list object.
     }
@@ -121,27 +119,33 @@ public class MovesetFraction extends Fraction {
      * is an edgecase for amount of available movesets. But the numbers for atk / defence are fake.
      */
     private void createDummyData() {
-        movesets.add(new MovesetData("Waterfall", "Hydro pump", false, false, 11, 10.8, true, true, "water","water"
-                ));
+        movesets.add(new MovesetData("Waterfall", "Hydro pump", false, false, 11, 10.8, true, true, "water", "water"
+        ));
         movesets.add(new MovesetData("Bite", "Hydro pump", false, false, 10.8, 5, false, false, "dark",
                 "water"));
-        movesets.add(new MovesetData("Bite", "Crunch", false, false, 10, 6.2, false, false,"dark" , "water"));
+        movesets.add(new MovesetData("Bite", "Crunch", false, false, 10, 6.2, false, false, "dark", "water"));
         movesets.add(new MovesetData("Dragon tail", "Outrage", true, false, 9.8, 7, false, false, "dragon", "dragon"));
-        movesets.add(new MovesetData("Dragon tail", "Hydro pump", true, false, 9.7, 9.2, false, true,"dragon" ,"water" ));
-        movesets.add(new MovesetData("Dragon Breath", "Hydro pump", true, false, 9.5, 10.8, false, true, "dragon","water" ));
-        movesets.add(new MovesetData("Waterfall", "Crunch", false, false, 9.3, 6.2, true, false,"water" , "water"));
-        movesets.add(new MovesetData("Waterfall", "Outrage", false, false, 9.2, 7.2, true, false,"water" , "dragon"));
-        movesets.add(new MovesetData("Dragon tail", "Crunch", true, false, 9, 6.6, false, false,"dragon" , "water"));
-        movesets.add(new MovesetData("Dragon Breath", "Dragon Pulse", true, true, 8.8, 10.2, false, false,"dragon" , "dragon"));
-        movesets.add(new MovesetData("Bite", "Outrage", false, false, 8.6, 10.1, false, false,"dark" ,"dragon" ));
-        movesets.add(new MovesetData("Bite", "Dragon Pulse", false, true, 8.2, 8.6, false, false,"dark" , "dragon"));
-        movesets.add(new MovesetData("Bite", "Twister", false, true, 8, 7.3, false, false,"dark" , "dragon"));
-        movesets.add(new MovesetData("Dragon Breath", "Twister", true, true, 7.4, 4.2, false, false,"dragon" ,"dragon" ));
-        movesets.add(new MovesetData("Waterfall", "Dragon Pulse", false, true, 7, 7.2, true, false, "water","dragon" ));
-        movesets.add(new MovesetData("Waterfall", "Twister", false, true, 6.5, 6.4, true, false, "water","dragon" ));
-        movesets.add(new MovesetData("Dragon tail", "Dragon Pulse", true, true, 6.1, 5.5, false, false,"dragon" , "dragon"));
-        movesets.add(new MovesetData("Dragon tail", "Twister", true, true, 6, 6.7, false, false,"dragon" , "dragon"));
-        movesets.add(new MovesetData("Dragon Breath", "Outrage", true, false, 5.6, 6.8, false, false, "dragon", "dragon"));
+        movesets.add(
+                new MovesetData("Dragon tail", "Hydro pump", true, false, 9.7, 9.2, false, true, "dragon", "water"));
+        movesets.add(
+                new MovesetData("Dragon Breath", "Hydro pump", true, false, 9.5, 10.8, false, true, "dragon", "water"));
+        movesets.add(new MovesetData("Waterfall", "Crunch", false, false, 9.3, 6.2, true, false, "water", "water"));
+        movesets.add(new MovesetData("Waterfall", "Outrage", false, false, 9.2, 7.2, true, false, "water", "dragon"));
+        movesets.add(new MovesetData("Dragon tail", "Crunch", true, false, 9, 6.6, false, false, "dragon", "water"));
+        movesets.add(new MovesetData("Dragon Breath", "Dragon Pulse", true, true, 8.8, 10.2, false, false, "dragon",
+                "dragon"));
+        movesets.add(new MovesetData("Bite", "Outrage", false, false, 8.6, 10.1, false, false, "dark", "dragon"));
+        movesets.add(new MovesetData("Bite", "Dragon Pulse", false, true, 8.2, 8.6, false, false, "dark", "dragon"));
+        movesets.add(new MovesetData("Bite", "Twister", false, true, 8, 7.3, false, false, "dark", "dragon"));
+        movesets.add(
+                new MovesetData("Dragon Breath", "Twister", true, true, 7.4, 4.2, false, false, "dragon", "dragon"));
+        movesets.add(new MovesetData("Waterfall", "Dragon Pulse", false, true, 7, 7.2, true, false, "water", "dragon"));
+        movesets.add(new MovesetData("Waterfall", "Twister", false, true, 6.5, 6.4, true, false, "water", "dragon"));
+        movesets.add(
+                new MovesetData("Dragon tail", "Dragon Pulse", true, true, 6.1, 5.5, false, false, "dragon", "dragon"));
+        movesets.add(new MovesetData("Dragon tail", "Twister", true, true, 6, 6.7, false, false, "dragon", "dragon"));
+        movesets.add(
+                new MovesetData("Dragon Breath", "Outrage", true, false, 5.6, 6.8, false, false, "dragon", "dragon"));
         movesets.add(new MovesetData("Dragon Breath", "Crunch", true, false, 5.2, 7.2, false, false,
                 "dragon", "dark"));
     }

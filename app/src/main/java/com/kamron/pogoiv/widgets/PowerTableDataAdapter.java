@@ -27,7 +27,7 @@ public class PowerTableDataAdapter extends TableDataAdapter<MovesetData> {
     @Override public View getCellView(int rowIndex, int columnIndex, ViewGroup parentView) {
         MovesetData move = getRowData(rowIndex);
         float DP = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, getContext().getResources()
-                        .getDisplayMetrics());
+                .getDisplayMetrics());
         View renderedView = null;
 
         TextView tv = new TextView(getContext());
@@ -37,7 +37,7 @@ public class PowerTableDataAdapter extends TableDataAdapter<MovesetData> {
             tv.setBackgroundColor(getIsSelectedColor(move.isScannedQuick()));
         } else if (columnIndex == 1) {
             tv.setTextColor(getMoveColor(move.isChargeIsLegacy()));
-            tv.setText(move.getCharge()+ "\n" + move.getChargeMoveType());
+            tv.setText(move.getCharge() + "\n" + move.getChargeMoveType());
             tv.setBackgroundColor(getIsSelectedColor(move.isScannedCharge()));
         } else if (columnIndex == 2) {
             tv.setTextColor(Color.parseColor("#ffffff"));
@@ -53,7 +53,7 @@ public class PowerTableDataAdapter extends TableDataAdapter<MovesetData> {
 
         tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
 
-        tv.setPadding((int)(DP*2),0,(int)(DP*2),0);
+        tv.setPadding((int) (DP * 2), 0, (int) (DP * 2), 0);
         //tv.setMaxLines(1);
         //tv.setEllipsize(TextUtils.TruncateAt.END);
         renderedView = tv;
@@ -63,7 +63,7 @@ public class PowerTableDataAdapter extends TableDataAdapter<MovesetData> {
     private int getIsSelectedColor(boolean scanned) {
         if (scanned) {
             return Color.parseColor("#edfcef");
-        } else{
+        } else {
 
             return Color.parseColor("#ffffff");
         }
@@ -72,7 +72,7 @@ public class PowerTableDataAdapter extends TableDataAdapter<MovesetData> {
     private int getMoveColor(boolean legacy) {
         if (legacy) {
             return Color.parseColor("#a3a3a3");
-        } else{
+        } else {
 
             return Color.parseColor("#282828");
         }

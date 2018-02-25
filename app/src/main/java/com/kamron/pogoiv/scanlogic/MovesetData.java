@@ -54,6 +54,7 @@ public class MovesetData {
     public boolean isScannedCharge() {
         return isScannedCharge;
     }
+
     public String getQuick() {
         return quick;
     }
@@ -84,6 +85,7 @@ public class MovesetData {
             return Double.compare(movesetData.getAtkScore(), other.getAtkScore());
         }
     }
+
     public static class DefComparator implements Comparator<MovesetData> {
 
         @Override public int compare(MovesetData movesetData, MovesetData other) {

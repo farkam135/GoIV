@@ -34,11 +34,11 @@ public class PowerTableDataAdapter extends TableDataAdapter<MovesetData> {
         if (columnIndex == 0) {
             tv.setTextColor(getMoveColor(move.isQuickIsLegacy()));
             tv.setText(move.getQuick() + "\n" + move.getQuickMoveType());
-            tv.setBackgroundColor(getIsSelectedColor(move.isScannedQuick()));
+            tv.setBackgroundColor(getIsSelectedColor(isScannedQuick(move)));
         } else if (columnIndex == 1) {
             tv.setTextColor(getMoveColor(move.isChargeIsLegacy()));
             tv.setText(move.getCharge() + "\n" + move.getChargeMoveType());
-            tv.setBackgroundColor(getIsSelectedColor(move.isScannedCharge()));
+            tv.setBackgroundColor(getIsSelectedColor(isScannedCharge(move)));
         } else if (columnIndex == 2) {
             tv.setTextColor(Color.parseColor("#ffffff"));
             tv.setBackgroundColor(getPowerColor(move.getAtkScore()));
@@ -58,6 +58,16 @@ public class PowerTableDataAdapter extends TableDataAdapter<MovesetData> {
         //tv.setEllipsize(TextUtils.TruncateAt.END);
         renderedView = tv;
         return renderedView;
+    }
+
+    private boolean isScannedCharge(MovesetData move) {
+        //todo check if the moveset charge attack is the same as the one in the ivScanresult.
+        return false;
+    }
+
+    private boolean isScannedQuick(MovesetData move) {
+        //todo check if the moveset quickattack is the same as the one in the ivScanresult.
+        return false;
     }
 
     private int getIsSelectedColor(boolean scanned) {

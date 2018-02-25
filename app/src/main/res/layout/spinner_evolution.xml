@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TextView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:textAlignment="textEnd"
-    android:textAppearance="?android:attr/textAppearanceLarge"
-    android:textStyle="bold"
-    android:textColor="@drawable/spinner_color_set" />
+    android:textAlignment="center"
+    android:paddingLeft="6dp"
+    android:paddingRight="6dp"
+    android:textAppearance="@style/evalResultText"
+    android:textColor="@drawable/spinner_color_set"
+    tools:text="Vaporeon"/>

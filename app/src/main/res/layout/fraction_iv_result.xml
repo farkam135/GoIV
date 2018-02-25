@@ -46,9 +46,9 @@
     <info.hoang8f.android.segmented.SegmentedGroup
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="4dp"
+        android:layout_margin="0dp"
         android:orientation="horizontal"
-        app:sc_corner_radius="2dp"
+        app:sc_corner_radius="0dp"
         app:sc_tint_color="@color/colorPrimary">
 
         <RadioButton

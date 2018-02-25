@@ -1,12 +1,13 @@
-package com.kamron.pogoiv.pokeflycomponents.fractions;
+package com.kamron.pogoiv.widgets;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.kamron.pogoiv.scanlogic.MovesetData;
 
 import de.codecrafters.tableview.TableDataAdapter;
 

@@ -8,9 +8,11 @@ import android.view.ViewGroup;
 
 import com.kamron.pogoiv.Pokefly;
 import com.kamron.pogoiv.R;
+import com.kamron.pogoiv.scanlogic.MovesetData;
 import com.kamron.pogoiv.scanlogic.PokemonShareHandler;
 import com.kamron.pogoiv.scanlogic.ScanContainer;
 import com.kamron.pogoiv.utils.fractions.Fraction;
+import com.kamron.pogoiv.widgets.PowerTableDataAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

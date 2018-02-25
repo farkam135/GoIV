@@ -1,4 +1,4 @@
-package com.kamron.pogoiv.pokeflycomponents.fractions;
+package com.kamron.pogoiv.scanlogic;
 
 import java.util.Comparator;
 

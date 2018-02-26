@@ -4,8 +4,8 @@
         <!--  0   normal --> <item>NORMAL</item>
         <!--  1     fire --> <item>FIRE</item>
         <!--  2    water --> <item>WATER</item>
-        <!--  3 electric --> <item>ELECTRIC</item>
-        <!--  4    grass --> <item>GRASS</item>
+        <!--  3    grass --> <item>GRASS</item>
+        <!--  4 electric --> <item>ELECTRIC</item>
         <!--  5      ice --> <item>ICE</item>
         <!--  6 fighting --> <item>FIGHTING</item>
         <!--  7   poison --> <item>POISON</item>

@@ -2,6 +2,8 @@ package com.kamron.pogoiv.widgets;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.support.constraint.ConstraintLayout;
+import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,14 +28,15 @@ public class PowerTableDataAdapter extends TableDataAdapter<MovesetData> {
 
     @Override public View getCellView(int rowIndex, int columnIndex, ViewGroup parentView) {
         MovesetData move = getRowData(rowIndex);
-        float DP = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, getContext().getResources()
+        float dp = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, getContext().getResources()
                 .getDisplayMetrics());
         View renderedView = null;
 
         TextView tv = new TextView(getContext());
         if (columnIndex == 0) {
+
             tv.setTextColor(getMoveColor(move.isQuickIsLegacy()));
-            tv.setText(move.getQuick() + "\n" + move.getQuickMoveType());
+            tv.setText( move.getQuick() + "\n" + move.getQuickMoveType());
             tv.setBackgroundColor(getIsSelectedColor(isScannedQuick(move)));
         } else if (columnIndex == 1) {
             tv.setTextColor(getMoveColor(move.isChargeIsLegacy()));
@@ -51,11 +54,20 @@ public class PowerTableDataAdapter extends TableDataAdapter<MovesetData> {
             tv.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
         }
 
-        tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+        tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
 
-        tv.setPadding((int) (DP * 2), 0, (int) (DP * 2), 0);
-        //tv.setMaxLines(1);
-        //tv.setEllipsize(TextUtils.TruncateAt.END);
+
+        tv.setPadding((int) (dp * 2), (int) (dp * 4), (int) (dp * 2), (int) (dp * 4));
+        tv.setSingleLine(true);
+        tv.setEllipsize(TextUtils.TruncateAt.END);
+
+        /*
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+        LinearLayout.LayoutParams.WRAP_CONTENT);
+        lp.setMargins((int) (dp * 2), (int) (dp * 2), (int) (dp * 2), (int) (dp * 2));
+        tv.setLayoutParams(lp);
+*/
+
         renderedView = tv;
         return renderedView;
     }

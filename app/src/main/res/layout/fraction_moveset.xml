@@ -1,87 +1,97 @@
-<LinearLayout
+<android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="300dp"
-    android:minHeight="@dimen/dialog_large_height_min">
+    android:layout_height="300dp">
 
     <LinearLayout
-        android:orientation="horizontal"
+        android:id="@+id/topnavigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:baselineAligned="true"
         android:background="?attr/colorPrimary"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        android:baselineAligned="true"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
-            style="?attr/borderlessButtonStyle"
             android:id="@+id/btnBack"
+            style="?attr/borderlessButtonStyle"
             android:layout_width="48dp"
             android:layout_height="40dp"
-            android:text="@string/back"
-            android:src="?attr/homeAsUpIndicator" />
+            android:src="?attr/homeAsUpIndicator"
+            android:text="@string/back"/>
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Moveset scan results" />
+            android:text="Moveset scan results"
+            android:textAppearance="?android:attr/textAppearanceLarge"/>
 
         <ImageButton
-            style="?attr/borderlessButtonStyle"
             android:id="@+id/btnClose"
+            style="?attr/borderlessButtonStyle"
             android:layout_width="48dp"
             android:layout_height="40dp"
-            android:text="@string/close"
-            android:src="@drawable/abc_ic_clear_material" />
+            android:src="@drawable/abc_ic_clear_material"
+            android:text="@string/close"/>
 
     </LinearLayout>
 
     <info.hoang8f.android.segmented.SegmentedGroup
+        android:id="@+id/innerNavigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
         android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/topnavigation"
         app:sc_corner_radius="2dp"
         app:sc_tint_color="@color/colorPrimary">
 
         <RadioButton
             android:id="@+id/powerUpButton"
+            style="@style/RadioButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Power up"
-            android:textAllCaps="true"
-            style="@style/RadioButton" />
+            android:textAllCaps="true"/>
 
         <RadioButton
             android:id="@+id/ivButton"
+            style="@style/RadioButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="IV"
-            android:textAllCaps="true"
-            style="@style/RadioButton" />
+            android:textAllCaps="true"/>
 
         <RadioButton
             android:id="@+id/movesetButton"
+            style="@style/RadioButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Moveset"
-            android:textAllCaps="true"
             android:checked="true"
-            style="@style/RadioButton" />
+            android:text="Moveset"
+            android:textAllCaps="true"/>
 
     </info.hoang8f.android.segmented.SegmentedGroup>
 
     <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/innerNavigation">
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/movesetConstrainLayout"
@@ -117,14 +127,17 @@
                 android:id="@+id/sortableTable"
                 android:layout_width="match_parent"
                 android:layout_height="600dp"
-                android:layout_marginTop="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
-                android:divider="#ffffff"
+                android:layout_marginTop="8dp"
+                android:divider="#fdfdfd"
+                android:dividerPadding="0dp"
+                android:dividerHeight="0dip"
                 app:layout_constraintTop_toBottomOf="@+id/exportWebButton"
                 app:tableView_columnCount="4"
-                app:tableView_headerColor="#ffffff"
-                app:tableView_headerElevation="0">
+                app:tableView_headerColor="#f7f8f9"
+
+                app:tableView_headerElevation="5">
 
 
             </de.codecrafters.tableview.SortableTableView>
@@ -142,8 +155,20 @@
                 app:layout_constraintTop_toBottomOf="@id/sortableTable"/>
 
 
+            <TextView
+                android:id="@+id/explanationText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Grayed out moves are legacy movesets that can no longer be obtained."
+                android:textAlignment="center"
+                android:textColor="#9c9c9c"
+                android:textSize="12sp"
+                app:layout_constraintTop_toBottomOf="@id/disclaimerText"/>
+
+
         </android.support.constraint.ConstraintLayout>
 
     </ScrollView>
 
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>

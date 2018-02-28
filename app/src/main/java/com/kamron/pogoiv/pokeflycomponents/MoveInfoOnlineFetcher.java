@@ -31,7 +31,7 @@ public class MoveInfoOnlineFetcher {
         MovesetData example = new MovesetData("Waterfall", "Hydro pump", false, false, 11, 10.8, "water", "water");
 
 
-        return null;
+        return moves;
 
     }
 }

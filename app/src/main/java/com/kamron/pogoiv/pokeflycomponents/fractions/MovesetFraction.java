@@ -49,13 +49,17 @@ public class MovesetFraction extends Fraction {
 
     @Override public void onCreate(@NonNull View rootView) {
         ButterKnife.bind(this, rootView);
-        createDummyData();
         loadMovesetData();
+        if (movesets.size() <= 0){
+            createDummyData();
+        }
+
 
         setupTableHeader();
         setupDataSorting();
         addDataToTable();
         //fixTableConstrainLayoutHeight();
+        sortableTable.sort(2); //default to sorting column index 3 (atk)
 
     }
 

@@ -70,14 +70,14 @@ public class MovesetData {
     public static class AtkComparator implements Comparator<MovesetData> {
 
         @Override public int compare(MovesetData movesetData, MovesetData other) {
-            return Double.compare(movesetData.getAtkScore(), other.getAtkScore());
+            return Double.compare(other.getAtkScore(), movesetData.getAtkScore());
         }
     }
 
     public static class DefComparator implements Comparator<MovesetData> {
 
         @Override public int compare(MovesetData movesetData, MovesetData other) {
-            return Double.compare(movesetData.getDefScore(), other.getDefScore());
+            return Double.compare(other.getDefScore(), movesetData.getDefScore());
         }
     }
 

@@ -205,21 +205,27 @@ public class InputFraction extends Fraction {
 
     @OnClick(R.id.btnDecrementLevel)
     public void decrementLevel() {
-        pokefly.estimatedPokemonLevelRange.dec();
-        adjustArcPointerBar(pokefly.estimatedPokemonLevelRange.min);
+        if (pokefly.estimatedPokemonLevelRange.min > Data.MINIMUM_POKEMON_LEVEL) {
+            pokefly.estimatedPokemonLevelRange.dec();
+            adjustArcPointerBar(pokefly.estimatedPokemonLevelRange.min);
+        }
     }
 
     @OnClick(R.id.btnIncrementLevel)
     public void incrementLevel() {
-        pokefly.estimatedPokemonLevelRange.inc(pokefly.getTrainerLevel());
-        adjustArcPointerBar(pokefly.estimatedPokemonLevelRange.min);
+        if (Data.maxPokeLevelToIndex(pokefly.estimatedPokemonLevelRange.min) < arcAdjustBar.getMax()) {
+            pokefly.estimatedPokemonLevelRange.inc();
+            adjustArcPointerBar(pokefly.estimatedPokemonLevelRange.min);
+        }
     }
 
     /**
      * Creates the arc adjuster used to move the arc pointer in the scan screen.
      */
     private void createArcAdjuster() {
-        arcAdjustBar.setMax(Data.trainerLevelToMaxPokeLevelIndex(pokefly.getTrainerLevel()));
+        // The max seek bar value will be the maximum wild pokemon level or the trainer max capture level if higher
+        arcAdjustBar.setMax(Math.max(Data.maxPokeLevelToIndex(Data.MAXIMUM_WILD_POKEMON_LEVEL),
+                Data.trainerLevelToMaxPokeLevelIndex(pokefly.getTrainerLevel())));
 
         arcAdjustBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override

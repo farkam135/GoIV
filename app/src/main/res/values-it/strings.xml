@@ -217,14 +217,14 @@
     <string name="go_back">Torna indietro</string>
     <string name="go_back_to_goiv">Torna a GoIV</string>
     <string name="token_msg_train">%1$s da allenare</string>
-    <string name="token_msg_worthTra_msg">"Questo token ritorna una valutazione di quanto valga la pena allenare questo 'mon, basandosi sia sulle statistiche base sia sulle %1$s statistiche IV possibili. Per esempio, un Alakazam con 96%% IV avrà un punteggio più alto di un Tyranitar 20%%, a prescindere dal fatto che i massimi possibili PL per quest'ultimo siano maggiori: dato che la probabilità di ottenere un miglior Tyranitar è più alta di quella di ottenere un miglior Alakazams, il secondo risulta essere un miglior investimento di polvere di stelle. Valori da 00 a 99. Ritorna sempre due cifre."</string>
-    <string name="token_msg_basStat_msg2">" Questa versione del token aggiunge anche il punteggio IV così che tu possa vedere il totale per questo 'mon specifico."</string>
+    <string name="token_msg_worthTra_msg">"Questo token ritorna una valutazione di quanto valga la pena allenare questo \'mon, basandosi sia sulle statistiche base sia sulle %1$s statistiche IV possibili. Per esempio, un Alakazam con 96%% IV avrà un punteggio più alto di un Tyranitar 20%%, a prescindere dal fatto che i massimi possibili PL per quest'ultimo siano maggiori: dato che la probabilità di ottenere un miglior Tyranitar è più alta di quella di ottenere un miglior Alakazams, il secondo risulta essere un miglior investimento di polvere di stelle. Valori da 00 a 99. Ritorna sempre due cifre."</string>
+    <string name="token_msg_basStat_msg2">" Questa versione del token aggiunge anche il punteggio IV così che tu possa vedere il totale per questo \'mon specifico."</string>
     <string name="token_msg_basStat_msg3">" Questa versione del token visualizza solo una delle statistiche."</string>
     <string name="token_msg_cpMax_msg1">Ritorna la quantità di PL che il \'mon ha al livello corrente.</string>
     <string name="token_msg_cpMax_msg2">Ritorna la quantità di PL che il \'mon avrà al livello massimo.</string>
     <string name="token_msg_cpMis">Ritorna la quantità di PL che mancheranno al \'mon rispetto ad un altro della stessa specie con IV perfetti al livello massimo.</string>
     <string name="token_msg_cpPerc">Ritorna una percentuale che esprime quante altre possibili combinazioni di IV sono migliori della combinazione IV di questo \'mon. Più basso è il risultato, meglio è.</string>
-    <string name="token_msg_cpTier">Questo token dà un idea di quanto potente questo \'mon può diventare, misurando i PL massimi possibili che può ottenere. Per esempio, un Lapras può arrivare fino a 2980 PL, mentre un Dugtrio arriverebbe fino a 1168 PL. Perciò Lapras otterrebbe una A mentre Dugtrio prenderebbe E-. Queste valutazioni sono corrette basandosi sugli IV del tuo 'mon.</string>
+    <string name="token_msg_cpTier">Questo token dà un idea di quanto potente questo \'mon può diventare, misurando i PL massimi possibili che può ottenere. Per esempio, un Lapras può arrivare fino a 2980 PL, mentre un Dugtrio arriverebbe fino a 1168 PL. Perciò Lapras otterrebbe una A mentre Dugtrio prenderebbe E-. Queste valutazioni sono corrette basandosi sugli IV del tuo \'mon.</string>
     <string name="token_msg_best">migliore</string>
     <string name="token_msg_worst">peggiore</string>
     <string name="token_msg_ivPerc_maxSup">massima apice</string>

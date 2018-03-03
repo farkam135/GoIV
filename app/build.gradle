@@ -186,6 +186,7 @@ dependencies {
     androidTestCompile 'com.android.support.test:runner:1.0.1'
     annotationProcessor 'org.projectlombok:lombok:1.16.18'
     onlineCompile 'com.squareup.okhttp3:okhttp:3.7.0'
+    onlineCompile 'org.json:json:20160810' //FIXME: This is needed for MovesetFetchUtil
     compileOnly 'org.projectlombok:lombok:1.16.18'
     compile project(':openCVLibrary330')
 }

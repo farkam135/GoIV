@@ -15,6 +15,10 @@ import java.util.List;
 public class MoveInfoOnlineFetcher {
 
 
+    public MoveInfoOnlineFetcher() {
+
+    }
+
     /**
      * Get all the possible movesets for a pokemon, and their attack/ defense score.
      *

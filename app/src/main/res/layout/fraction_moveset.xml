@@ -44,16 +44,17 @@
 
     </LinearLayout>
 
+
     <info.hoang8f.android.segmented.SegmentedGroup
         android:id="@+id/innerNavigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="4dp"
+        android:layout_margin="0dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/topnavigation"
-        app:sc_corner_radius="2dp"
+        app:sc_corner_radius="0dp"
         app:sc_tint_color="@color/colorPrimary">
 
         <RadioButton
@@ -64,6 +65,8 @@
             android:layout_weight="1"
             android:text="Power up"
             android:textAllCaps="true"/>
+
+
 
         <RadioButton
             android:id="@+id/ivButton"

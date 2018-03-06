@@ -1,89 +1,177 @@
-<LinearLayout
+<android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:minHeight="@dimen/dialog_large_height_min">
+    android:layout_height="300dp">
 
     <LinearLayout
-        android:orientation="horizontal"
+        android:id="@+id/topnavigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:baselineAligned="true"
         android:background="?attr/colorPrimary"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        android:baselineAligned="true"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
-            style="?attr/borderlessButtonStyle"
             android:id="@+id/btnBack"
+            style="?attr/borderlessButtonStyle"
             android:layout_width="48dp"
             android:layout_height="40dp"
-            android:text="@string/back"
-            android:src="?attr/homeAsUpIndicator" />
+            android:src="?attr/homeAsUpIndicator"
+            android:text="@string/back"/>
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Moveset scan results" />
+            android:text="Moveset scan results"
+            android:textAppearance="?android:attr/textAppearanceLarge"/>
 
         <ImageButton
-            style="?attr/borderlessButtonStyle"
             android:id="@+id/btnClose"
+            style="?attr/borderlessButtonStyle"
             android:layout_width="48dp"
             android:layout_height="40dp"
-            android:text="@string/close"
-            android:src="@drawable/abc_ic_clear_material" />
+            android:src="@drawable/abc_ic_clear_material"
+            android:text="@string/close"/>
 
     </LinearLayout>
 
+
     <info.hoang8f.android.segmented.SegmentedGroup
+        android:id="@+id/innerNavigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="0dp"
         android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/topnavigation"
         app:sc_corner_radius="0dp"
         app:sc_tint_color="@color/colorPrimary">
 
         <RadioButton
             android:id="@+id/powerUpButton"
+            style="@style/RadioButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Power up"
-            android:textAllCaps="true"
-            style="@style/RadioButton" />
+            android:textAllCaps="true"/>
+
+
 
         <RadioButton
             android:id="@+id/ivButton"
+            style="@style/RadioButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="IV"
-            android:textAllCaps="true"
-            style="@style/RadioButton" />
+            android:textAllCaps="true"/>
 
         <RadioButton
             android:id="@+id/movesetButton"
+            style="@style/RadioButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Moveset"
-            android:textAllCaps="true"
             android:checked="true"
-            style="@style/RadioButton" />
+            android:text="Moveset"
+            android:textAllCaps="true"/>
 
     </info.hoang8f.android.segmented.SegmentedGroup>
 
-    <android.support.v7.widget.AppCompatImageButton
-        style="?attr/borderlessButtonStyle"
-        android:id="@+id/shareWithOtherApp"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:scaleType="center"
-        app:srcCompat="@drawable/ic_share_black" />
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/innerNavigation">
 
-</LinearLayout>
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/movesetConstrainLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.AppCompatImageButton
+                android:id="@+id/shareWithOtherApp"
+                style="?attr/borderlessButtonStyle"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="8dp"
+                android:scaleType="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_share_black"/>
+
+            <Button
+                android:id="@+id/exportWebButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:text="Export to SOMETHING"
+                app:layout_constraintBottom_toBottomOf="@+id/shareWithOtherApp"
+                app:layout_constraintEnd_toStartOf="@+id/shareWithOtherApp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/shareWithOtherApp"/>
+
+
+            <de.codecrafters.tableview.SortableTableView
+                android:id="@+id/sortableTable"
+                android:layout_width="match_parent"
+                android:layout_height="600dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="8dp"
+                android:divider="#fdfdfd"
+                android:dividerPadding="0dp"
+                android:dividerHeight="0dip"
+                app:layout_constraintTop_toBottomOf="@+id/exportWebButton"
+                app:tableView_columnCount="4"
+                app:tableView_headerColor="#f7f8f9"
+
+                app:tableView_headerElevation="5">
+
+
+            </de.codecrafters.tableview.SortableTableView>
+
+
+            <TextView
+                android:id="@+id/disclaimerText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Score based on data from _____. \nOptimal moveset can change in certain matchups.\nThis score is only a guideline."
+                android:textAlignment="center"
+                android:textColor="#9c9c9c"
+                android:textSize="12sp"
+                app:layout_constraintTop_toBottomOf="@id/sortableTable"/>
+
+
+            <TextView
+                android:id="@+id/explanationText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Grayed out moves are legacy movesets that can no longer be obtained."
+                android:textAlignment="center"
+                android:textColor="#9c9c9c"
+                android:textSize="12sp"
+                app:layout_constraintTop_toBottomOf="@id/disclaimerText"/>
+
+
+        </android.support.constraint.ConstraintLayout>
+
+    </ScrollView>
+
+</android.support.constraint.ConstraintLayout>

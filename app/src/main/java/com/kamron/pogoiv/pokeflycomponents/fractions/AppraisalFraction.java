@@ -247,7 +247,7 @@ public class AppraisalFraction extends Fraction implements AutoAppraisal.OnAppra
         appraisalStatsGroup.setBackground(null);
     }
 
-    @OnTouch(R.id.positionHandler)
+    @OnTouch({R.id.positionHandler, R.id.additionalRefiningHeader})
     boolean positionHandlerTouchEvent(View v, MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
@@ -355,6 +355,11 @@ public class AppraisalFraction extends Fraction implements AutoAppraisal.OnAppra
         if (checked) {
             autoAppraisal.appraisalHighestStatValueRange = AutoAppraisal.IVValueRange.RANGE_0_7;
         }
+    }
+
+    @OnClick(R.id.eggRaidText)
+    void toggleRaidSwitch() {
+        eggRaidSwitch.toggle();
     }
 
     @OnCheckedChanged(R.id.eggRaidSwitch)

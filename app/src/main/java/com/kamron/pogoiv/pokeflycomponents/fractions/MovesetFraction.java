@@ -50,7 +50,7 @@ public class MovesetFraction extends Fraction {
     @Override public void onCreate(@NonNull View rootView) {
         ButterKnife.bind(this, rootView);
         loadMovesetData();
-        if (movesets.size() <= 0){
+        if (movesets.size() <= 0) {
             createDummyData();
         }
 
@@ -68,18 +68,18 @@ public class MovesetFraction extends Fraction {
      * manually.
      */
     private void fixTableConstrainLayoutHeight() {
-        float DP = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, pokefly.getResources()
+        float dp = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, pokefly.getResources()
                 .getDisplayMetrics());
 
         ViewGroup.LayoutParams params = movesetConstrainLayout.getLayoutParams();
         //constant length for header + length for every data row.
-        params.height = (int) ((DP * 100) + (DP * movesets.size() * 10));
+        params.height = (int) ((dp * 100) + (dp * movesets.size() * 10));
         movesetConstrainLayout.setLayoutParams(params);
 
 
         ViewGroup.LayoutParams params2 = sortableTable.getLayoutParams();
         //constant length for header + length for every data row.
-        params2.height = (int) ((DP * 50) + (DP * movesets.size() * 20));
+        params2.height = (int) ((dp * 50) + (dp * movesets.size() * 20));
         sortableTable.setLayoutParams(params2);
     }
 
@@ -93,8 +93,8 @@ public class MovesetFraction extends Fraction {
 
     private void setupTableHeader() {
 
-        String[] TABLE_HEADERS = {"Quick", "Charge", "Atk", "Def"};
-        sortableTable.setHeaderAdapter(new SimpleTableHeaderAdapter(pokefly, TABLE_HEADERS));
+        String[] tableHeaders = {"Quick", "Charge", "Atk", "Def"};
+        sortableTable.setHeaderAdapter(new SimpleTableHeaderAdapter(pokefly, tableHeaders));
 
 
         TableColumnWeightModel columnModel = new TableColumnWeightModel(4);

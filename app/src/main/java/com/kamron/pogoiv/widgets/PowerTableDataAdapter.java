@@ -2,7 +2,6 @@ package com.kamron.pogoiv.widgets;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.support.constraint.ConstraintLayout;
 import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.View;
@@ -36,7 +35,7 @@ public class PowerTableDataAdapter extends TableDataAdapter<MovesetData> {
         if (columnIndex == 0) {
 
             tv.setTextColor(getMoveColor(move.isQuickIsLegacy()));
-            tv.setText( move.getQuick() + "\n" + move.getQuickMoveType());
+            tv.setText(move.getQuick() + "\n" + move.getQuickMoveType());
             tv.setBackgroundColor(getIsSelectedColor(isScannedQuick(move)));
         } else if (columnIndex == 1) {
             tv.setTextColor(getMoveColor(move.isChargeIsLegacy()));

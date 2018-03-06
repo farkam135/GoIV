@@ -357,8 +357,8 @@ public class AppraisalFraction extends Fraction implements AutoAppraisal.OnAppra
         }
     }
 
-    @OnClick (R.id.eggRaidText)
-    void toggleRaidSwitch(){
+    @OnClick(R.id.eggRaidText)
+    void toggleRaidSwitch() {
         eggRaidSwitch.toggle();
     }
 

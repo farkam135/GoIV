@@ -1,5 +1,7 @@
 package com.kamron.pogoiv.scanlogic;
 
+import android.support.v4.util.Pair;
+
 import com.google.common.base.Optional;
 import com.kamron.pogoiv.utils.LevelRange;
 
@@ -21,13 +23,14 @@ public class ScanResult {
     private final Optional<Integer> evolutionCandyCost;
     private final Optional<Integer> powerUpStardustCost;
     private final Optional<Integer> powerUpCandyCost;
+    private final Optional<Pair<String, String>> moveset;
     private final String uniqueID;
 
     public ScanResult(LevelRange estimatedPokemonLevel, String pokemonName, String pokemonType, String candyName,
-                      Pokemon.Gender pokemonGender,
-                      Optional<Integer> pokemonHP, Optional<Integer> pokemonCP,
+                      Pokemon.Gender pokemonGender, Optional<Integer> pokemonHP, Optional<Integer> pokemonCP,
                       Optional<Integer> pokemonCandyAmount, Optional<Integer> evolutionCandyCost,
-                      Optional<Integer> powerUpStardustCost, Optional<Integer> powerUpCandyCost, String uniqueID) {
+                      Optional<Integer> powerUpStardustCost, Optional<Integer> powerUpCandyCost,
+                      Optional<Pair<String, String>> moveset, String uniqueID) {
         this.estimatedPokemonLevelRange = estimatedPokemonLevel;
         this.pokemonName = pokemonName;
         this.pokemonType = pokemonType;
@@ -39,6 +42,7 @@ public class ScanResult {
         this.evolutionCandyCost = evolutionCandyCost;
         this.powerUpStardustCost = powerUpStardustCost;
         this.powerUpCandyCost = powerUpCandyCost;
+        this.moveset = moveset;
         this.uniqueID = uniqueID;
     }
 
@@ -80,6 +84,10 @@ public class ScanResult {
 
     public Optional<Integer> getPokemonPowerUpCandyCost() {
         return powerUpCandyCost;
+    }
+
+    public Optional<Pair<String, String>> getMoveset() {
+        return moveset;
     }
 
     public String getPokemonUniqueID() {

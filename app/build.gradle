@@ -170,6 +170,7 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.google.guava:guava:23.5-android'
     compile 'com.google.code.findbugs:jsr305:3.0.1'
+    compile 'org.apache.commons:commons-math3:3.6.1'
     compile 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     compile 'com.jakewharton.timber:timber:4.3.0'

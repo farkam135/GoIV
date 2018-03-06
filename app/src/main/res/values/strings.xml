@@ -55,9 +55,9 @@
     <string name="scan_pokemon_failed">Scanning failed, please scroll up and try again!</string>
     <string name="see_all">See All</string>
     <string name="powerup_calc_instructions">Power up and evolution calculation\nDrag the level slider to view different predictions</string>
-    <string name="evolution">Evolution</string>
+    <string name="evolution">Evo</string>
     <string name="level">Level</string>
-    <string name="level_acronym">lvl</string>
+    <string name="level_acronym">LVL</string>
     <string name="level_num">Level %1$s</string>
     <string name="possible_iv_combinations" tools:ignore="PluralsCandidate">"%1$d possible IV combinations"</string>
     <string name="check_cp_or_level">Something went wrong! Please check that the input values were correct, and that GoIV has the right trainer level in the launch screen.</string>
@@ -80,10 +80,12 @@
     <string name="def">DEF</string>
     <string name="sta">STA</string>
     <string name="iv" translatable="false">IV</string>
+    <string name="iv_button_exact_result_preview_format" translatable="false">%1$s\nIV: %2$d%%</string>
+    <string name="iv_button_range_result_preview_format" translatable="false">%1$s\nIV: %2$d - %3$d%%</string>
     <string name="percent" translatable="false">%d%%</string>
     <string name="unknown_percent" translatable="false">"?%"</string>
     <string name="hp_expanded_box">HP</string>
-    <string name="perfection_explainer">The percentage shows how big the difference is between your monster and a monster of the same species which has perfect IVs.\n\nSo for example, if it says 92 percent, then your Pokémon maxes out at 8 percent less CP compared to the same species with maximum IVs.</string>
+    <string name="perfection_explainer">The \% shows the difference between your monster and a one that\'s 15/15/15.\n\nThe number in parenthesis is how much CP is loses compared to a 15/15/15.</string>
     <string name="pokespam">PokéSpam</string>
     <string name="pokespam_formatted_message">%1$d (%2$d rows + %3$d more)</string>
     <string name="pokespam_formatted_message2">%1$d (%2$d rows)</string>

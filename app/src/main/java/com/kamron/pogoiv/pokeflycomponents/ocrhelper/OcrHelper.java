@@ -8,6 +8,7 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.util.Pair;
 import android.util.LruCache;
 import android.view.Display;
 import android.view.WindowManager;
@@ -20,6 +21,7 @@ import com.kamron.pogoiv.scanlogic.PokeInfoCalculator;
 import com.kamron.pogoiv.scanlogic.Pokemon;
 import com.kamron.pogoiv.scanlogic.ScanResult;
 import com.kamron.pogoiv.utils.LevelRange;
+import com.kamron.pogoiv.utils.WindowManagerUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -56,6 +58,7 @@ public class OcrHelper {
     private static LruCache<String, String> ocrCache;
     private static LruCache<String, String> appraisalCache;
     private static boolean candyWordFirst;
+    private static Point navigationBarSize;
 
 
     private OcrHelper() {
@@ -67,9 +70,9 @@ public class OcrHelper {
      * @param dataPath Path the OCR data files.
      * @return Bitmap with replaced colors
      */
-    public static synchronized OcrHelper init(@NonNull String dataPath,
-                                              @NonNull PokeInfoCalculator pokeInfoCalculator,
-                                              @NonNull GoIVSettings settings) {
+    public static synchronized OcrHelper init(@NonNull Context context,
+                                              @NonNull String dataPath,
+                                              @NonNull PokeInfoCalculator pokeInfoCalculator) {
         if (instance == null) {
             tesseract = new TessBaseAPI();
             tesseract.init(dataPath, "eng");
@@ -86,8 +89,13 @@ public class OcrHelper {
 
             candyWordFirst = isCandyWordFirst();
 
+            navigationBarSize = WindowManagerUtils.getNavigationBarSize(context);
+
             instance = new OcrHelper();
         }
+
+        // Reload current settings
+        GoIVSettings settings = GoIVSettings.getInstance(context);
 
         isPokeSpamEnabled = settings.isPokeSpamEnabled();
 
@@ -166,6 +174,51 @@ public class OcrHelper {
             dstBitmap = Bitmap.createBitmap(srcBitmap.getWidth(), srcBitmap.getHeight(), srcBitmap.getConfig());
         }
         dstBitmap.setPixels(allpixels, 0, srcBitmap.getWidth(), 0, 0, srcBitmap.getWidth(), srcBitmap.getHeight());
+        return dstBitmap;
+    }
+
+    private static Bitmap replaceColors(Bitmap srcBitmap, boolean mutateSrc,
+                                        int r, int g, int b, @Nullable Integer replaceColor,
+                                        @Nullable Float dH, @Nullable Float dS, @Nullable Float dV) {
+        int[] allPixels = new int[srcBitmap.getHeight() * srcBitmap.getWidth()];
+        srcBitmap.getPixels(allPixels, 0, srcBitmap.getWidth(), 0, 0, srcBitmap.getWidth(), srcBitmap.getHeight());
+
+        final int bgColor;
+        if (replaceColor != null) {
+            bgColor = replaceColor;
+        } else {
+            bgColor = allPixels[0]; // Sample the top left color to use as background
+        }
+
+        float[] targetHsv = new float[3];
+        Color.RGBToHSV(r, g, b, targetHsv);
+
+        float[] currentHsv = new float[3];
+        for (int i = 0; i < allPixels.length; i++) {
+            if (allPixels[i] == bgColor) {
+                continue;
+            }
+
+            Color.colorToHSV(allPixels[i], currentHsv);
+
+            if (dH != null && Math.abs(targetHsv[0] - currentHsv[0]) > dH) { // Check hue
+                allPixels[i] = bgColor;
+
+            } else if (dS != null && Math.abs(targetHsv[1] - currentHsv[1]) > dS) { // Check saturation
+                allPixels[i] = bgColor;
+
+            } else if (dV != null && Math.abs(targetHsv[2] - currentHsv[2]) > dV) { // Check value
+                allPixels[i] = bgColor;
+            }
+        }
+
+        Bitmap dstBitmap;
+        if (mutateSrc) {
+            dstBitmap = srcBitmap;
+        } else {
+            dstBitmap = Bitmap.createBitmap(srcBitmap.getWidth(), srcBitmap.getHeight(), srcBitmap.getConfig());
+        }
+        dstBitmap.setPixels(allPixels, 0, srcBitmap.getWidth(), 0, 0, srcBitmap.getWidth(), srcBitmap.getHeight());
         return dstBitmap;
     }
 
@@ -332,6 +385,62 @@ public class OcrHelper {
             ocrCache.put(hash, ocrResult);
         }
         return result;
+    }
+
+    /**
+     * Get the moveset for a pokémon.
+     *
+     * @param pokemonImage      The image of the full pokemon screen
+     * @param evolutionCostArea The pokémon evolution cost are, moveset is always located below this information
+     * @return A pair of strings that represent the fast and charged moves
+     */
+    private static Optional<Pair<String, String>> getMovesetFromImg(@NonNull Bitmap pokemonImage,
+                                                                    @Nullable ScanArea evolutionCostArea) {
+        if (evolutionCostArea == null) {
+            return Optional.absent();
+        }
+        int x = (int) (pokemonImage.getWidth() / 10 * 1.3f);
+        int y = evolutionCostArea.yPoint + evolutionCostArea.height;
+        int w = (int) (pokemonImage.getWidth() / 10 * 5.0f) - x;
+        int h = (pokemonImage.getHeight() - navigationBarSize.y) - y;
+        ScanArea movesetArea = new ScanArea(x, y, w, h);
+        Bitmap movesetImage = getImageCrop(pokemonImage, movesetArea);
+
+        String hash = "moveset" + hashBitmap(movesetImage);
+
+        if (ocrCache != null) {
+            //return cache if it exists
+            String stringCacheMoveset = ocrCache.get(hash);
+            if (stringCacheMoveset != null) {
+                //XXX in the cache, we encode "no result" as an empty string. That's a hack.
+                if (stringCacheMoveset.isEmpty()) {
+                    return Optional.absent();
+                } else {
+                    String[] moves = stringCacheMoveset.split("\n");
+                    return Optional.of(new Pair<>(moves[0], moves[1]));
+                }
+            }
+        }
+
+        movesetImage = replaceColors(movesetImage, true, 68, 105, 108, null, 3f, null, 0.1f);
+
+        tesseract.setImage(movesetImage);
+        tesseract.setPageSegMode(TessBaseAPI.PageSegMode.PSM_SINGLE_BLOCK);
+        String ocrResult = tesseract.getUTF8Text();
+        tesseract.setPageSegMode(TessBaseAPI.PageSegMode.PSM_SINGLE_LINE);
+
+        String[] lines = ocrResult.split("\n");
+        if (lines.length == 2 && lines[0].trim().length() >= 3 && lines[1].trim().length() >= 3) {
+            // Just 2 lines were detected with at least 3 characters
+            String fast = lines[0].trim();
+            String charged = lines[1].trim();
+            Optional<Pair<String, String>> result = Optional.of(new Pair<>(fast, charged));
+            if (ocrCache != null) {
+                ocrCache.put(hash, fast + "\n" + charged);
+            }
+            return result;
+        }
+        return Optional.absent();
     }
 
     /**
@@ -909,7 +1018,10 @@ public class OcrHelper {
      * @param trainerLevel Current level of the trainer
      * @return an object
      */
-    public ScanResult scanPokemon(@NonNull GoIVSettings settings, @NonNull Bitmap pokemonImage, int trainerLevel) {
+    public ScanResult scanPokemon(@NonNull GoIVSettings settings,
+                                  @NonNull Bitmap pokemonImage,
+                                  int trainerLevel,
+                                  boolean requestFullScan) {
         ensureCorrectLevelArcSettings(settings, trainerLevel); //todo, make it so it doesnt initiate on every scan?
 
         Optional<Integer> powerUpStardustCost = Optional.absent();
@@ -926,23 +1038,40 @@ public class OcrHelper {
                 ScanArea.calibratedFromSettings(POKEMON_TYPE_AREA, settings));
         Pokemon.Gender gender = getPokemonGenderFromImg(pokemonImage,
                 ScanArea.calibratedFromSettings(POKEMON_GENDER_AREA, settings));
-        String name = getPokemonNameFromImg(pokemonImage, gender,
-                ScanArea.calibratedFromSettings(POKEMON_NAME_AREA, settings));
+        String name;
+        if (requestFullScan) {
+            name = getPokemonNameFromImg(pokemonImage, gender,
+                    ScanArea.calibratedFromSettings(POKEMON_NAME_AREA, settings));
+        } else {
+            name = "";
+        }
         String candyName = getCandyNameFromImg(pokemonImage, gender,
                 ScanArea.calibratedFromSettings(CANDY_NAME_AREA, settings));
         Optional<Integer> hp = getPokemonHPFromImg(pokemonImage,
                 ScanArea.calibratedFromSettings(POKEMON_HP_AREA, settings));
         Optional<Integer> cp = getPokemonCPFromImg(pokemonImage,
                 ScanArea.calibratedFromSettings(POKEMON_CP_AREA, settings));
-        Optional<Integer> candyAmount = getCandyAmountFromImg(pokemonImage,
-                ScanArea.calibratedFromSettings(POKEMON_CANDY_AMOUNT_AREA, settings));
+        Optional<Integer> candyAmount;
+        if (requestFullScan && isPokeSpamEnabled) {
+            candyAmount = getCandyAmountFromImg(pokemonImage,
+                    ScanArea.calibratedFromSettings(POKEMON_CANDY_AMOUNT_AREA, settings));
+        } else {
+            candyAmount = Optional.absent();
+        }
         Optional<Integer> evolutionCost = getPokemonEvolutionCostFromImg(pokemonImage,
                 ScanArea.calibratedFromSettings(POKEMON_EVOLUTION_COST_AREA, settings));
+        Optional<Pair<String, String>> moveset;
+        if (requestFullScan) {
+            moveset = getMovesetFromImg(pokemonImage,
+                    ScanArea.calibratedFromSettings(POKEMON_EVOLUTION_COST_AREA, settings));
+        } else {
+            moveset = Optional.absent();
+        }
         String uniqueIdentifier = name + type + candyName + hp.toString() + cp
                 .toString() + powerUpStardustCost.toString() + powerUpCandyCost.toString();
 
         return new ScanResult(estimatedLevelRange, name, type, candyName, gender, hp, cp, candyAmount, evolutionCost,
-                powerUpStardustCost, powerUpCandyCost, uniqueIdentifier);
+                powerUpStardustCost, powerUpCandyCost, moveset, uniqueIdentifier);
     }
 
     /**

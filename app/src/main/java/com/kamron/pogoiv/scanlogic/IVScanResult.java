@@ -42,7 +42,7 @@ public class IVScanResult {
     public Pokemon pokemon = null;
     public final LevelRange estimatedPokemonLevel;
     public int scannedHP = 0;
-    public boolean rangeIVScan = false; //is this several levels worth of possible iv combinations?
+    public boolean levelRangeIVScan = false; //is this several levels worth of possible iv combinations?
     public Pokemon.Gender scannedGender;
 
     /**
@@ -315,7 +315,7 @@ public class IVScanResult {
         for (IVCombination ivc : ivs.iVCombinations) {
             if (iVCombinations.contains(ivc) == false) { //dont add duplicates
                 addIVCombination(ivc.att, ivc.def, ivc.sta);
-                rangeIVScan = true;
+                levelRangeIVScan = true;
             }
 
         }

@@ -80,6 +80,8 @@
     <string name="def">DEF</string>
     <string name="sta">STA</string>
     <string name="iv" translatable="false">IV</string>
+    <string name="iv_button_exact_result_preview_format" translatable="false">%1$s\nIV: %2$d%%</string>
+    <string name="iv_button_range_result_preview_format" translatable="false">%1$s\nIV: %2$d - %3$d%%</string>
     <string name="percent" translatable="false">%d%%</string>
     <string name="unknown_percent" translatable="false">"?%"</string>
     <string name="hp_expanded_box">HP</string>

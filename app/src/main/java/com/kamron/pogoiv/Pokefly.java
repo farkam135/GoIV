@@ -14,6 +14,7 @@ import android.graphics.Matrix;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
@@ -55,6 +56,7 @@ import com.kamron.pogoiv.utils.LevelRange;
 import com.kamron.pogoiv.utils.fractions.FractionManager;
 
 import java.io.File;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -102,6 +104,8 @@ public class Pokefly extends Service {
 
 
     private static boolean running = false;
+
+    private static final ScanScreenRunnable scanScreenRunnable = new ScanScreenRunnable();
 
     private int trainerLevel;
 
@@ -341,6 +345,7 @@ public class Pokefly extends Service {
     private void createFlyingComponents() {
         createInfoLayout();
         ivButton = new IVPopupButton(this);
+        windowManager.addView(ivButton, IVPopupButton.layoutParams);
         createArcPointer();
 
         fractionManager = new FractionManager(this, R.style.AppTheme_Dialog, fractionContainer);
@@ -384,6 +389,7 @@ public class Pokefly extends Service {
             screenShotHelper = null;
         }
         ivButton.setShown(false, infoShownSent);
+        windowManager.removeView(ivButton);
         hideInfoLayoutArcPointer();
 
         ocr.exit();
@@ -618,7 +624,7 @@ public class Pokefly extends Service {
             CopyUtils.copyAssetFolder(getAssets(), "tessdata", extDir + "/tessdata");
         }
 
-        ocr = OcrHelper.init(extDir, pokeInfoCalculator, GoIVSettings.getInstance(this));
+        ocr = OcrHelper.init(this, extDir, pokeInfoCalculator);
     }
 
 
@@ -635,7 +641,7 @@ public class Pokefly extends Service {
 
         Intent info = Pokefly.createNoInfoIntent();
         try {
-            ScanResult res = ocr.scanPokemon(GoIVSettings.getInstance(this), pokemonImage, trainerLevel);
+            ScanResult res = ocr.scanPokemon(GoIVSettings.getInstance(this), pokemonImage, trainerLevel, true);
             if (res.isFailed()) {
                 Toast.makeText(Pokefly.this, getString(R.string.scan_pokemon_failed), Toast.LENGTH_SHORT).show();
             }
@@ -646,14 +652,39 @@ public class Pokefly extends Service {
     }
 
     /**
-     * Called by intent from pokefly, captures the screen and runs it through scanPokemon.
+     * Called by IV button, captures the screen and runs it through scanPokemon.
      */
-    public void takeScreenshot() {
-        Bitmap bmp = screen.grabScreen();
-        if (bmp == null) {
-            return;
+    public void requestScan() {
+        // Cancel any pending screen check
+        screenWatcher.cancelPendingScreenScan();
+
+        // Run this in a separate thread so the UI can be updated so that IV button hides before moveset scan starts
+        scanScreenRunnable.updateRefs(this, screen);
+        new Handler().postDelayed(scanScreenRunnable, 80); // Wait 2 frames (at 25ps) before scanning
+    }
+
+    private static class ScanScreenRunnable implements Runnable {
+        WeakReference<Pokefly> pokeflyRef;
+        WeakReference<ScreenGrabber> screenGrabberRef;
+
+        void updateRefs(Pokefly pokefly, ScreenGrabber screenGrabber) {
+            pokeflyRef = new WeakReference<>(pokefly);
+            screenGrabberRef = new WeakReference<>(screenGrabber);
         }
-        scanPokemon(bmp, Optional.<String>absent());
+
+        @Override public void run() {
+            ScreenGrabber screenGrabber = screenGrabberRef.get();
+            if (screenGrabber != null) {
+                Bitmap bmp = screenGrabber.grabScreen();
+                if (bmp == null) {
+                    return;
+                }
+                Pokefly pokefly = pokeflyRef.get();
+                if (pokefly != null) {
+                    pokefly.scanPokemon(bmp, Optional.<String>absent());
+                }
+            }
+        }
     }
 
     /**

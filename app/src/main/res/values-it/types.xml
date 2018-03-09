@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="typeName">
+        <!-- 0 NONE -->
+        <!-- 1    normal --> <item>NORMALE</item>
+        <!-- 2      fire --> <item>FUOCO</item>
+        <!-- 3     water --> <item>ACQUA</item>
+        <!-- 4     grass --> <item>ERBA</item>
+        <!-- 5  electric --> <item>ELETTRO</item>
+        <!-- 6       ice --> <item>GHIACCIO</item>
+        <!-- 7  fighting --> <item>LOTTA</item>
+        <!-- 8    poison --> <item>VELENO</item>
+        <!-- 9    ground --> <item>TERRA</item>
+        <!-- A    flying --> <item>VOLANTE</item>
+        <!-- B   psychic --> <item>PSICO</item>
+        <!-- C       bug --> <item>COLEOTTERO</item>
+        <!-- D      rock --> <item>ROCCIA</item>
+        <!-- E     ghost --> <item>SPETTRO</item>
+        <!-- F    dragon --> <item>DRAGO</item>
+        <!-- G      dark --> <item>BUIO</item>
+        <!-- H     steel --> <item>ACCIAIO</item>
+        <!-- I     fairy --> <item>FOLLETTO</item>
+        <!-- J RESERVED  -->
+    </string-array>
+</resources>

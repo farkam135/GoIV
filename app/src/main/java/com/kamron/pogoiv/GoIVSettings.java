@@ -57,6 +57,7 @@ public class GoIVSettings {
     public static final String QUICK_IV_PREVIEW_CLIPBOARD = "quick_iv_preview_clipboard";
     public static final String MANUAL_SCREEN_CALIBRATION_ACTIVE = "manual_screen_calibration_active";
     public static final String MANUAL_SCREEN_CALIBRATION_VERSION = "manual_screen_calibration_version";
+    public static final String DOWNLOADED_MOVESET_INFO = "downloaded_moveset_info_goiv";
 
     // Increment this value when you want to make all users recalibrate GoIV
     public static int LATEST_SCREEN_CALIBRATION_VERSION = 1;
@@ -217,6 +218,18 @@ public class GoIVSettings {
     public void setClipboardPreference(String tokenListRepresentation) {
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString(GOIV_CLIPBOARDSETTINGS, tokenListRepresentation);
+        editor.apply();
+    }
+
+
+    public String getSavedMovesetInfo() {
+        return prefs.getString(DOWNLOADED_MOVESET_INFO, "");
+
+    }
+
+    public void setSavedMovesetInfo(String info) {
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(info, DOWNLOADED_MOVESET_INFO);
         editor.apply();
     }
 

@@ -1,5 +1,6 @@
 package com.kamron.pogoiv.pokeflycomponents;
 
+import com.kamron.pogoiv.GoIVSettings;
 import com.kamron.pogoiv.scanlogic.IVScanResult;
 import com.kamron.pogoiv.scanlogic.MovesetData;
 
@@ -31,6 +32,10 @@ public class MoveInfoOnlineFetcher {
      */
     public void forceLocalMovesetDatabaseUpdate() {
         //todo implement
+
+
+
+        GoIVSettings settings = GoIVSettings.getInstance(null);
     }
 
     /**

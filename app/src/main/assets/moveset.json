@@ -1,6 +1,5 @@
   {
-  "name":"GOLEM",
-  "moves":[
+  "GOLEM":[
     {
       "atkScore": 0.8020145632522355,
       "quick": "MUD_SHOT_FAST",

@@ -1,19 +1,17 @@
 package com.kamron.pogoiv.pokeflycomponents;
 
+import android.content.res.Resources;
+import android.support.v4.util.SparseArrayCompat;
+
 import com.kamron.pogoiv.GoIVSettings;
 import com.kamron.pogoiv.Pokefly;
 import com.kamron.pogoiv.scanlogic.IVScanResult;
 import com.kamron.pogoiv.scanlogic.MovesetData;
 import com.kamron.pogoiv.scanlogic.MovesetList;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Johan on 2018-02-25.
@@ -68,24 +66,23 @@ public class MoveInfoOnlineFetcher {
      * @param ivScanResult The ivScanresult that contains the information about which pokemon is requested.
      * @return A list of all possible movesets and their attack & defense score.
      */
-    public List<MovesetData> getMovesetData(IVScanResult ivScanResult) {
+    public ArrayList<MovesetData> getMovesetData(Resources res, IVScanResult ivScanResult) {
 
         String jsonData = loadJSONStringFromAsset("moveset.json");
 
         //System.out.println(jsonData);
 
-        MovesetList[] movesetLists = MovesetList.parseJSON(jsonData);
+        SparseArrayCompat<ArrayList<MovesetData>> movesetLists = MovesetList.parseJSON(res, jsonData);
 
         //The jsonString has pokemon with several possible moveset combos, so each pokemon should have a MovesetList
 
-        List<MovesetData> moves = movesetLists[0].getList();
+        ArrayList<MovesetData> moves = movesetLists.get(ivScanResult.pokemon.number);
         //////////////////////////////////////Remove everything beneath this.///////////////////////////
         //Example move creation
         //MovesetData example = new MovesetData("Waterfall", "Hydro pump", false, false, 11, 10.8, "water",
         //         "water");
 
         return moves;
-
     }
 
 

@@ -104,7 +104,7 @@ public class PokeInfoCalculator {
         return pokemap.get(name.toLowerCase());
     }
 
-    private static String[] getPokemonNamesArray(Resources res) {
+    public static String[] getPokemonNamesArray(Resources res) {
         if (res.getBoolean(R.bool.use_default_pokemonsname_as_ocrstring)) {
             // If flag ON, force to use English strings as pokemon name for OCR.
             Configuration conf = res.getConfiguration();

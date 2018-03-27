@@ -121,7 +121,7 @@ public class MovesetFraction extends Fraction {
     private void loadMovesetData() {
         MoveInfoOnlineFetcher onlineFetcher = new MoveInfoOnlineFetcher(pokefly);
 
-        movesets = onlineFetcher.getMovesetData(ivScanResult);
+        movesets = onlineFetcher.getMovesetData(pokefly.getResources(), ivScanResult);
         //todo - not implemented : add the moveset data to the "moveset" list object.
     }
 

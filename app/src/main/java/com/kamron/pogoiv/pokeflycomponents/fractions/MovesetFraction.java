@@ -50,9 +50,9 @@ public class MovesetFraction extends Fraction {
     @Override public void onCreate(@NonNull View rootView) {
         ButterKnife.bind(this, rootView);
         loadMovesetData();
-        if (movesets.size() <= 0) {
-            createDummyData();
-        }
+        //if (movesets.size() <= 0) {
+        //    createDummyData();
+        //}
 
 
         setupTableHeader();
@@ -119,7 +119,7 @@ public class MovesetFraction extends Fraction {
 
 
     private void loadMovesetData() {
-        MoveInfoOnlineFetcher onlineFetcher = new MoveInfoOnlineFetcher();
+        MoveInfoOnlineFetcher onlineFetcher = new MoveInfoOnlineFetcher(pokefly);
 
         movesets = onlineFetcher.getMovesetData(ivScanResult);
         //todo - not implemented : add the moveset data to the "moveset" list object.

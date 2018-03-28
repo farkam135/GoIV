@@ -73,7 +73,7 @@ public class MovesetFraction extends Fraction {
 
         ViewGroup.LayoutParams params = movesetConstrainLayout.getLayoutParams();
         //constant length for header + length for every data row.
-        params.height = (int) ((dp * 100) + (dp * movesets.size() * 10));
+        params.height = (int) ((dp * 100) + (dp * movesets.size() * 14));
         movesetConstrainLayout.setLayoutParams(params);
 
 
@@ -98,10 +98,10 @@ public class MovesetFraction extends Fraction {
 
 
         TableColumnWeightModel columnModel = new TableColumnWeightModel(4);
-        columnModel.setColumnWeight(0, 2);
-        columnModel.setColumnWeight(1, 2);
-        columnModel.setColumnWeight(2, 1);
-        columnModel.setColumnWeight(3, 1);
+        columnModel.setColumnWeight(0, 18);
+        columnModel.setColumnWeight(1, 18);
+        columnModel.setColumnWeight(2, 10);
+        columnModel.setColumnWeight(3, 10);
         sortableTable.setColumnModel(columnModel);
     }
 
@@ -120,46 +120,10 @@ public class MovesetFraction extends Fraction {
 
     private void loadMovesetData() {
         MoveInfoOnlineFetcher onlineFetcher = new MoveInfoOnlineFetcher(pokefly);
-
         movesets = onlineFetcher.getMovesetData(pokefly.getResources(), ivScanResult);
-        //todo - not implemented : add the moveset data to the "moveset" list object.
     }
 
-    /**
-     * Adds dummy moveset objects to the moveset list. The data is not accurate. The movesets are from gyarados, which
-     * is an edgecase for amount of available movesets. But the numbers for atk / defence are fake.
-     */
-    private void createDummyData() {
-        movesets.add(new MovesetData("Waterfall", "Hydro pump", false, false, 11, 10.8, "water", "water"
-        ));
-        movesets.add(new MovesetData("Bite", "Hydro pump", false, false, 10.8, 5, "dark",
-                "water"));
-        movesets.add(new MovesetData("Bite", "Crunch", false, false, 10, 6.2, "dark", "water"));
-        movesets.add(new MovesetData("Dragon tail", "Outrage", true, false, 9.8, 7, "dragon", "dragon"));
-        movesets.add(
-                new MovesetData("Dragon tail", "Hydro pump", true, false, 9.7, 9.2, "dragon", "water"));
-        movesets.add(
-                new MovesetData("Dragon Breath", "Hydro pump", true, false, 9.5, 10.8, "dragon", "water"));
-        movesets.add(new MovesetData("Waterfall", "Crunch", false, false, 9.3, 6.2, "water", "water"));
-        movesets.add(new MovesetData("Waterfall", "Outrage", false, false, 9.2, 7.2, "water", "dragon"));
-        movesets.add(new MovesetData("Dragon tail", "Crunch", true, false, 9, 6.6, "dragon", "water"));
-        movesets.add(new MovesetData("Dragon Breath", "Dragon Pulse", true, true, 8.8, 10.2, "dragon",
-                "dragon"));
-        movesets.add(new MovesetData("Bite", "Outrage", false, false, 8.6, 10.1, "dark", "dragon"));
-        movesets.add(new MovesetData("Bite", "Dragon Pulse", false, true, 8.2, 8.6, "dark", "dragon"));
-        movesets.add(new MovesetData("Bite", "Twister", false, true, 8, 7.3, "dark", "dragon"));
-        movesets.add(
-                new MovesetData("Dragon Breath", "Twister", true, true, 7.4, 4.2, "dragon", "dragon"));
-        movesets.add(new MovesetData("Waterfall", "Dragon Pulse", false, true, 7, 7.2, "water", "dragon"));
-        movesets.add(new MovesetData("Waterfall", "Twister", false, true, 6.5, 6.4, "water", "dragon"));
-        movesets.add(
-                new MovesetData("Dragon tail", "Dragon Pulse", true, true, 6.1, 5.5, "dragon", "dragon"));
-        movesets.add(new MovesetData("Dragon tail", "Twister", true, true, 6, 6.7, "dragon", "dragon"));
-        movesets.add(
-                new MovesetData("Dragon Breath", "Outrage", true, false, 5.6, 6.8, "dragon", "dragon"));
-        movesets.add(new MovesetData("Dragon Breath", "Crunch", true, false, 5.2, 7.2,
-                "dragon", "dark"));
-    }
+
 
     @Override public void onDestroy() {
 

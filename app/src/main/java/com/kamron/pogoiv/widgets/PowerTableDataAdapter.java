@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import com.kamron.pogoiv.scanlogic.MovesetData;
 
+import java.text.DecimalFormat;
+
 import de.codecrafters.tableview.TableDataAdapter;
 
 /**
@@ -35,21 +37,26 @@ public class PowerTableDataAdapter extends TableDataAdapter<MovesetData> {
         if (columnIndex == 0) {
 
             tv.setTextColor(getMoveColor(move.isQuickIsLegacy()));
-            tv.setText(move.getQuick() + "\n" + move.getQuickMoveType());
-            tv.setBackgroundColor(getIsSelectedColor(isScannedQuick(move)));
+            //substring to remove the "_fast", replace to switch _ with spaces.
+            String quickText = move.getQuick().substring(0, move.getQuick().length() - 5).replace("_", " ");
+            quickText = properCase(quickText);
+            tv.setText(quickText);
+            //tv.setBackgroundColor(getIsSelectedColor(isScannedQuick(move)));
         } else if (columnIndex == 1) {
             tv.setTextColor(getMoveColor(move.isChargeIsLegacy()));
-            tv.setText(move.getCharge() + "\n" + move.getChargeMoveType());
-            tv.setBackgroundColor(getIsSelectedColor(isScannedCharge(move)));
+            String chargeText = move.getCharge().replace("_", " ");
+            chargeText = properCase(chargeText);
+            tv.setText(chargeText);
+            //tv.setBackgroundColor(getIsSelectedColor(isScannedCharge(move)));
         } else if (columnIndex == 2) {
-            tv.setTextColor(Color.parseColor("#ffffff"));
-            tv.setBackgroundColor(getPowerColor(move.getAtkScore()));
-            tv.setText(move.getAtkScore() + "");
+            //tv.setTextColor(Color.parseColor("#ffffff"));
+            tv.setTextColor(getPowerColor(move.getAtkScore()));
+            tv.setText(translateScore(move.getAtkScore()));
             tv.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
         } else if (columnIndex == 3) {
-            tv.setTextColor(Color.parseColor("#ffffff"));
-            tv.setBackgroundColor(getPowerColor(move.getDefScore()));
-            tv.setText(move.getDefScore() + "");
+            //tv.setTextColor(Color.parseColor("#ffffff"));
+            tv.setTextColor(getPowerColor(move.getDefScore()));
+            tv.setText(translateScore(move.getDefScore()));
             tv.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
         }
 
@@ -69,6 +76,11 @@ public class PowerTableDataAdapter extends TableDataAdapter<MovesetData> {
 
         renderedView = tv;
         return renderedView;
+    }
+
+    private String translateScore(double defScore) {
+        DecimalFormat df = new DecimalFormat("#.00");
+        return df.format(defScore);
     }
 
     private boolean isScannedCharge(MovesetData move) {
@@ -100,13 +112,13 @@ public class PowerTableDataAdapter extends TableDataAdapter<MovesetData> {
     }
 
     private int getPowerColor(double atkScore) {
-        if (atkScore > 10) {
+        if (atkScore > 0.95) {
             return Color.parseColor("#4c8fdb");
         }
-        if (atkScore > 8) {
+        if (atkScore > 0.85) {
             return Color.parseColor("#8eed94");
         }
-        if (atkScore > 6) {
+        if (atkScore > 0.7) {
             return Color.parseColor("#f9a825");
         }
         return Color.parseColor("#d84315");
@@ -114,4 +126,28 @@ public class PowerTableDataAdapter extends TableDataAdapter<MovesetData> {
 
     }
 
+    /**
+     * Make the first letter uppercase, and the rest lowercase. Taken from:
+     * https://stackoverflow.com/questions/2375649/converting-to-upper-and-lower-case-in-java.
+     *
+     * @param inputVal The text to change the upper/lower case of.
+     */
+    String properCase(String inputVal) {
+        // Empty strings should be returned as-is.
+
+        if (inputVal.length() == 0) {
+            return "";
+        }
+
+        // Strings with only one character uppercased.
+
+        if (inputVal.length() == 1) {
+            return inputVal.toUpperCase();
+        }
+
+        // Otherwise uppercase first letter, lowercase the rest.
+
+        return inputVal.substring(0, 1).toUpperCase()
+                + inputVal.substring(1).toLowerCase();
+    }
 }

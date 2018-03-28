@@ -19,6 +19,7 @@ import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.util.Pair;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -95,6 +96,8 @@ public class Pokefly extends Service {
     private static final String KEY_SEND_UNIQUE_ID = "key_send_unique_id";
     private static final String KEY_SEND_POWERUP_STARTDUST_COST = "key_send_powerup_stardust";
     private static final String KEY_SEND_POWERUP_CANDYCOST = "key_send_powerup_candycost";
+    private static final String KEY_SEND_MOVESET_QUICK = "key_send_moveset_quick";
+    private static final String KEY_SEND_MOVESET_CHARGE = "key_send_moveset_charge";
 
     private static final String ACTION_PROCESS_BITMAP = "com.kamron.pogoiv.PROCESS_BITMAP";
     private static final String KEY_BITMAP = "bitmap";
@@ -148,6 +151,9 @@ public class Pokefly extends Service {
     public Optional<Integer> pokemonCandy = Optional.absent();
     public Optional<Integer> pokemonCP = Optional.absent();
     public Optional<Integer> pokemonHP = Optional.absent();
+
+    public String movesetQuick;
+    public String movesetCharge;
     private Optional<Integer> candyUpgradeCost = Optional.absent();
     public String pokemonUniqueID = "";
     public LevelRange estimatedPokemonLevelRange = new LevelRange(1.0);
@@ -215,6 +221,11 @@ public class Pokefly extends Service {
         intent.putExtra(KEY_SEND_UNIQUE_ID, scanResult.getPokemonUniqueID());
         intent.putExtra(KEY_SEND_POWERUP_CANDYCOST, scanResult.getPokemonPowerUpCandyCost());
         intent.putExtra(KEY_SEND_POWERUP_STARTDUST_COST, scanResult.getPokemonPowerUpStardustCost());
+        if (scanResult.getMoveset().isPresent()){
+            intent.putExtra(KEY_SEND_MOVESET_QUICK, scanResult.getMoveset().get().first);
+            intent.putExtra(KEY_SEND_MOVESET_CHARGE, scanResult.getMoveset().get().second);
+        }
+
     }
 
     public static Intent createProcessBitmapIntent(Bitmap bitmap, String file) {
@@ -791,6 +802,13 @@ public class Pokefly extends Service {
                     pokemonCandy = lCandyAmount;
                     candyUpgradeCost = lCandyUpgradeCost;
                     pokemonUniqueID = lUniqueID;
+                    movesetQuick = intent.getStringExtra(KEY_SEND_MOVESET_QUICK);
+                    movesetCharge = intent.getStringExtra(KEY_SEND_MOVESET_CHARGE);
+                    if (movesetQuick == null || movesetCharge == null){
+                        movesetQuick = "";
+                        movesetCharge = "";
+                    }
+
 
 
                     double estimatedPokemonLevelMin = intent.getDoubleExtra(KEY_SEND_INFO_LEVEL_LOWER, 1);

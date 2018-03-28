@@ -2,12 +2,15 @@ package com.kamron.pogoiv.widgets;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.kamron.pogoiv.Pokefly;
+import com.kamron.pogoiv.scanlogic.Data;
 import com.kamron.pogoiv.scanlogic.MovesetData;
 
 import java.text.DecimalFormat;
@@ -21,10 +24,12 @@ import de.codecrafters.tableview.TableDataAdapter;
 
 public class PowerTableDataAdapter extends TableDataAdapter<MovesetData> {
     private int isSelectedColor;
+    Pokefly pokefly;
 
     public PowerTableDataAdapter(Context context,
                                  MovesetData[] data) {
         super(context, data);
+        this.pokefly = (Pokefly) context;
     }
 
     @Override public View getCellView(int rowIndex, int columnIndex, ViewGroup parentView) {
@@ -34,29 +39,51 @@ public class PowerTableDataAdapter extends TableDataAdapter<MovesetData> {
         View renderedView = null;
 
         TextView tv = new TextView(getContext());
-        if (columnIndex == 0) {
 
+        //Quick move cell in table
+        if (columnIndex == 0) {
             tv.setTextColor(getMoveColor(move.isQuickIsLegacy()));
+
             //substring to remove the "_fast", replace to switch _ with spaces.
             String quickText = move.getQuick().substring(0, move.getQuick().length() - 5).replace("_", " ");
             quickText = properCase(quickText);
+            quickText = "  " + quickText; //quick padding fix.
             tv.setText(quickText);
+
+            if(isScannedQuick(move)){
+                tv.setTypeface(null, Typeface.BOLD);
+            }
             //tv.setBackgroundColor(getIsSelectedColor(isScannedQuick(move)));
+
+
+            //Charge move in table
         } else if (columnIndex == 1) {
             tv.setTextColor(getMoveColor(move.isChargeIsLegacy()));
             String chargeText = move.getCharge().replace("_", " ");
             chargeText = properCase(chargeText);
             tv.setText(chargeText);
+
+            if(isScannedCharge(move)){
+                tv.setTypeface(null, Typeface.BOLD);
+            }
             //tv.setBackgroundColor(getIsSelectedColor(isScannedCharge(move)));
+
+
+           //attack score  in table
         } else if (columnIndex == 2) {
             //tv.setTextColor(Color.parseColor("#ffffff"));
             tv.setTextColor(getPowerColor(move.getAtkScore()));
             tv.setText(translateScore(move.getAtkScore()));
             tv.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
+
+
+            //defence score in table
         } else if (columnIndex == 3) {
             //tv.setTextColor(Color.parseColor("#ffffff"));
             tv.setTextColor(getPowerColor(move.getDefScore()));
-            tv.setText(translateScore(move.getDefScore()));
+            String defScore = translateScore(move.getDefScore());
+            String defScoreWithPadding = defScore + "   ";//hacky solution.
+            tv.setText(defScoreWithPadding);
             tv.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
         }
 
@@ -84,13 +111,24 @@ public class PowerTableDataAdapter extends TableDataAdapter<MovesetData> {
     }
 
     private boolean isScannedCharge(MovesetData move) {
-        //todo check if the moveset charge attack is the same as the one in the ivScanresult.
-        return false;
+        String scanned = pokefly.movesetCharge.toLowerCase();
+        String thisCell  = move.getCharge().toLowerCase();
+        //check if the strings are similar
+        int distance = Data.levenshteinDistance(scanned, thisCell);
+        boolean istrue = distance < 6  ;
+        return istrue;
     }
 
     private boolean isScannedQuick(MovesetData move) {
-        //todo check if the moveset quickattack is the same as the one in the ivScanresult.
-        return false;
+        //substring with 4 to remove the "fast" text appended to all fast moves
+        String scanned = pokefly.movesetQuick.toLowerCase();
+        String thisCell  = move.getQuick().substring(0, move.getQuick().length()-4)
+                .replace("_"," ").toLowerCase();
+        //check if the strings are similar
+        int distance = Data.levenshteinDistance(scanned, thisCell);
+        boolean istrue = distance < 6  ;
+
+        return istrue;
     }
 
     private int getIsSelectedColor(boolean scanned) {

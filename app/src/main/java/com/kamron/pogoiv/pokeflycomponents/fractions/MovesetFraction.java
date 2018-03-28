@@ -59,7 +59,7 @@ public class MovesetFraction extends Fraction {
         setupDataSorting();
         addDataToTable();
         //fixTableConstrainLayoutHeight();
-        sortableTable.sort(2); //default to sorting column index 3 (atk)
+        sortableTable.sort(2); //default to sorting column  3 (atk)
 
     }
 

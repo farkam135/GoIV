@@ -17,7 +17,6 @@ import com.kamron.pogoiv.utils.fractions.Fraction;
 import com.kamron.pogoiv.widgets.PowerTableDataAdapter;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,8 +33,8 @@ public class MovesetFraction extends Fraction {
     @BindView(R.id.movesetConstrainLayout)
     ConstraintLayout movesetConstrainLayout;
 
-    Pokefly pokefly;
-    private List<MovesetData> movesets = new ArrayList();
+    private Pokefly pokefly;
+    private ArrayList<MovesetData> movesets = new ArrayList();
     private IVScanResult ivScanResult;
 
     public MovesetFraction(@NonNull Pokefly pokefly, @NonNull IVScanResult ivScanResult) {
@@ -98,10 +97,10 @@ public class MovesetFraction extends Fraction {
 
 
         TableColumnWeightModel columnModel = new TableColumnWeightModel(4);
-        columnModel.setColumnWeight(0, 18);
-        columnModel.setColumnWeight(1, 18);
-        columnModel.setColumnWeight(2, 10);
-        columnModel.setColumnWeight(3, 10);
+        columnModel.setColumnWeight(0, 3);
+        columnModel.setColumnWeight(1, 3);
+        columnModel.setColumnWeight(2, 2);
+        columnModel.setColumnWeight(3, 2);
         sortableTable.setColumnModel(columnModel);
     }
 
@@ -109,24 +108,19 @@ public class MovesetFraction extends Fraction {
      * Adds the data from the moveset list to the table.
      */
     private void addDataToTable() {
-
-        MovesetData[] dataToShow = new MovesetData[movesets.size()];
-        for (int i = 0; i < movesets.size(); i++) {
-            dataToShow[i] = movesets.get(i);
+        if (movesets != null) {
+            MovesetData[] movesetsArray = new MovesetData[movesets.size()];
+            movesetsArray = movesets.toArray(movesetsArray);
+            sortableTable.setDataAdapter(new PowerTableDataAdapter(pokefly, movesetsArray));
         }
-        sortableTable.setDataAdapter(new PowerTableDataAdapter(pokefly, dataToShow));
     }
-
 
     private void loadMovesetData() {
         MoveInfoOnlineFetcher onlineFetcher = new MoveInfoOnlineFetcher(pokefly);
-        movesets = onlineFetcher.getMovesetData(pokefly.getResources(), ivScanResult);
+        movesets = onlineFetcher.getMovesetData(pokefly, ivScanResult);
     }
 
-
-
     @Override public void onDestroy() {
-
     }
 
     @OnClick(R.id.powerUpButton)

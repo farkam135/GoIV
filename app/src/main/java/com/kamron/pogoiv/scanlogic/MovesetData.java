@@ -1,6 +1,7 @@
 package com.kamron.pogoiv.scanlogic;
 
 import java.util.Comparator;
+import java.util.Objects;
 
 /**
  * Created by Johan on 2018-02-19.
@@ -31,8 +32,6 @@ public class MovesetData {
         this.defScore = defScore;
         this.chargeMoveType = chargeMoveType;
         this.quickMoveType = quickMoveType;
-
-
     }
 
     public String getQuickMoveType() {
@@ -68,17 +67,34 @@ public class MovesetData {
     }
 
     public static class AtkComparator implements Comparator<MovesetData> {
-
-        @Override public int compare(MovesetData movesetData, MovesetData other) {
+        @Override
+        public int compare(MovesetData movesetData, MovesetData other) {
             return Double.compare(other.getAtkScore(), movesetData.getAtkScore());
         }
     }
 
     public static class DefComparator implements Comparator<MovesetData> {
-
-        @Override public int compare(MovesetData movesetData, MovesetData other) {
+        @Override
+        public int compare(MovesetData movesetData, MovesetData other) {
             return Double.compare(other.getDefScore(), movesetData.getDefScore());
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        MovesetData that = (MovesetData) o;
+        return Objects.equals(quick, that.quick) && Objects.equals(charge, that.charge);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(quick, charge);
     }
 
 }

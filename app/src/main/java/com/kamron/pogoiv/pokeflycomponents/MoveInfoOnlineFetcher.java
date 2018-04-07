@@ -1,8 +1,9 @@
 package com.kamron.pogoiv.pokeflycomponents;
 
-import android.content.res.Resources;
+import android.content.Context;
 import android.support.v4.util.SparseArrayCompat;
 
+import com.google.gson.stream.JsonReader;
 import com.kamron.pogoiv.GoIVSettings;
 import com.kamron.pogoiv.Pokefly;
 import com.kamron.pogoiv.scanlogic.IVScanResult;
@@ -10,8 +11,10 @@ import com.kamron.pogoiv.scanlogic.MovesetData;
 import com.kamron.pogoiv.scanlogic.MovesetList;
 
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+
+import timber.log.Timber;
 
 /**
  * Created by Johan on 2018-02-25.
@@ -66,15 +69,22 @@ public class MoveInfoOnlineFetcher {
      * @param ivScanResult The ivScanresult that contains the information about which pokemon is requested.
      * @return A list of all possible movesets and their attack & defense score.
      */
-    public ArrayList<MovesetData> getMovesetData(Resources res, IVScanResult ivScanResult) {
+    public ArrayList<MovesetData> getMovesetData(Context context, IVScanResult ivScanResult) {
+        JsonReader jsonReader;
 
-        String jsonData = loadJSONStringFromAsset("moveset.json");
+        // From network response
+        //jsonReader = new JsonReader(stringReader);
 
-        //System.out.println(jsonData);
+        // From disk cache
+        try {
+            jsonReader = new JsonReader(
+                    new InputStreamReader(context.getAssets().open("movesets/movesets.json")));
+        } catch (IOException e) {
+            Timber.e(e);
+            return null;
+        }
 
-        SparseArrayCompat<ArrayList<MovesetData>> movesetLists = MovesetList.parseJSON(res, jsonData);
-
-        //The jsonString has pokemon with several possible moveset combos, so each pokemon should have a MovesetList
+        SparseArrayCompat<ArrayList<MovesetData>> movesetLists = MovesetList.parseJSON(context, jsonReader);
 
         ArrayList<MovesetData> moves = movesetLists.get(ivScanResult.pokemon.number);
         //////////////////////////////////////Remove everything beneath this.///////////////////////////
@@ -83,22 +93,5 @@ public class MoveInfoOnlineFetcher {
         //         "water");
 
         return moves;
-    }
-
-
-    public String loadJSONStringFromAsset(String filename) {
-        String json = null;
-        try {
-            InputStream is = pokefly.getAssets().open(filename);
-            int size = is.available();
-            byte[] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
-            json = new String(buffer, "UTF-8");
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            return null;
-        }
-        return json;
     }
 }

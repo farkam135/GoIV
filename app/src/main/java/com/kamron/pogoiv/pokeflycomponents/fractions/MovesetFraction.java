@@ -16,7 +16,7 @@ import com.kamron.pogoiv.scanlogic.ScanContainer;
 import com.kamron.pogoiv.utils.fractions.Fraction;
 import com.kamron.pogoiv.widgets.PowerTableDataAdapter;
 
-import java.util.ArrayList;
+import java.util.LinkedHashSet;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,7 +34,7 @@ public class MovesetFraction extends Fraction {
     ConstraintLayout movesetConstrainLayout;
 
     private Pokefly pokefly;
-    private ArrayList<MovesetData> movesets = new ArrayList();
+    private LinkedHashSet<MovesetData> movesets = new LinkedHashSet<>();
     private IVScanResult ivScanResult;
 
     public MovesetFraction(@NonNull Pokefly pokefly, @NonNull IVScanResult ivScanResult) {

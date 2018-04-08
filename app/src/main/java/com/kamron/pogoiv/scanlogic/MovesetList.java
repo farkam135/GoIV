@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.Locale;
 
 import timber.log.Timber;
@@ -41,13 +42,13 @@ public class MovesetList {
     private MovesetList() {
     }
 
-    public static SparseArrayCompat<ArrayList<MovesetData>> parseJSON(final Context context, JsonReader jsonReader) {
+    public static SparseArrayCompat<LinkedHashSet<MovesetData>> parseJson(final Context context, JsonReader jsonReader) {
 
         // Get lowercase english names
         String[] enMonNamesArray = PokeInfoCalculator.getPokemonNamesArray(context.getResources());
         ArrayList<String> enMonNamesList = new ArrayList<>();
         for (String name : enMonNamesArray) {
-            enMonNamesList.add(name.trim().toUpperCase().replace("[^A-Z0-9]", "_"));
+            enMonNamesList.add(name.trim().toUpperCase().replaceAll("[^A-Z0-9]+", "_"));
         }
 
         Pair<HashMap<String, String>, HashMap<String, String>> translations = getTranslations(context);
@@ -55,13 +56,20 @@ public class MovesetList {
         HashMap<String, String> translatedTypeNames = translations.second;
 
         // Init result object
-        SparseArrayCompat<ArrayList<MovesetData>> result = new SparseArrayCompat<>();
+        SparseArrayCompat<LinkedHashSet<MovesetData>> result = new SparseArrayCompat<>();
 
         // Parse all the moveset JSON
         Gson gson = new GsonBuilder().create();
         LinkedTreeMap<String, Object> movesetListsByMonsterName = gson.fromJson(jsonReader, Object.class);
 
         for (String monName : movesetListsByMonsterName.keySet()) {
+            if (monName.endsWith("_FORM")) {
+                // This is a special form of a particular species. Since we don't handle forms yet, add all the
+                // movesets to the "generic" species.
+                int underscoreIndex = monName.lastIndexOf("_", monName.length() - 6);
+                monName = monName.substring(0, underscoreIndex);
+            }
+
             int dexIndex = enMonNamesList.indexOf(monName);
             if (dexIndex < 0) {
                 Timber.d("Can't find monster named %s", monName);
@@ -72,7 +80,15 @@ public class MovesetList {
             ArrayList<LinkedTreeMap<String, Object>> jsonMovesets
                     = (ArrayList<LinkedTreeMap<String, Object>>) movesetListsByMonsterName.get(monName);
 
-            ArrayList<MovesetData> movesetList = new ArrayList<>(jsonMovesets.size());
+            LinkedHashSet<MovesetData> movesetList;
+            if (result.indexOfKey(dexIndex) < 0) {
+                movesetList = new LinkedHashSet<>(jsonMovesets.size());
+            } else {
+                // This might happen for different forms of the same species. Add the movesets to the list of the
+                // general species. The linked hash set preserve insertion order and avoid duplicates.
+                // This last statement relies on a correct implementation of MovesetData.hashCode().
+                movesetList = result.get(dexIndex);
+            }
             for (LinkedTreeMap<String, Object> jsonMoveset : jsonMovesets) {
                 //noinspection SuspiciousMethodCalls
                 MovesetData movesetData = new MovesetData(

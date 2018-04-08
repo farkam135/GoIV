@@ -12,7 +12,7 @@ import com.kamron.pogoiv.scanlogic.MovesetList;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
+import java.util.LinkedHashSet;
 
 import timber.log.Timber;
 
@@ -69,7 +69,7 @@ public class MoveInfoOnlineFetcher {
      * @param ivScanResult The ivScanresult that contains the information about which pokemon is requested.
      * @return A list of all possible movesets and their attack & defense score.
      */
-    public ArrayList<MovesetData> getMovesetData(Context context, IVScanResult ivScanResult) {
+    public LinkedHashSet<MovesetData> getMovesetData(Context context, IVScanResult ivScanResult) {
         JsonReader jsonReader;
 
         // From network response
@@ -84,9 +84,9 @@ public class MoveInfoOnlineFetcher {
             return null;
         }
 
-        SparseArrayCompat<ArrayList<MovesetData>> movesetLists = MovesetList.parseJSON(context, jsonReader);
+        SparseArrayCompat<LinkedHashSet<MovesetData>> movesetLists = MovesetList.parseJson(context, jsonReader);
 
-        ArrayList<MovesetData> moves = movesetLists.get(ivScanResult.pokemon.number);
+        LinkedHashSet<MovesetData> moves = movesetLists.get(ivScanResult.pokemon.number);
         //////////////////////////////////////Remove everything beneath this.///////////////////////////
         //Example move creation
         //MovesetData example = new MovesetData("Waterfall", "Hydro pump", false, false, 11, 10.8, "water",

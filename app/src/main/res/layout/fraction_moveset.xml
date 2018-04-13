@@ -119,7 +119,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
-                android:text="Export to SOMETHING"
+                android:text="Export to PokeBattler"
                 app:layout_constraintBottom_toBottomOf="@+id/shareWithOtherApp"
                 app:layout_constraintEnd_toStartOf="@+id/shareWithOtherApp"
                 app:layout_constraintStart_toStartOf="@id/sortableTable"
@@ -150,7 +150,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="Score based on data from _____. \nOptimal moveset can change in certain matchups.\nThis score is only a guideline."
+                android:text="Score based on data from pokebattler.com simulations. \nOptimal moveset can change in certain matchups.\nThis score is only a guideline."
                 android:textAlignment="center"
                 android:textColor="#9c9c9c"
                 android:textSize="12sp"
@@ -158,6 +158,8 @@
 
 
             <TextView
+
+                android:visibility="gone"
                 android:id="@+id/explanationText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

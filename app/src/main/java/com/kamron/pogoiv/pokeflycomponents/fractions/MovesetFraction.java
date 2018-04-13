@@ -1,10 +1,17 @@
 package com.kamron.pogoiv.pokeflycomponents.fractions;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.kamron.pogoiv.Pokefly;
 import com.kamron.pogoiv.R;
@@ -15,6 +22,7 @@ import com.kamron.pogoiv.scanlogic.PokemonShareHandler;
 import com.kamron.pogoiv.scanlogic.ScanContainer;
 import com.kamron.pogoiv.utils.fractions.Fraction;
 import com.kamron.pogoiv.widgets.PowerTableDataAdapter;
+import android.widget.Toast;
 
 import java.util.LinkedHashSet;
 
@@ -33,6 +41,8 @@ public class MovesetFraction extends Fraction {
     @BindView(R.id.movesetConstrainLayout)
     ConstraintLayout movesetConstrainLayout;
 
+
+    public static String URL_POKEBATTLER_IMPORT = "https://www.pokebattler.com/pokebox/import";
     private Pokefly pokefly;
     private LinkedHashSet<MovesetData> movesets = new LinkedHashSet<>();
     private IVScanResult ivScanResult;
@@ -140,6 +150,34 @@ public class MovesetFraction extends Fraction {
 
     @OnClick(R.id.btnClose)
     void onClose() {
+        pokefly.closeInfoDialog();
+    }
+
+
+    @OnClick(R.id.exportWebButton)
+    void export() {
+        ClipboardManager mgn = (ClipboardManager) pokefly.getSystemService(Context.CLIPBOARD_SERVICE);
+        String content = "Pokemon,cp,level,attack,defense,stamina,quickmove,chargemove\n"; //data header
+        content += ivScanResult.pokemon + "," +ivScanResult.scannedCP + ","+ ivScanResult.estimatedPokemonLevel.min +
+                ","
+                + "" +
+                ivScanResult
+                .lowAttack +
+                "," + ivScanResult.lowDefense + "," + ivScanResult.lowStamina + "," + pokefly.movesetQuick +"," +
+                pokefly.movesetCharge;
+        ClipData clip = ClipData.newPlainText(content, content);
+        mgn.setPrimaryClip(clip);
+
+        Toast toast = Toast.makeText(pokefly, String.format("Pokemon data added to clipboard. "
+                        + "\n\nPaste it in at the import screen."),
+                Toast.LENGTH_LONG);
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
+
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse(URL_POKEBATTLER_IMPORT));
+        pokefly.startActivity(i);
+
         pokefly.closeInfoDialog();
     }
 

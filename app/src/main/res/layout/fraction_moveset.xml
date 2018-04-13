@@ -2,12 +2,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="300dp">
+    android:layout_height="wrap_content"
+    android:minHeight="@dimen/dialog_large_height_min">
 
     <LinearLayout
-        android:id="@+id/topnavigation"
+        android:id="@+id/top_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
@@ -31,7 +31,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Moveset analysis"
+            android:text="Moveset (beta)"
             android:textAppearance="?android:attr/textAppearanceLarge"/>
 
         <ImageButton
@@ -44,16 +44,15 @@
 
     </LinearLayout>
 
-
     <info.hoang8f.android.segmented.SegmentedGroup
-        android:id="@+id/innerNavigation"
+        android:id="@+id/inner_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="0dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/topnavigation"
+        app:layout_constraintTop_toBottomOf="@id/top_navigation"
         app:sc_corner_radius="0dp"
         app:sc_tint_color="@color/colorPrimary">
 
@@ -65,8 +64,6 @@
             android:layout_weight="1"
             android:text="Power up"
             android:textAllCaps="true"/>
-
-
 
         <RadioButton
             android:id="@+id/ivButton"
@@ -90,76 +87,154 @@
     </info.hoang8f.android.segmented.SegmentedGroup>
 
     <ScrollView
-        android:id="@+id/scrollView2"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="224dp"
+        app:layout_constraintTop_toBottomOf="@id/inner_navigation"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/innerNavigation">
+        app:layout_constraintVertical_bias="0"
+        android:scrollbars="vertical"
+        android:fadeScrollbars="false">
 
-        <android.support.constraint.ConstraintLayout
-            android:id="@+id/movesetConstrainLayout"
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <android.support.v7.widget.AppCompatImageButton
-                android:id="@+id/shareWithOtherApp"
-                style="?attr/borderlessButtonStyle"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginTop="8dp"
-                android:scaleType="center"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/sortableTable"
-                app:srcCompat="@drawable/ic_share_black"/>
-
-            <Button
-                android:id="@+id/exportWebButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:text="Export to PokeBattler"
-                app:layout_constraintBottom_toBottomOf="@+id/shareWithOtherApp"
-                app:layout_constraintEnd_toStartOf="@+id/shareWithOtherApp"
-                app:layout_constraintStart_toStartOf="@id/sortableTable"
-                app:layout_constraintTop_toTopOf="@+id/shareWithOtherApp"/>
-
-
-            <de.codecrafters.tableview.SortableTableView
-                android:id="@+id/sortableTable"
+            <TableLayout
+                android:id="@+id/table_layout"
                 android:layout_width="match_parent"
-                android:layout_height="600dp"
-                android:layout_marginLeft="0dp"
-                android:layout_marginRight="0dp"
-                android:divider="#eeeeee"
-                android:dividerPadding="1dp"
-                android:dividerHeight="1dp"
-                app:layout_constraintTop_toBottomOf="parent"
-                app:tableView_columnCount="4"
-                app:tableView_headerColor="#f5f5f5"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp">
 
-                app:tableView_headerElevation="5">
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:padding="4dp"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textAlignment="center"
+                        android:text="@string/table_header_move_quick"
+                        android:maxLines="1"
+                        android:ellipsize="end" />
 
-            </de.codecrafters.tableview.SortableTableView>
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:padding="4dp"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textAlignment="center"
+                        android:text="@string/table_header_move_charge"
+                        android:maxLines="1"
+                        android:ellipsize="end" />
 
+                    <LinearLayout
+                        android:id="@+id/header_attack"
+                        android:orientation="horizontal"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:padding="4dp"
+                        android:gravity="center"
+                        tools:ignore="UseCompoundDrawables">
+
+                        <ImageView
+                            android:id="@+id/header_icon_attack"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:srcCompat="@drawable/ic_sort_none" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingStart="2dp"
+                            android:paddingEnd="2dp"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textAlignment="center"
+                            android:text="@string/table_header_attack"
+                            android:maxLines="1"
+                            android:ellipsize="end" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/header_defense"
+                        android:orientation="horizontal"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:padding="4dp"
+                        android:gravity="center"
+                        tools:ignore="UseCompoundDrawables">
+
+                        <ImageView
+                            android:id="@+id/header_icon_defense"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:srcCompat="@drawable/ic_sort_none" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingStart="2dp"
+                            android:paddingEnd="2dp"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textAlignment="center"
+                            android:text="@string/table_header_defense"
+                            android:maxLines="1"
+                            android:ellipsize="end" />
+
+                    </LinearLayout>
+
+                </TableRow>
+
+            </TableLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp">
+
+                <Button
+                    android:id="@+id/exportWebButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/export_to_pokebattler" />
+
+                <android.support.v7.widget.AppCompatImageButton
+                    android:id="@+id/shareWithOtherApp"
+                    style="?attr/borderlessButtonStyle"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:scaleType="center"
+                    app:srcCompat="@drawable/ic_share_black" />
+
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/disclaimerText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Score based on data from pokebattler.com simulations. \nOptimal moveset can change in certain matchups.\nThis score is only a guideline."
+                android:paddingLeft="12dp"
+                android:paddingTop="8dp"
+                android:paddingRight="12dp"
+                android:paddingBottom="8dp"
+                android:text="@string/moveset_score_disclaimer"
                 android:textAlignment="center"
                 android:textColor="#9c9c9c"
                 android:textSize="12sp"
                 app:layout_constraintTop_toBottomOf="@+id/shareWithOtherApp"/>
 
-
-            <TextView
-
-                android:visibility="gone"
+            <!--<TextView
                 android:id="@+id/explanationText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -168,10 +243,9 @@
                 android:textAlignment="center"
                 android:textColor="#9c9c9c"
                 android:textSize="12sp"
-                app:layout_constraintTop_toBottomOf="@id/disclaimerText"/>
+                app:layout_constraintTop_toBottomOf="@id/disclaimerText"/>-->
 
-
-        </android.support.constraint.ConstraintLayout>
+        </LinearLayout>
 
     </ScrollView>
 

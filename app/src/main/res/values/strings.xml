@@ -282,4 +282,10 @@
     <string name="send_email_to_devs_button">Email error information to developers</string>
     <string name="report_error">Email error report</string>
     <string name="recalibration_video_tutorial">Recalibration video tutorial</string>
+    <string name="export_to_pokebattler">Export to PokeBattler</string>
+    <string name="moveset_score_disclaimer">"Score based on data from pokebattler.com simulations.\nOptimal moveset can change in certain matchups.\nThis score is only a guideline."</string>
+    <string name="table_header_move_quick">Quick</string>
+    <string name="table_header_move_charge">Charge</string>
+    <string name="table_header_attack">Atk</string>
+    <string name="table_header_defense">Def</string>
 </resources>

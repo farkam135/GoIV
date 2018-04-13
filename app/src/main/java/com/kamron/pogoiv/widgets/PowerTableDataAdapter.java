@@ -27,7 +27,7 @@ import de.codecrafters.tableview.TableDataAdapter;
 public class PowerTableDataAdapter extends TableDataAdapter<MovesetData> {
 
     private DecimalFormat scoreFormat = new DecimalFormat("0.00");
-    private MovesetData scannedMoveset;
+    public MovesetData scannedMoveset;
 
 
     public PowerTableDataAdapter(Pokefly pokefly, MovesetData[] data) {

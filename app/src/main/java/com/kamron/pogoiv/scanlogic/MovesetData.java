@@ -13,6 +13,8 @@ public class MovesetData {
 
     private String quick;
     private String charge;
+    private String quickKey;
+    private String chargeKey;
     private boolean quickIsLegacy;
     private boolean chargeIsLegacy;
     private double atkScore;
@@ -21,17 +23,34 @@ public class MovesetData {
     private String chargeMoveType;
 
 
-    public MovesetData(String quick, String charge, boolean quickIsLegacy, boolean chargeIsLegacy, double atkScore,
-                       double defScore,
-                       String chargeMoveType, String quickMoveType) {
+    /**
+     * Create a new Moveset.
+     * @param quickKey Unique key identifying the quick move
+     * @param chargeKey Unique key identifying the quick move
+     * @param quick Localized quick move name
+     * @param charge Localized charge move name
+     * @param quickMoveType Quick move type
+     * @param chargeMoveType Charge move type
+     * @param quickIsLegacy Whether the quick move is legacy
+     * @param chargeIsLegacy Whether the charge move is legacy
+     * @param atkScore A score for the attack power of this moveset
+     * @param defScore A score for the defense power of this moveset
+     */
+    public MovesetData(String quickKey, String chargeKey,
+                       String quick, String charge,
+                       String quickMoveType, String chargeMoveType,
+                       boolean quickIsLegacy, boolean chargeIsLegacy,
+                       double atkScore, double defScore) {
+        this.quickKey = quickKey;
+        this.chargeKey = chargeKey;
         this.quick = quick;
         this.charge = charge;
+        this.quickMoveType = quickMoveType;
+        this.chargeMoveType = chargeMoveType;
         this.quickIsLegacy = quickIsLegacy;
         this.chargeIsLegacy = chargeIsLegacy;
         this.atkScore = atkScore;
         this.defScore = defScore;
-        this.chargeMoveType = chargeMoveType;
-        this.quickMoveType = quickMoveType;
     }
 
     public String getQuickMoveType() {
@@ -48,6 +67,14 @@ public class MovesetData {
 
     public String getCharge() {
         return charge;
+    }
+
+    public String getQuickKey() {
+        return quickKey;
+    }
+
+    public String getChargeKey() {
+        return chargeKey;
     }
 
     public boolean isQuickIsLegacy() {

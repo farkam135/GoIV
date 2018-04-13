@@ -92,14 +92,16 @@ public class MovesetList {
             for (LinkedTreeMap<String, Object> jsonMoveset : jsonMovesets) {
                 //noinspection SuspiciousMethodCalls
                 MovesetData movesetData = new MovesetData(
+                        (String) jsonMoveset.get("quick"),
+                        (String) jsonMoveset.get("charge"),
                         translatedMoveNames.get(jsonMoveset.get("quick")),
                         translatedMoveNames.get(jsonMoveset.get("charge")),
+                        translatedTypeNames.get("POKEMON_TYPE_" + jsonMoveset.get("quickMoveType")),
+                        translatedTypeNames.get("POKEMON_TYPE_" + jsonMoveset.get("chargeMoveType")),
                         (Boolean) jsonMoveset.get("quickIsLegacy"),
                         (Boolean) jsonMoveset.get("chargeIsLegacy"),
                         (Double) jsonMoveset.get("atkScore"),
-                        (Double) jsonMoveset.get("defScore"),
-                        translatedTypeNames.get("POKEMON_TYPE_" + jsonMoveset.get("chargeMoveType")),
-                        translatedTypeNames.get("POKEMON_TYPE_" + jsonMoveset.get("quickMoveType")));
+                        (Double) jsonMoveset.get("defScore"));
                 movesetList.add(movesetData);
             }
 

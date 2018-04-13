@@ -19,7 +19,6 @@ import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v4.util.Pair;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -36,6 +35,7 @@ import com.kamron.pogoiv.pokeflycomponents.AutoAppraisal;
 import com.kamron.pogoiv.pokeflycomponents.GoIVNotificationManager;
 import com.kamron.pogoiv.pokeflycomponents.IVPopupButton;
 import com.kamron.pogoiv.pokeflycomponents.IVPreviewPrinter;
+import com.kamron.pogoiv.pokeflycomponents.MovesetsManager;
 import com.kamron.pogoiv.pokeflycomponents.ScreenWatcher;
 import com.kamron.pogoiv.pokeflycomponents.fractions.AppraisalFraction;
 import com.kamron.pogoiv.pokeflycomponents.fractions.IVCombinationsFraction;
@@ -221,7 +221,7 @@ public class Pokefly extends Service {
         intent.putExtra(KEY_SEND_UNIQUE_ID, scanResult.getPokemonUniqueID());
         intent.putExtra(KEY_SEND_POWERUP_CANDYCOST, scanResult.getPokemonPowerUpCandyCost());
         intent.putExtra(KEY_SEND_POWERUP_STARTDUST_COST, scanResult.getPokemonPowerUpStardustCost());
-        if (scanResult.getMoveset().isPresent()){
+        if (scanResult.getMoveset().isPresent()) {
             intent.putExtra(KEY_SEND_MOVESET_QUICK, scanResult.getMoveset().get().first);
             intent.putExtra(KEY_SEND_MOVESET_CHARGE, scanResult.getMoveset().get().second);
         }
@@ -279,6 +279,8 @@ public class Pokefly extends Service {
         windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
         clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
         sharedPref = getSharedPreferences(PREF_USER_CORRECTIONS, Context.MODE_PRIVATE);
+
+        MovesetsManager.init(this);
 
         LocalBroadcastManager.getInstance(this).registerReceiver(displayInfo, new IntentFilter(ACTION_SEND_INFO));
         LocalBroadcastManager.getInstance(this).registerReceiver(processBitmap,
@@ -804,7 +806,7 @@ public class Pokefly extends Service {
                     pokemonUniqueID = lUniqueID;
                     movesetQuick = intent.getStringExtra(KEY_SEND_MOVESET_QUICK);
                     movesetCharge = intent.getStringExtra(KEY_SEND_MOVESET_CHARGE);
-                    if (movesetQuick == null || movesetCharge == null){
+                    if (movesetQuick == null || movesetCharge == null) {
                         movesetQuick = "";
                         movesetCharge = "";
                     }

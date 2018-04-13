@@ -15,14 +15,13 @@ import android.widget.Toast;
 
 import com.kamron.pogoiv.Pokefly;
 import com.kamron.pogoiv.R;
-import com.kamron.pogoiv.pokeflycomponents.MoveInfoOnlineFetcher;
+import com.kamron.pogoiv.pokeflycomponents.MovesetsManager;
 import com.kamron.pogoiv.scanlogic.IVScanResult;
 import com.kamron.pogoiv.scanlogic.MovesetData;
 import com.kamron.pogoiv.scanlogic.PokemonShareHandler;
 import com.kamron.pogoiv.scanlogic.ScanContainer;
 import com.kamron.pogoiv.utils.fractions.Fraction;
 import com.kamron.pogoiv.widgets.PowerTableDataAdapter;
-import android.widget.Toast;
 
 import java.util.LinkedHashSet;
 
@@ -36,16 +35,19 @@ import de.codecrafters.tableview.toolkit.SimpleTableHeaderAdapter;
 
 public class MovesetFraction extends Fraction {
 
+    private static final String URL_POKEBATTLER_IMPORT = "https://www.pokebattler.com/pokebox/import";
+
+
+    private Pokefly pokefly;
+    private LinkedHashSet<MovesetData> movesets = new LinkedHashSet<>();
+    private IVScanResult ivScanResult;
+
+
     @BindView(R.id.sortableTable)
     SortableTableView sortableTable;
     @BindView(R.id.movesetConstrainLayout)
     ConstraintLayout movesetConstrainLayout;
 
-
-    public static String URL_POKEBATTLER_IMPORT = "https://www.pokebattler.com/pokebox/import";
-    private Pokefly pokefly;
-    private LinkedHashSet<MovesetData> movesets = new LinkedHashSet<>();
-    private IVScanResult ivScanResult;
 
     public MovesetFraction(@NonNull Pokefly pokefly, @NonNull IVScanResult ivScanResult) {
         this.pokefly = pokefly;
@@ -59,17 +61,12 @@ public class MovesetFraction extends Fraction {
     @Override public void onCreate(@NonNull View rootView) {
         ButterKnife.bind(this, rootView);
         loadMovesetData();
-        //if (movesets.size() <= 0) {
-        //    createDummyData();
-        //}
-
 
         setupTableHeader();
         setupDataSorting();
         addDataToTable();
         //fixTableConstrainLayoutHeight();
-        sortableTable.sort(2); //default to sorting column  3 (atk)
-
+        sortableTable.sort(2); // Default to sorting column 3 (atk)
     }
 
     /**
@@ -126,8 +123,7 @@ public class MovesetFraction extends Fraction {
     }
 
     private void loadMovesetData() {
-        MoveInfoOnlineFetcher onlineFetcher = new MoveInfoOnlineFetcher(pokefly);
-        movesets = onlineFetcher.getMovesetData(pokefly, ivScanResult);
+        movesets = MovesetsManager.getMovesetsForDexNumber(ivScanResult.pokemon.number);
     }
 
     @Override public void onDestroy() {
@@ -156,17 +152,28 @@ public class MovesetFraction extends Fraction {
 
     @OnClick(R.id.exportWebButton)
     void export() {
-        ClipboardManager mgn = (ClipboardManager) pokefly.getSystemService(Context.CLIPBOARD_SERVICE);
+        PowerTableDataAdapter tableDataAdapter = ((PowerTableDataAdapter) sortableTable.getDataAdapter());
+        final String quickMove;
+        final String chargeMove;
+        if (tableDataAdapter.scannedMoveset != null) {
+            quickMove = tableDataAdapter.scannedMoveset.getQuickKey();
+            chargeMove = tableDataAdapter.scannedMoveset.getChargeKey();
+        } else {
+            quickMove = "";
+            chargeMove = "";
+        }
+
+        ClipboardManager clipboard = (ClipboardManager) pokefly.getSystemService(Context.CLIPBOARD_SERVICE);
         String content = "Pokemon,cp,level,attack,defense,stamina,quickmove,chargemove\n"; //data header
-        content += ivScanResult.pokemon + "," +ivScanResult.scannedCP + ","+ ivScanResult.estimatedPokemonLevel.min +
-                ","
-                + "" +
-                ivScanResult
-                .lowAttack +
-                "," + ivScanResult.lowDefense + "," + ivScanResult.lowStamina + "," + pokefly.movesetQuick +"," +
-                pokefly.movesetCharge;
-        ClipData clip = ClipData.newPlainText(content, content);
-        mgn.setPrimaryClip(clip);
+        content += ivScanResult.pokemon + ","
+                + ivScanResult.scannedCP + ","
+                + ivScanResult.estimatedPokemonLevel.min + ","
+                + ivScanResult.lowAttack + ","
+                + ivScanResult.lowDefense + ","
+                + ivScanResult.lowStamina + ","
+                + quickMove + ","
+                + chargeMove;
+        clipboard.setPrimaryClip(ClipData.newPlainText(content, content));
 
         Toast toast = Toast.makeText(pokefly, String.format("Pokemon data added to clipboard. "
                         + "\n\nPaste it in at the import screen."),
@@ -176,6 +183,7 @@ public class MovesetFraction extends Fraction {
 
         Intent i = new Intent(Intent.ACTION_VIEW);
         i.setData(Uri.parse(URL_POKEBATTLER_IMPORT));
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         pokefly.startActivity(i);
 
         pokefly.closeInfoDialog();

@@ -11,7 +11,7 @@ import com.kamron.pogoiv.pokeflycomponents.ocrhelper.OcrHelper;
 import com.kamron.pogoiv.scanlogic.IVScanResult;
 import com.kamron.pogoiv.scanlogic.PokeInfoCalculator;
 import com.kamron.pogoiv.scanlogic.PokemonNameCorrector;
-import com.kamron.pogoiv.scanlogic.ScanResult;
+import com.kamron.pogoiv.scanlogic.ScanData;
 
 import java.lang.ref.WeakReference;
 
@@ -107,8 +107,8 @@ public class IVPreviewPrinter {
                 return false; // This quick scan fired after Pokefly stopped
             }
 
-            ScanResult res = ocr.scanPokemon(GoIVSettings.getInstance(pokefly), bmp, pokefly.getTrainerLevel(), false);
-            if (!res.getPokemonHP().isPresent() || !res.getPokemonCP().isPresent()) {
+            ScanData data = ocr.scanPokemon(GoIVSettings.getInstance(pokefly), bmp, pokefly.getTrainerLevel(), false);
+            if (!data.getPokemonHP().isPresent() || !data.getPokemonCP().isPresent()) {
                 return false;
             }
 
@@ -117,7 +117,7 @@ public class IVPreviewPrinter {
                 return false; // The class that scheduled this runnable has been garbage collected
             }
 
-            IVScanResult ivScanResults = new IVScanResult(pokemonNameCorrector, res);
+            IVScanResult ivScanResults = new IVScanResult(pokemonNameCorrector, data);
             PokeInfoCalculator.getInstance().getIVPossibilities(ivScanResults);
             if (ivScanResults.getIVCombinationsCount() <= 0) { //unsuccessful scan
                 return false;

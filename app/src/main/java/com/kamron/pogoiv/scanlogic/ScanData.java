@@ -7,12 +7,12 @@ import com.google.common.base.Optional;
 import com.kamron.pogoiv.utils.LevelRange;
 
 /**
- * A ScanResult represents the result of an OCR scan.
+ * A ScanData represents the result of an OCR scan.
  * Created by pgiarrusso on 3/9/2016.
  */
 //TODO: we might want to make this Parcelable instead of sending the fields one by one?
 //But writing the instance by hand would call for unit test.
-public class ScanResult {
+public class ScanData {
     private LevelRange estimatedPokemonLevelRange;
     private String pokemonName;
     private final String pokemonType;
@@ -28,11 +28,11 @@ public class ScanResult {
     private final String moveCharge;
     private final String uniqueID;
 
-    public ScanResult(LevelRange estimatedPokemonLevel, String pokemonName, String pokemonType, String candyName,
-                      Pokemon.Gender pokemonGender, Optional<Integer> pokemonHP, Optional<Integer> pokemonCP,
-                      Optional<Integer> pokemonCandyAmount, Optional<Integer> evolutionCandyCost,
-                      Optional<Integer> powerUpStardustCost, Optional<Integer> powerUpCandyCost,
-                      String moveFast, String moveCharge, String uniqueID) {
+    public ScanData(LevelRange estimatedPokemonLevel, String pokemonName, String pokemonType, String candyName,
+                    Pokemon.Gender pokemonGender, Optional<Integer> pokemonHP, Optional<Integer> pokemonCP,
+                    Optional<Integer> pokemonCandyAmount, Optional<Integer> evolutionCandyCost,
+                    Optional<Integer> powerUpStardustCost, Optional<Integer> powerUpCandyCost,
+                    String moveFast, String moveCharge, String uniqueID) {
         this.estimatedPokemonLevelRange = estimatedPokemonLevel;
         this.pokemonName = pokemonName;
         this.pokemonType = pokemonType;
@@ -122,7 +122,7 @@ public class ScanResult {
     }
 
     /**
-     * Test whether this ScanResult represents a failed scan.
+     * Test whether this ScanData represents a failed scan.
      *
      * @return a boolean representing whether this scan failed.
      */

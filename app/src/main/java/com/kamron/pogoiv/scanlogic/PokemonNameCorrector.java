@@ -34,22 +34,22 @@ public class PokemonNameCorrector {
      * The order is decided by having high reliability guessing modules run first, and if they cant find an answer,
      * fall back to less accurate methods.
      *
-     * @param scanResult    The OCR'd data
+     * @param scanData    The OCR'd data
      * @return a Pokedist with the best guess of the pokemon
      */
-    public PokeDist getPossiblePokemon(@NonNull ScanResult scanResult) {
+    public PokeDist getPossiblePokemon(@NonNull ScanData scanData) {
         ArrayList<Pokemon> bestGuessEvolutionLine = null;
         PokeDist guess;
 
         //1. Check if nickname perfectly matches a pokemon (which means pokemon is probably not renamed)
-        guess = new PokeDist(pokeInfoCalculator.get(scanResult.getPokemonName()), 0);
+        guess = new PokeDist(pokeInfoCalculator.get(scanData.getPokemonName()), 0);
 
         //2. See if we can get a perfect match with candy name & upgrade cost
         if (guess.pokemon == null) {
-            bestGuessEvolutionLine = getBestGuessForEvolutionLine(scanResult.getCandyName());
+            bestGuessEvolutionLine = getBestGuessForEvolutionLine(scanData.getCandyName());
 
             ArrayList<Pokemon> candyNameEvolutionCostGuess =
-                    getCandyNameEvolutionCostGuess(bestGuessEvolutionLine, scanResult.getEvolutionCandyCost());
+                    getCandyNameEvolutionCostGuess(bestGuessEvolutionLine, scanData.getEvolutionCandyCost());
             if (candyNameEvolutionCostGuess != null) {
                 if (candyNameEvolutionCostGuess.size() == 1) {
                     //we have only one guess this is the one
@@ -64,7 +64,7 @@ public class PokemonNameCorrector {
 
         //3.  check correction for Eevee’s Evolution using it's Pokemon Type
         if (guess.pokemon == null
-                && scanResult.getCandyName().toLowerCase().contains(pokeInfoCalculator.get(132).name.toLowerCase())) {
+                && scanData.getCandyName().toLowerCase().contains(pokeInfoCalculator.get(132).name.toLowerCase())) {
             HashMap<String, String> eeveelutionCorrection = new HashMap<>();
             eeveelutionCorrection.put(pokeInfoCalculator.getTypeName(2), //WATER
                     pokeInfoCalculator.get(133).name); //Vaporeon
@@ -83,8 +83,8 @@ public class PokemonNameCorrector {
             //         pokeInfoCalculator.get(470).name); //Glaceon
             // eeveelutionCorrection.put(pokeInfoCalculator.getTypeName(17), //FAIRY
             //         pokeInfoCalculator.get(699).name); //Sylveon
-            if (eeveelutionCorrection.containsKey(scanResult.getPokemonType())) {
-                String name = eeveelutionCorrection.get(scanResult.getPokemonType());
+            if (eeveelutionCorrection.containsKey(scanData.getPokemonType())) {
+                String name = eeveelutionCorrection.get(scanData.getPokemonType());
                 guess = new PokeDist(pokeInfoCalculator.get(name), 0);
             }
         }
@@ -92,8 +92,8 @@ public class PokemonNameCorrector {
         //4. maybe the candy upgrade cost was scanned wrong because the candy icon was interpreted as a number (for
         // example the black candy is not cleaned by the ocr). Try checking if any in the possible evolutions that
         // match without the first character.
-        if (guess.pokemon == null && scanResult.getEvolutionCandyCost().isPresent()) {
-            String textInterpretation = scanResult.getEvolutionCandyCost().get().toString();
+        if (guess.pokemon == null && scanData.getEvolutionCandyCost().isPresent()) {
+            String textInterpretation = scanData.getEvolutionCandyCost().get().toString();
             String cleanedInterpretation = textInterpretation.substring(1, textInterpretation.length());
             Optional<Integer> cleanedInt;
             try {
@@ -117,13 +117,13 @@ public class PokemonNameCorrector {
         //5.  get the pokemon with the closest name within the evolution line guessed from the candy (or candy and
         // cost calculation).
         if (guess.pokemon == null && bestGuessEvolutionLine != null) {
-            guess = getNicknameGuess(scanResult.getPokemonName(), bestGuessEvolutionLine);
+            guess = getNicknameGuess(scanData.getPokemonName(), bestGuessEvolutionLine);
         }
 
 
         //6. All else failed: make a wild guess based only on closest name match
         if (guess.pokemon == null) {
-            guess = getNicknameGuess(scanResult.getPokemonName(), pokeInfoCalculator.getPokedex());
+            guess = getNicknameGuess(scanData.getPokemonName(), pokeInfoCalculator.getPokedex());
         }
         return guess;
     }

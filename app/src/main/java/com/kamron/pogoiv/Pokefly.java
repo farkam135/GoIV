@@ -52,7 +52,7 @@ import com.kamron.pogoiv.scanlogic.MovesetData;
 import com.kamron.pogoiv.scanlogic.PokeInfoCalculator;
 import com.kamron.pogoiv.scanlogic.Pokemon;
 import com.kamron.pogoiv.scanlogic.PokemonNameCorrector;
-import com.kamron.pogoiv.scanlogic.ScanResult;
+import com.kamron.pogoiv.scanlogic.ScanData;
 import com.kamron.pogoiv.utils.CopyUtils;
 import com.kamron.pogoiv.utils.LevelRange;
 import com.kamron.pogoiv.utils.fractions.FractionManager;
@@ -109,7 +109,7 @@ public class Pokefly extends Service {
     private static final ScanScreenRunnable scanScreenRunnable = new ScanScreenRunnable();
 
     private static boolean running = false;
-    public static ScanResult scanData;
+    public static ScanData scanData;
     public static IVScanResult scanResult;
 
     private int trainerLevel;
@@ -189,24 +189,24 @@ public class Pokefly extends Service {
         return new Intent(ACTION_SEND_INFO);
     }
 
-    public static void populateInfoIntent(Intent intent, ScanResult scanResult, @NonNull Optional<String> filePath) {
-        intent.putExtra(KEY_SEND_INFO_NAME, scanResult.getPokemonName());
-        intent.putExtra(KEY_SEND_INFO_TYPE, scanResult.getPokemonType());
-        intent.putExtra(KEY_SEND_INFO_CANDY, scanResult.getCandyName());
-        intent.putExtra(KEY_SEND_INFO_GENDER, scanResult.getPokemonGender());
-        intent.putExtra(KEY_SEND_INFO_HP, scanResult.getPokemonHP());
-        intent.putExtra(KEY_SEND_INFO_CP, scanResult.getPokemonCP());
-        intent.putExtra(KEY_SEND_INFO_LEVEL_LOWER, scanResult.getEstimatedPokemonLevel().min);
-        intent.putExtra(KEY_SEND_INFO_LEVEL_HIGHER, scanResult.getEstimatedPokemonLevel().max);
+    public static void populateInfoIntent(Intent intent, ScanData scanData, @NonNull Optional<String> filePath) {
+        intent.putExtra(KEY_SEND_INFO_NAME, scanData.getPokemonName());
+        intent.putExtra(KEY_SEND_INFO_TYPE, scanData.getPokemonType());
+        intent.putExtra(KEY_SEND_INFO_CANDY, scanData.getCandyName());
+        intent.putExtra(KEY_SEND_INFO_GENDER, scanData.getPokemonGender());
+        intent.putExtra(KEY_SEND_INFO_HP, scanData.getPokemonHP());
+        intent.putExtra(KEY_SEND_INFO_CP, scanData.getPokemonCP());
+        intent.putExtra(KEY_SEND_INFO_LEVEL_LOWER, scanData.getEstimatedPokemonLevel().min);
+        intent.putExtra(KEY_SEND_INFO_LEVEL_HIGHER, scanData.getEstimatedPokemonLevel().max);
         intent.putExtra(KEY_SEND_SCREENSHOT_FILE, filePath);
-        intent.putExtra(KEY_SEND_INFO_CANDY_AMOUNT, scanResult.getPokemonCandyAmount());
-        intent.putExtra(KEY_SEND_EVOLUTION_CANDY_COST, scanResult.getEvolutionCandyCost());
-        intent.putExtra(KEY_SEND_UNIQUE_ID, scanResult.getPokemonUniqueID());
-        intent.putExtra(KEY_SEND_POWERUP_CANDYCOST, scanResult.getPokemonPowerUpCandyCost());
-        intent.putExtra(KEY_SEND_POWERUP_STARTDUST_COST, scanResult.getPokemonPowerUpStardustCost());
-        if (scanResult.getFastMove() != null && scanResult.getChargeMove() != null) {
-            intent.putExtra(KEY_SEND_MOVESET_QUICK, scanResult.getFastMove());
-            intent.putExtra(KEY_SEND_MOVESET_CHARGE, scanResult.getChargeMove());
+        intent.putExtra(KEY_SEND_INFO_CANDY_AMOUNT, scanData.getPokemonCandyAmount());
+        intent.putExtra(KEY_SEND_EVOLUTION_CANDY_COST, scanData.getEvolutionCandyCost());
+        intent.putExtra(KEY_SEND_UNIQUE_ID, scanData.getPokemonUniqueID());
+        intent.putExtra(KEY_SEND_POWERUP_CANDYCOST, scanData.getPokemonPowerUpCandyCost());
+        intent.putExtra(KEY_SEND_POWERUP_STARTDUST_COST, scanData.getPokemonPowerUpStardustCost());
+        if (scanData.getFastMove() != null && scanData.getChargeMove() != null) {
+            intent.putExtra(KEY_SEND_MOVESET_QUICK, scanData.getFastMove());
+            intent.putExtra(KEY_SEND_MOVESET_CHARGE, scanData.getChargeMove());
         }
     }
 
@@ -657,11 +657,11 @@ public class Pokefly extends Service {
 
         Intent info = Pokefly.createNoInfoIntent();
         try {
-            ScanResult res = ocr.scanPokemon(GoIVSettings.getInstance(this), pokemonImage, trainerLevel, true);
-            if (res.isFailed()) {
+            ScanData data = ocr.scanPokemon(GoIVSettings.getInstance(this), pokemonImage, trainerLevel, true);
+            if (data.isFailed()) {
                 Toast.makeText(Pokefly.this, getString(R.string.scan_pokemon_failed), Toast.LENGTH_SHORT).show();
             }
-            Pokefly.populateInfoIntent(info, res, screenShotPath);
+            Pokefly.populateInfoIntent(info, data, screenShotPath);
         } finally {
             LocalBroadcastManager.getInstance(Pokefly.this).sendBroadcast(info);
         }
@@ -818,7 +818,7 @@ public class Pokefly extends Service {
                     double estimatedPokemonLevelMin = intent.getDoubleExtra(KEY_SEND_INFO_LEVEL_LOWER, 1);
                     double estimatedPokemonLevelMax = intent.getDoubleExtra(KEY_SEND_INFO_LEVEL_HIGHER, 1);
 
-                    scanData = new ScanResult(
+                    scanData = new ScanData(
                             new LevelRange(estimatedPokemonLevelMin, estimatedPokemonLevelMax),
                             pokemonName,
                             pokemonType,

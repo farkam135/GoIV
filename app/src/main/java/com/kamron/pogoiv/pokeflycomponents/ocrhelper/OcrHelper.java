@@ -19,7 +19,7 @@ import com.kamron.pogoiv.GoIVSettings;
 import com.kamron.pogoiv.scanlogic.Data;
 import com.kamron.pogoiv.scanlogic.PokeInfoCalculator;
 import com.kamron.pogoiv.scanlogic.Pokemon;
-import com.kamron.pogoiv.scanlogic.ScanResult;
+import com.kamron.pogoiv.scanlogic.ScanData;
 import com.kamron.pogoiv.utils.LevelRange;
 import com.kamron.pogoiv.utils.WindowManagerUtils;
 
@@ -1018,10 +1018,10 @@ public class OcrHelper {
      * @param trainerLevel Current level of the trainer
      * @return an object
      */
-    public ScanResult scanPokemon(@NonNull GoIVSettings settings,
-                                  @NonNull Bitmap pokemonImage,
-                                  int trainerLevel,
-                                  boolean requestFullScan) {
+    public ScanData scanPokemon(@NonNull GoIVSettings settings,
+                                @NonNull Bitmap pokemonImage,
+                                int trainerLevel,
+                                boolean requestFullScan) {
         ensureCorrectLevelArcSettings(settings, trainerLevel); //todo, make it so it doesnt initiate on every scan?
 
         Optional<Integer> powerUpStardustCost = Optional.absent();
@@ -1071,7 +1071,7 @@ public class OcrHelper {
         String uniqueIdentifier = name + type + candyName + hp.toString() + cp
                 .toString() + powerUpStardustCost.toString() + powerUpCandyCost.toString();
 
-        return new ScanResult(estimatedLevelRange, name, type, candyName, gender, hp, cp, candyAmount, evolutionCost,
+        return new ScanData(estimatedLevelRange, name, type, candyName, gender, hp, cp, candyAmount, evolutionCost,
                 powerUpStardustCost, powerUpCandyCost, moveFast, moveCharge, uniqueIdentifier);
     }
 

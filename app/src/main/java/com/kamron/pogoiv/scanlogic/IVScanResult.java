@@ -51,7 +51,7 @@ public class IVScanResult {
     private int highDefense = 0;
     private int highStamina = 0;
 
-    public IVScanResult(@NonNull PokemonNameCorrector corrector, @NonNull ScanResult scanData) {
+    public IVScanResult(@NonNull PokemonNameCorrector corrector, @NonNull ScanData scanData) {
         this(corrector.getPossiblePokemon(scanData).pokemon, scanData);
     }
 
@@ -61,7 +61,7 @@ public class IVScanResult {
      * @param pokemon        Which pokemon it is
      * @param scanData       The OCR results
      */
-    public IVScanResult(@NonNull Pokemon pokemon, @NonNull ScanResult scanData) {
+    public IVScanResult(@NonNull Pokemon pokemon, @NonNull ScanData scanData) {
         this.pokemon = pokemon;
         this.estimatedPokemonLevel = scanData.getEstimatedPokemonLevel();
         this.scannedHP = scanData.getPokemonHP().get();

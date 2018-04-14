@@ -122,8 +122,20 @@ public class MovesetsManager {
         // Get lowercase english names
         String[] enMonNamesArray = PokeInfoCalculator.getPokemonNamesArray(context.getResources());
         ArrayList<String> enMonNamesList = new ArrayList<>();
-        for (String name : enMonNamesArray) {
-            enMonNamesList.add(name.trim().toUpperCase().replaceAll("[^A-Z0-9]+", "_"));
+        for (int i = 0; i < enMonNamesArray.length; i++) {
+            final String upperCaseName;
+            switch (i) {
+                case 28: // Nidoran♀
+                    upperCaseName = "NIDORAN_FEMALE";
+                    break;
+                case 31: // Nidoran♂
+                    upperCaseName = "NIDORAN_MALE";
+                    break;
+                default:
+                    upperCaseName = enMonNamesArray[i].trim().toUpperCase();
+                    break;
+            }
+            enMonNamesList.add(upperCaseName.replaceAll("[^A-Z0-9]+", "_"));
         }
 
         Pair<HashMap<String, String>, HashMap<String, String>> translations = getTranslations(context);

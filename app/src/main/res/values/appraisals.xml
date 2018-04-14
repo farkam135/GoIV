@@ -42,16 +42,16 @@
 
     <string name="instinct_percentage1_phrase1">battle</string>
     <string name="instinct_percentage1_phrase2">best of</string><!-- Spark says best too much -->
-    <string name="instinct_percentage2_phrase1">is really strong</string>
+    <string name="instinct_percentage2_phrase1">is really</string>
     <string name="instinct_percentage2_phrase2">is really strong</string><!-- no other phrase -->
     <string name="instinct_percentage3_phrase1">pretty</string>
     <string name="instinct_percentage3_phrase2">decent</string>
     <string name="instinct_percentage4_phrase1">improvement</string>
     <string name="instinct_percentage4_phrase2">battling</string>
 
-    <string name="instinct_ivrange1_phrase1">best</string>
+    <string name="instinct_ivrange1_phrase1">about</string>
     <string name="instinct_ivrange1_phrase2">doubt</string>
-    <string name="instinct_ivrange2_phrase1">stats are really</string>
+    <string name="instinct_ivrange2_phrase1">are really</string>
     <string name="instinct_ivrange2_phrase2">impressive</string>
     <string name="instinct_ivrange3_phrase1">definitely</string>
     <string name="instinct_ivrange3_phrase2">good</string>

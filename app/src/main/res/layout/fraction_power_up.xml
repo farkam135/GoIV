@@ -24,14 +24,15 @@
             android:layout_width="48dp"
             android:layout_height="40dp"
             android:text="@string/back"
-            android:src="?attr/homeAsUpIndicator" />
+            android:src="?attr/homeAsUpIndicator"
+            android:contentDescription="@string/back" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Power up predictions" />
+            android:text="@string/scan_result_tab_powerup_title" />
 
         <ImageButton
             style="?attr/borderlessButtonStyle"
@@ -39,7 +40,8 @@
             android:layout_width="48dp"
             android:layout_height="40dp"
             android:text="@string/close"
-            android:src="@drawable/abc_ic_clear_material" />
+            android:src="@drawable/abc_ic_clear_material"
+            android:contentDescription="@string/close" />
 
     </LinearLayout>
 
@@ -56,7 +58,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Power up"
+            android:text="@string/scan_result_tab_powerup_label"
             android:textAllCaps="true"
             android:checked="true"
             style="@style/RadioButton" />
@@ -66,7 +68,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="IV"
+            android:text="@string/scan_result_tab_iv_label"
             android:textAllCaps="true"
             style="@style/RadioButton" />
 
@@ -75,7 +77,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Moveset"
+            android:text="@string/scan_result_tab_moveset_label"
             android:textAllCaps="true"
             style="@style/RadioButton" />
 
@@ -101,7 +103,7 @@
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Predicted stats"
+                android:text="@string/scan_result_tab_powerup_paragraph_predictedstats"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"/>
 
@@ -123,7 +125,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="2dp"
-                android:layout_marginLeft="2dp"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 app:layout_constraintBaseline_toBaselineOf="@id/exResultCP"
                 app:layout_constraintStart_toEndOf="@+id/exResultCP"
@@ -169,7 +170,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="2dp"
-                android:layout_marginLeft="2dp"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 app:layout_constraintBaseline_toBaselineOf="@id/exResultCP"
                 app:layout_constraintStart_toEndOf="@id/exResultHP"
@@ -191,7 +191,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
-                android:text="Cost"
+                android:text="@string/scan_result_tab_powerup_paragraph_cost"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/exResultPercentPerfection"/>
@@ -204,7 +204,8 @@
                 android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="@id/exResultCP"
                 app:layout_constraintStart_toStartOf="@+id/exResultCP"
-                app:layout_constraintTop_toBottomOf="@+id/textView2">
+                app:layout_constraintTop_toBottomOf="@+id/textView2"
+                tools:ignore="UseCompoundDrawables">
 
                 <ImageView
                     android:layout_width="17dp"
@@ -215,7 +216,7 @@
                     android:text="@string/candy"
                     android:textAllCaps="true"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    tools:ignore="RtlHardcoded"/>
+                    tools:ignore="ContentDescription,RtlHardcoded"/>
 
                 <TextView
                     android:id="@+id/exResCandy"
@@ -245,7 +246,8 @@
                 android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="@+id/exResultHP"
                 app:layout_constraintStart_toStartOf="@+id/exResultHP"
-                app:layout_constraintTop_toTopOf="@+id/candyContainer">
+                app:layout_constraintTop_toTopOf="@+id/candyContainer"
+                tools:ignore="UseCompoundDrawables">
 
 
                 <ImageView
@@ -254,7 +256,8 @@
                     android:layout_marginEnd="6dp"
                     android:layout_marginTop="4dp"
                     android:src="@drawable/star"
-                    android:tint="#6A6A6A"/>
+                    android:tint="#6A6A6A"
+                    tools:ignore="ContentDescription" />
 
                 <TextView
                     android:id="@+id/exResStardust"
@@ -288,7 +291,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
-            android:text="Input"
+            android:text="@string/scan_result_tab_powerup_paragraph_input"
             android:textAlignment="center"/>
 
         <LinearLayout

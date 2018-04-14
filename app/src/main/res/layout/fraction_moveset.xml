@@ -25,13 +25,13 @@
             android:layout_width="48dp"
             android:layout_height="40dp"
             android:src="?attr/homeAsUpIndicator"
-            android:text="@string/back"/>
+            android:contentDescription="@string/back" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Moveset (beta)"
+            android:text="@string/scan_result_tab_moveset_title"
             android:textAppearance="?android:attr/textAppearanceLarge"/>
 
         <ImageButton
@@ -40,7 +40,7 @@
             android:layout_width="48dp"
             android:layout_height="40dp"
             android:src="@drawable/abc_ic_clear_material"
-            android:text="@string/close"/>
+            android:contentDescription="@string/close" />
 
     </LinearLayout>
 
@@ -62,7 +62,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Power up"
+            android:text="@string/scan_result_tab_powerup_label"
             android:textAllCaps="true"/>
 
         <RadioButton
@@ -71,7 +71,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="IV"
+            android:text="@string/scan_result_tab_iv_label"
             android:textAllCaps="true"/>
 
         <RadioButton
@@ -81,7 +81,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:checked="true"
-            android:text="Moveset"
+            android:text="@string/scan_result_tab_moveset_label"
             android:textAllCaps="true"/>
 
     </info.hoang8f.android.segmented.SegmentedGroup>
@@ -104,11 +104,14 @@
                 android:id="@+id/table_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp">
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp">
 
                 <TableRow
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    tools:ignore="UselessParent">
 
                     <TextView
                         android:layout_width="0dp"
@@ -116,7 +119,7 @@
                         android:layout_weight="3"
                         android:padding="4dp"
                         android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:textAlignment="center"
+                        android:textAlignment="textStart"
                         android:text="@string/table_header_move_quick"
                         android:maxLines="1"
                         android:ellipsize="end" />
@@ -127,7 +130,7 @@
                         android:layout_weight="3"
                         android:padding="4dp"
                         android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:textAlignment="center"
+                        android:textAlignment="textStart"
                         android:text="@string/table_header_move_charge"
                         android:maxLines="1"
                         android:ellipsize="end" />
@@ -139,14 +142,15 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
                         android:padding="4dp"
-                        android:gravity="center"
+                        android:gravity="end|center_vertical"
                         tools:ignore="UseCompoundDrawables">
 
                         <ImageView
                             android:id="@+id/header_icon_attack"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            app:srcCompat="@drawable/ic_sort_none" />
+                            app:srcCompat="@drawable/ic_sort_none"
+                            tools:ignore="ContentDescription" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -154,7 +158,6 @@
                             android:paddingStart="2dp"
                             android:paddingEnd="2dp"
                             android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:textAlignment="center"
                             android:text="@string/table_header_attack"
                             android:maxLines="1"
                             android:ellipsize="end" />
@@ -168,14 +171,15 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
                         android:padding="4dp"
-                        android:gravity="center"
+                        android:gravity="end|center_vertical"
                         tools:ignore="UseCompoundDrawables">
 
                         <ImageView
                             android:id="@+id/header_icon_defense"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            app:srcCompat="@drawable/ic_sort_none" />
+                            app:srcCompat="@drawable/ic_sort_none"
+                            tools:ignore="ContentDescription" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -183,7 +187,6 @@
                             android:paddingStart="2dp"
                             android:paddingEnd="2dp"
                             android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:textAlignment="center"
                             android:text="@string/table_header_defense"
                             android:maxLines="1"
                             android:ellipsize="end" />

@@ -40,7 +40,8 @@
             android:layout_width="48dp"
             android:layout_height="40dp"
             android:text="@string/close"
-            android:src="@drawable/abc_ic_clear_material" />
+            android:src="@drawable/abc_ic_clear_material"
+            android:contentDescription="@string/close" />
 
     </LinearLayout>
 
@@ -79,8 +80,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="4dp"
-        android:paddingStart="2dp"
-        android:paddingEnd="2dp">
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="2dp">
 
         <RadioButton
             style="?android:attr/checkboxStyle"
@@ -146,8 +147,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
-        android:paddingStart="2dp"
-        android:paddingEnd="2dp">
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="2dp">
 
         <CheckBox
             android:id="@+id/attCheckbox"
@@ -198,8 +199,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="2dp"
-        android:paddingStart="2dp"
-        android:paddingEnd="2dp">
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="2dp">
 
         <RadioButton
             style="?android:attr/checkboxStyle"

@@ -34,7 +34,8 @@
             android:layout_width="48dp"
             android:layout_height="40dp"
             android:text="@string/close"
-            android:src="@drawable/abc_ic_clear_material" />
+            android:src="@drawable/abc_ic_clear_material"
+            android:contentDescription="@string/close" />
 
     </LinearLayout>
 
@@ -103,9 +104,9 @@
         <ImageButton
             android:id="@+id/pokePickerToggleSpinnerVsInput"
             style="?attr/borderlessButtonStyle"
-            android:src="@android:drawable/ic_menu_edit"
             android:layout_width="48dp"
-            android:layout_height="36dp" />
+            android:layout_height="36dp"
+            android:src="@android:drawable/ic_menu_edit" />
 
     </LinearLayout>
 
@@ -198,7 +199,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:labelFor="@+id/etCp"
+                android:labelFor="@+id/etCandy"
                 android:textAppearance="@style/weakText"
                 android:text="@string/candy" />
 

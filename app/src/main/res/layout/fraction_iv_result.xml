@@ -24,7 +24,8 @@
             android:layout_width="48dp"
             android:layout_height="40dp"
             android:text="@string/back"
-            android:src="?attr/homeAsUpIndicator" />
+            android:src="?attr/homeAsUpIndicator"
+            android:contentDescription="@string/back" />
 
         <TextView
             android:layout_width="0dp"
@@ -39,7 +40,8 @@
             android:layout_width="48dp"
             android:layout_height="40dp"
             android:text="@string/close"
-            android:src="@drawable/abc_ic_clear_material" />
+            android:src="@drawable/abc_ic_clear_material"
+            android:contentDescription="@string/close" />
 
     </LinearLayout>
 
@@ -56,7 +58,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Power up"
+            android:text="@string/scan_result_tab_powerup_label"
             android:textAllCaps="true"
             style="@style/RadioButton" />
 
@@ -65,7 +67,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="IV"
+            android:text="@string/scan_result_tab_iv_label"
             android:textAllCaps="true"
             android:checked="true"
             style="@style/RadioButton" />
@@ -75,7 +77,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Moveset"
+            android:text="@string/scan_result_tab_moveset_label"
             android:textAllCaps="true"
             style="@style/RadioButton" />
 

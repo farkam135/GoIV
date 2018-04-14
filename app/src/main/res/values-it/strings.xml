@@ -277,4 +277,13 @@
     <string name="table_header_move_charge">Caricata</string>
     <string name="table_header_attack">Att</string>
     <string name="table_header_defense">Def</string>
+    <string name="scan_result_tab_powerup_title">Simulazione potenziamenti</string>
+    <string name="scan_result_tab_powerup_label">Potenzia</string>
+    <string name="scan_result_tab_powerup_paragraph_predictedstats">Statistiche previste</string>
+    <string name="scan_result_tab_powerup_paragraph_cost">Costo</string>
+    <string name="scan_result_tab_powerup_paragraph_input">Parametri</string>
+    <string name="scan_result_tab_iv_title">Combinazioni IV</string>
+    <string name="scan_result_tab_iv_label">IV</string>
+    <string name="scan_result_tab_moveset_title">Mosse (beta)</string>
+    <string name="scan_result_tab_moveset_label">Mosse</string>
 </resources>

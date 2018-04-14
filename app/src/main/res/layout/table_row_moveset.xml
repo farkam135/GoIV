@@ -16,7 +16,7 @@
         android:paddingTop="2dp"
         android:paddingRight="4dp"
         android:paddingBottom="2dp"
-        android:textAlignment="center"
+        android:textAlignment="textStart"
         android:maxLines="1"
         android:ellipsize="end"
         tools:text="@string/table_header_move_quick" />
@@ -30,7 +30,7 @@
         android:paddingTop="2dp"
         android:paddingRight="4dp"
         android:paddingBottom="2dp"
-        android:textAlignment="center"
+        android:textAlignment="textStart"
         android:maxLines="1"
         android:ellipsize="end"
         tools:text="@string/table_header_move_charge" />
@@ -44,7 +44,7 @@
         android:paddingTop="2dp"
         android:paddingRight="4dp"
         android:paddingBottom="2dp"
-        android:textAlignment="center"
+        android:textAlignment="textEnd"
         android:maxLines="1"
         android:ellipsize="end"
         tools:text="@string/table_header_attack" />
@@ -58,7 +58,7 @@
         android:paddingTop="2dp"
         android:paddingRight="4dp"
         android:paddingBottom="2dp"
-        android:textAlignment="center"
+        android:textAlignment="textEnd"
         android:maxLines="1"
         android:ellipsize="end"
         tools:text="@string/table_header_defense" />

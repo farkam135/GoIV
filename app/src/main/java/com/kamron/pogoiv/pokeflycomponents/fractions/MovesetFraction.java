@@ -131,7 +131,7 @@ public class MovesetFraction extends Fraction {
             holder = (RowViewHolder) row.getTag();
         } else {
             row = (TableRow) LayoutInflater.from(pokefly)
-                    .inflate(R.layout.item_moveset, tableLayout, false);
+                    .inflate(R.layout.table_row_moveset, tableLayout, false);
             holder = new RowViewHolder();
             row.setTag(holder);
         }

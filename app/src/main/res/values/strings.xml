@@ -288,13 +288,15 @@
     <string name="table_header_move_charge">Charge</string>
     <string name="table_header_attack">Atk</string>
     <string name="table_header_defense">Def</string>
-    <string name="scan_result_tab_powerup_title">Power up predictions</string>
-    <string name="scan_result_tab_powerup_label">Power up</string>
-    <string name="scan_result_tab_powerup_paragraph_predictedstats">Predicted stats</string>
-    <string name="scan_result_tab_powerup_paragraph_cost">Cost</string>
-    <string name="scan_result_tab_powerup_paragraph_input">Input</string>
-    <string name="scan_result_tab_iv_title">IV Combinations</string>
-    <string name="scan_result_tab_iv_label">IV</string>
-    <string name="scan_result_tab_moveset_title">Moveset (beta)</string>
-    <string name="scan_result_tab_moveset_label">Moveset</string>
+    <string name="fraction_input_title">Input</string>
+    <string name="fraction_powerup_title">Power up predictions</string>
+    <string name="fraction_powerup_tab_label">Power up</string>
+    <string name="fraction_powerup_paragraph_predictedstats">Predicted stats</string>
+    <string name="fraction_powerup_paragraph_cost">Cost</string>
+    <string name="fraction_powerup_paragraph_input">Input</string>
+    <string name="fraction_iv_title">IV scan results</string>
+    <string name="fraction_iv_tab_label">IV</string>
+    <string name="fraction_moveset_title">Moveset (beta)</string>
+    <string name="fraction_moveset_tab_label">Moveset</string>
+    <string name="fraction_ivcombinations_title">IV Combinations</string>
 </resources>

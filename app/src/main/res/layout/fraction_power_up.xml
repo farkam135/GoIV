@@ -32,7 +32,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/scan_result_tab_powerup_title" />
+            android:text="@string/fraction_powerup_title"
+            android:maxLines="1"
+            android:ellipsize="end" />
 
         <ImageButton
             style="?attr/borderlessButtonStyle"
@@ -58,7 +60,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/scan_result_tab_powerup_label"
+            android:text="@string/fraction_powerup_tab_label"
             android:textAllCaps="true"
             android:checked="true"
             style="@style/RadioButton" />
@@ -68,7 +70,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/scan_result_tab_iv_label"
+            android:text="@string/fraction_iv_tab_label"
             android:textAllCaps="true"
             style="@style/RadioButton" />
 
@@ -77,7 +79,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/scan_result_tab_moveset_label"
+            android:text="@string/fraction_moveset_tab_label"
             android:textAllCaps="true"
             style="@style/RadioButton" />
 
@@ -103,7 +105,7 @@
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/scan_result_tab_powerup_paragraph_predictedstats"
+                android:text="@string/fraction_powerup_paragraph_predictedstats"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"/>
 
@@ -191,7 +193,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
-                android:text="@string/scan_result_tab_powerup_paragraph_cost"
+                android:text="@string/fraction_powerup_paragraph_cost"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/exResultPercentPerfection"/>
@@ -291,7 +293,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
-            android:text="@string/scan_result_tab_powerup_paragraph_input"
+            android:text="@string/fraction_powerup_paragraph_input"
             android:textAlignment="center"/>
 
         <LinearLayout

@@ -28,7 +28,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/scan_result_tab_iv_title" />
+            android:text="@string/fraction_ivcombinations_title"
+            android:maxLines="1"
+            android:ellipsize="end" />
 
         <ImageButton
             style="?attr/borderlessButtonStyle"

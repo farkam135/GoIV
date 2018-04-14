@@ -31,8 +31,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/scan_result_tab_moveset_title"
-            android:textAppearance="?android:attr/textAppearanceLarge"/>
+            android:text="@string/fraction_moveset_title"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:maxLines="1"
+            android:ellipsize="end" />
 
         <ImageButton
             android:id="@+id/btnClose"
@@ -62,7 +64,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/scan_result_tab_powerup_label"
+            android:text="@string/fraction_powerup_tab_label"
             android:textAllCaps="true"/>
 
         <RadioButton
@@ -71,7 +73,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/scan_result_tab_iv_label"
+            android:text="@string/fraction_iv_tab_label"
             android:textAllCaps="true"/>
 
         <RadioButton
@@ -81,7 +83,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:checked="true"
-            android:text="@string/scan_result_tab_moveset_label"
+            android:text="@string/fraction_moveset_tab_label"
             android:textAllCaps="true"/>
 
     </info.hoang8f.android.segmented.SegmentedGroup>

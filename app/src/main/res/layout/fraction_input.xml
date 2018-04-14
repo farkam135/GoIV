@@ -16,7 +16,9 @@
         android:gravity="center_vertical"
         android:baselineAligned="true"
         android:background="?attr/colorPrimary"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
 
         <TextView
             android:layout_width="0dp"
@@ -25,7 +27,9 @@
             android:layout_marginLeft="24dp"
             android:layout_marginStart="24dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Input"
+            android:text="@string/fraction_input_title"
+            android:maxLines="1"
+            android:ellipsize="end"
             tools:ignore="RtlHardcoded" />
 
         <ImageButton

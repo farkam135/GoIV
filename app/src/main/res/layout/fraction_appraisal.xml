@@ -32,7 +32,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/appraisal_refining" />
+            android:text="@string/appraisal_refining"
+            android:maxLines="1"
+            android:ellipsize="end" />
 
         <ImageButton
             style="?attr/borderlessButtonStyle"

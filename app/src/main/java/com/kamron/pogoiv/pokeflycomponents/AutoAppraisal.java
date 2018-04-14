@@ -311,28 +311,28 @@ public class AutoAppraisal {
         if (appraiseText.toLowerCase().contains(ivrange1_phrase1)
                 || (appraiseText.toLowerCase().contains(ivrange1_phrase2))) {
             for (OnAppraisalEventListener eventListener : eventListeners) {
-                eventListener.selectIVPercentRange(IVPercentRange.RANGE_81_100);
+                eventListener.selectIVPercentRange(IVPercentRange.RANGE_82_100);
             }
             return true;
         }
         if (appraiseText.toLowerCase().contains(ivrange2_phrase1)
                 || (appraiseText.toLowerCase().contains(ivrange2_phrase2))) {
             for (OnAppraisalEventListener eventListener : eventListeners) {
-                eventListener.selectIVPercentRange(IVPercentRange.RANGE_61_80);
+                eventListener.selectIVPercentRange(IVPercentRange.RANGE_67_80);
             }
             return true;
         }
         if (appraiseText.toLowerCase().contains(ivrange3_phrase1)
                 || (appraiseText.toLowerCase().contains(ivrange3_phrase2))) {
             for (OnAppraisalEventListener eventListener : eventListeners) {
-                eventListener.selectIVPercentRange(IVPercentRange.RANGE_41_60);
+                eventListener.selectIVPercentRange(IVPercentRange.RANGE_51_64);
             }
             return true;
         }
         if (appraiseText.toLowerCase().contains(ivrange4_phrase1)
                 || (appraiseText.toLowerCase().contains(ivrange4_phrase2))) {
             for (OnAppraisalEventListener eventListener : eventListeners) {
-                eventListener.selectIVPercentRange(IVPercentRange.RANGE_0_40);
+                eventListener.selectIVPercentRange(IVPercentRange.RANGE_0_49);
             }
             return true;
         }
@@ -358,16 +358,16 @@ public class AutoAppraisal {
     }
 
     public enum IVPercentRange {
-        UNKNOWN(0, 100),
-        RANGE_0_40(0, 40),
-        RANGE_41_60(41, 60),
-        RANGE_61_80(61, 80),
-        RANGE_81_100(81, 100);
+        UNKNOWN(0f, 100f),
+        RANGE_0_49(0f, 48.9f),
+        RANGE_51_64(51.1f, 64.4f),
+        RANGE_67_80(66.7f, 80f),
+        RANGE_82_100(82.2f, 100f);
 
-        public int minPercent;
-        public int maxPercent;
+        public float minPercent;
+        public float maxPercent;
 
-        IVPercentRange(int minPercent, int maxPercent) {
+        IVPercentRange(float minPercent, float maxPercent) {
             this.minPercent = minPercent;
             this.maxPercent = maxPercent;
         }

@@ -260,7 +260,7 @@ public class GoIVSettings {
     }
 
     public boolean shouldCopyToClipboard() {
-        return prefs.getBoolean(COPY_TO_CLIPBOARD, false);
+        return prefs.getBoolean(COPY_TO_CLIPBOARD, true);
     }
 
     public boolean shouldCopyToClipboardSingle() {

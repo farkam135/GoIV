@@ -4,8 +4,8 @@ import android.content.Context;
 
 import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.clipboardlogic.ClipboardToken;
-import com.kamron.pogoiv.scanlogic.IVScanResult;
 import com.kamron.pogoiv.scanlogic.PokeInfoCalculator;
+import com.kamron.pogoiv.scanlogic.ScanResult;
 
 import java.text.DecimalFormat;
 
@@ -38,15 +38,15 @@ public class LevelToken extends ClipboardToken {
     }
 
     @Override
-    public String getValue(IVScanResult ivScanResult, PokeInfoCalculator pokeInfoCalculator) {
+    public String getValue(ScanResult scanResult, PokeInfoCalculator pokeInfoCalculator) {
         if (mode == 0) {
-            return String.valueOf((int) (ivScanResult.levelRange.min * 2));
+            return String.valueOf((int) (scanResult.levelRange.min * 2));
         }
         if (mode == 1) {
-            return String.valueOf((int) ivScanResult.levelRange.min);
+            return String.valueOf((int) scanResult.levelRange.min);
         }
         DecimalFormat df = new DecimalFormat("##.#");
-        return df.format(ivScanResult.levelRange.min);
+        return df.format(scanResult.levelRange.min);
     }
 
     @Override

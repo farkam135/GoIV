@@ -4,9 +4,9 @@ import android.content.Context;
 
 import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.clipboardlogic.ClipboardToken;
-import com.kamron.pogoiv.scanlogic.IVScanResult;
 import com.kamron.pogoiv.scanlogic.PokeInfoCalculator;
 import com.kamron.pogoiv.scanlogic.Pokemon;
+import com.kamron.pogoiv.scanlogic.ScanResult;
 
 /**
  * Created by Johan on 2016-09-28.
@@ -45,14 +45,14 @@ public class BaseStatToken extends ClipboardToken {
     }
 
     @Override
-    public String getValue(IVScanResult ivScanResult, PokeInfoCalculator pokeInfoCalculator) {
-        Pokemon poke = getRightPokemon(ivScanResult.pokemon, pokeInfoCalculator);
+    public String getValue(ScanResult scanResult, PokeInfoCalculator pokeInfoCalculator) {
+        Pokemon poke = getRightPokemon(scanResult.pokemon, pokeInfoCalculator);
         int bAtt = poke.baseAttack;
         int bDef = poke.baseDefense;
         int bSta = poke.baseStamina;
-        int ivAtt = bAtt + ivScanResult.getIVAttackLow();
-        int ivDef = bDef + ivScanResult.getIVDefenseLow();
-        int ivSta = bSta + ivScanResult.getIVStaminaLow();
+        int ivAtt = bAtt + scanResult.getIVAttackLow();
+        int ivDef = bDef + scanResult.getIVDefenseLow();
+        int ivSta = bSta + scanResult.getIVStaminaLow();
 
         if (includeIV) {
             if (mode == 0) {

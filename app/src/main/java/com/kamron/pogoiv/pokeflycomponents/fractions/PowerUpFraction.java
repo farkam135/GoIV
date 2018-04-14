@@ -21,10 +21,10 @@ import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.scanlogic.CPRange;
 import com.kamron.pogoiv.scanlogic.Data;
 import com.kamron.pogoiv.scanlogic.IVCombination;
-import com.kamron.pogoiv.scanlogic.IVScanResult;
 import com.kamron.pogoiv.scanlogic.PokeInfoCalculator;
 import com.kamron.pogoiv.scanlogic.PokeSpam;
 import com.kamron.pogoiv.scanlogic.Pokemon;
+import com.kamron.pogoiv.scanlogic.ScanResult;
 import com.kamron.pogoiv.scanlogic.UpgradeCost;
 import com.kamron.pogoiv.utils.fractions.Fraction;
 import com.kamron.pogoiv.widgets.PokemonSpinnerAdapter;
@@ -181,14 +181,14 @@ public class PowerUpFraction extends Fraction {
      * Sets the "expected cp textview" to (+x) or (-y) in the powerup and evolution estimate box depending on what's
      * appropriate.
      *
-     * @param ivScanResult    the ivscanresult of the current pokemon
+     * @param scanResult    the ivscanresult of the current pokemon
      * @param selectedLevel   The goal level the pokemon in ivScanresult pokemon should reach
      * @param selectedPokemon The goal pokemon evolution he ivScanresult pokemon should reach
      */
-    private void setEstimateCpTextBox(IVScanResult ivScanResult, double selectedLevel, Pokemon selectedPokemon) {
+    private void setEstimateCpTextBox(ScanResult scanResult, double selectedLevel, Pokemon selectedPokemon) {
         CPRange expectedRange = PokeInfoCalculator.getInstance().getCpRangeAtLevel(selectedPokemon,
-                ivScanResult.getCombinationLowIVs(), ivScanResult.getCombinationHighIVs(), selectedLevel);
-        int realCP = ivScanResult.cp;
+                scanResult.getCombinationLowIVs(), scanResult.getCombinationHighIVs(), selectedLevel);
+        int realCP = scanResult.cp;
         int expectedAverage = expectedRange.getAvg();
 
         exResultCP.setText(String.valueOf(expectedAverage));
@@ -206,16 +206,16 @@ public class PowerUpFraction extends Fraction {
     /**
      * Sets the "expected HP  textview" to the estimat HP in the powerup and evolution estimate box.
      *
-     * @param ivScanResult  the ivscanresult of the current pokemon
+     * @param scanResult  the ivscanresult of the current pokemon
      * @param selectedLevel The goal level the pokemon in ivScanresult pokemon should reach
      */
-    private void setEstimateHPTextBox(IVScanResult ivScanResult, double selectedLevel, Pokemon selectedPokemon) {
-        int newHP = PokeInfoCalculator.getInstance().getHPAtLevel(ivScanResult, selectedLevel, selectedPokemon);
+    private void setEstimateHPTextBox(ScanResult scanResult, double selectedLevel, Pokemon selectedPokemon) {
+        int newHP = PokeInfoCalculator.getInstance().getHPAtLevel(scanResult, selectedLevel, selectedPokemon);
 
         exResultHP.setText(String.valueOf(newHP));
 
         int oldHP = PokeInfoCalculator.getInstance().getHPAtLevel(
-                ivScanResult, Pokefly.scanResult.levelRange.min, ivScanResult.pokemon);
+                scanResult, Pokefly.scanResult.levelRange.min, scanResult.pokemon);
         int hpDiff = newHP - oldHP;
         String sign = (hpDiff >= 0) ? "+" : ""; //add plus in front if positive.
         String hpTextPlus = " (" + sign + hpDiff + ")";
@@ -225,14 +225,14 @@ public class PowerUpFraction extends Fraction {
     /**
      * Sets the pokemon perfection % text in the powerup and evolution results box.
      *
-     * @param ivScanResult    The object containing the ivs to base current pokemon on.
+     * @param scanResult    The object containing the ivs to base current pokemon on.
      * @param selectedLevel   Which level the prediction should me made for.
      * @param selectedPokemon The pokemon to compare selected iv with max iv to.
      */
-    private void setPokemonPerfectionPercentageText(IVScanResult ivScanResult,
+    private void setPokemonPerfectionPercentageText(ScanResult scanResult,
                                                     double selectedLevel, Pokemon selectedPokemon) {
         CPRange cpRange = PokeInfoCalculator.getInstance().getCpRangeAtLevel(selectedPokemon,
-                ivScanResult.getCombinationLowIVs(), ivScanResult.getCombinationHighIVs(),
+                scanResult.getCombinationLowIVs(), scanResult.getCombinationHighIVs(),
                 selectedLevel);
         double maxCP = PokeInfoCalculator.getInstance().getCpRangeAtLevel(selectedPokemon,
                 IVCombination.MAX, IVCombination.MAX, selectedLevel).high;
@@ -253,15 +253,15 @@ public class PowerUpFraction extends Fraction {
      * populated with the cost in dust and candy required to go from the pokemon in ivscanresult to the desired
      * selecterdLevel and selectedPokemon.
      *
-     * @param ivScanResult    The pokemon to base the estimate on.
+     * @param scanResult    The pokemon to base the estimate on.
      * @param selectedLevel   The level the pokemon needs to reach.
      * @param selectedPokemon The target pokemon. (example, ivScan pokemon can be weedle, selected can be beedrill.)
      */
-    private void setEstimateCostTextboxes(IVScanResult ivScanResult, double selectedLevel, Pokemon selectedPokemon) {
+    private void setEstimateCostTextboxes(ScanResult scanResult, double selectedLevel, Pokemon selectedPokemon) {
         UpgradeCost cost = PokeInfoCalculator.getInstance()
                 .getUpgradeCost(selectedLevel, Pokefly.scanResult.levelRange.min);
         int evolutionCandyCost = PokeInfoCalculator.getInstance()
-                .getCandyCostForEvolution(ivScanResult.pokemon, selectedPokemon);
+                .getCandyCostForEvolution(scanResult.pokemon, selectedPokemon);
         String candyCostText = cost.candy + evolutionCandyCost + "";
         exResCandy.setText(candyCostText);
         DecimalFormat formater = new DecimalFormat();
@@ -289,13 +289,13 @@ public class PowerUpFraction extends Fraction {
     /**
      * setAndCalculatePokeSpamText sets pokespamtext and makes it visible.
      *
-     * @param ivScanResult IVScanResult object that contains the scan results, mainly needed to get candEvolutionCost
+     * @param scanResult ScanResult object that contains the scan results, mainly needed to get candEvolutionCost
      *                     variable
      */
-    private void setAndCalculatePokeSpamText(IVScanResult ivScanResult) {
+    private void setAndCalculatePokeSpamText(ScanResult scanResult) {
         if (GoIVSettings.getInstance(pokefly).isPokeSpamEnabled()
-                && ivScanResult.pokemon != null) {
-            if (ivScanResult.pokemon.candyEvolutionCost < 0) {
+                && scanResult.pokemon != null) {
+            if (scanResult.pokemon.candyEvolutionCost < 0) {
                 exResPokeSpam.setText(context.getString(R.string.pokespam_not_available));
                 pokeSpamView.setVisibility(View.VISIBLE);
                 return;
@@ -303,7 +303,7 @@ public class PowerUpFraction extends Fraction {
 
             PokeSpam pokeSpamCalculator = new PokeSpam(
                     Pokefly.scanData.getPokemonCandyAmount().or(0),
-                    ivScanResult.pokemon.candyEvolutionCost);
+                    scanResult.pokemon.candyEvolutionCost);
 
             // number for total evolvable
             int totEvol = pokeSpamCalculator.getTotalEvolvable();

@@ -4,8 +4,8 @@ import android.content.Context;
 
 import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.clipboardlogic.ClipboardToken;
-import com.kamron.pogoiv.scanlogic.IVScanResult;
 import com.kamron.pogoiv.scanlogic.PokeInfoCalculator;
+import com.kamron.pogoiv.scanlogic.ScanResult;
 
 /**
  * Created by Johan on 2016-10-06.
@@ -35,7 +35,7 @@ public class CpPercentileToken extends ClipboardToken {
     }
 
     @Override
-    public String getValue(IVScanResult isr, PokeInfoCalculator pokeInfoCalculator) {
+    public String getValue(ScanResult isr, PokeInfoCalculator pokeInfoCalculator) {
         int thisResult = isr.getIVAttackLow() + isr.getIVDefenseLow() + isr.getIVStaminaLow();
         return String.valueOf(compositionLookup(thisResult));
     }

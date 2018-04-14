@@ -47,12 +47,12 @@ import com.kamron.pogoiv.pokeflycomponents.ocrhelper.OcrHelper;
 import com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanPoint;
 import com.kamron.pogoiv.scanlogic.Data;
 import com.kamron.pogoiv.scanlogic.IVCombination;
-import com.kamron.pogoiv.scanlogic.IVScanResult;
 import com.kamron.pogoiv.scanlogic.MovesetData;
 import com.kamron.pogoiv.scanlogic.PokeInfoCalculator;
 import com.kamron.pogoiv.scanlogic.Pokemon;
 import com.kamron.pogoiv.scanlogic.PokemonNameCorrector;
 import com.kamron.pogoiv.scanlogic.ScanData;
+import com.kamron.pogoiv.scanlogic.ScanResult;
 import com.kamron.pogoiv.utils.CopyUtils;
 import com.kamron.pogoiv.utils.LevelRange;
 import com.kamron.pogoiv.utils.fractions.FractionManager;
@@ -110,7 +110,7 @@ public class Pokefly extends Service {
 
     private static boolean running = false;
     public static ScanData scanData;
-    public static IVScanResult scanResult;
+    public static ScanResult scanResult;
 
     private int trainerLevel;
 
@@ -523,7 +523,7 @@ public class Pokefly extends Service {
         deleteScreenShotIfRequired();
 
         //noinspection ConstantConditions
-        scanResult = new IVScanResult(nameCorrector, scanData);
+        scanResult = new ScanResult(nameCorrector, scanData);
 
         pokeInfoCalculator.getIVPossibilities(scanResult);
         scanResult.refineWithAvailableInfoFrom(autoAppraisal);
@@ -552,11 +552,11 @@ public class Pokefly extends Service {
     /**
      * Adds the iv range of the pokemon to the clipboard if the clipboard setting is on.
      */
-    public void addClipboardInfoIfSettingOn(IVScanResult ivScanResult) {
+    public void addClipboardInfoIfSettingOn(ScanResult scanResult) {
         GoIVSettings settings = GoIVSettings.getInstance(this);
 
         if (settings.shouldCopyToClipboard()) {
-            String clipResult = clipboardTokenHandler.getClipboardText(ivScanResult, pokeInfoCalculator);
+            String clipResult = clipboardTokenHandler.getClipboardText(scanResult, pokeInfoCalculator);
 
             if (settings.shouldCopyToClipboardShowToast()) {
                 Toast toast = Toast.makeText(this, String.format(getString(R.string.clipboard_copy_toast), clipResult),

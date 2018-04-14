@@ -5,8 +5,8 @@ import android.content.Context;
 import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.clipboardlogic.ClipboardToken;
 import com.kamron.pogoiv.scanlogic.IVCombination;
-import com.kamron.pogoiv.scanlogic.IVScanResult;
 import com.kamron.pogoiv.scanlogic.PokeInfoCalculator;
+import com.kamron.pogoiv.scanlogic.ScanResult;
 
 /**
  * Created by Johan on 2016-09-25.
@@ -29,8 +29,8 @@ public class UnicodeToken extends ClipboardToken {
     }
 
     @Override
-    public String getValue(IVScanResult ivScanResult, PokeInfoCalculator pokeInfoCalculator) {
-        IVCombination lowestIVCombination = ivScanResult.getLowestIVCombination();
+    public String getValue(ScanResult scanResult, PokeInfoCalculator pokeInfoCalculator) {
+        IVCombination lowestIVCombination = scanResult.getLowestIVCombination();
         if (lowestIVCombination == null) {
             return "";
         }

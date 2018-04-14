@@ -5,8 +5,8 @@ import android.content.Context;
 import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.clipboardlogic.ClipboardToken;
 import com.kamron.pogoiv.scanlogic.IVCombination;
-import com.kamron.pogoiv.scanlogic.IVScanResult;
 import com.kamron.pogoiv.scanlogic.PokeInfoCalculator;
+import com.kamron.pogoiv.scanlogic.ScanResult;
 
 /**
  * Created by Johan on 2016-09-25.
@@ -30,21 +30,21 @@ public class IVPercentageToken extends ClipboardToken {
     }
 
     @Override
-    public String getValue(IVScanResult ivScanResult, PokeInfoCalculator pokeInfoCalculator) {
+    public String getValue(ScanResult scanResult, PokeInfoCalculator pokeInfoCalculator) {
         Integer percent = null;
         IVCombination combination = null;
         switch (mode) {
             case MIN:
             case MIN_SUP:
-                combination = ivScanResult.getLowestIVCombination();
+                combination = scanResult.getLowestIVCombination();
                 break;
             case AVG:
             case AVG_SUP:
-                percent = ivScanResult.getIVPercentAvg();
+                percent = scanResult.getIVPercentAvg();
                 break;
             case MAX:
             case MAX_SUP:
-                combination = ivScanResult.getHighestIVCombination();
+                combination = scanResult.getHighestIVCombination();
                 break;
             default:
                 throw new IllegalArgumentException();

@@ -7,9 +7,9 @@ import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.clipboardlogic.ClipboardToken;
 import com.kamron.pogoiv.scanlogic.CPRange;
 import com.kamron.pogoiv.scanlogic.IVCombination;
-import com.kamron.pogoiv.scanlogic.IVScanResult;
 import com.kamron.pogoiv.scanlogic.PokeInfoCalculator;
 import com.kamron.pogoiv.scanlogic.Pokemon;
+import com.kamron.pogoiv.scanlogic.ScanResult;
 
 /**
  * Created by johan on 2017-07-11.
@@ -33,14 +33,14 @@ public class CPMissingAtFourty extends ClipboardToken {
         return 4;
     }
 
-    @Override public String getValue(IVScanResult ivScanResult, PokeInfoCalculator pokeInfoCalculator) {
+    @Override public String getValue(ScanResult scanResult, PokeInfoCalculator pokeInfoCalculator) {
         //pokemon low high level
-        Pokemon poke = getRightPokemon(ivScanResult.pokemon, pokeInfoCalculator);
+        Pokemon poke = getRightPokemon(scanResult.pokemon, pokeInfoCalculator);
 
         IVCombination perfectIV = new IVCombination(15, 15, 15);
         CPRange perfectPokemon = pokeInfoCalculator.getCpRangeAtLevel(poke, perfectIV, perfectIV, 40);
-        CPRange thisPokemon = pokeInfoCalculator.getCpRangeAtLevel(poke, ivScanResult.getLowestIVCombination(),
-                ivScanResult.getHighestIVCombination(), 40);
+        CPRange thisPokemon = pokeInfoCalculator.getCpRangeAtLevel(poke, scanResult.getLowestIVCombination(),
+                scanResult.getHighestIVCombination(), 40);
 
         return String.valueOf(perfectPokemon.getAvg() - thisPokemon.getAvg());
     }

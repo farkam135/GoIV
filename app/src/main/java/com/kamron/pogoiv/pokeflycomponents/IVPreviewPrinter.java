@@ -8,10 +8,10 @@ import com.kamron.pogoiv.GoIVSettings;
 import com.kamron.pogoiv.Pokefly;
 import com.kamron.pogoiv.ScreenGrabber;
 import com.kamron.pogoiv.pokeflycomponents.ocrhelper.OcrHelper;
-import com.kamron.pogoiv.scanlogic.IVScanResult;
 import com.kamron.pogoiv.scanlogic.PokeInfoCalculator;
 import com.kamron.pogoiv.scanlogic.PokemonNameCorrector;
 import com.kamron.pogoiv.scanlogic.ScanData;
+import com.kamron.pogoiv.scanlogic.ScanResult;
 
 import java.lang.ref.WeakReference;
 
@@ -117,17 +117,17 @@ public class IVPreviewPrinter {
                 return false; // The class that scheduled this runnable has been garbage collected
             }
 
-            IVScanResult ivScanResults = new IVScanResult(pokemonNameCorrector, data);
-            PokeInfoCalculator.getInstance().getIVPossibilities(ivScanResults);
-            if (ivScanResults.getIVCombinationsCount() <= 0) { //unsuccessful scan
+            ScanResult scanResults = new ScanResult(pokemonNameCorrector, data);
+            PokeInfoCalculator.getInstance().getIVPossibilities(scanResults);
+            if (scanResults.getIVCombinationsCount() <= 0) { //unsuccessful scan
                 return false;
             }
 
-            ivPreviewPrinter.printClipboardIfSettingIsOn(ivScanResults);
+            ivPreviewPrinter.printClipboardIfSettingIsOn(scanResults);
 
             IVPopupButton ivButton = ivButtonRef.get();
             if (ivButton != null) {
-                ivButton.showQuickIVPreviewLook(ivScanResults);
+                ivButton.showQuickIVPreviewLook(scanResults);
             }
 
             return true;
@@ -137,13 +137,13 @@ public class IVPreviewPrinter {
     /**
      * Makes a system toast for the clipboard is the setting is on.
      *
-     * @param ivrs The iv result to base the message on.
+     * @param scanResult The iv result to base the message on.
      * @return A string build up by the iv results.
      */
-    private void printClipboardIfSettingIsOn(IVScanResult ivrs) {
+    private void printClipboardIfSettingIsOn(ScanResult scanResult) {
         String returner;
         if (settings.shouldReplaceQuickIvPreviewWithClipboard()) {
-            returner = pokefly.getClipboardTokenHandler().getClipboardText(ivrs, pokeInfoCalculator);
+            returner = pokefly.getClipboardTokenHandler().getClipboardText(scanResult, pokeInfoCalculator);
             Toast.makeText(pokefly, returner, Toast.LENGTH_SHORT).show();
         }
     }
@@ -152,16 +152,16 @@ public class IVPreviewPrinter {
      * Get a string which is either the default QuickIV message, or the clipboard setting depending on what the user
      * preference is.
      *
-     * @param ivrs The iv result to base the message on
+     * @param scanResult The iv result to base the message on
      * @return A string build up by the iv results
      */
-    private String getQuickIVMessage(IVScanResult ivrs) {
+    private String getQuickIVMessage(ScanResult scanResult) {
         String returner;
         if (settings.shouldReplaceQuickIvPreviewWithClipboard()) {
-            returner = pokefly.getClipboardTokenHandler().getClipboardText(ivrs, pokeInfoCalculator);
+            returner = pokefly.getClipboardTokenHandler().getClipboardText(scanResult, pokeInfoCalculator);
         } else {
-            returner = "IV: " + ivrs.getLowestIVCombination().percentPerfect + " - "
-                    + ivrs.getHighestIVCombination().percentPerfect + "%";
+            returner = "IV: " + scanResult.getLowestIVCombination().percentPerfect + " - "
+                    + scanResult.getHighestIVCombination().percentPerfect + "%";
         }
         return returner;
     }

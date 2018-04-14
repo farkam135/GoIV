@@ -4,8 +4,8 @@ import android.content.Context;
 
 import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.clipboardlogic.ClipboardToken;
-import com.kamron.pogoiv.scanlogic.IVScanResult;
 import com.kamron.pogoiv.scanlogic.PokeInfoCalculator;
+import com.kamron.pogoiv.scanlogic.ScanResult;
 
 /**
  * Created by Johan on 2016-11-19.
@@ -37,9 +37,9 @@ public class LevelUnicodeToken extends ClipboardToken {
     }
 
     @Override
-    public String getValue(IVScanResult ivScanResult, PokeInfoCalculator pokeInfoCalculator) {
-        String returner = unicodes[(int) ivScanResult.levelRange.min];
-        if (ivScanResult.levelRange.min % 1 == 0.5) {
+    public String getValue(ScanResult scanResult, PokeInfoCalculator pokeInfoCalculator) {
+        String returner = unicodes[(int) scanResult.levelRange.min];
+        if (scanResult.levelRange.min % 1 == 0.5) {
             returner += half;
         }
         return returner;

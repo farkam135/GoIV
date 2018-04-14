@@ -3,9 +3,9 @@ package com.kamron.pogoiv.clipboardlogic;
 import android.content.Context;
 
 import com.kamron.pogoiv.R;
-import com.kamron.pogoiv.scanlogic.IVScanResult;
 import com.kamron.pogoiv.scanlogic.PokeInfoCalculator;
 import com.kamron.pogoiv.scanlogic.Pokemon;
+import com.kamron.pogoiv.scanlogic.ScanResult;
 
 import java.util.ArrayList;
 
@@ -75,11 +75,11 @@ public abstract class ClipboardToken {
     /**
      * Get the result as interpreted by this clipboardtoken
      *
-     * @param ivScanResult       Information that can be used to calculate the output for the token.
+     * @param scanResult       Information that can be used to calculate the output for the token.
      * @param pokeInfoCalculator Information that can be used to calculate the output for the token.
      * @return A string representing the value as interpreted by the clipboardToken
      */
-    public abstract String getValue(IVScanResult ivScanResult, PokeInfoCalculator pokeInfoCalculator);
+    public abstract String getValue(ScanResult scanResult, PokeInfoCalculator pokeInfoCalculator);
 
     /**
      * Get a String which represents an example of normal output from this token. For example if the token returns a

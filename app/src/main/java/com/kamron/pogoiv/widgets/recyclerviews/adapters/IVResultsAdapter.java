@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.kamron.pogoiv.Pokefly;
 import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.scanlogic.IVCombination;
-import com.kamron.pogoiv.scanlogic.IVScanResult;
+import com.kamron.pogoiv.scanlogic.ScanResult;
 import com.kamron.pogoiv.utils.GuiUtil;
 
 import java.util.List;
@@ -23,8 +23,8 @@ public class IVResultsAdapter extends RecyclerView.Adapter<IVResultsAdapter.Resu
     private final List<IVCombination> dataSet;
     private Pokefly pokefly;
 
-    public IVResultsAdapter(IVScanResult ivScanResult, Pokefly pokefly) {
-        dataSet = ivScanResult.getIVCombinations();
+    public IVResultsAdapter(ScanResult scanResult, Pokefly pokefly) {
+        dataSet = scanResult.getIVCombinations();
         this.pokefly = pokefly;
     }
 

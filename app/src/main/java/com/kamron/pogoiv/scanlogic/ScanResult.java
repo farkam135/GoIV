@@ -31,7 +31,7 @@ import java.util.List;
  * <p/>
  * Created by Johan on 2016-08-18.
  */
-public class IVScanResult {
+public class ScanResult {
     public Pokemon pokemon;
     public Pokemon.Gender gender;
     public final LevelRange levelRange;
@@ -50,7 +50,7 @@ public class IVScanResult {
     private int ivDefenseHigh = 0;
     private int ivStaminaHigh = 0;
 
-    public IVScanResult(@NonNull PokemonNameCorrector corrector, @NonNull ScanData scanData) {
+    public ScanResult(@NonNull PokemonNameCorrector corrector, @NonNull ScanData scanData) {
         this(corrector.getPossiblePokemon(scanData).pokemon, scanData);
     }
 
@@ -60,7 +60,7 @@ public class IVScanResult {
      * @param pokemon        Which pokemon it is
      * @param scanData       The OCR results
      */
-    public IVScanResult(@NonNull Pokemon pokemon, @NonNull ScanData scanData) {
+    public ScanResult(@NonNull Pokemon pokemon, @NonNull ScanData scanData) {
         this.pokemon = pokemon;
         this.levelRange = scanData.getEstimatedPokemonLevel();
         this.hp = scanData.getPokemonHP().get();

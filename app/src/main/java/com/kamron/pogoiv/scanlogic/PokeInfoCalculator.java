@@ -227,11 +227,11 @@ public class PokeInfoCalculator {
 
     /**
      * Calculates all the IV information that can be gained from the pokemon level, hp and cp
-     * and fills the information in an IVScanResult.
+     * and fills the information in an ScanResult.
      *
      * @param scanResult Pokefly scan results
      */
-    public void getIVPossibilities(IVScanResult scanResult) {
+    public void getIVPossibilities(ScanResult scanResult) {
         scanResult.clearIVCombinations();
 
         if (scanResult.levelRange.min == scanResult.levelRange.max) {
@@ -245,12 +245,12 @@ public class PokeInfoCalculator {
 
     /**
      * Calculates all the IV information that can be gained from the pokemon level, hp and cp
-     * and fills the information in an IVScanResult.
+     * and fills the information in an ScanResult.
      *
      * @param scanResult Pokefly scan results
      * many possibilities.
      */
-    private void getSingleLevelIVPossibility(IVScanResult scanResult, double level) {
+    private void getSingleLevelIVPossibility(ScanResult scanResult, double level) {
         int baseAttack = scanResult.pokemon.baseAttack;
         int baseDefense = scanResult.pokemon.baseDefense;
         int baseStamina = scanResult.pokemon.baseStamina;
@@ -400,17 +400,17 @@ public class PokeInfoCalculator {
      * Get how much hp a pokemon will have at a certain level, including the stamina IV taken from the scan results.
      * If the prediction is not exact because of big possible variation in stamina IV, the average will be returnred.
      *
-     * @param ivScanResult    Scan results which includes stamina ivs
+     * @param scanResult    Scan results which includes stamina ivs
      * @param selectedLevel   which level to get the hp for
      * @param selectedPokemon Which pokemon to get Hp for
      * @return An integer representing how much hp selectedpokemon with ivscanresult stamina ivs has at selectedlevel
      */
-    public int getHPAtLevel(IVScanResult ivScanResult, double selectedLevel, Pokemon selectedPokemon) {
+    public int getHPAtLevel(ScanResult scanResult, double selectedLevel, Pokemon selectedPokemon) {
         double lvlScalar = Data.getLevelCpM(selectedLevel);
         int highHp = (int) Math.max(
-                Math.floor((selectedPokemon.baseStamina + ivScanResult.getIVStaminaHigh()) * lvlScalar), 10);
+                Math.floor((selectedPokemon.baseStamina + scanResult.getIVStaminaHigh()) * lvlScalar), 10);
         int lowHp = (int) Math.max(
-                Math.floor((selectedPokemon.baseStamina + ivScanResult.getIVStaminaHigh()) * lvlScalar), 10);
+                Math.floor((selectedPokemon.baseStamina + scanResult.getIVStaminaHigh()) * lvlScalar), 10);
         int averageHP = Math.round(highHp + lowHp) / 2;
         return averageHP;
     }

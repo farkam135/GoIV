@@ -8,8 +8,8 @@ import com.google.common.collect.ListMultimap;
 import com.kamron.pogoiv.GoIVSettings;
 import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.clipboardlogic.tokens.SeparatorToken;
-import com.kamron.pogoiv.scanlogic.IVScanResult;
 import com.kamron.pogoiv.scanlogic.PokeInfoCalculator;
+import com.kamron.pogoiv.scanlogic.ScanResult;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -51,18 +51,18 @@ public class ClipboardTokenHandler {
     /**
      * Analyze an ivscan and get a string which corresponds to what the users clipboard settings are.
      *
-     * @param ivScanResult       Which scan result to base the string on
+     * @param scanResult       Which scan result to base the string on
      * @param pokeInfoCalculator An object used to calculate the logic for the clipboard tokens
      * @return A string corresponding to the user settings which is based on the ivscan.
      */
-    public String getClipboardText(@NonNull IVScanResult ivScanResult,
+    public String getClipboardText(@NonNull ScanResult scanResult,
                                    @NonNull PokeInfoCalculator pokeInfoCalculator) {
         GoIVSettings settings = GoIVSettings.getInstance(context);
         final ClipboardResultMode resultMode;
 
-        final boolean isSingle = ivScanResult.getIVCombinationsCount() == 1;
+        final boolean isSingle = scanResult.getIVCombinationsCount() == 1;
         final boolean isPerfect = isSingle
-                && ivScanResult.getIVCombinationAt(0).percentPerfect == 100;
+                && scanResult.getIVCombinationAt(0).percentPerfect == 100;
 
         // has the user enabled one or more settings for alternative formats and is one of them applicable??
         if (settings.shouldCopyToClipboardPerfectIV() && isPerfect) {
@@ -75,7 +75,7 @@ public class ClipboardTokenHandler {
 
         StringBuilder returner = new StringBuilder();
         for (ClipboardToken token : getCorrectTokenList(resultMode)) {
-            returner.append(token.getValue(ivScanResult, pokeInfoCalculator));
+            returner.append(token.getValue(scanResult, pokeInfoCalculator));
         }
 
         return returner.toString();

@@ -4,9 +4,9 @@ import android.content.Context;
 
 import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.clipboardlogic.ClipboardToken;
-import com.kamron.pogoiv.scanlogic.IVScanResult;
 import com.kamron.pogoiv.scanlogic.PokeInfoCalculator;
 import com.kamron.pogoiv.scanlogic.Pokemon;
+import com.kamron.pogoiv.scanlogic.ScanResult;
 
 /**
  * Created by Johan on 2016-09-26.
@@ -33,10 +33,10 @@ public class HpToken extends ClipboardToken {
     }
 
     @Override
-    public String getValue(IVScanResult ivScanResult, PokeInfoCalculator pokeInfoCalculator) {
-        Pokemon poke = getRightPokemon(ivScanResult.pokemon, pokeInfoCalculator);
-        double level = currentLevel ? ivScanResult.levelRange.min : 40;
-        int hp = pokeInfoCalculator.getHPAtLevel(ivScanResult, level, poke);
+    public String getValue(ScanResult scanResult, PokeInfoCalculator pokeInfoCalculator) {
+        Pokemon poke = getRightPokemon(scanResult.pokemon, pokeInfoCalculator);
+        double level = currentLevel ? scanResult.levelRange.min : 40;
+        int hp = pokeInfoCalculator.getHPAtLevel(scanResult, level, poke);
         return String.valueOf(hp);
     }
 

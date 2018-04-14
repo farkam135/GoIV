@@ -209,7 +209,9 @@ public class InputFraction extends Fraction {
         arcAdjustBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                Pokefly.scanData.setEstimatedPokemonLevelRange(new LevelRange(Data.levelIdxToLevel(progress)));
+                if (fromUser) {
+                    Pokefly.scanData.setEstimatedPokemonLevelRange(new LevelRange(Data.levelIdxToLevel(progress)));
+                }
                 pokefly.setArcPointer(Pokefly.scanData.getEstimatedPokemonLevel().min);
                 levelIndicator.setText(Pokefly.scanData.getEstimatedPokemonLevel().toString());
             }

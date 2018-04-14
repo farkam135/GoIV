@@ -215,11 +215,11 @@ public class MovesetFraction extends Fraction {
         ClipboardManager clipboard = (ClipboardManager) pokefly.getSystemService(Context.CLIPBOARD_SERVICE);
         String content = "pokemon,cp,level,attack,defense,stamina,quickmove,chargemove\n"; // Data header
         content += Pokefly.scanResult.pokemon + ","
-                + Pokefly.scanResult.scannedCP + ","
-                + Pokefly.scanResult.estimatedPokemonLevel.min + ","
-                + Pokefly.scanResult.getLowAttack() + ","
-                + Pokefly.scanResult.getLowDefense() + ","
-                + Pokefly.scanResult.getLowStamina() + ","
+                + Pokefly.scanResult.cp + ","
+                + Pokefly.scanResult.levelRange.min + ","
+                + Pokefly.scanResult.getIVAttackLow() + ","
+                + Pokefly.scanResult.getIVDefenseLow() + ","
+                + Pokefly.scanResult.getIVStaminaLow() + ","
                 + (Pokefly.scanResult.selectedMoveset != null
                 ? Pokefly.scanResult.selectedMoveset.getQuickKey() : "") + ","
                 + (Pokefly.scanResult.selectedMoveset != null

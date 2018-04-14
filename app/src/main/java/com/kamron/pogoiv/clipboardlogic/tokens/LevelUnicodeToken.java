@@ -38,8 +38,8 @@ public class LevelUnicodeToken extends ClipboardToken {
 
     @Override
     public String getValue(IVScanResult ivScanResult, PokeInfoCalculator pokeInfoCalculator) {
-        String returner = unicodes[(int) ivScanResult.estimatedPokemonLevel.min];
-        if (ivScanResult.estimatedPokemonLevel.min % 1 == 0.5) {
+        String returner = unicodes[(int) ivScanResult.levelRange.min];
+        if (ivScanResult.levelRange.min % 1 == 0.5) {
             returner += half;
         }
         return returner;

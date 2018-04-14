@@ -117,7 +117,7 @@ public class IVPopupButton extends android.support.v7.widget.AppCompatButton {
                 text.append(getContext().getString(
                         R.string.iv_button_range_result_preview_format, ivrs.pokemon.name, low, high));
             }
-            if (ivrs.levelRangeIVScan) {
+            if (ivrs.levelRange.min != ivrs.levelRange.max) {
                 text.append("*");
             }
             setText(text);
@@ -136,7 +136,7 @@ public class IVPopupButton extends android.support.v7.widget.AppCompatButton {
         int yellow = ResourcesCompat.getColor(getResources(), R.color.t_yellow, null);
         int red = ResourcesCompat.getColor(getResources(), R.color.t_red, null);
 
-        int percent = ivrs.getAveragePercent();
+        int percent = ivrs.getIVPercentAvg();
         if (percent < 51) {
             setTextColor(red);
         } else if (percent < 66) {

@@ -45,7 +45,7 @@ public class IVCombinationsFraction extends Fraction {
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         rvResults.setLayoutManager(layoutManager);
         rvResults.setHasFixedSize(true);
-        Pokefly.scanResult.sortCombinations();
+        Pokefly.scanResult.sortIVCombinations();
         rvResults.setAdapter(new IVResultsAdapter(Pokefly.scanResult, pokefly));
     }
 

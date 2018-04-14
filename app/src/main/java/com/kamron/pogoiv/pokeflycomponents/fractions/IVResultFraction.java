@@ -74,7 +74,7 @@ public class IVResultFraction extends Fraction {
         ButterKnife.bind(this, rootView);
 
         // Show IV information
-        Pokefly.scanResult.sortCombinations();
+        Pokefly.scanResult.sortIVCombinations();
         populateResultsHeader();
 
         if (Pokefly.scanResult.getIVCombinationsCount() == 0) {
@@ -125,7 +125,7 @@ public class IVResultFraction extends Fraction {
     private void populateResultsHeader() {
         resultsPokemonName.setText(Pokefly.scanResult.pokemon.toString());
         resultsPokemonLevel.setText(
-                context.getString(R.string.level_num, Pokefly.scanResult.estimatedPokemonLevel.toString()));
+                context.getString(R.string.level_num, Pokefly.scanResult.levelRange.toString()));
     }
 
     /**
@@ -202,7 +202,7 @@ public class IVResultFraction extends Fraction {
         int high = 0;
         if (Pokefly.scanResult.getIVCombinationsCount() > 0) {
             low = Pokefly.scanResult.getLowestIVCombination().percentPerfect;
-            ave = Pokefly.scanResult.getAveragePercent();
+            ave = Pokefly.scanResult.getIVPercentAvg();
             high = Pokefly.scanResult.getHighestIVCombination().percentPerfect;
         }
         GuiUtil.setTextColorByPercentage(resultsMinPercentage, low);

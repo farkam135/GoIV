@@ -50,9 +50,9 @@ public class BaseStatToken extends ClipboardToken {
         int bAtt = poke.baseAttack;
         int bDef = poke.baseDefense;
         int bSta = poke.baseStamina;
-        int ivAtt = bAtt + ivScanResult.getLowAttack();
-        int ivDef = bDef + ivScanResult.getLowDefense();
-        int ivSta = bSta + ivScanResult.getLowStamina();
+        int ivAtt = bAtt + ivScanResult.getIVAttackLow();
+        int ivDef = bDef + ivScanResult.getIVDefenseLow();
+        int ivSta = bSta + ivScanResult.getIVStaminaLow();
 
         if (includeIV) {
             if (mode == 0) {

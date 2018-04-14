@@ -29,7 +29,7 @@ public class PokemonGenderToken extends ClipboardToken {
 
     @Override
     public String getValue(IVScanResult ivScanResult, PokeInfoCalculator pokeInfoCalculator) {
-        return ivScanResult.scannedGender.toString();
+        return ivScanResult.gender.toString();
     }
 
     @Override

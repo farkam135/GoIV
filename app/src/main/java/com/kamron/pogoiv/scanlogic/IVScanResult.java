@@ -20,9 +20,9 @@ import java.util.List;
  * An object contains:
  * count - the amount of IV combinations the pokemon has
  * highpercent: Best case iv%
- * scannedCP: the cp scanned from the image
- * getAveragePercent: returns the average IV% of all alternativs
- * lowPercent: worst case IV%
+ * cp: the cp scanned from the image
+ * getIVPercentAvg: returns the average IV% of all alternativs
+ * ivPercentLow: worst case IV%
  * low attack,defence,stamina - the value for the IV stat where the lowest % was found
  * high attack,defence,stamina - the value for hte IV stat where the highest % was found
  * <p>
@@ -33,23 +33,22 @@ import java.util.List;
  */
 public class IVScanResult {
     public Pokemon pokemon;
-    public Pokemon.Gender scannedGender;
-    public final LevelRange estimatedPokemonLevel;
-    public final int scannedCP;
-    public int scannedHP;
+    public Pokemon.Gender gender;
+    public final LevelRange levelRange;
+    public final int cp;
+    public int hp;
     private ArrayList<MovesetData> movesets;
     public MovesetData selectedMoveset;
     private ArrayList<IVCombination> iVCombinations = new ArrayList<>();
     public IVCombination selectedIVCombination;
-    public boolean levelRangeIVScan = false; //is this several levels worth of possible iv combinations?
-    private int highPercent = 0;
-    private int lowPercent = 100;
-    private int lowAttack = 15;
-    private int lowDefense = 15;
-    private int lowStamina = 15;
-    private int highAttack = 0;
-    private int highDefense = 0;
-    private int highStamina = 0;
+    private int ivPercentHigh = 0;
+    private int ivPercentLow = 100;
+    private int ivAttackLow = 15;
+    private int ivDefenseLow = 15;
+    private int ivStaminaLow = 15;
+    private int ivAttackHigh = 0;
+    private int ivDefenseHigh = 0;
+    private int ivStaminaHigh = 0;
 
     public IVScanResult(@NonNull PokemonNameCorrector corrector, @NonNull ScanData scanData) {
         this(corrector.getPossiblePokemon(scanData).pokemon, scanData);
@@ -63,10 +62,10 @@ public class IVScanResult {
      */
     public IVScanResult(@NonNull Pokemon pokemon, @NonNull ScanData scanData) {
         this.pokemon = pokemon;
-        this.estimatedPokemonLevel = scanData.getEstimatedPokemonLevel();
-        this.scannedHP = scanData.getPokemonHP().get();
-        this.scannedCP = scanData.getPokemonCP().get();
-        this.scannedGender = scanData.getPokemonGender();
+        this.levelRange = scanData.getEstimatedPokemonLevel();
+        this.hp = scanData.getPokemonHP().get();
+        this.cp = scanData.getPokemonCP().get();
+        this.gender = scanData.getPokemonGender();
 
         LinkedHashSet<MovesetData> m = MovesetsManager.getMovesetsForDexNumber(pokemon.number);
         if (m != null) {
@@ -109,7 +108,7 @@ public class IVScanResult {
     /**
      * Calculates and returns the average % of the possible IVs.
      */
-    public int getAveragePercent() {
+    public int getIVPercentAvg() {
         if (selectedIVCombination != null) {
             return Math.round(selectedIVCombination.getTotal() * 100f / 45f);
         }
@@ -120,49 +119,49 @@ public class IVScanResult {
         return Math.round(sum * 100f / (45f * iVCombinations.size()));
     }
 
-    public int getLowAttack() {
+    public int getIVAttackLow() {
         if (selectedIVCombination != null) {
             return selectedIVCombination.att;
         }
-        return lowAttack;
+        return ivAttackLow;
     }
 
-    public int getHighAttack() {
+    public int getIVAttackHigh() {
         if (selectedIVCombination != null) {
             return selectedIVCombination.att;
         }
-        return highAttack;
+        return ivAttackHigh;
     }
 
-    public int getLowDefense() {
+    public int getIVDefenseLow() {
         if (selectedIVCombination != null) {
             return selectedIVCombination.def;
         }
-        return lowDefense;
+        return ivDefenseLow;
     }
 
-    public int getHighDefense() {
+    public int getIVDefenseHigh() {
         if (selectedIVCombination != null) {
             return selectedIVCombination.def;
         }
-        return highDefense;
+        return ivDefenseHigh;
     }
 
-    public int getLowStamina() {
+    public int getIVStaminaLow() {
         if (selectedIVCombination != null) {
             return selectedIVCombination.sta;
         }
-        return lowStamina;
+        return ivStaminaLow;
     }
 
-    public int getHighStamina() {
+    public int getIVStaminaHigh() {
         if (selectedIVCombination != null) {
             return selectedIVCombination.sta;
         }
-        return highStamina;
+        return ivStaminaHigh;
     }
 
-    public void sortCombinations() {
+    public void sortIVCombinations() {
         Collections.sort(iVCombinations, new Comparator<IVCombination>() {
             @Override public int compare(IVCombination o1, IVCombination o2) {
                 int comparePercent = o1.percentPerfect - o2.percentPerfect;
@@ -196,23 +195,23 @@ public class IVScanResult {
             return;
         }
 
-        if ((newCombination.percentPerfect < lowPercent)
-                || (newCombination.percentPerfect == lowPercent)
-                && (attackIV < lowAttack)) { // check for same percentage but lower atk
-            lowPercent = newCombination.percentPerfect;
+        if ((newCombination.percentPerfect < ivPercentLow)
+                || (newCombination.percentPerfect == ivPercentLow)
+                && (attackIV < ivAttackLow)) { // check for same percentage but lower atk
+            ivPercentLow = newCombination.percentPerfect;
             //save worst combination for lower end cp range
-            lowAttack = attackIV;
-            lowDefense = defenseIV;
-            lowStamina = staminaIV;
+            ivAttackLow = attackIV;
+            ivDefenseLow = defenseIV;
+            ivStaminaLow = staminaIV;
         }
-        if ((newCombination.percentPerfect > highPercent)
-                || (newCombination.percentPerfect == highPercent)
-                && (attackIV > highAttack)) { // check for same percentage but higher atk
-            highPercent = newCombination.percentPerfect;
+        if ((newCombination.percentPerfect > ivPercentHigh)
+                || (newCombination.percentPerfect == ivPercentHigh)
+                && (attackIV > ivAttackHigh)) { // check for same percentage but higher atk
+            ivPercentHigh = newCombination.percentPerfect;
             //save best combination for upper end cp range
-            highAttack = attackIV;
-            highDefense = defenseIV;
-            highStamina = staminaIV;
+            ivAttackHigh = attackIV;
+            ivDefenseHigh = defenseIV;
+            ivStaminaHigh = staminaIV;
         }
 
         iVCombinations.add(newCombination);
@@ -221,14 +220,14 @@ public class IVScanResult {
     public void clearIVCombinations() {
         selectedIVCombination = null;
         iVCombinations.clear();
-        highPercent = 0;
-        lowPercent = 100;
-        lowAttack = 15;
-        lowDefense = 15;
-        lowStamina = 15;
-        highAttack = 0;
-        highDefense = 0;
-        highStamina = 0;
+        ivPercentHigh = 0;
+        ivPercentLow = 100;
+        ivAttackLow = 15;
+        ivDefenseLow = 15;
+        ivStaminaLow = 15;
+        ivAttackHigh = 0;
+        ivDefenseHigh = 0;
+        ivStaminaHigh = 0;
     }
 
     /**
@@ -265,7 +264,7 @@ public class IVScanResult {
         if (selectedIVCombination != null) {
             return selectedIVCombination;
         }
-        return new IVCombination(highAttack, highDefense, highStamina);
+        return new IVCombination(ivAttackHigh, ivDefenseHigh, ivStaminaHigh);
     }
 
     /**
@@ -276,7 +275,7 @@ public class IVScanResult {
         if (selectedIVCombination != null) {
             return selectedIVCombination;
         }
-        return new IVCombination(lowAttack, lowDefense, lowStamina);
+        return new IVCombination(ivAttackLow, ivDefenseLow, ivStaminaLow);
     }
 
 
@@ -284,43 +283,43 @@ public class IVScanResult {
      * Readjusts the low and high instance variables by looping through all the combinations again and re-checking them.
      */
     private void updateHighAndLowValues() {
-        lowAttack = 15;
-        lowDefense = 15;
-        lowStamina = 15;
-        highAttack = 0;
-        highDefense = 0;
-        highStamina = 0;
-        highPercent = 0;
-        lowPercent = 100;
+        ivAttackLow = 15;
+        ivDefenseLow = 15;
+        ivStaminaLow = 15;
+        ivAttackHigh = 0;
+        ivDefenseHigh = 0;
+        ivStaminaHigh = 0;
+        ivPercentHigh = 0;
+        ivPercentLow = 100;
 
         for (IVCombination ivc : iVCombinations) {
             int sumIV = ivc.att + ivc.def + ivc.sta;
             int percentPerfect = Math.round(sumIV / 45f * 100);
 
-            if (ivc.att < lowAttack) {
-                lowAttack = ivc.att;
+            if (ivc.att < ivAttackLow) {
+                ivAttackLow = ivc.att;
             }
-            if (ivc.def < lowDefense) {
-                lowDefense = ivc.def;
+            if (ivc.def < ivDefenseLow) {
+                ivDefenseLow = ivc.def;
             }
-            if (ivc.sta < lowStamina) {
-                lowStamina = ivc.sta;
+            if (ivc.sta < ivStaminaLow) {
+                ivStaminaLow = ivc.sta;
             }
 
-            if (ivc.att > highAttack) {
-                highAttack = ivc.att;
+            if (ivc.att > ivAttackHigh) {
+                ivAttackHigh = ivc.att;
             }
-            if (ivc.def > highDefense) {
-                highDefense = ivc.def;
+            if (ivc.def > ivDefenseHigh) {
+                ivDefenseHigh = ivc.def;
             }
-            if (ivc.sta > highStamina) {
-                highStamina = ivc.sta;
+            if (ivc.sta > ivStaminaHigh) {
+                ivStaminaHigh = ivc.sta;
             }
-            if (percentPerfect > highPercent) {
-                highPercent = percentPerfect;
+            if (percentPerfect > ivPercentHigh) {
+                ivPercentHigh = percentPerfect;
             }
-            if (percentPerfect < lowPercent) {
-                lowPercent = percentPerfect;
+            if (percentPerfect < ivPercentLow) {
+                ivPercentLow = percentPerfect;
             }
         }
 

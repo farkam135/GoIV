@@ -40,7 +40,7 @@ public class IVPercentageToken extends ClipboardToken {
                 break;
             case AVG:
             case AVG_SUP:
-                percent = ivScanResult.getAveragePercent();
+                percent = ivScanResult.getIVPercentAvg();
                 break;
             case MAX:
             case MAX_SUP:

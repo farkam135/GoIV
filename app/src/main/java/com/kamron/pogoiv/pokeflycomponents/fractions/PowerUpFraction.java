@@ -188,7 +188,7 @@ public class PowerUpFraction extends Fraction {
     private void setEstimateCpTextBox(IVScanResult ivScanResult, double selectedLevel, Pokemon selectedPokemon) {
         CPRange expectedRange = PokeInfoCalculator.getInstance().getCpRangeAtLevel(selectedPokemon,
                 ivScanResult.getCombinationLowIVs(), ivScanResult.getCombinationHighIVs(), selectedLevel);
-        int realCP = ivScanResult.scannedCP;
+        int realCP = ivScanResult.cp;
         int expectedAverage = expectedRange.getAvg();
 
         exResultCP.setText(String.valueOf(expectedAverage));
@@ -215,7 +215,7 @@ public class PowerUpFraction extends Fraction {
         exResultHP.setText(String.valueOf(newHP));
 
         int oldHP = PokeInfoCalculator.getInstance().getHPAtLevel(
-                ivScanResult, Pokefly.scanResult.estimatedPokemonLevel.min, ivScanResult.pokemon);
+                ivScanResult, Pokefly.scanResult.levelRange.min, ivScanResult.pokemon);
         int hpDiff = newHP - oldHP;
         String sign = (hpDiff >= 0) ? "+" : ""; //add plus in front if positive.
         String hpTextPlus = " (" + sign + hpDiff + ")";
@@ -259,7 +259,7 @@ public class PowerUpFraction extends Fraction {
      */
     private void setEstimateCostTextboxes(IVScanResult ivScanResult, double selectedLevel, Pokemon selectedPokemon) {
         UpgradeCost cost = PokeInfoCalculator.getInstance()
-                .getUpgradeCost(selectedLevel, Pokefly.scanResult.estimatedPokemonLevel.min);
+                .getUpgradeCost(selectedLevel, Pokefly.scanResult.levelRange.min);
         int evolutionCandyCost = PokeInfoCalculator.getInstance()
                 .getCandyCostForEvolution(ivScanResult.pokemon, selectedPokemon);
         String candyCostText = cost.candy + evolutionCandyCost + "";
@@ -391,7 +391,7 @@ public class PowerUpFraction extends Fraction {
 
         // Set Thumb value to current Pokemon level
         expandedLevelSeekbar.setProgress(
-                levelToSeekbarProgress(Pokefly.scanResult.estimatedPokemonLevel.min));
+                levelToSeekbarProgress(Pokefly.scanResult.levelRange.min));
 
         // Set Seekbar Background max value to max Pokemon level at trainer level 40
         expandedLevelSeekbarBackground.setMax(levelToSeekbarProgress(Data.MAXIMUM_POKEMON_LEVEL));
@@ -447,7 +447,7 @@ public class PowerUpFraction extends Fraction {
     }
 
     private int getSeekbarOffset() {
-        return (int) (2 * Pokefly.scanResult.estimatedPokemonLevel.min);
+        return (int) (2 * Pokefly.scanResult.levelRange.min);
     }
 
     private double seekbarProgressToLevel(int progress) {

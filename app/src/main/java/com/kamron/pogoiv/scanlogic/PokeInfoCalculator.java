@@ -234,11 +234,11 @@ public class PokeInfoCalculator {
     public void getIVPossibilities(IVScanResult scanResult) {
         scanResult.clearIVCombinations();
 
-        if (scanResult.estimatedPokemonLevel.min == scanResult.estimatedPokemonLevel.max) {
-            getSingleLevelIVPossibility(scanResult, scanResult.estimatedPokemonLevel.min);
+        if (scanResult.levelRange.min == scanResult.levelRange.max) {
+            getSingleLevelIVPossibility(scanResult, scanResult.levelRange.min);
         }
 
-        for (double i = scanResult.estimatedPokemonLevel.min; i <= scanResult.estimatedPokemonLevel.max; i += 0.5) {
+        for (double i = scanResult.levelRange.min; i <= scanResult.levelRange.max; i += 0.5) {
             getSingleLevelIVPossibility(scanResult, i);
         }
     }
@@ -261,18 +261,18 @@ public class PokeInfoCalculator {
 
         for (int staminaIV = 0; staminaIV < 16; staminaIV++) {
             int hp = (int) Math.max(Math.floor((baseStamina + staminaIV) * lvlScalar), 10);
-            if (hp == scanResult.scannedHP) {
+            if (hp == scanResult.hp) {
                 double lvlScalarStamina = Math.sqrt(baseStamina + staminaIV) * lvlScalarPow2;
                 for (int defenseIV = 0; defenseIV < 16; defenseIV++) {
                     for (int attackIV = 0; attackIV < 16; attackIV++) {
                         int cp = Math.max(10, (int) Math.floor((baseAttack + attackIV) * Math.sqrt(baseDefense
                                 + defenseIV) * lvlScalarStamina));
-                        if (cp == scanResult.scannedCP) {
+                        if (cp == scanResult.cp) {
                             scanResult.addIVCombination(attackIV, defenseIV, staminaIV);
                         }
                     }
                 }
-            } else if (hp > scanResult.scannedHP) {
+            } else if (hp > scanResult.hp) {
                 break;
             }
         }
@@ -408,9 +408,9 @@ public class PokeInfoCalculator {
     public int getHPAtLevel(IVScanResult ivScanResult, double selectedLevel, Pokemon selectedPokemon) {
         double lvlScalar = Data.getLevelCpM(selectedLevel);
         int highHp = (int) Math.max(
-                Math.floor((selectedPokemon.baseStamina + ivScanResult.getHighStamina()) * lvlScalar), 10);
+                Math.floor((selectedPokemon.baseStamina + ivScanResult.getIVStaminaHigh()) * lvlScalar), 10);
         int lowHp = (int) Math.max(
-                Math.floor((selectedPokemon.baseStamina + ivScanResult.getHighStamina()) * lvlScalar), 10);
+                Math.floor((selectedPokemon.baseStamina + ivScanResult.getIVStaminaHigh()) * lvlScalar), 10);
         int averageHP = Math.round(highHp + lowHp) / 2;
         return averageHP;
     }

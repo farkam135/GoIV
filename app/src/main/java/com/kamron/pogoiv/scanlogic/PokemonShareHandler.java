@@ -26,18 +26,18 @@ public class PokemonShareHandler {
         JSONObject jsonPokemon = new JSONObject();
         try {
             jsonPokemon.put("PokemonId", Pokefly.scanResult.pokemon.number + 1);
-            jsonPokemon.put("AtkMin", Pokefly.scanResult.getLowAttack());
-            jsonPokemon.put("AtkMax", Pokefly.scanResult.getHighAttack());
-            jsonPokemon.put("DefMin", Pokefly.scanResult.getLowDefense());
-            jsonPokemon.put("DefMax", Pokefly.scanResult.getHighDefense());
-            jsonPokemon.put("StamMin", Pokefly.scanResult.getLowStamina());
-            jsonPokemon.put("StamMax", Pokefly.scanResult.getHighStamina());
-            jsonPokemon.put("OverallPower", Pokefly.scanResult.getAveragePercent());
-            jsonPokemon.put("Hp", Pokefly.scanResult.scannedHP);
-            jsonPokemon.put("Cp", Pokefly.scanResult.scannedCP);
+            jsonPokemon.put("AtkMin", Pokefly.scanResult.getIVAttackLow());
+            jsonPokemon.put("AtkMax", Pokefly.scanResult.getIVAttackHigh());
+            jsonPokemon.put("DefMin", Pokefly.scanResult.getIVDefenseLow());
+            jsonPokemon.put("DefMax", Pokefly.scanResult.getIVDefenseHigh());
+            jsonPokemon.put("StamMin", Pokefly.scanResult.getIVStaminaLow());
+            jsonPokemon.put("StamMax", Pokefly.scanResult.getIVStaminaHigh());
+            jsonPokemon.put("OverallPower", Pokefly.scanResult.getIVPercentAvg());
+            jsonPokemon.put("Hp", Pokefly.scanResult.hp);
+            jsonPokemon.put("Cp", Pokefly.scanResult.cp);
             jsonPokemon.put("uniquePokemon", Pokefly.scanData.getPokemonUniqueID());
-            jsonPokemon.put("estimatedPokemonLevel", Pokefly.scanResult.estimatedPokemonLevel.min);
-            jsonPokemon.put("estimatedPokemonLevelMax", Pokefly.scanResult.estimatedPokemonLevel.max);
+            jsonPokemon.put("estimatedPokemonLevel", Pokefly.scanResult.levelRange.min);
+            jsonPokemon.put("estimatedPokemonLevelMax", Pokefly.scanResult.levelRange.max);
             PokeInfoCalculator calc = PokeInfoCalculator.getInstance();
             jsonPokemon.put("candyName", calc.getEvolutionLine(Pokefly.scanResult.pokemon).get(0));
 

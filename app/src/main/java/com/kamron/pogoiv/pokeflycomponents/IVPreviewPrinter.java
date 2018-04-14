@@ -10,7 +10,6 @@ import com.kamron.pogoiv.ScreenGrabber;
 import com.kamron.pogoiv.pokeflycomponents.ocrhelper.OcrHelper;
 import com.kamron.pogoiv.scanlogic.IVScanResult;
 import com.kamron.pogoiv.scanlogic.PokeInfoCalculator;
-import com.kamron.pogoiv.scanlogic.Pokemon;
 import com.kamron.pogoiv.scanlogic.PokemonNameCorrector;
 import com.kamron.pogoiv.scanlogic.ScanResult;
 
@@ -66,11 +65,13 @@ public class IVPreviewPrinter {
         private WeakReference<Pokefly> pokeflyRef;
         private WeakReference<IVPreviewPrinter> ivPreviewPrinterRef;
         private WeakReference<IVPopupButton> ivButtonRef;
+        private PokemonNameCorrector pokemonNameCorrector;
 
         void updateReferences(Pokefly pokefly, IVPreviewPrinter ivPreviewPrinter, IVPopupButton ivButton) {
             pokeflyRef = new WeakReference<>(pokefly);
             ivPreviewPrinterRef = new WeakReference<>(ivPreviewPrinter);
             ivButtonRef = new WeakReference<>(ivButton);
+            pokemonNameCorrector = new PokemonNameCorrector(PokeInfoCalculator.getInstance());
         }
 
         @Override
@@ -116,8 +117,9 @@ public class IVPreviewPrinter {
                 return false; // The class that scheduled this runnable has been garbage collected
             }
 
-            IVScanResult ivScanResults = ivPreviewPrinter.getIVScanResults(res);
-            if (ivScanResults.getCount() <= 0) { //unsuccessful scan
+            IVScanResult ivScanResults = new IVScanResult(pokemonNameCorrector, res);
+            PokeInfoCalculator.getInstance().getIVPossibilities(ivScanResults);
+            if (ivScanResults.getIVCombinationsCount() <= 0) { //unsuccessful scan
                 return false;
             }
 
@@ -130,21 +132,6 @@ public class IVPreviewPrinter {
 
             return true;
         }
-    }
-
-    /**
-     * Get ivscanresults from a screen scan.
-     *
-     * @param res The scan result which has not been processed to an ivscanresult containing pure screen ocr data.
-     * @return the processed ivscanresult
-     */
-    private IVScanResult getIVScanResults(ScanResult res) {
-        PokemonNameCorrector corrector = new PokemonNameCorrector(pokeInfoCalculator);
-        Pokemon poke = corrector.getPossiblePokemon(res.getPokemonName(), res.getCandyName(),
-                res.getEvolutionCandyCost(), res.getPokemonType()).pokemon;
-        IVScanResult ivrs = pokeInfoCalculator.getIVPossibilities(poke, res.getEstimatedPokemonLevel(),
-                res.getPokemonHP().get(), res.getPokemonCP().get(), res.getPokemonGender());
-        return ivrs;
     }
 
     /**

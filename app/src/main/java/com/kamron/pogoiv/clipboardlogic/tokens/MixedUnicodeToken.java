@@ -51,7 +51,8 @@ public class MixedUnicodeToken extends ClipboardToken {
         int highestStaminaStat = 0;
 
         //Loop through all iVCombinations to find the lowest of each stat
-        for (IVCombination ivc : ivScanResult.iVCombinations) {
+        for (int i = 0; i < ivScanResult.getIVCombinationsCount(); i++) {
+            IVCombination ivc = ivScanResult.getIVCombinationAt(i);
             // Save the lowest and highest attackIV of any Combination
             if (ivc.att < lowestAttackStat) {
                 lowestAttackStat = ivc.att;

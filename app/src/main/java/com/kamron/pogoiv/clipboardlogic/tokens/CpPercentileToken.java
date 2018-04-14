@@ -36,7 +36,7 @@ public class CpPercentileToken extends ClipboardToken {
 
     @Override
     public String getValue(IVScanResult isr, PokeInfoCalculator pokeInfoCalculator) {
-        int thisResult = isr.lowAttack + isr.lowDefense + isr.lowStamina;
+        int thisResult = isr.getLowAttack() + isr.getLowDefense() + isr.getLowStamina();
         return String.valueOf(compositionLookup(thisResult));
     }
 

@@ -1,6 +1,7 @@
 package com.kamron.pogoiv.scanlogic;
 
-import android.support.v4.util.Pair;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.google.common.base.Optional;
 import com.kamron.pogoiv.utils.LevelRange;
@@ -12,25 +13,26 @@ import com.kamron.pogoiv.utils.LevelRange;
 //TODO: we might want to make this Parcelable instead of sending the fields one by one?
 //But writing the instance by hand would call for unit test.
 public class ScanResult {
-    private final LevelRange estimatedPokemonLevelRange;
-    private final String pokemonName;
+    private LevelRange estimatedPokemonLevelRange;
+    private String pokemonName;
     private final String pokemonType;
     private final Pokemon.Gender pokemonGender;
     private final String candyName;
-    private final Optional<Integer> pokemonHP;
-    private final Optional<Integer> pokemonCP;
-    private final Optional<Integer> pokemonCandyAmount;
+    private Optional<Integer> pokemonHP;
+    private Optional<Integer> pokemonCP;
+    private Optional<Integer> pokemonCandyAmount;
     private final Optional<Integer> evolutionCandyCost;
     private final Optional<Integer> powerUpStardustCost;
     private final Optional<Integer> powerUpCandyCost;
-    private final Optional<Pair<String, String>> moveset;
+    private final String moveFast;
+    private final String moveCharge;
     private final String uniqueID;
 
     public ScanResult(LevelRange estimatedPokemonLevel, String pokemonName, String pokemonType, String candyName,
                       Pokemon.Gender pokemonGender, Optional<Integer> pokemonHP, Optional<Integer> pokemonCP,
                       Optional<Integer> pokemonCandyAmount, Optional<Integer> evolutionCandyCost,
                       Optional<Integer> powerUpStardustCost, Optional<Integer> powerUpCandyCost,
-                      Optional<Pair<String, String>> moveset, String uniqueID) {
+                      String moveFast, String moveCharge, String uniqueID) {
         this.estimatedPokemonLevelRange = estimatedPokemonLevel;
         this.pokemonName = pokemonName;
         this.pokemonType = pokemonType;
@@ -42,7 +44,8 @@ public class ScanResult {
         this.evolutionCandyCost = evolutionCandyCost;
         this.powerUpStardustCost = powerUpStardustCost;
         this.powerUpCandyCost = powerUpCandyCost;
-        this.moveset = moveset;
+        this.moveFast = moveFast;
+        this.moveCharge = moveCharge;
         this.uniqueID = uniqueID;
     }
 
@@ -50,8 +53,16 @@ public class ScanResult {
         return estimatedPokemonLevelRange;
     }
 
+    public void setEstimatedPokemonLevelRange(@NonNull LevelRange levelRange) {
+        this.estimatedPokemonLevelRange = levelRange;
+    }
+
     public String getPokemonName() {
         return pokemonName;
+    }
+
+    public void setPokemonName(@NonNull String pokemonName) {
+        this.pokemonName = pokemonName;
     }
 
     public String getPokemonType() {
@@ -70,12 +81,24 @@ public class ScanResult {
         return pokemonHP;
     }
 
+    public void setPokemonHP(int hp) {
+        pokemonHP = Optional.of(hp);
+    }
+
     public Optional<Integer> getPokemonCP() {
         return pokemonCP;
     }
 
+    public void setPokemonCP(int cp) {
+        pokemonCP = Optional.of(cp);
+    }
+
     public Optional<Integer> getPokemonCandyAmount() {
         return pokemonCandyAmount;
+    }
+
+    public void setPokemonCandyAmount(int candyAmount) {
+        pokemonCandyAmount = Optional.of(candyAmount);
     }
 
     public Optional<Integer> getPokemonPowerUpStardustCost() {
@@ -86,8 +109,12 @@ public class ScanResult {
         return powerUpCandyCost;
     }
 
-    public Optional<Pair<String, String>> getMoveset() {
-        return moveset;
+    public @Nullable String getFastMove() {
+        return moveFast;
+    }
+
+    public @Nullable String getChargeMove() {
+        return moveCharge;
     }
 
     public String getPokemonUniqueID() {

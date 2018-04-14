@@ -25,7 +25,6 @@ import com.kamron.pogoiv.scanlogic.IVScanResult;
 import com.kamron.pogoiv.scanlogic.PokeInfoCalculator;
 import com.kamron.pogoiv.scanlogic.PokeSpam;
 import com.kamron.pogoiv.scanlogic.Pokemon;
-import com.kamron.pogoiv.scanlogic.ScanContainer;
 import com.kamron.pogoiv.scanlogic.UpgradeCost;
 import com.kamron.pogoiv.utils.fractions.Fraction;
 import com.kamron.pogoiv.widgets.PokemonSpinnerAdapter;
@@ -79,7 +78,7 @@ public class PowerUpFraction extends Fraction {
     private ColorStateList exResLevelDefaultColor;
 
 
-    public PowerUpFraction(Pokefly pokefly) {
+    public PowerUpFraction(@NonNull Pokefly pokefly) {
         this.context = pokefly;
         this.pokefly = pokefly;
     }
@@ -127,19 +126,17 @@ public class PowerUpFraction extends Fraction {
      * pokemon evolution and level set by the user.
      */
     public void populateAdvancedInformation() {
-        IVScanResult ivScanResult = ScanContainer.scanContainer.currScan;
-
         double selectedLevel = seekbarProgressToLevel(expandedLevelSeekbar.getProgress());
-        Pokemon selectedPokemon = initPokemonSpinnerIfNeeded(ivScanResult.pokemon);
+        Pokemon selectedPokemon = initPokemonSpinnerIfNeeded(Pokefly.scanResult.pokemon);
 
-        setEstimateCpTextBox(ivScanResult, selectedLevel, selectedPokemon);
-        setEstimateHPTextBox(ivScanResult, selectedLevel, selectedPokemon);
-        setPokemonPerfectionPercentageText(ivScanResult, selectedLevel, selectedPokemon);
-        setEstimateCostTextboxes(ivScanResult, selectedLevel, selectedPokemon);
+        setEstimateCpTextBox(Pokefly.scanResult, selectedLevel, selectedPokemon);
+        setEstimateHPTextBox(Pokefly.scanResult, selectedLevel, selectedPokemon);
+        setPokemonPerfectionPercentageText(Pokefly.scanResult, selectedLevel, selectedPokemon);
+        setEstimateCostTextboxes(Pokefly.scanResult, selectedLevel, selectedPokemon);
         exResLevel.setText(String.valueOf(selectedLevel));
         setEstimateLevelTextColor(selectedLevel);
 
-        setAndCalculatePokeSpamText(ivScanResult);
+        setAndCalculatePokeSpamText(Pokefly.scanResult);
     }
 
     /**
@@ -217,9 +214,8 @@ public class PowerUpFraction extends Fraction {
 
         exResultHP.setText(String.valueOf(newHP));
 
-        int oldHP = PokeInfoCalculator.getInstance().getHPAtLevel(ivScanResult, pokefly.estimatedPokemonLevelRange.min,
-                ivScanResult
-                        .pokemon);
+        int oldHP = PokeInfoCalculator.getInstance().getHPAtLevel(
+                ivScanResult, Pokefly.scanResult.estimatedPokemonLevel.min, ivScanResult.pokemon);
         int hpDiff = newHP - oldHP;
         String sign = (hpDiff >= 0) ? "+" : ""; //add plus in front if positive.
         String hpTextPlus = " (" + sign + hpDiff + ")";
@@ -262,9 +258,8 @@ public class PowerUpFraction extends Fraction {
      * @param selectedPokemon The target pokemon. (example, ivScan pokemon can be weedle, selected can be beedrill.)
      */
     private void setEstimateCostTextboxes(IVScanResult ivScanResult, double selectedLevel, Pokemon selectedPokemon) {
-        UpgradeCost cost = PokeInfoCalculator.getInstance().getUpgradeCost(selectedLevel, pokefly
-                .estimatedPokemonLevelRange
-                .min);
+        UpgradeCost cost = PokeInfoCalculator.getInstance()
+                .getUpgradeCost(selectedLevel, Pokefly.scanResult.estimatedPokemonLevel.min);
         int evolutionCandyCost = PokeInfoCalculator.getInstance()
                 .getCandyCostForEvolution(ivScanResult.pokemon, selectedPokemon);
         String candyCostText = cost.candy + evolutionCandyCost + "";
@@ -306,8 +301,9 @@ public class PowerUpFraction extends Fraction {
                 return;
             }
 
-            PokeSpam pokeSpamCalculator = new PokeSpam(pokefly.pokemonCandy.or(0), ivScanResult.pokemon
-                    .candyEvolutionCost);
+            PokeSpam pokeSpamCalculator = new PokeSpam(
+                    Pokefly.scanData.getPokemonCandyAmount().or(0),
+                    ivScanResult.pokemon.candyEvolutionCost);
 
             // number for total evolvable
             int totEvol = pokeSpamCalculator.getTotalEvolvable();
@@ -394,7 +390,8 @@ public class PowerUpFraction extends Fraction {
         expandedLevelSeekbar.setMax(levelToSeekbarProgress(Data.MAXIMUM_POKEMON_LEVEL));
 
         // Set Thumb value to current Pokemon level
-        expandedLevelSeekbar.setProgress(levelToSeekbarProgress(pokefly.estimatedPokemonLevelRange.min));
+        expandedLevelSeekbar.setProgress(
+                levelToSeekbarProgress(Pokefly.scanResult.estimatedPokemonLevel.min));
 
         // Set Seekbar Background max value to max Pokemon level at trainer level 40
         expandedLevelSeekbarBackground.setMax(levelToSeekbarProgress(Data.MAXIMUM_POKEMON_LEVEL));
@@ -450,7 +447,7 @@ public class PowerUpFraction extends Fraction {
     }
 
     private int getSeekbarOffset() {
-        return (int) (2 * pokefly.estimatedPokemonLevelRange.min);
+        return (int) (2 * Pokefly.scanResult.estimatedPokemonLevel.min);
     }
 
     private double seekbarProgressToLevel(int progress) {

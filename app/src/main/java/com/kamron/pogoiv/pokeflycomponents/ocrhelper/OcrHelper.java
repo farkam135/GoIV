@@ -394,10 +394,10 @@ public class OcrHelper {
      * @param evolutionCostArea The pokémon evolution cost are, moveset is always located below this information
      * @return A pair of strings that represent the fast and charged moves
      */
-    private static Optional<Pair<String, String>> getMovesetFromImg(@NonNull Bitmap pokemonImage,
+    private static @Nullable Pair<String, String> getMovesetFromImg(@NonNull Bitmap pokemonImage,
                                                                     @Nullable ScanArea evolutionCostArea) {
         if (evolutionCostArea == null) {
-            return Optional.absent();
+            return null;
         }
         int x = (int) (pokemonImage.getWidth() / 10 * 1.3f);
         int y = evolutionCostArea.yPoint + evolutionCostArea.height;
@@ -414,10 +414,10 @@ public class OcrHelper {
             if (stringCacheMoveset != null) {
                 //XXX in the cache, we encode "no result" as an empty string. That's a hack.
                 if (stringCacheMoveset.isEmpty()) {
-                    return Optional.absent();
+                    return null;
                 } else {
                     String[] moves = stringCacheMoveset.split("\n");
-                    return Optional.of(new Pair<>(moves[0], moves[1]));
+                    return new Pair<>(moves[0], moves[1]);
                 }
             }
         }
@@ -434,13 +434,13 @@ public class OcrHelper {
             // Just 2 lines were detected with at least 3 characters
             String fast = lines[0].trim();
             String charged = lines[1].trim();
-            Optional<Pair<String, String>> result = Optional.of(new Pair<>(fast, charged));
+            Pair<String, String> result = new Pair<>(fast, charged);
             if (ocrCache != null) {
                 ocrCache.put(hash, fast + "\n" + charged);
             }
             return result;
         }
-        return Optional.absent();
+        return null;
     }
 
     /**
@@ -1060,18 +1060,19 @@ public class OcrHelper {
         }
         Optional<Integer> evolutionCost = getPokemonEvolutionCostFromImg(pokemonImage,
                 ScanArea.calibratedFromSettings(POKEMON_EVOLUTION_COST_AREA, settings));
-        Optional<Pair<String, String>> moveset;
-        if (requestFullScan) {
-            moveset = getMovesetFromImg(pokemonImage,
-                    ScanArea.calibratedFromSettings(POKEMON_EVOLUTION_COST_AREA, settings));
-        } else {
-            moveset = Optional.absent();
+        Pair<String, String> moveset = getMovesetFromImg(pokemonImage,
+                ScanArea.calibratedFromSettings(POKEMON_EVOLUTION_COST_AREA, settings));
+        String moveFast = null;
+        String moveCharge = null;
+        if (moveset != null) {
+            moveFast = moveset.first;
+            moveCharge = moveset.second;
         }
         String uniqueIdentifier = name + type + candyName + hp.toString() + cp
                 .toString() + powerUpStardustCost.toString() + powerUpCandyCost.toString();
 
         return new ScanResult(estimatedLevelRange, name, type, candyName, gender, hp, cp, candyAmount, evolutionCost,
-                powerUpStardustCost, powerUpCandyCost, moveset, uniqueIdentifier);
+                powerUpStardustCost, powerUpCandyCost, moveFast, moveCharge, uniqueIdentifier);
     }
 
     /**

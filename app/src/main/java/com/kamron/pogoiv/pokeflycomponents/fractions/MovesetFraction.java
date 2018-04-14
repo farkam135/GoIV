@@ -22,11 +22,8 @@ import android.widget.Toast;
 import com.kamron.pogoiv.Pokefly;
 import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.pokeflycomponents.MovesetsManager;
-import com.kamron.pogoiv.scanlogic.Data;
-import com.kamron.pogoiv.scanlogic.IVScanResult;
 import com.kamron.pogoiv.scanlogic.MovesetData;
 import com.kamron.pogoiv.scanlogic.PokemonShareHandler;
-import com.kamron.pogoiv.scanlogic.ScanContainer;
 import com.kamron.pogoiv.utils.fractions.Fraction;
 
 import java.text.DecimalFormat;
@@ -47,8 +44,6 @@ public class MovesetFraction extends Fraction {
 
     private Pokefly pokefly;
     private ArrayList<MovesetData> movesets;
-    private IVScanResult ivScanResult;
-    private MovesetData scannedMoveset;
     private Comparator<MovesetData> atkComparator = new MovesetData.AtkComparator();
     private Comparator<MovesetData> reverseAtkComparator = Collections.reverseOrder(new MovesetData.AtkComparator());
     private Comparator<MovesetData> defComparator = new MovesetData.DefComparator();
@@ -65,9 +60,8 @@ public class MovesetFraction extends Fraction {
     ImageView headerDefenseSortIcon;
 
 
-    public MovesetFraction(@NonNull Pokefly pokefly, @NonNull IVScanResult ivScanResult) {
+    public MovesetFraction(@NonNull Pokefly pokefly) {
         this.pokefly = pokefly;
-        this.ivScanResult = ivScanResult;
     }
 
     @Override public int getLayoutResId() {
@@ -78,7 +72,7 @@ public class MovesetFraction extends Fraction {
         ButterKnife.bind(this, rootView);
 
         // Load moveset data
-        Collection<MovesetData> m = MovesetsManager.getMovesetsForDexNumber(ivScanResult.pokemon.number);
+        Collection<MovesetData> m = MovesetsManager.getMovesetsForDexNumber(Pokefly.scanResult.pokemon.number);
         if (m != null) {
             movesets = new ArrayList<>(m);
         } else {
@@ -86,8 +80,6 @@ public class MovesetFraction extends Fraction {
         }
 
         if (!movesets.isEmpty()) {
-            // Detect the best matching moveset with the moves names Pokefly OCR'd
-            selectScannedMoveset(pokefly);
             // Initialize descent attack order by default; this will cause the table to rebuild.
             sortBy(atkComparator);
         }
@@ -141,53 +133,13 @@ public class MovesetFraction extends Fraction {
             row = (TableRow) LayoutInflater.from(pokefly)
                     .inflate(R.layout.item_moveset, tableLayout, false);
             holder = new RowViewHolder();
-            ButterKnife.bind(holder, row);
             row.setTag(holder);
         }
 
-        // Quick move
-        holder.quick.setTextColor(getMoveColor(move.isQuickIsLegacy()));
-        holder.quick.setText(move.getQuick());
-        if (move.equals(scannedMoveset)) {
-            holder.quick.setTypeface(null, Typeface.BOLD);
-        } else {
-            holder.quick.setTypeface(null, Typeface.NORMAL);
-        }
-
-        // Charge move
-        holder.charge.setTextColor(getMoveColor(move.isChargeIsLegacy()));
-        holder.charge.setText(move.getCharge());
-        if (move.equals(scannedMoveset)) {
-            holder.charge.setTypeface(null, Typeface.BOLD);
-        } else {
-            holder.charge.setTypeface(null, Typeface.NORMAL);
-        }
-
-        // Attack score
-        holder.attack.setTextColor(getPowerColor(move.getAtkScore()));
-        holder.attack.setText(scoreFormat.format(move.getAtkScore()));
-
-        // Defense score
-        holder.defense.setTextColor(getPowerColor(move.getDefScore()));
-        holder.defense.setText(scoreFormat.format(move.getDefScore()));
+        holder.bind(row, move);
 
         if (row.getParent() == null) {
             tableLayout.addView(row);
-        }
-    }
-
-    private void selectScannedMoveset(@NonNull Pokefly pokefly) {
-        int bestDistance = Integer.MAX_VALUE;
-        for (MovesetData moveset : movesets) {
-            int quickDistance =
-                    Data.levenshteinDistance(pokefly.movesetQuick.toLowerCase(), moveset.getQuick().toLowerCase());
-            int chargeDistance =
-                    Data.levenshteinDistance(pokefly.movesetCharge.toLowerCase(), moveset.getCharge().toLowerCase());
-            int combinedDistance = (quickDistance + 1) * (chargeDistance + 1);
-            if (combinedDistance < bestDistance) {
-                scannedMoveset = moveset;
-                bestDistance = combinedDistance;
-            }
         }
     }
 
@@ -262,14 +214,16 @@ public class MovesetFraction extends Fraction {
     void export() {
         ClipboardManager clipboard = (ClipboardManager) pokefly.getSystemService(Context.CLIPBOARD_SERVICE);
         String content = "pokemon,cp,level,attack,defense,stamina,quickmove,chargemove\n"; // Data header
-        content += ivScanResult.pokemon + ","
-                + ivScanResult.scannedCP + ","
-                + ivScanResult.estimatedPokemonLevel.min + ","
-                + ivScanResult.lowAttack + ","
-                + ivScanResult.lowDefense + ","
-                + ivScanResult.lowStamina + ","
-                + (scannedMoveset != null ? scannedMoveset.getQuickKey() : "") + ","
-                + (scannedMoveset != null ? scannedMoveset.getChargeKey() : "");
+        content += Pokefly.scanResult.pokemon + ","
+                + Pokefly.scanResult.scannedCP + ","
+                + Pokefly.scanResult.estimatedPokemonLevel.min + ","
+                + Pokefly.scanResult.getLowAttack() + ","
+                + Pokefly.scanResult.getLowDefense() + ","
+                + Pokefly.scanResult.getLowStamina() + ","
+                + (Pokefly.scanResult.selectedMoveset != null
+                ? Pokefly.scanResult.selectedMoveset.getQuickKey() : "") + ","
+                + (Pokefly.scanResult.selectedMoveset != null
+                ? Pokefly.scanResult.selectedMoveset.getChargeKey() : "");
         clipboard.setPrimaryClip(ClipData.newPlainText(content, content));
 
         Toast toast = Toast.makeText(pokefly, String.format("Pokemon data added to clipboard."
@@ -291,13 +245,15 @@ public class MovesetFraction extends Fraction {
     @OnClick({R.id.shareWithOtherApp})
     void shareScannedPokemonInformation() {
         PokemonShareHandler communicator = new PokemonShareHandler();
-        communicator.spreadResultIntent(pokefly, ScanContainer.scanContainer.currScan, pokefly.pokemonUniqueID);
+        communicator.spreadResultIntent(pokefly);
         pokefly.closeInfoDialog();
     }
 
     public class RowViewHolder {
         private RowViewHolder() {
         }
+
+        private MovesetData data;
 
         @BindView(R.id.text_quick)
         TextView quick;
@@ -307,5 +263,45 @@ public class MovesetFraction extends Fraction {
         TextView attack;
         @BindView(R.id.text_defense)
         TextView defense;
+
+        public void bind(@NonNull View v, MovesetData data) {
+            ButterKnife.bind(this, v);
+            this.data = data;
+
+            // Quick move
+            quick.setTextColor(getMoveColor(data.isQuickIsLegacy()));
+            quick.setText(data.getQuick());
+            if (data.equals(Pokefly.scanResult.selectedMoveset)) {
+                quick.setTypeface(null, Typeface.BOLD);
+            } else {
+                quick.setTypeface(null, Typeface.NORMAL);
+            }
+
+            // Charge move
+            charge.setTextColor(getMoveColor(data.isChargeIsLegacy()));
+            charge.setText(data.getCharge());
+            if (data.equals(Pokefly.scanResult.selectedMoveset)) {
+                charge.setTypeface(null, Typeface.BOLD);
+            } else {
+                charge.setTypeface(null, Typeface.NORMAL);
+            }
+
+            // Attack score
+            attack.setTextColor(getPowerColor(data.getAtkScore()));
+            attack.setText(scoreFormat.format(data.getAtkScore()));
+
+            // Defense score
+            defense.setTextColor(getPowerColor(data.getDefScore()));
+            defense.setText(scoreFormat.format(data.getDefScore()));
+        }
+
+        @OnClick({R.id.text_quick, R.id.text_charge, R.id.text_attack, R.id.text_defense})
+        void onRowClick() {
+            Pokefly.scanResult.selectedMoveset = data;
+            buildTable();
+
+            // Regenerate clipboard
+            pokefly.addSpecificMovesetClipboard(data);
+        }
     }
 }

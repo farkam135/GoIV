@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.kamron.pogoiv.pokeflycomponents.AutoAppraisal;
+import com.kamron.pogoiv.pokeflycomponents.MovesetsManager;
 import com.kamron.pogoiv.utils.LevelRange;
 
 import java.util.ArrayList;
@@ -11,6 +12,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.List;
 
 /**
  * A class which represents all possible iv combinations for a pokemon.
@@ -29,50 +32,134 @@ import java.util.HashSet;
  * Created by Johan on 2016-08-18.
  */
 public class IVScanResult {
+    public Pokemon pokemon;
+    public Pokemon.Gender scannedGender;
+    public final LevelRange estimatedPokemonLevel;
+    public final int scannedCP;
+    public int scannedHP;
+    private ArrayList<MovesetData> movesets;
+    public MovesetData selectedMoveset;
+    private ArrayList<IVCombination> iVCombinations = new ArrayList<>();
+    public IVCombination selectedIVCombination;
+    public boolean levelRangeIVScan = false; //is this several levels worth of possible iv combinations?
     private int highPercent = 0;
     private int lowPercent = 100;
-    public int lowAttack = 15;
-    public int lowDefense = 15;
-    public int lowStamina = 15;
-    public int highAttack = 0;
-    public int highDefense = 0;
-    public int highStamina = 0;
-    public final int scannedCP;
-    public ArrayList<IVCombination> iVCombinations = new ArrayList<>();
-    public Pokemon pokemon = null;
-    public final LevelRange estimatedPokemonLevel;
-    public int scannedHP = 0;
-    public boolean levelRangeIVScan = false; //is this several levels worth of possible iv combinations?
-    public Pokemon.Gender scannedGender;
+    private int lowAttack = 15;
+    private int lowDefense = 15;
+    private int lowStamina = 15;
+    private int highAttack = 0;
+    private int highDefense = 0;
+    private int highStamina = 0;
+
+    public IVScanResult(@NonNull PokemonNameCorrector corrector, @NonNull ScanResult scanData) {
+        this(corrector.getPossiblePokemon(scanData).pokemon, scanData);
+    }
 
     /**
      * Creates a holder object for IV scan results.
      *
      * @param pokemon        Which pokemon it is
-     * @param estimatedLevel The estimated pokemon level
-     * @param pokemonCP      Pokemon CP
-     * @param gender         Pokemon gender
+     * @param scanData       The OCR results
      */
-    public IVScanResult(Pokemon pokemon, LevelRange estimatedLevel, int pokemonCP, Pokemon.Gender gender) {
+    public IVScanResult(@NonNull Pokemon pokemon, @NonNull ScanResult scanData) {
         this.pokemon = pokemon;
-        this.estimatedPokemonLevel = estimatedLevel;
-        this.scannedCP = pokemonCP;
-        this.scannedGender = gender;
+        this.estimatedPokemonLevel = scanData.getEstimatedPokemonLevel();
+        this.scannedHP = scanData.getPokemonHP().get();
+        this.scannedCP = scanData.getPokemonCP().get();
+        this.scannedGender = scanData.getPokemonGender();
+
+        LinkedHashSet<MovesetData> m = MovesetsManager.getMovesetsForDexNumber(pokemon.number);
+        if (m != null) {
+            this.movesets = new ArrayList<>(m);
+            if (scanData.getFastMove() != null && scanData.getChargeMove() != null) {
+                // Detect the best matching moveset with the moves names Pokefly OCR'd
+                selectScannedMoveset(scanData.getFastMove(), scanData.getChargeMove());
+            }
+        } else {
+            this.movesets = new ArrayList<>();
+        }
     }
 
-    public int getCount() {
-        return iVCombinations.size();
+    public List<IVCombination> getIVCombinations() {
+        return Collections.unmodifiableList(iVCombinations);
+    }
+
+    public IVCombination getIVCombinationAt(int position) {
+        if (selectedIVCombination != null) {
+            if (position != 0) {
+                throw new IndexOutOfBoundsException();
+            }
+            return selectedIVCombination;
+        }
+        if (position >= 0 && position < iVCombinations.size()) {
+            return iVCombinations.get(position);
+        } else {
+            throw new IndexOutOfBoundsException();
+        }
+    }
+
+    public int getIVCombinationsCount() {
+        if (selectedIVCombination != null) {
+            return 1;
+        } else {
+            return iVCombinations.size();
+        }
     }
 
     /**
      * Calculates and returns the average % of the possible IVs.
      */
     public int getAveragePercent() {
+        if (selectedIVCombination != null) {
+            return Math.round(selectedIVCombination.getTotal() * 100f / 45f);
+        }
         int sum = 0;
         for (IVCombination ivc : iVCombinations) {
-            sum += ivc.att + ivc.def + ivc.sta;
+            sum += ivc.getTotal();
         }
-        return Math.round(sum * 100f / (45f * getCount()));
+        return Math.round(sum * 100f / (45f * iVCombinations.size()));
+    }
+
+    public int getLowAttack() {
+        if (selectedIVCombination != null) {
+            return selectedIVCombination.att;
+        }
+        return lowAttack;
+    }
+
+    public int getHighAttack() {
+        if (selectedIVCombination != null) {
+            return selectedIVCombination.att;
+        }
+        return highAttack;
+    }
+
+    public int getLowDefense() {
+        if (selectedIVCombination != null) {
+            return selectedIVCombination.def;
+        }
+        return lowDefense;
+    }
+
+    public int getHighDefense() {
+        if (selectedIVCombination != null) {
+            return selectedIVCombination.def;
+        }
+        return highDefense;
+    }
+
+    public int getLowStamina() {
+        if (selectedIVCombination != null) {
+            return selectedIVCombination.sta;
+        }
+        return lowStamina;
+    }
+
+    public int getHighStamina() {
+        if (selectedIVCombination != null) {
+            return selectedIVCombination.sta;
+        }
+        return highStamina;
     }
 
     public void sortCombinations() {
@@ -104,36 +191,53 @@ public class IVScanResult {
      * @param staminaIV the stamina iv
      */
     public void addIVCombination(int attackIV, int defenseIV, int staminaIV) {
-        int sumIV = attackIV + defenseIV + staminaIV;
-        int percentPerfect = Math.round(sumIV / 45f * 100);
+        IVCombination newCombination = new IVCombination(attackIV, defenseIV, staminaIV);
+        if (iVCombinations.contains(newCombination)) {
+            return;
+        }
 
-        if ((percentPerfect < lowPercent)
-                || (percentPerfect == lowPercent)
+        if ((newCombination.percentPerfect < lowPercent)
+                || (newCombination.percentPerfect == lowPercent)
                 && (attackIV < lowAttack)) { // check for same percentage but lower atk
-            lowPercent = percentPerfect;
+            lowPercent = newCombination.percentPerfect;
             //save worst combination for lower end cp range
             lowAttack = attackIV;
             lowDefense = defenseIV;
             lowStamina = staminaIV;
         }
-        if ((percentPerfect > highPercent)
-                || (percentPerfect == highPercent)
+        if ((newCombination.percentPerfect > highPercent)
+                || (newCombination.percentPerfect == highPercent)
                 && (attackIV > highAttack)) { // check for same percentage but higher atk
-            highPercent = percentPerfect;
+            highPercent = newCombination.percentPerfect;
             //save best combination for upper end cp range
             highAttack = attackIV;
             highDefense = defenseIV;
             highStamina = staminaIV;
         }
 
-        iVCombinations.add(new IVCombination(attackIV, defenseIV, staminaIV));
+        iVCombinations.add(newCombination);
     }
 
+    public void clearIVCombinations() {
+        selectedIVCombination = null;
+        iVCombinations.clear();
+        highPercent = 0;
+        lowPercent = 100;
+        lowAttack = 15;
+        lowDefense = 15;
+        lowStamina = 15;
+        highAttack = 0;
+        highDefense = 0;
+        highStamina = 0;
+    }
 
     /**
      * Get the IV combination which has the highest sum of att+def+sta, or tied to equal.
      */
     public @Nullable IVCombination getHighestIVCombination() {
+        if (selectedIVCombination != null) {
+            return selectedIVCombination;
+        }
         if (iVCombinations.size() == 0) {
             return null;
         }
@@ -144,6 +248,9 @@ public class IVScanResult {
      * Get the IV combination which has the lowest sum of att+def+sta, or tied to equal.
      */
     public @Nullable IVCombination getLowestIVCombination() {
+        if (selectedIVCombination != null) {
+            return selectedIVCombination;
+        }
         if (iVCombinations.size() == 0) {
             return null;
         }
@@ -155,6 +262,9 @@ public class IVScanResult {
      * combination of possible IVs; see getHighestIVCombination() for that.
      */
     public IVCombination getCombinationHighIVs() {
+        if (selectedIVCombination != null) {
+            return selectedIVCombination;
+        }
         return new IVCombination(highAttack, highDefense, highStamina);
     }
 
@@ -163,6 +273,9 @@ public class IVScanResult {
      * combination of possible IVs; see getLowestIVCombination() for that.
      */
     public IVCombination getCombinationLowIVs() {
+        if (selectedIVCombination != null) {
+            return selectedIVCombination;
+        }
         return new IVCombination(lowAttack, lowDefense, lowStamina);
     }
 
@@ -222,18 +335,33 @@ public class IVScanResult {
         }
     }
 
+    private void selectScannedMoveset(@NonNull String moveFast, @NonNull String moveCharge) {
+        int bestDistance = Integer.MAX_VALUE;
+        for (MovesetData moveset : movesets) {
+            int quickDistance =
+                    Data.levenshteinDistance(moveFast.toLowerCase(), moveset.getQuick().toLowerCase());
+            int chargeDistance =
+                    Data.levenshteinDistance(moveCharge.toLowerCase(), moveset.getCharge().toLowerCase());
+            int combinedDistance = (quickDistance + 1) * (chargeDistance + 1);
+            if (combinedDistance < bestDistance) {
+                selectedMoveset = moveset;
+                bestDistance = combinedDistance;
+            }
+        }
+    }
+
     /**
      * Removes all possible IV combinations where the boolean set to true stat isn't the highest.
      * Several stats can be highest if they're equal.
      */
-    public void refineByHighest(@NonNull HashSet<AutoAppraisal.HighestStat> highestStats) {
+    private void refineByHighest(@NonNull HashSet<AutoAppraisal.HighestStat> highestStats) {
         if (highestStats.isEmpty()) {
             return;
         }
 
         Boolean[] knownAttDefSta = { highestStats.contains(AutoAppraisal.HighestStat.ATK),
-                                     highestStats.contains(AutoAppraisal.HighestStat.DEF),
-                                     highestStats.contains(AutoAppraisal.HighestStat.STA) };
+                highestStats.contains(AutoAppraisal.HighestStat.DEF),
+                highestStats.contains(AutoAppraisal.HighestStat.STA) };
         ArrayList<IVCombination> refinedList = new ArrayList<>();
         for (IVCombination comb : iVCombinations) {
             if (Arrays.equals(comb.getHighestStatSignature(), knownAttDefSta)) {
@@ -249,7 +377,7 @@ public class IVScanResult {
      * Removes any iv combination that is outside the scope of the input percentage range.
      * @param range IV percent range
      */
-    public void refineByAppraisalPercentageRange(AutoAppraisal.IVPercentRange range) {
+    private void refineByAppraisalPercentageRange(AutoAppraisal.IVPercentRange range) {
         if (range == AutoAppraisal.IVPercentRange.UNKNOWN) {
             return;
         }
@@ -269,7 +397,7 @@ public class IVScanResult {
      * Removes any iv combination where the highest IV is outside the scope of he input range.
      * @param range Range of the highest stat IV value
      */
-    public void refineByAppraisalIVRange(AutoAppraisal.IVValueRange range) {
+    private void refineByAppraisalIVRange(AutoAppraisal.IVValueRange range) {
         if (range == AutoAppraisal.IVValueRange.UNKNOWN) {
             return;
         }
@@ -289,7 +417,7 @@ public class IVScanResult {
      * Removes any combination that has stats that are lower than a certain amount. Egg and raid pokemon cannot have
      * stats that are lower than 10, weather boosted can't be lower than 4.
      */
-    public void refineByStatModifiers(@NonNull HashSet<AutoAppraisal.StatModifier> statModifiers) {
+    private void refineByStatModifiers(@NonNull HashSet<AutoAppraisal.StatModifier> statModifiers) {
         if (statModifiers.isEmpty()) {
             return;
         }
@@ -310,16 +438,4 @@ public class IVScanResult {
         updateHighAndLowValues();
     }
 
-    public void addPossibilitiesFrom(IVScanResult ivs) {
-
-        for (IVCombination ivc : ivs.iVCombinations) {
-            if (iVCombinations.contains(ivc) == false) { //dont add duplicates
-                addIVCombination(ivc.att, ivc.def, ivc.sta);
-                levelRangeIVScan = true;
-            }
-
-        }
-
-        updateHighAndLowValues();
-    }
 }

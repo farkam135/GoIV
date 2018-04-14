@@ -48,6 +48,7 @@ import com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanPoint;
 import com.kamron.pogoiv.scanlogic.Data;
 import com.kamron.pogoiv.scanlogic.IVCombination;
 import com.kamron.pogoiv.scanlogic.IVScanResult;
+import com.kamron.pogoiv.scanlogic.MovesetData;
 import com.kamron.pogoiv.scanlogic.PokeInfoCalculator;
 import com.kamron.pogoiv.scanlogic.Pokemon;
 import com.kamron.pogoiv.scanlogic.PokemonNameCorrector;
@@ -64,7 +65,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.kamron.pogoiv.GoIVSettings.APPRAISAL_WINDOW_POSITION;
-import static com.kamron.pogoiv.clipboardlogic.ClipboardResultMode.SINGLE_RESULT;
 
 /**
  * Currently, the central service in Pokemon Go, dealing with everything except
@@ -92,7 +92,7 @@ public class Pokefly extends Service {
     private static final String KEY_SEND_INFO_LEVEL_HIGHER = "key_send_info_level_high";
     private static final String KEY_SEND_SCREENSHOT_FILE = "key_send_screenshot_file";
     private static final String KEY_SEND_INFO_CANDY_AMOUNT = "key_send_info_candy_amount";
-    private static final String KEY_SEND_UPGRADE_CANDY_COST = "key_send_upgrade_candy_cost";
+    private static final String KEY_SEND_EVOLUTION_CANDY_COST = "key_send_evolution_candy_cost";
     private static final String KEY_SEND_UNIQUE_ID = "key_send_unique_id";
     private static final String KEY_SEND_POWERUP_STARTDUST_COST = "key_send_powerup_stardust";
     private static final String KEY_SEND_POWERUP_CANDYCOST = "key_send_powerup_candycost";
@@ -106,13 +106,20 @@ public class Pokefly extends Service {
     private static final String PREF_USER_CORRECTIONS = "com.kamron.pogoiv.USER_CORRECTIONS";
 
 
-    private static boolean running = false;
-
     private static final ScanScreenRunnable scanScreenRunnable = new ScanScreenRunnable();
+
+    private static boolean running = false;
+    public static ScanResult scanData;
+    public static IVScanResult scanResult;
 
     private int trainerLevel;
 
     private boolean receivedInfo = false;
+    private boolean infoShownSent = false;
+    private boolean infoShownReceived = false;
+
+    public boolean startedInManualScreenshotMode = false;
+    private String screenShotPath = null;
 
     private FractionManager fractionManager;
     private WindowManager windowManager;
@@ -123,43 +130,19 @@ public class Pokefly extends Service {
     private ScreenShotHelper screenShotHelper;
     private OcrHelper ocr;
 
-
-    private boolean infoShownSent = false;
-    private boolean infoShownReceived = false;
-
-    //Pokefly components
+    // Pokefly components
     private ScreenWatcher screenWatcher;
     private IVPopupButton ivButton;
     private ClipboardTokenHandler clipboardTokenHandler;
     private IVPreviewPrinter ivPreviewPrinter;
-
     private ImageView arcPointer;
-
     private PokeInfoCalculator pokeInfoCalculator;
-
     private AutoAppraisal autoAppraisal;
+    private PokemonNameCorrector nameCorrector;
+
 
     @BindView(R.id.fractionContainer)
     FrameLayout fractionContainer;
-
-
-    public Optional<Pokemon> pokemon = Optional.absent();
-    private String pokemonName;
-    private String pokemonType;
-    private String candyName;
-    public Pokemon.Gender pokemonGender = Pokemon.Gender.N;
-    public Optional<Integer> pokemonCandy = Optional.absent();
-    public Optional<Integer> pokemonCP = Optional.absent();
-    public Optional<Integer> pokemonHP = Optional.absent();
-
-    public String movesetQuick;
-    public String movesetCharge;
-    private Optional<Integer> candyUpgradeCost = Optional.absent();
-    public String pokemonUniqueID = "";
-    public LevelRange estimatedPokemonLevelRange = new LevelRange(1.0);
-    private @NonNull Optional<String> screenShotPath = Optional.absent();
-    private IVScanResult lastIvScanResult;
-    public boolean startedInManualScreenshotMode = false;
 
 
     @SuppressWarnings("deprecation")
@@ -217,15 +200,14 @@ public class Pokefly extends Service {
         intent.putExtra(KEY_SEND_INFO_LEVEL_HIGHER, scanResult.getEstimatedPokemonLevel().max);
         intent.putExtra(KEY_SEND_SCREENSHOT_FILE, filePath);
         intent.putExtra(KEY_SEND_INFO_CANDY_AMOUNT, scanResult.getPokemonCandyAmount());
-        intent.putExtra(KEY_SEND_UPGRADE_CANDY_COST, scanResult.getEvolutionCandyCost());
+        intent.putExtra(KEY_SEND_EVOLUTION_CANDY_COST, scanResult.getEvolutionCandyCost());
         intent.putExtra(KEY_SEND_UNIQUE_ID, scanResult.getPokemonUniqueID());
         intent.putExtra(KEY_SEND_POWERUP_CANDYCOST, scanResult.getPokemonPowerUpCandyCost());
         intent.putExtra(KEY_SEND_POWERUP_STARTDUST_COST, scanResult.getPokemonPowerUpStardustCost());
-        if (scanResult.getMoveset().isPresent()) {
-            intent.putExtra(KEY_SEND_MOVESET_QUICK, scanResult.getMoveset().get().first);
-            intent.putExtra(KEY_SEND_MOVESET_CHARGE, scanResult.getMoveset().get().second);
+        if (scanResult.getFastMove() != null && scanResult.getChargeMove() != null) {
+            intent.putExtra(KEY_SEND_MOVESET_QUICK, scanResult.getFastMove());
+            intent.putExtra(KEY_SEND_MOVESET_CHARGE, scanResult.getChargeMove());
         }
-
     }
 
     public static Intent createProcessBitmapIntent(Bitmap bitmap, String file) {
@@ -273,7 +255,8 @@ public class Pokefly extends Service {
 
         LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(ACTION_UPDATE_UI));
 
-        pokeInfoCalculator = PokeInfoCalculator.getInstance(GoIVSettings.getInstance(this), getResources());
+        pokeInfoCalculator = PokeInfoCalculator.getInstance(this);
+        nameCorrector = new PokemonNameCorrector(pokeInfoCalculator);
         displayMetrics = getResources().getDisplayMetrics();
         initOcr();
         windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
@@ -530,21 +513,24 @@ public class Pokefly extends Service {
     }
 
     public void computeIv() {
-        if (!pokemon.isPresent() || !pokemonHP.isPresent() || !pokemonCP.isPresent()) {
+        if (scanData == null
+                || !scanData.getPokemonCP().isPresent()
+                || !scanData.getPokemonHP().isPresent()) {
             Toast.makeText(this, R.string.missing_inputs, Toast.LENGTH_SHORT).show();
             return;
         }
 
         deleteScreenShotIfRequired();
 
-        lastIvScanResult = pokeInfoCalculator.getIVPossibilities(pokemon.get(), estimatedPokemonLevelRange,
-                pokemonHP.get(), pokemonCP.get(), pokemonGender);
+        //noinspection ConstantConditions
+        scanResult = new IVScanResult(nameCorrector, scanData);
 
-        lastIvScanResult.refineWithAvailableInfoFrom(autoAppraisal);
+        pokeInfoCalculator.getIVPossibilities(scanResult);
+        scanResult.refineWithAvailableInfoFrom(autoAppraisal);
 
         // Don't run clipboard logic if scan failed - some tokens might crash the program.
-        if (lastIvScanResult.iVCombinations.size() > 0) {
-            addClipboardInfoIfSettingOn(lastIvScanResult);
+        if (scanResult.getIVCombinationsCount() > 0) {
+            addClipboardInfoIfSettingOn(scanResult);
         }
 
         closeKeyboard();
@@ -556,9 +542,9 @@ public class Pokefly extends Service {
      * screenshot, and then deletes the screenshot.
      */
     public void deleteScreenShotIfRequired() {
-        if (startedInManualScreenshotMode && screenShotPath.isPresent()) {
+        if (startedInManualScreenshotMode && screenShotPath != null) {
             if (GoIVSettings.getInstance(this).shouldDeleteScreenshots()) {
-                screenShotHelper.deleteScreenShot(screenShotPath.get());
+                screenShotHelper.deleteScreenShot(screenShotPath);
             }
         }
     }
@@ -587,24 +573,41 @@ public class Pokefly extends Service {
     /**
      * Adds the iv range of the pokemon to the clipboard if the clipboard setting is on.
      */
-    public void addSpecificClipboard(IVScanResult ivScanResult, IVCombination ivCombination) {
+    public void addSpecificIVClipboard(IVCombination ivCombination) {
+        if (scanResult != null) {
+            scanResult.selectedIVCombination = ivCombination;
 
+            String clipResult = clipboardTokenHandler.getClipboardText(scanResult, pokeInfoCalculator);
 
-        String clipResult;
-        IVScanResult singleIVScanResult = new IVScanResult(ivScanResult.pokemon, ivScanResult.estimatedPokemonLevel,
-                ivScanResult.scannedCP, ivScanResult.scannedGender);
-        singleIVScanResult.addIVCombination(ivCombination.att, ivCombination.def, ivCombination.sta);
-        clipResult = clipboardTokenHandler.getResults(singleIVScanResult, pokeInfoCalculator, SINGLE_RESULT);
+            Toast toast = Toast.makeText(this, String.format(getString(R.string.clipboard_copy_toast), clipResult),
+                    Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
 
+            clipboard.setPrimaryClip(ClipData.newPlainText(clipResult, clipResult));
+        }
+    }
 
-        Toast toast = Toast.makeText(this, String.format(getString(R.string.clipboard_copy_toast), clipResult),
-                Toast.LENGTH_SHORT);
-        toast.setGravity(Gravity.CENTER, 0, 0);
-        toast.show();
+    /**
+     * Adds the iv range of the pokemon to the clipboard if the clipboard setting is on.
+     */
+    public void addSpecificMovesetClipboard(MovesetData movesetData) {
+        if (scanResult != null) {
+            scanResult.selectedMoveset = movesetData;
 
-        ClipData clip = ClipData.newPlainText(clipResult, clipResult);
-        clipboard.setPrimaryClip(clip);
+            GoIVSettings settings = GoIVSettings.getInstance(this);
+            if (settings.shouldCopyToClipboard()) {
+                String clipResult = clipboardTokenHandler.getClipboardText(scanResult, pokeInfoCalculator);
+                clipboard.setPrimaryClip(ClipData.newPlainText(clipResult, clipResult));
 
+                if (settings.shouldCopyToClipboardShowToast()) {
+                    Toast toast = Toast.makeText(this,
+                            String.format(getString(R.string.clipboard_copy_toast), clipResult), Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
+                }
+            }
+        }
     }
 
     /**
@@ -734,8 +737,7 @@ public class Pokefly extends Service {
     };
 
     public void navigateToInputFraction() {
-        fractionManager.show(new InputFraction(this, pokeInfoCalculator, pokemonName, pokemonType, candyName,
-                pokemonGender, pokemonCandy, pokemonCP, pokemonHP, candyUpgradeCost));
+        fractionManager.show(new InputFraction(this));
         moveOverlay(false);
     }
 
@@ -745,12 +747,12 @@ public class Pokefly extends Service {
     }
 
     public void navigateToIVResultFraction() {
-        fractionManager.show(new IVResultFraction(this, lastIvScanResult));
+        fractionManager.show(new IVResultFraction(this));
         moveOverlay(false);
     }
 
     public void navigateToIVCombinationsFraction() {
-        fractionManager.show(new IVCombinationsFraction(this, lastIvScanResult));
+        fractionManager.show(new IVCombinationsFraction(this));
         moveOverlay(false);
     }
 
@@ -760,7 +762,7 @@ public class Pokefly extends Service {
     }
 
     public void navigateToMovesetFraction() {
-        fractionManager.show(new MovesetFraction(this, lastIvScanResult));
+        fractionManager.show(new MovesetFraction(this));
         moveOverlay(false);
     }
 
@@ -777,46 +779,60 @@ public class Pokefly extends Service {
                         KEY_SEND_INFO_HP) && intent.hasExtra(KEY_SEND_INFO_LEVEL_LOWER)) {
                     receivedInfo = true;
 
-                    pokemonName = intent.getStringExtra(KEY_SEND_INFO_NAME);
-                    pokemonType = intent.getStringExtra(KEY_SEND_INFO_TYPE);
-                    candyName = intent.getStringExtra(KEY_SEND_INFO_CANDY);
-
+                    String pokemonName = intent.getStringExtra(KEY_SEND_INFO_NAME);
+                    String pokemonType = intent.getStringExtra(KEY_SEND_INFO_TYPE);
+                    String candyName = intent.getStringExtra(KEY_SEND_INFO_CANDY);
 
                     @SuppressWarnings("unchecked") Optional<String> lScreenShotFile =
                             (Optional<String>) intent.getSerializableExtra(KEY_SEND_SCREENSHOT_FILE);
-                    @SuppressWarnings("unchecked") Optional<Integer> lPokemonCP =
+                    @SuppressWarnings("unchecked") Optional<Integer> pokemonCP =
                             (Optional<Integer>) intent.getSerializableExtra(KEY_SEND_INFO_CP);
-                    @SuppressWarnings("unchecked") Optional<Integer> lPokemonHP =
+                    @SuppressWarnings("unchecked") Optional<Integer> pokemonHP =
                             (Optional<Integer>) intent.getSerializableExtra(KEY_SEND_INFO_HP);
-                    @SuppressWarnings("unchecked") Pokemon.Gender lPokemonGender =
+                    @SuppressWarnings("unchecked") Pokemon.Gender pokemonGender =
                             (Pokemon.Gender) intent.getSerializableExtra(KEY_SEND_INFO_GENDER);
-                    @SuppressWarnings("unchecked") Optional<Integer> lCandyAmount =
+                    @SuppressWarnings("unchecked") Optional<Integer> candyAmount =
                             (Optional<Integer>) intent.getSerializableExtra(KEY_SEND_INFO_CANDY_AMOUNT);
-                    @SuppressWarnings("unchecked") Optional<Integer> lCandyUpgradeCost =
-                            (Optional<Integer>) intent.getSerializableExtra(KEY_SEND_UPGRADE_CANDY_COST);
-                    @SuppressWarnings("unchecked") String lUniqueID =
+                    @SuppressWarnings("unchecked") Optional<Integer> evolutionCandyCost =
+                            (Optional<Integer>) intent.getSerializableExtra(KEY_SEND_EVOLUTION_CANDY_COST);
+                    @SuppressWarnings("unchecked") Optional<Integer> powerUpCandyCost =
+                            (Optional<Integer>) intent.getSerializableExtra(KEY_SEND_POWERUP_CANDYCOST);
+                    @SuppressWarnings("unchecked") Optional<Integer> powerUpStardustCost =
+                            (Optional<Integer>) intent.getSerializableExtra(KEY_SEND_POWERUP_STARTDUST_COST);
+                    @SuppressWarnings("unchecked") String uniqueID =
                             (String) intent.getSerializableExtra(KEY_SEND_UNIQUE_ID);
 
-                    screenShotPath = lScreenShotFile;
-                    pokemonCP = lPokemonCP;
-                    pokemonHP = lPokemonHP;
-                    pokemonGender = lPokemonGender;
-                    pokemonCandy = lCandyAmount;
-                    candyUpgradeCost = lCandyUpgradeCost;
-                    pokemonUniqueID = lUniqueID;
-                    movesetQuick = intent.getStringExtra(KEY_SEND_MOVESET_QUICK);
-                    movesetCharge = intent.getStringExtra(KEY_SEND_MOVESET_CHARGE);
-                    if (movesetQuick == null || movesetCharge == null) {
-                        movesetQuick = "";
-                        movesetCharge = "";
+                    if (lScreenShotFile.isPresent()) {
+                        screenShotPath = lScreenShotFile.get();
+                    } else {
+                        screenShotPath = null;
                     }
 
-
+                    String moveFast = intent.getStringExtra(KEY_SEND_MOVESET_QUICK);
+                    String moveCharge = intent.getStringExtra(KEY_SEND_MOVESET_CHARGE);
+                    if (moveFast == null || moveCharge == null) {
+                        moveFast = "";
+                        moveCharge = "";
+                    }
 
                     double estimatedPokemonLevelMin = intent.getDoubleExtra(KEY_SEND_INFO_LEVEL_LOWER, 1);
                     double estimatedPokemonLevelMax = intent.getDoubleExtra(KEY_SEND_INFO_LEVEL_HIGHER, 1);
 
-                    estimatedPokemonLevelRange = new LevelRange(estimatedPokemonLevelMin, estimatedPokemonLevelMax);
+                    scanData = new ScanResult(
+                            new LevelRange(estimatedPokemonLevelMin, estimatedPokemonLevelMax),
+                            pokemonName,
+                            pokemonType,
+                            candyName,
+                            pokemonGender,
+                            pokemonHP,
+                            pokemonCP,
+                            candyAmount,
+                            evolutionCandyCost,
+                            powerUpStardustCost,
+                            powerUpCandyCost,
+                            moveFast,
+                            moveCharge,
+                            uniqueID);
 
                     if (!infoShownReceived) {
                         GoIVSettings settings = GoIVSettings.getInstance(Pokefly.this);
@@ -826,11 +842,7 @@ public class Pokefly extends Service {
                         showInfoLayoutArcPointer();
                         if (!startedInManualScreenshotMode && settings.shouldAutoOpenExpandedAppraise()) {
                             // Ensure arc pointer is in the right place
-                            setArcPointer(estimatedPokemonLevelRange.min);
-                            // Guess the pokemon name
-                            PokemonNameCorrector.PokeDist possiblePoke = new PokemonNameCorrector(pokeInfoCalculator)
-                                    .getPossiblePokemon(pokemonName, candyName, candyUpgradeCost, pokemonType);
-                            pokemon = Optional.of(possiblePoke.pokemon);
+                            setArcPointer(scanData.getEstimatedPokemonLevel().min);
                             // Now that we've done what's usually taken care by InputFraction, we can skip it
                             navigateToAppraisalFraction();
                         } else {

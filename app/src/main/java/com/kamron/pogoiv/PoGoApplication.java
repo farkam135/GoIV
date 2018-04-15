@@ -3,6 +3,7 @@ package com.kamron.pogoiv;
 import android.app.Application;
 import android.support.v7.app.AppCompatDelegate;
 
+import com.kamron.pogoiv.utils.CrashlyticsWrapper;
 import com.kamron.pogoiv.utils.FontsOverride;
 
 import timber.log.Timber;
@@ -16,9 +17,7 @@ public class PoGoApplication extends Application {
         if (BuildConfig.DEBUG) {
             Timber.plant(new Timber.DebugTree());
         } else {
-            CrashlyticsWrapper.init(getApplicationContext());
-
-            Timber.plant(new CrashlyticsWrapper.CrashReportingTree(this));
+            CrashlyticsWrapper.getInstance().init(this);
         }
 
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);

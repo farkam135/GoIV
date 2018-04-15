@@ -76,9 +76,6 @@ public class MainActivity extends AppCompatActivity {
     private static final int SCREEN_CAPTURE_REQ_CODE = 1235;
 
 
-    public static boolean shouldShowUpdateDialog;
-
-
     @BindView(R.id.collapsingToolbarLayout)
     CollapsingToolbarLayout collapsingToolbarLayout;
 
@@ -117,14 +114,10 @@ public class MainActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             AppUpdate update = intent.getParcelableExtra("update");
             if (update.getStatus() == AppUpdate.UPDATE_AVAILABLE
-                    && shouldShowUpdateDialog
                     && !AppUpdateUtil.isGoIVBeingUpdated(context)) {
                 AppUpdateUtil.getInstance()
                         .getAppUpdateDialog(MainActivity.this, update)
                         .show();
-            }
-            if (!shouldShowUpdateDialog) {
-                shouldShowUpdateDialog = true;
             }
         }
     };
@@ -181,7 +174,13 @@ public class MainActivity extends AppCompatActivity {
         runAutoUpdateStartupChecks();
         initiateUserScreenSettings();
         warnUserFirstLaunchIfNoScreenRecording();
-        registerAllBroadcastReceivers();
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(pokeflyStateChanged,
+                new IntentFilter(Pokefly.ACTION_UPDATE_UI));
+        LocalBroadcastManager.getInstance(this).registerReceiver(restartPokeFly,
+                new IntentFilter(ACTION_RESTART_POKEFLY));
+
+        runActionOnIntent(getIntent());
     }
 
     private boolean showSection(final @IdRes int sectionId) {
@@ -263,23 +262,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Makes the localBroadcastManager register recievers for the different accepted intents, and tells
-     * the app to
-     * actually do something when those intents are received.
-     */
-
-    private void registerAllBroadcastReceivers() {
-        LocalBroadcastManager.getInstance(this).registerReceiver(pokeflyStateChanged,
-                new IntentFilter(Pokefly.ACTION_UPDATE_UI));
-        LocalBroadcastManager.getInstance(this).registerReceiver(showUpdateDialog,
-                new IntentFilter(ACTION_SHOW_UPDATE_DIALOG));
-        LocalBroadcastManager.getInstance(this).registerReceiver(restartPokeFly,
-                new IntentFilter(ACTION_RESTART_POKEFLY));
-
-        runActionOnIntent(getIntent());
-    }
-
-    /**
      * Runs the initialization logic related to the user screen, taking measurements so the ocr will scan the right
      * areas.
      */
@@ -295,7 +277,6 @@ public class MainActivity extends AppCompatActivity {
      * Checks for any published updates if auto-updater settings is on and deletes previous updates.
      */
     private void runAutoUpdateStartupChecks() {
-        shouldShowUpdateDialog = true;
         AppUpdateUtil.deletePreviousApkFile(MainActivity.this);
         if (GoIVSettings.getInstance(this).isAutoUpdateEnabled()) {
             AppUpdateUtil.getInstance().checkForUpdate(this);
@@ -401,6 +382,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         initRecalibrationAlertBadge();
+        LocalBroadcastManager.getInstance(this).registerReceiver(showUpdateDialog,
+                new IntentFilter(ACTION_SHOW_UPDATE_DIALOG));
+    }
+
+    @Override
+    protected void onPause() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(showUpdateDialog);
+        super.onPause();
     }
 
     private int getStatusBarHeight() {
@@ -438,7 +427,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onDestroy() {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(pokeflyStateChanged);
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(showUpdateDialog);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(restartPokeFly);
         super.onDestroy();
     }

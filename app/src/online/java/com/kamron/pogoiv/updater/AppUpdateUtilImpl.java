@@ -4,8 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.content.LocalBroadcastManager;
+import android.widget.Toast;
 
 import com.kamron.pogoiv.BuildConfig;
+import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.activities.MainActivity;
 
 import org.json.JSONException;
@@ -30,9 +32,17 @@ public class AppUpdateUtilImpl extends AppUpdateUtil {
 
     @Override
     public void checkForUpdate(final @NonNull Context context) {
+        // Auto update from GitHub
+        if (isGoIVBeingUpdated(context)) {
+            Toast.makeText(context, context.getString(R.string.ongoing_update),
+                    Toast.LENGTH_SHORT).show();
+            return;
+        } else {
+            Toast.makeText(context, context.getString(R.string.checking_for_update),
+                    Toast.LENGTH_SHORT).show();
+        }
 
         OkHttpClient httpClient = new OkHttpClient();
-
         Request request = new Request.Builder().url(GITHUB_RELEASES_URL).build();
 
         httpClient.newCall(request).enqueue(new Callback() {
@@ -46,9 +56,7 @@ public class AppUpdateUtilImpl extends AppUpdateUtil {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-
                 try {
-
                     JSONObject releaseInfo = new JSONObject(response.body().string());
                     JSONObject releaseAssets = releaseInfo.getJSONArray("assets").getJSONObject(0);
                     if (releaseAssets.getString("name").contains("Offline")) {

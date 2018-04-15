@@ -1,10 +1,9 @@
 package com.kamron.pogoiv.updater;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
-
-import com.kamron.pogoiv.activities.MainActivity;
 
 /**
  * Stub for AppUpdateUtil in offline builds.
@@ -17,7 +16,10 @@ public class AppUpdateUtilImpl extends AppUpdateUtil {
 
     @Override
     public void checkForUpdate(@NonNull Context context) {
-        // Nothing to do, we're offline!
+        // Manual update from GitHub
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse("https://github.com/farkam135/GoIV/releases"));
+        context.startActivity(i);
     }
 
 }

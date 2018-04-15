@@ -11,7 +11,6 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
 import android.preference.SwitchPreference;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
@@ -27,8 +26,8 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getFragmentManager().beginTransaction().replace(android.R.id.content, new SettingsFragment()).commit();
         getSupportActionBar().setTitle(getResources().getString(R.string.settings_page_title));
-        LocalBroadcastManager.getInstance(this).registerReceiver(showUpdateDialog,
-                new IntentFilter(MainActivity.ACTION_SHOW_UPDATE_DIALOG));
+        LocalBroadcastManager.getInstance(this)
+                .registerReceiver(showUpdateDialog, new IntentFilter(MainActivity.ACTION_SHOW_UPDATE_DIALOG));
     }
 
     @Override
@@ -40,11 +39,14 @@ public class SettingsActivity extends AppCompatActivity {
     private final BroadcastReceiver showUpdateDialog = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            assert BuildConfig.isInternetAvailable;
+            if (!BuildConfig.isInternetAvailable) {
+                return;
+            }
             AppUpdate update = intent.getParcelableExtra("update");
             if (update.getStatus() == AppUpdate.UPDATE_AVAILABLE) {
-                AlertDialog updateDialog = AppUpdateUtil.getAppUpdateDialog(SettingsActivity.this, update);
-                updateDialog.show();
+                AppUpdateUtil.getInstance()
+                        .getAppUpdateDialog(SettingsActivity.this, update)
+                        .show();
             } else if (update.getStatus() == AppUpdate.UP_TO_DATE) {
                 Toast.makeText(SettingsActivity.this, getResources().getString(R.string.up_to_date), Toast.LENGTH_SHORT)
                         .show();
@@ -80,11 +82,11 @@ public class SettingsActivity extends AppCompatActivity {
                 checkForUpdatePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                     @Override
                     public boolean onPreferenceClick(Preference preference) {
-                        if (!MainActivity.isGoIVBeingUpdated(getActivity())) {
+                        if (!AppUpdateUtil.isGoIVBeingUpdated(getActivity())) {
                             Toast.makeText(getActivity(), getResources().getString(R.string.checking_for_update),
                                     Toast.LENGTH_SHORT).show();
                             MainActivity.shouldShowUpdateDialog = false;
-                            AppUpdateUtil.checkForUpdate(getActivity());
+                            AppUpdateUtil.getInstance().checkForUpdate(getActivity());
                         } else {
                             Toast.makeText(getActivity(), getResources().getString(R.string.ongoing_update),
                                     Toast.LENGTH_SHORT).show();

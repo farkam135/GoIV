@@ -7,14 +7,12 @@ import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
-import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Rect;
 import android.media.projection.MediaProjection;
 import android.media.projection.MediaProjectionManager;
@@ -56,7 +54,6 @@ import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.ScreenGrabber;
 import com.kamron.pogoiv.updater.AppUpdate;
 import com.kamron.pogoiv.updater.AppUpdateUtil;
-import com.kamron.pogoiv.updater.DownloadUpdateService;
 import com.kamron.pogoiv.widgets.behaviors.DisableableAppBarLayoutBehavior;
 
 import butterknife.BindView;
@@ -119,10 +116,12 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             AppUpdate update = intent.getParcelableExtra("update");
-            if (update.getStatus() == AppUpdate.UPDATE_AVAILABLE && shouldShowUpdateDialog && !isGoIVBeingUpdated(
-                    context)) {
-                AlertDialog updateDialog = AppUpdateUtil.getAppUpdateDialog(MainActivity.this, update);
-                updateDialog.show();
+            if (update.getStatus() == AppUpdate.UPDATE_AVAILABLE
+                    && shouldShowUpdateDialog
+                    && !AppUpdateUtil.isGoIVBeingUpdated(context)) {
+                AppUpdateUtil.getInstance()
+                        .getAppUpdateDialog(MainActivity.this, update)
+                        .show();
             }
             if (!shouldShowUpdateDialog) {
                 shouldShowUpdateDialog = true;
@@ -137,26 +136,11 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-
     @SuppressWarnings("unused")
     public static Intent createUpdateDialogIntent(AppUpdate update) { // This method is used in online builds
         Intent updateIntent = new Intent(MainActivity.ACTION_SHOW_UPDATE_DIALOG);
         updateIntent.putExtra("update", update);
         return updateIntent;
-    }
-
-    public static boolean isGoIVBeingUpdated(Context context) {
-        DownloadManager downloadManager = (DownloadManager) context.getSystemService(DOWNLOAD_SERVICE);
-        DownloadManager.Query q = new DownloadManager.Query();
-        q.setFilterByStatus(DownloadManager.STATUS_RUNNING);
-        Cursor c = downloadManager.query(q);
-        if (c.moveToFirst()) {
-            String fileName = c.getString(c.getColumnIndex(DownloadManager.COLUMN_TITLE));
-            if (fileName.equals(DownloadUpdateService.DOWNLOAD_UPDATE_TITLE)) {
-                return true;
-            }
-        }
-        return false;
     }
 
     boolean hasAllPermissions() {
@@ -314,7 +298,7 @@ public class MainActivity extends AppCompatActivity {
         shouldShowUpdateDialog = true;
         AppUpdateUtil.deletePreviousApkFile(MainActivity.this);
         if (GoIVSettings.getInstance(this).isAutoUpdateEnabled()) {
-            AppUpdateUtil.checkForUpdate(this);
+            AppUpdateUtil.getInstance().checkForUpdate(this);
         }
     }
 

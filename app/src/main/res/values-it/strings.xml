@@ -49,6 +49,7 @@
     <string name="stamina_hp">PS</string>
     <string name="missing_inputs">Dati mancanti. Inserisci PL e PS.</string>
     <string name="accept_screen_capture">Consenti cattura schermo</string>
+    <string name="appraisal">Valutazione</string>
     <string name="appraisal_refining">Affina con \"Valutazione\"</string>
     <string name="atk">ATT</string>
     <string name="avg">MED</string>

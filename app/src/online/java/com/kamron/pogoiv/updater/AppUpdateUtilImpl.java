@@ -34,12 +34,16 @@ public class AppUpdateUtilImpl extends AppUpdateUtil {
     public void checkForUpdate(final @NonNull Context context, boolean fromUser) {
         // Auto update from GitHub
         if (isGoIVBeingUpdated(context)) {
-            Toast.makeText(context, context.getString(R.string.ongoing_update),
-                    Toast.LENGTH_SHORT).show();
+            if (fromUser) {
+                Toast.makeText(context, context.getString(R.string.ongoing_update),
+                        Toast.LENGTH_SHORT).show();
+            }
             return;
         } else {
-            Toast.makeText(context, context.getString(R.string.checking_for_update),
-                    Toast.LENGTH_SHORT).show();
+            if (fromUser) {
+                Toast.makeText(context, context.getString(R.string.checking_for_update),
+                        Toast.LENGTH_SHORT).show();
+            }
         }
 
         OkHttpClient httpClient = new OkHttpClient();

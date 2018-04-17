@@ -127,7 +127,8 @@ android {
         }
         release {
             minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro',
+                    'proguard-crashlytics.pro', 'proguard-guava.pro', 'proguard-butterknife.pro'
             lintOptions {
                 disable 'MissingTranslation'
                 checkReleaseBuilds false

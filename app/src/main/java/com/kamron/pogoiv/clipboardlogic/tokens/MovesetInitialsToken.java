@@ -76,7 +76,7 @@ public class MovesetInitialsToken extends ClipboardToken {
         String result = computeInitials(moveset);
 
         return context.getString(R.string.token_msg_moveset_initials,
-                maxInitials, moveset.getQuick(), moveset.getCharge(), result);
+                maxInitials, moveset.getFast(), moveset.getCharge(), result);
     }
 
     @Override
@@ -91,14 +91,14 @@ public class MovesetInitialsToken extends ClipboardToken {
 
     private @NonNull String computeInitials(@Nullable MovesetData moveset) {
         if (moveset == null
-                || Strings.isNullOrEmpty(moveset.getQuick())
+                || Strings.isNullOrEmpty(moveset.getFast())
                 || Strings.isNullOrEmpty(moveset.getCharge())) {
             return "";
         }
 
         StringBuilder resultBuilder = new StringBuilder(maxInitials * 2);
 
-        String[] fastSplit = moveset.getQuick().split(" ");
+        String[] fastSplit = moveset.getFast().split(" ");
         for (int i = 0; i < maxInitials; i++) {
             if (i < fastSplit.length) {
                 resultBuilder.append(Character.toUpperCase(fastSplit[i].charAt(0)));

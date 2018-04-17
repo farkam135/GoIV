@@ -337,11 +337,11 @@ public class ScanResult {
     private void selectScannedMoveset(@NonNull String moveFast, @NonNull String moveCharge) {
         int bestDistance = Integer.MAX_VALUE;
         for (MovesetData moveset : movesets) {
-            int quickDistance =
-                    Data.levenshteinDistance(moveFast.toLowerCase(), moveset.getQuick().toLowerCase());
+            int fastDistance =
+                    Data.levenshteinDistance(moveFast.toLowerCase(), moveset.getFast().toLowerCase());
             int chargeDistance =
                     Data.levenshteinDistance(moveCharge.toLowerCase(), moveset.getCharge().toLowerCase());
-            int combinedDistance = (quickDistance + 1) * (chargeDistance + 1);
+            int combinedDistance = (fastDistance + 1) * (chargeDistance + 1);
             if (combinedDistance < bestDistance) {
                 selectedMoveset = moveset;
                 bestDistance = combinedDistance;

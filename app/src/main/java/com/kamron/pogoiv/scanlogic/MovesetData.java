@@ -11,83 +11,83 @@ import java.util.Objects;
 
 public class MovesetData {
 
-    private String quick;
+    private String fast;
     private String charge;
-    private String quickKey;
+    private String fastKey;
     private String chargeKey;
-    private boolean quickIsLegacy;
+    private boolean fastIsLegacy;
     private boolean chargeIsLegacy;
     private double atkScore;
     private double defScore;
-    private String quickMoveType;
+    private String fastMoveType;
     private String chargeMoveType;
 
     /**
      * Create a new Moveset.
-     * @param quick Localized quick move name
+     * @param fast Localized fast move name
      * @param charge Localized charge move name
      */
-    public MovesetData(String quick, String charge) {
-        this.quick = quick;
+    public MovesetData(String fast, String charge) {
+        this.fast = fast;
         this.charge = charge;
     }
 
     /**
      * Create a new Moveset.
-     * @param quickKey Unique key identifying the quick move
-     * @param chargeKey Unique key identifying the quick move
-     * @param quick Localized quick move name
+     * @param fastKey Unique key identifying the fast move
+     * @param chargeKey Unique key identifying the charge move
+     * @param fast Localized fast move name
      * @param charge Localized charge move name
-     * @param quickMoveType Quick move type
+     * @param fastMoveType Fast move type
      * @param chargeMoveType Charge move type
-     * @param quickIsLegacy Whether the quick move is legacy
+     * @param fastIsLegacy Whether the fast move is legacy
      * @param chargeIsLegacy Whether the charge move is legacy
      * @param atkScore A score for the attack power of this moveset
      * @param defScore A score for the defense power of this moveset
      */
-    public MovesetData(String quickKey, String chargeKey,
-                       String quick, String charge,
-                       String quickMoveType, String chargeMoveType,
-                       boolean quickIsLegacy, boolean chargeIsLegacy,
+    public MovesetData(String fastKey, String chargeKey,
+                       String fast, String charge,
+                       String fastMoveType, String chargeMoveType,
+                       boolean fastIsLegacy, boolean chargeIsLegacy,
                        double atkScore, double defScore) {
-        this.quickKey = quickKey;
+        this.fastKey = fastKey;
         this.chargeKey = chargeKey;
-        this.quick = quick;
+        this.fast = fast;
         this.charge = charge;
-        this.quickMoveType = quickMoveType;
+        this.fastMoveType = fastMoveType;
         this.chargeMoveType = chargeMoveType;
-        this.quickIsLegacy = quickIsLegacy;
+        this.fastIsLegacy = fastIsLegacy;
         this.chargeIsLegacy = chargeIsLegacy;
         this.atkScore = atkScore;
         this.defScore = defScore;
     }
 
-    public String getQuickMoveType() {
-        return quickMoveType;
+    public String getFastMoveType() {
+        return fastMoveType;
     }
 
     public String getChargeMoveType() {
         return chargeMoveType;
     }
 
-    public String getQuick() {
-        return quick;
+    public String getFast() {
+        return fast;
     }
 
     public String getCharge() {
         return charge;
     }
 
-    public String getQuickKey() {
-        return quickKey;
+    public String getFastKey() {
+        return fastKey;
     }
 
     public String getChargeKey() {
         return chargeKey;
     }
 
-    public boolean isQuickIsLegacy() {
-        return quickIsLegacy;
+    public boolean isFastIsLegacy() {
+        return fastIsLegacy;
     }
 
     public boolean isChargeIsLegacy() {
@@ -125,12 +125,12 @@ public class MovesetData {
             return false;
         }
         MovesetData that = (MovesetData) o;
-        return Objects.equals(quick, that.quick) && Objects.equals(charge, that.charge);
+        return Objects.equals(fast, that.fast) && Objects.equals(charge, that.charge);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(quick, charge);
+        return Objects.hash(fast, charge);
     }
 
 }

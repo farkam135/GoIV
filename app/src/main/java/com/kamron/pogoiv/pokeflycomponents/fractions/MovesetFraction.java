@@ -213,7 +213,7 @@ public class MovesetFraction extends Fraction {
     @OnClick(R.id.exportWebButton)
     void export() {
         ClipboardManager clipboard = (ClipboardManager) pokefly.getSystemService(Context.CLIPBOARD_SERVICE);
-        String content = "pokemon,cp,level,attack,defense,stamina,quickmove,chargemove\n"; // Data header
+        String content = "pokemon,cp,level,attack,defense,stamina,fastmove,chargemove\n"; // Data header
         content += Pokefly.scanResult.pokemon + ","
                 + Pokefly.scanResult.cp + ","
                 + Pokefly.scanResult.levelRange.min + ","
@@ -221,7 +221,7 @@ public class MovesetFraction extends Fraction {
                 + Pokefly.scanResult.getIVDefenseLow() + ","
                 + Pokefly.scanResult.getIVStaminaLow() + ","
                 + (Pokefly.scanResult.selectedMoveset != null
-                ? Pokefly.scanResult.selectedMoveset.getQuickKey() : "") + ","
+                ? Pokefly.scanResult.selectedMoveset.getFastKey() : "") + ","
                 + (Pokefly.scanResult.selectedMoveset != null
                 ? Pokefly.scanResult.selectedMoveset.getChargeKey() : "");
         clipboard.setPrimaryClip(ClipData.newPlainText(content, content));
@@ -255,8 +255,8 @@ public class MovesetFraction extends Fraction {
 
         private MovesetData data;
 
-        @BindView(R.id.text_quick)
-        TextView quick;
+        @BindView(R.id.text_fast)
+        TextView fast;
         @BindView(R.id.text_charge)
         TextView charge;
         @BindView(R.id.text_attack)
@@ -268,13 +268,13 @@ public class MovesetFraction extends Fraction {
             ButterKnife.bind(this, v);
             this.data = data;
 
-            // Quick move
-            quick.setTextColor(getMoveColor(data.isQuickIsLegacy()));
-            quick.setText(data.getQuick());
+            // Fast move
+            fast.setTextColor(getMoveColor(data.isFastIsLegacy()));
+            fast.setText(data.getFast());
             if (data.equals(Pokefly.scanResult.selectedMoveset)) {
-                quick.setTypeface(null, Typeface.BOLD);
+                fast.setTypeface(null, Typeface.BOLD);
             } else {
-                quick.setTypeface(null, Typeface.NORMAL);
+                fast.setTypeface(null, Typeface.NORMAL);
             }
 
             // Charge move
@@ -295,7 +295,7 @@ public class MovesetFraction extends Fraction {
             defense.setText(scoreFormat.format(data.getDefScore()));
         }
 
-        @OnClick({R.id.text_quick, R.id.text_charge, R.id.text_attack, R.id.text_defense})
+        @OnClick({R.id.text_fast, R.id.text_charge, R.id.text_attack, R.id.text_defense})
         void onRowClick() {
             Pokefly.scanResult.selectedMoveset = data;
             buildTable();

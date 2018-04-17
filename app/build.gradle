@@ -131,7 +131,6 @@ android {
                     'proguard-crashlytics.pro', 'proguard-guava.pro', 'proguard-butterknife.pro'
             lintOptions {
                 disable 'MissingTranslation'
-                checkReleaseBuilds false
             }
             signingConfig signingConfigs.releaseConfig
         }

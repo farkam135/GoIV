@@ -13,7 +13,11 @@ public class AppUpdateUtilImpl extends AppUpdateUtil {
     }
 
     @Override
-    public void checkForUpdate(final @NonNull Context context) {
+    public void checkForUpdate(final @NonNull Context context, boolean fromUser) {
+        if (!fromUser) {
+            return;
+        }
+
         // The distribution is handled by the Play Store. Redirect the user there!
         final String packageName = context.getPackageName();
         Intent intent = new Intent(Intent.ACTION_VIEW);

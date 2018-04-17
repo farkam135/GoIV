@@ -29,7 +29,7 @@ public abstract class AppUpdateUtil {
         return instance;
     }
 
-    public static boolean isGoIVBeingUpdated(Context context) {
+    public static boolean isGoIVBeingUpdated(@NonNull Context context) {
         DownloadManager downloadManager = (DownloadManager) context.getSystemService(DOWNLOAD_SERVICE);
         if (downloadManager == null) {
             return false;
@@ -44,7 +44,7 @@ public abstract class AppUpdateUtil {
         return false;
     }
 
-    public abstract void checkForUpdate(@NonNull Context context);
+    public abstract void checkForUpdate(@NonNull Context context, boolean fromUser);
 
     public @NonNull AlertDialog getAppUpdateDialog(final @NonNull Context context, final @NonNull AppUpdate update) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context).setTitle("Update available").setMessage(

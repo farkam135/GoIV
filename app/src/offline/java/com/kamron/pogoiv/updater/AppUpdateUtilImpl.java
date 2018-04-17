@@ -15,7 +15,11 @@ public class AppUpdateUtilImpl extends AppUpdateUtil {
     }
 
     @Override
-    public void checkForUpdate(@NonNull Context context) {
+    public void checkForUpdate(@NonNull Context context, boolean fromUser) {
+        if (!fromUser) {
+            return;
+        }
+
         // Manual update from GitHub
         Intent i = new Intent(Intent.ACTION_VIEW);
         i.setData(Uri.parse("https://github.com/farkam135/GoIV/releases"));

@@ -98,7 +98,7 @@ public class SettingsActivity extends AppCompatActivity {
             checkForUpdatePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    AppUpdateUtil.getInstance().checkForUpdate(getActivity());
+                    AppUpdateUtil.getInstance().checkForUpdate(getActivity(), true);
                     return true;
                 }
             });

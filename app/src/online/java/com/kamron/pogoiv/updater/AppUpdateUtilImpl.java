@@ -31,7 +31,7 @@ public class AppUpdateUtilImpl extends AppUpdateUtil {
     }
 
     @Override
-    public void checkForUpdate(final @NonNull Context context) {
+    public void checkForUpdate(final @NonNull Context context, boolean fromUser) {
         // Auto update from GitHub
         if (isGoIVBeingUpdated(context)) {
             Toast.makeText(context, context.getString(R.string.ongoing_update),

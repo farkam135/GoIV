@@ -22,6 +22,15 @@ public class MovesetData {
     private String quickMoveType;
     private String chargeMoveType;
 
+    /**
+     * Create a new Moveset.
+     * @param quick Localized quick move name
+     * @param charge Localized charge move name
+     */
+    public MovesetData(String quick, String charge) {
+        this.quick = quick;
+        this.charge = charge;
+    }
 
     /**
      * Create a new Moveset.

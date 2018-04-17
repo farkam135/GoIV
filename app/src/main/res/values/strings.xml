@@ -96,6 +96,7 @@
     <string name="pokespam_setting_summary">This feature enables scanning for candy amount and allows you to see how many monsters you can evolve, useful for use with lucky egg</string>
     <string name="token_pokemon_gender">Gender</string>
     <string name="token_pokemonname">Name</string>
+    <string name="token_moveset_initials">Moves initials</string>
     <string name="clipboard_modifier_preview">Preview</string>
     <string name="position_handler_toast">Drag the window by this handler to relocate it.</string>
     <string name="clipboard_no_token_selected">Please choose a token to add from the scrollable list.</string>
@@ -226,6 +227,7 @@
     <string name="token_category_name">Name</string>
     <string name="token_category_basic_stats">Basic Stats</string>
     <string name="token_category_iv_info">IV Info</string>
+    <string name="token_category_moveset">Moveset</string>
     <string name="token_category_evaluation_scores">Evaluation Scores</string>
     <string name="token_category_separators">Separators</string>
     <string name="token_msg_basStat_msg1">This token gives you the base stats of the monster, such as 186 190 260 for lapras, which means that this monster without IV bonuses has 186 attack, 190 defense and 260 stamina. IVs can add an extra 15 to each stat.</string>
@@ -268,6 +270,7 @@
     <string name="token_msg_pkmName_msg1">"This token returns the name of the monster, for example if you scan a Dratini, it will return "</string>
     <string name="token_msg_pkmName_msg2">" With the number cap, the length of the monster name can not exceed "</string>
     <string name="token_msg_pkmName_msg3">" characters long."</string>
+    <string name="token_msg_moveset_initials">"This token returns an initial for each word in the fast and charge moves (%1$d each, using _ as filler), for example if you scan a Venusaur with %2$s and %3$s, it will return %4$s."</string>
     <string name="token_msg_powUp">Show how many power-ups are left until monster would reach level 40. For example if the monster is level 15, there are 25 levels to level 40, which is 50 powerups.</string>
     <string name="token_msg_PUpTo">PUpTo</string>
     <string name="token_msg_separator">"This is simply a character you can put in between the smarter tokens to make the result more readable. The character you have chosen is: "</string>

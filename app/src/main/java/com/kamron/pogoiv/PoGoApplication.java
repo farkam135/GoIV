@@ -3,6 +3,7 @@ package com.kamron.pogoiv;
 import android.app.Application;
 import android.support.v7.app.AppCompatDelegate;
 
+import com.kamron.pogoiv.pokeflycomponents.MovesetsManager;
 import com.kamron.pogoiv.utils.CrashlyticsWrapper;
 import com.kamron.pogoiv.utils.FontsOverride;
 
@@ -25,5 +26,7 @@ public class PoGoApplication extends Application {
         // Fonts overriding application wide
         FontsOverride.setDefaultFont(this, "DEFAULT", "fonts/Lato-Medium.ttf");
         FontsOverride.setDefaultFont(this, "SANS_SERIF", "fonts/Lato-Medium.ttf");
+
+        MovesetsManager.init(this);
     }
 }

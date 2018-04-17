@@ -23,6 +23,7 @@ public abstract class ClipboardToken {
         NAME,
         BASIC_STATS,
         IV_INFO,
+        MOVESET,
         EVALUATION,
         SEPARATORS;
 
@@ -34,6 +35,8 @@ public abstract class ClipboardToken {
                     return context.getString(R.string.token_category_basic_stats);
                 case IV_INFO:
                     return context.getString(R.string.token_category_iv_info);
+                case MOVESET:
+                    return context.getString(R.string.token_category_moveset);
                 case EVALUATION:
                     return context.getString(R.string.token_category_evaluation_scores);
                 case SEPARATORS:

@@ -51,11 +51,21 @@ public class MovesetsManager {
     // This is a map that matches each pokemon dex number with a list of its movesets
     private static SparseArrayCompat<LinkedHashSet<MovesetData>> movesets = new SparseArrayCompat<>();
 
+    private static final Object initLock = new Object();
+    private static Boolean initialized = false;
+
 
     private MovesetsManager() {
     }
 
     public static void init(final @NonNull Context context) {
+        synchronized (initLock) {
+            if (initialized) {
+                return;
+            }
+            initialized = true;
+        }
+
         // Parse the moveset json and the translation json and store them to the static variable
         AsyncTask.execute(new Runnable() {
             @Override

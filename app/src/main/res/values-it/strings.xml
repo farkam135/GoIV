@@ -133,6 +133,7 @@
     <string name="showtranslatedpokemonname_setting_summary">Mostra il nome tradotto del mostro in GoIV ma usa i nomi inglesi per le scansioni. Questa opzione serve quando il gioco è in inglese perché non è tradotto nella lingua del giocatore.</string>
     <string name="showtranslatedpokemonname_setting_title">Mostra nomi mostri tradotti</string>
     <string name="token_pokemonname">Nome</string>
+    <string name="token_moveset_initials">Iniziali mosse</string>
     <string name="view_credits">Mostra riconoscimenti</string>
     <string name="view_credits_summary">Mostra i riconoscimenti di questa app, i progetti open source usati ed i ringraziamenti</string>
     <string name="android_sub5_warning">GoIV ha rilevato che il tuo smartphone non supporta le MediaProjection API, che sono usate per mostrare automaticamente il bottone di scan IV. Questo problema potrebbe risolversi aggiornando ad Android 5.0 o successivi. L\'app si imposterà in modalità screenshot per evitare crash. Puoi usare GoIV manualmente scattando uno screeshot, che nella maggior parte dei device si esegue tenendo premuti i tasti home+power del tuo smartphone per qualche istante. Ci scusiamo per l\'inconveniente.</string>
@@ -209,6 +210,7 @@
     <string name="token_category_name">Nome</string>
     <string name="token_category_basic_stats">Statistiche di base</string>
     <string name="token_category_iv_info">Informazioni sugli IV</string>
+    <string name="token_category_moveset">Mosse</string>
     <string name="token_category_evaluation_scores">Indici di valutazione</string>
     <string name="token_category_separators">Separatori</string>
     <string name="token_msg_basStat_msg1">Questo token restituisce le statistiche base, ad esempio 186 190 260 per Lapras, significa che qusto \'mon senza bonus IV ha 186 di attacco, 190 di difesa e 260 di salute. Gli IV possono aggiungere fino a 15 punti extra ad ognuna statistica.</string>
@@ -264,6 +266,7 @@
     <string name="token_msg_pkmName_msg1">"Questo token ritorna il nome del 'mon, per esempio se fai uno scan su un Dratini, ritornerà "</string>
     <string name="token_msg_pkmName_msg2">" Con il limite numerico, la lunghezza del nome del 'mon non può eccedere i "</string>
     <string name="token_msg_pkmName_msg3">" caratteri di lunghezza."</string>
+    <string name="token_msg_moveset_initials">"Questo token restituisce un'iniziale per ogni parola contenuta nei nomi delle mosse veloce e caricata (%1$d ognuna, usando _ come riempitivo). Per esempio, se fai lo scan di un Venusaur con %2$s e %3$s, restituirà %4$s."</string>
     <string name="token_msg_ivSum_msg1">"Questo token ritorna la somma della "</string>
     <string name="token_msg_ivSum_msg2">" possibile combinazione di IV di questo 'mon. I valori vanno da 00 a 45. Ritorna sempre due caratteri."</string>
     <string name="token_msg_perfCP">Questo token calcola quanto il tuo \'mon è vicino al suo massimo potenziale, misurato il PL. Ad esempio, se un \'mon con IV perfetti raggiunge i 2000 PL massimi, mentre il tuo \'mon può raggiungere 1900, allora la sua perfezione è al 95%, quindi questo token ritornerà 95.</string>

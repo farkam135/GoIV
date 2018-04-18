@@ -2,6 +2,7 @@ package com.kamron.pogoiv.pokeflycomponents.fractions;
 
 import android.graphics.Color;
 import android.support.annotation.NonNull;
+import android.support.v4.widget.Space;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
@@ -64,6 +65,8 @@ public class InputFraction extends Fraction {
     TextView levelIndicator;
 
     //PokeSpam
+    @BindView(R.id.llPokeSpamSpace)
+    Space llPokeSpamSpace;
     @BindView(R.id.llPokeSpamDialogInputContentBox)
     LinearLayout pokeSpamDialogInputContentBox;
 
@@ -244,9 +247,11 @@ public class InputFraction extends Fraction {
     private void showCandyTextBoxBasedOnSettings() {
         //enable/disable visibility based on PokeSpam enabled or not
         if (GoIVSettings.getInstance(pokefly).isPokeSpamEnabled()) {
+            llPokeSpamSpace.setVisibility(View.VISIBLE);
             pokeSpamDialogInputContentBox.setVisibility(View.VISIBLE);
             pokemonHPEdit.setImeOptions(EditorInfo.IME_ACTION_NEXT);
         } else {
+            llPokeSpamSpace.setVisibility(View.GONE);
             pokeSpamDialogInputContentBox.setVisibility(View.GONE);
             pokemonHPEdit.setImeOptions(EditorInfo.IME_ACTION_DONE);
         }

@@ -19,6 +19,7 @@ import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.widget.CardView;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -59,7 +60,6 @@ import com.kamron.pogoiv.utils.fractions.FractionManager;
 
 import java.io.File;
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -141,6 +141,8 @@ public class Pokefly extends Service {
     private PokemonNameCorrector nameCorrector;
 
 
+    @BindView(R.id.infoLayout)
+    CardView infoLayout;
     @BindView(R.id.fractionContainer)
     FrameLayout fractionContainer;
 
@@ -351,17 +353,17 @@ public class Pokefly extends Service {
     private boolean infoLayoutArcPointerVisible = false;
 
     private void showInfoLayoutArcPointer() {
-        if (!infoLayoutArcPointerVisible && arcPointer != null && fractionContainer != null) {
+        if (!infoLayoutArcPointerVisible && arcPointer != null && infoLayout != null) {
             infoLayoutArcPointerVisible = true;
             windowManager.addView(arcPointer, arcParams);
-            windowManager.addView(fractionContainer, layoutParams);
+            windowManager.addView(infoLayout, layoutParams);
         }
     }
 
     private void hideInfoLayoutArcPointer() {
         if (infoLayoutArcPointerVisible) {
             windowManager.removeView(arcPointer);
-            windowManager.removeView(fractionContainer);
+            windowManager.removeView(infoLayout);
             infoLayoutArcPointerVisible = false;
             fractionManager.remove();
         }
@@ -458,7 +460,7 @@ public class Pokefly extends Service {
      * @param newParams New Info Window layout params for appraisal mode.
      */
     public void setWindowPosition(WindowManager.LayoutParams newParams) {
-        windowManager.updateViewLayout(fractionContainer, newParams);
+        windowManager.updateViewLayout(infoLayout, newParams);
     }
 
     /**
@@ -484,11 +486,11 @@ public class Pokefly extends Service {
         if (moveUp && layoutParams.gravity != Gravity.TOP) {
             layoutParams.gravity = Gravity.TOP;
             layoutParams.y = sharedPref.getInt(APPRAISAL_WINDOW_POSITION, 0);
-            windowManager.updateViewLayout(fractionContainer, layoutParams);
+            windowManager.updateViewLayout(infoLayout, layoutParams);
         } else if (!moveUp && layoutParams.gravity != Gravity.BOTTOM) {
             layoutParams.gravity = Gravity.BOTTOM;
             layoutParams.y = 0;
-            windowManager.updateViewLayout(fractionContainer, layoutParams);
+            windowManager.updateViewLayout(infoLayout, layoutParams);
         }
     }
 
@@ -498,17 +500,11 @@ public class Pokefly extends Service {
      * Why the fuck does android not have a good standard method for this.
      */
     private void closeKeyboard() {
-
-        //Get a list of all views inside the infoLayout
-        ArrayList<View> views = new ArrayList<>();
-        for (int i = 0; i < fractionContainer.getChildCount(); i++) {
-            views.add(fractionContainer.getChildAt(i));
-        }
-
-        //Tell each view inside infoLayout to close the keyboard if they currently have focus.
         InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-        for (View view : views) {
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        //Get a list of all views inside the infoLayout
+        for (int i = 0; i < infoLayout.getChildCount(); i++) {
+            //Tell each view inside infoLayout to close the keyboard if they currently have focus.
+            imm.hideSoftInputFromWindow(infoLayout.getChildAt(i).getWindowToken(), 0);
         }
     }
 

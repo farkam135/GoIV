@@ -266,7 +266,10 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp"
+        android:paddingLeft="8dp"
+        android:paddingTop="4dp"
+        android:paddingRight="8dp"
+        android:paddingBottom="4dp"
         android:baselineAligned="true">
 
         <Switch
@@ -283,25 +286,14 @@
             android:textColor="?android:attr/textColorPrimaryDisableOnly"
             android:text="@string/acquired_from_egg_or_raid" />
 
-        <android.support.v4.widget.Space
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
-
-
     </LinearLayout>
 
-    <LinearLayout
+    <Button
+        android:id="@+id/btnCheckIv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp">
-        <Button
-            android:id="@+id/btnCheckIv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/check_iv" />
-
-
-    </LinearLayout>
+        android:layout_marginRight="48dp"
+        android:layout_marginLeft="48dp"
+        android:text="@string/check_iv" />
 
 </LinearLayout>

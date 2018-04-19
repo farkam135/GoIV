@@ -57,6 +57,7 @@ public class GoIVSettings {
     public static final String QUICK_IV_PREVIEW_CLIPBOARD = "quick_iv_preview_clipboard";
     public static final String MANUAL_SCREEN_CALIBRATION_ACTIVE = "manual_screen_calibration_active";
     public static final String MANUAL_SCREEN_CALIBRATION_VERSION = "manual_screen_calibration_version";
+    public static final String DOWNLOADED_MOVESET_INFO = "downloaded_moveset_info_goiv";
 
     // Increment this value when you want to make all users recalibrate GoIV
     public static int LATEST_SCREEN_CALIBRATION_VERSION = 1;
@@ -220,6 +221,18 @@ public class GoIVSettings {
         editor.apply();
     }
 
+
+    public String getSavedMovesetInfo() {
+        return prefs.getString(DOWNLOADED_MOVESET_INFO, "");
+
+    }
+
+    public void setSavedMovesetInfo(String info) {
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(info, DOWNLOADED_MOVESET_INFO);
+        editor.apply();
+    }
+
     public void setClipboardSinglePreference(String tokenListRepresentation) {
         //Clipboard single is the add-on setting if you want different clipboards for 1 or many results
         SharedPreferences.Editor editor = prefs.edit();
@@ -247,7 +260,7 @@ public class GoIVSettings {
     }
 
     public boolean shouldCopyToClipboard() {
-        return prefs.getBoolean(COPY_TO_CLIPBOARD, false);
+        return prefs.getBoolean(COPY_TO_CLIPBOARD, true);
     }
 
     public boolean shouldCopyToClipboardSingle() {

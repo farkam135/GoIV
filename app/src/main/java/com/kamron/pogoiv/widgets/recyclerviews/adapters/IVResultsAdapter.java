@@ -8,21 +8,23 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.kamron.pogoiv.utils.GuiUtil;
 import com.kamron.pogoiv.Pokefly;
 import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.scanlogic.IVCombination;
-import com.kamron.pogoiv.scanlogic.IVScanResult;
+import com.kamron.pogoiv.scanlogic.ScanResult;
+import com.kamron.pogoiv.utils.GuiUtil;
+
+import java.util.List;
 
 /**
  * Created by OskO on 29/08/16.
  */
 public class IVResultsAdapter extends RecyclerView.Adapter<IVResultsAdapter.ResultsViewHolder> {
-    private final IVScanResult dataSet;
+    private final List<IVCombination> dataSet;
     private Pokefly pokefly;
 
-    public IVResultsAdapter(IVScanResult ivScanResult, Pokefly pokefly) {
-        dataSet = ivScanResult;
+    public IVResultsAdapter(ScanResult scanResult, Pokefly pokefly) {
+        dataSet = scanResult.getIVCombinations();
         this.pokefly = pokefly;
     }
 
@@ -34,7 +36,8 @@ public class IVResultsAdapter extends RecyclerView.Adapter<IVResultsAdapter.Resu
 
     @Override
     public void onBindViewHolder(ResultsViewHolder holder, int position) {
-        IVCombination currentSet = dataSet.iVCombinations.get(position);
+        IVCombination currentSet = dataSet.get(position);
+
         holder.resultAttack.setText(String.valueOf(currentSet.att));
         holder.resultDefense.setText(String.valueOf(currentSet.def));
         holder.resultHP.setText(String.valueOf(currentSet.sta));
@@ -54,7 +57,7 @@ public class IVResultsAdapter extends RecyclerView.Adapter<IVResultsAdapter.Resu
 
     @Override
     public int getItemCount() {
-        return dataSet.iVCombinations.size();
+        return dataSet.size();
     }
 
     class ResultsViewHolder extends RecyclerView.ViewHolder {
@@ -64,22 +67,18 @@ public class IVResultsAdapter extends RecyclerView.Adapter<IVResultsAdapter.Resu
         final TextView resultPercentage;
         final LinearLayout llRvResult;
 
-        public ResultsViewHolder(View itemView) {
+        ResultsViewHolder(View itemView) {
             super(itemView);
 
-            resultAttack = (TextView) itemView.findViewById(R.id.resultAttack);
-            resultDefense = (TextView) itemView.findViewById(R.id.resultDefense);
-            resultHP = (TextView) itemView.findViewById(R.id.resultHP);
-            resultPercentage = (TextView) itemView.findViewById(R.id.resultPercentage);
-            llRvResult = (LinearLayout) itemView.findViewById(R.id.llRvResult);
+            resultAttack = itemView.findViewById(R.id.resultAttack);
+            resultDefense = itemView.findViewById(R.id.resultDefense);
+            resultHP = itemView.findViewById(R.id.resultHP);
+            resultPercentage = itemView.findViewById(R.id.resultPercentage);
+            llRvResult = itemView.findViewById(R.id.llRvResult);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
-                    pokefly.addSpecificClipboard(dataSet, new IVCombination(
-                            Integer.parseInt(resultAttack.getText().toString()),
-                            Integer.parseInt(resultDefense.getText().toString()),
-                            Integer.parseInt(resultHP.getText().toString())
-                    ));
+                    pokefly.addSpecificIVClipboard(dataSet.get(getAdapterPosition()));
                 }
             });
         }

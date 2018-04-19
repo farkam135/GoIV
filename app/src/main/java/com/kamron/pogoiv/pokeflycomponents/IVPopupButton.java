@@ -17,7 +17,7 @@ import android.view.WindowManager;
 import com.kamron.pogoiv.Pokefly;
 import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.scanlogic.IVCombination;
-import com.kamron.pogoiv.scanlogic.IVScanResult;
+import com.kamron.pogoiv.scanlogic.ScanResult;
 
 /**
  * Created by johan on 2017-07-06.
@@ -98,11 +98,11 @@ public class IVPopupButton extends android.support.v7.widget.AppCompatButton {
     /**
      * Modifies the look of the IVPopupButton to represent a quick representation of an iv scan.
      *
-     * @param ivrs what data to base the look on.
+     * @param scanResult what data to base the look on.
      */
-    public void showQuickIVPreviewLook(@NonNull IVScanResult ivrs) {
-        IVCombination lowest = ivrs.getLowestIVCombination();
-        IVCombination highest = ivrs.getHighestIVCombination();
+    public void showQuickIVPreviewLook(@NonNull ScanResult scanResult) {
+        IVCombination lowest = scanResult.getLowestIVCombination();
+        IVCombination highest = scanResult.getHighestIVCombination();
 
         if (lowest != null && highest != null) {
             setTextAlignment(TEXT_ALIGNMENT_CENTER);
@@ -110,24 +110,24 @@ public class IVPopupButton extends android.support.v7.widget.AppCompatButton {
             int high = highest.percentPerfect;
 
             final StringBuilder text = new StringBuilder();
-            if (ivrs.getCount() == 1 || high == low) { // Display something like "IV: 98%"
+            if (scanResult.getIVCombinationsCount() == 1 || high == low) { // Display something like "IV: 98%"
                 text.append(getContext().getString(
-                        R.string.iv_button_exact_result_preview_format, ivrs.pokemon.name, low));
+                        R.string.iv_button_exact_result_preview_format, scanResult.pokemon.name, low));
             } else { // Display something like "IV: 55 - 87%"
                 text.append(getContext().getString(
-                        R.string.iv_button_range_result_preview_format, ivrs.pokemon.name, low, high));
+                        R.string.iv_button_range_result_preview_format, scanResult.pokemon.name, low, high));
             }
-            if (ivrs.levelRangeIVScan) {
+            if (scanResult.levelRange.min != scanResult.levelRange.max) {
                 text.append("*");
             }
             setText(text);
 
-            setBackgroundGradient(ivrs);
-            setTextColorFromIVs(ivrs);
+            setBackgroundGradient(scanResult);
+            setTextColorFromIVs(scanResult);
         }
     }
 
-    private void setTextColorFromIVs(IVScanResult ivrs) {
+    private void setTextColorFromIVs(ScanResult scanResult) {
 
         //setTextColor(ResourcesCompat.getColor(getResources(), R.color.iv_text_color, null));
 
@@ -136,7 +136,7 @@ public class IVPopupButton extends android.support.v7.widget.AppCompatButton {
         int yellow = ResourcesCompat.getColor(getResources(), R.color.t_yellow, null);
         int red = ResourcesCompat.getColor(getResources(), R.color.t_red, null);
 
-        int percent = ivrs.getAveragePercent();
+        int percent = scanResult.getIVPercentAvg();
         if (percent < 51) {
             setTextColor(red);
         } else if (percent < 66) {
@@ -152,11 +152,11 @@ public class IVPopupButton extends android.support.v7.widget.AppCompatButton {
     /**
      * Picks the correct background resource to have the correct color gradient representing the IV spread.
      *
-     * @param ivrs The possible IVs to adjust to.
+     * @param scanResult The possible IVs to adjust to.
      */
-    private void setBackgroundGradient(@NonNull IVScanResult ivrs) {
-        IVCombination lowest = ivrs.getLowestIVCombination();
-        IVCombination highest = ivrs.getHighestIVCombination();
+    private void setBackgroundGradient(@NonNull ScanResult scanResult) {
+        IVCombination lowest = scanResult.getLowestIVCombination();
+        IVCombination highest = scanResult.getHighestIVCombination();
 
         if (lowest != null && highest != null) {
             int low = lowest.percentPerfect;

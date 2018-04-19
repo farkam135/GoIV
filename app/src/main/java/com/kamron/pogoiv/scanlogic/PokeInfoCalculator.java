@@ -1,6 +1,7 @@
 package com.kamron.pogoiv.scanlogic;
 
 
+import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Build;
@@ -9,7 +10,6 @@ import android.support.annotation.Nullable;
 
 import com.kamron.pogoiv.GoIVSettings;
 import com.kamron.pogoiv.R;
-import com.kamron.pogoiv.utils.LevelRange;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -41,10 +41,10 @@ public class PokeInfoCalculator {
 
     private HashMap<String, Pokemon> pokemap = new HashMap<>();
 
-    @NonNull
-    public static synchronized PokeInfoCalculator getInstance(@NonNull GoIVSettings settings, @NonNull Resources res) {
+
+    public static synchronized @NonNull PokeInfoCalculator getInstance(@NonNull Context context) {
         if (instance == null) {
-            instance = new PokeInfoCalculator(settings, res);
+            instance = new PokeInfoCalculator(GoIVSettings.getInstance(context), context.getResources());
         }
         return instance;
     }
@@ -54,8 +54,7 @@ public class PokeInfoCalculator {
      *
      * @return the already activated instance of PokeInfoCalculator.
      */
-    @Nullable
-    public static PokeInfoCalculator getInstance() {
+    public static @Nullable PokeInfoCalculator getInstance() {
         return instance;
     }
 
@@ -104,7 +103,7 @@ public class PokeInfoCalculator {
         return pokemap.get(name.toLowerCase());
     }
 
-    private static String[] getPokemonNamesArray(Resources res) {
+    public static String[] getPokemonNamesArray(Resources res) {
         if (res.getBoolean(R.bool.use_default_pokemonsname_as_ocrstring)) {
             // If flag ON, force to use English strings as pokemon name for OCR.
             Configuration conf = res.getConfiguration();
@@ -228,78 +227,55 @@ public class PokeInfoCalculator {
 
     /**
      * Calculates all the IV information that can be gained from the pokemon level, hp and cp
-     * and fills the information in an IVScanResult, which is returned.
+     * and fills the information in an ScanResult.
      *
-     * @param estimatedPokemonLevel The estimated pokemon level range
-     * @param pokemonHP             The pokemon HP
-     * @param pokemonCP             The pokemon CP
-     * @return An IVScanResult which contains the information calculated about the pokemon, or null if there are too
-     * many possibilities or if there are none.
+     * @param scanResult Pokefly scan results
      */
-    public IVScanResult getIVPossibilities(Pokemon selectedPokemon, LevelRange estimatedPokemonLevel,
-                                           int pokemonHP, int pokemonCP, Pokemon.Gender pokemonGender) {
+    public void getIVPossibilities(ScanResult scanResult) {
+        scanResult.clearIVCombinations();
 
-        if (estimatedPokemonLevel.min == estimatedPokemonLevel.max) {
-            return getSingleLevelIVPossibility(selectedPokemon, estimatedPokemonLevel.min, pokemonHP, pokemonCP,
-                    pokemonGender);
+        if (scanResult.levelRange.min == scanResult.levelRange.max) {
+            getSingleLevelIVPossibility(scanResult, scanResult.levelRange.min);
         }
 
-        List<IVScanResult> possibilities = new ArrayList<>();
-        for (double i = estimatedPokemonLevel.min; i <= estimatedPokemonLevel.max; i += 0.5) {
-            possibilities.add(getSingleLevelIVPossibility(selectedPokemon, i, pokemonHP, pokemonCP, pokemonGender));
+        for (double i = scanResult.levelRange.min; i <= scanResult.levelRange.max; i += 0.5) {
+            getSingleLevelIVPossibility(scanResult, i);
         }
-
-        IVScanResult result = new IVScanResult(selectedPokemon, estimatedPokemonLevel, pokemonCP, pokemonGender);
-        for (IVScanResult ivs : possibilities) {
-            result.addPossibilitiesFrom(ivs);
-        }
-
-        return result;
     }
 
     /**
      * Calculates all the IV information that can be gained from the pokemon level, hp and cp
-     * and fills the information in an IVScanResult, which is returned.
+     * and fills the information in an ScanResult.
      *
-     * @param estimatedPokemonLevel The estimated pokemon level
-     * @param pokemonHP             THe pokemon hp
-     * @param pokemonCP             The pokemonCP
-     * @return An IVScanResult which contains the information calculated about the pokemon, or null if there are too
+     * @param scanResult Pokefly scan results
      * many possibilities.
      */
-    private IVScanResult getSingleLevelIVPossibility(Pokemon selectedPokemon, double estimatedPokemonLevel,
-                                                     int pokemonHP, int pokemonCP, Pokemon.Gender pokemonGender) {
-        int baseAttack = selectedPokemon.baseAttack;
-        int baseDefense = selectedPokemon.baseDefense;
-        int baseStamina = selectedPokemon.baseStamina;
+    private void getSingleLevelIVPossibility(ScanResult scanResult, double level) {
+        int baseAttack = scanResult.pokemon.baseAttack;
+        int baseDefense = scanResult.pokemon.baseDefense;
+        int baseStamina = scanResult.pokemon.baseStamina;
 
-        double lvlScalar = Data.getLevelCpM(estimatedPokemonLevel);
+        double lvlScalar = Data.getLevelCpM(level);
         double lvlScalarPow2 = Math.pow(lvlScalar, 2) * 0.1; // instead of computing again in every loop
         //IV vars for lower and upper end cp ranges
 
-
-        IVScanResult returner = ScanContainer.createIVScanResult(selectedPokemon, new LevelRange(estimatedPokemonLevel),
-                pokemonCP, pokemonGender);
         for (int staminaIV = 0; staminaIV < 16; staminaIV++) {
             int hp = (int) Math.max(Math.floor((baseStamina + staminaIV) * lvlScalar), 10);
-            if (hp == pokemonHP) {
+            if (hp == scanResult.hp) {
                 double lvlScalarStamina = Math.sqrt(baseStamina + staminaIV) * lvlScalarPow2;
                 for (int defenseIV = 0; defenseIV < 16; defenseIV++) {
                     for (int attackIV = 0; attackIV < 16; attackIV++) {
                         int cp = Math.max(10, (int) Math.floor((baseAttack + attackIV) * Math.sqrt(baseDefense
                                 + defenseIV) * lvlScalarStamina));
-                        if (cp == pokemonCP) {
-                            returner.addIVCombination(attackIV, defenseIV, staminaIV);
+                        if (cp == scanResult.cp) {
+                            scanResult.addIVCombination(attackIV, defenseIV, staminaIV);
                         }
                     }
                 }
-            } else if (hp > pokemonHP) {
+            } else if (hp > scanResult.hp) {
                 break;
             }
         }
-
-        returner.scannedHP = pokemonHP;
-        return returner;
     }
 
 
@@ -424,17 +400,17 @@ public class PokeInfoCalculator {
      * Get how much hp a pokemon will have at a certain level, including the stamina IV taken from the scan results.
      * If the prediction is not exact because of big possible variation in stamina IV, the average will be returnred.
      *
-     * @param ivScanResult    Scan results which includes stamina ivs
+     * @param scanResult    Scan results which includes stamina ivs
      * @param selectedLevel   which level to get the hp for
      * @param selectedPokemon Which pokemon to get Hp for
      * @return An integer representing how much hp selectedpokemon with ivscanresult stamina ivs has at selectedlevel
      */
-    public int getHPAtLevel(IVScanResult ivScanResult, double selectedLevel, Pokemon selectedPokemon) {
+    public int getHPAtLevel(ScanResult scanResult, double selectedLevel, Pokemon selectedPokemon) {
         double lvlScalar = Data.getLevelCpM(selectedLevel);
-        int highHp = (int) Math.max(Math.floor((selectedPokemon.baseStamina + ivScanResult.highStamina) * lvlScalar),
-                10);
-        int lowHp = (int) Math.max(Math.floor((selectedPokemon.baseStamina + ivScanResult.highStamina) * lvlScalar),
-                10);
+        int highHp = (int) Math.max(
+                Math.floor((selectedPokemon.baseStamina + scanResult.getIVStaminaHigh()) * lvlScalar), 10);
+        int lowHp = (int) Math.max(
+                Math.floor((selectedPokemon.baseStamina + scanResult.getIVStaminaHigh()) * lvlScalar), 10);
         int averageHP = Math.round(highHp + lowHp) / 2;
         return averageHP;
     }

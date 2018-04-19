@@ -147,16 +147,16 @@ public class AppraisalFraction extends Fraction implements AutoAppraisal.OnAppra
     @Override
     public void selectIVPercentRange(AutoAppraisal.IVPercentRange range) {
         switch (range) {
-            case RANGE_81_100:
+            case RANGE_82_100:
                 appraisalIVRange1.setChecked(true);
                 break;
-            case RANGE_61_80:
+            case RANGE_67_80:
                 appraisalIVRange2.setChecked(true);
                 break;
-            case RANGE_41_60:
+            case RANGE_51_64:
                 appraisalIVRange3.setChecked(true);
                 break;
-            case RANGE_0_40:
+            case RANGE_0_49:
                 appraisalIVRange4.setChecked(true);
                 break;
             default:
@@ -277,28 +277,28 @@ public class AppraisalFraction extends Fraction implements AutoAppraisal.OnAppra
     @OnCheckedChanged(R.id.appraisalIVRange1)
     void onIVRange1(boolean checked) {
         if (checked) {
-            autoAppraisal.appraisalIVPercentRange = AutoAppraisal.IVPercentRange.RANGE_81_100;
+            autoAppraisal.appraisalIVPercentRange = AutoAppraisal.IVPercentRange.RANGE_82_100;
         }
     }
 
     @OnCheckedChanged(R.id.appraisalIVRange2)
     void onIVRange2(boolean checked) {
         if (checked) {
-            autoAppraisal.appraisalIVPercentRange = AutoAppraisal.IVPercentRange.RANGE_61_80;
+            autoAppraisal.appraisalIVPercentRange = AutoAppraisal.IVPercentRange.RANGE_67_80;
         }
     }
 
     @OnCheckedChanged(R.id.appraisalIVRange3)
     void onIVRange3(boolean checked) {
         if (checked) {
-            autoAppraisal.appraisalIVPercentRange = AutoAppraisal.IVPercentRange.RANGE_41_60;
+            autoAppraisal.appraisalIVPercentRange = AutoAppraisal.IVPercentRange.RANGE_51_64;
         }
     }
 
     @OnCheckedChanged(R.id.appraisalIVRange4)
     void onIVRange4(boolean checked) {
         if (checked) {
-            autoAppraisal.appraisalIVPercentRange = AutoAppraisal.IVPercentRange.RANGE_0_40;
+            autoAppraisal.appraisalIVPercentRange = AutoAppraisal.IVPercentRange.RANGE_0_49;
         }
     }
 

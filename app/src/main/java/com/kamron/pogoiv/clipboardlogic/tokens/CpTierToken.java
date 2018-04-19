@@ -4,9 +4,9 @@ import android.content.Context;
 
 import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.clipboardlogic.ClipboardToken;
-import com.kamron.pogoiv.scanlogic.IVScanResult;
 import com.kamron.pogoiv.scanlogic.PokeInfoCalculator;
 import com.kamron.pogoiv.scanlogic.Pokemon;
+import com.kamron.pogoiv.scanlogic.ScanResult;
 
 /**
  * Created by Johan on 2016-09-24.
@@ -32,7 +32,7 @@ public class CpTierToken extends ClipboardToken {
     }
 
     @Override
-    public String getValue(IVScanResult ivs, PokeInfoCalculator pokeInfoCalculator) {
+    public String getValue(ScanResult ivs, PokeInfoCalculator pokeInfoCalculator) {
         TokenTierLogic ttl = new TokenTierLogic();
         Pokemon poke = getRightPokemon(ivs.pokemon, pokeInfoCalculator);
         int cp = pokeInfoCalculator.getCpRangeAtLevel(poke,

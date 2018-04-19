@@ -2,6 +2,7 @@ package com.kamron.pogoiv.pokeflycomponents.fractions;
 
 import android.graphics.Color;
 import android.support.annotation.NonNull;
+import android.support.v4.widget.Space;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
@@ -33,6 +34,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import info.hoang8f.android.segmented.SegmentedGroup;
+import timber.log.Timber;
 
 
 public class InputFraction extends Fraction {
@@ -63,6 +65,8 @@ public class InputFraction extends Fraction {
     TextView levelIndicator;
 
     //PokeSpam
+    @BindView(R.id.llPokeSpamSpace)
+    Space llPokeSpamSpace;
     @BindView(R.id.llPokeSpamDialogInputContentBox)
     LinearLayout pokeSpamDialogInputContentBox;
 
@@ -70,30 +74,10 @@ public class InputFraction extends Fraction {
     private Pokefly pokefly;
     private PokeInfoCalculator pokeInfoCalculator;
 
-    private String pokemonName;
-    private String pokemonType;
-    private String candyName;
-    private Pokemon.Gender pokemonGender;
-    private Optional<Integer> pokemonCandy;
-    private Optional<Integer> pokemonCP;
-    private Optional<Integer> pokemonHP;
-    private Optional<Integer> candyUpgradeCost;
 
-
-    public InputFraction(@NonNull Pokefly pokefly, @NonNull PokeInfoCalculator pokeInfoCalculator,
-                         String pokemonName, String pokemonType, String candyName, Pokemon.Gender pokemonGender,
-                         Optional<Integer> pokemonCandy, Optional<Integer> pokemonCP, Optional<Integer> pokemonHP,
-                         Optional<Integer> candyUpgradeCost) {
+    public InputFraction(@NonNull Pokefly pokefly) {
         this.pokefly = pokefly;
-        this.pokeInfoCalculator = pokeInfoCalculator;
-        this.pokemonName = pokemonName;
-        this.pokemonType = pokemonType;
-        this.candyName = candyName;
-        this.pokemonGender = pokemonGender;
-        this.pokemonCandy = pokemonCandy;
-        this.pokemonCP = pokemonCP;
-        this.pokemonHP = pokemonHP;
-        this.candyUpgradeCost = candyUpgradeCost;
+        this.pokeInfoCalculator = PokeInfoCalculator.getInstance();
     }
 
     @Override public int getLayoutResId() {
@@ -117,8 +101,8 @@ public class InputFraction extends Fraction {
         initializePokemonAutoCompleteTextView();
 
         // Guess the species
-        PokemonNameCorrector.PokeDist possiblePoke = new PokemonNameCorrector(PokeInfoCalculator.getInstance())
-                .getPossiblePokemon(pokemonName, candyName, candyUpgradeCost, pokemonType);
+        PokemonNameCorrector.PokeDist possiblePoke =
+                new PokemonNameCorrector(PokeInfoCalculator.getInstance()).getPossiblePokemon(Pokefly.scanData);
 
         // set color based on similarity
         if (possiblePoke.dist == 0) {
@@ -137,11 +121,11 @@ public class InputFraction extends Fraction {
         int selection = pokeInputAdapter.getPosition(possiblePoke.pokemon);
         pokeInputSpinner.setSelection(selection);
 
-        pokemonHPEdit.setText(optionalIntToString(pokemonHP));
-        pokemonCPEdit.setText(optionalIntToString(pokemonCP));
-        pokemonCandyEdit.setText(optionalIntToString(pokemonCandy));
+        pokemonHPEdit.setText(optionalIntToString(Pokefly.scanData.getPokemonHP()));
+        pokemonCPEdit.setText(optionalIntToString(Pokefly.scanData.getPokemonCP()));
+        pokemonCandyEdit.setText(optionalIntToString(Pokefly.scanData.getPokemonCandyAmount()));
 
-        adjustArcPointerBar(pokefly.estimatedPokemonLevelRange.min);
+        adjustArcPointerBar(Pokefly.scanData.getEstimatedPokemonLevel().min);
 
         if (!GoIVSettings.getInstance(pokefly).shouldShouldConfirmationDialogs()) {
             checkIv();
@@ -156,25 +140,23 @@ public class InputFraction extends Fraction {
 
     private void saveToPokefly() {
         try {
-            pokefly.pokemonHP = Optional.of(Integer.parseInt(pokemonHPEdit.getText().toString()));
+            Pokefly.scanData.setPokemonHP(Integer.parseInt(pokemonHPEdit.getText().toString()));
         } catch (NumberFormatException e) {
-            pokefly.pokemonHP = Optional.absent();
+            Timber.d(e);
         }
         try {
-            pokefly.pokemonCP = Optional.of(Integer.parseInt(pokemonCPEdit.getText().toString()));
+            Pokefly.scanData.setPokemonCP(Integer.parseInt(pokemonCPEdit.getText().toString()));
         } catch (NumberFormatException e) {
-            pokefly.pokemonCP = Optional.absent();
+            Timber.d(e);
         }
         try {
-            pokefly.pokemonCandy = Optional.of(Integer.parseInt(pokemonCandyEdit.getText().toString()));
+            Pokefly.scanData.setPokemonCandyAmount(Integer.parseInt(pokemonCandyEdit.getText().toString()));
         } catch (NumberFormatException e) {
-            pokefly.pokemonCandy = Optional.absent();
+            Timber.d(e);
         }
         Pokemon pokemon = interpretWhichPokemonUserInput();
         if (pokemon != null) {
-            pokefly.pokemon = Optional.of(pokemon);
-        } else {
-            pokefly.pokemon = Optional.absent();
+            Pokefly.scanData.setPokemonName(pokemon.name);
         }
     }
 
@@ -205,17 +187,17 @@ public class InputFraction extends Fraction {
 
     @OnClick(R.id.btnDecrementLevel)
     public void decrementLevel() {
-        if (pokefly.estimatedPokemonLevelRange.min > Data.MINIMUM_POKEMON_LEVEL) {
-            pokefly.estimatedPokemonLevelRange.dec();
-            adjustArcPointerBar(pokefly.estimatedPokemonLevelRange.min);
+        if (Pokefly.scanData.getEstimatedPokemonLevel().min > Data.MINIMUM_POKEMON_LEVEL) {
+            Pokefly.scanData.getEstimatedPokemonLevel().dec();
+            adjustArcPointerBar(Pokefly.scanData.getEstimatedPokemonLevel().min);
         }
     }
 
     @OnClick(R.id.btnIncrementLevel)
     public void incrementLevel() {
-        if (Data.maxPokeLevelToIndex(pokefly.estimatedPokemonLevelRange.min) < arcAdjustBar.getMax()) {
-            pokefly.estimatedPokemonLevelRange.inc();
-            adjustArcPointerBar(pokefly.estimatedPokemonLevelRange.min);
+        if (Data.maxPokeLevelToIndex(Pokefly.scanData.getEstimatedPokemonLevel().min) < arcAdjustBar.getMax()) {
+            Pokefly.scanData.getEstimatedPokemonLevel().inc();
+            adjustArcPointerBar(Pokefly.scanData.getEstimatedPokemonLevel().min);
         }
     }
 
@@ -230,9 +212,11 @@ public class InputFraction extends Fraction {
         arcAdjustBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                pokefly.estimatedPokemonLevelRange = new LevelRange(Data.levelIdxToLevel(progress));
-                pokefly.setArcPointer(pokefly.estimatedPokemonLevelRange.min);
-                levelIndicator.setText(String.valueOf(pokefly.estimatedPokemonLevelRange.toString()));
+                if (fromUser) {
+                    Pokefly.scanData.setEstimatedPokemonLevelRange(new LevelRange(Data.levelIdxToLevel(progress)));
+                }
+                pokefly.setArcPointer(Pokefly.scanData.getEstimatedPokemonLevel().min);
+                levelIndicator.setText(Pokefly.scanData.getEstimatedPokemonLevel().toString());
             }
 
             @Override
@@ -263,9 +247,11 @@ public class InputFraction extends Fraction {
     private void showCandyTextBoxBasedOnSettings() {
         //enable/disable visibility based on PokeSpam enabled or not
         if (GoIVSettings.getInstance(pokefly).isPokeSpamEnabled()) {
+            llPokeSpamSpace.setVisibility(View.VISIBLE);
             pokeSpamDialogInputContentBox.setVisibility(View.VISIBLE);
             pokemonHPEdit.setImeOptions(EditorInfo.IME_ACTION_NEXT);
         } else {
+            llPokeSpamSpace.setVisibility(View.GONE);
             pokeSpamDialogInputContentBox.setVisibility(View.GONE);
             pokemonHPEdit.setImeOptions(EditorInfo.IME_ACTION_DONE);
         }

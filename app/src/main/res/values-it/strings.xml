@@ -49,6 +49,7 @@
     <string name="stamina_hp">PS</string>
     <string name="missing_inputs">Dati mancanti. Inserisci PL e PS.</string>
     <string name="accept_screen_capture">Consenti cattura schermo</string>
+    <string name="appraisal">Valutazione</string>
     <string name="appraisal_refining">Affina con \"Valutazione\"</string>
     <string name="atk">ATT</string>
     <string name="avg">MED</string>
@@ -132,6 +133,7 @@
     <string name="showtranslatedpokemonname_setting_summary">Mostra il nome tradotto del mostro in GoIV ma usa i nomi inglesi per le scansioni. Questa opzione serve quando il gioco è in inglese perché non è tradotto nella lingua del giocatore.</string>
     <string name="showtranslatedpokemonname_setting_title">Mostra nomi mostri tradotti</string>
     <string name="token_pokemonname">Nome</string>
+    <string name="token_moveset_initials">Iniziali mosse</string>
     <string name="view_credits">Mostra riconoscimenti</string>
     <string name="view_credits_summary">Mostra i riconoscimenti di questa app, i progetti open source usati ed i ringraziamenti</string>
     <string name="android_sub5_warning">GoIV ha rilevato che il tuo smartphone non supporta le MediaProjection API, che sono usate per mostrare automaticamente il bottone di scan IV. Questo problema potrebbe risolversi aggiornando ad Android 5.0 o successivi. L\'app si imposterà in modalità screenshot per evitare crash. Puoi usare GoIV manualmente scattando uno screeshot, che nella maggior parte dei device si esegue tenendo premuti i tasti home+power del tuo smartphone per qualche istante. Ci scusiamo per l\'inconveniente.</string>
@@ -161,6 +163,7 @@
     <string name="scan_optimization_outdated_warning">I tuoi dati di calibrazione sono obsoleti. Esegui una nuova ricalibrazione dello schermo per godere di tutte le ultime funzionalità!</string>
     <string name="discard_unsaved_changes">Ci sono modifiche non salvate. Vuoi veramente scartarle?</string>
     <string name="configuration_saved">Configurazione salvata!</string>
+    <string name="configuration_saved_feature_disabled">Configurazione salvata!\nAbilita la funzionalità \"%1$s\" nelle impostazioni per attivare la nuova configurazione!</string>
     <string name="no_token_selected">Nessun token selezionato</string>
     <string name="token_max_evolution">%1$s  Questo token è in variante evoluzione massima, ciò significa che ritornerà il suo risultato come se il tuo \'mon fosse già completamente evoluto, può risultare interessante in molti scenari.</string>
     <string name="token_max_characters">(%1$d/12 caratteri)</string>
@@ -207,6 +210,7 @@
     <string name="token_category_name">Nome</string>
     <string name="token_category_basic_stats">Statistiche di base</string>
     <string name="token_category_iv_info">Informazioni sugli IV</string>
+    <string name="token_category_moveset">Mosse</string>
     <string name="token_category_evaluation_scores">Indici di valutazione</string>
     <string name="token_category_separators">Separatori</string>
     <string name="token_msg_basStat_msg1">Questo token restituisce le statistiche base, ad esempio 186 190 260 per Lapras, significa che qusto \'mon senza bonus IV ha 186 di attacco, 190 di difesa e 260 di salute. Gli IV possono aggiungere fino a 15 punti extra ad ognuna statistica.</string>
@@ -262,6 +266,7 @@
     <string name="token_msg_pkmName_msg1">"Questo token ritorna il nome del 'mon, per esempio se fai uno scan su un Dratini, ritornerà "</string>
     <string name="token_msg_pkmName_msg2">" Con il limite numerico, la lunghezza del nome del 'mon non può eccedere i "</string>
     <string name="token_msg_pkmName_msg3">" caratteri di lunghezza."</string>
+    <string name="token_msg_moveset_initials">"Questo token restituisce un'iniziale per ogni parola contenuta nei nomi delle mosse veloce e caricata (%1$d ognuna, usando _ come riempitivo). Per esempio, se fai lo scan di un Venusaur con %2$s e %3$s, restituirà %4$s."</string>
     <string name="token_msg_ivSum_msg1">"Questo token ritorna la somma della "</string>
     <string name="token_msg_ivSum_msg2">" possibile combinazione di IV di questo 'mon. I valori vanno da 00 a 45. Ritorna sempre due caratteri."</string>
     <string name="token_msg_perfCP">Questo token calcola quanto il tuo \'mon è vicino al suo massimo potenziale, misurato il PL. Ad esempio, se un \'mon con IV perfetti raggiunge i 2000 PL massimi, mentre il tuo \'mon può raggiungere 1900, allora la sua perfezione è al 95%, quindi questo token ritornerà 95.</string>
@@ -271,4 +276,21 @@
     <string name="token_msg_lvl_msg2">Questo token rappresenta il livello del \'mon, così com\'è stato scansionato, rimuovendo la parte decimale. Implica una potenziale perdita di informazione. Ad esempio, per un \'mon di livello 10.5 ritorna 10.</string>
     <string name="token_msg_lvl_msg3">Questo token rappresenta il livello del \'mon, così com\'è stato scansionato, includendo la parte decimale. Questo rende il risultato più lungo rispetto ad altre alternative, in compenso è molto preciso. Ad esempio, per un \'mon di livello 10.5 ritorna 10.5.</string>
     <string name="recalibration_video_tutorial">Video tutorial ricalibrazione</string>
+    <string name="export_to_pokebattler">Esporta a PokeBattler</string>
+    <string name="moveset_score_disclaimer">"Valutazioni basate sulle simulazioni di pokebattler.com.\nI moveset ottimali possono variare in base agli avversari.\nQuesta valutazione è da intendersi indicativa."</string>
+    <string name="table_header_move_fast">Veloce</string>
+    <string name="table_header_move_charge">Caricata</string>
+    <string name="table_header_attack">Att</string>
+    <string name="table_header_defense">Def</string>
+    <string name="fraction_input_title">Parametri</string>
+    <string name="fraction_powerup_title">Simulazione potenziamenti</string>
+    <string name="fraction_powerup_tab_label">Potenzia</string>
+    <string name="fraction_powerup_paragraph_predictedstats">Statistiche previste</string>
+    <string name="fraction_powerup_paragraph_cost">Costo</string>
+    <string name="fraction_powerup_paragraph_input">Parametri</string>
+    <string name="fraction_iv_title">Risultati calcolo IV</string>
+    <string name="fraction_iv_tab_label">IV</string>
+    <string name="fraction_moveset_title">Mosse (beta)</string>
+    <string name="fraction_moveset_tab_label">Mosse</string>
+    <string name="fraction_ivcombinations_title">Combinazioni IV</string>
 </resources>

@@ -585,7 +585,7 @@ public class Pokefly extends Service {
     }
 
     /**
-     * Adds the iv range of the pokemon to the clipboard if the clipboard setting is on.
+     * Adds the users clipboard setting to the users clipboard.
      */
     public void addSpecificMovesetClipboard(MovesetData movesetData) {
         if (scanResult != null) {

@@ -395,16 +395,33 @@ public class OcrHelper {
      * @return A pair of strings that represent the fast and charged moves
      */
     private static @Nullable Pair<String, String> getMovesetFromImg(@NonNull Bitmap pokemonImage,
+                                                                    @Nullable LevelRange levelRange,
+                                                                    @Nullable ScanArea powerUpCandyCostArea,
                                                                     @Nullable ScanArea evolutionCostArea) {
-        if (evolutionCostArea == null) {
+        if (levelRange == null || powerUpCandyCostArea == null || evolutionCostArea == null) {
             return null;
         }
-        int x = (int) (pokemonImage.getWidth() / 10 * 1.3f);
-        int y = evolutionCostArea.yPoint + evolutionCostArea.height;
-        int w = (int) (pokemonImage.getWidth() / 10 * 5.0f) - x;
-        int h = (pokemonImage.getHeight() - navigationBarSize.y) - y;
-        ScanArea movesetArea = new ScanArea(x, y, w, h);
-        Bitmap movesetImage = getImageCrop(pokemonImage, movesetArea);
+
+        final int y;
+        final int h;
+        if (levelRange.min >= Data.MAXIMUM_POKEMON_LEVEL) {
+            // This pokemon has reached the max level and cannot be powered up: the power up button
+            // isn't present in the game UI. The moveset will be positioned
+            // below the power up cost bottom and above the evolution cost bottom
+            y = powerUpCandyCostArea.yPoint + powerUpCandyCostArea.height;
+            h = (evolutionCostArea.yPoint + evolutionCostArea.height) - y;
+
+        } else {
+            // This pokemon is not maxed out, its moveset is below the evolution cost and above
+            // the end of the screen (or the navigation bar with the virtual keys)
+            y = evolutionCostArea.yPoint + evolutionCostArea.height;
+            h = (pokemonImage.getHeight() - navigationBarSize.y) - y;
+        }
+
+        final int x = (int) (pokemonImage.getWidth() / 10 * 1.3f);
+        final int w = (int) (pokemonImage.getWidth() / 10 * 5.0f) - x;
+
+        Bitmap movesetImage = getImageCrop(pokemonImage, new ScanArea(x, y, w, h));
 
         String hash = "moveset" + hashBitmap(movesetImage);
 
@@ -1061,6 +1078,8 @@ public class OcrHelper {
         Optional<Integer> evolutionCost = getPokemonEvolutionCostFromImg(pokemonImage,
                 ScanArea.calibratedFromSettings(POKEMON_EVOLUTION_COST_AREA, settings));
         Pair<String, String> moveset = getMovesetFromImg(pokemonImage,
+                estimatedLevelRange,
+                ScanArea.calibratedFromSettings(POKEMON_POWER_UP_CANDY_COST, settings),
                 ScanArea.calibratedFromSettings(POKEMON_EVOLUTION_COST_AREA, settings));
         String moveFast = null;
         String moveCharge = null;

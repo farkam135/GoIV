@@ -329,7 +329,7 @@ public class ScanResult {
         if (autoAppraisal != null) {
             refineByStatModifiers(autoAppraisal.statModifiers);
             refineByHighest(autoAppraisal.highestStats);
-            refineByAppraisalPercentageRange(autoAppraisal.appraisalIVPercentRange);
+            refineByAppraisalPercentageRange(autoAppraisal.appraisalIVSumRange);
             refineByAppraisalIVRange(autoAppraisal.appraisalHighestStatValueRange);
         }
     }
@@ -376,14 +376,14 @@ public class ScanResult {
      * Removes any iv combination that is outside the scope of the input percentage range.
      * @param range IV percent range
      */
-    private void refineByAppraisalPercentageRange(AutoAppraisal.IVPercentRange range) {
-        if (range == AutoAppraisal.IVPercentRange.UNKNOWN) {
+    private void refineByAppraisalPercentageRange(AutoAppraisal.IVSumRange range) {
+        if (range == AutoAppraisal.IVSumRange.UNKNOWN) {
             return;
         }
 
         ArrayList<IVCombination> refinedList = new ArrayList<>();
         for (IVCombination comb : iVCombinations) {
-            if (comb.percentPerfect >= range.minPercent && comb.percentPerfect <= range.maxPercent) {
+            if (comb.getTotal() >= range.minSum && comb.getTotal() <= range.maxSum) {
                 refinedList.add(comb);
             }
         }

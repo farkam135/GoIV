@@ -199,33 +199,6 @@
 
             </TableLayout>
 
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:layout_marginTop="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp">
-
-                <Button
-                    android:id="@+id/exportWebButton"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="4"
-                    android:text="@string/export_to_pokebattler" />
-
-
-                <android.support.v7.widget.AppCompatImageButton
-                    android:id="@+id/shareWithOtherApp"
-                    style="?attr/borderlessButtonStyle"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:scaleType="center"
-                    app:srcCompat="@drawable/ic_share_black" />
-
-            </LinearLayout>
-
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -241,8 +214,8 @@
                     android:id="@+id/exportWebButtonQueue"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="2"
-                    android:text="Add to export queue" />
+                    android:layout_weight="1"
+                    android:text="Add to queue" />
 
 
                 <Button
@@ -250,9 +223,36 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="Clear" />
+                    android:text="Clear Queue" />
 
             </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp">
+
+                <Button
+                    android:id="@+id/exportWebButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:text="@string/export_to_pokebattler" />
+
+
+                <android.support.v7.widget.AppCompatImageButton
+                    android:id="@+id/shareWithOtherApp"
+                    style="?attr/borderlessButtonStyle"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:scaleType="center"
+                    app:srcCompat="@drawable/ic_share_black" />
+
+            </LinearLayout>
+
 
             <TextView
                 android:id="@+id/disclaimerText"

@@ -213,8 +213,6 @@ public class MovesetFraction extends Fraction {
 
     @OnClick(R.id.exportWebButton)
     void export() {
-       addToQueue();
-
         String exportString = ExportPokemonQueue.getInstance().getExportString();
         ClipboardManager clipboard = (ClipboardManager) pokefly.getSystemService(Context.CLIPBOARD_SERVICE);
         clipboard.setPrimaryClip(ClipData.newPlainText(exportString, exportString));
@@ -233,9 +231,8 @@ public class MovesetFraction extends Fraction {
     }
 
 
-
     @OnClick(R.id.clipboardClear)
-    void clearClip(){
+    void clearClip() {
         ExportPokemonQueue.getInstance().stringList = new ArrayList<>();
 
         Toast toast = Toast.makeText(pokefly, String.format("Cleared Queue"), Toast.LENGTH_LONG);
@@ -250,27 +247,28 @@ public class MovesetFraction extends Fraction {
     void addToQueue() {
         String addition =
                 Pokefly.scanResult.pokemon + ","
-                + Pokefly.scanResult.cp + ","
-                + Pokefly.scanResult.levelRange.min + ","
-                + Pokefly.scanResult.getIVAttackLow() + ","
-                + Pokefly.scanResult.getIVDefenseLow() + ","
-                + Pokefly.scanResult.getIVStaminaLow() + ","
-                + (Pokefly.scanResult.selectedMoveset != null
-                ? Pokefly.scanResult.selectedMoveset.getFastKey() : "") + ","
-                + (Pokefly.scanResult.selectedMoveset != null
-                ? Pokefly.scanResult.selectedMoveset.getChargeKey() : "")
-                +"\n";
+                        + Pokefly.scanResult.cp + ","
+                        + Pokefly.scanResult.levelRange.min + ","
+                        + Pokefly.scanResult.getIVAttackLow() + ","
+                        + Pokefly.scanResult.getIVDefenseLow() + ","
+                        + Pokefly.scanResult.getIVStaminaLow() + ","
+                        + (Pokefly.scanResult.selectedMoveset != null
+                        ? Pokefly.scanResult.selectedMoveset.getFastKey() : "") + ","
+                        + (Pokefly.scanResult.selectedMoveset != null
+                        ? Pokefly.scanResult.selectedMoveset.getChargeKey() : "")
+                        + "\n";
 
         ExportPokemonQueue.getInstance().stringList.add(addition);
 
         int currentAmount = ExportPokemonQueue.getInstance().stringList.size();
-        Toast toast = Toast.makeText(pokefly, String.format("Added " + Pokefly.scanResult.pokemon +" to the clipboard"
-                        + ". You currently have " + currentAmount +  " pokemon cached."),
+        Toast toast = Toast.makeText(pokefly, String.format("Added " + Pokefly.scanResult.pokemon + " to the clipboard"
+                        + ". You currently have " + currentAmount + " pokemon cached."),
                 Toast.LENGTH_LONG);
         toast.setGravity(Gravity.CENTER, 0, 0);
         toast.show();
 
     }
+
     /**
      * Creates an intent to share the result of the pokemon scan, and closes the overlay.
      */

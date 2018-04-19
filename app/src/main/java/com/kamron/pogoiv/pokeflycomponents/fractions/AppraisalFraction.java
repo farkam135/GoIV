@@ -89,7 +89,7 @@ public class AppraisalFraction extends Fraction implements AutoAppraisal.OnAppra
         ButterKnife.bind(this, rootView);
 
         // Restore any previously selected appraisal info
-        selectIVPercentRange(autoAppraisal.appraisalIVPercentRange);
+        selectIVSumRange(autoAppraisal.appraisalIVSumRange);
         for (AutoAppraisal.HighestStat highestStat : autoAppraisal.highestStats) {
             selectHighestStat(highestStat);
         }
@@ -145,18 +145,18 @@ public class AppraisalFraction extends Fraction implements AutoAppraisal.OnAppra
     }
 
     @Override
-    public void selectIVPercentRange(AutoAppraisal.IVPercentRange range) {
+    public void selectIVSumRange(AutoAppraisal.IVSumRange range) {
         switch (range) {
-            case RANGE_82_100:
+            case RANGE_37_45:
                 appraisalIVRange1.setChecked(true);
                 break;
-            case RANGE_67_80:
+            case RANGE_30_36:
                 appraisalIVRange2.setChecked(true);
                 break;
-            case RANGE_51_64:
+            case RANGE_23_29:
                 appraisalIVRange3.setChecked(true);
                 break;
-            case RANGE_0_49:
+            case RANGE_0_22:
                 appraisalIVRange4.setChecked(true);
                 break;
             default:
@@ -224,7 +224,7 @@ public class AppraisalFraction extends Fraction implements AutoAppraisal.OnAppra
     @Override
     public void highlightActiveUserInterface() {
         resetActivatedUserInterface();
-        if (autoAppraisal.appraisalIVPercentRange == AutoAppraisal.IVPercentRange.UNKNOWN) {
+        if (autoAppraisal.appraisalIVSumRange == AutoAppraisal.IVSumRange.UNKNOWN) {
             // Percent range not completed yet
             appraisalIVRangeGroup.setBackgroundResource(R.drawable.highlight_rectangle);
         } else if (autoAppraisal.appraisalHighestStatValueRange == AutoAppraisal.IVValueRange.UNKNOWN) {
@@ -277,28 +277,28 @@ public class AppraisalFraction extends Fraction implements AutoAppraisal.OnAppra
     @OnCheckedChanged(R.id.appraisalIVRange1)
     void onIVRange1(boolean checked) {
         if (checked) {
-            autoAppraisal.appraisalIVPercentRange = AutoAppraisal.IVPercentRange.RANGE_82_100;
+            autoAppraisal.appraisalIVSumRange = AutoAppraisal.IVSumRange.RANGE_37_45;
         }
     }
 
     @OnCheckedChanged(R.id.appraisalIVRange2)
     void onIVRange2(boolean checked) {
         if (checked) {
-            autoAppraisal.appraisalIVPercentRange = AutoAppraisal.IVPercentRange.RANGE_67_80;
+            autoAppraisal.appraisalIVSumRange = AutoAppraisal.IVSumRange.RANGE_30_36;
         }
     }
 
     @OnCheckedChanged(R.id.appraisalIVRange3)
     void onIVRange3(boolean checked) {
         if (checked) {
-            autoAppraisal.appraisalIVPercentRange = AutoAppraisal.IVPercentRange.RANGE_51_64;
+            autoAppraisal.appraisalIVSumRange = AutoAppraisal.IVSumRange.RANGE_23_29;
         }
     }
 
     @OnCheckedChanged(R.id.appraisalIVRange4)
     void onIVRange4(boolean checked) {
         if (checked) {
-            autoAppraisal.appraisalIVPercentRange = AutoAppraisal.IVPercentRange.RANGE_0_49;
+            autoAppraisal.appraisalIVSumRange = AutoAppraisal.IVSumRange.RANGE_0_22;
         }
     }
 

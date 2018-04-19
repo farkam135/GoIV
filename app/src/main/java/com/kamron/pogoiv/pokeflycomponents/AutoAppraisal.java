@@ -34,7 +34,7 @@ public class AutoAppraisal {
     private int numRetries = 0;
     private boolean autoAppraisalDone = false;
 
-    public IVPercentRange appraisalIVPercentRange = IVPercentRange.UNKNOWN;
+    public IVSumRange appraisalIVSumRange = IVSumRange.UNKNOWN;
     public HashSet<HighestStat> highestStats = new HashSet<>();
     public IVValueRange appraisalHighestStatValueRange = IVValueRange.UNKNOWN;
     public HashSet<StatModifier> statModifiers = new HashSet<>();
@@ -178,7 +178,7 @@ public class AutoAppraisal {
      */
     public void reset() {
         // Delete values
-        appraisalIVPercentRange = IVPercentRange.UNKNOWN;
+        appraisalIVSumRange = IVSumRange.UNKNOWN;
         highestStats.clear();
         appraisalHighestStatValueRange = IVValueRange.UNKNOWN;
         statModifiers.clear();
@@ -202,12 +202,12 @@ public class AutoAppraisal {
     private void addInfoFromAppraiseText(String appraiseText, String hash) {
         boolean match = false;
 
-        if (appraisalIVPercentRange == AutoAppraisal.IVPercentRange.UNKNOWN) {
+        if (appraisalIVSumRange == IVSumRange.UNKNOWN) {
             // Only if none of the IVRange checkboxes have been checked.
             // See if appraiseText matches any of the IVRange strings
             match = setIVRangeWith(appraiseText);
         }
-        if (!match && appraisalIVPercentRange != AutoAppraisal.IVPercentRange.UNKNOWN) {
+        if (!match && appraisalIVSumRange != IVSumRange.UNKNOWN) {
             // Only if IVRange is done and have not matched yet.
             // See if appraiseText matches any of the Highest Stats strings
             match = setHighestStatsWith(appraiseText);
@@ -311,28 +311,28 @@ public class AutoAppraisal {
         if (appraiseText.toLowerCase().contains(ivrange1_phrase1)
                 || (appraiseText.toLowerCase().contains(ivrange1_phrase2))) {
             for (OnAppraisalEventListener eventListener : eventListeners) {
-                eventListener.selectIVPercentRange(IVPercentRange.RANGE_82_100);
+                eventListener.selectIVSumRange(IVSumRange.RANGE_37_45);
             }
             return true;
         }
         if (appraiseText.toLowerCase().contains(ivrange2_phrase1)
                 || (appraiseText.toLowerCase().contains(ivrange2_phrase2))) {
             for (OnAppraisalEventListener eventListener : eventListeners) {
-                eventListener.selectIVPercentRange(IVPercentRange.RANGE_67_80);
+                eventListener.selectIVSumRange(IVSumRange.RANGE_30_36);
             }
             return true;
         }
         if (appraiseText.toLowerCase().contains(ivrange3_phrase1)
                 || (appraiseText.toLowerCase().contains(ivrange3_phrase2))) {
             for (OnAppraisalEventListener eventListener : eventListeners) {
-                eventListener.selectIVPercentRange(IVPercentRange.RANGE_51_64);
+                eventListener.selectIVSumRange(IVSumRange.RANGE_23_29);
             }
             return true;
         }
         if (appraiseText.toLowerCase().contains(ivrange4_phrase1)
                 || (appraiseText.toLowerCase().contains(ivrange4_phrase2))) {
             for (OnAppraisalEventListener eventListener : eventListeners) {
-                eventListener.selectIVPercentRange(IVPercentRange.RANGE_0_49);
+                eventListener.selectIVSumRange(IVSumRange.RANGE_0_22);
             }
             return true;
         }
@@ -357,19 +357,19 @@ public class AutoAppraisal {
         }
     }
 
-    public enum IVPercentRange {
-        UNKNOWN(0f, 100f),
-        RANGE_0_49(0f, 48.9f),
-        RANGE_51_64(51.1f, 64.4f),
-        RANGE_67_80(66.7f, 80f),
-        RANGE_82_100(82.2f, 100f);
+    public enum IVSumRange {
+        UNKNOWN(0, 45),
+        RANGE_0_22(0, 22),
+        RANGE_23_29(23, 29),
+        RANGE_30_36(30, 36),
+        RANGE_37_45(37, 45);
 
-        public float minPercent;
-        public float maxPercent;
+        public float minSum;
+        public float maxSum;
 
-        IVPercentRange(float minPercent, float maxPercent) {
-            this.minPercent = minPercent;
-            this.maxPercent = maxPercent;
+        IVSumRange(int minSum, float maxSum) {
+            this.minSum = minSum;
+            this.maxSum = maxSum;
         }
     }
 
@@ -407,7 +407,7 @@ public class AutoAppraisal {
     }
 
     public interface OnAppraisalEventListener {
-        void selectIVPercentRange(IVPercentRange range);
+        void selectIVSumRange(IVSumRange range);
 
         void selectHighestStat(HighestStat stat);
 

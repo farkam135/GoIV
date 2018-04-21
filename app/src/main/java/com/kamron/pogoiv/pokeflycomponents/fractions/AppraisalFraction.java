@@ -371,7 +371,7 @@ public class AppraisalFraction extends Fraction implements AutoAppraisal.OnAppra
         }
     }
 
-    @OnClick(R.id.statsButton)
+    @OnClick({R.id.statsButton, R.id.btnBackAppr})
     void onStats() {
         pokefly.navigateToInputFraction();
     }

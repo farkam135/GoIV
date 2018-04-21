@@ -288,12 +288,33 @@
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/btnCheckIv"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginRight="48dp"
-        android:layout_marginLeft="48dp"
-        android:text="@string/check_iv" />
+        android:orientation="horizontal"
+        >
+        <Button
+            android:id="@+id/btnBackAppr"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
+            android:text="Back" />
+
+        <Button
+            android:id="@+id/btnCheckIv"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
+            android:text="@string/check_iv" />
+
+
+
+
+
+    </LinearLayout>
 
 </LinearLayout>

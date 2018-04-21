@@ -32,6 +32,8 @@ public class PokemonShareHandler {
             jsonPokemon.put("DefMax", Pokefly.scanResult.getIVDefenseHigh());
             jsonPokemon.put("StamMin", Pokefly.scanResult.getIVStaminaLow());
             jsonPokemon.put("StamMax", Pokefly.scanResult.getIVStaminaHigh());
+            jsonPokemon.put("fastMove", Pokefly.scanResult.selectedMoveset.getFast());
+            jsonPokemon.put("chargeMove", Pokefly.scanResult.selectedMoveset.getCharge());
             jsonPokemon.put("OverallPower", Pokefly.scanResult.getIVPercentAvg());
             jsonPokemon.put("Hp", Pokefly.scanResult.hp);
             jsonPokemon.put("Cp", Pokefly.scanResult.cp);

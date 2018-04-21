@@ -45,6 +45,7 @@ public class GoIVSettings {
     public static final String POKESPAM_ENABLED = "pokeSpamEnabled";
     public static final String TEAM_NAME = "teamName";
     public static final String APPRAISAL_WINDOW_POSITION = "appraisalWindowPosition";
+    public static final String MOVESET_WINDOW_POSITION = "movesetWindowPosition";
     public static final String GOIV_CLIPBOARDSETTINGS = "GoIV_ClipboardSettings";
     public static final String GOIV_CLIPBOARDSINGLESETTINGS = "GoIV_ClipboardSingleSettings";
     public static final String GOIV_CLIPBOARDPERFECTIVSETTINGS = "GoIV_ClipboardPerfectIvSettings";

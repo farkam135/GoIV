@@ -81,9 +81,6 @@ public class FractionManager {
     }
 
     void updateFloatingViewVerticalOffset(int offsetPx) {
-        if (offsetPx < 0) {
-            offsetPx = 0;
-        }
         layoutParams.y = offsetPx;
         windowManager.updateViewLayout(floatingView, layoutParams);
     }

@@ -712,7 +712,7 @@ public class Pokefly extends Service {
     }
 
     public void navigateToMovesetFraction() {
-        fractionManager.show(new MovesetFraction(this));
+        fractionManager.show(new MovesetFraction(this, sharedPref));
     }
 
     /**

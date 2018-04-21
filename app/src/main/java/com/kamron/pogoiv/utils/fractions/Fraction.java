@@ -45,7 +45,7 @@ public abstract class Fraction {
      * See {@link #getAnchor()}.
      * @return number of pixels to offset from the anchor
      */
-    public abstract int getVerticalOffset(DisplayMetrics displayMetrics);
+    public abstract int getVerticalOffset(@NonNull DisplayMetrics displayMetrics);
 
     public void setFractionManager(@Nullable FractionManager fractionManager) {
         this.fractionManager = fractionManager;

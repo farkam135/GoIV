@@ -1,6 +1,7 @@
 package com.kamron.pogoiv.utils.fractions;
 
 import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
@@ -34,7 +35,13 @@ public abstract class MovableFraction extends Fraction implements View.OnTouchLi
                 return true;
 
             case MotionEvent.ACTION_MOVE:
-                int offset = (int) (originalWindowY + (motionEvent.getRawY() - initialTouchY));
+                int touchVerticalDiff = (int) (motionEvent.getRawY() - initialTouchY);
+                int offset;
+                if (getAnchor() == Anchor.BOTTOM) {
+                    offset = originalWindowY - touchVerticalDiff;
+                } else {
+                    offset = originalWindowY + touchVerticalDiff;
+                }
                 fractionManager.updateFloatingViewVerticalOffset(offset);
                 return true;
 
@@ -52,15 +59,15 @@ public abstract class MovableFraction extends Fraction implements View.OnTouchLi
     }
 
     @Override
-    public final int getVerticalOffset(DisplayMetrics displayMetrics) {
+    public final int getVerticalOffset(@NonNull DisplayMetrics displayMetrics) {
         String key = getVerticalOffsetSharedPreferencesKey();
         if (key == null) {
-            return getDefaultVerticalOffset();
+            return getDefaultVerticalOffset(displayMetrics);
         }
-        return sharedPrefs.getInt(key, getDefaultVerticalOffset());
+        return sharedPrefs.getInt(key, getDefaultVerticalOffset(displayMetrics));
     }
 
-    public abstract int getDefaultVerticalOffset();
+    public abstract int getDefaultVerticalOffset(DisplayMetrics displayMetrics);
 
     private void saveVerticalOffset(int offset) {
         String key = getVerticalOffsetSharedPreferencesKey();

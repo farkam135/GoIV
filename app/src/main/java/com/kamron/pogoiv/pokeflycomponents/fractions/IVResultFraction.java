@@ -98,7 +98,7 @@ public class IVResultFraction extends Fraction {
     }
 
     @Override
-    public int getVerticalOffset(DisplayMetrics displayMetrics) {
+    public int getVerticalOffset(@NonNull DisplayMetrics displayMetrics) {
         return 0;
     }
 

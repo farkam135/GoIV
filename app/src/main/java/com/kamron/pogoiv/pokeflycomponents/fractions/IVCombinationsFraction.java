@@ -5,6 +5,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.view.View;
 
 import com.kamron.pogoiv.Pokefly;
@@ -51,6 +52,16 @@ public class IVCombinationsFraction extends Fraction {
 
     @Override public void onDestroy() {
         // Nothing to do
+    }
+
+    @Override
+    public Anchor getAnchor() {
+        return Anchor.BOTTOM;
+    }
+
+    @Override
+    public int getVerticalOffset(DisplayMetrics displayMetrics) {
+        return 0;
     }
 
     @OnClick(R.id.btnBack)

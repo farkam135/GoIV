@@ -2,6 +2,7 @@ package com.kamron.pogoiv.pokeflycomponents.fractions;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -89,6 +90,16 @@ public class IVResultFraction extends Fraction {
 
     @Override public void onDestroy() {
         // Nothing to do
+    }
+
+    @Override
+    public Anchor getAnchor() {
+        return Anchor.BOTTOM;
+    }
+
+    @Override
+    public int getVerticalOffset(DisplayMetrics displayMetrics) {
+        return 0;
     }
 
     /**

@@ -3,6 +3,7 @@ package com.kamron.pogoiv.pokeflycomponents.fractions;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.Space;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
@@ -136,6 +137,16 @@ public class InputFraction extends Fraction {
     @Override
     public void onDestroy() {
         saveToPokefly();
+    }
+
+    @Override
+    public Anchor getAnchor() {
+        return Anchor.BOTTOM;
+    }
+
+    @Override
+    public int getVerticalOffset(DisplayMetrics displayMetrics) {
+        return 0;
     }
 
     private void saveToPokefly() {

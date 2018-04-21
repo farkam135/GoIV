@@ -1,21 +1,21 @@
 package com.kamron.pogoiv.pokeflycomponents.fractions;
 
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Switch;
-import android.widget.Toast;
 
 import com.kamron.pogoiv.GoIVSettings;
 import com.kamron.pogoiv.Pokefly;
 import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.pokeflycomponents.AutoAppraisal;
-import com.kamron.pogoiv.utils.fractions.Fraction;
+import com.kamron.pogoiv.utils.fractions.MovableFraction;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -23,8 +23,10 @@ import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 import butterknife.OnTouch;
 
+import static com.kamron.pogoiv.GoIVSettings.APPRAISAL_WINDOW_POSITION;
 
-public class AppraisalFraction extends Fraction implements AutoAppraisal.OnAppraisalEventListener {
+
+public class AppraisalFraction extends MovableFraction implements AutoAppraisal.OnAppraisalEventListener {
 
     @BindView(R.id.appraisalIVRangeGroup)
     RadioGroup appraisalIVRangeGroup;
@@ -66,17 +68,19 @@ public class AppraisalFraction extends Fraction implements AutoAppraisal.OnAppra
 
     private Pokefly pokefly;
     private AutoAppraisal autoAppraisal;
-    private WindowManager.LayoutParams layoutParams;
-    private int originalWindowY;
-    private int initialTouchY;
 
 
     public AppraisalFraction(@NonNull Pokefly pokefly,
-                             @NonNull AutoAppraisal autoAppraisal,
-                             @NonNull WindowManager.LayoutParams layoutParams) {
+                             @NonNull SharedPreferences sharedPrefs,
+                             @NonNull AutoAppraisal autoAppraisal) {
+        super(sharedPrefs);
         this.pokefly = pokefly;
         this.autoAppraisal = autoAppraisal;
-        this.layoutParams = layoutParams;
+    }
+
+    @Override
+    protected @Nullable String getVerticalOffsetSharedPreferencesKey() {
+        return APPRAISAL_WINDOW_POSITION;
     }
 
     @Override
@@ -145,6 +149,16 @@ public class AppraisalFraction extends Fraction implements AutoAppraisal.OnAppra
     }
 
     @Override
+    public Anchor getAnchor() {
+        return Anchor.TOP;
+    }
+
+    @Override
+    public int getDefaultVerticalOffset() {
+        return 0;
+    }
+
+    @Override
     public void selectIVSumRange(AutoAppraisal.IVSumRange range) {
         switch (range) {
             case RANGE_37_45:
@@ -205,7 +219,7 @@ public class AppraisalFraction extends Fraction implements AutoAppraisal.OnAppra
         }
     }
 
-    public void selectStatModifier(AutoAppraisal.StatModifier modifier) {
+    private void selectStatModifier(AutoAppraisal.StatModifier modifier) {
         switch (modifier) {
             case EGG_OR_RAID:
                 eggRaidSwitch.setChecked(true);
@@ -249,29 +263,7 @@ public class AppraisalFraction extends Fraction implements AutoAppraisal.OnAppra
 
     @OnTouch({R.id.positionHandler, R.id.additionalRefiningHeader})
     boolean positionHandlerTouchEvent(View v, MotionEvent event) {
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                originalWindowY = layoutParams.y;
-                initialTouchY = (int) event.getRawY();
-                break;
-
-            case MotionEvent.ACTION_MOVE:
-                layoutParams.y = (int) (originalWindowY + (event.getRawY() - initialTouchY));
-                pokefly.setWindowPosition(layoutParams);
-                break;
-
-            case MotionEvent.ACTION_UP:
-                if (layoutParams.y != originalWindowY) {
-                    pokefly.saveWindowPosition(layoutParams.y);
-                } else {
-                    Toast.makeText(v.getContext(), R.string.position_handler_toast, Toast.LENGTH_SHORT).show();
-                }
-                break;
-
-            default:
-                return false;
-        }
-        return true;
+        return super.onTouch(v, event);
     }
 
     @OnCheckedChanged(R.id.appraisalIVRange1)

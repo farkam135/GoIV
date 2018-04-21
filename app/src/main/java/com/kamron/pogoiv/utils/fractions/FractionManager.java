@@ -7,19 +7,36 @@ import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+
+import static android.content.Context.WINDOW_SERVICE;
 
 
 public class FractionManager {
 
+    // Themed layout to be used to inflate Fraction layouts
     private Context themedContext;
+    // System window manager
+    private WindowManager windowManager;
+    // The root view attached to the window manager
+    private View floatingView;
+    // LayoutParams to position the floating view inside the WindowManager
+    private WindowManager.LayoutParams layoutParams;
+    // ViewGroup where the Fraction will be attached
     private ViewGroup containerView;
+    // Current Fraction instance
     private Fraction currentFraction;
 
 
-    public FractionManager(Context context,
+    public FractionManager(@NonNull Context context,
                            @StyleRes int themeResId,
+                           @NonNull WindowManager.LayoutParams layoutParams,
+                           @NonNull View floatingView,
                            @NonNull ViewGroup containerView) {
         themedContext = new ContextThemeWrapper(context, themeResId);
+        windowManager = (WindowManager) context.getSystemService(WINDOW_SERVICE);
+        this.layoutParams = layoutParams;
+        this.floatingView = floatingView;
         this.containerView = containerView;
     }
 
@@ -27,8 +44,13 @@ public class FractionManager {
         remove();
 
         View fractionRootView = addFractionView(fraction);
+        fraction.setFractionManager(this);
         fraction.onCreate(fractionRootView);
         currentFraction = fraction;
+
+        layoutParams.gravity = currentFraction.getAnchor().getGravity();
+        int offset = currentFraction.getVerticalOffset(themedContext.getResources().getDisplayMetrics());
+        updateFloatingViewVerticalOffset(offset);
     }
 
     public void remove() {
@@ -56,6 +78,18 @@ public class FractionManager {
     private View addFractionView(@NonNull Fraction fraction) {
         return LayoutInflater.from(themedContext)
                 .inflate(fraction.getLayoutResId(), containerView);
+    }
+
+    void updateFloatingViewVerticalOffset(int offsetPx) {
+        if (offsetPx < 0) {
+            offsetPx = 0;
+        }
+        layoutParams.y = offsetPx;
+        windowManager.updateViewLayout(floatingView, layoutParams);
+    }
+
+    int getCurrentFloatingViewVerticalOffset() {
+        return layoutParams.y;
     }
 
 }

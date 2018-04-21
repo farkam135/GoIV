@@ -24,6 +24,7 @@ import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.pokeflycomponents.MovesetsManager;
 import com.kamron.pogoiv.scanlogic.MovesetData;
 import com.kamron.pogoiv.scanlogic.PokemonShareHandler;
+import com.kamron.pogoiv.utils.ExportPokemonQueue;
 import com.kamron.pogoiv.utils.fractions.Fraction;
 
 import java.text.DecimalFormat;
@@ -212,19 +213,9 @@ public class MovesetFraction extends Fraction {
 
     @OnClick(R.id.exportWebButton)
     void export() {
+        String exportString = ExportPokemonQueue.getInstance().getExportString();
         ClipboardManager clipboard = (ClipboardManager) pokefly.getSystemService(Context.CLIPBOARD_SERVICE);
-        String content = "pokemon,cp,level,attack,defense,stamina,fastmove,chargemove\n"; // Data header
-        content += Pokefly.scanResult.pokemon + ","
-                + Pokefly.scanResult.cp + ","
-                + Pokefly.scanResult.levelRange.min + ","
-                + Pokefly.scanResult.getIVAttackLow() + ","
-                + Pokefly.scanResult.getIVDefenseLow() + ","
-                + Pokefly.scanResult.getIVStaminaLow() + ","
-                + (Pokefly.scanResult.selectedMoveset != null
-                ? Pokefly.scanResult.selectedMoveset.getFastKey() : "") + ","
-                + (Pokefly.scanResult.selectedMoveset != null
-                ? Pokefly.scanResult.selectedMoveset.getChargeKey() : "");
-        clipboard.setPrimaryClip(ClipData.newPlainText(content, content));
+        clipboard.setPrimaryClip(ClipData.newPlainText(exportString, exportString));
 
         Toast toast = Toast.makeText(pokefly, String.format("Pokemon data added to clipboard."
                         + "\n\nPaste it in at the import screen."),
@@ -237,6 +228,45 @@ public class MovesetFraction extends Fraction {
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         pokefly.startActivity(i);
         pokefly.closeInfoDialog();
+    }
+
+
+    @OnClick(R.id.clipboardClear)
+    void clearClip() {
+        ExportPokemonQueue.getInstance().stringList = new ArrayList<>();
+
+        Toast toast = Toast.makeText(pokefly, String.format("Cleared Queue"), Toast.LENGTH_LONG);
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
+
+
+    }
+
+
+    @OnClick(R.id.exportWebButtonQueue)
+    void addToQueue() {
+        String addition =
+                Pokefly.scanResult.pokemon + ","
+                        + Pokefly.scanResult.cp + ","
+                        + Pokefly.scanResult.levelRange.min + ","
+                        + Pokefly.scanResult.getIVAttackLow() + ","
+                        + Pokefly.scanResult.getIVDefenseLow() + ","
+                        + Pokefly.scanResult.getIVStaminaLow() + ","
+                        + (Pokefly.scanResult.selectedMoveset != null
+                        ? Pokefly.scanResult.selectedMoveset.getFastKey() : "") + ","
+                        + (Pokefly.scanResult.selectedMoveset != null
+                        ? Pokefly.scanResult.selectedMoveset.getChargeKey() : "")
+                        + "\n";
+
+        ExportPokemonQueue.getInstance().stringList.add(addition);
+
+        int currentAmount = ExportPokemonQueue.getInstance().stringList.size();
+        Toast toast = Toast.makeText(pokefly, String.format("Added " + Pokefly.scanResult.pokemon + " to the clipboard"
+                        + ". You currently have " + currentAmount + " pokemon cached."),
+                Toast.LENGTH_LONG);
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
+
     }
 
     /**

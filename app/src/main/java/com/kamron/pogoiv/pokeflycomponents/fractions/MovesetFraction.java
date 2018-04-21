@@ -4,14 +4,19 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TableLayout;
@@ -25,7 +30,7 @@ import com.kamron.pogoiv.pokeflycomponents.MovesetsManager;
 import com.kamron.pogoiv.scanlogic.MovesetData;
 import com.kamron.pogoiv.scanlogic.PokemonShareHandler;
 import com.kamron.pogoiv.utils.ExportPokemonQueue;
-import com.kamron.pogoiv.utils.fractions.Fraction;
+import com.kamron.pogoiv.utils.fractions.MovableFraction;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -36,9 +41,12 @@ import java.util.Comparator;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnTouch;
+
+import static com.kamron.pogoiv.GoIVSettings.MOVESET_WINDOW_POSITION;
 
 
-public class MovesetFraction extends Fraction {
+public class MovesetFraction extends MovableFraction {
 
     private static final String URL_POKEBATTLER_IMPORT = "https://www.pokebattler.com/pokebox/import";
 
@@ -61,8 +69,14 @@ public class MovesetFraction extends Fraction {
     ImageView headerDefenseSortIcon;
 
 
-    public MovesetFraction(@NonNull Pokefly pokefly) {
+    public MovesetFraction(@NonNull Pokefly pokefly, @NonNull SharedPreferences sharedPrefs) {
+        super(sharedPrefs);
         this.pokefly = pokefly;
+    }
+
+    @Override
+    protected @Nullable String getVerticalOffsetSharedPreferencesKey() {
+        return MOVESET_WINDOW_POSITION;
     }
 
     @Override public int getLayoutResId() {
@@ -86,7 +100,23 @@ public class MovesetFraction extends Fraction {
         }
     }
 
-    @Override public void onDestroy() {
+    @Override
+    public void onDestroy() {
+    }
+
+    @Override
+    public Anchor getAnchor() {
+        return Anchor.BOTTOM;
+    }
+
+    @Override
+    public int getDefaultVerticalOffset(DisplayMetrics displayMetrics) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 56, displayMetrics);
+    }
+
+    @OnTouch({R.id.positionHandler, R.id.movesetHeader})
+    boolean positionHandlerTouchEvent(View v, MotionEvent event) {
+        return super.onTouch(v, event);
     }
 
     private void sortBy(Comparator<MovesetData> comparator) {

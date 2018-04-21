@@ -6,6 +6,7 @@ import android.content.res.ColorStateList;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -99,6 +100,16 @@ public class PowerUpFraction extends Fraction {
     }
 
     @Override public void onDestroy() {
+    }
+
+    @Override
+    public Anchor getAnchor() {
+        return Anchor.BOTTOM;
+    }
+
+    @Override
+    public int getVerticalOffset(@NonNull DisplayMetrics displayMetrics) {
+        return 0;
     }
 
     @OnClick(R.id.ivButton)

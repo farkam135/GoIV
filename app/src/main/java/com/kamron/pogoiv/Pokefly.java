@@ -64,8 +64,6 @@ import java.lang.ref.WeakReference;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.kamron.pogoiv.GoIVSettings.APPRAISAL_WINDOW_POSITION;
-
 /**
  * Currently, the central service in Pokemon Go, dealing with everything except
  * the initial activity.
@@ -346,7 +344,8 @@ public class Pokefly extends Service {
         windowManager.addView(ivButton, IVPopupButton.layoutParams);
         createArcPointer();
 
-        fractionManager = new FractionManager(this, R.style.AppTheme_Dialog, fractionContainer);
+        fractionManager = new FractionManager(
+                this, R.style.AppTheme_Dialog, layoutParams, infoLayout, fractionContainer);
     }
 
 
@@ -452,46 +451,6 @@ public class Pokefly extends Service {
         View v = LayoutInflater.from(this).inflate(R.layout.dialog_info_window, null);
         layoutParams.gravity = Gravity.CENTER | Gravity.BOTTOM;
         ButterKnife.bind(this, v);
-    }
-
-    /**
-     * Set the current Info Window location.
-     *
-     * @param newParams New Info Window layout params for appraisal mode.
-     */
-    public void setWindowPosition(WindowManager.LayoutParams newParams) {
-        windowManager.updateViewLayout(infoLayout, newParams);
-    }
-
-    /**
-     * Saves the current Info Window location to shared preferences.
-     *
-     * @param appraisalWindowPosition Current Info Window Y offset for appraisal mode.
-     */
-    public void saveWindowPosition(int appraisalWindowPosition) {
-        SharedPreferences.Editor edit = sharedPref.edit();
-        edit.putInt(APPRAISAL_WINDOW_POSITION, appraisalWindowPosition);
-        edit.apply();
-    }
-
-
-    private static final int MAX_DRAWABLE_LEVEL = 10000;
-
-    /**
-     * Moves the overlay up or down.
-     *
-     * @param moveUp true if move up, false if move down
-     */
-    private void moveOverlay(Boolean moveUp) {
-        if (moveUp && layoutParams.gravity != Gravity.TOP) {
-            layoutParams.gravity = Gravity.TOP;
-            layoutParams.y = sharedPref.getInt(APPRAISAL_WINDOW_POSITION, 0);
-            windowManager.updateViewLayout(infoLayout, layoutParams);
-        } else if (!moveUp && layoutParams.gravity != Gravity.BOTTOM) {
-            layoutParams.gravity = Gravity.BOTTOM;
-            layoutParams.y = 0;
-            windowManager.updateViewLayout(infoLayout, layoutParams);
-        }
     }
 
     /**
@@ -734,32 +693,26 @@ public class Pokefly extends Service {
 
     public void navigateToInputFraction() {
         fractionManager.show(new InputFraction(this));
-        moveOverlay(false);
     }
 
     public void navigateToAppraisalFraction() {
-        fractionManager.show(new AppraisalFraction(this, autoAppraisal, layoutParams));
-        moveOverlay(true);
+        fractionManager.show(new AppraisalFraction(this, sharedPref, autoAppraisal));
     }
 
     public void navigateToIVResultFraction() {
         fractionManager.show(new IVResultFraction(this));
-        moveOverlay(false);
     }
 
     public void navigateToIVCombinationsFraction() {
         fractionManager.show(new IVCombinationsFraction(this));
-        moveOverlay(false);
     }
 
     public void navigateToPowerUpFraction() {
         fractionManager.show(new PowerUpFraction(this));
-        moveOverlay(false);
     }
 
     public void navigateToMovesetFraction() {
-        fractionManager.show(new MovesetFraction(this));
-        moveOverlay(false);
+        fractionManager.show(new MovesetFraction(this, sharedPref));
     }
 
     /**

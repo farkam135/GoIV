@@ -62,7 +62,8 @@ public class ClipboardTokenCollection {
 
         tokens.add(new PowerupsToMaxToken(false));//Powerups left to pokemon level 40
 
-        tokens.add(new PokemonGenderToken(false)); // Gender
+        tokens.add(new PokemonGenderToken(false, PokemonGenderToken.Type.SYMBOL)); // Gender symbol
+        tokens.add(new PokemonGenderToken(false, PokemonGenderToken.Type.LETTER)); // Gender letter
 
         tokens.add(new HpToken(true, true));  //HP on max evolution, current level
         tokens.add(new HpToken(true, false)); //hp on max evolution, level 40

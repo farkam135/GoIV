@@ -122,7 +122,7 @@ public class IVResultFraction extends Fraction {
 
     @OnClick(R.id.btnBack)
     void onBack() {
-        pokefly.navigateToInputFraction();
+        pokefly.navigateToPreferredStartFraction();
     }
 
     @OnClick(R.id.btnClose)

@@ -691,6 +691,14 @@ public class Pokefly extends Service {
         }
     };
 
+    public void navigateToPreferredStartFraction() {
+        if (GoIVSettings.getInstance(this).shouldAutoOpenExpandedAppraise()) {
+            navigateToAppraisalFraction();
+        } else {
+            navigateToInputFraction();
+        }
+    }
+
     public void navigateToInputFraction() {
         fractionManager.show(new InputFraction(this));
     }
@@ -788,14 +796,18 @@ public class Pokefly extends Service {
                         if (!startedInManualScreenshotMode) {
                             infoShownReceived = true;
                         }
+                        // Show the overlay window and the arc pointer
                         showInfoLayoutArcPointer();
-                        if (!startedInManualScreenshotMode && settings.shouldAutoOpenExpandedAppraise()) {
-                            // Ensure arc pointer is in the right place
-                            setArcPointer(scanData.getEstimatedPokemonLevel().min);
-                            // Now that we've done what's usually taken care by InputFraction, we can skip it
-                            navigateToAppraisalFraction();
+                        // Ensure arc pointer is in the right place
+                        setArcPointer(scanData.getEstimatedPokemonLevel().min);
+                        // Read user preferences and navigate accordingly
+                        if (settings.shouldShouldConfirmationDialogs()) {
+                            // Will navigate either to InputFraction or AppraisalFraction
+                            navigateToPreferredStartFraction();
                         } else {
-                            navigateToInputFraction();
+                            // Skip the input screens and navigate directly to the results
+                            computeIv();
+                            navigateToIVResultFraction();
                         }
                     }
 

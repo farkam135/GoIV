@@ -215,7 +215,7 @@ public class MovesetFraction extends MovableFraction {
 
     @OnClick(R.id.btnBack)
     void onBack() {
-        pokefly.navigateToInputFraction();
+        pokefly.navigateToPreferredStartFraction();
     }
 
     @OnClick(R.id.btnClose)

@@ -128,9 +128,6 @@ public class InputFraction extends Fraction {
 
         adjustArcPointerBar(Pokefly.scanData.getEstimatedPokemonLevel().min);
 
-        if (!GoIVSettings.getInstance(pokefly).shouldShouldConfirmationDialogs()) {
-            checkIv();
-        }
         showCandyTextBoxBasedOnSettings();
     }
 

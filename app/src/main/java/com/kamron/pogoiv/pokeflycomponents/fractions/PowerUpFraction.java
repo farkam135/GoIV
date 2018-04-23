@@ -124,7 +124,7 @@ public class PowerUpFraction extends Fraction {
 
     @OnClick(R.id.btnBack)
     void onBack() {
-        pokefly.navigateToInputFraction();
+        pokefly.navigateToPreferredStartFraction();
     }
 
     @OnClick(R.id.btnClose)

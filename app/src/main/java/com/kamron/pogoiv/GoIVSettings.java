@@ -147,7 +147,7 @@ public class GoIVSettings {
         return prefs.getBoolean(LAUNCH_POKEMON_GO, true);
     }
 
-    public boolean shouldShouldConfirmationDialogs() {
+    public boolean shouldShowConfirmationDialogs() {
         return prefs.getBoolean(SHOW_CONFIRMATION_DIALOG, true);
     }
 

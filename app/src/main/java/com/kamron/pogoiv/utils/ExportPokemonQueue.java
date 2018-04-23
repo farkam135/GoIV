@@ -10,6 +10,8 @@ import java.util.List;
  */
 
 public class ExportPokemonQueue {
+
+    private static final String EXPORT_HEADERS = "pokemon,cp,level,attack,defense,stamina,fastmove,chargemove";
     private static final ExportPokemonQueue ourInstance = new ExportPokemonQueue();
 
     public static ExportPokemonQueue getInstance() {
@@ -22,12 +24,13 @@ public class ExportPokemonQueue {
     }
 
     public String getExportString() {
-        String returner = "pokemon,cp,level,attack,defense,stamina,fastmove,chargemove\n";
+        StringBuilder returner = new StringBuilder(EXPORT_HEADERS);
+        returner.append('\n');
 
         for (String pokeRow : stringList) {
-            returner += pokeRow;
+            returner.append(pokeRow);
         }
 
-        return returner;
+        return returner.toString();
     }
 }

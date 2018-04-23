@@ -208,7 +208,6 @@
 
             </TableLayout>
 
-
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
@@ -218,23 +217,22 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp">
 
-
                 <Button
                     android:id="@+id/exportWebButtonQueue"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Add to queue" />
-
+                    android:text="@string/button_add_to_queue" />
 
                 <Button
                     android:id="@+id/clipboardClear"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Clear Queue" />
+                    android:text="@string/button_clear_to_queue" />
 
             </LinearLayout>
+
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
@@ -249,8 +247,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="4"
-                    android:text="@string/export_to_pokebattler" />
-
+                    android:text="@string/button_export_to_pokebattler" />
 
                 <android.support.v7.widget.AppCompatImageButton
                     android:id="@+id/shareWithOtherApp"
@@ -261,7 +258,6 @@
                     app:srcCompat="@drawable/ic_share_black" />
 
             </LinearLayout>
-
 
             <TextView
                 android:id="@+id/disclaimerText"

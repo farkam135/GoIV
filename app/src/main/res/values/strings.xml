@@ -286,7 +286,6 @@
     <string name="send_email_to_devs_button">Email error information to developers</string>
     <string name="report_error">Email error report</string>
     <string name="recalibration_video_tutorial">Recalibration video tutorial</string>
-    <string name="export_to_pokebattler">Export Queue to PokeBattler</string>
     <string name="moveset_score_disclaimer">"Score based on data from pokebattler.com simulations.\nSimulations are on gym battles, raids often have other optimal movesets.\nOptimal moveset can change in certain matchups.\nThis score is only a guideline."</string>
     <string name="table_header_move_fast">Fast</string>
     <string name="table_header_move_charge">Charge</string>
@@ -303,4 +302,10 @@
     <string name="fraction_moveset_title">Moveset (beta)</string>
     <string name="fraction_moveset_tab_label">Moveset</string>
     <string name="fraction_ivcombinations_title">IV Combinations</string>
+    <string name="export_queue_copied">"Pokémon data added to clipboard.\nPaste it in at the import screen."</string>
+    <string name="export_queue_cleared">"Queue cleared"</string>
+    <string name="export_queue_added">"Added %1$s to the export queue.\nYou currently have %2$d pokémon cached."</string>
+    <string name="button_add_to_queue">"Add to queue"</string>
+    <string name="button_clear_to_queue">"Clear queue"</string>
+    <string name="button_export_to_pokebattler">Export Queue to PokeBattler</string>
 </resources>

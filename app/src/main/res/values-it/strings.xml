@@ -276,7 +276,6 @@
     <string name="token_msg_lvl_msg2">Questo token rappresenta il livello del \'mon, così com\'è stato scansionato, rimuovendo la parte decimale. Implica una potenziale perdita di informazione. Ad esempio, per un \'mon di livello 10.5 ritorna 10.</string>
     <string name="token_msg_lvl_msg3">Questo token rappresenta il livello del \'mon, così com\'è stato scansionato, includendo la parte decimale. Questo rende il risultato più lungo rispetto ad altre alternative, in compenso è molto preciso. Ad esempio, per un \'mon di livello 10.5 ritorna 10.5.</string>
     <string name="recalibration_video_tutorial">Video tutorial ricalibrazione</string>
-    <string name="export_to_pokebattler">Esporta a PokeBattler</string>
     <string name="moveset_score_disclaimer">"Valutazioni basate sulle simulazioni di pokebattler.com.\nPunteggi basati sulle battaglie nelle palestre, spesso i moveset ottimali per i raid sono diversi.\nI moveset ottimali possono variare in base agli avversari.\nQuesta valutazione è da intendersi indicativa."</string>
     <string name="table_header_move_fast">Veloce</string>
     <string name="table_header_move_charge">Caricata</string>
@@ -293,4 +292,10 @@
     <string name="fraction_moveset_title">Mosse (beta)</string>
     <string name="fraction_moveset_tab_label">Mosse</string>
     <string name="fraction_ivcombinations_title">Combinazioni IV</string>
+    <string name="export_queue_copied">"Dati dei Pokémon copiati negli appunti.\nOra incollali nel campo di importazione."</string>
+    <string name="export_queue_cleared">"Coda svuotata"</string>
+    <string name="export_queue_added">"%1$s aggiunto alla coda di export.\nOra contiene %2$d pokémon."</string>
+    <string name="button_add_to_queue">"Agg. a coda"</string>
+    <string name="button_clear_to_queue">"Svuota coda"</string>
+    <string name="button_export_to_pokebattler">Esporta coda a PokeBattler</string>
 </resources>

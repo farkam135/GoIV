@@ -801,7 +801,7 @@ public class Pokefly extends Service {
                         // Ensure arc pointer is in the right place
                         setArcPointer(scanData.getEstimatedPokemonLevel().min);
                         // Read user preferences and navigate accordingly
-                        if (settings.shouldShouldConfirmationDialogs()) {
+                        if (settings.shouldShowConfirmationDialogs()) {
                             // Will navigate either to InputFraction or AppraisalFraction
                             navigateToPreferredStartFraction();
                         } else {

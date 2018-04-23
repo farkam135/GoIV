@@ -21,6 +21,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.CardView;
 import android.util.DisplayMetrics;
+import android.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -448,7 +449,8 @@ public class Pokefly extends Service {
      * creates the info layout which contains all the scanned data views and allows for correction.
      */
     private void createInfoLayout() {
-        View v = LayoutInflater.from(this).inflate(R.layout.dialog_info_window, null);
+        Context themedContext = new ContextThemeWrapper(this, R.style.AppTheme_Dialog);
+        View v = LayoutInflater.from(themedContext).inflate(R.layout.dialog_info_window, null);
         layoutParams.gravity = Gravity.CENTER | Gravity.BOTTOM;
         ButterKnife.bind(this, v);
     }

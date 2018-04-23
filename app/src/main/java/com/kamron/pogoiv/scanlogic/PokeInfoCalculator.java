@@ -169,7 +169,7 @@ public class PokeInfoCalculator {
     }
 
     /**
-     * Gets the needed required candy and stardust to hit max level (relative to trainer level)
+     * Gets the needed required candy and stardust to hit max level (relative to trainer level).
      *
      * @param goalLevel             The level to reach
      * @param estimatedPokemonLevel The estimated level of hte pokemon
@@ -410,9 +410,8 @@ public class PokeInfoCalculator {
         int highHp = (int) Math.max(
                 Math.floor((selectedPokemon.baseStamina + scanResult.getIVStaminaHigh()) * lvlScalar), 10);
         int lowHp = (int) Math.max(
-                Math.floor((selectedPokemon.baseStamina + scanResult.getIVStaminaHigh()) * lvlScalar), 10);
-        int averageHP = Math.round(highHp + lowHp) / 2;
-        return averageHP;
+                Math.floor((selectedPokemon.baseStamina + scanResult.getIVStaminaLow()) * lvlScalar), 10);
+        return Math.round((highHp + lowHp) / 2f);
     }
 
     public String getTypeName(int typeNameNum) {

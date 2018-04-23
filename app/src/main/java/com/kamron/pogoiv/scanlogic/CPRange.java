@@ -28,6 +28,6 @@ public class CPRange {
      * @return Double average of this CP range.
      */
     public double getFloatingAvg() {
-        return (low + high) / 2.0;
+        return (low + high) / 2f;
     }
 }

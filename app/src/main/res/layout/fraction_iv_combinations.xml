@@ -20,7 +20,7 @@
             android:layout_width="48dp"
             android:layout_height="40dp"
             android:text="@string/back"
-            android:src="?attr/homeAsUpIndicator"
+            android:src="@drawable/ic_arrow_back_white_24dp"
             android:contentDescription="@string/back" />
 
         <TextView

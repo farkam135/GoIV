@@ -50,7 +50,7 @@
             style="?attr/borderlessButtonStyle"
             android:layout_width="48dp"
             android:layout_height="40dp"
-            android:src="@drawable/abc_ic_clear_material"
+            android:src="@drawable/ic_clear_white_24dp"
             android:contentDescription="@string/close" />
 
     </LinearLayout>

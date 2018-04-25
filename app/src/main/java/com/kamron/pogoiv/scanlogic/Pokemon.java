@@ -12,24 +12,28 @@ import java.util.List;
 public class Pokemon {
 
     public enum Gender {
-        F("♀", "f"),
-        M("♂", "m"),
-        N("", "n");
+        F("♀", "F"),
+        M("♂", "M"),
+        N("", "N");
 
         private String symbol;
-        private String character;
+        private String letter;
 
-        Gender(@NonNull String symbol, @NonNull String character) {
+        Gender(@NonNull String symbol, @NonNull String letter) {
             this.symbol = symbol;
-            this.character = character;
+            this.letter = letter;
         }
 
         @Override public String toString() {
+            return letter;
+        }
+
+        public String getSymbol() {
             return symbol;
         }
 
-        public String getCharacter() {
-            return character;
+        public String getLetter() {
+            return letter;
         }
     }
 

@@ -45,7 +45,7 @@ public class GenderDetectionTest {
         ScanFieldResults results = null;
 
         for (Pokemon.Gender gender : Pokemon.Gender.values()) {
-            String genderPath = gendersDir + gender.getCharacter();
+            String genderPath = gendersDir + gender.getLetter().toLowerCase();
 
             String[] pokemonInfoScreenFileNames = mContext.getAssets().list(genderPath);
 

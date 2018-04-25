@@ -150,7 +150,8 @@
     <string name="notification_channel">Stato GoIV</string>
     <string name="check_cp_or_level">Qualcosa è andato storto! Controlla che i valori in input siano corretti e che il livello allenatore sia impostato correttamente nella home di GoIV.</string>
     <string name="pokespam_formatted_message2">%1$d (%2$d righe)</string>
-    <string name="token_pokemon_gender">Sesso</string>
+    <string name="token_pokemon_gender_symbol">Sesso simbolo</string>
+    <string name="token_pokemon_gender_letter">Sesso lettera</string>
     <string name="copy_to_clip_perfectiv_setting">Copia diversamente per IV 100%</string>
     <string name="copy_to_clip_perfectiv_setting_summary">Durante la modifica ti permette di definire una configurazione per la copia negli appunti da usare quando la scansione risulta in un 100%.</string>
     <string name="quick_iv_preview_title">Mostra l\'anteprima IV veloce</string>
@@ -214,7 +215,7 @@
     <string name="token_category_evaluation_scores">Indici di valutazione</string>
     <string name="token_category_separators">Separatori</string>
     <string name="token_msg_basStat_msg1">Questo token restituisce le statistiche base, ad esempio 186 190 260 per Lapras, significa che qusto \'mon senza bonus IV ha 186 di attacco, 190 di difesa e 260 di salute. Gli IV possono aggiungere fino a 15 punti extra ad ognuna statistica.</string>
-    <string name="token_msg_gender">Questo token ritorna il sesso del \'mon: ♂ se maschio, ♀ se femmina, vuoto altrimenti.</string>
+    <string name="token_msg_gender">Questo token ritorna il sesso del \'mon: %1$s se maschio, %2$s se femmina, vuoto altrimenti.</string>
     <string name="report_error">Invia rapporto di errore</string>
     <string name="send_email_to_devs_button">Invia una mail con le informazioni sull\'errore agli sviluppatori</string>
     <string name="send_email_to_devs_recalibration">Se GoIV ha fallito la ricalibrazione anche quando avrebbe dovuto riuscirci, premi il bottone sottostante per generare una mail automatica di rapporto bug.</string>

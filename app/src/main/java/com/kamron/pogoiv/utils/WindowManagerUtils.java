@@ -2,13 +2,26 @@ package com.kamron.pogoiv.utils;
 
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Point;
+import android.graphics.Rect;
+import android.support.annotation.NonNull;
+import android.support.annotation.Px;
 import android.view.Display;
 import android.view.WindowManager;
 
 public final class WindowManagerUtils {
 
     private WindowManagerUtils() {
+    }
+
+    public static @Px int getStatusBarSize(@NonNull Resources res) {
+        int result = 0;
+        int resourceId = res.getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = res.getDimensionPixelSize(resourceId);
+        }
+        return result;
     }
 
     public static Point getNavigationBarSize(Context context) {
@@ -35,6 +48,8 @@ public final class WindowManagerUtils {
         Display display = windowManager.getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
+        Rect outSize = new Rect();
+        display.getRectSize(outSize);
         return size;
     }
 

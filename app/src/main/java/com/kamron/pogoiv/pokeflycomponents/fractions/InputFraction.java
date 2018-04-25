@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.google.common.base.Function;
 import com.google.common.base.Optional;
+import com.google.common.base.Strings;
 import com.kamron.pogoiv.GoIVSettings;
 import com.kamron.pogoiv.Pokefly;
 import com.kamron.pogoiv.R;
@@ -147,20 +148,29 @@ public class InputFraction extends Fraction {
     }
 
     private void saveToPokefly() {
-        try {
-            Pokefly.scanData.setPokemonHP(Integer.parseInt(pokemonHPEdit.getText().toString()));
-        } catch (NumberFormatException e) {
-            Timber.d(e);
+        final String hp = pokemonHPEdit.getText().toString();
+        if (!Strings.isNullOrEmpty(hp)) {
+            try {
+                Pokefly.scanData.setPokemonHP(Integer.parseInt(hp));
+            } catch (NumberFormatException e) {
+                Timber.d(e);
+            }
         }
-        try {
-            Pokefly.scanData.setPokemonCP(Integer.parseInt(pokemonCPEdit.getText().toString()));
-        } catch (NumberFormatException e) {
-            Timber.d(e);
+        final String cp = pokemonCPEdit.getText().toString();
+        if (!Strings.isNullOrEmpty(cp)) {
+            try {
+                Pokefly.scanData.setPokemonCP(Integer.parseInt(cp));
+            } catch (NumberFormatException e) {
+                Timber.d(e);
+            }
         }
-        try {
-            Pokefly.scanData.setPokemonCandyAmount(Integer.parseInt(pokemonCandyEdit.getText().toString()));
-        } catch (NumberFormatException e) {
-            Timber.d(e);
+        final String candies = pokemonCandyEdit.getText().toString();
+        if (!Strings.isNullOrEmpty(candies)) {
+            try {
+                Pokefly.scanData.setPokemonCandyAmount(Integer.parseInt(candies));
+            } catch (NumberFormatException e) {
+                Timber.d(e);
+            }
         }
         Pokemon pokemon = interpretWhichPokemonUserInput();
         if (pokemon != null) {

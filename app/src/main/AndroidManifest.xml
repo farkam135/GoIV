@@ -135,7 +135,7 @@
         <activity
             android:name=".activities.CreditsActivity"
             android:label="@string/title_activity_credits"
-            android:theme="@style/AppTheme.NoActionBar.Blue"
+            android:theme="@style/AppTheme.NoActionBar"
             android:parentActivityName=".activities.SettingsActivity"/>
 
         <provider

@@ -172,6 +172,7 @@
     <string name="scan_optimization_notice_text">You have not run scan calibration. It\'s recommended to run this optimization on all devices.</string>
     <string name="scan_optimization_screen_ratio_warning">GoIV has detected that your screen is not standard. You\'ll most likely need to perform screen calibration for GoIV to work.</string>
     <string name="scan_optimization_outdated_warning">Your calibration data is outdated. Please run screen calibration again to enjoy the latest features!</string>
+    <string name="email_report_require_permission">"GoIV needs to access external storage to share the calibration screenshot with your email client app."</string>
     <string name="discard_unsaved_changes">There are unsaved changes.\nDo you really want to discard them?</string>
     <string name="configuration_saved">Configuration saved!</string>
     <string name="configuration_saved_feature_disabled">Configuration saved!\nPlease enable \"%1$s\" feature in setting to activate the new configuration!</string>

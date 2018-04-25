@@ -161,6 +161,7 @@
     <string name="title_activity_ocr_calibration_error">Errore di calibrazione</string>
     <string name="recalibration_description">La ricalibrazione incrementa le performance di GoIV trovando dinamicamente le aree di scansione specifiche per il tuo telefono.</string>
     <string name="scan_optimization_outdated_warning">I tuoi dati di calibrazione sono obsoleti. Esegui una nuova ricalibrazione dello schermo per godere di tutte le ultime funzionalità!</string>
+    <string name="email_report_require_permission">"GoIV necessita dell'accesso alla memoria esterna per condividere lo screenshot di calibrazione con la tua app di posta."</string>
     <string name="discard_unsaved_changes">Ci sono modifiche non salvate. Vuoi veramente scartarle?</string>
     <string name="configuration_saved">Configurazione salvata!</string>
     <string name="configuration_saved_feature_disabled">Configurazione salvata!\nAbilita la funzionalità \"%1$s\" nelle impostazioni per attivare la nuova configurazione!</string>

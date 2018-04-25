@@ -30,6 +30,8 @@ import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 
+import timber.log.Timber;
+
 import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.ARC_INIT_POINT;
 import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.ARC_RADIUS;
 import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.CANDY_NAME_AREA;
@@ -351,10 +353,11 @@ public class OcrHelper {
      */
     private static Optional<Integer> getPokemonEvolutionCostFromImg(@NonNull Bitmap pokemonImage,
                                                                     @Nullable ScanArea evolutionCostArea) {
-        Bitmap evolutionCostImage;
+        Bitmap evolutionCostImage = null;
         if (evolutionCostArea != null) {
             evolutionCostImage = getImageCrop(pokemonImage, evolutionCostArea);
-        } else {
+        }
+        if (evolutionCostImage == null) {
             evolutionCostImage = getImageCrop(pokemonImage, 0.625, 0.815, 0.2, 0.03);
         }
 
@@ -422,6 +425,9 @@ public class OcrHelper {
         final int w = (int) (pokemonImage.getWidth() / 10 * 5.0f) - x;
 
         Bitmap movesetImage = getImageCrop(pokemonImage, new ScanArea(x, y, w, h));
+        if (movesetImage == null) {
+            return null;
+        }
 
         String hash = "moveset" + hashBitmap(movesetImage);
 
@@ -468,10 +474,11 @@ public class OcrHelper {
      */
     private static Optional<Integer> getPokemonPowerUpStardustCostFromImg(@NonNull Bitmap pokemonImage,
                                                                           @Nullable ScanArea powerUpStardustCostArea) {
-        Bitmap powerUpStardustCostImage;
+        Bitmap powerUpStardustCostImage = null;
         if (powerUpStardustCostArea != null) {
             powerUpStardustCostImage = getImageCrop(pokemonImage, powerUpStardustCostArea);
-        } else {
+        }
+        if (powerUpStardustCostImage == null) {
             powerUpStardustCostImage = getImageCrop(pokemonImage, 0.544, 0.803, 0.139, 0.0247);
         }
 
@@ -510,10 +517,11 @@ public class OcrHelper {
      */
     private static Optional<Integer> getPokemonPowerUpCandyCostFromImg(@NonNull Bitmap pokemonImage,
                                                                        @Nullable ScanArea powerUpCandyCostArea) {
-        Bitmap powerUpCandyCostImage;
+        Bitmap powerUpCandyCostImage = null;
         if (powerUpCandyCostArea != null) {
             powerUpCandyCostImage = getImageCrop(pokemonImage, powerUpCandyCostArea);
-        } else {
+        }
+        if (powerUpCandyCostImage == null) {
             powerUpCandyCostImage = getImageCrop(pokemonImage, 0.73, 0.742, 0.092, 0.0247);
         }
 
@@ -600,10 +608,11 @@ public class OcrHelper {
     private static String getPokemonNameFromImg(@NonNull Bitmap pokemonImage,
                                                 @NonNull Pokemon.Gender pokemonGender,
                                                 @Nullable ScanArea nameArea) {
-        Bitmap name;
+        Bitmap name = null;
         if (nameArea != null) {
             name = getImageCrop(pokemonImage, nameArea);
-        } else {
+        }
+        if (name == null) {
             name = getImageCrop(pokemonImage, 0.1, 0.4125, 0.85, 0.055);
         }
 
@@ -629,10 +638,11 @@ public class OcrHelper {
      * @return A string resulting from the scan
      */
     private static String getPokemonTypeFromImg(@NonNull Bitmap pokemonImage, @Nullable ScanArea typeArea) {
-        Bitmap type;
+        Bitmap type = null;
         if (typeArea != null) {
             type = getImageCrop(pokemonImage, typeArea);
-        } else {
+        }
+        if (type == null) {
             type = getImageCrop(pokemonImage, 0.365278, 0.572, 0.308333, 0.035156);
         }
 
@@ -655,10 +665,11 @@ public class OcrHelper {
      * @return Optional.of("♂") if the pokémon is male, Optional.of("♀") if female, Optional.absent() otherwise
      */
     public static Pokemon.Gender getPokemonGenderFromImg(@NonNull Bitmap pokemonImage, @Nullable ScanArea genderArea) {
-        Bitmap genderImage;
+        Bitmap genderImage = null;
         if (genderArea != null) {
             genderImage = getImageCrop(pokemonImage, genderArea);
-        } else {
+        }
+        if (genderImage == null) {
             genderImage = getImageCrop(pokemonImage, 0.822, 0.455, 0.0682, 0.03756);
         }
 
@@ -716,10 +727,13 @@ public class OcrHelper {
      * @param yHeight how many % of the height should be kept starting from the ystart.
      * @return The crop of the image.
      */
-    private static Bitmap getImageCrop(Bitmap img, double xStart, double yStart, double xWidth, double yHeight) {
+    private static Bitmap getImageCrop(@NonNull Bitmap img,
+                                       double xStart, double yStart,
+                                       double xWidth, double yHeight) {
         int w = img.getWidth();
         int h = img.getHeight();
-        return Bitmap.createBitmap(img, (int) (w * xStart), (int) (h * yStart),
+        return Bitmap.createBitmap(img,
+                (int) (w * xStart), (int) (h * yStart),
                 (int) (w * xWidth), (int) (h * yHeight));
     }
 
@@ -730,11 +744,46 @@ public class OcrHelper {
      * @param scanArea The area of the image to get
      * @return The scanarea
      */
-    private static Bitmap getImageCrop(Bitmap img, ScanArea scanArea) {
-        if (scanArea.width < 0 || scanArea.height < 0 || scanArea.xPoint < 0 || scanArea.yPoint < 0) {
+    private static @Nullable Bitmap getImageCrop(@NonNull Bitmap img, @NonNull ScanArea scanArea) {
+        if (scanArea.xPoint < 0) {
+            Timber.e(new IllegalArgumentException(
+                    "ScanArea x is less then zero, value: " + scanArea.xPoint));
+            Timber.d("ScanArea (x,y,w,h): %1$s", scanArea.toString());
             return null;
         }
-        return Bitmap.createBitmap(img, (scanArea.xPoint), scanArea.yPoint, scanArea.width, scanArea.height);
+        if (scanArea.yPoint < 0) {
+            Timber.e(new IllegalArgumentException(
+                    "ScanArea y is less then zero, value: " + scanArea.yPoint));
+            Timber.d("ScanArea (x,y,w,h): %1$s", scanArea.toString());
+            return null;
+        }
+        if (scanArea.width <= 0) {
+            Timber.e(new IllegalArgumentException(
+                    "ScanArea width is less or equal then zero, value: " + scanArea.width));
+            Timber.d("ScanArea (x,y,w,h): %1$s", scanArea.toString());
+            return null;
+        }
+        if (scanArea.height <= 0) {
+            Timber.e(new IllegalArgumentException(
+                    "ScanArea height is less or equal then zero, value: " + scanArea.height));
+            Timber.d("ScanArea (x,y,w,h): %1$s", scanArea.toString());
+            return null;
+        }
+        if (scanArea.xPoint + scanArea.width > img.getWidth()) {
+            Timber.e(new IllegalArgumentException(
+                    "ScanArea x+width is greater then image width, value: " + (scanArea.xPoint + scanArea.width)));
+            Timber.d("Image size (w,h): %1$s,%1$s", img.getWidth(), img.getHeight());
+            Timber.d("ScanArea (x,y,w,h): %1$s", scanArea.toString());
+            return null;
+        }
+        if (scanArea.yPoint + scanArea.height > img.getHeight()) {
+            Timber.e(new IllegalArgumentException(
+                    "ScanArea y+height is greater then image height, value: " + (scanArea.yPoint + scanArea.height)));
+            Timber.d("Image size (w,h): %1$s,%1$s", img.getWidth(), img.getHeight());
+            Timber.d("ScanArea (x,y,w,h): %1$s", scanArea.toString());
+            return null;
+        }
+        return Bitmap.createBitmap(img, scanArea.xPoint, scanArea.yPoint, scanArea.width, scanArea.height);
     }
 
     /**
@@ -781,10 +830,11 @@ public class OcrHelper {
     private static String getCandyNameFromImg(@NonNull Bitmap pokemonImage,
                                               @NonNull Pokemon.Gender pokemonGender,
                                               @Nullable ScanArea candyNameArea) {
-        Bitmap candy;
+        Bitmap candy = null;
         if (candyNameArea != null) {
             candy = getImageCrop(pokemonImage, candyNameArea);
-        } else {
+        }
+        if (candy == null) {
             candy = getImageCrop(pokemonImage, 0.5, 0.678, 0.47, 0.026);
         }
 
@@ -811,10 +861,11 @@ public class OcrHelper {
      * @return an integer of the interpreted pokemon name, 10 if scan failed
      */
     private static Optional<Integer> getPokemonHPFromImg(@NonNull Bitmap pokemonImage, @Nullable ScanArea hpArea) {
-        Bitmap hp;
+        Bitmap hp = null;
         if (hpArea != null) {
             hp = getImageCrop(pokemonImage, hpArea);
-        } else {
+        }
+        if (hp == null) {
             hp = getImageCrop(pokemonImage, 0.357, 0.482, 0.285, 0.0293);
         }
 
@@ -864,10 +915,11 @@ public class OcrHelper {
      * @return a CP of the pokemon, 10 if scan failed
      */
     private Optional<Integer> getPokemonCPFromImg(@NonNull Bitmap pokemonImage, @Nullable ScanArea cpArea) {
-        Bitmap cp;
+        Bitmap cp = null;
         if (cpArea != null) {
             cp = getImageCrop(pokemonImage, cpArea);
-        } else {
+        }
+        if (cp == null) {
             cp = getImageCrop(pokemonImage, 0.25, 0.059, 0.5, 0.046);
         }
 
@@ -998,10 +1050,11 @@ public class OcrHelper {
         if (!isPokeSpamEnabled) {
             return Optional.absent();
         }
-        Bitmap candyAmount;
+        Bitmap candyAmount = null;
         if (candyAmountArea != null) {
             candyAmount = getImageCrop(pokemonImage, candyAmountArea);
-        } else {
+        }
+        if (candyAmount == null) {
             candyAmount = getImageCrop(pokemonImage, 0.60, 0.644, 0.20, 0.038);
         }
 

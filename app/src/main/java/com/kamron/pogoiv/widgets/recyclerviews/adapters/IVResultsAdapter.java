@@ -1,6 +1,7 @@
 package com.kamron.pogoiv.widgets.recyclerviews.adapters;
 
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,10 +49,22 @@ public class IVResultsAdapter extends RecyclerView.Adapter<IVResultsAdapter.Resu
         GuiUtil.setTextColorByIV(holder.resultHP, currentSet.sta);
         GuiUtil.setTextColorByPercentage(holder.resultPercentage, currentSet.percentPerfect);
 
-        if (position % 2 != 0) {
-            holder.llRvResult.setBackgroundColor(Color.parseColor("#EFEFEF"));
+        if (currentSet.equals(Pokefly.scanResult.selectedIVCombination)) {
+            holder.resultAttack.setTypeface(null, Typeface.BOLD);
+            holder.resultDefense.setTypeface(null, Typeface.BOLD);
+            holder.resultHP.setTypeface(null, Typeface.BOLD);
+            holder.resultPercentage.setTypeface(null, Typeface.BOLD);
+            holder.llRvResult.setBackgroundColor(Color.parseColor("#E8F8FF"));
         } else {
-            holder.llRvResult.setBackgroundColor(Color.parseColor("#FFFFFF"));
+            holder.resultAttack.setTypeface(null, Typeface.NORMAL);
+            holder.resultDefense.setTypeface(null, Typeface.NORMAL);
+            holder.resultHP.setTypeface(null, Typeface.NORMAL);
+            holder.resultPercentage.setTypeface(null, Typeface.NORMAL);
+            if (position % 2 != 0) {
+                holder.llRvResult.setBackgroundColor(Color.parseColor("#EFEFEF"));
+            } else {
+                holder.llRvResult.setBackgroundColor(Color.parseColor("#FFFFFF"));
+            }
         }
     }
 
@@ -79,6 +92,7 @@ public class IVResultsAdapter extends RecyclerView.Adapter<IVResultsAdapter.Resu
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
                     pokefly.addSpecificIVClipboard(dataSet.get(getAdapterPosition()));
+                    IVResultsAdapter.this.notifyDataSetChanged();
                 }
             });
         }

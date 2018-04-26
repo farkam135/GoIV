@@ -224,6 +224,10 @@ public class Pokefly extends Service {
         return null;
     }
 
+    public ScreenWatcher getScreenWatcher() {
+        return screenWatcher;
+    }
+
     public IVPopupButton getIvButton() {
         return ivButton;
     }

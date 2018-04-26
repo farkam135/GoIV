@@ -203,7 +203,8 @@ public class GoIVNotificationManager {
 
                     mainThreadHandler.post(new Runnable() {
                         @Override public void run() {
-                            if (pokefly != null && pokefly.getIvButton() != null) {
+                            if (pokefly != null && pokefly.getScreenWatcher() != null && pokefly.getIvButton() != null) {
+                                pokefly.getScreenWatcher().cancelPendingScreenScan();
                                 pokefly.getIvButton().setShown(false, false); // Hide IV button: it might interfere
                             }
                         }

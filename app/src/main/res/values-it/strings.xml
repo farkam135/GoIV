@@ -177,6 +177,7 @@
     <string name="token_max_length">Lunghezza massima:</string>
     <string name="clipboard_token_list_available">Lista completa di tutti i tipi di token disponibili</string>
     <string name="clipboard_token_description_title">Descrizione del token selezionato</string>
+    <string name="button_recalibrate">"Calibra GoIV"</string>
     <string name="ocr_calibration_screenshot_mode">Il prossimo screenshot verrà usato per ricalibrare GoIV!</string>
     <string name="ocr_calibration_result_description">Questo è il risultato della calibrazione automatica, ogni zona di interesse correttamente rilevata è stata sottolineata.</string>
     <string name="ocr_calibration_save">Salva calibrazione</string>

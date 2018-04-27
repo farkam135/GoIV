@@ -1,6 +1,7 @@
 package com.kamron.pogoiv.pokeflycomponents;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
@@ -14,10 +15,13 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 
+import com.kamron.pogoiv.GoIVSettings;
 import com.kamron.pogoiv.Pokefly;
 import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.scanlogic.IVCombination;
 import com.kamron.pogoiv.scanlogic.ScanResult;
+
+import static com.kamron.pogoiv.pokeflycomponents.GoIVNotificationManager.ACTION_RECALIBRATE_SCANAREA;
 
 /**
  * Created by johan on 2017-07-06.
@@ -30,6 +34,7 @@ import com.kamron.pogoiv.scanlogic.ScanResult;
 public class IVPopupButton extends android.support.v7.widget.AppCompatButton {
 
     private final Pokefly pokefly;
+    private boolean shouldRecalibrate = false;
 
     public static final WindowManager.LayoutParams layoutParams;
 
@@ -101,6 +106,8 @@ public class IVPopupButton extends android.support.v7.widget.AppCompatButton {
      * @param scanResult what data to base the look on.
      */
     public void showQuickIVPreviewLook(@NonNull ScanResult scanResult) {
+        shouldRecalibrate = false;
+
         IVCombination lowest = scanResult.getLowestIVCombination();
         IVCombination highest = scanResult.getHighestIVCombination();
 
@@ -221,7 +228,13 @@ public class IVPopupButton extends android.support.v7.widget.AppCompatButton {
         int black = ResourcesCompat.getColor(getResources(), R.color.p_error, null);
         setGradientColor(black, black);
 
-        setText("?");
+        GoIVSettings settings = GoIVSettings.getInstance(pokefly);
+        if (settings.hasManualScanCalibration() && settings.hasUpToDateManualScanCalibration()) {
+            setText("?");
+        } else {
+            shouldRecalibrate = true;
+            setText(R.string.button_recalibrate);
+        }
     }
 
     /**
@@ -229,13 +242,18 @@ public class IVPopupButton extends android.support.v7.widget.AppCompatButton {
      */
     private class OnIVClick implements OnTouchListener {
 
-        @SuppressLint("ClickableViewAccessibility")
-        @Override
-        public boolean onTouch(View v, MotionEvent event) {
+        @Override public boolean onTouch(View v, MotionEvent event) {
             if (event.getAction() == MotionEvent.ACTION_UP) {
-                setVisibility(GONE);
-                pokefly.requestScan();
-                pokefly.setIVButtonClickedStates();
+                if (shouldRecalibrate) {
+                    shouldRecalibrate = false;
+                    pokefly.startService(new Intent(pokefly, GoIVNotificationManager.NotificationActionService.class)
+                            .setAction(ACTION_RECALIBRATE_SCANAREA));
+                } else {
+                    setVisibility(GONE);
+                    pokefly.requestScan();
+                    pokefly.setIVButtonClickedStates();
+                }
+                return true;
             }
             return false;
         }

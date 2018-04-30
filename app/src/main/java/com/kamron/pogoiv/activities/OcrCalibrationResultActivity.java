@@ -19,6 +19,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.ColorInt;
 import android.support.annotation.MainThread;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -48,6 +50,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import timber.log.Timber;
 
 import static android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP;
 
@@ -84,16 +87,31 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
     Button emailErrorButton;
 
 
-    public static void startCalibration(Context context, Bitmap bitmap) {
-        if (bitmap != null) {
-            sCalibrationImage = bitmap;
-            sDisplayMetrics = new DisplayMetrics();
-            sDisplayMetrics.setTo(context.getResources().getDisplayMetrics());
-
-            Intent startCalibration = new Intent(context, OcrCalibrationResultActivity.class)
-                    .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            context.startActivity(startCalibration);
+    public static void startCalibration(@NonNull Context context, @Nullable Bitmap bitmap) {
+        if (bitmap == null) {
+            Toast.makeText(context, "The received screenshot is invalid", Toast.LENGTH_SHORT).show();
+            return;
         }
+
+        if (bitmap.isMutable()) {
+            sCalibrationImage = bitmap;
+        } else {
+            // Make a mutable copy of the bitmap so we can draw on it with a Canvas
+            sCalibrationImage = bitmap.copy(sCalibrationImage.getConfig() ,true);
+        }
+
+        if (!sCalibrationImage.isMutable()) {
+            Timber.e("The screenshot bitmap is still immutable, can't proceed");
+            sCalibrationImage = null;
+            return;
+        }
+
+        sDisplayMetrics = new DisplayMetrics();
+        sDisplayMetrics.setTo(context.getResources().getDisplayMetrics());
+
+        Intent startCalibration = new Intent(context, OcrCalibrationResultActivity.class)
+                .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        context.startActivity(startCalibration);
     }
 
 
@@ -338,7 +356,6 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
         private final WeakReference<OcrCalibrationResultActivity> activityRef;
         private final WeakReference<ProgressDialog> dialogRef;
         private final ScanFieldResults results;
-        private final Bitmap resultIndicatorImage;
 
 
         private ResultRunnable(WeakReference<OcrCalibrationResultActivity> activityRef,
@@ -346,18 +363,10 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
             this.activityRef = activityRef;
             this.dialogRef = dialogRef;
             this.results = results;
-            if (sCalibrationImage != null) {
-                this.resultIndicatorImage = sCalibrationImage.copy(sCalibrationImage.getConfig(), true);
-            } else {
-                this.resultIndicatorImage = null;
-            }
         }
 
         @Override
         public void run() {
-            if (resultIndicatorImage == null) {
-                return;
-            }
             OcrCalibrationResultActivity activity = activityRef.get();
             ProgressDialog dialog = dialogRef.get();
             if (activity == null || dialog == null) {
@@ -435,8 +444,8 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
             }
 
             // Draw results on a copy of the original screenshot
-            activity.drawResultIndicator(resultIndicatorImage, ContextCompat.getColor(activity, R.color.colorAccent));
-            activity.resultImageView.setImageBitmap(resultIndicatorImage);
+            activity.drawResultIndicator(sCalibrationImage, ContextCompat.getColor(activity, R.color.colorAccent));
+            activity.resultImageView.setImageBitmap(sCalibrationImage);
         }
     }
 

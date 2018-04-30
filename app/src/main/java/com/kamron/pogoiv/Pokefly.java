@@ -366,10 +366,12 @@ public class Pokefly extends Service {
 
     private void hideInfoLayoutArcPointer() {
         if (infoLayoutArcPointerVisible) {
+            if (fractionManager != null) {
+                fractionManager.remove();
+            }
             windowManager.removeView(arcPointer);
             windowManager.removeView(infoLayout);
             infoLayoutArcPointerVisible = false;
-            fractionManager.remove();
         }
     }
 
@@ -377,8 +379,6 @@ public class Pokefly extends Service {
     public void onDestroy() {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(displayInfo);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(processBitmap);
-
-        fractionManager.remove();
 
         if (!startedInManualScreenshotMode) {
             screenWatcher.unwatchScreen();

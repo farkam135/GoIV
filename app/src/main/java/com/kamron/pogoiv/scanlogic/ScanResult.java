@@ -3,7 +3,7 @@ package com.kamron.pogoiv.scanlogic;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.kamron.pogoiv.pokeflycomponents.AutoAppraisal;
+import com.kamron.pogoiv.pokeflycomponents.AppraisalManager;
 import com.kamron.pogoiv.pokeflycomponents.MovesetsManager;
 import com.kamron.pogoiv.utils.LevelRange;
 
@@ -325,13 +325,11 @@ public class ScanResult {
 
     }
 
-    public void refineWithAvailableInfoFrom(@Nullable AutoAppraisal autoAppraisal) {
-        if (autoAppraisal != null) {
-            refineByStatModifiers(autoAppraisal.statModifiers);
-            refineByHighest(autoAppraisal.highestStats);
-            refineByAppraisalPercentageRange(autoAppraisal.appraisalIVSumRange);
-            refineByAppraisalIVRange(autoAppraisal.appraisalHighestStatValueRange);
-        }
+    public void refineWithAvailableInfoFrom(@NonNull AppraisalManager appraisalManager) {
+        refineByStatModifiers(appraisalManager.statModifiers);
+        refineByHighest(appraisalManager.highestStats);
+        refineByAppraisalPercentageRange(appraisalManager.appraisalIVSumRange);
+        refineByAppraisalIVRange(appraisalManager.appraisalHighestStatValueRange);
     }
 
     private void selectScannedMoveset(@NonNull String moveFast, @NonNull String moveCharge) {
@@ -353,14 +351,14 @@ public class ScanResult {
      * Removes all possible IV combinations where the boolean set to true stat isn't the highest.
      * Several stats can be highest if they're equal.
      */
-    private void refineByHighest(@NonNull HashSet<AutoAppraisal.HighestStat> highestStats) {
+    private void refineByHighest(@NonNull HashSet<AppraisalManager.HighestStat> highestStats) {
         if (highestStats.isEmpty()) {
             return;
         }
 
-        Boolean[] knownAttDefSta = { highestStats.contains(AutoAppraisal.HighestStat.ATK),
-                highestStats.contains(AutoAppraisal.HighestStat.DEF),
-                highestStats.contains(AutoAppraisal.HighestStat.STA) };
+        Boolean[] knownAttDefSta = { highestStats.contains(AppraisalManager.HighestStat.ATK),
+                                     highestStats.contains(AppraisalManager.HighestStat.DEF),
+                                     highestStats.contains(AppraisalManager.HighestStat.STA) };
         ArrayList<IVCombination> refinedList = new ArrayList<>();
         for (IVCombination comb : iVCombinations) {
             if (Arrays.equals(comb.getHighestStatSignature(), knownAttDefSta)) {
@@ -376,8 +374,8 @@ public class ScanResult {
      * Removes any iv combination that is outside the scope of the input percentage range.
      * @param range IV percent range
      */
-    private void refineByAppraisalPercentageRange(AutoAppraisal.IVSumRange range) {
-        if (range == AutoAppraisal.IVSumRange.UNKNOWN) {
+    private void refineByAppraisalPercentageRange(AppraisalManager.IVSumRange range) {
+        if (range == AppraisalManager.IVSumRange.UNKNOWN) {
             return;
         }
 
@@ -396,8 +394,8 @@ public class ScanResult {
      * Removes any iv combination where the highest IV is outside the scope of he input range.
      * @param range Range of the highest stat IV value
      */
-    private void refineByAppraisalIVRange(AutoAppraisal.IVValueRange range) {
-        if (range == AutoAppraisal.IVValueRange.UNKNOWN) {
+    private void refineByAppraisalIVRange(AppraisalManager.IVValueRange range) {
+        if (range == AppraisalManager.IVValueRange.UNKNOWN) {
             return;
         }
 
@@ -416,13 +414,13 @@ public class ScanResult {
      * Removes any combination that has stats that are lower than a certain amount. Egg and raid pokemon cannot have
      * stats that are lower than 10, weather boosted can't be lower than 4.
      */
-    private void refineByStatModifiers(@NonNull HashSet<AutoAppraisal.StatModifier> statModifiers) {
+    private void refineByStatModifiers(@NonNull HashSet<AppraisalManager.StatModifier> statModifiers) {
         if (statModifiers.isEmpty()) {
             return;
         }
 
         int minStat = 0;
-        for (AutoAppraisal.StatModifier statModifier : statModifiers) {
+        for (AppraisalManager.StatModifier statModifier : statModifiers) {
             minStat = Math.max(minStat, statModifier.minStat);
         }
 

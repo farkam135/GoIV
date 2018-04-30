@@ -1224,13 +1224,11 @@ public class OcrHelper {
      * @param screen The full phone screen.
      * @return String of whats on the bottom of the screen.
      */
-    public static String getAppraisalText(@NonNull Context context,
-                                          @NonNull GoIVSettings settings,
+    public static String getAppraisalText(@NonNull GoIVSettings settings,
                                           @NonNull Bitmap screen) {
         double appraisalBoxHeightFactor = 0.13;
-        int navBarHeight = getNavigationBarSize(context);
         double appraisalBoxStartYFactor =
-                (double)(screen.getHeight() - navBarHeight) / screen.getHeight() - appraisalBoxHeightFactor;
+                (double)(screen.getHeight() - navigationBarSize.y) / screen.getHeight() - appraisalBoxHeightFactor;
 
         Bitmap bottom = getImageCrop(screen, 0.05, appraisalBoxStartYFactor, 0.90, appraisalBoxHeightFactor);
         String hash = "appraisal" + hashBitmap(bottom);

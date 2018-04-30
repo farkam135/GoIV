@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.kamron.pogoiv.GoIVSettings;
 import com.kamron.pogoiv.R;
@@ -17,14 +18,13 @@ import java.util.HashSet;
  * Created by Johan on 2016-12-01.
  * A class to handle automatic scanning of appraisal information.
  */
-public class AutoAppraisal {
+public class AppraisalManager {
 
-    ScreenScan screenScanner = new ScreenScan(); //The runnable that keeps scanning the screen
-    Handler handler = new Handler();
+    private ScreenScan autoScreenScanner = new ScreenScan();
+    private Handler handler = new Handler();
     private GoIVSettings settings;
 
     private ScreenGrabber screenGrabber;
-    Context context;
 
     private ArrayList<OnAppraisalEventListener> eventListeners = new ArrayList<>();
 
@@ -61,11 +61,14 @@ public class AutoAppraisal {
     private String statsrange4_phrase2;
 
 
-    public AutoAppraisal(@NonNull ScreenGrabber screenGrabber, @NonNull Context context) {
-        this.context = context;
+    /**
+     * Instantiate the appraisal logic handler. If screenGrabber is not null, enables auto appraisal.
+     * @param screenGrabber The helper class that gets the screenshots from the MediaProjection API
+     */
+    public AppraisalManager(@Nullable ScreenGrabber screenGrabber, @NonNull Context context) {
         this.screenGrabber = screenGrabber;
         settings = GoIVSettings.getInstance(context);
-        getAppraisalPhrases();
+        getAppraisalPhrases(context);
     }
 
     public void addOnAppraisalEventListener(OnAppraisalEventListener eventListener) {
@@ -76,7 +79,7 @@ public class AutoAppraisal {
         eventListeners.remove(eventListener);
     }
 
-    private void getAppraisalPhrases() {
+    private void getAppraisalPhrases(@NonNull Context context) {
         highest_stat_att = context.getString(R.string.highest_stat_att);
         highest_stat_def = context.getString(R.string.highest_stat_def);
         highest_stat_hp = context.getString(R.string.highest_stat_hp);
@@ -169,8 +172,8 @@ public class AutoAppraisal {
      * @param delay_millis The number of milliseconds that the scan will be delayed before firing off.
      */
     private void scanAppraisalText(int delay_millis) {
-        handler.removeCallbacks(screenScanner);
-        handler.postDelayed(screenScanner, delay_millis);
+        handler.removeCallbacks(autoScreenScanner);
+        handler.postDelayed(autoScreenScanner, delay_millis);
     }
 
     /**
@@ -194,7 +197,7 @@ public class AutoAppraisal {
     }
 
     /**
-     * Alters the state of the AutoAppraisal instance to reflect the added information of the appraise text.
+     * Alters the state of the AppraisalManager instance to reflect the added information of the appraise text.
      *
      * @param appraiseText Text such as "...pokemon is breathtaking..."
      * @param hash the hash of the bitmap used by ocr
@@ -349,7 +352,7 @@ public class AutoAppraisal {
         public void run() {
             Bitmap screen = screenGrabber.grabScreen();
             if (screen != null) {
-                String appraiseText = OcrHelper.getAppraisalText(context, settings, screen);
+                String appraiseText = OcrHelper.getAppraisalText(settings, screen);
                 String hash = appraiseText.substring(0, appraiseText.indexOf("#"));
                 String text = appraiseText.substring(appraiseText.indexOf("#") + 1);
                 addInfoFromAppraiseText(text, hash);

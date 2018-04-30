@@ -33,7 +33,7 @@ import android.widget.Toast;
 
 import com.google.common.base.Optional;
 import com.kamron.pogoiv.clipboardlogic.ClipboardTokenHandler;
-import com.kamron.pogoiv.pokeflycomponents.AutoAppraisal;
+import com.kamron.pogoiv.pokeflycomponents.AppraisalManager;
 import com.kamron.pogoiv.pokeflycomponents.GoIVNotificationManager;
 import com.kamron.pogoiv.pokeflycomponents.IVPopupButton;
 import com.kamron.pogoiv.pokeflycomponents.IVPreviewPrinter;
@@ -136,7 +136,7 @@ public class Pokefly extends Service {
     private IVPreviewPrinter ivPreviewPrinter;
     private ImageView arcPointer;
     private PokeInfoCalculator pokeInfoCalculator;
-    private AutoAppraisal autoAppraisal;
+    private AppraisalManager appraisalManager;
     private PokemonNameCorrector nameCorrector;
 
 
@@ -308,11 +308,12 @@ public class Pokefly extends Service {
             /* Assumes MainActivity initialized ScreenGrabber before starting this service. */
             if (!startedInManualScreenshotMode) {
                 screen = ScreenGrabber.getInstance();
-                autoAppraisal = new AutoAppraisal(screen, this);
-                screenWatcher = new ScreenWatcher(this, fractionManager, autoAppraisal);
+                appraisalManager = new AppraisalManager(screen, this);
+                screenWatcher = new ScreenWatcher(this, fractionManager, appraisalManager);
                 screenWatcher.watchScreen();
 
             } else {
+                appraisalManager = new AppraisalManager(null, this);
                 screenShotHelper = ScreenShotHelper.start(Pokefly.this);
             }
             goIVNotificationManager.showRunningNotification();
@@ -487,7 +488,7 @@ public class Pokefly extends Service {
         scanResult = new ScanResult(nameCorrector, scanData);
 
         pokeInfoCalculator.getIVPossibilities(scanResult);
-        scanResult.refineWithAvailableInfoFrom(autoAppraisal);
+        scanResult.refineWithAvailableInfoFrom(appraisalManager);
 
         // Don't run clipboard logic if scan failed - some tokens might crash the program.
         if (scanResult.getIVCombinationsCount() > 0) {
@@ -577,8 +578,8 @@ public class Pokefly extends Service {
     public void closeInfoDialog() {
         hideInfoLayoutArcPointer();
         resetPokeflyStateMachine();
+        appraisalManager.reset();
         if (!startedInManualScreenshotMode) {
-            autoAppraisal.reset();
             ivButton.setShown(true, infoShownSent);
         }
     }
@@ -710,7 +711,7 @@ public class Pokefly extends Service {
     }
 
     public void navigateToAppraisalFraction() {
-        fractionManager.show(new AppraisalFraction(this, sharedPref, autoAppraisal));
+        fractionManager.show(new AppraisalFraction(this, sharedPref, appraisalManager));
     }
 
     public void navigateToIVResultFraction() {

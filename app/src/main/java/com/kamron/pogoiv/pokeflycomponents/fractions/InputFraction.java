@@ -35,14 +35,10 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import info.hoang8f.android.segmented.SegmentedGroup;
 import timber.log.Timber;
 
 
 public class InputFraction extends Fraction {
-
-    @BindView(R.id.navigationButtons)
-    SegmentedGroup navigationButtons;
 
     private PokemonSpinnerAdapter pokeInputAdapter;
     @BindView(R.id.spnPokemonName)
@@ -88,9 +84,6 @@ public class InputFraction extends Fraction {
 
     @Override public void onCreate(@NonNull View rootView) {
         ButterKnife.bind(this, rootView);
-
-        // Don't let the user reach appraisal screen if is manual screenshot mode
-        navigationButtons.setVisibility(pokefly.startedInManualScreenshotMode ? View.GONE : View.VISIBLE);
 
         // Initialize pokemon species spinner
         pokeInputAdapter = new PokemonSpinnerAdapter(pokefly, R.layout.spinner_pokemon, new ArrayList<Pokemon>());

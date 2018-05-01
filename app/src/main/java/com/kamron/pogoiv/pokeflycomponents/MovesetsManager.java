@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.util.Pair;
 import android.support.v4.util.SparseArrayCompat;
 
+import com.google.common.base.Strings;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.internal.LinkedTreeMap;
@@ -187,12 +188,26 @@ public class MovesetsManager {
                 movesetList = result.get(dexIndex);
             }
             for (LinkedTreeMap<String, Object> jsonMoveset : jsonMovesets) {
+                String fastMove = translatedMoveNames.get(jsonMoveset.get("quick"));
+                String chargeMove = translatedMoveNames.get(jsonMoveset.get("charge"));
+
+                if (Strings.isNullOrEmpty(fastMove)) {
+                    Timber.w("Missing fast move " + jsonMoveset.get("quick")
+                            + " translation in " + getLanguage(context.getResources()));
+                    continue;
+                }
+                if (Strings.isNullOrEmpty(chargeMove)) {
+                    Timber.w("Missing charge move " + jsonMoveset.get("charge")
+                            + " translation in " + getLanguage(context.getResources()));
+                    continue;
+                }
+
                 //noinspection SuspiciousMethodCalls
                 MovesetData movesetData = new MovesetData(
                         (String) jsonMoveset.get("quick"),
                         (String) jsonMoveset.get("charge"),
-                        translatedMoveNames.get(jsonMoveset.get("quick")),
-                        translatedMoveNames.get(jsonMoveset.get("charge")),
+                        fastMove,
+                        chargeMove,
                         translatedTypeNames.get("POKEMON_TYPE_" + jsonMoveset.get("quickMoveType")),
                         translatedTypeNames.get("POKEMON_TYPE_" + jsonMoveset.get("chargeMoveType")),
                         (Boolean) jsonMoveset.get("quickIsLegacy"),
@@ -208,21 +223,8 @@ public class MovesetsManager {
         return result;
     }
 
-    private static Pair<HashMap<String, String>, HashMap<String, String>> getTranslations(Context context) {
-        final Resources res = context.getResources();
-
-        final String language;
-        if (!res.getBoolean(R.bool.use_default_pokemonsname_as_ocrstring)) {
-            Locale originalLocale; // Save original locale
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                originalLocale = res.getConfiguration().getLocales().get(0);
-            } else {
-                originalLocale = res.getConfiguration().locale;
-            }
-            language = originalLocale.getLanguage();
-        } else {
-            language = Locale.ENGLISH.getLanguage();
-        }
+    private static Pair<HashMap<String, String>, HashMap<String, String>> getTranslations(@NonNull Context context) {
+        final String language = getLanguage(context.getResources());
 
         final String assetPath;
         if (language.equals(LANGUAGE_DE)) {
@@ -290,6 +292,20 @@ public class MovesetsManager {
 
         }
         return result;
+    }
+
+    private static @NonNull String getLanguage(@NonNull Resources res) {
+        if (!res.getBoolean(R.bool.use_default_pokemonsname_as_ocrstring)) {
+            Locale originalLocale; // Save original locale
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                originalLocale = res.getConfiguration().getLocales().get(0);
+            } else {
+                originalLocale = res.getConfiguration().locale;
+            }
+            return originalLocale.getLanguage();
+        } else {
+            return Locale.ENGLISH.getLanguage();
+        }
     }
 
 }

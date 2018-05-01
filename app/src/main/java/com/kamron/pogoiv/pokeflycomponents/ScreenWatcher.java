@@ -47,17 +47,17 @@ public class ScreenWatcher {
     private ScreenScan screenScanRunnable;
     private int screenScanRetries;
 
-    private AutoAppraisal autoAppraisal;
+    private AppraisalManager appraisalManager;
 
     private Pokefly pokefly;
     private DisplayMetrics displayMetrics;
     private FractionManager fractionManager;
 
-    public ScreenWatcher(Pokefly pokefly, FractionManager fractionManager, AutoAppraisal autoAppraisal) {
+    public ScreenWatcher(Pokefly pokefly, FractionManager fractionManager, AppraisalManager appraisalManager) {
         this.pokefly = pokefly;
         this.displayMetrics = pokefly.getResources().getDisplayMetrics();
         this.fractionManager = fractionManager;
-        this.autoAppraisal = autoAppraisal;
+        this.appraisalManager = appraisalManager;
 
         initMarkerPixels();
     }
@@ -186,9 +186,9 @@ public class ScreenWatcher {
             // Let's check first to see if the user is performing an Appraisal
             if (!GoIVSettings.getInstance(pokefly).isManualScreenshotModeEnabled()
                     && fractionManager.currentFractionIsInstanceOf(AppraisalFraction.class)) {
-                // Let autoAppraisal know that the user has touched the PokemonGo app while the
+                // Let appraisalManager know that the user has touched the PokemonGo app while the
                 // appraisalBox was Visible.  This is our indication that the user has started a Pogo appraisal
-                autoAppraisal.screenTouched();
+                appraisalManager.screenTouched();
             } else {
                 // Not appraising, let's check to see if they're looking at a pokemon screen.
                 // The postDelayed will wait SCREEN_SCAN_DELAY_MS after the user touches the screen before

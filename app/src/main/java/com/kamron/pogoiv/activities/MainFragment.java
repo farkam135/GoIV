@@ -114,9 +114,6 @@ public class MainFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        LocalBroadcastManager.getInstance(getContext()).registerReceiver(launchButtonChange,
-                new IntentFilter(ACTION_UPDATE_LAUNCH_BUTTON));
-
         if (savedInstanceState == null) {
             PreferenceManager.setDefaultValues(getContext(), R.xml.settings, false);
         }
@@ -125,6 +122,9 @@ public class MainFragment extends Fragment {
     @Override public void onResume() {
         super.onResume();
 
+        LocalBroadcastManager.getInstance(getContext()).registerReceiver(launchButtonChange,
+                new IntentFilter(ACTION_UPDATE_LAUNCH_BUTTON));
+
         if (Pokefly.isRunning()) {
             updateLaunchButtonText(getContext(), R.string.main_stop, true);
         } else {
@@ -132,10 +132,9 @@ public class MainFragment extends Fragment {
         }
     }
 
-    @Override
-    public void onDestroy() {
+    @Override public void onPause() {
         LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(launchButtonChange);
-        super.onDestroy();
+        super.onPause();
     }
 
     /**

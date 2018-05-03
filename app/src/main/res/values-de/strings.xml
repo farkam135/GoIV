@@ -93,5 +93,7 @@
     <string name="is3">…sehen lassen</string>
     <string name="is2">Hut ab!</string>
     <string name="is1">die besten …gesehen</string>
-	
+    <string name="moveset_enabled_setting_summary" />
+    <string name="moveset_enabled_setting_title" />
+
 </resources>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="instructions_title">Setup Instructions</string>
     <string name="instructions_message">Starting GoIV for the first time:\n\nEnter your trainer info.\n\nPress the GRANT PERMISSION button and accept all prompts.\n\nPress start.</string>
@@ -311,4 +311,6 @@
     <string name="button_add_to_queue">"Add to queue"</string>
     <string name="button_clear_to_queue">"Clear queue"</string>
     <string name="button_export_to_pokebattler">Export Queue to PokeBattler</string>
+    <string name="moveset_enabled_setting_title">Enable moveset tab</string>
+    <string name="moveset_enabled_setting_summary">Allows you to hide the moveset information</string>
 </resources>

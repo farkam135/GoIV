@@ -301,4 +301,6 @@
     <string name="button_add_to_queue">"Agg. a coda"</string>
     <string name="button_clear_to_queue">"Svuota coda"</string>
     <string name="button_export_to_pokebattler">Esporta coda a PokeBattler</string>
+    <string name="moveset_enabled_setting_summary" />
+    <string name="moveset_enabled_setting_title" />
 </resources>

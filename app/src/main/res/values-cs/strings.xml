@@ -59,4 +59,6 @@
     <string name="token_pokemonname">Jméno Pokémona</string>
     <string name="clipboard_modifier_preview">Náhled</string>
     <string name="position_handler_toast">Přemísti okno táhnutím tohoto držáku.</string>
+    <string name="moveset_enabled_setting_summary" />
+    <string name="moveset_enabled_setting_title" />
 </resources>

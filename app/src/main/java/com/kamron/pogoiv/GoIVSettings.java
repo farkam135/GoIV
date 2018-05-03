@@ -43,6 +43,7 @@ public class GoIVSettings {
     public static final String SEND_CRASH_REPORTS = "sendCrashReports";
     public static final String AUTO_UPDATE_ENABLED = "autoUpdateEnabled";
     public static final String POKESPAM_ENABLED = "pokeSpamEnabled";
+    public static final String MOVESET_ENABLED = "movesetEnabled";
     public static final String TEAM_NAME = "teamName";
     public static final String APPRAISAL_WINDOW_POSITION = "appraisalWindowPosition";
     public static final String MOVESET_WINDOW_POSITION = "movesetWindowPosition";
@@ -283,6 +284,8 @@ public class GoIVSettings {
     public boolean isPokeSpamEnabled() {
         return prefs.getBoolean(POKESPAM_ENABLED, false);
     }
+
+    public boolean isMovesetEnabled() { return prefs.getBoolean(MOVESET_ENABLED, true); }
 
     public boolean shouldAutoOpenExpandedAppraise() {
         return prefs.getBoolean(AUTO_OPEN_APPRAISE_DIALOGUE, false);

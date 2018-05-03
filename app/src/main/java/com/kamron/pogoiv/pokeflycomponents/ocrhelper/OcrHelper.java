@@ -881,10 +881,16 @@ public class OcrHelper {
         Rect currentChunk = null;
         // On devices denser than XHDPI (2x) we can skip a pixel every two (or more) to increase performances
         int increment = (int) Math.max(1, Math.ceil(Resources.getSystem().getDisplayMetrics().density / 2));
+
+        // Get all pixels from the bitmap
+        int[] pixels = new int[cp.getWidth() * cp.getHeight()];
+        cp.getPixels(pixels, 0, cp.getWidth(), 0, 0, cp.getWidth(), cp.getHeight());
+
         // When we're over a chunk check every pixel instead of skipping so we're sure to find the blank space after it
         for (int x = 0; x < width; x += (currentChunk != null) ? 1 : increment) {
             for (int y = 0; y < height; y += increment) {
-                final int pxColor = cp.getPixel(x, y);
+                // Get the pixel a x/y coordinate from the array instead of doing cp.getPixel()
+                final int pxColor = pixels[x+y*width];
 
                 if (currentChunk == null) {
                     if (pxColor != Color.BLACK) {

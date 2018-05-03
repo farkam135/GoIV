@@ -57,6 +57,7 @@ public class OcrHelper {
     private static String nidoUngendered;
     private static TessBaseAPI tesseract = null;
     private static boolean isPokeSpamEnabled;
+    private static boolean isMovesetEnabled;
     private static LruCache<String, String> ocrCache;
     private static LruCache<String, String> appraisalCache;
     private static boolean candyWordFirst;
@@ -100,6 +101,7 @@ public class OcrHelper {
         GoIVSettings settings = GoIVSettings.getInstance(context);
 
         isPokeSpamEnabled = settings.isPokeSpamEnabled();
+        isMovesetEnabled = settings.isMovesetEnabled();
 
         Map<String, String> appraisalMap = settings.loadAppraisalCache();
         for (Map.Entry<String, String> entry : appraisalMap.entrySet()) {
@@ -1130,15 +1132,18 @@ public class OcrHelper {
         }
         Optional<Integer> evolutionCost = getPokemonEvolutionCostFromImg(pokemonImage,
                 ScanArea.calibratedFromSettings(POKEMON_EVOLUTION_COST_AREA, settings));
-        Pair<String, String> moveset = getMovesetFromImg(pokemonImage,
-                estimatedLevelRange,
-                ScanArea.calibratedFromSettings(POKEMON_POWER_UP_CANDY_COST, settings),
-                ScanArea.calibratedFromSettings(POKEMON_EVOLUTION_COST_AREA, settings));
-        String moveFast = null;
-        String moveCharge = null;
-        if (moveset != null) {
-            moveFast = moveset.first;
-            moveCharge = moveset.second;
+
+        String moveFast = "";
+        String moveCharge = "";
+        if (isMovesetEnabled) {
+            Pair<String, String> moveset = getMovesetFromImg(pokemonImage,
+                    estimatedLevelRange,
+                    ScanArea.calibratedFromSettings(POKEMON_POWER_UP_CANDY_COST, settings),
+                    ScanArea.calibratedFromSettings(POKEMON_EVOLUTION_COST_AREA, settings));
+            if (moveset != null) {
+                moveFast = moveset.first;
+                moveCharge = moveset.second;
+            }
         }
         String uniqueIdentifier = name + type + candyName + hp.toString() + cp
                 .toString() + powerUpStardustCost.toString() + powerUpCandyCost.toString();

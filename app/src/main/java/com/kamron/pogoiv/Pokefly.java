@@ -268,7 +268,9 @@ public class Pokefly extends Service {
         clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
         sharedPref = getSharedPreferences(PREF_USER_CORRECTIONS, Context.MODE_PRIVATE);
 
-        MovesetsManager.init(this);
+        if (isMovesetEnabled()) {
+            MovesetsManager.init(this);
+        }
 
         LocalBroadcastManager.getInstance(this).registerReceiver(displayInfo, new IntentFilter(ACTION_SEND_INFO));
         LocalBroadcastManager.getInstance(this).registerReceiver(processBitmap,
@@ -321,6 +323,10 @@ public class Pokefly extends Service {
         //We have intent data, it's possible this service will be killed and we would want to recreate it
         //https://github.com/farkam135/GoIV/issues/477
         return START_REDELIVER_INTENT;
+    }
+
+    private boolean isMovesetEnabled() {
+        return GoIVSettings.getInstance(this).isMovesetEnabled();
     }
 
     private void setupDisplaySizeInfo() {
@@ -772,13 +778,16 @@ public class Pokefly extends Service {
                         screenShotPath = null;
                     }
 
-                    String moveFast = intent.getStringExtra(KEY_SEND_MOVESET_QUICK);
-                    String moveCharge = intent.getStringExtra(KEY_SEND_MOVESET_CHARGE);
-                    if (moveFast == null || moveCharge == null) {
-                        moveFast = "";
-                        moveCharge = "";
+                    String moveFast = "";
+                    String moveCharge = "";
+                    if (isMovesetEnabled()) {
+                        moveFast = intent.getStringExtra(KEY_SEND_MOVESET_QUICK);
+                        moveCharge = intent.getStringExtra(KEY_SEND_MOVESET_CHARGE);
+                        if (moveFast == null || moveCharge == null) {
+                            moveFast = "";
+                            moveCharge = "";
+                        }
                     }
-
                     double estimatedPokemonLevelMin = intent.getDoubleExtra(KEY_SEND_INFO_LEVEL_LOWER, 1);
                     double estimatedPokemonLevelMax = intent.getDoubleExtra(KEY_SEND_INFO_LEVEL_HIGHER, 1);
 

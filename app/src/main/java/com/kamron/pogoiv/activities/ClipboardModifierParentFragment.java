@@ -60,6 +60,21 @@ public class ClipboardModifierParentFragment extends Fragment {
     }
 
     @Override
+    //Pressed return button - in the case when coming back from settings screen after movesets have been enable/disabled
+    public void onResume() {
+        super.onResume();
+
+        if (viewPager != null)
+        {
+            ClipboardResultMode[] resultModesEnabled = getResultModesEnabled();
+            ModePagerAdapter pagerAdapter = new ModePagerAdapter(getChildFragmentManager(), resultModesEnabled);
+            if (pagerAdapter != null) {
+                viewPager.setAdapter(pagerAdapter);
+            }
+        }
+    }
+
+    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 

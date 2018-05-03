@@ -37,7 +37,7 @@ public class TokensShowcaseAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     }
 
     private void rebuildDataSet() {
-        final ArrayList<ClipboardToken> possibleTokens = ClipboardTokenCollection.getSamples();
+        final ArrayList<ClipboardToken> possibleTokens = ClipboardTokenCollection.getSamples(context);
 
         // Separate tokens into their categories. The map associates every category to its list of tokens.
         itemCount = 0;

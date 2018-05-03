@@ -1,5 +1,8 @@
 package com.kamron.pogoiv.clipboardlogic;
 
+import android.content.Context;
+
+import com.kamron.pogoiv.GoIVSettings;
 import com.kamron.pogoiv.clipboardlogic.tokens.BaseStatToken;
 import com.kamron.pogoiv.clipboardlogic.tokens.CPMaxToken;
 import com.kamron.pogoiv.clipboardlogic.tokens.CPMissingAtFourty;
@@ -37,7 +40,7 @@ import java.util.ArrayList;
 
 public class ClipboardTokenCollection {
 
-    public static ArrayList<ClipboardToken> getSamples() {
+    public static ArrayList<ClipboardToken> getSamples(Context context) {
         ArrayList<ClipboardToken> tokens = new ArrayList<>();
 
 
@@ -124,11 +127,12 @@ public class ClipboardTokenCollection {
         tokens.add(new HexIVToken()); //hex representation of iv (ex A4B)
         /////////////////////////////////////////////////////////
 
-
-        //Moveset//////////////////////////////////////
-        tokens.add(new MovesetInitialsToken(1));
-        tokens.add(new MovesetInitialsToken(2));
-
+        //enable/disable visibility based on setting
+        if (GoIVSettings.getInstance(context).isMovesetEnabled()) {
+            //Moveset//////////////////////////////////////
+            tokens.add(new MovesetInitialsToken(1));
+            tokens.add(new MovesetInitialsToken(2));
+        }
 
         //Separators
         tokens.add(new SeparatorToken("⚔"));

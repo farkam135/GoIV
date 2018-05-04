@@ -285,7 +285,9 @@ public class GoIVSettings {
         return prefs.getBoolean(POKESPAM_ENABLED, false);
     }
 
-    public boolean isMovesetEnabled() { return prefs.getBoolean(MOVESET_ENABLED, true); }
+    public boolean isMovesetEnabled() {
+        return prefs.getBoolean(MOVESET_ENABLED, true);
+    }
 
     public boolean shouldAutoOpenExpandedAppraise() {
         return prefs.getBoolean(AUTO_OPEN_APPRAISE_DIALOGUE, false);

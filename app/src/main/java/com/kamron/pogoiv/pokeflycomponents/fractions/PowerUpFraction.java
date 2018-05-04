@@ -155,7 +155,7 @@ public class PowerUpFraction extends Fraction {
     }
 
     /**
-     * showMovesetInfoBasedOnSettings
+     * showMovesetInfoBasedOnSettings.
      * Shows moveset button based on setting
      */
     private void showMovesetInfoBasedOnSettings() {

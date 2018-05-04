@@ -890,7 +890,7 @@ public class OcrHelper {
         for (int x = 0; x < width; x += (currentChunk != null) ? 1 : increment) {
             for (int y = 0; y < height; y += increment) {
                 // Get the pixel a x/y coordinate from the array instead of doing cp.getPixel()
-                final int pxColor = pixels[x+y*width];
+                final int pxColor = pixels[x + y * width];
 
                 if (currentChunk == null) {
                     if (pxColor != Color.BLACK) {

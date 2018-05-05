@@ -102,7 +102,7 @@ public class ClipboardTokenHandler {
         ArrayList<ClipboardToken> saveTo = new ArrayList<>();
         String[] tokenRepresentationArray = storedSetting.split("\\.");
 
-        ArrayList<ClipboardToken> exampleTokens = ClipboardTokenCollection.getSamples(context);
+        ArrayList<ClipboardToken> exampleTokens = ClipboardTokenCollection.getSamples();
 
         for (String representation : tokenRepresentationArray) { // for all saved tokens
 

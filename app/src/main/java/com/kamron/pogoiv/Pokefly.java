@@ -778,8 +778,8 @@ public class Pokefly extends Service {
                         screenShotPath = null;
                     }
 
-                    String moveFast = "";
-                    String moveCharge = "";
+                    String moveFast = null;
+                    String moveCharge = null;
                     if (isMovesetEnabled()) {
                         moveFast = intent.getStringExtra(KEY_SEND_MOVESET_QUICK);
                         moveCharge = intent.getStringExtra(KEY_SEND_MOVESET_CHARGE);

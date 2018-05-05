@@ -268,7 +268,7 @@ public class Pokefly extends Service {
         clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
         sharedPref = getSharedPreferences(PREF_USER_CORRECTIONS, Context.MODE_PRIVATE);
 
-        if (isMovesetEnabled()) {
+        if (GoIVSettings.getInstance(this).isMovesetEnabled()) {
             MovesetsManager.init(this);
         }
 
@@ -323,10 +323,6 @@ public class Pokefly extends Service {
         //We have intent data, it's possible this service will be killed and we would want to recreate it
         //https://github.com/farkam135/GoIV/issues/477
         return START_REDELIVER_INTENT;
-    }
-
-    private boolean isMovesetEnabled() {
-        return GoIVSettings.getInstance(this).isMovesetEnabled();
     }
 
     private void setupDisplaySizeInfo() {
@@ -778,9 +774,11 @@ public class Pokefly extends Service {
                         screenShotPath = null;
                     }
 
+                    GoIVSettings settings = GoIVSettings.getInstance(Pokefly.this);
+
                     String moveFast = null;
                     String moveCharge = null;
-                    if (isMovesetEnabled()) {
+                    if (settings.isMovesetEnabled()) {
                         moveFast = intent.getStringExtra(KEY_SEND_MOVESET_QUICK);
                         moveCharge = intent.getStringExtra(KEY_SEND_MOVESET_CHARGE);
                         if (moveFast == null || moveCharge == null) {
@@ -808,7 +806,6 @@ public class Pokefly extends Service {
                             uniqueID);
 
                     if (!infoShownReceived) {
-                        GoIVSettings settings = GoIVSettings.getInstance(Pokefly.this);
                         if (!startedInManualScreenshotMode) {
                             infoShownReceived = true;
                         }

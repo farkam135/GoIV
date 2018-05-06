@@ -132,6 +132,4 @@
     <string name="settings_title_optional">Fonctionnalités optionnelles</string>
     <string name="settings_title_mode">Mode de GoIV</string>
     <string name="settings_title_uninteresting">Paramètres peu intéressants</string>
-    <string name="moveset_enabled_setting_summary" />
-    <string name="moveset_enabled_setting_title" />
 </resources>

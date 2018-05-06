@@ -270,6 +270,4 @@
     <string name="send_email_to_devs_button">Email con información sobre el error para desarrolladores</string>
     <string name="report_error">Email de informe de error</string>
     <string name="recalibration_video_tutorial">Videotutorial recalibración</string>
-    <string name="moveset_enabled_setting_summary" />
-    <string name="moveset_enabled_setting_title" />
 </resources>

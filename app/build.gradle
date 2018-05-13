@@ -39,6 +39,10 @@ if (new File('keystore.properties').exists()) {
     keystoreProperties.keyPassword = 'your_key_password'
     keystoreProperties.storeFile = 'your_keystore.jks'
     keystoreProperties.storePassword = 'your_keystore_password'
+    keystoreProperties.keyAliasPlaystore = 'playstore_key_alias'
+    keystoreProperties.keyPasswordPlaystore = 'playstore_key_password'
+    keystoreProperties.storeFilePlaystore = 'playstore_keystore.jks'
+    keystoreProperties.storePasswordPlaystore = 'playstore_keystore_password'
 }
 
 /**
@@ -54,6 +58,12 @@ android {
             keyPassword keystoreProperties['keyPassword']
             storeFile file(keystoreProperties['storeFile'])
             storePassword keystoreProperties['storePassword']
+        }
+        playstoreConfig { // App Signing upload key
+            keyAlias keystoreProperties['keyAliasPlaystore']
+            keyPassword keystoreProperties['keyPasswordPlaystore']
+            storeFile file(keystoreProperties['storeFilePlaystore'])
+            storePassword keystoreProperties['storePasswordPlaystore']
         }
     }
 
@@ -133,7 +143,8 @@ android {
             lintOptions {
                 disable 'MissingTranslation'
             }
-            signingConfig signingConfigs.releaseConfig
+            productFlavors.online.signingConfig signingConfigs.releaseConfig
+            productFlavors.playstore.signingConfig signingConfigs.playstoreConfig
         }
     }
 

@@ -73,8 +73,8 @@ android {
     defaultConfig {
         minSdkVersion 19 /*Dont change this unless you know why*/
         targetSdkVersion 27 /*Dont change this unless you know why*/
-        versionCode 43
-        versionName "5.0.3"
+        versionCode 44
+        versionName "5.0.4"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
@@ -106,7 +106,7 @@ android {
         }
 
         playstore {
-            applicationId "com.swanberg.pogoiv"
+            applicationId = "org.opensource.goiv"
             buildConfigField "boolean", "INTERNET_AVAILABLE", "true"
             buildConfigField "boolean", "DISTRIBUTION_GITHUB", "false"
             buildConfigField "boolean", "DISTRIBUTION_PLAYSTORE", "true"

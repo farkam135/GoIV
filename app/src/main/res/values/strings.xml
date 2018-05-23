@@ -110,7 +110,7 @@
     <string name="no_clipboard_preview">No preview available</string>
     <string name="copy_to_clip_single_setting">Copy differently on single result</string>
     <string name="copy_to_clip_single_setting_summary">Allows you to define another setting for Copy to clipboard in Edit which will show a different result when a scan returns a single possibility.</string>
-    <string name="copy_to_clip_perfectiv_setting">Copy differently when is IV 100%</string>
+    <string name="copy_to_clip_perfectiv_setting">Copy differently when IV is 100%</string>
     <string name="copy_to_clip_perfectiv_setting_summary">Allows you to define another setting for Copy to clipboard in Edit which will show a different result when a scan returns a 100% result.</string>
     <string name="view_credits">View credits</string>
     <string name="view_credits_summary">View application credits, used open source projects and thanks</string>

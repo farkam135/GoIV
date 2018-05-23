@@ -50,9 +50,16 @@
         <SwitchPreference
             android:defaultValue="false"
             android:dependency="@string/copy_to_clipboard_setting_key"
-            android:key="copyToClipboardPerfectIv"
+            android:key="@string/copy_to_clipboard_perfect_iv_setting_key"
             android:summary="@string/copy_to_clip_perfectiv_setting_summary"
             android:title="@string/copy_to_clip_perfectiv_setting"/>
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="@string/copy_to_clipboard_perfect_iv_setting_key"
+            android:key="copyToClipboardZeroIv"
+            android:summary="@string/copy_to_clip_zeroiv_setting_summary"
+            android:title="@string/copy_to_clip_zeroiv_setting"/>
 
         <SwitchPreference
             android:defaultValue="true"

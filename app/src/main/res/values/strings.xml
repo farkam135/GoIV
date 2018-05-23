@@ -112,12 +112,15 @@
     <string name="copy_to_clip_single_setting_summary">Allows you to define another setting for Copy to clipboard in Edit which will show a different result when a scan returns a single possibility.</string>
     <string name="copy_to_clip_perfectiv_setting">Copy differently when IV is 100%</string>
     <string name="copy_to_clip_perfectiv_setting_summary">Allows you to define another setting for Copy to clipboard in Edit which will show a different result when a scan returns a 100% result.</string>
+    <string name="copy_to_clip_zeroiv_setting">Use 100% Copy to clipboard for 0% result</string>
+    <string name="copy_to_clip_zeroiv_setting_summary">Allows you to use the Copy to clipboard for 100% result for a scan that returns a 0% result. When disabled, either the single result scan or the multiple result scan is used.</string>
     <string name="view_credits">View credits</string>
     <string name="view_credits_summary">View application credits, used open source projects and thanks</string>
     <string name="title_activity_credits">CreditsActivity</string>
     <string name="app_credits_title">Credits</string>
     <string name="view_credits_button">viewCredits</string>
     <string name="copy_to_clipboard_setting_key" translatable="false">copyToClipboard</string>
+    <string name="copy_to_clipboard_perfect_iv_setting_key" translatable="false">copyToClipboardPerfectIv</string>
     <string name="manual_screenshot_mode_key" translatable="false">manualScreenshotMode</string>
     <string name="android_sub5_warning">GoIV has detected that your phone does not have the MediaProjection API, which is used to automatically show the IV scan button. This might be fixed by updating your phone to Android 5 or above. The app will lock itself to screenshot mode to avoid crashing. You can use GoIV by manually triggering a screenshot, which most devices does by holding home+power for a short duration. We apologize for the inconvenience.</string>
     <string name="copy_to_clip_show_toast_setting_summary">Show a preview of what is copied to the clipboard in a small popup</string>

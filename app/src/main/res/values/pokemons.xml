@@ -393,6 +393,8 @@
         <item>Deoxys_Attack</item>
         <item>Deoxys_Speed</item>
         <item>Deoxys</item>
+        <!-- Alola form -->
+        <item>Exeggutor_Alola</item>
     </string-array>
     <string-array name="typeName">
         <!--  0   normal --> <item>NORMAL</item>

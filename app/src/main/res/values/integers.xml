@@ -393,6 +393,8 @@
         <item>414</item> <!--DeoxysAttack-->
         <item>230</item> <!--DeoxysSpeed -->
         <item>345</item> <!--DeoxysNormal-->
+        <!-- Alola form -->
+        <item>230</item> <!--ExeggutorAlola-->
     </integer-array>
 
     <integer-array name="defense">
@@ -787,6 +789,8 @@
         <item>46</item> <!--DeoxysAttack-->
         <item>218</item> <!--DeoxysSpeed -->
         <item>115</item> <!--DeoxysNormal-->
+        <!-- Alola form -->
+        <item>158</item> <!--ExeggutorAlola-->
     </integer-array>
 
     <integer-array name="stamina">
@@ -1181,6 +1185,8 @@
         <item>100</item> <!--DeoxysAttack-->
         <item>100</item> <!--DeoxysSpeed -->
         <item>100</item> <!--DeoxysNormal-->
+        <!-- Aola form -->
+        <item>190</item> <!--ExeggutorAlola-->
     </integer-array>
 
     <integer-array name="devolutionNumber">
@@ -1575,6 +1581,8 @@
         <item>-1</item> <!--deoxys att-->
         <item>-1</item> <!--deoxys speed-->
         <item>-1</item> <!--deoxys normal-->
+        <!-- Alola form -->
+        <item>101</item> <!--ExeggutorAlola-->
 
     </integer-array>
 
@@ -1970,6 +1978,8 @@
         <item>-1</item> <!--Deoxys_Attac-->
         <item>-1</item> <!--Deoxys_Speed-->
         <item>-1</item> <!--Deoxys-->
+        <!-- Alola form -->
+        <item>50</item> <!--ExeggutorAlola-->
     </integer-array>
 
     <!-- The candyNames array ensures that the correct candy name is associated with each
@@ -2370,5 +2380,7 @@
         <item>386</item> <!--Deoxys_Attack-->
         <item>387</item> <!--Deoxys_Speed-->
         <item>388</item> <!--Deoxys-->
+        <!-- Alola form -->
+        <item>-1</item> <!--ExeggutorAlola-->
     </integer-array>
 </resources>

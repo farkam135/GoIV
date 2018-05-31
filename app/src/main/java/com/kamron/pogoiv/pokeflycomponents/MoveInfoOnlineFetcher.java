@@ -32,7 +32,8 @@ public class MoveInfoOnlineFetcher {
 
         //////////////////////////////////////Remove everything beneath this.///////////////////////////
         //Example move creation
-        MovesetData example = new MovesetData("Waterfall", "Hydro pump", false, false, 11, 10.8, "water", "water");
+        MovesetData example = new MovesetData("Waterfall", "Hydro pump", false, false, 11.0, 10.8, "water",
+                "water");
 
 
         return moves;

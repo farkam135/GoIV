@@ -130,31 +130,31 @@ public class MovesetFraction extends Fraction {
      * is an edgecase for amount of available movesets. But the numbers for atk / defence are fake.
      */
     private void createDummyData() {
-        movesets.add(new MovesetData("Waterfall", "Hydro pump", false, false, 11, 10.8, "water", "water"
+        movesets.add(new MovesetData("Waterfall", "Hydro pump", false, false, 11.0, 10.8, "water", "water"
         ));
-        movesets.add(new MovesetData("Bite", "Hydro pump", false, false, 10.8, 5, "dark",
+        movesets.add(new MovesetData("Bite", "Hydro pump", false, false, 10.8, 5.0, "dark",
                 "water"));
-        movesets.add(new MovesetData("Bite", "Crunch", false, false, 10, 6.2, "dark", "water"));
-        movesets.add(new MovesetData("Dragon tail", "Outrage", true, false, 9.8, 7, "dragon", "dragon"));
+        movesets.add(new MovesetData("Bite", "Crunch", false, false, 10.0, 6.2, "dark", "water"));
+        movesets.add(new MovesetData("Dragon tail", "Outrage", true, false, 9.8, 7.0, "dragon", "dragon"));
         movesets.add(
                 new MovesetData("Dragon tail", "Hydro pump", true, false, 9.7, 9.2, "dragon", "water"));
         movesets.add(
                 new MovesetData("Dragon Breath", "Hydro pump", true, false, 9.5, 10.8, "dragon", "water"));
         movesets.add(new MovesetData("Waterfall", "Crunch", false, false, 9.3, 6.2, "water", "water"));
         movesets.add(new MovesetData("Waterfall", "Outrage", false, false, 9.2, 7.2, "water", "dragon"));
-        movesets.add(new MovesetData("Dragon tail", "Crunch", true, false, 9, 6.6, "dragon", "water"));
+        movesets.add(new MovesetData("Dragon tail", "Crunch", true, false, 9.0, 6.6, "dragon", "water"));
         movesets.add(new MovesetData("Dragon Breath", "Dragon Pulse", true, true, 8.8, 10.2, "dragon",
                 "dragon"));
         movesets.add(new MovesetData("Bite", "Outrage", false, false, 8.6, 10.1, "dark", "dragon"));
         movesets.add(new MovesetData("Bite", "Dragon Pulse", false, true, 8.2, 8.6, "dark", "dragon"));
-        movesets.add(new MovesetData("Bite", "Twister", false, true, 8, 7.3, "dark", "dragon"));
+        movesets.add(new MovesetData("Bite", "Twister", false, true, 8.0, 7.3, "dark", "dragon"));
         movesets.add(
                 new MovesetData("Dragon Breath", "Twister", true, true, 7.4, 4.2, "dragon", "dragon"));
-        movesets.add(new MovesetData("Waterfall", "Dragon Pulse", false, true, 7, 7.2, "water", "dragon"));
+        movesets.add(new MovesetData("Waterfall", "Dragon Pulse", false, true, 7.0, 7.2, "water", "dragon"));
         movesets.add(new MovesetData("Waterfall", "Twister", false, true, 6.5, 6.4, "water", "dragon"));
         movesets.add(
                 new MovesetData("Dragon tail", "Dragon Pulse", true, true, 6.1, 5.5, "dragon", "dragon"));
-        movesets.add(new MovesetData("Dragon tail", "Twister", true, true, 6, 6.7, "dragon", "dragon"));
+        movesets.add(new MovesetData("Dragon tail", "Twister", true, true, 6.0, 6.7, "dragon", "dragon"));
         movesets.add(
                 new MovesetData("Dragon Breath", "Outrage", true, false, 5.6, 6.8, "dragon", "dragon"));
         movesets.add(new MovesetData("Dragon Breath", "Crunch", true, false, 5.2, 7.2,

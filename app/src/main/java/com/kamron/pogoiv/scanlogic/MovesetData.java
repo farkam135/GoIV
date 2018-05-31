@@ -16,14 +16,14 @@ public class MovesetData {
     private String charge;
     private boolean quickIsLegacy;
     private boolean chargeIsLegacy;
-    private double atkScore;
-    private double defScore;
+    private Double atkScore;
+    private Double defScore;
     private String quickMoveType;
     private String chargeMoveType;
 
 
-    public MovesetData(String quick, String charge, boolean quickIsLegacy, boolean chargeIsLegacy, double atkScore,
-                       double defScore,
+    public MovesetData(String quick, String charge, boolean quickIsLegacy, boolean chargeIsLegacy, Double atkScore,
+                       Double defScore,
                        String chargeMoveType, String quickMoveType) {
         this.quick = quick;
         this.charge = charge;
@@ -61,11 +61,11 @@ public class MovesetData {
         return chargeIsLegacy;
     }
 
-    public double getAtkScore() {
+    public Double getAtkScore() {
         return atkScore;
     }
 
-    public double getDefScore() {
+    public Double getDefScore() {
         return defScore;
     }
 

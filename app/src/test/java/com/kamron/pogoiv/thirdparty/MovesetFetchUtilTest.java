@@ -25,7 +25,10 @@ import timber.log.Timber;
 
 
 public class MovesetFetchUtilTest {
-    private static final String BASE_URL = "https://fight.pokebattler.com" ;
+//    private static final String BASE_URL = "https://fight.pokebattler.com" ;
+//    private static final String BASE_URL = "http://localhost:8001" ;
+    private static final String BASE_URL = "https://20180530t224949-dot-fight-dot-pokebattler-1380.appspot.com" ;
+
     OkHttpClient httpClient;
 
     @Test
@@ -88,17 +91,21 @@ public class MovesetFetchUtilTest {
             return Collections.emptyList();
         }
         List<MovesetData> retval = new ArrayList<>(attackScores.size());
+        // add all the good attack scores first
         for (Map.Entry<MovesetData.Key, Double> attackScoreEntry: attackScores.entrySet()) {
             MovesetData.Key key = attackScoreEntry.getKey();
             Double defenseScore = defenseScores.get(key);
-            if (defenseScore == null) {
-                Timber.e("Unexpected null defense score for %s", key);
-                System.err.println("Unexpected null defense score for %s" + key);
-                continue;
-            }
             //TODO merge with https://fight.pokebattler.com/pokemon and https://fight.pokebattler.com/moves
             retval.add(new MovesetData(key.getQuick(), key.getCharge(), false, false, attackScoreEntry.getValue(),
             defenseScore, "UNKNOWN", "UNKNOWN"));
+        }
+        // then add moves that are only good on defense
+        for (Map.Entry<MovesetData.Key, Double> defenseScoreEntry: defenseScores.entrySet()) {
+            MovesetData.Key key = defenseScoreEntry.getKey();
+            if (attackScores.containsKey(key))
+                continue;
+            retval.add(new MovesetData(key.getQuick(), key.getCharge(), false, false, null,
+                    defenseScoreEntry.getValue(), "UNKNOWN", "UNKNOWN"));
         }
         return retval;
     }

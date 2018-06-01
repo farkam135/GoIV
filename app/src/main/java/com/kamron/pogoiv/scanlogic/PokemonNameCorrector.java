@@ -34,7 +34,7 @@ public class PokemonNameCorrector {
      * The order is decided by having high reliability guessing modules run first, and if they cant find an answer,
      * fall back to less accurate methods.
      *
-     * @param scanData    The OCR'd data
+     * @param scanData The OCR'd data
      * @return a Pokedist with the best guess of the pokemon
      */
     public PokeDist getPossiblePokemon(@NonNull ScanData scanData) {
@@ -128,9 +128,13 @@ public class PokemonNameCorrector {
 
         //Check if the found pokemon should be alolan variant or not.
         PokeDist aloGuess = null;
-        aloGuess = checkForAlolanVariant(guess, scanData);
+        if (guess != null) {
+            if (guess.pokemon != null) {
+                aloGuess = checkForAlolanVariant(guess, scanData);
+            }
+        }
 
-        if (aloGuess != null){
+        if (aloGuess != null) {
             guess = aloGuess;
         }
 
@@ -143,134 +147,135 @@ public class PokemonNameCorrector {
      * grass etc) that fits the alolan or normal variant. IF it fits the alolan variant, returns a pokedist
      * containing the alolan result, otherwise returns null.
      * value
-     * @param guess The already calculated pokemon.
+     *
+     * @param guess    The already calculated pokemon.
      * @param scanData The scanned pokemon data
      * @return The alolan variant if the scanned typing matches alolan, or null.
      */
     private PokeDist checkForAlolanVariant(PokeDist guess, ScanData scanData) {
-        if (guess.pokemon.number == pokeInfoCalculator.get("exeggutor").number){
+        if (guess.pokemon.number == pokeInfoCalculator.get("exeggutor").number) {
             System.out.println(scanData.getPokemonType());
-            if (scanData.getPokemonType().contains(pokeInfoCalculator.getTypeName(14))){
+            if (scanData.getPokemonType().contains(pokeInfoCalculator.getTypeName(14))) {
                 PokeDist aloGuess = new PokeDist(pokeInfoCalculator.get("alolan exeggutor"), 0);
                 return aloGuess;
             }
         }
-        if (guess.pokemon.number == pokeInfoCalculator.get("rattata").number){
+        if (guess.pokemon.number == pokeInfoCalculator.get("rattata").number) {
             System.out.println(scanData.getPokemonType());
-            if (scanData.getPokemonType().contains(pokeInfoCalculator.getTypeName(15))){
+            if (scanData.getPokemonType().contains(pokeInfoCalculator.getTypeName(15))) {
                 PokeDist aloGuess = new PokeDist(pokeInfoCalculator.get("alolan rattata"), 0);
                 return aloGuess;
             }
         }
-        if (guess.pokemon.number == pokeInfoCalculator.get("raticate").number){
+        if (guess.pokemon.number == pokeInfoCalculator.get("raticate").number) {
             System.out.println(scanData.getPokemonType());
-            if (scanData.getPokemonType().contains(pokeInfoCalculator.getTypeName(15))){
+            if (scanData.getPokemonType().contains(pokeInfoCalculator.getTypeName(15))) {
                 PokeDist aloGuess = new PokeDist(pokeInfoCalculator.get("alolan raticate"), 0);
                 return aloGuess;
             }
         }
-        if (guess.pokemon.number == pokeInfoCalculator.get("raichu").number){
+        if (guess.pokemon.number == pokeInfoCalculator.get("raichu").number) {
             System.out.println(scanData.getPokemonType());
-            if (scanData.getPokemonType().contains(pokeInfoCalculator.getTypeName(10))){
+            if (scanData.getPokemonType().contains(pokeInfoCalculator.getTypeName(10))) {
                 PokeDist aloGuess = new PokeDist(pokeInfoCalculator.get("alolan raichu"), 0);
                 return aloGuess;
             }
         }
-        if (guess.pokemon.number == pokeInfoCalculator.get("sandshrew").number){
+        if (guess.pokemon.number == pokeInfoCalculator.get("sandshrew").number) {
             System.out.println(scanData.getPokemonType());
-            if (scanData.getPokemonType().contains(pokeInfoCalculator.getTypeName(5))){
+            if (scanData.getPokemonType().contains(pokeInfoCalculator.getTypeName(5))) {
                 PokeDist aloGuess = new PokeDist(pokeInfoCalculator.get("alolan sandshrew"), 0);
                 return aloGuess;
             }
         }
-        if (guess.pokemon.number == pokeInfoCalculator.get("sandslash").number){
+        if (guess.pokemon.number == pokeInfoCalculator.get("sandslash").number) {
             System.out.println(scanData.getPokemonType());
-            if (scanData.getPokemonType().contains(pokeInfoCalculator.getTypeName(5))){
+            if (scanData.getPokemonType().contains(pokeInfoCalculator.getTypeName(5))) {
                 PokeDist aloGuess = new PokeDist(pokeInfoCalculator.get("alolan sandslash"), 0);
                 return aloGuess;
             }
         }
-        if (guess.pokemon.number == pokeInfoCalculator.get("vulpix").number){
+        if (guess.pokemon.number == pokeInfoCalculator.get("vulpix").number) {
             System.out.println(scanData.getPokemonType());
-            if (scanData.getPokemonType().contains(pokeInfoCalculator.getTypeName(5))){
+            if (scanData.getPokemonType().contains(pokeInfoCalculator.getTypeName(5))) {
                 PokeDist aloGuess = new PokeDist(pokeInfoCalculator.get("alolan vulpix"), 0);
                 return aloGuess;
             }
         }
 
-        if (guess.pokemon.number == pokeInfoCalculator.get("ninetales").number){
+        if (guess.pokemon.number == pokeInfoCalculator.get("ninetales").number) {
             System.out.println(scanData.getPokemonType());
-            if (scanData.getPokemonType().contains(pokeInfoCalculator.getTypeName(5))){
+            if (scanData.getPokemonType().contains(pokeInfoCalculator.getTypeName(5))) {
                 PokeDist aloGuess = new PokeDist(pokeInfoCalculator.get("alolan ninetales"), 0);
                 return aloGuess;
             }
         }
-        if (guess.pokemon.number == pokeInfoCalculator.get("diglett").number){
+        if (guess.pokemon.number == pokeInfoCalculator.get("diglett").number) {
             System.out.println(scanData.getPokemonType());
-            if (scanData.getPokemonType().contains(pokeInfoCalculator.getTypeName(16))){
+            if (scanData.getPokemonType().contains(pokeInfoCalculator.getTypeName(16))) {
                 PokeDist aloGuess = new PokeDist(pokeInfoCalculator.get("alolan diglett"), 0);
                 return aloGuess;
             }
         }
-        if (guess.pokemon.number == pokeInfoCalculator.get("dugtrio").number){
+        if (guess.pokemon.number == pokeInfoCalculator.get("dugtrio").number) {
             System.out.println(scanData.getPokemonType());
-            if (scanData.getPokemonType().contains(pokeInfoCalculator.getTypeName(16))){
+            if (scanData.getPokemonType().contains(pokeInfoCalculator.getTypeName(16))) {
                 PokeDist aloGuess = new PokeDist(pokeInfoCalculator.get("alolan dugtrio"), 0);
                 return aloGuess;
             }
         }
-        if (guess.pokemon.number == pokeInfoCalculator.get("meowth").number){
+        if (guess.pokemon.number == pokeInfoCalculator.get("meowth").number) {
             System.out.println(scanData.getPokemonType());
-            if (scanData.getPokemonType().contains(pokeInfoCalculator.getTypeName(15))){
+            if (scanData.getPokemonType().contains(pokeInfoCalculator.getTypeName(15))) {
                 PokeDist aloGuess = new PokeDist(pokeInfoCalculator.get("alolan meowth"), 0);
                 return aloGuess;
             }
         }
-        if (guess.pokemon.number == pokeInfoCalculator.get("persian").number){
+        if (guess.pokemon.number == pokeInfoCalculator.get("persian").number) {
             System.out.println(scanData.getPokemonType());
-            if (scanData.getPokemonType().contains(pokeInfoCalculator.getTypeName(15))){
+            if (scanData.getPokemonType().contains(pokeInfoCalculator.getTypeName(15))) {
                 PokeDist aloGuess = new PokeDist(pokeInfoCalculator.get("alolan persian"), 0);
                 return aloGuess;
             }
         }
-        if (guess.pokemon.number == pokeInfoCalculator.get("geodude").number){
+        if (guess.pokemon.number == pokeInfoCalculator.get("geodude").number) {
             System.out.println(scanData.getPokemonType());
-            if (scanData.getPokemonType().contains(pokeInfoCalculator.getTypeName(3))){
+            if (scanData.getPokemonType().contains(pokeInfoCalculator.getTypeName(3))) {
                 PokeDist aloGuess = new PokeDist(pokeInfoCalculator.get("alolan geodude"), 0);
                 return aloGuess;
             }
         }
-        if (guess.pokemon.number == pokeInfoCalculator.get("graveler").number){
+        if (guess.pokemon.number == pokeInfoCalculator.get("graveler").number) {
             System.out.println(scanData.getPokemonType());
-            if (scanData.getPokemonType().contains(pokeInfoCalculator.getTypeName(3))){
+            if (scanData.getPokemonType().contains(pokeInfoCalculator.getTypeName(3))) {
                 PokeDist aloGuess = new PokeDist(pokeInfoCalculator.get("alolan graveler"), 0);
                 return aloGuess;
             }
         }
-        if (guess.pokemon.number == pokeInfoCalculator.get("golem").number){
+        if (guess.pokemon.number == pokeInfoCalculator.get("golem").number) {
             System.out.println(scanData.getPokemonType());
-            if (scanData.getPokemonType().contains(pokeInfoCalculator.getTypeName(3))){
+            if (scanData.getPokemonType().contains(pokeInfoCalculator.getTypeName(3))) {
                 PokeDist aloGuess = new PokeDist(pokeInfoCalculator.get("alolan golem"), 0);
                 return aloGuess;
             }
         }
-        if (guess.pokemon.number == pokeInfoCalculator.get("grimer").number){
+        if (guess.pokemon.number == pokeInfoCalculator.get("grimer").number) {
             System.out.println(scanData.getPokemonType());
-            if (scanData.getPokemonType().contains(pokeInfoCalculator.getTypeName(15))){
+            if (scanData.getPokemonType().contains(pokeInfoCalculator.getTypeName(15))) {
                 PokeDist aloGuess = new PokeDist(pokeInfoCalculator.get("alolan grimer"), 0);
                 return aloGuess;
             }
         }
-        if (guess.pokemon.number == pokeInfoCalculator.get("muk").number){
+        if (guess.pokemon.number == pokeInfoCalculator.get("muk").number) {
             System.out.println(scanData.getPokemonType());
-            if (scanData.getPokemonType().contains(pokeInfoCalculator.getTypeName(15))){
+            if (scanData.getPokemonType().contains(pokeInfoCalculator.getTypeName(15))) {
                 PokeDist aloGuess = new PokeDist(pokeInfoCalculator.get("alolan muk"), 0);
                 return aloGuess;
             }
         }
-        if (guess.pokemon.number == pokeInfoCalculator.get("marowak").number){
+        if (guess.pokemon.number == pokeInfoCalculator.get("marowak").number) {
             System.out.println(scanData.getPokemonType());
-            if (scanData.getPokemonType().contains(pokeInfoCalculator.getTypeName(1))){
+            if (scanData.getPokemonType().contains(pokeInfoCalculator.getTypeName(1))) {
                 PokeDist aloGuess = new PokeDist(pokeInfoCalculator.get("alolan marowak"), 0);
                 return aloGuess;
             }

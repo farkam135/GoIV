@@ -150,49 +150,49 @@ public class PokemonNameCorrector {
     private PokeDist checkForAlolanVariant(PokeDist guess, ScanData scanData) {
         if (guess.pokemon.number == pokeInfoCalculator.get("exeggutor").number){
             System.out.println(scanData.getPokemonType());
-            if (scanData.getPokemonType().contains("DRA")){
+            if (scanData.getPokemonType().contains(pokeInfoCalculator.getTypeName(14))){
                 PokeDist aloGuess = new PokeDist(pokeInfoCalculator.get("alolan exeggutor"), 0);
                 return aloGuess;
             }
         }
         if (guess.pokemon.number == pokeInfoCalculator.get("rattata").number){
             System.out.println(scanData.getPokemonType());
-            if (scanData.getPokemonType().contains("DARK")){
+            if (scanData.getPokemonType().contains(pokeInfoCalculator.getTypeName(15))){
                 PokeDist aloGuess = new PokeDist(pokeInfoCalculator.get("alolan rattata"), 0);
                 return aloGuess;
             }
         }
         if (guess.pokemon.number == pokeInfoCalculator.get("raticate").number){
             System.out.println(scanData.getPokemonType());
-            if (scanData.getPokemonType().contains("DARK")){
+            if (scanData.getPokemonType().contains(pokeInfoCalculator.getTypeName(15))){
                 PokeDist aloGuess = new PokeDist(pokeInfoCalculator.get("alolan raticate"), 0);
                 return aloGuess;
             }
         }
         if (guess.pokemon.number == pokeInfoCalculator.get("raichu").number){
             System.out.println(scanData.getPokemonType());
-            if (scanData.getPokemonType().contains("PSY")){
+            if (scanData.getPokemonType().contains(pokeInfoCalculator.getTypeName(10))){
                 PokeDist aloGuess = new PokeDist(pokeInfoCalculator.get("alolan raichu"), 0);
                 return aloGuess;
             }
         }
         if (guess.pokemon.number == pokeInfoCalculator.get("sandshrew").number){
             System.out.println(scanData.getPokemonType());
-            if (scanData.getPokemonType().contains("ICE")){
+            if (scanData.getPokemonType().contains(pokeInfoCalculator.getTypeName(5))){
                 PokeDist aloGuess = new PokeDist(pokeInfoCalculator.get("alolan sandshrew"), 0);
                 return aloGuess;
             }
         }
         if (guess.pokemon.number == pokeInfoCalculator.get("sandslash").number){
             System.out.println(scanData.getPokemonType());
-            if (scanData.getPokemonType().contains("ICE")){
+            if (scanData.getPokemonType().contains(pokeInfoCalculator.getTypeName(5))){
                 PokeDist aloGuess = new PokeDist(pokeInfoCalculator.get("alolan sandslash"), 0);
                 return aloGuess;
             }
         }
         if (guess.pokemon.number == pokeInfoCalculator.get("vulpix").number){
             System.out.println(scanData.getPokemonType());
-            if (scanData.getPokemonType().contains("ICE")){
+            if (scanData.getPokemonType().contains(pokeInfoCalculator.getTypeName(5))){
                 PokeDist aloGuess = new PokeDist(pokeInfoCalculator.get("alolan vulpix"), 0);
                 return aloGuess;
             }
@@ -200,77 +200,77 @@ public class PokemonNameCorrector {
 
         if (guess.pokemon.number == pokeInfoCalculator.get("ninetales").number){
             System.out.println(scanData.getPokemonType());
-            if (scanData.getPokemonType().contains("STEEL")){
+            if (scanData.getPokemonType().contains(pokeInfoCalculator.getTypeName(5))){
                 PokeDist aloGuess = new PokeDist(pokeInfoCalculator.get("alolan ninetales"), 0);
                 return aloGuess;
             }
         }
         if (guess.pokemon.number == pokeInfoCalculator.get("diglett").number){
             System.out.println(scanData.getPokemonType());
-            if (scanData.getPokemonType().contains("ICE")){
+            if (scanData.getPokemonType().contains(pokeInfoCalculator.getTypeName(16))){
                 PokeDist aloGuess = new PokeDist(pokeInfoCalculator.get("alolan diglett"), 0);
                 return aloGuess;
             }
         }
         if (guess.pokemon.number == pokeInfoCalculator.get("dugtrio").number){
             System.out.println(scanData.getPokemonType());
-            if (scanData.getPokemonType().contains("STEEL")){
+            if (scanData.getPokemonType().contains(pokeInfoCalculator.getTypeName(16))){
                 PokeDist aloGuess = new PokeDist(pokeInfoCalculator.get("alolan dugtrio"), 0);
                 return aloGuess;
             }
         }
         if (guess.pokemon.number == pokeInfoCalculator.get("meowth").number){
             System.out.println(scanData.getPokemonType());
-            if (scanData.getPokemonType().contains("DARK")){
+            if (scanData.getPokemonType().contains(pokeInfoCalculator.getTypeName(15))){
                 PokeDist aloGuess = new PokeDist(pokeInfoCalculator.get("alolan meowth"), 0);
                 return aloGuess;
             }
         }
         if (guess.pokemon.number == pokeInfoCalculator.get("persian").number){
             System.out.println(scanData.getPokemonType());
-            if (scanData.getPokemonType().contains("DARK")){
+            if (scanData.getPokemonType().contains(pokeInfoCalculator.getTypeName(15))){
                 PokeDist aloGuess = new PokeDist(pokeInfoCalculator.get("alolan persian"), 0);
                 return aloGuess;
             }
         }
         if (guess.pokemon.number == pokeInfoCalculator.get("geodude").number){
             System.out.println(scanData.getPokemonType());
-            if (scanData.getPokemonType().contains("ELECTRIC")){
+            if (scanData.getPokemonType().contains(pokeInfoCalculator.getTypeName(3))){
                 PokeDist aloGuess = new PokeDist(pokeInfoCalculator.get("alolan geodude"), 0);
                 return aloGuess;
             }
         }
         if (guess.pokemon.number == pokeInfoCalculator.get("graveler").number){
             System.out.println(scanData.getPokemonType());
-            if (scanData.getPokemonType().contains("ELECTRIC")){
+            if (scanData.getPokemonType().contains(pokeInfoCalculator.getTypeName(3))){
                 PokeDist aloGuess = new PokeDist(pokeInfoCalculator.get("alolan graveler"), 0);
                 return aloGuess;
             }
         }
         if (guess.pokemon.number == pokeInfoCalculator.get("golem").number){
             System.out.println(scanData.getPokemonType());
-            if (scanData.getPokemonType().contains("ELECTRIC")){
+            if (scanData.getPokemonType().contains(pokeInfoCalculator.getTypeName(3))){
                 PokeDist aloGuess = new PokeDist(pokeInfoCalculator.get("alolan golem"), 0);
                 return aloGuess;
             }
         }
         if (guess.pokemon.number == pokeInfoCalculator.get("grimer").number){
             System.out.println(scanData.getPokemonType());
-            if (scanData.getPokemonType().contains("DARK")){
+            if (scanData.getPokemonType().contains(pokeInfoCalculator.getTypeName(15))){
                 PokeDist aloGuess = new PokeDist(pokeInfoCalculator.get("alolan grimer"), 0);
                 return aloGuess;
             }
         }
         if (guess.pokemon.number == pokeInfoCalculator.get("muk").number){
             System.out.println(scanData.getPokemonType());
-            if (scanData.getPokemonType().contains("DARK")){
+            if (scanData.getPokemonType().contains(pokeInfoCalculator.getTypeName(15))){
                 PokeDist aloGuess = new PokeDist(pokeInfoCalculator.get("alolan muk"), 0);
                 return aloGuess;
             }
         }
         if (guess.pokemon.number == pokeInfoCalculator.get("marowak").number){
             System.out.println(scanData.getPokemonType());
-            if (scanData.getPokemonType().contains("GHOST")){
+            if (scanData.getPokemonType().contains(pokeInfoCalculator.getTypeName(1))){
                 PokeDist aloGuess = new PokeDist(pokeInfoCalculator.get("alolan marowak"), 0);
                 return aloGuess;
             }

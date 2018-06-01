@@ -44,6 +44,11 @@ public class Pokemon {
      */
     public final List<Pokemon> evolutions;
 
+    /**
+     * Forms of this Pokemon.
+     * This list dose not include the normal form.
+     * The normal form pokemon is this pokemon itself.
+     */
     public final List<Pokemon> forms;
 
     /**

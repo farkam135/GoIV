@@ -177,9 +177,9 @@ public class PokeInfoCalculator {
 
                 for (int j = 0; j < formsCount[formsCountIndex[i]]; j++) {
                     pokedex.get(i).forms.add(new Pokemon(
-                        String.format("%s,%s",
+                        String.format("%s - %s",
                             pokedex.get(i).name, res.getStringArray(R.array.formNames)[formsStartIndex + j]),
-                        String.format("%s,%s",
+                        String.format("%s - %s",
                             pokedex.get(i).toString(), res.getStringArray(R.array.formNames)[formsStartIndex + j]),
                         i,
                         res.getIntArray(R.array.formAttack)[formsStartIndex + j],

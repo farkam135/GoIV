@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer-array name="formsCount">
+        <item>4</item><!-- Deoxys -->
+        <item>1</item><!-- Exeggutor -->
+    </integer-array>
+
+    <string-array name="formNames">
+        <!-- Deoxys -->
+        <item>Normal Forme</item>
+        <item>Attack Forme</item>
+        <item>Defense Forme</item>
+        <item>Speed Forme</item>
+        <!-- Exeggutor -->
+        <item>Alola Form</item>
+    </string-array>
+
+    <integer-array name="formAttack">
+        <!-- Deoxys -->
+        <item>345</item> <!--DeoxysNormal-->
+        <item>414</item> <!--DeoxysAttack-->
+        <item>144</item> <!--DeoxysDefens-->
+        <item>230</item> <!--DeoxysSpeed -->
+        <!-- Exeggutor -->
+        <item>230</item> <!--ExeggutorAlola-->
+    </integer-array>
+
+    <integer-array name="formDefense">
+        <!-- Deoxys -->
+        <item>115</item> <!--DeoxysNormal-->
+        <item>46</item> <!--DeoxysAttack-->
+        <item>330</item> <!--DeoxysDefens-->
+        <item>218</item> <!--DeoxysSpeed -->
+        <!-- Exeggutor -->
+        <item>158</item> <!--ExeggutorAlola-->
+    </integer-array>
+
+    <integer-array name="formStamina">
+        <!-- Deoxys -->
+        <item>100</item> <!--DeoxysNormal-->
+        <item>100</item> <!--DeoxysAttack-->
+        <item>100</item> <!--DeoxysDefens-->
+        <item>100</item> <!--DeoxysSpeed -->
+        <!-- Exeggutor -->
+        <item>190</item> <!--ExeggutorAlola-->
+    </integer-array>
+</resources>

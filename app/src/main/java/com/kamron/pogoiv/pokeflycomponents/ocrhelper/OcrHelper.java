@@ -1133,8 +1133,8 @@ public class OcrHelper {
         Optional<Integer> evolutionCost = getPokemonEvolutionCostFromImg(pokemonImage,
                 ScanArea.calibratedFromSettings(POKEMON_EVOLUTION_COST_AREA, settings));
 
-        String moveFast = "";
-        String moveCharge = "";
+        String moveFast = null;
+        String moveCharge = null;
         if (isMovesetEnabled) {
             Pair<String, String> moveset = getMovesetFromImg(pokemonImage,
                     estimatedLevelRange,

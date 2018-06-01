@@ -328,12 +328,24 @@ public class MovesetFraction extends MovableFraction {
             }
 
             // Attack score
-            attack.setTextColor(getPowerColor(data.getAtkScore()));
-            attack.setText(scoreFormat.format(data.getAtkScore()));
+            if (data.getAtkScore() != null) {
+                attack.setTextColor(getPowerColor(data.getAtkScore()));
+                attack.setText(scoreFormat.format(data.getAtkScore()));
+            } else {
+                attack.setTextColor(Color.parseColor("#d84315"));
+                attack.setText("<0.5");
+            }
+
 
             // Defense score
-            defense.setTextColor(getPowerColor(data.getDefScore()));
-            defense.setText(scoreFormat.format(data.getDefScore()));
+
+            if (data.getDefScore() != null) {
+                defense.setTextColor(getPowerColor(data.getDefScore()));
+                defense.setText(scoreFormat.format(data.getDefScore()));
+            } else {
+                defense.setTextColor(Color.parseColor("#d84315"));
+                defense.setText("<0.5");
+            }
         }
 
         @OnClick({R.id.text_fast, R.id.text_charge, R.id.text_attack, R.id.text_defense})

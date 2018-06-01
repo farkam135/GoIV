@@ -14,7 +14,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.internal.LinkedTreeMap;
 import com.google.gson.stream.JsonReader;
-import com.kamron.pogoiv.GoIVSettings;
 import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.scanlogic.MovesetData;
 import com.kamron.pogoiv.scanlogic.PokeInfoCalculator;
@@ -31,10 +30,8 @@ import timber.log.Timber;
 /**
  * Created by Johan on 2018-02-25.
  * <p>
- * A class which retrieves information from an online source about movesets.
+ * A class which retrieves information from a source about movesets.
  * <p>
- * This class should be called on application start occasionally, locally cache the retrieved results, but also
- * directly communicate with the movesetfraction class which displays the information.
  */
 
 public class MovesetsManager {
@@ -88,34 +85,6 @@ public class MovesetsManager {
         });
     }
 
-    /**
-     * Updates the local moveset database if necessary.
-     */
-    public void updateIfNeccessary() {
-        if (enoughTimeHasPassedForUpdate()) {
-            forceLocalMovesetDatabaseUpdate();
-        }
-    }
-
-    /**
-     * Forces a redownload of the local moveset database.
-     */
-    public void forceLocalMovesetDatabaseUpdate() {
-        //todo implement
-
-
-        GoIVSettings settings = GoIVSettings.getInstance(null);
-    }
-
-    /**
-     * Check if a certain time has passed so that we want to update the database.
-     *
-     * @return true if enough time has passed.
-     */
-    private boolean enoughTimeHasPassedForUpdate() {
-
-        return true;
-    }
 
     /**
      * Get all the possible movesets for a pokemon, and their attack/ defense score.

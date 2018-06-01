@@ -17,14 +17,15 @@ public class MovesetData {
     private String chargeKey;
     private boolean fastIsLegacy;
     private boolean chargeIsLegacy;
-    private double atkScore;
-    private double defScore;
+    private Double atkScore;
+    private Double defScore;
     private String fastMoveType;
     private String chargeMoveType;
 
     /**
      * Create a new Moveset.
-     * @param fast Localized fast move name
+     *
+     * @param fast   Localized fast move name
      * @param charge Localized charge move name
      */
     public MovesetData(String fast, String charge) {
@@ -34,22 +35,23 @@ public class MovesetData {
 
     /**
      * Create a new Moveset.
-     * @param fastKey Unique key identifying the fast move
-     * @param chargeKey Unique key identifying the charge move
-     * @param fast Localized fast move name
-     * @param charge Localized charge move name
-     * @param fastMoveType Fast move type
+     *
+     * @param fastKey        Unique key identifying the fast move
+     * @param chargeKey      Unique key identifying the charge move
+     * @param fast           Localized fast move name
+     * @param charge         Localized charge move name
+     * @param fastMoveType   Fast move type
      * @param chargeMoveType Charge move type
-     * @param fastIsLegacy Whether the fast move is legacy
+     * @param fastIsLegacy   Whether the fast move is legacy
      * @param chargeIsLegacy Whether the charge move is legacy
-     * @param atkScore A score for the attack power of this moveset
-     * @param defScore A score for the defense power of this moveset
+     * @param atkScore       A score for the attack power of this moveset
+     * @param defScore       A score for the defense power of this moveset
      */
     public MovesetData(String fastKey, String chargeKey,
                        String fast, String charge,
                        String fastMoveType, String chargeMoveType,
                        boolean fastIsLegacy, boolean chargeIsLegacy,
-                       double atkScore, double defScore) {
+                       Double atkScore, Double defScore) {
         this.fastKey = fastKey;
         this.chargeKey = chargeKey;
         this.fast = fast;
@@ -94,17 +96,25 @@ public class MovesetData {
         return chargeIsLegacy;
     }
 
-    public double getAtkScore() {
+    public Double getAtkScore() {
         return atkScore;
     }
 
-    public double getDefScore() {
+    public Double getDefScore() {
         return defScore;
     }
 
     public static class AtkComparator implements Comparator<MovesetData> {
         @Override
         public int compare(MovesetData movesetData, MovesetData other) {
+
+            //The worst moves dont get a score, so they should always be at the end of the list.
+            if (movesetData.getAtkScore() == null) {
+                return 1;
+            }
+            if (other.getAtkScore() == null) {
+                return -1;
+            }
             return Double.compare(other.getAtkScore(), movesetData.getAtkScore());
         }
     }
@@ -112,6 +122,13 @@ public class MovesetData {
     public static class DefComparator implements Comparator<MovesetData> {
         @Override
         public int compare(MovesetData movesetData, MovesetData other) {
+            //The worst moves dont get a score, so they should always be at the end of the list.
+            if (movesetData.getDefScore() == null) {
+                return 1;
+            }
+            if (other.getDefScore() == null) {
+                return -1;
+            }
             return Double.compare(other.getDefScore(), movesetData.getDefScore());
         }
     }

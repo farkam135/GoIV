@@ -125,6 +125,21 @@ public class PokemonNameCorrector {
         if (guess.pokemon == null) {
             guess = getNicknameGuess(scanData.getPokemonName(), pokeInfoCalculator.getPokedex());
         }
+
+        // check Alola form
+        switch (guess.pokemon.number) {
+            case (102): // Exeggutor
+                // check types including dragon
+                if (scanData.getPokemonType().toLowerCase().contains(
+                        pokeInfoCalculator.getTypeName(14).toLowerCase())) {
+                    guess = new PokeDist(pokeInfoCalculator.get(102).forms.get(0), 0);
+                }
+                break;
+
+            default:
+                // do nothing
+        }
+
         return guess;
     }
 

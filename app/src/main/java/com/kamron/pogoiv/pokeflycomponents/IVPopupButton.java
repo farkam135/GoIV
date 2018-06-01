@@ -117,12 +117,16 @@ public class IVPopupButton extends android.support.v7.widget.AppCompatButton {
             int high = highest.percentPerfect;
 
             final StringBuilder text = new StringBuilder();
+            String pokemonName = scanResult.pokemon.name;
+            if (pokemonName.contains(" - ")) { // check including form name
+                pokemonName = pokemonName.replace(" - ", "\n");
+            }
             if (scanResult.getIVCombinationsCount() == 1 || high == low) { // Display something like "IV: 98%"
                 text.append(getContext().getString(
-                        R.string.iv_button_exact_result_preview_format, scanResult.pokemon.name, low));
+                        R.string.iv_button_exact_result_preview_format, pokemonName, low));
             } else { // Display something like "IV: 55 - 87%"
                 text.append(getContext().getString(
-                        R.string.iv_button_range_result_preview_format, scanResult.pokemon.name, low, high));
+                        R.string.iv_button_range_result_preview_format, pokemonName, low, high));
             }
             if (scanResult.levelRange.min != scanResult.levelRange.max) {
                 text.append("*");

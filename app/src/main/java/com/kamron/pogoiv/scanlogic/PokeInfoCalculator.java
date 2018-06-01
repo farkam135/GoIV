@@ -145,6 +145,7 @@ public class PokeInfoCalculator {
         final int[] devolution = res.getIntArray(R.array.devolutionNumber);
         final int[] evolutionCandyCost = res.getIntArray(R.array.evolutionCandyCost);
         final int[] candyNamesArray = res.getIntArray(R.array.candyNames);
+        final int[] formsCountIndex = res.getIntArray(R.array.formsCountIndex);
 
         int pokeListSize = names.length;
         for (int i = 0; i < pokeListSize; i++) {
@@ -164,6 +165,30 @@ public class PokeInfoCalculator {
             } else {
                 candyPokemons.add(pokedex.get(candyNamesArray[i]));
                 basePokemons.add(pokedex.get(i));
+            }
+
+            if (formsCountIndex[i] != -1) {
+                int[] formsCount = res.getIntArray(R.array.formsCount);
+                int formsStartIndex = 0;
+
+                for (int j = 0; j < formsCountIndex[i]; j++) {
+                    formsStartIndex += formsCount[j];
+                }
+
+                for (int j = 0; j < formsCount[formsCountIndex[i]]; j++) {
+                    pokedex.get(i).forms.add(new Pokemon(
+                        String.format("%s - %s",
+                            pokedex.get(i).name, res.getStringArray(R.array.formNames)[formsStartIndex + j]),
+                        String.format("%s - %s",
+                            pokedex.get(i).toString(), res.getStringArray(R.array.formNames)[formsStartIndex + j]),
+                        i,
+                        res.getIntArray(R.array.formAttack)[formsStartIndex + j],
+                        res.getIntArray(R.array.formDefense)[formsStartIndex + j],
+                        res.getIntArray(R.array.formStamina)[formsStartIndex + j],
+                        devolution[i],
+                        evolutionCandyCost[i])
+                    );
+                }
             }
         }
     }
@@ -378,6 +403,25 @@ public class PokeInfoCalculator {
     }
 
     /**
+     * Get all the pokemon forms for a pokemon.
+     *
+     * @param poke a pokemon, example Exeggutor
+     * @return all the pokemon forms, in the example would return Exeggutor normal and Exeggutor Alola
+     */
+    private ArrayList<Pokemon> getForms(Pokemon poke) {
+        ArrayList<Pokemon> list = new ArrayList<>();
+        Pokemon normalFormPokemon = pokedex.get(poke.number);
+        list.add(normalFormPokemon);
+
+        if (normalFormPokemon.forms.isEmpty()) {
+            return list; // normal form only
+        }
+
+        list.addAll(normalFormPokemon.forms);
+        return list;
+    }
+
+    /**
      * Returns the evolution line of a pokemon.
      *
      * @param poke the pokemon to check the evolution line of
@@ -387,10 +431,12 @@ public class PokeInfoCalculator {
         poke = getLowestEvolution(poke);
 
         ArrayList<Pokemon> list = new ArrayList<>();
-        list.add(poke); //add self
-        list.addAll(poke.evolutions); //add all immediate evolutions
-        for (Pokemon evolution : poke.evolutions) {
-            list.addAll(evolution.evolutions);
+        list.addAll(getForms(poke));
+        for (Pokemon evolution2nd : poke.evolutions) {
+            list.addAll(getForms(evolution2nd));
+            for (Pokemon evolution3rd : evolution2nd.evolutions) {
+                list.addAll(getForms(evolution3rd));
+            }
         }
 
         return list;

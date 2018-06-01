@@ -67,7 +67,13 @@ public class ScanResult {
         this.cp = scanData.getPokemonCP().get();
         this.gender = scanData.getPokemonGender();
 
-        LinkedHashSet<MovesetData> m = MovesetsManager.getMovesetsForDexNumber(pokemon.number);
+        LinkedHashSet<MovesetData> m;
+        try{
+            m = MovesetsManager.getMovesetsForDexNumber(pokemon.number);
+        }catch(NullPointerException e){
+            m = null;
+        }
+
         if (m != null) {
             this.movesets = new ArrayList<>(m);
             if (scanData.getFastMove() != null && scanData.getChargeMove() != null) {

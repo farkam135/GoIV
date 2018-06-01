@@ -333,7 +333,7 @@ public class MovesetFraction extends MovableFraction {
                 attack.setText(scoreFormat.format(data.getAtkScore()));
             } else {
                 attack.setTextColor(Color.parseColor("#d84315"));
-                attack.setText("<0.5");
+                attack.setText("<");
             }
 
 
@@ -344,7 +344,7 @@ public class MovesetFraction extends MovableFraction {
                 defense.setText(scoreFormat.format(data.getDefScore()));
             } else {
                 defense.setTextColor(Color.parseColor("#d84315"));
-                defense.setText("<0.5");
+                defense.setText("<");
             }
         }
 

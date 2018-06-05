@@ -89,6 +89,16 @@ public class PokemonNameCorrector {
             }
         }
 
+        //3.1 Azuril and marill have the same evolution cost, but different types.
+        if (scanData.getCandyName().toLowerCase().contains(pokeInfoCalculator.get(182).name.toLowerCase())
+                && (scanData.getEvolutionCandyCost().get() != -1)){ //its not an azumarill
+            //if the scanned data contains the type water, it must be a marill, as azuril is normal type.
+            if (scanData.getPokemonType().contains(pokeInfoCalculator.getTypeName(2))){
+                guess = new PokeDist(pokeInfoCalculator.get(182), 0);
+            } else{
+                guess = new PokeDist(pokeInfoCalculator.get(297), 0);
+            }
+        }
 
         //4. maybe the candy upgrade cost was scanned wrong because the candy icon was interpreted as a number (for
         // example the black candy is not cleaned by the ocr). Try checking if any in the possible evolutions that

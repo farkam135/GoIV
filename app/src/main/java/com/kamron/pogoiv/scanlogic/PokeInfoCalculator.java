@@ -173,95 +173,110 @@ public class PokeInfoCalculator {
                 190, -1, -1);
         pokedex.add(exegguteHardcode);
         pokemap.put("alolan exeggutor", exegguteHardcode);
+        pokeListSize++;
 
-        Pokemon p1 = new Pokemon("Alolan Rattata", "Alolan Rattata", pokeListSize + 1, 103, 70,
+        Pokemon p1 = new Pokemon("Alolan Rattata", "Alolan Rattata", pokeListSize, 103, 70,
                 60, -1, -1);
         pokedex.add(p1);
         pokemap.put("alolan rattata", p1);
+        pokeListSize++;
 
-
-        Pokemon p2 = new Pokemon("Alolan Raticate", "Alolan Raticate", pokeListSize + 2, 135, 159,
+        Pokemon p2 = new Pokemon("Alolan Raticate", "Alolan Raticate", pokeListSize, 135, 159,
                 150, -1, -1);
         pokedex.add(p2);
         pokemap.put("alolan raticate", p2);
+        pokeListSize++;
 
-
-        Pokemon p3 = new Pokemon("Alolan Raichu", "Alolan Raichu", pokeListSize + 3, 201, 172,
+        Pokemon p3 = new Pokemon("Alolan Raichu", "Alolan Raichu", pokeListSize, 201, 172,
                 120, -1, -1);
         pokedex.add(p3);
         pokemap.put("alolan raichu", p3);
+        pokeListSize++;
 
-
-        Pokemon p4 = new Pokemon("Alolan Sandshrew", "Alolan Sandshrew", pokeListSize + 4, 125, 154,
+        Pokemon p4 = new Pokemon("Alolan Sandshrew", "Alolan Sandshrew", pokeListSize, 125, 154,
                 100, -1, -1);
         pokedex.add(p4);
         pokemap.put("alolan sandshrew", p4);
+        pokeListSize++;
 
-        Pokemon p5 = new Pokemon("Alolan Sandslash", "Alolan Sandslash", pokeListSize + 5, 177, 221,
+        Pokemon p5 = new Pokemon("Alolan Sandslash", "Alolan Sandslash", pokeListSize, 177, 221,
                 150, -1, -1);
         pokedex.add(p5);
         pokemap.put("alolan sandslash", p5);
+        pokeListSize++;
 
-        Pokemon p6 = new Pokemon("Alolan Vulpix", "Alolan Vulpix", pokeListSize + 6, 96, 122,
+        Pokemon p6 = new Pokemon("Alolan Vulpix", "Alolan Vulpix", pokeListSize, 96, 122,
                 76, -1, -1);
         pokedex.add(p6);
         pokemap.put("alolan vulpix", p6);
+        pokeListSize++;
 
-        Pokemon p7 = new Pokemon("Alolan Ninetales", "Alolan Ninetales", pokeListSize + 7, 170, 207,
+        Pokemon p7 = new Pokemon("Alolan Ninetales", "Alolan Ninetales", pokeListSize, 170, 207,
                 146, -1, -1);
         pokedex.add(p7);
         pokemap.put("alolan ninetales", p7);
+        pokeListSize++;
 
-        Pokemon p8 = new Pokemon("Alolan Diglett", "Alolan Diglett", pokeListSize + 8, 108, 80,
+        Pokemon p8 = new Pokemon("Alolan Diglett", "Alolan Diglett", pokeListSize, 108, 80,
                 20, -1, -1);
         pokedex.add(p8);
         pokemap.put("alolan diglett", p8);
+        pokeListSize++;
 
-        Pokemon p9 = new Pokemon("Alolan Dugtrio", "Alolan Dugtrio", pokeListSize + 9, 201, 148,
+        Pokemon p9 = new Pokemon("Alolan Dugtrio", "Alolan Dugtrio", pokeListSize, 201, 148,
                 70, -1, -1);
         pokedex.add(p9);
         pokemap.put("alolan dugtrio", p9);
+        pokeListSize++;
 
-        Pokemon p10 = new Pokemon("Alolan Meowth", "Alolan Meowth", pokeListSize + 10, 99, 81,
+        Pokemon p10 = new Pokemon("Alolan Meowth", "Alolan Meowth", pokeListSize, 99, 81,
                 80, -1, -1);
         pokedex.add(p10);
         pokemap.put("alolan meowth", p10);
+        pokeListSize++;
 
-        Pokemon p11 = new Pokemon("Alolan Persian", "Alolan Persian", pokeListSize + 11, 150, 139,
+        Pokemon p11 = new Pokemon("Alolan Persian", "Alolan Persian", pokeListSize, 150, 139,
                 130, -1, -1);
         pokedex.add(p11);
         pokemap.put("alolan persian", p11);
+        pokeListSize++;
 
-        Pokemon p12 = new Pokemon("Alolan Geodude", "Alolan Geodude", pokeListSize + 12, 132, 163,
+        Pokemon p12 = new Pokemon("Alolan Geodude", "Alolan Geodude", pokeListSize, 132, 163,
                 80, -1, -1);
         pokedex.add(p12);
         pokemap.put("alolan geodude", p12);
+        pokeListSize++;
 
-        Pokemon p13 = new Pokemon("Alolan Graveler", "Alolan Graveler", pokeListSize + 13, 164, 196,
+        Pokemon p13 = new Pokemon("Alolan Graveler", "Alolan Graveler", pokeListSize, 164, 196,
                 110, -1, -1);
         pokedex.add(p13);
         pokemap.put("alolan graveler", p13);
+        pokeListSize++;
 
-        Pokemon p14 = new Pokemon("Alolan Golem", "Alolan Golem", pokeListSize + 14, 211, 229,
+        Pokemon p14 = new Pokemon("Alolan Golem", "Alolan Golem", pokeListSize, 211, 229,
                 160, -1, -1);
         pokedex.add(p14);
         pokemap.put("alolan golem", p14);
+        pokeListSize++;
 
-        Pokemon p15 = new Pokemon("Alolan Grimer", "Alolan Grimer", pokeListSize + 15, 135, 90,
+        Pokemon p15 = new Pokemon("Alolan Grimer", "Alolan Grimer", pokeListSize, 135, 90,
                 160, -1, -1);
         pokedex.add(p15);
         pokemap.put("alolan grimer", p15);
+        pokeListSize++;
 
-        Pokemon p16 = new Pokemon("Alolan Muk", "Alolan Muk", pokeListSize + 16, 190, 184,
+        Pokemon p16 = new Pokemon("Alolan Muk", "Alolan Muk", pokeListSize, 190, 184,
                 210, -1, -1);
         pokedex.add(p16);
         pokemap.put("alolan muk", p16);
+        pokeListSize++;
 
 
-        Pokemon p17 = new Pokemon("Alolan Marowak", "Alolan Marowak", pokeListSize + 17, 144, 200,
+        Pokemon p17 = new Pokemon("Alolan Marowak", "Alolan Marowak", pokeListSize, 144, 200,
                 120, -1, -1);
         pokedex.add(p17);
         pokemap.put("alolan marowak", p17);
+        pokeListSize++;
 
     }
 

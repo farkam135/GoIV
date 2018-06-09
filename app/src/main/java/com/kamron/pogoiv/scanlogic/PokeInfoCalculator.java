@@ -133,6 +133,11 @@ public class PokeInfoCalculator {
         return getPokemonNamesArray(res);
     }
 
+    /**
+     * Return the full pokemon display names list, including forms.
+     *
+     * @return the full pokemon display names including forms as string array.
+     */
     public String[] getPokemonNamesWithFormsArray() {
         if (pokeNamesWithForm.length != 0) {
             return pokeNamesWithForm;

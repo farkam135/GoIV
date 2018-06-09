@@ -26,6 +26,7 @@ public class PokeInfoCalculator {
 
     private ArrayList<Pokemon> pokedex = new ArrayList<>();
     private String[] typeNamesArray;
+    private String[] pokeNamesWithForm = {};
 
     /**
      * Pokemons that aren't evolutions of any other one.
@@ -133,14 +134,18 @@ public class PokeInfoCalculator {
     }
 
     public String[] getPokemonNamesWithFormsArray() {
-        ArrayList<String> pokemonNamesWithFormsArray = new ArrayList<String>();
+        if (pokeNamesWithForm.length != 0) {
+            return pokeNamesWithForm;
+        }
+
+        ArrayList<String> pokemonNamesWithFormsArray = new ArrayList<>();
         for (Pokemon poke : getPokedex()) {
             for (Pokemon pokemonForms : getForms(poke)) {
                 pokemonNamesWithFormsArray.add(pokemonForms.toString());
             }
         }
 
-        return pokemonNamesWithFormsArray.toArray(new String[pokemonNamesWithFormsArray.size()]);
+        return pokeNamesWithForm = pokemonNamesWithFormsArray.toArray(new String[pokemonNamesWithFormsArray.size()]);
     }
 
     /**
@@ -205,7 +210,7 @@ public class PokeInfoCalculator {
             }
         }
 
-
+        pokeNamesWithForm = getPokemonNamesWithFormsArray();
     }
 
     /**

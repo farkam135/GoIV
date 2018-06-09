@@ -138,19 +138,19 @@ public class PokeInfoCalculator {
      *
      * @return the full pokemon display names including forms as string array.
      */
-    public String[] getPokemonNamesWithFormsArray() {
+    public String[] getPokemonNamesWithFormArray() {
         if (pokeNamesWithForm.length != 0) {
             return pokeNamesWithForm;
         }
 
-        ArrayList<String> pokemonNamesWithFormsArray = new ArrayList<>();
+        ArrayList<String> pokemonNamesArray = new ArrayList<>();
         for (Pokemon poke : getPokedex()) {
-            for (Pokemon pokemonForms : getForms(poke)) {
-                pokemonNamesWithFormsArray.add(pokemonForms.toString());
+            for (Pokemon pokemonForm : getForms(poke)) {
+                pokemonNamesArray.add(pokemonForm.toString());
             }
         }
 
-        return pokeNamesWithForm = pokemonNamesWithFormsArray.toArray(new String[pokemonNamesWithFormsArray.size()]);
+        return pokeNamesWithForm = pokemonNamesArray.toArray(new String[pokemonNamesArray.size()]);
     }
 
     /**
@@ -215,7 +215,7 @@ public class PokeInfoCalculator {
             }
         }
 
-        pokeNamesWithForm = getPokemonNamesWithFormsArray();
+        pokeNamesWithForm = getPokemonNamesWithFormArray();
     }
 
     /**

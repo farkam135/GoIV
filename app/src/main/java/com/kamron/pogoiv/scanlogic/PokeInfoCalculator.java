@@ -132,6 +132,17 @@ public class PokeInfoCalculator {
         return getPokemonNamesArray(res);
     }
 
+    public String[] getPokemonNamesWithFormsArray() {
+        ArrayList<String> pokemonNamesWithFormsArray = new ArrayList<String>();
+        for (Pokemon poke : getPokedex()) {
+            for (Pokemon pokemonForms : getForms(poke)) {
+                pokemonNamesWithFormsArray.add(pokemonForms.toString());
+            }
+        }
+
+        return pokemonNamesWithFormsArray.toArray(new String[pokemonNamesWithFormsArray.size()]);
+    }
+
     /**
      * Fills the list "pokemon" with the information of all pokemon by reading the
      * arrays in integers.xml and the names from the strings.xml resources.

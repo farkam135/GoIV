@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import com.kamron.pogoiv.GoIVSettings;
 import com.kamron.pogoiv.R;
 
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -489,7 +490,37 @@ public class PokeInfoCalculator {
         return Math.round((highHp + lowHp) / 2f);
     }
 
+    /**
+     * Returns the type name, such as fire or water, in the correct current locale name. However, special characters
+     * such as â, é etc are replaced with their normalized forms a, e etc. So they can be compared with what's
+     * scanned. (The ocr does not recognize special characters such as é).
+     * <p>
+     * Type numbers:
+     * <p>
+     * 0 normal <p>
+     * 1 fire<p>
+     * 2 water<p>
+     * 3 electric<p>
+     * 4 grass<p>
+     * 5 ice<p>
+     * 6 fighting<p>
+     * 7 poison<p>
+     * 8 ground<p>
+     * 9 flying<p>
+     * 10 psychic<p>
+     * 11 bug<p>
+     * 12 rock<p>
+     * 13 ghost<p>
+     * 14 dragon<p>
+     * 15 dark<p>
+     * 16 steel<p>
+     * 17 fairy<p>
+     *
+     * @param typeNameNum The number for the type to get the correct name for.
+     */
     public String getTypeName(int typeNameNum) {
-        return typeNamesArray[typeNameNum];
+        String cleanedType = Normalizer.normalize(typeNamesArray[typeNameNum], Normalizer.Form.NFD);
+        cleanedType = cleanedType.replaceAll("[^\\p{ASCII}]", "");
+        return cleanedType;
     }
 }

@@ -25,7 +25,11 @@ import okhttp3.Request;
 import okhttp3.Response;
 import timber.log.Timber;
 
-
+/**
+ * A class for generating the moveset database json by querying pokebattler.
+ * Run the generateMovesetList test to update the json in
+ * app/src/main/assets/thirdparty/pokebattler//pokemonMovesetData.json.
+ */
 public class MovesetFetchUtilTest {
     //    private static final String BASE_URL = "https://fight.pokebattler.com" ;
 //    private static final String BASE_URL = "http://localhost:8001" ;
@@ -47,7 +51,7 @@ public class MovesetFetchUtilTest {
             )) {
                 writer.write(toDump.toString());
             }
-        } else{
+        } else {
             Log.e("GoIV", "Moveset generation failure: Current build flavor is offline, cannot connect"
                     + "to pokebattler service.");
         }

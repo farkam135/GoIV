@@ -21,12 +21,11 @@ public class MovesetData {
     private boolean chargeIsLegacy;
     private Double atkScore;
     private Double defScore;
-<<<<<<< HEAD
-    private String quickMoveType;
-=======
     private String fastMoveType;
->>>>>>> master
     private String chargeMoveType;
+
+
+
 
     /**
      * Create a new Moveset.
@@ -39,12 +38,27 @@ public class MovesetData {
         this.charge = charge;
     }
 
-<<<<<<< HEAD
-    public MovesetData(String quick, String charge, boolean quickIsLegacy, boolean chargeIsLegacy, Double atkScore,
+
+
+    public MovesetData(String quick,
+                       String charge,
+                       boolean quickIsLegacy,
+                       boolean chargeIsLegacy,
+                       Double atkScore,
                        Double defScore,
-                       String chargeMoveType, String quickMoveType) {
-        this.quick = quick;
-=======
+                       String chargeMoveType,
+                       String quickMoveType) {
+
+            this.fast = quick;
+            this.charge = charge;
+            this.fastMoveType = quickMoveType;
+            this.chargeMoveType = chargeMoveType;
+            this.fastIsLegacy = quickIsLegacy;
+            this.chargeIsLegacy = chargeIsLegacy;
+            this.atkScore = atkScore;
+            this.defScore = defScore;
+
+    }
     /**
      * Create a new Moveset.
      *
@@ -67,7 +81,6 @@ public class MovesetData {
         this.fastKey = fastKey;
         this.chargeKey = chargeKey;
         this.fast = fast;
->>>>>>> master
         this.charge = charge;
         this.fastMoveType = fastMoveType;
         this.chargeMoveType = chargeMoveType;
@@ -146,17 +159,9 @@ public class MovesetData {
         }
     }
 
-<<<<<<< HEAD
-    public static class MoveComparator implements Comparator<MovesetData> {
 
-        @Override public int compare(MovesetData movesetData, MovesetData other) {
-            int retval = other.getQuick().compareTo(movesetData.getQuick());
-            if (retval == 0) {
-                retval = other.getCharge().compareTo(movesetData.getCharge());
-            }
-            return retval;
-        }
-    }
+
+
     public static class Key implements Comparable<Key>{
         private final String quick;
         private final String charge;
@@ -204,8 +209,6 @@ public class MovesetData {
             return retval;
         }
     }
-
-=======
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -222,6 +225,6 @@ public class MovesetData {
     public int hashCode() {
         return Objects.hash(fast, charge);
     }
->>>>>>> master
+
 
 }

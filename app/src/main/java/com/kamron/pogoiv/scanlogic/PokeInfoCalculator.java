@@ -26,6 +26,7 @@ public class PokeInfoCalculator {
 
     private ArrayList<Pokemon> pokedex = new ArrayList<>();
     private String[] typeNamesArray;
+    private String[] pokeNamesWithForm = {};
 
     /**
      * Pokemons that aren't evolutions of any other one.
@@ -133,6 +134,27 @@ public class PokeInfoCalculator {
     }
 
     /**
+     * Return the full pokemon display names list, including forms.
+     *
+     * @return the full pokemon display names including forms as string array.
+     */
+    public String[] getPokemonNamesWithFormArray() {
+        if (pokeNamesWithForm.length != 0) {
+            return pokeNamesWithForm;
+        }
+
+        ArrayList<String> pokemonNamesArray = new ArrayList<>();
+        for (Pokemon poke : getPokedex()) {
+            for (Pokemon pokemonForm : getForms(poke)) {
+                pokemonNamesArray.add(pokemonForm.toString());
+            }
+        }
+
+        pokeNamesWithForm = pokemonNamesArray.toArray(new String[pokemonNamesArray.size()]);
+        return pokeNamesWithForm;
+    }
+
+    /**
      * Fills the list "pokemon" with the information of all pokemon by reading the
      * arrays in integers.xml and the names from the strings.xml resources.
      */
@@ -177,24 +199,27 @@ public class PokeInfoCalculator {
                 }
 
                 for (int j = 0; j < formsCount[formsCountIndex[i]]; j++) {
-                    pokedex.get(i).forms.add(new Pokemon(
-                            String.format("%s - %s",
-                                    pokedex.get(i).name, res.getStringArray(R.array.formNames)[formsStartIndex + j]),
-                            String.format("%s - %s",
-                                    pokedex.get(i).toString(),
-                                    res.getStringArray(R.array.formNames)[formsStartIndex + j]),
-                            i,
+                    String formPokemonName = String.format("%s - %s", // [POKEMON_NAME] - [FORM_NAME]
+                            names[i], res.getStringArray(R.array.formNames)[formsStartIndex + j]);
+                    String formPokemonDisplayName = String.format("%s - %s", // [POKEMON_NAME] - [FORM_NAME]
+                            displayNames[i], res.getStringArray(R.array.formNames)[formsStartIndex + j]);
+                    Pokemon formPokemon = new Pokemon(
+                            formPokemonName, formPokemonDisplayName, i,
                             res.getIntArray(R.array.formAttack)[formsStartIndex + j],
                             res.getIntArray(R.array.formDefense)[formsStartIndex + j],
                             res.getIntArray(R.array.formStamina)[formsStartIndex + j],
                             devolution[i],
-                            evolutionCandyCost[i])
-                    );
+                            evolutionCandyCost[i]);
+                    pokedex.get(i).forms.add(formPokemon);
+                    pokemap.put(formPokemonName.toLowerCase(), formPokemon);
+                    if (!formPokemon.equals(formPokemonDisplayName)) {
+                        pokemap.put(formPokemonDisplayName, formPokemon);
+                    }
                 }
             }
         }
 
-
+        pokeNamesWithForm = getPokemonNamesWithFormArray();
     }
 
     /**

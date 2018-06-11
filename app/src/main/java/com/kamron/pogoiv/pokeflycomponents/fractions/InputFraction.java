@@ -244,7 +244,7 @@ public class InputFraction extends Fraction {
      * Initialises the autocompletetextview which allows people to search for pokemon names.
      */
     private void initializePokemonAutoCompleteTextView() {
-        String[] pokeList = pokefly.getResources().getStringArray(R.array.pokemon);
+        String[] pokeList = pokeInfoCalculator.getPokemonNamesWithFormArray();
         ArrayAdapter<String> adapter = new ArrayAdapter<>(pokefly, R.layout.autocomplete_pokemon_list_item, pokeList);
         autoCompleteTextView1.setAdapter(adapter);
         autoCompleteTextView1.setThreshold(1);

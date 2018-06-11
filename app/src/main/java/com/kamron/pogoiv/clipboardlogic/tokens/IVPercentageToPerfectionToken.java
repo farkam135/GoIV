@@ -6,8 +6,8 @@ import android.content.Context;
 import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.clipboardlogic.ClipboardToken;
 import com.kamron.pogoiv.scanlogic.IVCombination;
-import com.kamron.pogoiv.scanlogic.IVScanResult;
 import com.kamron.pogoiv.scanlogic.PokeInfoCalculator;
+import com.kamron.pogoiv.scanlogic.ScanResult;
 
 /**
  * Token representing how far in IVs % your pokemon is to perfect.
@@ -30,8 +30,8 @@ public class IVPercentageToPerfectionToken extends ClipboardToken {
     }
 
     @SuppressLint("DefaultLocale") @Override
-    public String getValue(IVScanResult ivScanResult, PokeInfoCalculator pokeInfoCalculator) {
-        IVCombination combination = ivScanResult.getHighestIVCombination();
+    public String getValue(ScanResult scanResult, PokeInfoCalculator pokeInfoCalculator) {
+        IVCombination combination = scanResult.getHighestIVCombination();
         if (combination != null) {
             int result = 100 - combination.percentPerfect;
             return String.format("%02d", result);

@@ -5,11 +5,11 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.view.View;
 
 import com.kamron.pogoiv.Pokefly;
 import com.kamron.pogoiv.R;
-import com.kamron.pogoiv.scanlogic.IVScanResult;
 import com.kamron.pogoiv.utils.fractions.Fraction;
 import com.kamron.pogoiv.widgets.recyclerviews.adapters.IVResultsAdapter;
 
@@ -26,13 +26,11 @@ public class IVCombinationsFraction extends Fraction {
 
     private Context context;
     private Pokefly pokefly;
-    private IVScanResult ivScanResult;
 
 
-    public IVCombinationsFraction(@NonNull Pokefly pokefly, @NonNull IVScanResult ivScanResult) {
+    public IVCombinationsFraction(@NonNull Pokefly pokefly) {
         this.context = pokefly;
         this.pokefly = pokefly;
-        this.ivScanResult = ivScanResult;
     }
 
 
@@ -48,13 +46,22 @@ public class IVCombinationsFraction extends Fraction {
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         rvResults.setLayoutManager(layoutManager);
         rvResults.setHasFixedSize(true);
-        ivScanResult.sortCombinations();
-        IVResultsAdapter ivResults = new IVResultsAdapter(ivScanResult, pokefly);
-        rvResults.setAdapter(ivResults);
+        Pokefly.scanResult.sortIVCombinations();
+        rvResults.setAdapter(new IVResultsAdapter(Pokefly.scanResult, pokefly));
     }
 
     @Override public void onDestroy() {
         // Nothing to do
+    }
+
+    @Override
+    public Anchor getAnchor() {
+        return Anchor.BOTTOM;
+    }
+
+    @Override
+    public int getVerticalOffset(@NonNull DisplayMetrics displayMetrics) {
+        return 0;
     }
 
     @OnClick(R.id.btnBack)

@@ -389,9 +389,6 @@
         <item>Groudon</item>
         <item>Rayquaza</item>
         <item>Jirachi</item>
-        <item>Deoxys_Defense</item>
-        <item>Deoxys_Attack</item>
-        <item>Deoxys_Speed</item>
         <item>Deoxys</item>
     </string-array>
     <string-array name="typeName">

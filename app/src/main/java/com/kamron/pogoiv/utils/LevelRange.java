@@ -1,7 +1,5 @@
 package com.kamron.pogoiv.utils;
 
-import android.support.annotation.Nullable;
-
 import com.kamron.pogoiv.scanlogic.Data;
 
 /**
@@ -63,14 +61,8 @@ public class LevelRange {
      * before: lower:5 - higher:7,
      * after-> lower:5.5 - higher: 5.5.
      */
-    public void inc(@Nullable Integer trainerLevel) {
-        final double maxPossible;
-        if (trainerLevel != null) {
-            maxPossible = Data.trainerLevelToMaxPokeLevel(trainerLevel);
-        } else {
-            maxPossible = Data.MAXIMUM_POKEMON_LEVEL;
-        }
-        min = Math.min(min + 0.5, maxPossible);
+    public void inc() {
+        min = Math.min(min + 0.5, Data.MAXIMUM_POKEMON_LEVEL);
         max = min;
     }
 

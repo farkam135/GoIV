@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.kamron.pogoiv.GoIVSettings;
 import com.kamron.pogoiv.R;
@@ -17,14 +18,13 @@ import java.util.HashSet;
  * Created by Johan on 2016-12-01.
  * A class to handle automatic scanning of appraisal information.
  */
-public class AutoAppraisal {
+public class AppraisalManager {
 
-    ScreenScan screenScanner = new ScreenScan(); //The runnable that keeps scanning the screen
-    Handler handler = new Handler();
+    private ScreenScan autoScreenScanner = new ScreenScan();
+    private Handler handler = new Handler();
     private GoIVSettings settings;
 
     private ScreenGrabber screenGrabber;
-    Context context;
 
     private ArrayList<OnAppraisalEventListener> eventListeners = new ArrayList<>();
 
@@ -34,7 +34,7 @@ public class AutoAppraisal {
     private int numRetries = 0;
     private boolean autoAppraisalDone = false;
 
-    public IVPercentRange appraisalIVPercentRange = IVPercentRange.UNKNOWN;
+    public IVSumRange appraisalIVSumRange = IVSumRange.UNKNOWN;
     public HashSet<HighestStat> highestStats = new HashSet<>();
     public IVValueRange appraisalHighestStatValueRange = IVValueRange.UNKNOWN;
     public HashSet<StatModifier> statModifiers = new HashSet<>();
@@ -61,11 +61,14 @@ public class AutoAppraisal {
     private String statsrange4_phrase2;
 
 
-    public AutoAppraisal(@NonNull ScreenGrabber screenGrabber, @NonNull Context context) {
-        this.context = context;
+    /**
+     * Instantiate the appraisal logic handler. If screenGrabber is not null, enables auto appraisal.
+     * @param screenGrabber The helper class that gets the screenshots from the MediaProjection API
+     */
+    public AppraisalManager(@Nullable ScreenGrabber screenGrabber, @NonNull Context context) {
         this.screenGrabber = screenGrabber;
         settings = GoIVSettings.getInstance(context);
-        getAppraisalPhrases();
+        getAppraisalPhrases(context);
     }
 
     public void addOnAppraisalEventListener(OnAppraisalEventListener eventListener) {
@@ -76,7 +79,7 @@ public class AutoAppraisal {
         eventListeners.remove(eventListener);
     }
 
-    private void getAppraisalPhrases() {
+    private void getAppraisalPhrases(@NonNull Context context) {
         highest_stat_att = context.getString(R.string.highest_stat_att);
         highest_stat_def = context.getString(R.string.highest_stat_def);
         highest_stat_hp = context.getString(R.string.highest_stat_hp);
@@ -169,8 +172,8 @@ public class AutoAppraisal {
      * @param delay_millis The number of milliseconds that the scan will be delayed before firing off.
      */
     private void scanAppraisalText(int delay_millis) {
-        handler.removeCallbacks(screenScanner);
-        handler.postDelayed(screenScanner, delay_millis);
+        handler.removeCallbacks(autoScreenScanner);
+        handler.postDelayed(autoScreenScanner, delay_millis);
     }
 
     /**
@@ -178,7 +181,7 @@ public class AutoAppraisal {
      */
     public void reset() {
         // Delete values
-        appraisalIVPercentRange = IVPercentRange.UNKNOWN;
+        appraisalIVSumRange = IVSumRange.UNKNOWN;
         highestStats.clear();
         appraisalHighestStatValueRange = IVValueRange.UNKNOWN;
         statModifiers.clear();
@@ -194,7 +197,7 @@ public class AutoAppraisal {
     }
 
     /**
-     * Alters the state of the AutoAppraisal instance to reflect the added information of the appraise text.
+     * Alters the state of the AppraisalManager instance to reflect the added information of the appraise text.
      *
      * @param appraiseText Text such as "...pokemon is breathtaking..."
      * @param hash the hash of the bitmap used by ocr
@@ -202,12 +205,12 @@ public class AutoAppraisal {
     private void addInfoFromAppraiseText(String appraiseText, String hash) {
         boolean match = false;
 
-        if (appraisalIVPercentRange == AutoAppraisal.IVPercentRange.UNKNOWN) {
+        if (appraisalIVSumRange == IVSumRange.UNKNOWN) {
             // Only if none of the IVRange checkboxes have been checked.
             // See if appraiseText matches any of the IVRange strings
             match = setIVRangeWith(appraiseText);
         }
-        if (!match && appraisalIVPercentRange != AutoAppraisal.IVPercentRange.UNKNOWN) {
+        if (!match && appraisalIVSumRange != IVSumRange.UNKNOWN) {
             // Only if IVRange is done and have not matched yet.
             // See if appraiseText matches any of the Highest Stats strings
             match = setHighestStatsWith(appraiseText);
@@ -311,28 +314,28 @@ public class AutoAppraisal {
         if (appraiseText.toLowerCase().contains(ivrange1_phrase1)
                 || (appraiseText.toLowerCase().contains(ivrange1_phrase2))) {
             for (OnAppraisalEventListener eventListener : eventListeners) {
-                eventListener.selectIVPercentRange(IVPercentRange.RANGE_81_100);
+                eventListener.selectIVSumRange(IVSumRange.RANGE_37_45);
             }
             return true;
         }
         if (appraiseText.toLowerCase().contains(ivrange2_phrase1)
                 || (appraiseText.toLowerCase().contains(ivrange2_phrase2))) {
             for (OnAppraisalEventListener eventListener : eventListeners) {
-                eventListener.selectIVPercentRange(IVPercentRange.RANGE_61_80);
+                eventListener.selectIVSumRange(IVSumRange.RANGE_30_36);
             }
             return true;
         }
         if (appraiseText.toLowerCase().contains(ivrange3_phrase1)
                 || (appraiseText.toLowerCase().contains(ivrange3_phrase2))) {
             for (OnAppraisalEventListener eventListener : eventListeners) {
-                eventListener.selectIVPercentRange(IVPercentRange.RANGE_41_60);
+                eventListener.selectIVSumRange(IVSumRange.RANGE_23_29);
             }
             return true;
         }
         if (appraiseText.toLowerCase().contains(ivrange4_phrase1)
                 || (appraiseText.toLowerCase().contains(ivrange4_phrase2))) {
             for (OnAppraisalEventListener eventListener : eventListeners) {
-                eventListener.selectIVPercentRange(IVPercentRange.RANGE_0_40);
+                eventListener.selectIVSumRange(IVSumRange.RANGE_0_22);
             }
             return true;
         }
@@ -349,7 +352,7 @@ public class AutoAppraisal {
         public void run() {
             Bitmap screen = screenGrabber.grabScreen();
             if (screen != null) {
-                String appraiseText = OcrHelper.getAppraisalText(context, settings, screen);
+                String appraiseText = OcrHelper.getAppraisalText(settings, screen);
                 String hash = appraiseText.substring(0, appraiseText.indexOf("#"));
                 String text = appraiseText.substring(appraiseText.indexOf("#") + 1);
                 addInfoFromAppraiseText(text, hash);
@@ -357,19 +360,19 @@ public class AutoAppraisal {
         }
     }
 
-    public enum IVPercentRange {
-        UNKNOWN(0, 100),
-        RANGE_0_40(0, 40),
-        RANGE_41_60(41, 60),
-        RANGE_61_80(61, 80),
-        RANGE_81_100(81, 100);
+    public enum IVSumRange {
+        UNKNOWN(0, 45),
+        RANGE_0_22(0, 22),
+        RANGE_23_29(23, 29),
+        RANGE_30_36(30, 36),
+        RANGE_37_45(37, 45);
 
-        public int minPercent;
-        public int maxPercent;
+        public float minSum;
+        public float maxSum;
 
-        IVPercentRange(int minPercent, int maxPercent) {
-            this.minPercent = minPercent;
-            this.maxPercent = maxPercent;
+        IVSumRange(int minSum, float maxSum) {
+            this.minSum = minSum;
+            this.maxSum = maxSum;
         }
     }
 
@@ -407,7 +410,7 @@ public class AutoAppraisal {
     }
 
     public interface OnAppraisalEventListener {
-        void selectIVPercentRange(IVPercentRange range);
+        void selectIVSumRange(IVSumRange range);
 
         void selectHighestStat(HighestStat stat);
 

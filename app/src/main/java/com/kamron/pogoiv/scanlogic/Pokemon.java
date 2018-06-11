@@ -12,24 +12,28 @@ import java.util.List;
 public class Pokemon {
 
     public enum Gender {
-        F("♀", "f"),
-        M("♂", "m"),
-        N("", "n");
+        F("♀", "F"),
+        M("♂", "M"),
+        N("", "N");
 
         private String symbol;
-        private String character;
+        private String letter;
 
-        Gender(@NonNull String symbol, @NonNull String character) {
+        Gender(@NonNull String symbol, @NonNull String letter) {
             this.symbol = symbol;
-            this.character = character;
+            this.letter = letter;
         }
 
         @Override public String toString() {
+            return letter;
+        }
+
+        public String getSymbol() {
             return symbol;
         }
 
-        public String getCharacter() {
-            return character;
+        public String getLetter() {
+            return letter;
         }
     }
 
@@ -39,6 +43,14 @@ public class Pokemon {
      * Pokedex number, not be consecutive, etc.
      */
     public final List<Pokemon> evolutions;
+
+
+    /**
+     * Forms of this Pokemon. (Such as Alolan forms.)
+     * This list dose not include the normal form.
+     * The normal form pokemon is this pokemon itself.
+     */
+    public final List<Pokemon> forms;
 
     /**
      * Pokemon name for OCR, this is what you saw in PokemonGo app.
@@ -67,6 +79,7 @@ public class Pokemon {
         this.baseStamina = baseStamina;
         this.devoNumber = devoNumber;
         this.evolutions = new ArrayList<>();
+        this.forms = new ArrayList<>();
         this.candyEvolutionCost = candyEvolutionCost;
     }
 

@@ -87,7 +87,6 @@
     <string name="title_activity_credits">CreditsActivity</string>
     <string name="app_credits_title">Crédits</string>
     <string name="view_credits_button">viewCredits</string>
-    <string name="manual_screenshot_mode_key">manualScreenshotMode</string>
     <string name="android_sub5_warning">GoIV a détecté que votre téléphone n\'a pas l\'API MediaProjection, qui est utilisée pour montrer automatiquement le bouton IV. Cela pourrait être corrigé en mettant à jour votre téléphone vers Android 5 ou plus. L\'application va se restreindre au mode Capture d\'écran pour éviter de crasher. Vous pouvez utiliser GoIV en prenant une capture d\'écran manuellement, ce qui se fait en maintenant les boutons home+power pendant une courte durée. Nous sommes désolés pour cet inconvénient.</string>
     <string name="copy_to_clip_show_toast_setting_summary">Montre un aperçu de ce qui a été copié dans une petite fenêtre</string>
     <string name="copy_to_clip_show_toast_setting">Montrer aperçu du presse-papier</string>

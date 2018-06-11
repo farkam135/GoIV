@@ -24,14 +24,17 @@
             android:layout_width="48dp"
             android:layout_height="40dp"
             android:text="@string/back"
-            android:src="?attr/homeAsUpIndicator" />
+            android:src="@drawable/ic_arrow_back_white_24dp"
+            android:contentDescription="@string/back" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="IV scan results" />
+            android:text="@string/fraction_iv_title"
+            android:maxLines="1"
+            android:ellipsize="end" />
 
         <ImageButton
             style="?attr/borderlessButtonStyle"
@@ -39,16 +42,17 @@
             android:layout_width="48dp"
             android:layout_height="40dp"
             android:text="@string/close"
-            android:src="@drawable/abc_ic_clear_material" />
+            android:src="@drawable/ic_clear_white_24dp"
+            android:contentDescription="@string/close" />
 
     </LinearLayout>
 
     <info.hoang8f.android.segmented.SegmentedGroup
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="4dp"
+        android:layout_margin="0dp"
         android:orientation="horizontal"
-        app:sc_corner_radius="2dp"
+        app:sc_corner_radius="0dp"
         app:sc_tint_color="@color/colorPrimary">
 
         <RadioButton
@@ -56,7 +60,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Power up"
+            android:text="@string/fraction_powerup_tab_label"
             android:textAllCaps="true"
             style="@style/RadioButton" />
 
@@ -65,7 +69,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="IV"
+            android:text="@string/fraction_iv_tab_label"
             android:textAllCaps="true"
             android:checked="true"
             style="@style/RadioButton" />
@@ -75,7 +79,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Moveset"
+            android:text="@string/fraction_moveset_tab_label"
             android:textAllCaps="true"
             style="@style/RadioButton" />
 

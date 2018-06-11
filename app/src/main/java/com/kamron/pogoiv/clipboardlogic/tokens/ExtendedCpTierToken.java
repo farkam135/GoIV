@@ -5,9 +5,9 @@ import android.content.Context;
 import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.clipboardlogic.ClipboardToken;
 import com.kamron.pogoiv.scanlogic.IVCombination;
-import com.kamron.pogoiv.scanlogic.IVScanResult;
 import com.kamron.pogoiv.scanlogic.PokeInfoCalculator;
 import com.kamron.pogoiv.scanlogic.Pokemon;
+import com.kamron.pogoiv.scanlogic.ScanResult;
 
 import java.util.Deque;
 import java.util.LinkedList;
@@ -54,7 +54,7 @@ public class ExtendedCpTierToken extends ClipboardToken {
     }
 
     @Override
-    public String getValue(IVScanResult ivs, PokeInfoCalculator pokeInfoCalculator) {
+    public String getValue(ScanResult ivs, PokeInfoCalculator pokeInfoCalculator) {
         final IVCombination bestCombination = Objects.requireNonNull(ivs).getHighestIVCombination();
         if (bestCombination == null) {
             return "??";

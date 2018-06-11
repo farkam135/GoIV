@@ -17,6 +17,7 @@ import com.google.common.collect.FluentIterable;
 import com.kamron.pogoiv.BuildConfig;
 import com.kamron.pogoiv.R;
 
+import org.apache.commons.math3.distribution.NormalDistribution;
 import org.opencv.android.Utils;
 import org.opencv.core.Core;
 import org.opencv.core.CvType;
@@ -580,8 +581,8 @@ public class ScanFieldAutomaticLocator {
         }
 
         candidates = FluentIterable.from(candidates)
-                // Keep only rect with bottom coordinate inside half of the standard deviation
-                .filter(ByStandardDeviationOnBottomY.of(candidates, 0.5f))
+                // Remove the outliers
+                .filter(ByChauvenetCriterionOnBottomY.of(candidates))
                 .toList();
 
         //noinspection PointlessBooleanExpression
@@ -668,8 +669,8 @@ public class ScanFieldAutomaticLocator {
         }
 
         candidates = FluentIterable.from(candidates)
-                // Keep only rect with bottom coordinate inside half of the standard deviation
-                .filter(ByStandardDeviationOnBottomY.of(candidates, 0.5f))
+                // Remove the outliers
+                .filter(ByChauvenetCriterionOnBottomY.of(candidates))
                 .toList();
 
         //noinspection PointlessBooleanExpression
@@ -749,8 +750,8 @@ public class ScanFieldAutomaticLocator {
         }
 
         candidates = FluentIterable.from(candidates)
-                // Keep only rect with bottom coordinate inside half of the standard deviation
-                .filter(ByStandardDeviationOnBottomY.of(candidates, 0.5f))
+                /// Remove the outliers
+                .filter(ByChauvenetCriterionOnBottomY.of(candidates))
                 .toList();
 
         //noinspection PointlessBooleanExpression
@@ -835,8 +836,8 @@ public class ScanFieldAutomaticLocator {
         }
 
         candidates = FluentIterable.from(candidates)
-                // Keep only rect with bottom coordinate inside half of the standard deviation
-                .filter(ByStandardDeviationOnBottomY.of(candidates, 0.5f))
+                // Remove the outliers
+                .filter(ByChauvenetCriterionOnBottomY.of(candidates))
                 .toList();
 
         //noinspection PointlessBooleanExpression
@@ -974,8 +975,8 @@ public class ScanFieldAutomaticLocator {
         }
 
         candidates = FluentIterable.from(candidates)
-                // Keep only rect with bottom coordinate inside half of the standard deviation
-                .filter(ByStandardDeviationOnBottomY.of(candidates, 0.5f))
+                // Remove the outliers
+                .filter(ByChauvenetCriterionOnBottomY.of(candidates))
                 .toList();
 
         //noinspection PointlessBooleanExpression
@@ -1070,8 +1071,8 @@ public class ScanFieldAutomaticLocator {
         }
 
         candidates = FluentIterable.from(candidates)
-                // Keep only rect with bottom coordinate inside the standard deviation
-                .filter(ByStandardDeviationOnBottomY.of(candidates, 1f))
+                // Remove the outliers
+                .filter(ByChauvenetCriterionOnBottomY.of(candidates))
                 .toList();
 
         //noinspection PointlessBooleanExpression
@@ -1161,8 +1162,8 @@ public class ScanFieldAutomaticLocator {
         }
 
         candidates = FluentIterable.from(candidates)
-                // Keep only rect with bottom coordinate inside half of the standard deviation
-                .filter(ByStandardDeviationOnBottomY.of(candidates, 0.5f))
+                // Remove the outliers
+                .filter(ByChauvenetCriterionOnBottomY.of(candidates))
                 .toList();
 
         //noinspection PointlessBooleanExpression
@@ -1552,20 +1553,25 @@ public class ScanFieldAutomaticLocator {
         }
     }
 
-    private static class ByStandardDeviationOnBottomY implements Predicate<Rect> {
-        private int avgBottom;
-        private int stdDeviation;
-        private float deviations;
+    /**
+     * The idea behind Chauvenet's criterion is to find a probability band, centered on the mean of a normal
+     * distribution, that should reasonably contain all n samples of a data set.
+     * Values outside this range are considered outliers and discarded.
+     */
+    private static class ByChauvenetCriterionOnBottomY implements Predicate<Rect> {
+        private NormalDistribution normalDistribution;
+        private float significanceLevel;
 
-        private ByStandardDeviationOnBottomY(int avgBottom, int stdDeviation, float deviations) {
-            this.avgBottom = avgBottom;
-            this.stdDeviation = stdDeviation;
-            this.deviations = deviations;
+        private ByChauvenetCriterionOnBottomY(int avgBottom, int stdDeviation, float significanceLevel) {
+            if (stdDeviation > 0) {
+                this.normalDistribution = new NormalDistribution(avgBottom, stdDeviation);
+            }
+            this.significanceLevel = significanceLevel;
         }
 
-        public static ByStandardDeviationOnBottomY of(List<Rect> rectCollection, float deviations) {
+        public static ByChauvenetCriterionOnBottomY of(List<Rect> rectCollection) {
             if (rectCollection.size() == 0) {
-                return new ByStandardDeviationOnBottomY(0, 0, deviations);
+                return new ByChauvenetCriterionOnBottomY(0, 1, 0.5f);
             }
 
             // Compute the average bottom Y coordinate
@@ -1582,11 +1588,18 @@ public class ScanFieldAutomaticLocator {
             }
             int stdDeviation = (int) Math.round(Math.sqrt(variancesSum / rectCollection.size()));
 
-            return new ByStandardDeviationOnBottomY(avgBottom, stdDeviation, deviations);
+            return new ByChauvenetCriterionOnBottomY(avgBottom, stdDeviation, 0.5f / rectCollection.size());
         }
 
         @Override public boolean apply(@Nullable Rect input) {
-            return input != null && Math.abs(input.y + input.height - avgBottom) <= stdDeviation * deviations;
+            if (input == null) {
+                return false;
+            }
+            if (normalDistribution == null) {
+                return true;
+            }
+            double probabilityValue = normalDistribution.cumulativeProbability(input.y + input.height);
+            return probabilityValue > significanceLevel; // Return false if outlier
         }
     }
 

@@ -26,6 +26,10 @@ If `GoIVCodeStyle.xml` has changed, close Android Studio, copy our file over the
 
 ## Optional Set-up
 
+### Discuss in discord channel
+Talking about your idea / contribution with the other developers before creating a PR can save enourmous amounts of time, as many issues have already been discussed, and your idea might have already been rejected due to previous issues. Please ask / talk about any idea you have before you create it!
+https://discord.gg/Z2QKkZ7
+
 ### CheckStyle Plugin
 This plugin checks the codebase for violations of coding style.
 * Install CheckStyle Plugin (`File > Settings > Plugins > Browse Repositories > Search 'CheckStyle-IDEA' > Install`)

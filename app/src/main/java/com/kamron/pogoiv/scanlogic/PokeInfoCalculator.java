@@ -1,6 +1,7 @@
 package com.kamron.pogoiv.scanlogic;
 
 
+import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Build;
@@ -9,8 +10,8 @@ import android.support.annotation.Nullable;
 
 import com.kamron.pogoiv.GoIVSettings;
 import com.kamron.pogoiv.R;
-import com.kamron.pogoiv.utils.LevelRange;
 
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -26,6 +27,7 @@ public class PokeInfoCalculator {
 
     private ArrayList<Pokemon> pokedex = new ArrayList<>();
     private String[] typeNamesArray;
+    private String[] pokeNamesWithForm = {};
 
     /**
      * Pokemons that aren't evolutions of any other one.
@@ -41,10 +43,10 @@ public class PokeInfoCalculator {
 
     private HashMap<String, Pokemon> pokemap = new HashMap<>();
 
-    @NonNull
-    public static synchronized PokeInfoCalculator getInstance(@NonNull GoIVSettings settings, @NonNull Resources res) {
+
+    public static synchronized @NonNull PokeInfoCalculator getInstance(@NonNull Context context) {
         if (instance == null) {
-            instance = new PokeInfoCalculator(settings, res);
+            instance = new PokeInfoCalculator(GoIVSettings.getInstance(context), context.getResources());
         }
         return instance;
     }
@@ -54,16 +56,15 @@ public class PokeInfoCalculator {
      *
      * @return the already activated instance of PokeInfoCalculator.
      */
-    @Nullable
-    public static PokeInfoCalculator getInstance() {
+    public static @Nullable PokeInfoCalculator getInstance() {
         return instance;
     }
 
     /**
      * Creates a pokemon info calculator with the pokemon as argument.
      *
-     * @param settings  Settings instance
-     * @param res       System resources
+     * @param settings Settings instance
+     * @param res      System resources
      */
     private PokeInfoCalculator(@NonNull GoIVSettings settings, @NonNull Resources res) {
         populatePokemon(settings, res);
@@ -104,7 +105,7 @@ public class PokeInfoCalculator {
         return pokemap.get(name.toLowerCase());
     }
 
-    private static String[] getPokemonNamesArray(Resources res) {
+    public static String[] getPokemonNamesArray(Resources res) {
         if (res.getBoolean(R.bool.use_default_pokemonsname_as_ocrstring)) {
             // If flag ON, force to use English strings as pokemon name for OCR.
             Configuration conf = res.getConfiguration();
@@ -134,6 +135,27 @@ public class PokeInfoCalculator {
     }
 
     /**
+     * Return the full pokemon display names list, including forms.
+     *
+     * @return the full pokemon display names including forms as string array.
+     */
+    public String[] getPokemonNamesWithFormArray() {
+        if (pokeNamesWithForm.length != 0) {
+            return pokeNamesWithForm;
+        }
+
+        ArrayList<String> pokemonNamesArray = new ArrayList<>();
+        for (Pokemon poke : getPokedex()) {
+            for (Pokemon pokemonForm : getForms(poke)) {
+                pokemonNamesArray.add(pokemonForm.toString());
+            }
+        }
+
+        pokeNamesWithForm = pokemonNamesArray.toArray(new String[pokemonNamesArray.size()]);
+        return pokeNamesWithForm;
+    }
+
+    /**
      * Fills the list "pokemon" with the information of all pokemon by reading the
      * arrays in integers.xml and the names from the strings.xml resources.
      */
@@ -146,6 +168,7 @@ public class PokeInfoCalculator {
         final int[] devolution = res.getIntArray(R.array.devolutionNumber);
         final int[] evolutionCandyCost = res.getIntArray(R.array.evolutionCandyCost);
         final int[] candyNamesArray = res.getIntArray(R.array.candyNames);
+        final int[] formsCountIndex = res.getIntArray(R.array.formsCountIndex);
 
         int pokeListSize = names.length;
         for (int i = 0; i < pokeListSize; i++) {
@@ -166,11 +189,42 @@ public class PokeInfoCalculator {
                 candyPokemons.add(pokedex.get(candyNamesArray[i]));
                 basePokemons.add(pokedex.get(i));
             }
+
+            //Check for different pokemon forms, such as alolan forms, and add them to the formsCount.
+            if (formsCountIndex[i] != -1) {
+                int[] formsCount = res.getIntArray(R.array.formsCount);
+                int formsStartIndex = 0;
+
+                for (int j = 0; j < formsCountIndex[i]; j++) {
+                    formsStartIndex += formsCount[j];
+                }
+
+                for (int j = 0; j < formsCount[formsCountIndex[i]]; j++) {
+                    String formPokemonName = String.format("%s - %s", // [POKEMON_NAME] - [FORM_NAME]
+                            names[i], res.getStringArray(R.array.formNames)[formsStartIndex + j]);
+                    String formPokemonDisplayName = String.format("%s - %s", // [POKEMON_NAME] - [FORM_NAME]
+                            displayNames[i], res.getStringArray(R.array.formNames)[formsStartIndex + j]);
+                    Pokemon formPokemon = new Pokemon(
+                            formPokemonName, formPokemonDisplayName, i,
+                            res.getIntArray(R.array.formAttack)[formsStartIndex + j],
+                            res.getIntArray(R.array.formDefense)[formsStartIndex + j],
+                            res.getIntArray(R.array.formStamina)[formsStartIndex + j],
+                            devolution[i],
+                            evolutionCandyCost[i]);
+                    pokedex.get(i).forms.add(formPokemon);
+                    pokemap.put(formPokemonName.toLowerCase(), formPokemon);
+                    if (!formPokemon.equals(formPokemonDisplayName)) {
+                        pokemap.put(formPokemonDisplayName, formPokemon);
+                    }
+                }
+            }
         }
+
+        pokeNamesWithForm = getPokemonNamesWithFormArray();
     }
 
     /**
-     * Gets the needed required candy and stardust to hit max level (relative to trainer level)
+     * Gets the needed required candy and stardust to hit max level (relative to trainer level).
      *
      * @param goalLevel             The level to reach
      * @param estimatedPokemonLevel The estimated level of hte pokemon
@@ -228,78 +282,55 @@ public class PokeInfoCalculator {
 
     /**
      * Calculates all the IV information that can be gained from the pokemon level, hp and cp
-     * and fills the information in an IVScanResult, which is returned.
+     * and fills the information in an ScanResult.
      *
-     * @param estimatedPokemonLevel The estimated pokemon level range
-     * @param pokemonHP             The pokemon HP
-     * @param pokemonCP             The pokemon CP
-     * @return An IVScanResult which contains the information calculated about the pokemon, or null if there are too
-     * many possibilities or if there are none.
+     * @param scanResult Pokefly scan results
      */
-    public IVScanResult getIVPossibilities(Pokemon selectedPokemon, LevelRange estimatedPokemonLevel,
-                                           int pokemonHP, int pokemonCP, Pokemon.Gender pokemonGender) {
+    public void getIVPossibilities(ScanResult scanResult) {
+        scanResult.clearIVCombinations();
 
-        if (estimatedPokemonLevel.min == estimatedPokemonLevel.max) {
-            return getSingleLevelIVPossibility(selectedPokemon, estimatedPokemonLevel.min, pokemonHP, pokemonCP,
-                    pokemonGender);
+        if (scanResult.levelRange.min == scanResult.levelRange.max) {
+            getSingleLevelIVPossibility(scanResult, scanResult.levelRange.min);
         }
 
-        List<IVScanResult> possibilities = new ArrayList<>();
-        for (double i = estimatedPokemonLevel.min; i <= estimatedPokemonLevel.max; i += 0.5) {
-            possibilities.add(getSingleLevelIVPossibility(selectedPokemon, i, pokemonHP, pokemonCP, pokemonGender));
+        for (double i = scanResult.levelRange.min; i <= scanResult.levelRange.max; i += 0.5) {
+            getSingleLevelIVPossibility(scanResult, i);
         }
-
-        IVScanResult result = new IVScanResult(selectedPokemon, estimatedPokemonLevel, pokemonCP, pokemonGender);
-        for (IVScanResult ivs : possibilities) {
-            result.addPossibilitiesFrom(ivs);
-        }
-
-        return result;
     }
 
     /**
      * Calculates all the IV information that can be gained from the pokemon level, hp and cp
-     * and fills the information in an IVScanResult, which is returned.
+     * and fills the information in an ScanResult.
      *
-     * @param estimatedPokemonLevel The estimated pokemon level
-     * @param pokemonHP             THe pokemon hp
-     * @param pokemonCP             The pokemonCP
-     * @return An IVScanResult which contains the information calculated about the pokemon, or null if there are too
-     * many possibilities.
+     * @param scanResult Pokefly scan results
+     *                   many possibilities.
      */
-    private IVScanResult getSingleLevelIVPossibility(Pokemon selectedPokemon, double estimatedPokemonLevel,
-                                                     int pokemonHP, int pokemonCP, Pokemon.Gender pokemonGender) {
-        int baseAttack = selectedPokemon.baseAttack;
-        int baseDefense = selectedPokemon.baseDefense;
-        int baseStamina = selectedPokemon.baseStamina;
+    private void getSingleLevelIVPossibility(ScanResult scanResult, double level) {
+        int baseAttack = scanResult.pokemon.baseAttack;
+        int baseDefense = scanResult.pokemon.baseDefense;
+        int baseStamina = scanResult.pokemon.baseStamina;
 
-        double lvlScalar = Data.getLevelCpM(estimatedPokemonLevel);
+        double lvlScalar = Data.getLevelCpM(level);
         double lvlScalarPow2 = Math.pow(lvlScalar, 2) * 0.1; // instead of computing again in every loop
         //IV vars for lower and upper end cp ranges
 
-
-        IVScanResult returner = ScanContainer.createIVScanResult(selectedPokemon, new LevelRange(estimatedPokemonLevel),
-                pokemonCP, pokemonGender);
         for (int staminaIV = 0; staminaIV < 16; staminaIV++) {
             int hp = (int) Math.max(Math.floor((baseStamina + staminaIV) * lvlScalar), 10);
-            if (hp == pokemonHP) {
+            if (hp == scanResult.hp) {
                 double lvlScalarStamina = Math.sqrt(baseStamina + staminaIV) * lvlScalarPow2;
                 for (int defenseIV = 0; defenseIV < 16; defenseIV++) {
                     for (int attackIV = 0; attackIV < 16; attackIV++) {
                         int cp = Math.max(10, (int) Math.floor((baseAttack + attackIV) * Math.sqrt(baseDefense
                                 + defenseIV) * lvlScalarStamina));
-                        if (cp == pokemonCP) {
-                            returner.addIVCombination(attackIV, defenseIV, staminaIV);
+                        if (cp == scanResult.cp) {
+                            scanResult.addIVCombination(attackIV, defenseIV, staminaIV);
                         }
                     }
                 }
-            } else if (hp > pokemonHP) {
+            } else if (hp > scanResult.hp) {
                 break;
             }
         }
-
-        returner.scannedHP = pokemonHP;
-        return returner;
     }
 
 
@@ -402,6 +433,25 @@ public class PokeInfoCalculator {
     }
 
     /**
+     * Get all the pokemon forms for a pokemon.
+     *
+     * @param poke a pokemon, example Exeggutor
+     * @return all the pokemon forms, in the example would return Exeggutor normal and Exeggutor Alola
+     */
+    private ArrayList<Pokemon> getForms(Pokemon poke) {
+        ArrayList<Pokemon> list = new ArrayList<>();
+        Pokemon normalFormPokemon = pokedex.get(poke.number);
+        list.add(normalFormPokemon);
+
+        if (normalFormPokemon.forms.isEmpty()) {
+            return list; // normal form only
+        }
+
+        list.addAll(normalFormPokemon.forms);
+        return list;
+    }
+
+    /**
      * Returns the evolution line of a pokemon.
      *
      * @param poke the pokemon to check the evolution line of
@@ -411,10 +461,12 @@ public class PokeInfoCalculator {
         poke = getLowestEvolution(poke);
 
         ArrayList<Pokemon> list = new ArrayList<>();
-        list.add(poke); //add self
-        list.addAll(poke.evolutions); //add all immediate evolutions
-        for (Pokemon evolution : poke.evolutions) {
-            list.addAll(evolution.evolutions);
+        list.addAll(getForms(poke));
+        for (Pokemon evolution2nd : poke.evolutions) {
+            list.addAll(getForms(evolution2nd));
+            for (Pokemon evolution3rd : evolution2nd.evolutions) {
+                list.addAll(getForms(evolution3rd));
+            }
         }
 
         return list;
@@ -424,22 +476,51 @@ public class PokeInfoCalculator {
      * Get how much hp a pokemon will have at a certain level, including the stamina IV taken from the scan results.
      * If the prediction is not exact because of big possible variation in stamina IV, the average will be returnred.
      *
-     * @param ivScanResult    Scan results which includes stamina ivs
+     * @param scanResult      Scan results which includes stamina ivs
      * @param selectedLevel   which level to get the hp for
      * @param selectedPokemon Which pokemon to get Hp for
      * @return An integer representing how much hp selectedpokemon with ivscanresult stamina ivs has at selectedlevel
      */
-    public int getHPAtLevel(IVScanResult ivScanResult, double selectedLevel, Pokemon selectedPokemon) {
+    public int getHPAtLevel(ScanResult scanResult, double selectedLevel, Pokemon selectedPokemon) {
         double lvlScalar = Data.getLevelCpM(selectedLevel);
-        int highHp = (int) Math.max(Math.floor((selectedPokemon.baseStamina + ivScanResult.highStamina) * lvlScalar),
-                10);
-        int lowHp = (int) Math.max(Math.floor((selectedPokemon.baseStamina + ivScanResult.highStamina) * lvlScalar),
-                10);
-        int averageHP = Math.round(highHp + lowHp) / 2;
-        return averageHP;
+        int highHp = (int) Math.max(
+                Math.floor((selectedPokemon.baseStamina + scanResult.getIVStaminaHigh()) * lvlScalar), 10);
+        int lowHp = (int) Math.max(
+                Math.floor((selectedPokemon.baseStamina + scanResult.getIVStaminaLow()) * lvlScalar), 10);
+        return Math.round((highHp + lowHp) / 2f);
     }
 
+    /**
+     * Returns the type name, such as fire or water, in the correct current locale name. However, special characters
+     * such as â, é etc are replaced with their normalized forms a, e etc. So they can be compared with what's
+     * scanned. (The ocr does not recognize special characters such as é).
+     * <p>
+     * Type numbers:
+     * <p>
+     * 0 normal <p>
+     * 1 fire<p>
+     * 2 water<p>
+     * 3 electric<p>
+     * 4 grass<p>
+     * 5 ice<p>
+     * 6 fighting<p>
+     * 7 poison<p>
+     * 8 ground<p>
+     * 9 flying<p>
+     * 10 psychic<p>
+     * 11 bug<p>
+     * 12 rock<p>
+     * 13 ghost<p>
+     * 14 dragon<p>
+     * 15 dark<p>
+     * 16 steel<p>
+     * 17 fairy<p>
+     *
+     * @param typeNameNum The number for the type to get the correct name for.
+     */
     public String getTypeName(int typeNameNum) {
-        return typeNamesArray[typeNameNum];
+        String cleanedType = Normalizer.normalize(typeNamesArray[typeNameNum], Normalizer.Form.NFD);
+        cleanedType = cleanedType.replaceAll("[^\\p{ASCII}]", "");
+        return cleanedType;
     }
 }

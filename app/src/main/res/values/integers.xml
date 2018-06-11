@@ -1367,7 +1367,7 @@
         <item>178</item> <!--Flaaffy-->
         <item>179</item> <!--Ampharos-->
         <item>43</item>  <!--Bellossom-->
-        <item>-1</item>  <!--Marill-->
+        <item>297</item>  <!--Marill-->
         <item>182</item> <!--Azumarill-->
         <item>-1</item>  <!--Sudowoodo-->
         <item>60</item>  <!--Politoed-->
@@ -1386,7 +1386,7 @@
         <item>78</item>  <!--Slowking-->
         <item>-1</item>  <!--Misdreavus-->
         <item>-1</item>  <!--Unown-->
-        <item>-1</item>  <!--Wobbuffet-->
+        <item>359</item>  <!--Wobbuffet-->
         <item>-1</item>  <!--Girafarig-->
         <item>-1</item>  <!--Pineco-->
         <item>203</item> <!--Forretres-->
@@ -1878,7 +1878,7 @@
         <item>-1</item> <!--Exploud-->
         <item>50</item> <!--Makuhita-->
         <item>-1</item> <!--Hariyama-->
-        <item>-1</item> <!--Azurill-->
+        <item>25</item> <!--Azurill-->
         <item>-1</item> <!--Nosepass-->
         <item>50</item> <!--Skitty-->
         <item>-1</item> <!--Delcatty-->
@@ -2340,7 +2340,7 @@
         <item>356</item> <!--Tropius-->
         <item>357</item> <!--Chimecho-->
         <item>358</item> <!--Absol-->
-        <item>359</item> <!--Wynaut-->
+        <item>201</item> <!--Wynaut-->
         <item>360</item> <!--Snorunt-->
         <item>-1</item> <!--Glalie-->
         <item>362</item> <!--Spheal-->
@@ -2370,5 +2370,395 @@
         <item>386</item> <!--Deoxys_Attack-->
         <item>387</item> <!--Deoxys_Speed-->
         <item>388</item> <!--Deoxys-->
+    </integer-array>
+
+    <integer-array name="formsCountIndex">
+        <item>-1</item>        <!-- Bulbasaur = 0 -->
+        <item>-1</item>       <!-- Ivysaur = 1 -->
+        <item>-1</item>       <!-- Venusaur = 2 -->
+        <item>-1</item>        <!-- Charmander = 3 -->
+        <item>-1</item>       <!-- Charmeleon = 4 -->
+        <item>-1</item>       <!-- Charizard = 5 -->
+        <item>-1</item>        <!-- Squirtle = 6 -->
+        <item>-1</item>       <!-- Wartortle = 7 -->
+        <item>-1</item>       <!-- Blastoise = 8 -->
+        <item>-1</item>        <!-- Caterpie = 9 -->
+        <item>-1</item>       <!-- Metapod = 10 -->
+        <item>-1</item>       <!-- Butterfree = 11 -->
+        <item>-1</item>       <!-- Weedle = 12 -->
+        <item>-1</item>       <!-- Kakuna = 13 -->
+        <item>-1</item>       <!-- Beedrill = 14 -->
+        <item>-1</item>       <!-- Pidgey = 15 -->
+        <item>-1</item>       <!-- Pidgeotto = 16 -->
+        <item>-1</item>       <!-- Pidgeot = 17 -->
+        <item>-1</item>       <!-- Rattata = 18 -->
+        <item>-1</item>       <!-- Raticate = 19 -->
+        <item>-1</item>       <!-- Spearow = 20 -->
+        <item>-1</item>       <!-- Fearow = 21 -->
+        <item>-1</item>       <!-- Ekans = 22 -->
+        <item>-1</item>       <!-- Arbok = 23 -->
+        <item>-1</item>       <!-- Pikachu = 24 -->
+        <item>-1</item>       <!-- Raichu = 25 -->
+        <item>-1</item>       <!-- Sandshrew = 26 -->
+        <item>-1</item>       <!-- Sandslash = 27 -->
+        <item>-1</item>       <!-- Nidoran♀ = 28 -->
+        <item>-1</item>       <!-- Nidorina = 29 -->
+        <item>-1</item>       <!-- Nidoqueen = 30 -->
+        <item>-1</item>       <!-- Nidoran♂ = 31 -->
+        <item>-1</item>       <!-- Nidorino = 32 -->
+        <item>-1</item>       <!-- Nidoking = 33 -->
+        <item>-1</item>       <!-- Clefairy = 34 -->
+        <item>-1</item>       <!-- Clefable = 35 -->
+        <item>-1</item>       <!-- Vulpix = 36 -->
+        <item>-1</item>       <!-- Ninetales = 37 -->
+        <item>-1</item>       <!-- Jigglypuff = 38 -->
+        <item>-1</item>       <!-- Wigglytuff = 39 -->
+        <item>-1</item>       <!-- Zubat = 40 -->
+        <item>-1</item>       <!-- Golbat = 41 -->
+        <item>-1</item>       <!-- Oddish = 42 -->
+        <item>-1</item>       <!-- Gloom = 43 -->
+        <item>-1</item>       <!-- Vileplume = 44 -->
+        <item>-1</item>       <!-- Paras = 45 -->
+        <item>-1</item>       <!-- Parasect = 46 -->
+        <item>-1</item>       <!-- Venonat = 47 -->
+        <item>-1</item>       <!-- Venomoth = 48 -->
+        <item>-1</item>       <!-- Diglett = 49 -->
+        <item>-1</item>       <!-- Dugtrio = 50 -->
+        <item>-1</item>       <!-- Meowth = 51 -->
+        <item>-1</item>       <!-- Persian = 52 -->
+        <item>-1</item>       <!-- Psyduck = 53 -->
+        <item>-1</item>       <!-- Golduck = 54 -->
+        <item>-1</item>       <!-- Mankey = 55 -->
+        <item>-1</item>       <!-- Primeape = 56 -->
+        <item>-1</item>       <!-- Growlithe = 57 -->
+        <item>-1</item>       <!-- Arcanine = 58 -->
+        <item>-1</item>       <!-- Poliwag = 59 -->
+        <item>-1</item>       <!-- Poliwhirl = 60 -->
+        <item>-1</item>       <!-- Poliwrath = 61 -->
+        <item>-1</item>       <!-- Abra = 62 -->
+        <item>-1</item>       <!-- Kadabra = 63 -->
+        <item>-1</item>       <!-- Alakazam = 64 -->
+        <item>-1</item>       <!-- Machop = 65 -->
+        <item>-1</item>       <!-- Machoke = 66 -->
+        <item>-1</item>       <!-- Machamp = 67 -->
+        <item>-1</item>       <!-- Bellsprout = 68 -->
+        <item>-1</item>       <!-- Weepinbell = 69 -->
+        <item>-1</item>       <!-- Victreebel = 70 -->
+        <item>-1</item>       <!-- Tentacool = 71 -->
+        <item>-1</item>       <!-- Tentacruel = 72 -->
+        <item>-1</item>       <!-- Geodude = 73 -->
+        <item>-1</item>       <!-- Graveler = 74 -->
+        <item>-1</item>       <!-- Golem = 75 -->
+        <item>-1</item>       <!-- Ponyta = 76 -->
+        <item>-1</item>       <!-- Rapidash = 77 -->
+        <item>-1</item>       <!-- Slowpoke = 78 -->
+        <item>-1</item>       <!-- Slowbro = 79 -->
+        <item>-1</item>       <!-- Magnemite = 80 -->
+        <item>-1</item>       <!-- Magneton = 81 -->
+        <item>-1</item>       <!-- Farfetch'd = 82 -->
+        <item>-1</item>       <!-- Doduo = 83 -->
+        <item>-1</item>       <!-- Dodrio = 84 -->
+        <item>-1</item>       <!-- Seel = 85 -->
+        <item>-1</item>       <!-- Dewgong = 86 -->
+        <item>-1</item>       <!-- Grimer = 87 -->
+        <item>-1</item>       <!-- Muk = 88 -->
+        <item>-1</item>       <!-- Shellder = 89 -->
+        <item>-1</item>       <!-- Cloyster = 90 -->
+        <item>-1</item>       <!-- Gastly = 91 -->
+        <item>-1</item>       <!-- Haunter = 92 -->
+        <item>-1</item>       <!-- Gengar = 93 -->
+        <item>-1</item>       <!-- Onix = 94 -->
+        <item>-1</item>       <!-- Drowzee = 95 -->
+        <item>-1</item>       <!-- Hypno = 96 -->
+        <item>-1</item>       <!-- Krabby = 97 -->
+        <item>-1</item>       <!-- Kingler = 98 -->
+        <item>-1</item>       <!-- Voltorb = 99 -->
+        <item>-1</item>       <!-- Electrode = 100 -->
+        <item>-1</item>      <!-- Exeggcute = 101 -->
+        <item>1</item>       <!-- Exeggutor = 102 -->
+        <item>-1</item>      <!-- Cubone = 103 -->
+        <item>-1</item>       <!-- Marowak = 104 -->
+        <item>-1</item>       <!-- Hitmonlee = 105 -->
+        <item>-1</item>       <!-- Hitmonchan = 106 -->
+        <item>-1</item>      <!-- Lickitung = 107 -->
+        <item>-1</item>      <!-- Koffing = 108 -->
+        <item>-1</item>       <!-- Weezing = 109 -->
+        <item>-1</item>      <!-- Rhyhorn = 110 -->
+        <item>-1</item>       <!-- Rhydon = 111 -->
+        <item>-1</item>      <!-- Chansey = 112 -->
+        <item>-1</item>      <!-- Tangela = 113 -->
+        <item>-1</item>      <!-- Kangaskhan = 114 -->
+        <item>-1</item>      <!-- Horsea = 115 -->
+        <item>-1</item>       <!-- Seadra = 116 -->
+        <item>-1</item>      <!-- Goldeen = 117 -->
+        <item>-1</item>       <!-- Seaking = 118 -->
+        <item>-1</item>      <!-- Staryu = 119 -->
+        <item>-1</item>       <!-- Starmie = 120 -->
+        <item>-1</item>      <!-- Mr. Mime = 121 -->
+        <item>-1</item>      <!-- Scyther = 122 -->
+        <item>-1</item>       <!-- Jynx = 123 -->
+        <item>-1</item>       <!-- Electabuzz = 124 -->
+        <item>-1</item>       <!-- Magmar = 125 -->
+        <item>-1</item>      <!-- Pinsir = 126 -->
+        <item>-1</item>      <!-- Tauros = 127 -->
+        <item>-1</item>      <!-- Magikarp = 128 -->
+        <item>-1</item>       <!-- Gyarados = 129 -->
+        <item>-1</item>      <!-- Lapras = 130 -->
+        <item>-1</item>      <!-- Ditto = 131 -->
+        <item>-1</item>      <!-- Eevee = 132 -->
+        <item>-1</item>       <!-- Vaporeon = 133 -->
+        <item>-1</item>       <!-- Jolteon = 134 -->
+        <item>-1</item>       <!-- Flareon = 135 -->
+        <item>-1</item>      <!-- Porygon = 136 -->
+        <item>-1</item>      <!-- Omanyte = 137 -->
+        <item>-1</item>       <!-- Omastar = 138 -->
+        <item>-1</item>      <!-- Kabuto = 139 -->
+        <item>-1</item>       <!-- Kabutops = 140 -->
+        <item>-1</item>      <!-- Aerodactyl = 141 -->
+        <item>-1</item>      <!-- Snorlax = 142 -->
+        <item>-1</item>      <!-- Articuno = 143 -->
+        <item>-1</item>      <!-- Zapdos = 144 -->
+        <item>-1</item>      <!-- Moltres = 145 -->
+        <item>-1</item>      <!-- Dratini = 146 -->
+        <item>-1</item>       <!-- Dragonair = 147 -->
+        <item>-1</item>       <!-- Dragonite = 148 -->
+        <item>-1</item>      <!-- Mewtwo = 149 -->
+        <item>-1</item>      <!-- Mew = 150 -->
+        <item>-1</item>      <!-- Chikorita = 151 -->
+        <item>-1</item>       <!-- Bayleef = 152 -->
+        <item>-1</item>       <!-- Meganium = 153 -->
+        <item>-1</item>      <!-- Cyndaquil = 154 -->
+        <item>-1</item>       <!-- Quilava = 155 -->
+        <item>-1</item>       <!-- Typhlosio = 156 -->
+        <item>-1</item>      <!-- Totodile = 157 -->
+        <item>-1</item>       <!-- Croconaw = 158 -->
+        <item>-1</item>       <!-- Feraligat = 159 -->
+        <item>-1</item>      <!-- Sentret = 160 -->
+        <item>-1</item>       <!-- Furret = 161 -->
+        <item>-1</item>      <!-- Hoothoot = 162 -->
+        <item>-1</item>       <!-- Noctowl = 163 -->
+        <item>-1</item>      <!-- Ledyba = 164 -->
+        <item>-1</item>       <!-- Ledian = 165 -->
+        <item>-1</item>      <!-- Spinarak = 166 -->
+        <item>-1</item>       <!-- Ariados = 167 -->
+        <item>-1</item>       <!-- Crobat = 168 -->
+        <item>-1</item>      <!-- Chinchou = 169 -->
+        <item>-1</item>       <!-- Lanturn = 170 -->
+        <item>-1</item>       <!-- Pichu = 171 -->
+        <item>-1</item>       <!-- Cleffa = 172 -->
+        <item>-1</item>       <!-- Igglybuff = 173 -->
+        <item>-1</item>      <!-- Togepi = 174 -->
+        <item>-1</item>       <!-- Togetic = 175 -->
+        <item>-1</item>      <!-- Natu = 176 -->
+        <item>-1</item>       <!-- Xatu = 177 -->
+        <item>-1</item>      <!-- Mareep = 178 -->
+        <item>-1</item>       <!-- Flaaffy = 179 -->
+        <item>-1</item>       <!-- Ampharos = 180 -->
+        <item>-1</item>       <!-- Bellossom = 181 -->
+        <item>-1</item>      <!-- Marill = 182 -->
+        <item>-1</item>       <!-- Azumarill = 183 -->
+        <item>-1</item>      <!-- Sudowoodo = 184 -->
+        <item>-1</item>       <!-- Politoed = 185 -->
+        <item>-1</item>      <!-- Hoppip = 186 -->
+        <item>-1</item>       <!-- Skiploom = 187 -->
+        <item>-1</item>       <!-- Jumpluff = 188 -->
+        <item>-1</item>      <!-- Aipom = 189 -->
+        <item>-1</item>      <!-- Sunkern = 190 -->
+        <item>-1</item>       <!-- Sunflora = 191 -->
+        <item>-1</item>      <!-- Yanma = 192 -->
+        <item>-1</item>      <!-- Wooper = 193 -->
+        <item>-1</item>       <!-- Quagsire = 194 -->
+        <item>-1</item>       <!-- Espeon = 195 -->
+        <item>-1</item>       <!-- Umbreon = 196 -->
+        <item>-1</item>      <!-- Murkrow = 197 -->
+        <item>-1</item>       <!-- Slowking = 198 -->
+        <item>-1</item>      <!-- Misdreavus = 199 -->
+        <item>-1</item>      <!-- Unown = 200 -->
+        <item>-1</item>      <!-- Wobbuffet = 201 -->
+        <item>-1</item>      <!-- Girafarig = 202 -->
+        <item>-1</item>      <!-- Pineco = 203 -->
+        <item>-1</item>       <!-- Forretres = 204 -->
+        <item>-1</item>      <!-- Dunsparce = 205 -->
+        <item>-1</item>      <!-- Gligar = 206 -->
+        <item>-1</item>       <!-- Steelix = 207 -->
+        <item>-1</item>      <!-- Snubbull = 208 -->
+        <item>-1</item>       <!-- Granbull = 209 -->
+        <item>-1</item>      <!-- Qwilfish = 210 -->
+        <item>-1</item>       <!-- Scizor = 211 -->
+        <item>-1</item>      <!-- Shuckle = 212 -->
+        <item>-1</item>      <!-- Heracross = 213 -->
+        <item>-1</item>      <!-- Sneasel = 214 -->
+        <item>-1</item>      <!-- Teddiursa = 215 -->
+        <item>-1</item>       <!-- Ursaring = 216 -->
+        <item>-1</item>      <!-- Slugma = 217 -->
+        <item>-1</item>       <!-- Magcargo = 218 -->
+        <item>-1</item>      <!-- Swinub = 219 -->
+        <item>-1</item>       <!-- Piloswine = 220 -->
+        <item>-1</item>      <!-- Corsola = 221 -->
+        <item>-1</item>      <!-- Remoraid = 222 -->
+        <item>-1</item>       <!-- Octillery = 223 -->
+        <item>-1</item>      <!-- Delibird = 224 -->
+        <item>-1</item>      <!-- Mantine = 225 -->
+        <item>-1</item>      <!-- Skarmory = 226 -->
+        <item>-1</item>      <!-- Houndour = 227 -->
+        <item>-1</item>       <!-- Houndoom = 228 -->
+        <item>-1</item>       <!-- Kingdra = 229 -->
+        <item>-1</item>      <!-- Phanpy = 230 -->
+        <item>-1</item>       <!-- Donphan = 231 -->
+        <item>-1</item>       <!-- Porygon2 = 232 -->
+        <item>-1</item>      <!-- Stantler = 233 -->
+        <item>-1</item>      <!-- Smeargle = 234 -->
+        <item>-1</item>      <!-- Tyrogue = 235 -->
+        <item>-1</item>       <!-- Hitmontop = 236 -->
+        <item>-1</item>      <!-- Smoochum = 237 -->
+        <item>-1</item>      <!-- Elekid = 238 -->
+        <item>-1</item>      <!-- Magby = 239 -->
+        <item>-1</item>      <!-- Miltank = 240 -->
+        <item>-1</item>       <!-- Blissey = 241 -->
+        <item>-1</item>      <!-- Raikou = 242 -->
+        <item>-1</item>      <!-- Entei = 243 -->
+        <item>-1</item>      <!-- Suicune = 244 -->
+        <item>-1</item>      <!-- Larvitar = 245 -->
+        <item>-1</item>       <!-- Pupitar = 246 -->
+        <item>-1</item>       <!-- Tyranitar = 247 -->
+        <item>-1</item>      <!-- Lugia = 248 -->
+        <item>-1</item>      <!-- Ho-oh = 249 -->
+        <item>-1</item>      <!-- Celebi = 250 -->
+        <!-- gen 3-->
+        <item>-1</item> <!--Treecko-->
+        <item>-1</item> <!--Grovyle-->
+        <item>-1</item> <!--Sceptile-->
+        <item>-1</item> <!--Torchic-->
+        <item>-1</item> <!--Combusken-->
+        <item>-1</item> <!--Blaziken-->
+        <item>-1</item> <!--Mudkip-->
+        <item>-1</item> <!--Marshtomp-->
+        <item>-1</item> <!--Swampert-->
+        <item>-1</item> <!--Poochyena-->
+        <item>-1</item> <!--Mightyena-->
+        <item>-1</item> <!--Zigzagoon-->
+        <item>-1</item> <!--Linoone-->
+        <item>-1</item> <!--Wurmple-->
+        <item>-1</item> <!--Silcoon-->
+        <item>-1</item> <!--Beautifly-->
+        <item>-1</item> <!--Cascoon-->
+        <item>-1</item> <!--Dustox-->
+        <item>-1</item> <!--Lotad-->
+        <item>-1</item> <!--Lombre-->
+        <item>-1</item> <!--Ludicolo-->
+        <item>-1</item> <!--Seedot-->
+        <item>-1</item> <!--Nuzleaf-->
+        <item>-1</item> <!--Shiftry-->
+        <item>-1</item> <!--Taillow-->
+        <item>-1</item> <!--Swellow-->
+        <item>-1</item> <!--Wingull-->
+        <item>-1</item> <!--Pelipper-->
+        <item>-1</item> <!--Ralts-->
+        <item>-1</item> <!--Kirlia-->
+        <item>-1</item> <!--Gardevoir-->
+        <item>-1</item> <!--Surskit-->
+        <item>-1</item> <!--Masquerain-->
+        <item>-1</item> <!--Shroomish-->
+        <item>-1</item> <!--Breloom-->
+        <item>-1</item> <!--Slakoth-->
+        <item>-1</item> <!--Vigoroth-->
+        <item>-1</item> <!--Slaking-->
+        <item>-1</item> <!--Nincada-->
+        <item>-1</item> <!--Ninjask-->
+        <item>-1</item> <!--Shedinja-->
+        <item>-1</item> <!--Whismur-->
+        <item>-1</item> <!--Loudred-->
+        <item>-1</item> <!--Exploud-->
+        <item>-1</item> <!--Makuhita-->
+        <item>-1</item> <!--Hariyama-->
+        <item>-1</item> <!--Azurill !changed, second evolution introduced in earlier generation-->
+        <item>-1</item> <!--Nosepass-->
+        <item>-1</item> <!--Skitty-->
+        <item>-1</item> <!--Delcatty-->
+        <item>-1</item> <!--Sableye-->
+        <item>-1</item> <!--Mawile-->
+        <item>-1</item> <!--Aron-->
+        <item>-1</item> <!--Lairon-->
+        <item>-1</item> <!--Aggron-->
+        <item>-1</item> <!--Meditite-->
+        <item>-1</item> <!--Medicham-->
+        <item>-1</item> <!--Electrike-->
+        <item>-1</item> <!--Manectric-->
+        <item>-1</item> <!--Plusle-->
+        <item>-1</item> <!--Minun-->
+        <item>-1</item> <!--Volbeat-->
+        <item>-1</item> <!--Illumise-->
+        <item>-1</item> <!--Roselia-->
+        <item>-1</item> <!--Gulpin-->
+        <item>-1</item> <!--Swalot-->
+        <item>-1</item> <!--Carvanha-->
+        <item>-1</item> <!--Sharpedo-->
+        <item>-1</item> <!--Wailmer-->
+        <item>-1</item> <!--Wailord-->
+        <item>-1</item> <!--Numel-->
+        <item>-1</item> <!--Camerupt-->
+        <item>-1</item> <!--Torkoal-->
+        <item>-1</item> <!--Spoink-->
+        <item>-1</item> <!--Grumpig-->
+        <item>-1</item> <!--Spinda-->
+        <item>-1</item> <!--Trapinch-->
+        <item>-1</item> <!--Vibrava-->
+        <item>-1</item> <!--Flygon-->
+        <item>-1</item> <!--Cacnea-->
+        <item>-1</item> <!--Cacturne-->
+        <item>-1</item> <!--Swablu-->
+        <item>-1</item> <!--Altaria-->
+        <item>-1</item> <!--Zangoose-->
+        <item>-1</item> <!--Seviper-->
+        <item>-1</item> <!--Lunatone-->
+        <item>-1</item> <!--Solrock-->
+        <item>-1</item> <!--Barboach-->
+        <item>-1</item> <!--Whiscash-->
+        <item>-1</item> <!--Corphish-->
+        <item>-1</item> <!--Crawdaunt-->
+        <item>-1</item> <!--Baltoy-->
+        <item>-1</item> <!--Claydol-->
+        <item>-1</item> <!--Lileep-->
+        <item>-1</item> <!--Cradily-->
+        <item>-1</item> <!--Anorith-->
+        <item>-1</item> <!--Armaldo-->
+        <item>-1</item> <!--Feebas-->
+        <item>-1</item> <!--Milotic-->
+        <item>-1</item> <!--Castform-->
+        <item>-1</item> <!--Kecleon-->
+        <item>-1</item> <!--Shuppet-->
+        <item>-1</item> <!--Banette-->
+        <item>-1</item> <!--Duskull-->
+        <item>-1</item> <!--Dusclops-->
+        <item>-1</item> <!--Tropius-->
+        <item>-1</item> <!--Chimecho-->
+        <item>-1</item> <!--Absol-->
+        <item>-1</item> <!--Wynaut-->
+        <item>-1</item> <!--Snorunt-->
+        <item>-1</item> <!--Glalie-->
+        <item>-1</item> <!--Spheal-->
+        <item>-1</item> <!--Sealeo-->
+        <item>-1</item> <!--Walrein-->
+        <item>-1</item> <!--Clamperl-->
+        <item>-1</item> <!--Huntail-->
+        <item>-1</item> <!--Gorebyss-->
+        <item>-1</item> <!--Relicanth-->
+        <item>-1</item> <!--Luvdisc-->
+        <item>-1</item> <!--Bagon-->
+        <item>-1</item> <!--Shelgon-->
+        <item>-1</item> <!--Salamence-->
+        <item>-1</item> <!--Beldum-->
+        <item>-1</item> <!--Metang-->
+        <item>-1</item> <!--Metagross-->
+        <item>-1</item> <!--Regirock-->
+        <item>-1</item> <!--Regice-->
+        <item>-1</item> <!--Registeel-->
+        <item>-1</item> <!--Latias-->
+        <item>-1</item> <!--Latios-->
+        <item>-1</item> <!--Kyogre-->
+        <item>-1</item> <!--Groudon-->
+        <item>-1</item> <!--Rayquaza-->
+        <item>-1</item> <!--Jirachi-->
+        <item>0</item> <!--Deoxys-->
     </integer-array>
 </resources>

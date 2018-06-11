@@ -199,19 +199,22 @@ public class PokeInfoCalculator {
                 }
 
                 for (int j = 0; j < formsCount[formsCountIndex[i]]; j++) {
-                    pokedex.get(i).forms.add(new Pokemon(
-                            String.format("%s - %s",
-                                    pokedex.get(i).name, res.getStringArray(R.array.formNames)[formsStartIndex + j]),
-                            String.format("%s - %s",
-                                    pokedex.get(i).toString(),
-                                    res.getStringArray(R.array.formNames)[formsStartIndex + j]),
-                            i,
+                    String formPokemonName = String.format("%s - %s", // [POKEMON_NAME] - [FORM_NAME]
+                            names[i], res.getStringArray(R.array.formNames)[formsStartIndex + j]);
+                    String formPokemonDisplayName = String.format("%s - %s", // [POKEMON_NAME] - [FORM_NAME]
+                            displayNames[i], res.getStringArray(R.array.formNames)[formsStartIndex + j]);
+                    Pokemon formPokemon = new Pokemon(
+                            formPokemonName, formPokemonDisplayName, i,
                             res.getIntArray(R.array.formAttack)[formsStartIndex + j],
                             res.getIntArray(R.array.formDefense)[formsStartIndex + j],
                             res.getIntArray(R.array.formStamina)[formsStartIndex + j],
                             devolution[i],
-                            evolutionCandyCost[i])
-                    );
+                            evolutionCandyCost[i]);
+                    pokedex.get(i).forms.add(formPokemon);
+                    pokemap.put(formPokemonName.toLowerCase(), formPokemon);
+                    if (!formPokemon.equals(formPokemonDisplayName)) {
+                        pokemap.put(formPokemonDisplayName, formPokemon);
+                    }
                 }
             }
         }

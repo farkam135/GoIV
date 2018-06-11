@@ -150,7 +150,8 @@ public class PokeInfoCalculator {
             }
         }
 
-        return pokeNamesWithForm = pokemonNamesArray.toArray(new String[pokemonNamesArray.size()]);
+        pokeNamesWithForm = pokemonNamesArray.toArray(new String[pokemonNamesArray.size()]);
+        return pokeNamesWithForm;
     }
 
     /**

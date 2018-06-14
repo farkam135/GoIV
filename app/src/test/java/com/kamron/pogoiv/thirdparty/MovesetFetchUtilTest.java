@@ -59,6 +59,7 @@ public class MovesetFetchUtilTest {
 
     }
 
+
     public String getAttackURL(String pokemon) {
         return BASE_URL
                 + "/rankings/attackers/levels/30/defenders/levels/30/strategies/CINEMATIC_ATTACK_WHEN_POSSIBLE"
@@ -78,6 +79,11 @@ public class MovesetFetchUtilTest {
     }
 
 
+    /**
+     * Get a list of all attack and defence ratings for all movesets for all pokemon from an online database.
+     *
+     * @return A map, which has the pokemon names as keys, and a list of movesetdata as values.
+     */
     public Map<String, List<MovesetData>> fetchAllPokemon() {
         Map<String, List<MovesetData>> allPokemon = new TreeMap<>();
         for (PokemonId pokemon : PokemonId.values()) {
@@ -86,7 +92,7 @@ public class MovesetFetchUtilTest {
             }
 
             try {
-                allPokemon.put(pokemon.name(), fetchPokemon(pokemon.name()));
+                allPokemon.put(pokemon.name(), getPokemonOnlineMovesetScores(pokemon.name()));
                 Timber.i("Finished fetching %s", pokemon.name());
                 //FIXME: The above doesnt properly log in unit tests
                 System.out.println("Finished fetching " + pokemon.name());
@@ -100,14 +106,20 @@ public class MovesetFetchUtilTest {
     }
 
 
-    public List<MovesetData> fetchPokemon(String pokemon) {
+    /**
+     * Get the moveset evaluation from online for a specific pokemon.
+     *
+     * @param pokemon The pokemon to search for.
+     * @return A list of moveset data for that specific pokemon.
+     */
+    public List<MovesetData> getPokemonOnlineMovesetScores(String pokemon) {
 
-        TreeMap<MovesetData.Key, Double> attackScores = fetchScoreMap(getAttackURL(pokemon));
+        TreeMap<MovesetData.Key, Double> attackScores = fetchScoreMapOnline(getAttackURL(pokemon));
         if (attackScores == null) {
             System.err.println("Unexpected null attack scores for " + pokemon);
             return Collections.emptyList();
         }
-        TreeMap<MovesetData.Key, Double> defenseScores = fetchScoreMap(getDefenseURL(pokemon));
+        TreeMap<MovesetData.Key, Double> defenseScores = fetchScoreMapOnline(getDefenseURL(pokemon));
         if (defenseScores == null) {
             System.err.println("Unexpected null defense scores for " + pokemon);
             return Collections.emptyList();
@@ -133,11 +145,19 @@ public class MovesetFetchUtilTest {
         return retval;
     }
 
-    private TreeMap<MovesetData.Key, Double> fetchScoreMap(String url) {
+    /**
+     * Get the score for all movesets, in either defence or attack score.
+     *
+     * @param url Either the attackURL or defenceURL for a pokemon.
+     * @return A treemap containing all possible movesets as keys, and the moveset score as value.
+     */
+    private TreeMap<MovesetData.Key, Double> fetchScoreMapOnline(String url) {
         TreeMap<MovesetData.Key, Double> scores;
         Request request = new Request.Builder().url(url).build();
-        try (Response response = httpClient.newCall(request).execute()) {
-            scores = getScoreMap(response);
+        try {
+            Response response = httpClient.newCall(request).execute();
+            JSONObject pokemonInfo = new JSONObject(response.body().string());
+            scores = parseMoveFromJSON(pokemonInfo);
         } catch (Exception e) {
             Timber.e("Could not fetch file");
             Timber.e(e);
@@ -146,11 +166,20 @@ public class MovesetFetchUtilTest {
         return scores;
     }
 
-    private TreeMap<MovesetData.Key, Double> getScoreMap(Response response) throws IOException {
+    /**
+     * Interprets the json response from the Pokebattler server into a treemap where each key is a moveset
+     * combination, and the value is the score of the moveset.
+     *
+     * @param pokebattlerJsonObject The json response from pokebattler.
+     * @return A treemap with moveset keys and score values.
+     * @throws IOException
+     */
+    private TreeMap<MovesetData.Key, Double> parseMoveFromJSON(JSONObject pokebattlerJsonObject) throws IOException {
         TreeMap<MovesetData.Key, Double> scores = new TreeMap<>();
         try {
-            JSONObject pokemonInfo = new JSONObject(response.body().string());
-            JSONArray moveRankings = pokemonInfo.getJSONArray("attackers").getJSONObject(0).getJSONArray("byMove");
+
+            JSONArray moveRankings = pokebattlerJsonObject.getJSONArray("attackers").getJSONObject(0).getJSONArray(
+                    "byMove");
             double maxScore = moveRankings.getJSONObject(0).getJSONObject("total").getDouble("overallRating");
             for (int i = 0; i < moveRankings.length(); i++) {
                 JSONObject move = moveRankings.getJSONObject(i);

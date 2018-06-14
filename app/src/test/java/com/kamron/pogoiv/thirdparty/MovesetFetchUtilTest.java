@@ -1,8 +1,5 @@
 package com.kamron.pogoiv.thirdparty;
 
-import android.util.Log;
-
-import com.kamron.pogoiv.BuildConfig;
 import com.kamron.pogoiv.scanlogic.MovesetData;
 import com.kamron.pogoiv.thirdparty.pokebattler.PokemonId;
 
@@ -25,40 +22,35 @@ import okhttp3.Request;
 import okhttp3.Response;
 import timber.log.Timber;
 
+
 /**
  * A class for generating the moveset database json by querying pokebattler.
  * Run the generateMovesetList test to update the json in
  * app/src/main/assets/thirdparty/pokebattler//pokemonMovesetData.json.
  */
 public class MovesetFetchUtilTest {
-    //    private static final String BASE_URL = "https://fight.pokebattler.com" ;
-//    private static final String BASE_URL = "http://localhost:8001" ;
     private static final String BASE_URL = "https://20180530t224949-dot-fight-dot-pokebattler-1380.appspot.com";
+    OkHttpClient httpClient = new OkHttpClient();
+    ;
 
-    OkHttpClient httpClient;
-
-    @Test
     /**
      * This "test" generates a json of all pokemon move ratings by querying the pokebattler database.
      */
-    public void generateMovesetList() throws Exception {
+    @Test
+    public void generateMovesetDatabase() throws Exception {
+//        Timber.plant(new Timber.DebugTree()); This throws exceptions in unit tests
+        MovesetFetchUtilTest fetcher = new MovesetFetchUtilTest();
+        Map<String, List<MovesetData>> pokemon = fetcher.fetchAllPokemon();
+        JSONObject toDump = new JSONObject(pokemon);
+        try (FileWriter writer = new FileWriter(new File
+                ("app/src/main/assets/thirdparty/pokebattler//pokemonMovesetData.json")
 
-        if (BuildConfig.FLAVOR.toLowerCase().contains("online")) {
-            Map<String, List<MovesetData>> pokemon = fetchAllPokemon();
-            JSONObject toDump = new JSONObject(pokemon);
-            try (FileWriter writer = new FileWriter(new File
-                    ("app/src/main/assets/thirdparty/pokebattler//pokemonMovesetData.json")
-            )) {
-                writer.write(toDump.toString());
-            }
-        } else {
-            Log.e("GoIV", "Moveset generation failure: Current build flavor is offline, cannot connect"
-                    + "to pokebattler service.");
+        )) {
+            writer.write(toDump.toString());
+            System.out.println(toDump.toString());
         }
 
-
     }
-
 
     public String getAttackURL(String pokemon) {
         return BASE_URL
@@ -92,7 +84,7 @@ public class MovesetFetchUtilTest {
             }
 
             try {
-                allPokemon.put(pokemon.name(), getPokemonOnlineMovesetScores(pokemon.name()));
+                allPokemon.put(pokemon.name(), fetchPokemonOnlineMovesets(pokemon.name()));
                 Timber.i("Finished fetching %s", pokemon.name());
                 //FIXME: The above doesnt properly log in unit tests
                 System.out.println("Finished fetching " + pokemon.name());
@@ -105,21 +97,19 @@ public class MovesetFetchUtilTest {
         return allPokemon;
     }
 
-
     /**
      * Get the moveset evaluation from online for a specific pokemon.
      *
      * @param pokemon The pokemon to search for.
      * @return A list of moveset data for that specific pokemon.
      */
-    public List<MovesetData> getPokemonOnlineMovesetScores(String pokemon) {
-
-        TreeMap<MovesetData.Key, Double> attackScores = fetchScoreMapOnline(getAttackURL(pokemon));
+    public List<MovesetData> fetchPokemonOnlineMovesets(String pokemon) {
+        TreeMap<MovesetData.Key, Double> attackScores = fetchPokemonScoreMap(getAttackURL(pokemon));
         if (attackScores == null) {
             System.err.println("Unexpected null attack scores for " + pokemon);
             return Collections.emptyList();
         }
-        TreeMap<MovesetData.Key, Double> defenseScores = fetchScoreMapOnline(getDefenseURL(pokemon));
+        TreeMap<MovesetData.Key, Double> defenseScores = fetchPokemonScoreMap(getDefenseURL(pokemon));
         if (defenseScores == null) {
             System.err.println("Unexpected null defense scores for " + pokemon);
             return Collections.emptyList();
@@ -146,18 +136,17 @@ public class MovesetFetchUtilTest {
     }
 
     /**
-     * Get the score for all movesets, in either defence or attack score.
+     * Get the score for all movesets, in either defence or attack score from an online database.
      *
      * @param url Either the attackURL or defenceURL for a pokemon.
      * @return A treemap containing all possible movesets as keys, and the moveset score as value.
      */
-    private TreeMap<MovesetData.Key, Double> fetchScoreMapOnline(String url) {
+    private TreeMap<MovesetData.Key, Double> fetchPokemonScoreMap(String url) {
         TreeMap<MovesetData.Key, Double> scores;
         Request request = new Request.Builder().url(url).build();
-        try {
-            Response response = httpClient.newCall(request).execute();
+        try (Response response = httpClient.newCall(request).execute()) {
             JSONObject pokemonInfo = new JSONObject(response.body().string());
-            scores = parseMoveFromJSON(pokemonInfo);
+            scores = parseMovesetJson(pokemonInfo);
         } catch (Exception e) {
             Timber.e("Could not fetch file");
             Timber.e(e);
@@ -170,16 +159,14 @@ public class MovesetFetchUtilTest {
      * Interprets the json response from the Pokebattler server into a treemap where each key is a moveset
      * combination, and the value is the score of the moveset.
      *
-     * @param pokebattlerJsonObject The json response from pokebattler.
+     * @param jsonResponse The json response from pokebattler.
      * @return A treemap with moveset keys and score values.
      * @throws IOException
      */
-    private TreeMap<MovesetData.Key, Double> parseMoveFromJSON(JSONObject pokebattlerJsonObject) throws IOException {
+    private TreeMap<MovesetData.Key, Double> parseMovesetJson(JSONObject jsonResponse) throws IOException {
         TreeMap<MovesetData.Key, Double> scores = new TreeMap<>();
         try {
-
-            JSONArray moveRankings = pokebattlerJsonObject.getJSONArray("attackers").getJSONObject(0).getJSONArray(
-                    "byMove");
+            JSONArray moveRankings = jsonResponse.getJSONArray("attackers").getJSONObject(0).getJSONArray("byMove");
             double maxScore = moveRankings.getJSONObject(0).getJSONObject("total").getDouble("overallRating");
             for (int i = 0; i < moveRankings.length(); i++) {
                 JSONObject move = moveRankings.getJSONObject(i);

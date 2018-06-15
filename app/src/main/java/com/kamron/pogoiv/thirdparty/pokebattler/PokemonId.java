@@ -1560,7 +1560,7 @@ package com.kamron.pogoiv.thirdparty.pokebattler;
          *
          * <code>CASTFORM_NORMAL_FORM = 10029;</code>
          */
-        CASTFORM_NORMAL_FORM(10029),
+//        CASTFORM_NORMAL_FORM(10029),
         /**
          * <code>CASTFORM_SUNNY_FORM = 10030;</code>
          */
@@ -1576,7 +1576,7 @@ package com.kamron.pogoiv.thirdparty.pokebattler;
         /**
          * <code>DEOXYS_NORMAL_FORM = 10033;</code>
          */
-        DEOXYS_NORMAL_FORM(10033),
+//        DEOXYS_NORMAL_FORM(10033),
         /**
          * <code>DEOXYS_ATTACK_FORM = 10034;</code>
          */
@@ -1596,7 +1596,7 @@ package com.kamron.pogoiv.thirdparty.pokebattler;
         /**
          * <code>EXEGGUTOR_NORMAL_FORM = 10038;</code>
          */
-        EXEGGUTOR_NORMAL_FORM(10038),
+//        EXEGGUTOR_NORMAL_FORM(10038),
         UNRECOGNIZED(-1),
         ;
 
@@ -3155,7 +3155,7 @@ package com.kamron.pogoiv.thirdparty.pokebattler;
          *
          * <code>CASTFORM_NORMAL_FORM = 10029;</code>
          */
-        public static final int CASTFORM_NORMAL_FORM_VALUE = 10029;
+//        public static final int CASTFORM_NORMAL_FORM_VALUE = 10029;
         /**
          * <code>CASTFORM_SUNNY_FORM = 10030;</code>
          */
@@ -3171,7 +3171,7 @@ package com.kamron.pogoiv.thirdparty.pokebattler;
         /**
          * <code>DEOXYS_NORMAL_FORM = 10033;</code>
          */
-        public static final int DEOXYS_NORMAL_FORM_VALUE = 10033;
+//        public static final int DEOXYS_NORMAL_FORM_VALUE = 10033;
         /**
          * <code>DEOXYS_ATTACK_FORM = 10034;</code>
          */
@@ -3191,7 +3191,7 @@ package com.kamron.pogoiv.thirdparty.pokebattler;
         /**
          * <code>EXEGGUTOR_NORMAL_FORM = 10038;</code>
          */
-        public static final int EXEGGUTOR_NORMAL_FORM_VALUE = 10038;
+//        public static final int EXEGGUTOR_NORMAL_FORM_VALUE = 10038;
 
 
         public final int getNumber() {
@@ -3599,16 +3599,17 @@ package com.kamron.pogoiv.thirdparty.pokebattler;
                 case 384: return RAYQUAZA;
                 case 385: return JIRACHI;
                 case 386: return DEOXYS;
-                case 10029: return CASTFORM_NORMAL_FORM;
+                // no duplicates
+//                case 10029: return CASTFORM_NORMAL_FORM;
                 case 10030: return CASTFORM_SUNNY_FORM;
                 case 10031: return CASTFORM_RAINY_FORM;
                 case 10032: return CASTFORM_SNOWY_FORM;
-                case 10033: return DEOXYS_NORMAL_FORM;
+//                case 10033: return DEOXYS_NORMAL_FORM;
                 case 10034: return DEOXYS_ATTACK_FORM;
                 case 10035: return DEOXYS_DEFENSE_FORM;
                 case 10036: return DEOXYS_SPEED_FORM;
                 case 10037: return EXEGGUTOR_ALOLA_FORM;
-                case 10038: return EXEGGUTOR_NORMAL_FORM;
+//                case 10038: return EXEGGUTOR_NORMAL_FORM;
                 default: return null;
             }
         }

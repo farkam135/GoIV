@@ -2,15 +2,14 @@ package com.kamron.pogoiv.pokeflycomponents.fractions;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.kamron.pogoiv.Pokefly;
 import com.kamron.pogoiv.R;
-import com.kamron.pogoiv.scanlogic.IVScanResult;
 import com.kamron.pogoiv.scanlogic.PokemonShareHandler;
-import com.kamron.pogoiv.scanlogic.ScanContainer;
 import com.kamron.pogoiv.utils.GuiUtil;
 import com.kamron.pogoiv.utils.fractions.Fraction;
 
@@ -59,13 +58,11 @@ public class IVResultFraction extends Fraction {
 
     private Context context;
     private Pokefly pokefly;
-    private IVScanResult ivScanResult;
 
 
-    public IVResultFraction(@NonNull Pokefly pokefly, @NonNull IVScanResult ivScanResult) {
+    public IVResultFraction(@NonNull Pokefly pokefly) {
         this.context = pokefly;
         this.pokefly = pokefly;
-        this.ivScanResult = ivScanResult;
     }
 
 
@@ -78,12 +75,12 @@ public class IVResultFraction extends Fraction {
         ButterKnife.bind(this, rootView);
 
         // Show IV information
-        ivScanResult.sortCombinations();
+        Pokefly.scanResult.sortIVCombinations();
         populateResultsHeader();
 
-        if (ivScanResult.getCount() == 0) {
+        if (Pokefly.scanResult.getIVCombinationsCount() == 0) {
             populateNotIVMatch();
-        } else if (ivScanResult.getCount() == 1) {
+        } else if (Pokefly.scanResult.getIVCombinationsCount() == 1) {
             populateSingleIVMatch();
         } else { // More than a match
             populateMultipleIVMatch();
@@ -93,6 +90,16 @@ public class IVResultFraction extends Fraction {
 
     @Override public void onDestroy() {
         // Nothing to do
+    }
+
+    @Override
+    public Anchor getAnchor() {
+        return Anchor.BOTTOM;
+    }
+
+    @Override
+    public int getVerticalOffset(@NonNull DisplayMetrics displayMetrics) {
+        return 0;
     }
 
     /**
@@ -115,7 +122,7 @@ public class IVResultFraction extends Fraction {
 
     @OnClick(R.id.btnBack)
     void onBack() {
-        pokefly.navigateToInputFraction();
+        pokefly.navigateToPreferredStartFraction();
     }
 
     @OnClick(R.id.btnClose)
@@ -127,9 +134,9 @@ public class IVResultFraction extends Fraction {
      * Shows the name and level of the pokemon in the results dialog.
      */
     private void populateResultsHeader() {
-        resultsPokemonName.setText(ivScanResult.pokemon.toString());
+        resultsPokemonName.setText(Pokefly.scanResult.pokemon.toString());
         resultsPokemonLevel.setText(
-                context.getString(R.string.level_num, ivScanResult.estimatedPokemonLevel.toString()));
+                context.getString(R.string.level_num, Pokefly.scanResult.levelRange.toString()));
     }
 
     /**
@@ -143,7 +150,7 @@ public class IVResultFraction extends Fraction {
         tvAvgIV.setText(context.getString(R.string.avg));
 
         resultsCombinations.setText(
-                context.getString(R.string.possible_iv_combinations, ivScanResult.iVCombinations.size()));
+                context.getString(R.string.possible_iv_combinations, Pokefly.scanResult.getIVCombinationsCount()));
 
         seeAllPossibilities.setVisibility(View.GONE);
         correctCPorLevel.setVisibility(View.VISIBLE);
@@ -157,17 +164,26 @@ public class IVResultFraction extends Fraction {
         llMaxIV.setVisibility(View.GONE);
         llMinIV.setVisibility(View.GONE);
         tvAvgIV.setText(context.getString(R.string.iv));
-        resultsAttack.setText(String.valueOf(ivScanResult.iVCombinations.get(0).att));
-        resultsDefense.setText(String.valueOf(ivScanResult.iVCombinations.get(0).def));
-        resultsHP.setText(String.valueOf(ivScanResult.iVCombinations.get(0).sta));
+        resultsAttack.setText(String.valueOf(Pokefly.scanResult.getIVCombinationAt(0).att));
+        resultsDefense.setText(String.valueOf(Pokefly.scanResult.getIVCombinationAt(0).def));
+        resultsHP.setText(String.valueOf(Pokefly.scanResult.getIVCombinationAt(0).sta));
 
-        GuiUtil.setTextColorByIV(resultsAttack, ivScanResult.iVCombinations.get(0).att);
-        GuiUtil.setTextColorByIV(resultsDefense, ivScanResult.iVCombinations.get(0).def);
-        GuiUtil.setTextColorByIV(resultsHP, ivScanResult.iVCombinations.get(0).sta);
+        GuiUtil.setTextColorByIV(resultsAttack, Pokefly.scanResult.getIVCombinationAt(0).att);
+        GuiUtil.setTextColorByIV(resultsDefense, Pokefly.scanResult.getIVCombinationAt(0).def);
+        GuiUtil.setTextColorByIV(resultsHP, Pokefly.scanResult.getIVCombinationAt(0).sta);
 
         llSingleMatch.setVisibility(View.VISIBLE);
-        llMultipleIVMatches.setVisibility(View.GONE);
-        seeAllPossibilities.setVisibility(View.VISIBLE);
+        int possibleCombinationsCount = Pokefly.scanResult.getIVCombinations().size();
+        if (possibleCombinationsCount > 1) {
+            // We are showing a single match since the user selected one combination but there are
+            // more. Let the user see their count and press "see all" to select another combination.
+            llMultipleIVMatches.setVisibility(View.VISIBLE);
+            resultsCombinations.setText(
+                    context.getString(R.string.possible_iv_combinations, possibleCombinationsCount));
+            seeAllPossibilities.setVisibility(View.VISIBLE);
+        } else {
+            llMultipleIVMatches.setVisibility(View.GONE);
+        }
         correctCPorLevel.setVisibility(View.GONE);
     }
 
@@ -182,7 +198,7 @@ public class IVResultFraction extends Fraction {
         tvAvgIV.setText(context.getString(R.string.avg));
 
         resultsCombinations.setText(
-                context.getString(R.string.possible_iv_combinations, ivScanResult.iVCombinations.size()));
+                context.getString(R.string.possible_iv_combinations, Pokefly.scanResult.getIVCombinationsCount()));
 
         seeAllPossibilities.setVisibility(View.VISIBLE);
         correctCPorLevel.setVisibility(View.GONE);
@@ -195,17 +211,17 @@ public class IVResultFraction extends Fraction {
         int low = 0;
         int ave = 0;
         int high = 0;
-        if (ivScanResult.iVCombinations.size() > 0) {
-            low = ivScanResult.getLowestIVCombination().percentPerfect;
-            ave = ivScanResult.getAveragePercent();
-            high = ivScanResult.getHighestIVCombination().percentPerfect;
+        if (Pokefly.scanResult.getIVCombinationsCount() > 0) {
+            low = Pokefly.scanResult.getLowestIVCombination().percentPerfect;
+            ave = Pokefly.scanResult.getIVPercentAvg();
+            high = Pokefly.scanResult.getHighestIVCombination().percentPerfect;
         }
         GuiUtil.setTextColorByPercentage(resultsMinPercentage, low);
         GuiUtil.setTextColorByPercentage(resultsAvePercentage, ave);
         GuiUtil.setTextColorByPercentage(resultsMaxPercentage, high);
 
 
-        if (ivScanResult.iVCombinations.size() > 0) {
+        if (Pokefly.scanResult.getIVCombinationsCount() > 0) {
             resultsMinPercentage.setText(context.getString(R.string.percent, low));
             resultsAvePercentage.setText(context.getString(R.string.percent, ave));
             resultsMaxPercentage.setText(context.getString(R.string.percent, high));
@@ -223,7 +239,7 @@ public class IVResultFraction extends Fraction {
     @OnClick({R.id.shareWithOtherApp})
     void shareScannedPokemonInformation() {
         PokemonShareHandler communicator = new PokemonShareHandler();
-        communicator.spreadResultIntent(pokefly, ScanContainer.scanContainer.currScan, pokefly.pokemonUniqueID);
+        communicator.spreadResultIntent(pokefly);
         pokefly.closeInfoDialog();
     }
 

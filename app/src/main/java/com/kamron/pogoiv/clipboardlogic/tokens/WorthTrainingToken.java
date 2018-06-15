@@ -5,9 +5,9 @@ import android.content.Context;
 import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.clipboardlogic.ClipboardToken;
 import com.kamron.pogoiv.scanlogic.IVCombination;
-import com.kamron.pogoiv.scanlogic.IVScanResult;
 import com.kamron.pogoiv.scanlogic.PokeInfoCalculator;
 import com.kamron.pogoiv.scanlogic.Pokemon;
+import com.kamron.pogoiv.scanlogic.ScanResult;
 
 import java.util.Deque;
 import java.util.LinkedList;
@@ -49,7 +49,7 @@ public class WorthTrainingToken extends ClipboardToken {
     }
 
     @Override
-    public String getValue(IVScanResult ivs, PokeInfoCalculator calc) {
+    public String getValue(ScanResult ivs, PokeInfoCalculator calc) {
         MUTEX.acquireUninterruptibly();
         if (MAX_HP == 0) {
             for (final Pokemon pokemon : calc.getPokedex()) {

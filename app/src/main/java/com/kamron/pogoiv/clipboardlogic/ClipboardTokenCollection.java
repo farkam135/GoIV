@@ -15,14 +15,15 @@ import com.kamron.pogoiv.clipboardlogic.tokens.IVPercentageTokenMode;
 import com.kamron.pogoiv.clipboardlogic.tokens.IVSum;
 import com.kamron.pogoiv.clipboardlogic.tokens.LevelToken;
 import com.kamron.pogoiv.clipboardlogic.tokens.LevelUnicodeToken;
-import com.kamron.pogoiv.clipboardlogic.tokens.PokemonGenderToken;
-import com.kamron.pogoiv.clipboardlogic.tokens.WorthTrainingToken;
+import com.kamron.pogoiv.clipboardlogic.tokens.MixedUnicodeToken;
+import com.kamron.pogoiv.clipboardlogic.tokens.MovesetInitialsToken;
 import com.kamron.pogoiv.clipboardlogic.tokens.PerfectionCPPercentageToken;
+import com.kamron.pogoiv.clipboardlogic.tokens.PokemonGenderToken;
 import com.kamron.pogoiv.clipboardlogic.tokens.PokemonNameToken;
 import com.kamron.pogoiv.clipboardlogic.tokens.PowerupsToMaxToken;
 import com.kamron.pogoiv.clipboardlogic.tokens.SeparatorToken;
 import com.kamron.pogoiv.clipboardlogic.tokens.UnicodeToken;
-import com.kamron.pogoiv.clipboardlogic.tokens.MixedUnicodeToken;
+import com.kamron.pogoiv.clipboardlogic.tokens.WorthTrainingToken;
 
 import java.util.ArrayList;
 
@@ -61,7 +62,8 @@ public class ClipboardTokenCollection {
 
         tokens.add(new PowerupsToMaxToken(false));//Powerups left to pokemon level 40
 
-        tokens.add(new PokemonGenderToken(false)); // Gender
+        tokens.add(new PokemonGenderToken(false, PokemonGenderToken.Type.SYMBOL)); // Gender symbol
+        tokens.add(new PokemonGenderToken(false, PokemonGenderToken.Type.LETTER)); // Gender letter
 
         tokens.add(new HpToken(true, true));  //HP on max evolution, current level
         tokens.add(new HpToken(true, false)); //hp on max evolution, level 40
@@ -121,6 +123,11 @@ public class ClipboardTokenCollection {
         tokens.add(new MixedUnicodeToken(true)); //Mixed Unicode IV, filled exact, empty multiple ex ⓿⓿⑦
         tokens.add(new HexIVToken()); //hex representation of iv (ex A4B)
         /////////////////////////////////////////////////////////
+
+
+        //Moveset//////////////////////////////////////
+        tokens.add(new MovesetInitialsToken(1));
+        tokens.add(new MovesetInitialsToken(2));
 
 
         //Separators

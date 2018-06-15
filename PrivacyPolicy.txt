@@ -1,0 +1,13 @@
+GoIV privacy policy
+
+
+The application GoIV does not collect and transmit any personal information. It does not sell any information to 3rd parties.
+The only information gathered is anonymized app-usage used to solve crash-bugs and develop the app features.
+
+This anonymized reporting can be turned off in settings, but the crash-reports auto-generated for all google play apps are still
+sent. 
+
+The application collects and transmits the following information:
+
+Anonymized application stats using Fabric. (How long the app is open, which parts of the app is used)
+Crashreports. (Crashlog, does not contain any personal information, may contain data such as what device and android OS you have.)

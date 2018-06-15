@@ -39,6 +39,10 @@ if (new File('keystore.properties').exists()) {
     keystoreProperties.keyPassword = 'your_key_password'
     keystoreProperties.storeFile = 'your_keystore.jks'
     keystoreProperties.storePassword = 'your_keystore_password'
+    keystoreProperties.keyAliasPlaystore = 'playstore_key_alias'
+    keystoreProperties.keyPasswordPlaystore = 'playstore_key_password'
+    keystoreProperties.storeFilePlaystore = 'playstore_keystore.jks'
+    keystoreProperties.storePasswordPlaystore = 'playstore_keystore_password'
 }
 
 /**
@@ -54,6 +58,12 @@ android {
             keyPassword keystoreProperties['keyPassword']
             storeFile file(keystoreProperties['storeFile'])
             storePassword keystoreProperties['storePassword']
+        }
+        playstoreConfig { // App Signing upload key
+            keyAlias keystoreProperties['keyAliasPlaystore']
+            keyPassword keystoreProperties['keyPasswordPlaystore']
+            storeFile file(keystoreProperties['storeFilePlaystore'])
+            storePassword keystoreProperties['storePasswordPlaystore']
         }
     }
 
@@ -73,8 +83,8 @@ android {
     defaultConfig {
         minSdkVersion 19 /*Dont change this unless you know why*/
         targetSdkVersion 27 /*Dont change this unless you know why*/
-        versionCode 39
-        versionName "4.3.3"
+        versionCode 47
+        versionName "5.0.7"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
@@ -89,14 +99,27 @@ android {
     productFlavors {
         offline {
             applicationId "com.swanberg.pogoiv.nointernet"
-            buildConfigField "boolean", "isInternetAvailable", "false"
+            buildConfigField "boolean", "INTERNET_AVAILABLE", "false"
+            buildConfigField "boolean", "DISTRIBUTION_GITHUB", "true"
+            buildConfigField "boolean", "DISTRIBUTION_PLAYSTORE", "false"
             ext.enableCrashlytics = false
             dimension "default"
         }
 
         online {
             applicationId "com.swanberg.pogoiv"
-            buildConfigField "boolean", "isInternetAvailable", "true"
+            buildConfigField "boolean", "INTERNET_AVAILABLE", "true"
+            buildConfigField "boolean", "DISTRIBUTION_GITHUB", "true"
+            buildConfigField "boolean", "DISTRIBUTION_PLAYSTORE", "false"
+            ext.enableCrashlytics = true
+            dimension "default"
+        }
+
+        playstore {
+            applicationId = "org.opensource.goiv"
+            buildConfigField "boolean", "INTERNET_AVAILABLE", "true"
+            buildConfigField "boolean", "DISTRIBUTION_GITHUB", "false"
+            buildConfigField "boolean", "DISTRIBUTION_PLAYSTORE", "true"
             ext.enableCrashlytics = true
             dimension "default"
         }
@@ -114,12 +137,14 @@ android {
         }
         release {
             minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro',
+                    'proguard-crashlytics.pro', 'proguard-guava.pro', 'proguard-butterknife.pro',
+                    'proguard-okhttp3.pro'
             lintOptions {
                 disable 'MissingTranslation'
-                checkReleaseBuilds false
             }
-            signingConfig signingConfigs.releaseConfig
+            productFlavors.online.signingConfig signingConfigs.releaseConfig
+            productFlavors.playstore.signingConfig signingConfigs.playstoreConfig
         }
     }
 
@@ -149,45 +174,53 @@ dependencies {
     /**
      * Builds Dependencies for All Builds.
      */
+    compileOnly 'org.projectlombok:lombok:1.16.20'
+    annotationProcessor 'org.projectlombok:lombok:1.16.20'
+    implementation 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    implementation 'com.android.support:support-v4:27.1.1'
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.android.support:preference-v7:27.1.1'
+    implementation 'com.android.support:recyclerview-v7:27.1.1'
+    implementation 'com.android.support:design:27.1.1'
+    implementation 'com.android.support:cardview-v7:27.1.1'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
+    implementation 'com.android.support:support-annotations:27.1.1'
+    implementation 'com.google.guava:guava:24.1-android'
+    implementation 'com.google.code.gson:gson:2.8.2'
+    implementation 'com.google.code.findbugs:jsr305:3.0.2'
+    implementation 'org.apache.commons:commons-math3:3.6.1'
+    implementation 'com.jakewharton.timber:timber:4.7.0'
+    implementation 'com.rmtheis:tess-two:7.0.0'
+    implementation 'info.hoang8f:android-segmented:1.0.6'
+    implementation 'io.apptik.widget:multislider:1.2'
+    implementation 'com.pavelsikun:material-seekbar-preference:2.3.0'
+    implementation project(':openCVLibrary330')
 
     /**
      * Online Build Dependencies
      */
-    //Include Crashlytics in the online build
-    onlineCompile('com.crashlytics.sdk.android:crashlytics:2.9.0@aar') {
+    onlineImplementation 'com.squareup.okhttp3:okhttp:3.10.0'
+    onlineImplementation('com.crashlytics.sdk.android:crashlytics:2.9.2@aar') {
+        transitive = true
+    }
+
+    /**
+     * Play Store Build Dependencies
+     */
+    playstoreImplementation('com.crashlytics.sdk.android:crashlytics:2.9.2@aar') {
         transitive = true
     }
 
     /**
      * Test Build Dependencies
      */
-    implementation 'com.android.support:support-v4:27.0.2'
-    compile 'com.android.support:appcompat-v7:27.0.2'
-    compile 'com.android.support:preference-v7:27.0.2'
-    compile 'com.android.support:recyclerview-v7:27.0.2'
-    compile 'com.android.support:design:27.0.2'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.google.guava:guava:23.5-android'
-    compile 'com.google.code.findbugs:jsr305:3.0.1'
-    compile 'org.apache.commons:commons-math3:3.6.1'
-    compile 'com.jakewharton:butterknife:8.8.1'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
-    compile 'com.jakewharton.timber:timber:4.3.0'
-    compile 'com.rmtheis:tess-two:7.0.0'
-    compile 'info.hoang8f:android-segmented:1.0.6'
-    compile 'io.apptik.widget:multislider:1.2'
-    compile 'com.pavelsikun:material-seekbar-preference:2.3.0'
-    testCompile 'junit:junit:4.12'
-    testCompile 'com.squareup.assertj:assertj-android:1.1.1'
-    testCompile 'org.mockito:mockito-core:1.10.19'
-    testCompile 'com.android.support:support-annotations:27.0.2'
-    testCompile 'com.android.support.test:runner:1.0.1'
-    androidTestCompile 'com.android.support:support-annotations:27.0.2'
-    androidTestCompile 'com.android.support.test:runner:1.0.1'
-    annotationProcessor 'org.projectlombok:lombok:1.16.18'
-    onlineCompile 'com.squareup.okhttp3:okhttp:3.7.0'
-    compileOnly 'org.projectlombok:lombok:1.16.18'
-    compile project(':openCVLibrary330')
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'com.squareup.assertj:assertj-android:1.1.1'
+    testImplementation 'org.mockito:mockito-core:1.10.19'
+    testImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    onlineCompile 'org.json:json:20160810' //used to generate moveset list
 }
 
 /**

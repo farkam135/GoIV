@@ -1,20 +1,27 @@
 package com.kamron.pogoiv.pokeflycomponents;
 
-import android.content.Context;
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.v4.content.res.ResourcesCompat;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 
+import com.kamron.pogoiv.GoIVSettings;
 import com.kamron.pogoiv.Pokefly;
 import com.kamron.pogoiv.R;
-import com.kamron.pogoiv.scanlogic.IVScanResult;
+import com.kamron.pogoiv.scanlogic.IVCombination;
+import com.kamron.pogoiv.scanlogic.ScanResult;
+
+import static com.kamron.pogoiv.pokeflycomponents.GoIVNotificationManager.ACTION_RECALIBRATE_SCANAREA;
 
 /**
  * Created by johan on 2017-07-06.
@@ -23,61 +30,62 @@ import com.kamron.pogoiv.scanlogic.IVScanResult;
  * full input modification screen
  */
 
+@SuppressLint("ViewConstructor")
 public class IVPopupButton extends android.support.v7.widget.AppCompatButton {
 
-    private Pokefly pokefly;
-    private WindowManager windowManager;
-    private boolean showing = false;
+    private final Pokefly pokefly;
+    private boolean shouldRecalibrate = false;
 
-    @SuppressWarnings("deprecation")
-    private final WindowManager.LayoutParams ivButtonParams = new WindowManager.LayoutParams(
-            WindowManager.LayoutParams.WRAP_CONTENT,
-            WindowManager.LayoutParams.WRAP_CONTENT,
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
-                    ? WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
-                    : WindowManager.LayoutParams.TYPE_PHONE,
-            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
-            PixelFormat.TRANSLUCENT);
+    public static final WindowManager.LayoutParams layoutParams;
 
+    static {
+        layoutParams = new WindowManager.LayoutParams(
+                WindowManager.LayoutParams.WRAP_CONTENT,
+                WindowManager.LayoutParams.WRAP_CONTENT,
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
+                        ? WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
+                        : WindowManager.LayoutParams.TYPE_PHONE,
+                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
+                PixelFormat.TRANSLUCENT);
+        layoutParams.gravity = Gravity.BOTTOM | Gravity.START;
+    }
 
     /**
      * Create an instance of the IVPopupButton.
      *
-     * @param context the pokefly context
+     * @param pokefly The pokefly service that created this button
      */
-    public IVPopupButton(Context context) {
-        super(context);
-        pokefly = (Pokefly) context;
-        windowManager = (WindowManager) pokefly.getSystemService(pokefly.WINDOW_SERVICE);
-        resetButtonLook();
+    public IVPopupButton(Pokefly pokefly) {
+        super(pokefly);
+        this.pokefly = pokefly;
 
+        // Init button position
+        layoutParams.x = dpToPx(16);
+        layoutParams.y = dpToPx(14);
+
+        // Start hidden
+        setVisibility(GONE);
+
+        resetButtonLook();
         setOnTouchListener(new OnIVClick());
     }
 
     /**
-     * Hides or shows the IV button
+     * Hides or shows the IV button.
      *
      * @param shouldShow    true if the button should attempt to show itself
      * @param infoShownSent the boolean in pokefly that indiates if the state is already in sent state.
      */
     public void setShown(boolean shouldShow, boolean infoShownSent) {
-        if (shouldShow && !showing && !infoShownSent) {
-            showSelf();
+        if (shouldShow && getVisibility() != VISIBLE && !infoShownSent) {
+            resetButtonLook();
+            setVisibility(VISIBLE);
 
         } else if (!shouldShow) {
-            if (showing) {
-                removeSelf();
+            if (getVisibility() == VISIBLE) {
+                setVisibility(GONE);
             }
         }
-    }
-
-    /**
-     * Shows the ivbutton.
-     */
-    private void showSelf() {
-        resetButtonLook();
-        windowManager.addView(this, getLayoutParams());
-        showing = true;
     }
 
     /**
@@ -88,10 +96,6 @@ public class IVPopupButton extends android.support.v7.widget.AppCompatButton {
         setBackgroundResource(R.drawable.iv_button);
         setWidth(dpToPx(60));
         setText("");
-        ivButtonParams.gravity = Gravity.BOTTOM | Gravity.START;
-        ivButtonParams.x = dpToPx(16);
-        ivButtonParams.y = dpToPx(14);
-        setLayoutParams(ivButtonParams);
         setTextAlignment(TEXT_ALIGNMENT_CENTER);
         setGravity(Gravity.CENTER_VERTICAL);
     }
@@ -99,29 +103,42 @@ public class IVPopupButton extends android.support.v7.widget.AppCompatButton {
     /**
      * Modifies the look of the IVPopupButton to represent a quick representation of an iv scan.
      *
-     * @param ivrs what data to base the look on.
+     * @param scanResult what data to base the look on.
      */
-    public void showQuickIVPreviewLook(IVScanResult ivrs) {
-        setTextAlignment(TEXT_ALIGNMENT_CENTER);
+    public void showQuickIVPreviewLook(@NonNull ScanResult scanResult) {
+        shouldRecalibrate = false;
 
-        int low = ivrs.getLowestIVCombination().percentPerfect;
-        int high = ivrs.getHighestIVCombination().percentPerfect;
-        if (ivrs.getCount() == 1 || high == low) { // display something like "IV: 98%"
-            setText(ivrs.pokemon.name + "\nIV: " + low + "%");
-        } else { // display something like "IV: 55 - 87%"
-            setText(ivrs.pokemon.name + "\nIV: " + low + " - " + high + "%");
+        IVCombination lowest = scanResult.getLowestIVCombination();
+        IVCombination highest = scanResult.getHighestIVCombination();
+
+        if (lowest != null && highest != null) {
+            setTextAlignment(TEXT_ALIGNMENT_CENTER);
+            int low = lowest.percentPerfect;
+            int high = highest.percentPerfect;
+
+            final StringBuilder text = new StringBuilder();
+            String pokemonName = scanResult.pokemon.name;
+            if (pokemonName.contains(" - ")) { // check including form name
+                pokemonName = pokemonName.replace(" - ", "\n");
+            }
+            if (scanResult.getIVCombinationsCount() == 1 || high == low) { // Display something like "IV: 98%"
+                text.append(getContext().getString(
+                        R.string.iv_button_exact_result_preview_format, pokemonName, low));
+            } else { // Display something like "IV: 55 - 87%"
+                text.append(getContext().getString(
+                        R.string.iv_button_range_result_preview_format, pokemonName, low, high));
+            }
+            if (scanResult.levelRange.min != scanResult.levelRange.max) {
+                text.append("*");
+            }
+            setText(text);
+
+            setBackgroundGradient(scanResult);
+            setTextColorFromIVs(scanResult);
         }
-        if (ivrs.rangeIVScan) {
-            setText(getText() + "*");
-        }
-
-        setBackgroundGradient(ivrs);
-        setTextColorFromIVs(ivrs);
-
-
     }
 
-    private void setTextColorFromIVs(IVScanResult ivrs) {
+    private void setTextColorFromIVs(ScanResult scanResult) {
 
         //setTextColor(ResourcesCompat.getColor(getResources(), R.color.iv_text_color, null));
 
@@ -130,7 +147,7 @@ public class IVPopupButton extends android.support.v7.widget.AppCompatButton {
         int yellow = ResourcesCompat.getColor(getResources(), R.color.t_yellow, null);
         int red = ResourcesCompat.getColor(getResources(), R.color.t_red, null);
 
-        int percent = ivrs.getAveragePercent();
+        int percent = scanResult.getIVPercentAvg();
         if (percent < 51) {
             setTextColor(red);
         } else if (percent < 66) {
@@ -146,19 +163,21 @@ public class IVPopupButton extends android.support.v7.widget.AppCompatButton {
     /**
      * Picks the correct background resource to have the correct color gradient representing the IV spread.
      *
-     * @param ivrs The possible IVs to adjust to.
+     * @param scanResult The possible IVs to adjust to.
      */
-    private void setBackgroundGradient(IVScanResult ivrs) {
+    private void setBackgroundGradient(@NonNull ScanResult scanResult) {
+        IVCombination lowest = scanResult.getLowestIVCombination();
+        IVCombination highest = scanResult.getHighestIVCombination();
 
-        int low = ivrs.getLowestIVCombination().percentPerfect;
-        int high = ivrs.getHighestIVCombination().percentPerfect;
+        if (lowest != null && highest != null) {
+            int low = lowest.percentPerfect;
+            int high = highest.percentPerfect;
 
-        setWidth(dpToPx(60));
-        setBackgroundResource(R.drawable.preview_button_0_100);
+            setWidth(dpToPx(60));
+            setBackgroundResource(R.drawable.preview_button_0_100);
 
-        setGradientColor(getColorForPercentIV(low), getColorForPercentIV(high));
-
-
+            setGradientColor(getColorForPercentIV(low), getColorForPercentIV(high));
+        }
     }
 
     /**
@@ -173,7 +192,6 @@ public class IVPopupButton extends android.support.v7.widget.AppCompatButton {
         if (inner != null) {
             inner.setColors(new int[]{c1, c2});
         }
-
     }
 
     /**
@@ -214,8 +232,13 @@ public class IVPopupButton extends android.support.v7.widget.AppCompatButton {
         int black = ResourcesCompat.getColor(getResources(), R.color.p_error, null);
         setGradientColor(black, black);
 
-        setText("?");
-
+        GoIVSettings settings = GoIVSettings.getInstance(pokefly);
+        if (settings.hasManualScanCalibration() && settings.hasUpToDateManualScanCalibration()) {
+            setText("?");
+        } else {
+            shouldRecalibrate = true;
+            setText(R.string.button_recalibrate);
+        }
     }
 
     /**
@@ -225,25 +248,23 @@ public class IVPopupButton extends android.support.v7.widget.AppCompatButton {
 
         @Override public boolean onTouch(View v, MotionEvent event) {
             if (event.getAction() == MotionEvent.ACTION_UP) {
-                removeSelf();
-                pokefly.takeScreenshot();
-                pokefly.setIVButtonClickedStates();
+                if (shouldRecalibrate) {
+                    shouldRecalibrate = false;
+                    pokefly.startService(new Intent(pokefly, GoIVNotificationManager.NotificationActionService.class)
+                            .setAction(ACTION_RECALIBRATE_SCANAREA));
+                } else {
+                    setVisibility(GONE);
+                    pokefly.requestScan();
+                    pokefly.setIVButtonClickedStates();
+                }
+                return true;
             }
             return false;
         }
     }
 
-    /**
-     * Removes the button from its parent container.
-     */
-    private void removeSelf() {
-        windowManager.removeView(this);
-        showing = false;
-    }
-
-
-    private int dpToPx(int dp) {
-        return Math.round(dp * (getContext().getResources().getDisplayMetrics().density));
+    private static int dpToPx(int dp) {
+        return Math.round(dp * Resources.getSystem().getDisplayMetrics().density);
     }
 
 }

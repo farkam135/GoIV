@@ -27,11 +27,14 @@
             tools:ignore="VectorDrawableCompat" />
 
         <TextView
+            android:id="@+id/additionalRefiningHeader"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/appraisal_refining" />
+            android:text="@string/appraisal_refining"
+            android:maxLines="1"
+            android:ellipsize="end" />
 
         <ImageButton
             style="?attr/borderlessButtonStyle"
@@ -39,7 +42,8 @@
             android:layout_width="48dp"
             android:layout_height="40dp"
             android:text="@string/close"
-            android:src="@drawable/abc_ic_clear_material" />
+            android:src="@drawable/ic_clear_white_24dp"
+            android:contentDescription="@string/close" />
 
     </LinearLayout>
 
@@ -78,8 +82,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="4dp"
-        android:paddingStart="2dp"
-        android:paddingEnd="2dp">
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="2dp">
 
         <RadioButton
             style="?android:attr/checkboxStyle"
@@ -145,8 +149,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
-        android:paddingStart="2dp"
-        android:paddingEnd="2dp">
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="2dp">
 
         <CheckBox
             android:id="@+id/attCheckbox"
@@ -197,8 +201,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="2dp"
-        android:paddingStart="2dp"
-        android:paddingEnd="2dp">
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="2dp">
 
         <RadioButton
             style="?android:attr/checkboxStyle"
@@ -262,7 +266,10 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp"
+        android:paddingLeft="8dp"
+        android:paddingTop="4dp"
+        android:paddingRight="8dp"
+        android:paddingBottom="4dp"
         android:baselineAligned="true">
 
         <Switch
@@ -271,6 +278,7 @@
             android:layout_height="40dp"/>
 
         <TextView
+            android:id="@+id/eggRaidText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:labelFor="@id/eggRaidSwitch"
@@ -278,23 +286,33 @@
             android:textColor="?android:attr/textColorPrimaryDisableOnly"
             android:text="@string/acquired_from_egg_or_raid" />
 
-        <android.support.v4.widget.Space
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
-
-
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp">
+        android:orientation="horizontal"
+        >
+        <Button
+            android:id="@+id/btnBackAppr"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
+            android:text="Back" />
+
         <Button
             android:id="@+id/btnCheckIv"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
             android:text="@string/check_iv" />
+
+
+
 
 
     </LinearLayout>

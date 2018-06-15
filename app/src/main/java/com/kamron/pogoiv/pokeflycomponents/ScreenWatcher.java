@@ -44,20 +44,20 @@ public class ScreenWatcher {
     private Integer[] areaColor = new Integer[2];
 
     private Handler screenScanHandler;
-    private Runnable screenScanRunnable;
+    private ScreenScan screenScanRunnable;
     private int screenScanRetries;
 
-    private AutoAppraisal autoAppraisal;
+    private AppraisalManager appraisalManager;
 
     private Pokefly pokefly;
     private DisplayMetrics displayMetrics;
     private FractionManager fractionManager;
 
-    public ScreenWatcher(Pokefly pokefly, FractionManager fractionManager, AutoAppraisal autoAppraisal) {
+    public ScreenWatcher(Pokefly pokefly, FractionManager fractionManager, AppraisalManager appraisalManager) {
         this.pokefly = pokefly;
         this.displayMetrics = pokefly.getResources().getDisplayMetrics();
         this.fractionManager = fractionManager;
-        this.autoAppraisal = autoAppraisal;
+        this.appraisalManager = appraisalManager;
 
         initMarkerPixels();
     }
@@ -147,6 +147,16 @@ public class ScreenWatcher {
     }
 
     /**
+     * Used to cancel any pending screen scan (and consequent quick IV preview scan) when the user requested to Pokefly
+     * to take a screenshot and scan the Pokémon (due to a press on the IVPopupButton).
+     */
+    public void cancelPendingScreenScan() {
+        if (screenScanHandler != null) {
+            screenScanHandler.removeCallbacks(screenScanRunnable);
+        }
+    }
+
+    /**
      * The running method which is called initially by the touchevent, and which calls itself like an echo a couple
      * of times just to retry - in case the user is running a particularly fast / slow phone.
      */
@@ -173,23 +183,21 @@ public class ScreenWatcher {
     private class GoIVOnTouchEventLogic implements View.OnTouchListener {
         @Override
         public boolean onTouch(View v, MotionEvent event) {
-            if (event.getActionMasked() == MotionEvent.ACTION_OUTSIDE) { // Touch event outside of GoIV UI
-                // Let's check first to see if the user is performing an Appraisal
-                if (!GoIVSettings.getInstance(pokefly).isManualScreenshotModeEnabled()
-                        && fractionManager.currentFractionIsInstanceOf(AppraisalFraction.class)) {
-                    // Let autoAppraisal know that the user has touched the PokemonGo app while the
-                    // appraisalBox was Visible.  This is our indication that the user has started a Pogo appraisal
-                    autoAppraisal.screenTouched();
-                } else {
-                    // Not appraising, let's check to see if they're looking at a pokemon screen.
-                    // The postDelayed will wait SCREEN_SCAN_DELAY_MS after the user touches the screen before
-                    // performing a scan of the screen to detect the pixels associated with a Pokemon screen.
-                    if (screenScanHandler != null) { // Ensure this is not executed after unwatchScreen()
-                        screenScanHandler.removeCallbacks(screenScanRunnable);
-                        screenScanHandler.postDelayed(screenScanRunnable, SCREEN_SCAN_INITIAL_DELAY_MS);
-                        screenScanRetries = SCREEN_SCAN_RETRIES;
-                        pokefly.getIvButton().outsideScreenClicked();
-                    }
+            // Let's check first to see if the user is performing an Appraisal
+            if (!GoIVSettings.getInstance(pokefly).isManualScreenshotModeEnabled()
+                    && fractionManager.currentFractionIsInstanceOf(AppraisalFraction.class)) {
+                // Let appraisalManager know that the user has touched the PokemonGo app while the
+                // appraisalBox was Visible.  This is our indication that the user has started a Pogo appraisal
+                appraisalManager.screenTouched();
+            } else {
+                // Not appraising, let's check to see if they're looking at a pokemon screen.
+                // The postDelayed will wait SCREEN_SCAN_DELAY_MS after the user touches the screen before
+                // performing a scan of the screen to detect the pixels associated with a Pokemon screen.
+                if (screenScanHandler != null) { // Ensure this is not executed after unwatchScreen()
+                    screenScanHandler.removeCallbacks(screenScanRunnable);
+                    screenScanHandler.postDelayed(screenScanRunnable, SCREEN_SCAN_INITIAL_DELAY_MS);
+                    screenScanRetries = SCREEN_SCAN_RETRIES;
+                    pokefly.getIvButton().outsideScreenClicked();
                 }
             }
             return false;

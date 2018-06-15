@@ -1,6 +1,8 @@
 package com.kamron.pogoiv.scanlogic;
 
 
+import android.support.annotation.NonNull;
+
 import com.google.common.base.Optional;
 
 import java.util.ArrayList;
@@ -32,25 +34,22 @@ public class PokemonNameCorrector {
      * The order is decided by having high reliability guessing modules run first, and if they cant find an answer,
      * fall back to less accurate methods.
      *
-     * @param poketext         the scanned pokemon nickname
-     * @param candytext        the scanned pokemon candy name
-     * @param candyUpgradeCost the scanned pokemon evolution candy cost
+     * @param scanData The OCR'd data
      * @return a Pokedist with the best guess of the pokemon
      */
-    public PokeDist getPossiblePokemon(String poketext, String candytext, Optional<Integer> candyUpgradeCost,
-                                       String pokemonType) {
+    public PokeDist getPossiblePokemon(@NonNull ScanData scanData) {
         ArrayList<Pokemon> bestGuessEvolutionLine = null;
         PokeDist guess;
 
         //1. Check if nickname perfectly matches a pokemon (which means pokemon is probably not renamed)
-        guess = new PokeDist(pokeInfoCalculator.get(poketext), 0);
+        guess = new PokeDist(pokeInfoCalculator.get(scanData.getPokemonName()), 0);
 
         //2. See if we can get a perfect match with candy name & upgrade cost
         if (guess.pokemon == null) {
-            bestGuessEvolutionLine = getBestGuessForEvolutionLine(candytext);
+            bestGuessEvolutionLine = getBestGuessForEvolutionLine(scanData.getCandyName());
 
             ArrayList<Pokemon> candyNameEvolutionCostGuess =
-                    getCandyNameEvolutionCostGuess(bestGuessEvolutionLine, candyUpgradeCost);
+                    getCandyNameEvolutionCostGuess(bestGuessEvolutionLine, scanData.getEvolutionCandyCost());
             if (candyNameEvolutionCostGuess != null) {
                 if (candyNameEvolutionCostGuess.size() == 1) {
                     //we have only one guess this is the one
@@ -63,8 +62,9 @@ public class PokemonNameCorrector {
         }
 
 
-        //3.  check correction for Eevee’s Evolution using it's Pokemon Type
-        if (guess.pokemon == null && candytext.toLowerCase().contains(pokeInfoCalculator.get(132).name.toLowerCase())) {
+        //3.  check correction for abnormal pokemon using Pokemon Type (such as eevees evolutions, azuril.)
+        if (guess.pokemon == null
+                && scanData.getCandyName().toLowerCase().contains(pokeInfoCalculator.get(132).name.toLowerCase())) {
             HashMap<String, String> eeveelutionCorrection = new HashMap<>();
             eeveelutionCorrection.put(pokeInfoCalculator.getTypeName(2), //WATER
                     pokeInfoCalculator.get(133).name); //Vaporeon
@@ -83,17 +83,28 @@ public class PokemonNameCorrector {
             //         pokeInfoCalculator.get(470).name); //Glaceon
             // eeveelutionCorrection.put(pokeInfoCalculator.getTypeName(17), //FAIRY
             //         pokeInfoCalculator.get(699).name); //Sylveon
-            if (eeveelutionCorrection.containsKey(pokemonType)) {
-                poketext = eeveelutionCorrection.get(pokemonType);
-                guess = new PokeDist(pokeInfoCalculator.get(poketext), 0);
+            if (eeveelutionCorrection.containsKey(scanData.getPokemonType())) {
+                String name = eeveelutionCorrection.get(scanData.getPokemonType());
+                guess = new PokeDist(pokeInfoCalculator.get(name), 0);
+            }
+        }
+
+        //3.1 Azuril and marill have the same evolution cost, but different types.
+        if (scanData.getCandyName().toLowerCase().contains(pokeInfoCalculator.get(182).name.toLowerCase())
+                && (scanData.getEvolutionCandyCost().get() != -1)) { //its not an azumarill
+            //if the scanned data contains the type water, it must be a marill, as azuril is normal type.
+            if (scanData.getPokemonType().contains(pokeInfoCalculator.getTypeName(2))) {
+                guess = new PokeDist(pokeInfoCalculator.get(182), 0);
+            } else {
+                guess = new PokeDist(pokeInfoCalculator.get(297), 0);
             }
         }
 
         //4. maybe the candy upgrade cost was scanned wrong because the candy icon was interpreted as a number (for
         // example the black candy is not cleaned by the ocr). Try checking if any in the possible evolutions that
         // match without the first character.
-        if (guess.pokemon == null && candyUpgradeCost.isPresent()) {
-            String textInterpretation = candyUpgradeCost.get().toString();
+        if (guess.pokemon == null && scanData.getEvolutionCandyCost().isPresent()) {
+            String textInterpretation = scanData.getEvolutionCandyCost().get().toString();
             String cleanedInterpretation = textInterpretation.substring(1, textInterpretation.length());
             Optional<Integer> cleanedInt;
             try {
@@ -117,15 +128,50 @@ public class PokemonNameCorrector {
         //5.  get the pokemon with the closest name within the evolution line guessed from the candy (or candy and
         // cost calculation).
         if (guess.pokemon == null && bestGuessEvolutionLine != null) {
-            guess = getNicknameGuess(poketext, bestGuessEvolutionLine);
+            guess = getNicknameGuess(scanData.getPokemonName(), bestGuessEvolutionLine);
         }
 
 
-        //6. All else failed: make a wild guess based only on closest name match
+        //6. Check if the found pokemon should be alolan variant or not.
+        if (scanData != null && scanData.getPokemonType() != null) {
+            PokeDist alolanGuess = checkAlolanVariant(guess, scanData);
+            if (alolanGuess != null) {
+                guess = alolanGuess;
+            }
+
+        }
+
+        //7. All else failed: make a wild guess based only on closest name match
         if (guess.pokemon == null) {
-            guess = getNicknameGuess(poketext, pokeInfoCalculator.getPokedex());
+            guess = getNicknameGuess(scanData.getPokemonName(), pokeInfoCalculator.getPokedex());
         }
+
+
+        //if (guess.pokemon.number)
         return guess;
+    }
+
+    private PokeDist checkAlolanVariant(PokeDist guess,
+                                        ScanData scanData) {
+        try {
+            switch (guess.pokemon.number) {
+                case (102): // Exeggutor
+                    // check types including dragon
+                    if (scanData.getPokemonType().toLowerCase().contains(
+                            pokeInfoCalculator.getTypeName(14).toLowerCase())) {
+                        return new PokeDist(pokeInfoCalculator.get(102).forms.get(0), 0);
+                    }
+                    break;
+
+                default:
+                    // do nothing
+
+            }
+        } catch (NullPointerException e) {
+            return null;
+        }
+
+        return null;
     }
 
 
@@ -162,6 +208,7 @@ public class PokemonNameCorrector {
      * @param pokemons the pokemon list to search the nickname into.
      * @return a pokedist representing the search result.
      */
+
     private PokeDist getNicknameGuess(String poketext, List<Pokemon> pokemons) {
         //if there's no perfect match, get the pokemon that best matches the nickname within the best guess evo-line
         Pokemon bestMatchPokemon = null;

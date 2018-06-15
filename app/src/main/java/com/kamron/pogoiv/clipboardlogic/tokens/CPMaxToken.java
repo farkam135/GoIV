@@ -5,9 +5,9 @@ import android.content.Context;
 import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.clipboardlogic.ClipboardToken;
 import com.kamron.pogoiv.scanlogic.CPRange;
-import com.kamron.pogoiv.scanlogic.IVScanResult;
 import com.kamron.pogoiv.scanlogic.PokeInfoCalculator;
 import com.kamron.pogoiv.scanlogic.Pokemon;
+import com.kamron.pogoiv.scanlogic.ScanResult;
 
 /**
  * Created by johan on 2017-04-12.
@@ -34,13 +34,13 @@ public class CPMaxToken extends ClipboardToken {
         return 4;
     }
 
-    @Override public String getValue(IVScanResult ivScanResult, PokeInfoCalculator pokeInfoCalculator) {
+    @Override public String getValue(ScanResult scanResult, PokeInfoCalculator pokeInfoCalculator) {
         //pokemon low high level
-        Pokemon poke = getRightPokemon(ivScanResult.pokemon, pokeInfoCalculator);
+        Pokemon poke = getRightPokemon(scanResult.pokemon, pokeInfoCalculator);
 
-        double level = currentLevel ? ivScanResult.estimatedPokemonLevel.min : 40;
-        CPRange r = pokeInfoCalculator.getCpRangeAtLevel(poke, ivScanResult.getLowestIVCombination(),
-                ivScanResult.getHighestIVCombination(), level);
+        double level = currentLevel ? scanResult.levelRange.min : 40;
+        CPRange r = pokeInfoCalculator.getCpRangeAtLevel(poke, scanResult.getLowestIVCombination(),
+                scanResult.getHighestIVCombination(), level);
 
 
         return String.valueOf(r.getAvg());

@@ -24,14 +24,17 @@
             android:layout_width="48dp"
             android:layout_height="40dp"
             android:text="@string/back"
-            android:src="?attr/homeAsUpIndicator" />
+            android:src="@drawable/ic_arrow_back_white_24dp"
+            android:contentDescription="@string/back" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Power up predictions" />
+            android:text="@string/fraction_powerup_title"
+            android:maxLines="1"
+            android:ellipsize="end" />
 
         <ImageButton
             style="?attr/borderlessButtonStyle"
@@ -39,16 +42,17 @@
             android:layout_width="48dp"
             android:layout_height="40dp"
             android:text="@string/close"
-            android:src="@drawable/abc_ic_clear_material" />
+            android:src="@drawable/ic_clear_white_24dp"
+            android:contentDescription="@string/close" />
 
     </LinearLayout>
 
     <info.hoang8f.android.segmented.SegmentedGroup
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="4dp"
+        android:layout_margin="0dp"
         android:orientation="horizontal"
-        app:sc_corner_radius="2dp"
+        app:sc_corner_radius="0dp"
         app:sc_tint_color="@color/colorPrimary">
 
         <RadioButton
@@ -56,7 +60,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Power up"
+            android:text="@string/fraction_powerup_tab_label"
             android:textAllCaps="true"
             android:checked="true"
             style="@style/RadioButton" />
@@ -66,7 +70,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="IV"
+            android:text="@string/fraction_iv_tab_label"
             android:textAllCaps="true"
             style="@style/RadioButton" />
 
@@ -75,226 +79,236 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Moveset"
+            android:text="@string/fraction_moveset_tab_label"
             android:textAllCaps="true"
             style="@style/RadioButton" />
 
     </info.hoang8f.android.segmented.SegmentedGroup>
 
-    <android.support.constraint.ConstraintLayout
+
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp">
+        android:layout_height="wrap_content"
+        android:paddingTop="12dp"
+        android:paddingBottom="6dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:text="Prediction" />
 
-        <LinearLayout
-            android:id="@+id/cpContainer"
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:baselineAligned="true">
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
             <TextView
+                android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="6dp"
-                android:layout_marginRight="6dp"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textAllCaps="true"
-                android:text="@string/cp"
-                tools:ignore="RtlHardcoded" />
+                android:text="@string/fraction_powerup_paragraph_predictedstats"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+
 
             <TextView
                 android:id="@+id/exResultCP"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textStyle="bold"
-                tools:text="2012" />
+                android:textAppearance="@style/evalResultText"
+                app:layout_constraintHorizontal_bias="0.2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView"
+                tools:text="2012"/>
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/hpContainer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/cpContainer"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:baselineAligned="true">
+            <TextView
+                android:id="@+id/exResultCPPlus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                app:layout_constraintBaseline_toBaselineOf="@id/exResultCP"
+                app:layout_constraintStart_toEndOf="@+id/exResultCP"
+                tools:text="(+612)"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="6dp"
-                android:layout_marginRight="6dp"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_marginEnd="4dp"
+                android:layout_marginRight="4dp"
+                android:text="@string/cp"
                 android:textAllCaps="true"
-                android:text="@string/hp_expanded_box"
-                tools:ignore="RtlHardcoded" />
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                app:layout_constraintBaseline_toBaselineOf="@id/exResultCP"
+                app:layout_constraintEnd_toStartOf="@id/exResultCP"
+                tools:ignore="RtlHardcoded"/>
+
 
             <TextView
                 android:id="@+id/exResultHP"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textStyle="bold"
+                android:textAppearance="@style/evalResultText"
+                app:layout_constraintHorizontal_bias="0.8"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBaseline_toBaselineOf="@id/exResultCP"
                 tools:text="200"/>
 
-        </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/cpContainer"
-            app:layout_constraintStart_toStartOf="@id/cpContainer"
-            app:layout_constraintEnd_toEndOf="@id/cpContainer">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:layout_marginRight="4dp"
+                android:text="@string/hp_expanded_box"
+                android:textAllCaps="true"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                app:layout_constraintBaseline_toBaselineOf="@id/exResultCP"
+                app:layout_constraintEnd_toStartOf="@id/exResultHP"
+                tools:ignore="RtlHardcoded"/>
+
+            <TextView
+                android:id="@+id/exResultHPPlus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                app:layout_constraintBaseline_toBaselineOf="@id/exResultCP"
+                app:layout_constraintStart_toEndOf="@id/exResultHP"
+                tools:text="(+24)"/>
 
             <TextView
                 android:id="@+id/exResultPercentPerfection"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                tools:text="98.1% (-61)" />
-
-            <TextView
-                android:id="@+id/explainCPPercentageComparedToMaxIV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="6dp"
-                android:layout_marginStart="6dp"
+                app:layout_constraintTop_toBottomOf="@id/exResultCP"
+                app:layout_constraintStart_toStartOf="@id/exResultCP"
+                app:layout_constraintEnd_toEndOf="@id/exResultCP"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/colorPrimary"
-                android:text="(?)"
-                tools:ignore="HardcodedText,RtlHardcoded" />
+                tools:text="98.1% (-61)"/>
 
-        </LinearLayout>
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="@string/fraction_powerup_paragraph_cost"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/exResultPercentPerfection"/>
+
+
+            <LinearLayout
+                android:id="@+id/candyContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="@id/exResultCP"
+                app:layout_constraintStart_toStartOf="@+id/exResultCP"
+                app:layout_constraintTop_toBottomOf="@+id/textView2"
+                tools:ignore="UseCompoundDrawables">
+
+                <ImageView
+                    android:layout_width="17dp"
+                    android:layout_height="17dp"
+                    android:layout_marginEnd="6dp"
+                    android:layout_marginTop="5dp"
+                    android:src="@drawable/candy_icon"
+                    android:text="@string/candy"
+                    android:textAllCaps="true"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    tools:ignore="ContentDescription,RtlHardcoded"/>
+
+                <TextView
+                    android:id="@+id/exResCandy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/evalMinorResult"
+                    tools:text="24"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/veryWeakText"
+                android:text="@string/candy"
+                app:layout_constraintTop_toBottomOf="@id/candyContainer"
+                app:layout_constraintStart_toStartOf="@id/candyContainer"
+                app:layout_constraintEnd_toEndOf="@id/candyContainer"
+                />
+
+
+            <LinearLayout
+                android:id="@+id/stardustContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:baselineAligned="true"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="@+id/exResultHP"
+                app:layout_constraintStart_toStartOf="@+id/exResultHP"
+                app:layout_constraintTop_toTopOf="@+id/candyContainer"
+                tools:ignore="UseCompoundDrawables">
+
+
+                <ImageView
+                    android:layout_width="17dp"
+                    android:layout_height="17dp"
+                    android:layout_marginEnd="6dp"
+                    android:layout_marginTop="4dp"
+                    android:src="@drawable/star"
+                    android:tint="#6A6A6A"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    android:id="@+id/exResStardust"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/evalMinorResult"
+                    tools:text="255400"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/veryWeakText"
+                android:text="@string/stardust"
+                app:layout_constraintTop_toBottomOf="@id/stardustContainer"
+                app:layout_constraintStart_toStartOf="@id/stardustContainer"
+                app:layout_constraintEnd_toEndOf="@id/stardustContainer"
+                />
+        </android.support.constraint.ConstraintLayout>
+
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:background="@android:color/darker_gray" />
-
-    </android.support.constraint.ConstraintLayout>
-
-    <android.support.constraint.ConstraintLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginTop="6dp">
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="6dp"
+            android:background="@android:color/darker_gray"/>
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:text="Cost" />
-
-        <LinearLayout
-            android:id="@+id/candyContainer"
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintVertical_bias="0.75"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:baselineAligned="true">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="6dp"
-                android:layout_marginRight="6dp"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textAllCaps="true"
-                android:text="@string/candy"
-                tools:ignore="RtlHardcoded" />
-
-            <TextView
-                android:id="@+id/exResCandy"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textStyle="bold"
-                tools:text="24" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/stardustContainer"
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintVertical_bias="0.75"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/candyContainer"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:baselineAligned="true">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="6dp"
-                android:layout_marginRight="6dp"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textAllCaps="true"
-                android:text="@string/stardust"
-                tools:ignore="RtlHardcoded" />
-
-            <TextView
-                android:id="@+id/exResStardust"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textStyle="bold"
-                tools:text="3200" />
-
-        </LinearLayout>
-
-    </android.support.constraint.ConstraintLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="6dp"
-        android:layout_marginBottom="6dp"
-        android:background="@android:color/darker_gray"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="12dp"
-        android:paddingRight="12dp"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="Input" />
+            android:layout_marginBottom="4dp"
+            android:text="@string/fraction_powerup_paragraph_input"
+            android:textAlignment="center"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:baselineAligned="true">
+            android:gravity="bottom">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textAllCaps="true"
+                android:minWidth="42dp"
+                android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="@string/evolution" />
 
             <Spinner
@@ -303,9 +317,15 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/spinner"
-                android:gravity="end"
                 android:popupBackground="#fafafa"
-                tools:layout_height="24dp" />
+                android:gravity="center"
+                tools:layout_height="24dp"
+                tools:layout_width="150dp" />
+
+            <android.support.v4.widget.Space
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:minWidth="42dp" />
 
         </LinearLayout>
 
@@ -318,26 +338,17 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textAllCaps="true"
-                android:text="@string/level_acronym" />
-
-            <TextView
-                android:id="@+id/explainLevelSlider"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="4dp"
-                android:layout_marginStart="4dp"
+                android:minWidth="42dp"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/colorPrimary"
-                android:text="(?)"
-                tools:ignore="HardcodedText,RtlHardcoded" />
+                android:text="@string/level_acronym" />
 
             <Button
                 style="?attr/borderlessButtonStyle"
                 android:id="@+id/btnDecrementLevelExpanded"
                 android:layout_width="36dp"
                 android:layout_height="wrap_content"
+                android:minHeight="36dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="@color/colorPrimary"
                 android:textStyle="bold"
@@ -348,6 +359,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:clipToPadding="false"
                 android:clipChildren="false">
 
                 <io.apptik.widget.MultiSlider
@@ -355,6 +367,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="-6dp"
+                    android:layout_marginRight="-6dp"
                     app:range1="@drawable/orange_scrubber_track_holo_light"
                     app:range2="@drawable/orange_scrubber_primary_holo"
                     app:thumbNumber="2"/>
@@ -363,7 +377,9 @@
                     android:id="@+id/expandedLevelSeekbar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical" />
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="-6dp"
+                    android:layout_marginRight="-6dp" />
 
             </FrameLayout>
 
@@ -372,6 +388,7 @@
                 android:id="@+id/btnIncrementLevelExpanded"
                 android:layout_width="36dp"
                 android:layout_height="wrap_content"
+                android:minHeight="36dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="@color/colorPrimary"
                 android:textStyle="bold"
@@ -382,12 +399,12 @@
                 android:id="@+id/exResLevel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textStyle="bold"
-                android:textAllCaps="true"
+                android:minWidth="42dp"
+                android:textAppearance="@style/weakText"
                 tools:text="20.0" />
 
         </LinearLayout>
+
 
     </LinearLayout>
 
@@ -400,7 +417,6 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginTop="6dp"
             android:layout_marginBottom="6dp"
             android:background="@android:color/darker_gray"/>
 
@@ -416,7 +432,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textAllCaps="true"
                 android:text="@string/pokespam" />
 
@@ -426,7 +442,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="end"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textAppearance="?android:attr/textAppearanceSmall"
                 tools:text="#ofSpam" />
 
         </LinearLayout>

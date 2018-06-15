@@ -1,46 +1,82 @@
 package com.kamron.pogoiv.pokeflycomponents.fractions;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
+import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
+import android.util.DisplayMetrics;
 import android.util.TypedValue;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.kamron.pogoiv.Pokefly;
 import com.kamron.pogoiv.R;
-import com.kamron.pogoiv.pokeflycomponents.MoveInfoOnlineFetcher;
-import com.kamron.pogoiv.scanlogic.IVScanResult;
+import com.kamron.pogoiv.pokeflycomponents.MovesetsManager;
 import com.kamron.pogoiv.scanlogic.MovesetData;
 import com.kamron.pogoiv.scanlogic.PokemonShareHandler;
-import com.kamron.pogoiv.scanlogic.ScanContainer;
-import com.kamron.pogoiv.utils.fractions.Fraction;
-import com.kamron.pogoiv.widgets.PowerTableDataAdapter;
+import com.kamron.pogoiv.utils.ExportPokemonQueue;
+import com.kamron.pogoiv.utils.fractions.MovableFraction;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import de.codecrafters.tableview.SortableTableView;
-import de.codecrafters.tableview.model.TableColumnWeightModel;
-import de.codecrafters.tableview.toolkit.SimpleTableHeaderAdapter;
+import butterknife.OnTouch;
+
+import static com.kamron.pogoiv.GoIVSettings.MOVESET_WINDOW_POSITION;
 
 
-public class MovesetFraction extends Fraction {
+public class MovesetFraction extends MovableFraction {
 
-    @BindView(R.id.sortableTable)
-    SortableTableView sortableTable;
-    @BindView(R.id.movesetConstrainLayout)
-    ConstraintLayout movesetConstrainLayout;
+    private static final String URL_POKEBATTLER_IMPORT = "https://www.pokebattler.com/pokebox/import";
 
-    Pokefly pokefly;
-    private List<MovesetData> movesets = new ArrayList();
-    private IVScanResult ivScanResult;
 
-    public MovesetFraction(@NonNull Pokefly pokefly, @NonNull IVScanResult ivScanResult) {
+    private Pokefly pokefly;
+    private ArrayList<MovesetData> movesets;
+    private Comparator<MovesetData> atkComparator = new MovesetData.AtkComparator();
+    private Comparator<MovesetData> reverseAtkComparator = Collections.reverseOrder(new MovesetData.AtkComparator());
+    private Comparator<MovesetData> defComparator = new MovesetData.DefComparator();
+    private Comparator<MovesetData> reverseDefComparator = Collections.reverseOrder(new MovesetData.DefComparator());
+    private Comparator<MovesetData> currentComparator;
+    private DecimalFormat scoreFormat = new DecimalFormat("0.00");
+
+
+    @BindView(R.id.table_layout)
+    TableLayout tableLayout;
+    @BindView(R.id.header_icon_attack)
+    ImageView headerAttackSortIcon;
+    @BindView(R.id.header_icon_defense)
+    ImageView headerDefenseSortIcon;
+
+
+    public MovesetFraction(@NonNull Pokefly pokefly, @NonNull SharedPreferences sharedPrefs) {
+        super(sharedPrefs);
         this.pokefly = pokefly;
-        this.ivScanResult = ivScanResult;
+    }
+
+    @Override
+    protected @Nullable String getVerticalOffsetSharedPreferencesKey() {
+        return MOVESET_WINDOW_POSITION;
     }
 
     @Override public int getLayoutResId() {
@@ -49,120 +85,122 @@ public class MovesetFraction extends Fraction {
 
     @Override public void onCreate(@NonNull View rootView) {
         ButterKnife.bind(this, rootView);
-        loadMovesetData();
-        if (movesets.size() <= 0){
-            createDummyData();
+
+        // Load moveset data
+        Collection<MovesetData> m = MovesetsManager.getMovesetsForDexNumber(Pokefly.scanResult.pokemon.number);
+        if (m != null) {
+            movesets = new ArrayList<>(m);
+        } else {
+            movesets = new ArrayList<>();
         }
 
-
-        setupTableHeader();
-        setupDataSorting();
-        addDataToTable();
-        //fixTableConstrainLayoutHeight();
-        sortableTable.sort(2); //default to sorting column index 3 (atk)
-
+        if (!movesets.isEmpty()) {
+            // Initialize descent attack order by default; this will cause the table to rebuild.
+            sortBy(atkComparator);
+        }
     }
 
-    /**
-     * For some reason "wrap content" makes the constraintview more than 100DP too long, so here's a method to set it
-     * manually.
-     */
-    private void fixTableConstrainLayoutHeight() {
-        float DP = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, pokefly.getResources()
-                .getDisplayMetrics());
-
-        ViewGroup.LayoutParams params = movesetConstrainLayout.getLayoutParams();
-        //constant length for header + length for every data row.
-        params.height = (int) ((DP * 100) + (DP * movesets.size() * 10));
-        movesetConstrainLayout.setLayoutParams(params);
-
-
-        ViewGroup.LayoutParams params2 = sortableTable.getLayoutParams();
-        //constant length for header + length for every data row.
-        params2.height = (int) ((DP * 50) + (DP * movesets.size() * 20));
-        sortableTable.setLayoutParams(params2);
+    @Override
+    public void onDestroy() {
     }
 
-    /**
-     * Adds comparators to the columns for attack and defence values.
-     */
-    private void setupDataSorting() {
-        sortableTable.setColumnComparator(2, new MovesetData.AtkComparator());
-        sortableTable.setColumnComparator(3, new MovesetData.DefComparator());
+    @Override
+    public Anchor getAnchor() {
+        return Anchor.BOTTOM;
     }
 
-    private void setupTableHeader() {
-
-        String[] TABLE_HEADERS = {"Quick", "Charge", "Atk", "Def"};
-        sortableTable.setHeaderAdapter(new SimpleTableHeaderAdapter(pokefly, TABLE_HEADERS));
-
-
-        TableColumnWeightModel columnModel = new TableColumnWeightModel(4);
-        columnModel.setColumnWeight(0, 2);
-        columnModel.setColumnWeight(1, 2);
-        columnModel.setColumnWeight(2, 1);
-        columnModel.setColumnWeight(3, 1);
-        sortableTable.setColumnModel(columnModel);
+    @Override
+    public int getDefaultVerticalOffset(DisplayMetrics displayMetrics) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 56, displayMetrics);
     }
 
-    /**
-     * Adds the data from the moveset list to the table.
-     */
-    private void addDataToTable() {
+    @OnTouch({R.id.positionHandler, R.id.movesetHeader})
+    boolean positionHandlerTouchEvent(View v, MotionEvent event) {
+        return super.onTouch(v, event);
+    }
 
-        MovesetData[] dataToShow = new MovesetData[movesets.size()];
+    private void sortBy(Comparator<MovesetData> comparator) {
+        currentComparator = comparator;
+        Collections.sort(movesets, currentComparator);
+
+        // Rebuild table
+        buildTable();
+
+        // Update header sort icons
+        Drawable none = ContextCompat.getDrawable(pokefly, R.drawable.ic_sort_none);
+        if (atkComparator.equals(currentComparator)) {
+            Drawable desc = ContextCompat.getDrawable(pokefly, R.drawable.ic_sort_desc);
+            headerAttackSortIcon.setImageDrawable(desc);
+            headerDefenseSortIcon.setImageDrawable(none);
+        } else if (reverseAtkComparator.equals(currentComparator)) {
+            Drawable asc = ContextCompat.getDrawable(pokefly, R.drawable.ic_sort_asc);
+            headerAttackSortIcon.setImageDrawable(asc);
+            headerDefenseSortIcon.setImageDrawable(none);
+        } else if (defComparator.equals(currentComparator)) {
+            Drawable desc = ContextCompat.getDrawable(pokefly, R.drawable.ic_sort_desc);
+            headerAttackSortIcon.setImageDrawable(none);
+            headerDefenseSortIcon.setImageDrawable(desc);
+        } else if (reverseDefComparator.equals(currentComparator)) {
+            Drawable asc = ContextCompat.getDrawable(pokefly, R.drawable.ic_sort_asc);
+            headerAttackSortIcon.setImageDrawable(none);
+            headerDefenseSortIcon.setImageDrawable(asc);
+        }
+    }
+
+    private void buildTable() {
         for (int i = 0; i < movesets.size(); i++) {
-            dataToShow[i] = movesets.get(i);
+            MovesetData moveset = movesets.get(i);
+            buildRow(moveset, (TableRow) tableLayout.getChildAt(i + 1));
         }
-        sortableTable.setDataAdapter(new PowerTableDataAdapter(pokefly, dataToShow));
     }
 
+    private void buildRow(MovesetData move, TableRow recycle) {
+        TableRow row;
+        RowViewHolder holder;
+        if (recycle != null) {
+            row = recycle;
+            holder = (RowViewHolder) row.getTag();
+        } else {
+            row = (TableRow) LayoutInflater.from(pokefly)
+                    .inflate(R.layout.table_row_moveset, tableLayout, false);
+            holder = new RowViewHolder();
+            row.setTag(holder);
+        }
 
-    private void loadMovesetData() {
-        MoveInfoOnlineFetcher onlineFetcher = new MoveInfoOnlineFetcher();
+        holder.bind(row, move);
 
-        movesets = onlineFetcher.getMovesetData(ivScanResult);
-        //todo - not implemented : add the moveset data to the "moveset" list object.
+        if (row.getParent() == null) {
+            tableLayout.addView(row);
+        }
     }
 
-    /**
-     * Adds dummy moveset objects to the moveset list. The data is not accurate. The movesets are from gyarados, which
-     * is an edgecase for amount of available movesets. But the numbers for atk / defence are fake.
-     */
-    private void createDummyData() {
-        movesets.add(new MovesetData("Waterfall", "Hydro pump", false, false, 11.0, 10.8, "water", "water"
-        ));
-        movesets.add(new MovesetData("Bite", "Hydro pump", false, false, 10.8, 5.0, "dark",
-                "water"));
-        movesets.add(new MovesetData("Bite", "Crunch", false, false, 10.0, 6.2, "dark", "water"));
-        movesets.add(new MovesetData("Dragon tail", "Outrage", true, false, 9.8, 7.0, "dragon", "dragon"));
-        movesets.add(
-                new MovesetData("Dragon tail", "Hydro pump", true, false, 9.7, 9.2, "dragon", "water"));
-        movesets.add(
-                new MovesetData("Dragon Breath", "Hydro pump", true, false, 9.5, 10.8, "dragon", "water"));
-        movesets.add(new MovesetData("Waterfall", "Crunch", false, false, 9.3, 6.2, "water", "water"));
-        movesets.add(new MovesetData("Waterfall", "Outrage", false, false, 9.2, 7.2, "water", "dragon"));
-        movesets.add(new MovesetData("Dragon tail", "Crunch", true, false, 9.0, 6.6, "dragon", "water"));
-        movesets.add(new MovesetData("Dragon Breath", "Dragon Pulse", true, true, 8.8, 10.2, "dragon",
-                "dragon"));
-        movesets.add(new MovesetData("Bite", "Outrage", false, false, 8.6, 10.1, "dark", "dragon"));
-        movesets.add(new MovesetData("Bite", "Dragon Pulse", false, true, 8.2, 8.6, "dark", "dragon"));
-        movesets.add(new MovesetData("Bite", "Twister", false, true, 8.0, 7.3, "dark", "dragon"));
-        movesets.add(
-                new MovesetData("Dragon Breath", "Twister", true, true, 7.4, 4.2, "dragon", "dragon"));
-        movesets.add(new MovesetData("Waterfall", "Dragon Pulse", false, true, 7.0, 7.2, "water", "dragon"));
-        movesets.add(new MovesetData("Waterfall", "Twister", false, true, 6.5, 6.4, "water", "dragon"));
-        movesets.add(
-                new MovesetData("Dragon tail", "Dragon Pulse", true, true, 6.1, 5.5, "dragon", "dragon"));
-        movesets.add(new MovesetData("Dragon tail", "Twister", true, true, 6.0, 6.7, "dragon", "dragon"));
-        movesets.add(
-                new MovesetData("Dragon Breath", "Outrage", true, false, 5.6, 6.8, "dragon", "dragon"));
-        movesets.add(new MovesetData("Dragon Breath", "Crunch", true, false, 5.2, 7.2,
-                "dragon", "dark"));
+    private int getIsSelectedColor(boolean scanned) {
+        if (scanned) {
+            return Color.parseColor("#edfcef");
+        } else {
+            return Color.parseColor("#ffffff");
+        }
     }
 
-    @Override public void onDestroy() {
+    private int getMoveColor(boolean legacy) {
+        if (legacy) {
+            return Color.parseColor("#a3a3a3");
+        } else {
+            return Color.parseColor("#282828");
+        }
+    }
 
+    private int getPowerColor(double atkScore) {
+        if (atkScore > 0.95) {
+            return Color.parseColor("#4c8fdb");
+        }
+        if (atkScore > 0.85) {
+            return Color.parseColor("#8eed94");
+        }
+        if (atkScore > 0.7) {
+            return Color.parseColor("#f9a825");
+        }
+        return Color.parseColor("#d84315");
     }
 
     @OnClick(R.id.powerUpButton)
@@ -177,12 +215,69 @@ public class MovesetFraction extends Fraction {
 
     @OnClick(R.id.btnBack)
     void onBack() {
-        pokefly.navigateToInputFraction();
+        pokefly.navigateToPreferredStartFraction();
     }
 
     @OnClick(R.id.btnClose)
     void onClose() {
         pokefly.closeInfoDialog();
+    }
+
+    @OnClick(R.id.header_attack)
+    void sortAttack() {
+        if (atkComparator.equals(currentComparator)) {
+            sortBy(reverseAtkComparator);
+        } else {
+            sortBy(atkComparator);
+        }
+    }
+
+    @OnClick(R.id.header_defense)
+    void sortDefense() {
+        if (defComparator.equals(currentComparator)) {
+            sortBy(reverseDefComparator);
+        } else {
+            sortBy(defComparator);
+        }
+    }
+
+    @OnClick(R.id.exportWebButton)
+    void export() {
+        String exportString = ExportPokemonQueue.getExportString();
+        ClipboardManager clipboard = (ClipboardManager) pokefly.getSystemService(Context.CLIPBOARD_SERVICE);
+        clipboard.setPrimaryClip(ClipData.newPlainText(exportString, exportString));
+
+        Toast toast = Toast.makeText(pokefly, R.string.export_queue_copied, Toast.LENGTH_LONG);
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
+
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse(URL_POKEBATTLER_IMPORT));
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        pokefly.startActivity(i);
+        pokefly.closeInfoDialog();
+    }
+
+
+    @OnClick(R.id.clipboardClear)
+    void clearClip() {
+        ExportPokemonQueue.clear();
+
+        Toast toast = Toast.makeText(pokefly, R.string.export_queue_cleared, Toast.LENGTH_LONG);
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
+    }
+
+
+    @OnClick(R.id.exportWebButtonQueue)
+    void addToQueue() {
+        ExportPokemonQueue.add(Pokefly.scanResult);
+
+        String text = pokefly.getString(R.string.export_queue_added,
+                Pokefly.scanResult.pokemon, ExportPokemonQueue.size());
+        Toast toast = Toast.makeText(pokefly, text, Toast.LENGTH_LONG);
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
     }
 
     /**
@@ -191,7 +286,75 @@ public class MovesetFraction extends Fraction {
     @OnClick({R.id.shareWithOtherApp})
     void shareScannedPokemonInformation() {
         PokemonShareHandler communicator = new PokemonShareHandler();
-        communicator.spreadResultIntent(pokefly, ScanContainer.scanContainer.currScan, pokefly.pokemonUniqueID);
+        communicator.spreadResultIntent(pokefly);
         pokefly.closeInfoDialog();
+    }
+
+    public class RowViewHolder {
+        private RowViewHolder() {
+        }
+
+        private MovesetData data;
+
+        @BindView(R.id.text_fast)
+        TextView fast;
+        @BindView(R.id.text_charge)
+        TextView charge;
+        @BindView(R.id.text_attack)
+        TextView attack;
+        @BindView(R.id.text_defense)
+        TextView defense;
+
+        public void bind(@NonNull View v, MovesetData data) {
+            ButterKnife.bind(this, v);
+            this.data = data;
+
+            // Fast move
+            fast.setTextColor(getMoveColor(data.isFastIsLegacy()));
+            fast.setText(data.getFast());
+            if (data.equals(Pokefly.scanResult.selectedMoveset)) {
+                fast.setTypeface(null, Typeface.BOLD);
+            } else {
+                fast.setTypeface(null, Typeface.NORMAL);
+            }
+
+            // Charge move
+            charge.setTextColor(getMoveColor(data.isChargeIsLegacy()));
+            charge.setText(data.getCharge());
+            if (data.equals(Pokefly.scanResult.selectedMoveset)) {
+                charge.setTypeface(null, Typeface.BOLD);
+            } else {
+                charge.setTypeface(null, Typeface.NORMAL);
+            }
+
+            // Attack score
+            if (data.getAtkScore() != null) {
+                attack.setTextColor(getPowerColor(data.getAtkScore()));
+                attack.setText(scoreFormat.format(data.getAtkScore()));
+            } else {
+                attack.setTextColor(Color.parseColor("#d84315"));
+                attack.setText("<");
+            }
+
+
+            // Defense score
+
+            if (data.getDefScore() != null) {
+                defense.setTextColor(getPowerColor(data.getDefScore()));
+                defense.setText(scoreFormat.format(data.getDefScore()));
+            } else {
+                defense.setTextColor(Color.parseColor("#d84315"));
+                defense.setText("<");
+            }
+        }
+
+        @OnClick({R.id.text_fast, R.id.text_charge, R.id.text_attack, R.id.text_defense})
+        void onRowClick() {
+            Pokefly.scanResult.selectedMoveset = data;
+            buildTable();
+
+            // Regenerate clipboard
+            pokefly.addSpecificMovesetClipboard(data);
+        }
     }
 }

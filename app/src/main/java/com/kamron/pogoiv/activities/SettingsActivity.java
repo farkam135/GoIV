@@ -7,11 +7,12 @@ import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.Preference;
+import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
 import android.preference.SwitchPreference;
+import android.support.annotation.NonNull;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
@@ -21,30 +22,21 @@ import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.updater.AppUpdate;
 import com.kamron.pogoiv.updater.AppUpdateUtil;
 
-public class SettingsActivity extends AppCompatActivity {
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        getFragmentManager().beginTransaction().replace(android.R.id.content, new SettingsFragment()).commit();
-        getSupportActionBar().setTitle(getResources().getString(R.string.settings_page_title));
-        LocalBroadcastManager.getInstance(this).registerReceiver(showUpdateDialog,
-                new IntentFilter(MainActivity.ACTION_SHOW_UPDATE_DIALOG));
-    }
+import timber.log.Timber;
 
-    @Override
-    public void onDestroy() {
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(showUpdateDialog);
-        super.onDestroy();
-    }
+public class SettingsActivity extends AppCompatActivity {
 
     private final BroadcastReceiver showUpdateDialog = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            assert BuildConfig.isInternetAvailable;
+            if (!(BuildConfig.DISTRIBUTION_GITHUB && BuildConfig.INTERNET_AVAILABLE)) {
+                return;
+            }
             AppUpdate update = intent.getParcelableExtra("update");
             if (update.getStatus() == AppUpdate.UPDATE_AVAILABLE) {
-                AlertDialog updateDialog = AppUpdateUtil.getAppUpdateDialog(SettingsActivity.this, update);
-                updateDialog.show();
+                AppUpdateUtil.getInstance()
+                        .getAppUpdateDialog(SettingsActivity.this, update)
+                        .show();
             } else if (update.getStatus() == AppUpdate.UP_TO_DATE) {
                 Toast.makeText(SettingsActivity.this, getResources().getString(R.string.up_to_date), Toast.LENGTH_SHORT)
                         .show();
@@ -56,6 +48,30 @@ public class SettingsActivity extends AppCompatActivity {
         }
     };
 
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        getSupportActionBar().setTitle(getResources().getString(R.string.settings_page_title));
+        getFragmentManager().beginTransaction()
+                .replace(android.R.id.content, new SettingsFragment())
+                .commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        LocalBroadcastManager.getInstance(this)
+                .registerReceiver(showUpdateDialog, new IntentFilter(MainActivity.ACTION_SHOW_UPDATE_DIALOG));
+    }
+
+    @Override
+    protected void onPause() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(showUpdateDialog);
+        super.onPause();
+    }
+
+
     public static class SettingsFragment extends PreferenceFragment {
 
         @Override
@@ -65,7 +81,7 @@ public class SettingsActivity extends AppCompatActivity {
             addPreferencesFromResource(R.xml.settings);
 
             //Initialize the button which opens the credits activity
-            Preference creditsButton = (Preference) findPreference(getString(R.string.view_credits_button));
+            Preference creditsButton = findPreference(getString(R.string.view_credits_button));
             creditsButton.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
@@ -75,47 +91,32 @@ public class SettingsActivity extends AppCompatActivity {
                 }
             });
 
-            if (BuildConfig.isInternetAvailable) {
-                Preference checkForUpdatePreference = getPreferenceManager().findPreference("checkForUpdate");
-                checkForUpdatePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                    @Override
-                    public boolean onPreferenceClick(Preference preference) {
-                        if (!MainActivity.isGoIVBeingUpdated(getActivity())) {
-                            Toast.makeText(getActivity(), getResources().getString(R.string.checking_for_update),
-                                    Toast.LENGTH_SHORT).show();
-                            MainActivity.shouldShowUpdateDialog = false;
-                            AppUpdateUtil.checkForUpdate(getActivity());
-                        } else {
-                            Toast.makeText(getActivity(), getResources().getString(R.string.ongoing_update),
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                        return true;
-                    }
-                });
-            } else {
-                PreferenceScreen preferenceScreen = getPreferenceScreen();
-                //Hide update and crash report related settings
-                Preference crashReportsPreference = getPreferenceManager().findPreference(
-                        GoIVSettings.SEND_CRASH_REPORTS);
-                Preference autoUpdatePreference = getPreferenceManager().findPreference(
-                        GoIVSettings.AUTO_UPDATE_ENABLED);
-                Preference checkForUpdatePreference = getPreferenceManager().findPreference("checkForUpdate");
-
-                preferenceScreen.removePreference(crashReportsPreference);
-                preferenceScreen.removePreference(autoUpdatePreference);
-                preferenceScreen.removePreference(checkForUpdatePreference);
+            if (!BuildConfig.DISTRIBUTION_GITHUB || !BuildConfig.INTERNET_AVAILABLE) {
+                // Internal auto-update is available only for online build distributed via GitHub
+                effectivelyRemovePreference(GoIVSettings.AUTO_UPDATE_ENABLED);
             }
 
-            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT_WATCH) {
+            Preference checkForUpdatePreference = getPreferenceManager().findPreference("checkForUpdate");
+            checkForUpdatePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    AppUpdateUtil.getInstance().checkForUpdate(getActivity(), true);
+                    return true;
+                }
+            });
+
+            if (!BuildConfig.INTERNET_AVAILABLE) {
+                // Hide crash report related settings
+                effectivelyRemovePreference(GoIVSettings.SEND_CRASH_REPORTS);
+            }
+
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
                 SwitchPreference manualScreenshotModePreference = (SwitchPreference) getPreferenceManager()
                         .findPreference(GoIVSettings.MANUAL_SCREENSHOT_MODE);
                 manualScreenshotModePreference.setDefaultValue(true);
                 manualScreenshotModePreference.setChecked(true);
                 manualScreenshotModePreference.setEnabled(false);
-                Preference autoAppraisalScanDelay = getPreferenceManager()
-                        .findPreference(GoIVSettings.AUTO_APPRAISAL_SCAN_DELAY);
-                PreferenceScreen preferenceScreen = getPreferenceScreen();
-                preferenceScreen.removePreference(autoAppraisalScanDelay);
+                effectivelyRemovePreference(GoIVSettings.AUTO_APPRAISAL_SCAN_DELAY);
             }
 
             //If strings support use_default_pokemonsname_as_ocrstring, display pref and set default ON
@@ -125,10 +126,33 @@ public class SettingsActivity extends AppCompatActivity {
                 useDefaultPokemonNamePreference.setEnabled(true);
                 useDefaultPokemonNamePreference.setDefaultValue(true);
             } else {
-                SwitchPreference useDefaultPokemonNamePreference = (SwitchPreference) getPreferenceManager()
-                        .findPreference(GoIVSettings.SHOW_TRANSLATED_POKEMON_NAME);
-                getPreferenceScreen().removePreference(useDefaultPokemonNamePreference);
+                effectivelyRemovePreference(GoIVSettings.SHOW_TRANSLATED_POKEMON_NAME);
             }
+        }
+
+        private void effectivelyRemovePreference(@NonNull String preferenceKey) {
+            Preference unwantedPreference = getPreferenceManager().findPreference(preferenceKey);
+
+            if (unwantedPreference == null) {
+                Timber.e("Can't find a Preference with key: %1$s", preferenceKey);
+                return;
+            }
+
+            PreferenceScreen preferenceScreen = getPreferenceScreen();
+            if (preferenceScreen.removePreference(unwantedPreference)) {
+                return; // Hurray!
+            }
+
+            for (int i = 0; i < preferenceScreen.getPreferenceCount(); i++) {
+                Preference p = preferenceScreen.getPreference(i);
+                if (p instanceof PreferenceCategory) {
+                    if (((PreferenceCategory) p).removePreference(unwantedPreference)) {
+                        return; // Hurray!
+                    }
+                }
+            }
+
+            Timber.e("Can't remove unwanted Preference: %1$s", unwantedPreference.toString());
         }
     }
 }

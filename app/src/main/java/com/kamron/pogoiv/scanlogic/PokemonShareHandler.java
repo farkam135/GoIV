@@ -1,12 +1,15 @@
 package com.kamron.pogoiv.scanlogic;
 
+import android.content.Context;
 import android.content.Intent;
-import timber.log.Timber;
+
 import com.kamron.pogoiv.Pokefly;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import timber.log.Timber;
 
 /**
  * Created by Johan on 2016-11-04.
@@ -14,32 +17,35 @@ import org.json.JSONObject;
  */
 
 public class PokemonShareHandler {
-    public static final String APPLICATION_POKEMON_STATS = "application/pokemon-stats";
+    private static final String APPLICATION_POKEMON_STATS = "application/pokemon-stats";
 
     /**
      * Creates an intent to share the result of the pokemon scan as a string formated json blob.
      */
-    public void spreadResultIntent(Pokefly pokefly, IVScanResult ivScan,String uniquePokemonID) {
+    public void spreadResultIntent(Context context) {
         JSONObject jsonPokemon = new JSONObject();
         try {
-            jsonPokemon.put("PokemonId", ivScan.pokemon.number + 1);
-            jsonPokemon.put("AtkMin", ivScan.lowAttack);
-            jsonPokemon.put("AtkMax", ivScan.highAttack);
-            jsonPokemon.put("DefMin", ivScan.lowDefense);
-            jsonPokemon.put("DefMax", ivScan.highDefense);
-            jsonPokemon.put("StamMin", ivScan.lowStamina);
-            jsonPokemon.put("StamMax", ivScan.highStamina);
-            jsonPokemon.put("OverallPower", ivScan.getAveragePercent());
-            jsonPokemon.put("Hp", ivScan.scannedHP);
-            jsonPokemon.put("Cp", ivScan.scannedCP);
-            jsonPokemon.put("uniquePokemon", uniquePokemonID);
-            jsonPokemon.put("estimatedPokemonLevel", ivScan.estimatedPokemonLevel.min);
-            jsonPokemon.put("estimatedPokemonLevelMax", ivScan.estimatedPokemonLevel.max);
+            jsonPokemon.put("PokemonId", Pokefly.scanResult.pokemon.number + 1);
+            jsonPokemon.put("AtkMin", Pokefly.scanResult.getIVAttackLow());
+            jsonPokemon.put("AtkMax", Pokefly.scanResult.getIVAttackHigh());
+            jsonPokemon.put("DefMin", Pokefly.scanResult.getIVDefenseLow());
+            jsonPokemon.put("DefMax", Pokefly.scanResult.getIVDefenseHigh());
+            jsonPokemon.put("StamMin", Pokefly.scanResult.getIVStaminaLow());
+            jsonPokemon.put("StamMax", Pokefly.scanResult.getIVStaminaHigh());
+            jsonPokemon.put("fastMove", Pokefly.scanResult.selectedMoveset.getFast());
+            jsonPokemon.put("chargeMove", Pokefly.scanResult.selectedMoveset.getCharge());
+            jsonPokemon.put("OverallPower", Pokefly.scanResult.getIVPercentAvg());
+            jsonPokemon.put("Hp", Pokefly.scanResult.hp);
+            jsonPokemon.put("Cp", Pokefly.scanResult.cp);
+            jsonPokemon.put("uniquePokemon", Pokefly.scanData.getPokemonUniqueID());
+            jsonPokemon.put("estimatedPokemonLevel", Pokefly.scanResult.levelRange.min);
+            jsonPokemon.put("estimatedPokemonLevelMax", Pokefly.scanResult.levelRange.max);
             PokeInfoCalculator calc = PokeInfoCalculator.getInstance();
-            jsonPokemon.put("candyName", calc.getEvolutionLine(ivScan.pokemon).get(0));
+            jsonPokemon.put("candyName", calc.getEvolutionLine(Pokefly.scanResult.pokemon).get(0));
 
             JSONArray jsonCombinations = new JSONArray();
-            for (IVCombination ivCombination : ivScan.iVCombinations) {
+            for (int i = 0; i <  Pokefly.scanResult.getIVCombinationsCount(); i++) {
+                IVCombination ivCombination = Pokefly.scanResult.getIVCombinationAt(i);
                 JSONObject jsonCombination = new JSONObject();
                 jsonCombination.put("Atk", ivCombination.att);
                 jsonCombination.put("Def", ivCombination.def);
@@ -58,7 +64,7 @@ public class PokemonShareHandler {
         sendIntent.putExtra(Intent.EXTRA_TEXT, jsonPokemon.toString());
         sendIntent.setType(APPLICATION_POKEMON_STATS);
         sendIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        pokefly.startActivity(sendIntent);
+        context.startActivity(sendIntent);
     }
 
 

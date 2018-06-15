@@ -95,7 +95,14 @@ public class ClipboardModifierParentFragment extends Fragment {
                         ((ClipboardModifierChildFragment) f).saveConfiguration();
                     }
                 }
-                Toast.makeText(activity, R.string.configuration_saved, Toast.LENGTH_LONG).show();
+                if (GoIVSettings.getInstance(activity).shouldCopyToClipboard()) {
+                    Toast.makeText(activity, R.string.configuration_saved, Toast.LENGTH_LONG).show();
+                } else {
+                    // User saved clipboard configuration but the feature is disabled
+                    String text = getString(R.string.configuration_saved_feature_disabled,
+                            getString(R.string.copy_to_clipboard_setting_title));
+                    Toast.makeText(activity, text, Toast.LENGTH_LONG).show();
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

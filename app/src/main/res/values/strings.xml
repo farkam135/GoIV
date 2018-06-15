@@ -55,9 +55,9 @@
     <string name="scan_pokemon_failed">Scanning failed, please scroll up and try again!</string>
     <string name="see_all">See All</string>
     <string name="powerup_calc_instructions">Power up and evolution calculation\nDrag the level slider to view different predictions</string>
-    <string name="evolution">Evolution</string>
+    <string name="evolution">Evo</string>
     <string name="level">Level</string>
-    <string name="level_acronym">lvl</string>
+    <string name="level_acronym">LVL</string>
     <string name="level_num">Level %1$s</string>
     <string name="possible_iv_combinations" tools:ignore="PluralsCandidate">"%1$d possible IV combinations"</string>
     <string name="check_cp_or_level">Something went wrong! Please check that the input values were correct, and that GoIV has the right trainer level in the launch screen.</string>
@@ -80,10 +80,12 @@
     <string name="def">DEF</string>
     <string name="sta">STA</string>
     <string name="iv" translatable="false">IV</string>
+    <string name="iv_button_exact_result_preview_format" translatable="false">%1$s\nIV: %2$d%%</string>
+    <string name="iv_button_range_result_preview_format" translatable="false">%1$s\nIV: %2$d - %3$d%%</string>
     <string name="percent" translatable="false">%d%%</string>
     <string name="unknown_percent" translatable="false">"?%"</string>
     <string name="hp_expanded_box">HP</string>
-    <string name="perfection_explainer">The percentage shows how big the difference is between your monster and a monster of the same species which has perfect IVs.\n\nSo for example, if it says 92 percent, then your Pokémon maxes out at 8 percent less CP compared to the same species with maximum IVs.</string>
+    <string name="perfection_explainer">The \% shows the difference between your monster and a one that\'s 15/15/15.\n\nThe number in parenthesis is how much CP is loses compared to a 15/15/15.</string>
     <string name="pokespam">PokéSpam</string>
     <string name="pokespam_formatted_message">%1$d (%2$d rows + %3$d more)</string>
     <string name="pokespam_formatted_message2">%1$d (%2$d rows)</string>
@@ -92,8 +94,10 @@
     <string name="pokespam_not_available">Not Available</string>
     <string name="pokespam_setting_title">Show how many you can evolve</string>
     <string name="pokespam_setting_summary">This feature enables scanning for candy amount and allows you to see how many monsters you can evolve, useful for use with lucky egg</string>
-    <string name="token_pokemon_gender">Gender</string>
+    <string name="token_pokemon_gender_symbol">Gender symbol</string>
+    <string name="token_pokemon_gender_letter">Gender letter</string>
     <string name="token_pokemonname">Name</string>
+    <string name="token_moveset_initials">Moves initials</string>
     <string name="clipboard_modifier_preview">Preview</string>
     <string name="position_handler_toast">Drag the window by this handler to relocate it.</string>
     <string name="clipboard_no_token_selected">Please choose a token to add from the scrollable list.</string>
@@ -169,8 +173,10 @@
     <string name="scan_optimization_notice_text">You have not run scan calibration. It\'s recommended to run this optimization on all devices.</string>
     <string name="scan_optimization_screen_ratio_warning">GoIV has detected that your screen is not standard. You\'ll most likely need to perform screen calibration for GoIV to work.</string>
     <string name="scan_optimization_outdated_warning">Your calibration data is outdated. Please run screen calibration again to enjoy the latest features!</string>
+    <string name="email_report_require_permission">"GoIV needs to access external storage to share the calibration screenshot with your email client app."</string>
     <string name="discard_unsaved_changes">There are unsaved changes.\nDo you really want to discard them?</string>
     <string name="configuration_saved">Configuration saved!</string>
+    <string name="configuration_saved_feature_disabled">Configuration saved!\nPlease enable \"%1$s\" feature in setting to activate the new configuration!</string>
     <string name="no_token_selected">No token selected</string>
     <string name="token_max_evolution">%1$s  This token is a max evolution variant, meaning that it will return a result as if your monster was already fully evolved, which might be more interesting in a lot of cases.</string>
     <string name="token_max_characters">(%1$d/12 characters)</string>
@@ -182,6 +188,7 @@
     <string name="token_max_length">Max length:</string>
     <string name="clipboard_token_list_available">Full list of available token types</string>
     <string name="clipboard_token_description_title">Selected token description</string>
+    <string name="button_recalibrate">"Calibrate GoIV"</string>
     <string name="ocr_calibration_screenshot_mode">"The next screenshot taken will be used to recalibrate GoIV!"</string>
     <string name="ocr_calibration_result_description">This is the result of the automatic calibration, each field of interest that was detected has been marked.</string>
     <string name="ocr_calibration_save">Save calibration</string>
@@ -223,6 +230,7 @@
     <string name="token_category_name">Name</string>
     <string name="token_category_basic_stats">Basic Stats</string>
     <string name="token_category_iv_info">IV Info</string>
+    <string name="token_category_moveset">Moveset</string>
     <string name="token_category_evaluation_scores">Evaluation Scores</string>
     <string name="token_category_separators">Separators</string>
     <string name="token_msg_basStat_msg1">This token gives you the base stats of the monster, such as 186 190 260 for lapras, which means that this monster without IV bonuses has 186 attack, 190 defense and 260 stamina. IVs can add an extra 15 to each stat.</string>
@@ -261,10 +269,11 @@
     <string name="token_msg_mixUnicode_msg2">" This token uses filled characters to represent single values and empty characters to represent the lowest of multiple values. For example, ⓭ in the attack position would mean that all Attack values are 13, while ① in the defense or HP means there are multiple values possible and that 1 is the lowest."</string>
     <string name="token_msg_mixUnicode_msg3">" This token uses empty characters to represent single values and filled characters to represent the lowest of multiple values. For example, ⑪ in the attack position would mean that all Attack values are 11, while ❾ in the defense or HP means there are multiple values possible and that 9 is the lowest."</string>
     <string name="token_msg_perfCP">This token calculates how close your monster is to its max potential, measured by CP. For example, if a monster with max IVs maxes out at 2000cp, but your specific monster maxes out at 1900, then your monster perfection is 95%, so this token returns 95.</string>
-    <string name="token_msg_gender">"This token returns the gender of the monster: ♂ if male, ♀ if female, empty otherwise.</string>
+    <string name="token_msg_gender">"This token returns the gender of the monster: %1$s if male, %2$s if female, empty otherwise.</string>
     <string name="token_msg_pkmName_msg1">"This token returns the name of the monster, for example if you scan a Dratini, it will return "</string>
     <string name="token_msg_pkmName_msg2">" With the number cap, the length of the monster name can not exceed "</string>
     <string name="token_msg_pkmName_msg3">" characters long."</string>
+    <string name="token_msg_moveset_initials">"This token returns an initial for each word in the fast and charge moves (%1$d each, using _ as filler), for example if you scan a Venusaur with %2$s and %3$s, it will return %4$s."</string>
     <string name="token_msg_powUp">Show how many power-ups are left until monster would reach level 40. For example if the monster is level 15, there are 25 levels to level 40, which is 50 powerups.</string>
     <string name="token_msg_PUpTo">PUpTo</string>
     <string name="token_msg_separator">"This is simply a character you can put in between the smarter tokens to make the result more readable. The character you have chosen is: "</string>
@@ -280,4 +289,26 @@
     <string name="send_email_to_devs_button">Email error information to developers</string>
     <string name="report_error">Email error report</string>
     <string name="recalibration_video_tutorial">Recalibration video tutorial</string>
+    <string name="moveset_score_disclaimer">"Score based on data from pokebattler.com simulations.\nSimulations are on gym battles, raids often have other optimal movesets.\nOptimal moveset can change in certain matchups.\nThis score is only a guideline."</string>
+    <string name="table_header_move_fast">Fast</string>
+    <string name="table_header_move_charge">Charge</string>
+    <string name="table_header_attack">Atk</string>
+    <string name="table_header_defense">Def</string>
+    <string name="fraction_input_title">Input</string>
+    <string name="fraction_powerup_title">Power up predictions</string>
+    <string name="fraction_powerup_tab_label">Power up</string>
+    <string name="fraction_powerup_paragraph_predictedstats">Predicted stats</string>
+    <string name="fraction_powerup_paragraph_cost">Cost</string>
+    <string name="fraction_powerup_paragraph_input">Input</string>
+    <string name="fraction_iv_title">IV scan results</string>
+    <string name="fraction_iv_tab_label">IV</string>
+    <string name="fraction_moveset_title">Moveset (beta)</string>
+    <string name="fraction_moveset_tab_label">Moveset</string>
+    <string name="fraction_ivcombinations_title">IV Combinations</string>
+    <string name="export_queue_copied">"Pokémon data added to clipboard.\nPaste it in at the import screen."</string>
+    <string name="export_queue_cleared">"Queue cleared"</string>
+    <string name="export_queue_added">"Added %1$s to the export queue.\nYou currently have %2$d pokémon cached."</string>
+    <string name="button_add_to_queue">"Add to queue"</string>
+    <string name="button_clear_to_queue">"Clear queue"</string>
+    <string name="button_export_to_pokebattler">Export Queue to PokeBattler</string>
 </resources>

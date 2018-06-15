@@ -5,8 +5,8 @@ import android.content.Context;
 import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.clipboardlogic.ClipboardToken;
 import com.kamron.pogoiv.scanlogic.IVCombination;
-import com.kamron.pogoiv.scanlogic.IVScanResult;
 import com.kamron.pogoiv.scanlogic.PokeInfoCalculator;
+import com.kamron.pogoiv.scanlogic.ScanResult;
 
 /**
  * Copied from UnicodeToken created by Johan on 2016-09-25.
@@ -41,7 +41,7 @@ public class MixedUnicodeToken extends ClipboardToken {
     }
 
     @Override
-    public String getValue(IVScanResult ivScanResult, PokeInfoCalculator pokeInfoCalculator) {
+    public String getValue(ScanResult scanResult, PokeInfoCalculator pokeInfoCalculator) {
         //Initialize the lowest and highest of each stat
         int lowestAttackStat = 15;
         int lowestDefenseStat = 15;
@@ -51,7 +51,8 @@ public class MixedUnicodeToken extends ClipboardToken {
         int highestStaminaStat = 0;
 
         //Loop through all iVCombinations to find the lowest of each stat
-        for (IVCombination ivc : ivScanResult.iVCombinations) {
+        for (int i = 0; i < scanResult.getIVCombinationsCount(); i++) {
+            IVCombination ivc = scanResult.getIVCombinationAt(i);
             // Save the lowest and highest attackIV of any Combination
             if (ivc.att < lowestAttackStat) {
                 lowestAttackStat = ivc.att;
@@ -94,7 +95,7 @@ public class MixedUnicodeToken extends ClipboardToken {
 
         //We still need to get thew lowest combination when showing the final result, but this time
         //the unicode character set to use is controlled by whether each stat is exactly known or multiple values
-        IVCombination lowestIVCombination = ivScanResult.getLowestIVCombination();
+        IVCombination lowestIVCombination = scanResult.getLowestIVCombination();
         if (lowestIVCombination == null) {
             return "";
         }

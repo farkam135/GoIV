@@ -1,21 +1,22 @@
 package com.kamron.pogoiv.clipboardlogic;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.kamron.pogoiv.GoIVSettings;
 import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.clipboardlogic.tokens.SeparatorToken;
-import com.kamron.pogoiv.scanlogic.IVScanResult;
 import com.kamron.pogoiv.scanlogic.PokeInfoCalculator;
+import com.kamron.pogoiv.scanlogic.ScanResult;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static com.kamron.pogoiv.clipboardlogic.ClipboardResultMode.PERFECT_IV_RESULT;
 import static com.kamron.pogoiv.clipboardlogic.ClipboardResultMode.GENERAL_RESULT;
+import static com.kamron.pogoiv.clipboardlogic.ClipboardResultMode.PERFECT_IV_RESULT;
 import static com.kamron.pogoiv.clipboardlogic.ClipboardResultMode.SINGLE_RESULT;
 
 /**
@@ -50,24 +51,34 @@ public class ClipboardTokenHandler {
     /**
      * Analyze an ivscan and get a string which corresponds to what the users clipboard settings are.
      *
-     * @param ivScanResult       Which scan result to base the string on
+     * @param scanResult       Which scan result to base the string on
      * @param pokeInfoCalculator An object used to calculate the logic for the clipboard tokens
      * @return A string corresponding to the user settings which is based on the ivscan.
      */
-    public String getClipboardText(IVScanResult ivScanResult, PokeInfoCalculator pokeInfoCalculator) {
-
+    public String getClipboardText(@NonNull ScanResult scanResult,
+                                   @NonNull PokeInfoCalculator pokeInfoCalculator) {
         GoIVSettings settings = GoIVSettings.getInstance(context);
-        String clipResult;
+        final ClipboardResultMode resultMode;
+
+        final boolean isSingle = scanResult.getIVCombinationsCount() == 1;
+        final boolean isPerfect = isSingle
+                && scanResult.getIVCombinationAt(0).percentPerfect == 100;
 
         // has the user enabled one or more settings for alternative formats and is one of them applicable??
-        if (settings.shouldCopyToClipboardPerfectIV() && ivScanResult.getAveragePercent() == 100) {
-            clipResult = getResults(ivScanResult, pokeInfoCalculator, PERFECT_IV_RESULT);
-        } else if (settings.shouldCopyToClipboardSingle() && ivScanResult.getCount() == 1) {
-            clipResult = getResults(ivScanResult, pokeInfoCalculator, SINGLE_RESULT);
+        if (settings.shouldCopyToClipboardPerfectIV() && isPerfect) {
+            resultMode = PERFECT_IV_RESULT;
+        } else if (settings.shouldCopyToClipboardSingle() && isSingle) {
+            resultMode = SINGLE_RESULT;
         } else {
-            clipResult = getResults(ivScanResult, pokeInfoCalculator, GENERAL_RESULT);
+            resultMode = GENERAL_RESULT;
         }
-        return clipResult;
+
+        StringBuilder returner = new StringBuilder();
+        for (ClipboardToken token : getCorrectTokenList(resultMode)) {
+            returner.append(token.getValue(scanResult, pokeInfoCalculator));
+        }
+
+        return returner.toString();
     }
 
 
@@ -188,23 +199,6 @@ public class ClipboardTokenHandler {
     public void clearTokens(ClipboardResultMode resultMode) {
         getCorrectTokenList(resultMode).clear();
         saveTokenChanges(resultMode);
-    }
-
-    /**
-     * Get the entire result from the all the Clipboard tokens in user settings.
-     *
-     * @param ivScanResult       Used by some tokens to calculate information
-     * @param pokeInfoCalculator Used by some tokens to calculate information
-     * @param resultMode         Result mode to modify the settings for
-     * @return A string with all the tokens returned result on each other
-     */
-    public String getResults(IVScanResult ivScanResult, PokeInfoCalculator pokeInfoCalculator,
-                             ClipboardResultMode resultMode) {
-        StringBuilder returner = new StringBuilder();
-        for (ClipboardToken token : getCorrectTokenList(resultMode)) {
-            returner.append(token.getValue(ivScanResult, pokeInfoCalculator));
-        }
-        return returner.toString();
     }
 
     /**

@@ -16,21 +16,6 @@
 #   public *;
 #}
 
-# Unless you want to volunteer to upload the mappings file to crashlytics leave this app unobfuscated ;)
--dontobfuscate
+-keep class com.kamron.pogoiv.** { *; }
 
--keep class javax.** { *; }
--keep class org.** { *; }
--keep class com.** {*;}
--dontwarn okio.**
-
-# For Guava
--dontwarn sun.misc.Unsafe
--dontwarn com.google.j2objc.annotations.Weak
--dontwarn com.google.common.base.**
--dontwarn com.google.errorprone.annotations.**
--dontwarn com.google.j2objc.annotations.**
--dontwarn java.lang.ClassValue
--dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
--dontwarn afu.org.checkerframework.**
--dontwarn org.checkerframework.**
+-dontwarn java.awt.geom.**

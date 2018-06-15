@@ -5,9 +5,9 @@ import android.content.Context;
 import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.clipboardlogic.ClipboardToken;
 import com.kamron.pogoiv.scanlogic.IVCombination;
-import com.kamron.pogoiv.scanlogic.IVScanResult;
 import com.kamron.pogoiv.scanlogic.PokeInfoCalculator;
 import com.kamron.pogoiv.scanlogic.Pokemon;
+import com.kamron.pogoiv.scanlogic.ScanResult;
 
 /**
  * Created by Johan on 2016-09-25.
@@ -31,7 +31,7 @@ public class PerfectionCPPercentageToken extends ClipboardToken {
     }
 
     @Override
-    public String getValue(IVScanResult isr, PokeInfoCalculator pokeInfoCalculator) {
+    public String getValue(ScanResult isr, PokeInfoCalculator pokeInfoCalculator) {
         Pokemon poke = getRightPokemon(isr.pokemon, pokeInfoCalculator);
         double perfectIvCp = pokeInfoCalculator.getCpRangeAtLevel(poke,
                 IVCombination.MAX, IVCombination.MAX, 40).getFloatingAvg();

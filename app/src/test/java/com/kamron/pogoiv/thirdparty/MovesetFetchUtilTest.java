@@ -29,7 +29,9 @@ import timber.log.Timber;
  * app/src/main/assets/thirdparty/pokebattler//pokemonMovesetData.json.
  */
 public class MovesetFetchUtilTest {
-    private static final String BASE_URL = "https://20180530t224949-dot-fight-dot-pokebattler-1380.appspot.com";
+//    private static final String BASE_URL = "https://fight.pokebattler.com";
+    private static final String BASE_URL = "http://localhost:8001";
+//    private static final String BASE_URL = "https://20180530t224949-dot-fight-dot-pokebattler-1380.appspot.com";
     OkHttpClient httpClient = new OkHttpClient();
     ;
 
@@ -150,7 +152,8 @@ public class MovesetFetchUtilTest {
         } catch (Exception e) {
             Timber.e("Could not fetch file");
             Timber.e(e);
-            return new TreeMap<>();
+            // just die
+            throw new RuntimeException(e);
         }
         return scores;
     }

@@ -1,28 +1,25 @@
 package com.kamron.pogoiv.pokeflycomponents.ocrhelper;
 
-import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.Point;
 import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.util.Pair;
 import android.util.LruCache;
-import android.view.Display;
-import android.view.WindowManager;
 
 import com.google.common.base.Optional;
 import com.googlecode.tesseract.android.TessBaseAPI;
 import com.kamron.pogoiv.GoIVSettings;
+import com.kamron.pogoiv.Pokefly;
 import com.kamron.pogoiv.scanlogic.Data;
 import com.kamron.pogoiv.scanlogic.PokeInfoCalculator;
 import com.kamron.pogoiv.scanlogic.Pokemon;
 import com.kamron.pogoiv.scanlogic.ScanData;
 import com.kamron.pogoiv.utils.LevelRange;
-import com.kamron.pogoiv.utils.WindowManagerUtils;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -60,7 +57,9 @@ public class OcrHelper {
     private static LruCache<String, String> ocrCache;
     private static LruCache<String, String> appraisalCache;
     private static boolean candyWordFirst;
-    private static Point navigationBarSize;
+
+
+    private static WeakReference<Pokefly> pokeflyRef;
 
 
     private OcrHelper() {
@@ -72,9 +71,11 @@ public class OcrHelper {
      * @param dataPath Path the OCR data files.
      * @return Bitmap with replaced colors
      */
-    public static synchronized OcrHelper init(@NonNull Context context,
+    public static synchronized OcrHelper init(@NonNull Pokefly pokefly,
                                               @NonNull String dataPath,
                                               @NonNull PokeInfoCalculator pokeInfoCalculator) {
+        pokeflyRef = new WeakReference<>(pokefly);
+
         if (instance == null) {
             tesseract = new TessBaseAPI();
             tesseract.init(dataPath, "eng");
@@ -91,13 +92,11 @@ public class OcrHelper {
 
             candyWordFirst = isCandyWordFirst();
 
-            navigationBarSize = WindowManagerUtils.getNavigationBarSize(context);
-
             instance = new OcrHelper();
         }
 
         // Reload current settings
-        GoIVSettings settings = GoIVSettings.getInstance(context);
+        GoIVSettings settings = GoIVSettings.getInstance(pokefly);
 
         isPokeSpamEnabled = settings.isPokeSpamEnabled();
 
@@ -418,7 +417,7 @@ public class OcrHelper {
             // This pokemon is not maxed out, its moveset is below the evolution cost and above
             // the end of the screen (or the navigation bar with the virtual keys)
             y = evolutionCostArea.yPoint + evolutionCostArea.height;
-            h = (pokemonImage.getHeight() - navigationBarSize.y) - y;
+            h = (pokemonImage.getHeight() - getNavigationBarHeight()) - y;
         }
 
         final int x = (int) (pokemonImage.getWidth() / 10 * 1.3f);
@@ -772,14 +771,14 @@ public class OcrHelper {
         if (scanArea.xPoint + scanArea.width > img.getWidth()) {
             Timber.e(new IllegalArgumentException(
                     "ScanArea x+width is greater then image width, value: " + (scanArea.xPoint + scanArea.width)));
-            Timber.d("Image size (w,h): %1$s,%1$s", img.getWidth(), img.getHeight());
+            Timber.d("Image size (w,h): %1$s,%2$s", img.getWidth(), img.getHeight());
             Timber.d("ScanArea (x,y,w,h): %1$s", scanArea.toString());
             return null;
         }
         if (scanArea.yPoint + scanArea.height > img.getHeight()) {
             Timber.e(new IllegalArgumentException(
                     "ScanArea y+height is greater then image height, value: " + (scanArea.yPoint + scanArea.height)));
-            Timber.d("Image size (w,h): %1$s,%1$s", img.getWidth(), img.getHeight());
+            Timber.d("Image size (w,h): %1$s,%2$s", img.getWidth(), img.getHeight());
             Timber.d("ScanArea (x,y,w,h): %1$s", scanArea.toString());
             return null;
         }
@@ -1200,25 +1199,6 @@ public class OcrHelper {
     }
 
     /**
-     * Computes the navigation bar height comparing the usable screen height and the real display height.
-     * Please note that the system status bar is considered part of the usable screen height.
-     * @param context Android Context instance
-     * @return The height in pixels of the system navigation bar
-     */
-    public static int getNavigationBarSize(Context context) {
-        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        //noinspection ConstantConditions
-        Display display = windowManager.getDefaultDisplay();
-
-        Point appUsableSize = new Point();
-        display.getSize(appUsableSize);
-        Point realScreenSize = new Point();
-        display.getRealSize(realScreenSize);
-
-        return realScreenSize.y - appUsableSize.y;
-    }
-
-    /**
      * Reads the bottom part of the screen and returns the text there.
      *
      * @param screen The full phone screen.
@@ -1228,7 +1208,7 @@ public class OcrHelper {
                                           @NonNull Bitmap screen) {
         double appraisalBoxHeightFactor = 0.13;
         double appraisalBoxStartYFactor =
-                (double)(screen.getHeight() - navigationBarSize.y) / screen.getHeight() - appraisalBoxHeightFactor;
+                (double)(screen.getHeight() - getNavigationBarHeight()) / screen.getHeight() - appraisalBoxHeightFactor;
 
         Bitmap bottom = getImageCrop(screen, 0.05, appraisalBoxStartYFactor, 0.90, appraisalBoxHeightFactor);
         String hash = "appraisal" + hashBitmap(bottom);
@@ -1257,5 +1237,14 @@ public class OcrHelper {
     public static void removeEntryFromAppraisalCache(@NonNull GoIVSettings settings, @NonNull String hash) {
         appraisalCache.remove(hash);
         settings.saveAppraisalCache(appraisalCache.snapshot());
+    }
+
+    private static int getNavigationBarHeight() {
+        Pokefly pokefly = pokeflyRef.get();
+        if (pokefly != null) {
+            return pokefly.getCurrentNavigationBarHeight();
+        } else {
+            return 0;
+        }
     }
 }

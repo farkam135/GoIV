@@ -13,7 +13,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
-import android.graphics.Rect;
 import android.media.projection.MediaProjection;
 import android.media.projection.MediaProjectionManager;
 import android.net.Uri;
@@ -45,7 +44,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
 
 import com.kamron.pogoiv.GoIVSettings;
@@ -392,13 +390,6 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
     }
 
-    private int getStatusBarHeight() {
-        Rect rectangle = new Rect();
-        Window window = getWindow();
-        window.getDecorView().getWindowVisibleDisplayFrame(rectangle);
-        return rectangle.top;
-    }
-
     /**
      * Starts the PokeFly background service which contains overlay logic.
      */
@@ -408,7 +399,7 @@ public class MainActivity extends AppCompatActivity {
         startPoGoIfSettingOn();
 
         Intent intent = Pokefly
-                .createStartIntent(this, getStatusBarHeight(), GoIVSettings.getInstance(this).getLevel());
+                .createStartIntent(this, GoIVSettings.getInstance(this).getLevel());
         startService(intent);
 
         skipStartPogo = false;

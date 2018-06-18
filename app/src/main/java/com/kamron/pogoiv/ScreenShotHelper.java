@@ -78,7 +78,7 @@ public class ScreenShotHelper {
                     if (bitmap != null) {
                         if (sShouldRecalibrateWithNextScreenshot) {
                             // Use the screenshot to recalibrate GoIV
-                            OcrCalibrationResultActivity.startCalibration(context, bitmap);
+                            OcrCalibrationResultActivity.startCalibration(context, bitmap, 0, 0);
                             sShouldRecalibrateWithNextScreenshot = false;
                             if (GoIVSettings.getInstance(context).shouldDeleteScreenshots()) {
                                 deleteScreenShot(pathChange);

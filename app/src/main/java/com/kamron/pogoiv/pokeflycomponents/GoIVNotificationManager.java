@@ -213,6 +213,11 @@ public class GoIVNotificationManager {
                             }
                         }
                     });
+                    mainThreadHandler.post(new Runnable() {
+                        @Override public void run() {
+                            Toast.makeText(pokefly, R.string.recalibrating_please_wait, Toast.LENGTH_SHORT).show();
+                        }
+                    });
                     mainThreadHandler.postDelayed(new Runnable() {
                         public void run() {
                             if (ScreenGrabber.getInstance() == null) {
@@ -220,9 +225,11 @@ public class GoIVNotificationManager {
                             }
 
                             OcrCalibrationResultActivity.startCalibration(NotificationActionService.this,
-                                    ScreenGrabber.getInstance().grabScreen());
+                                    ScreenGrabber.getInstance().grabScreen(),
+                                    pokefly.getCurrentStatusBarHeight(),
+                                    pokefly.getCurrentNavigationBarHeight());
                         }
-                    }, 2000);
+                    }, 4100);
                 }
             }
         }

@@ -289,6 +289,7 @@
     <string name="send_email_to_devs_button">Email error information to developers</string>
     <string name="report_error">Email error report</string>
     <string name="recalibration_video_tutorial">Recalibration video tutorial</string>
+    <string name="recalibrating_please_wait">Recalibrating, please wait 3 seconds&#8230;</string>
     <string name="moveset_score_disclaimer">"Score based on data from pokebattler.com simulations.\nSimulations are on gym battles, raids often have other optimal movesets.\nOptimal moveset can change in certain matchups.\nThis score is only a guideline."</string>
     <string name="table_header_move_fast">Fast</string>
     <string name="table_header_move_charge">Charge</string>

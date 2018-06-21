@@ -394,7 +394,9 @@
         "DEOXYS_NORMAL_FORM": "Deoxys - Normal",
         "DEOXYS_ATTACK_FORM": "Deoxys - Attack",
         "DEOXYS_DEFENSE_FORM": "Deoxys - Defense",
-        "DEOXYS_SPEED_FORM": "Deoxys - Speed"
+        "DEOXYS_SPEED_FORM": "Deoxys - Speed",
+        "EXEGGUTOR_ALOLA_FORM": "Exeggutor - Alola",
+        "EXEGGUTOR_NORMAL_FORM": "Exeggutor - Normal"
     },
     "moves": {
         "undefined": "",
@@ -602,7 +604,9 @@
         "HIDDEN_POWER_FIGHTING_FAST": "Hidden Power",
         "HIDDEN_POWER_NORMAL_FAST": "Hidden Power",
         "RANDOM": "Unknown",
-        "FRENZY_PLANT": "Frenzy Plant"
+        "FRENZY_PLANT": "Frenzy Plant",
+        "BLAST_BURN": "Blast Burn",
+        "SMACK_DOWN_FAST": "Smack Down"
     },
     "types": {
         "POKEMON_TYPE_NONE": "Unknown",

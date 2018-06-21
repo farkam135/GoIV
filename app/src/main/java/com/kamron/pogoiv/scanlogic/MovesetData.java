@@ -1,5 +1,7 @@
 package com.kamron.pogoiv.scanlogic;
 
+import android.support.annotation.NonNull;
+
 import java.util.Comparator;
 import java.util.Objects;
 
@@ -22,6 +24,9 @@ public class MovesetData {
     private String fastMoveType;
     private String chargeMoveType;
 
+
+
+
     /**
      * Create a new Moveset.
      *
@@ -33,6 +38,27 @@ public class MovesetData {
         this.charge = charge;
     }
 
+
+
+    public MovesetData(String quick,
+                       String charge,
+                       boolean quickIsLegacy,
+                       boolean chargeIsLegacy,
+                       Double atkScore,
+                       Double defScore,
+                       String chargeMoveType,
+                       String quickMoveType) {
+
+            this.fast = quick;
+            this.charge = charge;
+            this.fastMoveType = quickMoveType;
+            this.chargeMoveType = chargeMoveType;
+            this.fastIsLegacy = quickIsLegacy;
+            this.chargeIsLegacy = chargeIsLegacy;
+            this.atkScore = atkScore;
+            this.defScore = defScore;
+
+    }
     /**
      * Create a new Moveset.
      *
@@ -133,6 +159,56 @@ public class MovesetData {
         }
     }
 
+
+
+
+    public static class Key implements Comparable<Key>{
+        private final String quick;
+        private final String charge;
+
+        public Key(String quick, String charge) {
+            this.quick = quick;
+            this.charge = charge;
+        }
+
+        public String getQuick() {
+            return quick;
+        }
+
+        public String getCharge() {
+            return charge;
+        }
+
+        @Override public boolean equals(Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+
+            Key key = (Key) o;
+
+            if (quick != null ? !quick.equals(key.quick) : key.quick != null) {
+                return false;
+            }
+            return charge != null ? charge.equals(key.charge) : key.charge == null;
+        }
+
+        @Override public int hashCode() {
+            int result = quick != null ? quick.hashCode() : 0;
+            result = 31 * result + (charge != null ? charge.hashCode() : 0);
+            return result;
+        }
+
+        @Override public int compareTo(@NonNull Key other) {
+            int retval = this.getQuick().compareTo(other.getQuick());
+            if (retval == 0) {
+                retval = this.getCharge().compareTo(other.getCharge());
+            }
+            return retval;
+        }
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -149,5 +225,6 @@ public class MovesetData {
     public int hashCode() {
         return Objects.hash(fast, charge);
     }
+
 
 }

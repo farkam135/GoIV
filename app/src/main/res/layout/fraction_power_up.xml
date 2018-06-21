@@ -144,17 +144,6 @@
                 app:layout_constraintEnd_toStartOf="@id/exResultCP"
                 tools:ignore="RtlHardcoded"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="4dp"
-                android:layout_marginRight="4dp"
-                android:text="@string/hp_expanded_box"
-                android:textAllCaps="true"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                app:layout_constraintBaseline_toBaselineOf="@id/exResultCP"
-                app:layout_constraintEnd_toStartOf="@id/exResultHP"
-                tools:ignore="RtlHardcoded"/>
 
             <TextView
                 android:id="@+id/exResultHP"
@@ -166,6 +155,19 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBaseline_toBaselineOf="@id/exResultCP"
                 tools:text="200"/>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:layout_marginRight="4dp"
+                android:text="@string/hp_expanded_box"
+                android:textAllCaps="true"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                app:layout_constraintBaseline_toBaselineOf="@id/exResultCP"
+                app:layout_constraintEnd_toStartOf="@id/exResultHP"
+                tools:ignore="RtlHardcoded"/>
 
             <TextView
                 android:id="@+id/exResultHPPlus"

@@ -394,7 +394,9 @@
         "DEOXYS_NORMAL_FORM": "Deoxys - Normal",
         "DEOXYS_ATTACK_FORM": "Deoxys - Angriff",
         "DEOXYS_DEFENSE_FORM": "Deoxys - Verteidigung",
-        "DEOXYS_SPEED_FORM": "Deoxys - Geschwindigkeit"
+        "DEOXYS_SPEED_FORM": "Deoxys - Geschwindigkeit",
+        "EXEGGUTOR_ALOLA_FORM": "Kokowei - Alola",
+        "EXEGGUTOR_NORMAL_FORM": "Kokowei - Normal"
     },
     "moves": {
         "undefined": " ",
@@ -602,7 +604,9 @@
         "HIDDEN_POWER_FIGHTING_FAST": "Kraftreserve",
         "HIDDEN_POWER_NORMAL_FAST": "Kraftreserve",
         "RANDOM": "Unbekannt",
-        "FRENZY_PLANT": "Flora-Statue"
+        "FRENZY_PLANT": "Flora-Statue",
+        "BLAST_BURN": "Lohekanonade",
+        "SMACK_DOWN_FAST": "Katapult"
     },
     "types": {
         "POKEMON_TYPE_NONE": "Unbekannt",

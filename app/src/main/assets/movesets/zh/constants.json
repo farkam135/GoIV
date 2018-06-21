@@ -385,7 +385,15 @@
         "WURMPLE": "刺尾蟲",
         "WYNAUT": "小果然",
         "ZANGOOSE": "貓鼬斬",
-        "ZIGZAGOON": "蛇紋熊"
+        "ZIGZAGOON": "蛇紋熊",
+        "CASTFORM_NORMAL_FORM": "漂浮泡泡 - 一般",
+        "CASTFORM_RAINY_FORM": "飄浮泡泡 - 雨水型態",
+        "CASTFORM_SNOWY_FORM": "飄浮泡泡 - 雪雲型態",
+        "CASTFORM_SUNNY_FORM": "飄浮泡泡 - 太陽型態",
+        "DEOXYS_NORMAL_FORM": "代歐奇希斯 - 一般型態",
+        "DEOXYS_ATTACK_FORM": "代歐奇希斯 - 攻擊型態",
+        "DEOXYS_DEFENSE_FORM": "代歐奇希斯 - 防禦型態",
+        "DEOXYS_SPEED_FORM": "代歐奇希斯 - 速度型態"
     },
     "moves": {
         "HYPER_BEAM": "破壞光線",
@@ -456,7 +464,7 @@
         "BRINE": "鹽水",
         "WATER_PULSE": "水之波動",
         "SCALD": "熱水",
-        "HYDRO_PUMP": "水炮",
+        "HYDRO_PUMP": "水砲",
         "PSYCHIC": "精神強念",
         "PSYSTRIKE": "精神擊破",
         "ICY_WIND": "冰凍之風",
@@ -555,9 +563,9 @@
         "HIDDEN_POWER_FAST": "覺醒力量",
         "HYDRO_PUMP_BLASTOISE": "水炮 水箭龜",
         "WATER_GUN_BLASTOISE": "水槍 水箭龜",
-        "DODGE": "",
-        "REVIVE": "",
-        "HEAL": "",
+        "DODGE": "閃躲",
+        "REVIVE": "倒下",
+        "HEAL": "回復",
         "HIDDEN_POWER_FAIRY_FAST": "覺醒力量",
         "HIDDEN_POWER_DARK_FAST": "覺醒力量",
         "HIDDEN_POWER_DRAGON_FAST": "覺醒力量",
@@ -583,28 +591,44 @@
         "PRESENT_FAST": "禮物",
         "QUICK_ATTACK_FAST": "電光一閃",
         "SURF": "衝浪",
-        "WATERFALL_FAST": "攀瀑"
+        "WATERFALL_FAST": "攀瀑",
+        "DOOM_DESIRE": "破滅之願",
+        "GIGA_DRAIN": "終極吸取",
+        "MIRROR_COAT": "鏡面反射",
+        "ORIGIN_PULSE": "根源波動",
+        "POWER_GEM": "力量寶石",
+        "PRECIPICE_BLADES": "斷崖之劍",
+        "PSYCHO_BOOST": "精神突進",
+        "SKY_ATTACK": "神鳥猛擊",
+        "TAKE_DOWN_FAST": "猛撞",
+        "WRAP": "緊束",
+        "YAWN_FAST": "哈欠",
+        "RANDOM": "未知",
+        "FRENZY_PLANT": "瘋狂植物",
+        "BLAST_BURN": "爆炸烈焰",
+        "SMACK_DOWN_FAST": "擊落",
+        "CROSS_POISON": "十字毒藥"
     },
     "types": {
-        "POKEMON_TYPE_NONE": "",
+        "POKEMON_TYPE_NONE": "未知",
         "POKEMON_TYPE_NORMAL": "Normal",
-        "POKEMON_TYPE_FIGHTING": "",
-        "POKEMON_TYPE_FLYING": "",
-        "POKEMON_TYPE_POISON": "",
-        "POKEMON_TYPE_GROUND": "",
-        "POKEMON_TYPE_ROCK": "",
-        "POKEMON_TYPE_BUG": "",
-        "POKEMON_TYPE_GHOST": "",
-        "POKEMON_TYPE_STEEL": "",
-        "POKEMON_TYPE_FIRE": "",
-        "POKEMON_TYPE_WATER": "",
-        "POKEMON_TYPE_GRASS": "",
-        "POKEMON_TYPE_ELECTRIC": "",
-        "POKEMON_TYPE_PSYCHIC": "",
-        "POKEMON_TYPE_ICE": "",
-        "POKEMON_TYPE_DRAGON": "",
-        "POKEMON_TYPE_DARK": "",
-        "POKEMON_TYPE_FAIRY": ""
+        "POKEMON_TYPE_FIGHTING": "格鬥",
+        "POKEMON_TYPE_FLYING": "飛行",
+        "POKEMON_TYPE_POISON": "毒",
+        "POKEMON_TYPE_GROUND": "地面",
+        "POKEMON_TYPE_ROCK": "岩石",
+        "POKEMON_TYPE_BUG": "蟲",
+        "POKEMON_TYPE_GHOST": "鬼",
+        "POKEMON_TYPE_STEEL": "鋼",
+        "POKEMON_TYPE_FIRE": "火",
+        "POKEMON_TYPE_WATER": "水",
+        "POKEMON_TYPE_GRASS": "草",
+        "POKEMON_TYPE_ELECTRIC": "電",
+        "POKEMON_TYPE_PSYCHIC": "超能力",
+        "POKEMON_TYPE_ICE": "冰",
+        "POKEMON_TYPE_DRAGON": "龍",
+        "POKEMON_TYPE_DARK": "暗",
+        "POKEMON_TYPE_FAIRY": "妖精"
     },
     "unknown": {
         "TREECKO": "木守宮",
@@ -993,6 +1017,10 @@
             "DODGE_WEAVE_CAUTIOUS": {
                 "label": "迂迴閃躲",
                 "description": "使用攻擊模式策略，假定最壞情況下，每次攻擊之間可能發生1.5秒的延遲。這個策略重現人為操作。"
+            },
+            "undefined": {
+                "label": "未知",
+                "description": "這不應該出現，如果出現了請讓我們知道！"
             }
         },
         "dodge": {
@@ -1039,11 +1067,25 @@
                 "description": "全隨機模擬！每1.5秒至2.5秒攻擊一次。如果能量足夠，每次攻擊使用能量招式的機會為50%。"
             },
             "DEFENSE_RANDOM_MC": {
-                "label": "蒙特卡洛",
+                "label": "蒙地卡羅 - 金",
                 "description": "最準確的結果。執行100次隨機模擬並對其進行平均，以得到一個整體結果。戰鬥日誌實例採用基於整體評分的中位數結果。與非完美的閃避策略是最有用的組合"
+            },
+            "DEFENSE_RANDOM_MC_FAST": {
+                "label": "蒙地卡羅 - 銅"
+            },
+            "DEFENSE_RANDOM_MC_MID": {
+                "label": "蒙地卡羅 - 銀"
+            },
+            "DEFENSE_RANDOM_MC_EX": {
+                "label": "蒙地卡羅 - 白金"
             }
         }
     },
     "levelVs": "{{attackerLevel}} 級攻擊方 Vs. {{defenderLevel}} 級防禦方",
-    "pokeboxVsLevel": "寶可夢背包{{userId}} 攻擊方 Vs. {{defenderLevel}}級 防守方"
+    "pokeboxVsLevel": "寶可夢背包{{userId}} 攻擊方 Vs. {{defenderLevel}}級 防守方",
+    "weatherConditions": {
+        "NO_WEATHER": {
+            "label": "極端"
+        }
+    }
 }

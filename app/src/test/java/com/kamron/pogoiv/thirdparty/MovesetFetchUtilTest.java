@@ -25,8 +25,7 @@ import timber.log.Timber;
 
 /**
  * A class for generating the moveset database json by querying pokebattler.
- * Run the generateMovesetList test to update the json in
- * app/src/main/assets/thirdparty/pokebattler//pokemonMovesetData.json.
+ * Run the generateMovesetList test to update the json.
  */
 public class MovesetFetchUtilTest {
     private static final String BASE_URL = "https://fight.pokebattler.com";
@@ -38,7 +37,6 @@ public class MovesetFetchUtilTest {
     /**
      * This "test" generates a json of all pokemon move ratings by querying the pokebattler database.
      */
-    @Test
     public void generateMovesetDatabase() throws Exception {
 //        Timber.plant(new Timber.DebugTree()); This throws exceptions in unit tests
         MovesetFetchUtilTest fetcher = new MovesetFetchUtilTest();

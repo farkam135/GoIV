@@ -252,7 +252,7 @@
             android:textColor="@color/colorPrimary"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/sbArcAdjust"
+            app:layout_constraintEnd_toStartOf="@+id/sbArcAdjust"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="HardcodedText" />
@@ -263,7 +263,7 @@
             android:layout_height="0dp"
             android:layout_marginTop="4dp"
             app:layout_constraintBottom_toBottomOf="@id/btnDecrementLevel"
-            app:layout_constraintEnd_toStartOf="@id/btnIncrementLevel"
+            app:layout_constraintEnd_toStartOf="@+id/btnIncrementLevel"
             app:layout_constraintStart_toEndOf="@+id/btnDecrementLevel"
             app:layout_constraintTop_toTopOf="@id/btnDecrementLevel" />
 

@@ -16,6 +16,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -28,20 +29,29 @@ import timber.log.Timber;
  * Run the generateMovesetList test to update the json in
  * app/src/main/assets/thirdparty/pokebattler//pokemonMovesetData.json.
  */
-public class MovesetFetchUtilTest {
+public class MovesetFetchUtil {
     private static final String BASE_URL = "https://fight.pokebattler.com";
 //    private static final String BASE_URL = "http://localhost:8001";
 //    private static final String BASE_URL = "https://20180530t224949-dot-fight-dot-pokebattler-1380.appspot.com";
-    OkHttpClient httpClient = new OkHttpClient();
-    ;
+    OkHttpClient httpClient;
+    public MovesetFetchUtil() {
+        httpClient = new OkHttpClient.Builder()
+                .connectTimeout(20, TimeUnit.SECONDS)
+                .writeTimeout(20, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .build();
+
+    }
 
     /**
      * This "test" generates a json of all pokemon move ratings by querying the pokebattler database.
      */
     @Test
-    public void generateMovesetDatabase() throws Exception {
+    public void buildFailsIfThisIsAMain() throws Exception {
+//        public static void main(String... args) throws Exception {
+
 //        Timber.plant(new Timber.DebugTree()); This throws exceptions in unit tests
-        MovesetFetchUtilTest fetcher = new MovesetFetchUtilTest();
+        MovesetFetchUtil fetcher = new MovesetFetchUtil();
         Map<String, List<MovesetData>> pokemon = fetcher.fetchAllPokemon();
         JSONObject toDump = new JSONObject(pokemon);
         try (FileWriter writer = new FileWriter(new File
@@ -81,7 +91,8 @@ public class MovesetFetchUtilTest {
     public Map<String, List<MovesetData>> fetchAllPokemon() {
         Map<String, List<MovesetData>> allPokemon = new TreeMap<>();
         for (PokemonId pokemon : PokemonId.values()) {
-            if (pokemon == PokemonId.MISSINGNO || pokemon == PokemonId.UNRECOGNIZED) {
+            if (pokemon == PokemonId.MISSINGNO || pokemon == PokemonId.UNRECOGNIZED || pokemon.name().endsWith
+                    ("NORMAL_FORM")) {
                 continue;
             }
 

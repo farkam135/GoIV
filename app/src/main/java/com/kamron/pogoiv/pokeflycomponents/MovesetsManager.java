@@ -157,11 +157,11 @@ public class MovesetsManager {
                 movesetList = result.get(dexIndex);
             }
             for (LinkedTreeMap<String, Object> jsonMoveset : jsonMovesets) {
-                String fastMove = translatedMoveNames.get(jsonMoveset.get("quick"));
+                String fastMove = translatedMoveNames.get(jsonMoveset.get("fast"));
                 String chargeMove = translatedMoveNames.get(jsonMoveset.get("charge"));
 
                 if (Strings.isNullOrEmpty(fastMove)) {
-                    Timber.w("Missing fast move " + jsonMoveset.get("quick")
+                    Timber.w("Missing fast move " + jsonMoveset.get("fast")
                             + " translation in " + getLanguage(context.getResources()));
                     continue;
                 }
@@ -173,13 +173,13 @@ public class MovesetsManager {
 
                 //noinspection SuspiciousMethodCalls
                 MovesetData movesetData = new MovesetData(
-                        (String) jsonMoveset.get("quick"),
+                        (String) jsonMoveset.get("fast"),
                         (String) jsonMoveset.get("charge"),
                         fastMove,
                         chargeMove,
-                        translatedTypeNames.get("POKEMON_TYPE_" + jsonMoveset.get("quickMoveType")),
+                        translatedTypeNames.get("POKEMON_TYPE_" + jsonMoveset.get("fastMoveType")),
                         translatedTypeNames.get("POKEMON_TYPE_" + jsonMoveset.get("chargeMoveType")),
-                        (Boolean) jsonMoveset.get("quickIsLegacy"),
+                        (Boolean) jsonMoveset.get("fastIsLegacy"),
                         (Boolean) jsonMoveset.get("chargeIsLegacy"),
                         (Double) jsonMoveset.get("atkScore"),
                         (Double) jsonMoveset.get("defScore"));

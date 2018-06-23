@@ -3,6 +3,23 @@
     <integer-array name="formsCount">
         <item>3</item><!-- Deoxys -->
         <item>1</item><!-- Exeggutor -->
+        <item>1</item><!-- Rattata -->
+        <item>1</item><!-- Raticate -->
+        <item>1</item><!-- Raichu -->
+        <item>1</item><!-- Sandshrew -->
+        <item>1</item><!-- Sandslash -->
+        <item>1</item><!-- Vulpix -->
+        <item>1</item><!-- Ninetales -->
+        <item>1</item><!-- Diglett -->
+        <item>1</item><!-- Dugtrio -->
+        <item>1</item><!-- Meowth -->
+        <item>1</item><!-- Persian -->
+        <item>1</item><!-- Geodude -->
+        <item>1</item><!-- Graveler -->
+        <item>1</item><!-- Golem -->
+        <item>1</item><!-- Grimer -->
+        <item>1</item><!-- Muk -->
+        <item>1</item><!-- Marowak -->
     </integer-array>
 
     <string-array name="formNames">
@@ -11,6 +28,40 @@
         <item>Defense Forme</item>
         <item>Speed Forme</item>
         <!-- Exeggutor -->
+        <item>Alola Form</item>
+        <!-- Rattata -->
+        <item>Alola Form</item>
+        <!-- Raticate -->
+        <item>Alola Form</item>
+        <!-- Raichu -->
+        <item>Alola Form</item>
+        <!-- Sandshrew -->
+        <item>Alola Form</item>
+        <!-- Sandslash -->
+        <item>Alola Form</item>
+        <!-- Vulpix -->
+        <item>Alola Form</item>
+        <!-- Ninetales -->
+        <item>Alola Form</item>
+        <!-- Diglett -->
+        <item>Alola Form</item>
+        <!-- Dugtrio -->
+        <item>Alola Form</item>
+        <!-- Meowth -->
+        <item>Alola Form</item>
+        <!-- Persian -->
+        <item>Alola Form</item>
+        <!-- Geodude -->
+        <item>Alola Form</item>
+        <!-- Graveler -->
+        <item>Alola Form</item>
+        <!-- Golem -->
+        <item>Alola Form</item>
+        <!-- Grimer -->
+        <item>Alola Form</item>
+        <!-- Muk -->
+        <item>Alola Form</item>
+        <!-- Marowak -->
         <item>Alola Form</item>
     </string-array>
 
@@ -21,6 +72,23 @@
         <item>230</item> <!--DeoxysSpeed -->
         <!-- Exeggutor -->
         <item>230</item> <!--ExeggutorAlola-->
+        <item>103</item> <!-- Rattata -->
+        <item>135</item> <!-- Raticate -->
+        <item>201</item> <!-- Raichu -->
+        <item>125</item> <!-- Sandshrew -->
+        <item>177</item> <!-- Sandslash -->
+        <item>96</item> <!-- Vulpix -->
+        <item>170</item> <!-- Ninetales -->
+        <item>108</item> <!-- Diglett -->
+        <item>201</item> <!-- Dugtrio -->
+        <item>99</item> <!-- Meowth -->
+        <item>158</item> <!-- Persian -->
+        <item>132</item> <!-- Geodude -->
+        <item>164</item> <!-- Graveler -->
+        <item>211</item> <!-- Golem -->
+        <item>135</item> <!-- Grimer -->
+        <item>190</item> <!-- Muk -->
+        <item>144</item> <!-- Marowak -->
     </integer-array>
 
     <integer-array name="formDefense">
@@ -30,6 +98,23 @@
         <item>218</item> <!--DeoxysSpeed -->
         <!-- Exeggutor -->
         <item>158</item> <!--ExeggutorAlola-->
+        <item>70</item> <!-- Rattata -->
+        <item>159</item> <!-- Raticate -->
+        <item>172</item> <!-- Raichu -->
+        <item>154</item> <!-- Sandshrew -->
+        <item>221</item> <!-- Sandslash -->
+        <item>122</item> <!-- Vulpix -->
+        <item>207</item> <!-- Ninetales -->
+        <item>89</item> <!-- Diglett -->
+        <item>148</item> <!-- Dugtrio -->
+        <item>81</item> <!-- Meowth -->
+        <item>139</item> <!-- Persian -->
+        <item>163</item> <!-- Geodude -->
+        <item>196</item> <!-- Graveler -->
+        <item>229</item> <!-- Golem -->
+        <item>90</item> <!-- Grimer -->
+        <item>184</item> <!-- Muk -->
+        <item>200</item> <!-- Marowak -->
     </integer-array>
 
     <integer-array name="formStamina">
@@ -39,5 +124,22 @@
         <item>100</item> <!--DeoxysSpeed -->
         <!-- Exeggutor -->
         <item>190</item> <!--ExeggutorAlola-->
+        <item>60</item> <!-- Rattata -->
+        <item>150</item> <!-- Raticate -->
+        <item>120</item> <!-- Raichu -->
+        <item>100</item> <!-- Sandshrew -->
+        <item>150</item> <!-- Sandslash -->
+        <item>76</item> <!-- Vulpix -->
+        <item>146</item> <!-- Ninetales -->
+        <item>20</item> <!-- Diglett -->
+        <item>70</item> <!-- Dugtrio -->
+        <item>80</item> <!-- Meowth -->
+        <item>130</item> <!-- Persian -->
+        <item>80</item> <!-- Geodude -->
+        <item>110</item> <!-- Graveler -->
+        <item>160</item> <!-- Golem -->
+        <item>160</item> <!-- Grimer -->
+        <item>210</item> <!-- Muk -->
+        <item>120</item> <!-- Marowak -->
     </integer-array>
 </resources>

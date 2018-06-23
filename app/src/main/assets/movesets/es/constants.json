@@ -385,7 +385,15 @@
         "ZANGOOSE": "Zangoose",
         "ZAPDOS": "Zapdos",
         "ZIGZAGOON": "Zigzagoon",
-        "ZUBAT": "Zubat"
+        "ZUBAT": "Zubat",
+        "CASTFORM_NORMAL_FORM": "Castform - Normal",
+        "CASTFORM_RAINY_FORM": "Castform - Lluvia",
+        "CASTFORM_SNOWY_FORM": "Castform - Nieve",
+        "CASTFORM_SUNNY_FORM": "Castform - Sol",
+        "DEOXYS_NORMAL_FORM": "Deoxys - Normal",
+        "DEOXYS_ATTACK_FORM": "Deoxys - Ataque",
+        "DEOXYS_DEFENSE_FORM": "Deoxys - Defensa",
+        "DEOXYS_SPEED_FORM": "Deoxys - Velocidad"
     },
     "moves": {
         "ACID_FAST": "Ácido",
@@ -591,7 +599,8 @@
         "DODGE": "Esquivar",
         "HEAL": "Curar",
         "RANDOM": "Desconocido",
-        "REVIVE": "Debilitado"
+        "REVIVE": "Debilitado",
+        "FRENZY_PLANT": "Planta Feroz"
     },
     "types": {
         "POKEMON_TYPE_NONE": "Desconocido",
@@ -633,12 +642,149 @@
                 "description": "Utilizar ataques rápidos y esquivar sus ataques hasta que puedas esquivar su ataque cargado, luego utilizar tu ataque cargado!"
             },
             "DODGE_ALL": {
-                "label": "Esquivar todo PRO"
+                "label": "Esquivar todo PRO",
+                "description": "Usa ataques rápidos y ataques cargados entre medio de todos sus ataques después de evadirlos!"
             },
             "DODGE_SPECIALS2": {
                 "label": "Esquivar Ataques Cargados",
                 "description": "Utilizar ataques rápidos hasta que puedas esquivar su especial, luego utilizar tu ataque cargado."
+            },
+            "DODGE_WEAVE_CAUTIOUS": {
+                "description": "Esta estrategia usa un patrón de ataque que asume que el peor escenario - un intervalo de tiempo de 1.5s entre ataques - ocurre todo el tiempo. Un humano podría llegar a replicar esta estregia."
+            },
+            "undefined": {
+                "label": "Oculto",
+                "description": "Esto no debiese haber pasado. Por favor, haznos saber sobre este error!"
+            }
+        },
+        "dodge": {
+            "DODGE_100": {
+                "label": "Evasión perfecta",
+                "description": "Intenta evadir el 100% de las veces. Esta estrategia de evasión casi nunca fallará un esquive. Aún podrías recibir el ataque en ciertos casos inevitables, como cuando se usa un ataque cargado"
+            },
+            "DODGE_REACTION_TIME": {
+                "label": "Evasión realista",
+                "description": "Intenta simular de manera realista a un jugador evadiendo. La tasa de evasión varía desde un 50% de éxito para ataques rápidos de 1 segundo, a una tasa de 90% para ataques lentos de 3.5s. Además, si el atacante está usando ataques supereficaces o no eficaces, hay una penalización adicional a la evasión del 25%, reduciendo la tasa de éxito de 67.5% al 37.5%. Finalmente se añade un pequeño bono a los movimientos de atacantes veloces en base a cuánto más rápido es el movimiento que el flash de evasión."
+            },
+            "DODGE_REACTION_TIME2": {
+                "label": "Evasión realista Pro",
+                "description": "Trata de replicar a un jugador experimentado evadiendo de forma realista. La evasión varía desde una tasa de éxito de 70% para ataques rápidos de 1 segundo, a un 90% de éxito para ataques lentos de 3.5s. Además, si el atacante esta usando ataques supereficaces o no eficaces, hay una penalización adicional a la evasión del 10%, reduciendo la tasa de éxito de un 81% al 63%. Finalmente, se agrega un pequeño bono a los ataques más veloces, en base a cuánto más rápido es el movimiento que el flash de evasión."
+            },
+            "DODGE_25": {
+                "label": "25% de Evasión",
+                "description": "Elige evadir un 25% de las veces"
+            },
+            "DODGE_50": {
+                "label": "50% de Evasión",
+                "description": "Elige evadir un 50% del tiempo"
+            },
+            "DODGE_75": {
+                "label": "75% de Evasión",
+                "description": "Elige evadir un 75% del tiempo"
+            },
+            "DODGE_90": {
+                "label": "90% de Evasión",
+                "description": "Elige evadir un 90% del tiempo"
+            }
+        },
+        "defense": {
+            "DEFENSE": {
+                "label": "Defensor esperado",
+                "description": "Resultado esperado estadísticamente válido. Los ataques ocurren cada 2 segundos y los ataques cargados siempre ocurren un ataque más tarde."
+            },
+            "DEFENSE_LUCKY": {
+                "label": "Defensor afortunado",
+                "description": "Casi tan malo como puede ser. Los ataques ocurren cada 1.95 segundos, y los ataques cargados ocurren tan pronto como sea posible"
+            },
+            "DEFENSE_RANDOM": {
+                "label": "Aleatorio",
+                "description": "Simulación completamente aleatoria. Los ataques tienen entre 1.5 y 2.5s de diferencia. Los ataques especiales ocurren la mitad del tiempo si el defensor tiene la energía suficiente"
+            },
+            "DEFENSE_RANDOM_MC_FAST": {
+                "label": "Monte Carlo - Bronce",
+                "description": "Un resultado más preciso. Se corren 10 simulaciones aleatorias y se promedian juntas para dar un resultado global. El resultado de la media obtenido a partir del índice global se usa como un ejemplo para los registro de combate. Más útil en combinación con estrategias de evasión imperfectas."
+            },
+            "DEFENSE_RANDOM_MC_MID": {
+                "label": "Monte Carlo - Plata",
+                "description": "Un resultado altamente preciso. Se corren 50 simulaciones aleatorias y se promedian juntas para obtener un resultado global. El resultado de la mediana, basado en la calificación global, se usa como ejemplo para los registros de combate. Más útil en combinación con estrategias de evasión imperfectas."
+            },
+            "DEFENSE_RANDOM_MC": {
+                "label": "Monte Carlo - Oro",
+                "description": "El resultado más preciso. Se corren 200 simulaciones aleatorias y se promedian juntas para obtener un resultado global. El resultado de la mediana, basado en la calificación global, se usa como ejemplo para los registros de combate. Más útil en combinación con estrategias de evasión imperfectas."
+            },
+            "DEFENSE_RANDOM_MC_EX": {
+                "label": "Monte Carlo - Platino",
+                "description": "Beneficio especiales para los Fanáticos en Patreon. Da un resultado extremadamente preciso. Se corren 500 simulaciones aleatorias y se combinan entre sí para dar un resultado global basado en tu preferencia de agregacion. Más útil cuando observan los percentiles"
+            },
+            "DEFENSE_PATTERN": {
+                "label": "Patrón defensivo - RNG",
+                "description": "Se usa un generador de números aleatorios extremadamente predecible para esta simulación única. Esto se utiliza internamente por Pokebattler para optimizar las simulaciones de Monte Carlo con evasión aleatoria"
+            },
+            "DEFENSE_PATTERN2": {
+                "label": "Patron defensivo",
+                "description": "Se utiliza un patrón de intervalos y ataques para esta simulación única. Esto es usado internamente por Pokebattler para optimizar las simulaciones de Monte Carlo sin evasión"
             }
         }
-    }
+    },
+    "weatherConditions": {
+        "NO_WEATHER": {
+            "label": "Extremo",
+            "description": "Sin bonificación para ningún Pokémon"
+        },
+        "CLEAR": {
+            "label": "Despejado",
+            "description": "Bonificación de 20% a los ataques tipo Planta, Tierra y Fuego"
+        },
+        "RAINY": {
+            "label": "Lluvioso",
+            "description": "Bonificación de 20% a ataques tipo Bicho, Eléctrico y Agua"
+        },
+        "PARTLY_CLOUDY": {
+            "label": "Parcialmente nublado",
+            "description": "Bonificación de 20% a los ataques tipo Normal y Roca"
+        },
+        "OVERCAST": {
+            "label": "Cielo Cubierto",
+            "description": "Bonificación de 20% a los ataques tipo Hada, Lucha y Veneno"
+        },
+        "WINDY": {
+            "label": "Viento",
+            "description": "Bonificación del 20% a los ataques tipo Dragón, Volador y Psíquico"
+        },
+        "SNOW": {
+            "label": "Nieve",
+            "description": "Bonificación del 20% a los ataques tipo Hielo y Acero"
+        },
+        "FOG": {
+            "label": "Niebla",
+            "description": "Bonificación del 20% a los ataques tipo Siniestro y Fantasma"
+        }
+    },
+    "aggregations": {
+        "AVERAGE": {
+            "label": "Medio",
+            "description": "Promedia los resultados de las simulaciones de Monte Carlo juntas. Nota: El registro de combate y los reportes detallados de daño se basan en la mediana"
+        },
+        "MEDIAN": {
+            "label": "Esperado - 50%",
+            "description": "Ordena los resultados de las simulaciones de Monte Carlo por clasificación global y entrega el percentil 50."
+        },
+        "PERCENTILE_99": {
+            "label": "Extremadamente afortunado - 99%",
+            "description": "Ordena los resultados de las simulaciones de Monte Carlo por clasificación general y entrega el percentil 50."
+        },
+        "PERCENTILE_95": {
+            "label": "Muy afortunado - 95%",
+            "description": "Ordena los resultados de las simulaciones de Monte Carlo por clasificación general y entrega el percentil 95."
+        },
+        "PERCENTILE_75": {
+            "label": "Afortunado - 75%"
+        },
+        "PERCENTILE_25": {
+            "label": "Desafortunado - 25%"
+        }
+    },
+    "levelVs": "Atacante de nivel {{attackerLevel}} Vs. Defensor de nivel {{defenderLevel}}",
+    "levelVsPokebox": "Atacante de Nivel{{attackerLevel}} Vs. Defensores de Pokebox número {{userId}}",
+    "pokeboxVsLevel": "Atacantes de Pokebox número {{userId}} Vs. Defensores nivel {{defenderLevel}}"
 }

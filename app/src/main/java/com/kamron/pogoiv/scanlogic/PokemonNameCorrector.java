@@ -155,11 +155,130 @@ public class PokemonNameCorrector {
                                         ScanData scanData) {
         try {
             switch (guess.pokemon.number) {
-                case (102): // Exeggutor
+                case (102): // Exeggutor (dex 103)
                     // check types including dragon
                     if (scanData.getPokemonType().toLowerCase().contains(
                             pokeInfoCalculator.getTypeName(14).toLowerCase())) {
-                        return new PokeDist(pokeInfoCalculator.get(102).forms.get(0), 0);
+                        return new PokeDist(pokeInfoCalculator.get(guess.pokemon.number).forms.get(0), 0);
+                    }
+                    break;
+                case (18): // Rattata
+                    // check types including dark
+                    if (scanData.getPokemonType().toLowerCase().contains(
+                            pokeInfoCalculator.getTypeName(15).toLowerCase())) {
+                        return new PokeDist(pokeInfoCalculator.get(guess.pokemon.number).forms.get(0), 0);
+                    }
+                    break;
+                case (19): // Raticate
+                    // check types including dark
+                    if (scanData.getPokemonType().toLowerCase().contains(
+                            pokeInfoCalculator.getTypeName(15).toLowerCase())) {
+                        return new PokeDist(pokeInfoCalculator.get(guess.pokemon.number).forms.get(0), 0);
+                    }
+                    break;
+                case (25): // Raichu
+                    // check types including psychic
+                    if (scanData.getPokemonType().toLowerCase().contains(
+                            pokeInfoCalculator.getTypeName(10).toLowerCase())) {
+                        return new PokeDist(pokeInfoCalculator.get(guess.pokemon.number).forms.get(0), 0);
+                    }
+                    break;
+                case (26): // Sandshrew
+                    // check types including ice
+                    if (scanData.getPokemonType().toLowerCase().contains(
+                            pokeInfoCalculator.getTypeName(5).toLowerCase())) {
+                        return new PokeDist(pokeInfoCalculator.get(guess.pokemon.number).forms.get(0), 0);
+                    }
+                    break;
+                case (27): // Sandslash
+                    // check types including ice
+                    if (scanData.getPokemonType().toLowerCase().contains(
+                            pokeInfoCalculator.getTypeName(5).toLowerCase())) {
+                        return new PokeDist(pokeInfoCalculator.get(guess.pokemon.number).forms.get(0), 0);
+                    }
+                    break;
+                case (36): // Vulpix
+                    // check types including ice
+                    if (scanData.getPokemonType().toLowerCase().contains(
+                            pokeInfoCalculator.getTypeName(5).toLowerCase())) {
+                        return new PokeDist(pokeInfoCalculator.get(guess.pokemon.number).forms.get(0), 0);
+                    }
+                    break;
+                case (37): // Ninetales
+                    // check types including ice
+                    if (scanData.getPokemonType().toLowerCase().contains(
+                            pokeInfoCalculator.getTypeName(5).toLowerCase())) {
+                        return new PokeDist(pokeInfoCalculator.get(guess.pokemon.number).forms.get(0), 0);
+                    }
+                    break;
+                case (49): // Diglett
+                    // check types including steel
+                    if (scanData.getPokemonType().toLowerCase().contains(
+                            pokeInfoCalculator.getTypeName(16).toLowerCase())) {
+                        return new PokeDist(pokeInfoCalculator.get(guess.pokemon.number).forms.get(0), 0);
+                    }
+                    break;
+                case (50): // Dugtrio
+                    // check types including steel
+                    if (scanData.getPokemonType().toLowerCase().contains(
+                            pokeInfoCalculator.getTypeName(16).toLowerCase())) {
+                        return new PokeDist(pokeInfoCalculator.get(guess.pokemon.number).forms.get(0), 0);
+                    }
+                    break;
+                case (51): // Meowth
+                    // check types including dark
+                    if (scanData.getPokemonType().toLowerCase().contains(
+                            pokeInfoCalculator.getTypeName(15).toLowerCase())) {
+                        return new PokeDist(pokeInfoCalculator.get(guess.pokemon.number).forms.get(0), 0);
+                    }
+                    break;
+                case (52): // Persian
+                    // check types including dark
+                    if (scanData.getPokemonType().toLowerCase().contains(
+                            pokeInfoCalculator.getTypeName(15).toLowerCase())) {
+                        return new PokeDist(pokeInfoCalculator.get(guess.pokemon.number).forms.get(0), 0);
+                    }
+                    break;
+                case (73): // Geodude
+                    // check types including electric
+                    if (scanData.getPokemonType().toLowerCase().contains(
+                            pokeInfoCalculator.getTypeName(3).toLowerCase())) {
+                        return new PokeDist(pokeInfoCalculator.get(guess.pokemon.number).forms.get(0), 0);
+                    }
+                    break;
+                case (74): // Graveler
+                    // check types including electric
+                    if (scanData.getPokemonType().toLowerCase().contains(
+                            pokeInfoCalculator.getTypeName(3).toLowerCase())) {
+                        return new PokeDist(pokeInfoCalculator.get(guess.pokemon.number).forms.get(0), 0);
+                    }
+                    break;
+                case (75): // Golem
+                    // check types including electric
+                    if (scanData.getPokemonType().toLowerCase().contains(
+                            pokeInfoCalculator.getTypeName(3).toLowerCase())) {
+                        return new PokeDist(pokeInfoCalculator.get(guess.pokemon.number).forms.get(0), 0);
+                    }
+                    break;
+                case (87): // Grimer
+                    // check types including dark
+                    if (scanData.getPokemonType().toLowerCase().contains(
+                            pokeInfoCalculator.getTypeName(15).toLowerCase())) {
+                        return new PokeDist(pokeInfoCalculator.get(guess.pokemon.number).forms.get(0), 0);
+                    }
+                    break;
+                case (88): // Muk
+                    // check types including dark
+                    if (scanData.getPokemonType().toLowerCase().contains(
+                            pokeInfoCalculator.getTypeName(15).toLowerCase())) {
+                        return new PokeDist(pokeInfoCalculator.get(guess.pokemon.number).forms.get(0), 0);
+                    }
+                    break;
+                case (104): // Marowak
+                    // check types including fire
+                    if (scanData.getPokemonType().toLowerCase().contains(
+                            pokeInfoCalculator.getTypeName(1).toLowerCase())) {
+                        return new PokeDist(pokeInfoCalculator.get(guess.pokemon.number).forms.get(0), 0);
                     }
                     break;
 

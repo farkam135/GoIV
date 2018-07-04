@@ -423,7 +423,7 @@
         "CHARGE_BEAM_FAST": "Raggioscossa",
         "CLOSE_COMBAT": "Zuffa",
         "CONFUSION_FAST": "Confusione",
-        "COUNTER_FAST": "Contatore",
+        "COUNTER_FAST": "Contrattacco",
         "CROSS_CHOP": "Incrocolpo",
         "CROSS_POISON": "Velenocroce",
         "CRUNCH": "Sgranocchio",
@@ -600,7 +600,9 @@
         "REVIVE": "Esausto",
         "HEAL": "Curato",
         "RANDOM": "Sconosciuto",
-        "FRENZY_PLANT": "Radicalbero"
+        "FRENZY_PLANT": "Radicalbero",
+        "BLAST_BURN": "Incendio",
+        "SMACK_DOWN_FAST": "Abbattimento"
     },
     "types": {
         "POKEMON_TYPE_NONE": "Sconosciuto",

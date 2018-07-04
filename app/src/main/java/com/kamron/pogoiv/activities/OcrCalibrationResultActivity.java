@@ -11,7 +11,6 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Point;
 import android.graphics.RectF;
 import android.net.Uri;
 import android.os.Build;
@@ -42,7 +41,6 @@ import com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldAutomaticLocator;
 import com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldResults;
 import com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanPoint;
 import com.kamron.pogoiv.utils.MediaStoreUtils;
-import com.kamron.pogoiv.utils.WindowManagerUtils;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -61,6 +59,8 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
     private static Bitmap sCalibrationImage;
     private static DisplayMetrics sDisplayMetrics;
     private static String sEmailErrorText;
+    private static int sStatusBarHeight;
+    private static int sNavigationBarHeight;
 
 
     private ScanFieldResults results;
@@ -87,7 +87,10 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
     Button emailErrorButton;
 
 
-    public static void startCalibration(@NonNull Context context, @Nullable Bitmap bitmap) {
+    public static void startCalibration(@NonNull Context context,
+                                        @Nullable Bitmap bitmap,
+                                        int statusBarHeight,
+                                        int navigationBarHeight) {
         if (bitmap == null) {
             Toast.makeText(context, "The received screenshot is invalid", Toast.LENGTH_SHORT).show();
             return;
@@ -105,6 +108,9 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
             sCalibrationImage = null;
             return;
         }
+
+        sStatusBarHeight = statusBarHeight;
+        sNavigationBarHeight = navigationBarHeight;
 
         sDisplayMetrics = new DisplayMetrics();
         sDisplayMetrics.setTo(context.getResources().getDisplayMetrics());
@@ -172,13 +178,11 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
             blackPaint.setColor(Color.BLACK);
 
             // Hide status bar
-            int statusBarHeight = WindowManagerUtils.getStatusBarSize(activity.getResources());
-            c.drawRect(0, 0, sCalibrationImage.getWidth(), statusBarHeight, blackPaint);
+            c.drawRect(0, 0, sCalibrationImage.getWidth(), sStatusBarHeight, blackPaint);
 
             // Hide navigation bar
-            Point navBarSize = WindowManagerUtils.getNavigationBarSize(activity);
-            c.drawRect(0, sCalibrationImage.getHeight() - navBarSize.y,
-                    navBarSize.x, sCalibrationImage.getHeight(), blackPaint);
+            c.drawRect(0, sCalibrationImage.getHeight() - sNavigationBarHeight,
+                    sCalibrationImage.getWidth(), sCalibrationImage.getHeight(), blackPaint);
 
             ScanFieldResults results = new ScanFieldAutomaticLocator(
                     sCalibrationImage, sDisplayMetrics.widthPixels, sDisplayMetrics.density)

@@ -279,6 +279,7 @@
     <string name="token_msg_lvl_msg2">Questo token rappresenta il livello del \'mon, così com\'è stato scansionato, rimuovendo la parte decimale. Implica una potenziale perdita di informazione. Ad esempio, per un \'mon di livello 10.5 ritorna 10.</string>
     <string name="token_msg_lvl_msg3">Questo token rappresenta il livello del \'mon, così com\'è stato scansionato, includendo la parte decimale. Questo rende il risultato più lungo rispetto ad altre alternative, in compenso è molto preciso. Ad esempio, per un \'mon di livello 10.5 ritorna 10.5.</string>
     <string name="recalibration_video_tutorial">Video tutorial ricalibrazione</string>
+    <string name="recalibrating_please_wait">Ricalibrazione, attendi 3 secondi&#8230;</string>
     <string name="moveset_score_disclaimer">"Valutazioni basate sulle simulazioni di pokebattler.com.\nPunteggi basati sulle battaglie nelle palestre, spesso i moveset ottimali per i raid sono diversi.\nI moveset ottimali possono variare in base agli avversari.\nQuesta valutazione è da intendersi indicativa."</string>
     <string name="table_header_move_fast">Veloce</string>
     <string name="table_header_move_charge">Caricata</string>

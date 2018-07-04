@@ -12,6 +12,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.graphics.PixelFormat;
+import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Handler;
@@ -78,7 +79,6 @@ public class Pokefly extends Service {
     private static final String ACTION_START = "com.kamron.pogoiv.ACTION_START";
     private static final String ACTION_STOP = "com.kamron.pogoiv.ACTION_STOP";
 
-    private static final String KEY_STATUS_BAR_HEIGHT = "key_status_bar_height";
     private static final String KEY_TRAINER_LEVEL = "key_trainer_level";
 
     private static final String KEY_SEND_INFO_NAME = "key_send_info_name";
@@ -138,6 +138,8 @@ public class Pokefly extends Service {
     private PokeInfoCalculator pokeInfoCalculator;
     private AppraisalManager appraisalManager;
     private PokemonNameCorrector nameCorrector;
+    private View sizeDetector1;
+    private View sizeDetector2;
 
 
     @BindView(R.id.infoLayout)
@@ -155,7 +157,6 @@ public class Pokefly extends Service {
                     : WindowManager.LayoutParams.TYPE_PHONE,
             WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
             PixelFormat.TRANSLUCENT);
-    private int statusBarHeight = 0;
 
     @SuppressWarnings("deprecation")
     private final WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams(
@@ -165,6 +166,16 @@ public class Pokefly extends Service {
                     ? WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
                     : WindowManager.LayoutParams.TYPE_PHONE,
             WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN,
+            PixelFormat.TRANSPARENT);
+
+    @SuppressWarnings("deprecation")
+    private static final WindowManager.LayoutParams sizeDetectorParams = new WindowManager.LayoutParams(
+            0,
+            0,
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
+                    ? WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
+                    : WindowManager.LayoutParams.TYPE_PHONE,
+            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
             PixelFormat.TRANSPARENT);
 
 
@@ -178,10 +189,9 @@ public class Pokefly extends Service {
         return intent;
     }
 
-    public static Intent createStartIntent(@NonNull Context context, int statusBarHeight, int trainerLevel) {
+    public static Intent createStartIntent(@NonNull Context context, int trainerLevel) {
         Intent intent = new Intent(context, Pokefly.class);
         intent.setAction(ACTION_START);
-        intent.putExtra(KEY_STATUS_BAR_HEIGHT, statusBarHeight);
         intent.putExtra(KEY_TRAINER_LEVEL, trainerLevel);
         return intent;
     }
@@ -273,6 +283,9 @@ public class Pokefly extends Service {
         LocalBroadcastManager.getInstance(this).registerReceiver(displayInfo, new IntentFilter(ACTION_SEND_INFO));
         LocalBroadcastManager.getInstance(this).registerReceiver(processBitmap,
                 new IntentFilter(ACTION_PROCESS_BITMAP));
+
+        sizeDetector1 = new View(this);
+        sizeDetector2 = new View(this);
     }
 
     @Override
@@ -297,7 +310,6 @@ public class Pokefly extends Service {
 
         } else if (ACTION_START.equals(intent.getAction())) {
             GoIVSettings.reloadPreferences(this);
-            statusBarHeight = intent.getIntExtra(KEY_STATUS_BAR_HEIGHT, 0);
             trainerLevel = intent.getIntExtra(KEY_TRAINER_LEVEL, Data.MINIMUM_TRAINER_LEVEL);
 
             setupDisplaySizeInfo();
@@ -348,6 +360,13 @@ public class Pokefly extends Service {
         createInfoLayout();
         ivButton = new IVPopupButton(this);
         windowManager.addView(ivButton, IVPopupButton.layoutParams);
+
+        sizeDetectorParams.gravity = Gravity.TOP | Gravity.LEFT;
+        windowManager.addView(sizeDetector1, sizeDetectorParams);
+
+        sizeDetectorParams.gravity = Gravity.BOTTOM | Gravity.RIGHT;
+        windowManager.addView(sizeDetector2, sizeDetectorParams);
+
         createArcPointer();
 
         fractionManager = new FractionManager(
@@ -393,6 +412,8 @@ public class Pokefly extends Service {
         }
         ivButton.setShown(false, infoShownSent);
         windowManager.removeView(ivButton);
+        windowManager.removeView(sizeDetector1);
+        windowManager.removeView(sizeDetector2);
         hideInfoLayoutArcPointer();
 
         ocr.exit();
@@ -434,7 +455,7 @@ public class Pokefly extends Service {
             index = Data.arcX.length - 1;
         }
         arcParams.x = Data.arcX[index] - arcParams.width / 2;
-        arcParams.y = Data.arcY[index] - arcParams.height / 2 - statusBarHeight;
+        arcParams.y = Data.arcY[index] - arcParams.height / 2 - getCurrentStatusBarHeight();
         //That is, (int) (arcCenter + (radius * Math.cos(angleInRadians))) and
         //(int) (arcInitialY + (radius * Math.sin(angleInRadians))).
         windowManager.updateViewLayout(arcPointer, arcParams);
@@ -472,6 +493,20 @@ public class Pokefly extends Service {
             //Tell each view inside infoLayout to close the keyboard if they currently have focus.
             imm.hideSoftInputFromWindow(infoLayout.getChildAt(i).getWindowToken(), 0);
         }
+    }
+
+    public int getCurrentStatusBarHeight() {
+        int[] out = new int[2];
+        sizeDetector1.getLocationOnScreen(out);
+        return out[1];
+    }
+
+    public int getCurrentNavigationBarHeight() {
+        Point screen = new Point();
+        windowManager.getDefaultDisplay().getRealSize(screen);
+        int[] out = new int[2];
+        sizeDetector2.getLocationOnScreen(out);
+        return screen.y - out[1];
     }
 
     public void computeIv() {

@@ -46,7 +46,7 @@ public class MovesetFetchUtil {
     /**
      * This "test" generates a json of all pokemon move ratings by querying the pokebattler database.
      */
-    @Test
+    //@Test
     public void buildFailsIfThisIsAMain() throws Exception {
 //        public static void main(String... args) throws Exception {
 

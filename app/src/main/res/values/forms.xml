@@ -1,145 +1,196 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <integer-array name="formsCount">
-        <item>3</item><!-- Deoxys -->
-        <item>1</item><!-- Exeggutor -->
-        <item>1</item><!-- Rattata -->
-        <item>1</item><!-- Raticate -->
-        <item>1</item><!-- Raichu -->
-        <item>1</item><!-- Sandshrew -->
-        <item>1</item><!-- Sandslash -->
-        <item>1</item><!-- Vulpix -->
-        <item>1</item><!-- Ninetales -->
-        <item>1</item><!-- Diglett -->
-        <item>1</item><!-- Dugtrio -->
-        <item>1</item><!-- Meowth -->
-        <item>1</item><!-- Persian -->
-        <item>1</item><!-- Geodude -->
-        <item>1</item><!-- Graveler -->
-        <item>1</item><!-- Golem -->
-        <item>1</item><!-- Grimer -->
-        <item>1</item><!-- Muk -->
-        <item>1</item><!-- Marowak -->
+        <item>3</item><!-- #368 Deoxys -->
+        <item>1</item><!-- #103 Exeggutor -->
+        <item>1</item><!-- #19 Rattata -->
+        <item>1</item><!-- #20 Raticate -->
+        <item>1</item><!-- #26 Raichu -->
+        <item>1</item><!-- #27 Sandshrew -->
+        <item>1</item><!-- #28 Sandslash -->
+        <item>1</item><!-- #37 Vulpix -->
+        <item>1</item><!-- #38 Ninetales -->
+        <item>1</item><!-- #50 Diglett -->
+        <item>1</item><!-- #51 Dugtrio -->
+        <item>1</item><!-- #52 Meowth -->
+        <item>1</item><!-- #53 Persian -->
+        <item>1</item><!-- #74 Geodude -->
+        <item>1</item><!-- #75 Graveler -->
+        <item>1</item><!-- #76 Golem -->
+        <item>1</item><!-- #88 Grimer -->
+        <item>1</item><!-- #89 Muk -->
+        <item>1</item><!-- #105 Marowak -->
     </integer-array>
 
     <string-array name="formNames">
-        <!-- Deoxys -->
+        <!-- #368 Deoxys -->
         <item>Attack Forme</item>
         <item>Defense Forme</item>
         <item>Speed Forme</item>
-        <!-- Exeggutor -->
+        <!-- #103 Exeggutor -->
         <item>Alola Form</item>
-        <!-- Rattata -->
+        <!-- #19 Rattata -->
         <item>Alola Form</item>
-        <!-- Raticate -->
+        <!-- #20 Raticate -->
         <item>Alola Form</item>
-        <!-- Raichu -->
+        <!-- #26 Raichu -->
         <item>Alola Form</item>
-        <!-- Sandshrew -->
+        <!-- #27 Sandshrew -->
         <item>Alola Form</item>
-        <!-- Sandslash -->
+        <!-- #28 Sandslash -->
         <item>Alola Form</item>
-        <!-- Vulpix -->
+        <!-- #37 Vulpix -->
         <item>Alola Form</item>
-        <!-- Ninetales -->
+        <!-- #38 Ninetales -->
         <item>Alola Form</item>
-        <!-- Diglett -->
+        <!-- #50 Diglett -->
         <item>Alola Form</item>
-        <!-- Dugtrio -->
+        <!-- #51 Dugtrio -->
         <item>Alola Form</item>
-        <!-- Meowth -->
+        <!-- #52 Meowth -->
         <item>Alola Form</item>
-        <!-- Persian -->
+        <!-- #53 Persian -->
         <item>Alola Form</item>
-        <!-- Geodude -->
+        <!-- #74 Geodude -->
         <item>Alola Form</item>
-        <!-- Graveler -->
+        <!-- #75 Graveler -->
         <item>Alola Form</item>
-        <!-- Golem -->
+        <!-- #76 Golem -->
         <item>Alola Form</item>
-        <!-- Grimer -->
+        <!-- #88 Grimer -->
         <item>Alola Form</item>
-        <!-- Muk -->
+        <!-- #89 Muk -->
         <item>Alola Form</item>
-        <!-- Marowak -->
+        <!-- #105 Marowak -->
         <item>Alola Form</item>
     </string-array>
 
     <integer-array name="formAttack">
-        <!-- Deoxys -->
-        <item>414</item> <!--DeoxysAttack-->
-        <item>144</item> <!--DeoxysDefens-->
-        <item>230</item> <!--DeoxysSpeed -->
-        <!-- Exeggutor -->
-        <item>230</item> <!--ExeggutorAlola-->
-        <item>103</item> <!-- Rattata -->
-        <item>135</item> <!-- Raticate -->
-        <item>201</item> <!-- Raichu -->
-        <item>125</item> <!-- Sandshrew -->
-        <item>177</item> <!-- Sandslash -->
-        <item>96</item> <!-- Vulpix -->
-        <item>170</item> <!-- Ninetales -->
-        <item>109</item> <!-- Diglett -->
-        <item>201</item> <!-- Dugtrio -->
-        <item>99</item> <!-- Meowth -->
-        <item>158</item> <!-- Persian -->
-        <item>132</item> <!-- Geodude -->
-        <item>164</item> <!-- Graveler -->
-        <item>211</item> <!-- Golem -->
-        <item>135</item> <!-- Grimer -->
-        <item>190</item> <!-- Muk -->
-        <item>144</item> <!-- Marowak -->
+        <!-- #368 Deoxys -->
+        <item>414</item> <!-- Attack Forme -->
+        <item>144</item> <!-- Defense Forme -->
+        <item>230</item> <!-- Speed Forme -->
+        <!-- #103 Exeggutor -->
+        <item>230</item> <!-- Alola Form -->
+        <!-- #19 Rattata -->
+        <item>103</item> <!-- Alola Form -->
+        <!-- #20 Raticate -->
+        <item>135</item> <!-- Alola Form -->
+        <!-- #26 Raichu -->
+        <item>201</item> <!-- Alola Form -->
+        <!-- #27 Sandshrew -->
+        <item>125</item> <!-- Alola Form -->
+        <!-- #28 Sandslash -->
+        <item>177</item> <!-- Alola Form -->
+        <!-- #37 Vulpix -->
+        <item>96</item> <!-- Alola Form -->
+        <!-- #38 Ninetales -->
+        <item>170</item> <!-- Alola Form -->
+        <!-- #50 Diglett -->
+        <item>109</item> <!-- Alola Form -->
+        <!-- #51 Dugtrio -->
+        <item>201</item> <!-- Alola Form -->
+        <!-- #52 Meowth -->
+        <item>99</item> <!-- Alola Form -->
+        <!-- #53 Persian -->
+        <item>158</item> <!-- Alola Form -->
+        <!-- #74 Geodude -->
+        <item>132</item> <!-- Alola Form -->
+        <!-- #75 Graveler -->
+        <item>164</item> <!-- Alola Form -->
+        <!-- #76 Golem -->
+        <item>211</item> <!-- Alola Form -->
+        <!-- #88 Grimer -->
+        <item>135</item> <!-- Alola Form -->
+        <!-- #89 Muk -->
+        <item>190</item> <!-- Alola Form -->
+        <!-- #105 Marowak -->
+        <item>144</item> <!-- Alola Form -->
     </integer-array>
 
     <integer-array name="formDefense">
-        <!-- Deoxys -->
-        <item>46</item> <!--DeoxysAttack-->
-        <item>330</item> <!--DeoxysDefens-->
-        <item>218</item> <!--DeoxysSpeed -->
-        <!-- Exeggutor -->
-        <item>158</item> <!--ExeggutorAlola-->
-        <item>70</item> <!-- Rattata -->
-        <item>159</item> <!-- Raticate -->
-        <item>172</item> <!-- Raichu -->
-        <item>154</item> <!-- Sandshrew -->
-        <item>221</item> <!-- Sandslash -->
-        <item>122</item> <!-- Vulpix -->
-        <item>207</item> <!-- Ninetales -->
-        <item>89</item> <!-- Diglett -->
-        <item>148</item> <!-- Dugtrio -->
-        <item>81</item> <!-- Meowth -->
-        <item>139</item> <!-- Persian -->
-        <item>163</item> <!-- Geodude -->
-        <item>196</item> <!-- Graveler -->
-        <item>229</item> <!-- Golem -->
-        <item>90</item> <!-- Grimer -->
-        <item>184</item> <!-- Muk -->
-        <item>200</item> <!-- Marowak -->
+        <!-- #368 Deoxys -->
+        <item>46</item> <!-- Attack Forme -->
+        <item>330</item> <!-- Defens Forme -->
+        <item>218</item> <!-- Speed Forme -->
+        <!-- #103 Exeggutor -->
+        <item>158</item> <!-- Alola Form -->
+        <!-- #19 Rattata -->
+        <item>70</item> <!-- Alola Form -->
+        <!-- #20 Raticate -->
+        <item>159</item> <!-- Alola Form -->
+        <!-- #26 Raichu -->
+        <item>172</item> <!-- Alola Form -->
+        <!-- #27 Sandshrew -->
+        <item>154</item> <!-- Alola Form -->
+        <!-- #28 Sandslash -->
+        <item>221</item> <!-- Alola Form -->
+        <!-- #37 Vulpix -->
+        <item>122</item> <!-- Alola Form -->
+        <!-- #38 Ninetales -->
+        <item>207</item> <!-- Alola Form -->
+        <!-- #50 Diglett -->
+        <item>89</item> <!-- Alola Form -->
+        <!-- #51 Dugtrio -->
+        <item>148</item> <!-- Alola Form -->
+        <!-- #52 Meowth -->
+        <item>81</item> <!-- Alola Form -->
+        <!-- #53 Persian -->
+        <item>139</item> <!-- Alola Form -->
+        <!-- #74 Geodude -->
+        <item>163</item> <!-- Alola Form -->
+        <!-- #75 Graveler -->
+        <item>196</item> <!-- Alola Form -->
+        <!-- #76 Golem -->
+        <item>229</item> <!-- Alola Form -->
+        <!-- #88 Grimer -->
+        <item>90</item> <!-- Alola Form -->
+        <!-- #89 Muk -->
+        <item>184</item> <!-- Alola Form -->
+        <!-- #105 Marowak -->
+        <item>200</item> <!-- Alola Form -->
     </integer-array>
 
     <integer-array name="formStamina">
-        <!-- Deoxys -->
-        <item>100</item> <!--DeoxysAttack-->
-        <item>100</item> <!--DeoxysDefens-->
-        <item>100</item> <!--DeoxysSpeed -->
-        <!-- Exeggutor -->
-        <item>190</item> <!--ExeggutorAlola-->
-        <item>60</item> <!-- Rattata -->
-        <item>150</item> <!-- Raticate -->
-        <item>120</item> <!-- Raichu -->
-        <item>100</item> <!-- Sandshrew -->
-        <item>150</item> <!-- Sandslash -->
-        <item>76</item> <!-- Vulpix -->
-        <item>146</item> <!-- Ninetales -->
-        <item>20</item> <!-- Diglett -->
-        <item>70</item> <!-- Dugtrio -->
-        <item>80</item> <!-- Meowth -->
-        <item>130</item> <!-- Persian -->
-        <item>80</item> <!-- Geodude -->
-        <item>110</item> <!-- Graveler -->
-        <item>160</item> <!-- Golem -->
-        <item>160</item> <!-- Grimer -->
-        <item>210</item> <!-- Muk -->
-        <item>120</item> <!-- Marowak -->
+        <!-- #368 Deoxys -->
+        <item>100</item> <!-- Attack Forme -->
+        <item>100</item> <!-- Defens Forme -->
+        <item>100</item> <!-- Speed Forme -->
+        <!-- #103 Exeggutor -->
+        <item>190</item> <!-- Alola Form -->
+        <!-- #19 Rattata -->
+        <item>60</item> <!-- Alola Form -->
+        <!-- #20 Raticate -->
+        <item>150</item> <!-- Alola Form -->
+        <!-- #26 Raichu -->
+        <item>120</item> <!-- Alola Form -->
+        <!-- #27 Sandshrew -->
+        <item>100</item> <!-- Alola Form -->
+        <!-- #28 Sandslash -->
+        <item>150</item> <!-- Alola Form -->
+        <!-- #37 Vulpix -->
+        <item>76</item> <!-- Alola Form -->
+        <!-- #38 Ninetales -->
+        <item>146</item> <!-- Alola Form -->
+        <!-- #50 Diglett -->
+        <item>20</item> <!-- Alola Form -->
+        <!-- #51 Dugtrio -->
+        <item>70</item> <!-- Alola Form -->
+        <!-- #52 Meowth -->
+        <item>80</item> <!-- Alola Form -->
+        <!-- #53 Persian -->
+        <item>130</item> <!-- Alola Form -->
+        <!-- #74 Geodude -->
+        <item>80</item> <!-- Alola Form -->
+        <!-- #75 Graveler -->
+        <item>110</item> <!-- Alola Form -->
+        <!-- #76 Golem -->
+        <item>160</item> <!-- Alola Form -->
+        <!-- #88 Grimer -->
+        <item>160</item> <!-- Alola Form -->
+        <!-- #89 Muk -->
+        <item>210</item> <!-- Alola Form -->
+        <!-- #105 Marowak -->
+        <item>120</item> <!-- Alola Form -->
     </integer-array>
 </resources>

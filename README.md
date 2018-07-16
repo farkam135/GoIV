@@ -22,10 +22,10 @@ GoIV is one of the simplest & fastest IV calculators that does not eavesdrop on 
 [Here's a video](https://www.youtube.com/watch?v=gxaI7231HtE) of approximately how it looks. (The UI might change some between versions.)
 
 ## Screenshots
-![Overlays an IV Button (with IV preview)](https://i.imgur.com/CU45YRv.jpg "Overlays an IV Button (with IV preview)")
-![Scans for Pokémon Info](https://i.imgur.com/1o3yQnC.jpg "Scans for Pokémon Info")
-![Shows Result Popup](https://i.imgur.com/zfk6X5Z.jpg "Shows Result Popup")
-![Advanced Information in Results Popup](https://i.imgur.com/6ZGt3GL.jpg "Advanced Information in Results Popup")
+![Overlays an IV Button (with IV preview)](https://i.imgur.com/aOTWm8P.png "Overlays an IV Button (with IV preview)")
+![Scans for Pokémon Info](https://i.imgur.com/eusZICv.png "Scans for Pokémon Info")
+![Shows Result Popup](https://i.imgur.com/Jz7aMhz.png "Shows Result Popup")
+![Advanced Information in Results Popup](https://i.imgur.com/R1kaCvR.png "Advanced Information in Results Popup")
 
 ## FAQ
 

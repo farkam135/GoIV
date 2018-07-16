@@ -390,4 +390,24 @@
         <item>Jirachi</item>
         <item>Deoxys</item>
     </string-array>
+    <string-array name="typeName">
+        <!--  0   normal --> <item>NORMAL</item>
+        <!--  1     fire --> <item>FEUER</item>
+        <!--  2    water --> <item>WASSER</item>
+        <!--  3 electric --> <item>ELEKTRO</item>
+        <!--  4    grass --> <item>PFLANZE</item>
+        <!--  5      ice --> <item>EIS</item>
+        <!--  6 fighting --> <item>KAMPF</item>
+        <!--  7   poison --> <item>GIFT</item>
+        <!--  8   ground --> <item>BODEN</item>
+        <!--  9   flying --> <item>FLUG</item>
+        <!-- 10  psychic --> <item>PSYCHO</item>
+        <!-- 11      bug --> <item>KÄFER</item>
+        <!-- 12     rock --> <item>GESTEIN</item>
+        <!-- 13    ghost --> <item>GEIST</item>
+        <!-- 14   dragon --> <item>DRACHE</item>
+        <!-- 15     dark --> <item>UNLICHT</item>
+        <!-- 16    steel --> <item>STAHL</item>
+        <!-- 17    fairy --> <item>FEE</item>
+    </string-array>
 </resources>

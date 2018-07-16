@@ -25,8 +25,6 @@ public class MovesetData {
     private String chargeMoveType;
 
 
-
-
     /**
      * Create a new Moveset.
      *
@@ -39,7 +37,6 @@ public class MovesetData {
     }
 
 
-
     public MovesetData(String quick,
                        String charge,
                        boolean quickIsLegacy,
@@ -49,16 +46,17 @@ public class MovesetData {
                        String chargeMoveType,
                        String quickMoveType) {
 
-            this.fast = quick;
-            this.charge = charge;
-            this.fastMoveType = quickMoveType;
-            this.chargeMoveType = chargeMoveType;
-            this.fastIsLegacy = quickIsLegacy;
-            this.chargeIsLegacy = chargeIsLegacy;
-            this.atkScore = atkScore;
-            this.defScore = defScore;
+        this.fast = quick;
+        this.charge = charge;
+        this.fastMoveType = quickMoveType;
+        this.chargeMoveType = chargeMoveType;
+        this.fastIsLegacy = quickIsLegacy;
+        this.chargeIsLegacy = chargeIsLegacy;
+        this.atkScore = atkScore;
+        this.defScore = defScore;
 
     }
+
     /**
      * Create a new Moveset.
      *
@@ -160,9 +158,7 @@ public class MovesetData {
     }
 
 
-
-
-    public static class Key implements Comparable<Key>{
+    public static class Key implements Comparable<Key> {
         private final String quick;
         private final String charge;
 
@@ -209,6 +205,7 @@ public class MovesetData {
             return retval;
         }
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {

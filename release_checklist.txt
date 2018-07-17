@@ -1,0 +1,17 @@
+Release checklist
+
+This is a checklist of things to do, to complete a sucessful release.
+This is only relevant to the people who intend to release signed apks to github and google play - if you're just
+cloning the project or you're making your own version, this doesn't apply to you.
+
+1. Update the version code in build.gradle, and the version name.
+2. Ensure that all changes are on master
+3. Ensure that the machine building the release APKs has fabric keys
+4. Generate a signed APK for the offline and an online github variant using the github keystore
+5. Generate a signed APK for the playstore variant using the playstore keystore
+6. Rename the github variant "GoIV-Offline.x.x.x.apk" and "GoIV-Online.x.x.x.apk" (The naming needs to be exact, it's used by the github auto update feature)
+7. Write a changelog
+8. Upload the offline & online release to github, and paste in the changelog.
+9. Upload the playstore variant to google play, and paste in the changelog.
+10. Create a release thread for discussion on reddit. The update thread should include the changelog, download links, and any announcement.
+11. Update the download links for the apk in the reddit sidebar.

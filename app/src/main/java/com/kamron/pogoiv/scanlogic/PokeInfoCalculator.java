@@ -529,7 +529,7 @@ public class PokeInfoCalculator {
      */
     public String getTypeName(int typeNameNum) {
         String cleanedType = Normalizer.normalize(typeNamesArray[typeNameNum], Normalizer.Form.NFD);
-        cleanedType = cleanedType.replaceAll("[^\\p{ASCII}]", "");
+        cleanedType = cleanedType.replaceAll("[\\p{M}]", "");
         return cleanedType;
     }
 }

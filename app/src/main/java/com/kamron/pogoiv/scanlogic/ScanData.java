@@ -72,7 +72,7 @@ public class ScanData {
         //These kinds of characters should not be possible to scan, but we're clearing them out for
         //future proofing.
         String seperatedType = Normalizer.normalize(pokemonType, Normalizer.Form.NFD);
-        seperatedType = seperatedType.replaceAll("[^\\p{ASCII}]", "");
+        seperatedType = seperatedType.replaceAll("[\\p{M}]", "");
         return seperatedType;
     }
 

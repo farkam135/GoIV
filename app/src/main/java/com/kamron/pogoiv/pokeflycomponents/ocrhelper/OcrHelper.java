@@ -1099,40 +1099,54 @@ public class OcrHelper {
         Optional<Integer> powerUpCandyCost = getPokemonPowerUpCandyCostFromImg(pokemonImage,
                 ScanArea.calibratedFromSettings(POKEMON_POWER_UP_CANDY_COST, settings));
 
+        int luckyOffset = 0;
+        // If no power up cost was found, check by offsetting down by the height of the
+        // "LUCKY POKEMON" string, which is slightly higher than the power up candy cost field
+        if (!powerUpCandyCost.isPresent()) {
+            int tempLuckyOffset =
+                    (int) (ScanArea.calibratedFromSettings(POKEMON_POWER_UP_CANDY_COST, settings).height * 1.2);
+            powerUpCandyCost = getPokemonPowerUpCandyCostFromImg(pokemonImage,
+                    ScanArea.calibratedFromSettings(POKEMON_POWER_UP_CANDY_COST, settings, tempLuckyOffset));
+            if (powerUpCandyCost.isPresent()) {
+                // Found successfully; assume this is a lucky pokemon and offset all further scans below that line
+                luckyOffset = tempLuckyOffset;
+            }
+        }
+
         double estimatedPokemonLevel = getPokemonLevelFromImg(pokemonImage, trainerLevel);
         LevelRange estimatedLevelRange =
                 refineLevelEstimate(trainerLevel, powerUpCandyCost, estimatedPokemonLevel);
 
         String type = getPokemonTypeFromImg(pokemonImage,
-                ScanArea.calibratedFromSettings(POKEMON_TYPE_AREA, settings));
+                ScanArea.calibratedFromSettings(POKEMON_TYPE_AREA, settings, luckyOffset));
         Pokemon.Gender gender = getPokemonGenderFromImg(pokemonImage,
-                ScanArea.calibratedFromSettings(POKEMON_GENDER_AREA, settings));
+                ScanArea.calibratedFromSettings(POKEMON_GENDER_AREA, settings, luckyOffset));
         String name;
         if (requestFullScan) {
             name = getPokemonNameFromImg(pokemonImage, gender,
-                    ScanArea.calibratedFromSettings(POKEMON_NAME_AREA, settings));
+                    ScanArea.calibratedFromSettings(POKEMON_NAME_AREA, settings)); // Not offset for lucky
         } else {
             name = "";
         }
         String candyName = getCandyNameFromImg(pokemonImage, gender,
-                ScanArea.calibratedFromSettings(CANDY_NAME_AREA, settings));
+                ScanArea.calibratedFromSettings(CANDY_NAME_AREA, settings, luckyOffset));
         Optional<Integer> hp = getPokemonHPFromImg(pokemonImage,
-                ScanArea.calibratedFromSettings(POKEMON_HP_AREA, settings));
+                ScanArea.calibratedFromSettings(POKEMON_HP_AREA, settings, luckyOffset));
         Optional<Integer> cp = getPokemonCPFromImg(pokemonImage,
-                ScanArea.calibratedFromSettings(POKEMON_CP_AREA, settings));
+                ScanArea.calibratedFromSettings(POKEMON_CP_AREA, settings)); // Not offset for lucky
         Optional<Integer> candyAmount;
         if (requestFullScan && isPokeSpamEnabled) {
             candyAmount = getCandyAmountFromImg(pokemonImage,
-                    ScanArea.calibratedFromSettings(POKEMON_CANDY_AMOUNT_AREA, settings));
+                    ScanArea.calibratedFromSettings(POKEMON_CANDY_AMOUNT_AREA, settings, luckyOffset));
         } else {
             candyAmount = Optional.absent();
         }
         Optional<Integer> evolutionCost = getPokemonEvolutionCostFromImg(pokemonImage,
-                ScanArea.calibratedFromSettings(POKEMON_EVOLUTION_COST_AREA, settings));
+                ScanArea.calibratedFromSettings(POKEMON_EVOLUTION_COST_AREA, settings, luckyOffset));
         Pair<String, String> moveset = getMovesetFromImg(pokemonImage,
                 estimatedLevelRange,
-                ScanArea.calibratedFromSettings(POKEMON_POWER_UP_CANDY_COST, settings),
-                ScanArea.calibratedFromSettings(POKEMON_EVOLUTION_COST_AREA, settings));
+                ScanArea.calibratedFromSettings(POKEMON_POWER_UP_CANDY_COST, settings, luckyOffset),
+                ScanArea.calibratedFromSettings(POKEMON_EVOLUTION_COST_AREA, settings, luckyOffset));
         String moveFast = null;
         String moveCharge = null;
         if (moveset != null) {

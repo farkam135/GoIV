@@ -27,6 +27,8 @@ public class PoGoApplication extends Application {
         FontsOverride.setDefaultFont(this, "DEFAULT", "fonts/Lato-Medium.ttf");
         FontsOverride.setDefaultFont(this, "SANS_SERIF", "fonts/Lato-Medium.ttf");
 
-        MovesetsManager.init(this);
+        if (GoIVSettings.getInstance(this).isMovesetEnabled()) {
+            MovesetsManager.init(this);
+        }
     }
 }

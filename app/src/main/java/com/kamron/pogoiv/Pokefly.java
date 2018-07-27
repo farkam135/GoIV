@@ -278,7 +278,9 @@ public class Pokefly extends Service {
         clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
         sharedPref = getSharedPreferences(PREF_USER_CORRECTIONS, Context.MODE_PRIVATE);
 
-        MovesetsManager.init(this);
+        if (GoIVSettings.getInstance(this).isMovesetEnabled()) {
+            MovesetsManager.init(this);
+        }
 
         LocalBroadcastManager.getInstance(this).registerReceiver(displayInfo, new IntentFilter(ACTION_SEND_INFO));
         LocalBroadcastManager.getInstance(this).registerReceiver(processBitmap,
@@ -807,13 +809,18 @@ public class Pokefly extends Service {
                         screenShotPath = null;
                     }
 
-                    String moveFast = intent.getStringExtra(KEY_SEND_MOVESET_QUICK);
-                    String moveCharge = intent.getStringExtra(KEY_SEND_MOVESET_CHARGE);
-                    if (moveFast == null || moveCharge == null) {
-                        moveFast = "";
-                        moveCharge = "";
-                    }
+                    GoIVSettings settings = GoIVSettings.getInstance(Pokefly.this);
 
+                    String moveFast = null;
+                    String moveCharge = null;
+                    if (settings.isMovesetEnabled()) {
+                        moveFast = intent.getStringExtra(KEY_SEND_MOVESET_QUICK);
+                        moveCharge = intent.getStringExtra(KEY_SEND_MOVESET_CHARGE);
+                        if (moveFast == null || moveCharge == null) {
+                            moveFast = "";
+                            moveCharge = "";
+                        }
+                    }
                     double estimatedPokemonLevelMin = intent.getDoubleExtra(KEY_SEND_INFO_LEVEL_LOWER, 1);
                     double estimatedPokemonLevelMax = intent.getDoubleExtra(KEY_SEND_INFO_LEVEL_HIGHER, 1);
 
@@ -834,7 +841,6 @@ public class Pokefly extends Service {
                             uniqueID);
 
                     if (!infoShownReceived) {
-                        GoIVSettings settings = GoIVSettings.getInstance(Pokefly.this);
                         if (!startedInManualScreenshotMode) {
                             infoShownReceived = true;
                         }

@@ -67,6 +67,12 @@
             android:summary="@string/pokespam_setting_summary"
             android:title="@string/pokespam_setting_title"/>
 
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="movesetEnabled"
+            android:summary="@string/moveset_enabled_setting_summary"
+            android:title="@string/moveset_enabled_setting_title" />
+
         <com.pavelsikun.seekbarpreference.SeekBarPreference
             android:key="autoAppraisalScanDelay"
             android:title="@string/autoAppraisalScanDelay_title"

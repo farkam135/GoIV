@@ -5,8 +5,10 @@ import android.support.annotation.NonNull;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
+import com.kamron.pogoiv.GoIVSettings;
 import com.kamron.pogoiv.Pokefly;
 import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.scanlogic.PokemonShareHandler;
@@ -55,6 +57,8 @@ public class IVResultFraction extends Fraction {
     @BindView(R.id.resultsMaxPercentage)
     TextView resultsMaxPercentage;
 
+    @BindView(R.id.movesetButton)
+    RadioButton movesetButton;
 
     private Context context;
     private Pokefly pokefly;
@@ -86,6 +90,7 @@ public class IVResultFraction extends Fraction {
             populateMultipleIVMatch();
         }
         setResultScreenPercentageRange(); //color codes the result
+        showMovesetInfoBasedOnSettings();
     }
 
     @Override public void onDestroy() {
@@ -230,6 +235,19 @@ public class IVResultFraction extends Fraction {
             resultsMinPercentage.setText(unknown_percent);
             resultsAvePercentage.setText(unknown_percent);
             resultsMaxPercentage.setText(unknown_percent);
+        }
+    }
+
+    /**
+     * showMovesetInfoBasedOnSettings.
+     * Shows moveset button based on setting
+     */
+    private void showMovesetInfoBasedOnSettings() {
+        //enable/disable visibility based on setting
+        if (GoIVSettings.getInstance(pokefly).isMovesetEnabled()) {
+            movesetButton.setVisibility(View.VISIBLE);
+        } else {
+            movesetButton.setVisibility(View.GONE);
         }
     }
 

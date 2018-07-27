@@ -11,6 +11,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -72,6 +73,8 @@ public class PowerUpFraction extends Fraction {
     @BindView(R.id.exResCandy)
     TextView exResCandy;
 
+    @BindView(R.id.movesetButton)
+    RadioButton movesetButton;
 
     private Context context;
     private Pokefly pokefly;
@@ -97,6 +100,7 @@ public class PowerUpFraction extends Fraction {
         createExtendedResultEvolutionSpinner();
         adjustSeekbarsThumbs();
         populateAdvancedInformation();
+        showMovesetInfoBasedOnSettings();
     }
 
     @Override public void onDestroy() {
@@ -148,6 +152,19 @@ public class PowerUpFraction extends Fraction {
         setEstimateLevelTextColor(selectedLevel);
 
         setAndCalculatePokeSpamText(Pokefly.scanResult);
+    }
+
+    /**
+     * showMovesetInfoBasedOnSettings.
+     * Shows moveset button based on setting
+     */
+    private void showMovesetInfoBasedOnSettings() {
+        //enable/disable visibility based on setting
+        if (GoIVSettings.getInstance(pokefly).isMovesetEnabled()) {
+            movesetButton.setVisibility(View.VISIBLE);
+        } else {
+            movesetButton.setVisibility(View.GONE);
+        }
     }
 
     /**

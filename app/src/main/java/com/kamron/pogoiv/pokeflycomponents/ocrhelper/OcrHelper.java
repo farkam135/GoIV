@@ -1103,8 +1103,12 @@ public class OcrHelper {
         // If no power up cost was found, check by offsetting down by the height of the
         // "LUCKY POKEMON" string, which is slightly higher than the power up candy cost field
         if (!powerUpCandyCost.isPresent()) {
-            int tempLuckyOffset =
-                    (int) (ScanArea.calibratedFromSettings(POKEMON_POWER_UP_CANDY_COST, settings).height * 1.2);
+            int tempLuckyOffset = (int) (0.0247 * pokemonImage.getHeight() * 1.2); // Default value w/o calibration
+            ScanArea powerUpCandyArea = ScanArea.calibratedFromSettings(POKEMON_POWER_UP_CANDY_COST, settings);
+            if (powerUpCandyArea != null) {
+                tempLuckyOffset = (int) (powerUpCandyArea.height * 1.2);
+            }
+            
             powerUpCandyCost = getPokemonPowerUpCandyCostFromImg(pokemonImage,
                     ScanArea.calibratedFromSettings(POKEMON_POWER_UP_CANDY_COST, settings, tempLuckyOffset));
             if (powerUpCandyCost.isPresent()) {

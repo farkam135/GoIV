@@ -4,8 +4,8 @@
         <!--  0   normal --> <item>NORMAL</item>
         <!--  1     fire --> <item>FUEGO</item>
         <!--  2    water --> <item>AGUA</item>
-        <!--  3 electric --> <item>ELÉCTRICO</item>
-        <!--  4    grass --> <item>PLANTA</item>
+        <!--  3    grass --> <item>PLANTA</item>
+        <!--  4 electric --> <item>ELÉCTRICO</item>
         <!--  5      ice --> <item>HIELO</item>
         <!--  6 fighting --> <item>LUCHA</item>
         <!--  7   poison --> <item>VENENO</item>

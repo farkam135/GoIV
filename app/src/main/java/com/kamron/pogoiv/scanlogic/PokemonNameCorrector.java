@@ -68,7 +68,7 @@ public class PokemonNameCorrector {
             HashMap<String, String> eeveelutionCorrection = new HashMap<>();
             eeveelutionCorrection.put(pokeInfoCalculator.getTypeName(2), //WATER
                     pokeInfoCalculator.get(133).name); //Vaporeon
-            eeveelutionCorrection.put(pokeInfoCalculator.getTypeName(3), //ELECTRIC
+            eeveelutionCorrection.put(pokeInfoCalculator.getTypeName(4), //ELECTRIC
                     pokeInfoCalculator.get(134).name); //Jolteon
             eeveelutionCorrection.put(pokeInfoCalculator.getTypeName(1), //FIRE
                     pokeInfoCalculator.get(135).name); //Flareon
@@ -77,7 +77,7 @@ public class PokemonNameCorrector {
             eeveelutionCorrection.put(pokeInfoCalculator.getTypeName(15), //DARK
                     pokeInfoCalculator.get(196).name); //Umbreon
             // Preparing for the future....
-            // eeveelutionCorrection.put(pokeInfoCalculator.getTypeName(4), //GRASS
+            // eeveelutionCorrection.put(pokeInfoCalculator.getTypeName(3), //GRASS
             //         pokeInfoCalculator.get(469).name); //Leafeon
             // eeveelutionCorrection.put(pokeInfoCalculator.getTypeName(5), //ICE
             //         pokeInfoCalculator.get(470).name); //Glaceon

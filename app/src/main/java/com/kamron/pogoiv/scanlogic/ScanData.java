@@ -28,13 +28,14 @@ public class ScanData {
     private final Optional<Integer> powerUpCandyCost;
     private final String moveFast;
     private final String moveCharge;
+    private final boolean isLucky;
     private final String uniqueID;
 
     public ScanData(LevelRange estimatedPokemonLevel, String pokemonName, String pokemonType, String candyName,
                     Pokemon.Gender pokemonGender, Optional<Integer> pokemonHP, Optional<Integer> pokemonCP,
                     Optional<Integer> pokemonCandyAmount, Optional<Integer> evolutionCandyCost,
                     Optional<Integer> powerUpStardustCost, Optional<Integer> powerUpCandyCost,
-                    String moveFast, String moveCharge, String uniqueID) {
+                    String moveFast, String moveCharge, boolean isLucky, String uniqueID) {
         this.estimatedPokemonLevelRange = estimatedPokemonLevel;
         this.pokemonName = pokemonName;
         this.pokemonType = pokemonType;
@@ -48,6 +49,7 @@ public class ScanData {
         this.powerUpCandyCost = powerUpCandyCost;
         this.moveFast = moveFast;
         this.moveCharge = moveCharge;
+        this.isLucky = isLucky;
         this.uniqueID = uniqueID;
     }
 
@@ -127,6 +129,8 @@ public class ScanData {
     public String getPokemonUniqueID() {
         return uniqueID;
     }
+
+    public boolean getIsLucky() { return isLucky; }
 
     /**
      * Test whether this ScanData represents a failed scan.

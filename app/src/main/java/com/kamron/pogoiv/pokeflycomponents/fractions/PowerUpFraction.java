@@ -143,7 +143,7 @@ public class PowerUpFraction extends Fraction {
         setEstimateCpTextBox(Pokefly.scanResult, selectedLevel, selectedPokemon);
         setEstimateHPTextBox(Pokefly.scanResult, selectedLevel, selectedPokemon);
         setPokemonPerfectionPercentageText(Pokefly.scanResult, selectedLevel, selectedPokemon);
-        setEstimateCostTextboxes(Pokefly.scanResult, selectedLevel, selectedPokemon);
+        setEstimateCostTextboxes(Pokefly.scanResult, selectedLevel, selectedPokemon, Pokefly.scanResult.isLucky);
         exResLevel.setText(String.valueOf(selectedLevel));
         setEstimateLevelTextColor(selectedLevel);
 
@@ -267,10 +267,12 @@ public class PowerUpFraction extends Fraction {
      * @param scanResult    The pokemon to base the estimate on.
      * @param selectedLevel   The level the pokemon needs to reach.
      * @param selectedPokemon The target pokemon. (example, ivScan pokemon can be weedle, selected can be beedrill.)
+     * @param isLucky         Whether the pokemon is lucky, and costs half the normal amount of dust.
      */
-    private void setEstimateCostTextboxes(ScanResult scanResult, double selectedLevel, Pokemon selectedPokemon) {
+    private void setEstimateCostTextboxes(ScanResult scanResult, double selectedLevel, Pokemon selectedPokemon,
+                                          boolean isLucky) {
         UpgradeCost cost = PokeInfoCalculator.getInstance()
-                .getUpgradeCost(selectedLevel, Pokefly.scanResult.levelRange.min);
+                .getUpgradeCost(selectedLevel, Pokefly.scanResult.levelRange.min, isLucky);
         int evolutionCandyCost = PokeInfoCalculator.getInstance()
                 .getCandyCostForEvolution(scanResult.pokemon, selectedPokemon);
         String candyCostText = cost.candy + evolutionCandyCost + "";

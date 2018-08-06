@@ -239,10 +239,11 @@ public class PokeInfoCalculator {
      * Gets the needed required candy and stardust to hit max level (relative to trainer level).
      *
      * @param goalLevel             The level to reach
-     * @param estimatedPokemonLevel The estimated level of hte pokemon
+     * @param estimatedPokemonLevel The estimated level of the pokemon
+     * @param isLucky               Whether the pokemon is lucky, therefore costs one half normal dust
      * @return The text that shows the amount of candy and stardust needed.
      */
-    public UpgradeCost getUpgradeCost(double goalLevel, double estimatedPokemonLevel) {
+    public UpgradeCost getUpgradeCost(double goalLevel, double estimatedPokemonLevel, boolean isLucky) {
         int neededCandy = 0;
         int neededStarDust = 0;
         while (estimatedPokemonLevel != goalLevel) {
@@ -288,6 +289,11 @@ public class PokeInfoCalculator {
 
             estimatedPokemonLevel += 0.5;
         }
+
+        if (isLucky) {
+            neededStarDust /= 2;
+        }
+
         return new UpgradeCost(neededStarDust, neededCandy);
     }
 

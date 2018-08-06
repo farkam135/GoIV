@@ -57,6 +57,7 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
     private static final int RC_WRITE_EXTERNAL = 24;
 
     private static Bitmap sCalibrationImage;
+    private static Bitmap sCalibrationImageUnaltered;
     private static DisplayMetrics sDisplayMetrics;
     private static String sEmailErrorText;
     private static int sStatusBarHeight;
@@ -87,6 +88,9 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
     Button emailErrorButton;
 
 
+    @BindView(R.id.manualAdjustButton)
+    Button manualAdjustButton;
+
     public static void startCalibration(@NonNull Context context,
                                         @Nullable Bitmap bitmap,
                                         int statusBarHeight,
@@ -96,6 +100,7 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
             return;
         }
 
+        sCalibrationImageUnaltered = bitmap.copy(bitmap.getConfig() ,false);;
         if (bitmap.isMutable()) {
             sCalibrationImage = bitmap;
         } else {
@@ -228,6 +233,16 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
     void goToGoIV() {
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+    }
+
+
+
+    @OnClick(R.id.manualAdjustButton)
+    void goToManualAdjustment() {
+        Intent intent = new Intent(this, OcrManualCalibrationActivity.class);
+        OcrManualCalibrationActivity.screenshotTransferTemp = sCalibrationImageUnaltered;
+        OcrManualCalibrationActivity.sfrTemp = results;
         startActivity(intent);
     }
 

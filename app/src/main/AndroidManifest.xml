@@ -93,31 +93,30 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity
             android:name=".activities.MainActivity"
             android:configChanges="orientation"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"
             android:theme="@style/AppTheme.Main">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
+
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-
         <activity
             android:name=".activities.SettingsActivity"
             android:parentActivityName=".activities.MainActivity"
             android:screenOrientation="portrait"/>
-
         <activity
             android:name=".ShareHandlerActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar">
             <intent-filter>
                 <action android:name="android.intent.action.SEND"/>
+
                 <category android:name="android.intent.category.DEFAULT"/>
+
                 <data android:mimeType="image/*"/>
             </intent-filter>
         </activity>
@@ -125,18 +124,16 @@
         <service
             android:name=".Pokefly"
             android:exported="true"/>
-
         <service
             android:name=".updater.DownloadUpdateService"
             android:exported="false"/>
-
         <service android:name=".pokeflycomponents.GoIVNotificationManager$NotificationActionService"/>
 
         <activity
             android:name=".activities.CreditsActivity"
             android:label="@string/title_activity_credits"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:parentActivityName=".activities.SettingsActivity"/>
+            android:parentActivityName=".activities.SettingsActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -151,9 +148,13 @@
         <activity
             android:name=".activities.OcrCalibrationResultActivity"
             android:label="@string/title_activity_ocr_calibration_result"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:noHistory="true" />
+            android:noHistory="true"
+            android:theme="@style/AppTheme.NoActionBar"/>
 
+        <activity android:name=".activities.OcrManualCalibrationActivity"
+            android:label="@string/manual_calibration_label"
+            android:noHistory="true"
+            android:theme="@style/AppTheme.NoActionBar.fullscreen"/>
     </application>
 
 </manifest>

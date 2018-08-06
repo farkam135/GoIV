@@ -77,7 +77,7 @@ public class Pokefly extends Service {
     public static final String ACTION_UPDATE_UI = "com.kamron.pogoiv.ACTION_UPDATE_UI";
     private static final String ACTION_SEND_INFO = "com.kamron.pogoiv.ACTION_SEND_INFO";
     private static final String ACTION_START = "com.kamron.pogoiv.ACTION_START";
-    private static final String ACTION_STOP = "com.kamron.pogoiv.ACTION_STOP";
+    public static final String ACTION_STOP = "com.kamron.pogoiv.ACTION_STOP";
 
     private static final String KEY_TRAINER_LEVEL = "key_trainer_level";
 

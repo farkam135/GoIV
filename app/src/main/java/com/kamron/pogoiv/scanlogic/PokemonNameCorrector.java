@@ -68,7 +68,8 @@ public class PokemonNameCorrector {
 
         //3.  check correction for abnormal pokemon using Pokemon Type (such as eevees evolutions, azuril.)
         if (guess.pokemon == null
-                && scanData.getCandyName().toLowerCase().contains(pokeInfoCalculator.get(132).name.toLowerCase())) {
+                && StringUtils.normalize(
+                        scanData.getCandyName()).contains(StringUtils.normalize(pokeInfoCalculator.get(132).name))) {
             HashMap<String, String> eeveelutionCorrection = new HashMap<>();
             eeveelutionCorrection.put(pokeInfoCalculator.getNormalizedType(Type.WATER),
                     pokeInfoCalculator.get(133).name); //Vaporeon
@@ -95,7 +96,8 @@ public class PokemonNameCorrector {
         }
 
         //3.1 Azuril and marill have the same evolution cost, but different types.
-        if (scanData.getCandyName().toLowerCase().contains(pokeInfoCalculator.get(182).name.toLowerCase())
+        if (StringUtils.normalize(
+                scanData.getCandyName()).contains(StringUtils.normalize(pokeInfoCalculator.get(182).name))
                 && (scanData.getEvolutionCandyCost().get() != -1)) { //its not an azumarill
             //if the scanned data contains the type water, it must be a marill, as azuril is normal type.
             if (StringUtils.normalize(scanData.getPokemonType()).contains(

@@ -803,7 +803,7 @@ public class OcrHelper {
     }
 
     private static boolean isNidoranName(String pokemonName) {
-        return pokemonName.toLowerCase().contains(nidoUngendered);
+        return StringUtils.normalize(pokemonName).contains(StringUtils.normalize(nidoUngendered));
     }
 
     @NonNull

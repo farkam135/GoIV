@@ -819,8 +819,16 @@ public class OcrHelper {
         if (candyName == null) {
             candy = replaceColors(candy, true, 68, 105, 108, Color.WHITE, 200, true);
             tesseract.setImage(candy);
-            candyName = StringUtils.normalize(fixOcrNumsToLetters(tesseract.getUTF8Text().replaceAll("[\\s-]", "")))
-                    .replace(StringUtils.normalize(pokeflyRef.get().getResources().getString(R.string.candy)), "");
+            String candyText = tesseract.getUTF8Text();
+            String candyWordLocale = pokeflyRef.get().getResources().getString(R.string.candy);
+
+            candyText = fixOcrNumsToLetters(candyText);
+
+            // remove characters not included in pokemon names or candy word. (ex. white space, -, etc)
+            candyText = candyText.replaceAll("[^\\w♂♀]", "");
+
+            candyText = StringUtils.normalize(candyText);
+            candyName = candyText.replace(StringUtils.normalize(candyWordLocale), "");
             if (isNidoranName(candyName)) {
                 candyName = StringUtils.normalize(getNidoranGenderName(pokemonGender));
             }

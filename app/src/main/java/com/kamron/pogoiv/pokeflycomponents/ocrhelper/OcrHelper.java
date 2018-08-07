@@ -83,7 +83,7 @@ public class OcrHelper {
             tesseract.init(dataPath, "eng");
             tesseract.setPageSegMode(TessBaseAPI.PageSegMode.PSM_SINGLE_LINE);
             tesseract.setVariable(TessBaseAPI.VAR_CHAR_WHITELIST,
-                    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789/♀♂");
+                    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789/-♀♂");
 
             nidoFemale = pokeInfoCalculator.get(28).name;
             nidoMale = pokeInfoCalculator.get(31).name;
@@ -846,7 +846,7 @@ public class OcrHelper {
         if (candyName == null) {
             candy = replaceColors(candy, true, 68, 105, 108, Color.WHITE, 200, true);
             tesseract.setImage(candy);
-            candyName = StringUtils.normalize(fixOcrNumsToLetters(tesseract.getUTF8Text().replaceAll("[\\s]", "")))
+            candyName = StringUtils.normalize(fixOcrNumsToLetters(tesseract.getUTF8Text().replaceAll("[\\s-]", "")))
                     .replace(StringUtils.normalize(pokeflyRef.get().getResources().getString(R.string.candy)), "");
             if (isNidoranName(candyName)) {
                 candyName = StringUtils.normalize(getNidoranGenderName(pokemonGender));

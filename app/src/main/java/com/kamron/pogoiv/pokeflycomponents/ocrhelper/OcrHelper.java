@@ -58,7 +58,6 @@ public class OcrHelper {
     private static boolean isPokeSpamEnabled;
     private static LruCache<String, String> ocrCache;
     private static LruCache<String, String> appraisalCache;
-    private static boolean candyWordFirst;
 
 
     private static WeakReference<Pokefly> pokeflyRef;
@@ -92,8 +91,6 @@ public class OcrHelper {
             ocrCache = new LruCache<>(200);
             appraisalCache = new LruCache<>(200);
 
-            candyWordFirst = isCandyWordFirst();
-
             instance = new OcrHelper();
         }
 
@@ -119,14 +116,6 @@ public class OcrHelper {
         instance = null;
         ocrCache = null;
         appraisalCache = null;
-    }
-
-    private static boolean isCandyWordFirst() {
-        // Check if language makes the pokemon name in candy second; France/Spain/Italy/Portuguese
-        // have Bonbon/Caramelos/Caramelle/Doces pokeName
-        String language = Locale.getDefault().getLanguage();
-        HashSet<String> specialCandyOrderLangs = new HashSet<>(Arrays.asList("fr", "es", "it", "pt"));
-        return specialCandyOrderLangs.contains(language);
     }
 
     /**
@@ -804,22 +793,6 @@ public class OcrHelper {
 
     private static boolean isNidoranName(String pokemonName) {
         return StringUtils.normalize(pokemonName).contains(StringUtils.normalize(nidoUngendered));
-    }
-
-    @NonNull
-    private static String removeFirstOrLastWord(String src, boolean removeFirst) {
-        if (removeFirst) {
-            int fstSpace = src.indexOf(' ');
-            if (fstSpace != -1) {
-                return src.substring(fstSpace + 1);
-            }
-        } else {
-            int lstSpace = src.lastIndexOf(' ');
-            if (lstSpace != -1) {
-                return src.substring(0, lstSpace);
-            }
-        }
-        return src;
     }
 
     /**

@@ -13,11 +13,13 @@ import com.google.common.base.Optional;
 import com.googlecode.tesseract.android.TessBaseAPI;
 import com.kamron.pogoiv.GoIVSettings;
 import com.kamron.pogoiv.Pokefly;
+import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.scanlogic.Data;
 import com.kamron.pogoiv.scanlogic.PokeInfoCalculator;
 import com.kamron.pogoiv.scanlogic.Pokemon;
 import com.kamron.pogoiv.scanlogic.ScanData;
 import com.kamron.pogoiv.utils.LevelRange;
+import com.kamron.pogoiv.utils.StringUtils;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -56,7 +58,6 @@ public class OcrHelper {
     private static boolean isPokeSpamEnabled;
     private static LruCache<String, String> ocrCache;
     private static LruCache<String, String> appraisalCache;
-    private static boolean candyWordFirst;
 
 
     private static WeakReference<Pokefly> pokeflyRef;
@@ -81,7 +82,7 @@ public class OcrHelper {
             tesseract.init(dataPath, "eng");
             tesseract.setPageSegMode(TessBaseAPI.PageSegMode.PSM_SINGLE_LINE);
             tesseract.setVariable(TessBaseAPI.VAR_CHAR_WHITELIST,
-                    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789/♀♂");
+                    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789/-♀♂");
 
             nidoFemale = pokeInfoCalculator.get(28).name;
             nidoMale = pokeInfoCalculator.get(31).name;
@@ -89,8 +90,6 @@ public class OcrHelper {
 
             ocrCache = new LruCache<>(200);
             appraisalCache = new LruCache<>(200);
-
-            candyWordFirst = isCandyWordFirst();
 
             instance = new OcrHelper();
         }
@@ -117,14 +116,6 @@ public class OcrHelper {
         instance = null;
         ocrCache = null;
         appraisalCache = null;
-    }
-
-    private static boolean isCandyWordFirst() {
-        // Check if language makes the pokemon name in candy second; France/Spain/Italy/Portuguese
-        // have Bonbon/Caramelos/Caramelle/Doces pokeName
-        String language = Locale.getDefault().getLanguage();
-        HashSet<String> specialCandyOrderLangs = new HashSet<>(Arrays.asList("fr", "es", "it", "pt"));
-        return specialCandyOrderLangs.contains(language);
     }
 
     /**
@@ -801,27 +792,12 @@ public class OcrHelper {
     }
 
     private static boolean isNidoranName(String pokemonName) {
-        return pokemonName.toLowerCase().contains(nidoUngendered);
-    }
-
-    @NonNull
-    private static String removeFirstOrLastWord(String src, boolean removeFirst) {
-        if (removeFirst) {
-            int fstSpace = src.indexOf(' ');
-            if (fstSpace != -1) {
-                return src.substring(fstSpace + 1);
-            }
-        } else {
-            int lstSpace = src.lastIndexOf(' ');
-            if (lstSpace != -1) {
-                return src.substring(0, lstSpace);
-            }
-        }
-        return src;
+        return StringUtils.normalize(pokemonName).contains(StringUtils.normalize(nidoUngendered));
     }
 
     /**
      * Gets the candy name from a pokenon image.
+     * The candy name is returned as normalized text.
      *
      * @param pokemonImage the image of the whole screen
      * @return the candy name, or "" if nothing was found
@@ -843,10 +819,18 @@ public class OcrHelper {
         if (candyName == null) {
             candy = replaceColors(candy, true, 68, 105, 108, Color.WHITE, 200, true);
             tesseract.setImage(candy);
-            candyName = fixOcrNumsToLetters(
-                    removeFirstOrLastWord(tesseract.getUTF8Text().trim().replace("-", " "), candyWordFirst));
+            String candyText = tesseract.getUTF8Text();
+            String candyWordLocale = pokeflyRef.get().getResources().getString(R.string.candy);
+
+            candyText = fixOcrNumsToLetters(candyText);
+
+            // remove characters not included in pokemon names or candy word. (ex. white space, -, etc)
+            candyText = candyText.replaceAll("[^\\w♂♀]", "");
+
+            candyText = StringUtils.normalize(candyText);
+            candyName = candyText.replace(StringUtils.normalize(candyWordLocale), "");
             if (isNidoranName(candyName)) {
-                candyName = getNidoranGenderName(pokemonGender);
+                candyName = StringUtils.normalize(getNidoranGenderName(pokemonGender));
             }
             ocrCache.put(hash, candyName);
         }

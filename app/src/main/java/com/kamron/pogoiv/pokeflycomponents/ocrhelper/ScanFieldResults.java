@@ -23,7 +23,7 @@ public class ScanFieldResults {
     public @ColorInt Integer infoScreenFabGreenPixelColor;
 
     public boolean isCompleteCalibration() {
-        return  pokemonNameArea != null
+        return pokemonNameArea != null
                 && pokemonTypeArea != null
                 && pokemonGenderArea != null
                 && candyNameArea != null

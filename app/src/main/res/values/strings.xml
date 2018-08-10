@@ -312,4 +312,5 @@
     <string name="button_add_to_queue">"Add to queue"</string>
     <string name="button_clear_to_queue">"Clear queue"</string>
     <string name="button_export_to_pokebattler">Export Queue to PokeBattler</string>
+    <string name="manual_calibration_label">Manual calibration</string>
 </resources>

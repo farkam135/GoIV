@@ -110,7 +110,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingBottom="4dp"
-                android:text="If automatic calibration fails, you can manually edit the scan fields. Sorry."
+                android:text="If automatic calibration fails, you can manually edit the scan fields. Sorry. This feature is in beta, if automatic calibration works for you, it's most likely better to not bother manually changing it."
                 android:textSize="12sp" />
 
         </LinearLayout>

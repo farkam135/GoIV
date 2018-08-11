@@ -30,10 +30,24 @@ public class ScanArea {
 
     @Nullable
     public static ScanArea calibratedFromSettings(String calibrationKey, GoIVSettings settings) {
+        return calibratedFromSettings(calibrationKey, settings, 0);
+    }
+
+    /**
+     * Create a screen area by reading a setting for a certain part. For example, loading the screen area where
+     * the pokemon HP might be.
+     *
+     * @param calibrationKey The key value used to find the saved user setting for the area, in the form of
+     *                       "x,y,x2,y2".
+     * @param luckyOffset Amount to offset the scan region downward in case this is a lucky pokemon
+     */
+
+    @Nullable
+    public static ScanArea calibratedFromSettings(String calibrationKey, GoIVSettings settings, int luckyOffset) {
         if (settings.hasManualScanCalibration()) {
             try {
                 String[] values = settings.getCalibrationValue(calibrationKey).split(",");
-                return new ScanArea(Integer.valueOf(values[0]), Integer.valueOf(values[1]),
+                return new ScanArea(Integer.valueOf(values[0]), Integer.valueOf(values[1]) + luckyOffset,
                         Integer.valueOf(values[2]), Integer.valueOf(values[3]));
             } catch (Exception e) {
                 return null;

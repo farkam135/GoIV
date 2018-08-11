@@ -37,6 +37,7 @@ public class ScanResult {
     public final LevelRange levelRange;
     public final int cp;
     public int hp;
+    public boolean isLucky;
     private ArrayList<MovesetData> movesets;
     public MovesetData selectedMoveset;
     private ArrayList<IVCombination> iVCombinations = new ArrayList<>();
@@ -66,6 +67,7 @@ public class ScanResult {
         this.hp = scanData.getPokemonHP().get();
         this.cp = scanData.getPokemonCP().get();
         this.gender = scanData.getPokemonGender();
+        this.isLucky = scanData.getIsLucky();
 
         LinkedHashSet<MovesetData> m;
         try {

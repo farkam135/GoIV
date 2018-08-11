@@ -77,7 +77,7 @@ public class Pokefly extends Service {
     public static final String ACTION_UPDATE_UI = "com.kamron.pogoiv.ACTION_UPDATE_UI";
     private static final String ACTION_SEND_INFO = "com.kamron.pogoiv.ACTION_SEND_INFO";
     private static final String ACTION_START = "com.kamron.pogoiv.ACTION_START";
-    private static final String ACTION_STOP = "com.kamron.pogoiv.ACTION_STOP";
+    public static final String ACTION_STOP = "com.kamron.pogoiv.ACTION_STOP";
 
     private static final String KEY_TRAINER_LEVEL = "key_trainer_level";
 
@@ -97,6 +97,7 @@ public class Pokefly extends Service {
     private static final String KEY_SEND_POWERUP_CANDYCOST = "key_send_powerup_candycost";
     private static final String KEY_SEND_MOVESET_QUICK = "key_send_moveset_quick";
     private static final String KEY_SEND_MOVESET_CHARGE = "key_send_moveset_charge";
+    private static final String KEY_SEND_IS_LUCKY = "key_send_is_lucky";
 
     private static final String ACTION_PROCESS_BITMAP = "com.kamron.pogoiv.PROCESS_BITMAP";
     private static final String KEY_BITMAP = "bitmap";
@@ -213,6 +214,7 @@ public class Pokefly extends Service {
         intent.putExtra(KEY_SEND_INFO_CANDY_AMOUNT, scanData.getPokemonCandyAmount());
         intent.putExtra(KEY_SEND_EVOLUTION_CANDY_COST, scanData.getEvolutionCandyCost());
         intent.putExtra(KEY_SEND_UNIQUE_ID, scanData.getPokemonUniqueID());
+        intent.putExtra(KEY_SEND_IS_LUCKY, scanData.getIsLucky());
         intent.putExtra(KEY_SEND_POWERUP_CANDYCOST, scanData.getPokemonPowerUpCandyCost());
         intent.putExtra(KEY_SEND_POWERUP_STARTDUST_COST, scanData.getPokemonPowerUpStardustCost());
         if (scanData.getFastMove() != null && scanData.getChargeMove() != null) {
@@ -798,6 +800,8 @@ public class Pokefly extends Service {
                             (Optional<Integer>) intent.getSerializableExtra(KEY_SEND_POWERUP_CANDYCOST);
                     @SuppressWarnings("unchecked") Optional<Integer> powerUpStardustCost =
                             (Optional<Integer>) intent.getSerializableExtra(KEY_SEND_POWERUP_STARTDUST_COST);
+                    @SuppressWarnings("unchecked") boolean isLucky =
+                            (boolean) intent.getSerializableExtra(KEY_SEND_IS_LUCKY);
                     @SuppressWarnings("unchecked") String uniqueID =
                             (String) intent.getSerializableExtra(KEY_SEND_UNIQUE_ID);
 
@@ -831,6 +835,7 @@ public class Pokefly extends Service {
                             powerUpCandyCost,
                             moveFast,
                             moveCharge,
+                            isLucky,
                             uniqueID);
 
                     if (!infoShownReceived) {

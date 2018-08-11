@@ -58,7 +58,7 @@ public class MovesetFraction extends MovableFraction {
     private Comparator<MovesetData> defComparator = new MovesetData.DefComparator();
     private Comparator<MovesetData> reverseDefComparator = Collections.reverseOrder(new MovesetData.DefComparator());
     private Comparator<MovesetData> currentComparator;
-    private DecimalFormat scoreFormat = new DecimalFormat("0.00");
+    private DecimalFormat scoreFormat = new DecimalFormat("###%");
 
 
     @BindView(R.id.table_layout)

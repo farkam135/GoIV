@@ -6,8 +6,6 @@ import android.support.annotation.Nullable;
 import com.google.common.base.Optional;
 import com.kamron.pogoiv.utils.LevelRange;
 
-import java.text.Normalizer;
-
 /**
  * A ScanData represents the result of an OCR scan.
  * Created by pgiarrusso on 3/9/2016.
@@ -28,13 +26,14 @@ public class ScanData {
     private final Optional<Integer> powerUpCandyCost;
     private final String moveFast;
     private final String moveCharge;
+    private final boolean isLucky;
     private final String uniqueID;
 
     public ScanData(LevelRange estimatedPokemonLevel, String pokemonName, String pokemonType, String candyName,
                     Pokemon.Gender pokemonGender, Optional<Integer> pokemonHP, Optional<Integer> pokemonCP,
                     Optional<Integer> pokemonCandyAmount, Optional<Integer> evolutionCandyCost,
                     Optional<Integer> powerUpStardustCost, Optional<Integer> powerUpCandyCost,
-                    String moveFast, String moveCharge, String uniqueID) {
+                    String moveFast, String moveCharge, boolean isLucky, String uniqueID) {
         this.estimatedPokemonLevelRange = estimatedPokemonLevel;
         this.pokemonName = pokemonName;
         this.pokemonType = pokemonType;
@@ -48,6 +47,7 @@ public class ScanData {
         this.powerUpCandyCost = powerUpCandyCost;
         this.moveFast = moveFast;
         this.moveCharge = moveCharge;
+        this.isLucky = isLucky;
         this.uniqueID = uniqueID;
     }
 
@@ -68,12 +68,7 @@ public class ScanData {
     }
 
     public String getPokemonType() {
-        //first ensure that there's no special characters such as é, á or â, and convert them to e, a , a.
-        //These kinds of characters should not be possible to scan, but we're clearing them out for
-        //future proofing.
-        String seperatedType = Normalizer.normalize(pokemonType, Normalizer.Form.NFD);
-        seperatedType = seperatedType.replaceAll("[^\\p{ASCII}]", "");
-        return seperatedType;
+        return pokemonType;
     }
 
     public Pokemon.Gender getPokemonGender() {
@@ -127,6 +122,8 @@ public class ScanData {
     public String getPokemonUniqueID() {
         return uniqueID;
     }
+
+    public boolean getIsLucky() { return isLucky; }
 
     /**
      * Test whether this ScanData represents a failed scan.

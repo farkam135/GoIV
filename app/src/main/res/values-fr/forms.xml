@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="formNames">
+        <!-- #368 Deoxys -->
+        <item>Forme Attaque</item>
+        <item>Forme Défense</item>
+        <item>Forme Vitesse</item>
+        <!-- #103 Exeggutor -->
+        <item>d\'Alola</item>
+        <!-- #19 Rattata -->
+        <item>d\'Alola</item>
+        <!-- #20 Raticate -->
+        <item>d\'Alola</item>
+        <!-- #26 Raichu -->
+        <item>d\'Alola</item>
+        <!-- #27 Sandshrew -->
+        <item>d\'Alola</item>
+        <!-- #28 Sandslash -->
+        <item>d\'Alola</item>
+        <!-- #37 Vulpix -->
+        <item>d\'Alola</item>
+        <!-- #38 Ninetales -->
+        <item>d\'Alola</item>
+        <!-- #50 Diglett -->
+        <item>d\'Alola</item>
+        <!-- #51 Dugtrio -->
+        <item>d\'Alola</item>
+        <!-- #52 Meowth -->
+        <item>d\'Alola</item>
+        <!-- #53 Persian -->
+        <item>d\'Alola</item>
+        <!-- #74 Geodude -->
+        <item>d\'Alola</item>
+        <!-- #75 Graveler -->
+        <item>d\'Alola</item>
+        <!-- #76 Golem -->
+        <item>d\'Alola</item>
+        <!-- #88 Grimer -->
+        <item>d\'Alola</item>
+        <!-- #89 Muk -->
+        <item>d\'Alola</item>
+        <!-- #105 Marowak -->
+        <item>d\'Alola</item>
+    </string-array>
+</resources>

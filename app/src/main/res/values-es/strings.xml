@@ -56,9 +56,11 @@
     <string name="powerup_calc_instructions">Cálculo de mejoras y evolución\nDesliza el slider para visualizar diferentes predicciones</string>
     <string name="evolution">Evolución</string>
     <string name="level">Nivel</string>
+    <string name="level_acronym">NVL</string>
     <string name="level_num">Nivel %1$s</string>
     <string name="possible_iv_combinations" tools:ignore="PluralsCandidate">"%1$d posibles combinaciones de IV"</string>
     <string name="check_cp_or_level">¡Algo salió mal! Comprueba que los valores introducidos son correctos y que GoIV tiene el nivel de entrenador correcto en la pantalla de inicio.</string>
+    <string name="appraisal">Valoración</string>
     <string name="appraisal_refining">Refinación adicional</string>
     <string name="attack">Ataque</string>
     <string name="defense">Defensa</string>
@@ -82,6 +84,7 @@
     <string name="pokespam_formatted_message">%1$d (%2$d filas + %3$d más)</string>
     <string name="pokespam_formatted_message2">%1$d (%2$d filas)</string>
     <string name="candy">Caramelos</string>
+    <string name="stardust">Polvos estelares</string>
     <string name="pokespam_not_available">No disponible</string>
     <string name="pokespam_setting_title">Mostrar cantidad evolucionable</string>
     <string name="pokespam_setting_summary">Esta característica activa el escaneo de la cantidad de caramelos y le permite ver cuántos Pokémon puede evolucionar, útil para usar con huevo de la suerte</string>
@@ -270,4 +273,35 @@
     <string name="send_email_to_devs_button">Email con información sobre el error para desarrolladores</string>
     <string name="report_error">Email de informe de error</string>
     <string name="recalibration_video_tutorial">Videotutorial recalibración</string>
+    <string name="recalibrating_please_wait">Recalibrando, por favor espere 3 segundos&#8230;</string>
+    <string name="moveset_score_disclaimer">"Puntuación basada en los datos de simulación de pokebattler.com.\nLas simulaciones se basan en combates en gimnasios, las incursiones a menudo tienen otros combos óptimos.\nEl combo óptimo puede cambiar en ciertos enfrentamientos.\nEsta puntuación es solo una guía."</string>
+    <string name="table_header_move_fast">Rápido</string>
+    <string name="table_header_move_charge">Cargado</string>
+    <string name="table_header_attack">Atq</string>
+    <string name="table_header_defense">Def</string>
+    <string name="fraction_input_title">Introducción</string>
+    <string name="fraction_powerup_title">Predicciones de potenciación</string>
+    <string name="fraction_powerup_tab_label">Potenciar</string>
+    <string name="fraction_powerup_paragraph_predictedstats">Estadísticas predichas</string>
+    <string name="fraction_powerup_paragraph_cost">Coste</string>
+    <string name="fraction_powerup_paragraph_input">Selección</string>
+    <string name="fraction_iv_title">Resultados escaneo IV</string>
+    <string name="fraction_iv_tab_label">IV</string>
+    <string name="fraction_moveset_title">Combos (beta)</string>
+    <string name="fraction_moveset_tab_label">Combos</string>
+    <string name="fraction_ivcombinations_title">Combinaciones de IV</string>
+    <string name="export_queue_copied">"Información Pokémon añadida al portapapeles.\nPegue esto en la pantalla de importación."</string>
+    <string name="export_queue_cleared">"Cola vacía"</string>
+    <string name="export_queue_added">"Añadido %1$s a la cola de exportación.\nTienes %2$d pokémon almacenados en la cola."</string>
+    <string name="button_add_to_queue">"Añadir a cola"</string>
+    <string name="button_clear_to_queue">"Limpiar cola"</string>
+    <string name="button_export_to_pokebattler">Exportar cola a PokeBattler</string>
+    <string name="manual_calibration_label">Calibración manual</string>
+    <string name="calibration_result_manual_title">Ajustar manualmente</string>
+    <string name="calibration_result_manual_desc">"Si la calibración automática falla, puede ajustar manualmente los campos a escanear. Esta función está en fase beta, si la calibración automática le funciona correctamente es mejor que no la cambie por la calibración manual."</string>
+    <string name="manual_calibration_field_detail">Haga clic en un campo para más detalles</string>
+    <string name="manual_calibration_drag_window">"Puede mover esta ventana arriba o abajo."</string>
+    <string name="manual_calibration_param1">Parámetro1</string>
+    <string name="manual_calibration_param2">Parámetro2</string>
+    <string name="manual_calibration_save_exit">"Guardar y salir"</string>
 </resources>

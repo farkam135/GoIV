@@ -10,6 +10,7 @@ import com.kamron.pogoiv.utils.StringUtils;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import lombok.AllArgsConstructor;
 
@@ -350,6 +351,20 @@ public class PokemonNameCorrector {
         return new PokeDist(bestMatchPokemon, lowestDist);
     }
 
+    private PokeDist getNicknameGuess(String poketext, Map<String, Pokemon> pokemons) {
+        //if there's no perfect match, get the pokemon that best matches the nickname within the best guess evo-line
+        Pokemon bestMatchPokemon = null;
+        int lowestDist = Integer.MAX_VALUE;
+        for (Map.Entry<String, Pokemon> trypoke : pokemons.entrySet()) {
+            int dist = Data.levenshteinDistance(trypoke.getKey(), poketext);
+            if (dist < lowestDist) {
+                bestMatchPokemon = trypoke.getValue();
+                lowestDist = dist;
+            }
+        }
+        return new PokeDist(bestMatchPokemon, lowestDist);
+    }
+
     /**
      * Get the evolution line which closest matches the string. The string is supposed to be the base evolution of a
      * line.
@@ -359,7 +374,7 @@ public class PokemonNameCorrector {
      */
     private ArrayList<Pokemon> getBestGuessForEvolutionLine(String input) {
         //candy name will only ever match the base evolution, so search in getBasePokemons().
-        PokeDist bestMatch = getNicknameGuess(input, pokeInfoCalculator.getCandyPokemons());
+        PokeDist bestMatch = getNicknameGuess(input, pokeInfoCalculator.getNormalizedCandyPokemons());
         return pokeInfoCalculator.getEvolutionLine(bestMatch.pokemon);
     }
 

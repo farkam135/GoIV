@@ -41,7 +41,7 @@ public class PokeInfoCalculator {
      * For most, this is the basePokemon (ie: Pidgey candies)
      * For some, this is an original Gen1 Pokemon (ie: Magmar candies, instead of Magby candies)
      */
-    private ArrayList<Pokemon> candyPokemons = new ArrayList<>();
+    private HashMap<String, Pokemon> candyPokemons = new HashMap<>();
 
     private HashMap<String, Pokemon> pokemap = new HashMap<>();
 
@@ -97,12 +97,12 @@ public class PokeInfoCalculator {
     }
 
     /**
-     * Returns the full list of possible candy names.
+     * Returns the full collection of possible candy pokemon that exist in Pokemon Go.
      *
-     * @return List of all candy names that exist in Pokemon Go
+     * @return Map of all candy pokemons with normalized pokemon names as their keys.
      */
-    public List<Pokemon> getCandyPokemons() {
-        return Collections.unmodifiableList(candyPokemons);
+    public Map<String, Pokemon> getNormalizedCandyPokemons() {
+        return Collections.unmodifiableMap(candyPokemons);
     }
 
     /**
@@ -192,7 +192,8 @@ public class PokeInfoCalculator {
                 Pokemon devo = pokedex.get(devolution[i]);
                 devo.evolutions.add(pokedex.get(i));
             } else {
-                candyPokemons.add(pokedex.get(candyNamesArray[i]));
+                Pokemon candyPokemon = pokedex.get(candyNamesArray[i]);
+                candyPokemons.put(StringUtils.normalize(candyPokemon.name), candyPokemon);
                 basePokemons.add(pokedex.get(i));
             }
 

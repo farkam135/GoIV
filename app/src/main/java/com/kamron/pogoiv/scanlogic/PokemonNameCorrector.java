@@ -341,7 +341,7 @@ public class PokemonNameCorrector {
         Pokemon bestMatchPokemon = null;
         int lowestDist = Integer.MAX_VALUE;
         for (Pokemon trypoke : pokemons) {
-            int dist = Data.levenshteinDistance(StringUtils.normalize(trypoke.name), StringUtils.normalize(poketext));
+            int dist = Data.levenshteinDistance(trypoke.name, poketext);
             if (dist < lowestDist) {
                 bestMatchPokemon = trypoke;
                 lowestDist = dist;

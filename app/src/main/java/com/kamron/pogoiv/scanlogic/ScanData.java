@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 
 import com.google.common.base.Optional;
 import com.kamron.pogoiv.utils.LevelRange;
+import com.kamron.pogoiv.utils.StringUtils;
 
 /**
  * A ScanData represents the result of an OCR scan.
@@ -16,6 +17,7 @@ public class ScanData {
     private LevelRange estimatedPokemonLevelRange;
     private String pokemonName;
     private final String pokemonType;
+    private final String normalizedPokemonType;
     private final Pokemon.Gender pokemonGender;
     private final String candyName;
     private Optional<Integer> pokemonHP;
@@ -37,6 +39,7 @@ public class ScanData {
         this.estimatedPokemonLevelRange = estimatedPokemonLevel;
         this.pokemonName = pokemonName;
         this.pokemonType = pokemonType;
+        this.normalizedPokemonType = StringUtils.normalize(pokemonType);
         this.pokemonGender = pokemonGender;
         this.candyName = candyName;
         this.pokemonHP = pokemonHP;
@@ -69,6 +72,10 @@ public class ScanData {
 
     public String getPokemonType() {
         return pokemonType;
+    }
+
+    public String getNormalizedPokemonType() {
+        return normalizedPokemonType;
     }
 
     public Pokemon.Gender getPokemonGender() {

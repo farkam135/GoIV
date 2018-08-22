@@ -89,9 +89,8 @@ public class PokemonNameCorrector {
             //         pokeInfoCalculator.get(470).name); //Glaceon
             // eeveelutionCorrection.put(pokeInfoCalculator.getNormalizedType(Type.FAIRY),
             //         pokeInfoCalculator.get(699).name); //Sylveon
-            String normalizedPokemonType = StringUtils.normalize(scanData.getPokemonType());
-            if (eeveelutionCorrection.containsKey(normalizedPokemonType)) {
-                String name = eeveelutionCorrection.get(normalizedPokemonType);
+            if (eeveelutionCorrection.containsKey(scanData.getNormalizedPokemonType())) {
+                String name = eeveelutionCorrection.get(scanData.getNormalizedPokemonType());
                 guess = new PokeDist(pokeInfoCalculator.get(name), 0);
             }
         }
@@ -101,7 +100,7 @@ public class PokemonNameCorrector {
                 scanData.getCandyName()).contains(StringUtils.normalize(pokeInfoCalculator.get(182).name))
                 && (scanData.getEvolutionCandyCost().get() != -1)) { //its not an azumarill
             //if the scanned data contains the type water, it must be a marill, as azuril is normal type.
-            if (StringUtils.normalize(scanData.getPokemonType()).contains(
+            if (scanData.getNormalizedPokemonType().contains(
                     pokeInfoCalculator.getNormalizedType(Type.WATER))) {
                 guess = new PokeDist(pokeInfoCalculator.get(182), 0);
             } else {
@@ -166,126 +165,126 @@ public class PokemonNameCorrector {
             switch (guess.pokemon.number) {
                 case (102): // Exeggutor (dex 103)
                     // check types including dragon
-                    if (StringUtils.normalize(scanData.getPokemonType()).contains(
+                    if (scanData.getNormalizedPokemonType().contains(
                             pokeInfoCalculator.getNormalizedType(Type.DRAGON))) {
                         return new PokeDist(pokeInfoCalculator.get(guess.pokemon.number).forms.get(0), 0);
                     }
                     break;
                 case (18): // Rattata
                     // check types including dark
-                    if (StringUtils.normalize(scanData.getPokemonType()).contains(
+                    if (scanData.getNormalizedPokemonType().contains(
                             pokeInfoCalculator.getNormalizedType(Type.DARK))) {
                         return new PokeDist(pokeInfoCalculator.get(guess.pokemon.number).forms.get(0), 0);
                     }
                     break;
                 case (19): // Raticate
                     // check types including dark
-                    if (StringUtils.normalize(scanData.getPokemonType()).contains(
+                    if (scanData.getNormalizedPokemonType().contains(
                             pokeInfoCalculator.getNormalizedType(Type.DARK))) {
                         return new PokeDist(pokeInfoCalculator.get(guess.pokemon.number).forms.get(0), 0);
                     }
                     break;
                 case (25): // Raichu
                     // check types including psychic
-                    if (StringUtils.normalize(scanData.getPokemonType()).contains(
+                    if (scanData.getNormalizedPokemonType().contains(
                             pokeInfoCalculator.getNormalizedType(Type.PSYCHIC))) {
                         return new PokeDist(pokeInfoCalculator.get(guess.pokemon.number).forms.get(0), 0);
                     }
                     break;
                 case (26): // Sandshrew
                     // check types including ice
-                    if (StringUtils.normalize(scanData.getPokemonType()).contains(
+                    if (scanData.getNormalizedPokemonType().contains(
                             pokeInfoCalculator.getNormalizedType(Type.ICE))) {
                         return new PokeDist(pokeInfoCalculator.get(guess.pokemon.number).forms.get(0), 0);
                     }
                     break;
                 case (27): // Sandslash
                     // check types including ice
-                    if (StringUtils.normalize(scanData.getPokemonType()).contains(
+                    if (scanData.getNormalizedPokemonType().contains(
                             pokeInfoCalculator.getNormalizedType(Type.ICE))) {
                         return new PokeDist(pokeInfoCalculator.get(guess.pokemon.number).forms.get(0), 0);
                     }
                     break;
                 case (36): // Vulpix
                     // check types including ice
-                    if (StringUtils.normalize(scanData.getPokemonType()).contains(
+                    if (scanData.getNormalizedPokemonType().contains(
                             pokeInfoCalculator.getNormalizedType(Type.ICE))) {
                         return new PokeDist(pokeInfoCalculator.get(guess.pokemon.number).forms.get(0), 0);
                     }
                     break;
                 case (37): // Ninetales
                     // check types including ice
-                    if (StringUtils.normalize(scanData.getPokemonType()).contains(
+                    if (scanData.getNormalizedPokemonType().contains(
                             pokeInfoCalculator.getNormalizedType(Type.ICE))) {
                         return new PokeDist(pokeInfoCalculator.get(guess.pokemon.number).forms.get(0), 0);
                     }
                     break;
                 case (49): // Diglett
                     // check types including steel
-                    if (StringUtils.normalize(scanData.getPokemonType()).contains(
+                    if (scanData.getNormalizedPokemonType().contains(
                             pokeInfoCalculator.getNormalizedType(Type.STEEL))) {
                         return new PokeDist(pokeInfoCalculator.get(guess.pokemon.number).forms.get(0), 0);
                     }
                     break;
                 case (50): // Dugtrio
                     // check types including steel
-                    if (StringUtils.normalize(scanData.getPokemonType()).contains(
+                    if (scanData.getNormalizedPokemonType().contains(
                             pokeInfoCalculator.getNormalizedType(Type.STEEL))) {
                         return new PokeDist(pokeInfoCalculator.get(guess.pokemon.number).forms.get(0), 0);
                     }
                     break;
                 case (51): // Meowth
                     // check types including dark
-                    if (StringUtils.normalize(scanData.getPokemonType()).contains(
+                    if (scanData.getNormalizedPokemonType().contains(
                             pokeInfoCalculator.getNormalizedType(Type.DARK))) {
                         return new PokeDist(pokeInfoCalculator.get(guess.pokemon.number).forms.get(0), 0);
                     }
                     break;
                 case (52): // Persian
                     // check types including dark
-                    if (StringUtils.normalize(scanData.getPokemonType()).contains(
+                    if (scanData.getNormalizedPokemonType().contains(
                             pokeInfoCalculator.getNormalizedType(Type.DARK))) {
                         return new PokeDist(pokeInfoCalculator.get(guess.pokemon.number).forms.get(0), 0);
                     }
                     break;
                 case (73): // Geodude
                     // check types including electric
-                    if (StringUtils.normalize(scanData.getPokemonType()).contains(
+                    if (scanData.getNormalizedPokemonType().contains(
                             pokeInfoCalculator.getNormalizedType(Type.ELECTRIC))) {
                         return new PokeDist(pokeInfoCalculator.get(guess.pokemon.number).forms.get(0), 0);
                     }
                     break;
                 case (74): // Graveler
                     // check types including electric
-                    if (StringUtils.normalize(scanData.getPokemonType()).contains(
+                    if (scanData.getNormalizedPokemonType().contains(
                             pokeInfoCalculator.getNormalizedType(Type.ELECTRIC))) {
                         return new PokeDist(pokeInfoCalculator.get(guess.pokemon.number).forms.get(0), 0);
                     }
                     break;
                 case (75): // Golem
                     // check types including electric
-                    if (StringUtils.normalize(scanData.getPokemonType()).contains(
+                    if (scanData.getNormalizedPokemonType().contains(
                             pokeInfoCalculator.getNormalizedType(Type.ELECTRIC))) {
                         return new PokeDist(pokeInfoCalculator.get(guess.pokemon.number).forms.get(0), 0);
                     }
                     break;
                 case (87): // Grimer
                     // check types including dark
-                    if (StringUtils.normalize(scanData.getPokemonType()).contains(
+                    if (scanData.getNormalizedPokemonType().contains(
                             pokeInfoCalculator.getNormalizedType(Type.DARK))) {
                         return new PokeDist(pokeInfoCalculator.get(guess.pokemon.number).forms.get(0), 0);
                     }
                     break;
                 case (88): // Muk
                     // check types including dark
-                    if (StringUtils.normalize(scanData.getPokemonType()).contains(
+                    if (scanData.getNormalizedPokemonType().contains(
                             pokeInfoCalculator.getNormalizedType(Type.DARK))) {
                         return new PokeDist(pokeInfoCalculator.get(guess.pokemon.number).forms.get(0), 0);
                     }
                     break;
                 case (104): // Marowak
                     // check types including fire
-                    if (StringUtils.normalize(scanData.getPokemonType()).contains(
+                    if (scanData.getNormalizedPokemonType().contains(
                             pokeInfoCalculator.getNormalizedType(Type.FIRE))) {
                         return new PokeDist(pokeInfoCalculator.get(guess.pokemon.number).forms.get(0), 0);
                     }

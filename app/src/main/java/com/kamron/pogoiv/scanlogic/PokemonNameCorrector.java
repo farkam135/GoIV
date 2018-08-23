@@ -88,27 +88,19 @@ public class PokemonNameCorrector {
         //3.  check correction for abnormal pokemon using Pokemon Type (such as eevees evolutions, azuril.)
         if (guess.pokemon == null
                 && normalizedCandyName.contains(StringUtils.normalize(pokeInfoCalculator.get(132).name))) {
-            HashMap<String, String> eeveelutionCorrection = new HashMap<>();
-            eeveelutionCorrection.put(pokeInfoCalculator.getNormalizedType(Type.WATER),
-                    pokeInfoCalculator.get(133).name); //Vaporeon
-            eeveelutionCorrection.put(pokeInfoCalculator.getNormalizedType(Type.ELECTRIC),
-                    pokeInfoCalculator.get(134).name); //Jolteon
-            eeveelutionCorrection.put(pokeInfoCalculator.getNormalizedType(Type.FIRE),
-                    pokeInfoCalculator.get(135).name); //Flareon
-            eeveelutionCorrection.put(pokeInfoCalculator.getNormalizedType(Type.PSYCHIC),
-                    pokeInfoCalculator.get(195).name); //Espeon
-            eeveelutionCorrection.put(pokeInfoCalculator.getNormalizedType(Type.DARK),
-                    pokeInfoCalculator.get(196).name); //Umbreon
+            HashMap<String, Integer> eeveelutionCorrection = new HashMap<>();
+            eeveelutionCorrection.put(pokeInfoCalculator.getNormalizedType(Type.WATER), 133); //Vaporeon pokedex#
+            eeveelutionCorrection.put(pokeInfoCalculator.getNormalizedType(Type.ELECTRIC), 134); //Jolteon pokedex#
+            eeveelutionCorrection.put(pokeInfoCalculator.getNormalizedType(Type.FIRE), 135); //Flareon pokedex#
+            eeveelutionCorrection.put(pokeInfoCalculator.getNormalizedType(Type.PSYCHIC), 195); //Espeon pokedex#
+            eeveelutionCorrection.put(pokeInfoCalculator.getNormalizedType(Type.DARK),196); //Umbreon pokedex#
             // Preparing for the future....
-            // eeveelutionCorrection.put(pokeInfoCalculator.getNormalizedType(Type.GRASS),
-            //         pokeInfoCalculator.get(469).name); //Leafeon
-            // eeveelutionCorrection.put(pokeInfoCalculator.getNormalizedType(Type.ICE),
-            //         pokeInfoCalculator.get(470).name); //Glaceon
-            // eeveelutionCorrection.put(pokeInfoCalculator.getNormalizedType(Type.FAIRY),
-            //         pokeInfoCalculator.get(699).name); //Sylveon
+            // eeveelutionCorrection.put(pokeInfoCalculator.getNormalizedType(Type.GRASS), 469); //Leafeon pokedex#
+            // eeveelutionCorrection.put(pokeInfoCalculator.getNormalizedType(Type.ICE), 470); //Glaceon pokedex#
+            // eeveelutionCorrection.put(pokeInfoCalculator.getNormalizedType(Type.FAIRY), 699); //Sylveon pokedex#
             if (eeveelutionCorrection.containsKey(scanData.getNormalizedPokemonType())) {
-                String name = eeveelutionCorrection.get(scanData.getNormalizedPokemonType());
-                guess = new PokeDist(pokeInfoCalculator.get(name), 0);
+                int eeveelutionPokedexId = eeveelutionCorrection.get(scanData.getNormalizedPokemonType());
+                guess = new PokeDist(pokeInfoCalculator.get(eeveelutionPokedexId), 0);
             }
         }
 

@@ -14,7 +14,6 @@ import com.kamron.pogoiv.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -29,7 +28,6 @@ public class PokeInfoCalculator {
 
     private ArrayList<Pokemon> pokedex = new ArrayList<>();
     private String[] pokeNamesWithForm = {};
-    private Map<Pokemon.Type, String> normalizedTypeNames = new EnumMap<>(Pokemon.Type.class);
 
     /**
      * Pokemons who's name appears as a type of candy.
@@ -72,12 +70,6 @@ public class PokeInfoCalculator {
         }
 
         pokeNamesWithForm = pokemonNamesArray.toArray(new String[pokemonNamesArray.size()]);
-
-        // create and cache the normalized pokemon type locale name
-        for (int i = 0; i < res.getStringArray(R.array.typeName).length; i++) {
-            normalizedTypeNames.put(Pokemon.Type.values()[i],
-                    StringUtils.normalize(res.getStringArray(R.array.typeName)[i]));
-        }
     }
 
     public List<Pokemon> getPokedex() {
@@ -482,14 +474,5 @@ public class PokeInfoCalculator {
         int lowHp = (int) Math.max(
                 Math.floor((selectedPokemon.baseStamina + scanResult.getIVStaminaLow()) * lvlScalar), 10);
         return Math.round((highHp + lowHp) / 2f);
-    }
-
-    /**
-     * Returns the normalized type name for such as fire or water, in the correct current locale name.
-     *
-     * @param type The enum for the type to get the correct name for.
-     */
-    public String getNormalizedType(Pokemon.Type type) {
-        return normalizedTypeNames.get(type);
     }
 }

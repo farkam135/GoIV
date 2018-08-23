@@ -43,6 +43,7 @@ public class PokemonNameCorrector {
      * @return a Pokedist with the best guess of the pokemon
      */
     public PokeDist getPossiblePokemon(@NonNull ScanData scanData) {
+        String normalizedCandyName = scanData.getNormalizedCandyName();
         ArrayList<Pokemon> bestGuessEvolutionLine = null;
         PokeDist guess;
 
@@ -51,7 +52,7 @@ public class PokemonNameCorrector {
 
         //2. See if we can get a perfect match with candy name & upgrade cost
         if (guess.pokemon == null) {
-            bestGuessEvolutionLine = getBestGuessForEvolutionLine(scanData.getCandyName());
+            bestGuessEvolutionLine = getBestGuessForEvolutionLine(normalizedCandyName);
 
             ArrayList<Pokemon> candyNameEvolutionCostGuess =
                     getCandyNameEvolutionCostGuess(bestGuessEvolutionLine, scanData.getEvolutionCandyCost());
@@ -69,8 +70,7 @@ public class PokemonNameCorrector {
 
         //3.  check correction for abnormal pokemon using Pokemon Type (such as eevees evolutions, azuril.)
         if (guess.pokemon == null
-                && StringUtils.normalize(
-                        scanData.getCandyName()).contains(StringUtils.normalize(pokeInfoCalculator.get(132).name))) {
+                && normalizedCandyName.contains(StringUtils.normalize(pokeInfoCalculator.get(132).name))) {
             HashMap<String, String> eeveelutionCorrection = new HashMap<>();
             eeveelutionCorrection.put(pokeInfoCalculator.getNormalizedType(Type.WATER),
                     pokeInfoCalculator.get(133).name); //Vaporeon
@@ -96,8 +96,7 @@ public class PokemonNameCorrector {
         }
 
         //3.1 Azuril and marill have the same evolution cost, but different types.
-        if (StringUtils.normalize(
-                scanData.getCandyName()).contains(StringUtils.normalize(pokeInfoCalculator.get(182).name))
+        if (normalizedCandyName.contains(StringUtils.normalize(pokeInfoCalculator.get(182).name))
                 && (scanData.getEvolutionCandyCost().get() != -1)) { //its not an azumarill
             //if the scanned data contains the type water, it must be a marill, as azuril is normal type.
             if (scanData.getNormalizedPokemonType().contains(

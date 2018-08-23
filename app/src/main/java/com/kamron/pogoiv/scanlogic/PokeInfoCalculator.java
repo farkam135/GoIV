@@ -32,11 +32,6 @@ public class PokeInfoCalculator {
     private Map<Pokemon.Type, String> normalizedTypeNames = new EnumMap<>(Pokemon.Type.class);
 
     /**
-     * Pokemons that aren't evolutions of any other one.
-     */
-    private ArrayList<Pokemon> basePokemons = new ArrayList<>();
-
-    /**
      * Pokemons who's name appears as a type of candy.
      * For most, this is the basePokemon (ie: Pidgey candies)
      * For some, this is an original Gen1 Pokemon (ie: Magmar candies, instead of Magby candies)
@@ -87,10 +82,6 @@ public class PokeInfoCalculator {
 
     public List<Pokemon> getPokedex() {
         return Collections.unmodifiableList(pokedex);
-    }
-
-    public List<Pokemon> getBasePokemons() {
-        return Collections.unmodifiableList(basePokemons);
     }
 
     /**
@@ -183,7 +174,6 @@ public class PokeInfoCalculator {
             } else {
                 Pokemon candyPokemon = pokedex.get(candyNamesArray[i]);
                 candyPokemons.put(StringUtils.normalize(candyPokemon.name), candyPokemon);
-                basePokemons.add(pokedex.get(i));
             }
 
             //Check for different pokemon forms, such as alolan forms, and add them to the formsCount.

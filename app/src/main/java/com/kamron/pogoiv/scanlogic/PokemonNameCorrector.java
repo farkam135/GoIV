@@ -9,7 +9,6 @@ import com.kamron.pogoiv.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import lombok.AllArgsConstructor;
@@ -107,12 +106,11 @@ public class PokemonNameCorrector {
         //3.1 Azuril and marill have the same evolution cost, but different types.
         if (normalizedCandyName.contains(StringUtils.normalize(pokeInfoCalculator.get(182).name))
                 && (scanData.getEvolutionCandyCost().get() != -1)) { //its not an azumarill
-            //if the scanned data contains the type water, it must be a marill, as azuril is normal type.
-            if (scanData.getNormalizedPokemonType().contains(
-                    pokeInfoCalculator.getNormalizedType(Type.WATER))) {
-                guess = new PokeDist(pokeInfoCalculator.get(182), 0);
+            //if the scanned data contains the type water, it must be a marill, as azurill is normal type.
+            if (scanData.getNormalizedPokemonType().contains(pokeInfoCalculator.getNormalizedType(Type.WATER))) {
+                guess = new PokeDist(pokeInfoCalculator.get(182), 0); //marill
             } else {
-                guess = new PokeDist(pokeInfoCalculator.get(297), 0);
+                guess = new PokeDist(pokeInfoCalculator.get(297), 0); //azurill
             }
         }
 
@@ -171,8 +169,7 @@ public class PokemonNameCorrector {
         return guess;
     }
 
-    private PokeDist checkAlolanVariant(PokeDist guess,
-                                        ScanData scanData) {
+    private PokeDist checkAlolanVariant(PokeDist guess, ScanData scanData) {
         try {
             switch (guess.pokemon.number) {
                 case (102): // Exeggutor (dex 103)
@@ -370,7 +367,6 @@ public class PokemonNameCorrector {
      * @return an evolution line which the string best matches the base evolution pokemon name
      */
     private ArrayList<Pokemon> getBestGuessForEvolutionLine(String input) {
-        //candy name will only ever match the base evolution, so search in getBasePokemons().
         PokeDist bestMatch = guessBestPokemonByNormalizedName(input, pokeInfoCalculator.getNormalizedCandyPokemons());
         return pokeInfoCalculator.getEvolutionLine(bestMatch.pokemon);
     }

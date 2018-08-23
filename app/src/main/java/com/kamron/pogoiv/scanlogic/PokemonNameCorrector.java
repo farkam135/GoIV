@@ -27,6 +27,7 @@ public class PokemonNameCorrector {
     private static PokemonNameCorrector instance;
     private final PokeInfoCalculator pokeInfoCalculator;
     private final Map<String, Pokemon> normalizedPokemonNameMap;
+    private final Map<String, Pokemon> normalizedCandyPokemons;
     private final Map<Pokemon.Type, String> normalizedTypeNames;
     private Resources res;
     private static String nidoFemale;
@@ -49,10 +50,15 @@ public class PokemonNameCorrector {
 
         // create and cache the normalized pokemon type locale name
         this.normalizedTypeNames = new EnumMap<>(Pokemon.Type.class);
-
         for (int i = 0; i < res.getStringArray(R.array.typeName).length; i++) {
             this.normalizedTypeNames.put(Pokemon.Type.values()[i],
                     StringUtils.normalize(res.getStringArray(R.array.typeName)[i]));
+        }
+
+        // create and cache the candy pokemons collection with normalized their names as keys
+        this.normalizedCandyPokemons = new HashMap<>();
+        for (Pokemon pokemon : pokeInfoCalculator.getCandyPokemons()) {
+            this.normalizedCandyPokemons.put(StringUtils.normalize(pokemon.name), pokemon);
         }
     }
 
@@ -426,7 +432,7 @@ public class PokemonNameCorrector {
      * @return an evolution line which the string best matches the base evolution pokemon name
      */
     private ArrayList<Pokemon> getBestGuessForEvolutionLine(String input) {
-        PokeDist bestMatch = guessBestPokemonByNormalizedName(input, pokeInfoCalculator.getNormalizedCandyPokemons());
+        PokeDist bestMatch = guessBestPokemonByNormalizedName(input, normalizedCandyPokemons);
         return pokeInfoCalculator.getEvolutionLine(bestMatch.pokemon);
     }
 

@@ -10,14 +10,11 @@ import android.support.annotation.Nullable;
 
 import com.kamron.pogoiv.GoIVSettings;
 import com.kamron.pogoiv.R;
-import com.kamron.pogoiv.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 /**
  * Created by Johan Swanberg on 2016-08-18.
@@ -34,7 +31,7 @@ public class PokeInfoCalculator {
      * For most, this is the basePokemon (ie: Pidgey candies)
      * For some, this is an original Gen1 Pokemon (ie: Magmar candies, instead of Magby candies)
      */
-    private HashMap<String, Pokemon> candyPokemons = new HashMap<>();
+    private ArrayList<Pokemon> candyPokemons = new ArrayList<>();
 
     public static synchronized @NonNull PokeInfoCalculator getInstance(@NonNull Context context) {
         if (instance == null) {
@@ -79,10 +76,10 @@ public class PokeInfoCalculator {
     /**
      * Returns the full collection of possible candy pokemon that exist in Pokemon Go.
      *
-     * @return Map of all candy pokemons with normalized pokemon names as their keys.
+     * @return Map of all candy pokemons.
      */
-    public Map<String, Pokemon> getNormalizedCandyPokemons() {
-        return Collections.unmodifiableMap(candyPokemons);
+    public List<Pokemon> getCandyPokemons() {
+        return Collections.unmodifiableList(candyPokemons);
     }
 
     /**
@@ -165,7 +162,7 @@ public class PokeInfoCalculator {
                 devo.evolutions.add(pokedex.get(i));
             } else {
                 Pokemon candyPokemon = pokedex.get(candyNamesArray[i]);
-                candyPokemons.put(StringUtils.normalize(candyPokemon.name), candyPokemon);
+                candyPokemons.add(candyPokemon);
             }
 
             //Check for different pokemon forms, such as alolan forms, and add them to the formsCount.

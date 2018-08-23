@@ -23,9 +23,16 @@ import static com.kamron.pogoiv.scanlogic.Pokemon.Type;
  */
 public class PokemonNameCorrector {
     private final PokeInfoCalculator pokeInfoCalculator;
+    private final Map<String, Pokemon> normalizedPokemonNameMap;
 
     public PokemonNameCorrector(PokeInfoCalculator pokeInfoCalculator) {
         this.pokeInfoCalculator = pokeInfoCalculator;
+
+        Map<String, Pokemon> pokemap = new HashMap<>();
+        for (Pokemon pokemon : pokeInfoCalculator.getPokedex()) {
+            pokemap.put(StringUtils.normalize(pokemon.name), pokemon);
+        }
+        this.normalizedPokemonNameMap = pokemap;
     }
 
     /**
@@ -43,12 +50,13 @@ public class PokemonNameCorrector {
      * @return a Pokedist with the best guess of the pokemon
      */
     public PokeDist getPossiblePokemon(@NonNull ScanData scanData) {
+        String normalizedPokemonName = scanData.getNormalizedPokemonName();
         String normalizedCandyName = scanData.getNormalizedCandyName();
         ArrayList<Pokemon> bestGuessEvolutionLine = null;
         PokeDist guess;
 
         //1. Check if nickname perfectly matches a pokemon (which means pokemon is probably not renamed)
-        guess = new PokeDist(pokeInfoCalculator.get(scanData.getPokemonName()), 0);
+        guess = new PokeDist(normalizedPokemonNameMap.get(normalizedPokemonName), 0);
 
         //2. See if we can get a perfect match with candy name & upgrade cost
         if (guess.pokemon == null) {
@@ -135,7 +143,11 @@ public class PokemonNameCorrector {
         //5.  get the pokemon with the closest name within the evolution line guessed from the candy (or candy and
         // cost calculation).
         if (guess.pokemon == null && bestGuessEvolutionLine != null) {
-            guess = guessBestPokemonByName(scanData.getPokemonName(), bestGuessEvolutionLine);
+            Map<String, Pokemon> pokemap = new HashMap<>();
+            for (Pokemon pokemon : bestGuessEvolutionLine) {
+                pokemap.put(StringUtils.normalize(pokemon.name), pokemon);
+            }
+            guess = guessBestPokemonByNormalizedName(normalizedPokemonName, pokemap);
         }
 
 
@@ -150,7 +162,7 @@ public class PokemonNameCorrector {
 
         //7. All else failed: make a wild guess based only on closest name match
         if (guess.pokemon == null) {
-            guess = guessBestPokemonByName(scanData.getPokemonName(), pokeInfoCalculator.getPokedex());
+            guess = guessBestPokemonByNormalizedName(normalizedPokemonName, normalizedPokemonNameMap);
         }
 
 
@@ -324,29 +336,6 @@ public class PokemonNameCorrector {
 
         //evolution cost scan failed, or no match
         return null;
-    }
-
-    /**
-     * A method which returns the best guess at which pokemon it is according to similarity with the name
-     * in the given pokemon list.
-     *
-     * @param name the input name to compare with
-     * @param pokemons the pokemon list to search the input name into.
-     * @return a pokedist representing the search result.
-     */
-    private PokeDist guessBestPokemonByName(String name, List<Pokemon> pokemons) {
-        //if there's no perfect match, get the pokemon that best matches the nickname within the best guess evo-line
-        Pokemon bestMatchPokemon = null;
-        int lowestDist = Integer.MAX_VALUE;
-        for (Pokemon trypoke : pokemons) {
-            int dist = Data.levenshteinDistance(trypoke.name, name);
-            if (dist < lowestDist) {
-                bestMatchPokemon = trypoke;
-                lowestDist = dist;
-                if (dist == 0) break;
-            }
-        }
-        return new PokeDist(bestMatchPokemon, lowestDist);
     }
 
     /**

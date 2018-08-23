@@ -1,10 +1,12 @@
 package com.kamron.pogoiv.scanlogic;
 
 
+import android.content.res.Resources;
 import android.support.annotation.NonNull;
 
 import com.google.common.base.Optional;
 
+import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.utils.StringUtils;
 
 import java.util.ArrayList;
@@ -24,20 +26,29 @@ public class PokemonNameCorrector {
     private static PokemonNameCorrector instance;
     private final PokeInfoCalculator pokeInfoCalculator;
     private final Map<String, Pokemon> normalizedPokemonNameMap;
+    private Resources res;
+    private static String nidoFemale;
+    private static String nidoMale;
+    private static String nidoUngendered;
 
-    private PokemonNameCorrector(PokeInfoCalculator pokeInfoCalculator) {
-        this.pokeInfoCalculator = pokeInfoCalculator;
+    private PokemonNameCorrector(Resources res) {
+        this.pokeInfoCalculator = PokeInfoCalculator.getInstance();
 
         Map<String, Pokemon> pokemap = new HashMap<>();
         for (Pokemon pokemon : pokeInfoCalculator.getPokedex()) {
             pokemap.put(StringUtils.normalize(pokemon.name), pokemon);
         }
         this.normalizedPokemonNameMap = pokemap;
+        this.res = res;
+
+        nidoFemale = pokeInfoCalculator.get(28).name;
+        nidoMale = pokeInfoCalculator.get(31).name;
+        nidoUngendered = nidoFemale.replace("♀", "").toLowerCase();
     }
 
-    public static PokemonNameCorrector getInstance(PokeInfoCalculator pokeInfoCalculator) {
+    public static PokemonNameCorrector getInstance(Resources res) {
         if (instance == null) {
-            instance = new PokemonNameCorrector(pokeInfoCalculator);
+            instance = new PokemonNameCorrector(res);
         }
 
         return instance;
@@ -58,8 +69,8 @@ public class PokemonNameCorrector {
      * @return a Pokedist with the best guess of the pokemon
      */
     public PokeDist getPossiblePokemon(@NonNull ScanData scanData) {
-        String normalizedPokemonName = scanData.getNormalizedPokemonName();
-        String normalizedCandyName = scanData.getNormalizedCandyName();
+        String normalizedPokemonName = getNormalizedPokemonName(scanData);
+        String normalizedCandyName = getNormalizedCandyName(scanData);
         ArrayList<Pokemon> bestGuessEvolutionLine = null;
         PokeDist guess;
 
@@ -167,6 +178,53 @@ public class PokemonNameCorrector {
 
         //if (guess.pokemon.number)
         return guess;
+    }
+
+    private String getNormalizedPokemonName(ScanData scanData) {
+        String normalizedPokemonName = scanData.getNormalizedPokemonName();
+
+        // remove characters not included in pokemon names or candy word. (ex. white space, -, etc)
+        normalizedPokemonName = normalizedPokemonName.replaceAll("[^\\w♂♀]", "");
+        if (isNidoranName(normalizedPokemonName)) {
+            normalizedPokemonName = StringUtils.normalize(getNidoranGenderName(scanData.getPokemonGender()));
+        }
+
+        return normalizedPokemonName;
+    }
+
+    private String getNormalizedCandyName(ScanData scanData) {
+        String normalizedCandyName;
+        String normalizedCandyText = scanData.getNormalizedCandyName();
+        String candyWordLocale = res.getString(R.string.candy);
+
+        // remove characters not included in pokemon names or candy word. (ex. white space, -, etc)
+        normalizedCandyText = normalizedCandyText.replaceAll("[^\\w♂♀]", "");
+        normalizedCandyName = normalizedCandyText.replace(StringUtils.normalize(candyWordLocale), "");
+        if (isNidoranName(normalizedCandyName)) {
+            normalizedCandyName = StringUtils.normalize(getNidoranGenderName(scanData.getPokemonGender()));
+        }
+
+        return normalizedCandyName;
+    }
+
+
+    private static boolean isNidoranName(String pokemonName) {
+        return StringUtils.normalize(pokemonName).contains(StringUtils.normalize(nidoUngendered));
+    }
+
+    /**
+     * Get the correctly gendered name of a pokemon.
+     *
+     * @param pokemonGender The gender of the nidoranX.
+     * @return The correct name of the pokemon, with the gender symbol at the end.
+     */
+    @NonNull
+    private static String getNidoranGenderName(Pokemon.Gender pokemonGender) {
+        switch (pokemonGender) {
+            case F: return nidoFemale;
+            case M: return nidoMale;
+            default: return "";
+        }
     }
 
     private PokeDist checkAlolanVariant(PokeDist guess, ScanData scanData) {

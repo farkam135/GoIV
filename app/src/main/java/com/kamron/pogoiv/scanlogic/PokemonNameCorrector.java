@@ -22,10 +22,11 @@ import static com.kamron.pogoiv.scanlogic.Pokemon.Type;
  * Created by pgiarrusso on 5/9/2016.
  */
 public class PokemonNameCorrector {
+    private static PokemonNameCorrector instance;
     private final PokeInfoCalculator pokeInfoCalculator;
     private final Map<String, Pokemon> normalizedPokemonNameMap;
 
-    public PokemonNameCorrector(PokeInfoCalculator pokeInfoCalculator) {
+    private PokemonNameCorrector(PokeInfoCalculator pokeInfoCalculator) {
         this.pokeInfoCalculator = pokeInfoCalculator;
 
         Map<String, Pokemon> pokemap = new HashMap<>();
@@ -33,6 +34,14 @@ public class PokemonNameCorrector {
             pokemap.put(StringUtils.normalize(pokemon.name), pokemon);
         }
         this.normalizedPokemonNameMap = pokemap;
+    }
+
+    public static PokemonNameCorrector getInstance(PokeInfoCalculator pokeInfoCalculator) {
+        if (instance == null) {
+            instance = new PokemonNameCorrector(pokeInfoCalculator);
+        }
+
+        return instance;
     }
 
     /**

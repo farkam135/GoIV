@@ -97,7 +97,7 @@ public class InputFraction extends Fraction {
 
         // Guess the species
         PokemonNameCorrector.PokeDist possiblePoke =
-                new PokemonNameCorrector(PokeInfoCalculator.getInstance()).getPossiblePokemon(Pokefly.scanData);
+                PokemonNameCorrector.getInstance(PokeInfoCalculator.getInstance()).getPossiblePokemon(Pokefly.scanData);
 
         // set color based on similarity
         if (possiblePoke.dist == 0) {

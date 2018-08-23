@@ -16,10 +16,12 @@ import com.kamron.pogoiv.utils.StringUtils;
 public class ScanData {
     private LevelRange estimatedPokemonLevelRange;
     private String pokemonName;
+    private String normalizedPokemonName;
     private final String pokemonType;
     private final String normalizedPokemonType;
     private final Pokemon.Gender pokemonGender;
     private final String candyName;
+    private final String normalizedCandyName;
     private Optional<Integer> pokemonHP;
     private Optional<Integer> pokemonCP;
     private Optional<Integer> pokemonCandyAmount;
@@ -38,10 +40,12 @@ public class ScanData {
                     String moveFast, String moveCharge, boolean isLucky, String uniqueID) {
         this.estimatedPokemonLevelRange = estimatedPokemonLevel;
         this.pokemonName = pokemonName;
+        this.normalizedPokemonName = StringUtils.normalize(pokemonName);
         this.pokemonType = pokemonType;
         this.normalizedPokemonType = StringUtils.normalize(pokemonType);
         this.pokemonGender = pokemonGender;
         this.candyName = candyName;
+        this.normalizedCandyName = StringUtils.normalize(candyName);
         this.pokemonHP = pokemonHP;
         this.pokemonCP = pokemonCP;
         this.pokemonCandyAmount = pokemonCandyAmount;
@@ -66,8 +70,13 @@ public class ScanData {
         return pokemonName;
     }
 
+    public String getNormalizedPokemonName() {
+        return normalizedPokemonName;
+    }
+
     public void setPokemonName(@NonNull String pokemonName) {
         this.pokemonName = pokemonName;
+        this.normalizedPokemonName = StringUtils.normalize(pokemonName);
     }
 
     public String getPokemonType() {
@@ -84,6 +93,10 @@ public class ScanData {
 
     public String getCandyName() {
         return candyName;
+    }
+
+    public String getNormalizedCandyName() {
+        return normalizedCandyName;
     }
 
     public Optional<Integer> getPokemonHP() {

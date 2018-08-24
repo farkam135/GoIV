@@ -121,9 +121,9 @@ public class PokemonNameCorrector {
             eeveelutionCorrection.put(normalizePokemonType(Type.PSYCHIC), 195); //Espeon pokedex#
             eeveelutionCorrection.put(normalizePokemonType(Type.DARK),196); //Umbreon pokedex#
             // Preparing for the future....
-            // eeveelutionCorrection.put(pokeInfoCalculator.normalizePokemonType(Type.GRASS), 469); //Leafeon pokedex#
-            // eeveelutionCorrection.put(pokeInfoCalculator.normalizePokemonType(Type.ICE), 470); //Glaceon pokedex#
-            // eeveelutionCorrection.put(pokeInfoCalculator.normalizePokemonType(Type.FAIRY), 699); //Sylveon pokedex#
+            // eeveelutionCorrection.put(normalizePokemonType(Type.GRASS), 469); //Leafeon pokedex#
+            // eeveelutionCorrection.put(normalizePokemonType(Type.ICE), 470); //Glaceon pokedex#
+            // eeveelutionCorrection.put(normalizePokemonType(Type.FAIRY), 699); //Sylveon pokedex#
             if (eeveelutionCorrection.containsKey(scanData.getNormalizedPokemonType())) {
                 int eeveelutionPokedexId = eeveelutionCorrection.get(scanData.getNormalizedPokemonType());
                 guess = new PokeDist(pokeInfoCalculator.get(eeveelutionPokedexId), 0);

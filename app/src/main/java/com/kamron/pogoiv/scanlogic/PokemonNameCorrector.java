@@ -37,6 +37,7 @@ public class PokemonNameCorrector {
     private PokemonNameCorrector(Resources res) {
         this.pokeInfoCalculator = PokeInfoCalculator.getInstance();
 
+        // create and cache the pokedex pokemons collection with normalized their names as keys
         Map<String, Pokemon> pokemap = new HashMap<>();
         for (Pokemon pokemon : pokeInfoCalculator.getPokedex()) {
             pokemap.put(StringUtils.normalize(pokemon.name), pokemon);

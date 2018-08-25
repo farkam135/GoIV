@@ -161,8 +161,7 @@ public class PokeInfoCalculator {
                 Pokemon devo = pokedex.get(devolution[i]);
                 devo.evolutions.add(pokedex.get(i));
             } else {
-                Pokemon candyPokemon = pokedex.get(candyNamesArray[i]);
-                candyPokemons.add(candyPokemon);
+                candyPokemons.add(pokedex.get(candyNamesArray[i]));
             }
 
             //Check for different pokemon forms, such as alolan forms, and add them to the formsCount.

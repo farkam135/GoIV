@@ -33,7 +33,7 @@ public class PokeInfoCalculator {
      */
     private ArrayList<Pokemon> candyPokemons = new ArrayList<>();
 
-    public static synchronized @NonNull PokeInfoCalculator getInstance(@NonNull Context context) {
+    protected static synchronized @NonNull PokeInfoCalculator getInstance(@NonNull Context context) {
         if (instance == null) {
             instance = new PokeInfoCalculator(GoIVSettings.getInstance(context), context.getResources());
         }

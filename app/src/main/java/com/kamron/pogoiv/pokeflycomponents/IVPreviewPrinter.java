@@ -71,7 +71,7 @@ public class IVPreviewPrinter {
             pokeflyRef = new WeakReference<>(pokefly);
             ivPreviewPrinterRef = new WeakReference<>(ivPreviewPrinter);
             ivButtonRef = new WeakReference<>(ivButton);
-            pokemonNameCorrector = PokemonNameCorrector.getInstance(pokefly.getResources());
+            pokemonNameCorrector = PokemonNameCorrector.getInstance(pokefly);
         }
 
         @Override

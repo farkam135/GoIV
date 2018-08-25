@@ -1,6 +1,7 @@
 package com.kamron.pogoiv.scanlogic;
 
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.support.annotation.NonNull;
 
@@ -34,8 +35,8 @@ public class PokemonNameCorrector {
     private static String nidoMale;
     private static String nidoUngendered;
 
-    private PokemonNameCorrector(Resources res) {
-        this.pokeInfoCalculator = PokeInfoCalculator.getInstance();
+    private PokemonNameCorrector(Context context) {
+        this.pokeInfoCalculator = PokeInfoCalculator.getInstance(context);
 
         // create and cache the pokedex pokemons collection with normalized their names as keys
         Map<String, Pokemon> pokemap = new HashMap<>();
@@ -43,7 +44,7 @@ public class PokemonNameCorrector {
             pokemap.put(StringUtils.normalize(pokemon.name), pokemon);
         }
         this.normalizedPokemonNameMap = pokemap;
-        this.res = res;
+        this.res = context.getResources();
 
         nidoFemale = StringUtils.normalize(pokeInfoCalculator.get(28).name);
         nidoMale = StringUtils.normalize(pokeInfoCalculator.get(31).name);
@@ -63,9 +64,9 @@ public class PokemonNameCorrector {
         }
     }
 
-    public static PokemonNameCorrector getInstance(Resources res) {
+    public static PokemonNameCorrector getInstance(Context context) {
         if (instance == null) {
-            instance = new PokemonNameCorrector(res);
+            instance = new PokemonNameCorrector(context);
         }
 
         return instance;

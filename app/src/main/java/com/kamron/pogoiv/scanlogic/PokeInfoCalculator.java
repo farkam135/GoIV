@@ -74,9 +74,9 @@ public class PokeInfoCalculator {
     }
 
     /**
-     * Returns the full collection of possible candy pokemon that exist in Pokemon Go.
+     * Returns the full list of pokemons possible candy name.
      *
-     * @return Map of all candy pokemons.
+     * @return List of all candy pokemons that exist in Pokemon Go.
      */
     public List<Pokemon> getCandyPokemons() {
         return Collections.unmodifiableList(candyPokemons);

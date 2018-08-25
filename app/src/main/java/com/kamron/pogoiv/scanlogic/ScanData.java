@@ -58,6 +58,41 @@ public class ScanData {
         this.uniqueID = uniqueID;
     }
 
+    @Override public String toString() {
+        // temporary format for checking OCR result and debugging IV calculations.
+        return String.format("ScanData\n"
+                        + "name:%s\n"
+                        + "type:%s\n"
+                        + "gender:%s\n"
+                        + "cp:%d\n"
+                        + "hp:%d\n"
+                        + "lucky:%B\n\n"
+
+                        + "candy_name:%s\n"
+                        + "candy_amount:%d\n"
+                        + "evolution_candy:%d\n"
+                        + "powerup_candy:%d\n"
+                        + "powerup_stardust:%d\n\n"
+
+                        + "move_fast:%s\n"
+                        + "move_charge:%s\n",
+                pokemonName,
+                pokemonType,
+                pokemonGender,
+                pokemonCP.or(-1),
+                pokemonHP.or(-1),
+                isLucky,
+
+                candyName,
+                pokemonCandyAmount.or(-1),
+                evolutionCandyCost.or(-1),
+                powerUpCandyCost.or(-1),
+                powerUpStardustCost.or(-1),
+
+                moveFast,
+                moveCharge);
+    }
+
     public LevelRange getEstimatedPokemonLevel() {
         return estimatedPokemonLevelRange;
     }

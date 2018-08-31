@@ -146,6 +146,37 @@ public class ScreenWatcher {
         return false;
     }
 
+
+
+    /**
+     * isUserOnPokemonScreen
+     * Scans the device screen to determine if the user seems to be in a pokemon catch screen.
+     */
+    private boolean isUserOnPokemonCatchScreen() {
+        if (ScreenGrabber.getInstance() != null) {
+
+            System.out.println(ScreenGrabber.getInstance().grabScreen()); //remove
+            Point[] identityPoints = new Point[1];
+
+            identityPoints[0] = new Point(1,1); //dummy point
+
+            @ColorInt int[] pixels = ScreenGrabber.getInstance().grabPixels(identityPoints);
+            if (pixels != null) {
+                return true;
+                /*
+                if (areaColor[0] != null) {
+                    return pixels[0] == Color.WHITE && pixels[1] == Color.WHITE;
+                } else {
+                    return false;
+                }
+                */
+            }
+        }
+        return false;
+    }
+
+
+
     /**
      * Used to cancel any pending screen scan (and consequent quick IV preview scan) when the user requested to Pokefly
      * to take a screenshot and scan the Pokémon (due to a press on the IVPopupButton).
@@ -168,7 +199,15 @@ public class ScreenWatcher {
                     pokefly.getIvButton().setShown(true, pokefly.getInfoShownSent());
                     pokefly.getIvPreviewPrinter().printIVPreview(pokefly.getIvButton());
 
-                } else {
+                } else if(/*Should show catchscreen preview*/ true){
+                    if(isUserOnPokemonCatchScreen()){
+                        CatchScreenIVPreview csivp = new CatchScreenIVPreview(pokefly);
+                        csivp.attemptIVPreview(ScreenGrabber.getInstance().grabScreen());
+                    }
+
+                }
+
+                    else {
                     screenScanRetries--;
                     screenScanHandler.postDelayed(screenScanRunnable, SCREEN_SCAN_DELAY_MS);
                     pokefly.getIvButton().setShown(false, pokefly.getInfoShownSent());

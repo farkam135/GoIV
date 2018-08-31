@@ -1186,6 +1186,37 @@ public class OcrHelper {
         return new LevelRange(estimatedPokemonLevel, higherBound);
     }
 
+    /**
+     * Get the string representing the name and CP of a pokemon from the catch-screen.
+     *
+     * @param pokemonImage The image of the full pokemon catch screen
+     * @return The string above the pokemon, such as "Chinchou CP192".
+     */
+    public static String[] getPokemonNameAndCPFromCatchScreen(@NonNull Bitmap pokemonImage) {
+        Bitmap catchScreenImg = pokemonImage;
+
+        if (catchScreenImg != null) {
+            catchScreenImg = getImageCrop(pokemonImage, 0.15, 0.2, 0.75, 0.2);
+        }
+
+        Bitmap pokeName = getImageCrop(catchScreenImg,0,0,0.55,1);
+        Bitmap pokeCP = getImageCrop(catchScreenImg,0.55,0,0.45,1);
+
+        //replaceColors(catchScreenImg, true, 255,255,255, Color.BLACK,  50, false );
+
+        tesseract.setPageSegMode(TessBaseAPI.PageSegMode.PSM_SINGLE_LINE);
+        tesseract.setVariable(TessBaseAPI.VAR_CHAR_WHITELIST,
+                "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789/-♀♂");
+
+        tesseract.setImage(pokeName);
+        String ocrName = tesseract.getUTF8Text();
+        tesseract.setImage(pokeCP);
+        String ocrCP = tesseract.getUTF8Text();
+
+        String[] returner = {ocrName, ocrCP};
+        return returner;
+    }
+
 
     /**
      * Checks if the user has custom screen calibration, and if so, initiates the arc x,y parameters.

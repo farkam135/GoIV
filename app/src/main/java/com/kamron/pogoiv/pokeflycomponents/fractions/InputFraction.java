@@ -27,10 +27,13 @@ import com.kamron.pogoiv.scanlogic.PokeInfoCalculator;
 import com.kamron.pogoiv.scanlogic.Pokemon;
 import com.kamron.pogoiv.scanlogic.PokemonNameCorrector;
 import com.kamron.pogoiv.utils.LevelRange;
+import com.kamron.pogoiv.utils.StringUtils;
 import com.kamron.pogoiv.utils.fractions.Fraction;
 import com.kamron.pogoiv.widgets.PokemonSpinnerAdapter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -71,11 +74,16 @@ public class InputFraction extends Fraction {
 
     private Pokefly pokefly;
     private PokeInfoCalculator pokeInfoCalculator;
-
+    private final Map<String, Pokemon> normalizedPokemonNameMap;
 
     public InputFraction(@NonNull Pokefly pokefly) {
         this.pokefly = pokefly;
         this.pokeInfoCalculator = PokeInfoCalculator.getInstance();
+        Map<String, Pokemon> pokemap = new HashMap<>();
+        for (Pokemon pokemon : pokeInfoCalculator.getPokedex()) {
+            pokemap.put(StringUtils.normalize(pokemon.toString()), pokemon); // set display pokemon name as key
+        }
+        this.normalizedPokemonNameMap = pokemap;
     }
 
     @Override public int getLayoutResId() {
@@ -97,7 +105,7 @@ public class InputFraction extends Fraction {
 
         // Guess the species
         PokemonNameCorrector.PokeDist possiblePoke =
-                new PokemonNameCorrector(PokeInfoCalculator.getInstance()).getPossiblePokemon(Pokefly.scanData);
+                PokemonNameCorrector.getInstance(pokefly).getPossiblePokemon(Pokefly.scanData);
 
         // set color based on similarity
         if (possiblePoke.dist == 0) {
@@ -292,7 +300,7 @@ public class InputFraction extends Fraction {
             pokemon = pokeInputAdapter.getItem(pokeInputSpinner.getSelectedItemPosition());
         } else { //user typed manually
             String userInput = autoCompleteTextView1.getText().toString();
-            pokemon = pokeInfoCalculator.get(userInput);
+            pokemon = normalizedPokemonNameMap.get(StringUtils.normalize(userInput));
             if (pokemon == null) { //no such pokemon was found, show error toast and abort showing results
                 Toast.makeText(pokefly, userInput + pokefly.getString(R.string.wrong_pokemon_name_input),
                         Toast.LENGTH_SHORT).show();

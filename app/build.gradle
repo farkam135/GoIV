@@ -71,8 +71,8 @@ android {
      * Android SDK and build-tools version
      * Update (both Gradle and local SDK) whenever possible
      */
-    compileSdkVersion 27
-    buildToolsVersion '27.0.3'
+    compileSdkVersion 28
+    buildToolsVersion '28.0.3'
 
     /**
      * Build configurations for APK
@@ -82,11 +82,12 @@ android {
      */
     defaultConfig {
         minSdkVersion 19 /*Dont change this unless you know why*/
-        targetSdkVersion 27 /*Dont change this unless you know why*/
+        targetSdkVersion 28 /*Dont change this unless you know why*/
         versionCode 51
         versionName "5.1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
+        multiDexEnabled true
     }
 
     /**
@@ -134,6 +135,7 @@ android {
         debug {
             applicationIdSuffix ".debug"
             ext.enableCrashlytics = false
+            multiDexEnabled true
         }
         release {
             minifyEnabled true
@@ -145,6 +147,7 @@ android {
             }
             productFlavors.online.signingConfig signingConfigs.releaseConfig
             productFlavors.playstore.signingConfig signingConfigs.playstoreConfig
+            multiDexEnabled true
         }
     }
 
@@ -174,27 +177,28 @@ dependencies {
     /**
      * Builds Dependencies for All Builds.
      */
-    compileOnly 'org.projectlombok:lombok:1.16.20'
-    annotationProcessor 'org.projectlombok:lombok:1.16.20'
+    compileOnly 'org.projectlombok:lombok:1.18.2'
+    annotationProcessor 'org.projectlombok:lombok:1.18.2'
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
-    implementation 'com.android.support:support-v4:27.1.1'
-    implementation 'com.android.support:appcompat-v7:27.1.1'
-    implementation 'com.android.support:preference-v7:27.1.1'
-    implementation 'com.android.support:recyclerview-v7:27.1.1'
-    implementation 'com.android.support:design:27.1.1'
-    implementation 'com.android.support:cardview-v7:27.1.1'
-    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
-    implementation 'com.android.support:support-annotations:27.1.1'
-    implementation 'com.google.guava:guava:24.1-android'
+    implementation 'com.android.support:support-v4:28.0.0'
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'com.android.support:preference-v7:28.0.0'
+    implementation 'com.android.support:recyclerview-v7:28.0.0'
+    implementation 'com.android.support:design:28.0.0'
+    implementation 'com.android.support:cardview-v7:28.0.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    implementation 'com.android.support:support-annotations:28.0.0'
+    implementation 'com.google.guava:guava:26.0-android'
     implementation 'com.google.code.gson:gson:2.8.2'
     implementation 'com.google.code.findbugs:jsr305:3.0.2'
     implementation 'org.apache.commons:commons-math3:3.6.1'
     implementation 'com.jakewharton.timber:timber:4.7.0'
-    implementation 'com.rmtheis:tess-two:7.0.0'
+    implementation 'com.rmtheis:tess-two:9.0.0'
     implementation 'info.hoang8f:android-segmented:1.0.6'
-    implementation 'io.apptik.widget:multislider:1.2'
+    implementation 'io.apptik.widget:multislider:1.3'
     implementation 'com.pavelsikun:material-seekbar-preference:2.3.0'
+    implementation 'com.android.support:multidex:1.0.3'
     implementation project(':openCVLibrary330')
 
     /**

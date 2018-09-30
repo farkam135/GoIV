@@ -38,6 +38,7 @@ public class GoIVSettings {
     public static final String MANUAL_SCREENSHOT_MODE = "manualScreenshotMode";
     public static final String DELETE_SCREENSHOTS = "deleteScreenshots";
     public static final String COPY_TO_CLIPBOARD = "copyToClipboard";
+    public static final String FAST_COPY_TO_CLIPBOARD = "fastCopyToClipboard";
     public static final String COPY_TO_CLIPBOARD_SINGLE = "copyToClipboardSingle";
     public static final String COPY_TO_CLIPBOARD_PERFECTIV = "copyToClipboardPerfectIv";
     public static final String SEND_CRASH_REPORTS = "sendCrashReports";
@@ -262,6 +263,9 @@ public class GoIVSettings {
 
     public boolean shouldCopyToClipboard() {
         return prefs.getBoolean(COPY_TO_CLIPBOARD, true);
+    }
+    public boolean shouldFastCopyToClipboard() {
+        return prefs.getBoolean(FAST_COPY_TO_CLIPBOARD, false);
     }
 
     public boolean shouldCopyToClipboardSingle() {

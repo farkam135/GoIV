@@ -7,6 +7,8 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.kamron.pogoiv.GoIVSettings;
 import com.kamron.pogoiv.R;
+import com.kamron.pogoiv.clipboardlogic.tokens.HasBeenAppraisedToken;
+import com.kamron.pogoiv.clipboardlogic.tokens.PokemonNameToken;
 import com.kamron.pogoiv.clipboardlogic.tokens.SeparatorToken;
 import com.kamron.pogoiv.scanlogic.PokeInfoCalculator;
 import com.kamron.pogoiv.scanlogic.ScanResult;
@@ -106,12 +108,31 @@ public class ClipboardTokenHandler {
 
         for (String representation : tokenRepresentationArray) { // for all saved tokens
 
-            //Check for a custom user added seperator
+            //Check for a custom user added inputs
             String seperatorClassName = SeparatorToken.class.getSimpleName();
             if (representation.contains(seperatorClassName)) {
                 saveTo.add(new SeparatorToken(representation.substring(seperatorClassName.length())));
                 continue;
             }
+            String nameLengthClassName = PokemonNameToken.class.getSimpleName();
+            if (representation.contains(nameLengthClassName)) {
+                String nameParams = representation.substring(nameLengthClassName.length());
+                String numbrOnly = nameParams.replaceAll("[^\\d]", "" );
+                String textOnly = nameParams.replaceAll("\\d", "");
+                boolean maxVariant = Boolean.parseBoolean(textOnly);
+                int nameLimit = Integer.parseInt(numbrOnly);
+                saveTo.add(new PokemonNameToken(maxVariant, nameLimit));
+                continue;
+            }
+            String appraisedClassName = HasBeenAppraisedToken.class.getSimpleName();
+            if (representation.contains(appraisedClassName)) {
+                int classLength = appraisedClassName.length();
+                saveTo.add(new HasBeenAppraisedToken(true,
+                        representation.substring(classLength,classLength+1),
+                        representation.substring(classLength+1, classLength+2)));
+                continue;
+            }
+
 
             for (ClipboardToken tokenExample : exampleTokens) {
                 //compare it to library of known tokens

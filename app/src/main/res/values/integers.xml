@@ -389,10 +389,7 @@
         <item>270</item> <!--Groudon-->
         <item>284</item> <!--Rayquaza-->
         <item>210</item> <!--Jirachi-->
-        <item>144</item> <!--DeoxysDefens-->
-        <item>414</item> <!--DeoxysAttack-->
-        <item>230</item> <!--DeoxysSpeed -->
-        <item>345</item> <!--DeoxysNormal-->
+        <item>345</item> <!--Deoxys-->
     </integer-array>
 
     <integer-array name="defense">
@@ -783,10 +780,7 @@
         <item>251</item> <!--Groudon-->
         <item>170</item> <!--Rayquaza-->
         <item>210</item> <!--Jirachi-->
-        <item>330</item> <!--DeoxysDefens-->
-        <item>46</item> <!--DeoxysAttack-->
-        <item>218</item> <!--DeoxysSpeed -->
-        <item>115</item> <!--DeoxysNormal-->
+        <item>115</item> <!--Deoxys-->
     </integer-array>
 
     <integer-array name="stamina">
@@ -1177,10 +1171,7 @@
         <item>182</item> <!--Groudon-->
         <item>191</item> <!--Rayquaza-->
         <item>200</item> <!--Jirachi-->
-        <item>100</item> <!--DeoxysDefens-->
-        <item>100</item> <!--DeoxysAttack-->
-        <item>100</item> <!--DeoxysSpeed -->
-        <item>100</item> <!--DeoxysNormal-->
+        <item>100</item> <!--Deoxys-->
     </integer-array>
 
     <integer-array name="devolutionNumber">
@@ -1571,10 +1562,7 @@
         <item>-1</item> <!--Groudon-->
         <item>-1</item> <!--Rayquaza-->
         <item>-1</item> <!--Jirachi-->
-        <item>-1</item> <!--deoxys def-->
-        <item>-1</item> <!--deoxys att-->
-        <item>-1</item> <!--deoxys speed-->
-        <item>-1</item> <!--deoxys normal-->
+        <item>-1</item> <!--Deoxys-->
 
     </integer-array>
 
@@ -1966,9 +1954,6 @@
         <item>-1</item> <!--Groudon-->
         <item>-1</item> <!--Rayquaza-->
         <item>-1</item> <!--Jirachi-->
-        <item>-1</item> <!--Deoxys_Defen-->
-        <item>-1</item> <!--Deoxys_Attac-->
-        <item>-1</item> <!--Deoxys_Speed-->
         <item>-1</item> <!--Deoxys-->
     </integer-array>
 
@@ -2366,10 +2351,7 @@
         <item>382</item> <!--Groudon-->
         <item>383</item> <!--Rayquaza-->
         <item>384</item> <!--Jirachi-->
-        <item>385</item> <!--Deoxys_Defense-->
-        <item>386</item> <!--Deoxys_Attack-->
-        <item>387</item> <!--Deoxys_Speed-->
-        <item>388</item> <!--Deoxys-->
+        <item>385</item> <!--Deoxys-->
     </integer-array>
 
     <integer-array name="formsCountIndex">

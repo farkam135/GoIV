@@ -45,7 +45,7 @@
     <string name="delete_screenshots_setting_title">Delete screenshots</string>
     <string name="delete_screenshots_setting_summary">Automatically delete screenshots taken by GoIV</string>
     <string name="copy_to_clipboard_setting_title">Copy smart nickname to clipboard</string>
-    <string name="copy_to_clipboard_setting_summary_new" formatted="false">Automatically add scanned information to your copy &amp; paste clipboard.</string>
+    <string name="copy_to_clipboard_setting_summary_new" formatted="false">Add information to your copy &amp; paste clipboard on full pokemon scan (Press the button).</string>
     <string name="send_crash_reports_setting_title">Send crash reports</string>
     <string name="send_crash_reports_setting_summary">Help the developers improve the application by sending anonymous crash-related information to them and completely anonymous usage stats</string>
     <string name="auto_update_setting_title">Auto-update</string>
@@ -320,4 +320,6 @@
     <string name="manual_calibration_param1">Param1</string>
     <string name="manual_calibration_param2">Param2</string>
     <string name="manual_calibration_save_exit">"Save \n&amp; exit"</string>
+    <string name="fast_copy_to_clipboard">fastCopyToClipboard</string>
+    <string name="copy_to_clip_fast">Copy to clipboard on preview</string>
 </resources>

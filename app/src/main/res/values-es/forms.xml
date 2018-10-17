@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="formNames">
+        <!-- #368 Deoxys -->
+        <item>Forma ataque</item>
+        <item>Forma defensa</item>
+        <item>Forma velocidad</item>
+        <!-- #103 Exeggutor -->
+        <item>de Alola</item>
+        <!-- #19 Rattata -->
+        <item>de Alola</item>
+        <!-- #20 Raticate -->
+        <item>de Alola</item>
+        <!-- #26 Raichu -->
+        <item>de Alola</item>
+        <!-- #27 Sandshrew -->
+        <item>de Alola</item>
+        <!-- #28 Sandslash -->
+        <item>de Alola</item>
+        <!-- #37 Vulpix -->
+        <item>de Alola</item>
+        <!-- #38 Ninetales -->
+        <item>de Alola</item>
+        <!-- #50 Diglett -->
+        <item>de Alola</item>
+        <!-- #51 Dugtrio -->
+        <item>de Alola</item>
+        <!-- #52 Meowth -->
+        <item>de Alola</item>
+        <!-- #53 Persian -->
+        <item>de Alola</item>
+        <!-- #74 Geodude -->
+        <item>de Alola</item>
+        <!-- #75 Graveler -->
+        <item>de Alola</item>
+        <!-- #76 Golem -->
+        <item>de Alola</item>
+        <!-- #88 Grimer -->
+        <item>de Alola</item>
+        <!-- #89 Muk -->
+        <item>de Alola</item>
+        <!-- #105 Marowak -->
+        <item>de Alola</item>
+    </string-array>
+</resources>

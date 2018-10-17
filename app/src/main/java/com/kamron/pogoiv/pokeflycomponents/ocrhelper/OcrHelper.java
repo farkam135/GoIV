@@ -22,9 +22,7 @@ import com.kamron.pogoiv.utils.LevelRange;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Locale;
 import java.util.Map;
 
 import timber.log.Timber;
@@ -640,7 +638,7 @@ public class OcrHelper {
      * Get the pokemon gender as analysed from a pokemon image.
      *
      * @param pokemonImage The image of the whole screen
-     * @return Optional.of("♂") if the pokémon is male, Optional.of("♀") if female, Optional.absent() otherwise
+     * @return Optional.of(" ♂ ") if the pokémon is male, Optional.of("♀") if female, Optional.absent() otherwise
      */
     public static Pokemon.Gender getPokemonGenderFromImg(@NonNull Bitmap pokemonImage, @Nullable ScanArea genderArea) {
         Bitmap genderImage = null;
@@ -1067,12 +1065,10 @@ public class OcrHelper {
         Pokemon.Gender gender = getPokemonGenderFromImg(pokemonImage,
                 ScanArea.calibratedFromSettings(POKEMON_GENDER_AREA, settings, luckyOffset));
         String name;
-        if (requestFullScan) {
-            name = getPokemonNameFromImg(pokemonImage, gender,
-                    ScanArea.calibratedFromSettings(POKEMON_NAME_AREA, settings)); // Not offset for lucky
-        } else {
-            name = "";
-        }
+
+        name = getPokemonNameFromImg(pokemonImage, gender,
+                ScanArea.calibratedFromSettings(POKEMON_NAME_AREA, settings)); // Not offset for lucky
+
         String candyName = getCandyNameFromImg(pokemonImage, gender,
                 ScanArea.calibratedFromSettings(CANDY_NAME_AREA, settings, luckyOffset));
         Optional<Integer> hp = getPokemonHPFromImg(pokemonImage,
@@ -1167,7 +1163,8 @@ public class OcrHelper {
                                           @NonNull Bitmap screen) {
         double appraisalBoxHeightFactor = 0.13;
         double appraisalBoxStartYFactor =
-                (double)(screen.getHeight() - getNavigationBarHeight()) / screen.getHeight() - appraisalBoxHeightFactor;
+                (double) (screen.getHeight() - getNavigationBarHeight()) / screen.getHeight()
+                        - appraisalBoxHeightFactor;
 
         Bitmap bottom = getImageCrop(screen, 0.05, appraisalBoxStartYFactor, 0.90, appraisalBoxHeightFactor);
         String hash = "appraisal" + hashBitmap(bottom);

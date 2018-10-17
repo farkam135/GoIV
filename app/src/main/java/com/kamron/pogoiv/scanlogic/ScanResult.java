@@ -50,6 +50,7 @@ public class ScanResult {
     private int ivAttackHigh = 0;
     private int ivDefenseHigh = 0;
     private int ivStaminaHigh = 0;
+    private boolean hasBeenAppraiseRefined = false;
 
     public ScanResult(@NonNull PokemonNameCorrector corrector, @NonNull ScanData scanData) {
         this(corrector.getPossiblePokemon(scanData).pokemon, scanData);
@@ -168,6 +169,12 @@ public class ScanResult {
         }
         return ivStaminaHigh;
     }
+
+    public boolean getHasBeenAppraised() {
+        return hasBeenAppraiseRefined;
+    }
+
+
 
     public void sortIVCombinations() {
         Collections.sort(iVCombinations, new Comparator<IVCombination>() {
@@ -338,6 +345,15 @@ public class ScanResult {
         refineByHighest(appraisalManager.highestStats);
         refineByAppraisalPercentageRange(appraisalManager.appraisalIVSumRange);
         refineByAppraisalIVRange(appraisalManager.appraisalHighestStatValueRange);
+
+        //Check if any appraisal has been done or if appraisal is uneccesary for the clipboard token.
+        if (appraisalManager.statModifiers.size() > 0 || appraisalManager.highestStats.size() > 0 ||
+               appraisalManager.appraisalIVSumRange != AppraisalManager.IVSumRange.UNKNOWN
+                || appraisalManager.appraisalHighestStatValueRange != AppraisalManager.IVValueRange.UNKNOWN
+                || iVCombinations.size() ==1){
+            hasBeenAppraiseRefined = true;
+        }
+
     }
 
     private void selectScannedMoveset(@NonNull String moveFast, @NonNull String moveCharge) {

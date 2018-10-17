@@ -389,25 +389,152 @@
         <item>Rayquaza</item>
         <item>Jirachi</item>
         <item>Deoxys</item>
+        <!-- gen 4 -->
+
+        <item>  Tortipouss</item>
+        <item>  Boskara</item>
+        <item>  Torterra</item>
+        <item>  Ouisticram</item>
+        <item>  Chimpenfeu</item>
+        <item>  Simiabraz</item>
+        <item>  Tiplouf</item>
+        <item>  Prinplouf</item>
+        <item>  Pingoléon</item>
+        <item>  Étourmi</item>
+        <item>  Étourvol</item>
+        <item>  Étouraptor</item>
+        <item>  Keunotor</item>
+        <item>  Castorno</item>
+        <item>  Crikzik</item>
+        <item>  Mélokrik</item>
+        <item>  Lixy</item>
+        <item>  Luxio</item>
+        <item>  Luxray</item>
+        <item>  Rozbouton</item>
+        <item>  Roserade</item>
+        <item>  Kranidos</item>
+        <item>  Charkos</item>
+        <item>  Dinoclier</item>
+        <item>  Bastiodon</item>
+        <item>  Cheniti</item>
+        <item>  Cheniselle</item>
+        <item>  Papilord</item>
+        <item>  Apitrini</item>
+        <item>  Apireine</item>
+        <item>  Pachirisu</item>
+        <item>  Mustébouée</item>
+        <item>  Mustéflott</item>
+        <item>  Ceribou</item>
+        <item>  Ceriflor</item>
+        <item>  Sancoki</item>
+        <item>  Tritosor</item>
+        <item>  Capidextre</item>
+        <item>  Baudrive</item>
+        <item>  Grodrive</item>
+        <item>  Laporeille</item>
+        <item>  Lockpin</item>
+        <item>  Magirêve</item>
+        <item>  Corboss</item>
+        <item>  Chaglam</item>
+        <item>  Chaffreux</item>
+        <item>  Korillon</item>
+        <item>  Moufouette</item>
+        <item>  Moufflair</item>
+        <item>  Archéomire</item>
+        <item>  Archéodong</item>
+        <item>  Manzaï</item>
+        <item>  Mime Jr</item>
+        <item>  Ptiravi</item>
+        <item>  Pijako</item>
+        <item>  Spiritomb</item>
+        <item>  Griknot</item>
+        <item>  Carmache</item>
+        <item>  Carchacrok</item>
+        <item>  Goinfrex</item>
+        <item>  Riolu</item>
+        <item>  Lucario</item>
+        <item>  Hippopotas</item>
+        <item>  Hippodocus</item>
+        <item>  Rapion</item>
+        <item>  Drascore</item>
+        <item>  Cradopaud</item>
+        <item>  Coatox</item>
+        <item>  Vortente</item>
+        <item>  Écayon</item>
+        <item>  Luminéon</item>
+        <item>  Babimanta</item>
+        <item>  Blizzi</item>
+        <item>  Blizzaroi</item>
+        <item>  Dimoret</item>
+        <item>  Magnézone</item>
+        <item>  Coudlangue</item>
+        <item>  Rhinastoc</item>
+        <item>  Bouldeneu</item>
+        <item>  Élekable</item>
+        <item>  Maganon</item>
+        <item>  Togekiss</item>
+        <item>  Yanméga</item>
+        <item>  Phyllali</item>
+        <item>  Givrali</item>
+        <item>  Scorvol</item>
+        <item>  Mammochon</item>
+        <item>  Porygon-Z</item>
+        <item>  Gallame</item>
+        <item>  Tarinorme</item>
+        <item>  Noctunoir</item>
+        <item>  Momartik</item>
+        <item>  Motisma</item>
+        <item>  Créhelf</item>
+        <item>  Créfollet</item>
+        <item>  Créfadet</item>
+        <item>  Dialga</item>
+        <item>  Palkia</item>
+        <item>  Heatran</item>
+        <item>  Regigigas</item>
+        <item>  Giratina</item>
+        <item>  Cresselia</item>
+        <item>  Phione</item>
+        <item>  Manaphy</item>
+        <item>  Darkrai</item>
+        <item>  Shaymin</item>
+        <item>  Arceus</item>
     </string-array>
     <string-array name="typeName">
-        <!--  0   normal --> <item>NORMAL</item>
-        <!--  1     fire --> <item>FEU</item>
-        <!--  2    water --> <item>EAU</item>
-        <!--  3    grass --> <item>PLANTE</item>
-        <!--  4 electric --> <item>ÉLECTRIK</item>
-        <!--  5      ice --> <item>GLACE</item>
-        <!--  6 fighting --> <item>COMBAT</item>
-        <!--  7   poison --> <item>POISON</item>
-        <!--  8   ground --> <item>SOL</item>
-        <!--  9   flying --> <item>VOL</item>
-        <!-- 10  psychic --> <item>PSY</item>
-        <!-- 11      bug --> <item>INSECTE</item>
-        <!-- 12     rock --> <item>PIERRE</item>
-        <!-- 13    ghost --> <item>SPECTRE</item>
-        <!-- 14   dragon --> <item>DRAGON</item>
-        <!-- 15     dark --> <item>TÉNÈBRES</item>
-        <!-- 16    steel --> <item>ACIER</item>
-        <!-- 17    fairy --> <item>FÉE</item>
+        <!--  0   normal -->
+        <item>NORMAL</item>
+        <!--  1     fire -->
+        <item>FEU</item>
+        <!--  2    water -->
+        <item>EAU</item>
+        <!--  3    grass -->
+        <item>PLANTE</item>
+        <!--  4 electric -->
+        <item>ÉLECTRIK</item>
+        <!--  5      ice -->
+        <item>GLACE</item>
+        <!--  6 fighting -->
+        <item>COMBAT</item>
+        <!--  7   poison -->
+        <item>POISON</item>
+        <!--  8   ground -->
+        <item>SOL</item>
+        <!--  9   flying -->
+        <item>VOL</item>
+        <!-- 10  psychic -->
+        <item>PSY</item>
+        <!-- 11      bug -->
+        <item>INSECTE</item>
+        <!-- 12     rock -->
+        <item>PIERRE</item>
+        <!-- 13    ghost -->
+        <item>SPECTRE</item>
+        <!-- 14   dragon -->
+        <item>DRAGON</item>
+        <!-- 15     dark -->
+        <item>TÉNÈBRES</item>
+        <!-- 16    steel -->
+        <item>ACIER</item>
+        <!-- 17    fairy -->
+        <item>FÉE</item>
     </string-array>
 </resources>

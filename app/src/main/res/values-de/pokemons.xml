@@ -389,25 +389,152 @@
         <item>Rayquaza</item>
         <item>Jirachi</item>
         <item>Deoxys</item>
+        <!-- gen 4-->
+
+        <item>Chelast</item>
+        <item>Chelcarain</item>
+        <item>Chelterrar</item>
+        <item>Panflam</item>
+        <item>Panpyro</item>
+        <item>Panferno</item>
+        <item>Plinfa</item>
+        <item>Pliprin</item>
+        <item>Impoleon</item>
+        <item>Staralili</item>
+        <item>Staravia</item>
+        <item>Staraptor</item>
+        <item>Bidiza</item>
+        <item>Bidifas</item>
+        <item>Zirpurze</item>
+        <item>Zirpeise</item>
+        <item>Sheinux</item>
+        <item>Luxio</item>
+        <item>Luxtra</item>
+        <item>Knospi</item>
+        <item>Roserade</item>
+        <item>Koknodon</item>
+        <item>Rameidon</item>
+        <item>Schilterus</item>
+        <item>Bollterus</item>
+        <item>Burmy</item>
+        <item>Burmadame</item>
+        <item>Moterpel</item>
+        <item>Wadribie</item>
+        <item>Honweisel</item>
+        <item>Pachirisu</item>
+        <item>Bamelin</item>
+        <item>Bojelin</item>
+        <item>Kikugi</item>
+        <item>Kinoso</item>
+        <item>Schalellos</item>
+        <item>Gastrodon</item>
+        <item>Ambidiffel</item>
+        <item>Driftlon</item>
+        <item>Drifzepeli</item>
+        <item>Haspiror</item>
+        <item>Schlapor</item>
+        <item>Traunmagil</item>
+        <item>Kramshef</item>
+        <item>Charmian</item>
+        <item>Shnurgarst</item>
+        <item>Klingplim</item>
+        <item>Skunkapuh</item>
+        <item>Skuntank</item>
+        <item>Bronzel</item>
+        <item>Bronzong</item>
+        <item>Mobai</item>
+        <item>Pantimimi</item>
+        <item>Wonneira</item>
+        <item>Plaudagei</item>
+        <item>Kryppuk</item>
+        <item>Kaumalat</item>
+        <item>Knarksel</item>
+        <item>Knakrack</item>
+        <item>Mampfaxo</item>
+        <item>Riolu</item>
+        <item>Lucario</item>
+        <item>Hippopotas</item>
+        <item>Hippoterus</item>
+        <item>Pionskora</item>
+        <item>Piondragi</item>
+        <item>Glibunkel</item>
+        <item>Toxiquak</item>
+        <item>Venuflibis</item>
+        <item>Finneon</item>
+        <item>Lumineon</item>
+        <item>Mantirps</item>
+        <item>Shnebedeck</item>
+        <item>Rexblisar</item>
+        <item>Snibunna</item>
+        <item>Magnezone</item>
+        <item>Schlurplek</item>
+        <item>Rihornior</item>
+        <item>Tangoloss</item>
+        <item>Elevoltek</item>
+        <item>Magbrant</item>
+        <item>Togekiss</item>
+        <item>Yanmega</item>
+        <item>Folipurba</item>
+        <item>Glaziola</item>
+        <item>Skorgro</item>
+        <item>Mamutel</item>
+        <item>Porygon-Z</item>
+        <item>Galagladi</item>
+        <item>Voluminas</item>
+        <item>Zwirrfinst</item>
+        <item>Frosdedje</item>
+        <item>Rotom</item>
+        <item>Selfe</item>
+        <item>Vesprit</item>
+        <item>Tobutz</item>
+        <item>Dialga</item>
+        <item>Palkia</item>
+        <item>Heatran</item>
+        <item>Regigigas</item>
+        <item>Giratina</item>
+        <item>Cresselia</item>
+        <item>Phione</item>
+        <item>Manaphy</item>
+        <item>Darkrai</item>
+        <item>Shaymin</item>
+        <item>Arceus</item>
     </string-array>
     <string-array name="typeName">
-        <!--  0   normal --> <item>NORMAL</item>
-        <!--  1     fire --> <item>FEUER</item>
-        <!--  2    water --> <item>WASSER</item>
-        <!--  3    grass --> <item>PFLANZE</item>
-        <!--  4 electric --> <item>ELEKTRO</item>
-        <!--  5      ice --> <item>EIS</item>
-        <!--  6 fighting --> <item>KAMPF</item>
-        <!--  7   poison --> <item>GIFT</item>
-        <!--  8   ground --> <item>BODEN</item>
-        <!--  9   flying --> <item>FLUG</item>
-        <!-- 10  psychic --> <item>PSYCHO</item>
-        <!-- 11      bug --> <item>KÄFER</item>
-        <!-- 12     rock --> <item>GESTEIN</item>
-        <!-- 13    ghost --> <item>GEIST</item>
-        <!-- 14   dragon --> <item>DRACHE</item>
-        <!-- 15     dark --> <item>UNLICHT</item>
-        <!-- 16    steel --> <item>STAHL</item>
-        <!-- 17    fairy --> <item>FEE</item>
+        <!--  0   normal -->
+        <item>NORMAL</item>
+        <!--  1     fire -->
+        <item>FEUER</item>
+        <!--  2    water -->
+        <item>WASSER</item>
+        <!--  3    grass -->
+        <item>PFLANZE</item>
+        <!--  4 electric -->
+        <item>ELEKTRO</item>
+        <!--  5      ice -->
+        <item>EIS</item>
+        <!--  6 fighting -->
+        <item>KAMPF</item>
+        <!--  7   poison -->
+        <item>GIFT</item>
+        <!--  8   ground -->
+        <item>BODEN</item>
+        <!--  9   flying -->
+        <item>FLUG</item>
+        <!-- 10  psychic -->
+        <item>PSYCHO</item>
+        <!-- 11      bug -->
+        <item>KÄFER</item>
+        <!-- 12     rock -->
+        <item>GESTEIN</item>
+        <!-- 13    ghost -->
+        <item>GEIST</item>
+        <!-- 14   dragon -->
+        <item>DRACHE</item>
+        <!-- 15     dark -->
+        <item>UNLICHT</item>
+        <!-- 16    steel -->
+        <item>STAHL</item>
+        <!-- 17    fairy -->
+        <item>FEE</item>
     </string-array>
 </resources>

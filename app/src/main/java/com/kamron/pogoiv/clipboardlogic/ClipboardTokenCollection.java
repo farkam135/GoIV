@@ -47,7 +47,8 @@ public class ClipboardTokenCollection {
 
 
         //Pokemon NAME//////////////////////////////////////
-        tokens.add(new CustomNameToken());
+        tokens.add(new CustomNameToken(true));
+        tokens.add(new CustomNameToken(false));
 
         tokens.add(new PokeDexNumberToken(true));
         tokens.add(new PokeDexNumberToken(false));

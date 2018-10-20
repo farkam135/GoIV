@@ -158,50 +158,6 @@ public class OcrHelper {
         return dstBitmap;
     }
 
-    private static Bitmap replaceColors(Bitmap srcBitmap, boolean mutateSrc,
-                                        int r, int g, int b, @Nullable Integer replaceColor,
-                                        @Nullable Float dH, @Nullable Float dS, @Nullable Float dV) {
-        int[] allPixels = new int[srcBitmap.getHeight() * srcBitmap.getWidth()];
-        srcBitmap.getPixels(allPixels, 0, srcBitmap.getWidth(), 0, 0, srcBitmap.getWidth(), srcBitmap.getHeight());
-
-        final int bgColor;
-        if (replaceColor != null) {
-            bgColor = replaceColor;
-        } else {
-            bgColor = allPixels[0]; // Sample the top left color to use as background
-        }
-
-        float[] targetHsv = new float[3];
-        Color.RGBToHSV(r, g, b, targetHsv);
-
-        float[] currentHsv = new float[3];
-        for (int i = 0; i < allPixels.length; i++) {
-            if (allPixels[i] == bgColor) {
-                continue;
-            }
-
-            Color.colorToHSV(allPixels[i], currentHsv);
-
-            if (dH != null && Math.abs(targetHsv[0] - currentHsv[0]) > dH) { // Check hue
-                allPixels[i] = bgColor;
-
-            } else if (dS != null && Math.abs(targetHsv[1] - currentHsv[1]) > dS) { // Check saturation
-                allPixels[i] = bgColor;
-
-            } else if (dV != null && Math.abs(targetHsv[2] - currentHsv[2]) > dV) { // Check value
-                allPixels[i] = bgColor;
-            }
-        }
-
-        Bitmap dstBitmap;
-        if (mutateSrc) {
-            dstBitmap = srcBitmap;
-        } else {
-            dstBitmap = Bitmap.createBitmap(srcBitmap.getWidth(), srcBitmap.getHeight(), srcBitmap.getConfig());
-        }
-        dstBitmap.setPixels(allPixels, 0, srcBitmap.getWidth(), 0, 0, srcBitmap.getWidth(), srcBitmap.getHeight());
-        return dstBitmap;
-    }
 
     /**
      * Scans the arc and tries to determine the pokemon level, returns 1 if nothing found.
@@ -424,7 +380,7 @@ public class OcrHelper {
             }
         }
 
-        movesetImage = replaceColors(movesetImage, true, 68, 105, 108, null, 3f, null, 0.1f);
+        movesetImage = replaceColors(movesetImage, true, 68, 105, 108, Color.BLACK, 50, false);
 
         tesseract.setImage(movesetImage);
         tesseract.setPageSegMode(TessBaseAPI.PageSegMode.PSM_SINGLE_BLOCK);
@@ -1084,10 +1040,14 @@ public class OcrHelper {
         }
         Optional<Integer> evolutionCost = getPokemonEvolutionCostFromImg(pokemonImage,
                 ScanArea.calibratedFromSettings(POKEMON_EVOLUTION_COST_AREA, settings, luckyOffset));
-        Pair<String, String> moveset = getMovesetFromImg(pokemonImage,
-                estimatedLevelRange,
-                ScanArea.calibratedFromSettings(POKEMON_POWER_UP_CANDY_COST, settings, luckyOffset),
-                ScanArea.calibratedFromSettings(POKEMON_EVOLUTION_COST_AREA, settings, luckyOffset));
+        Pair<String, String> moveset = null;
+        if (requestFullScan) {
+            moveset = getMovesetFromImg(pokemonImage,
+                    estimatedLevelRange,
+                    ScanArea.calibratedFromSettings(POKEMON_POWER_UP_CANDY_COST, settings, luckyOffset),
+                    ScanArea.calibratedFromSettings(POKEMON_EVOLUTION_COST_AREA, settings, luckyOffset));
+        }
+
         String moveFast = null;
         String moveCharge = null;
         if (moveset != null) {

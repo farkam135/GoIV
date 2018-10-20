@@ -177,6 +177,27 @@ public class OcrHelper {
         Color.RGBToHSV(r, g, b, targetHsv);
 
         float[] currentHsv = new float[3];
+
+
+        //Use  parallel loop if user is on android N or above
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            IntStream.range(0, allPixels.length).parallel().forEach(i ->{
+                if (allPixels[i] == bgColor) {
+                    //Do nothing
+                } else{
+                    Color.colorToHSV(allPixels[i], currentHsv);
+                    if (dH != null && Math.abs(targetHsv[0] - currentHsv[0]) > dH) { // Check hue
+                        allPixels[i] = bgColor;
+
+                    } else if (dS != null && Math.abs(targetHsv[1] - currentHsv[1]) > dS) { // Check saturation
+                        allPixels[i] = bgColor;
+
+                    } else if (dV != null && Math.abs(targetHsv[2] - currentHsv[2]) > dV) { // Check value
+                        allPixels[i] = bgColor;
+                    }
+                }
+            });
+        }
         for (int i = 0; i < allPixels.length; i++) {
             if (allPixels[i] == bgColor) {
                 continue;

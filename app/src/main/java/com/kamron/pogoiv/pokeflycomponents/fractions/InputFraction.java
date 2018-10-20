@@ -27,13 +27,10 @@ import com.kamron.pogoiv.scanlogic.PokeInfoCalculator;
 import com.kamron.pogoiv.scanlogic.Pokemon;
 import com.kamron.pogoiv.scanlogic.PokemonNameCorrector;
 import com.kamron.pogoiv.utils.LevelRange;
-import com.kamron.pogoiv.utils.StringUtils;
 import com.kamron.pogoiv.utils.fractions.Fraction;
 import com.kamron.pogoiv.widgets.PokemonSpinnerAdapter;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -297,9 +294,9 @@ public class InputFraction extends Fraction {
         } else { //user typed manually
             String userInput = autoCompleteTextView1.getText().toString();
             int lowestDist = Integer.MAX_VALUE;
-            for (Pokemon poke : pokeInfoCalculator.getPokedex()){
-                int dist =  Data.levenshteinDistance(poke.name, userInput);
-                if (dist < lowestDist){
+            for (Pokemon poke : pokeInfoCalculator.getPokedex()) {
+                int dist = Data.levenshteinDistance(poke.name, userInput);
+                if (dist < lowestDist) {
                     lowestDist = dist;
                     pokemon = poke;
                 }

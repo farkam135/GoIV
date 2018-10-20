@@ -4,6 +4,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Rect;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.util.Pair;
@@ -24,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.stream.IntStream;
 
 import timber.log.Timber;
 
@@ -1084,10 +1086,14 @@ public class OcrHelper {
         }
         Optional<Integer> evolutionCost = getPokemonEvolutionCostFromImg(pokemonImage,
                 ScanArea.calibratedFromSettings(POKEMON_EVOLUTION_COST_AREA, settings, luckyOffset));
-        Pair<String, String> moveset = getMovesetFromImg(pokemonImage,
-                estimatedLevelRange,
-                ScanArea.calibratedFromSettings(POKEMON_POWER_UP_CANDY_COST, settings, luckyOffset),
-                ScanArea.calibratedFromSettings(POKEMON_EVOLUTION_COST_AREA, settings, luckyOffset));
+        Pair<String, String> moveset = null;
+        if (requestFullScan){
+            moveset = getMovesetFromImg(pokemonImage,
+                    estimatedLevelRange,
+                    ScanArea.calibratedFromSettings(POKEMON_POWER_UP_CANDY_COST, settings, luckyOffset),
+                    ScanArea.calibratedFromSettings(POKEMON_EVOLUTION_COST_AREA, settings, luckyOffset));
+        }
+
         String moveFast = null;
         String moveCharge = null;
         if (moveset != null) {

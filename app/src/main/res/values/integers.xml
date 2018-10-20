@@ -2025,7 +2025,7 @@
         <item>-1</item> <!--Ninetales-->
         <item>50</item> <!--Jigglypuff-->
         <item>-1</item> <!--Wigglytuff-->
-        <item>50</item> <!--Zubat-->
+        <item>25</item> <!--Zubat-->
         <item>-1</item> <!--Golbat-->
         <item>25</item> <!--Oddish-->
         <item>100</item> <!--Gloom-->
@@ -2079,7 +2079,7 @@
         <item>25</item> <!--Gastly-->
         <item>100</item> <!--Haunter-->
         <item>-1</item> <!--Gengar-->
-        <item>-1</item> <!--Onix-->
+        <item>50</item> <!--Onix-->
         <item>50</item> <!--Drowzee-->
         <item>-1</item> <!--Hypno-->
         <item>50</item> <!--Krabby-->
@@ -2097,17 +2097,17 @@
         <item>-1</item> <!--Weezing-->
         <item>50</item> <!--Rhyhorn-->
         <item>-1</item> <!--Rhydon-->
-        <item>-1</item> <!--Chansey-->
+        <item>50</item> <!--Chansey-->
         <item>-1</item> <!--Tangela-->
         <item>-1</item> <!--Kangaskhan-->
-        <item>50</item> <!--Horsea-->
-        <item>-1</item> <!--Seadra-->
+        <item>25</item> <!--Horsea-->
+        <item>100</item> <!--Seadra-->
         <item>50</item> <!--Goldeen-->
         <item>-1</item> <!--Seaking-->
         <item>50</item> <!--Staryu-->
         <item>-1</item> <!--Starmie-->
         <item>-1</item> <!--Mr_mime-->
-        <item>-1</item> <!--Scyther-->
+        <item>50</item> <!--Scyther-->
         <item>-1</item> <!--Jynx-->
         <item>-1</item> <!--Electabuzz-->
         <item>-1</item> <!--Magmar-->
@@ -2121,7 +2121,7 @@
         <item>-1</item> <!--Vaporeon-->
         <item>-1</item> <!--Jolteon-->
         <item>-1</item> <!--Flareon-->
-        <item>-1</item> <!--Porygon-->
+        <item>50</item> <!--Porygon-->
         <item>50</item> <!--Omanyte-->
         <item>-1</item> <!--Omastar-->
         <item>50</item> <!--Kabuto-->
@@ -2236,130 +2236,130 @@
         <item>-1</item> <!--Lugia-->
         <item>-1</item> <!--Ho_oh-->
         <item>-1</item> <!--Celebi-->
-        <item>-1</item> <!--Treecko-->
-        <item>-1</item> <!--Grovyle-->
+        <item>25</item> <!--Treecko-->
+        <item>100</item> <!--Grovyle-->
         <item>-1</item> <!--Sceptile-->
-        <item>-1</item> <!--Torchic-->
-        <item>-1</item> <!--Combusken-->
+        <item>25</item> <!--Torchic-->
+        <item>100</item> <!--Combusken-->
         <item>-1</item> <!--Blaziken-->
-        <item>-1</item> <!--Mudkip-->
-        <item>-1</item> <!--Marshtomp-->
+        <item>25</item> <!--Mudkip-->
+        <item>100</item> <!--Marshtomp-->
         <item>-1</item> <!--Swampert-->
-        <item>-1</item> <!--Poochyena-->
+        <item>50</item> <!--Poochyena-->
         <item>-1</item> <!--Mightyena-->
-        <item>-1</item> <!--Zigzagoon-->
+        <item>50</item> <!--Zigzagoon-->
         <item>-1</item> <!--Linoone-->
-        <item>-1</item> <!--Wurmple-->
-        <item>-1</item> <!--Silcoon-->
+        <item>12</item> <!--Wurmple-->
+        <item>50</item> <!--Silcoon-->
         <item>-1</item> <!--Beautifly-->
-        <item>-1</item> <!--Cascoon-->
+        <item>50</item> <!--Cascoon-->
         <item>-1</item> <!--Dustox-->
-        <item>-1</item> <!--Lotad-->
-        <item>-1</item> <!--Lombre-->
+        <item>25</item> <!--Lotad-->
+        <item>100</item> <!--Lombre-->
         <item>-1</item> <!--Ludicolo-->
-        <item>-1</item> <!--Seedot-->
-        <item>-1</item> <!--Nuzleaf-->
+        <item>25</item> <!--Seedot-->
+        <item>100</item> <!--Nuzleaf-->
         <item>-1</item> <!--Shiftry-->
-        <item>-1</item> <!--Taillow-->
+        <item>50</item> <!--Taillow-->
         <item>-1</item> <!--Swellow-->
-        <item>-1</item> <!--Wingull-->
+        <item>50</item> <!--Wingull-->
         <item>-1</item> <!--Pelipper-->
-        <item>-1</item> <!--Ralts-->
-        <item>-1</item> <!--Kirlia-->
+        <item>25</item> <!--Ralts-->
+        <item>100</item> <!--Kirlia-->
         <item>-1</item> <!--Gardevoir-->
-        <item>-1</item> <!--Surskit-->
+        <item>50</item> <!--Surskit-->
         <item>-1</item> <!--Masquerain-->
-        <item>-1</item> <!--Shroomish-->
+        <item>50</item> <!--Shroomish-->
         <item>-1</item> <!--Breloom-->
-        <item>-1</item> <!--Slakoth-->
-        <item>-1</item> <!--Vigoroth-->
+        <item>25</item> <!--Slakoth-->
+        <item>100</item> <!--Vigoroth-->
         <item>-1</item> <!--Slaking-->
         <item>-1</item> <!--Nincada-->
         <item>-1</item> <!--Ninjask-->
         <item>-1</item> <!--Shedinja-->
-        <item>-1</item> <!--Whismur-->
-        <item>-1</item> <!--Loudred-->
+        <item>12</item> <!--Whismur-->
+        <item>50</item> <!--Loudred-->
         <item>-1</item> <!--Exploud-->
-        <item>-1</item> <!--Makuhita-->
+        <item>50</item> <!--Makuhita-->
         <item>-1</item> <!--Hariyama-->
-        <item>-1</item> <!--Azurill-->
+        <item>25</item> <!--Azurill-->
         <item>-1</item> <!--Nosepass-->
-        <item>-1</item> <!--Skitty-->
+        <item>50</item> <!--Skitty-->
         <item>-1</item> <!--Delcatty-->
         <item>-1</item> <!--Sableye-->
         <item>-1</item> <!--Mawile-->
-        <item>-1</item> <!--Aron-->
-        <item>-1</item> <!--Lairon-->
+        <item>25</item> <!--Aron-->
+        <item>100</item> <!--Lairon-->
         <item>-1</item> <!--Aggron-->
-        <item>-1</item> <!--Meditite-->
+        <item>50</item> <!--Meditite-->
         <item>-1</item> <!--Medicham-->
-        <item>-1</item> <!--Electrike-->
+        <item>50</item> <!--Electrike-->
         <item>-1</item> <!--Manectric-->
         <item>-1</item> <!--Plusle-->
         <item>-1</item> <!--Minun-->
         <item>-1</item> <!--Volbeat-->
         <item>-1</item> <!--Illumise-->
         <item>-1</item> <!--Roselia-->
-        <item>-1</item> <!--Gulpin-->
+        <item>50</item> <!--Gulpin-->
         <item>-1</item> <!--Swalot-->
-        <item>-1</item> <!--Carvanha-->
+        <item>50</item> <!--Carvanha-->
         <item>-1</item> <!--Sharpedo-->
-        <item>-1</item> <!--Wailmer-->
+        <item>400</item> <!--Wailmer-->
         <item>-1</item> <!--Wailord-->
-        <item>-1</item> <!--Numel-->
+        <item>50</item> <!--Numel-->
         <item>-1</item> <!--Camerupt-->
         <item>-1</item> <!--Torkoal-->
-        <item>-1</item> <!--Spoink-->
+        <item>50</item> <!--Spoink-->
         <item>-1</item> <!--Grumpig-->
         <item>-1</item> <!--Spinda-->
-        <item>-1</item> <!--Trapinch-->
-        <item>-1</item> <!--Vibrava-->
+        <item>25</item> <!--Trapinch-->
+        <item>100</item> <!--Vibrava-->
         <item>-1</item> <!--Flygon-->
-        <item>-1</item> <!--Cacnea-->
+        <item>50</item> <!--Cacnea-->
         <item>-1</item> <!--Cacturne-->
-        <item>-1</item> <!--Swablu-->
+        <item>400</item> <!--Swablu-->
         <item>-1</item> <!--Altaria-->
         <item>-1</item> <!--Zangoose-->
         <item>-1</item> <!--Seviper-->
         <item>-1</item> <!--Lunatone-->
         <item>-1</item> <!--Solrock-->
-        <item>-1</item> <!--Barboach-->
+        <item>50</item> <!--Barboach-->
         <item>-1</item> <!--Whiscash-->
-        <item>-1</item> <!--Corphish-->
+        <item>50</item> <!--Corphish-->
         <item>-1</item> <!--Crawdaunt-->
-        <item>-1</item> <!--Baltoy-->
+        <item>50</item> <!--Baltoy-->
         <item>-1</item> <!--Claydol-->
-        <item>-1</item> <!--Lileep-->
+        <item>50</item> <!--Lileep-->
         <item>-1</item> <!--Cradily-->
-        <item>-1</item> <!--Anorith-->
+        <item>50</item> <!--Anorith-->
         <item>-1</item> <!--Armaldo-->
-        <item>-1</item> <!--Feebas-->
+        <item>100</item> <!--Feebas-->
         <item>-1</item> <!--Milotic-->
         <item>-1</item> <!--Castform-->
         <item>-1</item> <!--Kecleon-->
-        <item>-1</item> <!--Shuppet-->
+        <item>50</item> <!--Shuppet-->
         <item>-1</item> <!--Banette-->
-        <item>-1</item> <!--Duskull-->
+        <item>50</item> <!--Duskull-->
         <item>-1</item> <!--Dusclops-->
         <item>-1</item> <!--Tropius-->
         <item>-1</item> <!--Chimecho-->
         <item>-1</item> <!--Absol-->
-        <item>-1</item> <!--Wynaut-->
-        <item>-1</item> <!--Snorunt-->
+        <item>25</item> <!--Wynaut-->
+        <item>50</item> <!--Snorunt-->
         <item>-1</item> <!--Glalie-->
-        <item>-1</item> <!--Spheal-->
-        <item>-1</item> <!--Sealeo-->
+        <item>25</item> <!--Spheal-->
+        <item>100</item> <!--Sealeo-->
         <item>-1</item> <!--Walrein-->
         <item>-1</item> <!--Clamperl-->
         <item>-1</item> <!--Huntail-->
         <item>-1</item> <!--Gorebyss-->
         <item>-1</item> <!--Relicanth-->
         <item>-1</item> <!--Luvdisc-->
-        <item>-1</item> <!--Bagon-->
-        <item>-1</item> <!--Shelgon-->
+        <item>25</item> <!--Bagon-->
+        <item>100</item> <!--Shelgon-->
         <item>-1</item> <!--Salamence-->
-        <item>-1</item> <!--Beldum-->
-        <item>-1</item> <!--Metang-->
+        <item>25</item> <!--Beldum-->
+        <item>100</item> <!--Metang-->
         <item>-1</item> <!--Metagross-->
         <item>-1</item> <!--Regirock-->
         <item>-1</item> <!--Regice-->
@@ -2372,24 +2372,24 @@
         <item>-1</item> <!--Jirachi-->
         <item>-1</item> <!--Deoxys-->
         <item>25</item> <!--Turtwig-->
-        <item>25</item> <!--Grotle-->
-        <item>25</item> <!--Torterra-->
+        <item>100</item> <!--Grotle-->
+        <item>-1</item> <!--Torterra-->
         <item>25</item> <!--Chimchar-->
-        <item>25</item> <!--Monferno-->
-        <item>25</item> <!--Infernape-->
+        <item>100</item> <!--Monferno-->
+        <item>-1</item> <!--Infernape-->
         <item>25</item> <!--Piplup-->
-        <item>25</item> <!--Prinplup-->
-        <item>25</item> <!--Empoleon-->
+        <item>100</item> <!--Prinplup-->
+        <item>-1</item> <!--Empoleon-->
         <item>25</item> <!--Starly-->
-        <item>25</item> <!--Staravia-->
-        <item>25</item> <!--Staraptor-->
-        <item>25</item> <!--Bidoof-->
-        <item>25</item> <!--Bibarel-->
-        <item>25</item> <!--Kricketot-->
-        <item>25</item> <!--Kricketune-->
+        <item>100</item> <!--Staravia-->
+        <item>-1</item> <!--Staraptor-->
+        <item>50</item> <!--Bidoof-->
+        <item>-1</item> <!--Bibarel-->
+        <item>50</item> <!--Kricketot-->
+        <item>-1</item> <!--Kricketune-->
         <item>25</item> <!--Shinx-->
-        <item>25</item> <!--Luxio-->
-        <item>25</item> <!--Luxray-->
+        <item>100</item> <!--Luxio-->
+        <item>-1</item> <!--Luxray-->
         <item>25</item> <!--Budew-->
         <item>25</item> <!--Roserade-->
         <item>25</item> <!--Cranidos-->
@@ -2401,7 +2401,7 @@
         <item>25</item> <!--Mothim-->
         <item>25</item> <!--Combee-->
         <item>25</item> <!--Vespiquen-->
-        <item>25</item> <!--Pachirisu-->
+        <item>-1</item> <!--Pachirisu-->
         <item>25</item> <!--Buizel-->
         <item>25</item> <!--Floatzel-->
         <item>25</item> <!--Cherubi-->
@@ -2411,8 +2411,8 @@
         <item>25</item> <!--Ambipom-->
         <item>25</item> <!--Drifloon-->
         <item>25</item> <!--Drifblim-->
-        <item>25</item> <!--Buneary-->
-        <item>25</item> <!--Lopunny-->
+        <item>50</item> <!--Buneary-->
+        <item>-1</item> <!--Lopunny-->
         <item>25</item> <!--Mismagius-->
         <item>25</item> <!--Honchkrow-->
         <item>25</item> <!--Glameow-->
@@ -2425,21 +2425,21 @@
         <item>25</item> <!--Bonsly-->
         <item>25</item> <!--Mime_jr-->
         <item>25</item> <!--Happiny-->
-        <item>25</item> <!--Chatot-->
+        <item>-1</item> <!--Chatot-->
         <item>25</item> <!--Spiritomb-->
         <item>25</item> <!--Gible-->
         <item>25</item> <!--Gabite-->
         <item>25</item> <!--Garchomp-->
         <item>25</item> <!--Munchlax-->
-        <item>25</item> <!--Riolu-->
-        <item>25</item> <!--Lucario-->
+        <item>50</item> <!--Riolu-->
+        <item>-1</item> <!--Lucario-->
         <item>25</item> <!--Hippopotas-->
         <item>25</item> <!--Hippowdon-->
         <item>25</item> <!--Skorupi-->
         <item>25</item> <!--Drapion-->
         <item>25</item> <!--Croagunk-->
         <item>25</item> <!--Toxicroak-->
-        <item>25</item> <!--Carnivine-->
+        <item>-1</item> <!--Carnivine-->
         <item>25</item> <!--Finneon-->
         <item>25</item> <!--Lumineon-->
         <item>25</item> <!--Mantyke-->

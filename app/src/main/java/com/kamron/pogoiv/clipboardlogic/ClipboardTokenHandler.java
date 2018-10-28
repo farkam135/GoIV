@@ -119,7 +119,7 @@ public class ClipboardTokenHandler {
                 String nameParams = representation.substring(nameLengthClassName.length());
                 String numbrOnly = nameParams.replaceAll("[^\\d]", "" );
                 String textOnly = nameParams.replaceAll("\\d", "");
-                boolean maxVariant = Boolean.parseBoolean(textOnly);
+                boolean maxVariant = textOnly.contains("true");
                 int nameLimit = Integer.parseInt(numbrOnly);
                 saveTo.add(new PokemonNameToken(maxVariant, nameLimit));
                 continue;

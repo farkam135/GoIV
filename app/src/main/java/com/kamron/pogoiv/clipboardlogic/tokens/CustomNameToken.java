@@ -6,8 +6,8 @@ import com.kamron.pogoiv.R;
 
 public class CustomNameToken extends PokemonNameToken {
 
-    public CustomNameToken() {
-        super(true, 5);
+    public CustomNameToken(boolean maxEv) {
+        super(maxEv, 5);
     }
 
     @Override public String getTokenName(Context context) {

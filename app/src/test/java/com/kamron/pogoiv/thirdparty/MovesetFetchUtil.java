@@ -30,9 +30,9 @@ import timber.log.Timber;
  * app/src/main/assets/thirdparty/pokebattler//pokemonMovesetData.json.
  */
 public class MovesetFetchUtil {
-    private static final String BASE_URL = "https://fight.pokebattler.com";
+//    private static final String BASE_URL = "https://fight.pokebattler.com";
 //    private static final String BASE_URL = "http://localhost:8001";
-//    private static final String BASE_URL = "https://20180530t224949-dot-fight-dot-pokebattler-1380.appspot.com";
+    private static final String BASE_URL = "https://fight.pokebattler.com";
     OkHttpClient httpClient;
     public MovesetFetchUtil() {
         httpClient = new OkHttpClient.Builder()

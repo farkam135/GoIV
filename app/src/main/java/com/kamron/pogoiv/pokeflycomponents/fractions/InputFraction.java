@@ -72,10 +72,11 @@ public class InputFraction extends Fraction {
     private Pokefly pokefly;
     private PokeInfoCalculator pokeInfoCalculator;
 
-
     public InputFraction(@NonNull Pokefly pokefly) {
         this.pokefly = pokefly;
         this.pokeInfoCalculator = PokeInfoCalculator.getInstance();
+
+
     }
 
     @Override public int getLayoutResId() {
@@ -97,7 +98,7 @@ public class InputFraction extends Fraction {
 
         // Guess the species
         PokemonNameCorrector.PokeDist possiblePoke =
-                new PokemonNameCorrector(PokeInfoCalculator.getInstance()).getPossiblePokemon(Pokefly.scanData);
+                PokemonNameCorrector.getInstance(pokefly).getPossiblePokemon(Pokefly.scanData);
 
         // set color based on similarity
         if (possiblePoke.dist == 0) {
@@ -286,13 +287,20 @@ public class InputFraction extends Fraction {
      */
     private Pokemon interpretWhichPokemonUserInput() {
         //below picks a pokemon from either the pokemon spinner or the user text input
-        Pokemon pokemon;
+        Pokemon pokemon = null;
         if (pokeInputSpinner.getVisibility() == View.VISIBLE) { //user picked pokemon from spinner
             //This could be pokemon = pokeInputSpinner.getSelectedItem(); if they didn't give it type Object.
             pokemon = pokeInputAdapter.getItem(pokeInputSpinner.getSelectedItemPosition());
         } else { //user typed manually
             String userInput = autoCompleteTextView1.getText().toString();
-            pokemon = pokeInfoCalculator.get(userInput);
+            int lowestDist = Integer.MAX_VALUE;
+            for (Pokemon poke : pokeInfoCalculator.getPokedex()) {
+                int dist = Data.levenshteinDistance(poke.name, userInput);
+                if (dist < lowestDist) {
+                    lowestDist = dist;
+                    pokemon = poke;
+                }
+            }
             if (pokemon == null) { //no such pokemon was found, show error toast and abort showing results
                 Toast.makeText(pokefly, userInput + pokefly.getString(R.string.wrong_pokemon_name_input),
                         Toast.LENGTH_SHORT).show();

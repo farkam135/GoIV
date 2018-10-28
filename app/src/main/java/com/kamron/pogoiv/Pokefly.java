@@ -272,8 +272,8 @@ public class Pokefly extends Service {
 
         LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(ACTION_UPDATE_UI));
 
-        pokeInfoCalculator = PokeInfoCalculator.getInstance(this);
-        nameCorrector = new PokemonNameCorrector(pokeInfoCalculator);
+        nameCorrector = PokemonNameCorrector.getInstance(this);
+        pokeInfoCalculator = PokeInfoCalculator.getInstance();
         displayMetrics = getResources().getDisplayMetrics();
         initOcr();
         windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);

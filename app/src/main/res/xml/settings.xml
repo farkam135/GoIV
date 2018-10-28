@@ -42,6 +42,13 @@
 
         <SwitchPreference
             android:defaultValue="false"
+            android:key="@string/fast_copy_to_clipboard"
+            android:summary="Add clipboard info on IV preview instead of on full scan (skip button click)."
+            android:title="@string/copy_to_clip_fast"/>
+
+
+        <SwitchPreference
+            android:defaultValue="false"
             android:dependency="@string/copy_to_clipboard_setting_key"
             android:key="copyToClipboardSingle"
             android:summary="@string/copy_to_clip_single_setting_summary"

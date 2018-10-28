@@ -3,10 +3,14 @@ package com.kamron.pogoiv.clipboardlogic;
 import com.kamron.pogoiv.clipboardlogic.tokens.BaseStatToken;
 import com.kamron.pogoiv.clipboardlogic.tokens.CPMaxToken;
 import com.kamron.pogoiv.clipboardlogic.tokens.CPMissingAtFourty;
+import com.kamron.pogoiv.clipboardlogic.tokens.CandyTo40;
 import com.kamron.pogoiv.clipboardlogic.tokens.CpPercentileToken;
 import com.kamron.pogoiv.clipboardlogic.tokens.CpTierToken;
+import com.kamron.pogoiv.clipboardlogic.tokens.CustomAppraiseSign;
+import com.kamron.pogoiv.clipboardlogic.tokens.CustomNameToken;
 import com.kamron.pogoiv.clipboardlogic.tokens.CustomSeparatorToken;
 import com.kamron.pogoiv.clipboardlogic.tokens.ExtendedCpTierToken;
+import com.kamron.pogoiv.clipboardlogic.tokens.HasBeenAppraisedToken;
 import com.kamron.pogoiv.clipboardlogic.tokens.HexIVToken;
 import com.kamron.pogoiv.clipboardlogic.tokens.HpToken;
 import com.kamron.pogoiv.clipboardlogic.tokens.IVPercentageToPerfectionToken;
@@ -18,6 +22,7 @@ import com.kamron.pogoiv.clipboardlogic.tokens.LevelUnicodeToken;
 import com.kamron.pogoiv.clipboardlogic.tokens.MixedUnicodeToken;
 import com.kamron.pogoiv.clipboardlogic.tokens.MovesetInitialsToken;
 import com.kamron.pogoiv.clipboardlogic.tokens.PerfectionCPPercentageToken;
+import com.kamron.pogoiv.clipboardlogic.tokens.PokeDexNumberToken;
 import com.kamron.pogoiv.clipboardlogic.tokens.PokemonGenderToken;
 import com.kamron.pogoiv.clipboardlogic.tokens.PokemonNameToken;
 import com.kamron.pogoiv.clipboardlogic.tokens.PowerupsToMaxToken;
@@ -42,12 +47,11 @@ public class ClipboardTokenCollection {
 
 
         //Pokemon NAME//////////////////////////////////////
-        tokens.add(new PokemonNameToken(false, 12)); //pokemon name max 12 characters
-        tokens.add(new PokemonNameToken(true, 12)); //pokemon max evolution name max 12 characters
-        tokens.add(new PokemonNameToken(false, 3)); //pokemon name max 3 characters
-        tokens.add(new PokemonNameToken(true, 3)); //pokemon max evolution name max 3 characters
-        tokens.add(new PokemonNameToken(false, 5)); //pokemon name max 5 characters
-        tokens.add(new PokemonNameToken(true, 5));//pokemon max evolution name max 5 characters
+        tokens.add(new CustomNameToken(true));
+        tokens.add(new CustomNameToken(false));
+
+        tokens.add(new PokeDexNumberToken(true));
+        tokens.add(new PokeDexNumberToken(false));
         ////////////////////////////////////////////////
 
 
@@ -85,6 +89,8 @@ public class ClipboardTokenCollection {
         tokens.add(new BaseStatToken(false, 0, true)); //base evolution, all stats,  invlude iv
         tokens.add(new BaseStatToken(true, 0, false)); //max evolution, all stats, dont invlude iv
         tokens.add(new BaseStatToken(true, 0, true)); //max evolution, all stats,  invlude iv
+
+        tokens.add(new CandyTo40(false));
         //////////////////////////////////////////////////////////////
 
 
@@ -112,6 +118,8 @@ public class ClipboardTokenCollection {
         tokens.add(new IVPercentageToken(IVPercentageTokenMode.MIN_SUP));
         tokens.add(new IVPercentageToken(IVPercentageTokenMode.AVG_SUP));
         tokens.add(new IVPercentageToken(IVPercentageTokenMode.MAX_SUP));
+
+        tokens.add(new CustomAppraiseSign());
 
         //Sum
         tokens.add(new IVSum(true));

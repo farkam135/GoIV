@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 
 import com.google.common.base.Optional;
 import com.kamron.pogoiv.utils.LevelRange;
+import com.kamron.pogoiv.utils.StringUtils;
 
 /**
  * A ScanData represents the result of an OCR scan.
@@ -15,9 +16,12 @@ import com.kamron.pogoiv.utils.LevelRange;
 public class ScanData {
     private LevelRange estimatedPokemonLevelRange;
     private String pokemonName;
+    private String normalizedPokemonName;
     private final String pokemonType;
+    private final String normalizedPokemonType;
     private final Pokemon.Gender pokemonGender;
     private final String candyName;
+    private final String normalizedCandyName;
     private Optional<Integer> pokemonHP;
     private Optional<Integer> pokemonCP;
     private Optional<Integer> pokemonCandyAmount;
@@ -36,9 +40,12 @@ public class ScanData {
                     String moveFast, String moveCharge, boolean isLucky, String uniqueID) {
         this.estimatedPokemonLevelRange = estimatedPokemonLevel;
         this.pokemonName = pokemonName;
+        this.normalizedPokemonName = StringUtils.normalize(pokemonName);
         this.pokemonType = pokemonType;
+        this.normalizedPokemonType = StringUtils.normalize(pokemonType);
         this.pokemonGender = pokemonGender;
         this.candyName = candyName;
+        this.normalizedCandyName = StringUtils.normalize(candyName);
         this.pokemonHP = pokemonHP;
         this.pokemonCP = pokemonCP;
         this.pokemonCandyAmount = pokemonCandyAmount;
@@ -49,6 +56,41 @@ public class ScanData {
         this.moveCharge = moveCharge;
         this.isLucky = isLucky;
         this.uniqueID = uniqueID;
+    }
+
+    @Override public String toString() {
+        // temporary format for checking OCR result and debugging IV calculations.
+        return String.format("ScanData\n"
+                        + "name:%s\n"
+                        + "type:%s\n"
+                        + "gender:%s\n"
+                        + "cp:%d\n"
+                        + "hp:%d\n"
+                        + "lucky:%B\n\n"
+
+                        + "candy_name:%s\n"
+                        + "candy_amount:%d\n"
+                        + "evolution_candy:%d\n"
+                        + "powerup_candy:%d\n"
+                        + "powerup_stardust:%d\n\n"
+
+                        + "move_fast:%s\n"
+                        + "move_charge:%s\n",
+                pokemonName,
+                pokemonType,
+                pokemonGender,
+                pokemonCP.or(-1),
+                pokemonHP.or(-1),
+                isLucky,
+
+                candyName,
+                pokemonCandyAmount.or(-1),
+                evolutionCandyCost.or(-1),
+                powerUpCandyCost.or(-1),
+                powerUpStardustCost.or(-1),
+
+                moveFast,
+                moveCharge);
     }
 
     public LevelRange getEstimatedPokemonLevel() {
@@ -63,12 +105,21 @@ public class ScanData {
         return pokemonName;
     }
 
+    public String getNormalizedPokemonName() {
+        return normalizedPokemonName;
+    }
+
     public void setPokemonName(@NonNull String pokemonName) {
         this.pokemonName = pokemonName;
+        this.normalizedPokemonName = StringUtils.normalize(pokemonName);
     }
 
     public String getPokemonType() {
         return pokemonType;
+    }
+
+    public String getNormalizedPokemonType() {
+        return normalizedPokemonType;
     }
 
     public Pokemon.Gender getPokemonGender() {
@@ -77,6 +128,10 @@ public class ScanData {
 
     public String getCandyName() {
         return candyName;
+    }
+
+    public String getNormalizedCandyName() {
+        return normalizedCandyName;
     }
 
     public Optional<Integer> getPokemonHP() {

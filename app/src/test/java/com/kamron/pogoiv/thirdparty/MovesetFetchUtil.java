@@ -6,6 +6,7 @@ import com.kamron.pogoiv.thirdparty.pokebattler.PokemonId;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.File;
@@ -30,9 +31,9 @@ import timber.log.Timber;
  * app/src/main/assets/thirdparty/pokebattler//pokemonMovesetData.json.
  */
 public class MovesetFetchUtil {
-    private static final String BASE_URL = "https://fight.pokebattler.com";
+//    private static final String BASE_URL = "https://fight.pokebattler.com";
 //    private static final String BASE_URL = "http://localhost:8001";
-//    private static final String BASE_URL = "https://20180530t224949-dot-fight-dot-pokebattler-1380.appspot.com";
+    private static final String BASE_URL = "https://fight.pokebattler.com";
     OkHttpClient httpClient;
     public MovesetFetchUtil() {
         httpClient = new OkHttpClient.Builder()
@@ -46,8 +47,10 @@ public class MovesetFetchUtil {
     /**
      * This "test" generates a json of all pokemon move ratings by querying the pokebattler database.
      */
+    @Ignore
     @Test
     public void buildFailsIfThisIsAMain() throws Exception {
+//    public static final void main(String... args) throws Exception {
 //        public static void main(String... args) throws Exception {
 
 //        Timber.plant(new Timber.DebugTree()); This throws exceptions in unit tests
@@ -117,6 +120,10 @@ public class MovesetFetchUtil {
      * @return A list of moveset data for that specific pokemon.
      */
     public List<MovesetData> fetchPokemonOnlineMovesets(String pokemon) {
+        if (pokemon.startsWith("UNOWN") && pokemon.endsWith("FORM")) {
+            // skip unown forms
+            return Collections.emptyList();
+        }
         TreeMap<MovesetData.Key, Double> attackScores = fetchPokemonScoreMap(getAttackURL(pokemon));
         if (attackScores == null) {
             System.err.println("Unexpected null attack scores for " + pokemon);

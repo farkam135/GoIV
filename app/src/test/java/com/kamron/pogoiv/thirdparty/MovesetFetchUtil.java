@@ -6,6 +6,7 @@ import com.kamron.pogoiv.thirdparty.pokebattler.PokemonId;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.File;
@@ -46,6 +47,7 @@ public class MovesetFetchUtil {
     /**
      * This "test" generates a json of all pokemon move ratings by querying the pokebattler database.
      */
+    @Ignore
     @Test
     public void buildFailsIfThisIsAMain() throws Exception {
 //    public static final void main(String... args) throws Exception {

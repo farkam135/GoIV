@@ -87,93 +87,93 @@ public class OcrManualCalibrationActivity extends AppCompatActivity {
         // while making it more clear that there are several fields (avoid having them all appear stacked in same spot)
         if (sfr.pokemonNameArea == null) {
             sfr.pokemonNameArea = new ScanArea(
-                    (int)(screenshot.getWidth()*0.1),
-                    (int)(screenshot.getHeight()*0.4125),
-                    (int)(screenshot.getWidth()*0.85),
-                    (int)(screenshot.getHeight() *0.055));
+                    (int) (screenshot.getWidth() * 0.1),
+                    (int) (screenshot.getHeight() * 0.4125),
+                    (int) (screenshot.getWidth() * 0.85),
+                    (int) (screenshot.getHeight() * 0.055));
         }
         if (sfr.pokemonTypeArea == null) {
             sfr.pokemonTypeArea = new ScanArea(
-                    (int)(screenshot.getWidth()*0.365278),
-                    (int)(screenshot.getHeight()*0.572),
-                    (int)(screenshot.getWidth()*0.308333),
-                    (int)(screenshot.getHeight() *0.035156));
+                    (int) (screenshot.getWidth() * 0.365278),
+                    (int) (screenshot.getHeight() * 0.572),
+                    (int) (screenshot.getWidth() * 0.308333),
+                    (int) (screenshot.getHeight() * 0.035156));
         }
         if (sfr.pokemonGenderArea == null) {
             sfr.pokemonGenderArea = new ScanArea(
-                    (int)(screenshot.getWidth()*0.82),
-                    (int)(screenshot.getHeight()*0.455),
-                    (int)(screenshot.getWidth()*0.0682),
-                    (int)(screenshot.getHeight() *0.03756));
+                    (int) (screenshot.getWidth() * 0.82),
+                    (int) (screenshot.getHeight() * 0.455),
+                    (int) (screenshot.getWidth() * 0.0682),
+                    (int) (screenshot.getHeight() * 0.03756));
         }
         if (sfr.candyNameArea == null) {
             sfr.candyNameArea = new ScanArea(
-                    (int)(screenshot.getWidth()*0.5),
-                    (int)(screenshot.getHeight()*0.678),
-                    (int)(screenshot.getWidth()*0.47),
-                    (int)(screenshot.getHeight() *0.026));
+                    (int) (screenshot.getWidth() * 0.5),
+                    (int) (screenshot.getHeight() * 0.678),
+                    (int) (screenshot.getWidth() * 0.47),
+                    (int) (screenshot.getHeight() * 0.026));
         }
         if (sfr.pokemonHpArea == null) {
             sfr.pokemonHpArea = new ScanArea(
-                    (int)(screenshot.getWidth()*0.357),
-                    (int)(screenshot.getHeight()*0.482),
-                    (int)(screenshot.getWidth()*0.285),
-                    (int)(screenshot.getHeight() *0.0293));
+                    (int) (screenshot.getWidth() * 0.357),
+                    (int) (screenshot.getHeight() * 0.482),
+                    (int) (screenshot.getWidth() * 0.285),
+                    (int) (screenshot.getHeight() * 0.0293));
         }
         if (sfr.pokemonCpArea == null) {
             sfr.pokemonCpArea = new ScanArea(
-                    (int)(screenshot.getWidth()*0.25),
-                    (int)(screenshot.getHeight()*0.059),
-                    (int)(screenshot.getWidth()*0.5),
-                    (int)(screenshot.getHeight() *0.046));
+                    (int) (screenshot.getWidth() * 0.25),
+                    (int) (screenshot.getHeight() * 0.059),
+                    (int) (screenshot.getWidth() * 0.5),
+                    (int) (screenshot.getHeight() * 0.046));
         }
         if (sfr.pokemonCandyAmountArea == null) {
             sfr.pokemonCandyAmountArea = new ScanArea(
-                    (int)(screenshot.getWidth()*0.60),
-                    (int)(screenshot.getHeight()*0.644),
-                    (int)(screenshot.getWidth()*0.20),
-                    (int)(screenshot.getHeight() *0.038));
+                    (int) (screenshot.getWidth() * 0.60),
+                    (int) (screenshot.getHeight() * 0.644),
+                    (int) (screenshot.getWidth() * 0.20),
+                    (int) (screenshot.getHeight() * 0.038));
         }
         if (sfr.pokemonEvolutionCostArea == null) {
             sfr.pokemonEvolutionCostArea = new ScanArea(
-                    (int)(screenshot.getWidth()*0.625),
-                    (int)(screenshot.getHeight()*0.815),
-                    (int)(screenshot.getWidth()*0.2),
-                    (int)(screenshot.getHeight() *0.03));
+                    (int) (screenshot.getWidth() * 0.625),
+                    (int) (screenshot.getHeight() * 0.815),
+                    (int) (screenshot.getWidth() * 0.2),
+                    (int) (screenshot.getHeight() * 0.03));
         }
         if (sfr.pokemonPowerUpStardustCostArea == null) {
             sfr.pokemonPowerUpStardustCostArea = new ScanArea(
-                    (int)(screenshot.getWidth()*0.544),
-                    (int)(screenshot.getHeight()*0.803),
-                    (int)(screenshot.getWidth()*0.139),
-                    (int)(screenshot.getHeight() *0.0247));
+                    (int) (screenshot.getWidth() * 0.544),
+                    (int) (screenshot.getHeight() * 0.803),
+                    (int) (screenshot.getWidth() * 0.139),
+                    (int) (screenshot.getHeight() * 0.0247));
         }
         if (sfr.pokemonPowerUpCandyCostArea == null) {
             sfr.pokemonPowerUpCandyCostArea = new ScanArea(
-                    (int)(screenshot.getWidth()*0.73),
-                    (int)(screenshot.getHeight()*0.742),
-                    (int)(screenshot.getWidth()*0.092),
-                    (int)(screenshot.getHeight() *0.0247));
+                    (int) (screenshot.getWidth() * 0.73),
+                    (int) (screenshot.getHeight() * 0.742),
+                    (int) (screenshot.getWidth() * 0.092),
+                    (int) (screenshot.getHeight() * 0.0247));
         }
 
 
         if (sfr.arcCenter == null) {
-            sfr.arcCenter = new ScanPoint((screenshot.getWidth() / 2), (int)(screenshot.getHeight()*0.5));
+            sfr.arcCenter = new ScanPoint((screenshot.getWidth() / 2), (int) (screenshot.getHeight() * 0.5));
         }
-        if(sfr.arcRadius == null){
-            sfr.arcRadius = new Integer((int)(screenshot.getWidth()*0.45));
+        if (sfr.arcRadius == null) {
+            sfr.arcRadius = new Integer((int) (screenshot.getWidth() * 0.45));
         }
-        if (sfr.arcRadius <= 0){
-            sfr.arcRadius = new Integer((int)(screenshot.getWidth()*0.45));
+        if (sfr.arcRadius <= 0) {
+            sfr.arcRadius = new Integer((int) (screenshot.getWidth() * 0.45));
         }
 
         if (sfr.infoScreenCardWhitePixelPoint == null) {
-            sfr.infoScreenCardWhitePixelPoint = new ScanPoint((int)(screenshot.getWidth()*0.041667), (int)(screenshot
-                    .getHeight()*0.8046875));
+            sfr.infoScreenCardWhitePixelPoint = new ScanPoint((int) (screenshot.getWidth() * 0.041667),
+                    (int) (screenshot.getHeight() * 0.8046875));
         }
         if (sfr.infoScreenFabGreenPixelPoint == null) {
-            sfr.infoScreenFabGreenPixelPoint = new ScanPoint((int)(screenshot.getWidth()*0.862445), (int)(screenshot
-                    .getHeight()*0.9004));
+            sfr.infoScreenFabGreenPixelPoint = new ScanPoint((int) (screenshot.getWidth() * 0.862445), (int) (screenshot
+                    .getHeight() * 0.9004));
         }
 
         //sfr.infoScreenCardWhitePixelColor = Color.rgb(249, 249, 249);
@@ -239,7 +239,8 @@ public class OcrManualCalibrationActivity extends AppCompatActivity {
 
 
         arcViewLayout.setOnTouchListener(new View.OnTouchListener() {
-            float dX, dY;
+            float dX;
+            float dY;
 
             @Override public boolean onTouch(View view, MotionEvent event) {
 
@@ -336,7 +337,8 @@ public class OcrManualCalibrationActivity extends AppCompatActivity {
 
 
         draggableView.setOnTouchListener(new View.OnTouchListener() {
-            float dX, dY;
+            float dX;
+            float dY;
 
             @Override public boolean onTouch(View view, MotionEvent event) {
 

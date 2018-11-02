@@ -35,6 +35,7 @@ import android.widget.Toast;
 import com.google.common.base.Strings;
 import com.kamron.pogoiv.BuildConfig;
 import com.kamron.pogoiv.GoIVSettings;
+import com.kamron.pogoiv.Pokefly;
 import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanArea;
 import com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldAutomaticLocator;
@@ -78,8 +79,6 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
     Button saveCalibrationButton;
     @BindView(R.id.ocr_result_image)
     ImageView resultImageView;
-    @BindView(R.id.backToGoivButton)
-    Button backToGoivButton;
     @BindView(R.id.backButton)
     Button backButton;
     @BindView(R.id.errorField)
@@ -100,12 +99,13 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
             return;
         }
 
-        sCalibrationImageUnaltered = bitmap.copy(bitmap.getConfig() ,false);;
+        sCalibrationImageUnaltered = bitmap.copy(bitmap.getConfig(), false);
+
         if (bitmap.isMutable()) {
             sCalibrationImage = bitmap;
         } else {
             // Make a mutable copy of the bitmap so we can draw on it with a Canvas
-            sCalibrationImage = bitmap.copy(sCalibrationImage.getConfig() ,true);
+            sCalibrationImage = bitmap.copy(sCalibrationImage.getConfig(), true);
         }
 
         if (!sCalibrationImage.isMutable()) {
@@ -126,6 +126,10 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
     }
 
 
+    private OcrCalibrationResultActivity getOuter() {
+        return this;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -143,14 +147,21 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
         saveCalibrationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveCalibrationButton.setVisibility(View.GONE);
-                backToGoivButton.setVisibility(View.VISIBLE);
                 if (results != null && results.isCompleteCalibration()) {
                     GoIVSettings settings = GoIVSettings.getInstance(OcrCalibrationResultActivity.this);
                     settings.saveScreenCalibrationResults(results);
                     Toast.makeText(OcrCalibrationResultActivity.this,
                             R.string.ocr_calibration_saved, Toast.LENGTH_LONG).show();
                 }
+                Intent intent = new Intent(getOuter(), Pokefly.class);
+                intent.setAction(Pokefly.ACTION_STOP);
+                startService(intent);
+
+
+                intent = new Intent(getOuter(), MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+
             }
         });
     }
@@ -228,14 +239,6 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
             startActivity(i);
         }
     }
-
-    @OnClick(R.id.backToGoivButton)
-    void goToGoIV() {
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-    }
-
 
 
     @OnClick(R.id.manualAdjustButton)

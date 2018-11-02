@@ -56,13 +56,6 @@
                     android:enabled="false"
                     android:text="@string/ocr_calibration_save" />
 
-                <Button
-                    android:id="@+id/backToGoivButton"
-                    android:layout_width="200dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/go_back_to_goiv"
-                    android:visibility="gone" />
-
             </LinearLayout>
 
             <TextView

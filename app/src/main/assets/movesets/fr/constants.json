@@ -212,7 +212,7 @@
         "MR_MIME": "M. Mime",
         "MUDKIP": "Gobou",
         "MUK": "Grotadmorv",
-        "MURKROW": "Cornebre",
+        "MURKROW": "Cornèbre",
         "NATU": "Natu",
         "NIDOKING": "Nidoking",
         "NIDOQUEEN": "Nidoqueen",
@@ -385,7 +385,87 @@
         "ZANGOOSE": "Mangriff",
         "ZAPDOS": "Électhor",
         "ZIGZAGOON": "Zigzaton",
-        "ZUBAT": "Nosferapti"
+        "ZUBAT": "Nosferapti",
+        "CASTFORM_NORMAL_FORM": "Morphéo - Normal",
+        "CASTFORM_RAINY_FORM": "Morphéo - Pluie",
+        "CASTFORM_SNOWY_FORM": "Morphéo - Neige",
+        "CASTFORM_SUNNY_FORM": "Morphéo - Soleil",
+        "DEOXYS_NORMAL_FORM": "Deoxys - Normal",
+        "DEOXYS_ATTACK_FORM": "Deoxys - Attaque",
+        "DEOXYS_DEFENSE_FORM": "Deoxys - Défense",
+        "DEOXYS_SPEED_FORM": "Deoxys - Vitesse",
+        "EXEGGUTOR_ALOLA_FORM": "Noadkoko - Alola",
+        "EXEGGUTOR_NORMAL_FORM": "Noadkoko - Normal",
+        "UNOWN_A_FORM": "Zarbi - A",
+        "UNOWN_B_FORM": "Zarbi - B",
+        "UNOWN_C_FORM": "Zarbi - C",
+        "UNOWN_D_FORM": "Zarbi - D",
+        "UNOWN_E_FORM": "Zarbi - E",
+        "UNOWN_F_FORM": "Zarbi - F",
+        "UNOWN_G_FORM": "Zarbi - G",
+        "UNOWN_H_FORM": "Zarbi - H",
+        "UNOWN_I_FORM": "Zarbi - I",
+        "UNOWN_J_FORM": "Zarbi - J",
+        "UNOWN_K_FORM": "Zarbi - K",
+        "UNOWN_L_FORM": "Zarbi - L",
+        "UNOWN_M_FORM": "Zarbi - M",
+        "UNOWN_N_FORM": "Zarbi - N",
+        "UNOWN_O_FORM": "Zarbi - O",
+        "UNOWN_P_FORM": "Zarbi - P",
+        "UNOWN_Q_FORM": "Zarbi - Q",
+        "UNOWN_R_FORM": "Zarbi - R",
+        "UNOWN_S_FORM": "Zarbi - S",
+        "UNOWN_T_FORM": "Zarbi - T",
+        "UNOWN_U_FORM": "Zarbi - U",
+        "UNOWN_V_FORM": "Zarbi - V",
+        "UNOWN_W_FORM": "Zarbi - W",
+        "UNOWN_X_FORM": "Zarbi - X",
+        "UNOWN_Y_FORM": "Zarbi - Y",
+        "UNOWN_Z_FORM": "Zarbi - Z",
+        "UNOWN_EXCLAMATION_POINT_FORM": "Zarbi - !",
+        "UNOWN_QUESTION_MARK_FORM": "Zarbi - ?",
+        "SPINDA_00_FORM": "Spinda - 00",
+        "SPINDA_01_FORM": "Spinda - 01",
+        "SPINDA_02_FORM": "Spinda - 02",
+        "SPINDA_03_FORM": "Spinda - 03",
+        "SPINDA_04_FORM": "Spinda - 04",
+        "SPINDA_05_FORM": "Spinda - 05",
+        "SPINDA_06_FORM": "Spinda - 06",
+        "SPINDA_07_FORM": "Spinda - 07",
+        "RATTATA_NORMAL_FORM": "Rattata - Normal",
+        "RATTATA_ALOLA_FORM": "Rattata - Alola",
+        "RATICATE_NORMAL_FORM": "Rattatac - Normal",
+        "RATICATE_ALOLA_FORM": "Rattatac - Alola",
+        "RAICHU_NORMAL_FORM": "Raichu - Normal",
+        "RAICHU_ALOLA_FORM": "Raichu - Alola",
+        "SANDSHREW_NORMAL_FORM": "Sabelette - Normal",
+        "SANDSHREW_ALOLA_FORM": "Sabelette - Alola",
+        "SANDSLASH_NORMAL_FORM": "Sablaireau - Normal",
+        "SANDSLASH_ALOLA_FORM": "Sablaireau - Alola",
+        "VULPIX_NORMAL_FORM": "Goupix - Normal",
+        "VULPIX_ALOLA_FORM": "Goupix - Alola",
+        "NINETALES_NORMAL_FORM": "Feunard - Normal",
+        "NINETALES_ALOLA_FORM": "Feunard - Alola",
+        "DIGLETT_NORMAL_FORM": "Taupiqueur - Normal",
+        "DIGLETT_ALOLA_FORM": "Taupiqueur - Alola",
+        "DUGTRIO_NORMAL_FORM": "Triopikeur - Normal",
+        "DUGTRIO_ALOLA_FORM": "Triopikeur - Alola",
+        "MEOWTH_NORMAL_FORM": "Miaouss - Normal",
+        "MEOWTH_ALOLA_FORM": "Miaouss - Alola",
+        "PERSIAN_NORMAL_FORM": "Persian - Normal",
+        "PERSIAN_ALOLA_FORM": "Persian - Alola",
+        "GEODUDE_NORMAL_FORM": "Racaillou - Normal",
+        "GEODUDE_ALOLA_FORM": "Racaillou - Alola",
+        "GRAVELER_NORMAL_FORM": "Gravalanch - Normal",
+        "GRAVELER_ALOLA_FORM": "Gravalanch - Alola",
+        "GOLEM_NORMAL_FORM": "Grolem - Normal",
+        "GOLEM_ALOLA_FORM": "Grolem - Alola",
+        "GRIMER_NORMAL_FORM": "Tadmorv - Normal",
+        "GRIMER_ALOLA_FORM": "Tadmorv - Alola",
+        "MUK_NORMAL_FORM": "Grotadmorv - Normal",
+        "MUK_ALOLA_FORM": "Grotadmorv - Alola",
+        "MAROWAK_NORMAL_FORM": "Ossatueur - Normal",
+        "MAROWAK_ALOLA_FORM": "Ossatueur - Alola"
     },
     "moves": {
         "ACID_FAST": "Acide",
@@ -591,7 +671,11 @@
         "TAKE_DOWN_FAST": "Bélier",
         "PRECIPICE_BLADES": "Lame Pangéenne",
         "YAWN_FAST": "Baillement",
-        "RANDOM": "Inconnu"
+        "RANDOM": "Inconnu",
+        "HYDRO_CANNON": "Hydroblast",
+        "FRENZY_PLANT": "Végé-Attak",
+        "BLAST_BURN": "Rafale Feu",
+        "SMACK_DOWN_FAST": "Anti-Air"
     },
     "types": {
         "POKEMON_TYPE_NORMAL": "Normal",
@@ -622,22 +706,31 @@
             },
             "QUICK_ATTACK_ONLY": {
                 "label": "Attaques Rapides Seulement",
-                "description": "Utilisez vos attaques rapides le plus vite possible!"
+                "description": "Utilisez vos attaques immédiates le plus vite possible !"
             },
             "DODGE_SPECIALS2": {
                 "label": "Esquive attaques chargées",
-                "description": "Utilisez les attaques rapides jusqu'à ce que vous puissiez esquiver l'attaque spéciale, ensuite utilisez votre attaque chargée."
+                "description": "Utilisez des attaques immédiates jusqu'à esquiver l'attaque spéciale adverse, puis utilisez votre attaque chargée."
             },
             "DODGE_SPECIALS": {
                 "label": "Esquive attaques spéciales PRO",
-                "description": "Utilisez les attaques immédiates et les attaques chargées dès que possible, mais esquivez l'attaque spéciale!"
+                "description": "Utilisez vos attaques immédiate et chargée autant que possible, mais esquivez leur attaque chargée !"
             },
             "DODGE_ALL2": {
-                "label": "Esquiver tout"
+                "label": "Tout esquiver",
+                "description": "Utiliser des attaques immédiates et esquiver les coups jusqu'à leur attaque chargée, puis utiliser votre propre attaque chargée !"
             },
             "undefined": {
                 "label": "Inconnu",
                 "description": "Ceci ne doit pas se produire. Informez nous que c'est arrivé s'il vous plait!"
+            },
+            "DODGE_ALL": {
+                "label": "Tout esquiver PRO",
+                "description": "Utilisez vos attaques immédiates et chargées, tout en esquivant toutes les attaques adverses !"
+            },
+            "DODGE_WEAVE_CAUTIOUS": {
+                "label": "Tout Esquiver Faufilement",
+                "description": "Utilise une stratégie d'attaque qui prend le pire des cas, où un délai de 1,5s entre les attaques se produit à chaque fois. Cette stratégie devrait être reproductible par un humain."
             }
         },
         "dodge": {
@@ -658,10 +751,16 @@
                 "description": "Choisit d'esquiver 90% du temps"
             },
             "DODGE_100": {
-                "label": "Esquive parfaite"
+                "label": "Esquive parfaite",
+                "description": "Essaie d'esquiver en permanence. Cette stratégie d'esquive ne manque presque jamais une esquive. Vous pouvez toutefois vous faire toucher dans certaines situations inévitables, comme pendant vos attaques chargées."
             },
             "DODGE_REACTION_TIME": {
-                "label": "Esquive réaliste"
+                "label": "Esquive réaliste",
+                "description": "Simule un esquiveur humain réaliste. Les chances d'esquive varient de 50% pour une attaque chargée rapide (1 seconde) à 90% pour une attaque chargée lente (3,5 secondes). De plus, si l'attaquant utilise des coups Super Efficaces ou Peu Efficaces, une pénalité de 25% est appliquée, amenant les chances d'esquive entre 37,5% et 67,5%. Enfin, un léger bonus est ajouté aux attaques plus rapides, selon leur vitesse par rapport au flash d'esquive."
+            },
+            "DODGE_REACTION_TIME2": {
+                "label": "Esquive Réaliste Pro",
+                "description": "Simule un esquiveur humain réaliste et expérimenté. Les chances d'esquive varient de 70% pour une attaque chargée rapide (1 seconde) à 90% pour une attaque chargée lente (3,5 secondes). De plus, si l'attaquant utilise des coups Super Efficaces ou Peu Efficaces, une pénalité de 10% est appliquée, amenant les chances d'esquive entre 63% et 81%. Enfin, un léger bonus est ajouté aux attaques plus rapides, selon leur vitesse par rapport au flash d'esquive."
             }
         },
         "defense": {
@@ -670,20 +769,36 @@
                 "description": "Simulation entièrement aléatoire! Les attaques se produisent entre 1,5 et 2,5 secondes. Les attaques spéciales sont utilisées 50% du temps si le défenseur a assez d’énergie"
             },
             "DEFENSE_RANDOM_MC_MID": {
-                "label": "Monte Carlo - Argent"
+                "label": "Monte Carlo - Argent",
+                "description": "Un résultat très précis. 50 simulations aléatoires sont effectuées et compilées pour obtenir un résultat global. Le résultat médian, basé sur le score global, est utilisé pour le rapport de combat à titre d'exemple. Surtout utile avec des stratégies d'esquive imparfaites."
             },
             "DEFENSE": {
-                "label": "Défenseur attendu"
+                "label": "Défenseur attendu",
+                "description": "Résultat statistiquement attendu en moyenne. Les attaques immédiates se produisent toutes les 2 secondes, et les attaques chargées sont toujours en retard d'1 attaque."
             },
             "DEFENSE_LUCKY": {
                 "label": "Défenseur chanceux",
-                "description": "Le pire qu'il peut arriver, Les attaques se produisent toutes les 1,95s et les attaques spéciales sont le plus tôt possible"
+                "description": "Ce qu'on peut redouter de pire. Les attaques immédiates se produisent toutes les 1,95s, et les attaques chargées dès qu'elles sont possibles"
             },
             "DEFENSE_RANDOM_MC_FAST": {
-                "label": "Monte Carlo - Bronze"
+                "label": "Monte Carlo - Bronze",
+                "description": "Un résultat plus fidèle. 10 simulations aléatoires sont effectuées et compilées pour obtenir un résultat global. Le résultat médian, basé sur le score global, est utilisé pour le rapport de combat à titre d'exemple. Surtout utile avec des stratégies d'esquive imparfaites."
             },
             "DEFENSE_RANDOM_MC": {
-                "label": "Monte Carlo - Or"
+                "label": "Monte Carlo - Or",
+                "description": "Le résultat le plus précis. 200 simulations aléatoires sont effectuées et compilées pour obtenir un résultat global. Le résultat médian, basé sur le score global, est utilisé pour le rapport de combat à titre d'exemple. Surtout utile avec des stratégies d'esquive imparfaites."
+            },
+            "DEFENSE_RANDOM_MC_EX": {
+                "label": "Monte Carlo - Platine",
+                "description": "Un avantage spécial pour les donateurs au rang \"Fanatic\" sur Patreon. Un résultat extrêmement précis. 500 simulations aléatoires sont effectuées et compilées pour obtenir un résultat global. Le résultat médian, basé sur le score global, est utilisé pour le rapport de combat à titre d'exemple. Surtout utile pour consulter les centiles"
+            },
+            "DEFENSE_PATTERN": {
+                "label": "Modèle de Défense - RNG",
+                "description": "Un générateur de nombres aléatoires très prévisible est utilisé pour cette simulation. Utilisé en interne par Pokebattler pour optimiser les simulations Monte Carlo avec esquives aléatoires"
+            },
+            "DEFENSE_PATTERN2": {
+                "label": "Modèle de Défense",
+                "description": "Un profil de délais et d'attaques est utilisé pour cette simulation. Utilisé en interne par Pokebattler pour optimiser les simulations Monte Carlo sans esquives"
             }
         }
     },
@@ -721,5 +836,63 @@
             "description": "Bonus de 20% pour les attaques de type Ténèbres et Spectre"
         }
     },
-    "pokeboxVsLevel": "Pokebox {{userId}} Attaquants Vs. Niveau {{defenderLevel}} Défenseur"
+    "pokeboxVsLevel": "Pokebox {{userId}} Attaquants Vs. Niveau {{defenderLevel}} Défenseur",
+    "aggregations": {
+        "AVERAGE": {
+            "label": "Moyenne",
+            "description": "Moyenne des simulations Monte Carlo. N.B. : le rapport de combat et le rapport des dégâts en détails sont basés sur le résultat médian"
+        },
+        "MEDIAN": {
+            "label": "Prévision - 50%",
+            "description": "Trie les résultats des simulations Monte Carlo par Score Global et en renvoie le 50ème centile."
+        },
+        "PERCENTILE_99": {
+            "label": "Extrêmement chanceux - 99%",
+            "description": "Trie les résultats des simulations Monte Carlo par Score Global et en renvoie le 99ème centile."
+        },
+        "PERCENTILE_95": {
+            "label": "Très chanceux - 95%",
+            "description": "Trie les résultats des simulations Monte Carlo par Score Global et en renvoie le 95ème centile."
+        },
+        "PERCENTILE_75": {
+            "label": "Chanceux - 75%",
+            "description": "Trie les résultats des simulations Monte Carlo par Score Global et en renvoie le 75ème centile."
+        },
+        "PERCENTILE_25": {
+            "label": "Malchanceux - 25%",
+            "description": "Trie les résultats des simulations Monte Carlo par Score Global et en renvoie le 25ème centile."
+        },
+        "PERCENTILE_5": {
+            "label": "Très malchanceux - 5%",
+            "description": "Trie les résultats des simulations Monte Carlo par Score Global et en renvoie le 5ème centile."
+        },
+        "PERCENTILE_1": {
+            "label": "Extrêmement malchanceux - 1%",
+            "description": "Trie les résultats des simulations Monte Carlo par Score Global et en renvoie le 1er centile."
+        }
+    },
+    "friendLevels": {
+        "FRIENDSHIP_LEVEL_0": {
+            "label": "Pas Amis",
+            "description": "Si vous n'êtes amis avec personne dans le raid, vous n'obtenez pas de bonus d'attaque."
+        },
+        "FRIENDSHIP_LEVEL_1": {
+            "label": "Bons Amis",
+            "description": "Votre niveau maximum d'amitié avec les autres membres du raid. Les Bons Amis obtiennent un bonus d'attaque de 3% et peuvent s'échanger tous les Pokémon (excepté les mythiques)."
+        },
+        "FRIENDSHIP_LEVEL_2": {
+            "label": "Grands Amis",
+            "description": "Votre niveau maximum d'amitié avec les autres membres du raid. Les Meilleurs Amis obtiennent un bonus d'attaque de 5% et 1 Honor Ball supplémentaire pendant les raids. Ils peuvent s'échanger tous les Pokémon (excepté les mythiques) pour 20% de poussière d'étoile en moins."
+        },
+        "FRIENDSHIP_LEVEL_3": {
+            "label": "Excellents Amis",
+            "description": "Votre niveau maximum d'amitié avec les autres membres du raid. Les Excellents Amis obtiennent un bonus d'attaque de 7% et 2 Honor Balls supplémentaires pendant les raids. Ils peuvent s'échanger tous les Pokémon (excepté les mythiques) pour 92% de poussière d'étoile en moins."
+        },
+        "FRIENDSHIP_LEVEL_4": {
+            "label": "Meilleurs Amis",
+            "description": "Votre niveau maximum d'amitié avec les autres membres du raid. Les Meilleurs Amis obtiennent un bonus d'attaque de 10% et 4 Honor Balls supplémentaires pendant les raids. Ils peuvent s'échanger tous les Pokémon (excepté les mythiques) pour 96% de poussière d'étoile en moins."
+        }
+    },
+    "levelVs": "Attaquant Niveau {{attackerLevel}} VS Défenseur Niveau {{defenderLevel}}",
+    "levelVsPokebox": "Attaquant Niveau {{attackerLevel}} VS Défenseur Pokebox {{userId}}"
 }

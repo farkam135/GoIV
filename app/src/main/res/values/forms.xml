@@ -1,631 +1,631 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <integer-array name="formsCount">
-        <item>2</item> <!--Rattata-->
-        <item>2</item> <!--Raticate-->
-        <item>2</item> <!--Raichu-->
-        <item>2</item> <!--Sandshrew-->
-        <item>2</item> <!--Sandslash-->
-        <item>2</item> <!--Vulpix-->
-        <item>2</item> <!--Ninetales-->
-        <item>2</item> <!--Diglett-->
-        <item>2</item> <!--Dugtrio-->
-        <item>2</item> <!--Meowth-->
-        <item>2</item> <!--Persian-->
-        <item>2</item> <!--Geodude-->
-        <item>2</item> <!--Graveler-->
-        <item>2</item> <!--Golem-->
-        <item>2</item> <!--Grimer-->
-        <item>2</item> <!--Muk-->
-        <item>2</item> <!--Exeggutor-->
-        <item>2</item> <!--Marowak-->
-        <item>28</item> <!--Unown-->
-        <item>8</item> <!--Spinda-->
-        <item>4</item> <!--Castform-->
-        <item>4</item> <!--Deoxys-->
-        <item>3</item> <!--Wormadam-->
-        <item>2</item> <!--Cherrim-->
-        <item>2</item> <!--Shellos-->
-        <item>2</item> <!--Gastrodon-->
-        <item>6</item> <!--Rotom-->
-        <item>2</item> <!--Giratina-->
-        <item>2</item> <!--Shaymin-->
-        <item>18</item> <!--Arceus-->
-    </integer-array>
-    <string-array name="formNames">
-        <!--Rattata-->
-        <item>Normal Form</item>
-        <item>Alola Form</item>
-        <!--Raticate-->
-        <item>Normal Form</item>
-        <item>Alola Form</item>
-        <!--Raichu-->
-        <item>Normal Form</item>
-        <item>Alola Form</item>
-        <!--Sandshrew-->
-        <item>Normal Form</item>
-        <item>Alola Form</item>
-        <!--Sandslash-->
-        <item>Normal Form</item>
-        <item>Alola Form</item>
-        <!--Vulpix-->
-        <item>Normal Form</item>
-        <item>Alola Form</item>
-        <!--Ninetales-->
-        <item>Normal Form</item>
-        <item>Alola Form</item>
-        <!--Diglett-->
-        <item>Normal Form</item>
-        <item>Alola Form</item>
-        <!--Dugtrio-->
-        <item>Normal Form</item>
-        <item>Alola Form</item>
-        <!--Meowth-->
-        <item>Normal Form</item>
-        <item>Alola Form</item>
-        <!--Persian-->
-        <item>Normal Form</item>
-        <item>Alola Form</item>
-        <!--Geodude-->
-        <item>Normal Form</item>
-        <item>Alola Form</item>
-        <!--Graveler-->
-        <item>Normal Form</item>
-        <item>Alola Form</item>
-        <!--Golem-->
-        <item>Normal Form</item>
-        <item>Alola Form</item>
-        <!--Grimer-->
-        <item>Normal Form</item>
-        <item>Alola Form</item>
-        <!--Muk-->
-        <item>Normal Form</item>
-        <item>Alola Form</item>
-        <!--Exeggutor-->
-        <item>Normal Form</item>
-        <item>Alola Form</item>
-        <!--Marowak-->
-        <item>Normal Form</item>
-        <item>Alola Form</item>
-        <!--Unown-->
-        <item>F Form</item>
-        <item>A Form</item>
-        <item>B Form</item>
-        <item>C Form</item>
-        <item>D Form</item>
-        <item>E Form</item>
-        <item>G Form</item>
-        <item>H Form</item>
-        <item>I Form</item>
-        <item>J Form</item>
-        <item>K Form</item>
-        <item>L Form</item>
-        <item>M Form</item>
-        <item>N Form</item>
-        <item>O Form</item>
-        <item>P Form</item>
-        <item>Q Form</item>
-        <item>R Form</item>
-        <item>S Form</item>
-        <item>T Form</item>
-        <item>U Form</item>
-        <item>V Form</item>
-        <item>W Form</item>
-        <item>X Form</item>
-        <item>Y Form</item>
-        <item>Z Form</item>
-        <item>Exclamation Point Form</item>
-        <item>Question Mark Form</item>
-        <!--Spinda-->
-        <item>00 Form</item>
-        <item>01 Form</item>
-        <item>02 Form</item>
-        <item>03 Form</item>
-        <item>04 Form</item>
-        <item>05 Form</item>
-        <item>06 Form</item>
-        <item>07 Form</item>
-        <!--Castform-->
-        <item>Normal Form</item>
-        <item>Sunny Form</item>
-        <item>Rainy Form</item>
-        <item>Snowy Form</item>
-        <!--Deoxys-->
-        <item>Normal Form</item>
-        <item>Attack Form</item>
-        <item>Defense Form</item>
-        <item>Speed Form</item>
-        <!--Wormadam-->
-        <item>Plant Form</item>
-        <item>Sandy Form</item>
-        <item>Trash Form</item>
-        <!--Cherrim-->
-        <item>Overcast Form</item>
-        <item>Sunny Form</item>
-        <!--Shellos-->
-        <item>West Sea Form</item>
-        <item>East Sea Form</item>
-        <!--Gastrodon-->
-        <item>West Sea Form</item>
-        <item>East Sea Form</item>
-        <!--Rotom-->
-        <item>Normal Form</item>
-        <item>Frost Form</item>
-        <item>Fan Form</item>
-        <item>Mow Form</item>
-        <item>Wash Form</item>
-        <item>Heat Form</item>
-        <!--Giratina-->
-        <item>Altered Form</item>
-        <item>Origin Form</item>
-        <!--Shaymin-->
-        <item>Land Form</item>
-        <item>Sky Form</item>
-        <!--Arceus-->
-        <item>Normal Form</item>
-        <item>Fighting Form</item>
-        <item>Flying Form</item>
-        <item>Poison Form</item>
-        <item>Ground Form</item>
-        <item>Rock Form</item>
-        <item>Bug Form</item>
-        <item>Ghost Form</item>
-        <item>Steel Form</item>
-        <item>Fire Form</item>
-        <item>Water Form</item>
-        <item>Grass Form</item>
-        <item>Electric Form</item>
-        <item>Psychic Form</item>
-        <item>Ice Form</item>
-        <item>Dragon Form</item>
-        <item>Dark Form</item>
-        <item>Fairy Form</item>
-    </string-array>
-    <integer-array name="formAttack">
-        <!--Rattata-->
-        <item>103</item> <!-- Normal Form -->
-        <item>103</item> <!-- Alola Form -->
-        <!--Raticate-->
-        <item>161</item> <!-- Normal Form -->
-        <item>135</item> <!-- Alola Form -->
-        <!--Raichu-->
-        <item>193</item> <!-- Normal Form -->
-        <item>201</item> <!-- Alola Form -->
-        <!--Sandshrew-->
-        <item>126</item> <!-- Normal Form -->
-        <item>125</item> <!-- Alola Form -->
-        <!--Sandslash-->
-        <item>182</item> <!-- Normal Form -->
-        <item>177</item> <!-- Alola Form -->
-        <!--Vulpix-->
-        <item>96</item> <!-- Normal Form -->
-        <item>96</item> <!-- Alola Form -->
-        <!--Ninetales-->
-        <item>169</item> <!-- Normal Form -->
-        <item>170</item> <!-- Alola Form -->
-        <!--Diglett-->
-        <item>109</item> <!-- Normal Form -->
-        <item>109</item> <!-- Alola Form -->
-        <!--Dugtrio-->
-        <item>167</item> <!-- Normal Form -->
-        <item>201</item> <!-- Alola Form -->
-        <!--Meowth-->
-        <item>92</item> <!-- Normal Form -->
-        <item>99</item> <!-- Alola Form -->
-        <!--Persian-->
-        <item>150</item> <!-- Normal Form -->
-        <item>158</item> <!-- Alola Form -->
-        <!--Geodude-->
-        <item>132</item> <!-- Normal Form -->
-        <item>132</item> <!-- Alola Form -->
-        <!--Graveler-->
-        <item>164</item> <!-- Normal Form -->
-        <item>164</item> <!-- Alola Form -->
-        <!--Golem-->
-        <item>211</item> <!-- Normal Form -->
-        <item>211</item> <!-- Alola Form -->
-        <!--Grimer-->
-        <item>135</item> <!-- Normal Form -->
-        <item>135</item> <!-- Alola Form -->
-        <!--Muk-->
-        <item>190</item> <!-- Normal Form -->
-        <item>190</item> <!-- Alola Form -->
-        <!--Exeggutor-->
-        <item>233</item> <!-- Normal Form -->
-        <item>230</item> <!-- Alola Form -->
-        <!--Marowak-->
-        <item>144</item> <!-- Normal Form -->
-        <item>144</item> <!-- Alola Form -->
-        <!--Unown-->
-        <item>-1</item> <!-- F Form -->
-        <item>-1</item> <!-- A Form -->
-        <item>-1</item> <!-- B Form -->
-        <item>-1</item> <!-- C Form -->
-        <item>-1</item> <!-- D Form -->
-        <item>-1</item> <!-- E Form -->
-        <item>-1</item> <!-- G Form -->
-        <item>-1</item> <!-- H Form -->
-        <item>-1</item> <!-- I Form -->
-        <item>-1</item> <!-- J Form -->
-        <item>-1</item> <!-- K Form -->
-        <item>-1</item> <!-- L Form -->
-        <item>-1</item> <!-- M Form -->
-        <item>-1</item> <!-- N Form -->
-        <item>-1</item> <!-- O Form -->
-        <item>-1</item> <!-- P Form -->
-        <item>-1</item> <!-- Q Form -->
-        <item>-1</item> <!-- R Form -->
-        <item>-1</item> <!-- S Form -->
-        <item>-1</item> <!-- T Form -->
-        <item>-1</item> <!-- U Form -->
-        <item>-1</item> <!-- V Form -->
-        <item>-1</item> <!-- W Form -->
-        <item>-1</item> <!-- X Form -->
-        <item>-1</item> <!-- Y Form -->
-        <item>-1</item> <!-- Z Form -->
-        <item>-1</item> <!-- Exclamation Point Form -->
-        <item>-1</item> <!-- Question Mark Form -->
-        <!--Spinda-->
-        <item>-1</item> <!-- 00 Form -->
-        <item>-1</item> <!-- 01 Form -->
-        <item>-1</item> <!-- 02 Form -->
-        <item>-1</item> <!-- 03 Form -->
-        <item>-1</item> <!-- 04 Form -->
-        <item>-1</item> <!-- 05 Form -->
-        <item>-1</item> <!-- 06 Form -->
-        <item>-1</item> <!-- 07 Form -->
-        <!--Castform-->
-        <item>139</item> <!-- Normal Form -->
-        <item>139</item> <!-- Sunny Form -->
-        <item>139</item> <!-- Rainy Form -->
-        <item>139</item> <!-- Snowy Form -->
-        <!--Deoxys-->
-        <item>345</item> <!-- Normal Form -->
-        <item>414</item> <!-- Attack Form -->
-        <item>144</item> <!-- Defense Form -->
-        <item>230</item> <!-- Speed Form -->
-        <!--Wormadam-->
-        <item>141</item> <!-- Plant Form -->
-        <item>127</item> <!-- Sandy Form -->
-        <item>141</item> <!-- Trash Form -->
-        <!--Cherrim-->
-        <item>170</item> <!-- Overcast Form -->
-        <item>170</item> <!-- Sunny Form -->
-        <!--Shellos-->
-        <item>103</item> <!-- West Sea Form -->
-        <item>103</item> <!-- East Sea Form -->
-        <!--Gastrodon-->
-        <item>169</item> <!-- West Sea Form -->
-        <item>169</item> <!-- East Sea Form -->
-        <!--Rotom-->
-        <item>204</item> <!-- Normal Form -->
-        <item>204</item> <!-- Frost Form -->
-        <item>204</item> <!-- Fan Form -->
-        <item>204</item> <!-- Mow Form -->
-        <item>185</item> <!-- Wash Form -->
-        <item>204</item> <!-- Heat Form -->
-        <!--Giratina-->
-        <item>187</item> <!-- Altered Form -->
-        <item>225</item> <!-- Origin Form -->
-        <!--Shaymin-->
-        <item>261</item> <!-- Land Form -->
-        <item>210</item> <!-- Sky Form -->
-        <!--Arceus-->
-        <item>238</item> <!-- Normal Form -->
-        <item>238</item> <!-- Fighting Form -->
-        <item>238</item> <!-- Flying Form -->
-        <item>238</item> <!-- Poison Form -->
-        <item>238</item> <!-- Ground Form -->
-        <item>238</item> <!-- Rock Form -->
-        <item>238</item> <!-- Bug Form -->
-        <item>238</item> <!-- Ghost Form -->
-        <item>238</item> <!-- Steel Form -->
-        <item>238</item> <!-- Fire Form -->
-        <item>238</item> <!-- Water Form -->
-        <item>238</item> <!-- Grass Form -->
-        <item>238</item> <!-- Electric Form -->
-        <item>238</item> <!-- Psychic Form -->
-        <item>238</item> <!-- Ice Form -->
-        <item>238</item> <!-- Dragon Form -->
-        <item>238</item> <!-- Dark Form -->
-        <item>238</item> <!-- Fairy Form -->
-    </integer-array>
-    <integer-array name="formDefense">
-        <!--Rattata-->
-        <item>70</item> <!-- Normal Form -->
-        <item>70</item> <!-- Alola Form -->
-        <!--Raticate-->
-        <item>144</item> <!-- Normal Form -->
-        <item>159</item> <!-- Alola Form -->
-        <!--Raichu-->
-        <item>165</item> <!-- Normal Form -->
-        <item>172</item> <!-- Alola Form -->
-        <!--Sandshrew-->
-        <item>145</item> <!-- Normal Form -->
-        <item>154</item> <!-- Alola Form -->
-        <!--Sandslash-->
-        <item>202</item> <!-- Normal Form -->
-        <item>221</item> <!-- Alola Form -->
-        <!--Vulpix-->
-        <item>122</item> <!-- Normal Form -->
-        <item>122</item> <!-- Alola Form -->
-        <!--Ninetales-->
-        <item>204</item> <!-- Normal Form -->
-        <item>207</item> <!-- Alola Form -->
-        <!--Diglett-->
-        <item>88</item> <!-- Normal Form -->
-        <item>89</item> <!-- Alola Form -->
-        <!--Dugtrio-->
-        <item>147</item> <!-- Normal Form -->
-        <item>148</item> <!-- Alola Form -->
-        <!--Meowth-->
-        <item>81</item> <!-- Normal Form -->
-        <item>81</item> <!-- Alola Form -->
-        <!--Persian-->
-        <item>139</item> <!-- Normal Form -->
-        <item>139</item> <!-- Alola Form -->
-        <!--Geodude-->
-        <item>163</item> <!-- Normal Form -->
-        <item>163</item> <!-- Alola Form -->
-        <!--Graveler-->
-        <item>196</item> <!-- Normal Form -->
-        <item>196</item> <!-- Alola Form -->
-        <!--Golem-->
-        <item>229</item> <!-- Normal Form -->
-        <item>229</item> <!-- Alola Form -->
-        <!--Grimer-->
-        <item>90</item> <!-- Normal Form -->
-        <item>90</item> <!-- Alola Form -->
-        <!--Muk-->
-        <item>184</item> <!-- Normal Form -->
-        <item>184</item> <!-- Alola Form -->
-        <!--Exeggutor-->
-        <item>158</item> <!-- Normal Form -->
-        <item>158</item> <!-- Alola Form -->
-        <!--Marowak-->
-        <item>200</item> <!-- Normal Form -->
-        <item>200</item> <!-- Alola Form -->
-        <!--Unown-->
-        <item>-1</item> <!-- F Form -->
-        <item>-1</item> <!-- A Form -->
-        <item>-1</item> <!-- B Form -->
-        <item>-1</item> <!-- C Form -->
-        <item>-1</item> <!-- D Form -->
-        <item>-1</item> <!-- E Form -->
-        <item>-1</item> <!-- G Form -->
-        <item>-1</item> <!-- H Form -->
-        <item>-1</item> <!-- I Form -->
-        <item>-1</item> <!-- J Form -->
-        <item>-1</item> <!-- K Form -->
-        <item>-1</item> <!-- L Form -->
-        <item>-1</item> <!-- M Form -->
-        <item>-1</item> <!-- N Form -->
-        <item>-1</item> <!-- O Form -->
-        <item>-1</item> <!-- P Form -->
-        <item>-1</item> <!-- Q Form -->
-        <item>-1</item> <!-- R Form -->
-        <item>-1</item> <!-- S Form -->
-        <item>-1</item> <!-- T Form -->
-        <item>-1</item> <!-- U Form -->
-        <item>-1</item> <!-- V Form -->
-        <item>-1</item> <!-- W Form -->
-        <item>-1</item> <!-- X Form -->
-        <item>-1</item> <!-- Y Form -->
-        <item>-1</item> <!-- Z Form -->
-        <item>-1</item> <!-- Exclamation Point Form -->
-        <item>-1</item> <!-- Question Mark Form -->
-        <!--Spinda-->
-        <item>-1</item> <!-- 00 Form -->
-        <item>-1</item> <!-- 01 Form -->
-        <item>-1</item> <!-- 02 Form -->
-        <item>-1</item> <!-- 03 Form -->
-        <item>-1</item> <!-- 04 Form -->
-        <item>-1</item> <!-- 05 Form -->
-        <item>-1</item> <!-- 06 Form -->
-        <item>-1</item> <!-- 07 Form -->
-        <!--Castform-->
-        <item>139</item> <!-- Normal Form -->
-        <item>139</item> <!-- Sunny Form -->
-        <item>139</item> <!-- Rainy Form -->
-        <item>139</item> <!-- Snowy Form -->
-        <!--Deoxys-->
-        <item>115</item> <!-- Normal Form -->
-        <item>46</item> <!-- Attack Form -->
-        <item>330</item> <!-- Defense Form -->
-        <item>218</item> <!-- Speed Form -->
-        <!--Wormadam-->
-        <item>180</item> <!-- Plant Form -->
-        <item>175</item> <!-- Sandy Form -->
-        <item>180</item> <!-- Trash Form -->
-        <!--Cherrim-->
-        <item>153</item> <!-- Overcast Form -->
-        <item>153</item> <!-- Sunny Form -->
-        <!--Shellos-->
-        <item>105</item> <!-- West Sea Form -->
-        <item>105</item> <!-- East Sea Form -->
-        <!--Gastrodon-->
-        <item>143</item> <!-- West Sea Form -->
-        <item>143</item> <!-- East Sea Form -->
-        <!--Rotom-->
-        <item>219</item> <!-- Normal Form -->
-        <item>219</item> <!-- Frost Form -->
-        <item>219</item> <!-- Fan Form -->
-        <item>219</item> <!-- Mow Form -->
-        <item>159</item> <!-- Wash Form -->
-        <item>219</item> <!-- Heat Form -->
-        <!--Giratina-->
-        <item>225</item> <!-- Altered Form -->
-        <item>187</item> <!-- Origin Form -->
-        <!--Shaymin-->
-        <item>166</item> <!-- Land Form -->
-        <item>210</item> <!-- Sky Form -->
-        <!--Arceus-->
-        <item>238</item> <!-- Normal Form -->
-        <item>238</item> <!-- Fighting Form -->
-        <item>238</item> <!-- Flying Form -->
-        <item>238</item> <!-- Poison Form -->
-        <item>238</item> <!-- Ground Form -->
-        <item>238</item> <!-- Rock Form -->
-        <item>238</item> <!-- Bug Form -->
-        <item>238</item> <!-- Ghost Form -->
-        <item>238</item> <!-- Steel Form -->
-        <item>238</item> <!-- Fire Form -->
-        <item>238</item> <!-- Water Form -->
-        <item>238</item> <!-- Grass Form -->
-        <item>238</item> <!-- Electric Form -->
-        <item>238</item> <!-- Psychic Form -->
-        <item>238</item> <!-- Ice Form -->
-        <item>238</item> <!-- Dragon Form -->
-        <item>238</item> <!-- Dark Form -->
-        <item>238</item> <!-- Fairy Form -->
-    </integer-array>
-    <integer-array name="formStamina">
-        <!--Rattata-->
-        <item>60</item> <!-- Normal Form -->
-        <item>60</item> <!-- Alola Form -->
-        <!--Raticate-->
-        <item>110</item> <!-- Normal Form -->
-        <item>150</item> <!-- Alola Form -->
-        <!--Raichu-->
-        <item>120</item> <!-- Normal Form -->
-        <item>120</item> <!-- Alola Form -->
-        <!--Sandshrew-->
-        <item>100</item> <!-- Normal Form -->
-        <item>100</item> <!-- Alola Form -->
-        <!--Sandslash-->
-        <item>150</item> <!-- Normal Form -->
-        <item>150</item> <!-- Alola Form -->
-        <!--Vulpix-->
-        <item>76</item> <!-- Normal Form -->
-        <item>76</item> <!-- Alola Form -->
-        <!--Ninetales-->
-        <item>146</item> <!-- Normal Form -->
-        <item>146</item> <!-- Alola Form -->
-        <!--Diglett-->
-        <item>20</item> <!-- Normal Form -->
-        <item>20</item> <!-- Alola Form -->
-        <!--Dugtrio-->
-        <item>70</item> <!-- Normal Form -->
-        <item>70</item> <!-- Alola Form -->
-        <!--Meowth-->
-        <item>80</item> <!-- Normal Form -->
-        <item>80</item> <!-- Alola Form -->
-        <!--Persian-->
-        <item>130</item> <!-- Normal Form -->
-        <item>130</item> <!-- Alola Form -->
-        <!--Geodude-->
-        <item>80</item> <!-- Normal Form -->
-        <item>80</item> <!-- Alola Form -->
-        <!--Graveler-->
-        <item>110</item> <!-- Normal Form -->
-        <item>110</item> <!-- Alola Form -->
-        <!--Golem-->
-        <item>160</item> <!-- Normal Form -->
-        <item>160</item> <!-- Alola Form -->
-        <!--Grimer-->
-        <item>160</item> <!-- Normal Form -->
-        <item>160</item> <!-- Alola Form -->
-        <!--Muk-->
-        <item>210</item> <!-- Normal Form -->
-        <item>210</item> <!-- Alola Form -->
-        <!--Exeggutor-->
-        <item>190</item> <!-- Normal Form -->
-        <item>190</item> <!-- Alola Form -->
-        <!--Marowak-->
-        <item>120</item> <!-- Normal Form -->
-        <item>120</item> <!-- Alola Form -->
-        <!--Unown-->
-        <item>-1</item> <!-- F Form -->
-        <item>-1</item> <!-- A Form -->
-        <item>-1</item> <!-- B Form -->
-        <item>-1</item> <!-- C Form -->
-        <item>-1</item> <!-- D Form -->
-        <item>-1</item> <!-- E Form -->
-        <item>-1</item> <!-- G Form -->
-        <item>-1</item> <!-- H Form -->
-        <item>-1</item> <!-- I Form -->
-        <item>-1</item> <!-- J Form -->
-        <item>-1</item> <!-- K Form -->
-        <item>-1</item> <!-- L Form -->
-        <item>-1</item> <!-- M Form -->
-        <item>-1</item> <!-- N Form -->
-        <item>-1</item> <!-- O Form -->
-        <item>-1</item> <!-- P Form -->
-        <item>-1</item> <!-- Q Form -->
-        <item>-1</item> <!-- R Form -->
-        <item>-1</item> <!-- S Form -->
-        <item>-1</item> <!-- T Form -->
-        <item>-1</item> <!-- U Form -->
-        <item>-1</item> <!-- V Form -->
-        <item>-1</item> <!-- W Form -->
-        <item>-1</item> <!-- X Form -->
-        <item>-1</item> <!-- Y Form -->
-        <item>-1</item> <!-- Z Form -->
-        <item>-1</item> <!-- Exclamation Point Form -->
-        <item>-1</item> <!-- Question Mark Form -->
-        <!--Spinda-->
-        <item>-1</item> <!-- 00 Form -->
-        <item>-1</item> <!-- 01 Form -->
-        <item>-1</item> <!-- 02 Form -->
-        <item>-1</item> <!-- 03 Form -->
-        <item>-1</item> <!-- 04 Form -->
-        <item>-1</item> <!-- 05 Form -->
-        <item>-1</item> <!-- 06 Form -->
-        <item>-1</item> <!-- 07 Form -->
-        <!--Castform-->
-        <item>140</item> <!-- Normal Form -->
-        <item>140</item> <!-- Sunny Form -->
-        <item>140</item> <!-- Rainy Form -->
-        <item>140</item> <!-- Snowy Form -->
-        <!--Deoxys-->
-        <item>100</item> <!-- Normal Form -->
-        <item>100</item> <!-- Attack Form -->
-        <item>100</item> <!-- Defense Form -->
-        <item>100</item> <!-- Speed Form -->
-        <!--Wormadam-->
-        <item>155</item> <!-- Plant Form -->
-        <item>155</item> <!-- Sandy Form -->
-        <item>155</item> <!-- Trash Form -->
-        <!--Cherrim-->
-        <item>172</item> <!-- Overcast Form -->
-        <item>172</item> <!-- Sunny Form -->
-        <!--Shellos-->
-        <item>183</item> <!-- West Sea Form -->
-        <item>183</item> <!-- East Sea Form -->
-        <!--Gastrodon-->
-        <item>244</item> <!-- West Sea Form -->
-        <item>244</item> <!-- East Sea Form -->
-        <!--Rotom-->
-        <item>137</item> <!-- Normal Form -->
-        <item>137</item> <!-- Frost Form -->
-        <item>137</item> <!-- Fan Form -->
-        <item>137</item> <!-- Mow Form -->
-        <item>137</item> <!-- Wash Form -->
-        <item>137</item> <!-- Heat Form -->
-        <!--Giratina-->
-        <item>284</item> <!-- Altered Form -->
-        <item>284</item> <!-- Origin Form -->
-        <!--Shaymin-->
-        <item>225</item> <!-- Land Form -->
-        <item>225</item> <!-- Sky Form -->
-        <!--Arceus-->
-        <item>237</item> <!-- Normal Form -->
-        <item>237</item> <!-- Fighting Form -->
-        <item>237</item> <!-- Flying Form -->
-        <item>237</item> <!-- Poison Form -->
-        <item>237</item> <!-- Ground Form -->
-        <item>237</item> <!-- Rock Form -->
-        <item>237</item> <!-- Bug Form -->
-        <item>237</item> <!-- Ghost Form -->
-        <item>237</item> <!-- Steel Form -->
-        <item>237</item> <!-- Fire Form -->
-        <item>237</item> <!-- Water Form -->
-        <item>237</item> <!-- Grass Form -->
-        <item>237</item> <!-- Electric Form -->
-        <item>237</item> <!-- Psychic Form -->
-        <item>237</item> <!-- Ice Form -->
-        <item>237</item> <!-- Dragon Form -->
-        <item>237</item> <!-- Dark Form -->
-        <item>237</item> <!-- Fairy Form -->
-    </integer-array>
+<integer-array name="formsCount">
+ <item>2</item> <!--Rattata-->
+ <item>2</item> <!--Raticate-->
+ <item>2</item> <!--Raichu-->
+ <item>2</item> <!--Sandshrew-->
+ <item>2</item> <!--Sandslash-->
+ <item>2</item> <!--Vulpix-->
+ <item>2</item> <!--Ninetales-->
+ <item>2</item> <!--Diglett-->
+ <item>2</item> <!--Dugtrio-->
+ <item>2</item> <!--Meowth-->
+ <item>2</item> <!--Persian-->
+ <item>2</item> <!--Geodude-->
+ <item>2</item> <!--Graveler-->
+ <item>2</item> <!--Golem-->
+ <item>2</item> <!--Grimer-->
+ <item>2</item> <!--Muk-->
+ <item>2</item> <!--Exeggutor-->
+ <item>2</item> <!--Marowak-->
+ <item>28</item> <!--Unown-->
+ <item>8</item> <!--Spinda-->
+ <item>4</item> <!--Castform-->
+ <item>4</item> <!--Deoxys-->
+ <item>3</item> <!--Wormadam-->
+ <item>2</item> <!--Cherrim-->
+ <item>2</item> <!--Shellos-->
+ <item>2</item> <!--Gastrodon-->
+ <item>6</item> <!--Rotom-->
+ <item>2</item> <!--Giratina-->
+ <item>2</item> <!--Shaymin-->
+ <item>18</item> <!--Arceus-->
+ </integer-array>
+<string-array name="formNames">
+  <!--Rattata-->
+  <item>Normal Form</item>
+  <item>Alola Form</item>
+  <!--Raticate-->
+  <item>Normal Form</item>
+  <item>Alola Form</item>
+  <!--Raichu-->
+  <item>Normal Form</item>
+  <item>Alola Form</item>
+  <!--Sandshrew-->
+  <item>Normal Form</item>
+  <item>Alola Form</item>
+  <!--Sandslash-->
+  <item>Normal Form</item>
+  <item>Alola Form</item>
+  <!--Vulpix-->
+  <item>Normal Form</item>
+  <item>Alola Form</item>
+  <!--Ninetales-->
+  <item>Normal Form</item>
+  <item>Alola Form</item>
+  <!--Diglett-->
+  <item>Normal Form</item>
+  <item>Alola Form</item>
+  <!--Dugtrio-->
+  <item>Normal Form</item>
+  <item>Alola Form</item>
+  <!--Meowth-->
+  <item>Normal Form</item>
+  <item>Alola Form</item>
+  <!--Persian-->
+  <item>Normal Form</item>
+  <item>Alola Form</item>
+  <!--Geodude-->
+  <item>Normal Form</item>
+  <item>Alola Form</item>
+  <!--Graveler-->
+  <item>Normal Form</item>
+  <item>Alola Form</item>
+  <!--Golem-->
+  <item>Normal Form</item>
+  <item>Alola Form</item>
+  <!--Grimer-->
+  <item>Normal Form</item>
+  <item>Alola Form</item>
+  <!--Muk-->
+  <item>Normal Form</item>
+  <item>Alola Form</item>
+  <!--Exeggutor-->
+  <item>Normal Form</item>
+  <item>Alola Form</item>
+  <!--Marowak-->
+  <item>Normal Form</item>
+  <item>Alola Form</item>
+  <!--Unown-->
+  <item>F Form</item>
+  <item>A Form</item>
+  <item>B Form</item>
+  <item>C Form</item>
+  <item>D Form</item>
+  <item>E Form</item>
+  <item>G Form</item>
+  <item>H Form</item>
+  <item>I Form</item>
+  <item>J Form</item>
+  <item>K Form</item>
+  <item>L Form</item>
+  <item>M Form</item>
+  <item>N Form</item>
+  <item>O Form</item>
+  <item>P Form</item>
+  <item>Q Form</item>
+  <item>R Form</item>
+  <item>S Form</item>
+  <item>T Form</item>
+  <item>U Form</item>
+  <item>V Form</item>
+  <item>W Form</item>
+  <item>X Form</item>
+  <item>Y Form</item>
+  <item>Z Form</item>
+  <item>Exclamation Point Form</item>
+  <item>Question Mark Form</item>
+  <!--Spinda-->
+  <item>00 Form</item>
+  <item>01 Form</item>
+  <item>02 Form</item>
+  <item>03 Form</item>
+  <item>04 Form</item>
+  <item>05 Form</item>
+  <item>06 Form</item>
+  <item>07 Form</item>
+  <!--Castform-->
+  <item>Normal Form</item>
+  <item>Sunny Form</item>
+  <item>Rainy Form</item>
+  <item>Snowy Form</item>
+  <!--Deoxys-->
+  <item>Normal Form</item>
+  <item>Attack Form</item>
+  <item>Defense Form</item>
+  <item>Speed Form</item>
+  <!--Wormadam-->
+  <item>Plant Form</item>
+  <item>Sandy Form</item>
+  <item>Trash Form</item>
+  <!--Cherrim-->
+  <item>Overcast Form</item>
+  <item>Sunny Form</item>
+  <!--Shellos-->
+  <item>West Sea Form</item>
+  <item>East Sea Form</item>
+  <!--Gastrodon-->
+  <item>West Sea Form</item>
+  <item>East Sea Form</item>
+  <!--Rotom-->
+  <item>Normal Form</item>
+  <item>Frost Form</item>
+  <item>Fan Form</item>
+  <item>Mow Form</item>
+  <item>Wash Form</item>
+  <item>Heat Form</item>
+  <!--Giratina-->
+  <item>Altered Form</item>
+  <item>Origin Form</item>
+  <!--Shaymin-->
+  <item>Land Form</item>
+  <item>Sky Form</item>
+  <!--Arceus-->
+  <item>Normal Form</item>
+  <item>Fighting Form</item>
+  <item>Flying Form</item>
+  <item>Poison Form</item>
+  <item>Ground Form</item>
+  <item>Rock Form</item>
+  <item>Bug Form</item>
+  <item>Ghost Form</item>
+  <item>Steel Form</item>
+  <item>Fire Form</item>
+  <item>Water Form</item>
+  <item>Grass Form</item>
+  <item>Electric Form</item>
+  <item>Psychic Form</item>
+  <item>Ice Form</item>
+  <item>Dragon Form</item>
+  <item>Dark Form</item>
+  <item>Fairy Form</item>
+ </string-array>
+<integer-array name="formAttack">
+  <!--Rattata-->
+  <item>103</item> <!-- Normal Form -->
+  <item>103</item> <!-- Alola Form -->
+  <!--Raticate-->
+  <item>161</item> <!-- Normal Form -->
+  <item>135</item> <!-- Alola Form -->
+  <!--Raichu-->
+  <item>193</item> <!-- Normal Form -->
+  <item>201</item> <!-- Alola Form -->
+  <!--Sandshrew-->
+  <item>126</item> <!-- Normal Form -->
+  <item>125</item> <!-- Alola Form -->
+  <!--Sandslash-->
+  <item>182</item> <!-- Normal Form -->
+  <item>177</item> <!-- Alola Form -->
+  <!--Vulpix-->
+  <item>96</item> <!-- Normal Form -->
+  <item>96</item> <!-- Alola Form -->
+  <!--Ninetales-->
+  <item>169</item> <!-- Normal Form -->
+  <item>170</item> <!-- Alola Form -->
+  <!--Diglett-->
+  <item>109</item> <!-- Normal Form -->
+  <item>109</item> <!-- Alola Form -->
+  <!--Dugtrio-->
+  <item>167</item> <!-- Normal Form -->
+  <item>201</item> <!-- Alola Form -->
+  <!--Meowth-->
+  <item>92</item> <!-- Normal Form -->
+  <item>99</item> <!-- Alola Form -->
+  <!--Persian-->
+  <item>150</item> <!-- Normal Form -->
+  <item>158</item> <!-- Alola Form -->
+  <!--Geodude-->
+  <item>132</item> <!-- Normal Form -->
+  <item>132</item> <!-- Alola Form -->
+  <!--Graveler-->
+  <item>164</item> <!-- Normal Form -->
+  <item>164</item> <!-- Alola Form -->
+  <!--Golem-->
+  <item>211</item> <!-- Normal Form -->
+  <item>211</item> <!-- Alola Form -->
+  <!--Grimer-->
+  <item>135</item> <!-- Normal Form -->
+  <item>135</item> <!-- Alola Form -->
+  <!--Muk-->
+  <item>190</item> <!-- Normal Form -->
+  <item>190</item> <!-- Alola Form -->
+  <!--Exeggutor-->
+  <item>233</item> <!-- Normal Form -->
+  <item>230</item> <!-- Alola Form -->
+  <!--Marowak-->
+  <item>144</item> <!-- Normal Form -->
+  <item>144</item> <!-- Alola Form -->
+  <!--Unown-->
+  <item>-1</item> <!-- F Form -->
+  <item>-1</item> <!-- A Form -->
+  <item>-1</item> <!-- B Form -->
+  <item>-1</item> <!-- C Form -->
+  <item>-1</item> <!-- D Form -->
+  <item>-1</item> <!-- E Form -->
+  <item>-1</item> <!-- G Form -->
+  <item>-1</item> <!-- H Form -->
+  <item>-1</item> <!-- I Form -->
+  <item>-1</item> <!-- J Form -->
+  <item>-1</item> <!-- K Form -->
+  <item>-1</item> <!-- L Form -->
+  <item>-1</item> <!-- M Form -->
+  <item>-1</item> <!-- N Form -->
+  <item>-1</item> <!-- O Form -->
+  <item>-1</item> <!-- P Form -->
+  <item>-1</item> <!-- Q Form -->
+  <item>-1</item> <!-- R Form -->
+  <item>-1</item> <!-- S Form -->
+  <item>-1</item> <!-- T Form -->
+  <item>-1</item> <!-- U Form -->
+  <item>-1</item> <!-- V Form -->
+  <item>-1</item> <!-- W Form -->
+  <item>-1</item> <!-- X Form -->
+  <item>-1</item> <!-- Y Form -->
+  <item>-1</item> <!-- Z Form -->
+  <item>-1</item> <!-- Exclamation Point Form -->
+  <item>-1</item> <!-- Question Mark Form -->
+  <!--Spinda-->
+  <item>-1</item> <!-- 00 Form -->
+  <item>-1</item> <!-- 01 Form -->
+  <item>-1</item> <!-- 02 Form -->
+  <item>-1</item> <!-- 03 Form -->
+  <item>-1</item> <!-- 04 Form -->
+  <item>-1</item> <!-- 05 Form -->
+  <item>-1</item> <!-- 06 Form -->
+  <item>-1</item> <!-- 07 Form -->
+  <!--Castform-->
+  <item>139</item> <!-- Normal Form -->
+  <item>139</item> <!-- Sunny Form -->
+  <item>139</item> <!-- Rainy Form -->
+  <item>139</item> <!-- Snowy Form -->
+  <!--Deoxys-->
+  <item>345</item> <!-- Normal Form -->
+  <item>414</item> <!-- Attack Form -->
+  <item>144</item> <!-- Defense Form -->
+  <item>230</item> <!-- Speed Form -->
+  <!--Wormadam-->
+  <item>141</item> <!-- Plant Form -->
+  <item>141</item> <!-- Sandy Form -->
+  <item>127</item> <!-- Trash Form -->
+  <!--Cherrim-->
+  <item>170</item> <!-- Overcast Form -->
+  <item>170</item> <!-- Sunny Form -->
+  <!--Shellos-->
+  <item>103</item> <!-- West Sea Form -->
+  <item>103</item> <!-- East Sea Form -->
+  <!--Gastrodon-->
+  <item>169</item> <!-- West Sea Form -->
+  <item>169</item> <!-- East Sea Form -->
+  <!--Rotom-->
+  <item>185</item> <!-- Normal Form -->
+  <item>204</item> <!-- Frost Form -->
+  <item>204</item> <!-- Fan Form -->
+  <item>204</item> <!-- Mow Form -->
+  <item>204</item> <!-- Wash Form -->
+  <item>204</item> <!-- Heat Form -->
+  <!--Giratina-->
+  <item>187</item> <!-- Altered Form -->
+  <item>225</item> <!-- Origin Form -->
+  <!--Shaymin-->
+  <item>210</item> <!-- Land Form -->
+  <item>261</item> <!-- Sky Form -->
+  <!--Arceus-->
+  <item>238</item> <!-- Normal Form -->
+  <item>238</item> <!-- Fighting Form -->
+  <item>238</item> <!-- Flying Form -->
+  <item>238</item> <!-- Poison Form -->
+  <item>238</item> <!-- Ground Form -->
+  <item>238</item> <!-- Rock Form -->
+  <item>238</item> <!-- Bug Form -->
+  <item>238</item> <!-- Ghost Form -->
+  <item>238</item> <!-- Steel Form -->
+  <item>238</item> <!-- Fire Form -->
+  <item>238</item> <!-- Water Form -->
+  <item>238</item> <!-- Grass Form -->
+  <item>238</item> <!-- Electric Form -->
+  <item>238</item> <!-- Psychic Form -->
+  <item>238</item> <!-- Ice Form -->
+  <item>238</item> <!-- Dragon Form -->
+  <item>238</item> <!-- Dark Form -->
+  <item>238</item> <!-- Fairy Form -->
+ </integer-array>
+<integer-array name="formDefense">
+  <!--Rattata-->
+  <item>70</item> <!-- Normal Form -->
+  <item>70</item> <!-- Alola Form -->
+  <!--Raticate-->
+  <item>139</item> <!-- Normal Form -->
+  <item>154</item> <!-- Alola Form -->
+  <!--Raichu-->
+  <item>151</item> <!-- Normal Form -->
+  <item>154</item> <!-- Alola Form -->
+  <!--Sandshrew-->
+  <item>120</item> <!-- Normal Form -->
+  <item>129</item> <!-- Alola Form -->
+  <!--Sandslash-->
+  <item>175</item> <!-- Normal Form -->
+  <item>195</item> <!-- Alola Form -->
+  <!--Vulpix-->
+  <item>109</item> <!-- Normal Form -->
+  <item>109</item> <!-- Alola Form -->
+  <!--Ninetales-->
+  <item>190</item> <!-- Normal Form -->
+  <item>193</item> <!-- Alola Form -->
+  <!--Diglett-->
+  <item>78</item> <!-- Normal Form -->
+  <item>82</item> <!-- Alola Form -->
+  <!--Dugtrio-->
+  <item>134</item> <!-- Normal Form -->
+  <item>145</item> <!-- Alola Form -->
+  <!--Meowth-->
+  <item>78</item> <!-- Normal Form -->
+  <item>78</item> <!-- Alola Form -->
+  <!--Persian-->
+  <item>136</item> <!-- Normal Form -->
+  <item>136</item> <!-- Alola Form -->
+  <!--Geodude-->
+  <item>132</item> <!-- Normal Form -->
+  <item>132</item> <!-- Alola Form -->
+  <!--Graveler-->
+  <item>164</item> <!-- Normal Form -->
+  <item>164</item> <!-- Alola Form -->
+  <!--Golem-->
+  <item>198</item> <!-- Normal Form -->
+  <item>198</item> <!-- Alola Form -->
+  <!--Grimer-->
+  <item>90</item> <!-- Normal Form -->
+  <item>90</item> <!-- Alola Form -->
+  <!--Muk-->
+  <item>172</item> <!-- Normal Form -->
+  <item>172</item> <!-- Alola Form -->
+  <!--Exeggutor-->
+  <item>149</item> <!-- Normal Form -->
+  <item>153</item> <!-- Alola Form -->
+  <!--Marowak-->
+  <item>186</item> <!-- Normal Form -->
+  <item>186</item> <!-- Alola Form -->
+  <!--Unown-->
+  <item>-1</item> <!-- F Form -->
+  <item>-1</item> <!-- A Form -->
+  <item>-1</item> <!-- B Form -->
+  <item>-1</item> <!-- C Form -->
+  <item>-1</item> <!-- D Form -->
+  <item>-1</item> <!-- E Form -->
+  <item>-1</item> <!-- G Form -->
+  <item>-1</item> <!-- H Form -->
+  <item>-1</item> <!-- I Form -->
+  <item>-1</item> <!-- J Form -->
+  <item>-1</item> <!-- K Form -->
+  <item>-1</item> <!-- L Form -->
+  <item>-1</item> <!-- M Form -->
+  <item>-1</item> <!-- N Form -->
+  <item>-1</item> <!-- O Form -->
+  <item>-1</item> <!-- P Form -->
+  <item>-1</item> <!-- Q Form -->
+  <item>-1</item> <!-- R Form -->
+  <item>-1</item> <!-- S Form -->
+  <item>-1</item> <!-- T Form -->
+  <item>-1</item> <!-- U Form -->
+  <item>-1</item> <!-- V Form -->
+  <item>-1</item> <!-- W Form -->
+  <item>-1</item> <!-- X Form -->
+  <item>-1</item> <!-- Y Form -->
+  <item>-1</item> <!-- Z Form -->
+  <item>-1</item> <!-- Exclamation Point Form -->
+  <item>-1</item> <!-- Question Mark Form -->
+  <!--Spinda-->
+  <item>-1</item> <!-- 00 Form -->
+  <item>-1</item> <!-- 01 Form -->
+  <item>-1</item> <!-- 02 Form -->
+  <item>-1</item> <!-- 03 Form -->
+  <item>-1</item> <!-- 04 Form -->
+  <item>-1</item> <!-- 05 Form -->
+  <item>-1</item> <!-- 06 Form -->
+  <item>-1</item> <!-- 07 Form -->
+  <!--Castform-->
+  <item>139</item> <!-- Normal Form -->
+  <item>139</item> <!-- Sunny Form -->
+  <item>139</item> <!-- Rainy Form -->
+  <item>139</item> <!-- Snowy Form -->
+  <!--Deoxys-->
+  <item>115</item> <!-- Normal Form -->
+  <item>46</item> <!-- Attack Form -->
+  <item>330</item> <!-- Defense Form -->
+  <item>218</item> <!-- Speed Form -->
+  <!--Wormadam-->
+  <item>180</item> <!-- Plant Form -->
+  <item>180</item> <!-- Sandy Form -->
+  <item>175</item> <!-- Trash Form -->
+  <!--Cherrim-->
+  <item>153</item> <!-- Overcast Form -->
+  <item>153</item> <!-- Sunny Form -->
+  <!--Shellos-->
+  <item>105</item> <!-- West Sea Form -->
+  <item>105</item> <!-- East Sea Form -->
+  <!--Gastrodon-->
+  <item>143</item> <!-- West Sea Form -->
+  <item>143</item> <!-- East Sea Form -->
+  <!--Rotom-->
+  <item>159</item> <!-- Normal Form -->
+  <item>219</item> <!-- Frost Form -->
+  <item>219</item> <!-- Fan Form -->
+  <item>219</item> <!-- Mow Form -->
+  <item>219</item> <!-- Wash Form -->
+  <item>219</item> <!-- Heat Form -->
+  <!--Giratina-->
+  <item>225</item> <!-- Altered Form -->
+  <item>187</item> <!-- Origin Form -->
+  <!--Shaymin-->
+  <item>210</item> <!-- Land Form -->
+  <item>166</item> <!-- Sky Form -->
+  <!--Arceus-->
+  <item>238</item> <!-- Normal Form -->
+  <item>238</item> <!-- Fighting Form -->
+  <item>238</item> <!-- Flying Form -->
+  <item>238</item> <!-- Poison Form -->
+  <item>238</item> <!-- Ground Form -->
+  <item>238</item> <!-- Rock Form -->
+  <item>238</item> <!-- Bug Form -->
+  <item>238</item> <!-- Ghost Form -->
+  <item>238</item> <!-- Steel Form -->
+  <item>238</item> <!-- Fire Form -->
+  <item>238</item> <!-- Water Form -->
+  <item>238</item> <!-- Grass Form -->
+  <item>238</item> <!-- Electric Form -->
+  <item>238</item> <!-- Psychic Form -->
+  <item>238</item> <!-- Ice Form -->
+  <item>238</item> <!-- Dragon Form -->
+  <item>238</item> <!-- Dark Form -->
+  <item>238</item> <!-- Fairy Form -->
+ </integer-array>
+<integer-array name="formStamina">
+  <!--Rattata-->
+  <item>102</item> <!-- Normal Form -->
+  <item>102</item> <!-- Alola Form -->
+  <!--Raticate-->
+  <item>146</item> <!-- Normal Form -->
+  <item>181</item> <!-- Alola Form -->
+  <!--Raichu-->
+  <item>155</item> <!-- Normal Form -->
+  <item>155</item> <!-- Alola Form -->
+  <!--Sandshrew-->
+  <item>137</item> <!-- Normal Form -->
+  <item>137</item> <!-- Alola Form -->
+  <!--Sandslash-->
+  <item>181</item> <!-- Normal Form -->
+  <item>181</item> <!-- Alola Form -->
+  <!--Vulpix-->
+  <item>116</item> <!-- Normal Form -->
+  <item>116</item> <!-- Alola Form -->
+  <!--Ninetales-->
+  <item>177</item> <!-- Normal Form -->
+  <item>177</item> <!-- Alola Form -->
+  <!--Diglett-->
+  <item>67</item> <!-- Normal Form -->
+  <item>67</item> <!-- Alola Form -->
+  <!--Dugtrio-->
+  <item>111</item> <!-- Normal Form -->
+  <item>111</item> <!-- Alola Form -->
+  <!--Meowth-->
+  <item>120</item> <!-- Normal Form -->
+  <item>120</item> <!-- Alola Form -->
+  <!--Persian-->
+  <item>163</item> <!-- Normal Form -->
+  <item>163</item> <!-- Alola Form -->
+  <!--Geodude-->
+  <item>120</item> <!-- Normal Form -->
+  <item>120</item> <!-- Alola Form -->
+  <!--Graveler-->
+  <item>146</item> <!-- Normal Form -->
+  <item>146</item> <!-- Alola Form -->
+  <!--Golem-->
+  <item>190</item> <!-- Normal Form -->
+  <item>190</item> <!-- Alola Form -->
+  <!--Grimer-->
+  <item>190</item> <!-- Normal Form -->
+  <item>190</item> <!-- Alola Form -->
+  <!--Muk-->
+  <item>233</item> <!-- Normal Form -->
+  <item>233</item> <!-- Alola Form -->
+  <!--Exeggutor-->
+  <item>216</item> <!-- Normal Form -->
+  <item>216</item> <!-- Alola Form -->
+  <!--Marowak-->
+  <item>155</item> <!-- Normal Form -->
+  <item>155</item> <!-- Alola Form -->
+  <!--Unown-->
+  <item>-1</item> <!-- F Form -->
+  <item>-1</item> <!-- A Form -->
+  <item>-1</item> <!-- B Form -->
+  <item>-1</item> <!-- C Form -->
+  <item>-1</item> <!-- D Form -->
+  <item>-1</item> <!-- E Form -->
+  <item>-1</item> <!-- G Form -->
+  <item>-1</item> <!-- H Form -->
+  <item>-1</item> <!-- I Form -->
+  <item>-1</item> <!-- J Form -->
+  <item>-1</item> <!-- K Form -->
+  <item>-1</item> <!-- L Form -->
+  <item>-1</item> <!-- M Form -->
+  <item>-1</item> <!-- N Form -->
+  <item>-1</item> <!-- O Form -->
+  <item>-1</item> <!-- P Form -->
+  <item>-1</item> <!-- Q Form -->
+  <item>-1</item> <!-- R Form -->
+  <item>-1</item> <!-- S Form -->
+  <item>-1</item> <!-- T Form -->
+  <item>-1</item> <!-- U Form -->
+  <item>-1</item> <!-- V Form -->
+  <item>-1</item> <!-- W Form -->
+  <item>-1</item> <!-- X Form -->
+  <item>-1</item> <!-- Y Form -->
+  <item>-1</item> <!-- Z Form -->
+  <item>-1</item> <!-- Exclamation Point Form -->
+  <item>-1</item> <!-- Question Mark Form -->
+  <!--Spinda-->
+  <item>-1</item> <!-- 00 Form -->
+  <item>-1</item> <!-- 01 Form -->
+  <item>-1</item> <!-- 02 Form -->
+  <item>-1</item> <!-- 03 Form -->
+  <item>-1</item> <!-- 04 Form -->
+  <item>-1</item> <!-- 05 Form -->
+  <item>-1</item> <!-- 06 Form -->
+  <item>-1</item> <!-- 07 Form -->
+  <!--Castform-->
+  <item>172</item> <!-- Normal Form -->
+  <item>172</item> <!-- Sunny Form -->
+  <item>172</item> <!-- Rainy Form -->
+  <item>172</item> <!-- Snowy Form -->
+  <!--Deoxys-->
+  <item>137</item> <!-- Normal Form -->
+  <item>137</item> <!-- Attack Form -->
+  <item>137</item> <!-- Defense Form -->
+  <item>137</item> <!-- Speed Form -->
+  <!--Wormadam-->
+  <item>155</item> <!-- Plant Form -->
+  <item>155</item> <!-- Sandy Form -->
+  <item>155</item> <!-- Trash Form -->
+  <!--Cherrim-->
+  <item>172</item> <!-- Overcast Form -->
+  <item>172</item> <!-- Sunny Form -->
+  <!--Shellos-->
+  <item>183</item> <!-- West Sea Form -->
+  <item>183</item> <!-- East Sea Form -->
+  <!--Gastrodon-->
+  <item>244</item> <!-- West Sea Form -->
+  <item>244</item> <!-- East Sea Form -->
+  <!--Rotom-->
+  <item>137</item> <!-- Normal Form -->
+  <item>137</item> <!-- Frost Form -->
+  <item>137</item> <!-- Fan Form -->
+  <item>137</item> <!-- Mow Form -->
+  <item>137</item> <!-- Wash Form -->
+  <item>137</item> <!-- Heat Form -->
+  <!--Giratina-->
+  <item>284</item> <!-- Altered Form -->
+  <item>284</item> <!-- Origin Form -->
+  <!--Shaymin-->
+  <item>225</item> <!-- Land Form -->
+  <item>225</item> <!-- Sky Form -->
+  <!--Arceus-->
+  <item>237</item> <!-- Normal Form -->
+  <item>237</item> <!-- Fighting Form -->
+  <item>237</item> <!-- Flying Form -->
+  <item>237</item> <!-- Poison Form -->
+  <item>237</item> <!-- Ground Form -->
+  <item>237</item> <!-- Rock Form -->
+  <item>237</item> <!-- Bug Form -->
+  <item>237</item> <!-- Ghost Form -->
+  <item>237</item> <!-- Steel Form -->
+  <item>237</item> <!-- Fire Form -->
+  <item>237</item> <!-- Water Form -->
+  <item>237</item> <!-- Grass Form -->
+  <item>237</item> <!-- Electric Form -->
+  <item>237</item> <!-- Psychic Form -->
+  <item>237</item> <!-- Ice Form -->
+  <item>237</item> <!-- Dragon Form -->
+  <item>237</item> <!-- Dark Form -->
+  <item>237</item> <!-- Fairy Form -->
+ </integer-array>
 </resources>

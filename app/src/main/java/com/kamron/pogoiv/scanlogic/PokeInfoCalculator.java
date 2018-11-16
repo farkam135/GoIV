@@ -152,7 +152,8 @@ public class PokeInfoCalculator {
         ArrayList<Pokemon> formVariantPokemons = new ArrayList<>();
 
         // quick hardcoded patch for Meltan and Melmetal
-        // Tentatively use pokedex list size unless discontinuous pokedex numbers.
+        // Tentatively use pokedex list size until supporting discontinuous pokedex numbers,
+        // like as #493 Arceus, #808 Meltan, #809 Melmetal.
         candyNamesArray[pokeListSize - 2] = pokeListSize - 2;
         candyNamesArray[pokeListSize - 1] = pokeListSize - 2;
         devolution[pokeListSize - 1] = pokeListSize - 2;

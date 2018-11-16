@@ -150,6 +150,14 @@ public class PokeInfoCalculator {
 
         int pokeListSize = names.length;
         ArrayList<Pokemon> formVariantPokemons = new ArrayList<>();
+
+        // quick hardcoded patch for Meltan and Melmetal
+        // Tentatively use pokedex list size unless discontinuous pokedex numbers.
+        candyNamesArray[pokeListSize - 2] = pokeListSize - 2;
+        candyNamesArray[pokeListSize - 1] = pokeListSize - 2;
+        devolution[pokeListSize - 1] = pokeListSize - 2;
+        // END patch for Meltan and Melmetal
+
         for (int i = 0; i < pokeListSize; i++) {
             Pokemon p = new Pokemon(names[i], displayNames[i], i, attack[i], defense[i], stamina[i], devolution[i],
                     evolutionCandyCost[i]);

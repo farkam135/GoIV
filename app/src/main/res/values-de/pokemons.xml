@@ -498,6 +498,8 @@
         <item>Darkrai</item>
         <item>Shaymin</item>
         <item>Arceus</item>
+        <item>Meltan</item>
+        <item>Melmetal</item>
     </string-array>
     <string-array name="typeName">
         <!--  0   normal -->

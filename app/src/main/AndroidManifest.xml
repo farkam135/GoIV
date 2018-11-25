@@ -9,7 +9,8 @@
     <application
         android:name=".PoGoApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/adaptive_icon"
+        android:roundIcon="@mipmap/adaptive_icon_round"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">

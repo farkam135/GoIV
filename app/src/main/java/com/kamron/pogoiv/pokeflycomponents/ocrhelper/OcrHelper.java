@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.util.Pair;
 import android.util.LruCache;
+import android.widget.Toast;
 
 import com.google.common.base.Optional;
 import com.googlecode.tesseract.android.TessBaseAPI;
@@ -991,26 +992,34 @@ public class OcrHelper {
         Optional<Integer> powerUpStardustCost = Optional.absent();
         /*Optional<Integer> powerUpStardustCost = getPokemonPowerUpStardustCostFromImg(tesseract, ocrCache,
                 pokemonImage, ScanArea.calibratedFromSettings(POKEMON_POWER_UP_STARDUST_COST, settings));*/
-        Optional<Integer> powerUpCandyCost = getPokemonPowerUpCandyCostFromImg(pokemonImage,
-                ScanArea.calibratedFromSettings(POKEMON_POWER_UP_CANDY_COST, settings));
+
+
+        Optional<Integer> hp = getPokemonHPFromImg(pokemonImage,
+                ScanArea.calibratedFromSettings(POKEMON_HP_AREA, settings, 0));
 
         int luckyOffset = 0;
-        // If no power up cost was found, check by offsetting down by the height of the
+        // If no  hpwas found, check by offsetting down by the height of the
         // "LUCKY POKEMON" string, which is slightly higher than the power up candy cost field
-        if (!powerUpCandyCost.isPresent()) {
+        if (!hp.isPresent()) {
             int tempLuckyOffset = (int) (0.0247 * pokemonImage.getHeight() * 1.2); // Default value w/o calibration
             ScanArea powerUpCandyArea = ScanArea.calibratedFromSettings(POKEMON_POWER_UP_CANDY_COST, settings);
             if (powerUpCandyArea != null) {
                 tempLuckyOffset = (int) (powerUpCandyArea.height * 1.2);
+            } else{
+                Toast.makeText(pokeflyRef.get(), "Please update GoIV recalibration on a normal unlucky Pokemon.", Toast
+                        .LENGTH_SHORT).show();
             }
 
-            powerUpCandyCost = getPokemonPowerUpCandyCostFromImg(pokemonImage,
-                    ScanArea.calibratedFromSettings(POKEMON_POWER_UP_CANDY_COST, settings, tempLuckyOffset));
-            if (powerUpCandyCost.isPresent()) {
+            hp = getPokemonHPFromImg(pokemonImage,
+                    ScanArea.calibratedFromSettings(POKEMON_HP_AREA, settings, tempLuckyOffset));
+
+            if (hp.isPresent()) {
                 // Found successfully; assume this is a lucky pokemon and offset all further scans below that line
                 luckyOffset = tempLuckyOffset;
             }
         }
+        Optional<Integer> powerUpCandyCost = getPokemonPowerUpCandyCostFromImg(pokemonImage,
+                ScanArea.calibratedFromSettings(POKEMON_POWER_UP_CANDY_COST, settings, luckyOffset));
 
         double estimatedPokemonLevel = getPokemonLevelFromImg(pokemonImage, trainerLevel);
         LevelRange estimatedLevelRange =
@@ -1027,8 +1036,7 @@ public class OcrHelper {
 
         String candyName = getCandyNameFromImg(pokemonImage, gender,
                 ScanArea.calibratedFromSettings(CANDY_NAME_AREA, settings, luckyOffset));
-        Optional<Integer> hp = getPokemonHPFromImg(pokemonImage,
-                ScanArea.calibratedFromSettings(POKEMON_HP_AREA, settings, luckyOffset));
+
         Optional<Integer> cp = getPokemonCPFromImg(pokemonImage,
                 ScanArea.calibratedFromSettings(POKEMON_CP_AREA, settings)); // Not offset for lucky
         Optional<Integer> candyAmount;

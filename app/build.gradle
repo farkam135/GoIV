@@ -162,7 +162,11 @@ android {
         }
     }
 
-    
+    android.applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "GoIV-${variant.name}.${variant.versionName}.apk"
+        }
+    }
 }
 
 /**

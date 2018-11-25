@@ -63,7 +63,7 @@ public class AppUpdateUtilImpl extends AppUpdateUtil {
                 try {
                     JSONObject releaseInfo = new JSONObject(response.body().string());
                     JSONObject releaseAssets = releaseInfo.getJSONArray("assets").getJSONObject(0);
-                    if (releaseAssets.getString("name").contains("Offline")) {
+                    if (releaseAssets.getString("name").toLowerCase().contains("offline")) {
                         releaseAssets = releaseInfo.getJSONArray("assets").getJSONObject(1);
                     }
 

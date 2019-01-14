@@ -23,6 +23,7 @@
  <item>8</item> <!--Spinda-->
  <item>4</item> <!--Castform-->
  <item>4</item> <!--Deoxys-->
+ <item>3</item> <!--Burmy-->
  <item>3</item> <!--Wormadam-->
  <item>2</item> <!--Cherrim-->
  <item>2</item> <!--Shellos-->
@@ -135,6 +136,10 @@
   <item>Attack Form</item>
   <item>Defense Form</item>
   <item>Speed Form</item>
+  <!--Burmy-->
+  <item>Plant Form</item>
+  <item>Sandy Form</item>
+  <item>Trash Form</item>
   <!--Wormadam-->
   <item>Plant Form</item>
   <item>Sandy Form</item>
@@ -205,7 +210,7 @@
   <item>170</item> <!-- Alola Form -->
   <!--Diglett-->
   <item>109</item> <!-- Normal Form -->
-  <item>109</item> <!-- Alola Form -->
+  <item>108</item> <!-- Alola Form -->
   <!--Dugtrio-->
   <item>167</item> <!-- Normal Form -->
   <item>201</item> <!-- Alola Form -->
@@ -284,6 +289,10 @@
   <item>414</item> <!-- Attack Form -->
   <item>144</item> <!-- Defense Form -->
   <item>230</item> <!-- Speed Form -->
+  <!--Burmy-->
+  <item>53</item> <!-- Plant Form -->
+  <item>53</item> <!-- Sandy Form -->
+  <item>53</item> <!-- Trash Form -->
   <!--Wormadam-->
   <item>141</item> <!-- Plant Form -->
   <item>141</item> <!-- Sandy Form -->
@@ -354,10 +363,10 @@
   <item>193</item> <!-- Alola Form -->
   <!--Diglett-->
   <item>78</item> <!-- Normal Form -->
-  <item>82</item> <!-- Alola Form -->
+  <item>81</item> <!-- Alola Form -->
   <!--Dugtrio-->
-  <item>134</item> <!-- Normal Form -->
-  <item>145</item> <!-- Alola Form -->
+  <item>136</item> <!-- Normal Form -->
+  <item>142</item> <!-- Alola Form -->
   <!--Meowth-->
   <item>78</item> <!-- Normal Form -->
   <item>78</item> <!-- Alola Form -->
@@ -433,6 +442,10 @@
   <item>46</item> <!-- Attack Form -->
   <item>330</item> <!-- Defense Form -->
   <item>218</item> <!-- Speed Form -->
+  <!--Burmy-->
+  <item>83</item> <!-- Plant Form -->
+  <item>83</item> <!-- Sandy Form -->
+  <item>83</item> <!-- Trash Form -->
   <!--Wormadam-->
   <item>180</item> <!-- Plant Form -->
   <item>180</item> <!-- Sandy Form -->
@@ -582,6 +595,10 @@
   <item>137</item> <!-- Attack Form -->
   <item>137</item> <!-- Defense Form -->
   <item>137</item> <!-- Speed Form -->
+  <!--Burmy-->
+  <item>120</item> <!-- Plant Form -->
+  <item>120</item> <!-- Sandy Form -->
+  <item>120</item> <!-- Trash Form -->
   <!--Wormadam-->
   <item>155</item> <!-- Plant Form -->
   <item>155</item> <!-- Sandy Form -->

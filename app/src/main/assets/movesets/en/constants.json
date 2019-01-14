@@ -445,8 +445,8 @@
         "SANDSLASH_ALOLA_FORM": "Sandslash - Alola",
         "VULPIX_NORMAL_FORM": "Vulpix - Normal",
         "VULPIX_ALOLA_FORM": "Vulpix - Alola",
-        "NINETALES_NORMAL_FORM": "Ninetails - Normal",
-        "NINETALES_ALOLA_FORM": "Ninetails - Alola",
+        "NINETALES_NORMAL_FORM": "Ninetales - Normal",
+        "NINETALES_ALOLA_FORM": "Ninetales - Alola",
         "DIGLETT_NORMAL_FORM": "Diglett - Normal",
         "DIGLETT_ALOLA_FORM": "Diglett - Alola",
         "DUGTRIO_NORMAL_FORM": "Dugtrio - Normal",
@@ -493,9 +493,9 @@
         "SHIELDON": "Shieldon",
         "BASTIODON": "Bastiodon",
         "BURMY": "Burmy",
-        "WORMADAM": "WORMADAM",
-        "MOTHIM": "MOTHIM",
-        "COMBEE": "COMBEE",
+        "WORMADAM": "Wormadam",
+        "MOTHIM": "Mothim",
+        "COMBEE": "Combbee",
         "VESPIQUEN": "Vespiquen",
         "PACHIRISU": "Pachirisu",
         "BUIZEL": "Buizel",
@@ -613,7 +613,13 @@
         "ARCEUS_STEEL_FORM": "Arceus - Steel",
         "ARCEUS_WATER_FORM": "Arceus - Water",
         "GIRATINA_ALTERED_FORM": "Giratina - Altered",
-        "GIRATINA_ORIGIN_FORM": "Giratina - Origin"
+
+        "GIRATINA_ORIGIN_FORM": "Giratina - Origin",
+        "MELTAN": "Meltan",
+        "MELMETAL": "Melmetal",
+        "BURMY_PLANT_FORM": "Burmy - Plant",
+        "BURMY_SANDY_FORM": "Burmy - Sandy",
+        "BURMY_TRASH_FORM": "Burmy - Trash"
     },
     "moves": {
         "undefined": "",
@@ -827,7 +833,13 @@
         "BLAST_BURN": "Blast Burn",
         "SMACK_DOWN_FAST": "Smack Down",
         "LAST_RESORT": "Last Resort",
-        "METEOR_MASH": "Meteor Mash"
+        "METEOR_MASH": "Meteor Mash",
+        "MOVE_UNSET": "None",
+        "MOVE_NONE": "None",
+        "MOVE_SHIELD": "Shielded",
+        "MOVE_PASS": "No Shield",
+        "COIN_FLIP_WIN": "Coin Flip Win",
+        "COIN_FLIP_LOSE": "Coin Flip Lose"
     },
     "types": {
         "POKEMON_TYPE_NONE": "Unknown",
@@ -880,12 +892,18 @@
                 "label": "Dodge All Weave",
                 "description": "This uses an attack pattern strategy that assumes that the worst case 1.5s delay between attacks could happen every time. This strategy should be reproducible by a human."
             },
+            "PVP" : {
+                "label": "PvP",
+                "description": "This strategy uses pvp mechanices."
+            },
             "undefined": {
                 "label": "Unknown",
                 "description": "This should not occur. Please let us know this happened!"
             }
         },
         "dodge": {
+            "label": "Dodge Strategy",
+
             "DODGE_100": {
                 "label": "Perfect Dodging",
                 "description": "Tries to dodge 100% of the time. This dodge strategy will almost never miss a dodge. You may still get hit in certain unavoidable situations such as when using a special move"
@@ -913,6 +931,21 @@
             "DODGE_90": {
                 "label": "90% Dodging",
                 "description": "Chooses to dodge 90% of the time"
+            }
+        },
+        "shield": {
+            "label": "Shield Strategy",
+            "SHIELD_0": {
+                "label": "Never Shield",
+                "description": "Never tries to shield"
+            },
+            "SHIELD_1": {
+                "label": "Shield Once",
+                "description": "Shields the first special move it can"
+            },
+            "SHIELD_2": {
+                "label": "Shield Twice",
+                "description": "Shields the first two special moves it can"
             }
         },
         "defense": {
@@ -1044,6 +1077,31 @@
             "description": "The maximum friend level you have with anyone at the raid. Best Friends get a 10% bonus to attack and 4 extra bonus balls in raids. They can trade non-mythical Pokemon with a 96% stardust discount."
         }
     },
+    "battlePartyTypes": {
+        "label": "League",
+        "COMBAT_LEAGUE_RAIDS_GYMS": {
+            "label": "Raids & Gyms",
+            "description": "6 pokemon with no limits."
+        },
+        "COMBAT_LEAGUE_DEFAULT_GREAT": {
+            "label": "Great League",
+            "description": "3 pokemon with a maximum CP of 1500."
+        },
+        "COMBAT_LEAGUE_DEFAULT_ULTRA": {
+            "label": "Ultra League",
+            "description": "3 pokemon with a maximum CP of 2500."
+        },
+        "COMBAT_LEAGUE_DEFAULT_MASTER": {
+            "label": "Master League",
+            "description": "3 pokemon with no limits."
+        },
+        "COMBAT_LEAGUE_SILPH_CUP": {
+            "label": "Silph Arena Cup",
+            "description": "The latest Silph Arena Cup tournament.  You may use Ground, Steel, Rock and Fighting Pokemon with a maximum CP of 1500."
+        }
+
+    },
+
 
     "levelVs": "Level {{attackerLevel}} Attacker Vs. Level {{defenderLevel}} Defender",
     "levelVsPokebox": "Level {{attackerLevel}} Attacker Vs. Pokebox {{userId}} Defenders",

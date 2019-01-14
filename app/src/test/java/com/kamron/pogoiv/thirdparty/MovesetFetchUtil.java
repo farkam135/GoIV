@@ -10,6 +10,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -31,10 +32,11 @@ import timber.log.Timber;
  * app/src/main/assets/thirdparty/pokebattler//pokemonMovesetData.json.
  */
 public class MovesetFetchUtil {
-//    private static final String BASE_URL = "https://fight.pokebattler.com";
+    //    private static final String BASE_URL = "https://fight.pokebattler.com";
 //    private static final String BASE_URL = "http://localhost:8001";
     private static final String BASE_URL = "https://fight.pokebattler.com";
     OkHttpClient httpClient;
+
     public MovesetFetchUtil() {
         httpClient = new OkHttpClient.Builder()
                 .connectTimeout(20, TimeUnit.SECONDS)
@@ -57,15 +59,22 @@ public class MovesetFetchUtil {
         MovesetFetchUtil fetcher = new MovesetFetchUtil();
         Map<String, List<MovesetData>> pokemon = fetcher.fetchAllPokemon();
         JSONObject toDump = new JSONObject(pokemon);
-        try (FileWriter writer = new FileWriter(new File
-                ("app/src/main/assets/movesets/movesets.json")
-
-        )) {
+        FileWriter writer = null;
+        try {
+            writer = new FileWriter(new File
+                    ("app/src/main/assets/movesets/movesets.json"));
             writer.write(toDump.toString(2));
+            //System.out.println(toDump.toString(2));
+        } catch (FileNotFoundException e) {
+
             System.out.println(toDump.toString(2));
         }
 
+
+
     }
+
+
 
     public String getAttackURL(String pokemon) {
         return BASE_URL

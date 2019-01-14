@@ -291,7 +291,7 @@
  <item>159</item> <!--Vigoroth-->
  <item>290</item> <!--Slaking-->
  <item>80</item> <!--Nincada-->
- <item>196</item> <!--Ninjask-->
+ <item>199</item> <!--Ninjask-->
  <item>153</item> <!--Shedinja-->
  <item>92</item> <!--Whismur-->
  <item>134</item> <!--Loudred-->
@@ -494,8 +494,8 @@
  <item>285</item> <!--Darkrai-->
  <item>210</item> <!--Shaymin-->
  <item>238</item> <!--Arceus-->
- <item>112</item> <!--Meltan-->
- <item>231</item> <!--Melmetal-->
+ <item>118</item> <!--Meltan-->
+ <item>226</item> <!--Melmetal-->
  </integer-array>
 <integer-array name="defense">
  <item>111</item> <!--Bulbasaur-->
@@ -991,8 +991,8 @@
  <item>198</item> <!--Darkrai-->
  <item>210</item> <!--Shaymin-->
  <item>238</item> <!--Arceus-->
- <item>113</item> <!--Meltan-->
- <item>213</item> <!--Melmetal-->
+ <item>99</item> <!--Meltan-->
+ <item>190</item> <!--Melmetal-->
  </integer-array>
 <integer-array name="stamina">
  <item>128</item> <!--Bulbasaur-->
@@ -3394,8 +3394,8 @@
  <item>-1</item> <!--Rampardos-->
  <item>-1</item> <!--Shieldon-->
  <item>-1</item> <!--Bastiodon-->
- <item>-1</item> <!--Burmy-->
- <item>22</item> <!--Wormadam-->
+ <item>22</item> <!--Burmy-->
+ <item>23</item> <!--Wormadam-->
  <item>-1</item> <!--Mothim-->
  <item>-1</item> <!--Combee-->
  <item>-1</item> <!--Vespiquen-->
@@ -3403,9 +3403,9 @@
  <item>-1</item> <!--Buizel-->
  <item>-1</item> <!--Floatzel-->
  <item>-1</item> <!--Cherubi-->
- <item>23</item> <!--Cherrim-->
- <item>24</item> <!--Shellos-->
- <item>25</item> <!--Gastrodon-->
+ <item>24</item> <!--Cherrim-->
+ <item>25</item> <!--Shellos-->
+ <item>26</item> <!--Gastrodon-->
  <item>-1</item> <!--Ambipom-->
  <item>-1</item> <!--Drifloon-->
  <item>-1</item> <!--Drifblim-->
@@ -3461,7 +3461,7 @@
  <item>-1</item> <!--Probopass-->
  <item>-1</item> <!--Dusknoir-->
  <item>-1</item> <!--Froslass-->
- <item>26</item> <!--Rotom-->
+ <item>27</item> <!--Rotom-->
  <item>-1</item> <!--Uxie-->
  <item>-1</item> <!--Mesprit-->
  <item>-1</item> <!--Azelf-->
@@ -3469,13 +3469,13 @@
  <item>-1</item> <!--Palkia-->
  <item>-1</item> <!--Heatran-->
  <item>-1</item> <!--Regigigas-->
- <item>27</item> <!--Giratina-->
+ <item>28</item> <!--Giratina-->
  <item>-1</item> <!--Cresselia-->
  <item>-1</item> <!--Phione-->
  <item>-1</item> <!--Manaphy-->
  <item>-1</item> <!--Darkrai-->
- <item>28</item> <!--Shaymin-->
- <item>29</item> <!--Arceus-->
+ <item>29</item> <!--Shaymin-->
+ <item>30</item> <!--Arceus-->
  <item>-1</item> <!--Meltan-->
  <item>-1</item> <!--Melmetal-->
  </integer-array>

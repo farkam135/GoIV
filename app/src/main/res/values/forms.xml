@@ -20,7 +20,7 @@
  <item>2</item> <!--Exeggutor-->
  <item>2</item> <!--Marowak-->
  <item>28</item> <!--Unown-->
- <item>8</item> <!--Spinda-->
+ <item>9</item> <!--Spinda-->
  <item>4</item> <!--Castform-->
  <item>4</item> <!--Deoxys-->
  <item>3</item> <!--Burmy-->
@@ -126,6 +126,7 @@
   <item>05 Form</item>
   <item>06 Form</item>
   <item>07 Form</item>
+  <item>08 Form</item>
   <!--Castform-->
   <item>Normal Form</item>
   <item>Sunny Form</item>
@@ -279,6 +280,7 @@
   <item>-1</item> <!-- 05 Form -->
   <item>-1</item> <!-- 06 Form -->
   <item>-1</item> <!-- 07 Form -->
+  <item>-1</item> <!-- 08 Form -->
   <!--Castform-->
   <item>139</item> <!-- Normal Form -->
   <item>139</item> <!-- Sunny Form -->
@@ -432,6 +434,7 @@
   <item>-1</item> <!-- 05 Form -->
   <item>-1</item> <!-- 06 Form -->
   <item>-1</item> <!-- 07 Form -->
+  <item>-1</item> <!-- 08 Form -->
   <!--Castform-->
   <item>139</item> <!-- Normal Form -->
   <item>139</item> <!-- Sunny Form -->
@@ -585,6 +588,7 @@
   <item>-1</item> <!-- 05 Form -->
   <item>-1</item> <!-- 06 Form -->
   <item>-1</item> <!-- 07 Form -->
+  <item>-1</item> <!-- 08 Form -->
   <!--Castform-->
   <item>172</item> <!-- Normal Form -->
   <item>172</item> <!-- Sunny Form -->

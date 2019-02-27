@@ -1604,7 +1604,7 @@
  <item>108</item> <!--Weezing-->
  <item>-1</item> <!--Rhyhorn-->
  <item>110</item> <!--Rhydon-->
- <item>-1</item> <!--Chansey-->
+ <item>439</item> <!--Chansey-->
  <item>-1</item> <!--Tangela-->
  <item>-1</item> <!--Kangaskhan-->
  <item>-1</item> <!--Horsea-->
@@ -1613,7 +1613,7 @@
  <item>117</item> <!--Seaking-->
  <item>-1</item> <!--Staryu-->
  <item>119</item> <!--Starmie-->
- <item>-1</item> <!--Mr Mime-->
+ <item>438</item> <!--Mr Mime-->
  <item>-1</item> <!--Scyther-->
  <item>237</item> <!--Jynx-->
  <item>238</item> <!--Electabuzz-->
@@ -1634,7 +1634,7 @@
  <item>-1</item> <!--Kabuto-->
  <item>139</item> <!--Kabutops-->
  <item>-1</item> <!--Aerodactyl-->
- <item>-1</item> <!--Snorlax-->
+ <item>445</item> <!--Snorlax-->
  <item>-1</item> <!--Articuno-->
  <item>-1</item> <!--Zapdos-->
  <item>-1</item> <!--Moltres-->
@@ -1676,7 +1676,7 @@
  <item>43</item> <!--Bellossom-->
  <item>297</item> <!--Marill-->
  <item>182</item> <!--Azumarill-->
- <item>-1</item> <!--Sudowoodo-->
+ <item>437</item> <!--Sudowoodo-->
  <item>60</item> <!--Politoed-->
  <item>-1</item> <!--Hoppip-->
  <item>186</item> <!--Skiploom-->
@@ -1717,7 +1717,7 @@
  <item>-1</item> <!--Remoraid-->
  <item>222</item> <!--Octillery-->
  <item>-1</item> <!--Delibird-->
- <item>-1</item> <!--Mantine-->
+ <item>457</item> <!--Mantine-->
  <item>-1</item> <!--Skarmory-->
  <item>-1</item> <!--Houndour-->
  <item>227</item> <!--Houndoom-->
@@ -1849,7 +1849,7 @@
  <item>-1</item> <!--Duskull-->
  <item>354</item> <!--Dusclops-->
  <item>-1</item> <!--Tropius-->
- <item>-1</item> <!--Chimecho-->
+ <item>432</item> <!--Chimecho-->
  <item>-1</item> <!--Absol-->
  <item>-1</item> <!--Wynaut-->
  <item>-1</item> <!--Snorunt-->
@@ -1906,8 +1906,8 @@
  <item>-1</item> <!--Burmy-->
  <item>411</item> <!--Wormadam-->
  <item>-1</item> <!--Mothim-->
- <item>413</item> <!--Combee-->
- <item>413</item> <!--Vespiquen-->
+ <item>-1</item> <!--Combee-->
+ <item>414</item> <!--Vespiquen-->
  <item>-1</item> <!--Pachirisu-->
  <item>-1</item> <!--Buizel-->
  <item>417</item> <!--Floatzel-->
@@ -1936,7 +1936,7 @@
  <item>-1</item> <!--Spiritomb-->
  <item>-1</item> <!--Gible-->
  <item>442</item> <!--Gabite-->
- <item>442</item> <!--Garchomp-->
+ <item>443</item> <!--Garchomp-->
  <item>-1</item> <!--Munchlax-->
  <item>-1</item> <!--Riolu-->
  <item>446</item> <!--Lucario-->
@@ -1948,7 +1948,7 @@
  <item>452</item> <!--Toxicroak-->
  <item>-1</item> <!--Carnivine-->
  <item>-1</item> <!--Finneon-->
- <item>-1</item> <!--Lumineon-->
+ <item>455</item> <!--Lumineon-->
  <item>-1</item> <!--Mantyke-->
  <item>-1</item> <!--Snover-->
  <item>458</item> <!--Abomasnow-->
@@ -2096,13 +2096,13 @@
  <item>-1</item> <!--Marowak-->
  <item>-1</item> <!--Hitmonlee-->
  <item>-1</item> <!--Hitmonchan-->
- <item>-1</item> <!--Lickitung-->
+ <item>100</item> <!--Lickitung-->
  <item>50</item> <!--Koffing-->
  <item>-1</item> <!--Weezing-->
  <item>25</item> <!--Rhyhorn-->
  <item>100</item> <!--Rhydon-->
  <item>50</item> <!--Chansey-->
- <item>-1</item> <!--Tangela-->
+ <item>100</item> <!--Tangela-->
  <item>-1</item> <!--Kangaskhan-->
  <item>25</item> <!--Horsea-->
  <item>100</item> <!--Seadra-->
@@ -2178,10 +2178,10 @@
  <item>25</item> <!--Hoppip-->
  <item>100</item> <!--Skiploom-->
  <item>-1</item> <!--Jumpluff-->
- <item>-1</item> <!--Aipom-->
+ <item>100</item> <!--Aipom-->
  <item>50</item> <!--Sunkern-->
  <item>-1</item> <!--Sunflora-->
- <item>-1</item> <!--Yanma-->
+ <item>100</item> <!--Yanma-->
  <item>50</item> <!--Wooper-->
  <item>-1</item> <!--Quagsire-->
  <item>-1</item> <!--Espeon-->
@@ -2208,8 +2208,8 @@
  <item>-1</item> <!--Ursaring-->
  <item>50</item> <!--Slugma-->
  <item>-1</item> <!--Magcargo-->
- <item>50</item> <!--Swinub-->
- <item>-1</item> <!--Piloswine-->
+ <item>25</item> <!--Swinub-->
+ <item>100</item> <!--Piloswine-->
  <item>-1</item> <!--Corsola-->
  <item>50</item> <!--Remoraid-->
  <item>-1</item> <!--Octillery-->
@@ -2349,7 +2349,7 @@
  <item>-1</item> <!--Chimecho-->
  <item>-1</item> <!--Absol-->
  <item>25</item> <!--Wynaut-->
- <item>50</item> <!--Snorunt-->
+ <item>100</item> <!--Snorunt-->
  <item>-1</item> <!--Glalie-->
  <item>25</item> <!--Spheal-->
  <item>100</item> <!--Sealeo-->
@@ -2446,7 +2446,7 @@
  <item>-1</item> <!--Carnivine-->
  <item>50</item> <!--Finneon-->
  <item>-1</item> <!--Lumineon-->
- <item>-1</item> <!--Mantyke-->
+ <item>50</item> <!--Mantyke-->
  <item>50</item> <!--Snover-->
  <item>-1</item> <!--Abomasnow-->
  <item>-1</item> <!--Weavile-->

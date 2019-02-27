@@ -288,14 +288,44 @@ public class OcrHelper {
      * @return the evolution cost (or -1 if absent) wrapped in Optional.of(), or Optional.absent() on scan failure
      */
     private static Optional<Integer> getPokemonEvolutionCostFromImg(@NonNull Bitmap pokemonImage,
+
                                                                     @Nullable ScanArea evolutionCostArea) {
         Bitmap evolutionCostImage = null;
+
+        //Since 'new attack' button is at the same place as "evolve" on max evolutions, we need to make sure
+        //We're not wrongly reading a 'new attack' button. Check this by scanning left of evolutionCostImage, and
+        //looking for a specific color that evolve button doesnt have.
+        Bitmap leftOfEvolutionCostImage = null;
         if (evolutionCostArea != null) {
             evolutionCostImage = getImageCrop(pokemonImage, evolutionCostArea);
+
+            leftOfEvolutionCostImage = Bitmap.createBitmap(pokemonImage,
+                    evolutionCostArea.xPoint-evolutionCostArea.width,//-evolutionCostArea.width,
+                    evolutionCostArea.yPoint,
+                    evolutionCostArea.width,
+                    evolutionCostArea.height);
+            //xstart,ystart,xwidth,
+            // ywidth)
+
         }
         if (evolutionCostImage == null) {
             evolutionCostImage = getImageCrop(pokemonImage, 0.625, 0.815, 0.2, 0.03);
         }
+
+        boolean isNewAttackButton = false;
+        if (leftOfEvolutionCostImage != null){
+            int middle = leftOfEvolutionCostImage.getHeight()/2;
+            for (int i = 0; i < leftOfEvolutionCostImage.getWidth(); i++){
+                System.out.println("color is: " + leftOfEvolutionCostImage.getPixel(i, middle));
+                if (leftOfEvolutionCostImage.getPixel(i, middle) == Color.rgb(68,105,108)){
+                    isNewAttackButton = true;
+                }
+            }
+        }
+        if (isNewAttackButton){
+            return Optional.of(-1);
+        }
+
 
         String hash = "candyCost" + hashBitmap(evolutionCostImage);
 

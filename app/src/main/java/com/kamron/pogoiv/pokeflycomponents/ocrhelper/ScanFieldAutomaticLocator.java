@@ -896,6 +896,14 @@ public class ScanFieldAutomaticLocator {
                 .filter(ByMaxY.of(bmp.getHeight() / 5))
                 // Ensure it is high enough (this filters out the status bar notification icons)
                 .filter(ByMinHeight.of(17.5f * screenshotDensity))
+
+
+                //attempt at cropping out the 'camera' icon so it doesnt make the CP field huge.
+                .filter(ByMaxX.of((int) (bmp.getWidth() * 0.7)))
+                .filter(ByMinX.of((int) (bmp.getWidth() * 0.3)))
+                .filter(ByMaxHeight.of(35f * screenshotDensity))
+
+
                 .toList();
 
         //noinspection PointlessBooleanExpression

@@ -22,6 +22,7 @@ public class IVCombination {
     }
 
     public static IVCombination MAX = new IVCombination(15, 15, 15);
+    public static IVCombination MIN = new IVCombination(0, 0, 0);
 
     @Override
     public boolean equals(Object o) {

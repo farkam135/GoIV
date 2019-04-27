@@ -22,10 +22,7 @@ import com.google.common.base.Strings;
 import com.kamron.pogoiv.GoIVSettings;
 import com.kamron.pogoiv.Pokefly;
 import com.kamron.pogoiv.R;
-import com.kamron.pogoiv.scanlogic.Data;
-import com.kamron.pogoiv.scanlogic.PokeInfoCalculator;
-import com.kamron.pogoiv.scanlogic.Pokemon;
-import com.kamron.pogoiv.scanlogic.PokemonNameCorrector;
+import com.kamron.pogoiv.scanlogic.*;
 import com.kamron.pogoiv.utils.LevelRange;
 import com.kamron.pogoiv.utils.fractions.Fraction;
 import com.kamron.pogoiv.widgets.PokemonSpinnerAdapter;
@@ -168,7 +165,7 @@ public class InputFraction extends Fraction {
         }
         Pokemon pokemon = interpretWhichPokemonUserInput();
         if (pokemon != null) {
-            Pokefly.scanData.setPokemonName(pokemon.name);
+            Pokefly.scanData.setPokemonName(pokemon.base.name);
         }
     }
 
@@ -294,11 +291,20 @@ public class InputFraction extends Fraction {
         } else { //user typed manually
             String userInput = autoCompleteTextView1.getText().toString();
             int lowestDist = Integer.MAX_VALUE;
-            for (Pokemon poke : pokeInfoCalculator.getPokedex()) {
+            for (PokemonBase poke : pokeInfoCalculator.getPokedex()) {
                 int dist = Data.levenshteinDistance(poke.name, userInput);
                 if (dist < lowestDist) {
                     lowestDist = dist;
-                    pokemon = poke;
+                    pokemon = poke.forms.get(0);
+                }
+                // Even though the above might've used forms[0], iterate over all forms as the form's name might have
+                // a better distance. There might be a case where forms[1] beats poke.name but not forms[0].
+                for (Pokemon form : poke.forms) {
+                    dist = Data.levenshteinDistance(form.name, userInput);
+                    if (dist < lowestDist) {
+                        lowestDist = dist;
+                        pokemon = form;
+                    }
                 }
             }
             if (pokemon == null) { //no such pokemon was found, show error toast and abort showing results

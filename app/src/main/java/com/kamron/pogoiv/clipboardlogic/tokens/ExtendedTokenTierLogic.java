@@ -50,7 +50,7 @@ public final class ExtendedTokenTierLogic {
     public static String getRating(final double combatPower, final PokeInfoCalculator calc) {
         MUTEX.acquireUninterruptibly();
         if (MAX_IV == 0) {
-            for (final Pokemon pokemon: calc.getPokedex()) {
+            for (final Pokemon pokemon: calc.getPokedexForms()) {
                 MAX_IV = max(MAX_IV, calc.getCpRangeAtLevel(pokemon, MAXIVCOMB, MAXIVCOMB, MAXLEVEL).getFloatingAvg());
             }
         }

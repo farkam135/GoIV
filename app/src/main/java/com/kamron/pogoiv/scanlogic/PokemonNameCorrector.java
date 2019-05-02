@@ -27,8 +27,8 @@ import static com.kamron.pogoiv.scanlogic.Pokemon.Type;
 public class PokemonNameCorrector {
     private static PokemonNameCorrector instance;
     private final PokeInfoCalculator pokeInfoCalculator;
-    private final Map<String, PokemonBase> normalizedPokemonNameMap;
-    private final Map<String, PokemonBase> normalizedCandyPokemons;
+    private final Map<String, Pokemon> normalizedPokemonNameMap;
+    private final Map<String, Pokemon> normalizedCandyPokemons;
     private final Map<Pokemon.Type, String> normalizedTypeNames;
     private Resources res;
     private static String nidoFemale;
@@ -39,9 +39,9 @@ public class PokemonNameCorrector {
         this.pokeInfoCalculator = PokeInfoCalculator.getInstance(context);
 
         // create and cache the pokedex pokemons collection with normalized their names as keys
-        Map<String, PokemonBase> pokemap = new HashMap<>();
+        Map<String, Pokemon> pokemap = new HashMap<>();
         for (PokemonBase pokemon : pokeInfoCalculator.getPokedex()) {
-            pokemap.put(StringUtils.normalize(pokemon.name), pokemon);
+            pokemap.put(StringUtils.normalize(pokemon.name), pokemon.forms.get(0));
         }
         this.normalizedPokemonNameMap = pokemap;
         this.res = context.getResources();
@@ -60,7 +60,7 @@ public class PokemonNameCorrector {
         // create and cache the candy pokemons collection with normalized their names as keys
         this.normalizedCandyPokemons = new HashMap<>();
         for (PokemonBase pokemon : pokeInfoCalculator.getCandyPokemons()) {
-            this.normalizedCandyPokemons.put(StringUtils.normalize(pokemon.name), pokemon);
+            this.normalizedCandyPokemons.put(StringUtils.normalize(pokemon.name), pokemon.forms.get(0));
         }
     }
 
@@ -93,11 +93,7 @@ public class PokemonNameCorrector {
         PokeDist guess;
 
         //1. Check if nickname perfectly matches a pokemon (which means pokemon is probably not renamed)
-        Pokemon namedGuess = null;
-        if (normalizedPokemonNameMap.containsKey(normalizedPokemonName)) {
-            namedGuess = normalizedPokemonNameMap.get(normalizedPokemonName).forms.get(0);
-        }
-        guess = new PokeDist(namedGuess, 0);
+        guess = new PokeDist(normalizedPokemonNameMap.get(normalizedPokemonName), 0);
 
         //2. See if we can get a perfect match with candy name & upgrade cost
         if (guess.pokemon == null) {
@@ -194,7 +190,7 @@ public class PokemonNameCorrector {
 
         //7. All else failed: make a wild guess based only on closest name match
         if (guess.pokemon == null) {
-            guess = guessBestPokemonBaseByNormalizedName(normalizedPokemonName, normalizedPokemonNameMap);
+            guess = guessBestPokemonByNormalizedName(normalizedPokemonName, normalizedPokemonNameMap);
         }
 
 
@@ -253,6 +249,16 @@ public class PokemonNameCorrector {
         return normalizedTypeNames.get(type);
     }
 
+    /**
+     * Return the PokeDist pokemon if the scanned type contains the given type. In that case it uses the given form index.
+     *
+     * @param guess Previous guess
+     * @param scanData Scanned data containing the Pokemon's types
+     * @param pokeType The given type which is "unique" for a given form
+     * @param formIndex The corresponding form index, where the type belongs to
+     * @return If the scanned type contains the given type a new PokeDist pokemon using a form of the previous guess.
+     *  Otherwise null.
+     */
     private PokeDist createFormPokeDist(PokeDist guess, ScanData scanData, Type pokeType, int formIndex) {
         if (scanData.getNormalizedPokemonType().contains(normalizePokemonType(pokeType))) {
             return new PokeDist(guess.pokemon.base.forms.get(formIndex), 0);
@@ -261,7 +267,17 @@ public class PokemonNameCorrector {
         }
     }
 
-    private PokeDist createFormPokeDists(PokeDist guess, ScanData scanData, Type... pokeTypes) {
+    /**
+     * Returns a guess based on the given scan data's type and the current "base". It uses the position in the pokeTypes
+     * array as the index for the form. So the first type should match the first form, and so forth.
+     *
+     * @param guess Uses the base Pokemon of this guess for selecting the form
+     * @param scanData Scanned data containing the Pokemon's types
+     * @param pokeTypes An array of Type instances, where the position corresponds to the form's index.
+     * @return A new PokeDist pokemon using the first type which is in the scanned data and the corresponding form. If there
+     *  is no such Pokemon it returns null.
+     */
+    private PokeDist createFormPokeDistances(PokeDist guess, ScanData scanData, Type... pokeTypes) {
         for (int i = 0; i < pokeTypes.length; i++) {
             PokeDist dist = createFormPokeDist(guess, scanData, pokeTypes[i], i);
             if (dist != null) {
@@ -329,9 +345,9 @@ public class PokemonNameCorrector {
                     // check types including fire
                     return createFormPokeDist(guess, scanData, Type.FIRE, 1);
                 case (412): // Wormadam
-                    return createFormPokeDists(guess, scanData, Type.DARK, Type.GROUND, Type.STEEL);
+                    return createFormPokeDistances(guess, scanData, Type.DARK, Type.GROUND, Type.STEEL);
                 case (478): // Rotom
-                    return createFormPokeDists(guess, scanData, Type.GHOST, Type.ICE, Type.FLYING, Type.GRASS,
+                    return createFormPokeDistances(guess, scanData, Type.GHOST, Type.ICE, Type.FLYING, Type.GRASS,
                             Type.WATER, Type.FIRE);
                 case (491): // Shayamin
                     PokeDist dist = createFormPokeDist(guess, scanData, Type.FLYING, 1);
@@ -340,7 +356,7 @@ public class PokemonNameCorrector {
                     }
                     return dist;
                 case (492): // Rotom
-                    return createFormPokeDists(guess, scanData, Type.NORMAL, Type.FIGHTING, Type.FLYING, Type.POISON,
+                    return createFormPokeDistances(guess, scanData, Type.NORMAL, Type.FIGHTING, Type.FLYING, Type.POISON,
                             Type.GROUND, Type.ROCK, Type.BUG, Type.GHOST, Type.STEEL, Type.FIRE, Type.WATER, Type.GRASS,
                             Type.ELECTRIC, Type.PSYCHIC, Type.ICE, Type.DRAGON, Type.DARK, Type.FAIRY);
                 default:
@@ -388,50 +404,19 @@ public class PokemonNameCorrector {
      * @param pokemons the pokemons collection with normalized their names as keys to search the normalized name into.
      * @return a pokedist representing the search result.
      */
-    private PokeDist guessBestPokemonBaseByNormalizedName(String normalizedName, Map<String, PokemonBase> pokemons) {
-        Dist<PokemonBase> dist = guessBestMatch(normalizedName, pokemons);
-        Pokemon bestMatch;
-        if (dist.object != null) {
-            bestMatch = dist.object.forms.get(0);
-        } else {
-            bestMatch = null;
-        }
-        return new PokeDist(bestMatch, dist.dist);
-    }
-
-    /**
-     * A method which returns the best guess at which pokemon it is according to similarity with the name
-     * in the given pokemons collection.
-     *
-     * @param normalizedName the normalized input name to compare with
-     * @param pokemons the pokemons collection with normalized their names as keys to search the normalized name into.
-     * @return a pokedist representing the search result.
-     */
     private PokeDist guessBestPokemonByNormalizedName(String normalizedName, Map<String, Pokemon> pokemons) {
-        return PokeDist.fromDist(guessBestMatch(normalizedName, pokemons));
-    }
-
-    /**
-     * A method which returns the best guess at which pokemon it is according to similarity with the name
-     * in the given pokemons collection.
-     *
-     * @param normalizedName the normalized input name to compare with
-     * @param pokemons the pokemons collection with normalized their names as keys to search the normalized name into.
-     * @return a pokedist representing the search result.
-     */
-    private <T> Dist<T> guessBestMatch(String normalizedName, Map<String, T> pokemons) {
         //if there's no perfect match, get the pokemon that best matches the nickname within the best guess evo-line
-        T bestMatch = null;
+        Pokemon bestMatchPokemon = null;
         int lowestDist = Integer.MAX_VALUE;
-        for (Map.Entry<String, T> trypoke : pokemons.entrySet()) {
+        for (Map.Entry<String, Pokemon> trypoke : pokemons.entrySet()) {
             int dist = Data.levenshteinDistance(trypoke.getKey(), normalizedName);
             if (dist < lowestDist) {
-                bestMatch = trypoke.getValue();
+                bestMatchPokemon = trypoke.getValue();
                 lowestDist = dist;
                 if (dist == 0) break;
             }
         }
-        return new Dist<>(bestMatch, lowestDist);
+        return new PokeDist(bestMatchPokemon, lowestDist);
     }
 
     /**
@@ -442,7 +427,7 @@ public class PokemonNameCorrector {
      * @return an evolution line which the string best matches the base evolution pokemon name
      */
     private ArrayList<Pokemon> getBestGuessForEvolutionLine(String input) {
-        PokeDist bestMatch = guessBestPokemonBaseByNormalizedName(input, normalizedCandyPokemons);
+        PokeDist bestMatch = guessBestPokemonByNormalizedName(input, normalizedCandyPokemons);
         return pokeInfoCalculator.getEvolutionLine(bestMatch.pokemon);
     }
 
@@ -451,31 +436,16 @@ public class PokemonNameCorrector {
      * is used to colorize the background for the guessed pokemon in the overlay input screen.
      */
     @AllArgsConstructor
-    public static class Dist<T> {
+    public static class PokeDist {
         /**
          * A pokemon.
          */
-        public final T object;
+        public final Pokemon pokemon;
 
         /**
          * A string distance between a searched pokemon name and the name of pokemonId.
          * Since it's a distance, the smaller it is the closer is the match.
          */
         public final int dist;
-    }
-
-    // TODO: Replace everywhere with Dist<Pokemon>?
-    public static class PokeDist extends Dist<Pokemon> {
-
-        public final Pokemon pokemon;
-
-        public PokeDist(Pokemon pokemon, int dist) {
-            super(pokemon, dist);
-            this.pokemon = pokemon;
-        }
-
-        public static PokeDist fromDist(Dist<Pokemon> dist) {
-            return new PokeDist(dist.object, dist.dist);
-        }
     }
 }

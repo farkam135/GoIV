@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * Pokemon base class, it only holds the common data for a pokedex number. It holds also a list of all forms in that
- * pokedex number.
+ * pokedex number as Pokemon instances.
  */
 public class PokemonBase {
 
@@ -53,24 +53,6 @@ public class PokemonBase {
     @Override
     public String toString() {
         return displayName;
-    }
-
-    /**
-     * Checks if this Pokemon is the direct evolution of otherPokemon.
-     * Example:
-     * - Charmeleon.isInNextEvolution(Charmander) returns true
-     * - Charizard.isInNextEvolution(Charmander) returns false (it has to be the NEXT evolution)
-     *
-     * @param otherPokemon the pokemon which is potentially an evolution of this
-     * @return true if evolution
-     */
-    public boolean isNextEvolutionOf(PokemonBase otherPokemon) {
-        for (PokemonBase evolution : otherPokemon.evolutions) {
-            if (number == evolution.number) {
-                return true;
-            }
-        }
-        return false;
     }
 
     public Pokemon getForm(@NonNull String formName) {

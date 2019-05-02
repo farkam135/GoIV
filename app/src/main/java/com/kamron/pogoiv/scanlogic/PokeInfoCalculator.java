@@ -100,10 +100,23 @@ public class PokeInfoCalculator {
         return null;
     }
 
+    /**
+     * Returns the normal form for a given number, working only for pokemons which don't have any forms.
+     *
+     * @param number the number which this application internally uses to identify pokemon
+     * @return Pokemon instance
+     */
     public Pokemon getForm(int number) {
         return getForm(number, "");
     }
 
+    /**
+     * Returns a specific pokemon for a given number and form name.
+     *
+     * @param number the number which this application internally uses to identify pokemon
+     * @param formName the form name of the pokemon
+     * @return Pokemon instance
+     */
     public Pokemon getForm(int number, String formName) {
         return get(number).getForm(formName);
     }
@@ -428,7 +441,6 @@ public class PokeInfoCalculator {
      * @return a pokemon, in the example would return charmander
      */
     private Pokemon getLowestEvolution(Pokemon poke) {
-        // TODO: Replaced by dynamic while block
         if (poke.devoNumber < 0) {
             return poke; //already lowest evolution
         }
@@ -456,17 +468,6 @@ public class PokeInfoCalculator {
     }
 
     /**
-     * Get all the pokemon forms for a pokemon.
-     *
-     * @param poke a pokemon, example Exeggutor
-     * @return all the pokemon forms, in the example would return Exeggutor normal and Exeggutor Alola
-     */
-    private ArrayList<Pokemon> getForms(Pokemon poke) {
-        // TODO: Deprecated?
-        return new ArrayList<>(poke.base.forms);
-    }
-
-    /**
      * Returns the evolution line of a pokemon.
      *
      * @param poke the pokemon to check the evolution line of
@@ -476,11 +477,11 @@ public class PokeInfoCalculator {
         poke = getLowestEvolution(poke);
 
         ArrayList<Pokemon> list = new ArrayList<>();
-        list.addAll(getForms(poke));
+        list.addAll(poke.base.forms);
         for (Pokemon evolution2nd : poke.getEvolutions()) {
-            list.addAll(getForms(evolution2nd));
+            list.addAll(evolution2nd.base.forms);
             for (Pokemon evolution3rd : evolution2nd.getEvolutions()) {
-                list.addAll(getForms(evolution3rd));
+                list.addAll(evolution3rd.base.forms);
             }
         }
 

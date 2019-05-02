@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Pokemon class for each form, it has a reference to the base corresponding to the number in the Pokedex.
+ *
  * Created by Kamron on 7/30/2016.
  */
 
@@ -70,19 +72,19 @@ public class Pokemon {
 
     public final PokemonBase base;
     public final String formName;
-    // TODO: Maybe use always base?
+    // Copy of the value in the base class
     public final int number; //index number in resources, pokedex number - 1
     public final int baseAttack;
     public final int baseDefense;
     public final int baseStamina;
-    // TODO: Maybe use always base?
+    // Copy of the value in the base class
     public final int devoNumber;
-    // TODO: Maybe use always base?
+    // Copy of the value in the base class
     public final int candyEvolutionCost;
 
     public Pokemon(PokemonBase base, @NonNull String formName, int baseAttack, int baseDefense, int baseStamina) {
         this.base = base;
-        this.formName = formName;  // TODO: Maybe move to after the if?
+        this.formName = formName;
         if (!formName.isEmpty()) {
             formName = " - " + formName;
         }
@@ -133,9 +135,5 @@ public class Pokemon {
             }
         }
         return formEvolutions;
-    }
-
-    public PokemonBase getBase() {
-        return base;
     }
 }

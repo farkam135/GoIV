@@ -65,7 +65,8 @@ public class AppraisalFraction extends MovableFraction implements AppraisalManag
 
     @BindView(R.id.eggRaidSwitch)
     Switch eggRaidSwitch;
-
+    @BindView(R.id.weatherSwitch)
+    Switch weatherSwitch;
 
     private Pokefly pokefly;
     private AppraisalManager appraisalManager;
@@ -226,7 +227,7 @@ public class AppraisalFraction extends MovableFraction implements AppraisalManag
                 eggRaidSwitch.setChecked(true);
                 break;
             case WEATHER_BOOST:
-                // TODO weatherSwitch.setChecked(true);
+                weatherSwitch.setChecked(true);
                 break;
             default:
                 break;
@@ -358,9 +359,29 @@ public class AppraisalFraction extends MovableFraction implements AppraisalManag
     @OnCheckedChanged(R.id.eggRaidSwitch)
     void onEggOrRaid(boolean checked) {
         if (checked) {
+            if(appraisalManager.statModifiers.contains(AppraisalManager.StatModifier.WEATHER_BOOST)) {
+                toggleWeatherSwitch();
+            }
             appraisalManager.statModifiers.add(AppraisalManager.StatModifier.EGG_OR_RAID);
         } else {
             appraisalManager.statModifiers.remove(AppraisalManager.StatModifier.EGG_OR_RAID);
+        }
+    }
+
+    @OnClick(R.id.weatherText)
+    void toggleWeatherSwitch() {
+        weatherSwitch.toggle();
+    }
+
+    @OnCheckedChanged(R.id.weatherSwitch)
+    void onWeatherBoost(boolean checked) {
+        if (checked) {
+            if(appraisalManager.statModifiers.contains(AppraisalManager.StatModifier.EGG_OR_RAID)) {
+                toggleRaidSwitch();
+            }
+            appraisalManager.statModifiers.add(AppraisalManager.StatModifier.WEATHER_BOOST);
+        } else {
+            appraisalManager.statModifiers.remove(AppraisalManager.StatModifier.WEATHER_BOOST);
         }
     }
 

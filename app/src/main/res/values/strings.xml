@@ -167,6 +167,7 @@
     <string name="is1">best ..\nno doubt</string>
 
     <string name="acquired_from_egg_or_raid">Acquired from egg or raid</string>
+    <string name="weather_boost">Weatherboosted</string>
     <string name="recalibrate_goiv_notification">Recalibrate</string>
     <string name="title_activity_ocr_calibration_result">Calibration Result</string>
     <string name="title_activity_ocr_calibration_error">Calibration Error</string>

@@ -286,6 +286,19 @@
             android:textColor="?android:attr/textColorPrimaryDisableOnly"
             android:text="@string/acquired_from_egg_or_raid" />
 
+        <Switch
+            android:id="@+id/weatherSwitch"
+            android:layout_width="60dp"
+            android:layout_height="40dp"/>
+
+        <TextView
+            android:id="@+id/weatherText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:labelFor="@id/weatherSwitch"
+            android:text="@string/weather_boost"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="?android:attr/textColorPrimaryDisableOnly"/>
     </LinearLayout>
 
     <LinearLayout

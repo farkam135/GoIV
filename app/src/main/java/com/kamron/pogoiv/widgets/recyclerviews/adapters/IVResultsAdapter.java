@@ -12,10 +12,13 @@ import android.widget.TextView;
 import com.kamron.pogoiv.Pokefly;
 import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.scanlogic.IVCombination;
+import com.kamron.pogoiv.scanlogic.PokeInfoCalculator;
 import com.kamron.pogoiv.scanlogic.ScanResult;
 import com.kamron.pogoiv.utils.GuiUtil;
 
 import java.util.List;
+
+import static com.kamron.pogoiv.Pokefly.scanResult;
 
 /**
  * Created by OskO on 29/08/16.
@@ -38,11 +41,13 @@ public class IVResultsAdapter extends RecyclerView.Adapter<IVResultsAdapter.Resu
     @Override
     public void onBindViewHolder(ResultsViewHolder holder, int position) {
         IVCombination currentSet = dataSet.get(position);
+        int nextCP = getNextCP(currentSet);
 
         holder.resultAttack.setText(String.valueOf(currentSet.att));
         holder.resultDefense.setText(String.valueOf(currentSet.def));
         holder.resultHP.setText(String.valueOf(currentSet.sta));
         holder.resultPercentage.setText(String.valueOf(currentSet.percentPerfect));
+        holder.resultNextCP.setText(String.valueOf(nextCP));
 
         GuiUtil.setTextColorByIV(holder.resultAttack, currentSet.att);
         GuiUtil.setTextColorByIV(holder.resultDefense, currentSet.def);
@@ -78,6 +83,7 @@ public class IVResultsAdapter extends RecyclerView.Adapter<IVResultsAdapter.Resu
         final TextView resultDefense;
         final TextView resultHP;
         final TextView resultPercentage;
+        final TextView resultNextCP;
         final LinearLayout llRvResult;
 
         ResultsViewHolder(View itemView) {
@@ -87,6 +93,7 @@ public class IVResultsAdapter extends RecyclerView.Adapter<IVResultsAdapter.Resu
             resultDefense = itemView.findViewById(R.id.resultDefense);
             resultHP = itemView.findViewById(R.id.resultHP);
             resultPercentage = itemView.findViewById(R.id.resultPercentage);
+            resultNextCP = itemView.findViewById(R.id.resultNextCP);
             llRvResult = itemView.findViewById(R.id.llRvResult);
 
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -99,5 +106,11 @@ public class IVResultsAdapter extends RecyclerView.Adapter<IVResultsAdapter.Resu
 
     }
 
+    public int getNextCP(IVCombination set) {
+        double incLevel = scanResult.levelRange.min+.5;
+        return PokeInfoCalculator.getInstance().getCpRangeAtLevel(scanResult.pokemon,
+                set, set,
+                incLevel).getAvg();
+    }
 
 }

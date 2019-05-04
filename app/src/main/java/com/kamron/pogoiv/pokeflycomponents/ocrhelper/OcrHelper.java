@@ -54,6 +54,9 @@ public class OcrHelper {
     private static LruCache<String, String> appraisalCache;
 
 
+    private static int DEFAULT_FONT_COLOR = 4680814; //Pokemon go font color, rgb 71,108,110 (approximate)
+    private static int CANT_AFFORD_FONT_COLOR = 16736100; //Pokemon go font color, rgb 255,95,100 (approximate)
+
     private static WeakReference<Pokefly> pokeflyRef;
 
 
@@ -238,10 +241,12 @@ public class OcrHelper {
      */
     private static Optional<Integer> getPokemonEvolutionCostFromImgUncached(@NonNull Bitmap evolutionCostImage) {
         //clean the image
-        //the dark color used for text in pogo is approximately rgb 76,112,114 if you can afford evo
-        //and the red color is rgb 255 95 100 when you cant afford the evolution
+
+        //Could use DEAFULT_FONT_COLOR, but hardcoded instead
         Bitmap evolutionCostImageCanAfford = replaceColors(evolutionCostImage, false, 68, 105, 108, Color.WHITE, 30,
                 false);
+
+        //Could use CANT_AFFORD_FONT_COLOR, but hardcoded instead.
         Bitmap evolutionCostImageCannotAfford = replaceColors(evolutionCostImage, false, 255, 115, 115, Color.WHITE, 40,
                 false);
 
@@ -313,13 +318,33 @@ public class OcrHelper {
         }
 
         boolean isNewAttackButton = false;
+
+        //Run through a row of pixels to the left of the evolution cost number, to see if there's 'new attack' text
+        //The dark-green ish text for the stardust has the color code rgb: 71 108 110 (not exact near edges & anti
+        // aliasing)
+        //The block counts the number of text pixels, and checks the % that is text. Evolutions that require
+        // evolution stones only have a '1', which should not count as a 'new attack button' field.
+
+       // The color code for 'cant afford' text is approximately rgb 255 95 100
+
         if (leftOfEvolutionCostImage != null){
             int middle = leftOfEvolutionCostImage.getHeight()/2;
-            for (int i = 0; i < leftOfEvolutionCostImage.getWidth(); i++){
-                System.out.println("color is: " + leftOfEvolutionCostImage.getPixel(i, middle));
-                if (leftOfEvolutionCostImage.getPixel(i, middle) == Color.rgb(68,105,108)){
-                    isNewAttackButton = true;
+            int amountOfTextPixels = 0;
+            for (int i = 0; i < leftOfEvolutionCostImage.getWidth(); i++) {
+                int color = leftOfEvolutionCostImage.getPixel(i, middle);
+                boolean normalRange = isInColorRange(color, DEFAULT_FONT_COLOR, 6);
+                boolean cantAffordRange = isInColorRange(color, CANT_AFFORD_FONT_COLOR, 6); //if user
+                //cant afford the stardust cost
+
+                if (normalRange || cantAffordRange) {
+                    amountOfTextPixels++;
                 }
+
+
+            }
+            double percentTextPixels = amountOfTextPixels / (double) leftOfEvolutionCostImage.getWidth();
+            if (percentTextPixels > 0.08){ //An evolution stone with '1' cost results in approx 5% text pixels.
+                isNewAttackButton = true;
             }
         }
         if (isNewAttackButton){
@@ -354,6 +379,31 @@ public class OcrHelper {
             ocrCache.put(hash, ocrResult);
         }
         return result;
+    }
+
+    /**
+     * Checks if the rgb value of an input color is within +- distance on the R, G and B channel.
+     * For example, the color 100,100,100 and the color 100,110,110 distance 15 would fail, because both G and B
+     * channels are outside the range.
+     * @param inputColor
+     * @param matchWithColor
+     * @param allowedDistance
+     * @return
+     */
+    private static boolean isInColorRange(int inputColor, int matchWithColor, int allowedDistance){
+        int red = Color.red(inputColor);
+        int green = Color.green(inputColor);
+        int blue = Color.blue(inputColor);
+
+        int matchRed = Color.red(matchWithColor);
+        int matchGreen = Color.green(matchWithColor);
+        int matchBlue = Color.blue(matchWithColor);
+
+        boolean redInRange = red > matchRed - allowedDistance && red < matchRed + allowedDistance;
+        boolean blueInRange = blue > matchBlue - allowedDistance && blue < matchBlue + allowedDistance;
+        boolean greenInRange = green > matchGreen - allowedDistance && green < matchGreen + allowedDistance;
+
+        return redInRange && blueInRange && greenInRange;
     }
 
     /**

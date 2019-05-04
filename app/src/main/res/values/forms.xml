@@ -156,11 +156,11 @@
   <item>East Sea Form</item>
   <!--Rotom-->
   <item>Normal Form</item>
+  <item>Heat Form</item>
+  <item>Wash Form</item>
   <item>Frost Form</item>
   <item>Fan Form</item>
   <item>Mow Form</item>
-  <item>Wash Form</item>
-  <item>Heat Form</item>
   <!--Giratina-->
   <item>Altered Form</item>
   <item>Origin Form</item>
@@ -310,11 +310,11 @@
   <item>169</item> <!-- East Sea Form -->
   <!--Rotom-->
   <item>185</item> <!-- Normal Form -->
+  <item>204</item> <!-- Heat Form -->
+  <item>204</item> <!-- Wash Form -->
   <item>204</item> <!-- Frost Form -->
   <item>204</item> <!-- Fan Form -->
   <item>204</item> <!-- Mow Form -->
-  <item>204</item> <!-- Wash Form -->
-  <item>204</item> <!-- Heat Form -->
   <!--Giratina-->
   <item>187</item> <!-- Altered Form -->
   <item>225</item> <!-- Origin Form -->
@@ -464,11 +464,11 @@
   <item>143</item> <!-- East Sea Form -->
   <!--Rotom-->
   <item>159</item> <!-- Normal Form -->
+  <item>219</item> <!-- Heat Form -->
+  <item>219</item> <!-- Wash Form -->
   <item>219</item> <!-- Frost Form -->
   <item>219</item> <!-- Fan Form -->
   <item>219</item> <!-- Mow Form -->
-  <item>219</item> <!-- Wash Form -->
-  <item>219</item> <!-- Heat Form -->
   <!--Giratina-->
   <item>225</item> <!-- Altered Form -->
   <item>187</item> <!-- Origin Form -->
@@ -618,11 +618,11 @@
   <item>244</item> <!-- East Sea Form -->
   <!--Rotom-->
   <item>137</item> <!-- Normal Form -->
+  <item>137</item> <!-- Heat Form -->
+  <item>137</item> <!-- Wash Form -->
   <item>137</item> <!-- Frost Form -->
   <item>137</item> <!-- Fan Form -->
   <item>137</item> <!-- Mow Form -->
-  <item>137</item> <!-- Wash Form -->
-  <item>137</item> <!-- Heat Form -->
   <!--Giratina-->
   <item>284</item> <!-- Altered Form -->
   <item>284</item> <!-- Origin Form -->

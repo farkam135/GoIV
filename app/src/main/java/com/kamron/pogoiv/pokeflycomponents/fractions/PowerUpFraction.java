@@ -168,17 +168,16 @@ public class PowerUpFraction extends Fraction {
         int spinnerSelectionIdx = extendedEvolutionSpinner.getSelectedItemPosition();
 
         if (spinnerSelectionIdx == -1) {
+            if (!scannedPokemon.getEvolutions().isEmpty()) {
+                scannedPokemon = scannedPokemon.getEvolutions().get(0);
+            }
             // This happens at the beginning or after changing the pokemon list.
             //if initialising list, act as if scanned pokemon is marked
             for (int i = 0; i < evolutionLine.size(); i++) {
-                if (evolutionLine.get(i).number == scannedPokemon.number) {
+                if (evolutionLine.get(i).toString() == scannedPokemon.toString()) {
                     spinnerSelectionIdx = i;
                     break;
                 }
-            }
-            if (!scannedPokemon.evolutions.isEmpty()) {
-                //Equivalently, if this pokemon is not the last of its evolution line.
-                spinnerSelectionIdx++;
             }
             //Invariant: evolutionLine.get(spinnerSelectionIdx).number == scannedPokemon.number., hence
             //evolutionLine.get(spinnerSelectionIdx) == scannedPokemon.

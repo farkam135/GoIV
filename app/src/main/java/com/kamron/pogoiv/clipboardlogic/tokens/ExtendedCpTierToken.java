@@ -48,7 +48,7 @@ public class ExtendedCpTierToken extends ClipboardToken {
         while (!toVisit.isEmpty()) {
             final Pokemon pokemon = toVisit.pop();
             max = Math.max(max, computeBestCP(pokemon, iv, pokeInfoCalculator));
-            toVisit.addAll(pokemon.evolutions);
+            toVisit.addAll(pokemon.getEvolutions());
         }
         return max;
     }

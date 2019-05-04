@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Pokemon class for each form, it has a reference to the base corresponding to the number in the Pokedex.
+ *
  * Created by Kamron on 7/30/2016.
  */
 
@@ -59,21 +61,6 @@ public class Pokemon {
     }
 
     /**
-     * Evolutions of this Pokemon, sorted in alphabetical order.
-     * Try to avoid assumptions that only hold for Gen. I Pokemon: evolutions can have smaller
-     * Pokedex number, not be consecutive, etc.
-     */
-    public final List<Pokemon> evolutions;
-
-
-    /**
-     * Forms of this Pokemon. (Such as Alolan forms.)
-     * This list dose not include the normal form.
-     * The normal form pokemon is this pokemon itself.
-     */
-    public final List<Pokemon> forms;
-
-    /**
      * Pokemon name for OCR, this is what you saw in PokemonGo app.
      */
     public final String name;
@@ -83,25 +70,32 @@ public class Pokemon {
      */
     private final String displayName;
 
+    public final PokemonBase base;
+    public final String formName;
+    // Copy of the value in the base class
     public final int number; //index number in resources, pokedex number - 1
     public final int baseAttack;
     public final int baseDefense;
     public final int baseStamina;
+    // Copy of the value in the base class
     public final int devoNumber;
+    // Copy of the value in the base class
     public final int candyEvolutionCost;
 
-    public Pokemon(String name, String displayName, int number, int baseAttack, int baseDefense, int baseStamina,
-                   int devoNumber, int candyEvolutionCost) {
-        this.name = name;
-        this.displayName = displayName;
-        this.number = number;
+    public Pokemon(PokemonBase base, @NonNull String formName, int baseAttack, int baseDefense, int baseStamina) {
+        this.base = base;
+        this.formName = formName;
+        if (!formName.isEmpty()) {
+            formName = " - " + formName;
+        }
+        this.name = base.name + formName;
+        this.displayName = base.displayName + formName;
+        this.number = base.number;
         this.baseAttack = baseAttack;
         this.baseDefense = baseDefense;
         this.baseStamina = baseStamina;
-        this.devoNumber = devoNumber;
-        this.evolutions = new ArrayList<>();
-        this.forms = new ArrayList<>();
-        this.candyEvolutionCost = candyEvolutionCost;
+        this.devoNumber = base.devoNumber;
+        this.candyEvolutionCost = base.candyEvolutionCost;
     }
 
     @Override
@@ -119,7 +113,7 @@ public class Pokemon {
      * @return true if evolution
      */
     public boolean isNextEvolutionOf(Pokemon otherPokemon) {
-        for (Pokemon evolution : otherPokemon.evolutions) {
+        for (Pokemon evolution : otherPokemon.getEvolutions()) {
             if (number == evolution.number) {
                 return true;
             }
@@ -127,4 +121,19 @@ public class Pokemon {
         return false;
     }
 
+    /**
+     * Evolutions of this Pokemon, sorted in alphabetical order.
+     * Try to avoid assumptions that only hold for Gen. I Pokemon: evolutions can have smaller
+     * Pokedex number, not be consecutive, etc.
+     */
+    public List<Pokemon> getEvolutions() {
+        ArrayList<Pokemon> formEvolutions = new ArrayList<>();
+        for (PokemonBase evolvedBase : base.evolutions) {
+            Pokemon evolvedForm = evolvedBase.getForm(formName);
+            if (evolvedForm != null) {
+                formEvolutions.add(evolvedForm);
+            }
+        }
+        return formEvolutions;
+    }
 }

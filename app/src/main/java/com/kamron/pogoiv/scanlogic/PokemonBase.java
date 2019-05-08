@@ -63,4 +63,19 @@ public class PokemonBase {
         }
         return null;
     }
+
+    public Pokemon getForm(@NonNull Pokemon otherForm) {
+        // If either of them have only one form, but the other doesn't, it cannot match the forms with the String
+        // version, because the "normal" form uses different names when there are multiple and when there aren't.
+        // In that case return the first one, which can be done in any case if this base has multiple forms (because
+        // then we know that the other form is the single one). But if the other form has multiple forms it also needs
+        // to verify that the other form is actually the first one.
+        if ((otherForm.base.forms.size() == 1 && forms.size() > 1)
+                || (forms.size() == 1 && otherForm.base.forms.size() > 1 && otherForm.base.forms.get(0) == otherForm)) {
+            return forms.get(0);
+        } else {
+            return getForm(otherForm.formName);
+        }
+
+    }
 }

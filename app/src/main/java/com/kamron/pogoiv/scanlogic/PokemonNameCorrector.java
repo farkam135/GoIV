@@ -428,7 +428,7 @@ public class PokemonNameCorrector {
      */
     private ArrayList<Pokemon> getBestGuessForEvolutionLine(String input) {
         PokeDist bestMatch = guessBestPokemonByNormalizedName(input, normalizedCandyPokemons);
-        return pokeInfoCalculator.getEvolutionLine(bestMatch.pokemon);
+        return pokeInfoCalculator.getEvolutionForms(bestMatch.pokemon);
     }
 
     /**

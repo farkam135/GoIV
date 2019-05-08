@@ -110,7 +110,7 @@ public class InputFraction extends Fraction {
 
         autoCompleteTextView1.setText("");
         pokeInputAdapter.updatePokemonList(
-                pokeInfoCalculator.getEvolutionLine(possiblePoke.pokemon));
+                pokeInfoCalculator.getEvolutionForms(possiblePoke.pokemon));
         int selection = pokeInputAdapter.getPosition(possiblePoke.pokemon);
         pokeInputSpinner.setSelection(selection);
 

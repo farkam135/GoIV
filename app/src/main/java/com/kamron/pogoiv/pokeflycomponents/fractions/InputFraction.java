@@ -1,5 +1,7 @@
 package com.kamron.pogoiv.pokeflycomponents.fractions;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.Space;
@@ -192,10 +194,18 @@ public class InputFraction extends Fraction {
     public void toggleSpinnerVsInput() {
         if (autoCompleteTextView1.getVisibility() == View.GONE) {
             autoCompleteTextView1.setVisibility(View.VISIBLE);
+
+
+            Bitmap icon = BitmapFactory.decodeResource(pokefly.getResources(),
+                    R.drawable.toggleselectwrite);
+            pokePickerToggleSpinnerVsInput.setImageBitmap(icon);
             autoCompleteTextView1.requestFocus();
             pokeInputSpinner.setVisibility(View.GONE);
         } else {
             resetToSpinner();
+            Bitmap icon = BitmapFactory.decodeResource(pokefly.getResources(),
+                    R.drawable.toggleselectmenu);
+            pokePickerToggleSpinnerVsInput.setImageBitmap(icon);
         }
     }
 

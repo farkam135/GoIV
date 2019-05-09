@@ -129,7 +129,7 @@ public class Pokemon {
     public List<Pokemon> getEvolutions() {
         ArrayList<Pokemon> formEvolutions = new ArrayList<>();
         for (PokemonBase evolvedBase : base.evolutions) {
-            Pokemon evolvedForm = evolvedBase.getForm(formName);
+            Pokemon evolvedForm = evolvedBase.getForm(this);
             if (evolvedForm != null) {
                 formEvolutions.add(evolvedForm);
             }

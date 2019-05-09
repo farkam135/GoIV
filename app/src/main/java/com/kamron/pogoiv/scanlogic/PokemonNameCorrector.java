@@ -173,7 +173,10 @@ public class PokemonNameCorrector {
         if (guess.pokemon == null && bestGuessEvolutionLine != null) {
             Map<String, Pokemon> pokemap = new HashMap<>();
             for (Pokemon pokemon : bestGuessEvolutionLine) {
-                pokemap.put(StringUtils.normalize(pokemon.name), pokemon);
+                String normalizedName = StringUtils.normalize(pokemon.base.name);
+                if (!pokemap.containsKey(normalizedName)) {
+                    pokemap.put(normalizedName, pokemon.base.forms.get(0));
+                }
             }
             guess = guessBestPokemonByNormalizedName(normalizedPokemonName, pokemap);
         }
@@ -428,7 +431,7 @@ public class PokemonNameCorrector {
      */
     private ArrayList<Pokemon> getBestGuessForEvolutionLine(String input) {
         PokeDist bestMatch = guessBestPokemonByNormalizedName(input, normalizedCandyPokemons);
-        return pokeInfoCalculator.getEvolutionLine(bestMatch.pokemon);
+        return pokeInfoCalculator.getEvolutionForms(bestMatch.pokemon);
     }
 
     /**

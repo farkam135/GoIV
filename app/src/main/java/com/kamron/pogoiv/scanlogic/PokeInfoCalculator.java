@@ -383,7 +383,7 @@ public class PokeInfoCalculator {
     private Pokemon getDevolution(Pokemon poke) {
         if (poke.base.devoNumber >= 0) {
             PokemonBase devolvedBase = get(poke.base.devoNumber);
-            return devolvedBase.getForm(poke.formName);
+            return devolvedBase.getForm(poke);
         } else {
             return null;
         }
@@ -468,20 +468,34 @@ public class PokeInfoCalculator {
     }
 
     /**
+     * Returns all forms of all evolutions belonging to the pokemon.
+     *
+     * @param pokemon the pokemon to check the evolution line of
+     * @return a list with pokemon, devolutions and evolutions and forms.
+     */
+    public ArrayList<Pokemon> getEvolutionForms(Pokemon pokemon) {
+        ArrayList<Pokemon> list = new ArrayList<>();
+
+        for (PokemonBase base : getEvolutionLine(pokemon.base)) {
+            list.addAll(base.forms);
+        }
+
+        return list;
+    }
+
+    /**
      * Returns the evolution line of a pokemon.
      *
      * @param poke the pokemon to check the evolution line of
-     * @return a list with pokemon, input pokemon plus its evolutions
+     * @return a list with pokemon, input pokemon plus its (d)evolutions
      */
     public ArrayList<Pokemon> getEvolutionLine(Pokemon poke) {
-        poke = getLowestEvolution(poke);
-
         ArrayList<Pokemon> list = new ArrayList<>();
-        list.addAll(poke.base.forms);
-        for (Pokemon evolution2nd : poke.getEvolutions()) {
-            list.addAll(evolution2nd.base.forms);
-            for (Pokemon evolution3rd : evolution2nd.getEvolutions()) {
-                list.addAll(evolution3rd.base.forms);
+
+        for (PokemonBase base : getEvolutionLine(poke.base)) {
+            Pokemon form = base.getForm(poke);
+            if (form != null) {
+                list.add(form);
             }
         }
 

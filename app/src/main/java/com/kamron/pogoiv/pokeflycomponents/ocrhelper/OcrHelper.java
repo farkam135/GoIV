@@ -332,14 +332,13 @@ public class OcrHelper {
             int amountOfTextPixels = 0;
             for (int i = 0; i < leftOfEvolutionCostImage.getWidth(); i++) {
                 int color = leftOfEvolutionCostImage.getPixel(i, middle);
-                boolean normalRange = isInColorRange(color, DEFAULT_FONT_COLOR, 6);
-                boolean cantAffordRange = isInColorRange(color, CANT_AFFORD_FONT_COLOR, 6); //if user
+                boolean normalRange = isInColorRange(color, DEFAULT_FONT_COLOR, 40);
+                boolean cantAffordRange = isInColorRange(color, CANT_AFFORD_FONT_COLOR, 40); //if user
                 //cant afford the stardust cost
 
                 if (normalRange || cantAffordRange) {
                     amountOfTextPixels++;
                 }
-
 
             }
             double percentTextPixels = amountOfTextPixels / (double) leftOfEvolutionCostImage.getWidth();

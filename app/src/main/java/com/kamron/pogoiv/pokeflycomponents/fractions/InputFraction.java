@@ -6,8 +6,10 @@ import android.support.v4.widget.Space;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -32,6 +34,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnTextChanged;
 import timber.log.Timber;
 
 
@@ -58,6 +61,10 @@ public class InputFraction extends Fraction {
     SeekBar arcAdjustBar;
     @BindView(R.id.levelIndicator)
     TextView levelIndicator;
+
+
+    @BindView (R.id.btnCheckIv)
+    Button btnCheckIv;
 
     //PokeSpam
     @BindView(R.id.llPokeSpamSpace)
@@ -86,6 +93,14 @@ public class InputFraction extends Fraction {
         // Initialize pokemon species spinner
         pokeInputAdapter = new PokemonSpinnerAdapter(pokefly, R.layout.spinner_pokemon, new ArrayList<Pokemon>());
         pokeInputSpinner.setAdapter(pokeInputAdapter);
+
+        pokeInputSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                updateIVInputFractionPreview();
+            }
+            @Override public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+        });
 
         // Fix arc when level is changed
         createArcAdjuster();
@@ -184,6 +199,8 @@ public class InputFraction extends Fraction {
         }
     }
 
+
+
     private void resetToSpinner() {
         autoCompleteTextView1.setVisibility(View.GONE);
         pokeInputSpinner.setVisibility(View.VISIBLE);
@@ -192,6 +209,39 @@ public class InputFraction extends Fraction {
     private void adjustArcPointerBar(double estimatedPokemonLevel) {
         pokefly.setArcPointer(estimatedPokemonLevel);
         arcAdjustBar.setProgress(Data.maxPokeLevelToIndex(estimatedPokemonLevel));
+        updateIVInputFractionPreview();
+    }
+
+    @OnTextChanged({R.id.etCp, R.id.etHp, R.id.etCandy})
+    public void updateIVFractionSpinnerDueToTextChange(){
+        updateIVInputFractionPreview();
+    }
+
+    /**
+     * Update the text on the 'next' button to indicate quick IV overview
+     */
+    private void updateIVInputFractionPreview(){
+
+        saveToPokefly();
+
+        ScanResult scanResult =  pokefly.computeIVWithoutUIChange();
+
+        int possibleIVs = scanResult.getIVCombinations().size();
+
+        btnCheckIv.setEnabled(possibleIVs != 0);
+
+        if (possibleIVs == 0){
+            btnCheckIv.setText("No results");
+        } else {
+            if (scanResult.getLowestIVCombination().percentPerfect == scanResult.getHighestIVCombination().percentPerfect){
+                btnCheckIv.setText("IV " + scanResult.getCombinationLowIVs().percentPerfect + "% | More info");
+            } else{
+                btnCheckIv.setText("IV " + scanResult.getLowestIVCombination().percentPerfect +"% - " + scanResult
+                        .getHighestIVCombination().percentPerfect + "% | More info");
+            }
+
+        }
+
     }
 
     @OnClick(R.id.btnDecrementLevel)
@@ -226,14 +276,17 @@ public class InputFraction extends Fraction {
                 }
                 pokefly.setArcPointer(Pokefly.scanData.getEstimatedPokemonLevel().min);
                 levelIndicator.setText(Pokefly.scanData.getEstimatedPokemonLevel().toString());
+
             }
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
+                btnCheckIv.setText("...");
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
+                updateIVInputFractionPreview();
             }
         });
     }

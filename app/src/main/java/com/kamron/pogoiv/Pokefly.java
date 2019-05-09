@@ -537,6 +537,16 @@ public class Pokefly extends Service {
     }
 
     /**
+     * computes a scanresult with the information currently available in scanData.
+     * @return
+     */
+    public ScanResult computeIVWithoutUIChange(){
+        ScanResult scanReturner = new ScanResult(nameCorrector, scanData);
+        pokeInfoCalculator.getIVPossibilities(scanReturner);
+        return scanReturner;
+    }
+
+    /**
      * Checks if the app is in battery saver mode, and if the user hasnt set the setting to avoid deleting
      * screenshot, and then deletes the screenshot.
      */

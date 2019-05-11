@@ -1,13 +1,17 @@
 package com.kamron.pogoiv.pokeflycomponents.fractions;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.Space;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -22,7 +26,12 @@ import com.google.common.base.Strings;
 import com.kamron.pogoiv.GoIVSettings;
 import com.kamron.pogoiv.Pokefly;
 import com.kamron.pogoiv.R;
-import com.kamron.pogoiv.scanlogic.*;
+import com.kamron.pogoiv.scanlogic.Data;
+import com.kamron.pogoiv.scanlogic.PokeInfoCalculator;
+import com.kamron.pogoiv.scanlogic.Pokemon;
+import com.kamron.pogoiv.scanlogic.PokemonBase;
+import com.kamron.pogoiv.scanlogic.PokemonNameCorrector;
+import com.kamron.pogoiv.scanlogic.ScanResult;
 import com.kamron.pogoiv.utils.LevelRange;
 import com.kamron.pogoiv.utils.fractions.Fraction;
 import com.kamron.pogoiv.widgets.PokemonSpinnerAdapter;
@@ -32,6 +41,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnTextChanged;
 import timber.log.Timber;
 
 
@@ -58,6 +68,10 @@ public class InputFraction extends Fraction {
     SeekBar arcAdjustBar;
     @BindView(R.id.levelIndicator)
     TextView levelIndicator;
+
+
+    @BindView(R.id.btnCheckIv)
+    Button btnCheckIv;
 
     //PokeSpam
     @BindView(R.id.llPokeSpamSpace)
@@ -86,6 +100,15 @@ public class InputFraction extends Fraction {
         // Initialize pokemon species spinner
         pokeInputAdapter = new PokemonSpinnerAdapter(pokefly, R.layout.spinner_pokemon, new ArrayList<Pokemon>());
         pokeInputSpinner.setAdapter(pokeInputAdapter);
+
+        pokeInputSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                updateIVInputFractionPreview();
+            }
+
+            @Override public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+        });
 
         // Fix arc when level is changed
         createArcAdjuster();
@@ -177,12 +200,21 @@ public class InputFraction extends Fraction {
     public void toggleSpinnerVsInput() {
         if (autoCompleteTextView1.getVisibility() == View.GONE) {
             autoCompleteTextView1.setVisibility(View.VISIBLE);
+
+
+            Bitmap icon = BitmapFactory.decodeResource(pokefly.getResources(),
+                    R.drawable.toggleselectwrite);
+            pokePickerToggleSpinnerVsInput.setImageBitmap(icon);
             autoCompleteTextView1.requestFocus();
             pokeInputSpinner.setVisibility(View.GONE);
         } else {
             resetToSpinner();
+            Bitmap icon = BitmapFactory.decodeResource(pokefly.getResources(),
+                    R.drawable.toggleselectmenu);
+            pokePickerToggleSpinnerVsInput.setImageBitmap(icon);
         }
     }
+
 
     private void resetToSpinner() {
         autoCompleteTextView1.setVisibility(View.GONE);
@@ -192,6 +224,40 @@ public class InputFraction extends Fraction {
     private void adjustArcPointerBar(double estimatedPokemonLevel) {
         pokefly.setArcPointer(estimatedPokemonLevel);
         arcAdjustBar.setProgress(Data.maxPokeLevelToIndex(estimatedPokemonLevel));
+        updateIVInputFractionPreview();
+    }
+
+    @OnTextChanged({R.id.etCp, R.id.etHp, R.id.etCandy})
+    public void updateIVFractionSpinnerDueToTextChange() {
+        updateIVInputFractionPreview();
+    }
+
+    /**
+     * Update the text on the 'next' button to indicate quick IV overview
+     */
+    private void updateIVInputFractionPreview() {
+
+        saveToPokefly();
+
+        ScanResult scanResult = pokefly.computeIVWithoutUIChange();
+
+        int possibleIVs = scanResult.getIVCombinations().size();
+
+        btnCheckIv.setEnabled(possibleIVs != 0);
+
+        if (possibleIVs == 0) {
+            btnCheckIv.setText("No results");
+        } else {
+            if (scanResult.getLowestIVCombination().percentPerfect == scanResult
+                    .getHighestIVCombination().percentPerfect) {
+                btnCheckIv.setText(scanResult.getCombinationLowIVs().percentPerfect + "% | More info");
+            } else {
+                btnCheckIv.setText(scanResult.getLowestIVCombination().percentPerfect + "% - " + scanResult
+                        .getHighestIVCombination().percentPerfect + "% | More info");
+            }
+
+        }
+
     }
 
     @OnClick(R.id.btnDecrementLevel)
@@ -226,14 +292,17 @@ public class InputFraction extends Fraction {
                 }
                 pokefly.setArcPointer(Pokefly.scanData.getEstimatedPokemonLevel().min);
                 levelIndicator.setText(Pokefly.scanData.getEstimatedPokemonLevel().toString());
+
             }
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
+                btnCheckIv.setText("...");
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
+                updateIVInputFractionPreview();
             }
         });
     }

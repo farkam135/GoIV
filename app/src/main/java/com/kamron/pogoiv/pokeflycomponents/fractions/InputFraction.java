@@ -26,7 +26,12 @@ import com.google.common.base.Strings;
 import com.kamron.pogoiv.GoIVSettings;
 import com.kamron.pogoiv.Pokefly;
 import com.kamron.pogoiv.R;
-import com.kamron.pogoiv.scanlogic.*;
+import com.kamron.pogoiv.scanlogic.Data;
+import com.kamron.pogoiv.scanlogic.PokeInfoCalculator;
+import com.kamron.pogoiv.scanlogic.Pokemon;
+import com.kamron.pogoiv.scanlogic.PokemonBase;
+import com.kamron.pogoiv.scanlogic.PokemonNameCorrector;
+import com.kamron.pogoiv.scanlogic.ScanResult;
 import com.kamron.pogoiv.utils.LevelRange;
 import com.kamron.pogoiv.utils.fractions.Fraction;
 import com.kamron.pogoiv.widgets.PokemonSpinnerAdapter;
@@ -65,7 +70,7 @@ public class InputFraction extends Fraction {
     TextView levelIndicator;
 
 
-    @BindView (R.id.btnCheckIv)
+    @BindView(R.id.btnCheckIv)
     Button btnCheckIv;
 
     //PokeSpam
@@ -100,6 +105,7 @@ public class InputFraction extends Fraction {
             @Override public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 updateIVInputFractionPreview();
             }
+
             @Override public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
@@ -210,7 +216,6 @@ public class InputFraction extends Fraction {
     }
 
 
-
     private void resetToSpinner() {
         autoCompleteTextView1.setVisibility(View.GONE);
         pokeInputSpinner.setVisibility(View.VISIBLE);
@@ -223,30 +228,31 @@ public class InputFraction extends Fraction {
     }
 
     @OnTextChanged({R.id.etCp, R.id.etHp, R.id.etCandy})
-    public void updateIVFractionSpinnerDueToTextChange(){
+    public void updateIVFractionSpinnerDueToTextChange() {
         updateIVInputFractionPreview();
     }
 
     /**
      * Update the text on the 'next' button to indicate quick IV overview
      */
-    private void updateIVInputFractionPreview(){
+    private void updateIVInputFractionPreview() {
 
         saveToPokefly();
 
-        ScanResult scanResult =  pokefly.computeIVWithoutUIChange();
+        ScanResult scanResult = pokefly.computeIVWithoutUIChange();
 
         int possibleIVs = scanResult.getIVCombinations().size();
 
         btnCheckIv.setEnabled(possibleIVs != 0);
 
-        if (possibleIVs == 0){
+        if (possibleIVs == 0) {
             btnCheckIv.setText("No results");
         } else {
-            if (scanResult.getLowestIVCombination().percentPerfect == scanResult.getHighestIVCombination().percentPerfect){
-                btnCheckIv.setText("IV " + scanResult.getCombinationLowIVs().percentPerfect + "% | More info");
-            } else{
-                btnCheckIv.setText("IV " + scanResult.getLowestIVCombination().percentPerfect +"% - " + scanResult
+            if (scanResult.getLowestIVCombination().percentPerfect == scanResult
+                    .getHighestIVCombination().percentPerfect) {
+                btnCheckIv.setText(scanResult.getCombinationLowIVs().percentPerfect + "% | More info");
+            } else {
+                btnCheckIv.setText(scanResult.getLowestIVCombination().percentPerfect + "% - " + scanResult
                         .getHighestIVCombination().percentPerfect + "% | More info");
             }
 

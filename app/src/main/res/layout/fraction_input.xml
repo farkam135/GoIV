@@ -322,6 +322,6 @@
         android:layout_height="wrap_content"
         android:layout_marginRight="44dp"
         android:layout_marginLeft="44dp"
-        android:text="@string/check_iv" />
+        android:text="XX% - XX% \| More info"/>
 
 </LinearLayout>

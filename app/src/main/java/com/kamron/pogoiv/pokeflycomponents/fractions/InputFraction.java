@@ -239,24 +239,29 @@ public class InputFraction extends Fraction {
 
         saveToPokefly();
 
-        ScanResult scanResult = pokefly.computeIVWithoutUIChange();
+        try {
+            ScanResult scanResult = pokefly.computeIVWithoutUIChange();
 
-        int possibleIVs = scanResult.getIVCombinations().size();
+            int possibleIVs = scanResult.getIVCombinations().size();
 
-        btnCheckIv.setEnabled(possibleIVs != 0);
+            btnCheckIv.setEnabled(possibleIVs != 0);
 
-        if (possibleIVs == 0) {
-            btnCheckIv.setText("No results");
-        } else {
-            if (scanResult.getLowestIVCombination().percentPerfect == scanResult
-                    .getHighestIVCombination().percentPerfect) {
-                btnCheckIv.setText(scanResult.getCombinationLowIVs().percentPerfect + "% | More info");
+            if (possibleIVs == 0) {
+                btnCheckIv.setText("No results");
             } else {
-                btnCheckIv.setText(scanResult.getLowestIVCombination().percentPerfect + "% - " + scanResult
-                        .getHighestIVCombination().percentPerfect + "% | More info");
-            }
+                if (scanResult.getLowestIVCombination().percentPerfect == scanResult
+                        .getHighestIVCombination().percentPerfect) {
+                    btnCheckIv.setText(scanResult.getCombinationLowIVs().percentPerfect + "% | More info");
+                } else {
+                    btnCheckIv.setText(scanResult.getLowestIVCombination().percentPerfect + "% - " + scanResult
+                            .getHighestIVCombination().percentPerfect + "% | More info");
+                }
 
+            }
+        } catch (IllegalStateException e) {
+            //Couldnt compute a valid scanresult. This is most likely due to missing HP / CP values
         }
+
 
     }
 

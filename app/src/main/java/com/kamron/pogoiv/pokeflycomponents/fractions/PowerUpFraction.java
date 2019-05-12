@@ -371,7 +371,7 @@ public class PowerUpFraction extends Fraction {
      */
     private void createExtendedResultEvolutionSpinner() {
         //The evolution picker for seeing estimates of how much cp and cost a pokemon will have at a different evolution
-        extendedEvolutionSpinnerAdapter = new PokemonSpinnerAdapter(pokefly, R.layout.spinner_evolution,
+        extendedEvolutionSpinnerAdapter = new PokemonSpinnerAdapter(pokefly, R.layout.spinner_pokemon,
                 new ArrayList<Pokemon>());
         extendedEvolutionSpinner.setAdapter(extendedEvolutionSpinnerAdapter);
 

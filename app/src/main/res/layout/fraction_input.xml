@@ -76,52 +76,57 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_marginTop="4dp">
+        android:layout_marginTop="8dp">
 
         <Spinner
             android:id="@+id/spnPokemonName"
             android:layout_width="0dp"
             android:layout_height="50dp"
-            android:layout_marginLeft="48dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="24dp"
+            android:dropDownWidth="match_parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@id/pokePickerToggleSpinnerVsInput"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:elevation="0dp"/>
 
         <AutoCompleteTextView
             android:id="@+id/autoCompleteTextView1"
             android:layout_width="0dp"
             android:layout_height="50dp"
-            android:layout_marginLeft="40dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginLeft="20dp"
             android:imeOptions="actionDone"
             android:inputType="textCapWords"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@id/pokePickerToggleSpinnerVsInput"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:elevation="0dp"/>
 
-        <ImageButton
+        <ImageView
             android:id="@+id/pokePickerToggleSpinnerVsInput"
-            style="?attr/borderlessButtonStyle"
+            android:padding="5dp"
             android:layout_width="85dp"
             android:layout_height="50dp"
-            android:layout_marginEnd="38dp"
-            android:alpha="1"
-            android:scaleType="fitXY"
+            android:layout_marginEnd="16dp"
             android:src="@drawable/toggleselectmenu"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent"
+            android:elevation="3dp"/>
 
     </android.support.constraint.ConstraintLayout>
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
+        android:layout_marginTop="8dp"
         android:layout_height="36dp"
-        android:paddingLeft="46dp"
-        android:paddingRight="46dp">
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
 
         <LinearLayout
             android:orientation="horizontal"
@@ -237,8 +242,8 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="44dp"
-        android:paddingLeft="36dp"
-        android:paddingRight="36dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
         android:clipToPadding="false"
         android:clipChildren="false"
         tools:ignore="RtlHardcoded">
@@ -320,8 +325,8 @@
         android:id="@+id/btnCheckIv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginRight="44dp"
-        android:layout_marginLeft="44dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
         android:text="XX% - XX% \| More info"/>
 
 </LinearLayout>

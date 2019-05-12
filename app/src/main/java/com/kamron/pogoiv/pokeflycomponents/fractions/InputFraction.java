@@ -14,6 +14,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.Spinner;
@@ -56,7 +57,7 @@ public class InputFraction extends Fraction {
     AutoCompleteTextView autoCompleteTextView1;
 
     @BindView(R.id.pokePickerToggleSpinnerVsInput)
-    ImageButton pokePickerToggleSpinnerVsInput;
+    ImageView pokePickerToggleSpinnerVsInput;
 
     @BindView(R.id.etCp)
     EditText pokemonCPEdit;
@@ -122,7 +123,7 @@ public class InputFraction extends Fraction {
 
         // set color based on similarity
         if (possiblePoke.dist == 0) {
-            pokeInputSpinner.setBackgroundColor(Color.parseColor("#ddffdd"));
+            pokeInputSpinner.setBackgroundColor(Color.parseColor("#FFF9F9F9"));
         } else if (possiblePoke.dist < 2) {
             pokeInputSpinner.setBackgroundColor(Color.parseColor("#ffffcc"));
         } else {

@@ -55,7 +55,7 @@ public class PokemonSpinnerAdapter extends ArrayAdapter<Pokemon> {
      * @return
      */
     private ArrayList<Pokemon> sortByForms(ArrayList<Pokemon> list) {
-        ArrayList returnerList = new ArrayList();
+        ArrayList<Pokemon> returnerList = new ArrayList();
         for (Pokemon poke : list){
             returnerList.add(poke);
         }
@@ -99,7 +99,7 @@ public class PokemonSpinnerAdapter extends ArrayAdapter<Pokemon> {
         TextView row = (TextView) inflater.inflate(android.R.layout.simple_spinner_item, parent, false);
 
         Pokemon pokemon = pokemons.get(position);
-        row.setText(pokemon.toString());
+        row.setText(pokemon.toString() + "  ▼");
 
         return row;
     }

@@ -4,12 +4,14 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.kamron.pogoiv.Pokefly;
 import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.scanlogic.PokemonShareHandler;
+import com.kamron.pogoiv.utils.GUIColorFromPokeType;
 import com.kamron.pogoiv.utils.GuiUtil;
 import com.kamron.pogoiv.utils.fractions.Fraction;
 
@@ -56,6 +58,19 @@ public class IVResultFraction extends Fraction {
     TextView resultsMaxPercentage;
 
 
+    @BindView(R.id.ivResultsHeader)
+    LinearLayout ivResultsHeader;
+    @BindView(R.id.powerUpButton)
+    Button powerUpButton;
+    @BindView(R.id.ivButton)
+    Button ivButton;
+    @BindView(R.id.movesetButton)
+    Button movesetButton;
+
+    @BindView(R.id.baseStatsResults)
+    TextView baseStatsResults;
+
+
     private Context context;
     private Pokefly pokefly;
 
@@ -86,6 +101,23 @@ public class IVResultFraction extends Fraction {
             populateMultipleIVMatch();
         }
         setResultScreenPercentageRange(); //color codes the result
+        setColorsBasedOnType();
+        setBasePokemonStatsText();
+    }
+
+    private void setBasePokemonStatsText() {
+        int att = Pokefly.scanResult.pokemon.baseAttack;
+        int def = Pokefly.scanResult.pokemon.baseDefense;
+        int sta = Pokefly.scanResult.pokemon.baseStamina;
+        baseStatsResults.setText("Base stats: Att - " + att + " Def - " + def + " Sta - " + sta);
+    }
+
+
+    private void setColorsBasedOnType() {
+        powerUpButton.setBackgroundColor(GUIColorFromPokeType.getColor());
+        ivButton.setBackgroundColor(GUIColorFromPokeType.getColor());
+        movesetButton.setBackgroundColor(GUIColorFromPokeType.getColor());
+        ivResultsHeader.setBackgroundColor(GUIColorFromPokeType.getColor());
     }
 
     @Override public void onDestroy() {

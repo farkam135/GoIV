@@ -10,6 +10,7 @@
     android:minHeight="@dimen/dialog_large_height_min">
 
     <LinearLayout
+        android:id="@+id/ivResultsHeader"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -47,43 +48,34 @@
 
     </LinearLayout>
 
-    <info.hoang8f.android.segmented.SegmentedGroup
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="0dp"
-        android:orientation="horizontal"
-        app:sc_corner_radius="0dp"
-        app:sc_tint_color="@color/colorPrimary">
+        android:orientation="horizontal">
 
-        <RadioButton
+        <Button
             android:id="@+id/powerUpButton"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/fraction_powerup_tab_label"
-            android:textAllCaps="true"
-            style="@style/RadioButton" />
+            style="@style/unactiveTab" />
 
-        <RadioButton
+        <Button
             android:id="@+id/ivButton"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/fraction_iv_tab_label"
-            android:textAllCaps="true"
-            android:checked="true"
-            style="@style/RadioButton" />
+            style="@style/currentTab"/>
 
-        <RadioButton
+        <Button
             android:id="@+id/movesetButton"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/fraction_moveset_tab_label"
-            android:textAllCaps="true"
-            style="@style/RadioButton" />
+            style="@style/unactiveTab" />
 
-    </info.hoang8f.android.segmented.SegmentedGroup>
+    </LinearLayout>
 
     <android.support.constraint.ConstraintLayout
         android:orientation="horizontal"
@@ -324,6 +316,13 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/baseStatsResults"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:text="Base stats"/>
 
     <LinearLayout
         android:id="@+id/llMultipleIVMatches"

@@ -9,6 +9,7 @@
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/powerupHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
@@ -46,43 +47,35 @@
 
     </LinearLayout>
 
-    <info.hoang8f.android.segmented.SegmentedGroup
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="0dp"
-        android:orientation="horizontal"
-        app:sc_corner_radius="0dp"
-        app:sc_tint_color="@color/colorPrimary">
+        android:orientation="horizontal">
 
-        <RadioButton
+        <Button
             android:id="@+id/powerUpButton"
-            style="@style/RadioButton"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:checked="true"
             android:text="@string/fraction_powerup_tab_label"
-            android:textAllCaps="true"/>
+            style="@style/currentTab" />
 
-        <RadioButton
+        <Button
             android:id="@+id/ivButton"
-            style="@style/RadioButton"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/fraction_iv_tab_label"
-            android:textAllCaps="true"/>
+            style="@style/unactiveTab" />
 
-        <RadioButton
+        <Button
             android:id="@+id/movesetButton"
-            style="@style/RadioButton"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/fraction_moveset_tab_label"
-            android:textAllCaps="true"/>
+            style="@style/unactiveTab" />
 
-    </info.hoang8f.android.segmented.SegmentedGroup>
+    </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"

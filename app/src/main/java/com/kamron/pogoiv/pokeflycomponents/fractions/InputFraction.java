@@ -3,6 +3,8 @@ package com.kamron.pogoiv.pokeflycomponents.fractions;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.Space;
 import android.util.DisplayMetrics;
@@ -33,6 +35,7 @@ import com.kamron.pogoiv.scanlogic.Pokemon;
 import com.kamron.pogoiv.scanlogic.PokemonBase;
 import com.kamron.pogoiv.scanlogic.PokemonNameCorrector;
 import com.kamron.pogoiv.scanlogic.ScanResult;
+import com.kamron.pogoiv.utils.GUIColorFromPokeType;
 import com.kamron.pogoiv.utils.LevelRange;
 import com.kamron.pogoiv.utils.fractions.Fraction;
 import com.kamron.pogoiv.widgets.PokemonSpinnerAdapter;
@@ -59,6 +62,9 @@ public class InputFraction extends Fraction {
     @BindView(R.id.pokePickerToggleSpinnerVsInput)
     ImageView pokePickerToggleSpinnerVsInput;
 
+    @BindView(R.id.inputHeaderBG)
+    LinearLayout inputHeader;
+
     @BindView(R.id.etCp)
     EditText pokemonCPEdit;
     @BindView(R.id.etHp)
@@ -73,6 +79,9 @@ public class InputFraction extends Fraction {
 
     @BindView(R.id.btnCheckIv)
     Button btnCheckIv;
+
+    @BindView(R.id.appraisalButton)
+    Button appraisalButton;
 
     //PokeSpam
     @BindView(R.id.llPokeSpamSpace)
@@ -145,6 +154,25 @@ public class InputFraction extends Fraction {
         adjustArcPointerBar(Pokefly.scanData.getEstimatedPokemonLevel().min);
 
         showCandyTextBoxBasedOnSettings();
+
+        setUIColorBasedOnType();
+    }
+
+    private void setUIColorBasedOnType() {
+        //int c = Color.parseColor("#47253C");
+        int c = GUIColorFromPokeType.getColor();
+        inputHeader.setBackgroundColor(c);
+        appraisalButton.setBackgroundColor(c);
+        pokemonCPEdit.setTextColor(c);
+        pokemonHPEdit.setTextColor(c);
+        pokemonCandyEdit.setTextColor(c);
+        btnCheckIv.setBackgroundColor(c);
+
+        PorterDuff.Mode mMode = PorterDuff.Mode.SRC_ATOP;
+        Drawable d = pokePickerToggleSpinnerVsInput.getDrawable();
+        d.setColorFilter(c,mMode);
+
+
     }
 
     @Override
@@ -214,6 +242,8 @@ public class InputFraction extends Fraction {
                     R.drawable.toggleselectmenu);
             pokePickerToggleSpinnerVsInput.setImageBitmap(icon);
         }
+
+        setUIColorBasedOnType();
     }
 
 
@@ -244,11 +274,9 @@ public class InputFraction extends Fraction {
             ScanResult scanResult = pokefly.computeIVWithoutUIChange();
 
             int possibleIVs = scanResult.getIVCombinations().size();
-
-            btnCheckIv.setEnabled(possibleIVs != 0);
-
+            //btnCheckIv.setEnabled(possibleIVs != 0);
             if (possibleIVs == 0) {
-                btnCheckIv.setText("No results");
+                btnCheckIv.setText("?");
             } else {
                 if (scanResult.getLowestIVCombination().percentPerfect == scanResult
                         .getHighestIVCombination().percentPerfect) {

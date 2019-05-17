@@ -10,6 +10,7 @@ import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.Spinner;
@@ -27,6 +28,7 @@ import com.kamron.pogoiv.scanlogic.PokeSpam;
 import com.kamron.pogoiv.scanlogic.Pokemon;
 import com.kamron.pogoiv.scanlogic.ScanResult;
 import com.kamron.pogoiv.scanlogic.UpgradeCost;
+import com.kamron.pogoiv.utils.GUIColorFromPokeType;
 import com.kamron.pogoiv.utils.fractions.Fraction;
 import com.kamron.pogoiv.widgets.PokemonSpinnerAdapter;
 
@@ -73,6 +75,16 @@ public class PowerUpFraction extends Fraction {
     TextView exResCandy;
 
 
+
+    @BindView(R.id.powerupHeader)
+    LinearLayout powerupHeader;
+    @BindView(R.id.powerUpButton)
+    Button powerUpButton;
+    @BindView(R.id.ivButton)
+    Button ivButton;
+    @BindView(R.id.movesetButton)
+    Button movesetButton;
+
     private Context context;
     private Pokefly pokefly;
     private PokemonSpinnerAdapter extendedEvolutionSpinnerAdapter;
@@ -97,6 +109,15 @@ public class PowerUpFraction extends Fraction {
         createExtendedResultEvolutionSpinner();
         adjustSeekbarsThumbs();
         populateAdvancedInformation();
+        setColorsBasedOnType();
+    }
+
+
+    private void setColorsBasedOnType() {
+        powerUpButton.setBackgroundColor(GUIColorFromPokeType.getColor());
+        ivButton.setBackgroundColor(GUIColorFromPokeType.getColor());
+        movesetButton.setBackgroundColor(GUIColorFromPokeType.getColor());
+        powerupHeader.setBackgroundColor(GUIColorFromPokeType.getColor());
     }
 
     @Override public void onDestroy() {

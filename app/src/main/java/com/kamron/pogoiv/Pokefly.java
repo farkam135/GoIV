@@ -20,13 +20,13 @@ import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.widget.CardView;
 import android.util.DisplayMetrics;
 import android.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -144,7 +144,7 @@ public class Pokefly extends Service {
 
 
     @BindView(R.id.infoLayout)
-    CardView infoLayout;
+    FrameLayout infoLayout;
     @BindView(R.id.fractionContainer)
     FrameLayout fractionContainer;
 
@@ -378,22 +378,46 @@ public class Pokefly extends Service {
 
     private boolean infoLayoutArcPointerVisible = false;
 
-    private void showInfoLayoutArcPointer() {
+    private void showInfoLayoutArcPointerAndCard() {
         if (!infoLayoutArcPointerVisible && arcPointer != null && infoLayout != null) {
             infoLayoutArcPointerVisible = true;
             windowManager.addView(arcPointer, arcParams);
+
+            infoLayout.setVisibility(View.VISIBLE);
+            //infoLayout.animate().translationY(infoLayout.getHeight()*2).setDuration(0);
             windowManager.addView(infoLayout, layoutParams);
+            infoLayout.animate().translationY(infoLayout.getHeight()*2).setDuration(5).withEndAction(new Runnable() {
+                @Override public void run() {
+                    infoLayout.setVisibility(View.VISIBLE);
+                    infoLayout.animate().translationY(0).setDuration(300);
+                }
+            });
+            //infoLayout.animate().translationY(infoLayout.getHeight()*3).setDuration(1);
+            //infoLayout.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_up));
+            //infoLayout.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_up));
+
         }
     }
 
-    private void hideInfoLayoutArcPointer() {
+    private void hideInfoLayoutArcPointerAndCard() {
         if (infoLayoutArcPointerVisible) {
-            if (fractionManager != null) {
-                fractionManager.remove();
-            }
-            windowManager.removeView(arcPointer);
-            windowManager.removeView(infoLayout);
-            infoLayoutArcPointerVisible = false;
+
+            infoLayout.animate().translationY(infoLayout.getHeight()*2).setDuration(300).withEndAction(new Runnable() {
+                @Override public void run() {
+                    infoLayout.setVisibility(View.GONE);
+                    if (fractionManager != null) {
+                        fractionManager.remove();
+                    }
+                    //for some reason, animation looks bugged without this 0 time animation line below.
+                    infoLayout.animate().translationY(infoLayout.getHeight()*2).setDuration(0);
+                    windowManager.removeView(arcPointer);
+                    windowManager.removeView(infoLayout);
+                    infoLayoutArcPointerVisible = false;
+
+
+                }
+            });
+
         }
     }
 
@@ -416,7 +440,7 @@ public class Pokefly extends Service {
         windowManager.removeView(ivButton);
         windowManager.removeView(sizeDetector1);
         windowManager.removeView(sizeDetector2);
-        hideInfoLayoutArcPointer();
+        hideInfoLayoutArcPointerAndCard();
 
         ocr.exit();
         //Now ocr contains an invalid instance hence let's clear it.
@@ -623,7 +647,7 @@ public class Pokefly extends Service {
      * resets the info dialogue to its default state.
      */
     public void closeInfoDialog() {
-        hideInfoLayoutArcPointer();
+        hideInfoLayoutArcPointerAndCard();
         resetPokeflyStateMachine();
         appraisalManager.reset();
         if (!startedInManualScreenshotMode) {
@@ -854,7 +878,7 @@ public class Pokefly extends Service {
                             infoShownReceived = true;
                         }
                         // Show the overlay window and the arc pointer
-                        showInfoLayoutArcPointer();
+                        showInfoLayoutArcPointerAndCard();
                         // Ensure arc pointer is in the right place
                         setArcPointer(scanData.getEstimatedPokemonLevel().min);
                         // Read user preferences and navigate accordingly

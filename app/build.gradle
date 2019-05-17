@@ -201,6 +201,7 @@ dependencies {
     implementation 'info.hoang8f:android-segmented:1.0.6'
     implementation 'io.apptik.widget:multislider:1.2'
     implementation 'com.pavelsikun:material-seekbar-preference:2.3.0'
+    implementation 'com.android.support:palette-v7:27.1.1'
     implementation project(':openCVLibrary330')
 
     /**

@@ -36,22 +36,23 @@
 </FrameLayout>
 -->
 
-<android.support.v7.widget.CardView
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/infoLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingTop="12dp"
-    app:cardElevation="12dp"
-    app:cardPreventCornerOverlap="false">
+    android:background="@drawable/shadow_top"
+    >
 
     <FrameLayout
         android:id="@+id/fractionContainer"
         android:padding="0dp"
 
+        android:animateLayoutChanges="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
         <!--android:background="@drawable/dialog_info_window_border"-->
 
-</android.support.v7.widget.CardView>
+</FrameLayout>

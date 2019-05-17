@@ -7,6 +7,7 @@ import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.util.Pair;
+import android.support.v7.graphics.Palette;
 import android.util.LruCache;
 import android.widget.Toast;
 
@@ -18,6 +19,7 @@ import com.kamron.pogoiv.scanlogic.Data;
 import com.kamron.pogoiv.scanlogic.PokeInfoCalculator;
 import com.kamron.pogoiv.scanlogic.Pokemon;
 import com.kamron.pogoiv.scanlogic.ScanData;
+import com.kamron.pogoiv.utils.GUIColorFromPokeType;
 import com.kamron.pogoiv.utils.LevelRange;
 
 import java.lang.ref.WeakReference;
@@ -1067,6 +1069,8 @@ public class OcrHelper {
                                 @NonNull Bitmap pokemonImage,
                                 int trainerLevel,
                                 boolean requestFullScan) {
+
+        rememberGUIAccentColorBasedOnScan(pokemonImage);
         ensureCorrectLevelArcSettings(settings, trainerLevel); //todo, make it so it doesnt initiate on every scan?
 
         Optional<Integer> powerUpStardustCost = Optional.absent();
@@ -1129,6 +1133,7 @@ public class OcrHelper {
         Optional<Integer> evolutionCost = getPokemonEvolutionCostFromImg(pokemonImage,
                 ScanArea.calibratedFromSettings(POKEMON_EVOLUTION_COST_AREA, settings, luckyOffset));
         Pair<String, String> moveset = null;
+      /* //Todo remove moveset scanning ; its not on screen anymore since pogo updated
         if (requestFullScan) {
             moveset = getMovesetFromImg(pokemonImage,
                     estimatedLevelRange,
@@ -1142,11 +1147,63 @@ public class OcrHelper {
             moveFast = moveset.first;
             moveCharge = moveset.second;
         }
+        */
         String uniqueIdentifier = name + type + candyName + hp.toString() + cp
                 .toString() + powerUpStardustCost.toString() + powerUpCandyCost.toString();
 
         return new ScanData(estimatedLevelRange, name, type, candyName, gender, hp, cp, candyAmount, evolutionCost,
-                powerUpStardustCost, powerUpCandyCost, moveFast, moveCharge, (luckyOffset != 0), uniqueIdentifier);
+                powerUpStardustCost, powerUpCandyCost, null, null, (luckyOffset != 0), uniqueIdentifier);
+    }
+
+    /**
+     * Saves an accent color usable for the GUI overlay in the GUIColorFromPokeType class. The class is async,
+     * so it doesnt update the value in GUIColorFromPokeType instantly.
+     * @param pokemonImage
+     */
+    private void rememberGUIAccentColorBasedOnScan(Bitmap pokemonImage) {
+//        int top = (int) (pokemonImage.getHeight() * 0.30);
+//        int bot = (int) (pokemonImage.getHeight() * 0.35);
+//        int left = (int) (pokemonImage.getWidth() * 0.45);
+//        int right = (int) (pokemonImage.getWidth() * 0.55);
+
+       int top = (int) (pokemonImage.getHeight() * 0.195);
+       int bot = (int) (pokemonImage.getHeight() * 0.35);
+       int left = (int) (pokemonImage.getWidth() * 0.4);
+       int right = (int) (pokemonImage.getWidth() * 0.6);
+
+        Palette.Filter filter = new Palette.Filter() {
+            @Override public boolean isAllowed(int rgb, @NonNull float[] hsl) {
+                if (hsl[2] > 0.7){
+                    //too bright
+                    return false;
+                }
+                if (hsl[2] < 0.2){
+                    //too dark
+                    return false;
+                }
+                if (hsl[0] > (30/360f) && hsl[0] < (60/360f)){
+                    //Too yellow
+                    return false;
+                }
+
+                return true;
+            }
+        };
+        Palette.from(pokemonImage).setRegion(left, top, right, bot).addFilter(filter).generate(new Palette
+                .PaletteAsyncListener() {
+            public void onGenerated(Palette p) {
+                int color = p.getDarkVibrantColor(0);
+                if (color == 0) { //failed to find dark vibrant color, try getting a dark muted
+                    color = p.getDarkMutedColor(0);
+                } //Couldnt auto find color, use default primary color
+                if (color == 0) {
+                    color = Color.rgb(90, 90, 90);
+                }
+                GUIColorFromPokeType.color = color;
+
+
+            }
+        });
     }
 
     /**

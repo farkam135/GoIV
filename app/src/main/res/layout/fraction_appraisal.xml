@@ -10,6 +10,7 @@
     android:minHeight="@dimen/dialog_small_height_min">
 
     <LinearLayout
+        android:id="@+id/headerAppraisal"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -47,34 +48,29 @@
 
     </LinearLayout>
 
-    <info.hoang8f.android.segmented.SegmentedGroup
+    <LinearLayout
+        android:id="@+id/navigationButtons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="0dp"
-        android:orientation="horizontal"
-        app:sc_corner_radius="0dp"
-        app:sc_tint_color="@color/colorPrimary">
+        android:orientation="horizontal">
 
-        <RadioButton
+        <Button
             android:id="@+id/statsButton"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/token_category_basic_stats"
-            android:textAllCaps="true"
-            style="@style/RadioButton" />
+            style="@style/unactiveTab"/>
 
-        <RadioButton
+        <Button
             android:id="@+id/appraisalButton"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/appraisal"
-            android:textAllCaps="true"
-            android:checked="true"
-            style="@style/RadioButton" />
+            style="@style/currentTab"/>
 
-    </info.hoang8f.android.segmented.SegmentedGroup>
+    </LinearLayout>
+
 
     <RadioGroup
         android:orientation="horizontal"
@@ -270,7 +266,8 @@
         android:paddingTop="4dp"
         android:paddingRight="8dp"
         android:paddingBottom="4dp"
-        android:baselineAligned="true">
+        android:baselineAligned="true"
+        android:gravity="center">
 
         <Switch
             android:id="@+id/eggRaidSwitch"
@@ -292,14 +289,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-        <Button
-            android:id="@+id/btnBackAppr"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="16dp"
-            android:layout_marginLeft="16dp"
-            android:text="@string/back" />
+
 
         <Button
             android:id="@+id/btnCheckIv"

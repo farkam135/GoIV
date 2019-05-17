@@ -18,7 +18,9 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -30,6 +32,7 @@ import com.kamron.pogoiv.pokeflycomponents.MovesetsManager;
 import com.kamron.pogoiv.scanlogic.MovesetData;
 import com.kamron.pogoiv.scanlogic.PokemonShareHandler;
 import com.kamron.pogoiv.utils.ExportPokemonQueue;
+import com.kamron.pogoiv.utils.GUIColorFromPokeType;
 import com.kamron.pogoiv.utils.fractions.MovableFraction;
 
 import java.text.DecimalFormat;
@@ -69,6 +72,15 @@ public class MovesetFraction extends MovableFraction {
     ImageView headerDefenseSortIcon;
 
 
+    @BindView(R.id.top_navigation)
+    LinearLayout top_navigation;
+    @BindView(R.id.powerUpButton)
+    Button powerUpButton;
+    @BindView(R.id.ivButton)
+    Button ivButton;
+    @BindView(R.id.movesetButton)
+    Button movesetButton;
+
     public MovesetFraction(@NonNull Pokefly pokefly, @NonNull SharedPreferences sharedPrefs) {
         super(sharedPrefs);
         this.pokefly = pokefly;
@@ -98,6 +110,16 @@ public class MovesetFraction extends MovableFraction {
             // Initialize descent attack order by default; this will cause the table to rebuild.
             sortBy(atkComparator);
         }
+        setColorsBasedOnType();
+    }
+
+
+
+    private void setColorsBasedOnType() {
+        powerUpButton.setBackgroundColor(GUIColorFromPokeType.getColor());
+        ivButton.setBackgroundColor(GUIColorFromPokeType.getColor());
+        movesetButton.setBackgroundColor(GUIColorFromPokeType.getColor());
+        top_navigation.setBackgroundColor(GUIColorFromPokeType.getColor());
     }
 
     @Override

@@ -30,6 +30,7 @@ import com.kamron.pogoiv.GoIVSettings;
 import com.kamron.pogoiv.Pokefly;
 import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.scanlogic.Data;
+import com.kamron.pogoiv.scanlogic.IVCombination;
 import com.kamron.pogoiv.scanlogic.PokeInfoCalculator;
 import com.kamron.pogoiv.scanlogic.Pokemon;
 import com.kamron.pogoiv.scanlogic.PokemonBase;
@@ -278,7 +279,10 @@ public class InputFraction extends Fraction {
             if (possibleIVs == 0) {
                 btnCheckIv.setText("?");
             } else {
-                if (scanResult.getLowestIVCombination().percentPerfect == scanResult
+                if (scanResult.getIVCombinations().size() == 1) {
+                    IVCombination result = scanResult.getIVCombinations().get(0);
+                    btnCheckIv.setText(result.percentPerfect + "% (" + result.att + ":" + result.def + ":" + result.sta + ") | More info");
+                } else if (scanResult.getLowestIVCombination().percentPerfect == scanResult
                         .getHighestIVCombination().percentPerfect) {
                     btnCheckIv.setText(scanResult.getCombinationLowIVs().percentPerfect + "% | More info");
                 } else {

@@ -30,6 +30,7 @@ import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.common.base.Optional;
@@ -539,7 +540,7 @@ public class Pokefly extends Service {
         if (scanData == null
                 || !scanData.getPokemonCP().isPresent()
                 || !scanData.getPokemonHP().isPresent()) {
-            Toast.makeText(this, R.string.missing_inputs, Toast.LENGTH_SHORT).show();
+            showToastOnPoke(getResources().getString(R.string.missing_inputs));
             return;
         }
 
@@ -592,15 +593,30 @@ public class Pokefly extends Service {
             String clipResult = clipboardTokenHandler.getClipboardText(scanResult, pokeInfoCalculator);
 
             if (settings.shouldCopyToClipboardShowToast()) {
-                Toast toast = Toast.makeText(this, String.format(getString(R.string.clipboard_copy_toast), clipResult),
-                        Toast.LENGTH_SHORT);
-                toast.setGravity(Gravity.CENTER, 0, 0);
-                toast.show();
+                showToastOnPoke(String.format(getString(R.string.clipboard_copy_toast), clipResult));
             }
 
             ClipData clip = ClipData.newPlainText(clipResult, clipResult);
             clipboard.setPrimaryClip(clip);
         }
+    }
+
+    /**
+     * prints a toast message on the pokemon, in hopes that the toast message doesnt block out any information
+     * (like hp, cp etc)
+     * @param message The message to be printed out in the toast
+     */
+    public void showToastOnPoke(String message){
+
+        Context themedContext = new ContextThemeWrapper(this, R.style.AppTheme_Dialog);
+        View v = LayoutInflater.from(themedContext).inflate(R.layout.goiv_toast, null);
+        ((TextView) v.findViewById(R.id.toastText)).setText(message);
+        Toast customToast = new Toast(this);
+        customToast.setView(v);
+        customToast.setGravity(Gravity.CENTER, 0, (int) (displayMetrics.heightPixels*-0.26));
+        customToast.setDuration(Toast.LENGTH_SHORT);
+        customToast.show();
+
     }
 
     /**
@@ -612,11 +628,7 @@ public class Pokefly extends Service {
 
             String clipResult = clipboardTokenHandler.getClipboardText(scanResult, pokeInfoCalculator);
 
-            Toast toast = Toast.makeText(this, String.format(getString(R.string.clipboard_copy_toast), clipResult),
-                    Toast.LENGTH_SHORT);
-            toast.setGravity(Gravity.CENTER, 0, 0);
-            toast.show();
-
+            showToastOnPoke(String.format(getString(R.string.clipboard_copy_toast), clipResult));
             clipboard.setPrimaryClip(ClipData.newPlainText(clipResult, clipResult));
         }
     }
@@ -634,10 +646,7 @@ public class Pokefly extends Service {
                 clipboard.setPrimaryClip(ClipData.newPlainText(clipResult, clipResult));
 
                 if (settings.shouldCopyToClipboardShowToast()) {
-                    Toast toast = Toast.makeText(this,
-                            String.format(getString(R.string.clipboard_copy_toast), clipResult), Toast.LENGTH_SHORT);
-                    toast.setGravity(Gravity.CENTER, 0, 0);
-                    toast.show();
+                    showToastOnPoke( String.format(getString(R.string.clipboard_copy_toast), clipResult));
                 }
             }
         }
@@ -692,7 +701,7 @@ public class Pokefly extends Service {
         try {
             ScanData data = ocr.scanPokemon(GoIVSettings.getInstance(this), pokemonImage, trainerLevel, true);
             if (data.isFailed()) {
-                Toast.makeText(Pokefly.this, getString(R.string.scan_pokemon_failed), Toast.LENGTH_SHORT).show();
+                showToastOnPoke(getString(R.string.scan_pokemon_failed));
             }
             Pokefly.populateInfoIntent(info, data, screenShotPath);
         } finally {

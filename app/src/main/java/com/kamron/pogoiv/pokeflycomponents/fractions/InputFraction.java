@@ -94,6 +94,11 @@ public class InputFraction extends Fraction {
     private Pokefly pokefly;
     private PokeInfoCalculator pokeInfoCalculator;
 
+    //since the fragment calls onchanged, ontextchanged etc methods on fragment creation, the
+    //fragment will update and calculate the pokemon several times when the ui is created.
+    //To prevent this, this boolean stops any calculation, until its set to true.
+    private boolean isInitiated = false;
+
     public InputFraction(@NonNull Pokefly pokefly) {
         this.pokefly = pokefly;
         this.pokeInfoCalculator = PokeInfoCalculator.getInstance();
@@ -192,34 +197,37 @@ public class InputFraction extends Fraction {
     }
 
     private void saveToPokefly() {
-        final String hp = pokemonHPEdit.getText().toString();
-        if (!Strings.isNullOrEmpty(hp)) {
-            try {
-                Pokefly.scanData.setPokemonHP(Integer.parseInt(hp));
-            } catch (NumberFormatException e) {
-                Timber.d(e);
+        if (isInitiated){
+            final String hp = pokemonHPEdit.getText().toString();
+            if (!Strings.isNullOrEmpty(hp)) {
+                try {
+                    Pokefly.scanData.setPokemonHP(Integer.parseInt(hp));
+                } catch (NumberFormatException e) {
+                    Timber.d(e);
+                }
+            }
+            final String cp = pokemonCPEdit.getText().toString();
+            if (!Strings.isNullOrEmpty(cp)) {
+                try {
+                    Pokefly.scanData.setPokemonCP(Integer.parseInt(cp));
+                } catch (NumberFormatException e) {
+                    Timber.d(e);
+                }
+            }
+            final String candies = pokemonCandyEdit.getText().toString();
+            if (!Strings.isNullOrEmpty(candies)) {
+                try {
+                    Pokefly.scanData.setPokemonCandyAmount(Integer.parseInt(candies));
+                } catch (NumberFormatException e) {
+                    Timber.d(e);
+                }
+            }
+            Pokemon pokemon = interpretWhichPokemonUserInput();
+            if (pokemon != null) {
+                Pokefly.scanData.setPokemonName(pokemon.base.name);
             }
         }
-        final String cp = pokemonCPEdit.getText().toString();
-        if (!Strings.isNullOrEmpty(cp)) {
-            try {
-                Pokefly.scanData.setPokemonCP(Integer.parseInt(cp));
-            } catch (NumberFormatException e) {
-                Timber.d(e);
-            }
-        }
-        final String candies = pokemonCandyEdit.getText().toString();
-        if (!Strings.isNullOrEmpty(candies)) {
-            try {
-                Pokefly.scanData.setPokemonCandyAmount(Integer.parseInt(candies));
-            } catch (NumberFormatException e) {
-                Timber.d(e);
-            }
-        }
-        Pokemon pokemon = interpretWhichPokemonUserInput();
-        if (pokemon != null) {
-            Pokefly.scanData.setPokemonName(pokemon.base.name);
-        }
+
     }
 
     /**

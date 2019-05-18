@@ -37,6 +37,7 @@ import com.kamron.pogoiv.scanlogic.PokemonNameCorrector;
 import com.kamron.pogoiv.scanlogic.ScanResult;
 import com.kamron.pogoiv.utils.GUIColorFromPokeType;
 import com.kamron.pogoiv.utils.LevelRange;
+import com.kamron.pogoiv.utils.ReactiveColorListener;
 import com.kamron.pogoiv.utils.fractions.Fraction;
 import com.kamron.pogoiv.widgets.PokemonSpinnerAdapter;
 
@@ -49,7 +50,7 @@ import butterknife.OnTextChanged;
 import timber.log.Timber;
 
 
-public class InputFraction extends Fraction {
+public class InputFraction extends Fraction implements ReactiveColorListener {
 
     private PokemonSpinnerAdapter pokeInputAdapter;
     @BindView(R.id.spnPokemonName)
@@ -160,30 +161,16 @@ public class InputFraction extends Fraction {
 
         showCandyTextBoxBasedOnSettings();
 
-        setUIColorBasedOnType();
+        GUIColorFromPokeType.getInstance().setListenTo(this);
+        updateGuiColors();
         isInitiated = true;
     }
 
-    private void setUIColorBasedOnType() {
-        //int c = Color.parseColor("#47253C");
-        int c = GUIColorFromPokeType.getColor();
-        inputHeader.setBackgroundColor(c);
-        appraisalButton.setBackgroundColor(c);
-        pokemonCPEdit.setTextColor(c);
-        pokemonHPEdit.setTextColor(c);
-        pokemonCandyEdit.setTextColor(c);
-        btnCheckIv.setBackgroundColor(c);
-
-        PorterDuff.Mode mMode = PorterDuff.Mode.SRC_ATOP;
-        Drawable d = pokePickerToggleSpinnerVsInput.getDrawable();
-        d.setColorFilter(c,mMode);
-
-
-    }
 
     @Override
     public void onDestroy() {
         saveToPokefly();
+        GUIColorFromPokeType.getInstance().removeListener(this);
     }
 
     @Override
@@ -254,7 +241,7 @@ public class InputFraction extends Fraction {
             pokePickerToggleSpinnerVsInput.setImageBitmap(icon);
         }
 
-        setUIColorBasedOnType();
+        updateGuiColors();
     }
 
 
@@ -452,4 +439,19 @@ public class InputFraction extends Fraction {
         pokefly.closeInfoDialog();
     }
 
+    @Override public void updateGuiColors() {
+        //int c = Color.parseColor("#47253C");
+        int c = GUIColorFromPokeType.getInstance().getColor();
+        inputHeader.setBackgroundColor(c);
+        appraisalButton.setBackgroundColor(c);
+        pokemonCPEdit.setTextColor(c);
+        pokemonHPEdit.setTextColor(c);
+        pokemonCandyEdit.setTextColor(c);
+        btnCheckIv.setBackgroundColor(c);
+
+        PorterDuff.Mode mMode = PorterDuff.Mode.SRC_ATOP;
+        Drawable d = pokePickerToggleSpinnerVsInput.getDrawable();
+        d.setColorFilter(c,mMode);
+
+    }
 }

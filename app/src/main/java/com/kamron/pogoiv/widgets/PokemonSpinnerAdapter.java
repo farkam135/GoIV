@@ -55,7 +55,7 @@ public class PokemonSpinnerAdapter extends ArrayAdapter<Pokemon> {
      * @return
      */
     private ArrayList<Pokemon> sortByForms(ArrayList<Pokemon> list) {
-        ArrayList<Pokemon> returnerList = new ArrayList();
+        ArrayList<Pokemon> returnerList = new ArrayList<Pokemon>();
         for (Pokemon poke : list){
             returnerList.add(poke);
         }

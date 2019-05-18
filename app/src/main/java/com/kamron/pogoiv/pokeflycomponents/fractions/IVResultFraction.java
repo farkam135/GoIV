@@ -13,6 +13,7 @@ import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.scanlogic.PokemonShareHandler;
 import com.kamron.pogoiv.utils.GUIColorFromPokeType;
 import com.kamron.pogoiv.utils.GuiUtil;
+import com.kamron.pogoiv.utils.ReactiveColorListener;
 import com.kamron.pogoiv.utils.fractions.Fraction;
 
 import butterknife.BindView;
@@ -20,7 +21,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class IVResultFraction extends Fraction {
+public class IVResultFraction extends Fraction implements ReactiveColorListener {
 
     @BindView(R.id.tvSeeAllPossibilities)
     TextView seeAllPossibilities;
@@ -101,7 +102,8 @@ public class IVResultFraction extends Fraction {
             populateMultipleIVMatch();
         }
         setResultScreenPercentageRange(); //color codes the result
-        setColorsBasedOnType();
+        GUIColorFromPokeType.getInstance().setListenTo(this);
+        updateGuiColors();
         setBasePokemonStatsText();
     }
 
@@ -113,14 +115,9 @@ public class IVResultFraction extends Fraction {
     }
 
 
-    private void setColorsBasedOnType() {
-        powerUpButton.setBackgroundColor(GUIColorFromPokeType.getColor());
-        movesetButton.setBackgroundColor(GUIColorFromPokeType.getColor());
-        ivResultsHeader.setBackgroundColor(GUIColorFromPokeType.getColor());
-    }
-
     @Override public void onDestroy() {
         // Nothing to do
+        GUIColorFromPokeType.getInstance().removeListener(this);
     }
 
     @Override
@@ -274,5 +271,11 @@ public class IVResultFraction extends Fraction {
         pokefly.closeInfoDialog();
     }
 
+    @Override public void updateGuiColors() {
+        int c = GUIColorFromPokeType.getInstance().getColor();
+        powerUpButton.setBackgroundColor(c);
+        movesetButton.setBackgroundColor(c);
+        ivResultsHeader.setBackgroundColor(c);
+    }
 }
 

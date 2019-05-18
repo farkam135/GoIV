@@ -29,6 +29,7 @@ import com.kamron.pogoiv.scanlogic.Pokemon;
 import com.kamron.pogoiv.scanlogic.ScanResult;
 import com.kamron.pogoiv.scanlogic.UpgradeCost;
 import com.kamron.pogoiv.utils.GUIColorFromPokeType;
+import com.kamron.pogoiv.utils.ReactiveColorListener;
 import com.kamron.pogoiv.utils.fractions.Fraction;
 import com.kamron.pogoiv.widgets.PokemonSpinnerAdapter;
 
@@ -44,7 +45,7 @@ import io.apptik.widget.MultiSlider;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class PowerUpFraction extends Fraction {
+public class PowerUpFraction extends Fraction implements ReactiveColorListener {
 
     @BindView(R.id.expandedLevelSeekbar)
     SeekBar expandedLevelSeekbar;
@@ -109,17 +110,15 @@ public class PowerUpFraction extends Fraction {
         createExtendedResultEvolutionSpinner();
         adjustSeekbarsThumbs();
         populateAdvancedInformation();
-        setColorsBasedOnType();
+
+        updateGuiColors();
+        GUIColorFromPokeType.getInstance().setListenTo(this);
     }
 
 
-    private void setColorsBasedOnType() {
-        ivButton.setBackgroundColor(GUIColorFromPokeType.getColor());
-        movesetButton.setBackgroundColor(GUIColorFromPokeType.getColor());
-        powerupHeader.setBackgroundColor(GUIColorFromPokeType.getColor());
-    }
 
     @Override public void onDestroy() {
+        GUIColorFromPokeType.getInstance().removeListener(this);
     }
 
     @Override
@@ -487,4 +486,10 @@ public class PowerUpFraction extends Fraction {
         //seekbar only supports integers, so the seekbar works between 2 and 80.
     }
 
+    @Override public void updateGuiColors() {
+        int c = GUIColorFromPokeType.getInstance().getColor();
+        ivButton.setBackgroundColor(c);
+        movesetButton.setBackgroundColor(c);
+        powerupHeader.setBackgroundColor(c);
+    }
 }

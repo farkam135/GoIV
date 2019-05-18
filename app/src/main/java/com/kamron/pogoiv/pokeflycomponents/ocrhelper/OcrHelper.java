@@ -1209,7 +1209,8 @@ public class OcrHelper {
                 if (color == 0) {
                     color = Color.rgb(90, 90, 90);
                 }
-                GUIColorFromPokeType.color = color;
+
+                GUIColorFromPokeType.getInstance().setColor(color);
 
 
             }

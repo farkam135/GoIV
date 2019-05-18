@@ -33,6 +33,7 @@ import com.kamron.pogoiv.scanlogic.MovesetData;
 import com.kamron.pogoiv.scanlogic.PokemonShareHandler;
 import com.kamron.pogoiv.utils.ExportPokemonQueue;
 import com.kamron.pogoiv.utils.GUIColorFromPokeType;
+import com.kamron.pogoiv.utils.ReactiveColorListener;
 import com.kamron.pogoiv.utils.fractions.MovableFraction;
 
 import java.text.DecimalFormat;
@@ -49,7 +50,7 @@ import butterknife.OnTouch;
 import static com.kamron.pogoiv.GoIVSettings.MOVESET_WINDOW_POSITION;
 
 
-public class MovesetFraction extends MovableFraction {
+public class MovesetFraction extends MovableFraction implements ReactiveColorListener {
 
     private static final String URL_POKEBATTLER_IMPORT = "https://www.pokebattler.com/pokebox/import";
 
@@ -110,19 +111,15 @@ public class MovesetFraction extends MovableFraction {
             // Initialize descent attack order by default; this will cause the table to rebuild.
             sortBy(atkComparator);
         }
-        setColorsBasedOnType();
+        updateGuiColors();
+        GUIColorFromPokeType.getInstance().setListenTo(this);
     }
 
 
-
-    private void setColorsBasedOnType() {
-        powerUpButton.setBackgroundColor(GUIColorFromPokeType.getColor());
-        ivButton.setBackgroundColor(GUIColorFromPokeType.getColor());
-        top_navigation.setBackgroundColor(GUIColorFromPokeType.getColor());
-    }
 
     @Override
     public void onDestroy() {
+        GUIColorFromPokeType.getInstance().removeListener(this);
     }
 
     @Override
@@ -309,6 +306,13 @@ public class MovesetFraction extends MovableFraction {
         PokemonShareHandler communicator = new PokemonShareHandler();
         communicator.spreadResultIntent(pokefly);
         pokefly.closeInfoDialog();
+    }
+
+    @Override public void updateGuiColors() {
+        int c = GUIColorFromPokeType.getInstance().getColor();
+        powerUpButton.setBackgroundColor(c);
+        ivButton.setBackgroundColor(c);
+        top_navigation.setBackgroundColor(c);
     }
 
     public class RowViewHolder {

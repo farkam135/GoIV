@@ -118,7 +118,6 @@ public class MovesetFraction extends MovableFraction {
     private void setColorsBasedOnType() {
         powerUpButton.setBackgroundColor(GUIColorFromPokeType.getColor());
         ivButton.setBackgroundColor(GUIColorFromPokeType.getColor());
-        movesetButton.setBackgroundColor(GUIColorFromPokeType.getColor());
         top_navigation.setBackgroundColor(GUIColorFromPokeType.getColor());
     }
 

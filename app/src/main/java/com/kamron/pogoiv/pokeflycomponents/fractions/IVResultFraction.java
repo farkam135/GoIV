@@ -115,7 +115,6 @@ public class IVResultFraction extends Fraction {
 
     private void setColorsBasedOnType() {
         powerUpButton.setBackgroundColor(GUIColorFromPokeType.getColor());
-        ivButton.setBackgroundColor(GUIColorFromPokeType.getColor());
         movesetButton.setBackgroundColor(GUIColorFromPokeType.getColor());
         ivResultsHeader.setBackgroundColor(GUIColorFromPokeType.getColor());
     }

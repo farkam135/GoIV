@@ -15,7 +15,6 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
@@ -140,9 +139,9 @@ public class InputFraction extends Fraction {
         if (possiblePoke.dist == 0) {
             pokeInputSpinner.setBackgroundColor(Color.parseColor("#FFF9F9F9"));
         } else if (possiblePoke.dist < 2) {
-            pokeInputSpinner.setBackgroundColor(Color.parseColor("#ffffcc"));
+            pokeInputSpinner.setBackgroundColor(Color.parseColor("#ffffdd"));
         } else {
-            pokeInputSpinner.setBackgroundColor(Color.parseColor("#ffcccc"));
+            pokeInputSpinner.setBackgroundColor(Color.parseColor("#ffdddd"));
         }
 
         resetToSpinner(); //always have the input as spinner as default
@@ -162,6 +161,7 @@ public class InputFraction extends Fraction {
         showCandyTextBoxBasedOnSettings();
 
         setUIColorBasedOnType();
+        isInitiated = true;
     }
 
     private void setUIColorBasedOnType() {
@@ -224,7 +224,9 @@ public class InputFraction extends Fraction {
             }
             Pokemon pokemon = interpretWhichPokemonUserInput();
             if (pokemon != null) {
-                Pokefly.scanData.setPokemonName(pokemon.base.name);
+              Pokefly.scanData.getPokemon(pokemon);
+
+
             }
         }
 

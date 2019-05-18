@@ -205,7 +205,7 @@ public class PowerUpFraction extends Fraction {
             extendedEvolutionSpinner.setSelection(spinnerSelectionIdx);
             extendedEvolutionSpinner.setEnabled(evolutionLine.size() > 1);
         }
-        return evolutionLine.get(spinnerSelectionIdx);
+        return extendedEvolutionSpinnerAdapter.getItem(spinnerSelectionIdx);
     }
 
     /**

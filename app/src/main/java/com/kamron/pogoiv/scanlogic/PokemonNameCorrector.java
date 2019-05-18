@@ -113,7 +113,7 @@ public class PokemonNameCorrector {
         }
 
 
-        //3.  check correction for abnormal pokemon using Pokemon Type (such as eevees evolutions, azuril.)
+        //3.  check correction for abnormal pokemon using Pokemon Type (such as eevees evolutions)
         if (guess.pokemon == null
                 && normalizedCandyName.contains(StringUtils.normalize(pokeInfoCalculator.get(132).name))) {
             HashMap<String, Integer> eeveelutionCorrection = new HashMap<>();
@@ -122,9 +122,8 @@ public class PokemonNameCorrector {
             eeveelutionCorrection.put(normalizePokemonType(Type.FIRE), 135); //Flareon pokedex#
             eeveelutionCorrection.put(normalizePokemonType(Type.PSYCHIC), 195); //Espeon pokedex#
             eeveelutionCorrection.put(normalizePokemonType(Type.DARK),196); //Umbreon pokedex#
-            // Preparing for the future....
-            // eeveelutionCorrection.put(normalizePokemonType(Type.GRASS), 469); //Leafeon pokedex#
-            // eeveelutionCorrection.put(normalizePokemonType(Type.ICE), 470); //Glaceon pokedex#
+            eeveelutionCorrection.put(normalizePokemonType(Type.GRASS), 469); //Leafeon pokedex#
+            eeveelutionCorrection.put(normalizePokemonType(Type.ICE), 470); //Glaceon pokedex#
             // eeveelutionCorrection.put(normalizePokemonType(Type.FAIRY), 699); //Sylveon pokedex#
             if (eeveelutionCorrection.containsKey(scanData.getNormalizedPokemonType())) {
                 int eeveelutionPokedexId = eeveelutionCorrection.get(scanData.getNormalizedPokemonType());

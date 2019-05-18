@@ -18,7 +18,9 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -30,6 +32,8 @@ import com.kamron.pogoiv.pokeflycomponents.MovesetsManager;
 import com.kamron.pogoiv.scanlogic.MovesetData;
 import com.kamron.pogoiv.scanlogic.PokemonShareHandler;
 import com.kamron.pogoiv.utils.ExportPokemonQueue;
+import com.kamron.pogoiv.utils.GUIColorFromPokeType;
+import com.kamron.pogoiv.utils.ReactiveColorListener;
 import com.kamron.pogoiv.utils.fractions.MovableFraction;
 
 import java.text.DecimalFormat;
@@ -46,7 +50,7 @@ import butterknife.OnTouch;
 import static com.kamron.pogoiv.GoIVSettings.MOVESET_WINDOW_POSITION;
 
 
-public class MovesetFraction extends MovableFraction {
+public class MovesetFraction extends MovableFraction implements ReactiveColorListener {
 
     private static final String URL_POKEBATTLER_IMPORT = "https://www.pokebattler.com/pokebox/import";
 
@@ -68,6 +72,15 @@ public class MovesetFraction extends MovableFraction {
     @BindView(R.id.header_icon_defense)
     ImageView headerDefenseSortIcon;
 
+
+    @BindView(R.id.top_navigation)
+    LinearLayout top_navigation;
+    @BindView(R.id.powerUpButton)
+    Button powerUpButton;
+    @BindView(R.id.ivButton)
+    Button ivButton;
+    @BindView(R.id.movesetButton)
+    Button movesetButton;
 
     public MovesetFraction(@NonNull Pokefly pokefly, @NonNull SharedPreferences sharedPrefs) {
         super(sharedPrefs);
@@ -98,10 +111,15 @@ public class MovesetFraction extends MovableFraction {
             // Initialize descent attack order by default; this will cause the table to rebuild.
             sortBy(atkComparator);
         }
+        updateGuiColors();
+        GUIColorFromPokeType.getInstance().setListenTo(this);
     }
+
+
 
     @Override
     public void onDestroy() {
+        GUIColorFromPokeType.getInstance().removeListener(this);
     }
 
     @Override
@@ -288,6 +306,13 @@ public class MovesetFraction extends MovableFraction {
         PokemonShareHandler communicator = new PokemonShareHandler();
         communicator.spreadResultIntent(pokefly);
         pokefly.closeInfoDialog();
+    }
+
+    @Override public void updateGuiColors() {
+        int c = GUIColorFromPokeType.getInstance().getColor();
+        powerUpButton.setBackgroundColor(c);
+        ivButton.setBackgroundColor(c);
+        top_navigation.setBackgroundColor(c);
     }
 
     public class RowViewHolder {

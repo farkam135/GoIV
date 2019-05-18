@@ -1,100 +1,211 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
 
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="@dimen/dialog_large_height_min">
+    android:minHeight="@dimen/dialog_large_height_min"
+    android:orientation="vertical">
 
     <LinearLayout
-        android:orientation="horizontal"
+        android:id="@+id/powerupHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:baselineAligned="true"
         android:background="?attr/colorPrimary"
+        android:baselineAligned="true"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <ImageButton
-            style="?attr/borderlessButtonStyle"
             android:id="@+id/btnBack"
+            style="?attr/borderlessButtonStyle"
             android:layout_width="48dp"
             android:layout_height="40dp"
-            android:text="@string/back"
+            android:contentDescription="@string/back"
             android:src="@drawable/ic_arrow_back_white_24dp"
-            android:contentDescription="@string/back" />
+            android:text="@string/back"/>
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/fraction_powerup_title"
+            android:ellipsize="end"
             android:maxLines="1"
-            android:ellipsize="end" />
+            android:text="@string/fraction_powerup_title"
+            android:textAppearance="?android:attr/textAppearanceLarge"/>
 
         <ImageButton
-            style="?attr/borderlessButtonStyle"
             android:id="@+id/btnClose"
+            style="?attr/borderlessButtonStyle"
             android:layout_width="48dp"
             android:layout_height="40dp"
-            android:text="@string/close"
+            android:contentDescription="@string/close"
             android:src="@drawable/ic_clear_white_24dp"
-            android:contentDescription="@string/close" />
+            android:text="@string/close"/>
 
     </LinearLayout>
 
-    <info.hoang8f.android.segmented.SegmentedGroup
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="0dp"
-        android:orientation="horizontal"
-        app:sc_corner_radius="0dp"
-        app:sc_tint_color="@color/colorPrimary">
+        android:orientation="horizontal">
 
-        <RadioButton
+        <Button
             android:id="@+id/powerUpButton"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/fraction_powerup_tab_label"
-            android:textAllCaps="true"
-            android:checked="true"
-            style="@style/RadioButton" />
+            style="@style/currentTab" />
 
-        <RadioButton
+        <Button
             android:id="@+id/ivButton"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/fraction_iv_tab_label"
-            android:textAllCaps="true"
-            style="@style/RadioButton" />
+            style="@style/unactiveTab" />
 
-        <RadioButton
+        <Button
             android:id="@+id/movesetButton"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/fraction_moveset_tab_label"
-            android:textAllCaps="true"
-            style="@style/RadioButton" />
+            style="@style/unactiveTab" />
 
-    </info.hoang8f.android.segmented.SegmentedGroup>
-
+    </LinearLayout>
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="12dp"
-        android:paddingBottom="6dp"
+        android:orientation="vertical"
         android:paddingLeft="12dp"
+        android:paddingTop="12dp"
         android:paddingRight="12dp"
-        android:orientation="vertical">
+        android:paddingBottom="18dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:text="@string/fraction_powerup_paragraph_input"
+            android:textAlignment="center"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="42dp"
+                android:text="@string/evolution"
+                android:textAllCaps="true"
+                android:textAppearance="?android:attr/textAppearanceSmall"/>
+
+            <Spinner
+                android:id="@+id/extendedEvolutionSpinner"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:layout_marginLeft="35dp"
+                android:background="#F9F9F9"
+                android:gravity="center"
+                tools:layout_width="150dp"/>
+
+            <android.support.v4.widget.Space
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:minWidth="42dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="42dp"
+                android:text="@string/level_acronym"
+                android:textAllCaps="true"
+                android:textAppearance="?android:attr/textAppearanceSmall"/>
+
+            <Button
+                android:id="@+id/btnDecrementLevelExpanded"
+                style="?attr/borderlessButtonStyle"
+                android:layout_width="36dp"
+                android:layout_height="wrap_content"
+                android:minHeight="36dp"
+                android:text="-"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
+                tools:ignore="HardcodedText"/>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:clipChildren="false"
+                android:clipToPadding="false">
+
+                <io.apptik.widget.MultiSlider
+                    android:id="@+id/expandedLevelSeekbarBackground"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="-6dp"
+                    android:layout_marginRight="-6dp"
+                    app:range1="@drawable/orange_scrubber_track_holo_light"
+                    app:range2="@drawable/orange_scrubber_primary_holo"
+                    app:thumbNumber="2"/>
+
+                <SeekBar
+                    android:id="@+id/expandedLevelSeekbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="-6dp"
+                    android:layout_marginRight="-6dp"/>
+
+            </FrameLayout>
+
+            <Button
+                android:id="@+id/btnIncrementLevelExpanded"
+                style="?attr/borderlessButtonStyle"
+                android:layout_width="36dp"
+                android:layout_height="wrap_content"
+                android:minHeight="36dp"
+                android:text="+"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
+                tools:ignore="HardcodedText"/>
+
+            <TextView
+                android:id="@+id/exResLevel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="42dp"
+                android:textAppearance="@style/weakText"
+                tools:text="20.0"/>
+
+        </LinearLayout>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            android:background="@android:color/darker_gray"/>
 
 
         <android.support.constraint.ConstraintLayout
@@ -110,15 +221,14 @@
                 app:layout_constraintStart_toStartOf="parent"/>
 
 
-
             <TextView
                 android:id="@+id/exResultCP"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/evalResultText"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.2"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView"
                 tools:text="2012"/>
 
@@ -150,10 +260,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/evalResultText"
+                app:layout_constraintBaseline_toBaselineOf="@id/exResultCP"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.8"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBaseline_toBaselineOf="@id/exResultCP"
                 tools:text="200"/>
 
 
@@ -183,11 +293,11 @@
                 android:id="@+id/exResultPercentPerfection"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/exResultCP"
-                app:layout_constraintStart_toStartOf="@id/exResultCP"
-                app:layout_constraintEnd_toEndOf="@id/exResultCP"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/colorPrimary"
+                app:layout_constraintEnd_toEndOf="@id/exResultCP"
+                app:layout_constraintStart_toStartOf="@id/exResultCP"
+                app:layout_constraintTop_toBottomOf="@id/exResultCP"
                 tools:text="98.1% (-61)"/>
 
             <TextView
@@ -214,8 +324,8 @@
                 <ImageView
                     android:layout_width="17dp"
                     android:layout_height="17dp"
-                    android:layout_marginEnd="6dp"
                     android:layout_marginTop="5dp"
+                    android:layout_marginEnd="6dp"
                     android:src="@drawable/candy_icon"
                     android:text="@string/candy"
                     android:textAllCaps="true"
@@ -234,12 +344,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="@style/veryWeakText"
                 android:text="@string/candy"
-                app:layout_constraintTop_toBottomOf="@id/candyContainer"
-                app:layout_constraintStart_toStartOf="@id/candyContainer"
+                android:textAppearance="@style/veryWeakText"
                 app:layout_constraintEnd_toEndOf="@id/candyContainer"
-                />
+                app:layout_constraintStart_toStartOf="@id/candyContainer"
+                app:layout_constraintTop_toBottomOf="@id/candyContainer"/>
 
 
             <LinearLayout
@@ -257,11 +366,11 @@
                 <ImageView
                     android:layout_width="17dp"
                     android:layout_height="17dp"
-                    android:layout_marginEnd="6dp"
                     android:layout_marginTop="4dp"
+                    android:layout_marginEnd="6dp"
                     android:src="@drawable/star"
                     android:tint="#6A6A6A"
-                    tools:ignore="ContentDescription" />
+                    tools:ignore="ContentDescription"/>
 
                 <TextView
                     android:id="@+id/exResStardust"
@@ -275,144 +384,21 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="@style/veryWeakText"
                 android:text="@string/stardust"
-                app:layout_constraintTop_toBottomOf="@id/stardustContainer"
-                app:layout_constraintStart_toStartOf="@id/stardustContainer"
+                android:textAppearance="@style/veryWeakText"
                 app:layout_constraintEnd_toEndOf="@id/stardustContainer"
-                />
+                app:layout_constraintStart_toStartOf="@id/stardustContainer"
+                app:layout_constraintTop_toBottomOf="@id/stardustContainer"/>
         </android.support.constraint.ConstraintLayout>
-
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="6dp"
-            android:background="@android:color/darker_gray"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
-            android:text="@string/fraction_powerup_paragraph_input"
-            android:textAlignment="center"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="bottom">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAllCaps="true"
-                android:minWidth="42dp"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="@string/evolution" />
-
-            <Spinner
-                android:id="@+id/extendedEvolutionSpinner"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/spinner"
-                android:popupBackground="#fafafa"
-                android:gravity="center"
-                tools:layout_height="24dp"
-                tools:layout_width="150dp" />
-
-            <android.support.v4.widget.Space
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:minWidth="42dp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAllCaps="true"
-                android:minWidth="42dp"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="@string/level_acronym" />
-
-            <Button
-                style="?attr/borderlessButtonStyle"
-                android:id="@+id/btnDecrementLevelExpanded"
-                android:layout_width="36dp"
-                android:layout_height="wrap_content"
-                android:minHeight="36dp"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="@color/colorPrimary"
-                android:textStyle="bold"
-                android:text="-"
-                tools:ignore="HardcodedText" />
-
-            <FrameLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:clipToPadding="false"
-                android:clipChildren="false">
-
-                <io.apptik.widget.MultiSlider
-                    android:id="@+id/expandedLevelSeekbarBackground"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="-6dp"
-                    android:layout_marginRight="-6dp"
-                    app:range1="@drawable/orange_scrubber_track_holo_light"
-                    app:range2="@drawable/orange_scrubber_primary_holo"
-                    app:thumbNumber="2"/>
-
-                <SeekBar
-                    android:id="@+id/expandedLevelSeekbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="-6dp"
-                    android:layout_marginRight="-6dp" />
-
-            </FrameLayout>
-
-            <Button
-                style="?attr/borderlessButtonStyle"
-                android:id="@+id/btnIncrementLevelExpanded"
-                android:layout_width="36dp"
-                android:layout_height="wrap_content"
-                android:minHeight="36dp"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="@color/colorPrimary"
-                android:textStyle="bold"
-                android:text="+"
-                tools:ignore="HardcodedText" />
-
-            <TextView
-                android:id="@+id/exResLevel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:minWidth="42dp"
-                android:textAppearance="@style/weakText"
-                tools:text="20.0" />
-
-        </LinearLayout>
 
 
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/llPokeSpam"
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <View
             android:layout_width="match_parent"
@@ -421,9 +407,9 @@
             android:background="@android:color/darker_gray"/>
 
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="horizontal"
             android:paddingLeft="12dp"
             android:paddingTop="8dp"
             android:paddingRight="12dp"
@@ -432,9 +418,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="@string/pokespam"
                 android:textAllCaps="true"
-                android:text="@string/pokespam" />
+                android:textAppearance="?android:attr/textAppearanceSmall"/>
 
             <TextView
                 android:id="@+id/exResPokeSpam"
@@ -443,7 +429,7 @@
                 android:layout_weight="1"
                 android:gravity="end"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                tools:text="#ofSpam" />
+                tools:text="#ofSpam"/>
 
         </LinearLayout>
 

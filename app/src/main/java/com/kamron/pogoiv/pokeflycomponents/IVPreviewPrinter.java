@@ -2,7 +2,6 @@ package com.kamron.pogoiv.pokeflycomponents;
 
 import android.graphics.Bitmap;
 import android.os.Handler;
-import android.widget.Toast;
 
 import com.kamron.pogoiv.GoIVSettings;
 import com.kamron.pogoiv.Pokefly;
@@ -144,7 +143,7 @@ public class IVPreviewPrinter {
         String returner;
         if (settings.shouldReplaceQuickIvPreviewWithClipboard()) {
             returner = pokefly.getClipboardTokenHandler().getClipboardText(scanResult, pokeInfoCalculator);
-            Toast.makeText(pokefly, returner, Toast.LENGTH_SHORT).show();
+            pokefly.showToastOnPoke(returner);
         }
     }
 

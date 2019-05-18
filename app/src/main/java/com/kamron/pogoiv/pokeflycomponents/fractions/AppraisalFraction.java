@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -16,6 +17,8 @@ import com.kamron.pogoiv.GoIVSettings;
 import com.kamron.pogoiv.Pokefly;
 import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.pokeflycomponents.AppraisalManager;
+import com.kamron.pogoiv.utils.GUIColorFromPokeType;
+import com.kamron.pogoiv.utils.ReactiveColorListener;
 import com.kamron.pogoiv.utils.fractions.MovableFraction;
 
 import butterknife.BindView;
@@ -27,7 +30,8 @@ import butterknife.OnTouch;
 import static com.kamron.pogoiv.GoIVSettings.APPRAISAL_WINDOW_POSITION;
 
 
-public class AppraisalFraction extends MovableFraction implements AppraisalManager.OnAppraisalEventListener {
+public class AppraisalFraction extends MovableFraction implements AppraisalManager.OnAppraisalEventListener,
+        ReactiveColorListener {
 
     @BindView(R.id.appraisalIVRangeGroup)
     RadioGroup appraisalIVRangeGroup;
@@ -65,6 +69,14 @@ public class AppraisalFraction extends MovableFraction implements AppraisalManag
 
     @BindView(R.id.eggRaidSwitch)
     Switch eggRaidSwitch;
+
+    @BindView(R.id.btnCheckIv)
+    Button btnCheckIv;
+    @BindView(R.id.statsButton)
+    Button statsButton;
+
+    @BindView(R.id.headerAppraisal)
+    LinearLayout headerAppraisal;
 
 
     private Pokefly pokefly;
@@ -142,11 +154,14 @@ public class AppraisalFraction extends MovableFraction implements AppraisalManag
                 appraisalStat4.setText(R.string.is4);
                 break;
         }
+        GUIColorFromPokeType.getInstance().setListenTo(this);
+        updateGuiColors();
     }
 
     @Override
     public void onDestroy() {
         appraisalManager.removeOnAppraisalEventListener(this);
+        GUIColorFromPokeType.getInstance().removeListener(this);
     }
 
     @Override
@@ -364,7 +379,7 @@ public class AppraisalFraction extends MovableFraction implements AppraisalManag
         }
     }
 
-    @OnClick({R.id.statsButton, R.id.btnBackAppr})
+    @OnClick({R.id.statsButton})
     void onStats() {
         pokefly.navigateToInputFraction();
     }
@@ -379,4 +394,23 @@ public class AppraisalFraction extends MovableFraction implements AppraisalManag
         pokefly.computeIv();
     }
 
+    @Override public void updateGuiColors() {
+
+        int c = GUIColorFromPokeType.getInstance().getColor();
+       /* appraisalIVRange4.setHighlightColor(GUIColorFromPokeType.getColor());
+        appraisalIVRange3.setHighlightColor(GUIColorFromPokeType.getColor());
+        appraisalIVRange2.setHighlightColor(GUIColorFromPokeType.getColor());
+        appraisalIVRange1.setHighlightColor(GUIColorFromPokeType.getColor());
+        appraisalStat1.setHighlightColor(GUIColorFromPokeType.getColor());
+        appraisalStat2.setHighlightColor(GUIColorFromPokeType.getColor());
+        appraisalStat3.setHighlightColor(GUIColorFromPokeType.getColor());
+        appraisalStat4.setHighlightColor(GUIColorFromPokeType.getColor());
+        attCheckbox.setHighlightColor(GUIColorFromPokeType.getColor());
+        defCheckbox.setHighlightColor(GUIColorFromPokeType.getColor());
+        staCheckbox.setHighlightColor(GUIColorFromPokeType.getColor());*/
+        eggRaidSwitch.setHighlightColor(c);
+        btnCheckIv.setBackgroundColor(c);
+        statsButton.setBackgroundColor(c);
+        headerAppraisal.setBackgroundColor(c);
+    }
 }

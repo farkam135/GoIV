@@ -10,6 +10,7 @@ import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.Spinner;
@@ -27,6 +28,8 @@ import com.kamron.pogoiv.scanlogic.PokeSpam;
 import com.kamron.pogoiv.scanlogic.Pokemon;
 import com.kamron.pogoiv.scanlogic.ScanResult;
 import com.kamron.pogoiv.scanlogic.UpgradeCost;
+import com.kamron.pogoiv.utils.GUIColorFromPokeType;
+import com.kamron.pogoiv.utils.ReactiveColorListener;
 import com.kamron.pogoiv.utils.fractions.Fraction;
 import com.kamron.pogoiv.widgets.PokemonSpinnerAdapter;
 
@@ -42,7 +45,7 @@ import io.apptik.widget.MultiSlider;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class PowerUpFraction extends Fraction {
+public class PowerUpFraction extends Fraction implements ReactiveColorListener {
 
     @BindView(R.id.expandedLevelSeekbar)
     SeekBar expandedLevelSeekbar;
@@ -73,6 +76,16 @@ public class PowerUpFraction extends Fraction {
     TextView exResCandy;
 
 
+
+    @BindView(R.id.powerupHeader)
+    LinearLayout powerupHeader;
+    @BindView(R.id.powerUpButton)
+    Button powerUpButton;
+    @BindView(R.id.ivButton)
+    Button ivButton;
+    @BindView(R.id.movesetButton)
+    Button movesetButton;
+
     private Context context;
     private Pokefly pokefly;
     private PokemonSpinnerAdapter extendedEvolutionSpinnerAdapter;
@@ -97,9 +110,15 @@ public class PowerUpFraction extends Fraction {
         createExtendedResultEvolutionSpinner();
         adjustSeekbarsThumbs();
         populateAdvancedInformation();
+
+        updateGuiColors();
+        GUIColorFromPokeType.getInstance().setListenTo(this);
     }
 
+
+
     @Override public void onDestroy() {
+        GUIColorFromPokeType.getInstance().removeListener(this);
     }
 
     @Override
@@ -184,7 +203,7 @@ public class PowerUpFraction extends Fraction {
             extendedEvolutionSpinner.setSelection(spinnerSelectionIdx);
             extendedEvolutionSpinner.setEnabled(evolutionLine.size() > 1);
         }
-        return evolutionLine.get(spinnerSelectionIdx);
+        return extendedEvolutionSpinnerAdapter.getItem(spinnerSelectionIdx);
     }
 
     /**
@@ -371,7 +390,7 @@ public class PowerUpFraction extends Fraction {
      */
     private void createExtendedResultEvolutionSpinner() {
         //The evolution picker for seeing estimates of how much cp and cost a pokemon will have at a different evolution
-        extendedEvolutionSpinnerAdapter = new PokemonSpinnerAdapter(pokefly, R.layout.spinner_evolution,
+        extendedEvolutionSpinnerAdapter = new PokemonSpinnerAdapter(pokefly, R.layout.spinner_pokemon,
                 new ArrayList<Pokemon>());
         extendedEvolutionSpinner.setAdapter(extendedEvolutionSpinnerAdapter);
 
@@ -467,4 +486,10 @@ public class PowerUpFraction extends Fraction {
         //seekbar only supports integers, so the seekbar works between 2 and 80.
     }
 
+    @Override public void updateGuiColors() {
+        int c = GUIColorFromPokeType.getInstance().getColor();
+        ivButton.setBackgroundColor(c);
+        movesetButton.setBackgroundColor(c);
+        powerupHeader.setBackgroundColor(c);
+    }
 }

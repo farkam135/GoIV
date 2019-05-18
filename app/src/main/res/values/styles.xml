@@ -92,4 +92,25 @@
     <style name="NotificationTitle" parent="android:TextAppearance.StatusBar.EventContent.Title" />
     <style name="NotificationMessage" parent="android:TextAppearance.StatusBar.EventContent" />
 
+    <style name="currentTab">
+
+        <item name="android:textAllCaps">true</item>
+        <item name="android:background">#ffffff</item>
+        <item name="android:colorBackground">#ffffff</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">#616161</item>
+        <item name="android:layout_height">30dp</item>
+
+    </style>
+    <style name="unactiveTab">
+
+        <item name="android:textAllCaps">true</item>
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">#fafafa</item>
+        <item name="android:layout_height">30dp</item>
+
+    </style>
+
+
 </resources>

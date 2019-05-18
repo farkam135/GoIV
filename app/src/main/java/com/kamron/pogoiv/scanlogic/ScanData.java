@@ -32,6 +32,7 @@ public class ScanData {
     private final String moveCharge;
     private final boolean isLucky;
     private final String uniqueID;
+    private Pokemon pokemon = null;
 
     public ScanData(LevelRange estimatedPokemonLevel, String pokemonName, String pokemonType, String candyName,
                     Pokemon.Gender pokemonGender, Optional<Integer> pokemonHP, Optional<Integer> pokemonCP,
@@ -192,5 +193,18 @@ public class ScanData {
 
     public Optional<Integer> getEvolutionCandyCost() {
         return evolutionCandyCost;
+    }
+
+    /**
+     * Pokemon value interpreted from the data or user input. Is null right after a scan, needs to be updated by
+     * external factor.
+     * @param p
+     */
+    public void getPokemon(Pokemon p) {
+        pokemon = p;
+    }
+
+    public Pokemon setPokemon(){
+        return pokemon;
     }
 }

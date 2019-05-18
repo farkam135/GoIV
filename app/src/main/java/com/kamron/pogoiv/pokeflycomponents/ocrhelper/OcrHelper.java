@@ -1078,7 +1078,9 @@ public class OcrHelper {
                                 int trainerLevel,
                                 boolean requestFullScan) {
 
-        rememberGUIAccentColorBasedOnScan(pokemonImage);
+        if (requestFullScan){
+            rememberGUIAccentColorBasedOnScan(pokemonImage);
+        }
         ensureCorrectLevelArcSettings(settings, trainerLevel); //todo, make it so it doesnt initiate on every scan?
 
         Optional<Integer> powerUpStardustCost = Optional.absent();

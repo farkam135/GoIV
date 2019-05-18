@@ -332,11 +332,16 @@ public class OcrHelper {
         if (leftOfEvolutionCostImage != null){
             int middle = leftOfEvolutionCostImage.getHeight()/2;
             int amountOfTextPixels = 0;
+            int amountOfPinkBackgroundPixels = 0; //evolutions that require items have pink-ish background
             for (int i = 0; i < leftOfEvolutionCostImage.getWidth(); i++) {
                 int color = leftOfEvolutionCostImage.getPixel(i, middle);
                 boolean normalRange = isInColorRange(color, DEFAULT_FONT_COLOR, 6);
                 boolean cantAffordRange = isInColorRange(color, CANT_AFFORD_FONT_COLOR, 6); //if user
                 //cant afford the stardust cost
+
+                if (isInColorRange(color, Color.rgb(252,231,239), 3)){
+                    amountOfPinkBackgroundPixels++;
+                }
 
                 if (normalRange || cantAffordRange) {
                     amountOfTextPixels++;
@@ -345,7 +350,10 @@ public class OcrHelper {
 
             }
             double percentTextPixels = amountOfTextPixels / (double) leftOfEvolutionCostImage.getWidth();
-            if (percentTextPixels > 0.08){ //An evolution stone with '1' cost results in approx 5% text pixels.
+            double percentPinkBackground = amountOfPinkBackgroundPixels / (double) leftOfEvolutionCostImage.getWidth();
+            boolean isPinkBackground = percentPinkBackground > 0.3;
+            if (percentTextPixels > 0.04 && isPinkBackground== false){
+                //An evolution stone with '1' cost results in approx 5% text pixels
                 isNewAttackButton = true;
             }
         }

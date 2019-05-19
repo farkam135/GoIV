@@ -568,6 +568,9 @@ public class Pokefly extends Service {
     public ScanResult computeIVWithoutUIChange(){
         ScanResult scanReturner = new ScanResult(nameCorrector, scanData);
         pokeInfoCalculator.getIVPossibilities(scanReturner);
+        if (appraisalManager != null){
+            scanReturner.refineWithAvailableInfoFrom(appraisalManager);
+        }
         return scanReturner;
     }
 

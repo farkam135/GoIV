@@ -321,6 +321,6 @@
         android:layout_height="wrap_content"
         android:layout_marginRight="20dp"
         android:layout_marginLeft="20dp"
-        android:text="XX% - XX% \| More info"/>
+        android:text="\?% - ?% \| More info"/>
 
 </LinearLayout>

@@ -17,6 +17,8 @@ import com.kamron.pogoiv.GoIVSettings;
 import com.kamron.pogoiv.Pokefly;
 import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.pokeflycomponents.AppraisalManager;
+import com.kamron.pogoiv.scanlogic.IVCombination;
+import com.kamron.pogoiv.scanlogic.ScanResult;
 import com.kamron.pogoiv.utils.GUIColorFromPokeType;
 import com.kamron.pogoiv.utils.ReactiveColorListener;
 import com.kamron.pogoiv.utils.fractions.MovableFraction;
@@ -194,6 +196,7 @@ public class AppraisalFraction extends MovableFraction implements AppraisalManag
                 appraisalIVRangeGroup.clearCheck();
                 break;
         }
+        updateIVPreviewInButton();
     }
 
     @Override
@@ -211,6 +214,7 @@ public class AppraisalFraction extends MovableFraction implements AppraisalManag
             default:
                 break;
         }
+        updateIVPreviewInButton();
     }
 
     @Override
@@ -233,6 +237,7 @@ public class AppraisalFraction extends MovableFraction implements AppraisalManag
                 appraisalStatsGroup.clearCheck();
                 break;
         }
+        updateIVPreviewInButton();
     }
 
     private void selectStatModifier(AppraisalManager.StatModifier modifier) {
@@ -246,6 +251,7 @@ public class AppraisalFraction extends MovableFraction implements AppraisalManag
             default:
                 break;
         }
+        updateIVPreviewInButton();
     }
 
     /**
@@ -264,6 +270,39 @@ public class AppraisalFraction extends MovableFraction implements AppraisalManag
             // Highest stat IV value range completed
             appraisalStatsGroup.setBackgroundResource(R.drawable.highlight_rectangle);
         }
+    }
+
+
+    /**
+     * Update the text on the 'next' button to indicate quick IV overview
+     */
+    private void updateIVPreviewInButton() {
+
+        try {
+            ScanResult scanResult = pokefly.computeIVWithoutUIChange();
+
+            int possibleIVs = scanResult.getIVCombinations().size();
+            //btnCheckIv.setEnabled(possibleIVs != 0);
+            if (possibleIVs == 0) {
+                btnCheckIv.setText("?");
+            } else {
+                if (scanResult.getIVCombinations().size() == 1) {
+                    IVCombination result = scanResult.getIVCombinations().get(0);
+                    btnCheckIv.setText(result.percentPerfect + "% (" + result.att + ":" + result.def + ":" + result.sta + ") | More info");
+                } else if (scanResult.getLowestIVCombination().percentPerfect == scanResult
+                        .getHighestIVCombination().percentPerfect) {
+                    btnCheckIv.setText(scanResult.getLowestIVCombination().percentPerfect + "% | More info");
+                } else {
+                    btnCheckIv.setText(scanResult.getLowestIVCombination().percentPerfect + "% - " + scanResult
+                            .getHighestIVCombination().percentPerfect + "% | More info");
+                }
+
+            }
+        } catch (IllegalStateException e) {
+            //Couldnt compute a valid scanresult. This is most likely due to missing HP / CP values
+        }
+
+
     }
 
     /**

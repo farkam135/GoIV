@@ -1288,7 +1288,7 @@ public class OcrHelper {
 
         if (appraisalText == null) {
             //68,105,108 is the color of the appraisal text
-            bottom = replaceColors(bottom, true, 68, 105, 108, Color.WHITE, 100, true);
+            //bottom = replaceColors(bottom, true, 68, 105, 108, Color.WHITE, 100, true);
             tesseract.setImage(bottom);
             //Set tesseract not single line mode
             tesseract.setPageSegMode(TessBaseAPI.PageSegMode.PSM_SINGLE_BLOCK);

@@ -164,7 +164,9 @@ public class InputFraction extends Fraction implements ReactiveColorListener {
         GUIColorFromPokeType.getInstance().setListenTo(this);
         updateGuiColors();
         isInitiated = true;
+        updateIVInputFractionPreview();
     }
+
 
 
     @Override
@@ -211,7 +213,7 @@ public class InputFraction extends Fraction implements ReactiveColorListener {
             }
             Pokemon pokemon = interpretWhichPokemonUserInput();
             if (pokemon != null) {
-              Pokefly.scanData.getPokemon(pokemon);
+              Pokefly.scanData.setPokemon(pokemon);
 
 
             }
@@ -265,34 +267,33 @@ public class InputFraction extends Fraction implements ReactiveColorListener {
      * Update the text on the 'next' button to indicate quick IV overview
      */
     private void updateIVInputFractionPreview() {
+        if(isInitiated){
+            saveToPokefly();
 
-        saveToPokefly();
+            try {
+                ScanResult scanResult = pokefly.computeIVWithoutUIChange();
 
-        try {
-            ScanResult scanResult = pokefly.computeIVWithoutUIChange();
-
-            int possibleIVs = scanResult.getIVCombinations().size();
-            //btnCheckIv.setEnabled(possibleIVs != 0);
-            if (possibleIVs == 0) {
-                btnCheckIv.setText("?");
-            } else {
-                if (scanResult.getIVCombinations().size() == 1) {
-                    IVCombination result = scanResult.getIVCombinations().get(0);
-                    btnCheckIv.setText(result.percentPerfect + "% (" + result.att + ":" + result.def + ":" + result.sta + ") | More info");
-                } else if (scanResult.getLowestIVCombination().percentPerfect == scanResult
-                        .getHighestIVCombination().percentPerfect) {
-                    btnCheckIv.setText(scanResult.getCombinationLowIVs().percentPerfect + "% | More info");
+                int possibleIVs = scanResult.getIVCombinations().size();
+                //btnCheckIv.setEnabled(possibleIVs != 0);
+                if (possibleIVs == 0) {
+                    btnCheckIv.setText("?");
                 } else {
-                    btnCheckIv.setText(scanResult.getLowestIVCombination().percentPerfect + "% - " + scanResult
-                            .getHighestIVCombination().percentPerfect + "% | More info");
+                    if (scanResult.getIVCombinations().size() == 1) {
+                        IVCombination result = scanResult.getIVCombinations().get(0);
+                        btnCheckIv.setText(result.percentPerfect + "% (" + result.att + ":" + result.def + ":" + result.sta + ") | More info");
+                    } else if (scanResult.getLowestIVCombination().percentPerfect == scanResult
+                            .getHighestIVCombination().percentPerfect) {
+                        btnCheckIv.setText(scanResult.getLowestIVCombination().percentPerfect + "% | More info");
+                    } else {
+                        btnCheckIv.setText(scanResult.getLowestIVCombination().percentPerfect + "% - " + scanResult
+                                .getHighestIVCombination().percentPerfect + "% | More info");
+                    }
+
                 }
-
+            } catch (IllegalStateException e) {
+                //Couldnt compute a valid scanresult. This is most likely due to missing HP / CP values
             }
-        } catch (IllegalStateException e) {
-            //Couldnt compute a valid scanresult. This is most likely due to missing HP / CP values
         }
-
-
     }
 
     @OnClick(R.id.btnDecrementLevel)

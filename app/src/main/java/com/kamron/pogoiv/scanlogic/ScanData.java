@@ -200,11 +200,11 @@ public class ScanData {
      * external factor.
      * @param p
      */
-    public void getPokemon(Pokemon p) {
+    public void setPokemon(Pokemon p) {
         pokemon = p;
     }
 
-    public Pokemon setPokemon(){
+    public Pokemon getPokemon(){
         return pokemon;
     }
 }

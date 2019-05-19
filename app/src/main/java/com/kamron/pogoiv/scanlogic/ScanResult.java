@@ -54,9 +54,9 @@ public class ScanResult {
 
     public ScanResult(@NonNull PokemonNameCorrector corrector, @NonNull ScanData scanData) {
         this(corrector.getPossiblePokemon(scanData).pokemon, scanData);
-        if (scanData.setPokemon() != null){
+        if (scanData.getPokemon() != null){
             //user manually input pokemon, override calculated from scan data pokemon
-            pokemon = scanData.setPokemon();
+            pokemon = scanData.getPokemon();
         }
     }
 

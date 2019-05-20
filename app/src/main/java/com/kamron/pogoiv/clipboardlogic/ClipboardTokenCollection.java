@@ -3,6 +3,7 @@ package com.kamron.pogoiv.clipboardlogic;
 import com.kamron.pogoiv.clipboardlogic.tokens.BaseStatToken;
 import com.kamron.pogoiv.clipboardlogic.tokens.CPMaxToken;
 import com.kamron.pogoiv.clipboardlogic.tokens.CPMissingAtFourty;
+import com.kamron.pogoiv.clipboardlogic.tokens.CPPercentageToken;
 import com.kamron.pogoiv.clipboardlogic.tokens.CandyTo40;
 import com.kamron.pogoiv.clipboardlogic.tokens.CpPercentileToken;
 import com.kamron.pogoiv.clipboardlogic.tokens.CpTierToken;
@@ -108,6 +109,8 @@ public class ClipboardTokenCollection {
 
         tokens.add(new PerfectionCPPercentageToken(true)); //how close your poke max evolved on lvl 40 cp is to 100% iv
         tokens.add(new PerfectionCPPercentageToken(false));//how close your poke on lvl 40 cp is to 100% iv
+        tokens.add(new CPPercentageToken(true)); //CP percent between 0% and 100% IV when max evolved at lvl 40
+        tokens.add(new CPPercentageToken(false)); //CP percent between 0% and 100% IV at lvl 40
         ////////////////////////////////////////////////////////////
 
         //IV Info/////////////////////////////////////////////////////

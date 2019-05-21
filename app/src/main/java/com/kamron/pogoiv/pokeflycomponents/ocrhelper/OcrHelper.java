@@ -593,11 +593,17 @@ public class OcrHelper {
         refinedImage.getPixels(pixelArray, 0, refinedImage.getWidth(), 0, refinedImage.getHeight() / 2, refinedImage
                 .getWidth(), 1);
 
+        int numNonWhitePixels = 0;
         for (int pixel : pixelArray) {
             if (pixel != Color.rgb(255, 255, 255)) { // if pixel is not white
-                return false;
+                numNonWhitePixels++;
             }
         }
+        float percentNonWhite = (float) numNonWhitePixels / (float) pixelArray.length;
+        if (percentNonWhite > 0.013){
+            return false;
+        }
+
         return true;
     }
 

@@ -399,20 +399,15 @@ public class PokeInfoCalculator {
      * @return the combined candy cost for all required evolutions
      */
     public int getCandyCostForEvolution(Pokemon start, Pokemon end) {
-        Pokemon devolution = getDevolution(start);
-        Pokemon dedevolution = null;
-        if (devolution != null) { //devolution must exist for there to be a devolution of the devolution
-            dedevolution = getDevolution(devolution);
-        }
-
-        boolean isEndReallyAfterStart = (devolution == start)
-                || dedevolution == start; //end must be devolution or devolution of devolution of start
         int cost = 0;
-        if (isInSameEvolutionChain(start, end) && isEndReallyAfterStart) {
-            while (start != end) { //move backwards from end until you've reached start
-                end = getDevolution(end);
-                cost += end.candyEvolutionCost;
+        while (start != end) { //move backwards from end until you've reached start
+            end = getDevolution(end);
+            // Gone through all devolutions from the end but never passed by start -> start and end are not related
+            if (end == null)
+            {
+                return 0;
             }
+            cost += end.candyEvolutionCost;
         }
         return cost;
     }

@@ -75,13 +75,13 @@
             android:title="@string/pokespam_setting_title"/>
 
         <com.pavelsikun.seekbarpreference.SeekBarPreference
-            android:key="autoAppraisalScanDelay"
+            android:key="appraisalScanDelay"
             android:title="@string/autoAppraisalScanDelay_title"
             android:summary="@string/autoAppraisalScanDelay_summary"
-            android:defaultValue="400"
+            android:defaultValue="3000"
 
-            app:msbp_minValue="200"
-            app:msbp_maxValue="1000"
+            app:msbp_minValue="1000"
+            app:msbp_maxValue="5000"
             app:msbp_interval="50"
             app:msbp_measurementUnit="ms"
             app:msbp_dialogEnabled="false"/>

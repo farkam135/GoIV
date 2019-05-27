@@ -112,7 +112,7 @@
     <string name="copy_to_clip_show_toast_setting_summary">Muestra una vista previa de lo que se copia en el portapapeles en una pequeña ventana emergente</string>
     <string name="copy_to_clip_show_toast_setting">Mostrar ventana emergente de la vista previa del portapapeles</string>
     <string name="autoAppraisalScanDelay_title">Retardar valoración automática</string>
-    <string name="autoAppraisalScanDelay_summary">Tiempo de espera en el texto de valoración para finalizar. Los teléfonos de gama media pueden necesitar un retraso de 800 ms</string>
+    <string name="autoAppraisalScanDelay_summary">Tiempo de espera en el texto de valoración para finalizar. Los teléfonos de gama media pueden necesitar un retraso de 4000 ms</string>
     <string name="quick_iv_preview_title">Mostrar previsualización del IV</string>
     <string name="quick_iv_preview_summary">Muestra una pequeña ventana de vista previa en la ficha del Pokémon</string>
     <string name="quick_iv_preview_clipboard_title">También previsualización portapapeles</string>
@@ -121,38 +121,6 @@
     <string name="settings_title_optional">Características opcionales de GoIV</string>
     <string name="settings_title_mode">Modo GoIV</string>
     <string name="settings_title_uninteresting">Otras opciones</string>
-
-    <!-- Team mystic appraisal strings mv for iv % and ms for strongest stat range-->
-    <string name="mv4">no parece\nllegar lejos</string>
-    <string name="mv3">por encima\nmedia</string>
-    <string name="mv2">llamado\natención</string>
-    <string name="mv1">maravilla\nvista</string>
-    <string name="ms4">deja un…\nque desear</string>
-    <string name="ms3">bastante\nbien</string>
-    <string name="ms2">realmente\nimpres…</string>
-    <string name="ms1">fuera cálc…\nincreib…</string>
-
-
-    <!-- Team valor appraisal strings mv for iv % and ms for strongest stat range-->
-    <string name="vv4">no mejor\nen comb…</string>
-    <string name="vv3">bastante\nbien</string>
-    <string name="vv2">fuerte…\nque orgul…</string>
-    <string name="vv1">simplemente\nme fascina</string>
-    <string name="vs4">no serán\nmucha ut…</string>
-    <string name="vs3">cumplir\nobjetivo…</string>
-    <string name="vs2">excelentes\nemociona…</string>
-    <string name="vs1">flipando\n¡GUAU!</string>
-
-
-    <!-- Team instinct appraisal strings mv for iv % and ms for strongest stat range-->
-    <string name="iv4">podría\nmejorar</string>
-    <string name="iv3">bastante\nbien</string>
-    <string name="iv2">realmente fuerte</string>
-    <string name="iv1">enfrentar\na mejores</string>
-    <string name="is4">están bien\n…supongo</string>
-    <string name="is3">buenas\nsin duda</string>
-    <string name="is2">fuertes…\nimpresio…</string>
-    <string name="is1">lo mejor…\n¡Qué pas…</string>
 
     <string name="acquired_from_egg_or_raid">Conseguido de huevo o incursión</string>
     <string name="recalibrate_goiv_notification">Recalibrar</string>

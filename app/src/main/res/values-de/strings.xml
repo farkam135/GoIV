@@ -49,7 +49,7 @@
     <string name="manual_screenshot_mode_setting_title">Verwende Screenshots um IVs zu berechnen</string>
     <string name="missing_inputs">WP und KP werden benötigt.</string>
     <string name="ongoing_update">Ein Update für GoIV wird bereits heruntergeladen</string>
-    <string name="possible_iv_combinations">\"%1$d möglich IV Kombinationen\"</string>
+    <string name="possible_iv_combinations">%1$d mögliche IV Kombinationen</string>
     <string name="powerup_calc_instructions">Power-up und Entwicklung Berechnung. Ziehe den Schieberegler um unterschiedliche Prognosen anzuzeigen</string>
     <string name="scan_pokemon_failed">Scanvorgang fehlgeschlagen, bitte scrolle nach oben und versuche es nochmal!</string>
     <string name="see_all">Alle anzeigen</string>
@@ -59,7 +59,7 @@
     <string name="stamina_hp">KP</string>
     <string name="up_to_date">Die App ist auf dem aktuellsten Stand</string>
     <string name="update_check_failed">Ein Fehler ist aufgetreten während auf nach eine neuen Version gesucht wurde. Bitte überprüfe deine Internetverbindung…</string>
-    <string name="wrong_pokemon_name_input">\" wurde nicht gefunden.\"</string>
+    <string name="wrong_pokemon_name_input"> wurde nicht gefunden.</string>
     <string name="manual_screenshot_mode_setting_summary">Um Batterie zu sparen scanne Screenshots anstelle der automatischen Erkennung. Diese Einstellung muss für Android &lt;= Kitak (4.4) verwendet werden</string>
     <string name="confirmation_dialog_setting_summary">Manuelles anpassen der Pokémon-Informationen bevor IV Berechnung erlauben</string>
 	

@@ -4,14 +4,20 @@ import android.content.Context;
 
 import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.clipboardlogic.ClipboardToken;
+import com.kamron.pogoiv.scanlogic.Data;
 import com.kamron.pogoiv.scanlogic.IVCombination;
 import com.kamron.pogoiv.scanlogic.PokeInfoCalculator;
 import com.kamron.pogoiv.scanlogic.Pokemon;
+import com.kamron.pogoiv.scanlogic.PokemonBase;
 import com.kamron.pogoiv.scanlogic.ScanResult;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Deque;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.Semaphore;
 
 /**
  * Created by Danilo Pianini.
@@ -19,6 +25,21 @@ import java.util.Objects;
  */
 
 public class ExtendedCpTierToken extends ClipboardToken {
+
+    private static final IVCombination IV_PERFECT = new IVCombination(15, 15, 15);
+    private static final Semaphore MUTEX = new Semaphore(1);
+    private static final List<String> RATINGS;
+    private static double CP_MAX = -1;
+
+    static {
+        final List<String> ratings = new ArrayList<>();
+        for (char a = 'A'; a <= 'Z'; a++) {
+            for (char b = 'A'; b <= 'Z'; b++) {
+                ratings.add("" + a + b);
+            }
+        }
+        RATINGS = Collections.unmodifiableList(ratings);
+    }
 
     /**
      * Create a clipboard token.
@@ -37,7 +58,7 @@ public class ExtendedCpTierToken extends ClipboardToken {
 
     private static double computeBestCP(Pokemon pokemon, IVCombination iv, PokeInfoCalculator pokeInfoCalculator) {
         return pokeInfoCalculator
-                .getCpRangeAtLevel(pokemon, iv, iv, 40)
+                .getCpRangeAtLevel(pokemon, iv, iv, Data.MAXIMUM_POKEMON_LEVEL)
                 .getFloatingAvg();
     }
 
@@ -62,7 +83,7 @@ public class ExtendedCpTierToken extends ClipboardToken {
         final double cp = maxEv
                 ? computeMaxEvolvedCP(ivs.pokemon, bestCombination, pokeInfoCalculator)
                 : computeBestCP(ivs.pokemon, bestCombination, pokeInfoCalculator);
-        return ExtendedTokenTierLogic.getRating(cp, pokeInfoCalculator);
+        return getRating(cp, pokeInfoCalculator);
     }
 
     @Override
@@ -88,5 +109,39 @@ public class ExtendedCpTierToken extends ClipboardToken {
     @Override
     public boolean changesOnEvolutionMax() {
         return true;
+    }
+
+    private static String getRating(final double combatPower, final PokeInfoCalculator calc) {
+        MUTEX.acquireUninterruptibly();
+        if (CP_MAX == -1) {
+            initCPMax(calc);
+        }
+        MUTEX.release();
+        final int ratingIndex = (int) Math.floor(Math.max(combatPower, 1) * (RATINGS.size() - 1) / CP_MAX);
+        return RATINGS.get(ratingIndex);
+    }
+
+    private static void initCPMax(final PokeInfoCalculator calc) {
+        int maxAtt = 0;
+        int maxDef = 0;
+        int maxSta = 0;
+        for (final PokemonBase pokemonBase: calc.getPokedex()) {
+            for (final Pokemon pokemon: pokemonBase.forms) {
+                if (pokemon.baseAttack <= maxAtt
+                        && pokemon.baseDefense <= maxDef
+                        && pokemon.baseStamina <= maxSta) {
+                    continue; // Skip this Pokémon since it can't have higher CP than the current computed max
+                }
+                double currentCP = calc
+                        .getCpRangeAtLevel(pokemon, IV_PERFECT, IV_PERFECT, Data.MAXIMUM_POKEMON_LEVEL)
+                        .getFloatingAvg();
+                if (currentCP > CP_MAX) {
+                    CP_MAX = currentCP;
+                    maxAtt = pokemon.baseAttack;
+                    maxDef = pokemon.baseDefense;
+                    maxSta = pokemon.baseStamina;
+                }
+            }
+        }
     }
 }

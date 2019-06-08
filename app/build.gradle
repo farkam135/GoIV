@@ -53,7 +53,7 @@ android {
      * Set configuration for signing release builds with keystore properties defined above
      */
     signingConfigs {
-        releaseConfig {
+        githubConfig {
             keyAlias keystoreProperties['keyAlias']
             keyPassword keystoreProperties['keyPassword']
             storeFile file(keystoreProperties['storeFile'])
@@ -98,6 +98,7 @@ android {
 
     productFlavors {
         offline {
+            signingConfig signingConfigs.githubConfig
             applicationId "com.swanberg.pogoiv.nointernet"
             buildConfigField "boolean", "INTERNET_AVAILABLE", "false"
             buildConfigField "boolean", "DISTRIBUTION_GITHUB", "true"
@@ -107,6 +108,7 @@ android {
         }
 
         online {
+            signingConfig signingConfigs.githubConfig
             applicationId "com.swanberg.pogoiv"
             buildConfigField "boolean", "INTERNET_AVAILABLE", "true"
             buildConfigField "boolean", "DISTRIBUTION_GITHUB", "true"
@@ -116,6 +118,7 @@ android {
         }
 
         playstore {
+            signingConfig signingConfigs.playstoreConfig
             applicationId = "org.opensource.goiv"
             buildConfigField "boolean", "INTERNET_AVAILABLE", "true"
             buildConfigField "boolean", "DISTRIBUTION_GITHUB", "false"
@@ -143,8 +146,6 @@ android {
             lintOptions {
                 disable 'MissingTranslation'
             }
-            productFlavors.online.signingConfig signingConfigs.releaseConfig
-            productFlavors.playstore.signingConfig signingConfigs.playstoreConfig
         }
     }
 

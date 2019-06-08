@@ -1,5 +1,6 @@
 package com.kamron.pogoiv.clipboardlogic.tokens;
 
+import com.kamron.pogoiv.scanlogic.Data;
 import com.kamron.pogoiv.scanlogic.IVCombination;
 import com.kamron.pogoiv.scanlogic.PokeInfoCalculator;
 import com.kamron.pogoiv.scanlogic.Pokemon;
@@ -7,32 +8,24 @@ import com.kamron.pogoiv.scanlogic.Pokemon;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 import java.util.concurrent.Semaphore;
-
-import static java.lang.Math.max;
 
 /**
  * Created by Danilo Pianini.
  * A class which translates a CP value to a tier string in the AA-ZZ range
  */
-
 public final class ExtendedTokenTierLogic {
 
-    private static final IVCombination MAXIVCOMB = new IVCombination(15, 15, 15);
-    private static final int MAXLEVEL = 40;
+    private static final IVCombination IV_PERFECT = new IVCombination(15, 15, 15);
     private static final Semaphore MUTEX = new Semaphore(1);
     private static final List<String> RATINGS;
-    private static double MAX_IV;
+    private static double CP_MAX = -1;
 
     static {
-        final char[] alphabet = "abcdefghijklmnopqrstuvwxyz"
-                .toUpperCase(Locale.ENGLISH)
-                .toCharArray();
         final List<String> ratings = new ArrayList<>();
-        for (final char a: alphabet) {
-            for (final char b: alphabet) {
-                ratings.add(Character.toString(a) + Character.toString(b));
+        for (char a = 'A'; a <= 'Z'; a++) {
+            for (char b = 'A'; b <= 'Z'; b++) {
+                ratings.add("" + a + b);
             }
         }
         RATINGS = Collections.unmodifiableList(ratings);
@@ -42,20 +35,41 @@ public final class ExtendedTokenTierLogic {
     }
 
     /**
-     * Get a string representation of a pokemon rating, for example "A" or "B+".
+     * Get a string representation of a pokemon rating, for example "AB" or "TG".
      *
      * @param combatPower the general combatPower to translate to a tier string.
-     * @return A string S,A,B,C,D which might have a plus or minus after.
+     * @return A string of 2 characters between AA and ZZ.
      */
     public static String getRating(final double combatPower, final PokeInfoCalculator calc) {
         MUTEX.acquireUninterruptibly();
-        if (MAX_IV == 0) {
-            for (final Pokemon pokemon: calc.getPokedexForms()) {
-                MAX_IV = max(MAX_IV, calc.getCpRangeAtLevel(pokemon, MAXIVCOMB, MAXIVCOMB, MAXLEVEL).getFloatingAvg());
-            }
+        if (CP_MAX == -1) {
+            initCPMax(calc);
         }
         MUTEX.release();
-        final int ratingIndex = (int) Math.round(Math.max(combatPower, 1) * (RATINGS.size() - 1) / MAX_IV);
+        final int ratingIndex = (int) Math.floor(Math.max(combatPower, 1) * (RATINGS.size() - 1) / CP_MAX);
         return RATINGS.get(ratingIndex);
     }
+
+    private static void initCPMax(final PokeInfoCalculator calc) {
+        int maxAtt = 0;
+        int maxDef = 0;
+        int maxSta = 0;
+        for (final Pokemon pokemon: calc.getPokedexForms()) {
+            if (pokemon.baseAttack < maxAtt
+                    && pokemon.baseDefense < maxDef
+                    && pokemon.baseStamina < maxSta) {
+                continue; // Skip this Pokémon since it can't have higher CP than the current computed max
+            }
+            double currentCP = calc
+                    .getCpRangeAtLevel(pokemon, IV_PERFECT, IV_PERFECT, Data.MAXIMUM_POKEMON_LEVEL)
+                    .getFloatingAvg();
+            if (currentCP > CP_MAX) {
+                CP_MAX = currentCP;
+                maxAtt = pokemon.baseAttack;
+                maxDef = pokemon.baseDefense;
+                maxSta = pokemon.baseStamina;
+            }
+        }
+    }
+
 }

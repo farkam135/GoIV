@@ -4,6 +4,7 @@ import com.kamron.pogoiv.scanlogic.Data;
 import com.kamron.pogoiv.scanlogic.IVCombination;
 import com.kamron.pogoiv.scanlogic.PokeInfoCalculator;
 import com.kamron.pogoiv.scanlogic.Pokemon;
+import com.kamron.pogoiv.scanlogic.PokemonBase;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -54,20 +55,22 @@ public final class ExtendedTokenTierLogic {
         int maxAtt = 0;
         int maxDef = 0;
         int maxSta = 0;
-        for (final Pokemon pokemon: calc.getPokedexForms()) {
-            if (pokemon.baseAttack < maxAtt
-                    && pokemon.baseDefense < maxDef
-                    && pokemon.baseStamina < maxSta) {
-                continue; // Skip this Pokémon since it can't have higher CP than the current computed max
-            }
-            double currentCP = calc
-                    .getCpRangeAtLevel(pokemon, IV_PERFECT, IV_PERFECT, Data.MAXIMUM_POKEMON_LEVEL)
-                    .getFloatingAvg();
-            if (currentCP > CP_MAX) {
-                CP_MAX = currentCP;
-                maxAtt = pokemon.baseAttack;
-                maxDef = pokemon.baseDefense;
-                maxSta = pokemon.baseStamina;
+        for (final PokemonBase pokemonBase: calc.getPokedex()) {
+            for (final Pokemon pokemon: pokemonBase.forms) {
+                if (pokemon.baseAttack <= maxAtt
+                        && pokemon.baseDefense <= maxDef
+                        && pokemon.baseStamina <= maxSta) {
+                    continue; // Skip this Pokémon since it can't have higher CP than the current computed max
+                }
+                double currentCP = calc
+                        .getCpRangeAtLevel(pokemon, IV_PERFECT, IV_PERFECT, Data.MAXIMUM_POKEMON_LEVEL)
+                        .getFloatingAvg();
+                if (currentCP > CP_MAX) {
+                    CP_MAX = currentCP;
+                    maxAtt = pokemon.baseAttack;
+                    maxDef = pokemon.baseDefense;
+                    maxSta = pokemon.baseStamina;
+                }
             }
         }
     }

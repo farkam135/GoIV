@@ -72,7 +72,6 @@ android {
      * Update (both Gradle and local SDK) whenever possible
      */
     compileSdkVersion 27
-    buildToolsVersion '27.0.3'
 
     /**
      * Build configurations for APK

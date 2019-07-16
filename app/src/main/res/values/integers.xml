@@ -3132,7 +3132,7 @@
  <item>-1</item> <!--Dratini-->
  <item>-1</item> <!--Dragonair-->
  <item>-1</item> <!--Dragonite-->
- <item>-1</item> <!--Mewtwo-->
+ <item>18</item> <!--Mewtwo-->
  <item>-1</item> <!--Mew-->
  <item>-1</item> <!--Chikorita-->
  <item>-1</item> <!--Bayleef-->
@@ -3183,7 +3183,7 @@
  <item>-1</item> <!--Murkrow-->
  <item>-1</item> <!--Slowking-->
  <item>-1</item> <!--Misdreavus-->
- <item>18</item> <!--Unown-->
+ <item>19</item> <!--Unown-->
  <item>-1</item> <!--Wobbuffet-->
  <item>-1</item> <!--Girafarig-->
  <item>-1</item> <!--Pineco-->
@@ -3309,7 +3309,7 @@
  <item>-1</item> <!--Torkoal-->
  <item>-1</item> <!--Spoink-->
  <item>-1</item> <!--Grumpig-->
- <item>19</item> <!--Spinda-->
+ <item>20</item> <!--Spinda-->
  <item>-1</item> <!--Trapinch-->
  <item>-1</item> <!--Vibrava-->
  <item>-1</item> <!--Flygon-->
@@ -3333,7 +3333,7 @@
  <item>-1</item> <!--Armaldo-->
  <item>-1</item> <!--Feebas-->
  <item>-1</item> <!--Milotic-->
- <item>20</item> <!--Castform-->
+ <item>21</item> <!--Castform-->
  <item>-1</item> <!--Kecleon-->
  <item>-1</item> <!--Shuppet-->
  <item>-1</item> <!--Banette-->
@@ -3368,7 +3368,7 @@
  <item>-1</item> <!--Groudon-->
  <item>-1</item> <!--Rayquaza-->
  <item>-1</item> <!--Jirachi-->
- <item>21</item> <!--Deoxys-->
+ <item>22</item> <!--Deoxys-->
  <item>-1</item> <!--Turtwig-->
  <item>-1</item> <!--Grotle-->
  <item>-1</item> <!--Torterra-->
@@ -3394,8 +3394,8 @@
  <item>-1</item> <!--Rampardos-->
  <item>-1</item> <!--Shieldon-->
  <item>-1</item> <!--Bastiodon-->
- <item>22</item> <!--Burmy-->
- <item>23</item> <!--Wormadam-->
+ <item>23</item> <!--Burmy-->
+ <item>24</item> <!--Wormadam-->
  <item>-1</item> <!--Mothim-->
  <item>-1</item> <!--Combee-->
  <item>-1</item> <!--Vespiquen-->
@@ -3403,9 +3403,9 @@
  <item>-1</item> <!--Buizel-->
  <item>-1</item> <!--Floatzel-->
  <item>-1</item> <!--Cherubi-->
- <item>24</item> <!--Cherrim-->
- <item>25</item> <!--Shellos-->
- <item>26</item> <!--Gastrodon-->
+ <item>25</item> <!--Cherrim-->
+ <item>26</item> <!--Shellos-->
+ <item>27</item> <!--Gastrodon-->
  <item>-1</item> <!--Ambipom-->
  <item>-1</item> <!--Drifloon-->
  <item>-1</item> <!--Drifblim-->
@@ -3461,7 +3461,7 @@
  <item>-1</item> <!--Probopass-->
  <item>-1</item> <!--Dusknoir-->
  <item>-1</item> <!--Froslass-->
- <item>27</item> <!--Rotom-->
+ <item>28</item> <!--Rotom-->
  <item>-1</item> <!--Uxie-->
  <item>-1</item> <!--Mesprit-->
  <item>-1</item> <!--Azelf-->
@@ -3469,13 +3469,13 @@
  <item>-1</item> <!--Palkia-->
  <item>-1</item> <!--Heatran-->
  <item>-1</item> <!--Regigigas-->
- <item>28</item> <!--Giratina-->
+ <item>29</item> <!--Giratina-->
  <item>-1</item> <!--Cresselia-->
  <item>-1</item> <!--Phione-->
  <item>-1</item> <!--Manaphy-->
  <item>-1</item> <!--Darkrai-->
- <item>29</item> <!--Shaymin-->
- <item>30</item> <!--Arceus-->
+ <item>30</item> <!--Shaymin-->
+ <item>31</item> <!--Arceus-->
  <item>-1</item> <!--Meltan-->
  <item>-1</item> <!--Melmetal-->
  </integer-array>

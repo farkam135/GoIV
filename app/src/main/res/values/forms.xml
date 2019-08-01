@@ -19,6 +19,7 @@
  <item>2</item> <!--Muk-->
  <item>2</item> <!--Exeggutor-->
  <item>2</item> <!--Marowak-->
+ <item>2</item> <!--Mewtwo-->
  <item>28</item> <!--Unown-->
  <item>9</item> <!--Spinda-->
  <item>4</item> <!--Castform-->
@@ -88,6 +89,9 @@
   <!--Marowak-->
   <item>Normal Form</item>
   <item>Alola Form</item>
+  <!--Mewtwo-->
+  <item>Normal Form</item>
+  <item>Armored Form</item>
   <!--Unown-->
   <item>F Form</item>
   <item>A Form</item>
@@ -242,6 +246,9 @@
   <!--Marowak-->
   <item>144</item> <!-- Normal Form -->
   <item>144</item> <!-- Alola Form -->
+  <!--Mewtwo-->
+  <item>300</item> <!-- Normal Form -->
+  <item>182</item> <!-- Armored Form -->
   <!--Unown-->
   <item>136</item> <!-- F Form -->
   <item>136</item> <!-- A Form -->
@@ -396,6 +403,9 @@
   <!--Marowak-->
   <item>186</item> <!-- Normal Form -->
   <item>186</item> <!-- Alola Form -->
+  <!--Mewtwo-->
+  <item>182</item> <!-- Normal Form -->
+  <item>278</item> <!-- Armored Form -->
   <!--Unown-->
   <item>91</item> <!-- F Form -->
   <item>91</item> <!-- A Form -->
@@ -550,6 +560,9 @@
   <!--Marowak-->
   <item>155</item> <!-- Normal Form -->
   <item>155</item> <!-- Alola Form -->
+  <!--Mewtwo-->
+  <item>214</item> <!-- Normal Form -->
+  <item>214</item> <!-- Armored Form -->
   <!--Unown-->
   <item>134</item> <!-- F Form -->
   <item>134</item> <!-- A Form -->

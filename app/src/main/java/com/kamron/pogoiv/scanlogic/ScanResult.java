@@ -8,10 +8,8 @@ import com.kamron.pogoiv.pokeflycomponents.MovesetsManager;
 import com.kamron.pogoiv.utils.LevelRange;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 
@@ -345,19 +343,21 @@ public class ScanResult {
     }
 
     public void refineWithAvailableInfoFrom(@NonNull AppraisalManager appraisalManager) {
-        refineByStatModifiers(appraisalManager.statModifiers);
-        refineByHighest(appraisalManager.highestStats);
-        refineByAppraisalPercentageRange(appraisalManager.appraisalIVSumRange);
-        refineByAppraisalIVRange(appraisalManager.appraisalHighestStatValueRange);
+        ArrayList<IVCombination> refined = new ArrayList<>(iVCombinations.size());
 
-        //Check if any appraisal has been done or if appraisal is uneccesary for the clipboard token.
-        if (appraisalManager.statModifiers.size() > 0 || appraisalManager.highestStats.size() > 0 ||
-               appraisalManager.appraisalIVSumRange != AppraisalManager.IVSumRange.UNKNOWN
-                || appraisalManager.appraisalHighestStatValueRange != AppraisalManager.IVValueRange.UNKNOWN
-                || iVCombinations.size() ==1){
-            hasBeenAppraiseRefined = true;
+        for (IVCombination combination : iVCombinations) {
+            if ((!appraisalManager.attackValid || combination.att == appraisalManager.attack)
+                    && (!appraisalManager.defenseValid || combination.def == appraisalManager.defense)
+                    && (!appraisalManager.staminaValid || combination.sta == appraisalManager.stamina)) {
+                refined.add(combination);
+            }
         }
 
+        iVCombinations = refined;
+
+        //Check if any appraisal has been done or if appraisal is uneccesary for the clipboard token.
+        hasBeenAppraiseRefined = iVCombinations.size() == 1;
+        updateHighAndLowValues();
     }
 
     private void selectScannedMoveset(@NonNull String moveFast, @NonNull String moveCharge) {
@@ -373,97 +373,6 @@ public class ScanResult {
                 bestDistance = combinedDistance;
             }
         }
-    }
-
-    /**
-     * Removes all possible IV combinations where the boolean set to true stat isn't the highest.
-     * Several stats can be highest if they're equal.
-     */
-    private void refineByHighest(@NonNull HashSet<AppraisalManager.HighestStat> highestStats) {
-        if (highestStats.isEmpty()) {
-            return;
-        }
-
-        Boolean[] knownAttDefSta = {
-                highestStats.contains(AppraisalManager.HighestStat.ATK),
-                highestStats.contains(AppraisalManager.HighestStat.DEF),
-                highestStats.contains(AppraisalManager.HighestStat.STA)};
-        ArrayList<IVCombination> refinedList = new ArrayList<>();
-        for (IVCombination comb : iVCombinations) {
-            if (Arrays.equals(comb.getHighestStatSignature(), knownAttDefSta)) {
-                refinedList.add(comb);
-            }
-        }
-        iVCombinations = refinedList;
-
-        updateHighAndLowValues();
-    }
-
-    /**
-     * Removes any iv combination that is outside the scope of the input percentage range.
-     *
-     * @param range IV percent range
-     */
-    private void refineByAppraisalPercentageRange(AppraisalManager.IVSumRange range) {
-        if (range == AppraisalManager.IVSumRange.UNKNOWN) {
-            return;
-        }
-
-        ArrayList<IVCombination> refinedList = new ArrayList<>();
-        for (IVCombination comb : iVCombinations) {
-            if (comb.getTotal() >= range.minSum && comb.getTotal() <= range.maxSum) {
-                refinedList.add(comb);
-            }
-        }
-        iVCombinations = refinedList;
-
-        updateHighAndLowValues();
-    }
-
-    /**
-     * Removes any iv combination where the highest IV is outside the scope of he input range.
-     *
-     * @param range Range of the highest stat IV value
-     */
-    private void refineByAppraisalIVRange(AppraisalManager.IVValueRange range) {
-        if (range == AppraisalManager.IVValueRange.UNKNOWN) {
-            return;
-        }
-
-        ArrayList<IVCombination> refinedList = new ArrayList<>();
-        for (IVCombination comb : iVCombinations) {
-            if (comb.getHighestStat() >= range.minValue && comb.getHighestStat() <= range.maxValue) {
-                refinedList.add(comb);
-            }
-        }
-        iVCombinations = refinedList;
-
-        updateHighAndLowValues();
-    }
-
-    /**
-     * Removes any combination that has stats that are lower than a certain amount. Egg and raid pokemon cannot have
-     * stats that are lower than 10, weather boosted can't be lower than 4.
-     */
-    private void refineByStatModifiers(@NonNull HashSet<AppraisalManager.StatModifier> statModifiers) {
-        if (statModifiers.isEmpty()) {
-            return;
-        }
-
-        int minStat = 0;
-        for (AppraisalManager.StatModifier statModifier : statModifiers) {
-            minStat = Math.max(minStat, statModifier.minStat);
-        }
-
-        ArrayList<IVCombination> refinedList = new ArrayList<>();
-        for (IVCombination comb : iVCombinations) {
-            if (comb.att >= minStat && comb.def >= minStat && comb.sta >= minStat) {
-                refinedList.add(comb);
-            }
-        }
-        iVCombinations = refinedList;
-
-        updateHighAndLowValues();
     }
 
 }

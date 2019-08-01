@@ -16,6 +16,7 @@ import com.googlecode.tesseract.android.TessBaseAPI;
 import com.kamron.pogoiv.GoIVSettings;
 import com.kamron.pogoiv.Pokefly;
 import com.kamron.pogoiv.scanlogic.Data;
+import com.kamron.pogoiv.scanlogic.IVCombination;
 import com.kamron.pogoiv.scanlogic.PokeInfoCalculator;
 import com.kamron.pogoiv.scanlogic.Pokemon;
 import com.kamron.pogoiv.scanlogic.ScanData;
@@ -53,7 +54,6 @@ public class OcrHelper {
     private static TessBaseAPI tesseract = null;
     private static boolean isPokeSpamEnabled;
     private static LruCache<String, String> ocrCache;
-    private static LruCache<String, String> appraisalCache;
 
 
     private static int DEFAULT_FONT_COLOR = 4680814; //Pokemon go font color, rgb 71,108,110 (approximate)
@@ -84,7 +84,6 @@ public class OcrHelper {
                     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789/-♀♂");
 
             ocrCache = new LruCache<>(200);
-            appraisalCache = new LruCache<>(200);
 
             instance = new OcrHelper();
         }
@@ -93,11 +92,6 @@ public class OcrHelper {
         GoIVSettings settings = GoIVSettings.getInstance(pokefly);
 
         isPokeSpamEnabled = settings.isPokeSpamEnabled();
-
-        Map<String, String> appraisalMap = settings.loadAppraisalCache();
-        for (Map.Entry<String, String> entry : appraisalMap.entrySet()) {
-            appraisalCache.put(entry.getKey(), entry.getValue());
-        }
 
         return instance;
     }
@@ -110,7 +104,6 @@ public class OcrHelper {
         }
         instance = null;
         ocrCache = null;
-        appraisalCache = null;
     }
 
     /**
@@ -400,7 +393,7 @@ public class OcrHelper {
      * @param allowedDistance
      * @return
      */
-    private static boolean isInColorRange(int inputColor, int matchWithColor, int allowedDistance){
+    public static boolean isInColorRange(int inputColor, int matchWithColor, int allowedDistance) {
         int red = Color.red(inputColor);
         int green = Color.green(inputColor);
         int blue = Color.blue(inputColor);
@@ -1273,48 +1266,6 @@ public class OcrHelper {
             int arcRadius = Integer.valueOf(settings.getCalibrationValue(ARC_RADIUS));
             Data.setupArcPoints(arcInit, arcRadius, trainerLevel);
         }
-    }
-
-    /**
-     * Reads the bottom part of the screen and returns the text there.
-     *
-     * @param screen The full phone screen.
-     * @return String of whats on the bottom of the screen.
-     */
-    public static String getAppraisalText(@NonNull GoIVSettings settings,
-                                          @NonNull Bitmap screen) {
-        double appraisalBoxHeightFactor = 0.13;
-        double appraisalBoxStartYFactor =
-                (double) (screen.getHeight() - getNavigationBarHeight()) / screen.getHeight()
-                        - appraisalBoxHeightFactor;
-
-        Bitmap bottom = getImageCrop(screen, 0.05, appraisalBoxStartYFactor, 0.90, appraisalBoxHeightFactor);
-        String hash = "appraisal" + hashBitmap(bottom);
-        String appraisalText = appraisalCache.get(hash);
-
-        if (appraisalText == null) {
-            //68,105,108 is the color of the appraisal text
-            //bottom = replaceColors(bottom, true, 68, 105, 108, Color.WHITE, 100, true);
-            tesseract.setImage(bottom);
-            //Set tesseract not single line mode
-            tesseract.setPageSegMode(TessBaseAPI.PageSegMode.PSM_SINGLE_BLOCK);
-            appraisalText = tesseract.getUTF8Text();
-            appraisalCache.put(hash, appraisalText);
-            settings.saveAppraisalCache(appraisalCache.snapshot());
-        }
-
-        return hash + "#" + appraisalText;
-
-    }
-
-    /**
-     * Removes an entry from the ocrCache.
-     *
-     * @param hash The hash of the entry to remove.
-     */
-    public static void removeEntryFromAppraisalCache(@NonNull GoIVSettings settings, @NonNull String hash) {
-        appraisalCache.remove(hash);
-        settings.saveAppraisalCache(appraisalCache.snapshot());
     }
 
     private static int getNavigationBarHeight() {

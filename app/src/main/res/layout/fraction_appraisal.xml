@@ -71,219 +71,123 @@
 
     </LinearLayout>
 
-
-    <RadioGroup
-        android:orientation="horizontal"
-        android:id="@+id/appraisalIVRangeGroup"
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="4dp"
-        android:layout_marginStart="2dp"
-        android:layout_marginEnd="2dp">
-
-        <RadioButton
-            style="?android:attr/checkboxStyle"
-            android:id="@+id/appraisalIVRange4"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textScaleX=".85"
-            android:lineSpacingMultiplier="0.9"
-            android:maxLines="2"
-            android:ellipsize="none"
-            android:text="@string/mv4" />
-
-        <RadioButton
-            style="?android:attr/checkboxStyle"
-            android:id="@+id/appraisalIVRange3"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textScaleX=".85"
-            android:lineSpacingMultiplier="0.9"
-            android:maxLines="2"
-            android:ellipsize="none"
-            android:text="@string/mv3" />
-
-        <RadioButton
-            style="?android:attr/checkboxStyle"
-            android:id="@+id/appraisalIVRange2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textScaleX=".85"
-            android:lineSpacingMultiplier="0.9"
-            android:maxLines="2"
-            android:ellipsize="none"
-            android:text="@string/mv2" />
-
-        <RadioButton
-            style="?android:attr/checkboxStyle"
-            android:id="@+id/appraisalIVRange1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textScaleX=".85"
-            android:lineSpacingMultiplier="0.9"
-            android:maxLines="2"
-            android:ellipsize="none"
-            android:text="@string/mv1" />
-
-    </RadioGroup>
-
-    <LinearLayout
-        android:id="@+id/attDefStaLayout"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:layout_marginStart="2dp"
-        android:layout_marginEnd="2dp">
+        android:id="@+id/valueLayout"
+        android:layout_margin="4dp">
 
         <CheckBox
-            android:id="@+id/attCheckbox"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textScaleX=".85"
-            android:lineSpacingMultiplier="0.9"
-            android:maxLines="2"
-            android:ellipsize="none"
-            android:text="@string/attack" />
-
-        <CheckBox
-            android:id="@+id/defCheckbox"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textScaleX=".85"
-            android:lineSpacingMultiplier="0.9"
-            android:maxLines="2"
-            android:ellipsize="none"
-            android:text="@string/defense" />
-
-        <CheckBox
-            android:id="@+id/staCheckbox"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textScaleX=".85"
-            android:lineSpacingMultiplier="0.9"
-            android:maxLines="2"
-            android:ellipsize="none"
-            android:text="@string/stamina_hp" />
-
-        <android.support.v4.widget.Space
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
-
-    </LinearLayout>
-
-    <RadioGroup
-        android:id="@+id/appraisalStatsGroup"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="2dp"
-        android:layout_marginStart="2dp"
-        android:layout_marginEnd="2dp">
-
-        <RadioButton
-            style="?android:attr/checkboxStyle"
-            android:id="@+id/appraisalStat4"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textScaleX=".85"
-            android:lineSpacingMultiplier="0.9"
-            android:maxLines="2"
-            android:ellipsize="none"
-            android:text="@string/ms4" />
-
-        <RadioButton
-            style="?android:attr/checkboxStyle"
-            android:id="@+id/appraisalStat3"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textScaleX=".85"
-            android:lineSpacingMultiplier="0.9"
-            android:maxLines="2"
-            android:ellipsize="none"
-            android:text="@string/ms3" />
-
-        <RadioButton
-            style="?android:attr/checkboxStyle"
-            android:id="@+id/appraisalStat2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textScaleX=".85"
-            android:lineSpacingMultiplier="0.9"
-            android:maxLines="2"
-            android:ellipsize="none"
-            android:text="@string/ms2" />
-
-        <RadioButton
-            style="?android:attr/checkboxStyle"
-            android:id="@+id/appraisalStat1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textScaleX=".85"
-            android:lineSpacingMultiplier="0.9"
-            android:maxLines="2"
-            android:ellipsize="none"
-            android:text="@string/ms1" />
-
-    </RadioGroup>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="8dp"
-        android:paddingTop="4dp"
-        android:paddingRight="8dp"
-        android:paddingBottom="4dp"
-        android:baselineAligned="true"
-        android:gravity="center">
-
-        <Switch
-            android:id="@+id/eggRaidSwitch"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"/>
-
+            android:layout_height="wrap_content"
+            android:id="@+id/atkEnabled"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="4dp"
+            app:layout_constraintTop_toTopOf="parent"/>
         <TextView
-            android:id="@+id/eggRaidText"
+            android:text="@string/atk"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:labelFor="@id/eggRaidSwitch"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="?android:attr/textColorPrimaryDisableOnly"
-            android:text="@string/acquired_from_egg_or_raid" />
-
-    </LinearLayout>
+            android:id="@+id/atkHeader"
+            app:layout_constraintBottom_toBottomOf="@+id/atkEnabled"
+            app:layout_constraintTop_toTopOf="@+id/atkEnabled"
+            app:layout_constraintStart_toEndOf="@+id/atkEnabled"
+            android:layout_marginStart="8dp"/>
+        <SeekBar
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:id="@+id/atkSeek"
+            android:layout_weight="1"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintStart_toEndOf="@+id/atkHeader"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/atkHeader"
+            app:layout_constraintTop_toTopOf="@+id/atkHeader"
+            android:max="15"
+            app:layout_constraintEnd_toStartOf="@+id/atkValue"/>
+        <TextView
+            android:layout_width="20dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/atkValue"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="4dp"
+            app:layout_constraintBottom_toBottomOf="@+id/atkSeek"
+            app:layout_constraintTop_toTopOf="@+id/atkSeek"
+            android:textAlignment="viewEnd"
+            tools:text="0"/>
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/defEnabled"
+            app:layout_constraintTop_toBottomOf="@+id/atkEnabled"
+            app:layout_constraintStart_toStartOf="@+id/atkEnabled"/>
+        <TextView
+            android:text="@string/def"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/defHeader"
+            app:layout_constraintStart_toEndOf="@+id/defEnabled"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/defEnabled"
+            app:layout_constraintTop_toTopOf="@+id/defEnabled"/>
+        <SeekBar
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:id="@+id/defSeek"
+            android:layout_weight="1"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintStart_toStartOf="@+id/atkSeek"
+            app:layout_constraintBottom_toBottomOf="@+id/defHeader"
+            app:layout_constraintTop_toTopOf="@+id/defHeader"
+            android:max="15"
+            app:layout_constraintEnd_toStartOf="@+id/defValue"/>
+        <TextView
+            android:layout_width="20dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/defValue"
+            app:layout_constraintEnd_toEndOf="@+id/atkValue"
+            app:layout_constraintBottom_toBottomOf="@+id/defSeek"
+            app:layout_constraintTop_toTopOf="@+id/defSeek"
+            android:textAlignment="viewEnd" tools:text="0"/>
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/staEnabled"
+            app:layout_constraintStart_toStartOf="@+id/defEnabled"
+            app:layout_constraintTop_toBottomOf="@+id/defEnabled"
+            android:layout_marginBottom="4dp"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+        <TextView
+            android:text="@string/sta"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/staHeader"
+            app:layout_constraintStart_toEndOf="@+id/staEnabled"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/staEnabled"
+            app:layout_constraintTop_toTopOf="@+id/staEnabled"/>
+        <SeekBar
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:id="@+id/staSeek"
+            android:layout_weight="1"
+            app:layout_constraintStart_toStartOf="@+id/defSeek"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintTop_toTopOf="@+id/staHeader"
+            app:layout_constraintBottom_toBottomOf="@+id/staHeader"
+            android:max="15"
+            app:layout_constraintEnd_toStartOf="@+id/staValue"/>
+        <TextView
+            android:layout_width="20dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/staValue"
+            app:layout_constraintEnd_toEndOf="@+id/defValue"
+            app:layout_constraintBottom_toBottomOf="@+id/staSeek"
+            app:layout_constraintTop_toTopOf="@+id/staSeek"
+            android:textAlignment="textEnd"
+            tools:text="0"/>
+    </android.support.constraint.ConstraintLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

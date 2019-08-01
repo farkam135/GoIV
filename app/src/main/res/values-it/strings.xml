@@ -70,42 +70,9 @@
     </string-array>
 
 
-    <!-- Team mystic appraisal strings mv for iv % and ms for strongest stat range-->
-    <string name="mv4">non avrà\nsuccesso</string>
-    <string name="mv3">sopra\nla media</string>
-    <string name="mv2">attirato attenzione</string>
-    <string name="mv1">meraviglia assoluta</string>
-    <string name="ms4">ordinario</string>
-    <string name="ms3">buone</string>
-    <string name="ms2">eccellenti</string>
-    <string name="ms1">incredibile</string>
-
-
-    <!-- Team valor appraisal strings mv for iv % and ms for strongest stat range-->
-    <string name="vv4">mi piace\nlo stesso</string>
-    <string name="vv3">niente male</string>
-    <string name="vv2">forte orgoglioso</string>
-    <string name="vv1">stupefa&#8230;\nno rivali</string>
-    <string name="vs4">no grande aiuto</string>
-    <string name="vs3">bastare\nnelle lotte</string>
-    <string name="vs2">eccellenti forte</string>
-    <string name="vs1">statistiche sbalorditive</string>
-
-
-    <!-- Team instinct appraisal strings mv for iv % and ms for strongest stat range-->
-    <string name="iv4">potrebbe migliorare</string>
-    <string name="iv3">non è\nmalaccio</string>
-    <string name="iv2">è molto\nforte</string>
-    <string name="iv1">contro i\nmigliori</string>
-    <string name="is4">possono andare</string>
-    <string name="is3">qualcosa\ndi valido</string>
-    <string name="is2">forti\nincredibile</string>
-    <string name="is1">migliori&#8230;\nmai visto</string>
-
-
     <string name="app_credits_title">Riconoscimenti</string>
     <string name="candy">Caramelle</string>
-    <string name="autoAppraisalScanDelay_summary">Quanto attendere che l\'animazione del testo di valutazione sia finita. Smartphone di fascia bassa potrebbero necessitare di 800ms.</string>
+    <string name="autoAppraisalScanDelay_summary">Quanto attendere che l\'animazione del testo di valutazione sia finita. Smartphone di fascia bassa potrebbero necessitare di 4000ms.</string>
     <string name="autoAppraisalScanDelay_title">Attesa auto valutazione</string>
     <string name="clipboard_copy_toast">%s copiato negli appunti</string>
     <string name="clipboard_modifier_preview">Anteprima</string>

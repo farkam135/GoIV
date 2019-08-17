@@ -81,29 +81,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/atkEnabled"
+            android:text="@string/atk"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="4dp"
             android:layout_marginTop="4dp"
             app:layout_constraintTop_toTopOf="parent"/>
-        <TextView
-            android:text="@string/atk"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/atkHeader"
-            app:layout_constraintBottom_toBottomOf="@+id/atkEnabled"
-            app:layout_constraintTop_toTopOf="@+id/atkEnabled"
-            app:layout_constraintStart_toEndOf="@+id/atkEnabled"
-            android:layout_marginStart="8dp"/>
         <SeekBar
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:id="@+id/atkSeek"
             android:layout_weight="1"
             android:layout_marginEnd="8dp"
-            app:layout_constraintStart_toEndOf="@+id/atkHeader"
+            app:layout_constraintStart_toEndOf="@+id/atkEnabled"
             android:layout_marginStart="8dp"
-            app:layout_constraintBottom_toBottomOf="@+id/atkHeader"
-            app:layout_constraintTop_toTopOf="@+id/atkHeader"
+            app:layout_constraintBottom_toBottomOf="@+id/atkEnabled"
+            app:layout_constraintTop_toTopOf="@+id/atkEnabled"
             android:max="15"
             app:layout_constraintEnd_toStartOf="@+id/atkValue"/>
         <TextView
@@ -120,17 +112,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/defEnabled"
+            android:text="@string/def"
             app:layout_constraintTop_toBottomOf="@+id/atkEnabled"
             app:layout_constraintStart_toStartOf="@+id/atkEnabled"/>
-        <TextView
-            android:text="@string/def"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/defHeader"
-            app:layout_constraintStart_toEndOf="@+id/defEnabled"
-            android:layout_marginStart="8dp"
-            app:layout_constraintBottom_toBottomOf="@+id/defEnabled"
-            app:layout_constraintTop_toTopOf="@+id/defEnabled"/>
         <SeekBar
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -138,8 +122,8 @@
             android:layout_weight="1"
             android:layout_marginEnd="8dp"
             app:layout_constraintStart_toStartOf="@+id/atkSeek"
-            app:layout_constraintBottom_toBottomOf="@+id/defHeader"
-            app:layout_constraintTop_toTopOf="@+id/defHeader"
+            app:layout_constraintBottom_toBottomOf="@+id/defEnabled"
+            app:layout_constraintTop_toTopOf="@+id/defEnabled"
             android:max="15"
             app:layout_constraintEnd_toStartOf="@+id/defValue"/>
         <TextView
@@ -154,19 +138,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/staEnabled"
+            android:text="@string/sta"
             app:layout_constraintStart_toStartOf="@+id/defEnabled"
             app:layout_constraintTop_toBottomOf="@+id/defEnabled"
             android:layout_marginBottom="4dp"
             app:layout_constraintBottom_toBottomOf="parent"/>
-        <TextView
-            android:text="@string/sta"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/staHeader"
-            app:layout_constraintStart_toEndOf="@+id/staEnabled"
-            android:layout_marginStart="8dp"
-            app:layout_constraintBottom_toBottomOf="@+id/staEnabled"
-            app:layout_constraintTop_toTopOf="@+id/staEnabled"/>
         <SeekBar
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -174,8 +150,8 @@
             android:layout_weight="1"
             app:layout_constraintStart_toStartOf="@+id/defSeek"
             android:layout_marginEnd="8dp"
-            app:layout_constraintTop_toTopOf="@+id/staHeader"
-            app:layout_constraintBottom_toBottomOf="@+id/staHeader"
+            app:layout_constraintTop_toTopOf="@+id/staEnabled"
+            app:layout_constraintBottom_toBottomOf="@+id/staEnabled"
             android:max="15"
             app:layout_constraintEnd_toStartOf="@+id/staValue"/>
         <TextView

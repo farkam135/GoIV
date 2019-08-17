@@ -67,12 +67,11 @@ public class AppraisalManager {
         // Although, it's entirely possible for the user to touch the area below (or above) GoIV an unlimited number
         // of times without actually ever starting the appraisal process
 
-        if (numTouches == 2) { // Second touch is usually the "Appraise" menu item.
+        if ((numTouches > 2) && (!autoAppraisalDone)) {
             // Signal to the user that we're now looking for the first appraisal phase.
             for (OnAppraisalEventListener eventListener : eventListeners) {
                 eventListener.highlightActiveUserInterface();
             }
-        } else if ((numTouches > 2) && (!autoAppraisalDone)) {
             // Scan Appraisal text after the configured delay.
             autoScreenScanner.post();
         }
@@ -104,9 +103,10 @@ public class AppraisalManager {
             stamina = combination.sta;
             staminaValid = true;
             autoAppraisalDone = true;
-            for (OnAppraisalEventListener eventListener : eventListeners) {
-                eventListener.refreshSelection();
-            }
+        }
+        // Refresh the selection
+        for (OnAppraisalEventListener eventListener : eventListeners) {
+            eventListener.refreshSelection();
         }
     }
 

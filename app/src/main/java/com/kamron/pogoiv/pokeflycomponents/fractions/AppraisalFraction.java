@@ -100,9 +100,8 @@ public class AppraisalFraction extends MovableFraction implements AppraisalManag
                     appraisalManager.attack = atkSeek.getProgress();
                     appraisalManager.defense = defSeek.getProgress();
                     appraisalManager.stamina = staSeek.getProgress();
-                    updateIVPreviewInButton();
+                    updateValueTexts();
                 }
-                updateValueTexts();
             }
 
             @Override
@@ -201,25 +200,30 @@ public class AppraisalFraction extends MovableFraction implements AppraisalManag
     public void refreshSelection() {
         setSpinnerSelection();
         spinnerLayout.setBackground(null);
-        updateIVPreviewInButton();
     }
 
+    /**
+     * Updates the checkboxes, labels and IV preview in the button.
+     */
     private void updateValueTexts() {
         atkValue.setText(String.valueOf(appraisalManager.attack));
         defValue.setText(String.valueOf(appraisalManager.defense));
         staValue.setText(String.valueOf(appraisalManager.stamina));
+        atkEnabled.setChecked(appraisalManager.attackValid);
+        defEnabled.setChecked(appraisalManager.defenseValid);
+        staEnabled.setChecked(appraisalManager.staminaValid);
+        updateIVPreviewInButton();
     }
 
+    /**
+     * Sets the progress bars and calls {@code updateValueTexts()}, mainly used to update it from the outside.
+     */
     private void setSpinnerSelection() {
         insideUpdate = true;
         updateValueTexts();
         atkSeek.setProgress(appraisalManager.attack);
         defSeek.setProgress(appraisalManager.defense);
         staSeek.setProgress(appraisalManager.stamina);
-        atkEnabled.setChecked(appraisalManager.attackValid);
-        defEnabled.setChecked(appraisalManager.defenseValid);
-        staEnabled.setChecked(appraisalManager.staminaValid);
-        onEnabled();
         insideUpdate = false;
     }
 

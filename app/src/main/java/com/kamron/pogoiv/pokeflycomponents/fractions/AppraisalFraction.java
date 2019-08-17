@@ -97,8 +97,17 @@ public class AppraisalFraction extends MovableFraction implements AppraisalManag
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 if (!insideUpdate) {
+                    if (appraisalManager.attack != atkSeek.getProgress()) {
+                        appraisalManager.attackValid = true;
+                    }
                     appraisalManager.attack = atkSeek.getProgress();
+                    if (appraisalManager.defense != defSeek.getProgress()) {
+                        appraisalManager.defenseValid = true;
+                    }
                     appraisalManager.defense = defSeek.getProgress();
+                    if (appraisalManager.stamina != staSeek.getProgress()) {
+                        appraisalManager.staminaValid = true;
+                    }
                     appraisalManager.stamina = staSeek.getProgress();
                     updateValueTexts();
                 }
@@ -186,9 +195,6 @@ public class AppraisalFraction extends MovableFraction implements AppraisalManag
 
     @OnCheckedChanged({R.id.atkEnabled, R.id.defEnabled, R.id.staEnabled})
     public void onEnabled() {
-        atkSeek.setEnabled(atkEnabled.isChecked());
-        defSeek.setEnabled(defEnabled.isChecked());
-        staSeek.setEnabled(staEnabled.isChecked());
         if (!insideUpdate) {
             appraisalManager.attackValid = atkEnabled.isChecked();
             appraisalManager.defenseValid = defEnabled.isChecked();

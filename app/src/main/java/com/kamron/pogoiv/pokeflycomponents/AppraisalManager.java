@@ -143,6 +143,7 @@ public class AppraisalManager {
 
         void post() {
             barData = null;
+            retries = 0;
             handler.removeCallbacks(this);
             handler.postDelayed(this, initialDelay);
         }
@@ -210,6 +211,7 @@ public class AppraisalManager {
                 }
 
                 if (change && retries < SCANRETRIES) {
+                    retries++;
                     handler.postDelayed(this, RETRYDELAY);
                 } else {
                     int[] width = new int[this.barData.length];

@@ -199,6 +199,7 @@ public class AppraisalFraction extends MovableFraction implements AppraisalManag
             appraisalManager.attackValid = atkEnabled.isChecked();
             appraisalManager.defenseValid = defEnabled.isChecked();
             appraisalManager.staminaValid = staEnabled.isChecked();
+            updateIVPreviewInButton();
         }
     }
 

@@ -162,33 +162,47 @@ public class AppraisalManager {
 
             Timber.d("Appraisal speech bubble top: %d", offset);
 
-            this.barLength = (int) (screen.getWidth() * 0.33f);
-            // Prevent rounding errors, especially as it gets multiplied by 15 again later
-            this.stepWidth = screen.getWidth() / 15.0f * 0.33f;
-            this.barStart = (int) (screen.getWidth() * 0.136f);
-
-            // We are at the top of the speech bubble, we can now just use the relative values from here
-            offset -= (int) (screen.getWidth() * 0.06f); // Offset should be now just below the first bar
-            this.barCenter = new int[STAT_COUNT];
-            for (int i = STAT_COUNT - 1; i >= 0; i--) {
-                boolean inside = false;
-                int bottom = -1;
-                do {
-                    color = screen.getPixel((int) (this.barStart + this.stepWidth), offset);
-                    if (!inside && color != COLOR_WHITE) {
-                        bottom = offset;
-                        inside = true;
-                    }
-                    offset -= 1;
-                }
-                while ((color == COLOR_WHITE) ^ inside);
-                // offset = top y of bar, bottom = bottom y of bar
-                this.barCenter[i] = offset + (bottom - offset) / 2;
-                offset -= (int) (screen.getWidth() * 0.06f);
-                Timber.d("Appraisal stat bar #%d: x=%d, y=%d", i, barStart, this.barCenter[i]);
+            // A vertical line through this point should go through the stat box
+            x = (int) (screen.getWidth() * 0.2f);
+            do {
+                color = screen.getPixel(x, offset);
+                offset--;
             }
+            while (color != COLOR_WHITE);
 
-            this.barData = new int[3][this.barLength];
+            int left = x;
+            do {
+                color = screen.getPixel(left, offset);
+                left--;
+            }
+            while (color == COLOR_WHITE);
+            do {
+                x++;
+                color = screen.getPixel(x, offset);
+            }
+            while (color == COLOR_WHITE);
+            int boxWidth = x - left;
+            this.barLength = (int) (boxWidth * 0.762f);
+            this.barStart = left + (boxWidth - this.barLength) / 2;
+
+            // Arbitrary limit, each "step" should've at least a width of 3, otherwise there is something wrong.
+            if (this.barLength >= 15 * 3) {
+
+                int barSpacing = (int) (boxWidth * 0.22f);
+                this.barCenter = new int[STAT_COUNT];
+                int y = offset + barSpacing / 2;
+                for (int i = STAT_COUNT - 1; i >= 0; i--) {
+                    y -= barSpacing;
+                    this.barCenter[i] = y;
+                    Timber.d("Appraisal stat bar #%d: y=%d", i, this.barCenter[i]);
+                }
+
+                // Prevent rounding errors, especially as it gets multiplied by 15 again later
+                this.stepWidth = this.barLength / 15.0f;
+                this.barData = new int[3][this.barLength];
+            } else {
+                this.barData = null;
+            }
         }
 
         @Override
@@ -196,44 +210,59 @@ public class AppraisalManager {
             Bitmap screen = screenGrabber.grabScreen();
             if (screen != null) {
                 if (barData == null) {
-                    initScreen(screen);
+                    try {
+                        initScreen(screen);
+                    } catch (IllegalArgumentException e) {
+                        this.barData = null;  // Clear barData because there was an error
+                    }
                 }
 
-                boolean change = false;
-                for (int i = this.barData.length - 1; i >= 0; i--) {
-                    int[] buffer = new int[this.barLength];
-                    screen.getPixels(buffer, 0, this.barLength, this.barStart, this.barCenter[i], this.barLength, 1);
-                    if (!Arrays.equals(buffer, this.barData[i])) {
-                        Timber.d("Appraisal stat bar #%d has changed", i);
-                        change = true;
-                        this.barData[i] = buffer;
+                boolean change;
+                if (this.barData != null) {
+                    change = false;
+                    for (int i = this.barData.length - 1; i >= 0; i--) {
+                        int[] buffer = new int[this.barLength];
+                        screen.getPixels(buffer, 0, this.barLength, this.barStart, this.barCenter[i], this.barLength, 1);
+                        if (!Arrays.equals(buffer, this.barData[i])) {
+                            Timber.d("Appraisal stat bar #%d has changed", i);
+                            change = true;
+                            this.barData[i] = buffer;
+                        }
                     }
+                } else {
+                    change = true;
                 }
 
                 if (change && retries < SCANRETRIES) {
                     retries++;
                     handler.postDelayed(this, RETRYDELAY);
                 } else {
-                    int[] width = new int[this.barData.length];
-                    // It scans them from the bottom to the top, so invert it either here to below in the creation
-                    for (int i = 0; i < this.barData.length; i++) {
-                        int color;
-                        // The "do {} while" below loop increments it at least once
-                        width[i] = -1;
-                        do {
-                            width[i]++;
-                            color = this.barData[i][(int) (width[i] * this.stepWidth)];
-                        }
-                        while (OcrHelper.isInColorRange(color , COLOR_ORANGE, ALLOWED_DISTANCE));
+                    int[] width;
+                    if (this.barData == null) {
+                        width = null;
+                    } else {
+                        width = new int[this.barData.length];
+                        // It scans them from the bottom to the top, so invert it either here to below in the creation
+                        for (int i = 0; i < this.barData.length; i++) {
+                            int color;
+                            // The "do {} while" below loop increments it at least once
+                            width[i] = -1;
+                            do {
+                                width[i]++;
+                                color = this.barData[i][(int) ((width[i] + 0.5) * this.stepWidth)];
+                            }
+                            while (OcrHelper.isInColorRange(color, COLOR_ORANGE, ALLOWED_DISTANCE));
 
-                        if (OcrHelper.isInColorRange(color , COLOR_RED, ALLOWED_DISTANCE)) {
-                            width[i] = 15;
-                        } else if (!OcrHelper.isInColorRange(color, COLOR_GRAY, ALLOWED_DISTANCE)) {
-                            Timber.d("Invalid scan on bar #%d (color %08x)", i, color);
-                            width = null;
-                            break;
+                            if (OcrHelper.isInColorRange(color, COLOR_RED, ALLOWED_DISTANCE)) {
+                                width[i] = 15;
+                            } else if (!OcrHelper.isInColorRange(color, COLOR_GRAY, ALLOWED_DISTANCE)) {
+                                Timber.d("Invalid scan on bar #%d (color %08x)", i, color);
+                                width = null;
+                                break;
+                            }
                         }
                     }
+
                     if (width == null) {
                         addStatScanResult(null);
                     } else {

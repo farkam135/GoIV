@@ -33,7 +33,18 @@
  <item>2</item> <!--Giratina-->
  <item>2</item> <!--Shaymin-->
  <item>18</item> <!--Arceus-->
- </integer-array>
+ <item>2</item> <!--Basculin-->
+ <item>2</item> <!--Darmanitan-->
+ <item>4</item> <!--Deerling-->
+ <item>4</item> <!--Sawsbuck-->
+ <item>2</item> <!--Tornadus-->
+ <item>2</item> <!--Thundurus-->
+ <item>2</item> <!--Landorus-->
+ <item>3</item> <!--Kyurem-->
+ <item>2</item> <!--Keldeo-->
+ <item>2</item> <!--Meloetta-->
+ <item>5</item> <!--Genesect-->
+</integer-array>
 <string-array name="formNames">
   <!--Rattata-->
   <item>Normal Form</item>
@@ -190,6 +201,47 @@
   <item>Dragon Form</item>
   <item>Dark Form</item>
   <item>Fairy Form</item>
+  <!-- Basculin -->
+  <item>Red Striped Form</item>
+  <item>Blue Striped Form</item>
+  <!-- Darmanitan -->
+  <item>Standard Form</item>
+  <item>Zen Form</item>
+  <!-- Deerling -->
+  <item>Spring Form</item>
+  <item>Summer Form</item>
+  <item>Autumn Form</item>
+  <item>Winter Form</item>
+  <!-- Sawsbuck -->
+  <item>Spring Form</item>
+  <item>Summer Form</item>
+  <item>Autumn Form</item>
+  <item>Winter Form</item>
+  <!-- Tornadus -->
+  <item>Incarnate Form</item>
+  <item>Therian Form</item>
+  <!-- Thundurus -->
+  <item>Incarnate Form</item>
+  <item>Therian Form</item>
+  <!-- Landorus -->
+  <item>Incarnate Form</item>
+  <item>Therian Form</item>
+  <!-- Kyurem -->
+  <item>Normal Form</item>
+  <item>Black Form</item>
+  <item>White Form</item>
+  <!-- Keldeo -->
+  <item>Ordinary Form</item>
+  <item>Resolute Form</item>
+  <!-- Meloetta -->
+  <item>Aria Form</item>
+  <item>Pirouette Form</item>
+  <!-- Genesect -->
+  <item>Normal Form</item>
+  <item>Shock Form</item>
+  <item>Burn Form</item>
+  <item>Chill Form</item>
+  <item>Douse Form</item>
  </string-array>
 <integer-array name="formAttack">
   <!--Rattata-->
@@ -347,7 +399,48 @@
   <item>238</item> <!-- Dragon Form -->
   <item>238</item> <!-- Dark Form -->
   <item>238</item> <!-- Fairy Form -->
- </integer-array>
+  <!-- Basculin -->
+  <item>189</item> <!-- Red Striped Form -->
+  <item>189</item> <!-- Blue Striped Form -->
+  <!-- Darmanitan -->
+  <item>263</item> <!-- Standard Form -->
+  <item>243</item> <!-- Zen Form -->
+  <!-- Deerling -->
+  <item>115</item> <!-- Spring Form -->
+  <item>115</item> <!-- Summer Form -->
+  <item>115</item> <!-- Autumn Form -->
+  <item>115</item> <!-- Winter Form -->
+  <!-- Sawsbuck -->
+  <item>198</item> <!-- Spring Form -->
+  <item>198</item> <!-- Summer Form -->
+  <item>198</item> <!-- Autumn Form -->
+  <item>198</item> <!-- Winter Form -->
+  <!-- Tornadus -->
+  <item>266</item> <!-- Incarnate Form -->
+  <item>238</item> <!-- Therian Form -->
+  <!-- Thundurus -->
+  <item>266</item> <!-- Incarnate Form -->
+  <item>295</item> <!-- Therian Form -->
+  <!-- Landorus -->
+  <item>261</item> <!-- Incarnate Form -->
+  <item>289</item> <!-- Therian Form -->
+  <!-- Kyurem -->
+  <item>246</item> <!-- Normal Form -->
+  <item>310</item> <!-- Black Form -->
+  <item>310</item> <!-- White Form -->
+  <!-- Keldeo -->
+  <item>260</item> <!-- Ordinary Form -->
+  <item>260</item> <!-- Resolute Form -->
+  <!-- Meloetta -->
+  <item>250</item> <!-- Aria Form -->
+  <item>269</item> <!-- Pirouette Form -->
+  <!-- Genesect -->
+  <item>252</item> <!-- Normal Form -->
+  <item>252</item> <!-- Shock Form -->
+  <item>252</item> <!-- Burn Form -->
+  <item>252</item> <!-- Chill Form -->
+  <item>252</item> <!-- Douse Form -->
+</integer-array>
 <integer-array name="formDefense">
   <!--Rattata-->
   <item>70</item> <!-- Normal Form -->
@@ -504,6 +597,47 @@
   <item>238</item> <!-- Dragon Form -->
   <item>238</item> <!-- Dark Form -->
   <item>238</item> <!-- Fairy Form -->
+  <!-- Basculin -->
+  <item>129</item> <!-- Red Striped Form -->
+  <item>129</item> <!-- Blue Striped Form -->
+  <!-- Darmanitan -->
+  <item>114</item> <!-- Standard Form -->
+  <item>202</item> <!-- Zen Form -->
+  <!-- Deerling -->
+  <item>100</item> <!-- Spring Form -->
+  <item>100</item> <!-- Summer Form -->
+  <item>100</item> <!-- Autumn Form -->
+  <item>100</item> <!-- Winter Form -->
+  <!-- Sawsbuck -->
+  <item>146</item> <!-- Spring Form -->
+  <item>146</item> <!-- Summer Form -->
+  <item>146</item> <!-- Autumn Form -->
+  <item>146</item> <!-- Winter Form -->
+  <!-- Tornadus -->
+  <item>164</item> <!-- Incarnate Form -->
+  <item>189</item> <!-- Therian Form -->
+  <!-- Thundurus -->
+  <item>164</item> <!-- Incarnate Form -->
+  <item>161</item> <!-- Therian Form -->
+  <!-- Landorus -->
+  <item>182</item> <!-- Incarnate Form -->
+  <item>179</item> <!-- Therian Form -->
+  <!-- Kyurem -->
+  <item>170</item> <!-- Normal Form -->
+  <item>183</item> <!-- Black Form -->
+  <item>183</item> <!-- White Form -->
+  <!-- Keldeo -->
+  <item>192</item> <!-- Ordinary Form -->
+  <item>192</item> <!-- Resolute Form -->
+  <!-- Meloetta -->
+  <item>225</item> <!-- Aria Form -->
+  <item>188</item> <!-- Pirouette Form -->
+  <!-- Genesect -->
+  <item>199</item> <!-- Normal Form -->
+  <item>199</item> <!-- Shock Form -->
+  <item>199</item> <!-- Burn Form -->
+  <item>199</item> <!-- Chill Form -->
+  <item>199</item> <!-- Douse Form -->
  </integer-array>
 <integer-array name="formStamina">
   <!--Rattata-->
@@ -661,5 +795,46 @@
   <item>237</item> <!-- Dragon Form -->
   <item>237</item> <!-- Dark Form -->
   <item>237</item> <!-- Fairy Form -->
+  <!-- Basculin -->
+  <item>172</item> <!-- Red Striped Form -->
+  <item>172</item> <!-- Blue Striped Form -->
+  <!-- Darmanitan -->
+  <item>233</item> <!-- Standard Form -->
+  <item>233</item> <!-- Zen Form -->
+  <!-- Deerling -->
+  <item>155</item> <!-- Spring Form -->
+  <item>155</item> <!-- Summer Form -->
+  <item>155</item> <!-- Autumn Form -->
+  <item>155</item> <!-- Winter Form -->
+  <!-- Sawsbuck -->
+  <item>190</item> <!-- Spring Form -->
+  <item>190</item> <!-- Summer Form -->
+  <item>190</item> <!-- Autumn Form -->
+  <item>190</item> <!-- Winter Form -->
+  <!-- Tornadus -->
+  <item>188</item> <!-- Incarnate Form -->
+  <item>188</item> <!-- Therian Form -->
+  <!-- Thundurus -->
+  <item>188</item> <!-- Incarnate Form -->
+  <item>188</item> <!-- Therian Form -->
+  <!-- Landorus -->
+  <item>205</item> <!-- Incarnate Form -->
+  <item>205</item> <!-- Therian Form -->
+  <!-- Kyurem -->
+  <item>245</item> <!-- Normal Form -->
+  <item>245</item> <!-- Black Form -->
+  <item>245</item> <!-- White Form -->
+  <!-- Keldeo -->
+  <item>209</item> <!-- Ordinary Form -->
+  <item>209</item> <!-- Resolute Form -->
+  <!-- Meloetta -->
+  <item>225</item> <!-- Aria Form -->
+  <item>225</item> <!-- Pirouette Form -->
+  <!-- Genesect -->
+  <item>174</item> <!-- Normal Form -->
+  <item>174</item> <!-- Shock Form -->
+  <item>174</item> <!-- Burn Form -->
+  <item>174</item> <!-- Chill Form -->
+  <item>174</item> <!-- Douse Form -->
  </integer-array>
 </resources>

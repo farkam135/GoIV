@@ -390,114 +390,270 @@
         <item>Jirachi</item>
         <item>Deoxys</item>
         <!-- gen 4 -->
-
-        <item>  Tortipouss</item>
-        <item>  Boskara</item>
-        <item>  Torterra</item>
-        <item>  Ouisticram</item>
-        <item>  Chimpenfeu</item>
-        <item>  Simiabraz</item>
-        <item>  Tiplouf</item>
-        <item>  Prinplouf</item>
-        <item>  Pingoléon</item>
-        <item>  Étourmi</item>
-        <item>  Étourvol</item>
-        <item>  Étouraptor</item>
-        <item>  Keunotor</item>
-        <item>  Castorno</item>
-        <item>  Crikzik</item>
-        <item>  Mélokrik</item>
-        <item>  Lixy</item>
-        <item>  Luxio</item>
-        <item>  Luxray</item>
-        <item>  Rozbouton</item>
-        <item>  Roserade</item>
-        <item>  Kranidos</item>
-        <item>  Charkos</item>
-        <item>  Dinoclier</item>
-        <item>  Bastiodon</item>
-        <item>  Cheniti</item>
-        <item>  Cheniselle</item>
-        <item>  Papilord</item>
-        <item>  Apitrini</item>
-        <item>  Apireine</item>
-        <item>  Pachirisu</item>
-        <item>  Mustébouée</item>
-        <item>  Mustéflott</item>
-        <item>  Ceribou</item>
-        <item>  Ceriflor</item>
-        <item>  Sancoki</item>
-        <item>  Tritosor</item>
-        <item>  Capidextre</item>
-        <item>  Baudrive</item>
-        <item>  Grodrive</item>
-        <item>  Laporeille</item>
-        <item>  Lockpin</item>
-        <item>  Magirêve</item>
-        <item>  Corboss</item>
-        <item>  Chaglam</item>
-        <item>  Chaffreux</item>
-        <item>  Korillon</item>
-        <item>  Moufouette</item>
-        <item>  Moufflair</item>
-        <item>  Archéomire</item>
-        <item>  Archéodong</item>
-        <item>  Manzaï</item>
-        <item>  Mime Jr</item>
-        <item>  Ptiravi</item>
-        <item>  Pijako</item>
-        <item>  Spiritomb</item>
-        <item>  Griknot</item>
-        <item>  Carmache</item>
-        <item>  Carchacrok</item>
-        <item>  Goinfrex</item>
-        <item>  Riolu</item>
-        <item>  Lucario</item>
-        <item>  Hippopotas</item>
-        <item>  Hippodocus</item>
-        <item>  Rapion</item>
-        <item>  Drascore</item>
-        <item>  Cradopaud</item>
-        <item>  Coatox</item>
-        <item>  Vortente</item>
-        <item>  Écayon</item>
-        <item>  Luminéon</item>
-        <item>  Babimanta</item>
-        <item>  Blizzi</item>
-        <item>  Blizzaroi</item>
-        <item>  Dimoret</item>
-        <item>  Magnézone</item>
-        <item>  Coudlangue</item>
-        <item>  Rhinastoc</item>
-        <item>  Bouldeneu</item>
-        <item>  Élekable</item>
-        <item>  Maganon</item>
-        <item>  Togekiss</item>
-        <item>  Yanméga</item>
-        <item>  Phyllali</item>
-        <item>  Givrali</item>
-        <item>  Scorvol</item>
-        <item>  Mammochon</item>
-        <item>  Porygon-Z</item>
-        <item>  Gallame</item>
-        <item>  Tarinorme</item>
-        <item>  Noctunoir</item>
-        <item>  Momartik</item>
-        <item>  Motisma</item>
-        <item>  Créhelf</item>
-        <item>  Créfollet</item>
-        <item>  Créfadet</item>
-        <item>  Dialga</item>
-        <item>  Palkia</item>
-        <item>  Heatran</item>
-        <item>  Regigigas</item>
-        <item>  Giratina</item>
-        <item>  Cresselia</item>
-        <item>  Phione</item>
-        <item>  Manaphy</item>
-        <item>  Darkrai</item>
-        <item>  Shaymin</item>
-        <item>  Arceus</item>
+        <item>Tortipouss</item>
+        <item>Boskara</item>
+        <item>Torterra</item>
+        <item>Ouisticram</item>
+        <item>Chimpenfeu</item>
+        <item>Simiabraz</item>
+        <item>Tiplouf</item>
+        <item>Prinplouf</item>
+        <item>Pingoléon</item>
+        <item>Étourmi</item>
+        <item>Étourvol</item>
+        <item>Étouraptor</item>
+        <item>Keunotor</item>
+        <item>Castorno</item>
+        <item>Crikzik</item>
+        <item>Mélokrik</item>
+        <item>Lixy</item>
+        <item>Luxio</item>
+        <item>Luxray</item>
+        <item>Rozbouton</item>
+        <item>Roserade</item>
+        <item>Kranidos</item>
+        <item>Charkos</item>
+        <item>Dinoclier</item>
+        <item>Bastiodon</item>
+        <item>Cheniti</item>
+        <item>Cheniselle</item>
+        <item>Papilord</item>
+        <item>Apitrini</item>
+        <item>Apireine</item>
+        <item>Pachirisu</item>
+        <item>Mustébouée</item>
+        <item>Mustéflott</item>
+        <item>Ceribou</item>
+        <item>Ceriflor</item>
+        <item>Sancoki</item>
+        <item>Tritosor</item>
+        <item>Capidextre</item>
+        <item>Baudrive</item>
+        <item>Grodrive</item>
+        <item>Laporeille</item>
+        <item>Lockpin</item>
+        <item>Magirêve</item>
+        <item>Corboss</item>
+        <item>Chaglam</item>
+        <item>Chaffreux</item>
+        <item>Korillon</item>
+        <item>Moufouette</item>
+        <item>Moufflair</item>
+        <item>Archéomire</item>
+        <item>Archéodong</item>
+        <item>Manzaï</item>
+        <item>Mime Jr</item>
+        <item>Ptiravi</item>
+        <item>Pijako</item>
+        <item>Spiritomb</item>
+        <item>Griknot</item>
+        <item>Carmache</item>
+        <item>Carchacrok</item>
+        <item>Goinfrex</item>
+        <item>Riolu</item>
+        <item>Lucario</item>
+        <item>Hippopotas</item>
+        <item>Hippodocus</item>
+        <item>Rapion</item>
+        <item>Drascore</item>
+        <item>Cradopaud</item>
+        <item>Coatox</item>
+        <item>Vortente</item>
+        <item>Écayon</item>
+        <item>Luminéon</item>
+        <item>Babimanta</item>
+        <item>Blizzi</item>
+        <item>Blizzaroi</item>
+        <item>Dimoret</item>
+        <item>Magnézone</item>
+        <item>Coudlangue</item>
+        <item>Rhinastoc</item>
+        <item>Bouldeneu</item>
+        <item>Élekable</item>
+        <item>Maganon</item>
+        <item>Togekiss</item>
+        <item>Yanméga</item>
+        <item>Phyllali</item>
+        <item>Givrali</item>
+        <item>Scorvol</item>
+        <item>Mammochon</item>
+        <item>Porygon-Z</item>
+        <item>Gallame</item>
+        <item>Tarinorme</item>
+        <item>Noctunoir</item>
+        <item>Momartik</item>
+        <item>Motisma</item>
+        <item>Créhelf</item>
+        <item>Créfollet</item>
+        <item>Créfadet</item>
+        <item>Dialga</item>
+        <item>Palkia</item>
+        <item>Heatran</item>
+        <item>Regigigas</item>
+        <item>Giratina</item>
+        <item>Cresselia</item>
+        <item>Phione</item>
+        <item>Manaphy</item>
+        <item>Darkrai</item>
+        <item>Shaymin</item>
+        <item>Arceus</item>
+        <!-- gen 5 -->
+        <item>Victini</item>
+        <item>Vipélierre</item>
+        <item>Lianaja</item>
+        <item>Majaspic</item>
+        <item>Gruikui</item>
+        <item>Grotichon</item>
+        <item>Roitiflam</item>
+        <item>Moustillon</item>
+        <item>Mateloutre</item>
+        <item>Clamiral</item>
+        <item>Ratentif</item>
+        <item>Miradar</item>
+        <item>Ponchiot</item>
+        <item>Ponchien</item>
+        <item>Mastouffe</item>
+        <item>Chacripan</item>
+        <item>Léopardus</item>
+        <item>Feuillajou</item>
+        <item>Feuiloutan</item>
+        <item>Flamajou</item>
+        <item>Flamoutan</item>
+        <item>Flotajou</item>
+        <item>Flotoutan</item>
+        <item>Munna</item>
+        <item>Mushana</item>
+        <item>Poichigeon</item>
+        <item>Colombeau</item>
+        <item>Déflaisan</item>
+        <item>Zébibron</item>
+        <item>Zéblitz</item>
+        <item>Nodulithe</item>
+        <item>Géolithe</item>
+        <item>Gigalithe</item>
+        <item>Chovsourir</item>
+        <item>Rhinolove</item>
+        <item>Rototaupe</item>
+        <item>Minotaupe</item>
+        <item>Nanméouïe</item>
+        <item>Charpenti</item>
+        <item>Ouvrifier</item>
+        <item>Bétochef</item>
+        <item>Tritonde</item>
+        <item>Batracné</item>
+        <item>Crapustule</item>
+        <item>Judokrak</item>
+        <item>Karaclée</item>
+        <item>Larveyette</item>
+        <item>Couverdure</item>
+        <item>Manternel</item>
+        <item>Venipatte</item>
+        <item>Scobolide</item>
+        <item>Brutapode</item>
+        <item>Doudouvet</item>
+        <item>Farfaduvet</item>
+        <item>Chlorobule</item>
+        <item>Fragilady</item>
+        <item>Bargantua</item>
+        <item>Mascaïman</item>
+        <item>Escroco</item>
+        <item>Crocorible</item>
+        <item>Darumarond</item>
+        <item>Darumacho</item>
+        <item>Maracachi</item>
+        <item>Crabicoque</item>
+        <item>Crabaraque</item>
+        <item>Baggiguane</item>
+        <item>Baggaïd</item>
+        <item>Cryptéro</item>
+        <item>Tutafeh</item>
+        <item>Tutankafer</item>
+        <item>Carapagos</item>
+        <item>Mégapagos</item>
+        <item>Arkéapti</item>
+        <item>Aéroptéryx</item>
+        <item>Miamiasme</item>
+        <item>Miasmax</item>
+        <item>Zorua</item>
+        <item>Zoroark</item>
+        <item>Chinchidou</item>
+        <item>Pashmilla</item>
+        <item>Scrutella</item>
+        <item>Mesmérella</item>
+        <item>Sidérella</item>
+        <item>Nucléos</item>
+        <item>Méios</item>
+        <item>Symbios</item>
+        <item>Couaneton</item>
+        <item>Lakmécygne</item>
+        <item>Sorbébé</item>
+        <item>Sorboul</item>
+        <item>Sorbouboul</item>
+        <item>Vivaldaim</item>
+        <item>Haydaim</item>
+        <item>Emolga</item>
+        <item>Carabing</item>
+        <item>Lançargot</item>
+        <item>Trompignon</item>
+        <item>Gaulet</item>
+        <item>Viskuse</item>
+        <item>Moyade</item>
+        <item>Mamanbo</item>
+        <item>Statitik</item>
+        <item>Mygavolt</item>
+        <item>Grindur</item>
+        <item>Noacier</item>
+        <item>Tic</item>
+        <item>Clic</item>
+        <item>Cliticlic</item>
+        <item>Anchwatt</item>
+        <item>Lampéroie</item>
+        <item>Ohmassacre</item>
+        <item>Lewsor</item>
+        <item>Neitram</item>
+        <item>Funécire</item>
+        <item>Mélancolux</item>
+        <item>Lugulabre</item>
+        <item>Coupenotte</item>
+        <item>Incisache</item>
+        <item>Tranchodon</item>
+        <item>Polarhume</item>
+        <item>Polagriffe</item>
+        <item>Hexagel</item>
+        <item>Escargaume</item>
+        <item>Limaspeed</item>
+        <item>Limonde</item>
+        <item>Kungfouine</item>
+        <item>Shaofouine</item>
+        <item>Drakkarmin</item>
+        <item>Gringolem</item>
+        <item>Golemastoc</item>
+        <item>Scalpion</item>
+        <item>Scalproie</item>
+        <item>Frison</item>
+        <item>Furaiglon</item>
+        <item>Gueriaigle</item>
+        <item>Vostourno</item>
+        <item>Vaututrice</item>
+        <item>Aflamanoir</item>
+        <item>Fermite</item>
+        <item>Solochi</item>
+        <item>Diamat</item>
+        <item>Trioxhydre</item>
+        <item>Pyronille</item>
+        <item>Pyrax</item>
+        <item>Cobaltium</item>
+        <item>Terrakium</item>
+        <item>Viridium</item>
+        <item>Boréas</item>
+        <item>Fulguris</item>
+        <item>Reshiram</item>
+        <item>Zekrom</item>
+        <item>Démétéros</item>
+        <item>Kyurem</item>
+        <item>Keldeo</item>
+        <item>Meloetta</item>
+        <item>Genesect</item>
         <item>Meltan</item>
         <item>Melmetal</item>
     </string-array>

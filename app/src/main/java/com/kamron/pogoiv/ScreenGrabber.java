@@ -39,10 +39,15 @@ public class ScreenGrabber {
         projection = mediaProjection;
         imageReader = ImageReader.newInstance(rawDisplayMetrics.widthPixels, rawDisplayMetrics.heightPixels,
                 PixelFormat.RGBA_8888, 2);
-        virtualDisplay = projection.createVirtualDisplay("screen-mirror", rawDisplayMetrics.widthPixels,
-                rawDisplayMetrics.heightPixels,
-                rawDisplayMetrics.densityDpi, DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR, imageReader.getSurface(),
-                null, null);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                virtualDisplay = projection.createVirtualDisplay("screen-mirror", rawDisplayMetrics.widthPixels,
+                        rawDisplayMetrics.heightPixels,
+                        rawDisplayMetrics.densityDpi, DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR, imageReader.getSurface(),
+                        null, null);
+            }
+        }).start();
     }
 
     public static ScreenGrabber init(MediaProjection mediaProjection, DisplayMetrics raw) {
@@ -77,7 +82,8 @@ public class ScreenGrabber {
     }
 
     @WorkerThread
-    public @Nullable Bitmap grabScreen() {
+    public @Nullable
+    Bitmap grabScreen() {
         Image image = null;
         Bitmap bmp = null;
         Integer retries = 60; // Retry for an entire second (given the rendering speed of 60fps)
@@ -131,7 +137,9 @@ public class ScreenGrabber {
      * @param points array of points representing coordinates to grab
      * @return array of colors for the requested pixels, or null if any of them is out-of-bounds
      */
-    public @Nullable @ColorInt int[] grabPixels(Point[] points) {
+    public @Nullable
+    @ColorInt
+    int[] grabPixels(Point[] points) {
         Image image = null;
         try {
             //Note: imageReader shouldn't be null, but apparently sometimes is.
@@ -172,7 +180,8 @@ public class ScreenGrabber {
     }
 
     //Inspired by http://stackoverflow.com/a/27655022/53974.
-    private static @ColorInt int getPixel(ByteBuffer buffer, Point pos, int pixelStride, int rowStride) {
+    private static @ColorInt
+    int getPixel(ByteBuffer buffer, Point pos, int pixelStride, int rowStride) {
         int offset = pos.y * rowStride + pos.x * pixelStride;
         //This works because the image reader is configured with PixelFormat.RGBA_8888.
         int r = buffer.get(offset) & 0xff;

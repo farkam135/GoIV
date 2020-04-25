@@ -41,6 +41,7 @@ import com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanArea;
 import com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldAutomaticLocator;
 import com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldResults;
 import com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanPoint;
+import com.kamron.pogoiv.scanlogic.Data;
 import com.kamron.pogoiv.utils.MediaStoreUtils;
 
 import java.lang.ref.WeakReference;
@@ -360,8 +361,8 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
             p.setStyle(Paint.Style.STROKE);
             p.setStrokeWidth(sDisplayMetrics.density);
             p.setColor(color);
-            RectF oval = new RectF(point.xCoord - radius, point.yCoord - radius,
-                    point.xCoord + radius, point.yCoord + radius);
+            RectF oval = new RectF(point.xCoord - radius, point.yCoord - (radius* Data.LEVEL_ARC_SQUISH_FACTOR),
+                    point.xCoord + radius, point.yCoord + (radius* Data.LEVEL_ARC_SQUISH_FACTOR));
             c.drawArc(oval, 180, 180, false, p);
         }
     }

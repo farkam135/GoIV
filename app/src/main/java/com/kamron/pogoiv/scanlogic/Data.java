@@ -13,6 +13,9 @@ public class Data {
     public static final int MAXIMUM_POKEMON_LEVEL = 40;
     public static final int MAXIMUM_WILD_POKEMON_LEVEL = 35;
 
+
+    public static final float LEVEL_ARC_SQUISH_FACTOR = 0.95f; //The level arc is no longer a perfect half circle
+
     private static final float[] CpM = {
             0.0939999967813492f, 0.135137432089339f, 0.166397869586945f, 0.192650913155325f, 0.215732470154762f,
             0.236572651424822f, 0.255720049142838f, 0.273530372106572f, 0.290249884128571f, 0.306057381389863f,
@@ -69,7 +72,7 @@ public class Data {
             double angleInRadians = (arcRatio + 1) * Math.PI;
 
             arcX[pokeLevelIdx] = (int) Math.round(arcInit.xCoord + (arcRadius * Math.cos(angleInRadians)));
-            arcY[pokeLevelIdx] = (int) Math.round(arcInit.yCoord + (arcRadius * Math.sin(angleInRadians)));
+            arcY[pokeLevelIdx] = (int) Math.round(arcInit.yCoord + (arcRadius * Math.sin(angleInRadians))* Data.LEVEL_ARC_SQUISH_FACTOR);
         }
     }
 

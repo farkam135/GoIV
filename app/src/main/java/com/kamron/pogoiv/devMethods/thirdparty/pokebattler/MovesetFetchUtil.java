@@ -1,4 +1,4 @@
-package com.kamron.pogoiv.thirdparty;
+package com.kamron.pogoiv.devMethods.thirdparty.pokebattler;
 
 import com.kamron.pogoiv.scanlogic.MovesetData;
 import com.kamron.pogoiv.thirdparty.pokebattler.PokemonId;
@@ -6,8 +6,6 @@ import com.kamron.pogoiv.thirdparty.pokebattler.PokemonId;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.junit.Ignore;
-import org.junit.Test;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -49,10 +47,7 @@ public class MovesetFetchUtil {
     /**
      * This "test" generates a json of all pokemon move ratings by querying the pokebattler database.
      */
-    @Ignore
-    @Test
-    public void buildFailsIfThisIsAMain() throws Exception {
-//    public static final void main(String... args) throws Exception {
+    public static void main(String[] args) throws Exception {
 //        public static void main(String... args) throws Exception {
 
 //        Timber.plant(new Timber.DebugTree()); This throws exceptions in unit tests

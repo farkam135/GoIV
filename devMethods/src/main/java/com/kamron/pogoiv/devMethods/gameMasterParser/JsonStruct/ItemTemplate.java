@@ -57,7 +57,7 @@ public class ItemTemplate {
     @SerializedName("genderSettings")
     @Expose
     private GenderSettings genderSettings;
-    @SerializedName("pokemonSettings")
+    @SerializedName("pokemon")
     @Expose
     private PokemonSettings pokemonSettings;
     @SerializedName("weatherAffinities")
@@ -72,7 +72,7 @@ public class ItemTemplate {
     @SerializedName("camera")
     @Expose
     private Camera_ camera;
-    @SerializedName("moveSequenceSettings")
+    @SerializedName("moveSequence")
     @Expose
     private MoveSequenceSettings moveSequenceSettings;
 

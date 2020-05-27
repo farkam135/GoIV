@@ -652,7 +652,7 @@
  <item>252</item> <!--Genesect-->
  <item>118</item> <!--Meltan-->
  <item>226</item> <!--Melmetal-->
-</integer-array>
+ </integer-array>
 <integer-array name="defense">
  <item>111</item> <!--Bulbasaur-->
  <item>143</item> <!--Ivysaur-->
@@ -1305,7 +1305,7 @@
  <item>199</item> <!--Genesect-->
  <item>99</item> <!--Meltan-->
  <item>190</item> <!--Melmetal-->
-</integer-array>
+ </integer-array>
 <integer-array name="stamina">
  <item>128</item> <!--Bulbasaur-->
  <item>155</item> <!--Ivysaur-->
@@ -1958,7 +1958,7 @@
  <item>174</item> <!--Genesect-->
  <item>130</item> <!--Meltan-->
  <item>264</item> <!--Melmetal-->
-</integer-array>
+ </integer-array>
 <integer-array name="devolutionNumber">
  <item>-1</item> <!--Bulbasaur-->
  <item>0</item> <!--Ivysaur-->
@@ -2545,7 +2545,7 @@
  <item>581</item> <!--Vanillish-->
  <item>582</item> <!--Vanilluxe-->
  <item>-1</item> <!--Deerling-->
- <item>585</item> <!--Sawsbuck-->
+ <item>584</item> <!--Sawsbuck-->
  <item>-1</item> <!--Emolga-->
  <item>-1</item> <!--Karrablast-->
  <item>587</item> <!--Escavalier-->
@@ -2611,7 +2611,7 @@
  <item>-1</item> <!--Genesect-->
  <item>-1</item> <!--Meltan-->
  <item>807</item> <!--Melmetal-->
-</integer-array>
+ </integer-array>
 <integer-array name="evolutionCandyCost">
  <item>25</item> <!--Bulbasaur-->
  <item>100</item> <!--Ivysaur-->
@@ -3136,16 +3136,16 @@
  <item>-1</item> <!--Unfezant-->
  <item>50</item> <!--Blitzle-->
  <item>-1</item> <!--Zebstrika-->
- <item>25</item> <!--Roggenrola-->
- <item>100</item> <!--Boldore-->
+ <item>50</item> <!--Roggenrola-->
+ <item>200</item> <!--Boldore-->
  <item>-1</item> <!--Gigalith-->
  <item>50</item> <!--Woobat-->
  <item>-1</item> <!--Swoobat-->
  <item>50</item> <!--Drilbur-->
  <item>-1</item> <!--Excadrill-->
  <item>-1</item> <!--Audino-->
- <item>25</item> <!--Timburr-->
- <item>100</item> <!--Gurdurr-->
+ <item>50</item> <!--Timburr-->
+ <item>200</item> <!--Gurdurr-->
  <item>-1</item> <!--Conkeldurr-->
  <item>25</item> <!--Tympole-->
  <item>100</item> <!--Palpitoad-->
@@ -3197,10 +3197,10 @@
  <item>25</item> <!--Vanillite-->
  <item>100</item> <!--Vanillish-->
  <item>-1</item> <!--Vanilluxe-->
- <item>50</item> <!--Deerling-->
+ <item>-1</item> <!--Deerling-->
  <item>-1</item> <!--Sawsbuck-->
  <item>-1</item> <!--Emolga-->
- <item>50</item> <!--Karrablast-->
+ <item>200</item> <!--Karrablast-->
  <item>-1</item> <!--Escavalier-->
  <item>50</item> <!--Foongus-->
  <item>-1</item> <!--Amoonguss-->
@@ -3228,7 +3228,7 @@
  <item>50</item> <!--Cubchoo-->
  <item>-1</item> <!--Beartic-->
  <item>-1</item> <!--Cryogonal-->
- <item>50</item> <!--Shelmet-->
+ <item>200</item> <!--Shelmet-->
  <item>-1</item> <!--Accelgor-->
  <item>-1</item> <!--Stunfisk-->
  <item>50</item> <!--Mienfoo-->
@@ -3264,7 +3264,7 @@
  <item>-1</item> <!--Genesect-->
  <item>400</item> <!--Meltan-->
  <item>-1</item> <!--Melmetal-->
-</integer-array>
+ </integer-array>
 <integer-array name="candyNames">
  <item>0</item> <!--Bulbasaur-->
  <item>0</item> <!--Ivysaur-->
@@ -4028,7 +4028,7 @@
  <item>-1</item> <!--Hitmonchan-->
  <item>-1</item> <!--Lickitung-->
  <item>-1</item> <!--Koffing-->
- <item>-1</item> <!--Weezing-->
+ <item>18</item> <!--Weezing-->
  <item>-1</item> <!--Rhyhorn-->
  <item>-1</item> <!--Rhydon-->
  <item>-1</item> <!--Chansey-->
@@ -4068,7 +4068,7 @@
  <item>-1</item> <!--Dratini-->
  <item>-1</item> <!--Dragonair-->
  <item>-1</item> <!--Dragonite-->
- <item>18</item> <!--Mewtwo-->
+ <item>19</item> <!--Mewtwo-->
  <item>-1</item> <!--Mew-->
  <item>-1</item> <!--Chikorita-->
  <item>-1</item> <!--Bayleef-->
@@ -4119,7 +4119,7 @@
  <item>-1</item> <!--Murkrow-->
  <item>-1</item> <!--Slowking-->
  <item>-1</item> <!--Misdreavus-->
- <item>19</item> <!--Unown-->
+ <item>20</item> <!--Unown-->
  <item>-1</item> <!--Wobbuffet-->
  <item>-1</item> <!--Girafarig-->
  <item>-1</item> <!--Pineco-->
@@ -4181,8 +4181,8 @@
  <item>-1</item> <!--Swampert-->
  <item>-1</item> <!--Poochyena-->
  <item>-1</item> <!--Mightyena-->
- <item>-1</item> <!--Zigzagoon-->
- <item>-1</item> <!--Linoone-->
+ <item>21</item> <!--Zigzagoon-->
+ <item>22</item> <!--Linoone-->
  <item>-1</item> <!--Wurmple-->
  <item>-1</item> <!--Silcoon-->
  <item>-1</item> <!--Beautifly-->
@@ -4245,7 +4245,7 @@
  <item>-1</item> <!--Torkoal-->
  <item>-1</item> <!--Spoink-->
  <item>-1</item> <!--Grumpig-->
- <item>20</item> <!--Spinda-->
+ <item>23</item> <!--Spinda-->
  <item>-1</item> <!--Trapinch-->
  <item>-1</item> <!--Vibrava-->
  <item>-1</item> <!--Flygon-->
@@ -4269,7 +4269,7 @@
  <item>-1</item> <!--Armaldo-->
  <item>-1</item> <!--Feebas-->
  <item>-1</item> <!--Milotic-->
- <item>21</item> <!--Castform-->
+ <item>24</item> <!--Castform-->
  <item>-1</item> <!--Kecleon-->
  <item>-1</item> <!--Shuppet-->
  <item>-1</item> <!--Banette-->
@@ -4304,7 +4304,7 @@
  <item>-1</item> <!--Groudon-->
  <item>-1</item> <!--Rayquaza-->
  <item>-1</item> <!--Jirachi-->
- <item>22</item> <!--Deoxys-->
+ <item>25</item> <!--Deoxys-->
  <item>-1</item> <!--Turtwig-->
  <item>-1</item> <!--Grotle-->
  <item>-1</item> <!--Torterra-->
@@ -4330,8 +4330,8 @@
  <item>-1</item> <!--Rampardos-->
  <item>-1</item> <!--Shieldon-->
  <item>-1</item> <!--Bastiodon-->
- <item>23</item> <!--Burmy-->
- <item>24</item> <!--Wormadam-->
+ <item>26</item> <!--Burmy-->
+ <item>27</item> <!--Wormadam-->
  <item>-1</item> <!--Mothim-->
  <item>-1</item> <!--Combee-->
  <item>-1</item> <!--Vespiquen-->
@@ -4339,9 +4339,9 @@
  <item>-1</item> <!--Buizel-->
  <item>-1</item> <!--Floatzel-->
  <item>-1</item> <!--Cherubi-->
- <item>25</item> <!--Cherrim-->
- <item>26</item> <!--Shellos-->
- <item>27</item> <!--Gastrodon-->
+ <item>28</item> <!--Cherrim-->
+ <item>29</item> <!--Shellos-->
+ <item>30</item> <!--Gastrodon-->
  <item>-1</item> <!--Ambipom-->
  <item>-1</item> <!--Drifloon-->
  <item>-1</item> <!--Drifblim-->
@@ -4397,7 +4397,7 @@
  <item>-1</item> <!--Probopass-->
  <item>-1</item> <!--Dusknoir-->
  <item>-1</item> <!--Froslass-->
- <item>28</item> <!--Rotom-->
+ <item>31</item> <!--Rotom-->
  <item>-1</item> <!--Uxie-->
  <item>-1</item> <!--Mesprit-->
  <item>-1</item> <!--Azelf-->
@@ -4405,13 +4405,13 @@
  <item>-1</item> <!--Palkia-->
  <item>-1</item> <!--Heatran-->
  <item>-1</item> <!--Regigigas-->
- <item>29</item> <!--Giratina-->
+ <item>32</item> <!--Giratina-->
  <item>-1</item> <!--Cresselia-->
  <item>-1</item> <!--Phione-->
  <item>-1</item> <!--Manaphy-->
  <item>-1</item> <!--Darkrai-->
- <item>30</item> <!--Shaymin-->
- <item>31</item> <!--Arceus-->
+ <item>33</item> <!--Shaymin-->
+ <item>34</item> <!--Arceus-->
  <item>-1</item> <!--Victini-->
  <item>-1</item> <!--Snivy-->
  <item>-1</item> <!--Servine-->
@@ -4468,12 +4468,12 @@
  <item>-1</item> <!--Whimsicott-->
  <item>-1</item> <!--Petilil-->
  <item>-1</item> <!--Lilligant-->
- <item>32</item> <!--Basculin-->
+ <item>35</item> <!--Basculin-->
  <item>-1</item> <!--Sandile-->
  <item>-1</item> <!--Krokorok-->
  <item>-1</item> <!--Krookodile-->
  <item>-1</item> <!--Darumaka-->
- <item>33</item> <!--Darmanitan-->
+ <item>36</item> <!--Darmanitan-->
  <item>-1</item> <!--Maractus-->
  <item>-1</item> <!--Dwebble-->
  <item>-1</item> <!--Crustle-->
@@ -4503,15 +4503,15 @@
  <item>-1</item> <!--Vanillite-->
  <item>-1</item> <!--Vanillish-->
  <item>-1</item> <!--Vanilluxe-->
- <item>34</item> <!--Deerling-->
- <item>35</item> <!--Sawsbuck-->
+ <item>37</item> <!--Deerling-->
+ <item>38</item> <!--Sawsbuck-->
  <item>-1</item> <!--Emolga-->
  <item>-1</item> <!--Karrablast-->
  <item>-1</item> <!--Escavalier-->
  <item>-1</item> <!--Foongus-->
  <item>-1</item> <!--Amoonguss-->
- <item>-1</item> <!--Frillish-->
- <item>-1</item> <!--Jellicent-->
+ <item>39</item> <!--Frillish-->
+ <item>40</item> <!--Jellicent-->
  <item>-1</item> <!--Alomomola-->
  <item>-1</item> <!--Joltik-->
  <item>-1</item> <!--Galvantula-->
@@ -4559,16 +4559,16 @@
  <item>-1</item> <!--Cobalion-->
  <item>-1</item> <!--Terrakion-->
  <item>-1</item> <!--Virizion-->
- <item>36</item> <!--Tornadus-->
- <item>37</item> <!--Thundurus-->
+ <item>41</item> <!--Tornadus-->
+ <item>42</item> <!--Thundurus-->
  <item>-1</item> <!--Reshiram-->
  <item>-1</item> <!--Zekrom-->
- <item>38</item> <!--Landorus-->
- <item>39</item> <!--Kyurem-->
- <item>40</item> <!--Keldeo-->
- <item>41</item> <!--Meloetta-->
- <item>42</item> <!--Genesect-->
+ <item>43</item> <!--Landorus-->
+ <item>44</item> <!--Kyurem-->
+ <item>45</item> <!--Keldeo-->
+ <item>46</item> <!--Meloetta-->
+ <item>47</item> <!--Genesect-->
  <item>-1</item> <!--Meltan-->
  <item>-1</item> <!--Melmetal-->
-</integer-array>
+ </integer-array>
 </resources>

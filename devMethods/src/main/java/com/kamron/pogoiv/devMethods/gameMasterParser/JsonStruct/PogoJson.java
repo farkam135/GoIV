@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class PogoJson {
 
-    @SerializedName("itemTemplates")
+    @SerializedName("itemTemplate")
     @Expose
     private List<ItemTemplate> itemTemplates = null;
     @SerializedName("timestampMs")

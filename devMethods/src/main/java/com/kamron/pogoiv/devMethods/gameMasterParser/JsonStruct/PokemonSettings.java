@@ -17,13 +17,13 @@ public class PokemonSettings {
 
     private String templateID;
 
-    @SerializedName("pokemonId")
+    @SerializedName("uniqueId")
     @Expose
     private String pokemonId;
     @SerializedName("modelScale")
     @Expose
     private Double modelScale;
-    @SerializedName("type")
+    @SerializedName("type1")
     @Expose
     private String type;
     @SerializedName("type2")
@@ -44,10 +44,10 @@ public class PokemonSettings {
     @SerializedName("cinematicMoves")
     @Expose
     private List<String> cinematicMoves = null;
-    @SerializedName("animationTime")
+    @SerializedName("animTime")
     @Expose
     private List<Double> animationTime = null;
-    @SerializedName("evolutionIds")
+    @SerializedName("evolution")
     @Expose
     private List<String> evolutionIds = null;
     @SerializedName("evolutionPips")
@@ -101,7 +101,7 @@ public class PokemonSettings {
     @SerializedName("isDeployable")
     @Expose
     private Boolean isDeployable;
-    @SerializedName("rarity")
+    @SerializedName("pokemonClass")
     @Expose
     private String rarity;
     @SerializedName("form")
@@ -109,7 +109,7 @@ public class PokemonSettings {
     private String form;
 
 
-    @SerializedName("parentPokemonId")
+    @SerializedName("parentId")
     @Expose
     private String parentPokemonId;
 

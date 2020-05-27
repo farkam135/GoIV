@@ -204,6 +204,10 @@ dependencies {
     implementation 'com.android.support:palette-v7:27.1.1'
     implementation project(':openCVLibrary330')
 
+    /* for devMethods.thirdparty.pokebattler, temporally set for All Builds */
+    implementation 'org.json:json:20160810' //used to generate moveset list
+    implementation 'com.squareup.okhttp3:okhttp:3.7.0'//used to generate moveset list
+
     /**
      * Online Build Dependencies
      */
@@ -227,8 +231,6 @@ dependencies {
     testImplementation 'org.mockito:mockito-core:1.10.19'
     testImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    testImplementation 'org.json:json:20160810' //used to generate moveset list
-    testImplementation 'com.squareup.okhttp3:okhttp:3.7.0'//used to generate moveset list
 }
 
 /**

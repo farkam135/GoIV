@@ -1,8 +1,5 @@
 package com.kamron.pogoiv.devMethods.gameMasterParser;
 
-import android.os.Build;
-import android.support.annotation.RequiresApi;
-
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 import com.kamron.pogoiv.devMethods.gameMasterParser.JsonStruct.Form;
@@ -44,7 +41,7 @@ public class ApplicationDatabaseUpdater {
                 formHash.put(poke.getForm(), poke);
             }
             if (item.getFormSettings() != null) {
-                FormSettings form = item.getFormSettings();
+                FormSettings form = new SpecificFormSettings(item.getFormSettings());
                 Matcher m = pokedexRegex.matcher(item.getTemplateId());
                 if (m.matches()) {
                     formsByPokedex.put(Integer.parseInt(m.group(1)), form);
@@ -70,27 +67,23 @@ public class ApplicationDatabaseUpdater {
             HashMap<String, PokemonSettings> formHash = pokemonFormsByName.get(formSetting.getPokemon());
 
             HashMap<String, Integer> typeCounter = new HashMap<>();
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                formHash.forEach((s, pokemonSettings) ->
-                        {
-                            int count = typeCounter.containsKey(pokemonSettings.getType()) ? typeCounter.get(pokemonSettings.getType()) : 0;
-                            typeCounter.put(pokemonSettings.getType(), count + 1);
-                            int count2 = typeCounter.containsKey(pokemonSettings.getType2()) ? typeCounter.get(pokemonSettings.getType2()) : 0;
-                            typeCounter.put(pokemonSettings.getType2(), count2 + 1);
+            formHash.forEach((s, pokemonSettings) ->
+                    {
+                        int count = typeCounter.containsKey(pokemonSettings.getType()) ? typeCounter.get(pokemonSettings.getType()) : 0;
+                        typeCounter.put(pokemonSettings.getType(), count + 1);
+                        int count2 = typeCounter.containsKey(pokemonSettings.getType2()) ? typeCounter.get(pokemonSettings.getType2()) : 0;
+                        typeCounter.put(pokemonSettings.getType2(), count2 + 1);
 
-                        }
-                );
-            }
+                    }
+            );
 
             final boolean[] hasUnique = {false};
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                typeCounter.forEach((s, integer) -> {
-                    if (integer == 1) {
-                        System.out.println(s + " is unique for " + formSetting.getPokemon() + getDexIDOf(formSetting.getPokemon(), formsByPokedex));
-                        hasUnique[0] = true;
-                    }
-                });
-            }
+            typeCounter.forEach((s, integer) -> {
+                if (integer == 1) {
+                    System.out.println(s + " is unique for " + formSetting.getPokemon() + getDexIDOf(formSetting.getPokemon(), formsByPokedex));
+                    hasUnique[0] = true;
+                }
+            });
             if (hasUnique[0] == false) {
                 System.out.println(formSetting.getPokemon() + " has no unique typing. :((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((");
             }
@@ -98,7 +91,7 @@ public class ApplicationDatabaseUpdater {
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N) private static int getDexIDOf(String pokemon, HashMap<Integer, FormSettings> formsByPokedex) {
+    private static int getDexIDOf(String pokemon, HashMap<Integer, FormSettings> formsByPokedex) {
 
         final int[] returner = {-1};
         formsByPokedex.forEach((integer, formSettings) ->
@@ -322,7 +315,8 @@ public class ApplicationDatabaseUpdater {
             stringBuilder.append("  <!--" + titleCase(form.getPokemon()) + "-->\n");
             HashMap<String, PokemonSettings> formHash = pokemonFormsByName.get(form.getPokemon());
             for (Form subform : form.getForms()) {
-                PokemonSettings poke = formHash.get(subform.getForm());
+                PokemonSettings poke = formHash.containsKey(subform.getForm()) ? formHash.get(subform.getForm())
+                        : formHash.get(null);
                 int value = -1; // Default value should be ignored by GoIV since it won't yield a match
                 if (poke != null) {
                     value = poke.getStats().getBaseAttack();
@@ -340,7 +334,8 @@ public class ApplicationDatabaseUpdater {
             HashMap<String, PokemonSettings> formHash = pokemonFormsByName.get(form.getPokemon());
             for (Form subform : form.getForms()) {
 
-                PokemonSettings poke = formHash.get(subform.getForm());
+                PokemonSettings poke = formHash.containsKey(subform.getForm()) ? formHash.get(subform.getForm())
+                        : formHash.get(null);
                 int value = -1; // Default value should be ignored by GoIV since it won't yield a match
                 if (poke != null) {
                     value = poke.getStats().getBaseDefense();
@@ -359,7 +354,8 @@ public class ApplicationDatabaseUpdater {
             stringBuilder.append("  <!--" + titleCase(form.getPokemon()) + "-->\n");
             HashMap<String, PokemonSettings> formHash = pokemonFormsByName.get(form.getPokemon());
             for (Form subform : form.getForms()) {
-                PokemonSettings poke = formHash.get(subform.getForm());
+                PokemonSettings poke = formHash.containsKey(subform.getForm()) ? formHash.get(subform.getForm())
+                        : formHash.get(null);
                 int value = -1; // Default value should be ignored by GoIV since it won't yield a match
                 if (poke != null) {
                     value = poke.getStats().getBaseStamina();
@@ -384,11 +380,9 @@ public class ApplicationDatabaseUpdater {
      * @return
      */
     private static String formName(String form, String pokemon) {
+        form = form.replaceFirst("MEWTWO_A", "MEWTWO_Armored");
         String simpleName = form.substring(pokemon.length() + 1); // Skip past pokemon name and underscore
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            return titleCase(simpleName) + " Form";
-        }
-        throw new Error("Run the generator with a higher java version");
+        return titleCase(simpleName) + " Form";
     }
 
     /**
@@ -398,10 +392,7 @@ public class ApplicationDatabaseUpdater {
      * @return
      */
     private static String titleCase(String str) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            return Arrays.stream(str.toLowerCase().split("[ _]")).map(word -> Character.toTitleCase(word.charAt(0)) + word.substring(1)).collect(Collectors.joining(" "));
-        }
-        throw new Error("Run the generator with a higher java version");
+        return Arrays.stream(str.toLowerCase().split("[ _]")).map(word -> Character.toTitleCase(word.charAt(0)) + word.substring(1)).collect(Collectors.joining(" "));
     }
 
     private static void writeFile(String fileName, String content) {

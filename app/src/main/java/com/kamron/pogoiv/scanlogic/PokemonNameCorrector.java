@@ -181,11 +181,11 @@ public class PokemonNameCorrector {
         }
 
 
-        //6. Check if the found pokemon should be alolan variant or not.
+        //6. Check if the found pokemon should be its variant(e.g. Alolan, Galarian, or its specific form) or not.
         if (scanData != null && scanData.getPokemonType() != null) {
-            PokeDist alolanGuess = checkAlolanVariant(guess, scanData);
-            if (alolanGuess != null) {
-                guess = alolanGuess;
+            PokeDist variantGuess = checkVariant(guess, scanData);
+            if (variantGuess != null) {
+                guess = variantGuess;
             }
 
         }
@@ -289,7 +289,7 @@ public class PokemonNameCorrector {
         return null;
     }
 
-    private PokeDist checkAlolanVariant(PokeDist guess, ScanData scanData) {
+    private PokeDist checkVariant(PokeDist guess, ScanData scanData) {
         try {
             switch (guess.pokemon.number) {
                 case (102): // Exeggutor (dex 103)
@@ -323,8 +323,7 @@ public class PokemonNameCorrector {
                     // check types including steel
                     return createFormPokeDist(guess, scanData, Type.STEEL, 1);
                 case (51): // Meowth
-                    // check types including dark
-                    return createFormPokeDist(guess, scanData, Type.DARK, 1);
+                    return createFormPokeDistances(guess, scanData, Type.NORMAL, Type.DARK, Type.STEEL);
                 case (52): // Persian
                     // check types including dark
                     return createFormPokeDist(guess, scanData, Type.DARK, 1);
@@ -337,6 +336,8 @@ public class PokemonNameCorrector {
                 case (75): // Golem
                     // check types including electric
                     return createFormPokeDist(guess, scanData, Type.ELECTRIC, 1);
+                case (82): // Farfetch'd
+                    return createFormPokeDist(guess, scanData, Type.FIGHTING, 1);
                 case (87): // Grimer
                     // check types including dark
                     return createFormPokeDist(guess, scanData, Type.DARK, 1);
@@ -346,6 +347,12 @@ public class PokemonNameCorrector {
                 case (104): // Marowak
                     // check types including fire
                     return createFormPokeDist(guess, scanData, Type.FIRE, 1);
+                case (109): // Weezing
+                    return createFormPokeDist(guess, scanData, Type.FAIRY, 1);
+                case (262): // Zigzagoon
+                    return createFormPokeDist(guess, scanData, Type.DARK, 1);
+                case (263): // Linoone
+                    return createFormPokeDist(guess, scanData, Type.DARK, 1);
                 case (412): // Wormadam
                     return createFormPokeDistances(guess, scanData, Type.DARK, Type.GROUND, Type.STEEL);
                 case (478): // Rotom
@@ -357,10 +364,33 @@ public class PokemonNameCorrector {
                         dist = new PokeDist(guess.pokemon.base.forms.get(0), 0);
                     }
                     return dist;
-                case (492): // Rotom
+                case (492): // Arceus
                     return createFormPokeDistances(guess, scanData, Type.NORMAL, Type.FIGHTING, Type.FLYING, Type.POISON,
                             Type.GROUND, Type.ROCK, Type.BUG, Type.GHOST, Type.STEEL, Type.FIRE, Type.WATER, Type.GRASS,
                             Type.ELECTRIC, Type.PSYCHIC, Type.ICE, Type.DRAGON, Type.DARK, Type.FAIRY);
+                case (553): // Darumaka
+                    return createFormPokeDist(guess, scanData, Type.ICE, 1);
+                case (554): // Darmanitan
+                    dist = createFormPokeDist(guess, scanData, Type.PSYCHIC, 1);
+                    // check Zen Form
+                    if (dist == null) {
+                        // check Standard Form
+                        if (createFormPokeDist(guess, scanData, Type.ICE, 1) == null) {
+                            dist = createFormPokeDist(guess, scanData, Type.FIRE, 0);
+                        }
+                        // check Galarian Standard Form
+                        else if (createFormPokeDist(guess, scanData, Type.FIRE, 1) == null) {
+                            dist = createFormPokeDist(guess, scanData, Type.ICE, 2);
+                        }
+                        // Galarian Zen Form
+                        else {
+                            dist = createFormPokeDist(guess, scanData, Type.ICE, 3);
+                        }
+                    }
+                    return dist;
+                case (617): // Stunfisk
+                    return createFormPokeDist(guess, scanData, Type.STEEL, 1);
+
                 default:
                     // do nothing
 

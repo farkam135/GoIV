@@ -41,6 +41,7 @@ public class GoIVSettings {
     public static final String FAST_COPY_TO_CLIPBOARD = "fastCopyToClipboard";
     public static final String COPY_TO_CLIPBOARD_SINGLE = "copyToClipboardSingle";
     public static final String COPY_TO_CLIPBOARD_PERFECTIV = "copyToClipboardPerfectIv";
+    public static final String COPY_TO_CLIPBOARD_ZEROIV = "copyToClipboardZeroIv";
     public static final String SEND_CRASH_REPORTS = "sendCrashReports";
     public static final String AUTO_UPDATE_ENABLED = "autoUpdateEnabled";
     public static final String POKESPAM_ENABLED = "pokeSpamEnabled";
@@ -274,6 +275,10 @@ public class GoIVSettings {
 
     public boolean shouldCopyToClipboardPerfectIV() {
         return prefs.getBoolean(COPY_TO_CLIPBOARD_PERFECTIV, false);
+    }
+
+    public boolean shouldCopyToClipboardZeroIV() {
+        return prefs.getBoolean(COPY_TO_CLIPBOARD_ZEROIV, false);
     }
 
     public boolean shouldSendCrashReports() {

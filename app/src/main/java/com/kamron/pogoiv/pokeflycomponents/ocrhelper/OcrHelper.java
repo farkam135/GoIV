@@ -1231,22 +1231,27 @@ public class OcrHelper {
         }
 
         int scannedPowerUpCost = pokemonPowerUpCandyCost.get();
-        if (!Data.isValidPowerUpCandyCost(scannedPowerUpCost)) {
+        boolean matches = false;
+        for (int value : Data.POWER_UP_CANDY_VALUES) {
+            if (value == scannedPowerUpCost) {
+                matches = true;
+                break;
+            }
+        }
+        if (!matches) {
             return new LevelRange(estimatedPokemonLevel); // The scanned power up candy cost is invalid
         }
 
         // If scanned arc-level is maxed out, we need to consider that the pokemon might have an even higher level.
         double higherBound = estimatedPokemonLevel;
         for (double level = estimatedPokemonLevel + 0.5; level <= Data.MAXIMUM_WILD_POKEMON_LEVEL; level += 0.5) {
-            int powerUpCostForLevel = Data.POWER_UP_CANDY_COSTS[Data.maxPokeLevelToIndex(level)];
+            // It either costs candy or candy xl only!
+            int powerUpCostForLevel = Data.POWER_UP_CANDY_VALUES[Data.maxPokeLevelToIndex(level)];
             if (powerUpCostForLevel == scannedPowerUpCost) {
                 if (higherBound < level) {
                     // Found a higher level with the same candy power up cost
                     higherBound = level;
                 }
-            } else if (powerUpCostForLevel > scannedPowerUpCost) {
-                // Costs are ascending ordered. There won't be a cost equal to the input in the array.
-                break;
             }
         }
 

@@ -135,14 +135,13 @@
             app:layout_constraintTop_toTopOf="@+id/defSeek"
             android:textAlignment="viewEnd" tools:text="0"/>
         <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/staEnabled"
-            android:text="@string/sta"
-            app:layout_constraintStart_toStartOf="@+id/defEnabled"
-            app:layout_constraintTop_toBottomOf="@+id/defEnabled"
-            android:layout_marginBottom="4dp"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/staEnabled"
+                android:text="@string/sta"
+                app:layout_constraintStart_toStartOf="@+id/defEnabled"
+                app:layout_constraintTop_toBottomOf="@+id/defEnabled"
+        />
         <SeekBar
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -163,23 +162,37 @@
             app:layout_constraintTop_toTopOf="@+id/staSeek"
             android:textAlignment="textEnd"
             tools:text="0"/>
-    </android.support.constraint.ConstraintLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-
+        <ProgressBar
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/pbScanning" android:layout_weight="0" android:indeterminate="true"
+                android:layout_marginStart="16dp"
+                app:layout_constraintStart_toStartOf="parent" android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@+id/staEnabled"
+                android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent"
+                android:visibility="invisible" tools:visibility="visible"/>
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnRetry" android:layout_weight="0"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="@+id/pbScanning"
+                app:layout_constraintStart_toStartOf="@+id/pbScanning"
+                app:layout_constraintBottom_toBottomOf="@+id/pbScanning"
+                app:layout_constraintTop_toTopOf="@+id/pbScanning"
+        />
         <Button
-            android:id="@+id/btnCheckIv"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="16dp"
-            android:layout_marginLeft="16dp"
-            android:text="@string/check_iv" />
-
-    </LinearLayout>
+                android:id="@+id/btnCheckIv"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="@string/check_iv"
+                app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="16dp"
+                app:layout_constraintStart_toEndOf="@+id/pbScanning" android:layout_marginStart="8dp"
+                app:layout_constraintTop_toTopOf="@+id/pbScanning"
+                app:layout_constraintBottom_toBottomOf="@+id/pbScanning"
+        />
+    </android.support.constraint.ConstraintLayout>
 
 </LinearLayout>

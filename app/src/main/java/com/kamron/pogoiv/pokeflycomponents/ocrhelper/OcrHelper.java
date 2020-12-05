@@ -1230,8 +1230,8 @@ public class OcrHelper {
 
         int scannedPowerUpCost = pokemonPowerUpCandyCost.get();
         boolean matches = false;
-        for (int value : Data.POWER_UP_CANDY_VALUES) {
-            if (value == scannedPowerUpCost) {
+        for (double level = 1; level < Data.MAXIMUM_POKEMON_LEVEL; level += 0.5) {
+            if (Data.costForLevel(level).getAnyCandy() == scannedPowerUpCost) {
                 matches = true;
                 break;
             }
@@ -1244,7 +1244,7 @@ public class OcrHelper {
         double higherBound = estimatedPokemonLevel;
         for (double level = estimatedPokemonLevel + 0.5; level <= Data.MAXIMUM_WILD_POKEMON_LEVEL; level += 0.5) {
             // It either costs candy or candy xl only!
-            int powerUpCostForLevel = Data.POWER_UP_CANDY_VALUES[Data.levelToLevelIdx(level)];
+            int powerUpCostForLevel = Data.costForLevel(level).getAnyCandy();
             if (powerUpCostForLevel == scannedPowerUpCost) {
                 if (higherBound < level) {
                     // Found a higher level with the same candy power up cost

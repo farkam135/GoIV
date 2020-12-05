@@ -324,4 +324,5 @@
     <string name="fast_copy_to_clipboard">fastCopyToClipboard</string>
     <string name="copy_to_clip_fast">Copy to clipboard on preview</string>
     <string name="unset">Unset</string>
+    <string name="candyXl">Candy XL</string>
 </resources>

@@ -42,24 +42,35 @@ public class Data {
             ,0.830299973487854f ,0.832803753381377f ,0.835300028324127f ,0.837803755931569f ,0.840300023555755f
     };
 
-    public static final int[] POWER_UP_CANDY_COSTS = {
+    private static final int[] POWER_UP_CANDY_COSTS = {
             1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
             2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 6, 6, 6, 6, 8, 8,
             8, 8, 10, 10, 10, 10, 12, 12, 12, 12, 15, 15,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
-    public static final int[] POWER_UP_CANDY_XL_COSTS = {
+    private static final int[] POWER_UP_CANDY_XL_COSTS = {
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             10, 10, 10, 10, 12, 12, 12, 12, 15, 15, 15, 15, 17, 17, 17, 17, 20, 20, 20, 20
     };
 
-    public static final int[] POWER_UP_CANDY_VALUES = new int[POWER_UP_CANDY_COSTS.length];
+    private static final int[] POWER_UP_STARDUST_COSTS = {
+            200, 200, 200, 200, 400, 400, 400, 400, 600, 600, 600, 600, 800, 800, 800, 800, 1000, 1000, 1000, 1000,
+            1300, 1300, 1300, 1300, 1600, 1600, 1600, 1600, 1900, 1900, 1900, 1900, 2200, 2200, 2200, 2200,
+            2500, 2500, 2500, 2500, 3000, 3000, 3000, 3000, 3500, 3500, 3500, 3500, 4000, 4000, 4000, 4000,
+            4500, 4500, 4500, 4500, 5000, 5000, 5000, 5000, 6000, 6000, 6000, 6000, 7000, 7000, 7000, 7000,
+            8000, 8000, 8000, 8000, 9000, 9000, 9000, 9000, 10000, 10000, 10000, 10000,
+            11000, 11000, 11000, 11000, 12000, 12000, 12000, 12000, 13000, 13000, 13000, 13000,
+            14000, 14000, 14000, 14000, 15000, 15000
+    };
+
+    private static final UpgradeCost[] POWER_UP_COSTS;
 
     static {
+        POWER_UP_COSTS = new UpgradeCost[POWER_UP_CANDY_COSTS.length];
         for (int i = 0; i < POWER_UP_CANDY_COSTS.length; i++) {
-            POWER_UP_CANDY_VALUES[i] = Math.max(POWER_UP_CANDY_COSTS[i], POWER_UP_CANDY_XL_COSTS[i]);
+            POWER_UP_COSTS[i] = new UpgradeCost(POWER_UP_STARDUST_COSTS[i], POWER_UP_CANDY_COSTS[i], POWER_UP_CANDY_XL_COSTS[i]);
         }
     }
 
@@ -99,6 +110,14 @@ public class Data {
             arcX[pokeLevelIdx] = (int) Math.round(arcInit.xCoord + (arcRadius * Math.cos(angleInRadians)));
             arcY[pokeLevelIdx] = (int) Math.round(arcInit.yCoord + (arcRadius * Math.sin(angleInRadians))* Data.LEVEL_ARC_SQUISH_FACTOR);
         }
+    }
+
+    public static UpgradeCost costForLevel(double level) {
+        return costForIndex(levelToLevelIdx(level));
+    }
+
+    public static UpgradeCost costForIndex(int idx) {
+        return POWER_UP_COSTS[idx];
     }
 
     /**

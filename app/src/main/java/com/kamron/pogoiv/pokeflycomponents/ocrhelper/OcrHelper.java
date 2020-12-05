@@ -16,7 +16,6 @@ import com.googlecode.tesseract.android.TessBaseAPI;
 import com.kamron.pogoiv.GoIVSettings;
 import com.kamron.pogoiv.Pokefly;
 import com.kamron.pogoiv.scanlogic.Data;
-import com.kamron.pogoiv.scanlogic.IVCombination;
 import com.kamron.pogoiv.scanlogic.PokeInfoCalculator;
 import com.kamron.pogoiv.scanlogic.Pokemon;
 import com.kamron.pogoiv.scanlogic.ScanData;
@@ -27,7 +26,6 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
-import java.util.Map;
 
 import timber.log.Timber;
 
@@ -169,7 +167,7 @@ public class OcrHelper {
         double previousEstPokemonLevel = estimatedPokemonLevel + 0.5; // Initial value out of range
         int previousLevelDistance = -1; // Initial value indicating no found white pixels
         for (double estPokemonLevel = estimatedPokemonLevel; estPokemonLevel >= 1.0; estPokemonLevel -= 0.5) {
-            int index = Data.maxPokeLevelToIndex(estPokemonLevel);
+            int index = Data.levelToLevelIdx(estPokemonLevel);
             int x = Data.arcX[index];
             int y = Data.arcY[index];
             int whiteLineDistance = getCardinalWhiteLineDistFromImg(pokemonImage, x, y);
@@ -1246,7 +1244,7 @@ public class OcrHelper {
         double higherBound = estimatedPokemonLevel;
         for (double level = estimatedPokemonLevel + 0.5; level <= Data.MAXIMUM_WILD_POKEMON_LEVEL; level += 0.5) {
             // It either costs candy or candy xl only!
-            int powerUpCostForLevel = Data.POWER_UP_CANDY_VALUES[Data.maxPokeLevelToIndex(level)];
+            int powerUpCostForLevel = Data.POWER_UP_CANDY_VALUES[Data.levelToLevelIdx(level)];
             if (powerUpCostForLevel == scannedPowerUpCost) {
                 if (higherBound < level) {
                     // Found a higher level with the same candy power up cost

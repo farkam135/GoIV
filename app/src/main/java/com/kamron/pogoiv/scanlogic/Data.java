@@ -45,14 +45,14 @@ public class Data {
     public static final int[] POWER_UP_CANDY_COSTS = {
             1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
             2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 6, 6, 6, 6, 8, 8,
-            8, 8, 10, 10, 10, 10, 12, 12, 12, 12, 15, 15, 15, 15,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+            8, 8, 10, 10, 10, 10, 12, 12, 12, 12, 15, 15,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
     public static final int[] POWER_UP_CANDY_XL_COSTS = {
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            10, 10, 10, 10, 12, 12, 12, 12, 15, 15, 17, 17, 20, 20, 20, 20
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            10, 10, 10, 10, 12, 12, 12, 12, 15, 15, 15, 15, 17, 17, 17, 17, 20, 20, 20, 20
     };
 
     public static final int[] POWER_UP_CANDY_VALUES = new int[POWER_UP_CANDY_COSTS.length];
@@ -110,8 +110,7 @@ public class Data {
      * This method adjusts a level to a <em>level index</em> (<code>levelIdx</code>), by doubling it
      * and subtracting 2.
      */
-    public static int maxPokeLevelToIndex(double level) {
-
+    public static int levelToLevelIdx(double level) {
         return (int) ((level - 1) * 2);
     }
 
@@ -131,7 +130,7 @@ public class Data {
      * @return Associated CpM.
      */
     public static double getLevelCpM(double level) {
-        return CpM[maxPokeLevelToIndex(level)];
+        return CpM[levelToLevelIdx(level)];
     }
 
     /**
@@ -149,7 +148,7 @@ public class Data {
      */
     public static int trainerLevelToMaxPokeLevelIndex(int trainerLevel) {
         // This is Math.min(2 * trainerLevel + 1, 79).
-        return maxPokeLevelToIndex(trainerLevelToMaxPokeLevel(trainerLevel));
+        return levelToLevelIdx(trainerLevelToMaxPokeLevel(trainerLevel));
     }
 
     // should be pretty fast https://en.wikibooks.org/wiki/Algorithm_Implementation/Strings/Levenshtein_distance#Java

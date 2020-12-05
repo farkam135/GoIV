@@ -26,7 +26,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -475,7 +474,7 @@ public class Pokefly extends Service {
      */
     public void setArcPointer(double pokeLevel) {
 
-        int index = Data.maxPokeLevelToIndex(pokeLevel);
+        int index = Data.levelToLevelIdx(pokeLevel);
 
         //If the pokemon is overleveled (Raid catch or weather modifier the arc indicator will be stuck at max)
         if (index >= Data.arcX.length) {

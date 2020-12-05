@@ -254,7 +254,7 @@ public class InputFraction extends Fraction implements ReactiveColorListener {
 
     private void adjustArcPointerBar(double estimatedPokemonLevel) {
         pokefly.setArcPointer(estimatedPokemonLevel);
-        arcAdjustBar.setProgress(Data.maxPokeLevelToIndex(estimatedPokemonLevel));
+        arcAdjustBar.setProgress(Data.levelToLevelIdx(estimatedPokemonLevel));
         updateIVInputFractionPreview();
     }
 
@@ -306,7 +306,7 @@ public class InputFraction extends Fraction implements ReactiveColorListener {
 
     @OnClick(R.id.btnIncrementLevel)
     public void incrementLevel() {
-        if (Data.maxPokeLevelToIndex(Pokefly.scanData.getEstimatedPokemonLevel().min) < arcAdjustBar.getMax()) {
+        if (Data.levelToLevelIdx(Pokefly.scanData.getEstimatedPokemonLevel().min) < arcAdjustBar.getMax()) {
             Pokefly.scanData.getEstimatedPokemonLevel().inc();
             adjustArcPointerBar(Pokefly.scanData.getEstimatedPokemonLevel().min);
         }
@@ -317,7 +317,7 @@ public class InputFraction extends Fraction implements ReactiveColorListener {
      */
     private void createArcAdjuster() {
         // The max seek bar value will be the maximum wild pokemon level or the trainer max capture level if higher
-        arcAdjustBar.setMax(Math.max(Data.maxPokeLevelToIndex(Data.MAXIMUM_WILD_POKEMON_LEVEL),
+        arcAdjustBar.setMax(Math.max(Data.levelToLevelIdx(Data.MAXIMUM_WILD_POKEMON_LEVEL),
                 Data.trainerLevelToMaxPokeLevelIndex(pokefly.getTrainerLevel())));
 
         arcAdjustBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {

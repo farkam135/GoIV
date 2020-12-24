@@ -24,7 +24,7 @@ repositories {
  * Apply plugins and other Gradle scripts
  */
 apply plugin: 'com.android.application'
-apply plugin: 'io.fabric'
+//apply plugin: 'io.fabric'
 apply from: '../checkstyle/checkstyle.gradle'
 
 /**

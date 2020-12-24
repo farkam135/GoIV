@@ -1,65 +1,84 @@
-
 package com.kamron.pogoiv.devMethods.gameMasterParser.JsonStruct;
 
 import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
 
 public class IapItemDisplay {
-
-    @SerializedName("sku")
     @Expose
     private String sku;
-    @SerializedName("category")
     @Expose
     private String category;
-    @SerializedName("sortOrder")
     @Expose
     private Integer sortOrder;
-    @SerializedName("sale")
     @Expose
-    private Boolean sale;
-    @SerializedName("hidden")
+    private Boolean sale = false;
     @Expose
-    private Boolean hidden;
+    private Boolean hidden = false;
+    @Expose
+    private String title;
+    @Expose
+    private String spriteId;
+    @Expose
+    private String description;
+    @Expose
+    private String skuEnableTime;
+    @Expose
+    private String skuDisableTime;
+    @Expose
+    private String skuEnableTimeUtcMs;
+    @Expose
+    private String skuDisableTimeUtcMs;
+    @Expose
+    private String imageUrl;
 
-    public String getSku() {
-        return sku;
-    }
+    public String getSku() { return sku; }
 
-    public void setSku(String sku) {
-        this.sku = sku;
-    }
+    public void setSku(String sku) { this.sku = sku; }
 
-    public String getCategory() {
-        return category;
-    }
+    public String getCategory() { return category; }
 
-    public void setCategory(String category) {
-        this.category = category;
-    }
+    public void setCategory(String category) { this.category = category; }
 
-    public Integer getSortOrder() {
-        return sortOrder;
-    }
+    public Integer getSortOrder() { return sortOrder; }
 
-    public void setSortOrder(Integer sortOrder) {
-        this.sortOrder = sortOrder;
-    }
+    public void setSortOrder(Integer sortOrder) { this.sortOrder = sortOrder; }
 
-    public Boolean getSale() {
-        return sale;
-    }
+    public Boolean getSale() { return sale = false; }
 
-    public void setSale(Boolean sale) {
-        this.sale = sale;
-    }
+    public void setSale(Boolean sale) { this.sale = sale = false; }
 
-    public Boolean getHidden() {
-        return hidden;
-    }
+    public Boolean getHidden() { return hidden = false; }
 
-    public void setHidden(Boolean hidden) {
-        this.hidden = hidden;
-    }
+    public void setHidden(Boolean hidden) { this.hidden = hidden = false; }
 
+    public String getTitle() { return title; }
+
+    public void setTitle(String title) { this.title = title; }
+
+    public String getSpriteId() { return spriteId; }
+
+    public void setSpriteId(String spriteId) { this.spriteId = spriteId; }
+
+    public String getDescription() { return description; }
+
+    public void setDescription(String description) { this.description = description; }
+
+    public String getSkuEnableTime() { return skuEnableTime; }
+
+    public void setSkuEnableTime(String skuEnableTime) { this.skuEnableTime = skuEnableTime; }
+
+    public String getSkuDisableTime() { return skuDisableTime; }
+
+    public void setSkuDisableTime(String skuDisableTime) { this.skuDisableTime = skuDisableTime; }
+
+    public String getSkuEnableTimeUtcMs() { return skuEnableTimeUtcMs; }
+
+    public void setSkuEnableTimeUtcMs(String skuEnableTimeUtcMs) { this.skuEnableTimeUtcMs = skuEnableTimeUtcMs; }
+
+    public String getSkuDisableTimeUtcMs() { return skuDisableTimeUtcMs; }
+
+    public void setSkuDisableTimeUtcMs(String skuDisableTimeUtcMs) { this.skuDisableTimeUtcMs = skuDisableTimeUtcMs; }
+
+    public String getImageUrl() { return imageUrl; }
+
+    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
 }

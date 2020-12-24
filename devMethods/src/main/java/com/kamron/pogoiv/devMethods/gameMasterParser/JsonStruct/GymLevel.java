@@ -1,19 +1,14 @@
-
 package com.kamron.pogoiv.devMethods.gameMasterParser.JsonStruct;
 
-import java.util.List;
 import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
 
 public class GymLevel {
-
-    @SerializedName("requiredExperience")
     @Expose
     private List<Integer> requiredExperience = null;
-    @SerializedName("leaderSlots")
     @Expose
     private List<Integer> leaderSlots = null;
-    @SerializedName("trainerSlots")
     @Expose
     private List<Integer> trainerSlots = null;
 
@@ -21,9 +16,7 @@ public class GymLevel {
         return requiredExperience;
     }
 
-    public void setRequiredExperience(List<Integer> requiredExperience) {
-        this.requiredExperience = requiredExperience;
-    }
+    public void setRequiredExperience(List<Integer> requiredExperience) { this.requiredExperience = requiredExperience; }
 
     public List<Integer> getLeaderSlots() {
         return leaderSlots;

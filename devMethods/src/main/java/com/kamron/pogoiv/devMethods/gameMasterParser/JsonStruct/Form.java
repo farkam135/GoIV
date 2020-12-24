@@ -1,15 +1,12 @@
-
 package com.kamron.pogoiv.devMethods.gameMasterParser.JsonStruct;
 
 import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
 
 public class Form {
-
-    @SerializedName("form")
     @Expose
     private String form;
-    @SerializedName("assetBundleValue")
+    @Expose
+    private String assetBundleSuffix;
     @Expose
     private Integer assetBundleValue;
 
@@ -20,6 +17,10 @@ public class Form {
     public void setForm(String form) {
         this.form = form;
     }
+
+    public String getAssetBundleSuffix() { return assetBundleSuffix; }
+
+    public void setAssetBundleSuffix(String assetBundleSuffix) { this.assetBundleSuffix = assetBundleSuffix; }
 
     public Integer getAssetBundleValue() {
         return assetBundleValue;

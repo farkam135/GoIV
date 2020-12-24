@@ -1,25 +1,21 @@
-
 package com.kamron.pogoiv.devMethods.gameMasterParser.JsonStruct;
 
-import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class FormSettings {
+import java.util.List;
 
+public class FormSettings {
     @SerializedName("pokemon")
     @Expose
-    private String pokemon;
-    @SerializedName("forms")
+    private String name;
     @Expose
     private List<Form> forms = null;
 
-    public String getPokemon() {
-        return pokemon;
-    }
+    public String getName() { return name; }
 
-    public void setPokemon(String pokemon) {
-        this.pokemon = pokemon;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public List<Form> getForms() {
@@ -29,5 +25,4 @@ public class FormSettings {
     public void setForms(List<Form> forms) {
         this.forms = forms;
     }
-
 }

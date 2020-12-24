@@ -1,55 +1,43 @@
-
 package com.kamron.pogoiv.devMethods.gameMasterParser.JsonStruct;
 
-import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class IapSettings {
+import java.util.List;
 
+public class IapSettings {
     @SerializedName("dailyDefenderBonusPerPokemon")
     @Expose
-    private List<Integer> dailyDefenderBonusPerPokemon = null;
-    @SerializedName("dailyDefenderBonusMaxDefenders")
+    private List<Integer> dailyDefenderBonusesPerPokemon = null;
     @Expose
     private Integer dailyDefenderBonusMaxDefenders;
     @SerializedName("dailyDefenderBonusCurrency")
     @Expose
-    private List<String> dailyDefenderBonusCurrency = null;
-    @SerializedName("minTimeBetweenClaimsMs")
+    private List<String> dailyDefenderBonusCurrencies = null;
     @Expose
     private String minTimeBetweenClaimsMs;
 
-    public List<Integer> getDailyDefenderBonusPerPokemon() {
-        return dailyDefenderBonusPerPokemon;
+    public List<Integer> getDailyDefenderBonusesPerPokemon() {
+        return dailyDefenderBonusesPerPokemon;
     }
 
-    public void setDailyDefenderBonusPerPokemon(List<Integer> dailyDefenderBonusPerPokemon) {
-        this.dailyDefenderBonusPerPokemon = dailyDefenderBonusPerPokemon;
-    }
+    public void setDailyDefenderBonusesPerPokemon(List<Integer> dailyDefenderBonusesPerPokemon) { this.dailyDefenderBonusesPerPokemon = dailyDefenderBonusesPerPokemon; }
 
     public Integer getDailyDefenderBonusMaxDefenders() {
         return dailyDefenderBonusMaxDefenders;
     }
 
-    public void setDailyDefenderBonusMaxDefenders(Integer dailyDefenderBonusMaxDefenders) {
-        this.dailyDefenderBonusMaxDefenders = dailyDefenderBonusMaxDefenders;
+    public void setDailyDefenderBonusMaxDefenders(Integer dailyDefenderBonusMaxDefenders) { this.dailyDefenderBonusMaxDefenders = dailyDefenderBonusMaxDefenders; }
+
+    public List<String> getDailyDefenderBonusCurrencies() {
+        return dailyDefenderBonusCurrencies;
     }
 
-    public List<String> getDailyDefenderBonusCurrency() {
-        return dailyDefenderBonusCurrency;
-    }
-
-    public void setDailyDefenderBonusCurrency(List<String> dailyDefenderBonusCurrency) {
-        this.dailyDefenderBonusCurrency = dailyDefenderBonusCurrency;
-    }
+    public void setDailyDefenderBonusCurrencies(List<String> dailyDefenderBonusCurrencies) { this.dailyDefenderBonusCurrencies = dailyDefenderBonusCurrencies; }
 
     public String getMinTimeBetweenClaimsMs() {
         return minTimeBetweenClaimsMs;
     }
 
-    public void setMinTimeBetweenClaimsMs(String minTimeBetweenClaimsMs) {
-        this.minTimeBetweenClaimsMs = minTimeBetweenClaimsMs;
-    }
-
+    public void setMinTimeBetweenClaimsMs(String minTimeBetweenClaimsMs) { this.minTimeBetweenClaimsMs = minTimeBetweenClaimsMs; }
 }

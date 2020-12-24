@@ -1,28 +1,20 @@
-
 package com.kamron.pogoiv.devMethods.gameMasterParser.JsonStruct;
 
-import java.util.List;
 import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
 
 public class FriendshipMilestoneSettings {
-
-    @SerializedName("milestoneXpReward")
     @Expose
     private Integer milestoneXpReward;
-    @SerializedName("attackBonusPercentage")
     @Expose
     private Double attackBonusPercentage;
-    @SerializedName("unlockedTrading")
     @Expose
     private List<String> unlockedTrading = null;
-    @SerializedName("minPointsToReach")
     @Expose
     private Integer minPointsToReach;
-    @SerializedName("raidBallBonus")
     @Expose
     private Integer raidBallBonus;
-    @SerializedName("tradingDiscount")
     @Expose
     private Double tradingDiscount;
 
@@ -38,9 +30,7 @@ public class FriendshipMilestoneSettings {
         return attackBonusPercentage;
     }
 
-    public void setAttackBonusPercentage(Double attackBonusPercentage) {
-        this.attackBonusPercentage = attackBonusPercentage;
-    }
+    public void setAttackBonusPercentage(Double attackBonusPercentage) { this.attackBonusPercentage = attackBonusPercentage; }
 
     public List<String> getUnlockedTrading() {
         return unlockedTrading;
@@ -75,3 +65,4 @@ public class FriendshipMilestoneSettings {
     }
 
 }
+

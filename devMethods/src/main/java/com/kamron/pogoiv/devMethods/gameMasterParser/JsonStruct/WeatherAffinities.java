@@ -1,33 +1,22 @@
-
 package com.kamron.pogoiv.devMethods.gameMasterParser.JsonStruct;
 
-import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class WeatherAffinities {
+import java.util.List;
 
-    @SerializedName("weatherCondition")
+public class WeatherAffinities {
     @Expose
     private String weatherCondition;
-    @SerializedName("pokemonType")
+    @SerializedName("pokemonTypes")
     @Expose
     private List<String> pokemonType = null;
 
-    public String getWeatherCondition() {
-        return weatherCondition;
-    }
+    public String getWeatherCondition() { return weatherCondition; }
 
-    public void setWeatherCondition(String weatherCondition) {
-        this.weatherCondition = weatherCondition;
-    }
+    public void setWeatherCondition(String weatherCondition) { this.weatherCondition = weatherCondition; }
 
-    public List<String> getPokemonType() {
-        return pokemonType;
-    }
+    public List<String> getPokemonType() { return pokemonType; }
 
-    public void setPokemonType(List<String> pokemonType) {
-        this.pokemonType = pokemonType;
-    }
-
+    public void setPokemonType(List<String> pokemonType) { this.pokemonType = pokemonType; }
 }

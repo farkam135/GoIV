@@ -1,59 +1,44 @@
-
 package com.kamron.pogoiv.devMethods.gameMasterParser.JsonStruct;
 
 import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
 
 public class Encounter {
-
-    @SerializedName("baseCaptureRate")
     @Expose
     private Double baseCaptureRate;
-    @SerializedName("baseFleeRate")
     @Expose
     private Double baseFleeRate;
-    @SerializedName("collisionRadiusM")
     @Expose
     private Double collisionRadiusM;
-    @SerializedName("collisionHeightM")
     @Expose
     private Double collisionHeightM;
-    @SerializedName("collisionHeadRadiusM")
     @Expose
     private Double collisionHeadRadiusM;
-    @SerializedName("movementType")
     @Expose
     private String movementType;
-    @SerializedName("movementTimerS")
     @Expose
     private Double movementTimerS;
-    @SerializedName("jumpTimeS")
     @Expose
     private Double jumpTimeS;
-    @SerializedName("attackTimerS")
     @Expose
     private Double attackTimerS;
-    @SerializedName("attackProbability")
     @Expose
     private Double attackProbability;
-    @SerializedName("dodgeProbability")
     @Expose
     private Double dodgeProbability;
-    @SerializedName("dodgeDurationS")
     @Expose
     private Double dodgeDurationS;
-    @SerializedName("dodgeDistance")
     @Expose
     private Double dodgeDistance;
-    @SerializedName("cameraDistance")
     @Expose
     private Double cameraDistance;
-    @SerializedName("minPokemonActionFrequencyS")
     @Expose
     private Double minPokemonActionFrequencyS;
-    @SerializedName("maxPokemonActionFrequencyS")
     @Expose
     private Double maxPokemonActionFrequencyS;
+    @Expose
+    private Integer bonusCandyCaptureReward;
+    @Expose
+    private Integer bonusStardustCaptureReward;
 
     public Double getBaseCaptureRate() {
         return baseCaptureRate;
@@ -91,9 +76,7 @@ public class Encounter {
         return collisionHeadRadiusM;
     }
 
-    public void setCollisionHeadRadiusM(Double collisionHeadRadiusM) {
-        this.collisionHeadRadiusM = collisionHeadRadiusM;
-    }
+    public void setCollisionHeadRadiusM(Double collisionHeadRadiusM) { this.collisionHeadRadiusM = collisionHeadRadiusM; }
 
     public String getMovementType() {
         return movementType;
@@ -171,16 +154,19 @@ public class Encounter {
         return minPokemonActionFrequencyS;
     }
 
-    public void setMinPokemonActionFrequencyS(Double minPokemonActionFrequencyS) {
-        this.minPokemonActionFrequencyS = minPokemonActionFrequencyS;
-    }
+    public void setMinPokemonActionFrequencyS(Double minPokemonActionFrequencyS) { this.minPokemonActionFrequencyS = minPokemonActionFrequencyS; }
 
     public Double getMaxPokemonActionFrequencyS() {
         return maxPokemonActionFrequencyS;
     }
 
-    public void setMaxPokemonActionFrequencyS(Double maxPokemonActionFrequencyS) {
-        this.maxPokemonActionFrequencyS = maxPokemonActionFrequencyS;
-    }
+    public void setMaxPokemonActionFrequencyS(Double maxPokemonActionFrequencyS) { this.maxPokemonActionFrequencyS = maxPokemonActionFrequencyS; }
 
+    public Integer getBonusCandyCaptureReward() { return bonusCandyCaptureReward; }
+
+    public void setBonusCandyCaptureReward(Integer bonusCandyCaptureReward) { this.bonusCandyCaptureReward = bonusCandyCaptureReward; }
+
+    public Integer getBonusStardustCaptureReward() { return bonusStardustCaptureReward; }
+
+    public void setBonusStardustCaptureReward(Integer bonusStardustCaptureReward) { this.bonusStardustCaptureReward = bonusStardustCaptureReward; }
 }

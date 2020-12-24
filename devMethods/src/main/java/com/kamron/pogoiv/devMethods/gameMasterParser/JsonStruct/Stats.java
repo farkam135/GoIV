@@ -1,18 +1,12 @@
-
 package com.kamron.pogoiv.devMethods.gameMasterParser.JsonStruct;
 
 import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
 
 public class Stats {
-
-    @SerializedName("baseStamina")
     @Expose
     private Integer baseStamina;
-    @SerializedName("baseAttack")
     @Expose
     private Integer baseAttack;
-    @SerializedName("baseDefense")
     @Expose
     private Integer baseDefense;
 
@@ -39,5 +33,4 @@ public class Stats {
     public void setBaseDefense(Integer baseDefense) {
         this.baseDefense = baseDefense;
     }
-
 }

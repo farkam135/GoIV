@@ -6,28 +6,30 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class PogoJson {
-
-    @SerializedName("itemTemplate")
     @Expose
-    private List<ItemTemplate> itemTemplates = null;
-    @SerializedName("timestampMs")
+    private String result;
+    @SerializedName("template")
     @Expose
-    private String timestampMs;
+    private List<Template> templates = null;
+    @Expose
+    private String batchId;
+    @SerializedName("experimentId")
+    @Expose
+    private List<Integer> experimentIds = null;
 
-    public List<ItemTemplate> getItemTemplates() {
-        return itemTemplates;
-    }
+    public String getResult() { return result; }
 
-    public void setItemTemplates(List<ItemTemplate> itemTemplates) {
-        this.itemTemplates = itemTemplates;
-    }
+    public void setResult(String result) { this.result = result; }
 
-    public String getTimestampMs() {
-        return timestampMs;
-    }
+    public List<Template> getTemplates() { return templates; }
 
-    public void setTimestampMs(String timestampMs) {
-        this.timestampMs = timestampMs;
-    }
+    public void setTemplates(List<Template> templates) { this.templates = templates; }
 
+    public String getBatchId() { return batchId; }
+
+    public void setBatchId(String batchId) { this.batchId = batchId; }
+
+    public List<Integer> getExperimentIds() { return experimentIds; }
+
+    public void setExperimentIds(List<Integer> experimentIds) { this.experimentIds = experimentIds; }
 }

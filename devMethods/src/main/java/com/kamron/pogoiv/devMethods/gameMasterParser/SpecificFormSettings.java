@@ -15,7 +15,7 @@ public class SpecificFormSettings extends FormSettings {
     private List<Form> forms = null;
 
     public SpecificFormSettings(FormSettings formSettings) {
-        setPokemon(formSettings.getPokemon());
+        setName(formSettings.getName());
         setForms(formSettings.getForms());
     }
 

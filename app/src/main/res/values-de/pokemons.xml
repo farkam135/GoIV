@@ -656,6 +656,9 @@
         <item>Genesect</item>
         <item>Meltan</item>
         <item>Melmetal</item>
+        <item>Barrikadax</item>
+        <item>Mauzinger</item>
+        <item>Lauchzelot</item>
     </string-array>
     <string-array name="typeName">
         <!--  0   normal -->

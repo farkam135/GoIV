@@ -27,6 +27,12 @@ public class PokeInfoCalculator {
     private List<Pokemon> formVariantPokemons;
     private String[] pokeNamesWithForm = {};
 
+    public static final int MELTAN_INDEX_OFFSET = 5;
+    public static final int MELMETAL_INDEX_OFFSET = 4;
+    public static final int OBSTAGOON_INDEX_OFFSET = 3;
+    public static final int PERRSERKER_INDEX_OFFSET = 2;
+    public static final int SIRFETCHD_INDEX_OFFSET = 1;
+
     /**
      * Pokemons who's name appears as a type of candy.
      * For most, this is the basePokemon (ie: Pidgey candies)
@@ -177,13 +183,18 @@ public class PokeInfoCalculator {
         int pokeListSize = names.length;
         ArrayList<Pokemon> formVariantPokemons = new ArrayList<>();
 
-        // quick hardcoded patch for Meltan and Melmetal
-        // Tentatively use pokedex list size until supporting discontinuous pokedex numbers,
-        // like as #493 Arceus, #808 Meltan, #809 Melmetal.
-        candyNamesArray[pokeListSize - 2] = pokeListSize - 2;
-        candyNamesArray[pokeListSize - 1] = pokeListSize - 2;
-        devolution[pokeListSize - 1] = pokeListSize - 2;
-        // END patch for Meltan and Melmetal
+        // quick hardcoded patch for supporting discontinuous pokedex number pokemons followings
+        //   #808 Meltan
+        //   #809 Melmetal
+        //   #862 Obstagoon,
+        //   #863 Perrserker,
+        //   #865 Sirfetch'd
+        // currently GoIV logic expects that pokedex numbers are continuous and less than pokeListSize.
+        // so this patch shifts these to dummy indexes, with pokeListSize offset.
+        candyNamesArray[pokeListSize - MELTAN_INDEX_OFFSET] = pokeListSize - MELTAN_INDEX_OFFSET;
+        candyNamesArray[pokeListSize - MELMETAL_INDEX_OFFSET] = pokeListSize - MELTAN_INDEX_OFFSET;
+        devolution[pokeListSize - MELMETAL_INDEX_OFFSET] = pokeListSize - MELTAN_INDEX_OFFSET;
+        // END patch for supporting discontinuous pokedex number pokemons
 
         for (int i = 0; i < pokeListSize; i++) {
             PokemonBase p = new PokemonBase(names[i], displayNames[i], i, devolution[i], evolutionCandyCost[i]);

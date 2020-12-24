@@ -70,6 +70,99 @@ public class PokemonBase {
         // In that case return the first one, which can be done in any case if this base has multiple forms (because
         // then we know that the other form is the single one). But if the other form has multiple forms it also needs
         // to verify that the other form is actually the first one.
+
+        final int pokeListSize = PokeInfoCalculator.getInstance().getPokedex().size();
+
+        if (number == 51) { // #52 Meowth
+            // check #863 Perrserker with its index number in pokemons.xml
+            if (otherForm.number == pokeListSize - PokeInfoCalculator.PERRSERKER_INDEX_OFFSET) {
+                // return Galarian forms
+                return forms.get(2);
+            } else {
+                return getForm(otherForm.formName);
+            }
+        }
+        if (number == 52) { // #53 Persian
+            return getForm(otherForm.formName);
+        }
+        if (number == 82) { // #83 Farfetch'd
+            // check #865 Sirfetch'd with its index number in pokemons.xml
+            if (otherForm.number == pokeListSize - PokeInfoCalculator.SIRFETCHD_INDEX_OFFSET) {
+                // return Galarian forms
+                return forms.get(1);
+            } else {
+                return getForm(otherForm.formName);
+            }
+        }
+        if (number == 262 || number == 263) { // #263 ZIGZAGOON or #264 LINOONE
+            // check #862 OBSTAGOON with its index number in pokemons.xml
+            if (otherForm.number == pokeListSize - PokeInfoCalculator.OBSTAGOON_INDEX_OFFSET) {
+                // return Galarian forms
+                return forms.get(1);
+            } else {
+                return getForm(otherForm.formName);
+            }
+        }
+        if (number == 553) { // #554 Darumaka
+            // check #555 Darmanitan
+            if (otherForm.number == 554 && otherForm.base.forms.get(0) == otherForm) {
+                // return Normal Form
+                return forms.get(0);
+            }
+            // check #555 Darmanitan Galarian
+            if (otherForm.number == 554 && otherForm.base.forms.get(2) == otherForm) {
+                // return Galarian Form
+                return forms.get(1);
+            } else {
+                return getForm(otherForm.formName);
+            }
+        }
+        if (number == 554) { // #555 Darmanitan
+            // check #554 Darumaka Normal
+            if (otherForm.number == 553 && otherForm.base.forms.get(0) == otherForm) {
+                // return Standard Form
+                return forms.get(0);
+            }
+            // check #554 Darumaka Galarian
+            if (otherForm.number == 553 && otherForm.base.forms.get(1) == otherForm) {
+                // return Galarian Standard Form
+                return forms.get(2);
+            } else {
+                return getForm(otherForm.formName);
+            }
+        }
+        if (number == pokeListSize
+                - PokeInfoCalculator.OBSTAGOON_INDEX_OFFSET) { // #862 OBSTAGOON index number in pokemons.xml
+            // check #263 ZIGZAGOON Galarian
+            if (otherForm.number == 262 && otherForm.base.forms.get(1) == otherForm) {
+                return forms.get(0);
+            }
+            // check #264 LINOONE Galarian
+            if (otherForm.number == 263 && otherForm.base.forms.get(1) == otherForm) {
+                return forms.get(0);
+            } else {
+                return getForm(otherForm.formName);
+            }
+        }
+        if (number == pokeListSize
+                - PokeInfoCalculator.PERRSERKER_INDEX_OFFSET) { // #863 Perrserker index number in pokemons.xml
+            // check #52 Meowth Galarian
+            if (otherForm.number == 51 && otherForm.base.forms.get(2) == otherForm) {
+                return forms.get(0);
+            } else {
+                return getForm(otherForm.formName);
+            }
+        }
+        if (number == pokeListSize
+                - PokeInfoCalculator.SIRFETCHD_INDEX_OFFSET) { // #865 Sirfetch'd index number in pokemons.xml
+            // check #83 Farfetch'd Galarian
+            if (otherForm.number == 82 && otherForm.base.forms.get(1) == otherForm) {
+                return forms.get(0);
+            } else {
+                return getForm(otherForm.formName);
+            }
+        }
+
         if ((otherForm.base.forms.size() == 1 && forms.size() > 1)
                 || (forms.size() == 1 && otherForm.base.forms.size() > 1 && otherForm.base.forms.get(0) == otherForm)) {
             return forms.get(0);

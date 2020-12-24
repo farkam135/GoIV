@@ -655,6 +655,9 @@
         <item>Genesect</item>
         <item>Meltan</item>
         <item>Melmetal</item>
+        <item>Obstagoon</item>
+        <item>Perrserker</item>
+        <item>Sirfetch\'d</item>
     </string-array>
     <string-array name="typeName">
         <!--  0   normal --> <item>NORMAL</item>

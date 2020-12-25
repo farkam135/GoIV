@@ -44,3 +44,6 @@ fabric.properties
 
 # OS files
 .DS_Store
+
+# VS Code
+.vscode

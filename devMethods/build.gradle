@@ -1,0 +1,33 @@
+apply plugin: 'java'
+apply plugin: 'application'
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    // for ApplicationDatabaseUpdater
+    implementation 'com.google.code.gson:gson:2.8.2'
+}
+
+task updateDatabase(type: JavaExec) {
+    group 'GoIV'
+    description 'update database with GAME_MASTER.json'
+
+    main = "com.kamron.pogoiv.devMethods.gameMasterParser.ApplicationDatabaseUpdater"
+    classpath = sourceSets.main.runtimeClasspath
+    workingDir = projectDir
+
+    doLast {
+        File formsXml = file('forms.xml', PathValidation.FILE)
+        File integersXml = file('integers.xml', PathValidation.FILE)
+        FileCollection databaseFiles = files(formsXml, integersXml)
+        File resDir = file(project(':app').projectDir.getPath() + '/src/main/res/values/', PathValidation.DIRECTORY)
+        copy {
+            from projectDir
+            into resDir
+            databaseFiles.getFiles().each {File file -> include file.getName()}
+        }
+        delete databaseFiles
+    }
+}

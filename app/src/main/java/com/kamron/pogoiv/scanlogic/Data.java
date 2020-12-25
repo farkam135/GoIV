@@ -12,7 +12,9 @@ public class Data {
     public static final int MINIMUM_POKEMON_LEVEL = 1;
     public static final int MAXIMUM_POKEMON_LEVEL = 50;
     public static final int MAXIMUM_WILD_POKEMON_LEVEL = 35;
-    public static final int ADDITIONAL_POKEMON_LEVEL = 10;
+
+    private static final int ADDITIONAL_POKEMON_LEVEL_BOUNDARY = 40;
+    private static final int ADDITIONAL_POKEMON_LEVEL = 10;
 
 
     public static final float LEVEL_ARC_SQUISH_FACTOR = 0.95f; //The level arc is no longer a perfect half circle
@@ -91,7 +93,7 @@ public class Data {
          * Here we use levelIdx for levels that are doubled and shifted by - 2; after this adjustment,
          * the level can be used to index CpM, arcX and arcY.
          */
-        int maxPokeLevelIndex = (trainerLevelToMaxPokeLevelIndex(trainerLevel));
+        int maxPokeLevelIndex = levelToLevelIdx(trainerLevelToMaxPokeLevel(trainerLevel));
         arcX = new int[maxPokeLevelIndex + 1]; //We access entries [0..maxPokeLevelIndex], hence + 1.
         arcY = new int[maxPokeLevelIndex + 1];
 
@@ -153,21 +155,15 @@ public class Data {
     }
 
     /**
-     * Maximum pokemon level for a trainer, from the trainer level. This is 2 levels above trainer level.
-     * It used to be 1.5, but was changed around december 2017.
+     * Maximum pokemon level for a trainer, from the trainer level. It can be 10 levels above the
+     * trainer level, but at most level 40 if the trainer level is below 40 and at most level 50
+     * otherwise (so basically, if level 40 is reached every level is unlocked). Before the Beyond
+     * update in December 2020 the maximum level was 40 and the maximum number of levels above were
+     * 2 levels. Previously it was changed from 1.5 levels to 2 levels around December 2017.
      */
     public static double trainerLevelToMaxPokeLevel(int trainerLevel) {
-        return Math.min(trainerLevel + ADDITIONAL_POKEMON_LEVEL, MAXIMUM_POKEMON_LEVEL);
-    }
-
-    /*
-     * Pokemon levels go from 1 to trainerLevel + 2, in increments of 0.5.
-     * Here we use levelIdx for levels that are doubled and shifted by - 2; after this adjustment,
-     * the level can be used to index CpM, arcX and arcY.
-     */
-    public static int trainerLevelToMaxPokeLevelIndex(int trainerLevel) {
-        // This is Math.min(2 * trainerLevel + 1, 79).
-        return levelToLevelIdx(trainerLevelToMaxPokeLevel(trainerLevel));
+        int maxLevel = trainerLevel < ADDITIONAL_POKEMON_LEVEL_BOUNDARY ? ADDITIONAL_POKEMON_LEVEL_BOUNDARY : MAXIMUM_POKEMON_LEVEL;
+        return Math.min(trainerLevel + ADDITIONAL_POKEMON_LEVEL, maxLevel);
     }
 
     // should be pretty fast https://en.wikibooks.org/wiki/Algorithm_Implementation/Strings/Levenshtein_distance#Java

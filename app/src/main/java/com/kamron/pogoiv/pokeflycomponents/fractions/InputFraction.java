@@ -318,7 +318,7 @@ public class InputFraction extends Fraction implements ReactiveColorListener {
     private void createArcAdjuster() {
         // The max seek bar value will be the maximum wild pokemon level or the trainer max capture level if higher
         arcAdjustBar.setMax(Math.max(Data.levelToLevelIdx(Data.MAXIMUM_WILD_POKEMON_LEVEL),
-                Data.trainerLevelToMaxPokeLevelIndex(pokefly.getTrainerLevel())));
+                Data.levelToLevelIdx(Data.trainerLevelToMaxPokeLevel(pokefly.getTrainerLevel()))));
 
         arcAdjustBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override

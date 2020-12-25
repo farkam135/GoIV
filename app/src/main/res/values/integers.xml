@@ -2904,6 +2904,7 @@
  <item>121</item> <!-- Mr Rime -->
  <item>561</item> <!-- Runerigus -->
 </integer-array>
+<integer-array name="evolutionCandyCost">
  <item>25</item> <!-- Bulbasaur -->
  <item>100</item> <!-- Ivysaur -->
  <item>-1</item> <!-- Venusaur -->

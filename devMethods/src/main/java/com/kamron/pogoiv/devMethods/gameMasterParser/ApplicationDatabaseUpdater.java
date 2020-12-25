@@ -181,6 +181,7 @@ public class ApplicationDatabaseUpdater {
         attackBuilder.append("<integer-array name=\"attack\">\n");
         defenseBuilder.append("<integer-array name=\"defense\">\n");
         staminaBuilder.append("<integer-array name=\"stamina\">\n");
+        evolutionCandyCostBuilder.append("<integer-array name=\"evolutionCandyCost\">\n");
         devolutionNumberBuilder.append("<integer-array name=\"devolutionNumber\">\n");
         candyNamesBuilder.append("<integer-array name=\"candyNames\">\n");
         formsCountIndexBuilder.append("<integer-array name=\"formsCountIndex\">\n");
@@ -191,9 +192,9 @@ public class ApplicationDatabaseUpdater {
                 FormSettings form = formsByPokedex.get(i);
                 HashMap<String, Pokemon> formHash = pokemonFormsByName.get(form.getName());
                 if (formHash != null) {
-                Pokemon poke = formHash.get(null);
-                String pokemonName = titleCase(form.getName());
-                Stats stats = poke.getStats();
+                    Pokemon poke = formHash.get(null);
+                    String pokemonName = titleCase(form.getName());
+                    Stats stats = poke.getStats();
 
                     attackFormatter.format(integerArrayFormat, stats.getBaseAttack())
                             .format(commentFormat, pokemonName);
@@ -202,35 +203,34 @@ public class ApplicationDatabaseUpdater {
                     staminaFormatter.format(integerArrayFormat, stats.getBaseStamina())
                             .format(commentFormat, pokemonName);
 
-                // Devolution Number
-                devolutionNumberFormatter.format(integerArrayFormat, dexNumberLookup.get(poke.getParentId()) - 1);
-                devolutionNumberFormatter.format(commentFormat, pokemonName);
+                    // Devolution Number
+                    devolutionNumberFormatter.format(integerArrayFormat, dexNumberLookup.get(poke.getParentId()) - 1);
+                    devolutionNumberFormatter.format(commentFormat, pokemonName);
 
-                // Evolution Candy Cost
-                Integer evolveCandy = null;
-                if (poke.getEvolutionBranches() != null) {
-                    evolveCandy = poke.getEvolutionBranches().get(0).getCandyCost();
-                }
-                if (evolveCandy == null) {
-                    evolveCandy = poke.getCandyToEvolve();
-                }
-                if (evolveCandy == null) {
-                    evolveCandy = -1;
-                }
+                    // Evolution Candy Cost
+                    Integer evolveCandy = null;
+                    if (poke.getEvolutionBranches() != null) {
+                        evolveCandy = poke.getEvolutionBranches().get(0).getCandyCost();
+                    }
+                    if (evolveCandy == null) {
+                        evolveCandy = poke.getCandyToEvolve();
+                    }
+                    if (evolveCandy == null) {
+                        evolveCandy = -1;
+                    }
                     evolutionCandyCostFormatter.format(integerArrayFormat, evolveCandy)
                             .format(commentFormat, pokemonName);
 
-                // Candy Names
+                    // Candy Names
                     candyNamesFormatter.format(integerArrayFormat,
                             dexNumberLookup.get(poke.getFamilyId().substring(7))
                     );
-                candyNamesFormatter.format(commentFormat, pokemonName);
+                    candyNamesFormatter.format(commentFormat, pokemonName);
 
-                // Forms Count Index
-                formsCountIndexFormatter.format(integerArrayFormat, pokemonWithMultipleForms.indexOf(form));
-                formsCountIndexFormatter.format(commentFormat, pokemonName);
+                    // Forms Count Index
+                    formsCountIndexFormatter.format(integerArrayFormat, pokemonWithMultipleForms.indexOf(form));
+                    formsCountIndexFormatter.format(commentFormat, pokemonName);
                 }  // Some pokemon have form data in the game, but not pokemon data??
-
             }
         }
 

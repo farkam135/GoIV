@@ -16,5 +16,7 @@ public class TemporaryEvolutionSettings {
 
     public List<TemporaryEvolution> getTemporaryEvolutions() { return temporaryEvolutions; }
 
-    public void setTemporaryEvolutions(List<TemporaryEvolution> temporaryEvolutions) { this.temporaryEvolutions = temporaryEvolutions; }
+    public void setTemporaryEvolutions(List<TemporaryEvolution> temporaryEvolutions) {
+        this.temporaryEvolutions = temporaryEvolutions;
+    }
 }

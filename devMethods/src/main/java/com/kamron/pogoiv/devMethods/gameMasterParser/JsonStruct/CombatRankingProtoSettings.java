@@ -27,7 +27,9 @@ public class CombatRankingProtoSettings {
 
     public Integer getMinRankToDisplayRating() { return minRankToDisplayRating; }
 
-    public void setMinRankToDisplayRating(Integer minRankToDisplayRating) { this.minRankToDisplayRating = minRankToDisplayRating; }
+    public void setMinRankToDisplayRating(Integer minRankToDisplayRating) {
+        this.minRankToDisplayRating = minRankToDisplayRating;
+    }
 
     public Integer getSeasonNumber() { return seasonNumber; }
 

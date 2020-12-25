@@ -6,7 +6,9 @@ public class QuestEvolutionSettings {
     @Expose
     private Boolean enableQuestEvolutions = false;
 
-    public Boolean getEnableQuestEvolutions() { return enableQuestEvolutions = false; }
+    public Boolean getEnableQuestEvolutions() { return enableQuestEvolutions; }
 
-    public void setEnableQuestEvolutions(Boolean enableQuestEvolutions) { this.enableQuestEvolutions = enableQuestEvolutions = false; }
+    public void setEnableQuestEvolutions(Boolean enableQuestEvolutions) {
+        this.enableQuestEvolutions = enableQuestEvolutions;
+    }
 }

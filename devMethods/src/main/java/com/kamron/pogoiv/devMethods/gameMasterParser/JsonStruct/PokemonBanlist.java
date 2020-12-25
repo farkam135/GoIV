@@ -5,7 +5,7 @@ import com.google.gson.annotations.Expose;
 import java.util.List;
 
 public class PokemonBanlist {
-    static public class Pokemon {
+    public static class Pokemon {
         @Expose
         private String id;
         @Expose

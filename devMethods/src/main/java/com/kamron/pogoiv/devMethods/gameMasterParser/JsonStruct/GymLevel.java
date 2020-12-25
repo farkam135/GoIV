@@ -16,7 +16,9 @@ public class GymLevel {
         return requiredExperience;
     }
 
-    public void setRequiredExperience(List<Integer> requiredExperience) { this.requiredExperience = requiredExperience; }
+    public void setRequiredExperience(List<Integer> requiredExperience) {
+        this.requiredExperience = requiredExperience;
+    }
 
     public List<Integer> getLeaderSlots() {
         return leaderSlots;

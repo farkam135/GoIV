@@ -18,7 +18,9 @@ public class BuddyLevelSettings {
 
     public Integer getMinNonCumulativePointsRequired() { return minNonCumulativePointsRequired; }
 
-    public void setMinNonCumulativePointsRequired(Integer minNonCumulativePointsRequired) { this.minNonCumulativePointsRequired = minNonCumulativePointsRequired; }
+    public void setMinNonCumulativePointsRequired(Integer minNonCumulativePointsRequired) {
+        this.minNonCumulativePointsRequired = minNonCumulativePointsRequired;
+    }
 
     public List<String> getUnlockedTraits() { return unlockedTraits; }
 

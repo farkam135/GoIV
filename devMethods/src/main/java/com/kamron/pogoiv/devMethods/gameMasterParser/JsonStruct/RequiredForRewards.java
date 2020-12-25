@@ -14,5 +14,7 @@ public class RequiredForRewards {
 
     public Integer getAdditionalTotalBattlesRequired() { return additionalTotalBattlesRequired; }
 
-    public void setAdditionalTotalBattlesRequired(Integer additionalTotalBattlesRequired) { this.additionalTotalBattlesRequired = additionalTotalBattlesRequired; }
+    public void setAdditionalTotalBattlesRequired(Integer additionalTotalBattlesRequired) {
+        this.additionalTotalBattlesRequired = additionalTotalBattlesRequired;
+    }
 }

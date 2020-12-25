@@ -12,11 +12,15 @@ public class PlatypusRolloutSettings {
 
     public Integer getBuddyV2MinPlayerLevel() { return buddyV2MinPlayerLevel; }
 
-    public void setBuddyV2MinPlayerLevel(Integer buddyV2MinPlayerLevel) { this.buddyV2MinPlayerLevel = buddyV2MinPlayerLevel; }
+    public void setBuddyV2MinPlayerLevel(Integer buddyV2MinPlayerLevel) {
+        this.buddyV2MinPlayerLevel = buddyV2MinPlayerLevel;
+    }
 
     public Integer getBuddyMultiplayerMinPlayerLevel() { return buddyMultiplayerMinPlayerLevel; }
 
-    public void setBuddyMultiplayerMinPlayerLevel(Integer buddyMultiplayerMinPlayerLevel) { this.buddyMultiplayerMinPlayerLevel = buddyMultiplayerMinPlayerLevel; }
+    public void setBuddyMultiplayerMinPlayerLevel(Integer buddyMultiplayerMinPlayerLevel) {
+        this.buddyMultiplayerMinPlayerLevel = buddyMultiplayerMinPlayerLevel;
+    }
 
     public WallabySettings getWallabySettings() { return wallabySettings; }
 

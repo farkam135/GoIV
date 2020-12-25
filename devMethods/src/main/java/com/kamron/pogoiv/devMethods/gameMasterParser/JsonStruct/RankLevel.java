@@ -18,12 +18,15 @@ public class RankLevel {
 
     public Integer getAdditionalTotalBattlesRequired() { return additionalTotalBattlesRequired; }
 
-    public void setAdditionalTotalBattlesRequired(Integer additionalTotalBattlesRequired) { this.additionalTotalBattlesRequired = additionalTotalBattlesRequired; }
+    public void setAdditionalTotalBattlesRequired(Integer additionalTotalBattlesRequired) {
+        this.additionalTotalBattlesRequired = additionalTotalBattlesRequired;
+    }
 
     public Integer getAdditionalWinsRequired() { return additionalWinsRequired; }
 
-    public void setAdditionalWinsRequired(Integer additionalWinsRequired) { this.additionalWinsRequired =
-            additionalWinsRequired; }
+    public void setAdditionalWinsRequired(Integer additionalWinsRequired) {
+        this.additionalWinsRequired = additionalWinsRequired;
+    }
 
     public Integer getMinRatingRequired() { return minRatingRequired; }
 

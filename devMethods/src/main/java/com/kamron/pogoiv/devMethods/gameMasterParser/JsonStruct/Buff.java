@@ -16,21 +16,31 @@ public class Buff {
 
     public Integer getTargetDefenseStatStageChange() { return targetDefenseStatStageChange; }
 
-    public void setTargetDefenseStatStageChange(Integer targetDefenseStatStageChange) { this.targetDefenseStatStageChange = targetDefenseStatStageChange; }
+    public void setTargetDefenseStatStageChange(Integer targetDefenseStatStageChange) {
+        this.targetDefenseStatStageChange = targetDefenseStatStageChange;
+    }
 
     public Double getBuffActivationChance() { return buffActivationChance; }
 
-    public void setBuffActivationChance(Double buffActivationChance) { this.buffActivationChance = buffActivationChance; }
+    public void setBuffActivationChance(Double buffActivationChance) {
+        this.buffActivationChance = buffActivationChance;
+    }
 
     public Integer getAttackerAttackStatStageChange() { return attackerAttackStatStageChange; }
 
-    public void setAttackerAttackStatStageChange(Integer attackerAttackStatStageChange) { this.attackerAttackStatStageChange = attackerAttackStatStageChange; }
+    public void setAttackerAttackStatStageChange(Integer attackerAttackStatStageChange) {
+        this.attackerAttackStatStageChange = attackerAttackStatStageChange;
+    }
 
     public Integer getTargetAttackStatStageChange() { return targetAttackStatStageChange; }
 
-    public void setTargetAttackStatStageChange(Integer targetAttackStatStageChange) { this.targetAttackStatStageChange = targetAttackStatStageChange; }
+    public void setTargetAttackStatStageChange(Integer targetAttackStatStageChange) {
+        this.targetAttackStatStageChange = targetAttackStatStageChange;
+    }
 
     public Integer getAttackerDefenseStatStageChange() { return attackerDefenseStatStageChange; }
 
-    public void setAttackerDefenseStatStageChange(Integer attackerDefenseStatStageChange) { this.attackerDefenseStatStageChange = attackerDefenseStatStageChange; }
+    public void setAttackerDefenseStatStageChange(Integer attackerDefenseStatStageChange) {
+        this.attackerDefenseStatStageChange = attackerDefenseStatStageChange;
+    }
 }

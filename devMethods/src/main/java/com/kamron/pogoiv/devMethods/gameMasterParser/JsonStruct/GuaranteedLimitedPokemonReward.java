@@ -22,7 +22,9 @@ public class GuaranteedLimitedPokemonReward {
 
     public Integer getPerCompetitiveSeasonMaxCount() { return perCompetitiveSeasonMaxCount; }
 
-    public void setPerCompetitiveSeasonMaxCount(Integer perCompetitiveSeasonMaxCount) { this.perCompetitiveSeasonMaxCount = perCompetitiveSeasonMaxCount; }
+    public void setPerCompetitiveSeasonMaxCount(Integer perCompetitiveSeasonMaxCount) {
+        this.perCompetitiveSeasonMaxCount = perCompetitiveSeasonMaxCount;
+    }
 
     public Integer getLifetimeMaxCount() { return lifetimeMaxCount; }
 

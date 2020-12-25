@@ -22,21 +22,31 @@ public class WeatherBonusSettings {
 
     public Integer getGuaranteedIndividualValues() { return guaranteedIndividualValues; }
 
-    public void setGuaranteedIndividualValues(Integer guaranteedIndividualValues) { this.guaranteedIndividualValues = guaranteedIndividualValues; }
+    public void setGuaranteedIndividualValues(Integer guaranteedIndividualValues) {
+        this.guaranteedIndividualValues = guaranteedIndividualValues;
+    }
 
     public Double getStardustBonusMultiplier() { return stardustBonusMultiplier; }
 
-    public void setStardustBonusMultiplier(Double stardustBonusMultiplier) { this.stardustBonusMultiplier = stardustBonusMultiplier; }
+    public void setStardustBonusMultiplier(Double stardustBonusMultiplier) {
+        this.stardustBonusMultiplier = stardustBonusMultiplier;
+    }
 
     public Double getAttackBonusMultiplier() { return attackBonusMultiplier; }
 
-    public void setAttackBonusMultiplier(Double attackBonusMultiplier) { this.attackBonusMultiplier = attackBonusMultiplier; }
+    public void setAttackBonusMultiplier(Double attackBonusMultiplier) {
+        this.attackBonusMultiplier = attackBonusMultiplier;
+    }
 
     public Integer getRaidEncounterCpBaseLevelBonus() { return raidEncounterCpBaseLevelBonus; }
 
-    public void setRaidEncounterCpBaseLevelBonus(Integer raidEncounterCpBaseLevelBonus) { this.raidEncounterCpBaseLevelBonus = raidEncounterCpBaseLevelBonus; }
+    public void setRaidEncounterCpBaseLevelBonus(Integer raidEncounterCpBaseLevelBonus) {
+        this.raidEncounterCpBaseLevelBonus = raidEncounterCpBaseLevelBonus;
+    }
 
     public Integer getRaidEncounterGuaranteedIndividualValues() { return raidEncounterGuaranteedIndividualValues; }
 
-    public void setRaidEncounterGuaranteedIndividualValues(Integer raidEncounterGuaranteedIndividualValues) { this.raidEncounterGuaranteedIndividualValues = raidEncounterGuaranteedIndividualValues; }
+    public void setRaidEncounterGuaranteedIndividualValues(Integer raidEncounterGuaranteedIndividualValues) {
+        this.raidEncounterGuaranteedIndividualValues = raidEncounterGuaranteedIndividualValues;
+    }
 }

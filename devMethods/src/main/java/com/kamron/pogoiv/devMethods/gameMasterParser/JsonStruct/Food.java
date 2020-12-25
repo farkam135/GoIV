@@ -33,7 +33,9 @@ public class Food {
 
     public List<Double> getItemEffectPercentages() { return itemEffectPercentages; }
 
-    public void setItemEffectPercentages(List<Double> itemEffectPercentages) { this.itemEffectPercentages = itemEffectPercentages; }
+    public void setItemEffectPercentages(List<Double> itemEffectPercentages) {
+        this.itemEffectPercentages = itemEffectPercentages;
+    }
 
     public Double getGrowthPercent() { return growthPercent; }
 
@@ -45,11 +47,15 @@ public class Food {
 
     public Double getRemoteBerryMultiplier() { return remoteBerryMultiplier; }
 
-    public void setRemoteBerryMultiplier(Double remoteBerryMultiplier) { this.remoteBerryMultiplier = remoteBerryMultiplier; }
+    public void setRemoteBerryMultiplier(Double remoteBerryMultiplier) {
+        this.remoteBerryMultiplier = remoteBerryMultiplier;
+    }
 
     public Integer getNumBuddyAffectionPoints() { return numBuddyAffectionPoints; }
 
-    public void setNumBuddyAffectionPoints(Integer numBuddyAffectionPoints) { this.numBuddyAffectionPoints = numBuddyAffectionPoints; }
+    public void setNumBuddyAffectionPoints(Integer numBuddyAffectionPoints) {
+        this.numBuddyAffectionPoints = numBuddyAffectionPoints;
+    }
 
     public String getMapDurationMs() { return mapDurationMs; }
 
@@ -61,5 +67,7 @@ public class Food {
 
     public Integer getNumBuddyHungerPoints() { return numBuddyHungerPoints; }
 
-    public void setNumBuddyHungerPoints(Integer numBuddyHungerPoints) { this.numBuddyHungerPoints = numBuddyHungerPoints; }
+    public void setNumBuddyHungerPoints(Integer numBuddyHungerPoints) {
+        this.numBuddyHungerPoints = numBuddyHungerPoints;
+    }
 }

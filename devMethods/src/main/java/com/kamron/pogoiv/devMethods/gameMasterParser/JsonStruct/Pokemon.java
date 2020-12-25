@@ -232,7 +232,9 @@ public class Pokemon {
 
     public Integer getBuddyWalkedMegaEnergyAward() { return buddyWalkedMegaEnergyAward; }
 
-    public void setBuddyWalkedMegaEnergyAward(Integer buddyWalkedMegaEnergyAward) { this.buddyWalkedMegaEnergyAward = buddyWalkedMegaEnergyAward; }
+    public void setBuddyWalkedMegaEnergyAward(Integer buddyWalkedMegaEnergyAward) {
+        this.buddyWalkedMegaEnergyAward = buddyWalkedMegaEnergyAward;
+    }
 
     public String getForm() { return form; }
 
@@ -240,7 +242,9 @@ public class Pokemon {
 
     public Boolean getDisableTransferToPokemonHome() { return disableTransferToPokemonHome; }
 
-    public void setDisableTransferToPokemonHome(Boolean disableTransferToPokemonHome) { this.disableTransferToPokemonHome = disableTransferToPokemonHome; }
+    public void setDisableTransferToPokemonHome(Boolean disableTransferToPokemonHome) {
+        this.disableTransferToPokemonHome = disableTransferToPokemonHome;
+    }
 
     public Shadow getShadow() { return shadow; }
 
@@ -256,23 +260,33 @@ public class Pokemon {
 
     public List<Double> getCombatShoulderCameraAngle() { return combatShoulderCameraAngle; }
 
-    public void setCombatShoulderCameraAngle(List<Double> combatShoulderCameraAngle) { this.combatShoulderCameraAngle = combatShoulderCameraAngle; }
+    public void setCombatShoulderCameraAngle(List<Double> combatShoulderCameraAngle) {
+        this.combatShoulderCameraAngle = combatShoulderCameraAngle;
+    }
 
     public List<Double> getCombatDefaultCameraAngle() { return combatDefaultCameraAngle; }
 
-    public void setCombatDefaultCameraAngle(List<Double> combatDefaultCameraAngle) { this.combatDefaultCameraAngle = combatDefaultCameraAngle; }
+    public void setCombatDefaultCameraAngle(List<Double> combatDefaultCameraAngle) {
+        this.combatDefaultCameraAngle = combatDefaultCameraAngle;
+    }
 
     public List<Double> getCombatPlayerFocusCameraAngle() { return combatPlayerFocusCameraAngle; }
 
-    public void setCombatPlayerFocusCameraAngle(List<Double> combatPlayerFocusCameraAngle) { this.combatPlayerFocusCameraAngle = combatPlayerFocusCameraAngle; }
+    public void setCombatPlayerFocusCameraAngle(List<Double> combatPlayerFocusCameraAngle) {
+        this.combatPlayerFocusCameraAngle = combatPlayerFocusCameraAngle;
+    }
 
     public List<String> getEliteCinematicMoves() { return eliteCinematicMoves; }
 
-    public void setEliteCinematicMoves(List<String> eliteCinematicMoves) { this.eliteCinematicMoves = eliteCinematicMoves; }
+    public void setEliteCinematicMoves(List<String> eliteCinematicMoves) {
+        this.eliteCinematicMoves = eliteCinematicMoves;
+    }
 
     public List<TempEvoOverride> getTempEvoOverrides() { return tempEvoOverrides; }
 
-    public void setTempEvoOverrides(List<TempEvoOverride> tempEvoOverrides) { this.tempEvoOverrides = tempEvoOverrides; }
+    public void setTempEvoOverrides(List<TempEvoOverride> tempEvoOverrides) {
+        this.tempEvoOverrides = tempEvoOverrides;
+    }
 
     public List<String> getEliteQuickMoves() { return eliteQuickMoves; }
 
@@ -280,15 +294,21 @@ public class Pokemon {
 
     public List<Double> getBuddyPortraitOffset() { return buddyPortraitOffset; }
 
-    public void setBuddyPortraitOffset(List<Double> buddyPortraitOffset) { this.buddyPortraitOffset = buddyPortraitOffset; }
+    public void setBuddyPortraitOffset(List<Double> buddyPortraitOffset) {
+        this.buddyPortraitOffset = buddyPortraitOffset;
+    }
 
     public Double getRaidBossDistanceOffset() { return raidBossDistanceOffset; }
 
-    public void setRaidBossDistanceOffset(Double raidBossDistanceOffset) { this.raidBossDistanceOffset = raidBossDistanceOffset; }
+    public void setRaidBossDistanceOffset(Double raidBossDistanceOffset) {
+        this.raidBossDistanceOffset = raidBossDistanceOffset;
+    }
 
     public List<Double> getCombatPlayerPokemonPositionOffset() { return combatPlayerPokemonPositionOffset; }
 
-    public void setCombatPlayerPokemonPositionOffset(List<Double> combatPlayerPokemonPositionOffset) { this.combatPlayerPokemonPositionOffset = combatPlayerPokemonPositionOffset; }
+    public void setCombatPlayerPokemonPositionOffset(List<Double> combatPlayerPokemonPositionOffset) {
+        this.combatPlayerPokemonPositionOffset = combatPlayerPokemonPositionOffset;
+    }
 
     public String getRarity() { return rarity; }
 
@@ -296,5 +316,7 @@ public class Pokemon {
 
     public List<Double> getCombatOpponentFocusCameraAngle() { return combatOpponentFocusCameraAngle; }
 
-    public void setCombatOpponentFocusCameraAngle(List<Double> combatOpponentFocusCameraAngle) { this.combatOpponentFocusCameraAngle = combatOpponentFocusCameraAngle; }
+    public void setCombatOpponentFocusCameraAngle(List<Double> combatOpponentFocusCameraAngle) {
+        this.combatOpponentFocusCameraAngle = combatOpponentFocusCameraAngle;
+    }
 }

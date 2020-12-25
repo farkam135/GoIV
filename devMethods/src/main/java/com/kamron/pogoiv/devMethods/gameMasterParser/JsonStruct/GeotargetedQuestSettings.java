@@ -6,7 +6,9 @@ public class GeotargetedQuestSettings {
     @Expose
     private Boolean enableGeotargetedQuests = false;
 
-    public Boolean getEnableGeotargetedQuests() { return enableGeotargetedQuests = false; }
+    public Boolean getEnableGeotargetedQuests() { return enableGeotargetedQuests; }
 
-    public void setEnableGeotargetedQuests(Boolean enableGeotargetedQuests) { this.enableGeotargetedQuests = enableGeotargetedQuests = false; }
+    public void setEnableGeotargetedQuests(Boolean enableGeotargetedQuests) {
+        this.enableGeotargetedQuests = enableGeotargetedQuests;
+    }
 }

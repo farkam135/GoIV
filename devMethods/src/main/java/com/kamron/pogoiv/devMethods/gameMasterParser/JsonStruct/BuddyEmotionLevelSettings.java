@@ -20,5 +20,7 @@ public class BuddyEmotionLevelSettings {
 
     public Integer getMinEmotionPointsRequired() { return minEmotionPointsRequired; }
 
-    public void setMinEmotionPointsRequired(Integer minEmotionPointsRequired) { this.minEmotionPointsRequired = minEmotionPointsRequired; }
+    public void setMinEmotionPointsRequired(Integer minEmotionPointsRequired) {
+        this.minEmotionPointsRequired = minEmotionPointsRequired;
+    }
 }

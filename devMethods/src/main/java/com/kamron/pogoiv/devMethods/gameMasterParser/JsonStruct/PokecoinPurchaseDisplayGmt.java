@@ -6,7 +6,7 @@ public class PokecoinPurchaseDisplayGmt {
     @Expose
     private Boolean featureEnabled = false;
 
-    public Boolean getFeatureEnabled() { return featureEnabled = false; }
+    public Boolean getFeatureEnabled() { return featureEnabled; }
 
-    public void setFeatureEnabled(Boolean featureEnabled) { this.featureEnabled = featureEnabled = false; }
+    public void setFeatureEnabled(Boolean featureEnabled) { this.featureEnabled = featureEnabled; }
 }

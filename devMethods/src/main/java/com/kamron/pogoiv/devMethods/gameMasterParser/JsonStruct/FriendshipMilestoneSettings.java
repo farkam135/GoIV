@@ -30,7 +30,9 @@ public class FriendshipMilestoneSettings {
         return attackBonusPercentage;
     }
 
-    public void setAttackBonusPercentage(Double attackBonusPercentage) { this.attackBonusPercentage = attackBonusPercentage; }
+    public void setAttackBonusPercentage(Double attackBonusPercentage) {
+        this.attackBonusPercentage = attackBonusPercentage;
+    }
 
     public List<String> getUnlockedTrading() {
         return unlockedTrading;

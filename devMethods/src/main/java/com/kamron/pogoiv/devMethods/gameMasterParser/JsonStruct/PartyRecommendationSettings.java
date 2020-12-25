@@ -26,5 +26,7 @@ public class PartyRecommendationSettings {
 
     public Double getMegaEvoCombatRatingScale() { return megaEvoCombatRatingScale; }
 
-    public void setMegaEvoCombatRatingScale(Double megaEvoCombatRatingScale) { this.megaEvoCombatRatingScale = megaEvoCombatRatingScale; }
+    public void setMegaEvoCombatRatingScale(Double megaEvoCombatRatingScale) {
+        this.megaEvoCombatRatingScale = megaEvoCombatRatingScale;
+    }
 }

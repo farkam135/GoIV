@@ -22,21 +22,29 @@ public class MegaEvoSettings {
 
     public Double getAttackBoostFromMegaDifferentType() { return attackBoostFromMegaDifferentType; }
 
-    public void setAttackBoostFromMegaDifferentType(Double attackBoostFromMegaDifferentType) { this.attackBoostFromMegaDifferentType = attackBoostFromMegaDifferentType; }
+    public void setAttackBoostFromMegaDifferentType(Double attackBoostFromMegaDifferentType) {
+        this.attackBoostFromMegaDifferentType = attackBoostFromMegaDifferentType;
+    }
 
     public Double getAttackBoostFromMegaSameType() { return attackBoostFromMegaSameType; }
 
-    public void setAttackBoostFromMegaSameType(Double attackBoostFromMegaSameType) { this.attackBoostFromMegaSameType = attackBoostFromMegaSameType; }
+    public void setAttackBoostFromMegaSameType(Double attackBoostFromMegaSameType) {
+        this.attackBoostFromMegaSameType = attackBoostFromMegaSameType;
+    }
 
     public Integer getMaxCandyHoardSize() { return maxCandyHoardSize; }
 
     public void setMaxCandyHoardSize(Integer maxCandyHoardSize) { this.maxCandyHoardSize = maxCandyHoardSize; }
 
-    public Boolean getEnableBuddyWalkingMegaEnergyAward() { return enableBuddyWalkingMegaEnergyAward = false; }
+    public Boolean getEnableBuddyWalkingMegaEnergyAward() { return enableBuddyWalkingMegaEnergyAward; }
 
-    public void setEnableBuddyWalkingMegaEnergyAward(Boolean enableBuddyWalkingMegaEnergyAward) { this.enableBuddyWalkingMegaEnergyAward = enableBuddyWalkingMegaEnergyAward = false; }
+    public void setEnableBuddyWalkingMegaEnergyAward(Boolean enableBuddyWalkingMegaEnergyAward) {
+        this.enableBuddyWalkingMegaEnergyAward = enableBuddyWalkingMegaEnergyAward;
+    }
 
     public Integer getActiveMegaBonusCatchCandy() { return activeMegaBonusCatchCandy; }
 
-    public void setActiveMegaBonusCatchCandy(Integer activeMegaBonusCatchCandy) { this.activeMegaBonusCatchCandy = activeMegaBonusCatchCandy; }
+    public void setActiveMegaBonusCatchCandy(Integer activeMegaBonusCatchCandy) {
+        this.activeMegaBonusCatchCandy = activeMegaBonusCatchCandy;
+    }
 }

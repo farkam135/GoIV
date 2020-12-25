@@ -10,9 +10,13 @@ public class PokestopInvasionAvailabilitySettings {
 
     public String getAvailabilityStartMinute() { return availabilityStartMinute; }
 
-    public void setAvailabilityStartMinute(String availabilityStartMinute) { this.availabilityStartMinute = availabilityStartMinute; }
+    public void setAvailabilityStartMinute(String availabilityStartMinute) {
+        this.availabilityStartMinute = availabilityStartMinute;
+    }
 
     public String getAvailabilityEndMinute() { return availabilityEndMinute; }
 
-    public void setAvailabilityEndMinute(String availabilityEndMinute) { this.availabilityEndMinute = availabilityEndMinute; }
+    public void setAvailabilityEndMinute(String availabilityEndMinute) {
+        this.availabilityEndMinute = availabilityEndMinute;
+    }
 }

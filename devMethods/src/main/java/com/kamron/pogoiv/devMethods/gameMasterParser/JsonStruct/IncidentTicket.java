@@ -10,13 +10,15 @@ public class IncidentTicket {
     @Expose
     private String upgradedItem;
 
-    public Boolean getIgnoreFullInventory() { return ignoreFullInventory = false; }
+    public Boolean getIgnoreFullInventory() { return ignoreFullInventory; }
 
-    public void setIgnoreFullInventory(Boolean ignoreFullInventory) { this.ignoreFullInventory = ignoreFullInventory = false; }
+    public void setIgnoreFullInventory(Boolean ignoreFullInventory) { this.ignoreFullInventory = ignoreFullInventory; }
 
     public Integer getUpgradeRequirementCount() { return upgradeRequirementCount; }
 
-    public void setUpgradeRequirementCount(Integer upgradeRequirementCount) { this.upgradeRequirementCount = upgradeRequirementCount; }
+    public void setUpgradeRequirementCount(Integer upgradeRequirementCount) {
+        this.upgradeRequirementCount = upgradeRequirementCount;
+    }
 
     public String getUpgradedItem() { return upgradedItem; }
 

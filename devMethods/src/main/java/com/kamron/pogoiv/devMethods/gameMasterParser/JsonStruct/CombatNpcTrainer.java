@@ -5,7 +5,7 @@ import com.google.gson.annotations.Expose;
 import java.util.List;
 
 public class CombatNpcTrainer {
-    static public class AvailablePokemon {
+    public static class AvailablePokemon {
         @Expose
         private String pokemonType;
         @Expose
@@ -45,11 +45,15 @@ public class CombatNpcTrainer {
 
     public String getCombatLeagueTemplateId() { return combatLeagueTemplateId; }
 
-    public void setCombatLeagueTemplateId(String combatLeagueTemplateId) { this.combatLeagueTemplateId = combatLeagueTemplateId; }
+    public void setCombatLeagueTemplateId(String combatLeagueTemplateId) {
+        this.combatLeagueTemplateId = combatLeagueTemplateId;
+    }
 
     public String getCombatPersonalityId() { return combatPersonalityId; }
 
-    public void setCombatPersonalityId(String combatPersonalityId) { this.combatPersonalityId = combatPersonalityId; }
+    public void setCombatPersonalityId(String combatPersonalityId) {
+        this.combatPersonalityId = combatPersonalityId;
+    }
 
     public Avatar getAvatar() { return avatar; }
 
@@ -57,7 +61,9 @@ public class CombatNpcTrainer {
 
     public List<AvailablePokemon> getAvailablePokemon() { return availablePokemon; }
 
-    public void setAvailablePokemon(List<AvailablePokemon> availablePokemon) { this.availablePokemon = availablePokemon; }
+    public void setAvailablePokemon(List<AvailablePokemon> availablePokemon) {
+        this.availablePokemon = availablePokemon;
+    }
 
     public String getTrainerTitle() { return trainerTitle; }
 

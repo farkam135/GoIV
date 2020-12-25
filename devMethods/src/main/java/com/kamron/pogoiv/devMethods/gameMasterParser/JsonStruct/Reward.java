@@ -3,7 +3,7 @@ package com.kamron.pogoiv.devMethods.gameMasterParser.JsonStruct;
 import com.google.gson.annotations.Expose;
 
 public class Reward {
-    static public class Item {
+    public static class Item {
         @Expose
         private Boolean stardust = false;
         @Expose

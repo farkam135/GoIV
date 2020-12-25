@@ -78,5 +78,7 @@ public class TempEvoOverride {
 
     public List<Double> getBuddyPortraitOffset() { return buddyPortraitOffset; }
 
-    public void setBuddyPortraitOffset(List<Double> buddyPortraitOffset) { this.buddyPortraitOffset = buddyPortraitOffset; }
+    public void setBuddyPortraitOffset(List<Double> buddyPortraitOffset) {
+        this.buddyPortraitOffset = buddyPortraitOffset;
+    }
 }

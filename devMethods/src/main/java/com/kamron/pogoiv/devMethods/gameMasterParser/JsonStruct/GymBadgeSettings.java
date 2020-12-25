@@ -32,13 +32,17 @@ public class GymBadgeSettings {
 
     public Double getBattleWinningScorePerDefenderCp() { return battleWinningScorePerDefenderCp; }
 
-    public void setBattleWinningScorePerDefenderCp(Double battleWinningScorePerDefenderCp) { this.battleWinningScorePerDefenderCp = battleWinningScorePerDefenderCp; }
+    public void setBattleWinningScorePerDefenderCp(Double battleWinningScorePerDefenderCp) {
+        this.battleWinningScorePerDefenderCp = battleWinningScorePerDefenderCp;
+    }
 
     public Double getGymDefendingScorePerMinute() {
         return gymDefendingScorePerMinute;
     }
 
-    public void setGymDefendingScorePerMinute(Double gymDefendingScorePerMinute) { this.gymDefendingScorePerMinute = gymDefendingScorePerMinute; }
+    public void setGymDefendingScorePerMinute(Double gymDefendingScorePerMinute) {
+        this.gymDefendingScorePerMinute = gymDefendingScorePerMinute;
+    }
 
     public Integer getBerryFeedingScore() {
         return berryFeedingScore;
@@ -60,7 +64,9 @@ public class GymBadgeSettings {
         return raidBattleWinningScore;
     }
 
-    public void setRaidBattleWinningScore(Integer raidBattleWinningScore) { this.raidBattleWinningScore = raidBattleWinningScore; }
+    public void setRaidBattleWinningScore(Integer raidBattleWinningScore) {
+        this.raidBattleWinningScore = raidBattleWinningScore;
+    }
 
     public Integer getLoseAllBattlesScore() {
         return loseAllBattlesScore;

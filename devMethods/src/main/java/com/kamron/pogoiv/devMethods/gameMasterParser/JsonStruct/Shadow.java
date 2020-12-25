@@ -14,11 +14,15 @@ public class Shadow {
 
     public Integer getPurificationStardustNeeded() { return purificationStardustNeeded; }
 
-    public void setPurificationStardustNeeded(Integer purificationStardustNeeded) { this.purificationStardustNeeded = purificationStardustNeeded; }
+    public void setPurificationStardustNeeded(Integer purificationStardustNeeded) {
+        this.purificationStardustNeeded = purificationStardustNeeded;
+    }
 
     public Integer getPurificationCandyNeeded() { return purificationCandyNeeded; }
 
-    public void setPurificationCandyNeeded(Integer purificationCandyNeeded) { this.purificationCandyNeeded = purificationCandyNeeded; }
+    public void setPurificationCandyNeeded(Integer purificationCandyNeeded) {
+        this.purificationCandyNeeded = purificationCandyNeeded;
+    }
 
     public String getPurifiedChargeMove() { return purifiedChargeMove; }
 

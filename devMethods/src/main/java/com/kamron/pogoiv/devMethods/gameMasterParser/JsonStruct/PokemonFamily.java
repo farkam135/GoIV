@@ -20,5 +20,7 @@ public class PokemonFamily {
 
     public String getMegaEvolvablePokemonId() { return megaEvolvablePokemonId; }
 
-    public void setMegaEvolvablePokemonId(String megaEvolvablePokemonId) { this.megaEvolvablePokemonId = megaEvolvablePokemonId; }
+    public void setMegaEvolvablePokemonId(String megaEvolvablePokemonId) {
+        this.megaEvolvablePokemonId = megaEvolvablePokemonId;
+    }
 }

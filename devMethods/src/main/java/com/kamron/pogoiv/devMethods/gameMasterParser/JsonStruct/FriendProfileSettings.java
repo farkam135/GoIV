@@ -6,7 +6,7 @@ public class FriendProfileSettings {
     @Expose
     private Boolean enableSwiping = false;
 
-    public Boolean getEnableSwiping() { return enableSwiping = false; }
+    public Boolean getEnableSwiping() { return enableSwiping; }
 
-    public void setEnableSwiping(Boolean enableSwiping) { this.enableSwiping = enableSwiping = false; }
+    public void setEnableSwiping(Boolean enableSwiping) { this.enableSwiping = enableSwiping; }
 }

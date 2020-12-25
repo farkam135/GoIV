@@ -12,5 +12,7 @@ public class VsSeekerClientSettings {
 
     public List<String> getAllowedVsSeekerLeagueTemplateIds() { return allowedVsSeekerLeagueTemplateIds; }
 
-    public void setAllowedVsSeekerLeagueTemplateIds(List<String> allowedVsSeekerLeagueTemplateIds) { this.allowedVsSeekerLeagueTemplateIds = allowedVsSeekerLeagueTemplateIds; }
+    public void setAllowedVsSeekerLeagueTemplateIds(List<String> allowedVsSeekerLeagueTemplateIds) {
+        this.allowedVsSeekerLeagueTemplateIds = allowedVsSeekerLeagueTemplateIds;
+    }
 }

@@ -35,9 +35,9 @@ public class CombatLeague {
 
     public void setTitle(String title) { this.title = title; }
 
-    public Boolean getEnabled() { return enabled = false; }
+    public Boolean getEnabled() { return enabled; }
 
-    public void setEnabled(Boolean enabled) { this.enabled = enabled = false; }
+    public void setEnabled(Boolean enabled) { this.enabled = enabled; }
 
     public List<UnlockCondition> getUnlockConditions() { return unlockConditions; }
 
@@ -69,11 +69,13 @@ public class CombatLeague {
 
     public void setLeagueType(String leagueType) { this.leagueType = leagueType; }
 
-    public Boolean getAllowTempEvos() { return allowTempEvos = false; }
+    public Boolean getAllowTempEvos() { return allowTempEvos; }
 
-    public void setAllowTempEvos(Boolean allowTempEvos) { this.allowTempEvos = allowTempEvos = false; }
+    public void setAllowTempEvos(Boolean allowTempEvos) { this.allowTempEvos = allowTempEvos; }
 
     public String getBattlePartyCombatLeagueTemplateId() { return battlePartyCombatLeagueTemplateId; }
 
-    public void setBattlePartyCombatLeagueTemplateId(String battlePartyCombatLeagueTemplateId) { this.battlePartyCombatLeagueTemplateId = battlePartyCombatLeagueTemplateId; }
+    public void setBattlePartyCombatLeagueTemplateId(String battlePartyCombatLeagueTemplateId) {
+        this.battlePartyCombatLeagueTemplateId = battlePartyCombatLeagueTemplateId;
+    }
 }

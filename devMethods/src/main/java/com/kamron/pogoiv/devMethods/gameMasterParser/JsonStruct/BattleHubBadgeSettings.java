@@ -10,5 +10,7 @@ public class BattleHubBadgeSettings {
 
     public List<String> getCombatHubDisplayedBadges() { return combatHubDisplayedBadges; }
 
-    public void setCombatHubDisplayedBadges(List<String> combatHubDisplayedBadges) { this.combatHubDisplayedBadges = combatHubDisplayedBadges; }
+    public void setCombatHubDisplayedBadges(List<String> combatHubDisplayedBadges) {
+        this.combatHubDisplayedBadges = combatHubDisplayedBadges;
+    }
 }

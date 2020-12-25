@@ -42,13 +42,13 @@ public class IapItemDisplay {
 
     public void setSortOrder(Integer sortOrder) { this.sortOrder = sortOrder; }
 
-    public Boolean getSale() { return sale = false; }
+    public Boolean getSale() { return sale; }
 
-    public void setSale(Boolean sale) { this.sale = sale = false; }
+    public void setSale(Boolean sale) { this.sale = sale; }
 
-    public Boolean getHidden() { return hidden = false; }
+    public Boolean getHidden() { return hidden; }
 
-    public void setHidden(Boolean hidden) { this.hidden = hidden = false; }
+    public void setHidden(Boolean hidden) { this.hidden = hidden; }
 
     public String getTitle() { return title; }
 

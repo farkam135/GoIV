@@ -18,7 +18,9 @@ public class PokemonHomeSettings {
 
     public Integer getTransporterMaxEnergy() { return transporterMaxEnergy; }
 
-    public void setTransporterMaxEnergy(Integer transporterMaxEnergy) { this.transporterMaxEnergy = transporterMaxEnergy; }
+    public void setTransporterMaxEnergy(Integer transporterMaxEnergy) {
+        this.transporterMaxEnergy = transporterMaxEnergy;
+    }
 
     public String getEnergySkuId() { return energySkuId; }
 
@@ -26,5 +28,7 @@ public class PokemonHomeSettings {
 
     public Integer getTransporterEnergyGainPerHour() { return transporterEnergyGainPerHour; }
 
-    public void setTransporterEnergyGainPerHour(Integer transporterEnergyGainPerHour) { this.transporterEnergyGainPerHour = transporterEnergyGainPerHour; }
+    public void setTransporterEnergyGainPerHour(Integer transporterEnergyGainPerHour) {
+        this.transporterEnergyGainPerHour = transporterEnergyGainPerHour;
+    }
 }

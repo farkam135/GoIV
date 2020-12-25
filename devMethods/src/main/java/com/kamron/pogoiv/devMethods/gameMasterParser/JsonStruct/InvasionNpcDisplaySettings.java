@@ -52,9 +52,11 @@ public class InvasionNpcDisplaySettings {
 
     public String getTutorialOnLossString() { return tutorialOnLossString; }
 
-    public void setTutorialOnLossString(String tutorialOnLossString) { this.tutorialOnLossString = tutorialOnLossString; }
+    public void setTutorialOnLossString(String tutorialOnLossString) {
+        this.tutorialOnLossString = tutorialOnLossString;
+    }
 
-    public Boolean getMale() { return isMale = false; }
+    public Boolean getMale() { return isMale; }
 
-    public void setMale(Boolean male) { isMale = male = false; }
+    public void setMale(Boolean male) { isMale = male; }
 }

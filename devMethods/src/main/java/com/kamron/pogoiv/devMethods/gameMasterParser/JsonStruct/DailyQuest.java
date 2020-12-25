@@ -26,5 +26,7 @@ public class DailyQuest {
 
     public Double getStreakBonusMultiplier() { return streakBonusMultiplier; }
 
-    public void setStreakBonusMultiplier(Double streakBonusMultiplier) { this.streakBonusMultiplier = streakBonusMultiplier; }
+    public void setStreakBonusMultiplier(Double streakBonusMultiplier) {
+        this.streakBonusMultiplier = streakBonusMultiplier;
+    }
 }

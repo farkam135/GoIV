@@ -8,5 +8,7 @@ public class LuckyPokemonSettings {
 
     public Double getPowerUpStardustDiscountPercent() { return powerUpStardustDiscountPercent; }
 
-    public void setPowerUpStardustDiscountPercent(Double powerUpStardustDiscountPercent) { this.powerUpStardustDiscountPercent = powerUpStardustDiscountPercent; }
+    public void setPowerUpStardustDiscountPercent(Double powerUpStardustDiscountPercent) {
+        this.powerUpStardustDiscountPercent = powerUpStardustDiscountPercent;
+    }
 }

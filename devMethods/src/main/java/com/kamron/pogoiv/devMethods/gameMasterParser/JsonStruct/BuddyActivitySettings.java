@@ -34,9 +34,13 @@ public class BuddyActivitySettings {
 
     public Integer getNumEmotionPointsPerAction() { return numEmotionPointsPerAction; }
 
-    public void setNumEmotionPointsPerAction(Integer numEmotionPointsPerAction) { this.numEmotionPointsPerAction = numEmotionPointsPerAction; }
+    public void setNumEmotionPointsPerAction(Integer numEmotionPointsPerAction) {
+        this.numEmotionPointsPerAction = numEmotionPointsPerAction;
+    }
 
     public String getEmotionCooldownDurationMs() { return emotionCooldownDurationMs; }
 
-    public void setEmotionCooldownDurationMs(String emotionCooldownDurationMs) { this.emotionCooldownDurationMs = emotionCooldownDurationMs; }
+    public void setEmotionCooldownDurationMs(String emotionCooldownDurationMs) {
+        this.emotionCooldownDurationMs = emotionCooldownDurationMs;
+    }
 }

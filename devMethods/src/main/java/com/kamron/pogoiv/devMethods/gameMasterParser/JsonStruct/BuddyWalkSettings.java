@@ -8,5 +8,7 @@ public class BuddyWalkSettings {
 
     public Double getKmRequiredPerAffectionPoint() { return kmRequiredPerAffectionPoint; }
 
-    public void setKmRequiredPerAffectionPoint(Double kmRequiredPerAffectionPoint) { this.kmRequiredPerAffectionPoint = kmRequiredPerAffectionPoint; }
+    public void setKmRequiredPerAffectionPoint(Double kmRequiredPerAffectionPoint) {
+        this.kmRequiredPerAffectionPoint = kmRequiredPerAffectionPoint;
+    }
 }

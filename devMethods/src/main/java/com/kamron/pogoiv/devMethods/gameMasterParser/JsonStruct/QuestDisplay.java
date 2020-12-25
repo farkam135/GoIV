@@ -8,5 +8,7 @@ public class QuestDisplay {
 
     public String getQuestRequirementTemplateId() { return questRequirementTemplateId; }
 
-    public void setQuestRequirementTemplateId(String questRequirementTemplateId) { this.questRequirementTemplateId = questRequirementTemplateId; }
+    public void setQuestRequirementTemplateId(String questRequirementTemplateId) {
+        this.questRequirementTemplateId = questRequirementTemplateId;
+    }
 }

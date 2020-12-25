@@ -54,7 +54,9 @@ public class Item {
 
     public GlobalEventTicket getGlobalEventTicket() { return globalEventTicket; }
 
-    public void setGlobalEventTicket(GlobalEventTicket globalEventTicket) { this.globalEventTicket = globalEventTicket; }
+    public void setGlobalEventTicket(GlobalEventTicket globalEventTicket) {
+        this.globalEventTicket = globalEventTicket;
+    }
 
     public IncidentTicket getIncidentTicket() { return incidentTicket; }
 

@@ -10,7 +10,9 @@ public class TemporaryEvolution {
 
     public String getTemporaryEvolutionId() { return temporaryEvolutionId; }
 
-    public void setTemporaryEvolutionId(String temporaryEvolutionId) { this.temporaryEvolutionId = temporaryEvolutionId; }
+    public void setTemporaryEvolutionId(String temporaryEvolutionId) {
+        this.temporaryEvolutionId = temporaryEvolutionId;
+    }
 
     public Integer getAssetBundleValue() { return assetBundleValue; }
 

@@ -38,9 +38,9 @@ public class IapCategoryDisplay {
 
     public void setDescription(String description) { this.description = description; }
 
-    public Boolean getBannerEnabled() { return bannerEnabled = false; }
+    public Boolean getBannerEnabled() { return bannerEnabled; }
 
-    public void setBannerEnabled(Boolean bannerEnabled) { this.bannerEnabled = bannerEnabled = false; }
+    public void setBannerEnabled(Boolean bannerEnabled) { this.bannerEnabled = bannerEnabled; }
 
     public String getBannerTitle() { return bannerTitle; }
 
@@ -54,7 +54,7 @@ public class IapCategoryDisplay {
 
     public void setDisplayRows(Integer displayRows) { this.displayRows = displayRows; }
 
-    public Boolean getHidden() { return hidden = false; }
+    public Boolean getHidden() { return hidden; }
 
-    public void setHidden(Boolean hidden) { this.hidden = hidden = false; }
+    public void setHidden(Boolean hidden) { this.hidden = hidden; }
 }

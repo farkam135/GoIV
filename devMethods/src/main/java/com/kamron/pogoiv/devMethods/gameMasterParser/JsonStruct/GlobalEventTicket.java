@@ -24,11 +24,15 @@ public class GlobalEventTicket {
 
     public String getGrantBadgeBeforeEventStartMs() { return grantBadgeBeforeEventStartMs; }
 
-    public void setGrantBadgeBeforeEventStartMs(String grantBadgeBeforeEventStartMs) { this.grantBadgeBeforeEventStartMs = grantBadgeBeforeEventStartMs; }
+    public void setGrantBadgeBeforeEventStartMs(String grantBadgeBeforeEventStartMs) {
+        this.grantBadgeBeforeEventStartMs = grantBadgeBeforeEventStartMs;
+    }
 
     public String getEventStartTime() { return eventStartTime; }
 
-    public void setEventStartTime(String eventStartTime) { this.eventStartTime = eventStartTime; }
+    public void setEventStartTime(String eventStartTime) {
+        this.eventStartTime = eventStartTime;
+    }
 
     public String getEventEndTime() { return eventEndTime; }
 
@@ -36,13 +40,19 @@ public class GlobalEventTicket {
 
     public String getItemBagDescriptionKey() { return itemBagDescriptionKey; }
 
-    public void setItemBagDescriptionKey(String itemBagDescriptionKey) { this.itemBagDescriptionKey = itemBagDescriptionKey; }
+    public void setItemBagDescriptionKey(String itemBagDescriptionKey) {
+        this.itemBagDescriptionKey = itemBagDescriptionKey;
+    }
 
     public String getClientEventStartTimeUtcMs() { return clientEventStartTimeUtcMs; }
 
-    public void setClientEventStartTimeUtcMs(String clientEventStartTimeUtcMs) { this.clientEventStartTimeUtcMs = clientEventStartTimeUtcMs; }
+    public void setClientEventStartTimeUtcMs(String clientEventStartTimeUtcMs) {
+        this.clientEventStartTimeUtcMs = clientEventStartTimeUtcMs;
+    }
 
     public String getClientEventEndTimeUtcMs() { return clientEventEndTimeUtcMs; }
 
-    public void setClientEventEndTimeUtcMs(String clientEventEndTimeUtcMs) { this.clientEventEndTimeUtcMs = clientEventEndTimeUtcMs; }
+    public void setClientEventEndTimeUtcMs(String clientEventEndTimeUtcMs) {
+        this.clientEventEndTimeUtcMs = clientEventEndTimeUtcMs;
+    }
 }

@@ -48,23 +48,33 @@ public class BattleSettings {
 
     public Double getAttackServerInterval() { return attackServerInterval; }
 
-    public void setAttackServerInterval(Double attackServerInterval) { this.attackServerInterval = attackServerInterval; }
+    public void setAttackServerInterval(Double attackServerInterval) {
+        this.attackServerInterval = attackServerInterval;
+    }
 
     public Double getRoundDurationSeconds() { return roundDurationSeconds; }
 
-    public void setRoundDurationSeconds(Double roundDurationSeconds) { this.roundDurationSeconds = roundDurationSeconds; }
+    public void setRoundDurationSeconds(Double roundDurationSeconds) {
+        this.roundDurationSeconds = roundDurationSeconds;
+    }
 
     public Double getBonusTimePerAllySeconds() { return bonusTimePerAllySeconds; }
 
-    public void setBonusTimePerAllySeconds(Double bonusTimePerAllySeconds) { this.bonusTimePerAllySeconds = bonusTimePerAllySeconds; }
+    public void setBonusTimePerAllySeconds(Double bonusTimePerAllySeconds) {
+        this.bonusTimePerAllySeconds = bonusTimePerAllySeconds;
+    }
 
     public Integer getMaximumAttackersPerBattle() { return maximumAttackersPerBattle; }
 
-    public void setMaximumAttackersPerBattle(Integer maximumAttackersPerBattle) { this.maximumAttackersPerBattle = maximumAttackersPerBattle; }
+    public void setMaximumAttackersPerBattle(Integer maximumAttackersPerBattle) {
+        this.maximumAttackersPerBattle = maximumAttackersPerBattle;
+    }
 
     public Double getSameTypeAttackBonusMultiplier() { return sameTypeAttackBonusMultiplier; }
 
-    public void setSameTypeAttackBonusMultiplier(Double sameTypeAttackBonusMultiplier) { this.sameTypeAttackBonusMultiplier = sameTypeAttackBonusMultiplier; }
+    public void setSameTypeAttackBonusMultiplier(Double sameTypeAttackBonusMultiplier) {
+        this.sameTypeAttackBonusMultiplier = sameTypeAttackBonusMultiplier;
+    }
 
     public Integer getMaximumEnergy() { return maximumEnergy; }
 
@@ -72,7 +82,9 @@ public class BattleSettings {
 
     public Double getEnergyDeltaPerHealthLost() { return energyDeltaPerHealthLost; }
 
-    public void setEnergyDeltaPerHealthLost(Double energyDeltaPerHealthLost) { this.energyDeltaPerHealthLost = energyDeltaPerHealthLost; }
+    public void setEnergyDeltaPerHealthLost(Double energyDeltaPerHealthLost) {
+        this.energyDeltaPerHealthLost = energyDeltaPerHealthLost;
+    }
 
     public Integer getDodgeDurationMs() { return dodgeDurationMs; }
 
@@ -88,21 +100,31 @@ public class BattleSettings {
 
     public Double getDodgeDamageReductionPercent() { return dodgeDamageReductionPercent; }
 
-    public void setDodgeDamageReductionPercent(Double dodgeDamageReductionPercent) { this.dodgeDamageReductionPercent = dodgeDamageReductionPercent; }
+    public void setDodgeDamageReductionPercent(Double dodgeDamageReductionPercent) {
+        this.dodgeDamageReductionPercent = dodgeDamageReductionPercent;
+    }
 
     public Integer getMinimumRaidPlayerLevel() { return minimumRaidPlayerLevel; }
 
-    public void setMinimumRaidPlayerLevel(Integer minimumRaidPlayerLevel) { this.minimumRaidPlayerLevel = minimumRaidPlayerLevel; }
+    public void setMinimumRaidPlayerLevel(Integer minimumRaidPlayerLevel) {
+        this.minimumRaidPlayerLevel = minimumRaidPlayerLevel;
+    }
 
     public Double getShadowPokemonAttackBonusMultiplier() { return shadowPokemonAttackBonusMultiplier; }
 
-    public void setShadowPokemonAttackBonusMultiplier(Double shadowPokemonAttackBonusMultiplier) { this.shadowPokemonAttackBonusMultiplier = shadowPokemonAttackBonusMultiplier; }
+    public void setShadowPokemonAttackBonusMultiplier(Double shadowPokemonAttackBonusMultiplier) {
+        this.shadowPokemonAttackBonusMultiplier = shadowPokemonAttackBonusMultiplier;
+    }
 
     public Double getShadowPokemonDefenseBonusMultiplier() { return shadowPokemonDefenseBonusMultiplier; }
 
-    public void setShadowPokemonDefenseBonusMultiplier(Double shadowPokemonDefenseBonusMultiplier) { this.shadowPokemonDefenseBonusMultiplier = shadowPokemonDefenseBonusMultiplier; }
+    public void setShadowPokemonDefenseBonusMultiplier(Double shadowPokemonDefenseBonusMultiplier) {
+        this.shadowPokemonDefenseBonusMultiplier = shadowPokemonDefenseBonusMultiplier;
+    }
 
     public Double getPurifiedPokemonAttackMultiplierVsShadow() { return purifiedPokemonAttackMultiplierVsShadow; }
 
-    public void setPurifiedPokemonAttackMultiplierVsShadow(Double purifiedPokemonAttackMultiplierVsShadow) { this.purifiedPokemonAttackMultiplierVsShadow = purifiedPokemonAttackMultiplierVsShadow; }
+    public void setPurifiedPokemonAttackMultiplierVsShadow(Double purifiedPokemonAttackMultiplierVsShadow) {
+        this.purifiedPokemonAttackMultiplierVsShadow = purifiedPokemonAttackMultiplierVsShadow;
+    }
 }

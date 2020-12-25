@@ -28,7 +28,7 @@ public class Badge {
 
     public void setTargets(List<Integer> targets) { this.targets = targets; }
 
-    public Boolean getEventBadge() { return isEventBadge = false; }
+    public Boolean getEventBadge() { return isEventBadge; }
 
-    public void setEventBadge(Boolean eventBadge) { isEventBadge = eventBadge = false; }
+    public void setEventBadge(Boolean eventBadge) { isEventBadge = eventBadge; }
 }

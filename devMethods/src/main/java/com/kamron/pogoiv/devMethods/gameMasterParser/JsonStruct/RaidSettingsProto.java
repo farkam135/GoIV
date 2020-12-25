@@ -28,9 +28,9 @@ public class RaidSettingsProto {
     @Expose
     private Integer maxNumFriendInvitesPerAction;
 
-    public Boolean getRemoteRaidEnabled() { return remoteRaidEnabled = false; }
+    public Boolean getRemoteRaidEnabled() { return remoteRaidEnabled; }
 
-    public void setRemoteRaidEnabled(Boolean remoteRaidEnabled) { this.remoteRaidEnabled = remoteRaidEnabled = false; }
+    public void setRemoteRaidEnabled(Boolean remoteRaidEnabled) { this.remoteRaidEnabled = remoteRaidEnabled; }
 
     public Integer getMaxRemoteRaidPasses() { return maxRemoteRaidPasses; }
 
@@ -38,27 +38,39 @@ public class RaidSettingsProto {
 
     public Double getRemoteDamageModifier() { return remoteDamageModifier; }
 
-    public void setRemoteDamageModifier(Double remoteDamageModifier) { this.remoteDamageModifier = remoteDamageModifier; }
+    public void setRemoteDamageModifier(Double remoteDamageModifier) {
+        this.remoteDamageModifier = remoteDamageModifier;
+    }
 
     public Integer getRemoteRaidsMinPlayerLevel() { return remoteRaidsMinPlayerLevel; }
 
-    public void setRemoteRaidsMinPlayerLevel(Integer remoteRaidsMinPlayerLevel) { this.remoteRaidsMinPlayerLevel = remoteRaidsMinPlayerLevel; }
+    public void setRemoteRaidsMinPlayerLevel(Integer remoteRaidsMinPlayerLevel) {
+        this.remoteRaidsMinPlayerLevel = remoteRaidsMinPlayerLevel;
+    }
 
     public Integer getMaxNumFriendInvites() { return maxNumFriendInvites; }
 
-    public void setMaxNumFriendInvites(Integer maxNumFriendInvites) { this.maxNumFriendInvites = maxNumFriendInvites; }
+    public void setMaxNumFriendInvites(Integer maxNumFriendInvites) {
+        this.maxNumFriendInvites = maxNumFriendInvites;
+    }
 
     public Integer getFriendInviteCutoffTimeSec() { return friendInviteCutoffTimeSec; }
 
-    public void setFriendInviteCutoffTimeSec(Integer friendInviteCutoffTimeSec) { this.friendInviteCutoffTimeSec = friendInviteCutoffTimeSec; }
+    public void setFriendInviteCutoffTimeSec(Integer friendInviteCutoffTimeSec) {
+        this.friendInviteCutoffTimeSec = friendInviteCutoffTimeSec;
+    }
 
-    public Boolean getCanInviteFriendsInPerson() { return canInviteFriendsInPerson = false; }
+    public Boolean getCanInviteFriendsInPerson() { return canInviteFriendsInPerson; }
 
-    public void setCanInviteFriendsInPerson(Boolean canInviteFriendsInPerson) { this.canInviteFriendsInPerson = canInviteFriendsInPerson = false; }
+    public void setCanInviteFriendsInPerson(Boolean canInviteFriendsInPerson) {
+        this.canInviteFriendsInPerson = canInviteFriendsInPerson;
+    }
 
-    public Boolean getCanInviteFriendsRemotely() { return canInviteFriendsRemotely = false; }
+    public Boolean getCanInviteFriendsRemotely() { return canInviteFriendsRemotely; }
 
-    public void setCanInviteFriendsRemotely(Boolean canInviteFriendsRemotely) { this.canInviteFriendsRemotely = canInviteFriendsRemotely = false; }
+    public void setCanInviteFriendsRemotely(Boolean canInviteFriendsRemotely) {
+        this.canInviteFriendsRemotely = canInviteFriendsRemotely;
+    }
 
     public Integer getMaxPlayersPerLobby() { return maxPlayersPerLobby; }
 
@@ -66,13 +78,19 @@ public class RaidSettingsProto {
 
     public Integer getMaxRemotePlayersPerLobby() { return maxRemotePlayersPerLobby; }
 
-    public void setMaxRemotePlayersPerLobby(Integer maxRemotePlayersPerLobby) { this.maxRemotePlayersPerLobby = maxRemotePlayersPerLobby; }
+    public void setMaxRemotePlayersPerLobby(Integer maxRemotePlayersPerLobby) {
+        this.maxRemotePlayersPerLobby = maxRemotePlayersPerLobby;
+    }
 
     public String getInviteCooldownDurationMillis() { return inviteCooldownDurationMillis; }
 
-    public void setInviteCooldownDurationMillis(String inviteCooldownDurationMillis) { this.inviteCooldownDurationMillis = inviteCooldownDurationMillis; }
+    public void setInviteCooldownDurationMillis(String inviteCooldownDurationMillis) {
+        this.inviteCooldownDurationMillis = inviteCooldownDurationMillis;
+    }
 
     public Integer getMaxNumFriendInvitesPerAction() { return maxNumFriendInvitesPerAction; }
 
-    public void setMaxNumFriendInvitesPerAction(Integer maxNumFriendInvitesPerAction) { this.maxNumFriendInvitesPerAction = maxNumFriendInvitesPerAction; }
+    public void setMaxNumFriendInvitesPerAction(Integer maxNumFriendInvitesPerAction) {
+        this.maxNumFriendInvitesPerAction = maxNumFriendInvitesPerAction;
+    }
 }

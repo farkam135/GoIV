@@ -76,7 +76,9 @@ public class Encounter {
         return collisionHeadRadiusM;
     }
 
-    public void setCollisionHeadRadiusM(Double collisionHeadRadiusM) { this.collisionHeadRadiusM = collisionHeadRadiusM; }
+    public void setCollisionHeadRadiusM(Double collisionHeadRadiusM) {
+        this.collisionHeadRadiusM = collisionHeadRadiusM;
+    }
 
     public String getMovementType() {
         return movementType;
@@ -154,19 +156,27 @@ public class Encounter {
         return minPokemonActionFrequencyS;
     }
 
-    public void setMinPokemonActionFrequencyS(Double minPokemonActionFrequencyS) { this.minPokemonActionFrequencyS = minPokemonActionFrequencyS; }
+    public void setMinPokemonActionFrequencyS(Double minPokemonActionFrequencyS) {
+        this.minPokemonActionFrequencyS = minPokemonActionFrequencyS;
+    }
 
     public Double getMaxPokemonActionFrequencyS() {
         return maxPokemonActionFrequencyS;
     }
 
-    public void setMaxPokemonActionFrequencyS(Double maxPokemonActionFrequencyS) { this.maxPokemonActionFrequencyS = maxPokemonActionFrequencyS; }
+    public void setMaxPokemonActionFrequencyS(Double maxPokemonActionFrequencyS) {
+        this.maxPokemonActionFrequencyS = maxPokemonActionFrequencyS;
+    }
 
     public Integer getBonusCandyCaptureReward() { return bonusCandyCaptureReward; }
 
-    public void setBonusCandyCaptureReward(Integer bonusCandyCaptureReward) { this.bonusCandyCaptureReward = bonusCandyCaptureReward; }
+    public void setBonusCandyCaptureReward(Integer bonusCandyCaptureReward) {
+        this.bonusCandyCaptureReward = bonusCandyCaptureReward;
+    }
 
     public Integer getBonusStardustCaptureReward() { return bonusStardustCaptureReward; }
 
-    public void setBonusStardustCaptureReward(Integer bonusStardustCaptureReward) { this.bonusStardustCaptureReward = bonusStardustCaptureReward; }
+    public void setBonusStardustCaptureReward(Integer bonusStardustCaptureReward) {
+        this.bonusStardustCaptureReward = bonusStardustCaptureReward;
+    }
 }

@@ -26,5 +26,7 @@ public class CombatType {
 
     public Double getExcellentLevelThreshold() { return excellentLevelThreshold; }
 
-    public void setExcellentLevelThreshold(Double excellentLevelThreshold) { this.excellentLevelThreshold = excellentLevelThreshold; }
+    public void setExcellentLevelThreshold(Double excellentLevelThreshold) {
+        this.excellentLevelThreshold = excellentLevelThreshold;
+    }
 }

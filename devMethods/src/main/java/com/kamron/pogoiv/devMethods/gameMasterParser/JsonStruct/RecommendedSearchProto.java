@@ -16,7 +16,9 @@ public class RecommendedSearchProto {
 
     public String getAppendedSearchString() { return appendedSearchString; }
 
-    public void setAppendedSearchString(String appendedSearchString) { this.appendedSearchString = appendedSearchString; }
+    public void setAppendedSearchString(String appendedSearchString) {
+        this.appendedSearchString = appendedSearchString;
+    }
 
     public String getSearchKey() { return searchKey; }
 

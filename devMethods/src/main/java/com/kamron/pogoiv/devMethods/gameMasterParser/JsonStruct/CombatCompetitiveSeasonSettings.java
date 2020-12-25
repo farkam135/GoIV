@@ -14,13 +14,19 @@ public class CombatCompetitiveSeasonSettings {
 
     public List<String> getSeasonEndTimeTimestamp() { return seasonEndTimeTimestamp; }
 
-    public void setSeasonEndTimeTimestamp(List<String> seasonEndTimeTimestamp) { this.seasonEndTimeTimestamp = seasonEndTimeTimestamp; }
+    public void setSeasonEndTimeTimestamp(List<String> seasonEndTimeTimestamp) {
+        this.seasonEndTimeTimestamp = seasonEndTimeTimestamp;
+    }
 
     public Double getRatingAdjustmentPercentage() { return ratingAdjustmentPercentage; }
 
-    public void setRatingAdjustmentPercentage(Double ratingAdjustmentPercentage) { this.ratingAdjustmentPercentage = ratingAdjustmentPercentage; }
+    public void setRatingAdjustmentPercentage(Double ratingAdjustmentPercentage) {
+        this.ratingAdjustmentPercentage = ratingAdjustmentPercentage;
+    }
 
     public Double getRankingAdjustmentPercentage() { return rankingAdjustmentPercentage; }
 
-    public void setRankingAdjustmentPercentage(Double rankingAdjustmentPercentage) { this.rankingAdjustmentPercentage = rankingAdjustmentPercentage; }
+    public void setRankingAdjustmentPercentage(Double rankingAdjustmentPercentage) {
+        this.rankingAdjustmentPercentage = rankingAdjustmentPercentage;
+    }
 }

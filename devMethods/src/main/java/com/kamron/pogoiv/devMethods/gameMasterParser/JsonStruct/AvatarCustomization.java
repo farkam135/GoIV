@@ -31,9 +31,9 @@ public class AvatarCustomization {
     @Expose
     private Integer unlockPlayerLevel;
 
-    public Boolean getEnabled() { return enabled = false; }
+    public Boolean getEnabled() { return enabled; }
 
-    public void setEnabled(Boolean enabled) { this.enabled = enabled = false; }
+    public void setEnabled(Boolean enabled) { this.enabled = enabled; }
 
     public String getAvatarType() { return avatarType; }
 

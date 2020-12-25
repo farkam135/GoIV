@@ -16,21 +16,27 @@ public class SponsoredGeofenceGiftSettings {
 
     public Integer getGiftPersistenceTimeMs() { return giftPersistenceTimeMs; }
 
-    public void setGiftPersistenceTimeMs(Integer giftPersistenceTimeMs) { this.giftPersistenceTimeMs = giftPersistenceTimeMs; }
+    public void setGiftPersistenceTimeMs(Integer giftPersistenceTimeMs) {
+        this.giftPersistenceTimeMs = giftPersistenceTimeMs;
+    }
 
     public Integer getMapPresentationTimeMs() { return mapPresentationTimeMs; }
 
-    public void setMapPresentationTimeMs(Integer mapPresentationTimeMs) { this.mapPresentationTimeMs = mapPresentationTimeMs; }
+    public void setMapPresentationTimeMs(Integer mapPresentationTimeMs) {
+        this.mapPresentationTimeMs = mapPresentationTimeMs;
+    }
 
-    public Boolean getEnableSponsoredGeofenceGift() { return enableSponsoredGeofenceGift = false; }
+    public Boolean getEnableSponsoredGeofenceGift() { return enableSponsoredGeofenceGift; }
 
-    public void setEnableSponsoredGeofenceGift(Boolean enableSponsoredGeofenceGift) { this.enableSponsoredGeofenceGift = enableSponsoredGeofenceGift = false; }
+    public void setEnableSponsoredGeofenceGift(Boolean enableSponsoredGeofenceGift) {
+        this.enableSponsoredGeofenceGift = enableSponsoredGeofenceGift;
+    }
 
-    public Boolean getEnablePoiGift() { return enablePoiGift = false; }
+    public Boolean getEnablePoiGift() { return enablePoiGift; }
 
-    public void setEnablePoiGift(Boolean enablePoiGift) { this.enablePoiGift = enablePoiGift = false; }
+    public void setEnablePoiGift(Boolean enablePoiGift) { this.enablePoiGift = enablePoiGift; }
 
-    public Boolean getEnableIncidentGift() { return enableIncidentGift = false; }
+    public Boolean getEnableIncidentGift() { return enableIncidentGift; }
 
-    public void setEnableIncidentGift(Boolean enableIncidentGift) { this.enableIncidentGift = enableIncidentGift = false; }
+    public void setEnableIncidentGift(Boolean enableIncidentGift) { this.enableIncidentGift = enableIncidentGift; }
 }

@@ -26,7 +26,9 @@ public class EncounterSettings {
 
     public Double getExcellentThrowThreshold() { return excellentThrowThreshold; }
 
-    public void setExcellentThrowThreshold(Double excellentThrowThreshold) { this.excellentThrowThreshold = excellentThrowThreshold; }
+    public void setExcellentThrowThreshold(Double excellentThrowThreshold) {
+        this.excellentThrowThreshold = excellentThrowThreshold;
+    }
 
     public Double getGreatThrowThreshold() { return greatThrowThreshold; }
 
@@ -40,15 +42,19 @@ public class EncounterSettings {
 
     public void setMilestoneThreshold(Integer milestoneThreshold) { this.milestoneThreshold = milestoneThreshold; }
 
-    public Boolean getArPlusModeEnabled() { return arPlusModeEnabled = false; }
+    public Boolean getArPlusModeEnabled() { return arPlusModeEnabled; }
 
-    public void setArPlusModeEnabled(Boolean arPlusModeEnabled) { this.arPlusModeEnabled = arPlusModeEnabled = false; }
+    public void setArPlusModeEnabled(Boolean arPlusModeEnabled) { this.arPlusModeEnabled = arPlusModeEnabled; }
 
     public Double getArCloseProximityThreshold() { return arCloseProximityThreshold; }
 
-    public void setArCloseProximityThreshold(Double arCloseProximityThreshold) { this.arCloseProximityThreshold = arCloseProximityThreshold; }
+    public void setArCloseProximityThreshold(Double arCloseProximityThreshold) {
+        this.arCloseProximityThreshold = arCloseProximityThreshold;
+    }
 
     public Double getArLowAwarenessThreshold() { return arLowAwarenessThreshold; }
 
-    public void setArLowAwarenessThreshold(Double arLowAwarenessThreshold) { this.arLowAwarenessThreshold = arLowAwarenessThreshold; }
+    public void setArLowAwarenessThreshold(Double arLowAwarenessThreshold) {
+        this.arLowAwarenessThreshold = arLowAwarenessThreshold;
+    }
 }

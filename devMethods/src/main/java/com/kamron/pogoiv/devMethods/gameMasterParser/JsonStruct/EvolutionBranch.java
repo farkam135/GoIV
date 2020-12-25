@@ -56,19 +56,25 @@ public class EvolutionBranch {
 
     public Integer getTemporaryEvolutionEnergyCost() { return temporaryEvolutionEnergyCost; }
 
-    public void setTemporaryEvolutionEnergyCost(Integer temporaryEvolutionEnergyCost) { this.temporaryEvolutionEnergyCost = temporaryEvolutionEnergyCost; }
+    public void setTemporaryEvolutionEnergyCost(Integer temporaryEvolutionEnergyCost) {
+        this.temporaryEvolutionEnergyCost = temporaryEvolutionEnergyCost;
+    }
 
     public Integer getTemporaryEvolutionEnergyCostSubsequent() { return temporaryEvolutionEnergyCostSubsequent; }
 
-    public void setTemporaryEvolutionEnergyCostSubsequent(Integer temporaryEvolutionEnergyCostSubsequent) { this.temporaryEvolutionEnergyCostSubsequent = temporaryEvolutionEnergyCostSubsequent; }
+    public void setTemporaryEvolutionEnergyCostSubsequent(Integer temporaryEvolutionEnergyCostSubsequent) {
+        this.temporaryEvolutionEnergyCostSubsequent = temporaryEvolutionEnergyCostSubsequent;
+    }
 
     public String getEvolutionItemRequirement() { return evolutionItemRequirement; }
 
-    public void setEvolutionItemRequirement(String evolutionItemRequirement) { this.evolutionItemRequirement = evolutionItemRequirement; }
+    public void setEvolutionItemRequirement(String evolutionItemRequirement) {
+        this.evolutionItemRequirement = evolutionItemRequirement;
+    }
 
-    public Boolean getNoCandyCostViaTrade() { return noCandyCostViaTrade = false; }
+    public Boolean getNoCandyCostViaTrade() { return noCandyCostViaTrade; }
 
-    public void setNoCandyCostViaTrade(Boolean noCandyCostViaTrade) { this.noCandyCostViaTrade = noCandyCostViaTrade = false; }
+    public void setNoCandyCostViaTrade(Boolean noCandyCostViaTrade) { this.noCandyCostViaTrade = noCandyCostViaTrade; }
 
     public String getLureItemRequirement() { return lureItemRequirement; }
 
@@ -81,7 +87,9 @@ public class EvolutionBranch {
 
     public Double getKmBuddyDistanceRequirement() { return kmBuddyDistanceRequirement; }
 
-    public void setKmBuddyDistanceRequirement(Double kmBuddyDistanceRequirement) { this.kmBuddyDistanceRequirement = kmBuddyDistanceRequirement; }
+    public void setKmBuddyDistanceRequirement(Double kmBuddyDistanceRequirement) {
+        this.kmBuddyDistanceRequirement = kmBuddyDistanceRequirement;
+    }
 
     public Boolean getMustBeBuddy() { return mustBeBuddy; }
 

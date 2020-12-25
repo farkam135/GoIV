@@ -20,5 +20,7 @@ public class UnlockCondition {
 
     public WithPokemonCpLimit getWithPokemonCpLimit() { return withPokemonCpLimit; }
 
-    public void setWithPokemonCpLimit(WithPokemonCpLimit withPokemonCpLimit) { this.withPokemonCpLimit = withPokemonCpLimit; }
+    public void setWithPokemonCpLimit(WithPokemonCpLimit withPokemonCpLimit) {
+        this.withPokemonCpLimit = withPokemonCpLimit;
+    }
 }

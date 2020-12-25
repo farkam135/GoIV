@@ -5,7 +5,7 @@ import com.google.gson.annotations.Expose;
 import java.util.List;
 
 public class VsSeekerPokemonRewards {
-    static public class AvailablePokemon {
+    public static class AvailablePokemon {
         @Expose
         private GuaranteedLimitedPokemonReward guaranteedLimitedPokemonReward;
         @Expose
@@ -19,9 +19,13 @@ public class VsSeekerPokemonRewards {
         @Expose
         private PokemonId pokemon;
 
-        public GuaranteedLimitedPokemonReward getGuaranteedLimitedPokemonReward() { return guaranteedLimitedPokemonReward; }
+        public GuaranteedLimitedPokemonReward getGuaranteedLimitedPokemonReward() {
+            return guaranteedLimitedPokemonReward;
+        }
 
-        public void setGuaranteedLimitedPokemonReward(GuaranteedLimitedPokemonReward guaranteedLimitedPokemonReward) { this.guaranteedLimitedPokemonReward = guaranteedLimitedPokemonReward; }
+        public void setGuaranteedLimitedPokemonReward(GuaranteedLimitedPokemonReward guaranteedLimitedPokemonReward) {
+            this.guaranteedLimitedPokemonReward = guaranteedLimitedPokemonReward;
+        }
 
         public Integer getUnlockedAtRank() { return unlockedAtRank; }
 
@@ -51,7 +55,9 @@ public class VsSeekerPokemonRewards {
 
     public List<AvailablePokemon> getAvailablePokemon() { return availablePokemon; }
 
-    public void setAvailablePokemon(List<AvailablePokemon> availablePokemon) { this.availablePokemon = availablePokemon; }
+    public void setAvailablePokemon(List<AvailablePokemon> availablePokemon) {
+        this.availablePokemon = availablePokemon;
+    }
 
     public String getRewardTrack() { return rewardTrack; }
 

@@ -16,21 +16,31 @@ public class BuddyHungerSettings {
 
     public Integer getNumHungerPointsRequiredForFull() { return numHungerPointsRequiredForFull; }
 
-    public void setNumHungerPointsRequiredForFull(Integer numHungerPointsRequiredForFull) { this.numHungerPointsRequiredForFull = numHungerPointsRequiredForFull; }
+    public void setNumHungerPointsRequiredForFull(Integer numHungerPointsRequiredForFull) {
+        this.numHungerPointsRequiredForFull = numHungerPointsRequiredForFull;
+    }
 
     public Integer getDecayPointsPerBucket() { return decayPointsPerBucket; }
 
-    public void setDecayPointsPerBucket(Integer decayPointsPerBucket) { this.decayPointsPerBucket = decayPointsPerBucket; }
+    public void setDecayPointsPerBucket(Integer decayPointsPerBucket) {
+        this.decayPointsPerBucket = decayPointsPerBucket;
+    }
 
     public String getMillisecondsPerBucket() { return millisecondsPerBucket; }
 
-    public void setMillisecondsPerBucket(String millisecondsPerBucket) { this.millisecondsPerBucket = millisecondsPerBucket; }
+    public void setMillisecondsPerBucket(String millisecondsPerBucket) {
+        this.millisecondsPerBucket = millisecondsPerBucket;
+    }
 
     public String getCooldownDurationMs() { return cooldownDurationMs; }
 
-    public void setCooldownDurationMs(String cooldownDurationMs) { this.cooldownDurationMs = cooldownDurationMs; }
+    public void setCooldownDurationMs(String cooldownDurationMs) {
+        this.cooldownDurationMs = cooldownDurationMs;
+    }
 
     public String getDecayDurationAfterFullMs() { return decayDurationAfterFullMs; }
 
-    public void setDecayDurationAfterFullMs(String decayDurationAfterFullMs) { this.decayDurationAfterFullMs = decayDurationAfterFullMs; }
+    public void setDecayDurationAfterFullMs(String decayDurationAfterFullMs) {
+        this.decayDurationAfterFullMs = decayDurationAfterFullMs;
+    }
 }

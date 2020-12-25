@@ -24,7 +24,9 @@ public class PlayerLevel {
 
     public List<Integer> getRequiredExperience() { return requiredExperience; }
 
-    public void setRequiredExperience(List<Integer> requiredExperience) { this.requiredExperience = requiredExperience; }
+    public void setRequiredExperience(List<Integer> requiredExperience) {
+        this.requiredExperience = requiredExperience;
+    }
 
     public List<Double> getCpMultiplier() { return cpMultiplier; }
 
@@ -36,9 +38,13 @@ public class PlayerLevel {
 
     public Integer getMaxEncounterPlayerLevel() { return maxEncounterPlayerLevel; }
 
-    public void setMaxEncounterPlayerLevel(Integer maxEncounterPlayerLevel) { this.maxEncounterPlayerLevel = maxEncounterPlayerLevel; }
+    public void setMaxEncounterPlayerLevel(Integer maxEncounterPlayerLevel) {
+        this.maxEncounterPlayerLevel = maxEncounterPlayerLevel;
+    }
 
     public Integer getMaxQuestEncounterPlayerLevel() { return maxQuestEncounterPlayerLevel; }
 
-    public void setMaxQuestEncounterPlayerLevel(Integer maxQuestEncounterPlayerLevel) { this.maxQuestEncounterPlayerLevel = maxQuestEncounterPlayerLevel; }
+    public void setMaxQuestEncounterPlayerLevel(Integer maxQuestEncounterPlayerLevel) {
+        this.maxQuestEncounterPlayerLevel = maxQuestEncounterPlayerLevel;
+    }
 }

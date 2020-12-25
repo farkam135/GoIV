@@ -9,7 +9,12 @@ import com.kamron.pogoiv.devMethods.gameMasterParser.JsonStruct.Pokemon;
 import com.kamron.pogoiv.devMethods.gameMasterParser.JsonStruct.Stats;
 import com.kamron.pogoiv.devMethods.gameMasterParser.JsonStruct.Template;
 
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -20,11 +25,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 public class ApplicationDatabaseUpdater {
 
-    static private final String integerArrayFormat = " <item>%d</item>";
-    static private final String stringArrayFormat = " <item>%s</item>";
-    static private final String commentFormat = " <!-- %s -->\n";
+    private static final String integerArrayFormat = " <item>%d</item>";
+    private static final String stringArrayFormat = " <item>%s</item>";
+    private static final String commentFormat = " <!-- %s -->\n";
 
     public static void main(String[] args) {
 
@@ -66,17 +73,17 @@ public class ApplicationDatabaseUpdater {
 
         printIntegersXml(formsByPokedex, pokemonWithMultipleForms, pokemonFormsByName, dexNumberLookup);
         printFormsXml(pokemonWithMultipleForms, pokemonFormsByName);
-        printTypeDifferencesSuggestions(pokemonWithMultipleForms, pokemonFormsByName, formsByPokedex, dexNumberLookup);
+        printTypeDifferencesSuggestions(pokemonWithMultipleForms, pokemonFormsByName, dexNumberLookup);
     }
 
     private static void printTypeDifferencesSuggestions(ArrayList<FormSettings> pokemonWithMultipleForms,
                                                         HashMap<String, HashMap<String, Pokemon>> pokemonFormsByName,
-                                                        HashMap<Integer, FormSettings> formsByPokedex,
                                                         HashMap<String, Integer> dexNumberLookup) {
-        System.out.println("Here's type difference suggestions to allow GoIV to differentiate between pokemon forms:\n");
+        System.out.println("Here's type difference suggestions to allow GoIV to differentiate between forms:\n");
 
         for (FormSettings formSetting : pokemonWithMultipleForms) {
-            HashMap<String, Pokemon> formHash = pokemonFormsByName.get(formSetting.getName());
+            String formName = formSetting.getName();
+            HashMap<String, Pokemon> formHash = pokemonFormsByName.get(formName);
 
             HashMap<String, Integer> typeCounter = new HashMap<>();
             for (Pokemon pokemon : formHash.values()) {
@@ -91,20 +98,20 @@ public class ApplicationDatabaseUpdater {
             final boolean[] hasUnique = {false};
             typeCounter.forEach((s, integer) -> {
                 if (integer == 1) {
-                    System.out.println(s + " is unique for " + formSetting.getName() + " #" + dexNumberLookup.get(formSetting.getName()));
+                    System.out.printf("%s is unique for %s #%d%n", s, formName, dexNumberLookup.get(formName));
                     hasUnique[0] = true;
                 }
             });
             if (!hasUnique[0]) {
-                System.out.println(formSetting.getName() + " has no unique typing. :((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((");
+                System.out.println(formName + " has no unique typing. :((((((((((((((((((((((((((((((((((((((((((((((");
             }
 
         }
     }
 
     /**
-     * Reads the V2_GAME_MASTER.json located in the project root directory, and returns a List<ItemTemplate> containing
-     * all the data contained in the Json.
+     * Reads the V2_GAME_MASTER.json located in the project root directory, and returns a List&lt;ItemTemplate&gt;
+     *     containing all the data contained in the Json.
      *
      * @return a List of all data contained in the Json
      */
@@ -133,7 +140,7 @@ public class ApplicationDatabaseUpdater {
      *  @param formsByPokedex - Form data stored by NatDex number
      * @param pokemonWithMultipleForms - Form data for pokemon with multiple forms
      * @param pokemonFormsByName - Pokemon data by species and form ID
-     * @param dexNumberLookup
+     * @param dexNumberLookup - Pokemon's dex # by name
      */
     private static void printIntegersXml(HashMap<Integer, FormSettings> formsByPokedex,
                                          ArrayList<FormSettings> pokemonWithMultipleForms,
@@ -183,14 +190,17 @@ public class ApplicationDatabaseUpdater {
             if (formsByPokedex.containsKey(i)) {
                 FormSettings form = formsByPokedex.get(i);
                 HashMap<String, Pokemon> formHash = pokemonFormsByName.get(form.getName());
-                if (formHash == null) continue; // Some pokemon have form data in the game, but not pokemon data??
+                if (formHash != null) {
                 Pokemon poke = formHash.get(null);
                 String pokemonName = titleCase(form.getName());
                 Stats stats = poke.getStats();
 
-                attackFormatter.format(integerArrayFormat, stats.getBaseAttack()).format(commentFormat, pokemonName);
-                defenseFormatter.format(integerArrayFormat, stats.getBaseDefense()).format(commentFormat, pokemonName);
-                staminaFormatter.format(integerArrayFormat, stats.getBaseStamina()).format(commentFormat, pokemonName);
+                    attackFormatter.format(integerArrayFormat, stats.getBaseAttack())
+                            .format(commentFormat, pokemonName);
+                    defenseFormatter.format(integerArrayFormat, stats.getBaseDefense())
+                            .format(commentFormat, pokemonName);
+                    staminaFormatter.format(integerArrayFormat, stats.getBaseStamina())
+                            .format(commentFormat, pokemonName);
 
                 // Devolution Number
                 devolutionNumberFormatter.format(integerArrayFormat, dexNumberLookup.get(poke.getParentId()) - 1);
@@ -207,15 +217,20 @@ public class ApplicationDatabaseUpdater {
                 if (evolveCandy == null) {
                     evolveCandy = -1;
                 }
-                evolutionCandyCostFormatter.format(integerArrayFormat, evolveCandy).format(commentFormat, pokemonName);
+                    evolutionCandyCostFormatter.format(integerArrayFormat, evolveCandy)
+                            .format(commentFormat, pokemonName);
 
                 // Candy Names
-                candyNamesFormatter.format(integerArrayFormat, dexNumberLookup.get(poke.getFamilyId().substring(7)));
+                    candyNamesFormatter.format(integerArrayFormat,
+                            dexNumberLookup.get(poke.getFamilyId().substring(7))
+                    );
                 candyNamesFormatter.format(commentFormat, pokemonName);
 
                 // Forms Count Index
                 formsCountIndexFormatter.format(integerArrayFormat, pokemonWithMultipleForms.indexOf(form));
                 formsCountIndexFormatter.format(commentFormat, pokemonName);
+                }  // Some pokemon have form data in the game, but not pokemon data??
+
             }
         }
 
@@ -250,7 +265,8 @@ public class ApplicationDatabaseUpdater {
      * @param pokemonWithMultipleForms - Form data for pokemon with multiple forms
      * @param pokemonFormsByName - Pokemon data by species and form ID
      */
-    private static void printFormsXml(ArrayList<FormSettings> pokemonWithMultipleForms, HashMap<String, HashMap<String, Pokemon>> pokemonFormsByName) {
+    private static void printFormsXml(ArrayList<FormSettings> pokemonWithMultipleForms,
+                                      HashMap<String, HashMap<String, Pokemon>> pokemonFormsByName) {
         // Full file
         StringBuilder formsXmlBuilder = new StringBuilder();
 
@@ -293,7 +309,7 @@ public class ApplicationDatabaseUpdater {
             formAttackFormatter.format(commentFormat, pokemonName);
             formAttackFormatter.format(commentFormat, pokemonName);
             for (Form subform : form.getForms()) {
-                Pokemon poke = formHash.get(formHash.containsKey(subform.getForm())? subform.getForm() : null);
+                Pokemon poke = formHash.get(formHash.containsKey(subform.getForm()) ? subform.getForm() : null);
                 Stats stats = poke.getStats();
                 String formName = formName(subform.getForm(), form.getName());
 
@@ -345,34 +361,33 @@ public class ApplicationDatabaseUpdater {
     }
 
     /**
-     * Guarantees a non-null value
+     * Guarantees a non-null value.
      * @param nullish - value to check
      * @param fallback - backup in case the value is null
      * @param <T> - Value's Type
      * @return a non-null value
      */
     private static <T> T unnull(T nullish, T fallback) {
-        return (nullish == null)? fallback : nullish;
+        return (nullish == null) ? fallback : nullish;
     }
 
     /**
-     * Converts text such as "THIS IS annoyingly WEIRd CapitaLIZATION" to "This Is Annoyingly Weird Capitalization" - capitalizing each word.
+     * Converts text such as "THIS IS annoyingly WEIRd CapitaLIZATION" to "This Is Annoyingly Weird Capitalization"
+     * - capitalizing each word.
      *
      * @param str - annoying text
      * @return aesthetic text
      */
     private static String titleCase(String str) {
-        return Arrays.stream(str.split("[ _]")).map(word -> Character.toTitleCase(word.charAt(0)) + word.substring(1).toLowerCase()).collect(Collectors.joining(" "));
+        return Arrays.stream(str.split("[ _]")).map(
+                word -> Character.toTitleCase(word.charAt(0)) + word.substring(1).toLowerCase()
+        ).collect(Collectors.joining(" "));
     }
 
     private static void writeFile(String fileName, String content) {
         try (Writer writer = new BufferedWriter(new OutputStreamWriter(
-                new FileOutputStream(fileName), "utf-8"))) {
+                new FileOutputStream(fileName), UTF_8))) {
             writer.write(content);
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }

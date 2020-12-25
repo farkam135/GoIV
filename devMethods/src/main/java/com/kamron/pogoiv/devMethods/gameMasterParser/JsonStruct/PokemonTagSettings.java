@@ -16,7 +16,9 @@ public class PokemonTagSettings {
 
     public Integer getMinPlayerLevelForPokemonTagging() { return minPlayerLevelForPokemonTagging; }
 
-    public void setMinPlayerLevelForPokemonTagging(Integer minPlayerLevelForPokemonTagging) { this.minPlayerLevelForPokemonTagging = minPlayerLevelForPokemonTagging; }
+    public void setMinPlayerLevelForPokemonTagging(Integer minPlayerLevelForPokemonTagging) {
+        this.minPlayerLevelForPokemonTagging = minPlayerLevelForPokemonTagging;
+    }
 
     public List<ColorBinding> getColorBindings() { return colorBindings; }
 

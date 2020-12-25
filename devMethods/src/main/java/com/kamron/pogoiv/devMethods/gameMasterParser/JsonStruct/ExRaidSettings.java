@@ -8,5 +8,7 @@ public class ExRaidSettings {
 
     public String getMinimumExRaidShareLevel() { return minimumExRaidShareLevel; }
 
-    public void setMinimumExRaidShareLevel(String minimumExRaidShareLevel) { this.minimumExRaidShareLevel = minimumExRaidShareLevel; }
+    public void setMinimumExRaidShareLevel(String minimumExRaidShareLevel) {
+        this.minimumExRaidShareLevel = minimumExRaidShareLevel;
+    }
 }

@@ -40,7 +40,9 @@ public class PokemonUpgrades {
 
     public Integer getAllowedLevelsAbovePlayer() { return allowedLevelsAbovePlayer; }
 
-    public void setAllowedLevelsAbovePlayer(Integer allowedLevelsAbovePlayer) { this.allowedLevelsAbovePlayer = allowedLevelsAbovePlayer; }
+    public void setAllowedLevelsAbovePlayer(Integer allowedLevelsAbovePlayer) {
+        this.allowedLevelsAbovePlayer = allowedLevelsAbovePlayer;
+    }
 
     public List<Integer> getCandyCosts() { return candyCosts; }
 
@@ -52,31 +54,45 @@ public class PokemonUpgrades {
 
     public Double getShadowStardustMultiplier() { return shadowStardustMultiplier; }
 
-    public void setShadowStardustMultiplier(Double shadowStardustMultiplier) { this.shadowStardustMultiplier = shadowStardustMultiplier; }
+    public void setShadowStardustMultiplier(Double shadowStardustMultiplier) {
+        this.shadowStardustMultiplier = shadowStardustMultiplier;
+    }
 
     public Double getShadowCandyMultiplier() { return shadowCandyMultiplier; }
 
-    public void setShadowCandyMultiplier(Double shadowCandyMultiplier) { this.shadowCandyMultiplier = shadowCandyMultiplier; }
+    public void setShadowCandyMultiplier(Double shadowCandyMultiplier) {
+        this.shadowCandyMultiplier = shadowCandyMultiplier;
+    }
 
     public Double getPurifiedStardustMultiplier() { return purifiedStardustMultiplier; }
 
-    public void setPurifiedStardustMultiplier(Double purifiedStardustMultiplier) { this.purifiedStardustMultiplier = purifiedStardustMultiplier; }
+    public void setPurifiedStardustMultiplier(Double purifiedStardustMultiplier) {
+        this.purifiedStardustMultiplier = purifiedStardustMultiplier;
+    }
 
     public Double getPurifiedCandyMultiplier() { return purifiedCandyMultiplier; }
 
-    public void setPurifiedCandyMultiplier(Double purifiedCandyMultiplier) { this.purifiedCandyMultiplier = purifiedCandyMultiplier; }
+    public void setPurifiedCandyMultiplier(Double purifiedCandyMultiplier) {
+        this.purifiedCandyMultiplier = purifiedCandyMultiplier;
+    }
 
     public Integer getMaxNormalUpgradeLevel() { return maxNormalUpgradeLevel; }
 
-    public void setMaxNormalUpgradeLevel(Integer maxNormalUpgradeLevel) { this.maxNormalUpgradeLevel = maxNormalUpgradeLevel; }
+    public void setMaxNormalUpgradeLevel(Integer maxNormalUpgradeLevel) {
+        this.maxNormalUpgradeLevel = maxNormalUpgradeLevel;
+    }
 
     public Integer getDefaultCpBoostAdditionalLevel() { return defaultCpBoostAdditionalLevel; }
 
-    public void setDefaultCpBoostAdditionalLevel(Integer defaultCpBoostAdditionalLevel) { this.defaultCpBoostAdditionalLevel = defaultCpBoostAdditionalLevel; }
+    public void setDefaultCpBoostAdditionalLevel(Integer defaultCpBoostAdditionalLevel) {
+        this.defaultCpBoostAdditionalLevel = defaultCpBoostAdditionalLevel;
+    }
 
     public Integer getXlCandyMinPlayerLevel() { return xlCandyMinPlayerLevel; }
 
-    public void setXlCandyMinPlayerLevel(Integer xlCandyMinPlayerLevel) { this.xlCandyMinPlayerLevel = xlCandyMinPlayerLevel; }
+    public void setXlCandyMinPlayerLevel(Integer xlCandyMinPlayerLevel) {
+        this.xlCandyMinPlayerLevel = xlCandyMinPlayerLevel;
+    }
 
     public List<Integer> getXlCandyCosts() { return xlCandyCosts; }
 

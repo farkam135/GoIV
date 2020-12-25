@@ -50,17 +50,25 @@ public class InventorySettings {
 
     public String getTeamChangeItemResetPeriodInDays() { return teamChangeItemResetPeriodInDays; }
 
-    public void setTeamChangeItemResetPeriodInDays(String teamChangeItemResetPeriodInDays) { this.teamChangeItemResetPeriodInDays = teamChangeItemResetPeriodInDays; }
+    public void setTeamChangeItemResetPeriodInDays(String teamChangeItemResetPeriodInDays) {
+        this.teamChangeItemResetPeriodInDays = teamChangeItemResetPeriodInDays;
+    }
 
     public String getMaxItemBoostDurationMs() { return maxItemBoostDurationMs; }
 
-    public void setMaxItemBoostDurationMs(String maxItemBoostDurationMs) { this.maxItemBoostDurationMs = maxItemBoostDurationMs; }
+    public void setMaxItemBoostDurationMs(String maxItemBoostDurationMs) {
+        this.maxItemBoostDurationMs = maxItemBoostDurationMs;
+    }
 
-    public Boolean getEnableEggsNotInventory() { return enableEggsNotInventory = false; }
+    public Boolean getEnableEggsNotInventory() { return enableEggsNotInventory; }
 
-    public void setEnableEggsNotInventory(Boolean enableEggsNotInventory) { this.enableEggsNotInventory = enableEggsNotInventory = false; }
+    public void setEnableEggsNotInventory(Boolean enableEggsNotInventory) {
+        this.enableEggsNotInventory = enableEggsNotInventory;
+    }
 
     public Integer getSpecialEggOverflowSpots() { return specialEggOverflowSpots; }
 
-    public void setSpecialEggOverflowSpots(Integer specialEggOverflowSpots) { this.specialEggOverflowSpots = specialEggOverflowSpots; }
+    public void setSpecialEggOverflowSpots(Integer specialEggOverflowSpots) {
+        this.specialEggOverflowSpots = specialEggOverflowSpots;
+    }
 }

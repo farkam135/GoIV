@@ -12,17 +12,21 @@ public class GuiSearchSettings {
     @Expose
     private Integer maxQueryLength;
 
-    public Boolean getGuiSearchEnabled() { return guiSearchEnabled = false; }
+    public Boolean getGuiSearchEnabled() { return guiSearchEnabled; }
 
-    public void setGuiSearchEnabled(Boolean guiSearchEnabled) { this.guiSearchEnabled = guiSearchEnabled = false; }
+    public void setGuiSearchEnabled(Boolean guiSearchEnabled) { this.guiSearchEnabled = guiSearchEnabled; }
 
     public Integer getMaxNumberRecentSearches() { return maxNumberRecentSearches; }
 
-    public void setMaxNumberRecentSearches(Integer maxNumberRecentSearches) { this.maxNumberRecentSearches = maxNumberRecentSearches; }
+    public void setMaxNumberRecentSearches(Integer maxNumberRecentSearches) {
+        this.maxNumberRecentSearches = maxNumberRecentSearches;
+    }
 
     public Integer getMaxNumberFavoriteSearches() { return maxNumberFavoriteSearches; }
 
-    public void setMaxNumberFavoriteSearches(Integer maxNumberFavoriteSearches) { this.maxNumberFavoriteSearches = maxNumberFavoriteSearches; }
+    public void setMaxNumberFavoriteSearches(Integer maxNumberFavoriteSearches) {
+        this.maxNumberFavoriteSearches = maxNumberFavoriteSearches;
+    }
 
     public Integer getMaxQueryLength() { return maxQueryLength; }
 

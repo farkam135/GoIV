@@ -20,19 +20,21 @@ public class SpecificFormSettings extends FormSettings {
     }
 
     @Override public List<Form> getForms() {
-        List<Form> allForms = super.getForms();
-        if (allForms == null) return null;
-        if (forms != null) return forms;
+        if (forms == null) {
+            List<Form> allForms = super.getForms();
+            if (allForms != null) {
+                forms = new ArrayList<>();
+                Pattern pattern = Pattern.compile("^.*_(" + String.join("|", COMMON_FORMS) + ")$");
+                for (Form form : allForms) {
+                    if (!pattern.matcher(form.getForm()).matches()) {
+                        forms.add(form);
+                    }
+                }
+                if (forms.size() == 1 && forms.get(0).getForm().matches("^.*_(" + NORMAL_FORM + ")$")) {
+                    forms.remove(0);
+                }
 
-        forms = new ArrayList<>();
-        Pattern pattern = Pattern.compile("^.*_(" + String.join("|", COMMON_FORMS) + ")$");
-        for (Form form : allForms) {
-            if (!pattern.matcher(form.getForm()).matches()) {
-                forms.add(form);
             }
-        }
-        if (forms.size() == 1 && forms.get(0).getForm().matches("^.*_(" + NORMAL_FORM + ")$")) {
-            forms.remove(0);
         }
         return forms;
     }

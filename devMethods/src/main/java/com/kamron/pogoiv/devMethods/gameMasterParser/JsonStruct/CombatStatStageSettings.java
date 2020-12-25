@@ -24,9 +24,13 @@ public class CombatStatStageSettings {
 
     public List<Double> getAttackBuffMultiplier() { return attackBuffMultiplier; }
 
-    public void setAttackBuffMultiplier(List<Double> attackBuffMultiplier) { this.attackBuffMultiplier = attackBuffMultiplier; }
+    public void setAttackBuffMultiplier(List<Double> attackBuffMultiplier) {
+        this.attackBuffMultiplier = attackBuffMultiplier;
+    }
 
     public List<Double> getDefenseBuffMultiplier() { return defenseBuffMultiplier; }
 
-    public void setDefenseBuffMultiplier(List<Double> defenseBuffMultiplier) { this.defenseBuffMultiplier = defenseBuffMultiplier; }
+    public void setDefenseBuffMultiplier(List<Double> defenseBuffMultiplier) {
+        this.defenseBuffMultiplier = defenseBuffMultiplier;
+    }
 }

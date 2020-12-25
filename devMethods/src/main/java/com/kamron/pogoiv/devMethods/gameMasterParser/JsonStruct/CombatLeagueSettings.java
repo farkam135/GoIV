@@ -10,5 +10,7 @@ public class CombatLeagueSettings {
 
     public List<String> getCombatLeagueTemplateId() { return combatLeagueTemplateId; }
 
-    public void setCombatLeagueTemplateId(List<String> combatLeagueTemplateId) { this.combatLeagueTemplateId = combatLeagueTemplateId; }
+    public void setCombatLeagueTemplateId(List<String> combatLeagueTemplateId) {
+        this.combatLeagueTemplateId = combatLeagueTemplateId;
+    }
 }

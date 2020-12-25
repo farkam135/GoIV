@@ -24,7 +24,9 @@ public class CombatNpcPersonality {
 
     public Double getSuperEffectiveChance() { return superEffectiveChance; }
 
-    public void setSuperEffectiveChance(Double superEffectiveChance) { this.superEffectiveChance = superEffectiveChance; }
+    public void setSuperEffectiveChance(Double superEffectiveChance) {
+        this.superEffectiveChance = superEffectiveChance;
+    }
 
     public Double getSpecialChance() { return specialChance; }
 
@@ -32,17 +34,25 @@ public class CombatNpcPersonality {
 
     public Double getOffensiveMinimumScore() { return offensiveMinimumScore; }
 
-    public void setOffensiveMinimumScore(Double offensiveMinimumScore) { this.offensiveMinimumScore = offensiveMinimumScore; }
+    public void setOffensiveMinimumScore(Double offensiveMinimumScore) {
+        this.offensiveMinimumScore = offensiveMinimumScore;
+    }
 
     public Double getOffensiveMaximumScore() { return offensiveMaximumScore; }
 
-    public void setOffensiveMaximumScore(Double offensiveMaximumScore) { this.offensiveMaximumScore = offensiveMaximumScore; }
+    public void setOffensiveMaximumScore(Double offensiveMaximumScore) {
+        this.offensiveMaximumScore = offensiveMaximumScore;
+    }
 
     public Double getDefensiveMinimumScore() { return defensiveMinimumScore; }
 
-    public void setDefensiveMinimumScore(Double defensiveMinimumScore) { this.defensiveMinimumScore = defensiveMinimumScore; }
+    public void setDefensiveMinimumScore(Double defensiveMinimumScore) {
+        this.defensiveMinimumScore = defensiveMinimumScore;
+    }
 
     public Double getDefensiveMaximumScore() { return defensiveMaximumScore; }
 
-    public void setDefensiveMaximumScore(Double defensiveMaximumScore) { this.defensiveMaximumScore = defensiveMaximumScore; }
+    public void setDefensiveMaximumScore(Double defensiveMaximumScore) {
+        this.defensiveMaximumScore = defensiveMaximumScore;
+    }
 }

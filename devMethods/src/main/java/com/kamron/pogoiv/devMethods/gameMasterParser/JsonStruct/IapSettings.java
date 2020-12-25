@@ -21,23 +21,31 @@ public class IapSettings {
         return dailyDefenderBonusesPerPokemon;
     }
 
-    public void setDailyDefenderBonusesPerPokemon(List<Integer> dailyDefenderBonusesPerPokemon) { this.dailyDefenderBonusesPerPokemon = dailyDefenderBonusesPerPokemon; }
+    public void setDailyDefenderBonusesPerPokemon(List<Integer> dailyDefenderBonusesPerPokemon) {
+        this.dailyDefenderBonusesPerPokemon = dailyDefenderBonusesPerPokemon;
+    }
 
     public Integer getDailyDefenderBonusMaxDefenders() {
         return dailyDefenderBonusMaxDefenders;
     }
 
-    public void setDailyDefenderBonusMaxDefenders(Integer dailyDefenderBonusMaxDefenders) { this.dailyDefenderBonusMaxDefenders = dailyDefenderBonusMaxDefenders; }
+    public void setDailyDefenderBonusMaxDefenders(Integer dailyDefenderBonusMaxDefenders) {
+        this.dailyDefenderBonusMaxDefenders = dailyDefenderBonusMaxDefenders;
+    }
 
     public List<String> getDailyDefenderBonusCurrencies() {
         return dailyDefenderBonusCurrencies;
     }
 
-    public void setDailyDefenderBonusCurrencies(List<String> dailyDefenderBonusCurrencies) { this.dailyDefenderBonusCurrencies = dailyDefenderBonusCurrencies; }
+    public void setDailyDefenderBonusCurrencies(List<String> dailyDefenderBonusCurrencies) {
+        this.dailyDefenderBonusCurrencies = dailyDefenderBonusCurrencies;
+    }
 
     public String getMinTimeBetweenClaimsMs() {
         return minTimeBetweenClaimsMs;
     }
 
-    public void setMinTimeBetweenClaimsMs(String minTimeBetweenClaimsMs) { this.minTimeBetweenClaimsMs = minTimeBetweenClaimsMs; }
+    public void setMinTimeBetweenClaimsMs(String minTimeBetweenClaimsMs) {
+        this.minTimeBetweenClaimsMs = minTimeBetweenClaimsMs;
+    }
 }

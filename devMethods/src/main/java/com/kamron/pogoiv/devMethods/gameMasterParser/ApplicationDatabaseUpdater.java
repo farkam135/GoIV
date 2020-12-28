@@ -404,8 +404,8 @@ public class ApplicationDatabaseUpdater {
 
             formNamesFormatter.format(commentFormat, pokemonName);
             formAttackFormatter.format(commentFormat, pokemonName);
-            formAttackFormatter.format(commentFormat, pokemonName);
-            formAttackFormatter.format(commentFormat, pokemonName);
+            formDefenseFormatter.format(commentFormat, pokemonName);
+            formStaminaFormatter.format(commentFormat, pokemonName);
             for (Form subform : form.getForms()) {
                 Pokemon poke = formHash.get(formHash.containsKey(subform.getForm()) ? subform.getForm() : null);
                 Stats stats = poke.getStats();

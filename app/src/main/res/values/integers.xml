@@ -679,9 +679,6 @@
  <item>164</item> <!-- Furfrou -->
  <item>120</item> <!-- Espurr -->
  <item>166</item> <!-- Meowstic -->
- <item>null</item> <!-- Honedge -->
- <item>null</item> <!-- Aegislash -->
- <item>null</item> <!-- Doublade -->
  <item>110</item> <!-- Spritzee -->
  <item>173</item> <!-- Aromatisse -->
  <item>109</item> <!-- Swirlix -->
@@ -710,8 +707,6 @@
  <item>160</item> <!-- Klefki -->
  <item>125</item> <!-- Phantump -->
  <item>201</item> <!-- Trevenant -->
- <item>null</item> <!-- Pumpkaboo -->
- <item>null</item> <!-- Gourgeist -->
  <item>117</item> <!-- Bergmite -->
  <item>196</item> <!-- Avalugg -->
  <item>83</item> <!-- Noibat -->
@@ -1405,9 +1400,6 @@
  <item>167</item> <!-- Furfrou -->
  <item>114</item> <!-- Espurr -->
  <item>167</item> <!-- Meowstic -->
- <item>null</item> <!-- Honedge -->
- <item>null</item> <!-- Aegislash -->
- <item>null</item> <!-- Doublade -->
  <item>113</item> <!-- Spritzee -->
  <item>150</item> <!-- Aromatisse -->
  <item>119</item> <!-- Swirlix -->
@@ -1436,8 +1428,6 @@
  <item>179</item> <!-- Klefki -->
  <item>103</item> <!-- Phantump -->
  <item>154</item> <!-- Trevenant -->
- <item>null</item> <!-- Pumpkaboo -->
- <item>null</item> <!-- Gourgeist -->
  <item>120</item> <!-- Bergmite -->
  <item>240</item> <!-- Avalugg -->
  <item>73</item> <!-- Noibat -->
@@ -2131,9 +2121,6 @@
  <item>181</item> <!-- Furfrou -->
  <item>158</item> <!-- Espurr -->
  <item>179</item> <!-- Meowstic -->
- <item>null</item> <!-- Honedge -->
- <item>null</item> <!-- Aegislash -->
- <item>null</item> <!-- Doublade -->
  <item>186</item> <!-- Spritzee -->
  <item>226</item> <!-- Aromatisse -->
  <item>158</item> <!-- Swirlix -->
@@ -2162,8 +2149,6 @@
  <item>149</item> <!-- Klefki -->
  <item>125</item> <!-- Phantump -->
  <item>198</item> <!-- Trevenant -->
- <item>null</item> <!-- Pumpkaboo -->
- <item>null</item> <!-- Gourgeist -->
  <item>146</item> <!-- Bergmite -->
  <item>216</item> <!-- Avalugg -->
  <item>120</item> <!-- Noibat -->
@@ -2857,9 +2842,6 @@
  <item>-1</item> <!-- Furfrou -->
  <item>-1</item> <!-- Espurr -->
  <item>676</item> <!-- Meowstic -->
- <item>-1</item> <!-- Honedge -->
- <item>-1</item> <!-- Aegislash -->
- <item>-1</item> <!-- Doublade -->
  <item>-1</item> <!-- Spritzee -->
  <item>-1</item> <!-- Aromatisse -->
  <item>-1</item> <!-- Swirlix -->
@@ -2888,8 +2870,6 @@
  <item>-1</item> <!-- Klefki -->
  <item>-1</item> <!-- Phantump -->
  <item>-1</item> <!-- Trevenant -->
- <item>-1</item> <!-- Pumpkaboo -->
- <item>-1</item> <!-- Gourgeist -->
  <item>-1</item> <!-- Bergmite -->
  <item>-1</item> <!-- Avalugg -->
  <item>-1</item> <!-- Noibat -->
@@ -3583,9 +3563,6 @@
  <item>-1</item> <!-- Furfrou -->
  <item>50</item> <!-- Espurr -->
  <item>-1</item> <!-- Meowstic -->
- <item>25</item> <!-- Honedge -->
- <item>-1</item> <!-- Aegislash -->
- <item>100</item> <!-- Doublade -->
  <item>50</item> <!-- Spritzee -->
  <item>-1</item> <!-- Aromatisse -->
  <item>50</item> <!-- Swirlix -->
@@ -3614,8 +3591,6 @@
  <item>-1</item> <!-- Klefki -->
  <item>50</item> <!-- Phantump -->
  <item>-1</item> <!-- Trevenant -->
- <item>50</item> <!-- Pumpkaboo -->
- <item>-1</item> <!-- Gourgeist -->
  <item>50</item> <!-- Bergmite -->
  <item>-1</item> <!-- Avalugg -->
  <item>400</item> <!-- Noibat -->
@@ -4309,9 +4284,6 @@
  <item>676</item> <!-- Furfrou -->
  <item>677</item> <!-- Espurr -->
  <item>677</item> <!-- Meowstic -->
- <item>679</item> <!-- Honedge -->
- <item>679</item> <!-- Aegislash -->
- <item>679</item> <!-- Doublade -->
  <item>682</item> <!-- Spritzee -->
  <item>682</item> <!-- Aromatisse -->
  <item>684</item> <!-- Swirlix -->
@@ -4340,8 +4312,6 @@
  <item>707</item> <!-- Klefki -->
  <item>708</item> <!-- Phantump -->
  <item>708</item> <!-- Trevenant -->
- <item>710</item> <!-- Pumpkaboo -->
- <item>710</item> <!-- Gourgeist -->
  <item>712</item> <!-- Bergmite -->
  <item>712</item> <!-- Avalugg -->
  <item>714</item> <!-- Noibat -->
@@ -5035,9 +5005,6 @@
  <item>-1</item> <!-- Furfrou -->
  <item>-1</item> <!-- Espurr -->
  <item>63</item> <!-- Meowstic -->
- <item>-1</item> <!-- Honedge -->
- <item>-1</item> <!-- Aegislash -->
- <item>-1</item> <!-- Doublade -->
  <item>-1</item> <!-- Spritzee -->
  <item>-1</item> <!-- Aromatisse -->
  <item>-1</item> <!-- Swirlix -->
@@ -5066,8 +5033,6 @@
  <item>-1</item> <!-- Klefki -->
  <item>-1</item> <!-- Phantump -->
  <item>-1</item> <!-- Trevenant -->
- <item>-1</item> <!-- Pumpkaboo -->
- <item>-1</item> <!-- Gourgeist -->
  <item>-1</item> <!-- Bergmite -->
  <item>-1</item> <!-- Avalugg -->
  <item>-1</item> <!-- Noibat -->

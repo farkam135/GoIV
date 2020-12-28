@@ -30,22 +30,28 @@ task updateDatabase(type: JavaExec) {
             databaseFiles.getFiles().each {File file -> include file.getName()}
         }
         delete databaseFiles
-        copyLanguage('')
-        copyLanguage('de')
-        copyLanguage('fr')
+        FileTree namesFiles = fileTree(dir: '.')
+        namesFiles.include 'pokemon-*.xml'
+        namesFiles.each {
+            File file -> copyLanguage(file)
+        }
     }
 
-    ext.copyLanguage = { language ->
-        if (language != '') {
-            language = '-' + language
+    ext.copyLanguage = { File pokemonFile ->
+        String filename = pokemonFile.name
+        String language = filename.substring(filename.indexOf('-'), filename.lastIndexOf('.'))
+        if (language == '-') {
+            language = ''
         }
-        File resDir = file(resParent.getPath() + '/values' + language, PathValidation.DIRECTORY)
-        File src = file('values' + language + '-pokemon.xml', PathValidation.FILE)
+
+        File resDir = file(resParent.getPath() + '/values' + language)
+
         copy {
-            from src
+            from pokemonFile
             into resDir
-            rename(src.name, 'pokemons.xml')
+            rename(filename, 'pokemons.xml')
         }
-        delete src
+
+        delete pokemonFile
     }
 }

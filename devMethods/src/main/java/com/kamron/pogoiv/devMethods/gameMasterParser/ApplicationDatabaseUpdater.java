@@ -19,6 +19,8 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -27,8 +29,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -41,7 +41,7 @@ public class ApplicationDatabaseUpdater {
 
     public static void main(String[] args) {
 
-        Map<Integer, List<String>> names = getNameMapFromGoogleSheet();
+        Map<Integer, List<String>> names = getNameMapFromCSV();
         List<Data> data = getDataFromGamemasterJson();
 
         HashMap<Integer, FormSettings> formsByPokedex = new HashMap<>(); // Stores form data index by NatDex number
@@ -50,10 +50,16 @@ public class ApplicationDatabaseUpdater {
         HashMap<String, HashMap<String, Pokemon>> pokemonFormsByName = new HashMap<>(); // stores pokemon data by
         // species and form id
         HashMap<String, Integer> dexNumberLookup = new HashMap<>(); // species name -> dex #
+        Set<Integer> dexNosInSystem; // Dex numbers for pokemon actually in the app (could have forms for unsupported
+                                     // pokemon because of e.g. missing stat blocks)
 
         for (Data datum : data) {
             Pokemon poke = datum.getPokemon();
             if (poke != null) {
+                Stats stats = poke.getStats();
+                if (stats.getBaseAttack() == null || stats.getBaseDefense() == null || stats.getBaseStamina() == null) {
+                    continue; // TODO: Handle pokemon with bad stats.
+                }
                 poke.setTemplateId(datum.getTemplateId()); // Inject template ID directly into pokemon object
 
                 // Add this pokemon to the map for it's species, indexed by the form name
@@ -68,7 +74,6 @@ public class ApplicationDatabaseUpdater {
 
             if (datum.getFormSettings() != null) {
                 FormSettings form = new SpecificFormSettings(datum.getFormSettings());
-
                 // Extract the NatDex number for the pokemon from the template ID
                 int dexNumber = Integer.parseInt(datum.getTemplateId().substring(7, 11));
                 formsByPokedex.put(dexNumber, form);
@@ -83,10 +88,12 @@ public class ApplicationDatabaseUpdater {
 
         dexNumberLookup.put(null, 0); // Sneaky addition to dodge an if in printIntegers
 
+        dexNosInSystem = pokemonFormsByName.keySet().stream().map(dexNumberLookup::get).collect(Collectors.toSet());
+
         printIntegersXml(formsByPokedex, pokemonWithMultipleForms, pokemonFormsByName, dexNumberLookup);
         printFormsXml(pokemonWithMultipleForms, pokemonFormsByName);
         printTypeDifferencesSuggestions(pokemonWithMultipleForms, pokemonFormsByName, dexNumberLookup);
-        printPokemonXml(names, formsByPokedex.keySet());
+        printPokemonXml(names, dexNosInSystem);
     }
 
     private static void printTypeDifferencesSuggestions(ArrayList<FormSettings> pokemonWithMultipleForms,
@@ -148,39 +155,41 @@ public class ApplicationDatabaseUpdater {
         return json.getTemplates().stream().map(Template::getData).collect(Collectors.toList());
     }
 
-    private static Map<Integer, List<String>> getNameMapFromGoogleSheet() {
-        URL url = null;
-        try {
-            url = new URL("https://docs.google.com/spreadsheets/d/1AvjpzixBzXwdYb5jwrPLCgbHo8tUwbZJ3vDo_hUEQKs/gviz/tq?tqx=out:csv");
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-
+    private static Map<Integer, List<String>> getNameMapFromCSV() {
         Map<Integer, List<String>> names = new HashMap<>();
-        BufferedReader reader = null;
+        BufferedReader reader;
         try {
-            reader = new BufferedReader(new InputStreamReader(url.openStream(), "utf8"));
-            String line;
-            Pattern p = Pattern.compile("(?:\")([^\"]*)(?:\",|\"$)");
-            while ((line = reader.readLine()) != null) {
-                Matcher m = p.matcher(line);
-                List<String> values = new ArrayList<>();
-                while (m.find()) {
-                    values.add(m.group(1));
-                }
-
-                if (values.size() == 9) {
-                    int dexNo;
-                    try {
-                        dexNo = Integer.parseInt(values.get(0));
-                    } catch (NumberFormatException nfe) {
-                        continue;  // not a valid Pokémon name line, skip
-                    }
-                    List<String> translations = values.subList(2, 8).stream().map(s -> s.replaceAll("\\([^)]+\\)", "")).collect(Collectors.toList());
-                    names.put(dexNo, translations);
+            reader = Files.newBufferedReader(Paths.get("names.csv"), UTF_8);
+            String line = reader.readLine();
+            int dexNoIdx = -1;
+            ArrayList<String> header = new ArrayList<>();
+            if (line != null) {
+                Arrays.asList(line.split(",")).forEach(item -> header.add(item));
+                dexNoIdx = header.indexOf("dexNo");
+                if (dexNoIdx == -1) {
+                    throw new RuntimeException("Couldn't find Dex # field (make sure the \"dexNo\" column exists)");
                 }
             }
-        } catch (IOException e) {
+            while ((line = reader.readLine()) != null) {
+                ArrayList<String> values = new ArrayList<>();
+                Arrays.asList(line.split(",")).forEach(item -> values.add(item));
+
+                if (values.size() == header.size()) {
+                    int dexNo;
+                    try {
+                        dexNo = Integer.parseInt(values.get(dexNoIdx));
+                    } catch (NumberFormatException nfe) {
+                        continue;  // Pokemon is missing dex number, skip it
+                    }
+
+                    values.remove(dexNoIdx);
+                    names.put(dexNo, values);
+                }
+            }
+
+            header.remove(dexNoIdx);
+            names.put(-1, header);
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return names;
@@ -188,29 +197,36 @@ public class ApplicationDatabaseUpdater {
 
     private static void printPokemonXml(Map<Integer, List<String>> names, Set<Integer> dexNumbers) {
         int maxPokedex = Collections.max(dexNumbers);
-        Map<String, List<String>> translations = new HashMap<>();
+
         //String[] languages = new String[] { "de", "", "fr", "ja", "ko", "cn" };
         // Need to determine the language code for the last three ones
-        String[] languages = new String[] { "de", "", "fr", null, null, null };
+        List<String> languages = names.get(-1);
+
+        Map<String, List<String>> translations = new HashMap<>();
         for (String language : languages) {
             if (language != null) {
                 translations.put(language, new ArrayList<>(dexNumbers.size()));
             }
         }
+
+        final List<String> names_unknown_list = languages.stream().map(lang -> "Unknown").collect(Collectors.toList());
+
         for (int i = 1; i <= maxPokedex; i++) {
             if (dexNumbers.contains(i)) {
-                List<String> nameForPokemon = names.get(i);
-                if (nameForPokemon == null) {
-                    nameForPokemon = new ArrayList<>(languages.length);
-                    for (int j = 0; j < languages.length; j++) {
-                        nameForPokemon.add("Unknown");
-                    }
+                List<String> namesForPokemon = names.get(i);
+                if (namesForPokemon == null) {
+                    namesForPokemon = names_unknown_list;
+                // Pad any missing values with "Unknown"
+                } else if (namesForPokemon.size() < languages.size()) {
+                    namesForPokemon.addAll(names_unknown_list.subList(0, languages.size() - namesForPokemon.size()));
                 }
-                // Lets hope that it will always be 6 values...
-                for (int j = 0; j < languages.length; j++) {
-                    String language = languages[j];
+                // Replace any blanks with "Unknown"
+                namesForPokemon.replaceAll(name -> name.equals("") ? "Unknown" : name);
+
+                for (int j = 0; j < languages.size(); j++) {
+                    String language = languages.get(j);
                     if (language != null) {
-                        translations.get(language).add(nameForPokemon.get(j));
+                        translations.get(language).add(namesForPokemon.get(j));
                     }
                 }
             }
@@ -218,22 +234,14 @@ public class ApplicationDatabaseUpdater {
 
         for (String language : languages) {
             if (language != null) {
-                StringBuilder contents = new StringBuilder("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
-                        "<resources>\n    <string-array name=\"pokemon\">\n");
+                StringBuilder contents = new StringBuilder("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
+                        + "<resources>\n    <string-array name=\"pokemon\">\n");
+                Formatter formatter = new Formatter(contents);
 
-                for (String name : translations.get(language)) {
-                    contents.append("        <item>");
-                    contents.append(name);
-                    contents.append("</item>\n");
-                }
-
+                translations.get(language).forEach(name -> formatter.format("        <item>%s</item>\n", name));
                 contents.append("    </string-array>\n</resources>");
 
-                String directory = "values";
-                if (!language.isEmpty()) {
-                    directory += "-" + language;
-                }
-                writeFile(directory + "-pokemon.xml", contents.toString());
+                writeFile(String.format("pokemon-%s.xml", language), contents.toString());
             }
         }
     }
@@ -404,28 +412,30 @@ public class ApplicationDatabaseUpdater {
         for (FormSettings form : pokemonWithMultipleForms) {
             String pokemonName = titleCase(form.getName());
             HashMap<String, Pokemon> formHash = pokemonFormsByName.get(form.getName());
+            if (formHash != null) {
+                formsCountFormatter.format(integerArrayFormat, form.getForms().size());
+                formsCountFormatter.format(commentFormat, pokemonName);
 
-            formsCountFormatter.format(integerArrayFormat, form.getForms().size()).format(commentFormat, pokemonName);
+                formNamesFormatter.format(commentFormat, pokemonName);
+                formAttackFormatter.format(commentFormat, pokemonName);
+                formDefenseFormatter.format(commentFormat, pokemonName);
+                formStaminaFormatter.format(commentFormat, pokemonName);
+                for (Form subform : form.getForms()) {
+                    Pokemon poke = formHash.get(formHash.containsKey(subform.getForm()) ? subform.getForm() : null);
+                    Stats stats = poke.getStats();
+                    String formName = formName(subform.getForm(), form.getName());
 
-            formNamesFormatter.format(commentFormat, pokemonName);
-            formAttackFormatter.format(commentFormat, pokemonName);
-            formDefenseFormatter.format(commentFormat, pokemonName);
-            formStaminaFormatter.format(commentFormat, pokemonName);
-            for (Form subform : form.getForms()) {
-                Pokemon poke = formHash.get(formHash.containsKey(subform.getForm()) ? subform.getForm() : null);
-                Stats stats = poke.getStats();
-                String formName = formName(subform.getForm(), form.getName());
+                    // Form Names
+                    formNamesFormatter.format(stringArrayFormat, formName);
 
-                // Form Names
-                formNamesFormatter.format(stringArrayFormat, formName);
-
-                // Form Stats
-                formAttackFormatter.format(integerArrayFormat, unnull(stats.getBaseAttack(), -1));
-                formAttackFormatter.format(commentFormat, formName);
-                formDefenseFormatter.format(integerArrayFormat, unnull(stats.getBaseDefense(), -1));
-                formDefenseFormatter.format(commentFormat, formName);
-                formStaminaFormatter.format(integerArrayFormat, unnull(stats.getBaseStamina(), -1));
-                formStaminaFormatter.format(commentFormat, formName);
+                    // Form Stats
+                    formAttackFormatter.format(integerArrayFormat, unnull(stats.getBaseAttack(), -1));
+                    formAttackFormatter.format(commentFormat, formName);
+                    formDefenseFormatter.format(integerArrayFormat, unnull(stats.getBaseDefense(), -1));
+                    formDefenseFormatter.format(commentFormat, formName);
+                    formStaminaFormatter.format(integerArrayFormat, unnull(stats.getBaseStamina(), -1));
+                    formStaminaFormatter.format(commentFormat, formName);
+                }
             }
         }
 

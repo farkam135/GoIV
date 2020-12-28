@@ -58,7 +58,12 @@ public class ApplicationDatabaseUpdater {
 
                 // Add this pokemon to the map for it's species, indexed by the form name
                 pokemonFormsByName.putIfAbsent(poke.getUniqueId(), new HashMap<>());
-                pokemonFormsByName.get(poke.getUniqueId()).put(poke.getForm(), poke);
+                if (pokemonFormsByName.get(poke.getUniqueId()).putIfAbsent(poke.getForm(), poke) != null) {
+                    System.out.println(String.format(
+                            "WARNING: Found second \"%s\" form for %s (templateId on new form is %s)",
+                            unnull(poke.getForm(), "null"), poke.getUniqueId(), poke.getTemplateId()
+                    ));
+                }
             }
 
             if (datum.getFormSettings() != null) {

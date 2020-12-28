@@ -134,150 +134,92 @@
  <item>Normal Form</item> <item>Female Form</item></string-array>
 <integer-array name="formAttack">
  <!-- Rattata -->
- <!-- Rattata -->
- <!-- Rattata -->
  <item>103</item> <!-- Normal Form -->
  <item>103</item> <!-- Alola Form -->
  <!-- Raticate -->
- <!-- Raticate -->
- <!-- Raticate -->
  <item>161</item> <!-- Normal Form -->
  <item>135</item> <!-- Alola Form -->
- <!-- Pikachu -->
- <!-- Pikachu -->
  <!-- Pikachu -->
  <item>112</item> <!-- Normal Form -->
  <item>112</item> <!-- Costume 2020 Form -->
  <item>112</item> <!-- Adventure Hat 2020 Form -->
  <item>112</item> <!-- Winter 2020 Form -->
  <!-- Raichu -->
- <!-- Raichu -->
- <!-- Raichu -->
  <item>193</item> <!-- Normal Form -->
  <item>201</item> <!-- Alola Form -->
- <!-- Sandshrew -->
- <!-- Sandshrew -->
  <!-- Sandshrew -->
  <item>126</item> <!-- Normal Form -->
  <item>125</item> <!-- Alola Form -->
  <!-- Sandslash -->
- <!-- Sandslash -->
- <!-- Sandslash -->
  <item>182</item> <!-- Normal Form -->
  <item>177</item> <!-- Alola Form -->
- <!-- Vulpix -->
- <!-- Vulpix -->
  <!-- Vulpix -->
  <item>96</item> <!-- Normal Form -->
  <item>96</item> <!-- Alola Form -->
  <!-- Ninetales -->
- <!-- Ninetales -->
- <!-- Ninetales -->
  <item>169</item> <!-- Normal Form -->
  <item>170</item> <!-- Alola Form -->
- <!-- Diglett -->
- <!-- Diglett -->
  <!-- Diglett -->
  <item>109</item> <!-- Normal Form -->
  <item>108</item> <!-- Alola Form -->
  <!-- Dugtrio -->
- <!-- Dugtrio -->
- <!-- Dugtrio -->
  <item>167</item> <!-- Normal Form -->
  <item>201</item> <!-- Alola Form -->
- <!-- Meowth -->
- <!-- Meowth -->
  <!-- Meowth -->
  <item>92</item> <!-- Normal Form -->
  <item>99</item> <!-- Alola Form -->
  <item>115</item> <!-- Galarian Form -->
  <!-- Persian -->
- <!-- Persian -->
- <!-- Persian -->
  <item>150</item> <!-- Normal Form -->
  <item>158</item> <!-- Alola Form -->
- <!-- Geodude -->
- <!-- Geodude -->
  <!-- Geodude -->
  <item>132</item> <!-- Normal Form -->
  <item>132</item> <!-- Alola Form -->
  <!-- Graveler -->
- <!-- Graveler -->
- <!-- Graveler -->
  <item>164</item> <!-- Normal Form -->
  <item>164</item> <!-- Alola Form -->
- <!-- Golem -->
- <!-- Golem -->
  <!-- Golem -->
  <item>211</item> <!-- Normal Form -->
  <item>211</item> <!-- Alola Form -->
  <!-- Ponyta -->
- <!-- Ponyta -->
- <!-- Ponyta -->
  <item>170</item> <!-- Normal Form -->
  <item>170</item> <!-- Galarian Form -->
- <!-- Rapidash -->
- <!-- Rapidash -->
  <!-- Rapidash -->
  <item>207</item> <!-- Normal Form -->
  <item>207</item> <!-- Galarian Form -->
  <!-- Slowpoke -->
- <!-- Slowpoke -->
- <!-- Slowpoke -->
  <item>109</item> <!-- Normal Form -->
  <item>109</item> <!-- 2020 Form -->
- <!-- Slowbro -->
- <!-- Slowbro -->
  <!-- Slowbro -->
  <item>177</item> <!-- Normal Form -->
  <item>177</item> <!-- 2021 Form -->
  <!-- Farfetchd -->
- <!-- Farfetchd -->
- <!-- Farfetchd -->
  <item>124</item> <!-- Normal Form -->
  <item>174</item> <!-- Galarian Form -->
- <!-- Grimer -->
- <!-- Grimer -->
  <!-- Grimer -->
  <item>135</item> <!-- Normal Form -->
  <item>135</item> <!-- Alola Form -->
  <!-- Muk -->
- <!-- Muk -->
- <!-- Muk -->
  <item>190</item> <!-- Normal Form -->
  <item>190</item> <!-- Alola Form -->
- <!-- Gengar -->
- <!-- Gengar -->
  <!-- Gengar -->
  <item>261</item> <!-- Normal Form -->
  <item>261</item> <!-- Costume 2020 Form -->
  <!-- Exeggutor -->
- <!-- Exeggutor -->
- <!-- Exeggutor -->
  <item>233</item> <!-- Normal Form -->
  <item>230</item> <!-- Alola Form -->
- <!-- Marowak -->
- <!-- Marowak -->
  <!-- Marowak -->
  <item>144</item> <!-- Normal Form -->
  <item>144</item> <!-- Alola Form -->
  <!-- Weezing -->
- <!-- Weezing -->
- <!-- Weezing -->
  <item>174</item> <!-- Normal Form -->
  <item>174</item> <!-- Galarian Form -->
- <!-- Mr Mime -->
- <!-- Mr Mime -->
  <!-- Mr Mime -->
  <item>192</item> <!-- Normal Form -->
  <item>183</item> <!-- Galarian Form -->
  <!-- Mewtwo -->
- <!-- Mewtwo -->
- <!-- Mewtwo -->
  <item>300</item> <!-- Normal Form -->
  <item>182</item> <!-- Armored Form -->
- <!-- Unown -->
- <!-- Unown -->
  <!-- Unown -->
  <item>136</item> <!-- F Form -->
  <item>136</item> <!-- A Form -->
@@ -308,27 +250,17 @@
  <item>136</item> <!-- Exclamation Point Form -->
  <item>136</item> <!-- Question Mark Form -->
  <!-- Delibird -->
- <!-- Delibird -->
- <!-- Delibird -->
  <item>128</item> <!-- Normal Form -->
  <item>128</item> <!-- Winter 2020 Form -->
- <!-- Zigzagoon -->
- <!-- Zigzagoon -->
  <!-- Zigzagoon -->
  <item>58</item> <!-- Normal Form -->
  <item>58</item> <!-- Galarian Form -->
  <!-- Linoone -->
- <!-- Linoone -->
- <!-- Linoone -->
  <item>142</item> <!-- Normal Form -->
  <item>142</item> <!-- Galarian Form -->
  <!-- Sableye -->
- <!-- Sableye -->
- <!-- Sableye -->
  <item>141</item> <!-- Normal Form -->
  <item>141</item> <!-- Costume 2020 Form -->
- <!-- Spinda -->
- <!-- Spinda -->
  <!-- Spinda -->
  <item>116</item> <!-- 00 Form -->
  <item>116</item> <!-- 01 Form -->
@@ -351,48 +283,32 @@
  <item>116</item> <!-- 18 Form -->
  <item>116</item> <!-- 19 Form -->
  <!-- Castform -->
- <!-- Castform -->
- <!-- Castform -->
  <item>139</item> <!-- Normal Form -->
  <item>139</item> <!-- Sunny Form -->
  <item>139</item> <!-- Rainy Form -->
  <item>139</item> <!-- Snowy Form -->
- <!-- Deoxys -->
- <!-- Deoxys -->
  <!-- Deoxys -->
  <item>345</item> <!-- Normal Form -->
  <item>414</item> <!-- Attack Form -->
  <item>144</item> <!-- Defense Form -->
  <item>230</item> <!-- Speed Form -->
  <!-- Burmy -->
- <!-- Burmy -->
- <!-- Burmy -->
  <item>53</item> <!-- Plant Form -->
  <item>53</item> <!-- Sandy Form -->
  <item>53</item> <!-- Trash Form -->
- <!-- Wormadam -->
- <!-- Wormadam -->
  <!-- Wormadam -->
  <item>141</item> <!-- Plant Form -->
  <item>141</item> <!-- Sandy Form -->
  <item>127</item> <!-- Trash Form -->
  <!-- Cherrim -->
- <!-- Cherrim -->
- <!-- Cherrim -->
  <item>170</item> <!-- Overcast Form -->
  <item>170</item> <!-- Sunny Form -->
- <!-- Shellos -->
- <!-- Shellos -->
  <!-- Shellos -->
  <item>103</item> <!-- West Sea Form -->
  <item>103</item> <!-- East Sea Form -->
  <!-- Gastrodon -->
- <!-- Gastrodon -->
- <!-- Gastrodon -->
  <item>169</item> <!-- West Sea Form -->
  <item>169</item> <!-- East Sea Form -->
- <!-- Rotom -->
- <!-- Rotom -->
  <!-- Rotom -->
  <item>185</item> <!-- Normal Form -->
  <item>204</item> <!-- Heat Form -->
@@ -401,17 +317,11 @@
  <item>204</item> <!-- Fan Form -->
  <item>204</item> <!-- Mow Form -->
  <!-- Giratina -->
- <!-- Giratina -->
- <!-- Giratina -->
  <item>187</item> <!-- Altered Form -->
  <item>225</item> <!-- Origin Form -->
  <!-- Shaymin -->
- <!-- Shaymin -->
- <!-- Shaymin -->
  <item>210</item> <!-- Land Form -->
  <item>261</item> <!-- Sky Form -->
- <!-- Arceus -->
- <!-- Arceus -->
  <!-- Arceus -->
  <item>238</item> <!-- Normal Form -->
  <item>238</item> <!-- Fighting Form -->
@@ -432,94 +342,60 @@
  <item>238</item> <!-- Dark Form -->
  <item>238</item> <!-- Fairy Form -->
  <!-- Basculin -->
- <!-- Basculin -->
- <!-- Basculin -->
  <item>189</item> <!-- Red Striped Form -->
  <item>189</item> <!-- Blue Striped Form -->
  <!-- Darumaka -->
- <!-- Darumaka -->
- <!-- Darumaka -->
  <item>153</item> <!-- Normal Form -->
  <item>153</item> <!-- Galarian Form -->
- <!-- Darmanitan -->
- <!-- Darmanitan -->
  <!-- Darmanitan -->
  <item>263</item> <!-- Standard Form -->
  <item>243</item> <!-- Zen Form -->
  <item>263</item> <!-- Galarian Standard Form -->
  <item>323</item> <!-- Galarian Zen Form -->
  <!-- Yamask -->
- <!-- Yamask -->
- <!-- Yamask -->
  <item>95</item> <!-- Normal Form -->
  <item>95</item> <!-- Galarian Form -->
- <!-- Deerling -->
- <!-- Deerling -->
  <!-- Deerling -->
  <item>115</item> <!-- Spring Form -->
  <item>115</item> <!-- Summer Form -->
  <item>115</item> <!-- Autumn Form -->
  <item>115</item> <!-- Winter Form -->
  <!-- Sawsbuck -->
- <!-- Sawsbuck -->
- <!-- Sawsbuck -->
  <item>198</item> <!-- Spring Form -->
  <item>198</item> <!-- Summer Form -->
  <item>198</item> <!-- Autumn Form -->
  <item>198</item> <!-- Winter Form -->
  <!-- Frillish -->
- <!-- Frillish -->
- <!-- Frillish -->
  <item>115</item> <!-- Normal Form -->
  <item>115</item> <!-- Female Form -->
- <!-- Jellicent -->
- <!-- Jellicent -->
  <!-- Jellicent -->
  <item>159</item> <!-- Normal Form -->
  <item>159</item> <!-- Female Form -->
  <!-- Cubchoo -->
- <!-- Cubchoo -->
- <!-- Cubchoo -->
  <item>128</item> <!-- Normal Form -->
  <item>128</item> <!-- Winter 2020 Form -->
- <!-- Stunfisk -->
- <!-- Stunfisk -->
  <!-- Stunfisk -->
  <item>144</item> <!-- Normal Form -->
  <item>144</item> <!-- Galarian Form -->
  <!-- Tornadus -->
- <!-- Tornadus -->
- <!-- Tornadus -->
  <item>266</item> <!-- Incarnate Form -->
  <item>238</item> <!-- Therian Form -->
- <!-- Thundurus -->
- <!-- Thundurus -->
  <!-- Thundurus -->
  <item>266</item> <!-- Incarnate Form -->
  <item>295</item> <!-- Therian Form -->
  <!-- Landorus -->
- <!-- Landorus -->
- <!-- Landorus -->
  <item>261</item> <!-- Incarnate Form -->
  <item>289</item> <!-- Therian Form -->
- <!-- Kyurem -->
- <!-- Kyurem -->
  <!-- Kyurem -->
  <item>246</item> <!-- Normal Form -->
  <item>310</item> <!-- White Form -->
  <item>310</item> <!-- Black Form -->
  <!-- Keldeo -->
- <!-- Keldeo -->
- <!-- Keldeo -->
  <item>260</item> <!-- Ordinary Form -->
  <item>260</item> <!-- Resolute Form -->
  <!-- Meloetta -->
- <!-- Meloetta -->
- <!-- Meloetta -->
  <item>250</item> <!-- Aria Form -->
  <item>269</item> <!-- Pirouette Form -->
- <!-- Genesect -->
- <!-- Genesect -->
  <!-- Genesect -->
  <item>252</item> <!-- Normal Form -->
  <item>252</item> <!-- Douse Form -->
@@ -527,76 +403,101 @@
  <item>252</item> <!-- Burn Form -->
  <item>252</item> <!-- Chill Form -->
  <!-- Pyroar -->
- <!-- Pyroar -->
- <!-- Pyroar -->
  <item>221</item> <!-- Normal Form -->
  <item>221</item> <!-- Female Form -->
- <!-- Meowstic -->
- <!-- Meowstic -->
  <!-- Meowstic -->
  <item>166</item> <!-- Normal Form -->
  <item>166</item> <!-- Female Form -->
 </integer-array>
 <integer-array name="formDefense">
+ <!-- Rattata -->
  <item>70</item> <!-- Normal Form -->
  <item>70</item> <!-- Alola Form -->
+ <!-- Raticate -->
  <item>139</item> <!-- Normal Form -->
  <item>154</item> <!-- Alola Form -->
+ <!-- Pikachu -->
  <item>96</item> <!-- Normal Form -->
  <item>96</item> <!-- Costume 2020 Form -->
  <item>96</item> <!-- Adventure Hat 2020 Form -->
  <item>96</item> <!-- Winter 2020 Form -->
+ <!-- Raichu -->
  <item>151</item> <!-- Normal Form -->
  <item>154</item> <!-- Alola Form -->
+ <!-- Sandshrew -->
  <item>120</item> <!-- Normal Form -->
  <item>129</item> <!-- Alola Form -->
+ <!-- Sandslash -->
  <item>175</item> <!-- Normal Form -->
  <item>195</item> <!-- Alola Form -->
+ <!-- Vulpix -->
  <item>109</item> <!-- Normal Form -->
  <item>109</item> <!-- Alola Form -->
+ <!-- Ninetales -->
  <item>190</item> <!-- Normal Form -->
  <item>193</item> <!-- Alola Form -->
+ <!-- Diglett -->
  <item>78</item> <!-- Normal Form -->
  <item>81</item> <!-- Alola Form -->
+ <!-- Dugtrio -->
  <item>136</item> <!-- Normal Form -->
  <item>142</item> <!-- Alola Form -->
+ <!-- Meowth -->
  <item>78</item> <!-- Normal Form -->
  <item>78</item> <!-- Alola Form -->
  <item>92</item> <!-- Galarian Form -->
+ <!-- Persian -->
  <item>136</item> <!-- Normal Form -->
  <item>136</item> <!-- Alola Form -->
+ <!-- Geodude -->
  <item>132</item> <!-- Normal Form -->
  <item>132</item> <!-- Alola Form -->
+ <!-- Graveler -->
  <item>164</item> <!-- Normal Form -->
  <item>164</item> <!-- Alola Form -->
+ <!-- Golem -->
  <item>198</item> <!-- Normal Form -->
  <item>198</item> <!-- Alola Form -->
+ <!-- Ponyta -->
  <item>127</item> <!-- Normal Form -->
  <item>127</item> <!-- Galarian Form -->
+ <!-- Rapidash -->
  <item>162</item> <!-- Normal Form -->
  <item>162</item> <!-- Galarian Form -->
+ <!-- Slowpoke -->
  <item>98</item> <!-- Normal Form -->
  <item>98</item> <!-- 2020 Form -->
+ <!-- Slowbro -->
  <item>180</item> <!-- Normal Form -->
  <item>180</item> <!-- 2021 Form -->
+ <!-- Farfetchd -->
  <item>115</item> <!-- Normal Form -->
  <item>114</item> <!-- Galarian Form -->
+ <!-- Grimer -->
  <item>90</item> <!-- Normal Form -->
  <item>90</item> <!-- Alola Form -->
+ <!-- Muk -->
  <item>172</item> <!-- Normal Form -->
  <item>172</item> <!-- Alola Form -->
+ <!-- Gengar -->
  <item>149</item> <!-- Normal Form -->
  <item>149</item> <!-- Costume 2020 Form -->
+ <!-- Exeggutor -->
  <item>149</item> <!-- Normal Form -->
  <item>153</item> <!-- Alola Form -->
+ <!-- Marowak -->
  <item>186</item> <!-- Normal Form -->
  <item>186</item> <!-- Alola Form -->
+ <!-- Weezing -->
  <item>197</item> <!-- Normal Form -->
  <item>197</item> <!-- Galarian Form -->
+ <!-- Mr Mime -->
  <item>205</item> <!-- Normal Form -->
  <item>169</item> <!-- Galarian Form -->
+ <!-- Mewtwo -->
  <item>182</item> <!-- Normal Form -->
  <item>278</item> <!-- Armored Form -->
+ <!-- Unown -->
  <item>91</item> <!-- F Form -->
  <item>91</item> <!-- A Form -->
  <item>91</item> <!-- B Form -->
@@ -625,14 +526,19 @@
  <item>91</item> <!-- Z Form -->
  <item>91</item> <!-- Exclamation Point Form -->
  <item>91</item> <!-- Question Mark Form -->
+ <!-- Delibird -->
  <item>90</item> <!-- Normal Form -->
  <item>90</item> <!-- Winter 2020 Form -->
+ <!-- Zigzagoon -->
  <item>80</item> <!-- Normal Form -->
  <item>80</item> <!-- Galarian Form -->
+ <!-- Linoone -->
  <item>128</item> <!-- Normal Form -->
  <item>128</item> <!-- Galarian Form -->
+ <!-- Sableye -->
  <item>136</item> <!-- Normal Form -->
  <item>136</item> <!-- Costume 2020 Form -->
+ <!-- Spinda -->
  <item>116</item> <!-- 00 Form -->
  <item>116</item> <!-- 01 Form -->
  <item>116</item> <!-- 02 Form -->
@@ -653,36 +559,47 @@
  <item>116</item> <!-- 17 Form -->
  <item>116</item> <!-- 18 Form -->
  <item>116</item> <!-- 19 Form -->
+ <!-- Castform -->
  <item>139</item> <!-- Normal Form -->
  <item>139</item> <!-- Sunny Form -->
  <item>139</item> <!-- Rainy Form -->
  <item>139</item> <!-- Snowy Form -->
+ <!-- Deoxys -->
  <item>115</item> <!-- Normal Form -->
  <item>46</item> <!-- Attack Form -->
  <item>330</item> <!-- Defense Form -->
  <item>218</item> <!-- Speed Form -->
+ <!-- Burmy -->
  <item>83</item> <!-- Plant Form -->
  <item>83</item> <!-- Sandy Form -->
  <item>83</item> <!-- Trash Form -->
+ <!-- Wormadam -->
  <item>180</item> <!-- Plant Form -->
  <item>180</item> <!-- Sandy Form -->
  <item>175</item> <!-- Trash Form -->
+ <!-- Cherrim -->
  <item>153</item> <!-- Overcast Form -->
  <item>153</item> <!-- Sunny Form -->
+ <!-- Shellos -->
  <item>105</item> <!-- West Sea Form -->
  <item>105</item> <!-- East Sea Form -->
+ <!-- Gastrodon -->
  <item>143</item> <!-- West Sea Form -->
  <item>143</item> <!-- East Sea Form -->
+ <!-- Rotom -->
  <item>159</item> <!-- Normal Form -->
  <item>219</item> <!-- Heat Form -->
  <item>219</item> <!-- Wash Form -->
  <item>219</item> <!-- Frost Form -->
  <item>219</item> <!-- Fan Form -->
  <item>219</item> <!-- Mow Form -->
+ <!-- Giratina -->
  <item>225</item> <!-- Altered Form -->
  <item>187</item> <!-- Origin Form -->
+ <!-- Shaymin -->
  <item>210</item> <!-- Land Form -->
  <item>166</item> <!-- Sky Form -->
+ <!-- Arceus -->
  <item>238</item> <!-- Normal Form -->
  <item>238</item> <!-- Fighting Form -->
  <item>238</item> <!-- Flying Form -->
@@ -701,115 +618,163 @@
  <item>238</item> <!-- Dragon Form -->
  <item>238</item> <!-- Dark Form -->
  <item>238</item> <!-- Fairy Form -->
+ <!-- Basculin -->
  <item>129</item> <!-- Red Striped Form -->
  <item>129</item> <!-- Blue Striped Form -->
+ <!-- Darumaka -->
  <item>86</item> <!-- Normal Form -->
  <item>86</item> <!-- Galarian Form -->
+ <!-- Darmanitan -->
  <item>114</item> <!-- Standard Form -->
  <item>202</item> <!-- Zen Form -->
  <item>114</item> <!-- Galarian Standard Form -->
  <item>123</item> <!-- Galarian Zen Form -->
+ <!-- Yamask -->
  <item>141</item> <!-- Normal Form -->
  <item>141</item> <!-- Galarian Form -->
+ <!-- Deerling -->
  <item>100</item> <!-- Spring Form -->
  <item>100</item> <!-- Summer Form -->
  <item>100</item> <!-- Autumn Form -->
  <item>100</item> <!-- Winter Form -->
+ <!-- Sawsbuck -->
  <item>146</item> <!-- Spring Form -->
  <item>146</item> <!-- Summer Form -->
  <item>146</item> <!-- Autumn Form -->
  <item>146</item> <!-- Winter Form -->
+ <!-- Frillish -->
  <item>134</item> <!-- Normal Form -->
  <item>134</item> <!-- Female Form -->
+ <!-- Jellicent -->
  <item>178</item> <!-- Normal Form -->
  <item>178</item> <!-- Female Form -->
+ <!-- Cubchoo -->
  <item>74</item> <!-- Normal Form -->
  <item>74</item> <!-- Winter 2020 Form -->
+ <!-- Stunfisk -->
  <item>171</item> <!-- Normal Form -->
  <item>171</item> <!-- Galarian Form -->
+ <!-- Tornadus -->
  <item>164</item> <!-- Incarnate Form -->
  <item>189</item> <!-- Therian Form -->
+ <!-- Thundurus -->
  <item>164</item> <!-- Incarnate Form -->
  <item>161</item> <!-- Therian Form -->
+ <!-- Landorus -->
  <item>182</item> <!-- Incarnate Form -->
  <item>179</item> <!-- Therian Form -->
+ <!-- Kyurem -->
  <item>170</item> <!-- Normal Form -->
  <item>183</item> <!-- White Form -->
  <item>183</item> <!-- Black Form -->
+ <!-- Keldeo -->
  <item>192</item> <!-- Ordinary Form -->
  <item>192</item> <!-- Resolute Form -->
+ <!-- Meloetta -->
  <item>225</item> <!-- Aria Form -->
  <item>188</item> <!-- Pirouette Form -->
+ <!-- Genesect -->
  <item>199</item> <!-- Normal Form -->
  <item>199</item> <!-- Douse Form -->
  <item>199</item> <!-- Shock Form -->
  <item>199</item> <!-- Burn Form -->
  <item>199</item> <!-- Chill Form -->
+ <!-- Pyroar -->
  <item>149</item> <!-- Normal Form -->
  <item>149</item> <!-- Female Form -->
+ <!-- Meowstic -->
  <item>167</item> <!-- Normal Form -->
  <item>167</item> <!-- Female Form -->
 </integer-array>
 <integer-array name="formStamina">
+ <!-- Rattata -->
  <item>102</item> <!-- Normal Form -->
  <item>102</item> <!-- Alola Form -->
+ <!-- Raticate -->
  <item>146</item> <!-- Normal Form -->
  <item>181</item> <!-- Alola Form -->
+ <!-- Pikachu -->
  <item>111</item> <!-- Normal Form -->
  <item>111</item> <!-- Costume 2020 Form -->
  <item>111</item> <!-- Adventure Hat 2020 Form -->
  <item>111</item> <!-- Winter 2020 Form -->
+ <!-- Raichu -->
  <item>155</item> <!-- Normal Form -->
  <item>155</item> <!-- Alola Form -->
+ <!-- Sandshrew -->
  <item>137</item> <!-- Normal Form -->
  <item>137</item> <!-- Alola Form -->
+ <!-- Sandslash -->
  <item>181</item> <!-- Normal Form -->
  <item>181</item> <!-- Alola Form -->
+ <!-- Vulpix -->
  <item>116</item> <!-- Normal Form -->
  <item>116</item> <!-- Alola Form -->
+ <!-- Ninetales -->
  <item>177</item> <!-- Normal Form -->
  <item>177</item> <!-- Alola Form -->
+ <!-- Diglett -->
  <item>67</item> <!-- Normal Form -->
  <item>67</item> <!-- Alola Form -->
+ <!-- Dugtrio -->
  <item>111</item> <!-- Normal Form -->
  <item>111</item> <!-- Alola Form -->
+ <!-- Meowth -->
  <item>120</item> <!-- Normal Form -->
  <item>120</item> <!-- Alola Form -->
  <item>137</item> <!-- Galarian Form -->
+ <!-- Persian -->
  <item>163</item> <!-- Normal Form -->
  <item>163</item> <!-- Alola Form -->
+ <!-- Geodude -->
  <item>120</item> <!-- Normal Form -->
  <item>120</item> <!-- Alola Form -->
+ <!-- Graveler -->
  <item>146</item> <!-- Normal Form -->
  <item>146</item> <!-- Alola Form -->
+ <!-- Golem -->
  <item>190</item> <!-- Normal Form -->
  <item>190</item> <!-- Alola Form -->
+ <!-- Ponyta -->
  <item>137</item> <!-- Normal Form -->
  <item>137</item> <!-- Galarian Form -->
+ <!-- Rapidash -->
  <item>163</item> <!-- Normal Form -->
  <item>163</item> <!-- Galarian Form -->
+ <!-- Slowpoke -->
  <item>207</item> <!-- Normal Form -->
  <item>207</item> <!-- 2020 Form -->
+ <!-- Slowbro -->
  <item>216</item> <!-- Normal Form -->
  <item>216</item> <!-- 2021 Form -->
+ <!-- Farfetchd -->
  <item>141</item> <!-- Normal Form -->
  <item>141</item> <!-- Galarian Form -->
+ <!-- Grimer -->
  <item>190</item> <!-- Normal Form -->
  <item>190</item> <!-- Alola Form -->
+ <!-- Muk -->
  <item>233</item> <!-- Normal Form -->
  <item>233</item> <!-- Alola Form -->
+ <!-- Gengar -->
  <item>155</item> <!-- Normal Form -->
  <item>155</item> <!-- Costume 2020 Form -->
+ <!-- Exeggutor -->
  <item>216</item> <!-- Normal Form -->
  <item>216</item> <!-- Alola Form -->
+ <!-- Marowak -->
  <item>155</item> <!-- Normal Form -->
  <item>155</item> <!-- Alola Form -->
+ <!-- Weezing -->
  <item>163</item> <!-- Normal Form -->
  <item>163</item> <!-- Galarian Form -->
+ <!-- Mr Mime -->
  <item>120</item> <!-- Normal Form -->
  <item>137</item> <!-- Galarian Form -->
+ <!-- Mewtwo -->
  <item>214</item> <!-- Normal Form -->
  <item>214</item> <!-- Armored Form -->
+ <!-- Unown -->
  <item>134</item> <!-- F Form -->
  <item>134</item> <!-- A Form -->
  <item>134</item> <!-- B Form -->
@@ -838,14 +803,19 @@
  <item>134</item> <!-- Z Form -->
  <item>134</item> <!-- Exclamation Point Form -->
  <item>134</item> <!-- Question Mark Form -->
+ <!-- Delibird -->
  <item>128</item> <!-- Normal Form -->
  <item>128</item> <!-- Winter 2020 Form -->
+ <!-- Zigzagoon -->
  <item>116</item> <!-- Normal Form -->
  <item>116</item> <!-- Galarian Form -->
+ <!-- Linoone -->
  <item>186</item> <!-- Normal Form -->
  <item>186</item> <!-- Galarian Form -->
+ <!-- Sableye -->
  <item>137</item> <!-- Normal Form -->
  <item>137</item> <!-- Costume 2020 Form -->
+ <!-- Spinda -->
  <item>155</item> <!-- 00 Form -->
  <item>155</item> <!-- 01 Form -->
  <item>155</item> <!-- 02 Form -->
@@ -866,36 +836,47 @@
  <item>155</item> <!-- 17 Form -->
  <item>155</item> <!-- 18 Form -->
  <item>155</item> <!-- 19 Form -->
+ <!-- Castform -->
  <item>172</item> <!-- Normal Form -->
  <item>172</item> <!-- Sunny Form -->
  <item>172</item> <!-- Rainy Form -->
  <item>172</item> <!-- Snowy Form -->
+ <!-- Deoxys -->
  <item>137</item> <!-- Normal Form -->
  <item>137</item> <!-- Attack Form -->
  <item>137</item> <!-- Defense Form -->
  <item>137</item> <!-- Speed Form -->
+ <!-- Burmy -->
  <item>120</item> <!-- Plant Form -->
  <item>120</item> <!-- Sandy Form -->
  <item>120</item> <!-- Trash Form -->
+ <!-- Wormadam -->
  <item>155</item> <!-- Plant Form -->
  <item>155</item> <!-- Sandy Form -->
  <item>155</item> <!-- Trash Form -->
+ <!-- Cherrim -->
  <item>172</item> <!-- Overcast Form -->
  <item>172</item> <!-- Sunny Form -->
+ <!-- Shellos -->
  <item>183</item> <!-- West Sea Form -->
  <item>183</item> <!-- East Sea Form -->
+ <!-- Gastrodon -->
  <item>244</item> <!-- West Sea Form -->
  <item>244</item> <!-- East Sea Form -->
+ <!-- Rotom -->
  <item>137</item> <!-- Normal Form -->
  <item>137</item> <!-- Heat Form -->
  <item>137</item> <!-- Wash Form -->
  <item>137</item> <!-- Frost Form -->
  <item>137</item> <!-- Fan Form -->
  <item>137</item> <!-- Mow Form -->
+ <!-- Giratina -->
  <item>284</item> <!-- Altered Form -->
  <item>284</item> <!-- Origin Form -->
+ <!-- Shaymin -->
  <item>225</item> <!-- Land Form -->
  <item>225</item> <!-- Sky Form -->
+ <!-- Arceus -->
  <item>237</item> <!-- Normal Form -->
  <item>237</item> <!-- Fighting Form -->
  <item>237</item> <!-- Flying Form -->
@@ -914,52 +895,71 @@
  <item>237</item> <!-- Dragon Form -->
  <item>237</item> <!-- Dark Form -->
  <item>237</item> <!-- Fairy Form -->
+ <!-- Basculin -->
  <item>172</item> <!-- Red Striped Form -->
  <item>172</item> <!-- Blue Striped Form -->
+ <!-- Darumaka -->
  <item>172</item> <!-- Normal Form -->
  <item>172</item> <!-- Galarian Form -->
+ <!-- Darmanitan -->
  <item>233</item> <!-- Standard Form -->
  <item>233</item> <!-- Zen Form -->
  <item>233</item> <!-- Galarian Standard Form -->
  <item>233</item> <!-- Galarian Zen Form -->
+ <!-- Yamask -->
  <item>116</item> <!-- Normal Form -->
  <item>116</item> <!-- Galarian Form -->
+ <!-- Deerling -->
  <item>155</item> <!-- Spring Form -->
  <item>155</item> <!-- Summer Form -->
  <item>155</item> <!-- Autumn Form -->
  <item>155</item> <!-- Winter Form -->
+ <!-- Sawsbuck -->
  <item>190</item> <!-- Spring Form -->
  <item>190</item> <!-- Summer Form -->
  <item>190</item> <!-- Autumn Form -->
  <item>190</item> <!-- Winter Form -->
+ <!-- Frillish -->
  <item>146</item> <!-- Normal Form -->
  <item>146</item> <!-- Female Form -->
+ <!-- Jellicent -->
  <item>225</item> <!-- Normal Form -->
  <item>225</item> <!-- Female Form -->
+ <!-- Cubchoo -->
  <item>146</item> <!-- Normal Form -->
  <item>146</item> <!-- Winter 2020 Form -->
+ <!-- Stunfisk -->
  <item>240</item> <!-- Normal Form -->
  <item>240</item> <!-- Galarian Form -->
+ <!-- Tornadus -->
  <item>188</item> <!-- Incarnate Form -->
  <item>188</item> <!-- Therian Form -->
+ <!-- Thundurus -->
  <item>188</item> <!-- Incarnate Form -->
  <item>188</item> <!-- Therian Form -->
+ <!-- Landorus -->
  <item>205</item> <!-- Incarnate Form -->
  <item>205</item> <!-- Therian Form -->
+ <!-- Kyurem -->
  <item>245</item> <!-- Normal Form -->
  <item>245</item> <!-- White Form -->
  <item>245</item> <!-- Black Form -->
+ <!-- Keldeo -->
  <item>209</item> <!-- Ordinary Form -->
  <item>209</item> <!-- Resolute Form -->
+ <!-- Meloetta -->
  <item>225</item> <!-- Aria Form -->
  <item>225</item> <!-- Pirouette Form -->
+ <!-- Genesect -->
  <item>174</item> <!-- Normal Form -->
  <item>174</item> <!-- Douse Form -->
  <item>174</item> <!-- Shock Form -->
  <item>174</item> <!-- Burn Form -->
  <item>174</item> <!-- Chill Form -->
+ <!-- Pyroar -->
  <item>200</item> <!-- Normal Form -->
  <item>200</item> <!-- Female Form -->
+ <!-- Meowstic -->
  <item>179</item> <!-- Normal Form -->
  <item>179</item> <!-- Female Form -->
 </integer-array>

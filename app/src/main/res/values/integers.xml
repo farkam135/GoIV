@@ -717,7 +717,7 @@
  <item>83</item> <!-- Noibat -->
  <item>205</item> <!-- Noivern -->
  <item>275</item> <!-- Xerneas -->
- <item>null</item> <!-- Yveltal -->
+ <item>275</item> <!-- Yveltal -->
  <item>118</item> <!-- Meltan -->
  <item>226</item> <!-- Melmetal -->
  <item>180</item> <!-- Obstagoon -->
@@ -1443,7 +1443,7 @@
  <item>73</item> <!-- Noibat -->
  <item>175</item> <!-- Noivern -->
  <item>203</item> <!-- Xerneas -->
- <item>null</item> <!-- Yveltal -->
+ <item>203</item> <!-- Yveltal -->
  <item>99</item> <!-- Meltan -->
  <item>190</item> <!-- Melmetal -->
  <item>194</item> <!-- Obstagoon -->
@@ -2169,7 +2169,7 @@
  <item>120</item> <!-- Noibat -->
  <item>198</item> <!-- Noivern -->
  <item>270</item> <!-- Xerneas -->
- <item>null</item> <!-- Yveltal -->
+ <item>270</item> <!-- Yveltal -->
  <item>130</item> <!-- Meltan -->
  <item>264</item> <!-- Melmetal -->
  <item>212</item> <!-- Obstagoon -->

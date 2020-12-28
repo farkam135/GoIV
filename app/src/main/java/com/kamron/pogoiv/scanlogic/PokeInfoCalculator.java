@@ -27,11 +27,13 @@ public class PokeInfoCalculator {
     private List<Pokemon> formVariantPokemons;
     private String[] pokeNamesWithForm = {};
 
-    public static final int MELTAN_INDEX_OFFSET = 5;
-    public static final int MELMETAL_INDEX_OFFSET = 4;
-    public static final int OBSTAGOON_INDEX_OFFSET = 3;
-    public static final int PERRSERKER_INDEX_OFFSET = 2;
-    public static final int SIRFETCHD_INDEX_OFFSET = 1;
+    public static final int MELTAN_INDEX_OFFSET = 7;
+    public static final int MELMETAL_INDEX_OFFSET = 6;
+    public static final int OBSTAGOON_INDEX_OFFSET = 5;
+    public static final int PERRSERKER_INDEX_OFFSET = 4;
+    public static final int SIRFETCHD_INDEX_OFFSET = 3;
+    public static final int MRRIME_INDEX_OFFSET = 2;
+    public static final int RUNERIGUS_INDEX_OFFSET = 1;
 
     /**
      * Pokemons who's name appears as a type of candy.
@@ -186,9 +188,11 @@ public class PokeInfoCalculator {
         // quick hardcoded patch for supporting discontinuous pokedex number pokemons followings
         //   #808 Meltan
         //   #809 Melmetal
-        //   #862 Obstagoon,
-        //   #863 Perrserker,
+        //   #862 Obstagoon
+        //   #863 Perrserker
         //   #865 Sirfetch'd
+        //   #866 Mr. Rime
+        //   #867 Runerigus
         // currently GoIV logic expects that pokedex numbers are continuous and less than pokeListSize.
         // so this patch shifts these to dummy indexes, with pokeListSize offset.
         candyNamesArray[pokeListSize - MELTAN_INDEX_OFFSET] = pokeListSize - MELTAN_INDEX_OFFSET;

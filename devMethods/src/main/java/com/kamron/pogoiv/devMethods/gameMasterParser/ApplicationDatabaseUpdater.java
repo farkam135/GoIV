@@ -9,6 +9,8 @@ import com.kamron.pogoiv.devMethods.gameMasterParser.JsonStruct.Pokemon;
 import com.kamron.pogoiv.devMethods.gameMasterParser.JsonStruct.Stats;
 import com.kamron.pogoiv.devMethods.gameMasterParser.JsonStruct.Template;
 
+
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -23,6 +25,10 @@ import java.util.Collections;
 import java.util.Formatter;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -35,6 +41,7 @@ public class ApplicationDatabaseUpdater {
 
     public static void main(String[] args) {
 
+        Map<Integer, List<String>> names = getNameMapFromGoogleSheet();
         List<Data> data = getDataFromGamemasterJson();
 
         HashMap<Integer, FormSettings> formsByPokedex = new HashMap<>(); // Stores form data index by NatDex number
@@ -74,6 +81,7 @@ public class ApplicationDatabaseUpdater {
         printIntegersXml(formsByPokedex, pokemonWithMultipleForms, pokemonFormsByName, dexNumberLookup);
         printFormsXml(pokemonWithMultipleForms, pokemonFormsByName);
         printTypeDifferencesSuggestions(pokemonWithMultipleForms, pokemonFormsByName, dexNumberLookup);
+        printPokemonXml(names, formsByPokedex.keySet());
     }
 
     private static void printTypeDifferencesSuggestions(ArrayList<FormSettings> pokemonWithMultipleForms,
@@ -133,6 +141,96 @@ public class ApplicationDatabaseUpdater {
 
         // in V2, json has an extra layer of nesting: { "template": [{"data": {"templateId": "foo", ...} }] }
         return json.getTemplates().stream().map(Template::getData).collect(Collectors.toList());
+    }
+
+    private static Map<Integer, List<String>> getNameMapFromGoogleSheet() {
+        URL url = null;
+        try {
+            url = new URL("https://docs.google.com/spreadsheets/d/1AvjpzixBzXwdYb5jwrPLCgbHo8tUwbZJ3vDo_hUEQKs/gviz/tq?tqx=out:csv");
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        Map<Integer, List<String>> names = new HashMap<>();
+        BufferedReader reader = null;
+        try {
+            reader = new BufferedReader(new InputStreamReader(url.openStream(), "utf8"));
+            String line;
+            Pattern p = Pattern.compile("(?:\")([^\"]*)(?:\",|\"$)");
+            while ((line = reader.readLine()) != null) {
+                Matcher m = p.matcher(line);
+                List<String> values = new ArrayList<>();
+                while (m.find()) {
+                    values.add(m.group(1));
+                }
+
+                if (values.size() == 9) {
+                    int dexNo;
+                    try {
+                        dexNo = Integer.parseInt(values.get(0));
+                    } catch (NumberFormatException nfe) {
+                        continue;  // not a valid Pokémon name line, skip
+                    }
+                    List<String> translations = values.subList(2, 8).stream().map(s -> s.replaceAll("\\([^)]+\\)", "")).collect(Collectors.toList());
+                    names.put(dexNo, translations);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return names;
+    }
+
+    private static void printPokemonXml(Map<Integer, List<String>> names, Set<Integer> dexNumbers) {
+        int maxPokedex = Collections.max(dexNumbers);
+        Map<String, List<String>> translations = new HashMap<>();
+        //String[] languages = new String[] { "de", "", "fr", "ja", "ko", "cn" };
+        // Need to determine the language code for the last three ones
+        String[] languages = new String[] { "de", "", "fr", null, null, null };
+        for (String language : languages) {
+            if (language != null) {
+                translations.put(language, new ArrayList<>(dexNumbers.size()));
+            }
+        }
+        for (int i = 1; i <= maxPokedex; i++) {
+            if (dexNumbers.contains(i)) {
+                List<String> nameForPokemon = names.get(i);
+                if (nameForPokemon == null) {
+                    nameForPokemon = new ArrayList<>(languages.length);
+                    for (int j = 0; j < languages.length; j++) {
+                        nameForPokemon.add("Unknown");
+                    }
+                }
+                // Lets hope that it will always be 6 values...
+                for (int j = 0; j < languages.length; j++) {
+                    String language = languages[j];
+                    if (language != null) {
+                        translations.get(language).add(nameForPokemon.get(j));
+                    }
+                }
+            }
+        }
+
+        for (String language : languages) {
+            if (language != null) {
+                StringBuilder contents = new StringBuilder("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
+                        "<resources>\n    <string-array name=\"pokemon\">\n");
+
+                for (String name : translations.get(language)) {
+                    contents.append("        <item>");
+                    contents.append(name);
+                    contents.append("</item>\n");
+                }
+
+                contents.append("    </string-array>\n</resources>");
+
+                String directory = "values";
+                if (!language.isEmpty()) {
+                    directory += "-" + language;
+                }
+                writeFile(directory + "-pokemon.xml", contents.toString());
+            }
+        }
     }
 
     /**

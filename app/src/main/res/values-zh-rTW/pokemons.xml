@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <bool name="use_default_pokemonsname_as_ocrstring">true</bool>
     <string-array name="pokemon">
         <item>妙蛙種子</item>
         <item>妙蛙草</item>

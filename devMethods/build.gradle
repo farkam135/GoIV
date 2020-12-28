@@ -17,17 +17,35 @@ task updateDatabase(type: JavaExec) {
     main = "com.kamron.pogoiv.devMethods.gameMasterParser.ApplicationDatabaseUpdater"
     classpath = sourceSets.main.runtimeClasspath
     workingDir = projectDir
+    File resParent = file(project(':app').projectDir.getPath() + '/src/main/res/', PathValidation.DIRECTORY)
 
     doLast {
         File formsXml = file('forms.xml', PathValidation.FILE)
         File integersXml = file('integers.xml', PathValidation.FILE)
         FileCollection databaseFiles = files(formsXml, integersXml)
-        File resDir = file(project(':app').projectDir.getPath() + '/src/main/res/values/', PathValidation.DIRECTORY)
+        File resDir = file(resParent.getPath() + '/values/', PathValidation.DIRECTORY)
         copy {
             from projectDir
             into resDir
             databaseFiles.getFiles().each {File file -> include file.getName()}
         }
         delete databaseFiles
+        copyLanguage('')
+        copyLanguage('de')
+        copyLanguage('fr')
+    }
+
+    ext.copyLanguage = { language ->
+        if (language != '') {
+            language = '-' + language
+        }
+        File resDir = file(resParent.getPath() + '/values' + language, PathValidation.DIRECTORY)
+        File src = file('values' + language + '-pokemon.xml', PathValidation.FILE)
+        copy {
+            from src
+            into resDir
+            rename(src.name, 'pokemons.xml')
+        }
+        delete src
     }
 }

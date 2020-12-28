@@ -334,7 +334,7 @@ public class ApplicationDatabaseUpdater {
 
                     // Candy Names
                     candyNamesFormatter.format(integerArrayFormat,
-                            dexNumberLookup.get(poke.getFamilyId().substring(7))
+                            dexNumberLookup.get(poke.getFamilyId().substring(7)) - 1
                     );
                     candyNamesFormatter.format(commentFormat, pokemonName);
 

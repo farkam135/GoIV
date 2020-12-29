@@ -50,8 +50,8 @@ public class ApplicationDatabaseUpdater {
         HashMap<String, HashMap<String, Pokemon>> pokemonFormsByName = new HashMap<>(); // stores pokemon data by
         // species and form id
         HashMap<String, Integer> dexNumberLookup = new HashMap<>(); // species name -> dex #
-        Set<Integer> dexNosInSystem; // Dex numbers for pokemon actually in the app (could have forms for unsupported
-                                     // pokemon because of e.g. missing stat blocks)
+        Set<Integer> dexNosInSystem; // Dex numbers for pokemon actually in the app (could hve forms for unsupported
+        // pokemon because of e.g. missing stat blocks)
 
         for (Data datum : data) {
             Pokemon poke = datum.getPokemon();
@@ -164,17 +164,16 @@ public class ApplicationDatabaseUpdater {
             int dexNoIdx = -1;
             ArrayList<String> header = new ArrayList<>();
             if (line != null) {
-                Arrays.asList(line.split(",")).forEach(item -> header.add(item));
+                header.addAll(Arrays.asList(line.split(",")));
                 dexNoIdx = header.indexOf("dexNo");
                 if (dexNoIdx == -1) {
                     throw new RuntimeException("Couldn't find Dex # field (make sure the \"dexNo\" column exists)");
                 }
             }
             while ((line = reader.readLine()) != null) {
-                ArrayList<String> values = new ArrayList<>();
-                Arrays.asList(line.split(",")).forEach(item -> values.add(item));
+                ArrayList<String> values = new ArrayList<>(Arrays.asList(line.split(",")));
 
-                if (values.size() == header.size()) {
+                if (values.size() <= header.size()) { // Allow Missing names at end of list
                     int dexNo;
                     try {
                         dexNo = Integer.parseInt(values.get(dexNoIdx));
@@ -198,8 +197,6 @@ public class ApplicationDatabaseUpdater {
     private static void printPokemonXml(Map<Integer, List<String>> names, Set<Integer> dexNumbers) {
         int maxPokedex = Collections.max(dexNumbers);
 
-        //String[] languages = new String[] { "de", "", "fr", "ja", "ko", "cn" };
-        // Need to determine the language code for the last three ones
         List<String> languages = names.get(-1);
 
         Map<String, List<String>> translations = new HashMap<>();

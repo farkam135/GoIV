@@ -312,7 +312,9 @@ public class ApplicationDatabaseUpdater {
                             .format(commentFormat, pokemonName);
 
                     // Devolution Number
-                    devolutionNumberFormatter.format(integerArrayFormat, dexNumberLookup.get(poke.getParentId()) - 1);
+                    String parentId = formHash.values().stream().filter(form_ -> form_.getParentId() != null)
+                            .findFirst().map(Pokemon::getParentId).orElse(null);
+                    devolutionNumberFormatter.format(integerArrayFormat, dexNumberLookup.get(parentId) - 1);
                     devolutionNumberFormatter.format(commentFormat, pokemonName);
 
                     // Evolution Candy Cost

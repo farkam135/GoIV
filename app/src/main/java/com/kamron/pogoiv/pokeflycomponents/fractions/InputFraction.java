@@ -132,9 +132,14 @@ public class InputFraction extends Fraction implements ReactiveColorListener {
         // Setup manual pokemon species input
         initializePokemonAutoCompleteTextView();
 
-        // Guess the species
-        PokemonNameCorrector.PokeDist possiblePoke =
-                PokemonNameCorrector.getInstance(pokefly).getPossiblePokemon(Pokefly.scanData);
+        PokemonNameCorrector.PokeDist possiblePoke;
+        // If not-null, then the Pokemon has been manually set, so we shouldn't guess it.
+        if (Pokefly.scanData.getPokemon() != null) {
+            possiblePoke = new PokemonNameCorrector.PokeDist(Pokefly.scanData.getPokemon(), 0);
+        } else {
+            // Guess the species
+            possiblePoke = PokemonNameCorrector.getInstance(pokefly).getPossiblePokemon(Pokefly.scanData);
+        }
 
         // set color based on similarity
         if (possiblePoke.dist == 0) {

@@ -263,7 +263,7 @@ public class InputFraction extends Fraction implements ReactiveColorListener {
         updateIVInputFractionPreview();
     }
 
-    @OnTextChanged({R.id.etCp, R.id.etHp, R.id.etCandy})
+    @OnTextChanged({R.id.etCp, R.id.etHp, R.id.etCandy, R.id.autoCompleteTextView1})
     public void updateIVFractionSpinnerDueToTextChange() {
         updateIVInputFractionPreview();
     }
@@ -275,28 +275,34 @@ public class InputFraction extends Fraction implements ReactiveColorListener {
         if(isInitiated){
             saveToPokefly();
 
-            try {
-                ScanResult scanResult = pokefly.computeIVWithoutUIChange();
+            updateIVPreview(pokefly, btnCheckIv);
+        }
+    }
 
-                int possibleIVs = scanResult.getIVCombinations().size();
-                //btnCheckIv.setEnabled(possibleIVs != 0);
-                if (possibleIVs == 0) {
-                    btnCheckIv.setText("?");
-                } else {
-                    if (scanResult.getIVCombinations().size() == 1) {
-                        IVCombination result = scanResult.getIVCombinations().get(0);
-                        btnCheckIv.setText(result.percentPerfect + "% (" + result.att + ":" + result.def + ":" + result.sta + ") | More info");
-                    } else if (scanResult.getLowestIVCombination().percentPerfect == scanResult
-                            .getHighestIVCombination().percentPerfect) {
-                        btnCheckIv.setText(scanResult.getLowestIVCombination().percentPerfect + "% | More info");
-                    } else {
-                        btnCheckIv.setText(scanResult.getLowestIVCombination().percentPerfect + "% - " + scanResult
-                                .getHighestIVCombination().percentPerfect + "% | More info");
-                    }
+    public static void updateIVPreview(Pokefly pokefly, Button btnCheckIv) {
+        ScanResult scanResult = null;
+        try {
+            scanResult = pokefly.computeIVWithoutUIChange();
+        } catch (IllegalStateException e) {
+            //Couldn't compute a valid scanresult. This is most likely due to missing HP / CP values
+        }
 
-                }
-            } catch (IllegalStateException e) {
-                //Couldnt compute a valid scanresult. This is most likely due to missing HP / CP values
+        // If it couldn't compute a scan result it should behave the same as if there are no valid
+        // IV combinations.
+        int possibleIVs = scanResult == null ? 0 : scanResult.getIVCombinations().size();
+        //btnCheckIv.setEnabled(possibleIVs != 0);
+        if (possibleIVs == 0) {
+            btnCheckIv.setText("? | More info");
+        } else {
+            if (possibleIVs == 1) {
+                IVCombination result = scanResult.getIVCombinations().get(0);
+                btnCheckIv.setText(result.percentPerfect + "% (" + result.att + ":" + result.def + ":" + result.sta + ") | More info");
+            } else if (scanResult.getLowestIVCombination().percentPerfect == scanResult
+                    .getHighestIVCombination().percentPerfect) {
+                btnCheckIv.setText(scanResult.getLowestIVCombination().percentPerfect + "% | More info");
+            } else {
+                btnCheckIv.setText(scanResult.getLowestIVCombination().percentPerfect + "% - " + scanResult
+                        .getHighestIVCombination().percentPerfect + "% | More info");
             }
         }
     }

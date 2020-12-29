@@ -174,32 +174,7 @@ public class AppraisalFraction extends MovableFraction implements AppraisalManag
      * Update the text on the 'next' button to indicate quick IV overview
      */
     private void updateIVPreviewInButton() {
-
-        try {
-            ScanResult scanResult = pokefly.computeIVWithoutUIChange();
-
-            int possibleIVs = scanResult.getIVCombinations().size();
-            //btnCheckIv.setEnabled(possibleIVs != 0);
-            if (possibleIVs == 0) {
-                btnCheckIv.setText("?");
-            } else {
-                if (scanResult.getIVCombinations().size() == 1) {
-                    IVCombination result = scanResult.getIVCombinations().get(0);
-                    btnCheckIv.setText(result.percentPerfect + "% (" + result.att + ":" + result.def + ":" + result.sta + ") | More info");
-                } else if (scanResult.getLowestIVCombination().percentPerfect == scanResult
-                        .getHighestIVCombination().percentPerfect) {
-                    btnCheckIv.setText(scanResult.getLowestIVCombination().percentPerfect + "% | More info");
-                } else {
-                    btnCheckIv.setText(scanResult.getLowestIVCombination().percentPerfect + "% - " + scanResult
-                            .getHighestIVCombination().percentPerfect + "% | More info");
-                }
-
-            }
-        } catch (IllegalStateException e) {
-            //Couldnt compute a valid scanresult. This is most likely due to missing HP / CP values
-        }
-
-
+        InputFraction.updateIVPreview(pokefly, btnCheckIv);
     }
 
     @OnCheckedChanged({R.id.atkEnabled, R.id.defEnabled, R.id.staEnabled})

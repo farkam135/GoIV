@@ -50,7 +50,7 @@ public class ApplicationDatabaseUpdater {
         HashMap<String, HashMap<String, Pokemon>> pokemonFormsByName = new HashMap<>(); // stores pokemon data by
         // species and form id
         HashMap<String, Integer> dexNumberLookup = new HashMap<>(); // species name -> dex #
-        Set<Integer> dexNosInSystem; // Dex numbers for pokemon actually in the app (could hve forms for unsupported
+        Set<Integer> dexNosInSystem; // Dex numbers for pokemon actually in the app (could have forms for unsupported
         // pokemon because of e.g. missing stat blocks)
 
         for (Data datum : data) {
@@ -316,15 +316,9 @@ public class ApplicationDatabaseUpdater {
                     devolutionNumberFormatter.format(commentFormat, pokemonName);
 
                     // Evolution Candy Cost
-                    Integer evolveCandy = null;
+                    int evolveCandy = -1;
                     if (poke.getEvolutionBranches() != null) {
-                        evolveCandy = poke.getEvolutionBranches().get(0).getCandyCost();
-                    }
-                    if (evolveCandy == null) {
-                        evolveCandy = poke.getCandyToEvolve();
-                    }
-                    if (evolveCandy == null) {
-                        evolveCandy = -1;
+                        evolveCandy = unnull(poke.getEvolutionBranches().get(0).getCandyCost(), evolveCandy);
                     }
                     evolutionCandyCostFormatter.format(integerArrayFormat, evolveCandy)
                             .format(commentFormat, pokemonName);

@@ -3273,267 +3273,267 @@
  <item>-1</item> <!-- Deoxys -->
  <item>25</item> <!-- Turtwig -->
  <item>100</item> <!-- Grotle -->
- <item>25</item> <!-- Torterra -->
+ <item>-1</item> <!-- Torterra -->
  <item>25</item> <!-- Chimchar -->
  <item>100</item> <!-- Monferno -->
- <item>25</item> <!-- Infernape -->
+ <item>-1</item> <!-- Infernape -->
  <item>25</item> <!-- Piplup -->
  <item>100</item> <!-- Prinplup -->
- <item>25</item> <!-- Empoleon -->
+ <item>-1</item> <!-- Empoleon -->
  <item>25</item> <!-- Starly -->
  <item>100</item> <!-- Staravia -->
- <item>25</item> <!-- Staraptor -->
+ <item>-1</item> <!-- Staraptor -->
  <item>50</item> <!-- Bidoof -->
- <item>25</item> <!-- Bibarel -->
+ <item>-1</item> <!-- Bibarel -->
  <item>50</item> <!-- Kricketot -->
- <item>25</item> <!-- Kricketune -->
+ <item>-1</item> <!-- Kricketune -->
  <item>25</item> <!-- Shinx -->
  <item>100</item> <!-- Luxio -->
- <item>25</item> <!-- Luxray -->
+ <item>-1</item> <!-- Luxray -->
  <item>25</item> <!-- Budew -->
- <item>25</item> <!-- Roserade -->
+ <item>-1</item> <!-- Roserade -->
  <item>50</item> <!-- Cranidos -->
- <item>25</item> <!-- Rampardos -->
+ <item>-1</item> <!-- Rampardos -->
  <item>50</item> <!-- Shieldon -->
- <item>25</item> <!-- Bastiodon -->
+ <item>-1</item> <!-- Bastiodon -->
  <item>50</item> <!-- Burmy -->
- <item>25</item> <!-- Wormadam -->
- <item>25</item> <!-- Mothim -->
+ <item>-1</item> <!-- Wormadam -->
+ <item>-1</item> <!-- Mothim -->
  <item>50</item> <!-- Combee -->
- <item>25</item> <!-- Vespiquen -->
- <item>25</item> <!-- Pachirisu -->
+ <item>-1</item> <!-- Vespiquen -->
+ <item>-1</item> <!-- Pachirisu -->
  <item>50</item> <!-- Buizel -->
- <item>25</item> <!-- Floatzel -->
+ <item>-1</item> <!-- Floatzel -->
  <item>50</item> <!-- Cherubi -->
- <item>25</item> <!-- Cherrim -->
+ <item>-1</item> <!-- Cherrim -->
  <item>50</item> <!-- Shellos -->
- <item>25</item> <!-- Gastrodon -->
- <item>25</item> <!-- Ambipom -->
+ <item>-1</item> <!-- Gastrodon -->
+ <item>-1</item> <!-- Ambipom -->
  <item>50</item> <!-- Drifloon -->
- <item>25</item> <!-- Drifblim -->
+ <item>-1</item> <!-- Drifblim -->
  <item>50</item> <!-- Buneary -->
- <item>25</item> <!-- Lopunny -->
- <item>25</item> <!-- Mismagius -->
- <item>25</item> <!-- Honchkrow -->
+ <item>-1</item> <!-- Lopunny -->
+ <item>-1</item> <!-- Mismagius -->
+ <item>-1</item> <!-- Honchkrow -->
  <item>50</item> <!-- Glameow -->
- <item>25</item> <!-- Purugly -->
+ <item>-1</item> <!-- Purugly -->
  <item>50</item> <!-- Chingling -->
  <item>50</item> <!-- Stunky -->
- <item>25</item> <!-- Skuntank -->
+ <item>-1</item> <!-- Skuntank -->
  <item>50</item> <!-- Bronzor -->
- <item>25</item> <!-- Bronzong -->
+ <item>-1</item> <!-- Bronzong -->
  <item>50</item> <!-- Bonsly -->
  <item>50</item> <!-- Mime Jr -->
  <item>25</item> <!-- Happiny -->
- <item>25</item> <!-- Chatot -->
- <item>25</item> <!-- Spiritomb -->
+ <item>-1</item> <!-- Chatot -->
+ <item>-1</item> <!-- Spiritomb -->
  <item>25</item> <!-- Gible -->
  <item>100</item> <!-- Gabite -->
- <item>25</item> <!-- Garchomp -->
+ <item>-1</item> <!-- Garchomp -->
  <item>50</item> <!-- Munchlax -->
  <item>50</item> <!-- Riolu -->
- <item>25</item> <!-- Lucario -->
+ <item>-1</item> <!-- Lucario -->
  <item>50</item> <!-- Hippopotas -->
- <item>25</item> <!-- Hippowdon -->
+ <item>-1</item> <!-- Hippowdon -->
  <item>50</item> <!-- Skorupi -->
- <item>25</item> <!-- Drapion -->
+ <item>-1</item> <!-- Drapion -->
  <item>50</item> <!-- Croagunk -->
- <item>25</item> <!-- Toxicroak -->
- <item>25</item> <!-- Carnivine -->
+ <item>-1</item> <!-- Toxicroak -->
+ <item>-1</item> <!-- Carnivine -->
  <item>50</item> <!-- Finneon -->
- <item>25</item> <!-- Lumineon -->
+ <item>-1</item> <!-- Lumineon -->
  <item>50</item> <!-- Mantyke -->
  <item>50</item> <!-- Snover -->
- <item>25</item> <!-- Abomasnow -->
- <item>25</item> <!-- Weavile -->
- <item>25</item> <!-- Magnezone -->
- <item>25</item> <!-- Lickilicky -->
- <item>25</item> <!-- Rhyperior -->
- <item>25</item> <!-- Tangrowth -->
- <item>25</item> <!-- Electivire -->
- <item>25</item> <!-- Magmortar -->
- <item>25</item> <!-- Togekiss -->
- <item>25</item> <!-- Yanmega -->
- <item>25</item> <!-- Leafeon -->
- <item>25</item> <!-- Glaceon -->
- <item>25</item> <!-- Gliscor -->
- <item>25</item> <!-- Mamoswine -->
- <item>25</item> <!-- Porygon Z -->
- <item>25</item> <!-- Gallade -->
- <item>25</item> <!-- Probopass -->
- <item>25</item> <!-- Dusknoir -->
- <item>25</item> <!-- Froslass -->
- <item>25</item> <!-- Rotom -->
- <item>25</item> <!-- Uxie -->
- <item>25</item> <!-- Mesprit -->
- <item>25</item> <!-- Azelf -->
- <item>25</item> <!-- Dialga -->
- <item>25</item> <!-- Palkia -->
- <item>25</item> <!-- Heatran -->
- <item>25</item> <!-- Regigigas -->
- <item>25</item> <!-- Giratina -->
- <item>25</item> <!-- Cresselia -->
- <item>25</item> <!-- Phione -->
- <item>25</item> <!-- Manaphy -->
- <item>25</item> <!-- Darkrai -->
- <item>25</item> <!-- Shaymin -->
- <item>25</item> <!-- Arceus -->
+ <item>-1</item> <!-- Abomasnow -->
+ <item>-1</item> <!-- Weavile -->
+ <item>-1</item> <!-- Magnezone -->
+ <item>-1</item> <!-- Lickilicky -->
+ <item>-1</item> <!-- Rhyperior -->
+ <item>-1</item> <!-- Tangrowth -->
+ <item>-1</item> <!-- Electivire -->
+ <item>-1</item> <!-- Magmortar -->
+ <item>-1</item> <!-- Togekiss -->
+ <item>-1</item> <!-- Yanmega -->
+ <item>-1</item> <!-- Leafeon -->
+ <item>-1</item> <!-- Glaceon -->
+ <item>-1</item> <!-- Gliscor -->
+ <item>-1</item> <!-- Mamoswine -->
+ <item>-1</item> <!-- Porygon Z -->
+ <item>-1</item> <!-- Gallade -->
+ <item>-1</item> <!-- Probopass -->
+ <item>-1</item> <!-- Dusknoir -->
+ <item>-1</item> <!-- Froslass -->
+ <item>-1</item> <!-- Rotom -->
+ <item>-1</item> <!-- Uxie -->
+ <item>-1</item> <!-- Mesprit -->
+ <item>-1</item> <!-- Azelf -->
+ <item>-1</item> <!-- Dialga -->
+ <item>-1</item> <!-- Palkia -->
+ <item>-1</item> <!-- Heatran -->
+ <item>-1</item> <!-- Regigigas -->
+ <item>-1</item> <!-- Giratina -->
+ <item>-1</item> <!-- Cresselia -->
+ <item>-1</item> <!-- Phione -->
+ <item>-1</item> <!-- Manaphy -->
+ <item>-1</item> <!-- Darkrai -->
+ <item>-1</item> <!-- Shaymin -->
+ <item>-1</item> <!-- Arceus -->
  <item>-1</item> <!-- Victini -->
  <item>25</item> <!-- Snivy -->
  <item>100</item> <!-- Servine -->
- <item>25</item> <!-- Serperior -->
+ <item>-1</item> <!-- Serperior -->
  <item>25</item> <!-- Tepig -->
  <item>100</item> <!-- Pignite -->
- <item>25</item> <!-- Emboar -->
+ <item>-1</item> <!-- Emboar -->
  <item>25</item> <!-- Oshawott -->
  <item>100</item> <!-- Dewott -->
- <item>25</item> <!-- Samurott -->
+ <item>-1</item> <!-- Samurott -->
  <item>50</item> <!-- Patrat -->
- <item>25</item> <!-- Watchog -->
+ <item>-1</item> <!-- Watchog -->
  <item>25</item> <!-- Lillipup -->
  <item>100</item> <!-- Herdier -->
- <item>25</item> <!-- Stoutland -->
+ <item>-1</item> <!-- Stoutland -->
  <item>50</item> <!-- Purrloin -->
- <item>25</item> <!-- Liepard -->
+ <item>-1</item> <!-- Liepard -->
  <item>50</item> <!-- Pansage -->
- <item>25</item> <!-- Simisage -->
+ <item>-1</item> <!-- Simisage -->
  <item>50</item> <!-- Pansear -->
- <item>25</item> <!-- Simisear -->
+ <item>-1</item> <!-- Simisear -->
  <item>50</item> <!-- Panpour -->
- <item>25</item> <!-- Simipour -->
+ <item>-1</item> <!-- Simipour -->
  <item>50</item> <!-- Munna -->
- <item>25</item> <!-- Musharna -->
+ <item>-1</item> <!-- Musharna -->
  <item>12</item> <!-- Pidove -->
  <item>50</item> <!-- Tranquill -->
- <item>25</item> <!-- Unfezant -->
+ <item>-1</item> <!-- Unfezant -->
  <item>50</item> <!-- Blitzle -->
- <item>25</item> <!-- Zebstrika -->
+ <item>-1</item> <!-- Zebstrika -->
  <item>50</item> <!-- Roggenrola -->
  <item>200</item> <!-- Boldore -->
- <item>25</item> <!-- Gigalith -->
+ <item>-1</item> <!-- Gigalith -->
  <item>50</item> <!-- Woobat -->
- <item>25</item> <!-- Swoobat -->
+ <item>-1</item> <!-- Swoobat -->
  <item>50</item> <!-- Drilbur -->
- <item>25</item> <!-- Excadrill -->
- <item>25</item> <!-- Audino -->
+ <item>-1</item> <!-- Excadrill -->
+ <item>-1</item> <!-- Audino -->
  <item>50</item> <!-- Timburr -->
  <item>200</item> <!-- Gurdurr -->
- <item>25</item> <!-- Conkeldurr -->
+ <item>-1</item> <!-- Conkeldurr -->
  <item>25</item> <!-- Tympole -->
  <item>100</item> <!-- Palpitoad -->
- <item>25</item> <!-- Seismitoad -->
- <item>25</item> <!-- Throh -->
- <item>25</item> <!-- Sawk -->
+ <item>-1</item> <!-- Seismitoad -->
+ <item>-1</item> <!-- Throh -->
+ <item>-1</item> <!-- Sawk -->
  <item>25</item> <!-- Sewaddle -->
  <item>100</item> <!-- Swadloon -->
- <item>25</item> <!-- Leavanny -->
+ <item>-1</item> <!-- Leavanny -->
  <item>25</item> <!-- Venipede -->
  <item>100</item> <!-- Whirlipede -->
- <item>25</item> <!-- Scolipede -->
+ <item>-1</item> <!-- Scolipede -->
  <item>50</item> <!-- Cottonee -->
- <item>25</item> <!-- Whimsicott -->
+ <item>-1</item> <!-- Whimsicott -->
  <item>50</item> <!-- Petilil -->
- <item>25</item> <!-- Lilligant -->
- <item>25</item> <!-- Basculin -->
+ <item>-1</item> <!-- Lilligant -->
+ <item>-1</item> <!-- Basculin -->
  <item>25</item> <!-- Sandile -->
  <item>100</item> <!-- Krokorok -->
- <item>25</item> <!-- Krookodile -->
+ <item>-1</item> <!-- Krookodile -->
  <item>50</item> <!-- Darumaka -->
- <item>25</item> <!-- Darmanitan -->
- <item>25</item> <!-- Maractus -->
+ <item>-1</item> <!-- Darmanitan -->
+ <item>-1</item> <!-- Maractus -->
  <item>50</item> <!-- Dwebble -->
- <item>25</item> <!-- Crustle -->
+ <item>-1</item> <!-- Crustle -->
  <item>50</item> <!-- Scraggy -->
- <item>25</item> <!-- Scrafty -->
- <item>25</item> <!-- Sigilyph -->
+ <item>-1</item> <!-- Scrafty -->
+ <item>-1</item> <!-- Sigilyph -->
  <item>50</item> <!-- Yamask -->
- <item>25</item> <!-- Cofagrigus -->
+ <item>-1</item> <!-- Cofagrigus -->
  <item>50</item> <!-- Tirtouga -->
- <item>25</item> <!-- Carracosta -->
+ <item>-1</item> <!-- Carracosta -->
  <item>50</item> <!-- Archen -->
- <item>25</item> <!-- Archeops -->
+ <item>-1</item> <!-- Archeops -->
  <item>50</item> <!-- Trubbish -->
- <item>25</item> <!-- Garbodor -->
+ <item>-1</item> <!-- Garbodor -->
  <item>50</item> <!-- Zorua -->
- <item>25</item> <!-- Zoroark -->
+ <item>-1</item> <!-- Zoroark -->
  <item>50</item> <!-- Minccino -->
- <item>25</item> <!-- Cinccino -->
+ <item>-1</item> <!-- Cinccino -->
  <item>25</item> <!-- Gothita -->
  <item>100</item> <!-- Gothorita -->
- <item>25</item> <!-- Gothitelle -->
+ <item>-1</item> <!-- Gothitelle -->
  <item>25</item> <!-- Solosis -->
  <item>100</item> <!-- Duosion -->
- <item>25</item> <!-- Reuniclus -->
+ <item>-1</item> <!-- Reuniclus -->
  <item>50</item> <!-- Ducklett -->
- <item>25</item> <!-- Swanna -->
+ <item>-1</item> <!-- Swanna -->
  <item>25</item> <!-- Vanillite -->
  <item>100</item> <!-- Vanillish -->
- <item>25</item> <!-- Vanilluxe -->
- <item>25</item> <!-- Deerling -->
- <item>25</item> <!-- Sawsbuck -->
- <item>25</item> <!-- Emolga -->
+ <item>-1</item> <!-- Vanilluxe -->
+ <item>-1</item> <!-- Deerling -->
+ <item>-1</item> <!-- Sawsbuck -->
+ <item>-1</item> <!-- Emolga -->
  <item>200</item> <!-- Karrablast -->
- <item>25</item> <!-- Escavalier -->
+ <item>-1</item> <!-- Escavalier -->
  <item>50</item> <!-- Foongus -->
- <item>25</item> <!-- Amoonguss -->
+ <item>-1</item> <!-- Amoonguss -->
  <item>50</item> <!-- Frillish -->
- <item>25</item> <!-- Jellicent -->
- <item>25</item> <!-- Alomomola -->
+ <item>-1</item> <!-- Jellicent -->
+ <item>-1</item> <!-- Alomomola -->
  <item>50</item> <!-- Joltik -->
- <item>25</item> <!-- Galvantula -->
+ <item>-1</item> <!-- Galvantula -->
  <item>50</item> <!-- Ferroseed -->
- <item>25</item> <!-- Ferrothorn -->
+ <item>-1</item> <!-- Ferrothorn -->
  <item>25</item> <!-- Klink -->
  <item>100</item> <!-- Klang -->
- <item>25</item> <!-- Klinklang -->
+ <item>-1</item> <!-- Klinklang -->
  <item>25</item> <!-- Tynamo -->
  <item>100</item> <!-- Eelektrik -->
- <item>25</item> <!-- Eelektross -->
+ <item>-1</item> <!-- Eelektross -->
  <item>50</item> <!-- Elgyem -->
- <item>25</item> <!-- Beheeyem -->
+ <item>-1</item> <!-- Beheeyem -->
  <item>25</item> <!-- Litwick -->
  <item>100</item> <!-- Lampent -->
- <item>25</item> <!-- Chandelure -->
+ <item>-1</item> <!-- Chandelure -->
  <item>25</item> <!-- Axew -->
  <item>100</item> <!-- Fraxure -->
- <item>25</item> <!-- Haxorus -->
+ <item>-1</item> <!-- Haxorus -->
  <item>50</item> <!-- Cubchoo -->
- <item>25</item> <!-- Beartic -->
- <item>25</item> <!-- Cryogonal -->
+ <item>-1</item> <!-- Beartic -->
+ <item>-1</item> <!-- Cryogonal -->
  <item>200</item> <!-- Shelmet -->
- <item>25</item> <!-- Accelgor -->
- <item>25</item> <!-- Stunfisk -->
+ <item>-1</item> <!-- Accelgor -->
+ <item>-1</item> <!-- Stunfisk -->
  <item>50</item> <!-- Mienfoo -->
- <item>25</item> <!-- Mienshao -->
- <item>25</item> <!-- Druddigon -->
+ <item>-1</item> <!-- Mienshao -->
+ <item>-1</item> <!-- Druddigon -->
  <item>50</item> <!-- Golett -->
- <item>25</item> <!-- Golurk -->
+ <item>-1</item> <!-- Golurk -->
  <item>50</item> <!-- Pawniard -->
- <item>25</item> <!-- Bisharp -->
- <item>25</item> <!-- Bouffalant -->
+ <item>-1</item> <!-- Bisharp -->
+ <item>-1</item> <!-- Bouffalant -->
  <item>50</item> <!-- Rufflet -->
- <item>25</item> <!-- Braviary -->
+ <item>-1</item> <!-- Braviary -->
  <item>50</item> <!-- Vullaby -->
- <item>25</item> <!-- Mandibuzz -->
- <item>25</item> <!-- Heatmor -->
- <item>25</item> <!-- Durant -->
+ <item>-1</item> <!-- Mandibuzz -->
+ <item>-1</item> <!-- Heatmor -->
+ <item>-1</item> <!-- Durant -->
  <item>25</item> <!-- Deino -->
  <item>100</item> <!-- Zweilous -->
- <item>25</item> <!-- Hydreigon -->
+ <item>-1</item> <!-- Hydreigon -->
  <item>400</item> <!-- Larvesta -->
- <item>25</item> <!-- Volcarona -->
- <item>25</item> <!-- Cobalion -->
- <item>25</item> <!-- Terrakion -->
- <item>25</item> <!-- Virizion -->
- <item>25</item> <!-- Tornadus -->
- <item>25</item> <!-- Thundurus -->
- <item>25</item> <!-- Reshiram -->
- <item>25</item> <!-- Zekrom -->
- <item>25</item> <!-- Landorus -->
- <item>25</item> <!-- Kyurem -->
- <item>25</item> <!-- Keldeo -->
- <item>25</item> <!-- Meloetta -->
- <item>25</item> <!-- Genesect -->
+ <item>-1</item> <!-- Volcarona -->
+ <item>-1</item> <!-- Cobalion -->
+ <item>-1</item> <!-- Terrakion -->
+ <item>-1</item> <!-- Virizion -->
+ <item>-1</item> <!-- Tornadus -->
+ <item>-1</item> <!-- Thundurus -->
+ <item>-1</item> <!-- Reshiram -->
+ <item>-1</item> <!-- Zekrom -->
+ <item>-1</item> <!-- Landorus -->
+ <item>-1</item> <!-- Kyurem -->
+ <item>-1</item> <!-- Keldeo -->
+ <item>-1</item> <!-- Meloetta -->
+ <item>-1</item> <!-- Genesect -->
  <item>25</item> <!-- Chespin -->
  <item>100</item> <!-- Quilladin -->
  <item>-1</item> <!-- Chesnaught -->
@@ -3598,7 +3598,7 @@
  <item>-1</item> <!-- Xerneas -->
  <item>-1</item> <!-- Yveltal -->
  <item>400</item> <!-- Meltan -->
- <item>25</item> <!-- Melmetal -->
+ <item>-1</item> <!-- Melmetal -->
  <item>-1</item> <!-- Obstagoon -->
  <item>-1</item> <!-- Perrserker -->
  <item>-1</item> <!-- Sirfetchd -->

@@ -48,9 +48,13 @@ public class ScanData {
         this.pokemonType = pokemonType;
         this.normalizedPokemonType = StringUtils.normalize(pokemonType);
         this.pokemonGender = pokemonGender;
-        this.candyNames = candyNames;
+        if (candyNames == null) {
+            this.candyNames = new ArrayList();
+        } else {
+            this.candyNames = candyNames;
+        }
         this.normalizedCandyNames = new ArrayList();
-        for (String candyName : candyNames) {
+        for (String candyName : this.candyNames) {
             this.normalizedCandyNames.add(StringUtils.normalize(candyName));
         }
         this.pokemonHP = pokemonHP;

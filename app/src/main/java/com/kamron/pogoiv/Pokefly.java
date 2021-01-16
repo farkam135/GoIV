@@ -62,6 +62,8 @@ import com.kamron.pogoiv.utils.fractions.FractionManager;
 
 import java.io.File;
 import java.lang.ref.WeakReference;
+import java.util.Arrays;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -204,7 +206,7 @@ public class Pokefly extends Service {
     public static void populateInfoIntent(Intent intent, ScanData scanData, @NonNull Optional<String> filePath) {
         intent.putExtra(KEY_SEND_INFO_NAME, scanData.getPokemonName());
         intent.putExtra(KEY_SEND_INFO_TYPE, scanData.getPokemonType());
-        intent.putExtra(KEY_SEND_INFO_CANDY, scanData.getCandyName());
+        intent.putExtra(KEY_SEND_INFO_CANDY, scanData.getCandyNames().toArray());
         intent.putExtra(KEY_SEND_INFO_GENDER, scanData.getPokemonGender());
         intent.putExtra(KEY_SEND_INFO_HP, scanData.getPokemonHP());
         intent.putExtra(KEY_SEND_INFO_CP, scanData.getPokemonCP());
@@ -827,7 +829,8 @@ public class Pokefly extends Service {
 
                     String pokemonName = intent.getStringExtra(KEY_SEND_INFO_NAME);
                     String pokemonType = intent.getStringExtra(KEY_SEND_INFO_TYPE);
-                    String candyName = intent.getStringExtra(KEY_SEND_INFO_CANDY);
+                    List<String> candyNames = Arrays.asList(intent.getStringArrayExtra(KEY_SEND_INFO_CANDY));
+
 
                     @SuppressWarnings("unchecked") Optional<String> lScreenShotFile =
                             (Optional<String>) intent.getSerializableExtra(KEY_SEND_SCREENSHOT_FILE);
@@ -870,7 +873,7 @@ public class Pokefly extends Service {
                             new LevelRange(estimatedPokemonLevelMin, estimatedPokemonLevelMax),
                             pokemonName,
                             pokemonType,
-                            candyName,
+                            candyNames,
                             pokemonGender,
                             pokemonHP,
                             pokemonCP,

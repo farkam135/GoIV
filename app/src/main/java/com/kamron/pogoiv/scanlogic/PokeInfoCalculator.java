@@ -201,7 +201,8 @@ public class PokeInfoCalculator {
         // END patch for supporting discontinuous pokedex number pokemons
 
         for (int i = 0; i < pokeListSize; i++) {
-            PokemonBase p = new PokemonBase(names[i], displayNames[i], i, devolution[i], evolutionCandyCost[i]);
+            PokemonBase p = new PokemonBase(names[i], displayNames[i], i, devolution[i],
+                                            candyNamesArray[i], evolutionCandyCost[i]);
             pokedex.add(p);
         }
 
@@ -445,6 +446,16 @@ public class PokeInfoCalculator {
             base = get(base.devoNumber);
         }
         return base;
+    }
+
+    /**
+     * Returns the pokemon whose name matches the candy type for the given pokemon
+     *      e.g. getCandyPokemon(Machamp) -> Machop
+     * @param pokemon the pokemon whose candy form is wanted
+     * @return the pokemon that matches the candy type for the given pokemon
+     */
+    public Pokemon getCandyPokemon(Pokemon pokemon) {
+        return getForm(pokemon.candyNameNumber);
     }
 
     /**

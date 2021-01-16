@@ -38,15 +38,18 @@ public class PokemonBase {
 
     public final int number; //index number in resources, pokedex number - 1
     public final int devoNumber;
+    public final int candyNameNumber;
     public final int candyEvolutionCost;
 
-    public PokemonBase(String name, String displayName, int number, int devoNumber, int candyEvolutionCost) {
+    public PokemonBase(String name, String displayName, int number, int devoNumber,
+                       int candyNameNumber, int candyEvolutionCost) {
         this.name = name;
         this.displayName = displayName;
         this.number = number;
         this.devoNumber = devoNumber;
         this.evolutions = new ArrayList<>();
         this.forms = new ArrayList<>();
+        this.candyNameNumber = candyNameNumber;
         this.candyEvolutionCost = candyEvolutionCost;
     }
 

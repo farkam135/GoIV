@@ -26,6 +26,7 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
 
 import timber.log.Timber;
 
@@ -39,6 +40,7 @@ import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.POKEM
 import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.POKEMON_HP_AREA;
 import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.POKEMON_NAME_AREA;
 import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.POKEMON_POWER_UP_CANDY_COST;
+import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.POKEMON_POWER_UP_STARDUST_COST;
 import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.POKEMON_TYPE_AREA;
 
 
@@ -52,7 +54,6 @@ public class OcrHelper {
     private static TessBaseAPI tesseract = null;
     private static boolean isPokeSpamEnabled;
     private static LruCache<String, String> ocrCache;
-
 
     private static int DEFAULT_FONT_COLOR = 4680814; //Pokemon go font color, rgb 71,108,110 (approximate)
     private static int CANT_AFFORD_FONT_COLOR = 16736100; //Pokemon go font color, rgb 255,95,100 (approximate)
@@ -807,7 +808,7 @@ public class OcrHelper {
     }
 
     /**
-     * Gets the candy name from a pokenon image.
+     * Gets the candy name from a pokemon image.
      *
      * @param pokemonImage the image of the whole screen
      * @return the candy name, or "" if nothing was found
@@ -834,6 +835,27 @@ public class OcrHelper {
             ocrCache.put(hash, candyName);
         }
         return candyName;
+    }
+
+    private static List<String> getCandyNamesFromImg(@NonNull Bitmap pokemonImage,
+                                                     @NonNull Pokemon.Gender pokemonGender,
+                                                     @Nullable ScanArea candyNameArea) {
+        int img_w = pokemonImage.getWidth();
+        int img_h = pokemonImage.getHeight();
+        int area_y = (int)(0.678 * img_h);
+        int area_h = (int)(0.026 * img_h);
+
+        if (candyNameArea != null) {
+            area_y = candyNameArea.yPoint;
+            area_h = candyNameArea.height;
+        }
+
+        // TODO: Get both scan areas from config instead of hacking them like this
+        ScanArea candyNameArea_3 = new ScanArea((int)(0.34*img_w), area_y, (int)(0.31*img_w), area_h);
+        ScanArea candyNameArea_24 = new ScanArea((int)(0.5*img_w), area_y, (int)(0.47*img_w), area_h);
+
+        return Arrays.asList(getCandyNameFromImg(pokemonImage, pokemonGender, candyNameArea_3),
+                             getCandyNameFromImg(pokemonImage, pokemonGender, candyNameArea_24));
     }
 
     /**
@@ -1125,7 +1147,7 @@ public class OcrHelper {
         name = getPokemonNameFromImg(pokemonImage, gender,
                 ScanArea.calibratedFromSettings(POKEMON_NAME_AREA, settings)); // Not offset for lucky
 
-        String candyName = getCandyNameFromImg(pokemonImage, gender,
+        List<String> candyNames = getCandyNamesFromImg(pokemonImage, gender,
                 ScanArea.calibratedFromSettings(CANDY_NAME_AREA, settings, luckyOffset));
 
         Optional<Integer> cp = getPokemonCPFromImg(pokemonImage,
@@ -1139,26 +1161,11 @@ public class OcrHelper {
         }
         Optional<Integer> evolutionCost = getPokemonEvolutionCostFromImg(pokemonImage,
                 ScanArea.calibratedFromSettings(POKEMON_EVOLUTION_COST_AREA, settings, luckyOffset));
-        Pair<String, String> moveset = null;
-      /* //Todo remove moveset scanning ; its not on screen anymore since pogo updated
-        if (requestFullScan) {
-            moveset = getMovesetFromImg(pokemonImage,
-                    estimatedLevelRange,
-                    ScanArea.calibratedFromSettings(POKEMON_POWER_UP_CANDY_COST, settings, luckyOffset),
-                    ScanArea.calibratedFromSettings(POKEMON_EVOLUTION_COST_AREA, settings, luckyOffset));
-        }
 
-        String moveFast = null;
-        String moveCharge = null;
-        if (moveset != null) {
-            moveFast = moveset.first;
-            moveCharge = moveset.second;
-        }
-        */
-        String uniqueIdentifier = name + type + candyName + hp.toString() + cp
+        String uniqueIdentifier = name + type + candyNames.get(0) + candyNames.get(1) + hp.toString() + cp
                 .toString() + powerUpStardustCost.toString() + powerUpCandyCost.toString();
 
-        return new ScanData(estimatedLevelRange, name, type, candyName, gender, hp, cp, candyAmount, evolutionCost,
+        return new ScanData(estimatedLevelRange, name, type, candyNames, gender, hp, cp, candyAmount, evolutionCost,
                 powerUpStardustCost, powerUpCandyCost, null, null, (luckyOffset != 0), uniqueIdentifier);
     }
 

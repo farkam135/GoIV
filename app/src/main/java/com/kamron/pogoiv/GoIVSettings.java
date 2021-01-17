@@ -285,7 +285,8 @@ public class GoIVSettings {
     }
 
     public boolean isPokeSpamEnabled() {
-        return prefs.getBoolean(POKESPAM_ENABLED, false);
+        //return prefs.getBoolean(POKESPAM_ENABLED, false);
+        return false; // Disabling PokeSpam because of Beyond Update
     }
 
     public boolean shouldAutoOpenExpandedAppraise() {

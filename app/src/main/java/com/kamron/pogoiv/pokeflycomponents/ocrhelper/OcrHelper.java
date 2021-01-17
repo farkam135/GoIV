@@ -1016,11 +1016,9 @@ public class OcrHelper {
         if (mergeRect != null) {
             tesseract.setRectangle(mergeRect);
         }
-        String cpText = tesseract.getUTF8Text();
-        cpText = fixOcrLettersToNums(cpText);
 
         try {
-            return Optional.of(Integer.parseInt(fixOcrLettersToNums(cpText)));
+            return Optional.of(Integer.parseInt(fixOcrLettersToNums(tesseract.getUTF8Text())));
         } catch (NumberFormatException e) {
             return Optional.absent();
         }
@@ -1083,7 +1081,6 @@ public class OcrHelper {
         return Optional.absent();
     }
 
-
     /**
      * scanPokemon
      * Performs OCR on an image of a pokemon and returns the pulled info.
@@ -1101,72 +1098,105 @@ public class OcrHelper {
             rememberGUIAccentColorBasedOnScan(pokemonImage);
         }
         ensureCorrectLevelArcSettings(settings, trainerLevel); //todo, make it so it doesnt initiate on every scan?
+        int totalOffset = 0;
+        double offsetBase; // offsets are calculated off height of powerup candy cost field. Double to retain precision
+        // Since we only care about height, its fine that we don't know the proper offset yet
+        ScanArea powerUpCandyArea = ScanArea.calibratedFromSettings(POKEMON_POWER_UP_CANDY_COST, settings);
+        if (powerUpCandyArea == null) {
+            offsetBase = 0.0247 * pokemonImage.getHeight();
+            Toast.makeText(pokeflyRef.get(), "Please update GoIV recalibration on a normal unlucky Pokemon with at "
+                    + "most two candy types.", Toast
+                    .LENGTH_SHORT).show();
+        } else {
+            offsetBase = powerUpCandyArea.height;
+        }
 
-        Optional<Integer> powerUpStardustCost = Optional.absent();
-        /*Optional<Integer> powerUpStardustCost = getPokemonPowerUpStardustCostFromImg(tesseract, ocrCache,
-                pokemonImage, ScanArea.calibratedFromSettings(POKEMON_POWER_UP_STARDUST_COST, settings));*/
+        /* Scan fields more or less top to bottom. */
+        // Level Arc skipped so power up cost can be used to refine
 
+        Optional<Integer> cp = getPokemonCPFromImg(pokemonImage,
+                ScanArea.calibratedFromSettings(POKEMON_CP_AREA, settings));
+
+        // Name skipped for help from gender
 
         Optional<Integer> hp = getPokemonHPFromImg(pokemonImage,
                 ScanArea.calibratedFromSettings(POKEMON_HP_AREA, settings, 0));
-
-        int luckyOffset = 0;
-        // If no  hpwas found, check by offsetting down by the height of the
+        // If no hp was found, check by offsetting down by the height of the
         // "LUCKY POKEMON" string, which is slightly higher than the power up candy cost field
         if (!hp.isPresent()) {
-            int tempLuckyOffset = (int) (0.0247 * pokemonImage.getHeight() * 1.2); // Default value w/o calibration
-            ScanArea powerUpCandyArea = ScanArea.calibratedFromSettings(POKEMON_POWER_UP_CANDY_COST, settings);
-            if (powerUpCandyArea != null) {
-                tempLuckyOffset = (int) (powerUpCandyArea.height * 1.2);
-            } else{
-                Toast.makeText(pokeflyRef.get(), "Please update GoIV recalibration on a normal unlucky Pokemon.", Toast
-                        .LENGTH_SHORT).show();
-            }
-
+            int luckyOffset = (int) (offsetBase * 1.2);
             hp = getPokemonHPFromImg(pokemonImage,
-                    ScanArea.calibratedFromSettings(POKEMON_HP_AREA, settings, tempLuckyOffset));
+                    ScanArea.calibratedFromSettings(POKEMON_HP_AREA, settings, totalOffset + luckyOffset));
 
             if (hp.isPresent()) {
                 // Found successfully; assume this is a lucky pokemon and offset all further scans below that line
-                luckyOffset = tempLuckyOffset;
+                totalOffset += luckyOffset;
             }
         }
-        Optional<Integer> powerUpCandyCost = getPokemonPowerUpCandyCostFromImg(pokemonImage,
-                ScanArea.calibratedFromSettings(POKEMON_POWER_UP_CANDY_COST, settings, luckyOffset));
 
-        double estimatedPokemonLevel = getPokemonLevelFromImg(pokemonImage, trainerLevel);
-        LevelRange estimatedLevelRange =
-                refineLevelEstimate(trainerLevel, powerUpCandyCost, estimatedPokemonLevel);
-
-        String type = getPokemonTypeFromImg(pokemonImage,
-                ScanArea.calibratedFromSettings(POKEMON_TYPE_AREA, settings, luckyOffset));
         Pokemon.Gender gender = getPokemonGenderFromImg(pokemonImage,
-                ScanArea.calibratedFromSettings(POKEMON_GENDER_AREA, settings, luckyOffset));
-        String name;
+                ScanArea.calibratedFromSettings(POKEMON_GENDER_AREA, settings, totalOffset));
 
-        name = getPokemonNameFromImg(pokemonImage, gender,
+        // Name needs help from gender.
+        String name = getPokemonNameFromImg(pokemonImage, gender,
                 ScanArea.calibratedFromSettings(POKEMON_NAME_AREA, settings)); // Not offset for lucky
 
-        List<String> candyNames = getCandyNamesFromImg(pokemonImage, gender,
-                ScanArea.calibratedFromSettings(CANDY_NAME_AREA, settings, luckyOffset));
+        String type = getPokemonTypeFromImg(pokemonImage,
+                ScanArea.calibratedFromSettings(POKEMON_TYPE_AREA, settings, totalOffset));
 
-        Optional<Integer> cp = getPokemonCPFromImg(pokemonImage,
-                ScanArea.calibratedFromSettings(POKEMON_CP_AREA, settings)); // Not offset for lucky
+        List<String> candyNames = getCandyNamesFromImg(pokemonImage, gender,
+                ScanArea.calibratedFromSettings(CANDY_NAME_AREA, settings, totalOffset));
+
         Optional<Integer> candyAmount;
         if (requestFullScan && isPokeSpamEnabled) {
             candyAmount = getCandyAmountFromImg(pokemonImage,
-                    ScanArea.calibratedFromSettings(POKEMON_CANDY_AMOUNT_AREA, settings, luckyOffset));
+                    ScanArea.calibratedFromSettings(POKEMON_CANDY_AMOUNT_AREA, settings, totalOffset));
         } else {
             candyAmount = Optional.absent();
         }
+
+        Optional<Integer> powerUpCandyCost = getPokemonPowerUpCandyCostFromImg(pokemonImage,
+                ScanArea.calibratedFromSettings(POKEMON_POWER_UP_CANDY_COST, settings, totalOffset));
+        // Check if candy names wrapped to second line (with one row of candies)
+        if (!powerUpCandyCost.isPresent()) {
+            int candyOffset = (int) (offsetBase * 0.8);
+            powerUpCandyCost = getPokemonPowerUpCandyCostFromImg(pokemonImage,
+                    ScanArea.calibratedFromSettings(POKEMON_POWER_UP_CANDY_COST, settings, totalOffset + candyOffset));
+            if (powerUpCandyCost.isPresent()) {
+                // Found successfully; Assume this pokemon has its candy names wrapped to a second line
+                totalOffset += candyOffset;
+            }
+        }
+        // Check if there's two rows of candies
+        if (!powerUpCandyCost.isPresent()) {
+            // Check if candy names wrapped to second line (with one row of candies)
+            int candyOffset = (int) (powerUpCandyArea.height * 3.2);
+            powerUpCandyCost = getPokemonPowerUpCandyCostFromImg(pokemonImage,
+                    ScanArea.calibratedFromSettings(POKEMON_POWER_UP_CANDY_COST, settings, totalOffset + candyOffset));
+
+            if (powerUpCandyCost.isPresent()) {
+                // Found successfully; Assume this pokemon has two rows of candies
+                totalOffset += candyOffset;
+            }
+        }
+
+        Optional<Integer> powerUpStardustCost = Optional.absent();
+        /*Optional<Integer> powerUpStardustCost = getPokemonPowerUpStardustCostFromImg(pokemonImage,
+                ScanArea.calibratedFromSettings(POKEMON_POWER_UP_STARDUST_COST, settings, totalOffset));*/
+
         Optional<Integer> evolutionCost = getPokemonEvolutionCostFromImg(pokemonImage,
-                ScanArea.calibratedFromSettings(POKEMON_EVOLUTION_COST_AREA, settings, luckyOffset));
+                ScanArea.calibratedFromSettings(POKEMON_EVOLUTION_COST_AREA, settings, totalOffset));
+
+        // Level needs help from candy cost
+        double estimatedPokemonLevel = getPokemonLevelFromImg(pokemonImage, trainerLevel);
+        LevelRange estimatedLevelRange =
+                refineLevelEstimate(trainerLevel, powerUpCandyCost, estimatedPokemonLevel);
 
         String uniqueIdentifier = name + type + candyNames.get(0) + candyNames.get(1) + hp.toString() + cp
                 .toString() + powerUpStardustCost.toString() + powerUpCandyCost.toString();
 
         return new ScanData(estimatedLevelRange, name, type, candyNames, gender, hp, cp, candyAmount, evolutionCost,
-                powerUpStardustCost, powerUpCandyCost, null, null, (luckyOffset != 0), uniqueIdentifier);
+                powerUpStardustCost, powerUpCandyCost, null, null, (totalOffset != 0), uniqueIdentifier);
     }
 
     /**

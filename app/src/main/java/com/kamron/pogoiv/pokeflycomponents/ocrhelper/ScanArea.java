@@ -39,15 +39,15 @@ public class ScanArea {
      *
      * @param calibrationKey The key value used to find the saved user setting for the area, in the form of
      *                       "x,y,x2,y2".
-     * @param luckyOffset Amount to offset the scan region downward in case this is a lucky pokemon
+     * @param offset Amount to offset the scan region downward to deal with various dynamic UI changes (e.g. lucky)
      */
 
     @Nullable
-    public static ScanArea calibratedFromSettings(String calibrationKey, GoIVSettings settings, int luckyOffset) {
+    public static ScanArea calibratedFromSettings(String calibrationKey, GoIVSettings settings, int offset) {
         if (settings.hasManualScanCalibration()) {
             try {
                 String[] values = settings.getCalibrationValue(calibrationKey).split(",");
-                return new ScanArea(Integer.valueOf(values[0]), Integer.valueOf(values[1]) + luckyOffset,
+                return new ScanArea(Integer.valueOf(values[0]), Integer.valueOf(values[1]) + offset,
                         Integer.valueOf(values[2]), Integer.valueOf(values[3]));
             } catch (Exception e) {
                 return null;

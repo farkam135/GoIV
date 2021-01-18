@@ -166,7 +166,7 @@
     <string name="ocr_error_pick_pixel_white">No se pudo seleccionar el marcador de pixel blanco\n</string>
     <string name="ocr_error_locate_pixel_green">No se pudo encontrar el marcador de pixel verde\n</string>
     <string name="ocr_error_pick_pixel_green">No se pudo seleccionar el marcador de pixel verde\n</string>
-    <string name="ocr_msg_verify">\n¡ATENCIÓN! Por favor verifica que:\n① La ficha está subida hasta arriba del todo\n② El modelo 3D no tapa ninguna información importante\n③ ¡No es una evolución final! ¡Se recomienda un Pidgey!</string>
+    <string name="ocr_msg_verify">\n¡ATENCIÓN! Por favor verifica que:\n① La ficha está subida hasta arriba del todo\n② El modelo 3D no tapa ninguna información importante\n③ ¡No es una evolución final! ¡Se recomienda un Caterpie!</string>
     <string name="ocr_calibration_saved">¡Calibración guardada!\n¡Reinicia GoIV para aplicar los cambios!</string>
     <string name="ocr_finding_name">Buscando área nombre</string>
     <string name="ocr_finding_type">Buscando área tipo</string>

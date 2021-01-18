@@ -165,7 +165,7 @@
     <string name="ocr_error_pick_pixel_white">Impossibile ottenere il colore del pixel marcatore bianco</string>
     <string name="ocr_error_pick_pixel_green">Impossibile ottenere il colore del pixel marcatore verde</string>
     <string name="ocr_error_locate_pixel_green">Impossibile localizzare il pixel marcatore verde</string>
-    <string name="ocr_msg_verify">"\nATTENTION! Verifica che:\n① La schermata delle informazioni sia scrollata fino in cima\n② Il modello 3D non copra nessuna informazione importante\n③ Non è un'evoluzione finale! Suggerisco di provare con un Pidgey!"</string>
+    <string name="ocr_msg_verify">"\nATTENTION! Verifica che:\n① La schermata delle informazioni sia scrollata fino in cima\n② Il modello 3D non copra nessuna informazione importante\n③ Non è un'evoluzione finale! Suggerisco di provare con un Caterpie!"</string>
     <string name="ocr_calibration_saved">Calibrazione salvata! Riavvia GoIV per applicare le modifiche!</string>
     <string name="ocr_finding_name">Localizzando l\'area del nome</string>
     <string name="ocr_finding_type">Localizzando l\'area del tipo</string>

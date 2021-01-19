@@ -205,7 +205,7 @@ dependencies {
     implementation project(':openCVLibrary330')
 
     /* for devMethods.thirdparty.pokebattler, temporally set for All Builds */
-    implementation 'org.json:json:20160810' //used to generate moveset list
+//    implementation 'org.json:json:20160810' //used to generate moveset list
     implementation 'com.squareup.okhttp3:okhttp:3.7.0'//used to generate moveset list
 
     /**

@@ -162,9 +162,15 @@ android {
         }
     }
 
+    // Change output dir of artifacts to live under builds subdir of /app
     android.applicationVariants.all { variant ->
+        def newDir = variant.baseName.replace("-", "/")
         variant.outputs.all {
-            outputFileName = "GoIV-${variant.name}.${variant.versionName}.apk"
+            def name = variant.baseName
+            if (!variant.baseName.startsWith("playstore")) {
+                name = name.replace("-release", "")
+            }
+            outputFileName = "../../builds/${newDir}/GoIV-${name}.${variant.versionName}.apk"
         }
     }
 }
@@ -205,7 +211,6 @@ dependencies {
     implementation project(':openCVLibrary330')
 
     /* for devMethods.thirdparty.pokebattler, temporally set for All Builds */
-//    implementation 'org.json:json:20160810' //used to generate moveset list
     implementation 'com.squareup.okhttp3:okhttp:3.7.0'//used to generate moveset list
 
     /**

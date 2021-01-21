@@ -78,6 +78,7 @@ public class Pokefly extends Service {
 
     public static final String ACTION_UPDATE_UI = "com.kamron.pogoiv.ACTION_UPDATE_UI";
     private static final String ACTION_SEND_INFO = "com.kamron.pogoiv.ACTION_SEND_INFO";
+    public static final String ACTION_REQUEST_SCREEN_GRABBER = "com.kamron.pogoiv.ACTION_REQUEST_SCREEN_GRABBER";
     private static final String ACTION_START = "com.kamron.pogoiv.ACTION_START";
     public static final String ACTION_STOP = "com.kamron.pogoiv.ACTION_STOP";
 
@@ -305,34 +306,47 @@ public class Pokefly extends Service {
         ivPreviewPrinter = new IVPreviewPrinter(this);
         clipboardTokenHandler = new ClipboardTokenHandler(this);
 
-        if (ACTION_STOP.equals(intent.getAction())) {
-            if (android.os.Build.VERSION.SDK_INT >= 24) {
-                stopForeground(STOP_FOREGROUND_DETACH);
-            }
-            stopSelf();
-            goIVNotificationManager.showPausedNotification();
+        switch (intent.getAction()) {
+            case ACTION_STOP:
+                if (android.os.Build.VERSION.SDK_INT >= 24) {
+                    stopForeground(STOP_FOREGROUND_DETACH);
+                }
+                stopSelf();
+                goIVNotificationManager.showPausedNotification();
+                break;
+            case ACTION_START:
+                GoIVSettings.reloadPreferences(this);
+                trainerLevel = intent.getIntExtra(KEY_TRAINER_LEVEL, Data.MINIMUM_TRAINER_LEVEL);
 
-        } else if (ACTION_START.equals(intent.getAction())) {
-            GoIVSettings.reloadPreferences(this);
-            trainerLevel = intent.getIntExtra(KEY_TRAINER_LEVEL, Data.MINIMUM_TRAINER_LEVEL);
+                setupDisplaySizeInfo();
 
-            setupDisplaySizeInfo();
+                createFlyingComponents();
 
-            createFlyingComponents();
+                startedInManualScreenshotMode = GoIVSettings.getInstance(this).isManualScreenshotModeEnabled();
+                if (!startedInManualScreenshotMode) {
+                    // Ask MainActivity to create a ScreenGrabber for us, and wait for it to finish
+                    LocalBroadcastManager.getInstance(this)
+                            .sendBroadcastSync(new Intent(ACTION_REQUEST_SCREEN_GRABBER));
+                    try {
+                        screen = ScreenGrabber.getInstance();
+                    } catch (Exception e) {
+                        // If for some reason MainActivity failed to make the ScreenGrabber, stop the service.
+                        // In this case we delete the notification to pretend it was never there in the first place.
+                        if (android.os.Build.VERSION.SDK_INT >= 24) {
+                            stopForeground(STOP_FOREGROUND_REMOVE);
+                        }
+                        stopSelf();
+                    }
+                    appraisalManager = new AppraisalManager(screen, this);
+                    screenWatcher = new ScreenWatcher(this, fractionManager, appraisalManager);
+                    screenWatcher.watchScreen();
 
-            startedInManualScreenshotMode = GoIVSettings.getInstance(this).isManualScreenshotModeEnabled();
-            /* Assumes MainActivity initialized ScreenGrabber before starting this service. */
-            if (!startedInManualScreenshotMode) {
-                screen = ScreenGrabber.getInstance();
-                appraisalManager = new AppraisalManager(screen, this);
-                screenWatcher = new ScreenWatcher(this, fractionManager, appraisalManager);
-                screenWatcher.watchScreen();
-
-            } else {
-                appraisalManager = new AppraisalManager(null, this);
-                screenShotHelper = ScreenShotHelper.start(Pokefly.this);
-            }
-            goIVNotificationManager.showRunningNotification();
+                } else {
+                    appraisalManager = new AppraisalManager(null, this);
+                    screenShotHelper = ScreenShotHelper.start(Pokefly.this);
+                }
+                goIVNotificationManager.showRunningNotification();
+                break;
         }
         //We have intent data, it's possible this service will be killed and we would want to recreate it
         //https://github.com/farkam135/GoIV/issues/477

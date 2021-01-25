@@ -80,6 +80,7 @@ public class Pokefly extends Service {
     private static final String ACTION_SEND_INFO = "com.kamron.pogoiv.ACTION_SEND_INFO";
     public static final String ACTION_REQUEST_SCREEN_GRABBER = "com.kamron.pogoiv.ACTION_REQUEST_SCREEN_GRABBER";
     private static final String ACTION_START = "com.kamron.pogoiv.ACTION_START";
+    private static final String ACTION_BEGIN = "com.kamron.pogoiv.ACTION_BEGIN";
     public static final String ACTION_STOP = "com.kamron.pogoiv.ACTION_STOP";
 
     private static final String KEY_TRAINER_LEVEL = "key_trainer_level";
@@ -197,6 +198,12 @@ public class Pokefly extends Service {
         Intent intent = new Intent(context, Pokefly.class);
         intent.setAction(ACTION_START);
         intent.putExtra(KEY_TRAINER_LEVEL, trainerLevel);
+        return intent;
+    }
+
+    public static Intent createBeginIntent(@NonNull Context context) {
+        Intent intent = new Intent(context, Pokefly.class);
+        intent.setAction(ACTION_BEGIN);
         return intent;
     }
 
@@ -322,30 +329,32 @@ public class Pokefly extends Service {
 
                 createFlyingComponents();
 
+                goIVNotificationManager.showRunningNotification();
+
                 startedInManualScreenshotMode = GoIVSettings.getInstance(this).isManualScreenshotModeEnabled();
                 if (!startedInManualScreenshotMode) {
                     // Ask MainActivity to create a ScreenGrabber for us, and wait for it to finish
                     LocalBroadcastManager.getInstance(this)
-                            .sendBroadcastSync(new Intent(ACTION_REQUEST_SCREEN_GRABBER));
-                    try {
-                        screen = ScreenGrabber.getInstance();
-                    } catch (Exception e) {
-                        // If for some reason MainActivity failed to make the ScreenGrabber, stop the service.
-                        // In this case we delete the notification to pretend it was never there in the first place.
-                        if (android.os.Build.VERSION.SDK_INT >= 24) {
-                            stopForeground(STOP_FOREGROUND_REMOVE);
-                        }
-                        stopSelf();
-                    }
-                    appraisalManager = new AppraisalManager(screen, this);
-                    screenWatcher = new ScreenWatcher(this, fractionManager, appraisalManager);
-                    screenWatcher.watchScreen();
-
+                            .sendBroadcast(new Intent(ACTION_REQUEST_SCREEN_GRABBER));
                 } else {
                     appraisalManager = new AppraisalManager(null, this);
                     screenShotHelper = ScreenShotHelper.start(Pokefly.this);
                 }
-                goIVNotificationManager.showRunningNotification();
+                break;
+            case ACTION_BEGIN:
+                try {
+                    screen = ScreenGrabber.getInstance();
+                } catch (Exception e) {
+                    // If for some reason MainActivity failed to make the ScreenGrabber, stop the service.
+                    // In this case we delete the notification to pretend it was never there in the first place.
+                    if (android.os.Build.VERSION.SDK_INT >= 24) {
+                        stopForeground(STOP_FOREGROUND_REMOVE);
+                    }
+                    stopSelf();
+                }
+                appraisalManager = new AppraisalManager(screen, this);
+                screenWatcher = new ScreenWatcher(this, fractionManager, appraisalManager);
+                screenWatcher.watchScreen();
                 break;
         }
         //We have intent data, it's possible this service will be killed and we would want to recreate it

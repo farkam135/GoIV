@@ -102,12 +102,7 @@ public class MainActivity extends AppCompatActivity {
     private final BroadcastReceiver screenGrabberInitializer = new BroadcastReceiver() {
         @SuppressWarnings("checkstyle:EmptyCatchBlock")
         @Override public void onReceive(Context context, Intent intent) {
-            synchronized (MainActivity.this) {
-                initScreenGrabber();
-                try {
-                    MainActivity.this.wait();
-                } catch (InterruptedException ignored) { }
-            }
+            initScreenGrabber();
         }
     };
 
@@ -412,8 +407,6 @@ public class MainActivity extends AppCompatActivity {
     private void startPokeFly() {
         MainFragment.updateLaunchButtonText(this, R.string.main_starting, false);
 
-        startPoGoIfSettingOn();
-
         Intent intent = Pokefly
                 .createStartIntent(this, GoIVSettings.getInstance(this).getLevel());
         startService(intent);
@@ -459,10 +452,13 @@ public class MainActivity extends AppCompatActivity {
                             Context.MEDIA_PROJECTION_SERVICE);
                     MediaProjection mProjection = projectionManager.getMediaProjection(resultCode, data);
                     screen = ScreenGrabber.init(mProjection, rawDisplayMetrics);
-                    synchronized (this) { this.notify(); }
+                    startService(Pokefly.createBeginIntent(this));
                 } else {
                     updateLaunchButtonText(false, null);
                 }
+                // Launching Pokemon Go here might be a little slower, that right after starting Pokefly, but we need
+                // the MainActivity instance alive to answer the intent from Pokefly
+                startPoGoIfSettingOn();
                 break;
         }
     }

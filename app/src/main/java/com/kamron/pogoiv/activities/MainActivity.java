@@ -276,7 +276,9 @@ public class MainActivity extends AppCompatActivity {
      * areas.
      */
     private void initiateUserScreenSettings() {
-        Display display = getDisplay();
+        WindowManager windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
+        rawDisplayMetrics = new DisplayMetrics();
+        Display display = windowManager.getDefaultDisplay();
         display.getRealMetrics(rawDisplayMetrics);
     }
 

@@ -153,7 +153,12 @@ public class GoIVNotificationManager {
 
         initNotificationChannel(notificationManager);
 
-        pokefly.startForeground(NOTIFICATION_REQ_CODE, notification.build(), FOREGROUND_SERVICE_TYPE_MEDIA_PROJECTION);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            pokefly.startForeground(NOTIFICATION_REQ_CODE, notification.build(),
+                    FOREGROUND_SERVICE_TYPE_MEDIA_PROJECTION);
+        } else {
+            pokefly.startForeground(NOTIFICATION_REQ_CODE, notification.build());
+        }
     }
 
     /**

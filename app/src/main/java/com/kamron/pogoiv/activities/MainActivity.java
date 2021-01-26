@@ -337,6 +337,11 @@ public class MainActivity extends AppCompatActivity {
     @SuppressLint("NewApi")
     private void startGoIV() {
         startPokeFly();
+
+        boolean screenshotMode = GoIVSettings.getInstance(this).isManualScreenshotModeEnabled();
+        if (screenshotMode) {
+            startPoGoIfSettingOn();
+        }
     }
 
     private void startPoGoIfSettingOn() {

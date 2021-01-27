@@ -10,7 +10,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.SeekBar;
 
 import android.widget.TextView;
@@ -39,6 +41,10 @@ public class AppraisalFraction extends MovableFraction implements AppraisalManag
     Button btnCheckIv;
     @BindView(R.id.statsButton)
     Button statsButton;
+    @BindView(R.id.pbScanning)
+    ProgressBar pbScanning;
+    @BindView(R.id.btnRetry)
+    ImageView btnRetry;
 
     @BindView(R.id.headerAppraisal)
     LinearLayout headerAppraisal;
@@ -131,6 +137,7 @@ public class AppraisalFraction extends MovableFraction implements AppraisalManag
 
         // Listen for new appraisal info
         appraisalManager.addOnAppraisalEventListener(this);
+        btnRetry.setImageResource(R.drawable.ic_play_circle_outline_24px);
 
         GUIColorFromPokeType.getInstance().setListenTo(this);
         updateGuiColors();
@@ -158,6 +165,8 @@ public class AppraisalFraction extends MovableFraction implements AppraisalManag
     @Override
     public void highlightActiveUserInterface() {
         spinnerLayout.setBackgroundResource(R.drawable.highlight_rectangle);
+        pbScanning.setVisibility(View.VISIBLE);
+        btnRetry.setVisibility(View.INVISIBLE);
     }
 
 
@@ -165,32 +174,7 @@ public class AppraisalFraction extends MovableFraction implements AppraisalManag
      * Update the text on the 'next' button to indicate quick IV overview
      */
     private void updateIVPreviewInButton() {
-
-        try {
-            ScanResult scanResult = pokefly.computeIVWithoutUIChange();
-
-            int possibleIVs = scanResult.getIVCombinations().size();
-            //btnCheckIv.setEnabled(possibleIVs != 0);
-            if (possibleIVs == 0) {
-                btnCheckIv.setText("?");
-            } else {
-                if (scanResult.getIVCombinations().size() == 1) {
-                    IVCombination result = scanResult.getIVCombinations().get(0);
-                    btnCheckIv.setText(result.percentPerfect + "% (" + result.att + ":" + result.def + ":" + result.sta + ") | More info");
-                } else if (scanResult.getLowestIVCombination().percentPerfect == scanResult
-                        .getHighestIVCombination().percentPerfect) {
-                    btnCheckIv.setText(scanResult.getLowestIVCombination().percentPerfect + "% | More info");
-                } else {
-                    btnCheckIv.setText(scanResult.getLowestIVCombination().percentPerfect + "% - " + scanResult
-                            .getHighestIVCombination().percentPerfect + "% | More info");
-                }
-
-            }
-        } catch (IllegalStateException e) {
-            //Couldnt compute a valid scanresult. This is most likely due to missing HP / CP values
-        }
-
-
+        InputFraction.updateIVPreview(pokefly, btnCheckIv);
     }
 
     @OnCheckedChanged({R.id.atkEnabled, R.id.defEnabled, R.id.staEnabled})
@@ -207,6 +191,8 @@ public class AppraisalFraction extends MovableFraction implements AppraisalManag
     public void refreshSelection() {
         setSpinnerSelection();
         spinnerLayout.setBackground(null);
+        pbScanning.setVisibility(View.INVISIBLE);
+        btnRetry.setVisibility(View.VISIBLE);
     }
 
     /**
@@ -252,6 +238,15 @@ public class AppraisalFraction extends MovableFraction implements AppraisalManag
     @OnClick(R.id.btnCheckIv)
     void checkIv() {
         pokefly.computeIv();
+    }
+
+    @OnClick(R.id.btnRetry)
+    void onRetryClick() {
+        if (appraisalManager.isRunning()) {
+            appraisalManager.stop();
+        } else {
+            appraisalManager.start();
+        }
     }
 
     @Override public void updateGuiColors() {

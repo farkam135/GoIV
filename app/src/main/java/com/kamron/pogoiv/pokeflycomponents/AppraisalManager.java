@@ -34,6 +34,8 @@ public class AppraisalManager {
     private int numTouches = 0;
     private boolean autoAppraisalDone = false;
 
+    private boolean running = false;
+
     public int attack = 0;
     public boolean attackValid = false;
     public int defense = 0;
@@ -68,12 +70,7 @@ public class AppraisalManager {
         // of times without actually ever starting the appraisal process
 
         if ((numTouches > 2) && (!autoAppraisalDone)) {
-            // Signal to the user that we're now looking for the first appraisal phase.
-            for (OnAppraisalEventListener eventListener : eventListeners) {
-                eventListener.highlightActiveUserInterface();
-            }
-            // Scan Appraisal text after the configured delay.
-            autoScreenScanner.post();
+            start();
         }
     }
 
@@ -94,6 +91,25 @@ public class AppraisalManager {
         autoAppraisalDone = false;
     }
 
+    public boolean isRunning() {
+        return running;
+    }
+
+    public void start() {
+        // Signal to the user that we're now looking for the first appraisal phase.
+        for (OnAppraisalEventListener eventListener : eventListeners) {
+            eventListener.highlightActiveUserInterface();
+        }
+        // Scan Appraisal text after the configured delay.
+        autoScreenScanner.post();
+        running = true;
+    }
+
+    public void stop() {
+        handler.removeCallbacks(autoScreenScanner);
+        addStatScanResult(null);
+    }
+
     private void addStatScanResult(@Nullable IVCombination combination) {
         if (combination != null) {
             attack = combination.att;
@@ -104,6 +120,7 @@ public class AppraisalManager {
             staminaValid = true;
             autoAppraisalDone = true;
         }
+        running = false;
         // Refresh the selection
         for (OnAppraisalEventListener eventListener : eventListeners) {
             eventListener.refreshSelection();

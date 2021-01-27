@@ -132,9 +132,14 @@ public class InputFraction extends Fraction implements ReactiveColorListener {
         // Setup manual pokemon species input
         initializePokemonAutoCompleteTextView();
 
-        // Guess the species
-        PokemonNameCorrector.PokeDist possiblePoke =
-                PokemonNameCorrector.getInstance(pokefly).getPossiblePokemon(Pokefly.scanData);
+        PokemonNameCorrector.PokeDist possiblePoke;
+        // If not-null, then the Pokemon has been manually set, so we shouldn't guess it.
+        if (Pokefly.scanData.getPokemon() != null) {
+            possiblePoke = new PokemonNameCorrector.PokeDist(Pokefly.scanData.getPokemon(), 0);
+        } else {
+            // Guess the species
+            possiblePoke = PokemonNameCorrector.getInstance(pokefly).getPossiblePokemon(Pokefly.scanData);
+        }
 
         // set color based on similarity
         if (possiblePoke.dist == 0) {
@@ -254,11 +259,11 @@ public class InputFraction extends Fraction implements ReactiveColorListener {
 
     private void adjustArcPointerBar(double estimatedPokemonLevel) {
         pokefly.setArcPointer(estimatedPokemonLevel);
-        arcAdjustBar.setProgress(Data.maxPokeLevelToIndex(estimatedPokemonLevel));
+        arcAdjustBar.setProgress(Data.levelToLevelIdx(estimatedPokemonLevel));
         updateIVInputFractionPreview();
     }
 
-    @OnTextChanged({R.id.etCp, R.id.etHp, R.id.etCandy})
+    @OnTextChanged({R.id.etCp, R.id.etHp, R.id.etCandy, R.id.autoCompleteTextView1})
     public void updateIVFractionSpinnerDueToTextChange() {
         updateIVInputFractionPreview();
     }
@@ -270,28 +275,34 @@ public class InputFraction extends Fraction implements ReactiveColorListener {
         if(isInitiated){
             saveToPokefly();
 
-            try {
-                ScanResult scanResult = pokefly.computeIVWithoutUIChange();
+            updateIVPreview(pokefly, btnCheckIv);
+        }
+    }
 
-                int possibleIVs = scanResult.getIVCombinations().size();
-                //btnCheckIv.setEnabled(possibleIVs != 0);
-                if (possibleIVs == 0) {
-                    btnCheckIv.setText("?");
-                } else {
-                    if (scanResult.getIVCombinations().size() == 1) {
-                        IVCombination result = scanResult.getIVCombinations().get(0);
-                        btnCheckIv.setText(result.percentPerfect + "% (" + result.att + ":" + result.def + ":" + result.sta + ") | More info");
-                    } else if (scanResult.getLowestIVCombination().percentPerfect == scanResult
-                            .getHighestIVCombination().percentPerfect) {
-                        btnCheckIv.setText(scanResult.getLowestIVCombination().percentPerfect + "% | More info");
-                    } else {
-                        btnCheckIv.setText(scanResult.getLowestIVCombination().percentPerfect + "% - " + scanResult
-                                .getHighestIVCombination().percentPerfect + "% | More info");
-                    }
+    public static void updateIVPreview(Pokefly pokefly, Button btnCheckIv) {
+        ScanResult scanResult = null;
+        try {
+            scanResult = pokefly.computeIVWithoutUIChange();
+        } catch (IllegalStateException e) {
+            //Couldn't compute a valid scanresult. This is most likely due to missing HP / CP values
+        }
 
-                }
-            } catch (IllegalStateException e) {
-                //Couldnt compute a valid scanresult. This is most likely due to missing HP / CP values
+        // If it couldn't compute a scan result it should behave the same as if there are no valid
+        // IV combinations.
+        int possibleIVs = scanResult == null ? 0 : scanResult.getIVCombinations().size();
+        //btnCheckIv.setEnabled(possibleIVs != 0);
+        if (possibleIVs == 0) {
+            btnCheckIv.setText("? | More info");
+        } else {
+            if (possibleIVs == 1) {
+                IVCombination result = scanResult.getIVCombinations().get(0);
+                btnCheckIv.setText(result.percentPerfect + "% (" + result.att + ":" + result.def + ":" + result.sta + ") | More info");
+            } else if (scanResult.getLowestIVCombination().percentPerfect == scanResult
+                    .getHighestIVCombination().percentPerfect) {
+                btnCheckIv.setText(scanResult.getLowestIVCombination().percentPerfect + "% | More info");
+            } else {
+                btnCheckIv.setText(scanResult.getLowestIVCombination().percentPerfect + "% - " + scanResult
+                        .getHighestIVCombination().percentPerfect + "% | More info");
             }
         }
     }
@@ -306,7 +317,7 @@ public class InputFraction extends Fraction implements ReactiveColorListener {
 
     @OnClick(R.id.btnIncrementLevel)
     public void incrementLevel() {
-        if (Data.maxPokeLevelToIndex(Pokefly.scanData.getEstimatedPokemonLevel().min) < arcAdjustBar.getMax()) {
+        if (Data.levelToLevelIdx(Pokefly.scanData.getEstimatedPokemonLevel().min) < arcAdjustBar.getMax()) {
             Pokefly.scanData.getEstimatedPokemonLevel().inc();
             adjustArcPointerBar(Pokefly.scanData.getEstimatedPokemonLevel().min);
         }
@@ -317,8 +328,8 @@ public class InputFraction extends Fraction implements ReactiveColorListener {
      */
     private void createArcAdjuster() {
         // The max seek bar value will be the maximum wild pokemon level or the trainer max capture level if higher
-        arcAdjustBar.setMax(Math.max(Data.maxPokeLevelToIndex(Data.MAXIMUM_WILD_POKEMON_LEVEL),
-                Data.trainerLevelToMaxPokeLevelIndex(pokefly.getTrainerLevel())));
+        arcAdjustBar.setMax(Math.max(Data.levelToLevelIdx(Data.MAXIMUM_WILD_POKEMON_LEVEL),
+                Data.levelToLevelIdx(Data.trainerLevelToMaxPokeLevel(pokefly.getTrainerLevel()))));
 
         arcAdjustBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override

@@ -80,6 +80,8 @@ public class Pokemon {
     // Copy of the value in the base class
     public final int devoNumber;
     // Copy of the value in the base class
+    public final int candyNameNumber;
+    // Copy of the value in the base class
     public final int candyEvolutionCost;
 
     public Pokemon(PokemonBase base, @NonNull String formName, int baseAttack, int baseDefense, int baseStamina) {
@@ -95,6 +97,7 @@ public class Pokemon {
         this.baseDefense = baseDefense;
         this.baseStamina = baseStamina;
         this.devoNumber = base.devoNumber;
+        this.candyNameNumber = base.candyNameNumber;
         this.candyEvolutionCost = base.candyEvolutionCost;
     }
 

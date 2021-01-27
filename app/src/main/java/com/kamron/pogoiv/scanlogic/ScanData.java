@@ -7,6 +7,9 @@ import com.google.common.base.Optional;
 import com.kamron.pogoiv.utils.LevelRange;
 import com.kamron.pogoiv.utils.StringUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * A ScanData represents the result of an OCR scan.
  * Created by pgiarrusso on 3/9/2016.
@@ -20,8 +23,8 @@ public class ScanData {
     private final String pokemonType;
     private final String normalizedPokemonType;
     private final Pokemon.Gender pokemonGender;
-    private final String candyName;
-    private final String normalizedCandyName;
+    private final List<String> candyNames;
+    private final List<String> normalizedCandyNames;
     private Optional<Integer> pokemonHP;
     private Optional<Integer> pokemonCP;
     private Optional<Integer> pokemonCandyAmount;
@@ -34,7 +37,7 @@ public class ScanData {
     private final String uniqueID;
     private Pokemon pokemon = null;
 
-    public ScanData(LevelRange estimatedPokemonLevel, String pokemonName, String pokemonType, String candyName,
+    public ScanData(LevelRange estimatedPokemonLevel, String pokemonName, String pokemonType, List<String> candyNames,
                     Pokemon.Gender pokemonGender, Optional<Integer> pokemonHP, Optional<Integer> pokemonCP,
                     Optional<Integer> pokemonCandyAmount, Optional<Integer> evolutionCandyCost,
                     Optional<Integer> powerUpStardustCost, Optional<Integer> powerUpCandyCost,
@@ -45,8 +48,15 @@ public class ScanData {
         this.pokemonType = pokemonType;
         this.normalizedPokemonType = StringUtils.normalize(pokemonType);
         this.pokemonGender = pokemonGender;
-        this.candyName = candyName;
-        this.normalizedCandyName = StringUtils.normalize(candyName);
+        if (candyNames == null) {
+            this.candyNames = new ArrayList();
+        } else {
+            this.candyNames = candyNames;
+        }
+        this.normalizedCandyNames = new ArrayList();
+        for (String candyName : this.candyNames) {
+            this.normalizedCandyNames.add(StringUtils.normalize(candyName));
+        }
         this.pokemonHP = pokemonHP;
         this.pokemonCP = pokemonCP;
         this.pokemonCandyAmount = pokemonCandyAmount;
@@ -69,7 +79,7 @@ public class ScanData {
                         + "hp:%d\n"
                         + "lucky:%B\n\n"
 
-                        + "candy_name:%s\n"
+                        + "candy_name:%s or %s\n"
                         + "candy_amount:%d\n"
                         + "evolution_candy:%d\n"
                         + "powerup_candy:%d\n"
@@ -84,7 +94,8 @@ public class ScanData {
                 pokemonHP.or(-1),
                 isLucky,
 
-                candyName,
+                candyNames.get(0),
+                candyNames.get(1),
                 pokemonCandyAmount.or(-1),
                 evolutionCandyCost.or(-1),
                 powerUpCandyCost.or(-1),
@@ -102,9 +113,7 @@ public class ScanData {
         this.estimatedPokemonLevelRange = levelRange;
     }
 
-    public String getPokemonName() {
-        return pokemonName;
-    }
+    public String getPokemonName() { return pokemonName; }
 
     public String getNormalizedPokemonName() {
         return normalizedPokemonName;
@@ -127,13 +136,9 @@ public class ScanData {
         return pokemonGender;
     }
 
-    public String getCandyName() {
-        return candyName;
-    }
+    public List<String> getCandyNames() { return candyNames; }
 
-    public String getNormalizedCandyName() {
-        return normalizedCandyName;
-    }
+    public List<String> getNormalizedCandyNames() { return normalizedCandyNames; }
 
     public Optional<Integer> getPokemonHP() {
         return pokemonHP;

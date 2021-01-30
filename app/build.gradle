@@ -24,7 +24,7 @@ repositories {
  * Apply plugins and other Gradle scripts
  */
 apply plugin: 'com.android.application'
-apply plugin: 'io.fabric'
+//apply plugin: 'io.fabric'
 apply from: '../checkstyle/checkstyle.gradle'
 
 /**
@@ -71,7 +71,7 @@ android {
      * Android SDK and build-tools version
      * Update (both Gradle and local SDK) whenever possible
      */
-    compileSdkVersion 28
+    compileSdkVersion 30
 
     /**
      * Build configurations for APK
@@ -81,9 +81,9 @@ android {
      */
     defaultConfig {
         minSdkVersion 19 /*Dont change this unless you know why*/
-        targetSdkVersion 28 /*Dont change this unless you know why*/
-        versionCode 66
-        versionName "5.4.5"
+        targetSdkVersion 29 /*Dont change this unless you know why*/
+        versionCode 69
+        versionName "5.5.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
@@ -204,6 +204,10 @@ dependencies {
     implementation 'com.android.support:palette-v7:27.1.1'
     implementation project(':openCVLibrary330')
 
+    /* for devMethods.thirdparty.pokebattler, temporally set for All Builds */
+//    implementation 'org.json:json:20160810' //used to generate moveset list
+    implementation 'com.squareup.okhttp3:okhttp:3.7.0'//used to generate moveset list
+
     /**
      * Online Build Dependencies
      */
@@ -227,8 +231,6 @@ dependencies {
     testImplementation 'org.mockito:mockito-core:1.10.19'
     testImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    testImplementation 'org.json:json:20160810' //used to generate moveset list
-    testImplementation 'com.squareup.okhttp3:okhttp:3.7.0'//used to generate moveset list
 }
 
 /**

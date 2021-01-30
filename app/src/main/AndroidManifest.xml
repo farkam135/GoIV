@@ -45,7 +45,8 @@
 
         <service
             android:name=".Pokefly"
-            android:exported="true"/>
+            android:exported="true"
+            android:foregroundServiceType="mediaProjection"/>
         <service
             android:name=".updater.DownloadUpdateService"
             android:exported="false"/>

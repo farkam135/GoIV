@@ -152,7 +152,6 @@
         <item>Dragoran</item>
         <item>Mewtu</item>
         <item>Mew</item>
-        <!--gen 2-->
         <item>Endivie</item>
         <item>Lorblatt</item>
         <item>Meganie</item>
@@ -251,9 +250,8 @@
         <item>Pupitar</item>
         <item>Despotar</item>
         <item>Lugia</item>
-        <item>Ho-oh</item>
+        <item>Ho-Oh</item>
         <item>Celebi</item>
-        <!--gen 3-->
         <item>Geckarbor</item>
         <item>Reptain</item>
         <item>Gewaldro</item>
@@ -389,7 +387,6 @@
         <item>Rayquaza</item>
         <item>Jirachi</item>
         <item>Deoxys</item>
-        <!-- gen 4-->
         <item>Chelast</item>
         <item>Chelcarain</item>
         <item>Chelterrar</item>
@@ -497,7 +494,6 @@
         <item>Darkrai</item>
         <item>Shaymin</item>
         <item>Arceus</item>
-        <!-- gen 5-->
         <item>Victini</item>
         <item>Serpifeu</item>
         <item>Efoserp</item>
@@ -635,7 +631,7 @@
         <item>Washakwil</item>
         <item>Skallyk</item>
         <item>Grypheldis</item>
-        <item>Furnifrass</item>
+        <item>Furnifraß</item>
         <item>Fermicula</item>
         <item>Kapuno</item>
         <item>Duodino</item>
@@ -654,48 +650,75 @@
         <item>Keldeo</item>
         <item>Meloetta</item>
         <item>Genesect</item>
+        <item>Igamaro</item>
+        <item>Igastarnish</item>
+        <item>Brigaron</item>
+        <item>Fynx</item>
+        <item>Rutena</item>
+        <item>Fennexis</item>
+        <item>Froxy</item>
+        <item>Amphizel</item>
+        <item>Quajutsu</item>
+        <item>Scoppel</item>
+        <item>Grebbit</item>
+        <item>Dartiri</item>
+        <item>Dartignis</item>
+        <item>Fiaro</item>
+        <item>Purmel</item>
+        <item>Puponcho</item>
+        <item>Vivillon</item>
+        <item>Leufeo</item>
+        <item>Pyroleo</item>
+        <item>Flabébé</item>
+        <item>Floette</item>
+        <item>Florges</item>
+        <item>Mähikel</item>
+        <item>Chevrumm</item>
+        <item>Pam-Pam</item>
+        <item>Pandagro</item>
+        <item>Coiffwaff</item>
+        <item>Psiau</item>
+        <item>Psiaugon</item>
+        <item>Parfi</item>
+        <item>Parfinesse</item>
+        <item>Flauschling</item>
+        <item>Sabbaione</item>
+        <item>Iscalar</item>
+        <item>Calamanero</item>
+        <item>Bithora</item>
+        <item>Thanathora</item>
+        <item>Algitt</item>
+        <item>Tandrak</item>
+        <item>Scampisto</item>
+        <item>Wummer</item>
+        <item>Eguana</item>
+        <item>Elezard</item>
+        <item>Balgoras</item>
+        <item>Monargoras</item>
+        <item>Amarino</item>
+        <item>Amagarga</item>
+        <item>Feelinara</item>
+        <item>Resladero</item>
+        <item>Dedenne</item>
+        <item>Rocara</item>
+        <item>Viscora</item>
+        <item>Viscargot</item>
+        <item>Viscogon</item>
+        <item>Clavion</item>
+        <item>Paragoni</item>
+        <item>Trombork</item>
+        <item>Arktip</item>
+        <item>Arktilas</item>
+        <item>eF-eM</item>
+        <item>UHaFnir</item>
+        <item>Xerneas</item>
+        <item>Yveltal</item>
         <item>Meltan</item>
         <item>Melmetal</item>
         <item>Barrikadax</item>
         <item>Mauzinger</item>
         <item>Lauchzelot</item>
-    </string-array>
-    <string-array name="typeName">
-        <!--  0   normal -->
-        <item>NORMAL</item>
-        <!--  1     fire -->
-        <item>FEUER</item>
-        <!--  2    water -->
-        <item>WASSER</item>
-        <!--  3    grass -->
-        <item>PFLANZE</item>
-        <!--  4 electric -->
-        <item>ELEKTRO</item>
-        <!--  5      ice -->
-        <item>EIS</item>
-        <!--  6 fighting -->
-        <item>KAMPF</item>
-        <!--  7   poison -->
-        <item>GIFT</item>
-        <!--  8   ground -->
-        <item>BODEN</item>
-        <!--  9   flying -->
-        <item>FLUG</item>
-        <!-- 10  psychic -->
-        <item>PSYCHO</item>
-        <!-- 11      bug -->
-        <item>KÄFER</item>
-        <!-- 12     rock -->
-        <item>GESTEIN</item>
-        <!-- 13    ghost -->
-        <item>GEIST</item>
-        <!-- 14   dragon -->
-        <item>DRACHE</item>
-        <!-- 15     dark -->
-        <item>UNLICHT</item>
-        <!-- 16    steel -->
-        <item>STAHL</item>
-        <!-- 17    fairy -->
-        <item>FEE</item>
+        <item>Pantifrost</item>
+        <item>Oghnatoll</item>
     </string-array>
 </resources>

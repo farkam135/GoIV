@@ -38,15 +38,18 @@ public class PokemonBase {
 
     public final int number; //index number in resources, pokedex number - 1
     public final int devoNumber;
+    public final int candyNameNumber;
     public final int candyEvolutionCost;
 
-    public PokemonBase(String name, String displayName, int number, int devoNumber, int candyEvolutionCost) {
+    public PokemonBase(String name, String displayName, int number, int devoNumber,
+                       int candyNameNumber, int candyEvolutionCost) {
         this.name = name;
         this.displayName = displayName;
         this.number = number;
         this.devoNumber = devoNumber;
         this.evolutions = new ArrayList<>();
         this.forms = new ArrayList<>();
+        this.candyNameNumber = candyNameNumber;
         this.candyEvolutionCost = candyEvolutionCost;
     }
 
@@ -61,6 +64,18 @@ public class PokemonBase {
                 return form;
             }
         }
+
+        if (formName.equals("")) {
+            // Empty string means we want the "default" form. For pokemon with multiple forms, this will
+            // have the formName "Normal Form". If there isn't a default, just get the first (e.g. Shellos East/West)
+            Pokemon normalForm = getForm("Normal Form");
+            if (normalForm != null) {
+                return normalForm;
+            }
+            return forms.get(0);
+        }
+
+        // Only return null if we wanted a specific form and failed to find it.
         return null;
     }
 

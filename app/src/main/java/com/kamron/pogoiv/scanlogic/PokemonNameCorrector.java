@@ -13,6 +13,7 @@ import com.kamron.pogoiv.utils.StringUtils;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import lombok.AllArgsConstructor;
@@ -88,7 +89,8 @@ public class PokemonNameCorrector {
      */
     public PokeDist getPossiblePokemon(@NonNull ScanData scanData) {
         String normalizedPokemonName = getNormalizedPokemonName(scanData);
-        String normalizedCandyName = getNormalizedCandyName(scanData);
+        Pokemon bestGuessCandyPokemon = getBestGuessForCandyPokemon(getNormalizedCandyNames(scanData));
+        String normalizedBestGuessCandyName = StringUtils.normalize(bestGuessCandyPokemon.name);
         ArrayList<Pokemon> bestGuessEvolutionLine = null;
         PokeDist guess;
 
@@ -97,7 +99,7 @@ public class PokemonNameCorrector {
 
         //2. See if we can get a perfect match with candy name & upgrade cost
         if (guess.pokemon == null) {
-            bestGuessEvolutionLine = getBestGuessForEvolutionLine(normalizedCandyName);
+            bestGuessEvolutionLine = pokeInfoCalculator.getEvolutionLine(bestGuessCandyPokemon);
 
             ArrayList<Pokemon> candyNameEvolutionCostGuess =
                     getCandyNameEvolutionCostGuess(bestGuessEvolutionLine, scanData.getEvolutionCandyCost());
@@ -112,10 +114,11 @@ public class PokemonNameCorrector {
             }
         }
 
-
+        // TODO: Can we make this not hardcoded?
+        //  See ApplicationDatabaseUpdater::printTypeDifferencesSuggestions in devMethods for implementation ideas
         //3.  check correction for abnormal pokemon using Pokemon Type (such as eevees evolutions)
         if (guess.pokemon == null
-                && normalizedCandyName.contains(StringUtils.normalize(pokeInfoCalculator.get(132).name))) {
+                && normalizedBestGuessCandyName.equals(StringUtils.normalize(pokeInfoCalculator.get(132).name))) {
             HashMap<String, Integer> eeveelutionCorrection = new HashMap<>();
             eeveelutionCorrection.put(normalizePokemonType(Type.WATER), 133); //Vaporeon pokedex#
             eeveelutionCorrection.put(normalizePokemonType(Type.ELECTRIC), 134); //Jolteon pokedex#
@@ -132,7 +135,7 @@ public class PokemonNameCorrector {
         }
 
         //3.1 Azuril and marill have the same evolution cost, but different types.
-        if (normalizedCandyName.contains(StringUtils.normalize(pokeInfoCalculator.get(182).name))
+        if (normalizedBestGuessCandyName.equals(StringUtils.normalize(pokeInfoCalculator.get(182).name))
                 && (scanData.getEvolutionCandyCost().or(-1) != -1)) { //its not an azumarill
             //if the scanned data contains the type water, it must be a marill, as azurill is normal type.
             if (scanData.getNormalizedPokemonType().contains(normalizePokemonType(Type.WATER))) {
@@ -147,7 +150,7 @@ public class PokemonNameCorrector {
         // match without the first character.
         if (guess.pokemon == null && scanData.getEvolutionCandyCost().isPresent()) {
             String textInterpretation = scanData.getEvolutionCandyCost().get().toString();
-            String cleanedInterpretation = textInterpretation.substring(1, textInterpretation.length());
+            String cleanedInterpretation = textInterpretation.substring(1);
             Optional<Integer> cleanedInt;
             try {
                 cleanedInt = Optional.of(Integer.parseInt(cleanedInterpretation));
@@ -192,6 +195,7 @@ public class PokemonNameCorrector {
 
         //7. All else failed: make a wild guess based only on closest name match
         if (guess.pokemon == null) {
+            // TODO: Filter pokemon by evolution cost/types?
             guess = guessBestPokemonByNormalizedName(normalizedPokemonName, normalizedPokemonNameMap);
         }
 
@@ -212,16 +216,24 @@ public class PokemonNameCorrector {
         return normalizedPokemonName;
     }
 
-    private String getNormalizedCandyName(ScanData scanData) {
+    private List<String> getNormalizedCandyNames(ScanData scanData) {
+        List<String> normalizedCandyNames = new ArrayList<>();
+        for (String normalizedCandyText : scanData.getNormalizedCandyNames()) {
+            normalizedCandyNames.add(getNormalizedCandyName(normalizedCandyText, scanData.getPokemonGender()));
+        }
+
+        return normalizedCandyNames;
+    }
+
+    private String getNormalizedCandyName(String normalizedCandyText, Pokemon.Gender pokemonGender) {
         String normalizedCandyName;
-        String normalizedCandyText = scanData.getNormalizedCandyName();
         String candyWordLocale = res.getString(R.string.candy);
 
         // remove characters not included in pokemon names or candy word. (ex. white space, -, etc)
         normalizedCandyText = normalizedCandyText.replaceAll("[^\\w♂♀]", "");
         normalizedCandyName = normalizedCandyText.replace(StringUtils.normalize(candyWordLocale), "");
         if (normalizedCandyName.contains(nidoUngendered)) {
-            normalizedCandyName = getNidoranGenderName(scanData.getPokemonGender());
+            normalizedCandyName = getNidoranGenderName(pokemonGender);
         }
 
         return normalizedCandyName;
@@ -452,15 +464,20 @@ public class PokemonNameCorrector {
     }
 
     /**
-     * Get the evolution line which closest matches the string. The string is supposed to be the base evolution of a
-     * line.
-     *
-     * @param input the base evolution (ex weedle) to find a match for
-     * @return an evolution line which the string best matches the base evolution pokemon name
+     * Takes all the OCR attempts for this pokemon, and returns the pokemon most likely to be the candy pokemon
+     * we scanned, based on the OCR attempt that is closest to an actual pokemon name
+     * @param normalizedCandyNames normalized OCR attempts
+     * @return Pokemon instance most likely to be the scanned pokemon's candy pokemon
      */
-    private ArrayList<Pokemon> getBestGuessForEvolutionLine(String input) {
-        PokeDist bestMatch = guessBestPokemonByNormalizedName(input, normalizedCandyPokemons);
-        return pokeInfoCalculator.getEvolutionForms(bestMatch.pokemon);
+    private Pokemon getBestGuessForCandyPokemon(List<String> normalizedCandyNames) {
+        PokeDist bestMatch = new PokeDist(null, Integer.MAX_VALUE);
+        for (String normalizedCandyName : normalizedCandyNames) {
+            PokeDist current = guessBestPokemonByNormalizedName(normalizedCandyName, normalizedCandyPokemons);
+            if (current.dist < bestMatch.dist) { // TODO: better alg for choosing between guesses?
+                bestMatch = current;
+            }
+        }
+        return pokeInfoCalculator.getCandyPokemon(bestMatch.pokemon);
     }
 
     /**

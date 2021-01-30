@@ -23,6 +23,8 @@ import com.kamron.pogoiv.activities.MainActivity;
 import com.kamron.pogoiv.activities.OcrCalibrationResultActivity;
 import com.kamron.pogoiv.activities.SettingsActivity;
 
+import static android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PROJECTION;
+
 /**
  * Created by johan on 2017-07-06.
  * <p>
@@ -151,7 +153,12 @@ public class GoIVNotificationManager {
 
         initNotificationChannel(notificationManager);
 
-        pokefly.startForeground(NOTIFICATION_REQ_CODE, notification.build());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            pokefly.startForeground(NOTIFICATION_REQ_CODE, notification.build(),
+                    FOREGROUND_SERVICE_TYPE_MEDIA_PROJECTION);
+        } else {
+            pokefly.startForeground(NOTIFICATION_REQ_CODE, notification.build());
+        }
     }
 
     /**

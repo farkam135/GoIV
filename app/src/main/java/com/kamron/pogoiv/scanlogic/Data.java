@@ -8,10 +8,13 @@ import com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanPoint;
 public class Data {
 
     public static final int MINIMUM_TRAINER_LEVEL = 1;
-    public static final int MAXIMUM_TRAINER_LEVEL = 40;
+    public static final int MAXIMUM_TRAINER_LEVEL = 50;
     public static final int MINIMUM_POKEMON_LEVEL = 1;
-    public static final int MAXIMUM_POKEMON_LEVEL = 40;
+    public static final int MAXIMUM_POKEMON_LEVEL = 50;
     public static final int MAXIMUM_WILD_POKEMON_LEVEL = 35;
+
+    private static final int ADDITIONAL_POKEMON_LEVEL_BOUNDARY = 40;
+    private static final int ADDITIONAL_POKEMON_LEVEL = 10;
 
 
     public static final float LEVEL_ARC_SQUISH_FACTOR = 0.95f; //The level arc is no longer a perfect half circle
@@ -32,12 +35,47 @@ public class Data {
             0.737769484519958f, 0.740785579737136f, 0.743789434432983f, 0.746781197247765f, 0.749761044979095f,
             0.752729099732281f, 0.75568550825119f, 0.758630370209851f, 0.761563837528229f, 0.76448604959218f,
             0.767397165298462f, 0.770297293677362f, 0.773186504840851f, 0.776064947064992f, 0.778932750225067f,
-            0.781790050767666f, 0.784636974334717f, 0.787473608513275f, 0.790300011634827f};
+            0.781790050767666f, 0.784636974334717f, 0.787473608513275f, 0.790300011634827f
 
-    public static final int[] POWER_UP_CANDY_COSTS = {
+            // New values for levels 41 - 50 (from https://www.reddit.com/r/TheSilphRoad/comments/jwjbw4/level_4550_expected_cpms_based/)
+            ,0.792803950958807f ,0.795300006866455f ,0.797803921486970f ,0.800300002098083f ,0.802803892322847f
+            ,0.805299997329711f ,0.807803863460723f ,0.810299992561340f ,0.812803834895026f ,0.815299987792968f
+            ,0.817803806620319f ,0.820299983024597f ,0.822803778631297f ,0.825299978256225f ,0.827803750922782f
+            ,0.830299973487854f ,0.832803753381377f ,0.835300028324127f ,0.837803755931569f ,0.840300023555755f
+    };
+
+    private static final int[] POWER_UP_CANDY_COSTS = {
             1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
             2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 6, 6, 6, 6, 8, 8,
-            8, 8, 10, 10, 10, 10, 12, 12, 12, 12, 15, 15, 15, 15 };
+            8, 8, 10, 10, 10, 10, 12, 12, 12, 12, 15, 15,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+
+    private static final int[] POWER_UP_CANDY_XL_COSTS = {
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            10, 10, 10, 10, 12, 12, 12, 12, 15, 15, 15, 15, 17, 17, 17, 17, 20, 20, 20, 20
+    };
+
+    private static final int[] POWER_UP_STARDUST_COSTS = {
+            200, 200, 200, 200, 400, 400, 400, 400, 600, 600, 600, 600, 800, 800, 800, 800, 1000, 1000, 1000, 1000,
+            1300, 1300, 1300, 1300, 1600, 1600, 1600, 1600, 1900, 1900, 1900, 1900, 2200, 2200, 2200, 2200,
+            2500, 2500, 2500, 2500, 3000, 3000, 3000, 3000, 3500, 3500, 3500, 3500, 4000, 4000, 4000, 4000,
+            4500, 4500, 4500, 4500, 5000, 5000, 5000, 5000, 6000, 6000, 6000, 6000, 7000, 7000, 7000, 7000,
+            8000, 8000, 8000, 8000, 9000, 9000, 9000, 9000, 10000, 10000, 10000, 10000,
+            11000, 11000, 11000, 11000, 12000, 12000, 12000, 12000, 13000, 13000, 13000, 13000,
+            14000, 14000, 14000, 14000, 15000, 15000
+    };
+
+    private static final UpgradeCost[] POWER_UP_COSTS;
+
+    static {
+        POWER_UP_COSTS = new UpgradeCost[POWER_UP_CANDY_COSTS.length];
+        for (int i = 0; i < POWER_UP_CANDY_COSTS.length; i++) {
+            POWER_UP_COSTS[i] = new UpgradeCost(POWER_UP_STARDUST_COSTS[i], POWER_UP_CANDY_COSTS[i], POWER_UP_CANDY_XL_COSTS[i]);
+        }
+    }
+
     public static int arcInitX;
     public static int arcInitY;
     public static int[] arcX;
@@ -55,7 +93,7 @@ public class Data {
          * Here we use levelIdx for levels that are doubled and shifted by - 2; after this adjustment,
          * the level can be used to index CpM, arcX and arcY.
          */
-        int maxPokeLevelIndex = (trainerLevelToMaxPokeLevelIndex(trainerLevel));
+        int maxPokeLevelIndex = levelToLevelIdx(trainerLevelToMaxPokeLevel(trainerLevel));
         arcX = new int[maxPokeLevelIndex + 1]; //We access entries [0..maxPokeLevelIndex], hence + 1.
         arcY = new int[maxPokeLevelIndex + 1];
 
@@ -76,6 +114,14 @@ public class Data {
         }
     }
 
+    public static UpgradeCost costForLevel(double level) {
+        return costForIndex(levelToLevelIdx(level));
+    }
+
+    public static UpgradeCost costForIndex(int idx) {
+        return POWER_UP_COSTS[idx];
+    }
+
     /**
      * Convert a pokemon/trainer level to a <em>level index</em> (<code>levelIdx</code> in code).
      * The mapping is invertible, but level indexes can be used to index an array (like Data.CpM), or seekbars.
@@ -85,8 +131,7 @@ public class Data {
      * This method adjusts a level to a <em>level index</em> (<code>levelIdx</code>), by doubling it
      * and subtracting 2.
      */
-    public static int maxPokeLevelToIndex(double level) {
-
+    public static int levelToLevelIdx(double level) {
         return (int) ((level - 1) * 2);
     }
 
@@ -106,36 +151,19 @@ public class Data {
      * @return Associated CpM.
      */
     public static double getLevelCpM(double level) {
-        return CpM[maxPokeLevelToIndex(level)];
+        return CpM[levelToLevelIdx(level)];
     }
 
     /**
-     * Maximum pokemon level for a trainer, from the trainer level. This is 2 levels above trainer level.
-     * It used to be 1.5, but was changed around december 2017.
+     * Maximum pokemon level for a trainer, from the trainer level. It can be 10 levels above the
+     * trainer level, but at most level 40 if the trainer level is below 40 and at most level 50
+     * otherwise (so basically, if level 40 is reached every level is unlocked). Before the Beyond
+     * update in December 2020 the maximum level was 40 and the maximum number of levels above were
+     * 2 levels. Previously it was changed from 1.5 levels to 2 levels around December 2017.
      */
     public static double trainerLevelToMaxPokeLevel(int trainerLevel) {
-        return Math.min(trainerLevel + 2, 40);
-    }
-
-    /*
-     * Pokemon levels go from 1 to trainerLevel + 2, in increments of 0.5.
-     * Here we use levelIdx for levels that are doubled and shifted by - 2; after this adjustment,
-     * the level can be used to index CpM, arcX and arcY.
-     */
-    public static int trainerLevelToMaxPokeLevelIndex(int trainerLevel) {
-        // This is Math.min(2 * trainerLevel + 1, 79).
-        return maxPokeLevelToIndex(trainerLevelToMaxPokeLevel(trainerLevel));
-    }
-
-    public static boolean isValidPowerUpCandyCost(int powerUpCandyCost) {
-        for (int currentCost : POWER_UP_CANDY_COSTS) {
-            if (currentCost == powerUpCandyCost) {
-                return true;
-            } else if (currentCost > powerUpCandyCost) {
-                break; // Costs are ascending ordered. There won't be a cost equal to the input in the array.
-            }
-        }
-        return false;
+        int maxLevel = trainerLevel < ADDITIONAL_POKEMON_LEVEL_BOUNDARY ? ADDITIONAL_POKEMON_LEVEL_BOUNDARY : MAXIMUM_POKEMON_LEVEL;
+        return Math.min(trainerLevel + ADDITIONAL_POKEMON_LEVEL, maxLevel);
     }
 
     // should be pretty fast https://en.wikibooks.org/wiki/Algorithm_Implementation/Strings/Levenshtein_distance#Java

@@ -74,6 +74,8 @@ public class PowerUpFraction extends Fraction implements ReactiveColorListener {
     LinearLayout pokeSpamView;
     @BindView(R.id.exResCandy)
     TextView exResCandy;
+    @BindView(R.id.exResXlCandy)
+    TextView exResXlCandy;
 
 
 
@@ -295,6 +297,8 @@ public class PowerUpFraction extends Fraction implements ReactiveColorListener {
                 .getCandyCostForEvolution(scanResult.pokemon, selectedPokemon);
         String candyCostText = cost.candy + evolutionCandyCost + "";
         exResCandy.setText(candyCostText);
+        String candyXlCostText = Integer.toString(cost.candyXl);
+        exResXlCandy.setText(candyXlCostText);
         DecimalFormat formater = new DecimalFormat();
         exResStardust.setText(formater.format(cost.dust));
     }

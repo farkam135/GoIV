@@ -212,7 +212,7 @@
     <string name="ocr_error_pick_pixel_white">Unable to pick white marker pixel color\n</string>
     <string name="ocr_error_locate_pixel_green">Unable to locate green marker pixel\n</string>
     <string name="ocr_error_pick_pixel_green">Unable to pick green marker pixel color\n</string>
-    <string name="ocr_msg_verify">\nATTENTION! Please verify that:\n① The info screen is scrolled all the way up\n② The 3D model doesn\'t cover any important information\n③ Is not a final evolution! I suggest a Pidgey!\n④ Is not lucky</string>
+    <string name="ocr_msg_verify">\nATTENTION! Please verify that:\n① The info screen is scrolled all the way up\n② The 3D model doesn\'t cover any important information\n③ Is not a final evolution! I suggest a Caterpie!\n④ Is not lucky</string>
     <string name="ocr_calibration_saved">Calibration saved!\nRestart GoIV to apply the changes!</string>
     <string name="ocr_finding_name">Finding name area</string>
     <string name="ocr_finding_type">Finding type area</string>
@@ -324,4 +324,5 @@
     <string name="fast_copy_to_clipboard">fastCopyToClipboard</string>
     <string name="copy_to_clip_fast">Copy to clipboard on preview</string>
     <string name="unset">Unset</string>
+    <string name="candyXl">Candy XL</string>
 </resources>

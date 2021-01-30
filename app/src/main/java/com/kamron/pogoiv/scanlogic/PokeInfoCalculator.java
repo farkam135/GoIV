@@ -27,11 +27,13 @@ public class PokeInfoCalculator {
     private List<Pokemon> formVariantPokemons;
     private String[] pokeNamesWithForm = {};
 
-    public static final int MELTAN_INDEX_OFFSET = 5;
-    public static final int MELMETAL_INDEX_OFFSET = 4;
-    public static final int OBSTAGOON_INDEX_OFFSET = 3;
-    public static final int PERRSERKER_INDEX_OFFSET = 2;
-    public static final int SIRFETCHD_INDEX_OFFSET = 1;
+    public static final int MELTAN_INDEX_OFFSET = 7;
+    public static final int MELMETAL_INDEX_OFFSET = 6;
+    public static final int OBSTAGOON_INDEX_OFFSET = 5;
+    public static final int PERRSERKER_INDEX_OFFSET = 4;
+    public static final int SIRFETCHD_INDEX_OFFSET = 3;
+    public static final int MRRIME_INDEX_OFFSET = 2;
+    public static final int RUNERIGUS_INDEX_OFFSET = 1;
 
     /**
      * Pokemons who's name appears as a type of candy.
@@ -186,9 +188,11 @@ public class PokeInfoCalculator {
         // quick hardcoded patch for supporting discontinuous pokedex number pokemons followings
         //   #808 Meltan
         //   #809 Melmetal
-        //   #862 Obstagoon,
-        //   #863 Perrserker,
+        //   #862 Obstagoon
+        //   #863 Perrserker
         //   #865 Sirfetch'd
+        //   #866 Mr. Rime
+        //   #867 Runerigus
         // currently GoIV logic expects that pokedex numbers are continuous and less than pokeListSize.
         // so this patch shifts these to dummy indexes, with pokeListSize offset.
         candyNamesArray[pokeListSize - MELTAN_INDEX_OFFSET] = pokeListSize - MELTAN_INDEX_OFFSET;
@@ -197,7 +201,8 @@ public class PokeInfoCalculator {
         // END patch for supporting discontinuous pokedex number pokemons
 
         for (int i = 0; i < pokeListSize; i++) {
-            PokemonBase p = new PokemonBase(names[i], displayNames[i], i, devolution[i], evolutionCandyCost[i]);
+            PokemonBase p = new PokemonBase(names[i], displayNames[i], i, devolution[i],
+                                            candyNamesArray[i], evolutionCandyCost[i]);
             pokedex.add(p);
         }
 
@@ -250,56 +255,26 @@ public class PokeInfoCalculator {
      */
     public UpgradeCost getUpgradeCost(double goalLevel, double estimatedPokemonLevel, boolean isLucky) {
         int neededCandy = 0;
+        int neededCandyXl = 0;
         int neededStarDust = 0;
-        while (estimatedPokemonLevel != goalLevel) {
-            int rank = 5;
-            if ((estimatedPokemonLevel % 10) >= 1 && (estimatedPokemonLevel % 10) <= 2.5) {
-                rank = 1;
-            } else if ((estimatedPokemonLevel % 10) > 2.5 && (estimatedPokemonLevel % 10) <= 4.5) {
-                rank = 2;
-            } else if ((estimatedPokemonLevel % 10) > 4.5 && (estimatedPokemonLevel % 10) <= 6.5) {
-                rank = 3;
-            } else if ((estimatedPokemonLevel % 10) > 6.5 && (estimatedPokemonLevel % 10) <= 8.5) {
-                rank = 4;
-            }
 
-            if (estimatedPokemonLevel <= 10.5) {
-                neededCandy++;
-                neededStarDust += rank * 200;
-            } else if (estimatedPokemonLevel > 10.5 && estimatedPokemonLevel <= 20.5) {
-                neededCandy += 2;
-                neededStarDust += 1000 + (rank * 300);
-            } else if (estimatedPokemonLevel > 20.5 && estimatedPokemonLevel <= 25.5) {
-                neededCandy += 3;
-                neededStarDust += 2500 + (rank * 500);
-            } else if (estimatedPokemonLevel > 25.5 && estimatedPokemonLevel <= 30.5) {
-                neededCandy += 4;
-                neededStarDust += 2500 + (rank * 500);
-            } else if (estimatedPokemonLevel > 30.5 && estimatedPokemonLevel <= 32.5) {
-                neededCandy += 6;
-                neededStarDust += 5000 + (rank * 1000);
-            } else if (estimatedPokemonLevel > 32.5 && estimatedPokemonLevel <= 34.5) {
-                neededCandy += 8;
-                neededStarDust += 5000 + (rank * 1000);
-            } else if (estimatedPokemonLevel > 34.5 && estimatedPokemonLevel <= 36.5) {
-                neededCandy += 10;
-                neededStarDust += 5000 + (rank * 1000);
-            } else if (estimatedPokemonLevel > 36.5 && estimatedPokemonLevel <= 38.5) {
-                neededCandy += 12;
-                neededStarDust += 5000 + (rank * 1000);
-            } else if (estimatedPokemonLevel > 38.5) {
-                neededCandy += 15;
-                neededStarDust += 5000 + (rank * 1000);
-            }
+        int currentLevelIdx = Data.levelToLevelIdx(estimatedPokemonLevel);
+        int goalLevelIdx = Data.levelToLevelIdx(goalLevel);
 
-            estimatedPokemonLevel += 0.5;
+        while (currentLevelIdx < goalLevelIdx) {
+            UpgradeCost costs = Data.costForIndex(currentLevelIdx);
+            neededCandy += costs.candy;
+            neededCandyXl += costs.candyXl;
+            neededStarDust += costs.dust;
+
+            currentLevelIdx++;
         }
 
         if (isLucky) {
             neededStarDust /= 2;
         }
 
-        return new UpgradeCost(neededStarDust, neededCandy);
+        return new UpgradeCost(neededStarDust, neededCandy, neededCandyXl);
     }
 
 
@@ -471,6 +446,16 @@ public class PokeInfoCalculator {
             base = get(base.devoNumber);
         }
         return base;
+    }
+
+    /**
+     * Returns the pokemon whose name matches the candy type for the given pokemon
+     *      e.g. getCandyPokemon(Machamp) -> Machop
+     * @param pokemon the pokemon whose candy form is wanted
+     * @return the pokemon that matches the candy type for the given pokemon
+     */
+    public Pokemon getCandyPokemon(Pokemon pokemon) {
+        return getForm(pokemon.candyNameNumber);
     }
 
     /**

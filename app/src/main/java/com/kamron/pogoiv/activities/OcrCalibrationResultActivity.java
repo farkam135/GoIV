@@ -196,6 +196,7 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
             ScanFieldResults results = new ScanFieldAutomaticLocator(
                     sCalibrationImage, sDisplayMetrics.widthPixels, sDisplayMetrics.density)
                     .scan(mainThreadHandler, dialogRef, new WeakReference<Context>(activity));
+            results.finalAdjustments();
 
             mainThreadHandler.post(new ResultRunnable(activityRef, dialogRef, results));
         }

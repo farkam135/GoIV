@@ -1100,6 +1100,7 @@ public class OcrHelper {
         }
         ensureCorrectLevelArcSettings(settings, trainerLevel); //todo, make it so it doesnt initiate on every scan?
         int totalOffset = 0;
+        boolean is_lucky = false;
         double offsetBase; // offsets are calculated off height of powerup candy cost field. Double to retain precision
         // Since we only care about height, its fine that we don't know the proper offset yet
         ScanArea powerUpCandyArea = ScanArea.calibratedFromSettings(POKEMON_POWER_UP_CANDY_COST, settings);
@@ -1132,6 +1133,7 @@ public class OcrHelper {
             if (hp.isPresent()) {
                 // Found successfully; assume this is a lucky pokemon and offset all further scans below that line
                 totalOffset += luckyOffset;
+                is_lucky = true;
             }
         }
 
@@ -1197,7 +1199,7 @@ public class OcrHelper {
                 .toString() + powerUpStardustCost.toString() + powerUpCandyCost.toString();
 
         return new ScanData(estimatedLevelRange, name, type, candyNames, gender, hp, cp, candyAmount, evolutionCost,
-                powerUpStardustCost, powerUpCandyCost, null, null, (totalOffset != 0), uniqueIdentifier);
+                powerUpStardustCost, powerUpCandyCost, null, null, is_lucky, uniqueIdentifier);
     }
 
     /**

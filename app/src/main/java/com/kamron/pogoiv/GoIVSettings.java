@@ -62,7 +62,7 @@ public class GoIVSettings {
     public static final String DOWNLOADED_MOVESET_INFO = "downloaded_moveset_info_goiv";
 
     // Increment this value when you want to make all users recalibrate GoIV
-    public static int LATEST_SCREEN_CALIBRATION_VERSION = 1;
+    public static int LATEST_SCREEN_CALIBRATION_VERSION = 2;    
 
 
     private static GoIVSettings instance;

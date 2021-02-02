@@ -314,6 +314,9 @@ public class ScanFieldAutomaticLocator {
         postMessage(mainThreadHandler, dialog.get(), findingGender);
         findPokemonGenderArea(results);
 
+        postMessage(mainThreadHandler, dialog.get(), findingCandyAmount);
+        findPokemonCandyAmountArea(results);
+
         postMessage(mainThreadHandler, dialog.get(), findingCandyName);
         findPokemonCandyNameArea(results);
 
@@ -322,9 +325,6 @@ public class ScanFieldAutomaticLocator {
 
         postMessage(mainThreadHandler, dialog.get(), findingCp);
         findPokemonCPScanArea(results);
-
-        postMessage(mainThreadHandler, dialog.get(), findingCandyAmount);
-        findPokemonCandyAmountArea(results);
 
         postMessage(mainThreadHandler, dialog.get(), findingEvolutionCost);
         findPokemonEvolutionCostArea(results); // Always call after findPokemonCandyAmountArea
@@ -787,11 +787,9 @@ public class ScanFieldAutomaticLocator {
      */
     private void findPokemonCandyAmountArea(ScanFieldResults results) {
         final boolean debugExecution = false; // Activate this flag to display the onscreen debug graphics
-
-        //noinspection UnusedAssignment
         Canvas c = null;
-        //noinspection UnusedAssignment
         Paint p = null;
+
         //noinspection PointlessBooleanExpression
         if (BuildConfig.DEBUG && debugExecution) {
             c = new Canvas(bmp);
@@ -820,19 +818,17 @@ public class ScanFieldAutomaticLocator {
 
         //noinspection PointlessBooleanExpression
         if (BuildConfig.DEBUG && debugExecution) {
-            //noinspection ConstantConditions
             p.setColor(Color.RED);
             debugPrintRectList(candidates, c, p);
         }
 
         candidates = FluentIterable.from(candidates)
-                // Check if the dominant color of the contour matches the light green hue of PoGO text
+                // Check if the dominant color of the contour matches the dark green hue of PoGO text
                 .filter(ByHsvColor.of(image, mask1, contours, boundingRectList, HSV_GREEN_DARK, 5, 0.275f, 0.275f))
                 .toList();
 
         //noinspection PointlessBooleanExpression
         if (BuildConfig.DEBUG && debugExecution) {
-            //noinspection ConstantConditions
             p.setColor(Color.YELLOW);
             debugPrintRectList(candidates, c, p);
         }
@@ -844,7 +840,6 @@ public class ScanFieldAutomaticLocator {
 
         //noinspection PointlessBooleanExpression
         if (BuildConfig.DEBUG && debugExecution) {
-            //noinspection ConstantConditions
             p.setColor(Color.GREEN);
             debugPrintRectList(candidates, c, p);
         }
@@ -1022,11 +1017,9 @@ public class ScanFieldAutomaticLocator {
      */
     private void findPokemonCandyNameArea(ScanFieldResults results) {
         final boolean debugExecution = false; // Activate this flag to display the onscreen debug graphics
-
-        //noinspection UnusedAssignment
         Canvas c = null;
-        //noinspection UnusedAssignment
         Paint p = null;
+
         //noinspection PointlessBooleanExpression
         if (BuildConfig.DEBUG && debugExecution) {
             c = new Canvas(bmp);
@@ -1039,6 +1032,13 @@ public class ScanFieldAutomaticLocator {
             return;
         }
 
+        int upperBound;
+        if (results.pokemonCandyAmountArea != null) {
+            upperBound = results.pokemonCandyAmountArea.yPoint + results.pokemonCandyAmountArea.height;
+        } else {
+            upperBound = greyHorizontalLine.y + greyHorizontalLine.height;
+        }
+
         //noinspection PointlessBooleanExpression
         if (BuildConfig.DEBUG && debugExecution) {
             c = new Canvas(bmp);
@@ -1048,7 +1048,7 @@ public class ScanFieldAutomaticLocator {
             debugPrintRectList(Collections.singletonList(powerUpButton), c, p);
             debugPrintLineVertical(width33Percent, c, p);
             debugPrintLineVertical(greyHorizontalLine.x + greyHorizontalLine.width, c, p);
-            debugPrintLineHorizontal(greyHorizontalLine.y + greyHorizontalLine.height, c, p);
+            debugPrintLineHorizontal(upperBound, c, p);
             debugPrintLineHorizontal(powerUpButton.y, c, p);
         }
 
@@ -1057,13 +1057,12 @@ public class ScanFieldAutomaticLocator {
                 // divider line and below it and above the power up button
                 .filter(Predicates.and(ByMinX.of(width33Percent),
                         ByMaxX.of(greyHorizontalLine.x + greyHorizontalLine.width),
-                        ByMinY.of(greyHorizontalLine.y + greyHorizontalLine.height),
+                        ByMinY.of(upperBound),
                         ByMaxY.of(powerUpButton.y)))
                 .toList();
 
         //noinspection PointlessBooleanExpression
         if (BuildConfig.DEBUG && debugExecution) {
-            //noinspection ConstantConditions
             p.setColor(Color.RED);
             debugPrintRectList(candidates, c, p);
         }
@@ -1075,7 +1074,6 @@ public class ScanFieldAutomaticLocator {
 
         //noinspection PointlessBooleanExpression
         if (BuildConfig.DEBUG && debugExecution) {
-            //noinspection ConstantConditions
             p.setColor(Color.YELLOW);
             debugPrintRectList(candidates, c, p);
         }
@@ -1087,7 +1085,6 @@ public class ScanFieldAutomaticLocator {
 
         //noinspection PointlessBooleanExpression
         if (BuildConfig.DEBUG && debugExecution) {
-            //noinspection ConstantConditions
             p.setColor(Color.GREEN);
             debugPrintRectList(candidates, c, p);
         }
@@ -1119,11 +1116,9 @@ public class ScanFieldAutomaticLocator {
      */
     private void findPokemonTypeArea(ScanFieldResults results) {
         final boolean debugExecution = false; // Activate this flag to display the onscreen debug graphics
-
-        //noinspection UnusedAssignment
         Canvas c = null;
-        //noinspection UnusedAssignment
         Paint p = null;
+
         //noinspection PointlessBooleanExpression
         if (BuildConfig.DEBUG && debugExecution) {
             c = new Canvas(bmp);

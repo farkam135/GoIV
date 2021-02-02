@@ -11,7 +11,7 @@ public class ScanFieldResults {
     public ScanArea candyNameArea;
     public ScanArea pokemonHpArea;
     public ScanArea pokemonCpArea;
-    public ScanArea pokemonCandyAmountArea;
+    public ScanArea pokemonCandyAmountArea = null;
     public ScanArea pokemonEvolutionCostArea;
     public ScanArea pokemonPowerUpStardustCostArea;
     public ScanArea pokemonPowerUpCandyCostArea;

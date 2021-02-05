@@ -106,6 +106,8 @@ public class GoIVSettings {
     }
 
     public void saveScreenCalibrationResults(ScanFieldResults results) {
+        results.finalAdjustments();
+
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString(ScanFieldNames.POKEMON_NAME_AREA,
                 results.pokemonNameArea.toString());

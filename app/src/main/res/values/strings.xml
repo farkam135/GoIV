@@ -212,7 +212,7 @@
     <string name="ocr_error_pick_pixel_white">Unable to pick white marker pixel color\n</string>
     <string name="ocr_error_locate_pixel_green">Unable to locate green marker pixel\n</string>
     <string name="ocr_error_pick_pixel_green">Unable to pick green marker pixel color\n</string>
-    <string name="ocr_msg_verify">\nATTENTION! Please verify that:\n① The info screen is scrolled all the way up\n② The 3D model doesn\'t cover any important information\n③ Is not a final evolution! I suggest a Caterpie!\n④ Is not lucky or shadow\n⑤Doesn\'t have mega energy</string>
+    <string name="ocr_msg_verify">\nATTENTION! Please verify that:\n① The info screen is scrolled all the way up\n② The 3D model doesn\'t cover any important information\n③ Is not a final evolution! I suggest a Caterpie!\n④ Is not lucky or shadow\n⑤ Doesn\'t have mega energy</string>
     <string name="ocr_calibration_saved">Calibration saved!\nRestart GoIV to apply the changes!</string>
     <string name="ocr_finding_name">Finding name area</string>
     <string name="ocr_finding_type">Finding type area</string>

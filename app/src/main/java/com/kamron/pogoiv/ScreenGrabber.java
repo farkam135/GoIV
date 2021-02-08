@@ -86,7 +86,7 @@ public class ScreenGrabber {
     Bitmap grabScreen() {
         Image image = null;
         Bitmap bmp = null;
-        Integer retries = 60; // Retry for an entire second (given the rendering speed of 60fps)
+        int retries = 60; // Retry for an entire second (given the rendering speed of 60fps)
 
         while (retries > 0) {
             try {

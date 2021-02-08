@@ -25,7 +25,7 @@ import timber.log.Timber;
 
 public class AppUpdateUtilImpl extends AppUpdateUtil {
 
-    private static final String GITHUB_RELEASES_URL = "https://api.github.com/repos/farkam135/GoIV/releases/latest";
+    private static final String GITHUB_RELEASES_URL = "https://api.github.com/repos/GoIV-Devs/GoIV/releases/latest";
 
     AppUpdateUtilImpl() {
     }

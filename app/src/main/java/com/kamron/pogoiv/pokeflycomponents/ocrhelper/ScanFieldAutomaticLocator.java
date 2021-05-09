@@ -33,6 +33,8 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import static java.lang.Math.abs;
+
 
 /**
  * Created by johan on 2017-07-27.
@@ -203,7 +205,7 @@ public class ScanFieldAutomaticLocator {
                 } else if (r.width - maxRect.width > screenshotDensity) {
                     // Take the largest
                     maxRect = r;
-                } else if (Math.abs(r.width - maxRect.width) < screenshotDensity && r.y < maxRect.y) {
+                } else if (abs(r.width - maxRect.width) < screenshotDensity && r.y < maxRect.y) {
                     // Take the upper with same width
                     maxRect = r;
                 }
@@ -276,6 +278,7 @@ public class ScanFieldAutomaticLocator {
         String findingName = null;
         String findingType = null;
         String findingGender = null;
+        String findingStardustLabel = null;
         String findingCandyName = null;
         String findingHp = null;
         String findingCp = null;
@@ -291,6 +294,7 @@ public class ScanFieldAutomaticLocator {
             findingName = context.getString(R.string.ocr_finding_name);
             findingType = context.getString(R.string.ocr_finding_type);
             findingGender = context.getString(R.string.ocr_finding_gender);
+            findingStardustLabel = "Finding STARDUST label";
             findingCandyName = context.getString(R.string.ocr_finding_candy_name);
             findingHp = context.getString(R.string.ocr_finding_hp);
             findingCp = context.getString(R.string.ocr_finding_cp);
@@ -314,8 +318,14 @@ public class ScanFieldAutomaticLocator {
         postMessage(mainThreadHandler, dialog.get(), findingGender);
         findPokemonGenderArea(results);
 
+        postMessage(mainThreadHandler, dialog.get(), findingCandyAmount);
+        findPokemonCandyAmountArea(results);
+
+        postMessage(mainThreadHandler, dialog.get(), findingStardustLabel);
+        int stardustHeight = findStardustLabelHeight(results);
+
         postMessage(mainThreadHandler, dialog.get(), findingCandyName);
-        findPokemonCandyNameArea(results);
+        findPokemonCandyNameArea(results, stardustHeight);
 
         postMessage(mainThreadHandler, dialog.get(), findingHp);
         findPokemonHPArea(results);
@@ -323,17 +333,14 @@ public class ScanFieldAutomaticLocator {
         postMessage(mainThreadHandler, dialog.get(), findingCp);
         findPokemonCPScanArea(results);
 
-        postMessage(mainThreadHandler, dialog.get(), findingCandyAmount);
-        findPokemonCandyAmountArea(results);
-
         postMessage(mainThreadHandler, dialog.get(), findingEvolutionCost);
-        findPokemonEvolutionCostArea(results); // Always call after findPokemonCandyAmountArea
-
-        postMessage(mainThreadHandler, dialog.get(), findingPowerUpStardustCost);
-        findPokemonPowerUpStardustCostArea(results); // Always call after findPokemonCandyAmountArea
+        findPokemonEvolutionCostArea(results);
 
         postMessage(mainThreadHandler, dialog.get(), findingPowerUpCandyCost);
-        findPokemonPowerUpCandyCostArea(results); // Always call after findPokemonCandyAmountArea
+        findPokemonPowerUpCandyCostArea(results); // Always call after findPokemonEvolutionCostArea
+
+        postMessage(mainThreadHandler, dialog.get(), findingPowerUpStardustCost);
+        findPokemonPowerUpStardustCostArea(results); // Always call after findPokemonEvolutionCostArea
 
         postMessage(mainThreadHandler, dialog.get(), findingLevelArc);
         findArcValues(results);
@@ -524,11 +531,9 @@ public class ScanFieldAutomaticLocator {
      */
     private void findPokemonEvolutionCostArea(ScanFieldResults results) {
         final boolean debugExecution = false; // Activate this flag to display the onscreen debug graphics
-
-        //noinspection UnusedAssignment
         Canvas c = null;
-        //noinspection UnusedAssignment
         Paint p = null;
+
         //noinspection PointlessBooleanExpression
         if (BuildConfig.DEBUG && debugExecution) {
             c = new Canvas(bmp);
@@ -537,7 +542,7 @@ public class ScanFieldAutomaticLocator {
             debugPrintRectList(boundingRectList, c, p);
         }
 
-        if (powerUpButton == null || results.pokemonCandyAmountArea == null) {
+        if (powerUpButton == null) {
             return;
         }
 
@@ -545,14 +550,11 @@ public class ScanFieldAutomaticLocator {
                 // Keep only rect that are below the power up button and above the height of the evolution button
                 .filter(ByMinY.of(powerUpButton.y + powerUpButton.height))
                 .filter(ByMaxY.of((int) (powerUpButton.y + powerUpButton.height * 2.5f)))
-                // Keep only bounding rect between the pokemonCandyAmountArea x coordinates
-                .filter(ByMinX.of(results.pokemonCandyAmountArea.xPoint))
-                .filter(ByMaxX.of(results.pokemonCandyAmountArea.xPoint + results.pokemonCandyAmountArea.width))
+                .filter(ByMinX.of(width50Percent))
                 .toList();
 
         //noinspection PointlessBooleanExpression
         if (BuildConfig.DEBUG && debugExecution) {
-            //noinspection ConstantConditions
             p.setColor(Color.RED);
             debugPrintRectList(candidates, c, p);
         }
@@ -577,7 +579,6 @@ public class ScanFieldAutomaticLocator {
 
         //noinspection PointlessBooleanExpression
         if (BuildConfig.DEBUG && debugExecution) {
-            //noinspection ConstantConditions
             p.setColor(Color.YELLOW);
             debugPrintRectList(candidates, c, p);
         }
@@ -589,7 +590,6 @@ public class ScanFieldAutomaticLocator {
 
         //noinspection PointlessBooleanExpression
         if (BuildConfig.DEBUG && debugExecution) {
-            //noinspection ConstantConditions
             p.setColor(Color.GREEN);
             debugPrintRectList(candidates, c, p);
         }
@@ -623,11 +623,9 @@ public class ScanFieldAutomaticLocator {
      */
     private void findPokemonPowerUpStardustCostArea(ScanFieldResults results) {
         final boolean debugExecution = false; // Activate this flag to display the onscreen debug graphics
-
-        //noinspection UnusedAssignment
         Canvas c = null;
-        //noinspection UnusedAssignment
         Paint p = null;
+
         //noinspection PointlessBooleanExpression
         if (BuildConfig.DEBUG && debugExecution) {
             c = new Canvas(bmp);
@@ -636,7 +634,7 @@ public class ScanFieldAutomaticLocator {
             debugPrintRectList(boundingRectList, c, p);
         }
 
-        if (powerUpButton == null || results.pokemonCandyAmountArea == null) {
+        if (powerUpButton == null || results.pokemonEvolutionCostArea == null) {
             return;
         }
 
@@ -644,14 +642,13 @@ public class ScanFieldAutomaticLocator {
                 // Keep only rect that are between the power up button Y coordinates
                 .filter(ByMinY.of(powerUpButton.y))
                 .filter(ByMaxY.of(powerUpButton.y + powerUpButton.height))
-                // Keep only bounding rect between half width and candy amount rect start
+                // Keep only bounding rect between half width and evolution cost rect start
                 .filter(ByMinX.of(width50Percent))
-                .filter(ByMaxX.of(results.pokemonCandyAmountArea.xPoint))
+                .filter(ByMaxX.of(results.pokemonEvolutionCostArea.xPoint))
                 .toList();
 
         //noinspection PointlessBooleanExpression
         if (BuildConfig.DEBUG && debugExecution) {
-            //noinspection ConstantConditions
             p.setColor(Color.RED);
             debugPrintRectList(candidates, c, p);
         }
@@ -665,7 +662,6 @@ public class ScanFieldAutomaticLocator {
 
         //noinspection PointlessBooleanExpression
         if (BuildConfig.DEBUG && debugExecution) {
-            //noinspection ConstantConditions
             p.setColor(Color.YELLOW);
             debugPrintRectList(candidates, c, p);
         }
@@ -677,7 +673,6 @@ public class ScanFieldAutomaticLocator {
 
         //noinspection PointlessBooleanExpression
         if (BuildConfig.DEBUG && debugExecution) {
-            //noinspection ConstantConditions
             p.setColor(Color.GREEN);
             debugPrintRectList(candidates, c, p);
         }
@@ -704,11 +699,9 @@ public class ScanFieldAutomaticLocator {
      */
     private void findPokemonPowerUpCandyCostArea(ScanFieldResults results) {
         final boolean debugExecution = false; // Activate this flag to display the onscreen debug graphics
-
-        //noinspection UnusedAssignment
         Canvas c = null;
-        //noinspection UnusedAssignment
         Paint p = null;
+
         //noinspection PointlessBooleanExpression
         if (BuildConfig.DEBUG && debugExecution) {
             c = new Canvas(bmp);
@@ -717,7 +710,7 @@ public class ScanFieldAutomaticLocator {
             debugPrintRectList(boundingRectList, c, p);
         }
 
-        if (powerUpButton == null || results.pokemonCandyAmountArea == null) {
+        if (powerUpButton == null || results.pokemonEvolutionCostArea == null) {
             return;
         }
 
@@ -726,13 +719,12 @@ public class ScanFieldAutomaticLocator {
                 .filter(ByMinY.of(powerUpButton.y))
                 .filter(ByMaxY.of(powerUpButton.y + powerUpButton.height))
                 // Keep only bounding rect between the candy amount area X coordinates
-                .filter(ByMinX.of(results.pokemonCandyAmountArea.xPoint))
-                .filter(ByMaxX.of(results.pokemonCandyAmountArea.xPoint + results.pokemonCandyAmountArea.width))
+                .filter(ByMinX.of(results.pokemonEvolutionCostArea.xPoint))
+                .filter(ByMaxX.of(results.pokemonEvolutionCostArea.xPoint + results.pokemonEvolutionCostArea.width))
                 .toList();
 
         //noinspection PointlessBooleanExpression
         if (BuildConfig.DEBUG && debugExecution) {
-            //noinspection ConstantConditions
             p.setColor(Color.RED);
             debugPrintRectList(candidates, c, p);
         }
@@ -746,7 +738,6 @@ public class ScanFieldAutomaticLocator {
 
         //noinspection PointlessBooleanExpression
         if (BuildConfig.DEBUG && debugExecution) {
-            //noinspection ConstantConditions
             p.setColor(Color.YELLOW);
             debugPrintRectList(candidates, c, p);
         }
@@ -758,7 +749,6 @@ public class ScanFieldAutomaticLocator {
 
         //noinspection PointlessBooleanExpression
         if (BuildConfig.DEBUG && debugExecution) {
-            //noinspection ConstantConditions
             p.setColor(Color.GREEN);
             debugPrintRectList(candidates, c, p);
         }
@@ -771,8 +761,8 @@ public class ScanFieldAutomaticLocator {
 
         // Increase the width of 10% on the left
         result.x -= result.width * 0.1;
-        // Make it end exactly where Pokémon candy amount ends
-        result.width = (results.pokemonCandyAmountArea.xPoint + results.pokemonCandyAmountArea.width) - result.x;
+        // Make it end exactly where Pokémon evolution cost ends
+        result.width = (results.pokemonEvolutionCostArea.xPoint + results.pokemonEvolutionCostArea.width) - result.x;
 
         // Increase the height of 20% on top and 20% below
         result.y -= result.height * 0.2;
@@ -787,11 +777,9 @@ public class ScanFieldAutomaticLocator {
      */
     private void findPokemonCandyAmountArea(ScanFieldResults results) {
         final boolean debugExecution = false; // Activate this flag to display the onscreen debug graphics
-
-        //noinspection UnusedAssignment
         Canvas c = null;
-        //noinspection UnusedAssignment
         Paint p = null;
+
         //noinspection PointlessBooleanExpression
         if (BuildConfig.DEBUG && debugExecution) {
             c = new Canvas(bmp);
@@ -820,19 +808,17 @@ public class ScanFieldAutomaticLocator {
 
         //noinspection PointlessBooleanExpression
         if (BuildConfig.DEBUG && debugExecution) {
-            //noinspection ConstantConditions
             p.setColor(Color.RED);
             debugPrintRectList(candidates, c, p);
         }
 
         candidates = FluentIterable.from(candidates)
-                // Check if the dominant color of the contour matches the light green hue of PoGO text
+                // Check if the dominant color of the contour matches the dark green hue of PoGO text
                 .filter(ByHsvColor.of(image, mask1, contours, boundingRectList, HSV_GREEN_DARK, 5, 0.275f, 0.275f))
                 .toList();
 
         //noinspection PointlessBooleanExpression
         if (BuildConfig.DEBUG && debugExecution) {
-            //noinspection ConstantConditions
             p.setColor(Color.YELLOW);
             debugPrintRectList(candidates, c, p);
         }
@@ -844,7 +830,6 @@ public class ScanFieldAutomaticLocator {
 
         //noinspection PointlessBooleanExpression
         if (BuildConfig.DEBUG && debugExecution) {
-            //noinspection ConstantConditions
             p.setColor(Color.GREEN);
             debugPrintRectList(candidates, c, p);
         }
@@ -1018,25 +1003,31 @@ public class ScanFieldAutomaticLocator {
     }
 
     /**
-     * Find the area where the candy name (such as "eevee candy") is listed.
+     * Find the height of the STARDUST label (used fixing the candy name area height)
      */
-    private void findPokemonCandyNameArea(ScanFieldResults results) {
+    private int findStardustLabelHeight(ScanFieldResults results) {
         final boolean debugExecution = false; // Activate this flag to display the onscreen debug graphics
-
-        //noinspection UnusedAssignment
         Canvas c = null;
-        //noinspection UnusedAssignment
         Paint p = null;
+
         //noinspection PointlessBooleanExpression
         if (BuildConfig.DEBUG && debugExecution) {
             c = new Canvas(bmp);
             p = getDebugPaint();
             p.setColor(Color.MAGENTA);
-            debugPrintRectList(boundingRectList, c, p);
+            //debugPrintRectList(boundingRectList, c, p);
         }
 
-        if (greyHorizontalLine == null || powerUpButton == null) {
-            return;
+        if (  (greyHorizontalLine == null && results.pokemonCandyAmountArea == null)
+            || powerUpButton == null) {
+            return 0;
+        }
+
+        int upperBound;
+        if (results.pokemonCandyAmountArea != null) {
+            upperBound = results.pokemonCandyAmountArea.yPoint + results.pokemonCandyAmountArea.height;
+        } else {
+            upperBound = greyHorizontalLine.y + greyHorizontalLine.height;
         }
 
         //noinspection PointlessBooleanExpression
@@ -1047,23 +1038,22 @@ public class ScanFieldAutomaticLocator {
             debugPrintRectList(Collections.singletonList(greyHorizontalLine), c, p);
             debugPrintRectList(Collections.singletonList(powerUpButton), c, p);
             debugPrintLineVertical(width33Percent, c, p);
-            debugPrintLineVertical(greyHorizontalLine.x + greyHorizontalLine.width, c, p);
-            debugPrintLineHorizontal(greyHorizontalLine.y + greyHorizontalLine.height, c, p);
+            debugPrintLineVertical(greyHorizontalLine.x, c, p);
+            debugPrintLineHorizontal(upperBound, c, p);
             debugPrintLineHorizontal(powerUpButton.y, c, p);
         }
 
         List<Rect> candidates = FluentIterable.from(boundingRectList)
                 // Keep only bounding rect between 50% of the image width, before the end of the horizontal grey
                 // divider line and below it and above the power up button
-                .filter(Predicates.and(ByMinX.of(width33Percent),
-                        ByMaxX.of(greyHorizontalLine.x + greyHorizontalLine.width),
-                        ByMinY.of(greyHorizontalLine.y + greyHorizontalLine.height),
+                .filter(Predicates.and(ByMinX.of(greyHorizontalLine.x),
+                        ByMaxX.of(width33Percent),
+                        ByMinY.of(upperBound),
                         ByMaxY.of(powerUpButton.y)))
                 .toList();
 
         //noinspection PointlessBooleanExpression
         if (BuildConfig.DEBUG && debugExecution) {
-            //noinspection ConstantConditions
             p.setColor(Color.RED);
             debugPrintRectList(candidates, c, p);
         }
@@ -1075,7 +1065,6 @@ public class ScanFieldAutomaticLocator {
 
         //noinspection PointlessBooleanExpression
         if (BuildConfig.DEBUG && debugExecution) {
-            //noinspection ConstantConditions
             p.setColor(Color.YELLOW);
             debugPrintRectList(candidates, c, p);
         }
@@ -1087,7 +1076,94 @@ public class ScanFieldAutomaticLocator {
 
         //noinspection PointlessBooleanExpression
         if (BuildConfig.DEBUG && debugExecution) {
-            //noinspection ConstantConditions
+            p.setColor(Color.GREEN);
+            debugPrintRectList(candidates, c, p);
+        }
+
+        if (candidates.size() == 0) {
+            return 0;
+        }
+
+        Rect result = mergeRectList(candidates);
+
+        // increase the height by 20% on each side (like candy name)
+        return result.height;
+    }
+
+    /**
+     * Find the area where the candy name (such as "eevee candy") is listed.
+     */
+    private void findPokemonCandyNameArea(ScanFieldResults results, int stardustHeight) {
+        final boolean debugExecution = false; // Activate this flag to display the onscreen debug graphics
+        Canvas c = null;
+        Paint p = null;
+
+        //noinspection PointlessBooleanExpression
+        if (BuildConfig.DEBUG && debugExecution) {
+            c = new Canvas(bmp);
+            p = getDebugPaint();
+            p.setColor(Color.MAGENTA);
+            debugPrintRectList(boundingRectList, c, p);
+        }
+
+        if (  (greyHorizontalLine == null && results.pokemonCandyAmountArea == null)
+            || powerUpButton == null) {
+            return;
+        }
+
+        int upperBound;
+        if (results.pokemonCandyAmountArea != null) {
+            upperBound = results.pokemonCandyAmountArea.yPoint + results.pokemonCandyAmountArea.height;
+        } else {
+            upperBound = greyHorizontalLine.y + greyHorizontalLine.height;
+        }
+
+        //noinspection PointlessBooleanExpression
+        if (BuildConfig.DEBUG && debugExecution) {
+            c = new Canvas(bmp);
+            p = getDebugPaint();
+            p.setColor(Color.BLUE);
+            debugPrintRectList(Collections.singletonList(greyHorizontalLine), c, p);
+            debugPrintRectList(Collections.singletonList(powerUpButton), c, p);
+            debugPrintLineVertical(width33Percent, c, p);
+            debugPrintLineVertical(greyHorizontalLine.x + greyHorizontalLine.width, c, p);
+            debugPrintLineHorizontal(upperBound, c, p);
+            debugPrintLineHorizontal(powerUpButton.y, c, p);
+        }
+
+        List<Rect> candidates = FluentIterable.from(boundingRectList)
+                // Keep only bounding rect between 50% of the image width, before the end of the horizontal grey
+                // divider line and below it and above the power up button
+                .filter(Predicates.and(ByMinX.of(width33Percent),
+                        ByMaxX.of(greyHorizontalLine.x + greyHorizontalLine.width),
+                        ByMinY.of(upperBound),
+                        ByMaxY.of(powerUpButton.y)))
+                .toList();
+
+        //noinspection PointlessBooleanExpression
+        if (BuildConfig.DEBUG && debugExecution) {
+            p.setColor(Color.RED);
+            debugPrintRectList(candidates, c, p);
+        }
+
+        candidates = FluentIterable.from(candidates)
+                // Check if the dominant color of the contour matches the light green hue of PoGO small text
+                .filter(ByHsvColor.of(image, mask1, contours, boundingRectList, HSV_GREEN_LIGHT, 5, 0.125f, 0.090f))
+                .toList();
+
+        //noinspection PointlessBooleanExpression
+        if (BuildConfig.DEBUG && debugExecution) {
+            p.setColor(Color.YELLOW);
+            debugPrintRectList(candidates, c, p);
+        }
+
+        candidates = FluentIterable.from(candidates)
+                // Remove the outliers
+                .filter(ByChauvenetCriterionOnBottomY.of(candidates))
+                .toList();
+
+        //noinspection PointlessBooleanExpression
+        if (BuildConfig.DEBUG && debugExecution) {
             p.setColor(Color.GREEN);
             debugPrintRectList(candidates, c, p);
         }
@@ -1107,9 +1183,16 @@ public class ScanFieldAutomaticLocator {
             result.width = width90Percent - result.x;
         }
 
+        // Using the height of the stardust label allows us to get a good calibration on wrapped text
+        if (stardustHeight > 0) {
+            if (abs(stardustHeight - result.height) > Math.min(stardustHeight, result.height) * 0.1) {
+                results.candyNameWrapped = true;
+            }
+            result.height = stardustHeight;
+        }
         // Increase the height of 20% on top and 20% below
         result.y -= result.height * 0.2;
-        result.height += result.height * 0.4;
+        result.height *= 1.4;
 
         results.candyNameArea = new ScanArea(result.x, result.y, result.width, result.height);
     }
@@ -1119,11 +1202,9 @@ public class ScanFieldAutomaticLocator {
      */
     private void findPokemonTypeArea(ScanFieldResults results) {
         final boolean debugExecution = false; // Activate this flag to display the onscreen debug graphics
-
-        //noinspection UnusedAssignment
         Canvas c = null;
-        //noinspection UnusedAssignment
         Paint p = null;
+
         //noinspection PointlessBooleanExpression
         if (BuildConfig.DEBUG && debugExecution) {
             c = new Canvas(bmp);
@@ -1154,7 +1235,6 @@ public class ScanFieldAutomaticLocator {
 
         //noinspection PointlessBooleanExpression
         if (BuildConfig.DEBUG && debugExecution) {
-            //noinspection ConstantConditions
             p.setColor(Color.RED);
             debugPrintRectList(candidates, c, p);
         }
@@ -1166,7 +1246,6 @@ public class ScanFieldAutomaticLocator {
 
         //noinspection PointlessBooleanExpression
         if (BuildConfig.DEBUG && debugExecution) {
-            //noinspection ConstantConditions
             p.setColor(Color.YELLOW);
             debugPrintRectList(candidates, c, p);
         }
@@ -1178,7 +1257,6 @@ public class ScanFieldAutomaticLocator {
 
         //noinspection PointlessBooleanExpression
         if (BuildConfig.DEBUG && debugExecution) {
-            //noinspection ConstantConditions
             p.setColor(Color.GREEN);
             debugPrintRectList(candidates, c, p);
         }
@@ -1541,7 +1619,7 @@ public class ScanFieldAutomaticLocator {
         }
 
         @Override public boolean apply(@Nullable Rect input) {
-            return input != null && Math.abs(input.width - targetWidth) < delta;
+            return input != null && abs(input.width - targetWidth) < delta;
         }
     }
 
@@ -1559,7 +1637,7 @@ public class ScanFieldAutomaticLocator {
         }
 
         @Override public boolean apply(@Nullable Rect input) {
-            return input != null && Math.abs(input.height - targetHeight) < delta;
+            return input != null && abs(input.height - targetHeight) < delta;
         }
     }
 
@@ -1648,11 +1726,11 @@ public class ScanFieldAutomaticLocator {
                 Imgproc.drawContours(mask, contours, contours.indexOf(contour), SCALAR_ON, -1);
                 Scalar meanColor = Core.mean(image, mask);
                 Color.RGBToHSV((int) meanColor.val[0], (int) meanColor.val[1], (int) meanColor.val[2], meanHsv);
-                if ((Math.abs(color[0] - meanHsv[0]) <= dH
+                if ((abs(color[0] - meanHsv[0]) <= dH
                         || meanHsv[0] > 360 + color[0] - dH
                         || meanHsv[0] < -color[0] + dH)
-                        && Math.abs(color[1] - meanHsv[1]) <= dS
-                        && Math.abs(color[2] - meanHsv[2]) <= dV) {
+                        && abs(color[1] - meanHsv[1]) <= dS
+                        && abs(color[2] - meanHsv[2]) <= dV) {
                     return true;
                 }
             }

@@ -23,7 +23,7 @@ public class Food {
     @Expose
     private String mapDurationMs;
     @Expose
-    private String activeDurationMs;
+    private String timeFullDurationMs;
     @Expose
     private Integer numBuddyHungerPoints;
 
@@ -61,9 +61,9 @@ public class Food {
 
     public void setMapDurationMs(String mapDurationMs) { this.mapDurationMs = mapDurationMs; }
 
-    public String getActiveDurationMs() { return activeDurationMs; }
+    public String getTimeFullDurationMs() { return timeFullDurationMs; }
 
-    public void setActiveDurationMs(String activeDurationMs) { this.activeDurationMs = activeDurationMs; }
+    public void setTimeFullDurationMs(String timeFullDurationMs) { this.timeFullDurationMs = timeFullDurationMs; }
 
     public Integer getNumBuddyHungerPoints() { return numBuddyHungerPoints; }
 

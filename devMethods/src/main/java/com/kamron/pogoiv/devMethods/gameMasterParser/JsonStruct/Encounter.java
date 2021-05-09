@@ -39,6 +39,8 @@ public class Encounter {
     private Integer bonusCandyCaptureReward;
     @Expose
     private Integer bonusStardustCaptureReward;
+    @Expose
+    private Integer bonusXlCandyCaptureReward;
 
     public Double getBaseCaptureRate() {
         return baseCaptureRate;
@@ -178,5 +180,13 @@ public class Encounter {
 
     public void setBonusStardustCaptureReward(Integer bonusStardustCaptureReward) {
         this.bonusStardustCaptureReward = bonusStardustCaptureReward;
+    }
+
+    public Integer getBonusXlCandyCaptureReward() {
+        return bonusXlCandyCaptureReward;
+    }
+
+    public void setBonusXlCandyCaptureReward(Integer bonusXlCandyCaptureReward) {
+        this.bonusXlCandyCaptureReward = bonusXlCandyCaptureReward;
     }
 }

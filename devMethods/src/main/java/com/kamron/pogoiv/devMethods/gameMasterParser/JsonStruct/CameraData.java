@@ -7,15 +7,12 @@ public class CameraData {
 
     @Expose
     private Double diskRadiusM;
-    @SerializedName("cylRadiusM")
     @Expose
     private Double cylinderRadiusM;
-    @SerializedName("cylHeightM")
     @Expose
     private Double cylinderHeightM;
     @Expose
     private Double shoulderModeScale;
-    @SerializedName("cylGroundM")
     @Expose
     private Double cylinderGroundM;
 

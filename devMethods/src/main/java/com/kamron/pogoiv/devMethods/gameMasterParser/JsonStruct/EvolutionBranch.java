@@ -37,6 +37,8 @@ public class EvolutionBranch {
     private Boolean onlyNighttime = false;
     @Expose
     private String genderRequirement;
+    @Expose
+    private boolean onlyUpsideDown = false;
 
     public String getEvolution() { return evolution; }
 
@@ -110,4 +112,12 @@ public class EvolutionBranch {
     public String getGenderRequirement() { return genderRequirement; }
 
     public void setGenderRequirement(String genderRequirement) { this.genderRequirement = genderRequirement; }
+
+    public boolean isOnlyUpsideDown() {
+        return onlyUpsideDown;
+    }
+
+    public void setOnlyUpsideDown(boolean onlyUpsideDown) {
+        this.onlyUpsideDown = onlyUpsideDown;
+    }
 }

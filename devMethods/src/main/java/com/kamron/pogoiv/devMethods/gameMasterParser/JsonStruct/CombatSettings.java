@@ -44,7 +44,7 @@ public class CombatSettings {
     @Expose
     private Integer notVeryEffectiveFlyoutDurationTurns;
     @Expose
-    private Integer blockedFlyoutDurationTurns;
+    private Integer blockedEffectiveFlyoutDurationTurns;
     @Expose
     private Integer normalEffectiveFlyoutDurationTurns;
     @Expose
@@ -166,10 +166,10 @@ public class CombatSettings {
         this.notVeryEffectiveFlyoutDurationTurns = notVeryEffectiveFlyoutDurationTurns;
     }
 
-    public Integer getBlockedFlyoutDurationTurns() { return blockedFlyoutDurationTurns; }
+    public Integer getBlockedEffectiveFlyoutDurationTurns() { return blockedEffectiveFlyoutDurationTurns; }
 
-    public void setBlockedFlyoutDurationTurns(Integer blockedFlyoutDurationTurns) {
-        this.blockedFlyoutDurationTurns = blockedFlyoutDurationTurns;
+    public void setBlockedEffectiveFlyoutDurationTurns(Integer blockedEffectiveFlyoutDurationTurns) {
+        this.blockedEffectiveFlyoutDurationTurns = blockedEffectiveFlyoutDurationTurns;
     }
 
     public Integer getNormalEffectiveFlyoutDurationTurns() { return normalEffectiveFlyoutDurationTurns; }

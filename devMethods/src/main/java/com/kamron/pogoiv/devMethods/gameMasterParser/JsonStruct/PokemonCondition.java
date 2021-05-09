@@ -15,6 +15,8 @@ public class PokemonCondition {
     private WithPokemonType withPokemonType;
     @Expose
     private PokemonBanlist pokemonBanlist;
+    @Expose
+    private PokemonWhitelist pokemonWhitelist;
 
     public String getType() { return type; }
 

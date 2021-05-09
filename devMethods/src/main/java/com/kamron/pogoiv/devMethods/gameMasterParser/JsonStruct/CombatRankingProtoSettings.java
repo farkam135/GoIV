@@ -14,7 +14,7 @@ public class CombatRankingProtoSettings {
     @Expose
     private Integer minRankToDisplayRating;
     @Expose
-    private Integer seasonNumber;
+    private Integer minRatingRequired;
 
     public List<RankLevel> getRankLevels() { return rankLevels; }
 
@@ -31,7 +31,7 @@ public class CombatRankingProtoSettings {
         this.minRankToDisplayRating = minRankToDisplayRating;
     }
 
-    public Integer getSeasonNumber() { return seasonNumber; }
+    public Integer getMinRatingRequired() { return minRatingRequired; }
 
-    public void setSeasonNumber(Integer seasonNumber) { this.seasonNumber = seasonNumber; }
+    public void setMinRatingRequired(Integer minRatingRequired) { this.minRatingRequired = minRatingRequired; }
 }

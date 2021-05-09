@@ -14,23 +14,23 @@ public class Camera {
     @Expose
     private List<Double> easeOutSpeed = null;
     @Expose
-    private List<Double> durationS = null;
+    private List<Double> durationSeconds = null;
     @Expose
-    private List<Double> waitS = null;
+    private List<Double> waitSeconds = null;
     @Expose
-    private List<Double> transitionS = null;
+    private List<Double> transitionSeconds = null;
     @Expose
-    private List<Double> angleDeg = null;
+    private List<Double> angleDegree = null;
     @Expose
-    private List<Double> angleOffsetDeg = null;
+    private List<Double> angleOffsetDegree = null;
     @Expose
-    private List<Double> pitchDeg = null;
+    private List<Double> pitchDegree = null;
     @Expose
-    private List<Double> pitchOffsetDeg = null;
+    private List<Double> pitchOffsetDegree = null;
     @Expose
-    private List<Double> rollDeg = null;
+    private List<Double> rollDegree = null;
     @Expose
-    private List<Double> distanceM = null;
+    private List<Double> distanceMeters = null;
     @Expose
     private List<Double> heightPercent = null;
     @Expose
@@ -54,41 +54,41 @@ public class Camera {
 
     public void setEaseOutSpeed(List<Double> easeOutSpeed) { this.easeOutSpeed = easeOutSpeed; }
 
-    public List<Double> getDurationS() { return durationS; }
+    public List<Double> getDurationSeconds() { return durationSeconds; }
 
-    public void setDurationS(List<Double> durationS) { this.durationS = durationS; }
+    public void setDurationSeconds(List<Double> durationSeconds) { this.durationSeconds = durationSeconds; }
 
-    public List<Double> getWaitS() { return waitS; }
+    public List<Double> getWaitSeconds() { return waitSeconds; }
 
-    public void setWaitS(List<Double> waitS) { this.waitS = waitS; }
+    public void setWaitSeconds(List<Double> waitSeconds) { this.waitSeconds = waitSeconds; }
 
-    public List<Double> getTransitionS() { return transitionS; }
+    public List<Double> getTransitionSeconds() { return transitionSeconds; }
 
-    public void setTransitionS(List<Double> transitionS) { this.transitionS = transitionS; }
+    public void setTransitionSeconds(List<Double> transitionSeconds) { this.transitionSeconds = transitionSeconds; }
 
-    public List<Double> getAngleDeg() { return angleDeg; }
+    public List<Double> getAngleDegree() { return angleDegree; }
 
-    public void setAngleDeg(List<Double> angleDeg) { this.angleDeg = angleDeg; }
+    public void setAngleDegree(List<Double> angleDegree) { this.angleDegree = angleDegree; }
 
-    public List<Double> getAngleOffsetDeg() { return angleOffsetDeg; }
+    public List<Double> getAngleOffsetDegree() { return angleOffsetDegree; }
 
-    public void setAngleOffsetDeg(List<Double> angleOffsetDeg) { this.angleOffsetDeg = angleOffsetDeg; }
+    public void setAngleOffsetDegree(List<Double> angleOffsetDegree) { this.angleOffsetDegree = angleOffsetDegree; }
 
-    public List<Double> getPitchDeg() { return pitchDeg; }
+    public List<Double> getPitchDegree() { return pitchDegree; }
 
-    public void setPitchDeg(List<Double> pitchDeg) { this.pitchDeg = pitchDeg; }
+    public void setPitchDegree(List<Double> pitchDegree) { this.pitchDegree = pitchDegree; }
 
-    public List<Double> getPitchOffsetDeg() { return pitchOffsetDeg; }
+    public List<Double> getPitchOffsetDegree() { return pitchOffsetDegree; }
 
-    public void setPitchOffsetDeg(List<Double> pitchOffsetDeg) { this.pitchOffsetDeg = pitchOffsetDeg; }
+    public void setPitchOffsetDegree(List<Double> pitchOffsetDegree) { this.pitchOffsetDegree = pitchOffsetDegree; }
 
-    public List<Double> getRollDeg() { return rollDeg; }
+    public List<Double> getRollDegree() { return rollDegree; }
 
-    public void setRollDeg(List<Double> rollDeg) { this.rollDeg = rollDeg; }
+    public void setRollDegree(List<Double> rollDegree) { this.rollDegree = rollDegree; }
 
-    public List<Double> getDistanceM() { return distanceM; }
+    public List<Double> getDistanceMeters() { return distanceMeters; }
 
-    public void setDistanceM(List<Double> distanceM) { this.distanceM = distanceM; }
+    public void setDistanceMeters(List<Double> distanceMeters) { this.distanceMeters = distanceMeters; }
 
     public List<Double> getHeightPercent() { return heightPercent; }
 

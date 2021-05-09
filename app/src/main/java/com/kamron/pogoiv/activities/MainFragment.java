@@ -184,7 +184,7 @@ public class MainFragment extends Fragment {
 
         githubButton.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
-                Uri uriUrl = Uri.parse("https://github.com/farkam135/GoIV");
+                Uri uriUrl = Uri.parse("https://github.com/GoIV-Devs/GoIV");
                 Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
                 startActivity(launchBrowser);
             }

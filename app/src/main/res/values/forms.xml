@@ -64,6 +64,7 @@
  <item>2</item> <!-- Meloetta -->
  <item>5</item> <!-- Genesect -->
  <item>2</item> <!-- Pyroar -->
+ <item>10</item> <!-- Furfrou -->
  <item>2</item> <!-- Meowstic -->
 </integer-array>
 <string-array name="formNames">
@@ -130,7 +131,8 @@
  <item>Ordinary Form</item> <item>Resolute Form</item> <!-- Meloetta -->
  <item>Aria Form</item> <item>Pirouette Form</item> <!-- Genesect -->
  <item>Normal Form</item> <item>Douse Form</item> <item>Shock Form</item> <item>Burn Form</item> <item>Chill Form</item> <!-- Pyroar -->
- <item>Normal Form</item> <item>Female Form</item> <!-- Meowstic -->
+ <item>Normal Form</item> <item>Female Form</item> <!-- Furfrou -->
+ <item>Natural Form</item> <item>Heart Form</item> <item>Star Form</item> <item>Diamond Form</item> <item>Debutante Form</item> <item>Matron Form</item> <item>Dandy Form</item> <item>La Reine Form</item> <item>Kabuki Form</item> <item>Pharaoh Form</item> <!-- Meowstic -->
  <item>Normal Form</item> <item>Female Form</item></string-array>
 <integer-array name="formAttack">
  <!-- Rattata -->
@@ -405,6 +407,17 @@
  <!-- Pyroar -->
  <item>221</item> <!-- Normal Form -->
  <item>221</item> <!-- Female Form -->
+ <!-- Furfrou -->
+ <item>164</item> <!-- Natural Form -->
+ <item>164</item> <!-- Heart Form -->
+ <item>164</item> <!-- Star Form -->
+ <item>164</item> <!-- Diamond Form -->
+ <item>164</item> <!-- Debutante Form -->
+ <item>164</item> <!-- Matron Form -->
+ <item>164</item> <!-- Dandy Form -->
+ <item>164</item> <!-- La Reine Form -->
+ <item>164</item> <!-- Kabuki Form -->
+ <item>164</item> <!-- Pharaoh Form -->
  <!-- Meowstic -->
  <item>166</item> <!-- Normal Form -->
  <item>166</item> <!-- Female Form -->
@@ -682,6 +695,17 @@
  <!-- Pyroar -->
  <item>149</item> <!-- Normal Form -->
  <item>149</item> <!-- Female Form -->
+ <!-- Furfrou -->
+ <item>167</item> <!-- Natural Form -->
+ <item>167</item> <!-- Heart Form -->
+ <item>167</item> <!-- Star Form -->
+ <item>167</item> <!-- Diamond Form -->
+ <item>167</item> <!-- Debutante Form -->
+ <item>167</item> <!-- Matron Form -->
+ <item>167</item> <!-- Dandy Form -->
+ <item>167</item> <!-- La Reine Form -->
+ <item>167</item> <!-- Kabuki Form -->
+ <item>167</item> <!-- Pharaoh Form -->
  <!-- Meowstic -->
  <item>167</item> <!-- Normal Form -->
  <item>167</item> <!-- Female Form -->
@@ -959,6 +983,17 @@
  <!-- Pyroar -->
  <item>200</item> <!-- Normal Form -->
  <item>200</item> <!-- Female Form -->
+ <!-- Furfrou -->
+ <item>181</item> <!-- Natural Form -->
+ <item>181</item> <!-- Heart Form -->
+ <item>181</item> <!-- Star Form -->
+ <item>181</item> <!-- Diamond Form -->
+ <item>181</item> <!-- Debutante Form -->
+ <item>181</item> <!-- Matron Form -->
+ <item>181</item> <!-- Dandy Form -->
+ <item>181</item> <!-- La Reine Form -->
+ <item>181</item> <!-- Kabuki Form -->
+ <item>181</item> <!-- Pharaoh Form -->
  <!-- Meowstic -->
  <item>179</item> <!-- Normal Form -->
  <item>179</item> <!-- Female Form -->

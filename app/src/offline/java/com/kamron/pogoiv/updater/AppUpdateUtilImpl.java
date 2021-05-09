@@ -22,7 +22,7 @@ public class AppUpdateUtilImpl extends AppUpdateUtil {
 
         // Manual update from GitHub
         Intent i = new Intent(Intent.ACTION_VIEW);
-        i.setData(Uri.parse("https://github.com/farkam135/GoIV/releases"));
+        i.setData(Uri.parse("https://github.com/GoIV-Devs/GoIV/releases"));
         context.startActivity(i);
     }
 

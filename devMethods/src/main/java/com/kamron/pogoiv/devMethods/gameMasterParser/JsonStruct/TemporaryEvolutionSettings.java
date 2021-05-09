@@ -6,13 +6,13 @@ import java.util.List;
 
 public class TemporaryEvolutionSettings {
     @Expose
-    private String pokemon;
+    private String pokemonId;
     @Expose
     private List<TemporaryEvolution> temporaryEvolutions = null;
 
-    public String getPokemon() { return pokemon; }
+    public String getPokemonId() { return pokemonId; }
 
-    public void setPokemon(String pokemon) { this.pokemon = pokemon; }
+    public void setPokemonId(String pokemonId) { this.pokemonId = pokemonId; }
 
     public List<TemporaryEvolution> getTemporaryEvolutions() { return temporaryEvolutions; }
 

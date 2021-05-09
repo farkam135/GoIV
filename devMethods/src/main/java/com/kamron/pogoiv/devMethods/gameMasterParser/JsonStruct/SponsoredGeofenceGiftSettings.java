@@ -10,9 +10,9 @@ public class SponsoredGeofenceGiftSettings {
     @Expose
     private Boolean enableSponsoredGeofenceGift = false;
     @Expose
-    private Boolean enablePoiGift = false;
+    private Integer fullscreenDisableExitButtonTimeMs;
     @Expose
-    private Boolean enableIncidentGift = false;
+    private BalloonGiftSettings balloonGiftSettings;
 
     public Integer getGiftPersistenceTimeMs() { return giftPersistenceTimeMs; }
 
@@ -32,11 +32,20 @@ public class SponsoredGeofenceGiftSettings {
         this.enableSponsoredGeofenceGift = enableSponsoredGeofenceGift;
     }
 
-    public Boolean getEnablePoiGift() { return enablePoiGift; }
+    public Integer getFullscreenDisableExitButtonTimeMs() {
+        return fullscreenDisableExitButtonTimeMs;
+    }
 
-    public void setEnablePoiGift(Boolean enablePoiGift) { this.enablePoiGift = enablePoiGift; }
+    public void setFullscreenDisableExitButtonTimeMs(Integer fullscreenDisableExitButtonTimeMs) {
+        this.fullscreenDisableExitButtonTimeMs = fullscreenDisableExitButtonTimeMs;
+    }
 
-    public Boolean getEnableIncidentGift() { return enableIncidentGift; }
+    public BalloonGiftSettings getBalloonGiftSettings() {
+        return balloonGiftSettings;
+    }
 
-    public void setEnableIncidentGift(Boolean enableIncidentGift) { this.enableIncidentGift = enableIncidentGift; }
+    public void setBalloonGiftSettings(
+            BalloonGiftSettings balloonGiftSettings) {
+        this.balloonGiftSettings = balloonGiftSettings;
+    }
 }

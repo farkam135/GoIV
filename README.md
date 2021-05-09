@@ -1,11 +1,11 @@
 ﻿# GoIV, Android Project for Pokémon GO.
 
-[![Current Release](https://img.shields.io/github/release/farkam135/GoIV.svg?maxAge=21600 "Current Release")](https://github.com/farkam135/GoIV/releases/latest)
-[![Downloads](https://img.shields.io/github/downloads/farkam135/GoIV/total.svg?maxAge=21600 "Downloads")](https://github.com/farkam135/GoIV/releases)
-[![Travis Build Status](https://img.shields.io/travis/farkam135/GoIV/master.svg?maxAge=21600 "Travis Build Status")](https://travis-ci.org/farkam135/GoIV)
-[![License](https://img.shields.io/github/license/farkam135/GoIV.svg?maxAge=2592000 "License")](LICENSE.md)
+[![Current Release](https://img.shields.io/github/release/GoIV-Devs/GoIV.svg?maxAge=21600 "Current Release")](https://github.com/GoIV-Devs/GoIV/releases/latest)
+[![Downloads](https://img.shields.io/github/downloads/GoIV-Devs/GoIV/total.svg?maxAge=21600 "Downloads")](https://github.com/GoIV-Devs/GoIV/releases)
+[![Travis Build Status](https://img.shields.io/travis/GoIV-Devs/GoIV/master.svg?maxAge=21600 "Travis Build Status")](https://travis-ci.org/GoIV-Devs/GoIV)
+[![License](https://img.shields.io/github/license/GoIV-Devs/GoIV.svg?maxAge=2592000 "License")](LICENSE.md)
 
-### [Release Downloads](https://github.com/farkam135/GoIV/releases)
+### [Release Downloads](https://github.com/GoIV-Devs/GoIV/releases)
 ### [Google Play link](https://play.google.com/store/apps/details?id=org.opensource.goiv&hl=en)
 
 ## Table of Contents
@@ -69,7 +69,7 @@ GoIV would not have been possible without the help and support of the following 
 * Stuart Dorff
 * Kevin Do
 * Tommy Tran
-* [And further thanks to all who contribute to the project on GitHub](https://github.com/farkam135/GoIV/graphs/contributors)
+* [And further thanks to all who contribute to the project on GitHub](https://github.com/GoIV-Devs/GoIV/graphs/contributors)
 
 ## Contributing
 Want to contribute to the development of GoIV? [Click here](CONTRIBUTING.md) to learn how.

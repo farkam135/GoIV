@@ -707,12 +707,14 @@
  <item>160</item> <!-- Klefki -->
  <item>125</item> <!-- Phantump -->
  <item>201</item> <!-- Trevenant -->
+ <item>121</item> <!-- Pumpkaboo -->
+ <item>175</item> <!-- Gourgeist -->
  <item>117</item> <!-- Bergmite -->
  <item>196</item> <!-- Avalugg -->
  <item>83</item> <!-- Noibat -->
  <item>205</item> <!-- Noivern -->
- <item>275</item> <!-- Xerneas -->
- <item>275</item> <!-- Yveltal -->
+ <item>250</item> <!-- Xerneas -->
+ <item>250</item> <!-- Yveltal -->
  <item>118</item> <!-- Meltan -->
  <item>226</item> <!-- Melmetal -->
  <item>180</item> <!-- Obstagoon -->
@@ -1428,12 +1430,14 @@
  <item>179</item> <!-- Klefki -->
  <item>103</item> <!-- Phantump -->
  <item>154</item> <!-- Trevenant -->
+ <item>123</item> <!-- Pumpkaboo -->
+ <item>213</item> <!-- Gourgeist -->
  <item>120</item> <!-- Bergmite -->
  <item>240</item> <!-- Avalugg -->
  <item>73</item> <!-- Noibat -->
  <item>175</item> <!-- Noivern -->
- <item>203</item> <!-- Xerneas -->
- <item>203</item> <!-- Yveltal -->
+ <item>185</item> <!-- Xerneas -->
+ <item>185</item> <!-- Yveltal -->
  <item>99</item> <!-- Meltan -->
  <item>190</item> <!-- Melmetal -->
  <item>194</item> <!-- Obstagoon -->
@@ -2149,12 +2153,14 @@
  <item>149</item> <!-- Klefki -->
  <item>125</item> <!-- Phantump -->
  <item>198</item> <!-- Trevenant -->
+ <item>135</item> <!-- Pumpkaboo -->
+ <item>163</item> <!-- Gourgeist -->
  <item>146</item> <!-- Bergmite -->
  <item>216</item> <!-- Avalugg -->
  <item>120</item> <!-- Noibat -->
  <item>198</item> <!-- Noivern -->
- <item>270</item> <!-- Xerneas -->
- <item>270</item> <!-- Yveltal -->
+ <item>246</item> <!-- Xerneas -->
+ <item>246</item> <!-- Yveltal -->
  <item>130</item> <!-- Meltan -->
  <item>264</item> <!-- Melmetal -->
  <item>212</item> <!-- Obstagoon -->
@@ -2766,7 +2772,7 @@
  <item>598</item> <!-- Klang -->
  <item>599</item> <!-- Klinklang -->
  <item>-1</item> <!-- Tynamo -->
- <item>-1</item> <!-- Eelektrik -->
+ <item>601</item> <!-- Eelektrik -->
  <item>602</item> <!-- Eelektross -->
  <item>-1</item> <!-- Elgyem -->
  <item>604</item> <!-- Beheeyem -->
@@ -2828,50 +2834,52 @@
  <item>660</item> <!-- Fletchinder -->
  <item>661</item> <!-- Talonflame -->
  <item>-1</item> <!-- Scatterbug -->
- <item>-1</item> <!-- Spewpa -->
- <item>-1</item> <!-- Vivillon -->
+ <item>663</item> <!-- Spewpa -->
+ <item>664</item> <!-- Vivillon -->
  <item>-1</item> <!-- Litleo -->
  <item>666</item> <!-- Pyroar -->
  <item>-1</item> <!-- Flabebe -->
- <item>-1</item> <!-- Floette -->
- <item>-1</item> <!-- Florges -->
+ <item>668</item> <!-- Floette -->
+ <item>669</item> <!-- Florges -->
  <item>-1</item> <!-- Skiddo -->
- <item>-1</item> <!-- Gogoat -->
+ <item>671</item> <!-- Gogoat -->
  <item>-1</item> <!-- Pancham -->
- <item>-1</item> <!-- Pangoro -->
+ <item>673</item> <!-- Pangoro -->
  <item>-1</item> <!-- Furfrou -->
  <item>-1</item> <!-- Espurr -->
  <item>676</item> <!-- Meowstic -->
  <item>-1</item> <!-- Spritzee -->
- <item>-1</item> <!-- Aromatisse -->
+ <item>681</item> <!-- Aromatisse -->
  <item>-1</item> <!-- Swirlix -->
- <item>-1</item> <!-- Slurpuff -->
+ <item>683</item> <!-- Slurpuff -->
  <item>-1</item> <!-- Inkay -->
- <item>-1</item> <!-- Malamar -->
+ <item>685</item> <!-- Malamar -->
  <item>-1</item> <!-- Binacle -->
- <item>-1</item> <!-- Barbaracle -->
+ <item>687</item> <!-- Barbaracle -->
  <item>-1</item> <!-- Skrelp -->
- <item>-1</item> <!-- Dragalge -->
+ <item>689</item> <!-- Dragalge -->
  <item>-1</item> <!-- Clauncher -->
- <item>-1</item> <!-- Clawitzer -->
+ <item>691</item> <!-- Clawitzer -->
  <item>-1</item> <!-- Helioptile -->
- <item>-1</item> <!-- Heliolisk -->
+ <item>693</item> <!-- Heliolisk -->
  <item>-1</item> <!-- Tyrunt -->
- <item>-1</item> <!-- Tyrantrum -->
+ <item>695</item> <!-- Tyrantrum -->
  <item>-1</item> <!-- Amaura -->
- <item>-1</item> <!-- Aurorus -->
- <item>-1</item> <!-- Sylveon -->
+ <item>697</item> <!-- Aurorus -->
+ <item>132</item> <!-- Sylveon -->
  <item>-1</item> <!-- Hawlucha -->
  <item>-1</item> <!-- Dedenne -->
  <item>-1</item> <!-- Carbink -->
  <item>-1</item> <!-- Goomy -->
- <item>-1</item> <!-- Sliggoo -->
- <item>-1</item> <!-- Goodra -->
+ <item>703</item> <!-- Sliggoo -->
+ <item>704</item> <!-- Goodra -->
  <item>-1</item> <!-- Klefki -->
  <item>-1</item> <!-- Phantump -->
- <item>-1</item> <!-- Trevenant -->
+ <item>707</item> <!-- Trevenant -->
+ <item>-1</item> <!-- Pumpkaboo -->
+ <item>709</item> <!-- Gourgeist -->
  <item>-1</item> <!-- Bergmite -->
- <item>-1</item> <!-- Avalugg -->
+ <item>711</item> <!-- Avalugg -->
  <item>-1</item> <!-- Noibat -->
  <item>713</item> <!-- Noivern -->
  <item>-1</item> <!-- Xerneas -->
@@ -3571,7 +3579,7 @@
  <item>-1</item> <!-- Malamar -->
  <item>50</item> <!-- Binacle -->
  <item>-1</item> <!-- Barbaracle -->
- <item>400</item> <!-- Skrelp -->
+ <item>50</item> <!-- Skrelp -->
  <item>-1</item> <!-- Dragalge -->
  <item>50</item> <!-- Clauncher -->
  <item>-1</item> <!-- Clawitzer -->
@@ -3591,6 +3599,8 @@
  <item>-1</item> <!-- Klefki -->
  <item>50</item> <!-- Phantump -->
  <item>-1</item> <!-- Trevenant -->
+ <item>50</item> <!-- Pumpkaboo -->
+ <item>-1</item> <!-- Gourgeist -->
  <item>50</item> <!-- Bergmite -->
  <item>-1</item> <!-- Avalugg -->
  <item>400</item> <!-- Noibat -->
@@ -4312,6 +4322,8 @@
  <item>706</item> <!-- Klefki -->
  <item>707</item> <!-- Phantump -->
  <item>707</item> <!-- Trevenant -->
+ <item>709</item> <!-- Pumpkaboo -->
+ <item>709</item> <!-- Gourgeist -->
  <item>711</item> <!-- Bergmite -->
  <item>711</item> <!-- Avalugg -->
  <item>713</item> <!-- Noibat -->
@@ -5002,9 +5014,9 @@
  <item>-1</item> <!-- Gogoat -->
  <item>-1</item> <!-- Pancham -->
  <item>-1</item> <!-- Pangoro -->
- <item>-1</item> <!-- Furfrou -->
+ <item>63</item> <!-- Furfrou -->
  <item>-1</item> <!-- Espurr -->
- <item>63</item> <!-- Meowstic -->
+ <item>64</item> <!-- Meowstic -->
  <item>-1</item> <!-- Spritzee -->
  <item>-1</item> <!-- Aromatisse -->
  <item>-1</item> <!-- Swirlix -->
@@ -5033,6 +5045,8 @@
  <item>-1</item> <!-- Klefki -->
  <item>-1</item> <!-- Phantump -->
  <item>-1</item> <!-- Trevenant -->
+ <item>-1</item> <!-- Pumpkaboo -->
+ <item>-1</item> <!-- Gourgeist -->
  <item>-1</item> <!-- Bergmite -->
  <item>-1</item> <!-- Avalugg -->
  <item>-1</item> <!-- Noibat -->

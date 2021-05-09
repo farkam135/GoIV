@@ -1,6 +1,7 @@
 package com.kamron.pogoiv.devMethods.gameMasterParser.JsonStruct;
 
 import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 public class Data {
     @Expose
@@ -15,11 +16,11 @@ public class Data {
     @Expose
     private AvatarCustomization avatarCustomization;
     @Expose
-    private LevelUpRewards levelUpRewards;
+    private LevelUpRewards levelUpRewardSettings;
     @Expose
     private BackgroundModeSettings backgroundModeSettings;
     @Expose
-    private Badge badge;
+    private Badge badgeSettings;
     @Expose
     private BattleHubBadgeSettings battleHubBadgeSettings;
     @Expose
@@ -95,7 +96,7 @@ public class Data {
     @Expose
     private InventorySettings inventorySettings;
     @Expose
-    private Item item;
+    private ItemSettings itemSettings;
     @Expose
     private LimitedPurchaseSkuSettings limitedPurchaseSkuSettings;
     @Expose
@@ -131,9 +132,10 @@ public class Data {
     @Expose
     private QuestSettings questSettings;
     @Expose
-    private RaidSettingsProto raidSettingsProto;
+    private RaidSettings raidSettings;
+    @SerializedName("recomendedSearchSettings")
     @Expose
-    private RecommendedSearchProto recommendedSearchProto;
+    private RecommendedSearchSettings recommendedSearchSettings;
     @Expose
     private EvolutionQuestTemplate evolutionQuestTemplate;
     @Expose
@@ -155,15 +157,15 @@ public class Data {
     @Expose
     private PokemonFamily pokemonFamily;
     @Expose
-    private Pokemon pokemon;
+    private PokemonSettings pokemonSettings;
     @Expose
-    private Move move;
+    private MoveSettings moveSettings;
     @Expose
-    private PokemonHomeFormReversion pokemonHomeFormReversion;
+    private PokemonHomeFormReversion pokemonHomeFormReversions;
     @Expose
     private VsSeekerClientSettings vsSeekerClientSettings;
     @Expose
-    private VsSeekerLootProto vsSeekerLootProto;
+    private VsSeekerLoot vsSeekerLoot;
     @Expose
     private VsSeekerPokemonRewards vsSeekerPokemonRewards;
     @Expose
@@ -177,7 +179,13 @@ public class Data {
     @Expose
     private DeepLinkingSettings deepLinkingSettings;
     @Expose
-    private MoveSequence moveSequence;
+    private MoveSequenceSettings moveSequenceSettings;
+    @Expose
+    private EggTransparencySettings eggTransparencySettings;
+    @Expose
+    private IncidentPrioritySettings incidentPrioritySettings;
+    @Expose
+    private ReferralSettings referralSettings;
 
     public String getTemplateId() { return templateId; }
 
@@ -201,9 +209,9 @@ public class Data {
         this.avatarCustomization = avatarCustomization;
     }
 
-    public LevelUpRewards getLevelUpRewards() { return levelUpRewards; }
+    public LevelUpRewards getLevelUpRewardSettings() { return levelUpRewardSettings; }
 
-    public void setLevelUpRewards(LevelUpRewards levelUpRewards) { this.levelUpRewards = levelUpRewards; }
+    public void setLevelUpRewardSettings(LevelUpRewards levelUpRewardSettings) { this.levelUpRewardSettings = levelUpRewardSettings; }
 
     public BackgroundModeSettings getBackgroundModeSettings() { return backgroundModeSettings; }
 
@@ -211,9 +219,9 @@ public class Data {
         this.backgroundModeSettings = backgroundModeSettings;
     }
 
-    public Badge getBadge() { return badge; }
+    public Badge getBadgeSettings() { return badgeSettings; }
 
-    public void setBadge(Badge badge) { this.badge = badge; }
+    public void setBadgeSettings(Badge badgeSettings) { this.badgeSettings = badgeSettings; }
 
     public BattleHubBadgeSettings getBattleHubBadgeSettings() { return battleHubBadgeSettings; }
 
@@ -425,9 +433,9 @@ public class Data {
         this.inventorySettings = inventorySettings;
     }
 
-    public Item getItem() { return item; }
+    public ItemSettings getItemSettings() { return itemSettings; }
 
-    public void setItem(Item item) { this.item = item; }
+    public void setItemSettings(ItemSettings itemSettings) { this.itemSettings = itemSettings; }
 
     public LimitedPurchaseSkuSettings getLimitedPurchaseSkuSettings() { return limitedPurchaseSkuSettings; }
 
@@ -521,16 +529,16 @@ public class Data {
 
     public void setQuestSettings(QuestSettings questSettings) { this.questSettings = questSettings; }
 
-    public RaidSettingsProto getRaidSettingsProto() { return raidSettingsProto; }
+    public RaidSettings getRaidSettings() { return raidSettings; }
 
-    public void setRaidSettingsProto(RaidSettingsProto raidSettingsProto) {
-        this.raidSettingsProto = raidSettingsProto;
+    public void setRaidSettings(RaidSettings raidSettings) {
+        this.raidSettings = raidSettings;
     }
 
-    public RecommendedSearchProto getRecommendedSearchProto() { return recommendedSearchProto; }
+    public RecommendedSearchSettings getRecommendedSearchSettings() { return recommendedSearchSettings; }
 
-    public void setRecommendedSearchProto(RecommendedSearchProto recommendedSearchProto) {
-        this.recommendedSearchProto = recommendedSearchProto;
+    public void setRecommendedSearchSettings(RecommendedSearchSettings recommendedSearchSettings) {
+        this.recommendedSearchSettings = recommendedSearchSettings;
     }
 
     public EvolutionQuestTemplate getEvolutionQuestTemplate() { return evolutionQuestTemplate; }
@@ -583,18 +591,18 @@ public class Data {
 
     public void setPokemonFamily(PokemonFamily pokemonFamily) { this.pokemonFamily = pokemonFamily; }
 
-    public Pokemon getPokemon() { return pokemon; }
+    public PokemonSettings getPokemonSettings() { return pokemonSettings; }
 
-    public void setPokemon(Pokemon pokemon) { this.pokemon = pokemon; }
+    public void setPokemonSettings(PokemonSettings pokemonSettings) { this.pokemonSettings = pokemonSettings; }
 
-    public Move getMove() { return move; }
+    public MoveSettings getMoveSettings() { return moveSettings; }
 
-    public void setMove(Move move) { this.move = move; }
+    public void setMoveSettings(MoveSettings moveSettings) { this.moveSettings = moveSettings; }
 
-    public PokemonHomeFormReversion getPokemonHomeFormReversion() { return pokemonHomeFormReversion; }
+    public PokemonHomeFormReversion getPokemonHomeFormReversions() { return pokemonHomeFormReversions; }
 
-    public void setPokemonHomeFormReversion(PokemonHomeFormReversion pokemonHomeFormReversion) {
-        this.pokemonHomeFormReversion = pokemonHomeFormReversion;
+    public void setPokemonHomeFormReversions(PokemonHomeFormReversion pokemonHomeFormReversions) {
+        this.pokemonHomeFormReversions = pokemonHomeFormReversions;
     }
 
     public VsSeekerClientSettings getVsSeekerClientSettings() { return vsSeekerClientSettings; }
@@ -603,10 +611,10 @@ public class Data {
         this.vsSeekerClientSettings = vsSeekerClientSettings;
     }
 
-    public VsSeekerLootProto getVsSeekerLootProto() { return vsSeekerLootProto; }
+    public VsSeekerLoot getVsSeekerLoot() { return vsSeekerLoot; }
 
-    public void setVsSeekerLootProto(VsSeekerLootProto vsSeekerLootProto) {
-        this.vsSeekerLootProto = vsSeekerLootProto;
+    public void setVsSeekerLoot(VsSeekerLoot vsSeekerLoot) {
+        this.vsSeekerLoot = vsSeekerLoot;
     }
 
     public VsSeekerPokemonRewards getVsSeekerPokemonRewards() { return vsSeekerPokemonRewards; }
@@ -643,7 +651,34 @@ public class Data {
         this.deepLinkingSettings = deepLinkingSettings;
     }
 
-    public MoveSequence getMoveSequence() { return moveSequence; }
+    public MoveSequenceSettings getMoveSequenceSettings() { return moveSequenceSettings; }
 
-    public void setMoveSequence(MoveSequence moveSequence) { this.moveSequence = moveSequence; }
+    public void setMoveSequenceSettings(
+            MoveSequenceSettings moveSequenceSettings) { this.moveSequenceSettings = moveSequenceSettings; }
+
+    public EggTransparencySettings getEggTransparencySettings() {
+        return eggTransparencySettings;
+    }
+
+    public void setEggTransparencySettings(
+            EggTransparencySettings eggTransparencySettings) {
+        this.eggTransparencySettings = eggTransparencySettings;
+    }
+
+    public IncidentPrioritySettings getIncidentPrioritySettings() {
+        return incidentPrioritySettings;
+    }
+
+    public void setIncidentPrioritySettings(
+            IncidentPrioritySettings incidentPrioritySettings) {
+        this.incidentPrioritySettings = incidentPrioritySettings;
+    }
+
+    public ReferralSettings getReferralSettings() {
+        return referralSettings;
+    }
+
+    public void setReferralSettings(ReferralSettings referralSettings) {
+        this.referralSettings = referralSettings;
+    }
 }

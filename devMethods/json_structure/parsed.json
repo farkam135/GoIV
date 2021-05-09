@@ -1,0 +1,1158 @@
+{
+  "outer": [
+    {
+      "templateId": null,
+      "data": {
+        "templateId": null,
+        "arTelemetrySettings": {
+          "measureBattery": null,
+          "batterySamplingIntervalMs": null,
+          "measureFramerate": null,
+          "framerateSamplingIntervalMs": null,
+          "percentageSessionsToSample": null
+        },
+        "avatarGroupOrderSettings": {
+          "group": [
+            {
+              "name": null,
+              "order": null
+            }
+          ]
+        },
+        "avatarCustomization": {
+          "enabled": null,
+          "avatarType": null,
+          "slot": [
+            null
+          ],
+          "bundleName": null,
+          "assetName": null,
+          "groupName": null,
+          "sortOrder": null,
+          "unlockType": null,
+          "iconName": null,
+          "iapSku": null,
+          "unlockBadgeType": null,
+          "unlockBadgeLevel": null,
+          "unlockPlayerLevel": null
+        },
+        "levelUpRewardSettings": {
+          "level": null,
+          "items": [
+            null
+          ],
+          "itemsCount": [
+            null
+          ],
+          "itemsUnlocked": [
+            null
+          ],
+          "avatarTemplateIds": [
+            null
+          ]
+        },
+        "backgroundModeSettings": {
+          "weeklyFitnessGoalLevel1DistanceKm": null,
+          "weeklyFitnessGoalLevel2DistanceKm": null,
+          "weeklyFitnessGoalLevel3DistanceKm": null,
+          "weeklyFitnessGoalLevel4DistanceKm": null
+        },
+        "badgeSettings": {
+          "badgeType": null,
+          "badgeRank": null,
+          "targets": [
+            null
+          ],
+          "eventBadge": null
+        },
+        "battleHubBadgeSettings": {
+          "combatHubDisplayedBadges": [
+            null
+          ]
+        },
+        "battleHubOrderSettings": {
+          "section": [
+            {
+              "mainSection": null,
+              "subsection": [
+                null
+              ]
+            }
+          ],
+          "sectionGroup": [
+            {
+              "section": [
+                null
+              ]
+            }
+          ]
+        },
+        "battleSettings": {
+          "retargetSeconds": null,
+          "enemyAttackInterval": null,
+          "attackServerInterval": null,
+          "roundDurationSeconds": null,
+          "bonusTimePerAllySeconds": null,
+          "maximumAttackersPerBattle": null,
+          "sameTypeAttackBonusMultiplier": null,
+          "maximumEnergy": null,
+          "energyDeltaPerHealthLost": null,
+          "dodgeDurationMs": null,
+          "minimumPlayerLevel": null,
+          "swapDurationMs": null,
+          "dodgeDamageReductionPercent": null,
+          "minimumRaidPlayerLevel": null,
+          "shadowPokemonAttackBonusMultiplier": null,
+          "shadowPokemonDefenseBonusMultiplier": null,
+          "purifiedPokemonAttackMultiplierVsShadow": null
+        },
+        "belugaPokemonWhitelist": {
+          "maxAllowedPokemonPokedexNumber": null,
+          "additionalPokemonAllowed": [
+            null
+          ],
+          "costumesAllowed": [
+            null
+          ]
+        },
+        "buddyActivitySettings": {
+          "activity": null,
+          "activityCategory": null,
+          "maxTimesPerDay": null,
+          "numPointsPerAction": null,
+          "numEmotionPointsPerAction": null,
+          "emotionCooldownDurationMs": null
+        },
+        "buddyActivityCategorySettings": {
+          "activityCategory": null,
+          "maxPointsPerDay": null
+        },
+        "buddyEmotionLevelSettings": {
+          "emotionLevel": null,
+          "emotionAnimation": null,
+          "minEmotionPointsRequired": null
+        },
+        "buddyEncounterCameoSettings": {
+          "buddyWildEncounterCameoChancePercent": null,
+          "buddyQuestEncounterCameoChancePercent": null,
+          "buddyRaidEncounterCameoChancePercent": null,
+          "buddyInvasionEncounterCameoChancePercent": null
+        },
+        "buddyHungerSettings": {
+          "numHungerPointsRequiredForFull": null,
+          "decayPointsPerBucket": null,
+          "millisecondsPerBucket": null,
+          "cooldownDurationMs": null,
+          "decayDurationAfterFullMs": null
+        },
+        "buddyInteractionSettings": {
+          "feedItemWhitelist": [
+            null
+          ]
+        },
+        "buddyLevelSettings": {
+          "level": null,
+          "minNonCumulativePointsRequired": null,
+          "unlockedTraits": [
+            null
+          ]
+        },
+        "buddySwapSettings": {
+          "maxSwapsPerDay": null
+        },
+        "buddyWalkSettings": {
+          "kmRequiredPerAffectionPoint": null
+        },
+        "invasionNpcDisplaySettings": {
+          "trainerName": null,
+          "avatar": {
+            "avatar": null,
+            "skin": null,
+            "avatarHair": null,
+            "avatarShirt": null,
+            "avatarPants": null,
+            "avatarHat": null,
+            "avatarShoes": null,
+            "avatarEyes": null,
+            "avatarBackpack": null,
+            "avatarGloves": null,
+            "avatarSocks": null,
+            "avatarBelt": null,
+            "avatarGlasses": null,
+            "avatarNecklace": null,
+            "avatarFace": null,
+            "avatarPose": null
+          },
+          "trainerTitle": null,
+          "trainerQuote": null,
+          "iconUrl": null,
+          "backdropImageBundle": null,
+          "modelName": null,
+          "tutorialOnLossString": null,
+          "isMale": null
+        },
+        "combatCompetitiveSeasonSettings": {
+          "seasonEndTimeTimestamp": [
+            null
+          ],
+          "ratingAdjustmentPercentage": null,
+          "rankingAdjustmentPercentage": null
+        },
+        "combatLeague": {
+          "title": null,
+          "enabled": null,
+          "pokemonCondition": [
+            {
+              "type": null,
+              "withPokemonCpLimit": {
+                "maxCp": null
+              },
+              "pokemonCaughtTimestamp": {
+                "afterTimestamp": null
+              },
+              "pokemonLevelRange": {
+                "maxLevel": null
+              },
+              "withPokemonType": {
+                "pokemonType": [
+                  null
+                ]
+              },
+              "pokemonWhiteList": {
+                "pokemon": [
+                  {
+                    "id": null,
+                    "form": null,
+                    "forms": [
+                      null
+                    ]
+                  }
+                ]
+              },
+              "pokemonBanList": {
+                "pokemon": [
+                  {
+                    "id": null,
+                    "form": null
+                  }
+                ]
+              }
+            }
+          ],
+          "iconUrl": null,
+          "pokemonCount": null,
+          "bannedPokemon": [
+            null
+          ],
+          "badgeType": null,
+          "leagueType": null,
+          "allowTempEvos": null,
+          "unlockCondition": [
+            {
+              "type": null,
+              "minPokemonCount": null,
+              "withPokemonCpLimit": {
+                "minCp": null,
+                "maxCp": null
+              }
+            }
+          ],
+          "battlePartyCombatLeagueTemplateId": null
+        },
+        "combatLeagueSettings": {
+          "combatLeagueTemplateId": [
+            null
+          ]
+        },
+        "combatType": {
+          "type": null,
+          "niceLevelThreshold": null,
+          "greatLevelThreshold": null,
+          "excellentLevelThreshold": null
+        },
+        "combatRankingProtoSettings": {
+          "rankLevel": [
+            {
+              "rankLevel": null,
+              "additionalTotalBattlesRequired": null,
+              "additionalWinsRequired": null,
+              "minRatingRequired": null
+            }
+          ],
+          "requiredForRewards": {
+            "rankLevel": null,
+            "additionalTotalBattlesRequired": null
+          },
+          "minRankToDisplayRating": null,
+          "minRatingRequired": null
+        },
+        "combatSettings": {
+          "roundDurationSeconds": null,
+          "turnDurationSeconds": null,
+          "minigameDurationSeconds": null,
+          "sameTypeAttackBonusMultiplier": null,
+          "fastAttackBonusMultiplier": null,
+          "chargeAttackBonusMultiplier": null,
+          "defenseBonusMultiplier": null,
+          "minigameBonusBaseMultiplier": null,
+          "minigameBonusVariableMultiplier": null,
+          "maxEnergy": null,
+          "defenderMinigameMultiplier": null,
+          "changePokemonDurationSeconds": null,
+          "minigameSubmitScoreDurationSeconds": null,
+          "quickSwapCooldownDurationSeconds": null,
+          "chargeScoreBase": null,
+          "chargeScoreNice": null,
+          "chargeScoreGreat": null,
+          "chargeScoreExcellent": null,
+          "superEffectiveFlyoutDurationTurns": null,
+          "notVeryEffectiveFlyoutDurationTurns": null,
+          "blockedEffectiveFlyoutDurationTurns": null,
+          "normalEffectiveFlyoutDurationTurns": null,
+          "shadowPokemonAttackBonusMultiplier": null,
+          "shadowPokemonDefenseBonusMultiplier": null,
+          "purifiedPokemonAttackMultiplierVsShadow": null
+        },
+        "combatStatStageSettings": {
+          "minimumStatStage": null,
+          "maximumStatStage": null,
+          "attackBuffMultiplier": [
+            null
+          ],
+          "defenseBuffMultiplier": [
+            null
+          ]
+        },
+        "combatMove": {
+          "uniqueId": null,
+          "type": null,
+          "power": null,
+          "vfxName": null,
+          "energyDelta": null,
+          "buffs": {
+            "targetDefenseStatStageChange": null,
+            "buffActivationChance": null,
+            "attackerAttackStatStageChange": null,
+            "targetAttackStatStageChange": null,
+            "attackerDefenseStatStageChange": null
+          },
+          "durationTurns": null
+        },
+        "crossGameSocialSettings": {
+          "onlineStatusEnabledOverrideLevel": null,
+          "nianticProfileEnabledOverrideLevel": null
+        },
+        "deepLinkingSettings": {
+          "minPlayerLevelForExternalLink": null,
+          "minPlayerLevelForNotificationLink": null
+        },
+        "eggTransparencySettings": {
+          "enableEggDistribution": null
+        },
+        "friendProfileSettings": {
+          "enableSwiping": null
+        },
+        "encounterSettings": {
+          "spinBonusThreshold": null,
+          "excellentThrowThreshold": null,
+          "greatThrowThreshold": null,
+          "niceThrowThreshold": null,
+          "milestoneThreshold": null,
+          "arPlusModeEnabled": null,
+          "arCloseProximityThreshold": null,
+          "arLowAwarenessThreshold": null
+        },
+        "pokemonHomeEnergyCosts": {
+          "pokemonClass": null,
+          "base": null,
+          "shiny": null,
+          "cp1001To2000": null,
+          "cp2001ToInf": null
+        },
+        "exRaidSettings": {
+          "minimumExRaidShareLevel": null,
+          "undefinedExRaidSetting": null
+        },
+        "formSettings": {
+          "pokemon": null,
+          "forms": [
+            {
+              "form": null,
+              "assetBundleSuffix": null,
+              "assetBundleValue": null
+            }
+          ]
+        },
+        "friendshipMilestoneSettings": {
+          "milestoneXpReward": null,
+          "attackBonusPercentage": null,
+          "unlockedTrading": [
+            null
+          ],
+          "minPointsToReach": null,
+          "raidBallBonus": null,
+          "tradingDiscount": null
+        },
+        "geotargetedQuestSettings": {
+          "enableGeotargetedQuests": null
+        },
+        "guiSearchSettings": {
+          "guiSearchEnabled": null,
+          "maxNumberRecentSearches": null,
+          "maxNumberFavoriteSearches": null,
+          "maxQueryLength": null
+        },
+        "gymBadgeSettings": {
+          "target": [
+            null
+          ],
+          "battleWinningScorePerDefenderCp": null,
+          "gymDefendingScorePerMinute": null,
+          "berryFeedingScore": null,
+          "pokemonDeployScore": null,
+          "raidBattleWinningScore": null,
+          "loseAllBattlesScore": null
+        },
+        "gymLevel": {
+          "requiredExperience": [
+            null
+          ],
+          "leaderSlots": [
+            null
+          ],
+          "trainerSlots": [
+            null
+          ]
+        },
+        "iapCategoryDisplay": {
+          "category": null,
+          "sortOrder": null,
+          "imageUrl": null,
+          "description": null,
+          "bannerEnabled": null,
+          "bannerTitle": null,
+          "name": null,
+          "displayRows": null,
+          "hidden": null
+        },
+        "iapSettings": {
+          "dailyDefenderBonusPerPokemon": [
+            null
+          ],
+          "dailyDefenderBonusMaxDefenders": null,
+          "dailyDefenderBonusCurrency": [
+            null
+          ],
+          "minTimeBetweenClaimsMs": null
+        },
+        "incidentPrioritySettings": {
+          "incidentPriority": [
+            {
+              "priority": null,
+              "displayType": null
+            }
+          ]
+        },
+        "pokestopInvasionAvailabilitySettings": {
+          "availabilityStartMinute": null,
+          "availabilityEndMinute": null
+        },
+        "inventorySettings": {
+          "maxPokemon": null,
+          "maxBagItems": null,
+          "basePokemon": null,
+          "baseBagItems": null,
+          "baseEggs": null,
+          "maxTeamChanges": null,
+          "teamChangeItemResetPeriodInDays": null,
+          "maxItemBoostDurationMs": null,
+          "enableEggsNotInventory": null,
+          "specialEggOverflowSpots": null
+        },
+        "itemSettings": {
+          "itemId": null,
+          "itemType": null,
+          "category": null,
+          "dropTrainerLevel": null,
+          "food": {
+            "itemEffect": [
+              null
+            ],
+            "itemEffectPercent": [
+              null
+            ],
+            "growthPercent": null,
+            "berryMultiplier": null,
+            "remoteBerryMultiplier": null,
+            "numBuddyAffectionPoints": null,
+            "mapDurationMs": null,
+            "timeFullDurationMs": null,
+            "numBuddyHungerPoints": null
+          },
+          "globalEventTicket": {
+            "eventStartTime": null,
+            "eventEndTime": null,
+            "itemBagDescriptionKey": null,
+            "clientEventStartTimeUtcMs": null,
+            "clientEventEndTimeUtcMs": null,
+            "eventVariantBadges": [
+              null
+            ],
+            "eventVariantTitleStringKeys": [
+              null
+            ],
+            "eventVariantDescriptionStringKeys": [
+              null
+            ],
+            "itemBagDescriptionVariantSelected": null,
+            "eventVariantButtonStringKeys": [
+              null
+            ]
+          },
+          "incidentTicket": {
+            "ignoreFullInventory": null,
+            "upgradeRequirementCount": null,
+            "upgradedItem": null
+          },
+          "potion": {
+            "staAmount": null,
+            "staPercent": null
+          },
+          "incense": {
+            "incenseLifetimeSeconds": null,
+            "spawnTableProbability": null
+          },
+          "eggIncubator": {
+            "incubatorType": null,
+            "uses": null,
+            "distanceMultiplier": null
+          },
+          "inventoryUpgrade": {
+            "additionalStorage": null,
+            "upgradeType": null
+          },
+          "xpBoost": {
+            "xpMultiplier": null,
+            "boostDurationMs": null
+          },
+          "revive": {
+            "staPercent": null
+          },
+          "stardustBoost": {
+            "stardustMultiplier": null,
+            "boostDurationMs": null
+          }
+        },
+        "loadingScreenSettings": {
+          "url": null,
+          "displayAfterTimestampMs": null,
+          "colorSettings": {
+            "warning_text": null,
+            "progress_background": null,
+            "progress_bar_left": null,
+            "progress_bar_right": null
+          }
+        },
+        "limitedPurchaseSkuSettings": {
+          "purchaseLimit": null,
+          "chronoUnit": null,
+          "lootTableId": null,
+          "resetInterval": null,
+          "version": null
+        },
+        "luckyPokemonSettings": {
+          "powerUpStardustDiscountPercent": null
+        },
+        "mapDisplaySettings": null,
+        "megaEvoSettings": {
+          "evolutionLengthMs": null,
+          "attackBoostFromMegaDifferentType": null,
+          "attackBoostFromMegaSameType": null,
+          "maxCandyHoardSize": null,
+          "enableBuddyWalkingMegaEnergyAward": null,
+          "activeMegaBonusCatchCandy": null
+        },
+        "monodepthSettings": {
+          "enableOcclusions": null,
+          "occlusionsDefaultOn": null,
+          "occlusionsToggleVisible": null,
+          "enableGroundSuppression": null,
+          "minGroundSuppressionThresh": null,
+          "suppressionChannelId": null
+        },
+        "onboardingV2Settings": {
+          "pokedexId": [
+            null
+          ],
+          "eggKmUntilHatch": null
+        },
+        "evolutionQuestTemplate": {
+          "questTemplateId": null,
+          "questType": null,
+          "goals": [
+            {
+              "condition": [
+                {
+                  "type": null,
+                  "withPokemonType": {
+                    "pokemonType": [
+                      null
+                    ]
+                  },
+                  "withThrowType": {
+                    "throwType": null
+                  }
+                }
+              ],
+              "target": null
+            }
+          ],
+          "context": null,
+          "display": {
+            "description": null,
+            "title": null
+          }
+        },
+        "partyRecommendationSettings": {
+          "mode": null,
+          "variance": null,
+          "thirdMoveWeight": null,
+          "megaEvoCombatRatingScale": null
+        },
+        "platypusRolloutSettings": {
+          "buddyV2MinPlayerLevel": null,
+          "buddyMultiplayerMinPlayerLevel": null,
+          "wallabySettings": null
+        },
+        "playerLevel": {
+          "rankNum": [
+            null
+          ],
+          "requiredExperience": [
+            null
+          ],
+          "cpMultiplier": [
+            null
+          ],
+          "maxEggPlayerLevel": null,
+          "maxEncounterPlayerLevel": null,
+          "maxQuestEncounterPlayerLevel": null
+        },
+        "pokecoinPurchaseDisplayGmt": {
+          "featureEnabled": null
+        },
+        "pokemonHomeSettings": {
+          "playerMinLevel": null,
+          "transporterMaxEnergy": null,
+          "energySkuId": null,
+          "transporterEnergyGainPerHour": null
+        },
+        "pokemonScaleSettings": {
+          "pokemonScaleMode": null,
+          "minHeight": null,
+          "maxHeight": null
+        },
+        "pokemonTagSettings": {
+          "minPlayerLevelForPokemonTagging": null,
+          "colorBinding": [
+            {
+              "color": null,
+              "hexCode": null
+            }
+          ],
+          "maxNumTagsAllowed": null
+        },
+        "typeEffective": {
+          "attackScalar": [
+            null
+          ],
+          "attackType": null
+        },
+        "pokemonUpgrades": {
+          "upgradesPerLevel": null,
+          "allowedLevelsAbovePlayer": null,
+          "candyCost": [
+            null
+          ],
+          "stardustCost": [
+            null
+          ],
+          "shadowStardustMultiplier": null,
+          "shadowCandyMultiplier": null,
+          "purifiedStardustMultiplier": null,
+          "purifiedCandyMultiplier": null,
+          "maxNormalUpgradeLevel": null,
+          "defaultCpBoostAdditionalLevel": null,
+          "xlCandyMinPlayerLevel": null,
+          "xlCandyCost": [
+            null
+          ]
+        },
+        "questEvolutionSettings": {
+          "enableQuestEvolutions": null
+        },
+        "questSettings": {
+          "questType": null,
+          "dailyQuest": {
+            "bucketsPerDay": null,
+            "streakLength": null,
+            "bonusMultiplier": null,
+            "streakBonusMultiplier": null
+          }
+        },
+        "raidSettings": {
+          "remoteRaidEnabled": null,
+          "maxRemoteRaidPasses": null,
+          "remoteDamageModifier": null,
+          "remoteRaidsMinPlayerLevel": null,
+          "maxNumFriendInvites": null,
+          "friendInviteCutoffTimeSec": null,
+          "canInviteFriendsInPerson": null,
+          "canInviteFriendsRemotely": null,
+          "maxPlayersPerLobby": null,
+          "maxRemotePlayersPerLobby": null,
+          "inviteCooldownDurationMillis": null,
+          "maxNumFriendInvitesPerAction": null
+        },
+        "recomendedSearchSettings": {
+          "searchLabel": null,
+          "appendSearchString": null,
+          "searchKey": null
+        },
+        "referralSettings": {
+          "featureEnabled": null,
+          "recentFeatures": [
+            {
+              "iconType": null,
+              "featureName": null,
+              "description": null
+            }
+          ],
+          "addReferrerGracePeriodMs": null,
+          "minNumDaysWithoutSessionForLapsedPlayer": null
+        },
+        "smeargleMovesSettings": {
+          "quickMoves": [
+            null
+          ],
+          "cinematicMoves": [
+            null
+          ]
+        },
+        "genderSettings": {
+          "pokemon": null,
+          "gender": {
+            "malePercent": null,
+            "femalePercent": null,
+            "genderlessPercent": null
+          }
+        },
+        "sponsoredGeofenceGiftSettings": {
+          "giftPersistenceTimeMs": null,
+          "mapPresentationTimeMs": null,
+          "enableSponsoredGeofenceGift": null,
+          "fullscreenDisableExitButtonTimeMs": null,
+          "balloonGiftSettings": {
+            "enableBalloonGift": null,
+            "balloonAutoDismissTimeMs": null,
+            "getWasabiAdRpcIntervalMs": null
+          }
+        },
+        "stickerMetadata": {
+          "stickerId": null,
+          "stickerUrl": null,
+          "maxCount": null
+        },
+        "iapItemDisplay": {
+          "sku": null,
+          "category": null,
+          "sortOrder": null,
+          "sale": null,
+          "hidden": null,
+          "spriteId": null,
+          "title": null,
+          "skuEnableTime": null,
+          "skuDisableTime": null,
+          "skuEnableTimeUtcMs": null,
+          "skuDisableTimeUtcMs": null,
+          "description": null,
+          "imageUrl": null
+        },
+        "temporaryEvolutionSettings": {
+          "pokemonId": null,
+          "temporaryEvolutions": [
+            {
+              "temporaryEvolutionId": null,
+              "assetBundleValue": null
+            }
+          ]
+        },
+        "combatNpcTrainer": {
+          "trainerName": null,
+          "combatLeagueTemplateId": null,
+          "combatPersonalityId": null,
+          "avatar": {
+            "avatar": null
+          },
+          "availablePokemon": [
+            {
+              "pokemonType": null,
+              "pokemonDisplay": {
+                "form": null
+              }
+            }
+          ],
+          "trainerTitle": null,
+          "trainerQuote": null,
+          "iconUrl": null,
+          "backdropImageBundle": null
+        },
+        "combatNpcPersonality": {
+          "personalityName": null,
+          "superEffectiveChance": null,
+          "specialChance": null,
+          "offensiveMinimumScore": null,
+          "offensiveMaximumScore": null,
+          "defensiveMinimumScore": null,
+          "defensiveMaximumScore": null
+        },
+        "pokemonFamily": {
+          "familyId": null,
+          "candyPerXlCandy": null,
+          "megaEvolvablePokemonId": null
+        },
+        "pokemonSettings": {
+          "pokemonId": null,
+          "modelScale": null,
+          "type": null,
+          "type2": null,
+          "camera": {
+            "diskRadiusM": null,
+            "cylinderRadiusM": null,
+            "cylinderHeightM": null,
+            "shoulderModeScale": null,
+            "cylinderGroundM": null
+          },
+          "encounter": {
+            "baseCaptureRate": null,
+            "baseFleeRate": null,
+            "collisionRadiusM": null,
+            "collisionHeightM": null,
+            "collisionHeadRadiusM": null,
+            "movementType": null,
+            "movementTimerS": null,
+            "jumpTimeS": null,
+            "attackTimerS": null,
+            "attackProbability": null,
+            "dodgeProbability": null,
+            "dodgeDurationS": null,
+            "dodgeDistance": null,
+            "cameraDistance": null,
+            "minPokemonActionFrequencyS": null,
+            "maxPokemonActionFrequencyS": null,
+            "bonusCandyCaptureReward": null,
+            "bonusStardustCaptureReward": null,
+            "bonusXlCandyCaptureReward": null
+          },
+          "stats": {
+            "baseStamina": null,
+            "baseAttack": null,
+            "baseDefense": null
+          },
+          "quickMoves": [
+            null
+          ],
+          "cinematicMoves": [
+            null
+          ],
+          "animationTime": [
+            null
+          ],
+          "evolutionIds": [
+            null
+          ],
+          "evolutionPips": null,
+          "pokedexHeightM": null,
+          "pokedexWeightKg": null,
+          "heightStdDev": null,
+          "weightStdDev": null,
+          "familyId": null,
+          "candyToEvolve": null,
+          "kmBuddyDistance": null,
+          "modelHeight": null,
+          "evolutionBranch": [
+            {
+              "evolution": null,
+              "candyCost": null,
+              "form": null,
+              "temporaryEvolution": null,
+              "temporaryEvolutionEnergyCost": null,
+              "temporaryEvolutionEnergyCostSubsequent": null,
+              "evolutionItemRequirement": null,
+              "noCandyCostViaTrade": null,
+              "lureItemRequirement": null,
+              "questDisplay": [
+                {
+                  "questRequirementTemplateId": null
+                }
+              ],
+              "kmBuddyDistanceRequirement": null,
+              "mustBeBuddy": null,
+              "onlyDaytime": null,
+              "priority": null,
+              "onlyNighttime": null,
+              "genderRequirement": null,
+              "onlyUpsideDown": null
+            }
+          ],
+          "modelScaleV2": null,
+          "buddyOffsetMale": [
+            null
+          ],
+          "buddyOffsetFemale": [
+            null
+          ],
+          "buddyScale": null,
+          "thirdMove": {
+            "stardustToUnlock": null,
+            "candyToUnlock": null
+          },
+          "isTransferable": null,
+          "isDeployable": null,
+          "isTradable": null,
+          "buddyGroupNumber": null,
+          "buddyWalkedMegaEnergyAward": null,
+          "form": null,
+          "disableTransferToPokemonHome": null,
+          "shadow": {
+            "purificationStardustNeeded": null,
+            "purificationCandyNeeded": null,
+            "purifiedChargeMove": null,
+            "shadowChargeMove": null
+          },
+          "parentPokemonId": null,
+          "buddySize": null,
+          "combatShoulderCameraAngle": [
+            null
+          ],
+          "combatDefaultCameraAngle": [
+            null
+          ],
+          "combatPlayerFocusCameraAngle": [
+            null
+          ],
+          "eliteCinematicMove": [
+            null
+          ],
+          "tempEvoOverrides": [
+            {
+              "tempEvoId": null,
+              "stats": {
+                "baseStamina": null,
+                "baseAttack": null,
+                "baseDefense": null
+              },
+              "averageHeightM": null,
+              "averageWeightKg": null,
+              "typeOverride1": null,
+              "typeOverride2": null,
+              "camera": {
+                "cylinderRadiusM": null,
+                "cylinderHeightM": null,
+                "cylinderGroundM": null
+              },
+              "modelScaleV2": null,
+              "modelHeight": null,
+              "buddyOffsetMale": [
+                null
+              ],
+              "buddyOffsetFemale": [
+                null
+              ],
+              "buddyPortraitOffset": [
+                null
+              ]
+            }
+          ],
+          "eliteQuickMove": [
+            null
+          ],
+          "buddyPortraitOffset": [
+            null
+          ],
+          "raidBossDistanceOffset": null,
+          "combatPlayerPokemonPositionOffset": [
+            null
+          ],
+          "rarity": null,
+          "combatOpponentFocusCameraAngle": [
+            null
+          ]
+        },
+        "moveSettings": {
+          "movementId": null,
+          "animationId": null,
+          "pokemonType": null,
+          "power": null,
+          "accuracyChance": null,
+          "criticalChance": null,
+          "staminaLossScalar": null,
+          "trainerLevelMin": null,
+          "trainerLevelMax": null,
+          "vfxName": null,
+          "durationMs": null,
+          "damageWindowStartMs": null,
+          "damageWindowEndMs": null,
+          "energyDelta": null,
+          "healScalar": null,
+          "isLocked": null
+        },
+        "pokemonHomeFormReversions": {
+          "pokemonId": null,
+          "formMapping": [
+            {
+              "revertedForm": null,
+              "unauthorizedForms": [
+                null
+              ],
+              "revertedFormString": null
+            }
+          ]
+        },
+        "vsSeekerClientSettings": {
+          "allowedVsSeekerLeagueTemplateId": [
+            null
+          ]
+        },
+        "vsSeekerLoot": {
+          "rankLevel": null,
+          "reward": [
+            {
+              "item": {
+                "stardust": null,
+                "count": null,
+                "item": null
+              },
+              "itemLootTable": null,
+              "pokemonReward": null
+            }
+          ],
+          "rewardTrack": null
+        },
+        "vsSeekerPokemonRewards": {
+          "availablePokemon": [
+            {
+              "guaranteedLimitedPokemonReward": {
+                "pokemon": {
+                  "pokemonId": null,
+                  "pokemonDisplay": {
+                    "form": null
+                  }
+                },
+                "identifier": null,
+                "perCompetitiveCombatSeasonMaxCount": null,
+                "lifetimeMaxCount": null
+              },
+              "unlockedAtRank": null,
+              "attackIvOverride": {
+                "range": {
+                  "min": null,
+                  "max": null
+                }
+              },
+              "defenseIvOverride": {
+                "range": {
+                  "min": null,
+                  "max": null
+                }
+              },
+              "staminaIvOverride": {
+                "range": {
+                  "min": null,
+                  "max": null
+                }
+              },
+              "pokemon": {
+                "pokemonId": null,
+                "pokemonDisplay": {
+                  "form": null
+                }
+              }
+            }
+          ],
+          "rewardTrack": null
+        },
+        "weatherAffinities": {
+          "weatherCondition": null,
+          "pokemonType": [
+            null
+          ]
+        },
+        "weatherBonusSettings": {
+          "cpBaseLevelBonus": null,
+          "guaranteedIndividualValues": null,
+          "stardustBonusMultiplier": null,
+          "attackBonusMultiplier": null,
+          "raidEncounterCpBaseLevelBonus": null,
+          "raidEncounterGuaranteedIndividualValues": null
+        },
+        "adventureSyncV2Gmt": {
+          "featureEnabled": null
+        },
+        "camera": {
+          "interpolation": [
+            null
+          ],
+          "targetType": [
+            null
+          ],
+          "easeInSpeed": [
+            null
+          ],
+          "easeOutSpeed": [
+            null
+          ],
+          "durationSeconds": [
+            null
+          ],
+          "waitSeconds": [
+            null
+          ],
+          "transitionSeconds": [
+            null
+          ],
+          "angleDegree": [
+            null
+          ],
+          "angleOffsetDegree": [
+            null
+          ],
+          "pitchDegree": [
+            null
+          ],
+          "pitchOffsetDegree": [
+            null
+          ],
+          "rollDegree": [
+            null
+          ],
+          "distanceMeters": [
+            null
+          ],
+          "heightPercent": [
+            null
+          ],
+          "vertCtrRatio": [
+            null
+          ],
+          "nextCamera": null
+        },
+        "moveSequenceSettings": {
+          "sequence": [
+            null
+          ]
+        }
+      }
+    }
+  ]
+}

@@ -2,11 +2,11 @@ package com.kamron.pogoiv.devMethods.gameMasterParser.JsonStruct;
 
 import com.google.gson.annotations.Expose;
 
-public class RecommendedSearchProto {
+public class RecommendedSearchSettings {
     @Expose
     private String searchLabel;
     @Expose
-    private String appendedSearchString;
+    private String appendSearchString;
     @Expose
     private String searchKey;
 
@@ -14,10 +14,10 @@ public class RecommendedSearchProto {
 
     public void setSearchLabel(String searchLabel) { this.searchLabel = searchLabel; }
 
-    public String getAppendedSearchString() { return appendedSearchString; }
+    public String getAppendSearchString() { return appendSearchString; }
 
-    public void setAppendedSearchString(String appendedSearchString) {
-        this.appendedSearchString = appendedSearchString;
+    public void setAppendSearchString(String appendSearchString) {
+        this.appendSearchString = appendSearchString;
     }
 
     public String getSearchKey() { return searchKey; }

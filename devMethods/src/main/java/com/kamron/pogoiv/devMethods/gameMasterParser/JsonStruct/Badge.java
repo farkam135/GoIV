@@ -9,7 +9,7 @@ public class Badge {
     @Expose
     private String badgeType;
     @Expose
-    private Integer badgeRanks;
+    private Integer badgeRank;
     @Expose
     private List<Integer> targets = null;
     @SerializedName("eventBadge")
@@ -20,9 +20,9 @@ public class Badge {
 
     public void setBadgeType(String badgeType) { this.badgeType = badgeType; }
 
-    public Integer getBadgeRanks() { return badgeRanks; }
+    public Integer getBadgeRank() { return badgeRank; }
 
-    public void setBadgeRanks(Integer badgeRanks) { this.badgeRanks = badgeRanks; }
+    public void setBadgeRank(Integer badgeRank) { this.badgeRank = badgeRank; }
 
     public List<Integer> getTargets() { return targets; }
 

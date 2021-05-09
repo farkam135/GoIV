@@ -2,9 +2,9 @@ package com.kamron.pogoiv.devMethods.gameMasterParser.JsonStruct;
 
 import com.google.gson.annotations.Expose;
 
-public class Item {
+public class ItemSettings {
     @Expose
-    private String uniqueId;
+    private String itemId;
     @Expose
     private String itemType;
     @Expose
@@ -32,9 +32,9 @@ public class Item {
     @Expose
     private StardustBoost stardustBoost;
 
-    public String getUniqueId() { return uniqueId; }
+    public String getItemId() { return itemId; }
 
-    public void setUniqueId(String uniqueId) { this.uniqueId = uniqueId; }
+    public void setItemId(String itemId) { this.itemId = itemId; }
 
     public String getItemType() { return itemType; }
 

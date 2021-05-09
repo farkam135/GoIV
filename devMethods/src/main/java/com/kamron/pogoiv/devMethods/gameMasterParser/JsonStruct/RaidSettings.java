@@ -2,7 +2,7 @@ package com.kamron.pogoiv.devMethods.gameMasterParser.JsonStruct;
 
 import com.google.gson.annotations.Expose;
 
-public class RaidSettingsProto {
+public class RaidSettings {
     @Expose
     private Boolean remoteRaidEnabled = false;
     @Expose

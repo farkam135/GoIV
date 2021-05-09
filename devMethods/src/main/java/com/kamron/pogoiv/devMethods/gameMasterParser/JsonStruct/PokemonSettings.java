@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class Pokemon {
+public class PokemonSettings {
     // Additional Field for the ApplicationDatabaseUpdate logic
     private String templateId;
 
@@ -14,9 +14,10 @@ public class Pokemon {
     public void setTemplateId(String templateId) { this.templateId = templateId; }
 
     @Expose
-    private String uniqueId;
+    private String pokemonId;
     @Expose
     private Double modelScale;
+    @SerializedName("type")
     @Expose
     private String type1;
     @Expose
@@ -32,10 +33,8 @@ public class Pokemon {
     private List<String> quickMoves = null;
     @Expose
     private List<String> cinematicMoves = null;
-    @SerializedName("animTime")
     @Expose
     private List<Double> animationTime = null;
-    @SerializedName("evolution")
     @Expose
     private List<String> evolutionIds = null;
     @Expose
@@ -74,6 +73,8 @@ public class Pokemon {
     @Expose
     private Boolean isDeployable = false;
     @Expose
+    private Boolean isTradable;
+    @Expose
     private Integer buddyGroupNumber;
     @Expose
     private Integer buddyWalkedMegaEnergyAward;
@@ -84,7 +85,7 @@ public class Pokemon {
     @Expose
     private Shadow shadow;
     @Expose
-    private String parentId;
+    private String parentPokemonId;
     @Expose
     private String buddySize;
     @Expose
@@ -107,15 +108,14 @@ public class Pokemon {
     private Double raidBossDistanceOffset;
     @Expose
     private List<Double> combatPlayerPokemonPositionOffset = null;
-    @SerializedName("pokemonClass")
     @Expose
     private String rarity;
     @Expose
     private List<Double> combatOpponentFocusCameraAngle = null;
 
-    public String getUniqueId() { return uniqueId; }
+    public String getPokemonId() { return pokemonId; }
 
-    public void setUniqueId(String uniqueId) { this.uniqueId = uniqueId; }
+    public void setPokemonId(String pokemonId) { this.pokemonId = pokemonId; }
 
     public Double getModelScale() { return modelScale; }
 
@@ -250,9 +250,9 @@ public class Pokemon {
 
     public void setShadow(Shadow shadow) { this.shadow = shadow; }
 
-    public String getParentId() { return parentId; }
+    public String getParentPokemonId() { return parentPokemonId; }
 
-    public void setParentId(String parentId) { this.parentId = parentId; }
+    public void setParentPokemonId(String parentPokemonId) { this.parentPokemonId = parentPokemonId; }
 
     public String getBuddySize() { return buddySize; }
 
@@ -318,5 +318,13 @@ public class Pokemon {
 
     public void setCombatOpponentFocusCameraAngle(List<Double> combatOpponentFocusCameraAngle) {
         this.combatOpponentFocusCameraAngle = combatOpponentFocusCameraAngle;
+    }
+
+    public Boolean getTradable() {
+        return isTradable;
+    }
+
+    public void setTradable(Boolean tradable) {
+        isTradable = tradable;
     }
 }

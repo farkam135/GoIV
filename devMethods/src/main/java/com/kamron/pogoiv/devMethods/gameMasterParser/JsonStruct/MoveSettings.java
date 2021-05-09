@@ -2,13 +2,13 @@ package com.kamron.pogoiv.devMethods.gameMasterParser.JsonStruct;
 
 import com.google.gson.annotations.Expose;
 
-public class Move {
+public class MoveSettings {
     @Expose
-    private String uniqueId;
+    private String movementId;
     @Expose
     private Integer animationId;
     @Expose
-    private String type;
+    private String pokemonType;
     @Expose
     private Double power;
     @Expose
@@ -36,17 +36,17 @@ public class Move {
     @Expose
     private Boolean isLocked = false;
 
-    public String getUniqueId() { return uniqueId; }
+    public String getMovementId() { return movementId; }
 
-    public void setUniqueId(String uniqueId) { this.uniqueId = uniqueId; }
+    public void setMovementId(String movementId) { this.movementId = movementId; }
 
     public Integer getAnimationId() { return animationId; }
 
     public void setAnimationId(Integer animationId) { this.animationId = animationId; }
 
-    public String getType() { return type; }
+    public String getPokemonType() { return pokemonType; }
 
-    public void setType(String type) { this.type = type; }
+    public void setPokemonType(String pokemonType) { this.pokemonType = pokemonType; }
 
     public Double getPower() { return power; }
 

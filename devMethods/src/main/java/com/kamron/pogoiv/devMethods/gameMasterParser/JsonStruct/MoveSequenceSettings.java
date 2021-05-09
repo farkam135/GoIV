@@ -4,7 +4,7 @@ import com.google.gson.annotations.Expose;
 
 import java.util.List;
 
-public class MoveSequence {
+public class MoveSequenceSettings {
     @Expose
     private List<String> sequence = null;
 

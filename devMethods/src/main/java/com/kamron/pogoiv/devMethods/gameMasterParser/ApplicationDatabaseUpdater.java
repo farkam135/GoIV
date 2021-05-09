@@ -4,8 +4,7 @@ import com.google.gson.Gson;
 import com.kamron.pogoiv.devMethods.gameMasterParser.JsonStruct.Form;
 import com.kamron.pogoiv.devMethods.gameMasterParser.JsonStruct.FormSettings;
 import com.kamron.pogoiv.devMethods.gameMasterParser.JsonStruct.Data;
-import com.kamron.pogoiv.devMethods.gameMasterParser.JsonStruct.PogoJson;
-import com.kamron.pogoiv.devMethods.gameMasterParser.JsonStruct.Pokemon;
+import com.kamron.pogoiv.devMethods.gameMasterParser.JsonStruct.PokemonSettings;
 import com.kamron.pogoiv.devMethods.gameMasterParser.JsonStruct.Stats;
 import com.kamron.pogoiv.devMethods.gameMasterParser.JsonStruct.Template;
 
@@ -47,14 +46,14 @@ public class ApplicationDatabaseUpdater {
         HashMap<Integer, FormSettings> formsByPokedex = new HashMap<>(); // Stores form data index by NatDex number
         ArrayList<FormSettings> pokemonWithMultipleForms = new ArrayList<>(); // stores form data for pokemon with
         // multiple forms
-        HashMap<String, HashMap<String, Pokemon>> pokemonFormsByName = new HashMap<>(); // stores pokemon data by
+        HashMap<String, HashMap<String, PokemonSettings>> pokemonFormsByName = new HashMap<>(); // stores pokemon data by
         // species and form id
         HashMap<String, Integer> dexNumberLookup = new HashMap<>(); // species name -> dex #
         Set<Integer> dexNosInSystem; // Dex numbers for pokemon actually in the app (could have forms for unsupported
         // pokemon because of e.g. missing stat blocks)
 
         for (Data datum : data) {
-            Pokemon poke = datum.getPokemon();
+            PokemonSettings poke = datum.getPokemonSettings();
             if (poke != null) {
                 Stats stats = poke.getStats();
                 if (stats.getBaseAttack() == null || stats.getBaseDefense() == null || stats.getBaseStamina() == null) {
@@ -63,11 +62,11 @@ public class ApplicationDatabaseUpdater {
                 poke.setTemplateId(datum.getTemplateId()); // Inject template ID directly into pokemon object
 
                 // Add this pokemon to the map for it's species, indexed by the form name
-                pokemonFormsByName.putIfAbsent(poke.getUniqueId(), new HashMap<>());
-                if (pokemonFormsByName.get(poke.getUniqueId()).putIfAbsent(poke.getForm(), poke) != null) {
+                pokemonFormsByName.putIfAbsent(poke.getPokemonId(), new HashMap<>());
+                if (pokemonFormsByName.get(poke.getPokemonId()).putIfAbsent(poke.getForm(), poke) != null) {
                     System.out.println(String.format(
                             "WARNING: Found second \"%s\" form for %s (templateId on new form is %s)",
-                            unnull(poke.getForm(), "null"), poke.getUniqueId(), poke.getTemplateId()
+                            unnull(poke.getForm(), "null"), poke.getPokemonId(), poke.getTemplateId()
                     ));
                 }
             }
@@ -97,18 +96,18 @@ public class ApplicationDatabaseUpdater {
     }
 
     private static void printTypeDifferencesSuggestions(ArrayList<FormSettings> pokemonWithMultipleForms,
-                                                        HashMap<String, HashMap<String, Pokemon>> pokemonFormsByName,
+                                                        HashMap<String, HashMap<String, PokemonSettings>> pokemonFormsByName,
                                                         HashMap<String, Integer> dexNumberLookup) {
         System.out.println("Here's type difference suggestions to allow GoIV to differentiate between forms:\n");
 
         for (FormSettings formSetting : pokemonWithMultipleForms) {
             String formName = formSetting.getName();
-            HashMap<String, Pokemon> formHash = pokemonFormsByName.get(formName);
+            HashMap<String, PokemonSettings> formHash = pokemonFormsByName.get(formName);
 
             HashMap<String, Integer> typeCounter = new HashMap<>();
-            for (Pokemon pokemon : formHash.values()) {
-                String type1 = pokemon.getType1();
-                String type2 = pokemon.getType2();
+            for (PokemonSettings pokemonSettings : formHash.values()) {
+                String type1 = pokemonSettings.getType1();
+                String type2 = pokemonSettings.getType2();
                 int count1 = typeCounter.containsKey(type1) ? typeCounter.get(type1) : 0;
                 int count2 = typeCounter.containsKey(type2) ? typeCounter.get(type2) : 0;
                 typeCounter.put(type1, count1 + 1);
@@ -138,8 +137,7 @@ public class ApplicationDatabaseUpdater {
     private static List<Data> getDataFromGamemasterJson() {
         URL url = null;
         try {
-            url = new URL("https://raw.githubusercontent.com/pokemongo-dev-contrib/pokemongo-game-master/master"
-                    + "/versions/latest/V2_GAME_MASTER.json");
+            url = new URL("https://raw.githubusercontent.com/PokeMiners/game_masters/master/latest/latest.json");
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
@@ -149,10 +147,10 @@ public class ApplicationDatabaseUpdater {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        PogoJson json = new Gson().fromJson(reader, PogoJson.class);
+        Template[] templates = new Gson().fromJson(reader, Template[].class);
 
         // in V2, json has an extra layer of nesting: { "template": [{"data": {"templateId": "foo", ...} }] }
-        return json.getTemplates().stream().map(Template::getData).collect(Collectors.toList());
+        return Arrays.asList(templates).stream().map(Template::getData).collect(Collectors.toList());
     }
 
     private static Map<Integer, List<String>> getNameMapFromCSV() {
@@ -252,7 +250,7 @@ public class ApplicationDatabaseUpdater {
      */
     private static void printIntegersXml(HashMap<Integer, FormSettings> formsByPokedex,
                                          ArrayList<FormSettings> pokemonWithMultipleForms,
-                                         HashMap<String, HashMap<String, Pokemon>> pokemonFormsByName,
+                                         HashMap<String, HashMap<String, PokemonSettings>> pokemonFormsByName,
                                          HashMap<String, Integer> dexNumberLookup) {
         // Full file
         StringBuilder integersXmlBuilder = new StringBuilder();
@@ -298,9 +296,9 @@ public class ApplicationDatabaseUpdater {
         for (int i = 1; i <= maxPokedex; i++) {
             if (formsByPokedex.containsKey(i)) {
                 FormSettings form = formsByPokedex.get(i);
-                HashMap<String, Pokemon> formHash = pokemonFormsByName.get(form.getName());
+                HashMap<String, PokemonSettings> formHash = pokemonFormsByName.get(form.getName());
                 if (formHash != null) {
-                    Pokemon poke = formHash.get(null);
+                    PokemonSettings poke = formHash.get(null);
                     String pokemonName = titleCase(form.getName());
                     Stats stats = poke.getStats();
 
@@ -312,8 +310,8 @@ public class ApplicationDatabaseUpdater {
                             .format(commentFormat, pokemonName);
 
                     // Devolution Number
-                    String parentId = formHash.values().stream().filter(form_ -> form_.getParentId() != null)
-                            .findFirst().map(Pokemon::getParentId).orElse(null);
+                    String parentId = formHash.values().stream().filter(form_ -> form_.getParentPokemonId() != null)
+                            .findFirst().map(PokemonSettings::getParentPokemonId).orElse(null);
                     devolutionNumberFormatter.format(integerArrayFormat, dexNumberLookup.get(parentId) - 1);
                     devolutionNumberFormatter.format(commentFormat, pokemonName);
 
@@ -370,7 +368,7 @@ public class ApplicationDatabaseUpdater {
      * @param pokemonFormsByName - Pokemon data by species and form ID
      */
     private static void printFormsXml(ArrayList<FormSettings> pokemonWithMultipleForms,
-                                      HashMap<String, HashMap<String, Pokemon>> pokemonFormsByName) {
+                                      HashMap<String, HashMap<String, PokemonSettings>> pokemonFormsByName) {
         // Full file
         StringBuilder formsXmlBuilder = new StringBuilder();
 
@@ -404,7 +402,7 @@ public class ApplicationDatabaseUpdater {
 
         for (FormSettings form : pokemonWithMultipleForms) {
             String pokemonName = titleCase(form.getName());
-            HashMap<String, Pokemon> formHash = pokemonFormsByName.get(form.getName());
+            HashMap<String, PokemonSettings> formHash = pokemonFormsByName.get(form.getName());
             if (formHash != null) {
                 formsCountFormatter.format(integerArrayFormat, form.getForms().size());
                 formsCountFormatter.format(commentFormat, pokemonName);
@@ -414,7 +412,7 @@ public class ApplicationDatabaseUpdater {
                 formDefenseFormatter.format(commentFormat, pokemonName);
                 formStaminaFormatter.format(commentFormat, pokemonName);
                 for (Form subform : form.getForms()) {
-                    Pokemon poke = formHash.get(formHash.containsKey(subform.getForm()) ? subform.getForm() : null);
+                    PokemonSettings poke = formHash.get(formHash.containsKey(subform.getForm()) ? subform.getForm() : null);
                     Stats stats = poke.getStats();
                     String formName = formName(subform.getForm(), form.getName());
 

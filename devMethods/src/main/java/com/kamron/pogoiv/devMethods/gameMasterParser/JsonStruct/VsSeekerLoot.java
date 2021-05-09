@@ -4,7 +4,7 @@ import com.google.gson.annotations.Expose;
 
 import java.util.List;
 
-public class VsSeekerLootProto {
+public class VsSeekerLoot {
     @Expose
     private Integer rankLevel;
     @Expose

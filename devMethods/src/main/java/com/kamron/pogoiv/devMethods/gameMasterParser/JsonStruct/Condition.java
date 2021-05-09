@@ -7,6 +7,8 @@ public class Condition {
     private String type;
     @Expose
     private WithThrowType withThrowType;
+    @Expose
+    private WithPokemonType withPokemonType;
 
     public String getType() { return type; }
 
@@ -15,4 +17,12 @@ public class Condition {
     public WithThrowType getWithThrowType() { return withThrowType; }
 
     public void setWithThrowType(WithThrowType withThrowType) { this.withThrowType = withThrowType; }
+
+    public WithPokemonType getWithPokemonType() {
+        return withPokemonType;
+    }
+
+    public void setWithPokemonType(WithPokemonType withPokemonType) {
+        this.withPokemonType = withPokemonType;
+    }
 }

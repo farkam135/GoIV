@@ -225,6 +225,15 @@ public class ApplicationDatabaseUpdater {
                     }
                 }
             }
+            else {
+                for (int j = 0; j < languages.size(); j++) {
+                    String language = languages.get(j);
+                    if (language != null) {
+                        translations.get(language).add("Placeholder");
+                    }
+                }
+
+            }
         }
 
         for (String language : languages) {
@@ -293,11 +302,15 @@ public class ApplicationDatabaseUpdater {
         formsCountIndexBuilder.append("<integer-array name=\"formsCountIndex\">\n");
 
         int maxPokedex = Collections.max(formsByPokedex.keySet());
+        boolean numberHandled;
         for (int i = 1; i <= maxPokedex; i++) {
+            numberHandled = false;
             if (formsByPokedex.containsKey(i)) {
                 FormSettings form = formsByPokedex.get(i);
                 HashMap<String, PokemonSettings> formHash = pokemonFormsByName.get(form.getName());
                 if (formHash != null) {
+                    numberHandled = true;
+
                     PokemonSettings poke = formHash.get(null);
                     String pokemonName = titleCase(form.getName());
                     Stats stats = poke.getStats();
@@ -333,6 +346,19 @@ public class ApplicationDatabaseUpdater {
                     formsCountIndexFormatter.format(integerArrayFormat, pokemonWithMultipleForms.indexOf(form));
                     formsCountIndexFormatter.format(commentFormat, pokemonName);
                 }  // Some pokemon have form data in the game, but not pokemon data??
+            }
+            if (numberHandled == false) {
+                attackFormatter.format(integerArrayFormat, -1).format(commentFormat, "Placeholder");
+                defenseFormatter.format(integerArrayFormat, -1).format(commentFormat, "Placeholder");
+                staminaFormatter.format(integerArrayFormat, -1).format(commentFormat, "Placeholder");
+
+                devolutionNumberFormatter.format(integerArrayFormat, -1).format(commentFormat, "Placeholder");
+
+                evolutionCandyCostFormatter.format(integerArrayFormat, -1).format(commentFormat, "Placeholder");
+
+                candyNamesFormatter.format(integerArrayFormat, -1).format(commentFormat, "Placeholder");
+
+                formsCountIndexFormatter.format(integerArrayFormat, -1).format(commentFormat, "Placeholder");
             }
         }
 
@@ -407,7 +433,6 @@ public class ApplicationDatabaseUpdater {
                 formsCountFormatter.format(integerArrayFormat, form.getForms().size());
                 formsCountFormatter.format(commentFormat, pokemonName);
 
-                formNamesFormatter.format(commentFormat, pokemonName);
                 formAttackFormatter.format(commentFormat, pokemonName);
                 formDefenseFormatter.format(commentFormat, pokemonName);
                 formStaminaFormatter.format(commentFormat, pokemonName);
@@ -427,6 +452,7 @@ public class ApplicationDatabaseUpdater {
                     formStaminaFormatter.format(integerArrayFormat, unnull(stats.getBaseStamina(), -1));
                     formStaminaFormatter.format(commentFormat, formName);
                 }
+                formNamesFormatter.format(commentFormat, pokemonName);
             }
         }
 

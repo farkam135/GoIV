@@ -88,7 +88,7 @@ public class PokemonBase {
 
         final int pokeListSize = PokeInfoCalculator.getInstance().getPokedex().size();
 
-        if (number == 51) { // #52 Meowth
+/*        if (number == 51) { // #52 Meowth
             // check #863 Perrserker with its index number in pokemons.xml
             if (otherForm.number == pokeListSize - PokeInfoCalculator.PERRSERKER_INDEX_OFFSET) {
                 // return Galarian forms
@@ -176,7 +176,7 @@ public class PokemonBase {
             } else {
                 return getForm(otherForm.formName);
             }
-        }
+        } */
 
         if ((otherForm.base.forms.size() == 1 && forms.size() > 1)
                 || (forms.size() == 1 && otherForm.base.forms.size() > 1 && otherForm.base.forms.get(0) == otherForm)) {

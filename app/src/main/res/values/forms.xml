@@ -3,7 +3,7 @@
 <integer-array name="formsCount">
  <item>2</item> <!-- Rattata -->
  <item>2</item> <!-- Raticate -->
- <item>4</item> <!-- Pikachu -->
+ <item>8</item> <!-- Pikachu -->
  <item>2</item> <!-- Raichu -->
  <item>2</item> <!-- Sandshrew -->
  <item>2</item> <!-- Sandslash -->
@@ -18,8 +18,8 @@
  <item>2</item> <!-- Golem -->
  <item>2</item> <!-- Ponyta -->
  <item>2</item> <!-- Rapidash -->
- <item>2</item> <!-- Slowpoke -->
- <item>2</item> <!-- Slowbro -->
+ <item>3</item> <!-- Slowpoke -->
+ <item>3</item> <!-- Slowbro -->
  <item>2</item> <!-- Farfetchd -->
  <item>2</item> <!-- Grimer -->
  <item>2</item> <!-- Muk -->
@@ -29,6 +29,7 @@
  <item>2</item> <!-- Weezing -->
  <item>2</item> <!-- Mr Mime -->
  <item>2</item> <!-- Mewtwo -->
+ <item>2</item> <!-- Slowking -->
  <item>28</item> <!-- Unown -->
  <item>2</item> <!-- Delibird -->
  <item>2</item> <!-- Zigzagoon -->
@@ -66,12 +67,24 @@
  <item>2</item> <!-- Pyroar -->
  <item>10</item> <!-- Furfrou -->
  <item>2</item> <!-- Meowstic -->
+ <item>2</item> <!-- Hoopa -->
+ <item>2</item> <!-- Toxtricity -->
+ <item>2</item> <!-- Sinistea -->
+ <item>2</item> <!-- Polteageist -->
+ <item>2</item> <!-- Eiscue -->
+ <item>2</item> <!-- Indeedee -->
+ <item>2</item> <!-- Morpeko -->
+ <item>2</item> <!-- Zacian -->
+ <item>2</item> <!-- Zamazenta -->
+ <item>2</item> <!-- Eternatus -->
+ <item>2</item> <!-- Urshifu -->
+ <item>3</item> <!-- Calyrex -->
 </integer-array>
 <string-array name="formNames">
  <!-- Rattata -->
  <item>Normal Form</item> <item>Alola Form</item> <!-- Raticate -->
  <item>Normal Form</item> <item>Alola Form</item> <!-- Pikachu -->
- <item>Normal Form</item> <item>Costume 2020 Form</item> <item>Adventure Hat 2020 Form</item> <item>Winter 2020 Form</item> <!-- Raichu -->
+ <item>Normal Form</item> <item>Costume 2020 Form</item> <item>Adventure Hat 2020 Form</item> <item>Winter 2020 Form</item> <item>Kariyushi Form</item> <item>Pop Star Form</item> <item>Rock Star Form</item> <item>Flying 5th Anniv Form</item> <!-- Raichu -->
  <item>Normal Form</item> <item>Alola Form</item> <!-- Sandshrew -->
  <item>Normal Form</item> <item>Alola Form</item> <!-- Sandslash -->
  <item>Normal Form</item> <item>Alola Form</item> <!-- Vulpix -->
@@ -86,8 +99,8 @@
  <item>Normal Form</item> <item>Alola Form</item> <!-- Ponyta -->
  <item>Normal Form</item> <item>Galarian Form</item> <!-- Rapidash -->
  <item>Normal Form</item> <item>Galarian Form</item> <!-- Slowpoke -->
- <item>Normal Form</item> <item>2020 Form</item> <!-- Slowbro -->
- <item>Normal Form</item> <item>2021 Form</item> <!-- Farfetchd -->
+ <item>Normal Form</item> <item>2020 Form</item> <item>Galarian Form</item> <!-- Slowbro -->
+ <item>Normal Form</item> <item>2021 Form</item> <item>Galarian Form</item> <!-- Farfetchd -->
  <item>Normal Form</item> <item>Galarian Form</item> <!-- Grimer -->
  <item>Normal Form</item> <item>Alola Form</item> <!-- Muk -->
  <item>Normal Form</item> <item>Alola Form</item> <!-- Gengar -->
@@ -96,7 +109,8 @@
  <item>Normal Form</item> <item>Alola Form</item> <!-- Weezing -->
  <item>Normal Form</item> <item>Galarian Form</item> <!-- Mr Mime -->
  <item>Normal Form</item> <item>Galarian Form</item> <!-- Mewtwo -->
- <item>Normal Form</item> <item>Armored Form</item> <!-- Unown -->
+ <item>Normal Form</item> <item>Armored Form</item> <!-- Slowking -->
+ <item>Normal Form</item> <item>Galarian Form</item> <!-- Unown -->
  <item>F Form</item> <item>A Form</item> <item>B Form</item> <item>C Form</item> <item>D Form</item> <item>E Form</item> <item>G Form</item> <item>H Form</item> <item>I Form</item> <item>J Form</item> <item>K Form</item> <item>L Form</item> <item>M Form</item> <item>N Form</item> <item>O Form</item> <item>P Form</item> <item>Q Form</item> <item>R Form</item> <item>S Form</item> <item>T Form</item> <item>U Form</item> <item>V Form</item> <item>W Form</item> <item>X Form</item> <item>Y Form</item> <item>Z Form</item> <item>Exclamation Point Form</item> <item>Question Mark Form</item> <!-- Delibird -->
  <item>Normal Form</item> <item>Winter 2020 Form</item> <!-- Zigzagoon -->
  <item>Normal Form</item> <item>Galarian Form</item> <!-- Linoone -->
@@ -133,7 +147,19 @@
  <item>Normal Form</item> <item>Douse Form</item> <item>Shock Form</item> <item>Burn Form</item> <item>Chill Form</item> <!-- Pyroar -->
  <item>Normal Form</item> <item>Female Form</item> <!-- Furfrou -->
  <item>Natural Form</item> <item>Heart Form</item> <item>Star Form</item> <item>Diamond Form</item> <item>Debutante Form</item> <item>Matron Form</item> <item>Dandy Form</item> <item>La Reine Form</item> <item>Kabuki Form</item> <item>Pharaoh Form</item> <!-- Meowstic -->
- <item>Normal Form</item> <item>Female Form</item></string-array>
+ <item>Normal Form</item> <item>Female Form</item> <!-- Hoopa -->
+ <item>Confined Form</item> <item>Unbound Form</item> <!-- Toxtricity -->
+ <item>Low Key Form</item> <item>Amped Form</item> <!-- Sinistea -->
+ <item>Phony Form</item> <item>Antique Form</item> <!-- Polteageist -->
+ <item>Phony Form</item> <item>Antique Form</item> <!-- Eiscue -->
+ <item>Ice Form</item> <item>Noice Form</item> <!-- Indeedee -->
+ <item>Male Form</item> <item>Female Form</item> <!-- Morpeko -->
+ <item>Full Belly Form</item> <item>Hangry Form</item> <!-- Zacian -->
+ <item>Hero Form</item> <item>Crowned Sword Form</item> <!-- Zamazenta -->
+ <item>Hero Form</item> <item>Crowned Shield Form</item> <!-- Eternatus -->
+ <item>Normal Form</item> <item>Eternamax Form</item> <!-- Urshifu -->
+ <item>Single Strike Form</item> <item>Rapid Strike Form</item> <!-- Calyrex -->
+ <item>Normal Form</item> <item>Ice Rider Form</item> <item>Shadow Rider Form</item></string-array>
 <integer-array name="formAttack">
  <!-- Rattata -->
  <item>103</item> <!-- Normal Form -->
@@ -146,6 +172,10 @@
  <item>112</item> <!-- Costume 2020 Form -->
  <item>112</item> <!-- Adventure Hat 2020 Form -->
  <item>112</item> <!-- Winter 2020 Form -->
+ <item>112</item> <!-- Kariyushi Form -->
+ <item>112</item> <!-- Pop Star Form -->
+ <item>112</item> <!-- Rock Star Form -->
+ <item>112</item> <!-- Flying 5th Anniv Form -->
  <!-- Raichu -->
  <item>193</item> <!-- Normal Form -->
  <item>201</item> <!-- Alola Form -->
@@ -192,9 +222,11 @@
  <!-- Slowpoke -->
  <item>109</item> <!-- Normal Form -->
  <item>109</item> <!-- 2020 Form -->
+ <item>109</item> <!-- Galarian Form -->
  <!-- Slowbro -->
  <item>177</item> <!-- Normal Form -->
  <item>177</item> <!-- 2021 Form -->
+ <item>182</item> <!-- Galarian Form -->
  <!-- Farfetchd -->
  <item>124</item> <!-- Normal Form -->
  <item>174</item> <!-- Galarian Form -->
@@ -222,6 +254,9 @@
  <!-- Mewtwo -->
  <item>300</item> <!-- Normal Form -->
  <item>182</item> <!-- Armored Form -->
+ <!-- Slowking -->
+ <item>177</item> <!-- Normal Form -->
+ <item>190</item> <!-- Galarian Form -->
  <!-- Unown -->
  <item>136</item> <!-- F Form -->
  <item>136</item> <!-- A Form -->
@@ -421,6 +456,43 @@
  <!-- Meowstic -->
  <item>166</item> <!-- Normal Form -->
  <item>166</item> <!-- Female Form -->
+ <!-- Hoopa -->
+ <item>261</item> <!-- Confined Form -->
+ <item>311</item> <!-- Unbound Form -->
+ <!-- Toxtricity -->
+ <item>224</item> <!-- Low Key Form -->
+ <item>224</item> <!-- Amped Form -->
+ <!-- Sinistea -->
+ <item>134</item> <!-- Phony Form -->
+ <item>134</item> <!-- Antique Form -->
+ <!-- Polteageist -->
+ <item>248</item> <!-- Phony Form -->
+ <item>248</item> <!-- Antique Form -->
+ <!-- Eiscue -->
+ <item>148</item> <!-- Ice Form -->
+ <item>173</item> <!-- Noice Form -->
+ <!-- Indeedee -->
+ <item>208</item> <!-- Male Form -->
+ <item>184</item> <!-- Female Form -->
+ <!-- Morpeko -->
+ <item>192</item> <!-- Full Belly Form -->
+ <item>192</item> <!-- Hangry Form -->
+ <!-- Zacian -->
+ <item>254</item> <!-- Hero Form -->
+ <item>332</item> <!-- Crowned Sword Form -->
+ <!-- Zamazenta -->
+ <item>254</item> <!-- Hero Form -->
+ <item>250</item> <!-- Crowned Shield Form -->
+ <!-- Eternatus -->
+ <item>278</item> <!-- Normal Form -->
+ <item>251</item> <!-- Eternamax Form -->
+ <!-- Urshifu -->
+ <item>254</item> <!-- Single Strike Form -->
+ <item>254</item> <!-- Rapid Strike Form -->
+ <!-- Calyrex -->
+ <item>162</item> <!-- Normal Form -->
+ <item>268</item> <!-- Ice Rider Form -->
+ <item>324</item> <!-- Shadow Rider Form -->
 </integer-array>
 <integer-array name="formDefense">
  <!-- Rattata -->
@@ -434,6 +506,10 @@
  <item>96</item> <!-- Costume 2020 Form -->
  <item>96</item> <!-- Adventure Hat 2020 Form -->
  <item>96</item> <!-- Winter 2020 Form -->
+ <item>96</item> <!-- Kariyushi Form -->
+ <item>96</item> <!-- Pop Star Form -->
+ <item>96</item> <!-- Rock Star Form -->
+ <item>96</item> <!-- Flying 5th Anniv Form -->
  <!-- Raichu -->
  <item>151</item> <!-- Normal Form -->
  <item>154</item> <!-- Alola Form -->
@@ -480,9 +556,11 @@
  <!-- Slowpoke -->
  <item>98</item> <!-- Normal Form -->
  <item>98</item> <!-- 2020 Form -->
+ <item>98</item> <!-- Galarian Form -->
  <!-- Slowbro -->
  <item>180</item> <!-- Normal Form -->
  <item>180</item> <!-- 2021 Form -->
+ <item>156</item> <!-- Galarian Form -->
  <!-- Farfetchd -->
  <item>115</item> <!-- Normal Form -->
  <item>114</item> <!-- Galarian Form -->
@@ -510,6 +588,9 @@
  <!-- Mewtwo -->
  <item>182</item> <!-- Normal Form -->
  <item>278</item> <!-- Armored Form -->
+ <!-- Slowking -->
+ <item>180</item> <!-- Normal Form -->
+ <item>180</item> <!-- Galarian Form -->
  <!-- Unown -->
  <item>91</item> <!-- F Form -->
  <item>91</item> <!-- A Form -->
@@ -709,6 +790,43 @@
  <!-- Meowstic -->
  <item>167</item> <!-- Normal Form -->
  <item>167</item> <!-- Female Form -->
+ <!-- Hoopa -->
+ <item>187</item> <!-- Confined Form -->
+ <item>191</item> <!-- Unbound Form -->
+ <!-- Toxtricity -->
+ <item>140</item> <!-- Low Key Form -->
+ <item>140</item> <!-- Amped Form -->
+ <!-- Sinistea -->
+ <item>96</item> <!-- Phony Form -->
+ <item>96</item> <!-- Antique Form -->
+ <!-- Polteageist -->
+ <item>189</item> <!-- Phony Form -->
+ <item>189</item> <!-- Antique Form -->
+ <!-- Eiscue -->
+ <item>195</item> <!-- Ice Form -->
+ <item>139</item> <!-- Noice Form -->
+ <!-- Indeedee -->
+ <item>166</item> <!-- Male Form -->
+ <item>184</item> <!-- Female Form -->
+ <!-- Morpeko -->
+ <item>121</item> <!-- Full Belly Form -->
+ <item>121</item> <!-- Hangry Form -->
+ <!-- Zacian -->
+ <item>236</item> <!-- Hero Form -->
+ <item>240</item> <!-- Crowned Sword Form -->
+ <!-- Zamazenta -->
+ <item>236</item> <!-- Hero Form -->
+ <item>292</item> <!-- Crowned Shield Form -->
+ <!-- Eternatus -->
+ <item>192</item> <!-- Normal Form -->
+ <item>505</item> <!-- Eternamax Form -->
+ <!-- Urshifu -->
+ <item>177</item> <!-- Single Strike Form -->
+ <item>177</item> <!-- Rapid Strike Form -->
+ <!-- Calyrex -->
+ <item>162</item> <!-- Normal Form -->
+ <item>246</item> <!-- Ice Rider Form -->
+ <item>194</item> <!-- Shadow Rider Form -->
 </integer-array>
 <integer-array name="formStamina">
  <!-- Rattata -->
@@ -722,6 +840,10 @@
  <item>111</item> <!-- Costume 2020 Form -->
  <item>111</item> <!-- Adventure Hat 2020 Form -->
  <item>111</item> <!-- Winter 2020 Form -->
+ <item>111</item> <!-- Kariyushi Form -->
+ <item>111</item> <!-- Pop Star Form -->
+ <item>111</item> <!-- Rock Star Form -->
+ <item>111</item> <!-- Flying 5th Anniv Form -->
  <!-- Raichu -->
  <item>155</item> <!-- Normal Form -->
  <item>155</item> <!-- Alola Form -->
@@ -768,9 +890,11 @@
  <!-- Slowpoke -->
  <item>207</item> <!-- Normal Form -->
  <item>207</item> <!-- 2020 Form -->
+ <item>207</item> <!-- Galarian Form -->
  <!-- Slowbro -->
  <item>216</item> <!-- Normal Form -->
  <item>216</item> <!-- 2021 Form -->
+ <item>216</item> <!-- Galarian Form -->
  <!-- Farfetchd -->
  <item>141</item> <!-- Normal Form -->
  <item>141</item> <!-- Galarian Form -->
@@ -798,6 +922,9 @@
  <!-- Mewtwo -->
  <item>214</item> <!-- Normal Form -->
  <item>214</item> <!-- Armored Form -->
+ <!-- Slowking -->
+ <item>216</item> <!-- Normal Form -->
+ <item>216</item> <!-- Galarian Form -->
  <!-- Unown -->
  <item>134</item> <!-- F Form -->
  <item>134</item> <!-- A Form -->
@@ -997,5 +1124,42 @@
  <!-- Meowstic -->
  <item>179</item> <!-- Normal Form -->
  <item>179</item> <!-- Female Form -->
+ <!-- Hoopa -->
+ <item>173</item> <!-- Confined Form -->
+ <item>173</item> <!-- Unbound Form -->
+ <!-- Toxtricity -->
+ <item>181</item> <!-- Low Key Form -->
+ <item>181</item> <!-- Amped Form -->
+ <!-- Sinistea -->
+ <item>120</item> <!-- Phony Form -->
+ <item>120</item> <!-- Antique Form -->
+ <!-- Polteageist -->
+ <item>155</item> <!-- Phony Form -->
+ <item>155</item> <!-- Antique Form -->
+ <!-- Eiscue -->
+ <item>181</item> <!-- Ice Form -->
+ <item>181</item> <!-- Noice Form -->
+ <!-- Indeedee -->
+ <item>155</item> <!-- Male Form -->
+ <item>172</item> <!-- Female Form -->
+ <!-- Morpeko -->
+ <item>151</item> <!-- Full Belly Form -->
+ <item>151</item> <!-- Hangry Form -->
+ <!-- Zacian -->
+ <item>192</item> <!-- Hero Form -->
+ <item>192</item> <!-- Crowned Sword Form -->
+ <!-- Zamazenta -->
+ <item>192</item> <!-- Hero Form -->
+ <item>192</item> <!-- Crowned Shield Form -->
+ <!-- Eternatus -->
+ <item>268</item> <!-- Normal Form -->
+ <item>452</item> <!-- Eternamax Form -->
+ <!-- Urshifu -->
+ <item>225</item> <!-- Single Strike Form -->
+ <item>225</item> <!-- Rapid Strike Form -->
+ <!-- Calyrex -->
+ <item>225</item> <!-- Normal Form -->
+ <item>205</item> <!-- Ice Rider Form -->
+ <item>205</item> <!-- Shadow Rider Form -->
 </integer-array>
 </resources>

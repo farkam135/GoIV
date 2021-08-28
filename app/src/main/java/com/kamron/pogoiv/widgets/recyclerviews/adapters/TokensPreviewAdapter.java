@@ -103,15 +103,15 @@ public class TokensPreviewAdapter
         @Override
         public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder,
                               RecyclerView.ViewHolder target) {
-            final int fromPosition = viewHolder.getAdapterPosition();
-            final int toPosition = target.getAdapterPosition();
+            final int fromPosition = viewHolder.getBindingAdapterPosition();
+            final int toPosition = target.getBindingAdapterPosition();
             adapter.moveItem(fromPosition, toPosition); // Item dragged
             return true;
         }
 
         @Override
         public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
-            adapter.deleteItem(viewHolder.getAdapterPosition()); // Item swiped
+            adapter.deleteItem(viewHolder.getBindingAdapterPosition()); // Item swiped
         }
     }
 

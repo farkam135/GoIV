@@ -238,7 +238,7 @@
 
         </LinearLayout>
 
-        <androidx.legacy.widget.Space
+        <View
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1" />
@@ -274,7 +274,7 @@
 
         </LinearLayout>
 
-        <androidx.legacy.widget.Space
+        <View
             android:id="@+id/llPokeSpamSpace"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

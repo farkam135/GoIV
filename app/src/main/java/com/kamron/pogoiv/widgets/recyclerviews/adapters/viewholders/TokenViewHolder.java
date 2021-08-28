@@ -77,10 +77,10 @@ public class TokenViewHolder extends RecyclerView.ViewHolder implements View.OnC
     @Override public void onClick(View v) {
         if (v.getId() == R.id.btnDelete) {
             if (onTokenDeleteListener != null) {
-                onTokenDeleteListener.onTokenDeleted(getAdapterPosition());
+                onTokenDeleteListener.onTokenDeleted(getBindingAdapterPosition());
             }
         } else if (onTokenSelectedListener != null) {
-            onTokenSelectedListener.onTokenSelected(((ClipboardToken) v.getTag()), getAdapterPosition());
+            onTokenSelectedListener.onTokenSelected(((ClipboardToken) v.getTag()), getBindingAdapterPosition());
         }
     }
 }

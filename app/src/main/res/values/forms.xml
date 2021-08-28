@@ -81,85 +81,85 @@
  <item>3</item> <!-- Calyrex -->
 </integer-array>
 <string-array name="formNames">
- <!-- Rattata -->
+ <item>Normal Form</item> <item>Alola Form</item> <!-- Rattata -->
  <item>Normal Form</item> <item>Alola Form</item> <!-- Raticate -->
- <item>Normal Form</item> <item>Alola Form</item> <!-- Pikachu -->
- <item>Normal Form</item> <item>Costume 2020 Form</item> <item>Adventure Hat 2020 Form</item> <item>Winter 2020 Form</item> <item>Kariyushi Form</item> <item>Pop Star Form</item> <item>Rock Star Form</item> <item>Flying 5th Anniv Form</item> <!-- Raichu -->
+ <item>Normal Form</item> <item>Costume 2020 Form</item> <item>Adventure Hat 2020 Form</item> <item>Winter 2020 Form</item> <item>Kariyushi Form</item> <item>Pop Star Form</item> <item>Rock Star Form</item> <item>Flying 5th Anniv Form</item> <!-- Pikachu -->
+ <item>Normal Form</item> <item>Alola Form</item> <!-- Raichu -->
  <item>Normal Form</item> <item>Alola Form</item> <!-- Sandshrew -->
  <item>Normal Form</item> <item>Alola Form</item> <!-- Sandslash -->
  <item>Normal Form</item> <item>Alola Form</item> <!-- Vulpix -->
  <item>Normal Form</item> <item>Alola Form</item> <!-- Ninetales -->
  <item>Normal Form</item> <item>Alola Form</item> <!-- Diglett -->
  <item>Normal Form</item> <item>Alola Form</item> <!-- Dugtrio -->
- <item>Normal Form</item> <item>Alola Form</item> <!-- Meowth -->
- <item>Normal Form</item> <item>Alola Form</item> <item>Galarian Form</item> <!-- Persian -->
+ <item>Normal Form</item> <item>Alola Form</item> <item>Galarian Form</item> <!-- Meowth -->
+ <item>Normal Form</item> <item>Alola Form</item> <!-- Persian -->
  <item>Normal Form</item> <item>Alola Form</item> <!-- Geodude -->
  <item>Normal Form</item> <item>Alola Form</item> <!-- Graveler -->
  <item>Normal Form</item> <item>Alola Form</item> <!-- Golem -->
- <item>Normal Form</item> <item>Alola Form</item> <!-- Ponyta -->
+ <item>Normal Form</item> <item>Galarian Form</item> <!-- Ponyta -->
  <item>Normal Form</item> <item>Galarian Form</item> <!-- Rapidash -->
- <item>Normal Form</item> <item>Galarian Form</item> <!-- Slowpoke -->
- <item>Normal Form</item> <item>2020 Form</item> <item>Galarian Form</item> <!-- Slowbro -->
- <item>Normal Form</item> <item>2021 Form</item> <item>Galarian Form</item> <!-- Farfetchd -->
- <item>Normal Form</item> <item>Galarian Form</item> <!-- Grimer -->
+ <item>Normal Form</item> <item>2020 Form</item> <item>Galarian Form</item> <!-- Slowpoke -->
+ <item>Normal Form</item> <item>2021 Form</item> <item>Galarian Form</item> <!-- Slowbro -->
+ <item>Normal Form</item> <item>Galarian Form</item> <!-- Farfetchd -->
+ <item>Normal Form</item> <item>Alola Form</item> <!-- Grimer -->
  <item>Normal Form</item> <item>Alola Form</item> <!-- Muk -->
- <item>Normal Form</item> <item>Alola Form</item> <!-- Gengar -->
- <item>Normal Form</item> <item>Costume 2020 Form</item> <!-- Exeggutor -->
+ <item>Normal Form</item> <item>Costume 2020 Form</item> <!-- Gengar -->
+ <item>Normal Form</item> <item>Alola Form</item> <!-- Exeggutor -->
  <item>Normal Form</item> <item>Alola Form</item> <!-- Marowak -->
- <item>Normal Form</item> <item>Alola Form</item> <!-- Weezing -->
+ <item>Normal Form</item> <item>Galarian Form</item> <!-- Weezing -->
  <item>Normal Form</item> <item>Galarian Form</item> <!-- Mr Mime -->
- <item>Normal Form</item> <item>Galarian Form</item> <!-- Mewtwo -->
- <item>Normal Form</item> <item>Armored Form</item> <!-- Slowking -->
- <item>Normal Form</item> <item>Galarian Form</item> <!-- Unown -->
- <item>F Form</item> <item>A Form</item> <item>B Form</item> <item>C Form</item> <item>D Form</item> <item>E Form</item> <item>G Form</item> <item>H Form</item> <item>I Form</item> <item>J Form</item> <item>K Form</item> <item>L Form</item> <item>M Form</item> <item>N Form</item> <item>O Form</item> <item>P Form</item> <item>Q Form</item> <item>R Form</item> <item>S Form</item> <item>T Form</item> <item>U Form</item> <item>V Form</item> <item>W Form</item> <item>X Form</item> <item>Y Form</item> <item>Z Form</item> <item>Exclamation Point Form</item> <item>Question Mark Form</item> <!-- Delibird -->
- <item>Normal Form</item> <item>Winter 2020 Form</item> <!-- Zigzagoon -->
+ <item>Normal Form</item> <item>Armored Form</item> <!-- Mewtwo -->
+ <item>Normal Form</item> <item>Galarian Form</item> <!-- Slowking -->
+ <item>F Form</item> <item>A Form</item> <item>B Form</item> <item>C Form</item> <item>D Form</item> <item>E Form</item> <item>G Form</item> <item>H Form</item> <item>I Form</item> <item>J Form</item> <item>K Form</item> <item>L Form</item> <item>M Form</item> <item>N Form</item> <item>O Form</item> <item>P Form</item> <item>Q Form</item> <item>R Form</item> <item>S Form</item> <item>T Form</item> <item>U Form</item> <item>V Form</item> <item>W Form</item> <item>X Form</item> <item>Y Form</item> <item>Z Form</item> <item>Exclamation Point Form</item> <item>Question Mark Form</item> <!-- Unown -->
+ <item>Normal Form</item> <item>Winter 2020 Form</item> <!-- Delibird -->
+ <item>Normal Form</item> <item>Galarian Form</item> <!-- Zigzagoon -->
  <item>Normal Form</item> <item>Galarian Form</item> <!-- Linoone -->
- <item>Normal Form</item> <item>Galarian Form</item> <!-- Sableye -->
- <item>Normal Form</item> <item>Costume 2020 Form</item> <!-- Spinda -->
- <item>00 Form</item> <item>01 Form</item> <item>02 Form</item> <item>03 Form</item> <item>04 Form</item> <item>05 Form</item> <item>06 Form</item> <item>07 Form</item> <item>08 Form</item> <item>09 Form</item> <item>10 Form</item> <item>11 Form</item> <item>12 Form</item> <item>13 Form</item> <item>14 Form</item> <item>15 Form</item> <item>16 Form</item> <item>17 Form</item> <item>18 Form</item> <item>19 Form</item> <!-- Castform -->
- <item>Normal Form</item> <item>Sunny Form</item> <item>Rainy Form</item> <item>Snowy Form</item> <!-- Deoxys -->
- <item>Normal Form</item> <item>Attack Form</item> <item>Defense Form</item> <item>Speed Form</item> <!-- Burmy -->
+ <item>Normal Form</item> <item>Costume 2020 Form</item> <!-- Sableye -->
+ <item>00 Form</item> <item>01 Form</item> <item>02 Form</item> <item>03 Form</item> <item>04 Form</item> <item>05 Form</item> <item>06 Form</item> <item>07 Form</item> <item>08 Form</item> <item>09 Form</item> <item>10 Form</item> <item>11 Form</item> <item>12 Form</item> <item>13 Form</item> <item>14 Form</item> <item>15 Form</item> <item>16 Form</item> <item>17 Form</item> <item>18 Form</item> <item>19 Form</item> <!-- Spinda -->
+ <item>Normal Form</item> <item>Sunny Form</item> <item>Rainy Form</item> <item>Snowy Form</item> <!-- Castform -->
+ <item>Normal Form</item> <item>Attack Form</item> <item>Defense Form</item> <item>Speed Form</item> <!-- Deoxys -->
+ <item>Plant Form</item> <item>Sandy Form</item> <item>Trash Form</item> <!-- Burmy -->
  <item>Plant Form</item> <item>Sandy Form</item> <item>Trash Form</item> <!-- Wormadam -->
- <item>Plant Form</item> <item>Sandy Form</item> <item>Trash Form</item> <!-- Cherrim -->
- <item>Overcast Form</item> <item>Sunny Form</item> <!-- Shellos -->
+ <item>Overcast Form</item> <item>Sunny Form</item> <!-- Cherrim -->
+ <item>West Sea Form</item> <item>East Sea Form</item> <!-- Shellos -->
  <item>West Sea Form</item> <item>East Sea Form</item> <!-- Gastrodon -->
- <item>West Sea Form</item> <item>East Sea Form</item> <!-- Rotom -->
- <item>Normal Form</item> <item>Heat Form</item> <item>Wash Form</item> <item>Frost Form</item> <item>Fan Form</item> <item>Mow Form</item> <!-- Giratina -->
- <item>Altered Form</item> <item>Origin Form</item> <!-- Shaymin -->
- <item>Land Form</item> <item>Sky Form</item> <!-- Arceus -->
- <item>Normal Form</item> <item>Fighting Form</item> <item>Flying Form</item> <item>Poison Form</item> <item>Ground Form</item> <item>Rock Form</item> <item>Bug Form</item> <item>Ghost Form</item> <item>Steel Form</item> <item>Fire Form</item> <item>Water Form</item> <item>Grass Form</item> <item>Electric Form</item> <item>Psychic Form</item> <item>Ice Form</item> <item>Dragon Form</item> <item>Dark Form</item> <item>Fairy Form</item> <!-- Basculin -->
- <item>Red Striped Form</item> <item>Blue Striped Form</item> <!-- Darumaka -->
- <item>Normal Form</item> <item>Galarian Form</item> <!-- Darmanitan -->
- <item>Standard Form</item> <item>Zen Form</item> <item>Galarian Standard Form</item> <item>Galarian Zen Form</item> <!-- Yamask -->
- <item>Normal Form</item> <item>Galarian Form</item> <!-- Deerling -->
+ <item>Normal Form</item> <item>Heat Form</item> <item>Wash Form</item> <item>Frost Form</item> <item>Fan Form</item> <item>Mow Form</item> <!-- Rotom -->
+ <item>Altered Form</item> <item>Origin Form</item> <!-- Giratina -->
+ <item>Land Form</item> <item>Sky Form</item> <!-- Shaymin -->
+ <item>Normal Form</item> <item>Fighting Form</item> <item>Flying Form</item> <item>Poison Form</item> <item>Ground Form</item> <item>Rock Form</item> <item>Bug Form</item> <item>Ghost Form</item> <item>Steel Form</item> <item>Fire Form</item> <item>Water Form</item> <item>Grass Form</item> <item>Electric Form</item> <item>Psychic Form</item> <item>Ice Form</item> <item>Dragon Form</item> <item>Dark Form</item> <item>Fairy Form</item> <!-- Arceus -->
+ <item>Red Striped Form</item> <item>Blue Striped Form</item> <!-- Basculin -->
+ <item>Normal Form</item> <item>Galarian Form</item> <!-- Darumaka -->
+ <item>Standard Form</item> <item>Zen Form</item> <item>Galarian Standard Form</item> <item>Galarian Zen Form</item> <!-- Darmanitan -->
+ <item>Normal Form</item> <item>Galarian Form</item> <!-- Yamask -->
+ <item>Spring Form</item> <item>Summer Form</item> <item>Autumn Form</item> <item>Winter Form</item> <!-- Deerling -->
  <item>Spring Form</item> <item>Summer Form</item> <item>Autumn Form</item> <item>Winter Form</item> <!-- Sawsbuck -->
- <item>Spring Form</item> <item>Summer Form</item> <item>Autumn Form</item> <item>Winter Form</item> <!-- Frillish -->
+ <item>Normal Form</item> <item>Female Form</item> <!-- Frillish -->
  <item>Normal Form</item> <item>Female Form</item> <!-- Jellicent -->
- <item>Normal Form</item> <item>Female Form</item> <!-- Cubchoo -->
- <item>Normal Form</item> <item>Winter 2020 Form</item> <!-- Stunfisk -->
- <item>Normal Form</item> <item>Galarian Form</item> <!-- Tornadus -->
+ <item>Normal Form</item> <item>Winter 2020 Form</item> <!-- Cubchoo -->
+ <item>Normal Form</item> <item>Galarian Form</item> <!-- Stunfisk -->
+ <item>Incarnate Form</item> <item>Therian Form</item> <!-- Tornadus -->
  <item>Incarnate Form</item> <item>Therian Form</item> <!-- Thundurus -->
  <item>Incarnate Form</item> <item>Therian Form</item> <!-- Landorus -->
- <item>Incarnate Form</item> <item>Therian Form</item> <!-- Kyurem -->
- <item>Normal Form</item> <item>White Form</item> <item>Black Form</item> <!-- Keldeo -->
- <item>Ordinary Form</item> <item>Resolute Form</item> <!-- Meloetta -->
- <item>Aria Form</item> <item>Pirouette Form</item> <!-- Genesect -->
- <item>Normal Form</item> <item>Douse Form</item> <item>Shock Form</item> <item>Burn Form</item> <item>Chill Form</item> <!-- Pyroar -->
- <item>Normal Form</item> <item>Female Form</item> <!-- Furfrou -->
- <item>Natural Form</item> <item>Heart Form</item> <item>Star Form</item> <item>Diamond Form</item> <item>Debutante Form</item> <item>Matron Form</item> <item>Dandy Form</item> <item>La Reine Form</item> <item>Kabuki Form</item> <item>Pharaoh Form</item> <!-- Meowstic -->
- <item>Normal Form</item> <item>Female Form</item> <!-- Hoopa -->
- <item>Confined Form</item> <item>Unbound Form</item> <!-- Toxtricity -->
- <item>Low Key Form</item> <item>Amped Form</item> <!-- Sinistea -->
+ <item>Normal Form</item> <item>White Form</item> <item>Black Form</item> <!-- Kyurem -->
+ <item>Ordinary Form</item> <item>Resolute Form</item> <!-- Keldeo -->
+ <item>Aria Form</item> <item>Pirouette Form</item> <!-- Meloetta -->
+ <item>Normal Form</item> <item>Douse Form</item> <item>Shock Form</item> <item>Burn Form</item> <item>Chill Form</item> <!-- Genesect -->
+ <item>Normal Form</item> <item>Female Form</item> <!-- Pyroar -->
+ <item>Natural Form</item> <item>Heart Form</item> <item>Star Form</item> <item>Diamond Form</item> <item>Debutante Form</item> <item>Matron Form</item> <item>Dandy Form</item> <item>La Reine Form</item> <item>Kabuki Form</item> <item>Pharaoh Form</item> <!-- Furfrou -->
+ <item>Normal Form</item> <item>Female Form</item> <!-- Meowstic -->
+ <item>Confined Form</item> <item>Unbound Form</item> <!-- Hoopa -->
+ <item>Low Key Form</item> <item>Amped Form</item> <!-- Toxtricity -->
+ <item>Phony Form</item> <item>Antique Form</item> <!-- Sinistea -->
  <item>Phony Form</item> <item>Antique Form</item> <!-- Polteageist -->
- <item>Phony Form</item> <item>Antique Form</item> <!-- Eiscue -->
- <item>Ice Form</item> <item>Noice Form</item> <!-- Indeedee -->
- <item>Male Form</item> <item>Female Form</item> <!-- Morpeko -->
- <item>Full Belly Form</item> <item>Hangry Form</item> <!-- Zacian -->
- <item>Hero Form</item> <item>Crowned Sword Form</item> <!-- Zamazenta -->
- <item>Hero Form</item> <item>Crowned Shield Form</item> <!-- Eternatus -->
- <item>Normal Form</item> <item>Eternamax Form</item> <!-- Urshifu -->
- <item>Single Strike Form</item> <item>Rapid Strike Form</item> <!-- Calyrex -->
- <item>Normal Form</item> <item>Ice Rider Form</item> <item>Shadow Rider Form</item></string-array>
+ <item>Ice Form</item> <item>Noice Form</item> <!-- Eiscue -->
+ <item>Male Form</item> <item>Female Form</item> <!-- Indeedee -->
+ <item>Full Belly Form</item> <item>Hangry Form</item> <!-- Morpeko -->
+ <item>Hero Form</item> <item>Crowned Sword Form</item> <!-- Zacian -->
+ <item>Hero Form</item> <item>Crowned Shield Form</item> <!-- Zamazenta -->
+ <item>Normal Form</item> <item>Eternamax Form</item> <!-- Eternatus -->
+ <item>Single Strike Form</item> <item>Rapid Strike Form</item> <!-- Urshifu -->
+ <item>Normal Form</item> <item>Ice Rider Form</item> <item>Shadow Rider Form</item> <!-- Calyrex -->
+</string-array>
 <integer-array name="formAttack">
  <!-- Rattata -->
  <item>103</item> <!-- Normal Form -->

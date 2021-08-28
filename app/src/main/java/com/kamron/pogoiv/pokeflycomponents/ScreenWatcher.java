@@ -122,6 +122,7 @@ public class ScreenWatcher {
         touchViewParams.gravity = Gravity.LEFT | Gravity.TOP;
 
         touchView.setOnTouchListener(new GoIVOnTouchEventLogic());
+
         WindowManager windowManager = (WindowManager) pokefly.getSystemService(Pokefly.WINDOW_SERVICE);
         windowManager.addView(touchView, touchViewParams);
     }

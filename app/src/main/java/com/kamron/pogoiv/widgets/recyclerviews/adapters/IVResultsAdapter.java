@@ -91,7 +91,7 @@ public class IVResultsAdapter extends RecyclerView.Adapter<IVResultsAdapter.Resu
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
-                    pokefly.addSpecificIVClipboard(dataSet.get(getAdapterPosition()));
+                    pokefly.addSpecificIVClipboard(dataSet.get(getBindingAdapterPosition()));
                     IVResultsAdapter.this.notifyDataSetChanged();
                 }
             });

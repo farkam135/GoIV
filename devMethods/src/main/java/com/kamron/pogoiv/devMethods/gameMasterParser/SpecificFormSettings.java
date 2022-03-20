@@ -26,8 +26,10 @@ public class SpecificFormSettings extends FormSettings {
                 forms = new ArrayList<>();
                 Pattern pattern = Pattern.compile("^.*_(" + String.join("|", COMMON_FORMS) + ")$");
                 for (Form form : allForms) {
-                    if (!pattern.matcher(form.getForm()).matches()) {
-                        forms.add(form);
+                    if (form.getForm() != null) {
+                        if (!pattern.matcher(form.getForm()).matches()) {
+                            forms.add(form);
+                        }
                     }
                 }
                 if (forms.size() == 1 && forms.get(0).getForm().matches("^.*_(" + NORMAL_FORM + ")$")) {

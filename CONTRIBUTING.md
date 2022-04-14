@@ -35,9 +35,9 @@ This is especially important to send pull requests.
 ### Lombok Plugin
 GoIV project uses Lombok Plugin to automatically generate various methods (i.e. Getter, Setters). Without this plugin, `Unable to resolve method` errors will show, but code will compile and build as per normal.
 * Close the Project *(required to enable annotation processing)*
-* Install Lombok Plugin (`File > Settings > Plugins > Browse Repositories > Search 'Lombok Plugin' > Install`)
+* Download latest Lombok Plugin (https://plugins.jetbrains.com/plugin/6317-lombok/versions)
+* Copy contents to Android Studio plugin folder (`{ANDROID_STUDIO_INSTALLATION_DIR}\plugins`)
 * Restart Android Studio
-* Enable Annotation Processing (`File > Settings > Build, Execution, Deployment > Compiler > Annotation Processors`)
 
 ### Git on Android Studio
 Set-up Git on Android Studio to automate Git commands. For developers who are *lazy* and prefer one-click solutions.

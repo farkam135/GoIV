@@ -71,7 +71,7 @@ android {
      * Android SDK and build-tools version
      * Update (both Gradle and local SDK) whenever possible
      */
-    compileSdkVersion 30
+    compileSdkVersion 32
 
     /**
      * Build configurations for APK
@@ -81,7 +81,7 @@ android {
      */
     defaultConfig {
         minSdkVersion 19 /*Dont change this unless you know why*/
-        targetSdkVersion 29 /*Dont change this unless you know why*/
+        targetSdkVersion 30 /*Dont change this unless you know why*/
         versionCode 74
         versionName "5.5.7"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -180,8 +180,10 @@ dependencies {
     /**
      * Builds Dependencies for All Builds.
      */
-    compileOnly 'org.projectlombok:lombok:1.16.20'
-    annotationProcessor 'org.projectlombok:lombok:1.16.20'
+    //somehow it won't build without this
+    //noinspection AnnotationProcessorOnCompilePath
+    compileOnly 'org.projectlombok:lombok:1.18.22'
+    annotationProcessor 'org.projectlombok:lombok:1.18.22'
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     implementation 'com.android.support:support-v4:27.1.1'

@@ -80,4 +80,8 @@
             android:theme="@style/AppTheme.NoActionBar.fullscreen"/>
     </application>
 
+    <queries>
+        <package android:name="com.nianticlabs.pokemongo" />
+    </queries>
+
 </manifest>

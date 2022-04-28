@@ -7,7 +7,8 @@
     android:padding="120dp"
     android:id="@+id/toastLayout"
     app:cardCornerRadius="10dp"
-    android:background="#fafafa">
+    android:background="#fafafa"
+    android:alpha="0">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -15,29 +16,29 @@
 
 
         <ImageView
-            android:layout_height="40dp"
-            android:layout_width="40dp"
-            android:src="@mipmap/adaptive_icon"
             android:id="@+id/imageview"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:scaleType="fitStart"
+            android:src="@mipmap/adaptive_icon"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@id/toastText"
-            >
-
-        </ImageView>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/toastText"
-            android:layout_height="wrap_content"
             android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
             android:text="Toasty Toasty"
             android:textAlignment="center"
-            android:textSize="14sp"
             android:textColor="@android:color/black"
-            android:padding="10dp"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/imageview"
-            app:layout_constraintRight_toRightOf="parent">
-        </TextView>
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </android.support.constraint.ConstraintLayout>
 

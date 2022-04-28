@@ -17,6 +17,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
@@ -30,7 +31,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.common.base.Optional;
 import com.kamron.pogoiv.clipboardlogic.ClipboardTokenHandler;
@@ -634,16 +634,30 @@ public class Pokefly extends Service {
      * @param message The message to be printed out in the toast
      */
     public void showToastOnPoke(String message){
-
         Context themedContext = new ContextThemeWrapper(this, R.style.AppTheme_Dialog);
         View v = LayoutInflater.from(themedContext).inflate(R.layout.goiv_toast, null);
         ((TextView) v.findViewById(R.id.toastText)).setText(message);
-        Toast customToast = new Toast(this);
-        customToast.setView(v);
-        customToast.setGravity(Gravity.CENTER, 0, (int) (displayMetrics.heightPixels*-0.26));
-        customToast.setDuration(Toast.LENGTH_SHORT);
-        customToast.show();
 
+        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams(
+                WindowManager.LayoutParams.WRAP_CONTENT,
+                WindowManager.LayoutParams.WRAP_CONTENT,
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
+                        ? WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
+                        : WindowManager.LayoutParams.TYPE_PHONE,
+                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
+                PixelFormat.TRANSLUCENT);
+        layoutParams.gravity = Gravity.CENTER;
+        layoutParams.y = (int) (displayMetrics.heightPixels * -0.26);
+
+        windowManager.addView(v, layoutParams);
+
+        v.animate().alpha(1f).setDuration(1000).withEndAction(() -> {
+            final Handler handler = new Handler(Looper.getMainLooper());
+            handler.postDelayed(() -> v.animate().alpha(0f).setDuration(1000).withEndAction(() -> {
+                v.setVisibility(View.GONE);
+                windowManager.removeView(v);
+            }).start(), 2000);
+        }).start();
     }
 
     /**

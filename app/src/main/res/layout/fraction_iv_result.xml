@@ -77,7 +77,7 @@
 
     </LinearLayout>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -104,7 +104,7 @@
             app:layout_constraintBaseline_toBaselineOf="@id/resultsPokemonName"
             tools:text="@string/level" />
 
-        <android.support.v7.widget.AppCompatImageButton
+        <androidx.appcompat.widget.AppCompatImageButton
             style="?attr/borderlessButtonStyle"
             android:id="@+id/shareWithOtherApp"
             android:layout_width="48dp"
@@ -113,7 +113,7 @@
             android:scaleType="center"
             app:srcCompat="@drawable/ic_share_black" />
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"

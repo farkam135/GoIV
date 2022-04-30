@@ -3,7 +3,7 @@ package com.kamron.pogoiv;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.google.common.base.Strings;
 import com.kamron.pogoiv.clipboardlogic.ClipboardToken;

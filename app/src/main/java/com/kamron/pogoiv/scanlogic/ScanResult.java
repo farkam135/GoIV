@@ -1,7 +1,7 @@
 package com.kamron.pogoiv.scanlogic;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.kamron.pogoiv.pokeflycomponents.AppraisalManager;
 import com.kamron.pogoiv.pokeflycomponents.MovesetsManager;

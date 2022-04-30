@@ -1,7 +1,7 @@
 package com.kamron.pogoiv;
 
 import android.app.Application;
-import android.support.v7.app.AppCompatDelegate;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import com.kamron.pogoiv.pokeflycomponents.MovesetsManager;
 import com.kamron.pogoiv.utils.CrashlyticsWrapper;

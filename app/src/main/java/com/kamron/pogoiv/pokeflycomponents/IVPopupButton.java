@@ -8,8 +8,8 @@ import android.graphics.PixelFormat;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.v4.content.res.ResourcesCompat;
+import androidx.annotation.NonNull;
+import androidx.core.content.res.ResourcesCompat;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -31,7 +31,7 @@ import static com.kamron.pogoiv.pokeflycomponents.GoIVNotificationManager.ACTION
  */
 
 @SuppressLint("ViewConstructor")
-public class IVPopupButton extends android.support.v7.widget.AppCompatButton {
+public class IVPopupButton extends androidx.appcompat.widget.AppCompatButton {
 
     private final Pokefly pokefly;
     private boolean shouldRecalibrate = false;

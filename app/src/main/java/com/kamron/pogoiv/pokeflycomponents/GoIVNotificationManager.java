@@ -9,8 +9,8 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.content.ContextCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 

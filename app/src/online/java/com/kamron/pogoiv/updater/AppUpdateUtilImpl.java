@@ -2,8 +2,8 @@ package com.kamron.pogoiv.updater;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v4.content.LocalBroadcastManager;
+import androidx.annotation.NonNull;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.widget.Toast;
 
 import com.kamron.pogoiv.BuildConfig;

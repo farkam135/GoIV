@@ -1,7 +1,7 @@
 package com.kamron.pogoiv.updater;
 
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 public class SemVer implements Comparable<SemVer> {
     private final int major;

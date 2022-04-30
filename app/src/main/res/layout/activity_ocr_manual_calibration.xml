@@ -31,13 +31,13 @@
             android:layout_height="match_parent"
             android:background="#2e000000"/>
 
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             android:id="@+id/floatingEditField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardElevation="12dp">
 
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/floatingEditFieldConstraint"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -47,7 +47,7 @@
                 android:paddingLeft="12dp"
                 android:paddingRight="12dp">
 
-                <android.support.constraint.ConstraintLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/dragUpDownArea"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -61,7 +61,7 @@
                         app:layout_constraintEnd_toEndOf="@id/dragUpDownArea"
                         app:layout_constraintStart_toStartOf="@id/dragUpDownArea"
                         app:srcCompat="@drawable/ic_compare_arrows_white_24dp"/>
-                </android.support.constraint.ConstraintLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
 
                 <TextView
@@ -125,9 +125,9 @@
                     app:layout_constraintBottom_toBottomOf="@id/floatingEditFieldConstraint"
                     app:layout_constraintEnd_toEndOf="@id/floatingEditFieldConstraint"/>
 
-            </android.support.constraint.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </android.support.v7.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
     </FrameLayout>
 

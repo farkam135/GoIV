@@ -3,9 +3,9 @@ package com.kamron.pogoiv.pokeflycomponents.fractions;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.core.content.ContextCompat;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;

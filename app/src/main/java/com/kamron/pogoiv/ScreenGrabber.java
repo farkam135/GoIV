@@ -12,9 +12,9 @@ import android.media.Image;
 import android.media.ImageReader;
 import android.media.projection.MediaProjection;
 import android.os.Build;
-import android.support.annotation.ColorInt;
-import android.support.annotation.Nullable;
-import android.support.annotation.WorkerThread;
+import androidx.annotation.ColorInt;
+import androidx.annotation.Nullable;
+import androidx.annotation.WorkerThread;
 import android.util.DisplayMetrics;
 
 import java.nio.ByteBuffer;

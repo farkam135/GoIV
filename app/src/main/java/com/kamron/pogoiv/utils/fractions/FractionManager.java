@@ -1,8 +1,8 @@
 package com.kamron.pogoiv.utils.fractions;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.StyleRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.StyleRes;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;

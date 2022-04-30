@@ -4,10 +4,10 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.support.annotation.NonNull;
-import android.support.test.InstrumentationRegistry;
-import android.support.test.filters.LargeTest;
-import android.support.test.runner.AndroidJUnit4;
+import androidx.annotation.NonNull;
+import androidx.test.platform.app.InstrumentationRegistry;
+import androidx.test.filters.LargeTest;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.kamron.pogoiv.scanlogic.Pokemon;
 

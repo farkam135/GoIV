@@ -1,7 +1,7 @@
 package com.kamron.pogoiv.widgets.recyclerviews.adapters;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.ViewGroup;
 
 import com.kamron.pogoiv.clipboardlogic.ClipboardToken;

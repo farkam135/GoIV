@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -24,7 +24,7 @@
                 android:text="@string/clipboard_modifier_preview"
                 android:textAppearance="?attr/textAppearanceListItemSmall"/>
 
-            <android.support.v4.widget.Space
+            <androidx.legacy.widget.Space
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_weight="1" />
@@ -46,7 +46,7 @@
         </LinearLayout>
 
         <!-- height must be @dimen/token_height + 6dp*2 vertical padding  -->
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/tokenPreviewRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="58dp"
@@ -74,7 +74,7 @@
             android:background="@color/colorPrimary" />
 
         <!-- List of all available tokens -->
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/tokenShowcaseRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -90,7 +90,7 @@
 
     </LinearLayout>
 
-    <android.support.design.widget.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btnAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -99,7 +99,7 @@
         app:fabSize="mini"
         android:layout_gravity="bottom|end" />
 
-    <android.support.design.widget.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btnMaxEvolution"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -111,4 +111,4 @@
         app:fabSize="mini"
         android:layout_gravity="bottom|end"/>
 
-</android.support.design.widget.CoordinatorLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

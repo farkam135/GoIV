@@ -6,7 +6,7 @@ import android.graphics.PixelFormat;
 import android.graphics.Point;
 import android.os.Build;
 import android.os.Handler;
-import android.support.annotation.ColorInt;
+import androidx.annotation.ColorInt;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
@@ -19,7 +19,6 @@ import com.kamron.pogoiv.GoIVSettings;
 import com.kamron.pogoiv.Pokefly;
 import com.kamron.pogoiv.ScreenGrabber;
 import com.kamron.pogoiv.pokeflycomponents.fractions.AppraisalFraction;
-import com.kamron.pogoiv.scanlogic.ScanResult;
 import com.kamron.pogoiv.utils.fractions.FractionManager;
 
 import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.SCREEN_INFO_CARD_WHITE_HEX;

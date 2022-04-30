@@ -5,7 +5,7 @@ package com.kamron.pogoiv.pokeflycomponents.ocrhelper;
  */
 
 import android.graphics.Rect;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import com.kamron.pogoiv.GoIVSettings;
 

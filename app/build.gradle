@@ -202,7 +202,6 @@ dependencies {
     implementation 'com.rmtheis:tess-two:7.0.0'
     implementation 'info.hoang8f:android-segmented:1.0.6'
     implementation 'io.apptik.widget:multislider:1.2'
-    implementation 'com.pavelsikun:material-seekbar-preference:2.3.0'
     implementation 'androidx.palette:palette:1.0.0'
     implementation project(':openCVLibrary330')
 

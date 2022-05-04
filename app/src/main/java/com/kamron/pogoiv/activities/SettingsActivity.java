@@ -129,6 +129,27 @@ public class SettingsActivity extends AppCompatActivity {
             } else {
                 effectivelyRemovePreference(GoIVSettings.SHOW_TRANSLATED_POKEMON_NAME);
             }
+
+            SeekBarPreference seekBarPreference = findPreference(GoIVSettings.AUTO_APPRAISAL_SCAN_DELAY);
+            if (seekBarPreference != null) {
+                seekBarPreference.setOnPreferenceChangeListener((preference, newValue) -> {
+                    final String key = preference.getKey();
+                    if (key.equals(GoIVSettings.AUTO_APPRAISAL_SCAN_DELAY)) {
+                        final SeekBarPreference sbp = (SeekBarPreference) preference;
+                        final int increment = sbp.getSeekBarIncrement();
+                        float value = (int) newValue;
+                        final int rounded = Math.round(value / increment);
+                        final int finalValue = rounded * increment;
+                        if (finalValue == value) {
+                            return true;
+                        } else {
+                            sbp.setValue(finalValue);
+                        }
+                        return false;
+                    }
+                    return true;
+                });
+            }
         }
 
         private void effectivelyRemovePreference(@NonNull String preferenceKey) {

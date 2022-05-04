@@ -14,7 +14,7 @@ buildscript {
 
 /**
  * Repositories for the project
- * jCenter() / mavenCentral() is already called in project build.gradle
+ * mavenCentral() is already called in project build.gradle
  */
 repositories {
     maven { url 'https://maven.fabric.io/public' }

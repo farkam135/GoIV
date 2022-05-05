@@ -3,46 +3,54 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory
-        android:title="@string/settings_title_behaviour">
+        android:title="@string/settings_title_behaviour"
+        app:iconSpaceReserved="false">
 
         <SwitchPreference
             android:defaultValue="true"
             android:key="launchPokemonGo"
+            app:iconSpaceReserved="false"
             android:summary="@string/launch_pokemon_go_setting_summary"
             android:title="@string/launch_pokemon_go_setting_title"/>
 
         <SwitchPreference
             android:defaultValue="true"
             android:key="showConfirmationDialog"
+            app:iconSpaceReserved="false"
             android:summary="@string/confirmation_dialog_setting_summary"
             android:title="@string/confirmation_dialog_setting_title"/>
 
         <SwitchPreference
             android:defaultValue="false"
             android:key="autoOpenAppraiseDialogue"
+            app:iconSpaceReserved="false"
             android:summary="@string/expanded_appraisal_default_setting_summary"
             android:title="@string/expanded_appraisal_default_setting_title"/>
 
         <SwitchPreference
             android:defaultValue="false"
             android:key="showTranslatedPokemonName"
+            app:iconSpaceReserved="false"
             android:summary="@string/showtranslatedpokemonname_setting_summary"
             android:title="@string/showtranslatedpokemonname_setting_title"/>
 
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="@string/settings_title_optional">
+        android:title="@string/settings_title_optional"
+        app:iconSpaceReserved="false">
 
         <SwitchPreference
             android:defaultValue="true"
             android:key="@string/copy_to_clipboard_setting_key"
+            app:iconSpaceReserved="false"
             android:summary="@string/copy_to_clipboard_setting_summary_new"
             android:title="@string/copy_to_clipboard_setting_title"/>
 
         <SwitchPreference
             android:defaultValue="false"
             android:key="@string/fast_copy_to_clipboard"
+            app:iconSpaceReserved="false"
             android:summary="Add clipboard info on IV preview instead of on full scan (skip button click)."
             android:title="@string/copy_to_clip_fast"/>
 
@@ -51,6 +59,7 @@
             android:defaultValue="false"
             android:dependency="@string/copy_to_clipboard_setting_key"
             android:key="copyToClipboardSingle"
+            app:iconSpaceReserved="false"
             android:summary="@string/copy_to_clip_single_setting_summary"
             android:title="@string/copy_to_clip_single_setting"/>
 
@@ -58,6 +67,7 @@
             android:defaultValue="false"
             android:dependency="@string/copy_to_clipboard_setting_key"
             android:key="copyToClipboardPerfectIv"
+            app:iconSpaceReserved="false"
             android:summary="@string/copy_to_clip_perfectiv_setting_summary"
             android:title="@string/copy_to_clip_perfectiv_setting"/>
 
@@ -65,21 +75,23 @@
             android:defaultValue="true"
             android:dependency="@string/copy_to_clipboard_setting_key"
             android:key="copyToClipboardShowToast"
+            app:iconSpaceReserved="false"
             android:summary="@string/copy_to_clip_show_toast_setting_summary"
             android:title="@string/copy_to_clip_show_toast_setting"/>
 
         <SwitchPreference
             android:defaultValue="false"
             android:key="pokeSpamEnabled"
+            app:iconSpaceReserved="false"
             android:summary="@string/pokespam_setting_summary"
             android:title="@string/pokespam_setting_title"/>
 
         <SeekBarPreference
             android:key="appraisalScanDelay"
             android:title="@string/autoAppraisalScanDelay_title"
+            app:iconSpaceReserved="false"
             android:summary="@string/autoAppraisalScanDelay_summary"
             android:defaultValue="3000"
-
             app:min="1000"
             android:max="5000"
             app:seekBarIncrement="50"
@@ -89,12 +101,14 @@
         <SwitchPreference
             android:defaultValue="true"
             android:key="quick_iv_preview"
+            app:iconSpaceReserved="false"
             android:title="@string/quick_iv_preview_title"
             android:summary="@string/quick_iv_preview_summary"/>
 
         <SwitchPreference
             android:defaultValue="false"
             android:key="quick_iv_preview_clipboard"
+            app:iconSpaceReserved="false"
             android:dependency="quick_iv_preview"
             android:title="@string/quick_iv_preview_clipboard_title"
             android:summary="@string/quick_iv_preview_clipboard_summary"/>
@@ -102,11 +116,13 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="@string/settings_title_mode">
+        android:title="@string/settings_title_mode"
+        app:iconSpaceReserved="false">
 
         <SwitchPreference
             android:defaultValue="false"
             android:key="@string/manual_screenshot_mode_key"
+            app:iconSpaceReserved="false"
             android:summary="@string/manual_screenshot_mode_setting_summary"
             android:title="@string/manual_screenshot_mode_setting_title"/>
 
@@ -114,33 +130,39 @@
             android:defaultValue="true"
             android:dependency="@string/manual_screenshot_mode_key"
             android:key="deleteScreenshots"
+            app:iconSpaceReserved="false"
             android:summary="@string/delete_screenshots_setting_summary"
             android:title="@string/delete_screenshots_setting_title"/>
 
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="@string/settings_title_uninteresting">
+        android:title="@string/settings_title_uninteresting"
+        app:iconSpaceReserved="false">
 
         <SwitchPreference
             android:defaultValue="true"
             android:key="autoUpdateEnabled"
+            app:iconSpaceReserved="false"
             android:summary="@string/auto_update_setting_summary"
             android:title="@string/auto_update_setting_title"/>
 
         <Preference
             android:key="checkForUpdate"
+            app:iconSpaceReserved="false"
             android:summary="@string/check_for_update_setting_summary"
             android:title="@string/check_for_update_setting_title"/>
 
         <SwitchPreference
             android:defaultValue="true"
             android:key="sendCrashReports"
+            app:iconSpaceReserved="false"
             android:summary="@string/send_crash_reports_setting_summary"
             android:title="@string/send_crash_reports_setting_title"/>
 
         <Preference
             android:key="@string/view_credits_button"
+            app:iconSpaceReserved="false"
             android:summary="@string/view_credits_summary"
             android:title="@string/view_credits"/>
 

@@ -2,8 +2,6 @@ package com.kamron.pogoiv.clipboardlogic.tokens;
 
 import android.content.Context;
 
-import com.kamron.pogoiv.R;
-
 public class CustomNameToken extends PokemonNameToken {
 
     public CustomNameToken(boolean maxEv) {

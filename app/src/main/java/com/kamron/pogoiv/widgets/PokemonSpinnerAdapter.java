@@ -148,7 +148,7 @@ public class PokemonSpinnerAdapter extends ArrayAdapter<Pokemon> {
         int colRaw = shortString.hashCode();
         int rndDecIndex = colRaw % 3;
 
-        ArrayList<Integer> colList = new ArrayList(3);
+        ArrayList<Integer> colList = new ArrayList<>(3);
         colList.add(new Integer(Color.red(colRaw)));
         colList.add(new Integer(Color.green(colRaw)));
         colList.add(new Integer(Color.blue(colRaw)));

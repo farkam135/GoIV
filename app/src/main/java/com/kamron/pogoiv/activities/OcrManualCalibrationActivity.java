@@ -161,10 +161,10 @@ public class OcrManualCalibrationActivity extends AppCompatActivity {
             sfr.arcCenter = new ScanPoint((screenshot.getWidth() / 2), (int) (screenshot.getHeight() * 0.5));
         }
         if (sfr.arcRadius == null) {
-            sfr.arcRadius = new Integer((int) (screenshot.getWidth() * 0.45));
+            sfr.arcRadius = (int) (screenshot.getWidth() * 0.45);
         }
         if (sfr.arcRadius <= 0) {
-            sfr.arcRadius = new Integer((int) (screenshot.getWidth() * 0.45));
+            sfr.arcRadius = (int) (screenshot.getWidth() * 0.45);
         }
 
         if (sfr.infoScreenCardWhitePixelPoint == null) {

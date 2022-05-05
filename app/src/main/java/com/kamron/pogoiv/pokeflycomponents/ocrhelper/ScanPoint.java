@@ -9,8 +9,8 @@ public class ScanPoint {
 
     public ScanPoint(String calibrationKey, GoIVSettings settings) {
         String[] values = settings.getCalibrationValue(calibrationKey).split(",");
-        xCoord = Integer.valueOf(values[0]);
-        yCoord = Integer.valueOf(values[1]);
+        xCoord = Integer.parseInt(values[0]);
+        yCoord = Integer.parseInt(values[1]);
     }
 
     public ScanPoint(int x, int y) {

@@ -149,15 +149,15 @@ public class PokemonSpinnerAdapter extends ArrayAdapter<Pokemon> {
         int rndDecIndex = colRaw % 3;
 
         ArrayList<Integer> colList = new ArrayList<>(3);
-        colList.add(new Integer(Color.red(colRaw)));
-        colList.add(new Integer(Color.green(colRaw)));
-        colList.add(new Integer(Color.blue(colRaw)));
+        colList.add(Color.red(colRaw));
+        colList.add(Color.green(colRaw));
+        colList.add(Color.blue(colRaw));
 
         if (colList.get(rndDecIndex) > 150) {
-            colList.set(rndDecIndex, new Integer(50));
+            colList.set(rndDecIndex, 50);
         }
         if (colList.get((rndDecIndex + 1) % 3) < 150) {
-            colList.set((rndDecIndex + 1) % 3, new Integer(150));
+            colList.set((rndDecIndex + 1) % 3, 150);
         }
 
         return Color.rgb(colList.get(0), colList.get(1), colList.get(2));

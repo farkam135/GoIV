@@ -1305,7 +1305,7 @@ public class OcrHelper {
     private static void ensureCorrectLevelArcSettings(@NonNull GoIVSettings settings, int trainerLevel) {
         if (settings.hasManualScanCalibration()) {
             ScanPoint arcInit = new ScanPoint(ARC_INIT_POINT, settings);
-            int arcRadius = Integer.valueOf(settings.getCalibrationValue(ARC_RADIUS));
+            int arcRadius = Integer.parseInt(settings.getCalibrationValue(ARC_RADIUS));
             Data.setupArcPoints(arcInit, arcRadius, trainerLevel);
         }
     }

@@ -258,7 +258,7 @@ public class MainActivity extends AppCompatActivity {
             appBarLayout.setExpanded(false, true);
         }
         // Disable expandable AppBar on Clipboard section
-        CoordinatorLayout.Behavior behavior =
+        CoordinatorLayout.Behavior<?> behavior =
                 ((CoordinatorLayout.LayoutParams) appBarLayout.getLayoutParams()).getBehavior();
         if (behavior instanceof  DisableableAppBarLayoutBehavior) {
             ((DisableableAppBarLayoutBehavior) behavior)

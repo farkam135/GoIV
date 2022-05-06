@@ -100,7 +100,7 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
             return;
         }
 
-        sCalibrationImageUnaltered = bitmap.copy(bitmap.getConfig() ,false);;
+        sCalibrationImageUnaltered = bitmap.copy(bitmap.getConfig() ,false);
         if (bitmap.isMutable()) {
             sCalibrationImage = bitmap;
         } else {

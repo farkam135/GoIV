@@ -113,8 +113,6 @@ public class MediaStoreUtils {
             thumb.compress(Bitmap.CompressFormat.JPEG, 100, thumbOut);
             thumbOut.close();
             return thumb;
-        } catch (FileNotFoundException ex) {
-            return null;
         } catch (IOException ex) {
             return null;
         }

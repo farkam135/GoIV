@@ -62,7 +62,7 @@ public class LevelToken extends ClipboardToken {
 
     @Override
     public String getStringRepresentation() {
-        return super.getStringRepresentation() + String.valueOf(mode);
+        return super.getStringRepresentation() + mode;
     }
 
     @Override

@@ -107,7 +107,7 @@ public class MixedUnicodeToken extends ClipboardToken {
 
     @Override
     public String getStringRepresentation() {
-        return super.getStringRepresentation() + String.valueOf(filled);
+        return super.getStringRepresentation() + filled;
     }
 
     @Override

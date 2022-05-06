@@ -41,7 +41,7 @@ public class BaseStatToken extends ClipboardToken {
 
     @Override
     public String getStringRepresentation() {
-        return super.getStringRepresentation() + String.valueOf(mode) + String.valueOf(includeIV);
+        return super.getStringRepresentation() + mode + includeIV;
     }
 
     @Override

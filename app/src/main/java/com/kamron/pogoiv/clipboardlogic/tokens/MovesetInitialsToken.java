@@ -54,7 +54,7 @@ public class MovesetInitialsToken extends ClipboardToken {
 
     @Override
     public String getStringRepresentation() {
-        return super.getStringRepresentation() + String.valueOf(maxInitials);
+        return super.getStringRepresentation() + maxInitials;
     }
 
     @Override

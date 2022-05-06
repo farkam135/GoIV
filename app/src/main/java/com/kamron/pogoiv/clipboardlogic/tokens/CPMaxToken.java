@@ -49,7 +49,7 @@ public class CPMaxToken extends ClipboardToken {
 
     @Override
     public String getStringRepresentation() {
-        return super.getStringRepresentation() + String.valueOf(currentLevel);
+        return super.getStringRepresentation() + currentLevel;
     }
 
     @Override public String getPreview() {

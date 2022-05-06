@@ -71,7 +71,7 @@ public class LevelRange {
         if (min == max) {
             return String.valueOf(min);
         } else {
-            return String.valueOf(min) + " - " + String.valueOf(max);
+            return min + " - " + max;
         }
     }
 }

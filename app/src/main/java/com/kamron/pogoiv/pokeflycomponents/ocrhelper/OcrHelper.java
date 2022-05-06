@@ -343,7 +343,7 @@ public class OcrHelper {
             double percentTextPixels = amountOfTextPixels / (double) leftOfEvolutionCostImage.getWidth();
             double percentPinkBackground = amountOfPinkBackgroundPixels / (double) leftOfEvolutionCostImage.getWidth();
             boolean isPinkBackground = percentPinkBackground > 0.3;
-            if (percentTextPixels > 0.04 && isPinkBackground== false){
+            if (percentTextPixels > 0.04 && !isPinkBackground){
                 //An evolution stone with '1' cost results in approx 5% text pixels
                 isNewAttackButton = true;
             }

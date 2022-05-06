@@ -100,7 +100,7 @@ public class ScanFieldAutomaticLocatorTest {
             ScanFieldAutomaticLocator autoLocator =
                     new ScanFieldAutomaticLocator(bmp, bmp.getWidth(), device.screenDensity);
             //noinspection ConstantConditions
-            ScanFieldResults results = autoLocator.scan(null, new WeakReference<ProgressDialog>(null),
+            ScanFieldResults results = autoLocator.scan(null, new WeakReference<>(null),
                     new WeakReference<>(mTargetContext));
             checkScanFieldResults(device, assetFileName, bmp, results);
         }

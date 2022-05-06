@@ -114,7 +114,7 @@ public class InputFraction extends Fraction implements ReactiveColorListener {
         ButterKnife.bind(this, rootView);
 
         // Initialize pokemon species spinner
-        pokeInputAdapter = new PokemonSpinnerAdapter(pokefly, R.layout.spinner_pokemon, new ArrayList<Pokemon>());
+        pokeInputAdapter = new PokemonSpinnerAdapter(pokefly, R.layout.spinner_pokemon, new ArrayList<>());
         pokeInputSpinner.setAdapter(pokeInputAdapter);
 
         pokeInputSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

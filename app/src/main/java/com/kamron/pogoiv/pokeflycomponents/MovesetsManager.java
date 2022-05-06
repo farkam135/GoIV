@@ -238,8 +238,7 @@ public class MovesetsManager {
         Gson gson = new GsonBuilder().create();
         LinkedTreeMap<String, Object> translations = gson.fromJson(jsonReader, Object.class);
 
-        Pair<HashMap<String, String>, HashMap<String, String>> result
-                = new Pair<>(new HashMap<String, String>(), new HashMap<String, String>());
+        Pair<HashMap<String, String>, HashMap<String, String>> result = new Pair<>(new HashMap<>(), new HashMap<>());
 
         for (String attributeName : translations.keySet()) {
             if (attributeName.equals("moves")) {

@@ -62,7 +62,7 @@ public class GenderDetectionTest {
                     ScanFieldAutomaticLocator autoLocator =
                             new ScanFieldAutomaticLocator(bmp, bmp.getWidth(), device.screenDensity);
                     //noinspection ConstantConditions
-                    results = autoLocator.scan(null, new WeakReference<ProgressDialog>(null),
+                    results = autoLocator.scan(null, new WeakReference<>(null),
                             new WeakReference<>(mTargetContext));
                 }
 

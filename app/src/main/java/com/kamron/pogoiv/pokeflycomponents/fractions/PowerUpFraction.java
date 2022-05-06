@@ -395,7 +395,7 @@ public class PowerUpFraction extends Fraction implements ReactiveColorListener {
     private void createExtendedResultEvolutionSpinner() {
         //The evolution picker for seeing estimates of how much cp and cost a pokemon will have at a different evolution
         extendedEvolutionSpinnerAdapter = new PokemonSpinnerAdapter(pokefly, R.layout.spinner_pokemon,
-                new ArrayList<Pokemon>());
+                new ArrayList<>());
         extendedEvolutionSpinner.setAdapter(extendedEvolutionSpinnerAdapter);
 
         extendedEvolutionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

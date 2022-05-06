@@ -55,7 +55,7 @@ public class PokemonSpinnerAdapter extends ArrayAdapter<Pokemon> {
      * @return
      */
     private ArrayList<Pokemon> sortByForms(ArrayList<Pokemon> list) {
-        ArrayList<Pokemon> returnerList = new ArrayList<Pokemon>(list);
+        ArrayList<Pokemon> returnerList = new ArrayList<>(list);
         Collections.sort(returnerList, new Comparator<Pokemon>() {
             @Override public int compare(Pokemon p1, Pokemon p2) {
                 int formSort = p2.formName.compareTo(p1.formName);

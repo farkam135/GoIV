@@ -90,7 +90,7 @@ public class ScanFieldAutomaticLocatorTest {
     private void checkDevice(Device device) throws IOException {
         String[] pokemonInfoScreenFileNames = mContext.getAssets().list(device.infoScreensDirPath);
 
-        assertTrue("No test images found for " + device.toString(), pokemonInfoScreenFileNames.length > 0);
+        assertTrue("No test images found for " + device, pokemonInfoScreenFileNames.length > 0);
 
         for (String assetFileName : pokemonInfoScreenFileNames) {
             BitmapFactory.Options options = new BitmapFactory.Options();
@@ -116,7 +116,7 @@ public class ScanFieldAutomaticLocatorTest {
                 "type", results.pokemonTypeArea, device.expectedTypeArea);
 
         // TODO check gender area
-        assertNotNull("File " + testAssetName + " on " + device.toString()
+        assertNotNull("File " + testAssetName + " on " + device
                 + ": 'mon gender area wasn't detected", results.pokemonGenderArea);
 
         // Execute checks on 'mon candy name area
@@ -124,11 +124,11 @@ public class ScanFieldAutomaticLocatorTest {
                 "candy name", results.candyNameArea, device.expectedCandyNameArea);
 
         // TODO check HP area
-        assertNotNull("File " + testAssetName + " on " + device.toString()
+        assertNotNull("File " + testAssetName + " on " + device
                 + ": 'mon HP area wasn't detected", results.pokemonHpArea);
 
         // TODO check CP area
-        assertNotNull("File " + testAssetName + " on " + device.toString()
+        assertNotNull("File " + testAssetName + " on " + device
                 + ": 'mon CP area wasn't detected", results.pokemonCpArea);
 
         // Execute checks on 'mon candy amount
@@ -140,35 +140,35 @@ public class ScanFieldAutomaticLocatorTest {
                 "evolution cost", results.pokemonEvolutionCostArea, device.expectedEvolutionCost);
 
         // TODO check power up stardust cost area
-        assertNotNull("File " + testAssetName + " on " + device.toString()
+        assertNotNull("File " + testAssetName + " on " + device
                 + ": 'mon power up stardust cost area wasn't detected", results.pokemonPowerUpStardustCostArea);
 
         // TODO check power up candy cost area
-        assertNotNull("File " + testAssetName + " on " + device.toString()
+        assertNotNull("File " + testAssetName + " on " + device
                 + ": 'mon power up candy cost area wasn't detected", results.pokemonPowerUpCandyCostArea);
 
         // TODO check arc center point
-        assertNotNull("File " + testAssetName + " on " + device.toString()
+        assertNotNull("File " + testAssetName + " on " + device
                 + ": 'mon arc center wasn't detected", results.arcCenter);
 
         // TODO check arc radius value
-        assertNotNull("File " + testAssetName + " on " + device.toString()
+        assertNotNull("File " + testAssetName + " on " + device
                 + ": 'mon arc radius wasn't detected", results.arcRadius);
 
         // TODO check white pixel point
-        assertNotNull("File " + testAssetName + " on " + device.toString()
+        assertNotNull("File " + testAssetName + " on " + device
                 + ": 'mon white pixel point wasn't detected", results.infoScreenCardWhitePixelPoint);
 
         // TODO check white pixel color value
-        assertNotNull("File " + testAssetName + " on " + device.toString()
+        assertNotNull("File " + testAssetName + " on " + device
                 + ": 'mon white pixel color wasn't detected", results.infoScreenCardWhitePixelColor);
 
         // TODO check green pixel point
-        assertNotNull("File " + testAssetName + " on " + device.toString()
+        assertNotNull("File " + testAssetName + " on " + device
                 + ": 'mon green pixel point wasn't detected", results.infoScreenFabGreenPixelPoint);
 
         // TODO check green pixel color value
-        assertNotNull("File " + testAssetName + " on " + device.toString()
+        assertNotNull("File " + testAssetName + " on " + device
                 + ": 'mon green pixel color wasn't detected", results.infoScreenFabGreenPixelColor);
     }
 

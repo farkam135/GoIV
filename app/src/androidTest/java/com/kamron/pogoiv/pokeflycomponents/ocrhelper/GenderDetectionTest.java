@@ -49,7 +49,7 @@ public class GenderDetectionTest {
 
             String[] pokemonInfoScreenFileNames = mContext.getAssets().list(genderPath);
 
-            assertTrue("No test images found for gender" + gender.toString() + " and device " + device.toString(),
+            assertTrue("No test images found for gender" + gender + " and device " + device,
                     pokemonInfoScreenFileNames.length > 0);
 
             for (String assetFileName : pokemonInfoScreenFileNames) {

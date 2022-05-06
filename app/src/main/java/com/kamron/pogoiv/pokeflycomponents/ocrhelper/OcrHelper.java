@@ -1194,8 +1194,8 @@ public class OcrHelper {
         LevelRange estimatedLevelRange =
                 refineLevelEstimate(trainerLevel, powerUpCandyCost, estimatedPokemonLevel);
 
-        String uniqueIdentifier = name + type + candyNames.get(0) + candyNames.get(1) + hp.toString() + cp
-                .toString() + powerUpStardustCost.toString() + powerUpCandyCost.toString();
+        String uniqueIdentifier = name + type + candyNames.get(0) + candyNames.get(1) + hp + cp
+                .toString() + powerUpStardustCost + powerUpCandyCost;
 
         return new ScanData(estimatedLevelRange, name, type, candyNames, gender, hp, cp, candyAmount, evolutionCost,
                 powerUpStardustCost, powerUpCandyCost, null, null, is_lucky, uniqueIdentifier);

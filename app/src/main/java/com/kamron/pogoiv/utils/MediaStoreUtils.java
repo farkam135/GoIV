@@ -46,11 +46,8 @@ public class MediaStoreUtils {
             url = cr.insert(EXTERNAL_CONTENT_URI, values);
 
             if (source != null) {
-                OutputStream imageOut = cr.openOutputStream(url);
-                try {
+                try (OutputStream imageOut = cr.openOutputStream(url)) {
                     source.compress(Bitmap.CompressFormat.PNG, 100, imageOut);
-                } finally {
-                    imageOut.close();
                 }
 
                 long id = ContentUris.parseId(url);

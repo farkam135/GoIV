@@ -326,26 +326,11 @@ public class GoIVSettings {
 
         File fileName = new File(context.getCacheDir(), "appraisalCache.ser");
 
-        FileInputStream fis = null;
-        ObjectInputStream in = null;
-        try {
-            fis = new FileInputStream(fileName);
-            in = new ObjectInputStream(fis);
+        try (FileInputStream fis = new FileInputStream(fileName);
+             ObjectInputStream in = new ObjectInputStream(fis)) {
             appraisalCache = (Map<String, String>) in.readObject();
         } catch (Exception ignored) {
             //Fall-through
-        } finally {
-
-            try {
-                if (fis != null) {
-                    fis.close();
-                }
-                if (in != null) {
-                    in.close();
-                }
-            } catch (Exception ignored) {
-                //Fall-through
-            }
         }
 
         return appraisalCache;

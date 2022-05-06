@@ -65,22 +65,19 @@ public class MovesetsManager {
         }
 
         // Parse the moveset json and the translation json and store them to the static variable
-        AsyncTask.execute(new Runnable() {
-            @Override
-            public void run() { // Execute on background to avoid blocking the caller
-                JsonReader jsonReader;
+        AsyncTask.execute(() -> { // Execute on background to avoid blocking the caller
+            JsonReader jsonReader;
 
-                // From network response. Take the HTTP response body as String and put it in a StringReader
-                //jsonReader = new JsonReader(stringReader);
+            // From network response. Take the HTTP response body as String and put it in a StringReader
+            //jsonReader = new JsonReader(stringReader);
 
-                // From disk cache
-                try {
-                    jsonReader = new JsonReader(
-                            new InputStreamReader(context.getAssets().open("movesets/movesets.json")));
-                    movesets = parseJson(context, jsonReader);
-                } catch (IOException e) {
-                    Timber.e(e);
-                }
+            // From disk cache
+            try {
+                jsonReader = new JsonReader(
+                        new InputStreamReader(context.getAssets().open("movesets/movesets.json")));
+                movesets = parseJson(context, jsonReader);
+            } catch (IOException e) {
+                Timber.e(e);
             }
         });
     }

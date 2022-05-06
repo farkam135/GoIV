@@ -140,21 +140,18 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
             new Thread(new RecalibrateRunnable(this, dialog)).start();
         }
 
-        saveCalibrationButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                saveCalibrationButton.setVisibility(View.GONE);
-                if (results != null && results.isCompleteCalibration()) {
-                    GoIVSettings settings = GoIVSettings.getInstance(OcrCalibrationResultActivity.this);
-                    settings.saveScreenCalibrationResults(results);
-                    Toast.makeText(OcrCalibrationResultActivity.this,
-                            R.string.ocr_calibration_saved, Toast.LENGTH_LONG).show();
-                    Intent stopIntent = Pokefly.createStopIntent(OcrCalibrationResultActivity.this);
-                    startService(stopIntent);
-                    Intent intent = new Intent(OcrCalibrationResultActivity.this, MainActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
-                }
+        saveCalibrationButton.setOnClickListener(v -> {
+            saveCalibrationButton.setVisibility(View.GONE);
+            if (results != null && results.isCompleteCalibration()) {
+                GoIVSettings settings = GoIVSettings.getInstance(OcrCalibrationResultActivity.this);
+                settings.saveScreenCalibrationResults(results);
+                Toast.makeText(OcrCalibrationResultActivity.this,
+                        R.string.ocr_calibration_saved, Toast.LENGTH_LONG).show();
+                Intent stopIntent = Pokefly.createStopIntent(OcrCalibrationResultActivity.this);
+                startService(stopIntent);
+                Intent intent = new Intent(OcrCalibrationResultActivity.this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
             }
         });
     }
@@ -255,13 +252,10 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
                 new AlertDialog.Builder(this)
                         .setTitle(android.R.string.dialog_alert_title)
                         .setMessage(R.string.email_report_require_permission)
-                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                // The user pressed OK, we can try to ask for the permission
-                                ActivityCompat.requestPermissions(OcrCalibrationResultActivity.this,
-                                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, RC_WRITE_EXTERNAL);
-                            }
+                        .setPositiveButton(android.R.string.ok, (dialogInterface, i) -> {
+                            // The user pressed OK, we can try to ask for the permission
+                            ActivityCompat.requestPermissions(OcrCalibrationResultActivity.this,
+                                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, RC_WRITE_EXTERNAL);
                         });
             } else {
                 // Try to ask for the permission

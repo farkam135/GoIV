@@ -174,20 +174,16 @@ public class MainFragment extends Fragment {
      * Initiates the links to reddit and github.
      */
     private void initiateCommunityButtons() {
-        redditButton.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View v) {
-                Uri uriUrl = Uri.parse("https://www.reddit.com/r/GoIV/");
-                Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
-                startActivity(launchBrowser);
-            }
+        redditButton.setOnClickListener(v -> {
+            Uri uriUrl = Uri.parse("https://www.reddit.com/r/GoIV/");
+            Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
+            startActivity(launchBrowser);
         });
 
-        githubButton.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View v) {
-                Uri uriUrl = Uri.parse("https://github.com/GoIV-Devs/GoIV");
-                Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
-                startActivity(launchBrowser);
-            }
+        githubButton.setOnClickListener(v -> {
+            Uri uriUrl = Uri.parse("https://github.com/GoIV-Devs/GoIV");
+            Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
+            startActivity(launchBrowser);
         });
     }
 
@@ -196,15 +192,11 @@ public class MainFragment extends Fragment {
         if (context == null) {
             return;
         }
-        helpButton.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View v) {
-                new AlertDialog.Builder(context)
-                        .setTitle(R.string.instructions_title)
-                        .setMessage(R.string.instructions_message)
-                        .setPositiveButton(android.R.string.ok, null)
-                        .show();
-            }
-        });
+        helpButton.setOnClickListener(v -> new AlertDialog.Builder(context)
+                .setTitle(R.string.instructions_title)
+                .setMessage(R.string.instructions_message)
+                .setPositiveButton(android.R.string.ok, null)
+                .show());
     }
 
     /**
@@ -212,21 +204,18 @@ public class MainFragment extends Fragment {
      */
     private void initiateStartButton() {
         ViewCompat.setBackgroundTintList(startButton, null);
-        startButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Activity activity = getActivity();
-                if (activity instanceof MainActivity) {
-                    // This call to clearFocus will accept whatever input the user pressed, without
-                    // forcing him to press the green check mark on the keyboard.
-                    // Otherwise the typed value won't be read if either:
-                    // - the user presses Start before closing the keyboard, or
-                    // - the user closes the keyboard with the back button (note that does not cancel
-                    //   the typed text).
-                    trainerLevelPicker.clearFocus();
-                    GoIVSettings.getInstance(activity).setLevel(trainerLevelPicker.getValue());
-                    ((MainActivity) activity).runStartButtonLogic();
-                }
+        startButton.setOnClickListener(v -> {
+            Activity activity = getActivity();
+            if (activity instanceof MainActivity) {
+                // This call to clearFocus will accept whatever input the user pressed, without
+                // forcing him to press the green check mark on the keyboard.
+                // Otherwise the typed value won't be read if either:
+                // - the user presses Start before closing the keyboard, or
+                // - the user closes the keyboard with the back button (note that does not cancel
+                //   the typed text).
+                trainerLevelPicker.clearFocus();
+                GoIVSettings.getInstance(activity).setLevel(trainerLevelPicker.getValue());
+                ((MainActivity) activity).runStartButtonLogic();
             }
         });
     }

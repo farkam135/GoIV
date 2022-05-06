@@ -179,23 +179,21 @@ public class ScanResult {
 
 
     public void sortIVCombinations() {
-        Collections.sort(iVCombinations, new Comparator<IVCombination>() {
-            @Override public int compare(IVCombination o1, IVCombination o2) {
-                int comparePercent = o1.percentPerfect - o2.percentPerfect;
-                if (comparePercent != 0) {
-                    return comparePercent;
-                }
-                int compareAtt = o1.att - o2.att;
-                if (compareAtt != 0) {
-                    return compareAtt;
-                }
-                int compareDef = o1.def - o2.def;
-                if (compareDef != 0) {
-                    return compareDef;
-                }
-                int compareSta = o1.sta - o2.sta;
-                return compareSta;
+        Collections.sort(iVCombinations, (o1, o2) -> {
+            int comparePercent = o1.percentPerfect - o2.percentPerfect;
+            if (comparePercent != 0) {
+                return comparePercent;
             }
+            int compareAtt = o1.att - o2.att;
+            if (compareAtt != 0) {
+                return compareAtt;
+            }
+            int compareDef = o1.def - o2.def;
+            if (compareDef != 0) {
+                return compareDef;
+            }
+            int compareSta = o1.sta - o2.sta;
+            return compareSta;
         });
     }
 

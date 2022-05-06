@@ -39,15 +39,10 @@ public class ScreenGrabber {
         projection = mediaProjection;
         imageReader = ImageReader.newInstance(rawDisplayMetrics.widthPixels, rawDisplayMetrics.heightPixels,
                 PixelFormat.RGBA_8888, 2);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                virtualDisplay = projection.createVirtualDisplay("screen-mirror", rawDisplayMetrics.widthPixels,
-                        rawDisplayMetrics.heightPixels,
-                        rawDisplayMetrics.densityDpi, DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR, imageReader.getSurface(),
-                        null, null);
-            }
-        }).start();
+        new Thread(() -> virtualDisplay = projection.createVirtualDisplay("screen-mirror", rawDisplayMetrics.widthPixels,
+                rawDisplayMetrics.heightPixels,
+                rawDisplayMetrics.densityDpi, DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR, imageReader.getSurface(),
+                null, null)).start();
     }
 
     public static ScreenGrabber init(MediaProjection mediaProjection, DisplayMetrics raw) {

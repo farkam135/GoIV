@@ -450,18 +450,16 @@ public class OcrManualCalibrationActivity extends AppCompatActivity {
 
         //Create the button for saving & exiting
         saveManualCalibrationButton = findViewById(R.id.saveManualCalibrationButton);
-        saveManualCalibrationButton.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View view) {
-                if (sfr != null && sfr.isCompleteCalibration()) {
-                    GoIVSettings settings = GoIVSettings.getInstance(OcrManualCalibrationActivity.this);
-                    settings.saveScreenCalibrationResults(sfr);
-                    Toast.makeText(OcrManualCalibrationActivity.this,
-                            R.string.ocr_calibration_saved, Toast.LENGTH_LONG).show();
-                }
-                Intent intent = new Intent(getOuter(), MainActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
+        saveManualCalibrationButton.setOnClickListener(view -> {
+            if (sfr != null && sfr.isCompleteCalibration()) {
+                GoIVSettings settings = GoIVSettings.getInstance(OcrManualCalibrationActivity.this);
+                settings.saveScreenCalibrationResults(sfr);
+                Toast.makeText(OcrManualCalibrationActivity.this,
+                        R.string.ocr_calibration_saved, Toast.LENGTH_LONG).show();
             }
+            Intent intent = new Intent(getOuter(), MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
         });
 
         //Add the floating UI with the edit tools

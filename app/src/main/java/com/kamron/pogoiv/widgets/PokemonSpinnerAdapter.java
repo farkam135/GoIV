@@ -56,15 +56,12 @@ public class PokemonSpinnerAdapter extends ArrayAdapter<Pokemon> {
      */
     private ArrayList<Pokemon> sortByForms(ArrayList<Pokemon> list) {
         ArrayList<Pokemon> returnerList = new ArrayList<>(list);
-        Collections.sort(returnerList, new Comparator<Pokemon>() {
-            @Override public int compare(Pokemon p1, Pokemon p2) {
-                int formSort = p2.formName.compareTo(p1.formName);
-                if (formSort == 0){ //Same form, sort by dex number
-                    return p1.number-p2.number;
-
-                }
-                return formSort;
+        Collections.sort(returnerList, (p1, p2) -> {
+            int formSort = p2.formName.compareTo(p1.formName);
+            if (formSort == 0){ //Same form, sort by dex number
+                return p1.number-p2.number;
             }
+            return formSort;
         });
         return returnerList;
     }

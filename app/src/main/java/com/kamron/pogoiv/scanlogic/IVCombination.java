@@ -90,9 +90,7 @@ public class IVCombination {
      * Note: this comparator imposes orderings that are inconsistent with equals: compare(o1, o2) == 0 does not imply
      * o1.equals(o2).
      */
-    public static Comparator<IVCombination> totalComparator = new Comparator<IVCombination>() {
-        @Override public int compare(IVCombination o1, IVCombination o2) {
-            return o1.getTotal() - o2.getTotal();
-        }
-    };
+    //Comparator.comparingInt required API 24+
+    @SuppressWarnings("ComparatorCombinators")
+    public static Comparator<IVCombination> totalComparator = (o1, o2) -> o1.getTotal() - o2.getTotal();
 }

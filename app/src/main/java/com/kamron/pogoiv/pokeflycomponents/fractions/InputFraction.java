@@ -383,12 +383,7 @@ public class InputFraction extends Fraction implements ReactiveColorListener {
     }
 
     private <T> String optionalIntToString(Optional<T> src) {
-        return src.transform(new Function<T, String>() {
-            @Override
-            public String apply(T input) {
-                return input.toString();
-            }
-        }).or("");
+        return src.transform(Object::toString).or("");
     }
 
     /**

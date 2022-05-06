@@ -443,12 +443,7 @@ public class PowerUpFraction extends Fraction implements ReactiveColorListener {
         expandedLevelSeekbarBackground.getThumb(1).setValue(levelToSeekbarProgress(Data.MAXIMUM_POKEMON_LEVEL));
 
         // Set empty on touch listener to prevent changing values of Thumb 1
-        expandedLevelSeekbarBackground.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return true;
-            }
-        });
+        expandedLevelSeekbarBackground.setOnTouchListener((v, event) -> true);
     }
 
 

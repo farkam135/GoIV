@@ -411,11 +411,9 @@ public class Pokefly extends Service {
             infoLayout.setVisibility(View.VISIBLE);
             //infoLayout.animate().translationY(infoLayout.getHeight()*2).setDuration(0);
             windowManager.addView(infoLayout, layoutParams);
-            infoLayout.animate().translationY(infoLayout.getHeight()*2).setDuration(5).withEndAction(new Runnable() {
-                @Override public void run() {
-                    infoLayout.setVisibility(View.VISIBLE);
-                    infoLayout.animate().translationY(0).setDuration(300);
-                }
+            infoLayout.animate().translationY(infoLayout.getHeight()*2).setDuration(5).withEndAction(() -> {
+                infoLayout.setVisibility(View.VISIBLE);
+                infoLayout.animate().translationY(0).setDuration(300);
             });
             //infoLayout.animate().translationY(infoLayout.getHeight()*3).setDuration(1);
             //infoLayout.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_up));
@@ -427,20 +425,16 @@ public class Pokefly extends Service {
     private void hideInfoLayoutArcPointerAndCard() {
         if (infoLayoutArcPointerVisible) {
 
-            infoLayout.animate().translationY(infoLayout.getHeight()*2).setDuration(300).withEndAction(new Runnable() {
-                @Override public void run() {
-                    infoLayout.setVisibility(View.GONE);
-                    if (fractionManager != null) {
-                        fractionManager.remove();
-                    }
-                    //for some reason, animation looks bugged without this 0 time animation line below.
-                    infoLayout.animate().translationY(infoLayout.getHeight()*2).setDuration(0);
-                    windowManager.removeView(arcPointer);
-                    windowManager.removeView(infoLayout);
-                    infoLayoutArcPointerVisible = false;
-
-
+            infoLayout.animate().translationY(infoLayout.getHeight()*2).setDuration(300).withEndAction(() -> {
+                infoLayout.setVisibility(View.GONE);
+                if (fractionManager != null) {
+                    fractionManager.remove();
                 }
+                //for some reason, animation looks bugged without this 0 time animation line below.
+                infoLayout.animate().translationY(infoLayout.getHeight()*2).setDuration(0);
+                windowManager.removeView(arcPointer);
+                windowManager.removeView(infoLayout);
+                infoLayoutArcPointerVisible = false;
             });
 
         }

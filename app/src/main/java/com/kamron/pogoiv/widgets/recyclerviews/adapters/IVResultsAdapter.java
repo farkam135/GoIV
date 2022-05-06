@@ -89,11 +89,9 @@ public class IVResultsAdapter extends RecyclerView.Adapter<IVResultsAdapter.Resu
             resultPercentage = itemView.findViewById(R.id.resultPercentage);
             llRvResult = itemView.findViewById(R.id.llRvResult);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override public void onClick(View v) {
-                    pokefly.addSpecificIVClipboard(dataSet.get(getBindingAdapterPosition()));
-                    IVResultsAdapter.this.notifyDataSetChanged();
-                }
+            itemView.setOnClickListener(v -> {
+                pokefly.addSpecificIVClipboard(dataSet.get(getBindingAdapterPosition()));
+                IVResultsAdapter.this.notifyDataSetChanged();
             });
         }
 

@@ -1217,39 +1217,34 @@ public class OcrHelper {
        int left = (int) (pokemonImage.getWidth() * 0.4);
        int right = (int) (pokemonImage.getWidth() * 0.6);
 
-        Palette.Filter filter = new Palette.Filter() {
-            @Override public boolean isAllowed(int rgb, @NonNull float[] hsl) {
-                if (hsl[2] > 0.7){
-                    //too bright
-                    return false;
-                }
-                if (hsl[2] < 0.2){
-                    //too dark
-                    return false;
-                }
-                if (hsl[0] > (30/360f) && hsl[0] < (60/360f)){
-                    //Too yellow
-                    return false;
-                }
-
-                return true;
+        Palette.Filter filter = (rgb, hsl) -> {
+            if (hsl[2] > 0.7){
+                //too bright
+                return false;
             }
+            if (hsl[2] < 0.2){
+                //too dark
+                return false;
+            }
+            if (hsl[0] > (30/360f) && hsl[0] < (60/360f)){
+                //Too yellow
+                return false;
+            }
+
+            return true;
         };
-        Palette.from(pokemonImage).setRegion(left, top, right, bot).addFilter(filter).generate(new Palette
-                .PaletteAsyncListener() {
-            public void onGenerated(Palette p) {
-                int color = p.getDarkVibrantColor(0);
-                if (color == 0) { //failed to find dark vibrant color, try getting a dark muted
-                    color = p.getDarkMutedColor(0);
-                } //Couldnt auto find color, use default primary color
-                if (color == 0) {
-                    color = Color.rgb(90, 90, 90);
-                }
-
-                GUIColorFromPokeType.getInstance().setColor(color);
-
-
+        Palette.from(pokemonImage).setRegion(left, top, right, bot).addFilter(filter).generate(p -> {
+            int color = p.getDarkVibrantColor(0);
+            if (color == 0) { //failed to find dark vibrant color, try getting a dark muted
+                color = p.getDarkMutedColor(0);
+            } //Couldnt auto find color, use default primary color
+            if (color == 0) {
+                color = Color.rgb(90, 90, 90);
             }
+
+            GUIColorFromPokeType.getInstance().setColor(color);
+
+
         });
     }
 

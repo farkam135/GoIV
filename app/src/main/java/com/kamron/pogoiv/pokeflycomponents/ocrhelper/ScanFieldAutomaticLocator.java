@@ -357,11 +357,7 @@ public class ScanFieldAutomaticLocator {
     private static void postMessage(@NonNull Handler handler, @Nullable final ProgressDialog dialog,
                                     @Nullable final String message) {
         if (dialog != null && message != null) {
-            handler.post(new Runnable() {
-                @Override public void run() {
-                    dialog.setMessage(message);
-                }
-            });
+            handler.post(() -> dialog.setMessage(message));
         }
     }
 

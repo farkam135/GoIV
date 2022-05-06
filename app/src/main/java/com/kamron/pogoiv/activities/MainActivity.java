@@ -92,16 +92,12 @@ public class MainActivity extends AppCompatActivity {
     private boolean skipStartPogo;
     private View alertBadgeView;
 
-    private BottomNavigationView.OnNavigationItemSelectedListener navigationListener = new BottomNavigationView
-            .OnNavigationItemSelectedListener() {
-        @Override public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            return showSection(item.getItemId());
-        }
-    };
+    private BottomNavigationView.OnNavigationItemSelectedListener navigationListener = item ->
+            showSection(item.getItemId());
 
     private final BroadcastReceiver screenGrabberInitializer = new BroadcastReceiver() {
-        @SuppressWarnings("checkstyle:EmptyCatchBlock")
-        @Override public void onReceive(Context context, Intent intent) {
+        @Override
+        public void onReceive(Context context, Intent intent) {
             initScreenGrabber();
         }
     };
@@ -208,25 +204,23 @@ public class MainActivity extends AppCompatActivity {
         if (!currentFragment.getClass().equals(newSectionClass)) {
             // The user requested a section change
 
-            Runnable discardedChangesRunnable = new Runnable() {
-                @Override public void run() {
-                    // Changes discarded, go to the selected section
-                    try {
-                        getSupportFragmentManager().beginTransaction()
-                                .setCustomAnimations(R.animator.fragment_enter_from_top,
-                                        R.animator.fragment_exit_to_bottom)
-                                .replace(R.id.content,
-                                        newSectionClass.newInstance(),
-                                        TAG_FRAGMENT_CONTENT)
-                                .commitAllowingStateLoss();
-                        updateAppBar(newSectionClass);
-                        // Remove the listener so this callback won't be fired when setSelectedItemId() is called
-                        bottomNavigation.setOnNavigationItemSelectedListener(null);
-                        bottomNavigation.setSelectedItemId(sectionId);
-                        bottomNavigation.setOnNavigationItemSelectedListener(navigationListener);
-                    } catch (Exception e) {
-                        Timber.e(e);
-                    }
+            Runnable discardedChangesRunnable = () -> {
+                // Changes discarded, go to the selected section
+                try {
+                    getSupportFragmentManager().beginTransaction()
+                            .setCustomAnimations(R.animator.fragment_enter_from_top,
+                                    R.animator.fragment_exit_to_bottom)
+                            .replace(R.id.content,
+                                    newSectionClass.newInstance(),
+                                    TAG_FRAGMENT_CONTENT)
+                            .commitAllowingStateLoss();
+                    updateAppBar(newSectionClass);
+                    // Remove the listener so this callback won't be fired when setSelectedItemId() is called
+                    bottomNavigation.setOnNavigationItemSelectedListener(null);
+                    bottomNavigation.setSelectedItemId(sectionId);
+                    bottomNavigation.setOnNavigationItemSelectedListener(navigationListener);
+                } catch (Exception e) {
+                    Timber.e(e);
                 }
             };
 
@@ -538,12 +532,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Runnable onDiscardChangesRunnable = new Runnable() {
-            @Override public void run() {
-                // User discarded changes
-                MainActivity.super.onBackPressed();
-            }
-        };
+        // User discarded changes
+        Runnable onDiscardChangesRunnable = MainActivity.super::onBackPressed;
         if (!checkUnsavedClipboardBeforeLeaving(onDiscardChangesRunnable)) {
             // No unsaved changes
             super.onBackPressed();
@@ -632,16 +622,9 @@ public class MainActivity extends AppCompatActivity {
             new AlertDialog.Builder(this)
                     .setTitle(android.R.string.dialog_alert_title)
                     .setMessage(R.string.discard_unsaved_changes)
-                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                        @Override public void onClick(DialogInterface dialogInterface, int i) {
-                            runOnUiThread(onDiscardChangesRunnable);
-                        }
-                    })
-                    .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-                        @Override public void onClick(DialogInterface dialogInterface, int i) {
-                            dialogInterface.cancel();
-                        }
-                    })
+                    .setPositiveButton(android.R.string.ok,
+                            (dialogInterface, i) -> runOnUiThread(onDiscardChangesRunnable))
+                    .setNegativeButton(android.R.string.cancel, (dialogInterface, i) -> dialogInterface.cancel())
                     .show();
         }
         return unsavedChanges;

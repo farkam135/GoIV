@@ -127,45 +127,38 @@ public class RecalibrateFragment extends Fragment {
      * build.
      */
     private void setupTutorialButton() {
-        View.OnClickListener tutorialListener = new View.OnClickListener() {
-            @Override public void onClick(View v) {
-                if (BuildConfig.FLAVOR.toLowerCase().contains("online")) {
+        View.OnClickListener tutorialListener = v -> {
+            if (BuildConfig.FLAVOR.toLowerCase().contains("online")) {
 
-                    if (optimizationVideoTutorialLayout.getVisibility() == View.GONE) {
-                        optimizationVideoTutorialLayout.setVisibility(View.VISIBLE);
+                if (optimizationVideoTutorialLayout.getVisibility() == View.GONE) {
+                    optimizationVideoTutorialLayout.setVisibility(View.VISIBLE);
 
-                        String frameVideo = "<html><iframe width=\"310\" height=\"480\" src=\""
-                                + URL_YOUTUBE_TUTORIAL
-                                + "\" frameborder=\"0\" gesture=\"media\" allow=\"encrypted-media\" "
-                                + "allowfullscreen></iframe></html>";
+                    String frameVideo = "<html><iframe width=\"310\" height=\"480\" src=\""
+                            + URL_YOUTUBE_TUTORIAL
+                            + "\" frameborder=\"0\" gesture=\"media\" allow=\"encrypted-media\" "
+                            + "allowfullscreen></iframe></html>";
 
-                        optimizationVideoTutorial.setWebViewClient(new WebViewClient() {
-                            @Override
-                            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                                return false;
-                            }
+                    optimizationVideoTutorial.setWebViewClient(new WebViewClient() {
+                        @Override
+                        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                            return false;
+                        }
 
-                        });
-                        optimizationVideoTutorial.getSettings().setJavaScriptEnabled(true);
-                        optimizationVideoTutorial.loadData(frameVideo, "text/html", "utf-8");
+                    });
+                    optimizationVideoTutorial.getSettings().setJavaScriptEnabled(true);
+                    optimizationVideoTutorial.loadData(frameVideo, "text/html", "utf-8");
 
-                        mainScrollView.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                mainScrollView.smoothScrollTo(0, optimizationVideoTutorial.getTop());
-                            }
-                        });
-                    } else {
-                        optimizationVideoTutorial.stopLoading();
-                        optimizationVideoTutorialLayout.setVisibility(View.GONE);
-                    }
-
+                    mainScrollView.post(() -> mainScrollView.smoothScrollTo(0, optimizationVideoTutorial.getTop()));
                 } else {
-                    // Running offline version, we cant load the webpage inserted into the app, we need to open browser.
-                    Intent i = new Intent(Intent.ACTION_VIEW);
-                    i.setData(Uri.parse(URL_YOUTUBE_TUTORIAL));
-                    startActivity(i);
+                    optimizationVideoTutorial.stopLoading();
+                    optimizationVideoTutorialLayout.setVisibility(View.GONE);
                 }
+
+            } else {
+                // Running offline version, we cant load the webpage inserted into the app, we need to open browser.
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(URL_YOUTUBE_TUTORIAL));
+                startActivity(i);
             }
         };
 

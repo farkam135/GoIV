@@ -14,7 +14,6 @@ import com.kamron.pogoiv.scanlogic.Pokemon;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 
 /**
  * Spinner formatter.

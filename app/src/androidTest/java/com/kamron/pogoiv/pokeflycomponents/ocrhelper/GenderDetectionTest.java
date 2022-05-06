@@ -1,6 +1,5 @@
 package com.kamron.pogoiv.pokeflycomponents.ocrhelper;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

@@ -92,6 +92,18 @@
     <style name="NotificationTitle" parent="android:TextAppearance.StatusBar.EventContent.Title" />
     <style name="NotificationMessage" parent="android:TextAppearance.StatusBar.EventContent" />
 
+    <style name="TabLayout" parent="Widget.Design.TabLayout">
+        <item name="tabBackground">?attr/colorPrimary</item>
+        <item name="tabSelectedTextColor">#fafafa</item>
+        <item name="tabIndicatorColor">?attr/colorAccent</item>
+        <item name="tabTextAppearance">@style/TabLayoutTextAppeareance</item>
+    </style>
+
+    <style name="TabLayoutTextAppeareance" parent="TextAppearance.Design.Tab">
+        <item name="android:textColor">#fafafa</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
     <style name="currentTab">
 
         <item name="android:textAllCaps">true</item>

@@ -1,9 +1,5 @@
 package com.kamron.pogoiv.pokeflycomponents.ocrhelper;
 
-/**
- * Created by johan on 2017-07-28.
- */
-
 import android.graphics.Rect;
 import androidx.annotation.Nullable;
 

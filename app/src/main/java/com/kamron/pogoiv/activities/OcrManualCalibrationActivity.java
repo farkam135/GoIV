@@ -498,7 +498,7 @@ public class OcrManualCalibrationActivity extends AppCompatActivity {
         sfr = sfrTemp;
         sfrTemp = null;
 
-        /**
+        /*
          * Why do we use this 'screenshotTransferTemp instead of passing the bitmap as a Parceable?
          * Because Parceables have a size limit of 1 MB, which the screenshot is larger than, so it just
          * crashes, and this way avoids writing the image to disk and passing along the file-path.

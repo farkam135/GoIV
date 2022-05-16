@@ -18,6 +18,10 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -68,10 +72,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String ACTION_START_POKEFLY = "com.kamron.pogoiv.ACTION_START_POKEFLY";
     public static final String ACTION_RESTART_POKEFLY = "com.kamron.pogoiv.ACTION_RESTART_POKEFLY";
 
-    private static final int OVERLAY_PERMISSION_REQ_CODE = 1234;
     private static final int WRITE_STORAGE_REQ_CODE = 1236;
-    private static final int SCREEN_CAPTURE_REQ_CODE = 1235;
-
 
     @BindView(R.id.collapsingToolbarLayout)
     CollapsingToolbarLayout collapsingToolbarLayout;
@@ -128,6 +129,9 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    private ActivityResultLauncher<Intent> requestOverlayResultLauncher;
+    private ActivityResultLauncher<Intent> requestScreenCaptureResultLauncher;
+
     @SuppressWarnings("unused")
     public static Intent createUpdateDialogIntent(AppUpdate update) { // This method is used in online builds
         Intent updateIntent = new Intent(MainActivity.ACTION_SHOW_UPDATE_DIALOG);
@@ -180,6 +184,14 @@ public class MainActivity extends AppCompatActivity {
                 new IntentFilter(ACTION_RESTART_POKEFLY));
 
         runActionOnIntent(getIntent());
+
+        requestOverlayResultLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                this::onRequestOverlayPermission);
+
+        requestScreenCaptureResultLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                this::onRequestScreenCapture);
     }
 
     private boolean showSection(final @IdRes int sectionId) {
@@ -278,7 +290,7 @@ public class MainActivity extends AppCompatActivity {
         MainFragment.updateLaunchButtonText(this, R.string.accept_screen_capture, null);
         MediaProjectionManager projectionManager =
                 (MediaProjectionManager) getSystemService(Context.MEDIA_PROJECTION_SERVICE);
-        startActivityForResult(projectionManager.createScreenCaptureIntent(), SCREEN_CAPTURE_REQ_CODE);
+        requestScreenCaptureResultLauncher.launch(projectionManager.createScreenCaptureIntent());
     }
 
     /**
@@ -350,7 +362,7 @@ public class MainActivity extends AppCompatActivity {
                 && !Settings.canDrawOverlays(this)) {
             Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
                     Uri.parse("package:" + getPackageName()));
-            startActivityForResult(intent, OVERLAY_PERMISSION_REQ_CODE);
+            requestOverlayResultLauncher.launch(intent);
         }
         if (GoIVSettings.getInstance(this).isManualScreenshotModeEnabled()) {
             // In manual screenshot mode external storage write permission is needed
@@ -429,35 +441,38 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Called when another activity has sent a result to this activity.
-     * For example when this activity starts the activity which calls for the MediaProjectionManager, which tells this
-     * class if the screen capture has been enabled.
+     * Handles the activity result from requesting the overlay permission
+     *
+     * @param result the activity result
      */
     @TargetApi(Build.VERSION_CODES.M)
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
-            case OVERLAY_PERMISSION_REQ_CODE:
-                updateLaunchButtonText(false, null);
-                if (Settings.canDrawOverlays(this)) {
-                    runStartButtonLogic(); // We have obtained the overlay permission: start GoIV!
-                }
-                break;
-            case SCREEN_CAPTURE_REQ_CODE:
-                if (resultCode == RESULT_OK) {
-                    MediaProjectionManager projectionManager = (MediaProjectionManager) getSystemService(
-                            Context.MEDIA_PROJECTION_SERVICE);
-                    MediaProjection mProjection = projectionManager.getMediaProjection(resultCode, data);
-                    screen = ScreenGrabber.init(mProjection, rawDisplayMetrics);
-                    startService(Pokefly.createBeginIntent(this));
-                } else {
-                    updateLaunchButtonText(false, null);
-                }
-                // Launching Pokemon Go here might be a little slower, that right after starting Pokefly, but we need
-                // the MainActivity instance alive to answer the intent from Pokefly
-                startPoGoIfSettingOn();
-                break;
+    protected void onRequestOverlayPermission(ActivityResult result) {
+        updateLaunchButtonText(false, null);
+        if (Settings.canDrawOverlays(this)) {
+            runStartButtonLogic(); // We have obtained the overlay permission: start GoIV!
         }
+    }
+
+    /**
+     * Handles the activity result from requesting screen capture.
+     *
+     * @param result the activity result
+     */
+    @TargetApi(Build.VERSION_CODES.M)
+    protected void onRequestScreenCapture(ActivityResult result) {
+        if (result.getResultCode() == RESULT_OK) {
+            MediaProjectionManager projectionManager = (MediaProjectionManager) getSystemService(
+                    Context.MEDIA_PROJECTION_SERVICE);
+            MediaProjection mProjection = projectionManager.getMediaProjection(result.getResultCode(),
+                    result.getData());
+            screen = ScreenGrabber.init(mProjection, rawDisplayMetrics);
+            startService(Pokefly.createBeginIntent(this));
+        } else {
+            updateLaunchButtonText(false, null);
+        }
+        // Launching Pokemon Go here might be a little slower, that right after starting Pokefly, but we need
+        // the MainActivity instance alive to answer the intent from Pokefly
+        startPoGoIfSettingOn();
     }
 
     /**

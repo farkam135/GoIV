@@ -12,17 +12,6 @@ reachable under `File > Settings`, but on Mac OS X it is found instead under
 
 ## Project Set-up for GoIV (Required)
 * [Fork GoIV Repo] (https://help.github.com/articles/fork-a-repo/)
-* Copy `GoIVCodeStyle.xml` into the codestyles folder under the Android Studio preferences folder *(create codestyles folder if it does not exist)*
- *  Windows: `\%USERPROFILE%\.{ANDROID_STUDIO_FOLDER}\config\codestyles\`
- *  OS X: `~/Library/Preferences/{ANDROID_STUDIO_FOLDER}/codestyles/`
- *  Linux: `./.{ANDROID_STUDIO_FOLDER}/config/codestyles/`
-* Open the Project in Android Studio
-* Select Code Style Scheme (`File > Settings > Editor > Code Style > Scheme > Select 'GoIVCodeStyle'`)
-
-*__{ANDROID_STUDIO_FOLDER}__ varies on the Android Studio version installed. Read more [here](http://tools.android.com/tech-docs/configuration).*
-
-## Updating Codestyle Definition
-If `GoIVCodeStyle.xml` has changed, close Android Studio, copy our file over the copy in Android Studio settings as above, and reopen Android Studio. The new setting should be loaded.
 
 ## Optional Set-up
 
@@ -46,9 +35,9 @@ This is especially important to send pull requests.
 ### Lombok Plugin
 GoIV project uses Lombok Plugin to automatically generate various methods (i.e. Getter, Setters). Without this plugin, `Unable to resolve method` errors will show, but code will compile and build as per normal.
 * Close the Project *(required to enable annotation processing)*
-* Install Lombok Plugin (`File > Settings > Plugins > Browse Repositories > Search 'Lombok Plugin' > Install`)
+* Download latest Lombok Plugin (https://plugins.jetbrains.com/plugin/6317-lombok/versions)
+* Copy contents to Android Studio plugin folder (`{ANDROID_STUDIO_INSTALLATION_DIR}\plugins`)
 * Restart Android Studio
-* Enable Annotation Processing (`File > Settings > Build, Execution, Deployment > Compiler > Annotation Processors`)
 
 ### Git on Android Studio
 Set-up Git on Android Studio to automate Git commands. For developers who are *lazy* and prefer one-click solutions.

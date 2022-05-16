@@ -91,8 +91,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean skipStartPogo;
     private View alertBadgeView;
 
-    private BottomNavigationView.OnNavigationItemSelectedListener navigationListener = item ->
-            showSection(item.getItemId());
+    private final BottomNavigationView.OnItemSelectedListener navigationListener = item -> showSection(item.getItemId());
 
     private final BroadcastReceiver screenGrabberInitializer = new BroadcastReceiver() {
         @Override
@@ -169,7 +168,7 @@ public class MainActivity extends AppCompatActivity {
                     .commit();
         }
 
-        bottomNavigation.setOnNavigationItemSelectedListener(navigationListener);
+        bottomNavigation.setOnItemSelectedListener(navigationListener);
 
         runAutoUpdateStartupChecks();
         initiateUserScreenSettings();
@@ -215,9 +214,9 @@ public class MainActivity extends AppCompatActivity {
                             .commitAllowingStateLoss();
                     updateAppBar(newSectionClass);
                     // Remove the listener so this callback won't be fired when setSelectedItemId() is called
-                    bottomNavigation.setOnNavigationItemSelectedListener(null);
+                    bottomNavigation.setOnItemSelectedListener(null);
                     bottomNavigation.setSelectedItemId(sectionId);
-                    bottomNavigation.setOnNavigationItemSelectedListener(navigationListener);
+                    bottomNavigation.setOnItemSelectedListener(navigationListener);
                 } catch (Exception e) {
                     Timber.e(e);
                 }

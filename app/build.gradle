@@ -161,6 +161,7 @@ android {
             manifest.srcFile 'src/onlineRelease/FabricManifest.xml'
         }
     }
+    namespace 'com.kamron.pogoiv'
 
     android.applicationVariants.all { variant ->
         variant.outputs.all {

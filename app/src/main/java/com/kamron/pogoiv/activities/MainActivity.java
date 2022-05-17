@@ -140,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     boolean hasAllPermissions() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(this)) {
+        if (!Settings.canDrawOverlays(this)) {
             return false;
         }
         if (GoIVSettings.getInstance(this).isManualScreenshotModeEnabled()) {
@@ -152,8 +152,6 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-
-    @TargetApi(Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -176,7 +174,6 @@ public class MainActivity extends AppCompatActivity {
 
         runAutoUpdateStartupChecks();
         initiateUserScreenSettings();
-        warnUserFirstLaunchIfNoScreenRecording();
 
         LocalBroadcastManager.getInstance(this).registerReceiver(pokeflyStateChanged,
                 new IntentFilter(Pokefly.ACTION_UPDATE_UI));
@@ -284,7 +281,6 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Initializes ScreenGrabber once Pokefly has been started
      */
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void initScreenGrabber() {
         // Request screen capture permissions, then, when ready, Pokefly will be started
         MainFragment.updateLaunchButtonText(this, R.string.accept_screen_capture, null);
@@ -300,23 +296,6 @@ public class MainActivity extends AppCompatActivity {
         AppUpdateUtil.deletePreviousApkFile(MainActivity.this);
         if (GoIVSettings.getInstance(this).isAutoUpdateEnabled()) {
             AppUpdateUtil.getInstance().checkForUpdate(this, false);
-        }
-    }
-
-    /**
-     * Shows an alert warning the user about not being on android 5, and that the app is locked into screenshot mode.
-     */
-    private void warnUserFirstLaunchIfNoScreenRecording() {
-        boolean userOnBelowAndroid5 = Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT_WATCH;
-        boolean hasNotShownAndroid5Warning = !GoIVSettings.getInstance(this).hasShownNoScreenRecWarning();
-        if (hasNotShownAndroid5Warning && userOnBelowAndroid5) {
-            new AlertDialog.Builder(this)
-                    .setTitle(android.R.string.dialog_alert_title)
-                    .setMessage(R.string.android_sub5_warning)
-                    .setPositiveButton(android.R.string.ok, null)
-                    .show();
-
-            GoIVSettings.getInstance(this).setHasShownScreenRecWarning();
         }
     }
 
@@ -358,8 +337,7 @@ public class MainActivity extends AppCompatActivity {
      * Requests overlay and storage permissions if android version allows it.
      */
     private void getAllPermissions() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
-                && !Settings.canDrawOverlays(this)) {
+        if (!Settings.canDrawOverlays(this)) {
             Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
                     Uri.parse("package:" + getPackageName()));
             requestOverlayResultLauncher.launch(intent);
@@ -445,7 +423,6 @@ public class MainActivity extends AppCompatActivity {
      *
      * @param result the activity result
      */
-    @TargetApi(Build.VERSION_CODES.M)
     protected void onRequestOverlayPermission(ActivityResult result) {
         updateLaunchButtonText(false, null);
         if (Settings.canDrawOverlays(this)) {
@@ -458,7 +435,6 @@ public class MainActivity extends AppCompatActivity {
      *
      * @param result the activity result
      */
-    @TargetApi(Build.VERSION_CODES.M)
     protected void onRequestScreenCapture(ActivityResult result) {
         if (result.getResultCode() == RESULT_OK) {
             MediaProjectionManager projectionManager = (MediaProjectionManager) getSystemService(
@@ -486,7 +462,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.M)
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {

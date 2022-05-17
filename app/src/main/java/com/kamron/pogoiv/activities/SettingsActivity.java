@@ -109,16 +109,6 @@ public class SettingsActivity extends AppCompatActivity {
                 effectivelyRemovePreference(GoIVSettings.SEND_CRASH_REPORTS);
             }
 
-            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
-                SwitchPreference manualScreenshotModePreference = findPreference(GoIVSettings.MANUAL_SCREENSHOT_MODE);
-                if (manualScreenshotModePreference != null) {
-                    manualScreenshotModePreference.setDefaultValue(true);
-                    manualScreenshotModePreference.setChecked(true);
-                    manualScreenshotModePreference.setEnabled(false);
-                }
-                effectivelyRemovePreference(GoIVSettings.AUTO_APPRAISAL_SCAN_DELAY);
-            }
-
             //If strings support use_default_pokemonsname_as_ocrstring, display pref and set default ON
             if (getResources().getBoolean(R.bool.use_default_pokemonsname_as_ocrstring)) {
                 SwitchPreference useDefaultPokemonNamePreference = findPreference(GoIVSettings.SHOW_TRANSLATED_POKEMON_NAME);

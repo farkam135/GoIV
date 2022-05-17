@@ -269,8 +269,7 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
         Uri bmpUri = Uri.parse(bmpPath);
 
         final String os;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
-                && !Strings.isNullOrEmpty(Build.VERSION.BASE_OS)) {
+        if (!Strings.isNullOrEmpty(Build.VERSION.BASE_OS)) {
             os = Build.VERSION.BASE_OS;
         } else {
             os = "Android";

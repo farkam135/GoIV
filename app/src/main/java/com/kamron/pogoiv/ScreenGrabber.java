@@ -33,7 +33,6 @@ public class ScreenGrabber {
     private DisplayMetrics rawDisplayMetrics;
     private VirtualDisplay virtualDisplay;
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private ScreenGrabber(MediaProjection mediaProjection, DisplayMetrics raw) {
         rawDisplayMetrics = raw;
         projection = mediaProjection;
@@ -62,7 +61,6 @@ public class ScreenGrabber {
         return instance;
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public void exit() {
         if (projection != null) {
             virtualDisplay.release();

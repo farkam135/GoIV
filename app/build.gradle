@@ -24,7 +24,8 @@ repositories {
  * Apply plugins and other Gradle scripts
  */
 apply plugin: 'com.android.application'
-//apply plugin: 'io.fabric'
+apply plugin: 'com.google.firebase.crashlytics'
+
 apply from: '../checkstyle/checkstyle.gradle'
 
 /**
@@ -214,14 +215,14 @@ dependencies {
      * Online Build Dependencies
      */
     onlineImplementation 'com.squareup.okhttp3:okhttp:3.10.0'
-    onlineImplementation('com.crashlytics.sdk.android:crashlytics:17.2.2@aar') {
+    onlineImplementation('com.google.firebase:firebase-crashlytics:18.2.10@aar') {
         transitive = true
     }
 
     /**
      * Play Store Build Dependencies
      */
-    playstoreImplementation('com.crashlytics.sdk.android:crashlytics:17.2.2@aar') {
+    playstoreImplementation('com.google.firebase:firebase-crashlytics:18.2.10@aar') {
         transitive = true
     }
 

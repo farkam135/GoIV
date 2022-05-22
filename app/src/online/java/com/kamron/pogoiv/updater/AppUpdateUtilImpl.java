@@ -52,14 +52,14 @@ public class AppUpdateUtilImpl extends AppUpdateUtil {
         httpClient.newCall(request).enqueue(new Callback() {
 
             @Override
-            public void onFailure(Call call, IOException e) {
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
                 AppUpdate update = new AppUpdate(null, null, null, AppUpdate.ERROR);
                 Intent updateIntent = MainActivity.createUpdateDialogIntent(update);
                 LocalBroadcastManager.getInstance(context).sendBroadcast(updateIntent);
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 try {
                     JSONObject releaseInfo = new JSONObject(response.body().string());
                     JSONObject releaseAssets = releaseInfo.getJSONArray("assets").getJSONObject(0);
@@ -81,7 +81,7 @@ public class AppUpdateUtilImpl extends AppUpdateUtil {
                     Intent updateIntent = MainActivity.createUpdateDialogIntent(update);
                     LocalBroadcastManager.getInstance(context).sendBroadcast(updateIntent);
                 } catch (JSONException je) {
-                    Timber.e("Exception thrown while checking for update", je);
+                    Timber.e(je, "Exception thrown while checking for update");
                 }
             }
         });

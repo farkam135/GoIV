@@ -1,26 +1,4 @@
 /**
- * Repositories and dependencies for the build script
- */
-buildscript {
-    repositories {
-        maven { url 'https://maven.fabric.io/public' }
-    }
-
-    dependencies {
-        //noinspection GradleDynamicVersion
-        classpath 'io.fabric.tools:gradle:1.+'
-    }
-}
-
-/**
- * Repositories for the project
- * mavenCentral() is already called in project build.gradle
- */
-repositories {
-    maven { url 'https://maven.fabric.io/public' }
-}
-
-/**
  * Apply plugins and other Gradle scripts
  */
 apply plugin: 'com.android.application'
@@ -156,12 +134,7 @@ android {
             include 'armeabi-v7a'/**, 'arm64-v8a', 'x86', 'x86_64'**/
         }
     }
-    sourceSets {
-        onlineRelease {
-            // Contains the io.fabric.ApiKey meta-data
-            manifest.srcFile 'src/onlineRelease/FabricManifest.xml'
-        }
-    }
+
     namespace 'com.kamron.pogoiv'
 
     android.applicationVariants.all { variant ->

@@ -2,8 +2,6 @@
  * Apply plugins and other Gradle scripts
  */
 apply plugin: 'com.android.application'
-apply plugin: 'com.google.gms.google-services'
-apply plugin: 'com.google.firebase.crashlytics'
 
 apply from: '../checkstyle/checkstyle.gradle'
 
@@ -82,7 +80,6 @@ android {
             buildConfigField "boolean", "INTERNET_AVAILABLE", "false"
             buildConfigField "boolean", "DISTRIBUTION_GITHUB", "true"
             buildConfigField "boolean", "DISTRIBUTION_PLAYSTORE", "false"
-            ext.enableCrashlytics = false
             dimension "default"
         }
 
@@ -92,7 +89,6 @@ android {
             buildConfigField "boolean", "INTERNET_AVAILABLE", "true"
             buildConfigField "boolean", "DISTRIBUTION_GITHUB", "true"
             buildConfigField "boolean", "DISTRIBUTION_PLAYSTORE", "false"
-            ext.enableCrashlytics = true
             dimension "default"
         }
 
@@ -102,7 +98,6 @@ android {
             buildConfigField "boolean", "INTERNET_AVAILABLE", "true"
             buildConfigField "boolean", "DISTRIBUTION_GITHUB", "false"
             buildConfigField "boolean", "DISTRIBUTION_PLAYSTORE", "true"
-            ext.enableCrashlytics = true
             dimension "default"
         }
     }
@@ -115,13 +110,11 @@ android {
     buildTypes {
         debug {
             applicationIdSuffix ".debug"
-            ext.enableCrashlytics = false
         }
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro',
-                    'proguard-crashlytics.pro', 'proguard-guava.pro', 'proguard-butterknife.pro',
-                    'proguard-okhttp3.pro'
+                    'proguard-guava.pro', 'proguard-butterknife.pro', 'proguard-okhttp3.pro'
             lintOptions {
                 disable 'MissingTranslation'
             }
@@ -189,16 +182,6 @@ dependencies {
      * Online Build Dependencies
      */
     onlineImplementation 'com.squareup.okhttp3:okhttp:3.10.0'
-    onlineImplementation('com.google.firebase:firebase-crashlytics:18.2.10@aar') {
-        transitive = true
-    }
-
-    /**
-     * Play Store Build Dependencies
-     */
-    playstoreImplementation('com.google.firebase:firebase-crashlytics:18.2.10@aar') {
-        transitive = true
-    }
 
     /**
      * Test Build Dependencies

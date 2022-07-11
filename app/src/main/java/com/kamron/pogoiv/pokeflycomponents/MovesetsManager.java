@@ -4,10 +4,10 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.util.Pair;
-import android.support.v4.util.SparseArrayCompat;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.util.Pair;
+import androidx.collection.SparseArrayCompat;
 
 import com.google.common.base.Strings;
 import com.google.gson.Gson;
@@ -65,22 +65,19 @@ public class MovesetsManager {
         }
 
         // Parse the moveset json and the translation json and store them to the static variable
-        AsyncTask.execute(new Runnable() {
-            @Override
-            public void run() { // Execute on background to avoid blocking the caller
-                JsonReader jsonReader;
+        AsyncTask.execute(() -> { // Execute on background to avoid blocking the caller
+            JsonReader jsonReader;
 
-                // From network response. Take the HTTP response body as String and put it in a StringReader
-                //jsonReader = new JsonReader(stringReader);
+            // From network response. Take the HTTP response body as String and put it in a StringReader
+            //jsonReader = new JsonReader(stringReader);
 
-                // From disk cache
-                try {
-                    jsonReader = new JsonReader(
-                            new InputStreamReader(context.getAssets().open("movesets/movesets.json")));
-                    movesets = parseJson(context, jsonReader);
-                } catch (IOException e) {
-                    Timber.e(e);
-                }
+            // From disk cache
+            try {
+                jsonReader = new JsonReader(
+                        new InputStreamReader(context.getAssets().open("movesets/movesets.json")));
+                movesets = parseJson(context, jsonReader);
+            } catch (IOException e) {
+                Timber.e(e);
             }
         });
     }
@@ -238,8 +235,7 @@ public class MovesetsManager {
         Gson gson = new GsonBuilder().create();
         LinkedTreeMap<String, Object> translations = gson.fromJson(jsonReader, Object.class);
 
-        Pair<HashMap<String, String>, HashMap<String, String>> result
-                = new Pair<>(new HashMap<String, String>(), new HashMap<String, String>());
+        Pair<HashMap<String, String>, HashMap<String, String>> result = new Pair<>(new HashMap<>(), new HashMap<>());
 
         for (String attributeName : translations.keySet()) {
             if (attributeName.equals("moves")) {

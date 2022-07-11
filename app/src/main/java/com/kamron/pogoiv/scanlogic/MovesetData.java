@@ -1,6 +1,6 @@
 package com.kamron.pogoiv.scanlogic;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import java.util.Comparator;
 import java.util.Objects;
@@ -180,10 +180,10 @@ public class MovesetData {
 
             Key key = (Key) o;
 
-            if (quick != null ? !quick.equals(key.quick) : key.quick != null) {
+            if (!Objects.equals(quick, key.quick)) {
                 return false;
             }
-            return charge != null ? charge.equals(key.charge) : key.charge == null;
+            return Objects.equals(charge, key.charge);
         }
 
         @Override public int hashCode() {

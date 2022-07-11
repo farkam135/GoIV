@@ -1,7 +1,7 @@
 package com.kamron.pogoiv.widgets.recyclerviews.adapters;
 
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import android.view.ViewGroup;
 
 import com.kamron.pogoiv.clipboardlogic.ClipboardToken;
@@ -103,15 +103,15 @@ public class TokensPreviewAdapter
         @Override
         public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder,
                               RecyclerView.ViewHolder target) {
-            final int fromPosition = viewHolder.getAdapterPosition();
-            final int toPosition = target.getAdapterPosition();
+            final int fromPosition = viewHolder.getBindingAdapterPosition();
+            final int toPosition = target.getBindingAdapterPosition();
             adapter.moveItem(fromPosition, toPosition); // Item dragged
             return true;
         }
 
         @Override
         public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
-            adapter.deleteItem(viewHolder.getAdapterPosition()); // Item swiped
+            adapter.deleteItem(viewHolder.getBindingAdapterPosition()); // Item swiped
         }
     }
 

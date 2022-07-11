@@ -3,7 +3,7 @@
 <integer-array name="formsCount">
  <item>2</item> <!-- Rattata -->
  <item>2</item> <!-- Raticate -->
- <item>8</item> <!-- Pikachu -->
+ <item>9</item> <!-- Pikachu -->
  <item>2</item> <!-- Raichu -->
  <item>2</item> <!-- Sandshrew -->
  <item>2</item> <!-- Sandslash -->
@@ -24,14 +24,22 @@
  <item>2</item> <!-- Grimer -->
  <item>2</item> <!-- Muk -->
  <item>2</item> <!-- Gengar -->
+ <item>2</item> <!-- Voltorb -->
+ <item>2</item> <!-- Electrode -->
  <item>2</item> <!-- Exeggutor -->
  <item>2</item> <!-- Marowak -->
  <item>2</item> <!-- Weezing -->
  <item>2</item> <!-- Mr Mime -->
+ <item>2</item> <!-- Lapras -->
  <item>2</item> <!-- Mewtwo -->
- <item>2</item> <!-- Slowking -->
+ <item>3</item> <!-- Slowking -->
  <item>28</item> <!-- Unown -->
  <item>2</item> <!-- Delibird -->
+ <item>2</item> <!-- Raikou -->
+ <item>2</item> <!-- Entei -->
+ <item>2</item> <!-- Suicune -->
+ <item>2</item> <!-- Lugia -->
+ <item>2</item> <!-- Ho Oh -->
  <item>2</item> <!-- Zigzagoon -->
  <item>2</item> <!-- Linoone -->
  <item>2</item> <!-- Sableye -->
@@ -65,9 +73,22 @@
  <item>2</item> <!-- Meloetta -->
  <item>5</item> <!-- Genesect -->
  <item>2</item> <!-- Pyroar -->
+ <item>5</item> <!-- Flabebe -->
+ <item>5</item> <!-- Floette -->
+ <item>5</item> <!-- Florges -->
  <item>10</item> <!-- Furfrou -->
  <item>2</item> <!-- Meowstic -->
+ <item>4</item> <!-- Pumpkaboo -->
+ <item>4</item> <!-- Gourgeist -->
  <item>2</item> <!-- Hoopa -->
+ <item>4</item> <!-- Oricorio -->
+ <item>3</item> <!-- Lycanroc -->
+ <item>2</item> <!-- Wishiwashi -->
+ <item>18</item> <!-- Silvally -->
+ <item>7</item> <!-- Minior -->
+ <item>2</item> <!-- Mimikyu -->
+ <item>4</item> <!-- Necrozma -->
+ <item>2</item> <!-- Magearna -->
  <item>2</item> <!-- Toxtricity -->
  <item>2</item> <!-- Sinistea -->
  <item>2</item> <!-- Polteageist -->
@@ -83,7 +104,7 @@
 <string-array name="formNames">
  <item>Normal Form</item> <item>Alola Form</item> <!-- Rattata -->
  <item>Normal Form</item> <item>Alola Form</item> <!-- Raticate -->
- <item>Normal Form</item> <item>Costume 2020 Form</item> <item>Adventure Hat 2020 Form</item> <item>Winter 2020 Form</item> <item>Kariyushi Form</item> <item>Pop Star Form</item> <item>Rock Star Form</item> <item>Flying 5th Anniv Form</item> <!-- Pikachu -->
+ <item>Normal Form</item> <item>Costume 2020 Form</item> <item>Adventure Hat 2020 Form</item> <item>Winter 2020 Form</item> <item>Kariyushi Form</item> <item>Pop Star Form</item> <item>Rock Star Form</item> <item>Flying 5th Anniv Form</item> <item>Flying Okinawa Form</item> <!-- Pikachu -->
  <item>Normal Form</item> <item>Alola Form</item> <!-- Raichu -->
  <item>Normal Form</item> <item>Alola Form</item> <!-- Sandshrew -->
  <item>Normal Form</item> <item>Alola Form</item> <!-- Sandslash -->
@@ -104,14 +125,22 @@
  <item>Normal Form</item> <item>Alola Form</item> <!-- Grimer -->
  <item>Normal Form</item> <item>Alola Form</item> <!-- Muk -->
  <item>Normal Form</item> <item>Costume 2020 Form</item> <!-- Gengar -->
+ <item>Normal Form</item> <item>Hisuian Form</item> <!-- Voltorb -->
+ <item>Normal Form</item> <item>Hisuian Form</item> <!-- Electrode -->
  <item>Normal Form</item> <item>Alola Form</item> <!-- Exeggutor -->
  <item>Normal Form</item> <item>Alola Form</item> <!-- Marowak -->
  <item>Normal Form</item> <item>Galarian Form</item> <!-- Weezing -->
  <item>Normal Form</item> <item>Galarian Form</item> <!-- Mr Mime -->
+ <item>Normal Form</item> <item>Costume 2020 Form</item> <!-- Lapras -->
  <item>Normal Form</item> <item>Armored Form</item> <!-- Mewtwo -->
- <item>Normal Form</item> <item>Galarian Form</item> <!-- Slowking -->
+ <item>Normal Form</item> <item>Galarian Form</item> <item>2022 Form</item> <!-- Slowking -->
  <item>F Form</item> <item>A Form</item> <item>B Form</item> <item>C Form</item> <item>D Form</item> <item>E Form</item> <item>G Form</item> <item>H Form</item> <item>I Form</item> <item>J Form</item> <item>K Form</item> <item>L Form</item> <item>M Form</item> <item>N Form</item> <item>O Form</item> <item>P Form</item> <item>Q Form</item> <item>R Form</item> <item>S Form</item> <item>T Form</item> <item>U Form</item> <item>V Form</item> <item>W Form</item> <item>X Form</item> <item>Y Form</item> <item>Z Form</item> <item>Exclamation Point Form</item> <item>Question Mark Form</item> <!-- Unown -->
  <item>Normal Form</item> <item>Winter 2020 Form</item> <!-- Delibird -->
+ <item>Normal Form</item> <item>S Form</item> <!-- Raikou -->
+ <item>Normal Form</item> <item>S Form</item> <!-- Entei -->
+ <item>Normal Form</item> <item>S Form</item> <!-- Suicune -->
+ <item>Normal Form</item> <item>S Form</item> <!-- Lugia -->
+ <item>Normal Form</item> <item>S Form</item> <!-- Ho Oh -->
  <item>Normal Form</item> <item>Galarian Form</item> <!-- Zigzagoon -->
  <item>Normal Form</item> <item>Galarian Form</item> <!-- Linoone -->
  <item>Normal Form</item> <item>Costume 2020 Form</item> <!-- Sableye -->
@@ -145,9 +174,22 @@
  <item>Aria Form</item> <item>Pirouette Form</item> <!-- Meloetta -->
  <item>Normal Form</item> <item>Douse Form</item> <item>Shock Form</item> <item>Burn Form</item> <item>Chill Form</item> <!-- Genesect -->
  <item>Normal Form</item> <item>Female Form</item> <!-- Pyroar -->
+ <item>Red Form</item> <item>Blue Form</item> <item>Orange Form</item> <item>Yellow Form</item> <item>White Form</item> <!-- Flabebe -->
+ <item>Red Form</item> <item>Blue Form</item> <item>Orange Form</item> <item>Yellow Form</item> <item>White Form</item> <!-- Floette -->
+ <item>Red Form</item> <item>Blue Form</item> <item>Orange Form</item> <item>Yellow Form</item> <item>White Form</item> <!-- Florges -->
  <item>Natural Form</item> <item>Heart Form</item> <item>Star Form</item> <item>Diamond Form</item> <item>Debutante Form</item> <item>Matron Form</item> <item>Dandy Form</item> <item>La Reine Form</item> <item>Kabuki Form</item> <item>Pharaoh Form</item> <!-- Furfrou -->
  <item>Normal Form</item> <item>Female Form</item> <!-- Meowstic -->
+ <item>Small Form</item> <item>Average Form</item> <item>Large Form</item> <item>Super Form</item> <!-- Pumpkaboo -->
+ <item>Small Form</item> <item>Average Form</item> <item>Large Form</item> <item>Super Form</item> <!-- Gourgeist -->
  <item>Confined Form</item> <item>Unbound Form</item> <!-- Hoopa -->
+ <item>Baile Form</item> <item>Pompom Form</item> <item>Pau Form</item> <item>Sensu Form</item> <!-- Oricorio -->
+ <item>Midday Form</item> <item>Midnight Form</item> <item>Dusk Form</item> <!-- Lycanroc -->
+ <item>Solo Form</item> <item>School Form</item> <!-- Wishiwashi -->
+ <item>Normal Form</item> <item>Fighting Form</item> <item>Flying Form</item> <item>Poison Form</item> <item>Ground Form</item> <item>Rock Form</item> <item>Bug Form</item> <item>Ghost Form</item> <item>Steel Form</item> <item>Fire Form</item> <item>Water Form</item> <item>Grass Form</item> <item>Electric Form</item> <item>Psychic Form</item> <item>Ice Form</item> <item>Dragon Form</item> <item>Dark Form</item> <item>Fairy Form</item> <!-- Silvally -->
+ <item>Blue Form</item> <item>Green Form</item> <item>Indigo Form</item> <item>Orange Form</item> <item>Red Form</item> <item>Violet Form</item> <item>Yellow Form</item> <!-- Minior -->
+ <item>Busted Form</item> <item>Disguised Form</item> <!-- Mimikyu -->
+ <item>Normal Form</item> <item>Dusk Mane Form</item> <item>Dawn Wings Form</item> <item>Ultra Form</item> <!-- Necrozma -->
+ <item>Normal Form</item> <item>Original Color Form</item> <!-- Magearna -->
  <item>Low Key Form</item> <item>Amped Form</item> <!-- Toxtricity -->
  <item>Phony Form</item> <item>Antique Form</item> <!-- Sinistea -->
  <item>Phony Form</item> <item>Antique Form</item> <!-- Polteageist -->
@@ -176,6 +218,7 @@
  <item>112</item> <!-- Pop Star Form -->
  <item>112</item> <!-- Rock Star Form -->
  <item>112</item> <!-- Flying 5th Anniv Form -->
+ <item>112</item> <!-- Flying Okinawa Form -->
  <!-- Raichu -->
  <item>193</item> <!-- Normal Form -->
  <item>201</item> <!-- Alola Form -->
@@ -239,6 +282,12 @@
  <!-- Gengar -->
  <item>261</item> <!-- Normal Form -->
  <item>261</item> <!-- Costume 2020 Form -->
+ <!-- Voltorb -->
+ <item>109</item> <!-- Normal Form -->
+ <item>109</item> <!-- Hisuian Form -->
+ <!-- Electrode -->
+ <item>173</item> <!-- Normal Form -->
+ <item>176</item> <!-- Hisuian Form -->
  <!-- Exeggutor -->
  <item>233</item> <!-- Normal Form -->
  <item>230</item> <!-- Alola Form -->
@@ -251,12 +300,16 @@
  <!-- Mr Mime -->
  <item>192</item> <!-- Normal Form -->
  <item>183</item> <!-- Galarian Form -->
+ <!-- Lapras -->
+ <item>165</item> <!-- Normal Form -->
+ <item>165</item> <!-- Costume 2020 Form -->
  <!-- Mewtwo -->
  <item>300</item> <!-- Normal Form -->
  <item>182</item> <!-- Armored Form -->
  <!-- Slowking -->
  <item>177</item> <!-- Normal Form -->
  <item>190</item> <!-- Galarian Form -->
+ <item>177</item> <!-- 2022 Form -->
  <!-- Unown -->
  <item>136</item> <!-- F Form -->
  <item>136</item> <!-- A Form -->
@@ -289,6 +342,21 @@
  <!-- Delibird -->
  <item>128</item> <!-- Normal Form -->
  <item>128</item> <!-- Winter 2020 Form -->
+ <!-- Raikou -->
+ <item>241</item> <!-- Normal Form -->
+ <item>241</item> <!-- S Form -->
+ <!-- Entei -->
+ <item>235</item> <!-- Normal Form -->
+ <item>235</item> <!-- S Form -->
+ <!-- Suicune -->
+ <item>180</item> <!-- Normal Form -->
+ <item>180</item> <!-- S Form -->
+ <!-- Lugia -->
+ <item>193</item> <!-- Normal Form -->
+ <item>193</item> <!-- S Form -->
+ <!-- Ho Oh -->
+ <item>239</item> <!-- Normal Form -->
+ <item>239</item> <!-- S Form -->
  <!-- Zigzagoon -->
  <item>58</item> <!-- Normal Form -->
  <item>58</item> <!-- Galarian Form -->
@@ -442,6 +510,24 @@
  <!-- Pyroar -->
  <item>221</item> <!-- Normal Form -->
  <item>221</item> <!-- Female Form -->
+ <!-- Flabebe -->
+ <item>108</item> <!-- Red Form -->
+ <item>108</item> <!-- Blue Form -->
+ <item>108</item> <!-- Orange Form -->
+ <item>108</item> <!-- Yellow Form -->
+ <item>108</item> <!-- White Form -->
+ <!-- Floette -->
+ <item>136</item> <!-- Red Form -->
+ <item>136</item> <!-- Blue Form -->
+ <item>136</item> <!-- Orange Form -->
+ <item>136</item> <!-- Yellow Form -->
+ <item>136</item> <!-- White Form -->
+ <!-- Florges -->
+ <item>212</item> <!-- Red Form -->
+ <item>212</item> <!-- Blue Form -->
+ <item>212</item> <!-- Orange Form -->
+ <item>212</item> <!-- Yellow Form -->
+ <item>212</item> <!-- White Form -->
  <!-- Furfrou -->
  <item>164</item> <!-- Natural Form -->
  <item>164</item> <!-- Heart Form -->
@@ -456,9 +542,69 @@
  <!-- Meowstic -->
  <item>166</item> <!-- Normal Form -->
  <item>166</item> <!-- Female Form -->
+ <!-- Pumpkaboo -->
+ <item>122</item> <!-- Small Form -->
+ <item>121</item> <!-- Average Form -->
+ <item>120</item> <!-- Large Form -->
+ <item>118</item> <!-- Super Form -->
+ <!-- Gourgeist -->
+ <item>171</item> <!-- Small Form -->
+ <item>175</item> <!-- Average Form -->
+ <item>179</item> <!-- Large Form -->
+ <item>182</item> <!-- Super Form -->
  <!-- Hoopa -->
  <item>261</item> <!-- Confined Form -->
  <item>311</item> <!-- Unbound Form -->
+ <!-- Oricorio -->
+ <item>196</item> <!-- Baile Form -->
+ <item>196</item> <!-- Pompom Form -->
+ <item>196</item> <!-- Pau Form -->
+ <item>196</item> <!-- Sensu Form -->
+ <!-- Lycanroc -->
+ <item>231</item> <!-- Midday Form -->
+ <item>218</item> <!-- Midnight Form -->
+ <item>234</item> <!-- Dusk Form -->
+ <!-- Wishiwashi -->
+ <item>46</item> <!-- Solo Form -->
+ <item>255</item> <!-- School Form -->
+ <!-- Silvally -->
+ <item>198</item> <!-- Normal Form -->
+ <item>198</item> <!-- Fighting Form -->
+ <item>198</item> <!-- Flying Form -->
+ <item>198</item> <!-- Poison Form -->
+ <item>198</item> <!-- Ground Form -->
+ <item>198</item> <!-- Rock Form -->
+ <item>198</item> <!-- Bug Form -->
+ <item>198</item> <!-- Ghost Form -->
+ <item>198</item> <!-- Steel Form -->
+ <item>198</item> <!-- Fire Form -->
+ <item>198</item> <!-- Water Form -->
+ <item>198</item> <!-- Grass Form -->
+ <item>198</item> <!-- Electric Form -->
+ <item>198</item> <!-- Psychic Form -->
+ <item>198</item> <!-- Ice Form -->
+ <item>198</item> <!-- Dragon Form -->
+ <item>198</item> <!-- Dark Form -->
+ <item>198</item> <!-- Fairy Form -->
+ <!-- Minior -->
+ <item>218</item> <!-- Blue Form -->
+ <item>218</item> <!-- Green Form -->
+ <item>218</item> <!-- Indigo Form -->
+ <item>218</item> <!-- Orange Form -->
+ <item>218</item> <!-- Red Form -->
+ <item>218</item> <!-- Violet Form -->
+ <item>218</item> <!-- Yellow Form -->
+ <!-- Mimikyu -->
+ <item>177</item> <!-- Busted Form -->
+ <item>177</item> <!-- Disguised Form -->
+ <!-- Necrozma -->
+ <item>251</item> <!-- Normal Form -->
+ <item>277</item> <!-- Dusk Mane Form -->
+ <item>277</item> <!-- Dawn Wings Form -->
+ <item>337</item> <!-- Ultra Form -->
+ <!-- Magearna -->
+ <item>246</item> <!-- Normal Form -->
+ <item>246</item> <!-- Original Color Form -->
  <!-- Toxtricity -->
  <item>224</item> <!-- Low Key Form -->
  <item>224</item> <!-- Amped Form -->
@@ -510,6 +656,7 @@
  <item>96</item> <!-- Pop Star Form -->
  <item>96</item> <!-- Rock Star Form -->
  <item>96</item> <!-- Flying 5th Anniv Form -->
+ <item>96</item> <!-- Flying Okinawa Form -->
  <!-- Raichu -->
  <item>151</item> <!-- Normal Form -->
  <item>154</item> <!-- Alola Form -->
@@ -573,6 +720,12 @@
  <!-- Gengar -->
  <item>149</item> <!-- Normal Form -->
  <item>149</item> <!-- Costume 2020 Form -->
+ <!-- Voltorb -->
+ <item>111</item> <!-- Normal Form -->
+ <item>111</item> <!-- Hisuian Form -->
+ <!-- Electrode -->
+ <item>173</item> <!-- Normal Form -->
+ <item>176</item> <!-- Hisuian Form -->
  <!-- Exeggutor -->
  <item>149</item> <!-- Normal Form -->
  <item>153</item> <!-- Alola Form -->
@@ -585,12 +738,16 @@
  <!-- Mr Mime -->
  <item>205</item> <!-- Normal Form -->
  <item>169</item> <!-- Galarian Form -->
+ <!-- Lapras -->
+ <item>174</item> <!-- Normal Form -->
+ <item>174</item> <!-- Costume 2020 Form -->
  <!-- Mewtwo -->
  <item>182</item> <!-- Normal Form -->
  <item>278</item> <!-- Armored Form -->
  <!-- Slowking -->
  <item>180</item> <!-- Normal Form -->
  <item>180</item> <!-- Galarian Form -->
+ <item>180</item> <!-- 2022 Form -->
  <!-- Unown -->
  <item>91</item> <!-- F Form -->
  <item>91</item> <!-- A Form -->
@@ -623,6 +780,21 @@
  <!-- Delibird -->
  <item>90</item> <!-- Normal Form -->
  <item>90</item> <!-- Winter 2020 Form -->
+ <!-- Raikou -->
+ <item>195</item> <!-- Normal Form -->
+ <item>195</item> <!-- S Form -->
+ <!-- Entei -->
+ <item>171</item> <!-- Normal Form -->
+ <item>171</item> <!-- S Form -->
+ <!-- Suicune -->
+ <item>235</item> <!-- Normal Form -->
+ <item>235</item> <!-- S Form -->
+ <!-- Lugia -->
+ <item>310</item> <!-- Normal Form -->
+ <item>310</item> <!-- S Form -->
+ <!-- Ho Oh -->
+ <item>244</item> <!-- Normal Form -->
+ <item>244</item> <!-- S Form -->
  <!-- Zigzagoon -->
  <item>80</item> <!-- Normal Form -->
  <item>80</item> <!-- Galarian Form -->
@@ -776,6 +948,24 @@
  <!-- Pyroar -->
  <item>149</item> <!-- Normal Form -->
  <item>149</item> <!-- Female Form -->
+ <!-- Flabebe -->
+ <item>120</item> <!-- Red Form -->
+ <item>120</item> <!-- Blue Form -->
+ <item>120</item> <!-- Orange Form -->
+ <item>120</item> <!-- Yellow Form -->
+ <item>120</item> <!-- White Form -->
+ <!-- Floette -->
+ <item>151</item> <!-- Red Form -->
+ <item>151</item> <!-- Blue Form -->
+ <item>151</item> <!-- Orange Form -->
+ <item>151</item> <!-- Yellow Form -->
+ <item>151</item> <!-- White Form -->
+ <!-- Florges -->
+ <item>244</item> <!-- Red Form -->
+ <item>244</item> <!-- Blue Form -->
+ <item>244</item> <!-- Orange Form -->
+ <item>244</item> <!-- Yellow Form -->
+ <item>244</item> <!-- White Form -->
  <!-- Furfrou -->
  <item>167</item> <!-- Natural Form -->
  <item>167</item> <!-- Heart Form -->
@@ -790,9 +980,69 @@
  <!-- Meowstic -->
  <item>167</item> <!-- Normal Form -->
  <item>167</item> <!-- Female Form -->
+ <!-- Pumpkaboo -->
+ <item>124</item> <!-- Small Form -->
+ <item>123</item> <!-- Average Form -->
+ <item>122</item> <!-- Large Form -->
+ <item>120</item> <!-- Super Form -->
+ <!-- Gourgeist -->
+ <item>219</item> <!-- Small Form -->
+ <item>213</item> <!-- Average Form -->
+ <item>206</item> <!-- Large Form -->
+ <item>200</item> <!-- Super Form -->
  <!-- Hoopa -->
  <item>187</item> <!-- Confined Form -->
  <item>191</item> <!-- Unbound Form -->
+ <!-- Oricorio -->
+ <item>145</item> <!-- Baile Form -->
+ <item>145</item> <!-- Pompom Form -->
+ <item>145</item> <!-- Pau Form -->
+ <item>145</item> <!-- Sensu Form -->
+ <!-- Lycanroc -->
+ <item>140</item> <!-- Midday Form -->
+ <item>152</item> <!-- Midnight Form -->
+ <item>139</item> <!-- Dusk Form -->
+ <!-- Wishiwashi -->
+ <item>43</item> <!-- Solo Form -->
+ <item>242</item> <!-- School Form -->
+ <!-- Silvally -->
+ <item>198</item> <!-- Normal Form -->
+ <item>198</item> <!-- Fighting Form -->
+ <item>198</item> <!-- Flying Form -->
+ <item>198</item> <!-- Poison Form -->
+ <item>198</item> <!-- Ground Form -->
+ <item>198</item> <!-- Rock Form -->
+ <item>198</item> <!-- Bug Form -->
+ <item>198</item> <!-- Ghost Form -->
+ <item>198</item> <!-- Steel Form -->
+ <item>198</item> <!-- Fire Form -->
+ <item>198</item> <!-- Water Form -->
+ <item>198</item> <!-- Grass Form -->
+ <item>198</item> <!-- Electric Form -->
+ <item>198</item> <!-- Psychic Form -->
+ <item>198</item> <!-- Ice Form -->
+ <item>198</item> <!-- Dragon Form -->
+ <item>198</item> <!-- Dark Form -->
+ <item>198</item> <!-- Fairy Form -->
+ <!-- Minior -->
+ <item>131</item> <!-- Blue Form -->
+ <item>131</item> <!-- Green Form -->
+ <item>131</item> <!-- Indigo Form -->
+ <item>131</item> <!-- Orange Form -->
+ <item>131</item> <!-- Red Form -->
+ <item>131</item> <!-- Violet Form -->
+ <item>131</item> <!-- Yellow Form -->
+ <!-- Mimikyu -->
+ <item>199</item> <!-- Busted Form -->
+ <item>199</item> <!-- Disguised Form -->
+ <!-- Necrozma -->
+ <item>195</item> <!-- Normal Form -->
+ <item>220</item> <!-- Dusk Mane Form -->
+ <item>220</item> <!-- Dawn Wings Form -->
+ <item>196</item> <!-- Ultra Form -->
+ <!-- Magearna -->
+ <item>225</item> <!-- Normal Form -->
+ <item>225</item> <!-- Original Color Form -->
  <!-- Toxtricity -->
  <item>140</item> <!-- Low Key Form -->
  <item>140</item> <!-- Amped Form -->
@@ -844,6 +1094,7 @@
  <item>111</item> <!-- Pop Star Form -->
  <item>111</item> <!-- Rock Star Form -->
  <item>111</item> <!-- Flying 5th Anniv Form -->
+ <item>111</item> <!-- Flying Okinawa Form -->
  <!-- Raichu -->
  <item>155</item> <!-- Normal Form -->
  <item>155</item> <!-- Alola Form -->
@@ -907,6 +1158,12 @@
  <!-- Gengar -->
  <item>155</item> <!-- Normal Form -->
  <item>155</item> <!-- Costume 2020 Form -->
+ <!-- Voltorb -->
+ <item>120</item> <!-- Normal Form -->
+ <item>120</item> <!-- Hisuian Form -->
+ <!-- Electrode -->
+ <item>155</item> <!-- Normal Form -->
+ <item>155</item> <!-- Hisuian Form -->
  <!-- Exeggutor -->
  <item>216</item> <!-- Normal Form -->
  <item>216</item> <!-- Alola Form -->
@@ -919,12 +1176,16 @@
  <!-- Mr Mime -->
  <item>120</item> <!-- Normal Form -->
  <item>137</item> <!-- Galarian Form -->
+ <!-- Lapras -->
+ <item>277</item> <!-- Normal Form -->
+ <item>277</item> <!-- Costume 2020 Form -->
  <!-- Mewtwo -->
  <item>214</item> <!-- Normal Form -->
  <item>214</item> <!-- Armored Form -->
  <!-- Slowking -->
  <item>216</item> <!-- Normal Form -->
  <item>216</item> <!-- Galarian Form -->
+ <item>216</item> <!-- 2022 Form -->
  <!-- Unown -->
  <item>134</item> <!-- F Form -->
  <item>134</item> <!-- A Form -->
@@ -957,6 +1218,21 @@
  <!-- Delibird -->
  <item>128</item> <!-- Normal Form -->
  <item>128</item> <!-- Winter 2020 Form -->
+ <!-- Raikou -->
+ <item>207</item> <!-- Normal Form -->
+ <item>207</item> <!-- S Form -->
+ <!-- Entei -->
+ <item>251</item> <!-- Normal Form -->
+ <item>251</item> <!-- S Form -->
+ <!-- Suicune -->
+ <item>225</item> <!-- Normal Form -->
+ <item>225</item> <!-- S Form -->
+ <!-- Lugia -->
+ <item>235</item> <!-- Normal Form -->
+ <item>235</item> <!-- S Form -->
+ <!-- Ho Oh -->
+ <item>214</item> <!-- Normal Form -->
+ <item>214</item> <!-- S Form -->
  <!-- Zigzagoon -->
  <item>116</item> <!-- Normal Form -->
  <item>116</item> <!-- Galarian Form -->
@@ -1110,6 +1386,24 @@
  <!-- Pyroar -->
  <item>200</item> <!-- Normal Form -->
  <item>200</item> <!-- Female Form -->
+ <!-- Flabebe -->
+ <item>127</item> <!-- Red Form -->
+ <item>127</item> <!-- Blue Form -->
+ <item>127</item> <!-- Orange Form -->
+ <item>127</item> <!-- Yellow Form -->
+ <item>127</item> <!-- White Form -->
+ <!-- Floette -->
+ <item>144</item> <!-- Red Form -->
+ <item>144</item> <!-- Blue Form -->
+ <item>144</item> <!-- Orange Form -->
+ <item>144</item> <!-- Yellow Form -->
+ <item>144</item> <!-- White Form -->
+ <!-- Florges -->
+ <item>186</item> <!-- Red Form -->
+ <item>186</item> <!-- Blue Form -->
+ <item>186</item> <!-- Orange Form -->
+ <item>186</item> <!-- Yellow Form -->
+ <item>186</item> <!-- White Form -->
  <!-- Furfrou -->
  <item>181</item> <!-- Natural Form -->
  <item>181</item> <!-- Heart Form -->
@@ -1124,9 +1418,69 @@
  <!-- Meowstic -->
  <item>179</item> <!-- Normal Form -->
  <item>179</item> <!-- Female Form -->
+ <!-- Pumpkaboo -->
+ <item>127</item> <!-- Small Form -->
+ <item>135</item> <!-- Average Form -->
+ <item>144</item> <!-- Large Form -->
+ <item>153</item> <!-- Super Form -->
+ <!-- Gourgeist -->
+ <item>146</item> <!-- Small Form -->
+ <item>163</item> <!-- Average Form -->
+ <item>181</item> <!-- Large Form -->
+ <item>198</item> <!-- Super Form -->
  <!-- Hoopa -->
  <item>173</item> <!-- Confined Form -->
  <item>173</item> <!-- Unbound Form -->
+ <!-- Oricorio -->
+ <item>181</item> <!-- Baile Form -->
+ <item>181</item> <!-- Pompom Form -->
+ <item>181</item> <!-- Pau Form -->
+ <item>181</item> <!-- Sensu Form -->
+ <!-- Lycanroc -->
+ <item>181</item> <!-- Midday Form -->
+ <item>198</item> <!-- Midnight Form -->
+ <item>181</item> <!-- Dusk Form -->
+ <!-- Wishiwashi -->
+ <item>128</item> <!-- Solo Form -->
+ <item>128</item> <!-- School Form -->
+ <!-- Silvally -->
+ <item>216</item> <!-- Normal Form -->
+ <item>216</item> <!-- Fighting Form -->
+ <item>216</item> <!-- Flying Form -->
+ <item>216</item> <!-- Poison Form -->
+ <item>216</item> <!-- Ground Form -->
+ <item>216</item> <!-- Rock Form -->
+ <item>216</item> <!-- Bug Form -->
+ <item>216</item> <!-- Ghost Form -->
+ <item>216</item> <!-- Steel Form -->
+ <item>216</item> <!-- Fire Form -->
+ <item>216</item> <!-- Water Form -->
+ <item>216</item> <!-- Grass Form -->
+ <item>216</item> <!-- Electric Form -->
+ <item>216</item> <!-- Psychic Form -->
+ <item>216</item> <!-- Ice Form -->
+ <item>216</item> <!-- Dragon Form -->
+ <item>216</item> <!-- Dark Form -->
+ <item>216</item> <!-- Fairy Form -->
+ <!-- Minior -->
+ <item>155</item> <!-- Blue Form -->
+ <item>155</item> <!-- Green Form -->
+ <item>155</item> <!-- Indigo Form -->
+ <item>155</item> <!-- Orange Form -->
+ <item>155</item> <!-- Red Form -->
+ <item>155</item> <!-- Violet Form -->
+ <item>155</item> <!-- Yellow Form -->
+ <!-- Mimikyu -->
+ <item>146</item> <!-- Busted Form -->
+ <item>146</item> <!-- Disguised Form -->
+ <!-- Necrozma -->
+ <item>219</item> <!-- Normal Form -->
+ <item>200</item> <!-- Dusk Mane Form -->
+ <item>200</item> <!-- Dawn Wings Form -->
+ <item>200</item> <!-- Ultra Form -->
+ <!-- Magearna -->
+ <item>190</item> <!-- Normal Form -->
+ <item>190</item> <!-- Original Color Form -->
  <!-- Toxtricity -->
  <item>181</item> <!-- Low Key Form -->
  <item>181</item> <!-- Amped Form -->

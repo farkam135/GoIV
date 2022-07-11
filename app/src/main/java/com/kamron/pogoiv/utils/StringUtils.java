@@ -1,7 +1,6 @@
 package com.kamron.pogoiv.utils;
 
 import java.text.Normalizer;
-import java.util.Locale;
 
 public class StringUtils {
 

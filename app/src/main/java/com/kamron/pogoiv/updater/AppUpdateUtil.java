@@ -3,14 +3,13 @@ package com.kamron.pogoiv.updater;
 import android.Manifest;
 import android.app.DownloadManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Environment;
-import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.appcompat.app.AlertDialog;
 
 import com.kamron.pogoiv.R;
 
@@ -50,20 +49,13 @@ public abstract class AppUpdateUtil {
         AlertDialog.Builder builder = new AlertDialog.Builder(context).setTitle("Update available").setMessage(
                 context.getString(R.string.app_name) + " v" + update.getVersion() + " " + "is available"
                         + "\n\n" + "Changes:" + "\n\n" + update.getChangelog()).setIcon(R.mipmap.ic_launcher)
-                .setPositiveButton("Update", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                        Intent startDownloadIntent = new Intent(context, DownloadUpdateService.class);
-                        startDownloadIntent.putExtra(DownloadUpdateService.KEY_DOWNLOAD_URL, update.getAssetUrl());
-                        context.startService(startDownloadIntent);
-                    }
-                }).setNegativeButton(context.getString(R.string.cancel), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                }).setCancelable(false);
+                .setPositiveButton("Update", (dialogInterface, i) -> {
+                    dialogInterface.dismiss();
+                    Intent startDownloadIntent = new Intent(context, DownloadUpdateService.class);
+                    startDownloadIntent.putExtra(DownloadUpdateService.KEY_DOWNLOAD_URL, update.getAssetUrl());
+                    context.startService(startDownloadIntent);
+                }).setNegativeButton(context.getString(R.string.cancel),
+                        (dialogInterface, i) -> dialogInterface.dismiss()).setCancelable(false);
         return builder.create();
     }
 

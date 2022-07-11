@@ -1,8 +1,8 @@
 package com.kamron.pogoiv.clipboardlogic.tokens;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.google.common.base.Strings;
 import com.kamron.pogoiv.R;
@@ -54,7 +54,7 @@ public class MovesetInitialsToken extends ClipboardToken {
 
     @Override
     public String getStringRepresentation() {
-        return super.getStringRepresentation() + String.valueOf(maxInitials);
+        return super.getStringRepresentation() + maxInitials;
     }
 
     @Override

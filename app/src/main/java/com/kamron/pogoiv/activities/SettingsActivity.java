@@ -6,14 +6,16 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.Preference;
-import android.preference.PreferenceCategory;
-import android.preference.PreferenceFragment;
-import android.preference.PreferenceScreen;
-import android.preference.SwitchPreference;
-import android.support.annotation.NonNull;
-import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.app.AppCompatActivity;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceCategory;
+import androidx.preference.PreferenceScreen;
+import androidx.preference.SeekBarPreference;
+import androidx.preference.SwitchPreference;
+import androidx.annotation.NonNull;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceFragmentCompat;
+
 import android.widget.Toast;
 
 import com.kamron.pogoiv.BuildConfig;
@@ -53,7 +55,7 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().setTitle(getResources().getString(R.string.settings_page_title));
-        getFragmentManager().beginTransaction()
+        getSupportFragmentManager().beginTransaction()
                 .replace(android.R.id.content, new SettingsFragment())
                 .commit();
     }
@@ -72,61 +74,71 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
 
-    public static class SettingsFragment extends PreferenceFragment {
+    public static class SettingsFragment extends PreferenceFragmentCompat {
 
         @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
+        public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             getPreferenceManager().setSharedPreferencesName(GoIVSettings.PREFS_GO_IV_SETTINGS);
             addPreferencesFromResource(R.xml.settings);
 
             //Initialize the button which opens the credits activity
             Preference creditsButton = findPreference(getString(R.string.view_credits_button));
-            creditsButton.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
+            if (creditsButton != null) {
+                creditsButton.setOnPreferenceClickListener(preference -> {
                     Intent intent = new Intent(getActivity(), CreditsActivity.class);
                     startActivity(intent);
                     return true;
-                }
-            });
+                });
+            }
 
             if (!BuildConfig.DISTRIBUTION_GITHUB || !BuildConfig.INTERNET_AVAILABLE) {
                 // Internal auto-update is available only for online build distributed via GitHub
                 effectivelyRemovePreference(GoIVSettings.AUTO_UPDATE_ENABLED);
             }
 
-            Preference checkForUpdatePreference = getPreferenceManager().findPreference("checkForUpdate");
-            checkForUpdatePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
+            Preference checkForUpdatePreference = findPreference("checkForUpdate");
+            if (checkForUpdatePreference != null) {
+                checkForUpdatePreference.setOnPreferenceClickListener(preference -> {
                     AppUpdateUtil.getInstance().checkForUpdate(getActivity(), true);
                     return true;
-                }
-            });
+                });
+            }
 
             if (!BuildConfig.INTERNET_AVAILABLE) {
                 // Hide crash report related settings
                 effectivelyRemovePreference(GoIVSettings.SEND_CRASH_REPORTS);
             }
 
-            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
-                SwitchPreference manualScreenshotModePreference = (SwitchPreference) getPreferenceManager()
-                        .findPreference(GoIVSettings.MANUAL_SCREENSHOT_MODE);
-                manualScreenshotModePreference.setDefaultValue(true);
-                manualScreenshotModePreference.setChecked(true);
-                manualScreenshotModePreference.setEnabled(false);
-                effectivelyRemovePreference(GoIVSettings.AUTO_APPRAISAL_SCAN_DELAY);
-            }
-
             //If strings support use_default_pokemonsname_as_ocrstring, display pref and set default ON
             if (getResources().getBoolean(R.bool.use_default_pokemonsname_as_ocrstring)) {
-                SwitchPreference useDefaultPokemonNamePreference = (SwitchPreference) getPreferenceManager()
-                        .findPreference(GoIVSettings.SHOW_TRANSLATED_POKEMON_NAME);
-                useDefaultPokemonNamePreference.setEnabled(true);
-                useDefaultPokemonNamePreference.setDefaultValue(true);
+                SwitchPreference useDefaultPokemonNamePreference = findPreference(GoIVSettings.SHOW_TRANSLATED_POKEMON_NAME);
+                if (useDefaultPokemonNamePreference != null) {
+                    useDefaultPokemonNamePreference.setEnabled(true);
+                    useDefaultPokemonNamePreference.setDefaultValue(true);
+                }
             } else {
                 effectivelyRemovePreference(GoIVSettings.SHOW_TRANSLATED_POKEMON_NAME);
+            }
+
+            SeekBarPreference seekBarPreference = findPreference(GoIVSettings.AUTO_APPRAISAL_SCAN_DELAY);
+            if (seekBarPreference != null) {
+                seekBarPreference.setOnPreferenceChangeListener((preference, newValue) -> {
+                    final String key = preference.getKey();
+                    if (key.equals(GoIVSettings.AUTO_APPRAISAL_SCAN_DELAY)) {
+                        final SeekBarPreference sbp = (SeekBarPreference) preference;
+                        final int increment = sbp.getSeekBarIncrement();
+                        float value = (int) newValue;
+                        final int rounded = Math.round(value / increment);
+                        final int finalValue = rounded * increment;
+                        if (finalValue == value) {
+                            return true;
+                        } else {
+                            sbp.setValue(finalValue);
+                        }
+                        return false;
+                    }
+                    return true;
+                });
             }
         }
 

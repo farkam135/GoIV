@@ -24,14 +24,6 @@
             android:layout_height="wrap_content"
             android:autoLink="web"
             android:linksClickable="true"
-            android:text="Crash reports and device statistics gathered by Fabric \nhttps://fabric.io/home \n"
-            tools:ignore="HardcodedText"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:autoLink="web"
-            android:linksClickable="true"
             android:text="Optical character recognition by Tesseract \nhttps://github.com/tesseract-ocr \n"
             tools:ignore="HardcodedText"/>
 
@@ -73,14 +65,6 @@
             android:autoLink="web"
             android:linksClickable="true"
             android:text="Butterknife - For keeping the UI element codebase cleaner \nhttp://jakewharton.github.io/butterknife \n"
-            tools:ignore="HardcodedText"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:autoLink="web"
-            android:linksClickable="true"
-            android:text="MaterialSeekBarPreference - Used in the settings \nhttps://github.com/MrBIMC/MaterialSeekBarPreference \n"
             tools:ignore="HardcodedText"/>
 
     </LinearLayout>

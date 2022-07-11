@@ -1,13 +1,12 @@
 package com.kamron.pogoiv.pokeflycomponents.ocrhelper;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.support.annotation.NonNull;
-import android.support.test.InstrumentationRegistry;
-import android.support.test.filters.LargeTest;
-import android.support.test.runner.AndroidJUnit4;
+import androidx.annotation.NonNull;
+import androidx.test.platform.app.InstrumentationRegistry;
+import androidx.test.filters.LargeTest;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.kamron.pogoiv.scanlogic.Pokemon;
 
@@ -49,7 +48,7 @@ public class GenderDetectionTest {
 
             String[] pokemonInfoScreenFileNames = mContext.getAssets().list(genderPath);
 
-            assertTrue("No test images found for gender" + gender.toString() + " and device " + device.toString(),
+            assertTrue("No test images found for gender" + gender + " and device " + device,
                     pokemonInfoScreenFileNames.length > 0);
 
             for (String assetFileName : pokemonInfoScreenFileNames) {
@@ -62,7 +61,7 @@ public class GenderDetectionTest {
                     ScanFieldAutomaticLocator autoLocator =
                             new ScanFieldAutomaticLocator(bmp, bmp.getWidth(), device.screenDensity);
                     //noinspection ConstantConditions
-                    results = autoLocator.scan(null, new WeakReference<ProgressDialog>(null),
+                    results = autoLocator.scan(null, new WeakReference<>(null),
                             new WeakReference<>(mTargetContext));
                 }
 

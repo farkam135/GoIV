@@ -710,8 +710,8 @@
  <item>160</item> <!-- Klefki -->
  <item>125</item> <!-- Phantump -->
  <item>201</item> <!-- Trevenant -->
- <item>121</item> <!-- Pumpkaboo -->
- <item>175</item> <!-- Gourgeist -->
+ <item>122</item> <!-- Pumpkaboo -->
+ <item>171</item> <!-- Gourgeist -->
  <item>117</item> <!-- Bergmite -->
  <item>196</item> <!-- Avalugg -->
  <item>83</item> <!-- Noibat -->
@@ -722,92 +722,92 @@
  <item>190</item> <!-- Diancie -->
  <item>261</item> <!-- Hoopa -->
  <item>252</item> <!-- Volcanion -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
+ <item>102</item> <!-- Rowlet -->
+ <item>142</item> <!-- Dartrix -->
+ <item>210</item> <!-- Decidueye -->
+ <item>128</item> <!-- Litten -->
+ <item>174</item> <!-- Torracat -->
+ <item>214</item> <!-- Incineroar -->
+ <item>120</item> <!-- Popplio -->
+ <item>168</item> <!-- Brionne -->
+ <item>232</item> <!-- Primarina -->
+ <item>136</item> <!-- Pikipek -->
+ <item>159</item> <!-- Trumbeak -->
+ <item>222</item> <!-- Toucannon -->
+ <item>122</item> <!-- Yungoos -->
+ <item>194</item> <!-- Gumshoos -->
+ <item>115</item> <!-- Grubbin -->
+ <item>145</item> <!-- Charjabug -->
+ <item>254</item> <!-- Vikavolt -->
+ <item>150</item> <!-- Crabrawler -->
+ <item>231</item> <!-- Crabominable -->
+ <item>196</item> <!-- Oricorio -->
+ <item>110</item> <!-- Cutiefly -->
+ <item>198</item> <!-- Ribombee -->
+ <item>117</item> <!-- Rockruff -->
+ <item>231</item> <!-- Lycanroc -->
+ <item>46</item> <!-- Wishiwashi -->
+ <item>98</item> <!-- Mareanie -->
+ <item>114</item> <!-- Toxapex -->
+ <item>175</item> <!-- Mudbray -->
+ <item>214</item> <!-- Mudsdale -->
+ <item>72</item> <!-- Dewpider -->
+ <item>126</item> <!-- Araquanid -->
+ <item>100</item> <!-- Fomantis -->
+ <item>192</item> <!-- Lurantis -->
+ <item>108</item> <!-- Morelull -->
+ <item>154</item> <!-- Shiinotic -->
+ <item>136</item> <!-- Salandit -->
+ <item>228</item> <!-- Salazzle -->
+ <item>136</item> <!-- Stufful -->
+ <item>226</item> <!-- Bewear -->
+ <item>55</item> <!-- Bounsweet -->
+ <item>78</item> <!-- Steenee -->
+ <item>222</item> <!-- Tsareena -->
+ <item>165</item> <!-- Comfey -->
+ <item>168</item> <!-- Oranguru -->
+ <item>222</item> <!-- Passimian -->
+ <item>67</item> <!-- Wimpod -->
+ <item>218</item> <!-- Golisopod -->
+ <item>120</item> <!-- Sandygast -->
+ <item>178</item> <!-- Palossand -->
+ <item>97</item> <!-- Pyukumuku -->
+ <item>184</item> <!-- Type Null -->
+ <item>198</item> <!-- Silvally -->
+ <item>116</item> <!-- Minior -->
+ <item>216</item> <!-- Komala -->
+ <item>165</item> <!-- Turtonator -->
+ <item>190</item> <!-- Togedemaru -->
+ <item>177</item> <!-- Mimikyu -->
+ <item>208</item> <!-- Bruxish -->
+ <item>231</item> <!-- Drampa -->
+ <item>233</item> <!-- Dhelmise -->
+ <item>102</item> <!-- Jangmo O -->
+ <item>145</item> <!-- Hakamo O -->
+ <item>222</item> <!-- Kommo O -->
+ <item>250</item> <!-- Tapu Koko -->
+ <item>259</item> <!-- Tapu Lele -->
+ <item>249</item> <!-- Tapu Bulu -->
+ <item>189</item> <!-- Tapu Fini -->
+ <item>54</item> <!-- Cosmog -->
+ <item>54</item> <!-- Cosmoem -->
+ <item>255</item> <!-- Solgaleo -->
+ <item>255</item> <!-- Lunala -->
+ <item>249</item> <!-- Nihilego -->
+ <item>236</item> <!-- Buzzwole -->
+ <item>316</item> <!-- Pheromosa -->
+ <item>330</item> <!-- Xurkitree -->
+ <item>207</item> <!-- Celesteela -->
+ <item>323</item> <!-- Kartana -->
+ <item>188</item> <!-- Guzzlord -->
+ <item>251</item> <!-- Necrozma -->
+ <item>246</item> <!-- Magearna -->
+ <item>265</item> <!-- Marshadow -->
+ <item>145</item> <!-- Poipole -->
+ <item>263</item> <!-- Naganadel -->
+ <item>213</item> <!-- Stakataka -->
+ <item>315</item> <!-- Blacephalon -->
+ <item>252</item> <!-- Zeraora -->
  <item>118</item> <!-- Meltan -->
  <item>226</item> <!-- Melmetal -->
  <item>122</item> <!-- Grookey -->
@@ -1610,8 +1610,8 @@
  <item>179</item> <!-- Klefki -->
  <item>103</item> <!-- Phantump -->
  <item>154</item> <!-- Trevenant -->
- <item>123</item> <!-- Pumpkaboo -->
- <item>213</item> <!-- Gourgeist -->
+ <item>124</item> <!-- Pumpkaboo -->
+ <item>219</item> <!-- Gourgeist -->
  <item>120</item> <!-- Bergmite -->
  <item>240</item> <!-- Avalugg -->
  <item>73</item> <!-- Noibat -->
@@ -1622,92 +1622,92 @@
  <item>285</item> <!-- Diancie -->
  <item>187</item> <!-- Hoopa -->
  <item>216</item> <!-- Volcanion -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
+ <item>99</item> <!-- Rowlet -->
+ <item>139</item> <!-- Dartrix -->
+ <item>179</item> <!-- Decidueye -->
+ <item>79</item> <!-- Litten -->
+ <item>103</item> <!-- Torracat -->
+ <item>175</item> <!-- Incineroar -->
+ <item>103</item> <!-- Popplio -->
+ <item>145</item> <!-- Brionne -->
+ <item>195</item> <!-- Primarina -->
+ <item>59</item> <!-- Pikipek -->
+ <item>100</item> <!-- Trumbeak -->
+ <item>146</item> <!-- Toucannon -->
+ <item>56</item> <!-- Yungoos -->
+ <item>113</item> <!-- Gumshoos -->
+ <item>85</item> <!-- Grubbin -->
+ <item>161</item> <!-- Charjabug -->
+ <item>158</item> <!-- Vikavolt -->
+ <item>104</item> <!-- Crabrawler -->
+ <item>138</item> <!-- Crabominable -->
+ <item>145</item> <!-- Oricorio -->
+ <item>81</item> <!-- Cutiefly -->
+ <item>146</item> <!-- Ribombee -->
+ <item>78</item> <!-- Rockruff -->
+ <item>140</item> <!-- Lycanroc -->
+ <item>43</item> <!-- Wishiwashi -->
+ <item>110</item> <!-- Mareanie -->
+ <item>273</item> <!-- Toxapex -->
+ <item>121</item> <!-- Mudbray -->
+ <item>174</item> <!-- Mudsdale -->
+ <item>117</item> <!-- Dewpider -->
+ <item>219</item> <!-- Araquanid -->
+ <item>64</item> <!-- Fomantis -->
+ <item>169</item> <!-- Lurantis -->
+ <item>119</item> <!-- Morelull -->
+ <item>168</item> <!-- Shiinotic -->
+ <item>80</item> <!-- Salandit -->
+ <item>130</item> <!-- Salazzle -->
+ <item>95</item> <!-- Stufful -->
+ <item>141</item> <!-- Bewear -->
+ <item>69</item> <!-- Bounsweet -->
+ <item>94</item> <!-- Steenee -->
+ <item>195</item> <!-- Tsareena -->
+ <item>215</item> <!-- Comfey -->
+ <item>192</item> <!-- Oranguru -->
+ <item>160</item> <!-- Passimian -->
+ <item>74</item> <!-- Wimpod -->
+ <item>226</item> <!-- Golisopod -->
+ <item>118</item> <!-- Sandygast -->
+ <item>178</item> <!-- Palossand -->
+ <item>224</item> <!-- Pyukumuku -->
+ <item>184</item> <!-- Type Null -->
+ <item>198</item> <!-- Silvally -->
+ <item>194</item> <!-- Minior -->
+ <item>165</item> <!-- Komala -->
+ <item>215</item> <!-- Turtonator -->
+ <item>145</item> <!-- Togedemaru -->
+ <item>199</item> <!-- Mimikyu -->
+ <item>145</item> <!-- Bruxish -->
+ <item>164</item> <!-- Drampa -->
+ <item>179</item> <!-- Dhelmise -->
+ <item>108</item> <!-- Jangmo O -->
+ <item>162</item> <!-- Hakamo O -->
+ <item>240</item> <!-- Kommo O -->
+ <item>181</item> <!-- Tapu Koko -->
+ <item>208</item> <!-- Tapu Lele -->
+ <item>215</item> <!-- Tapu Bulu -->
+ <item>254</item> <!-- Tapu Fini -->
+ <item>57</item> <!-- Cosmog -->
+ <item>242</item> <!-- Cosmoem -->
+ <item>191</item> <!-- Solgaleo -->
+ <item>191</item> <!-- Lunala -->
+ <item>210</item> <!-- Nihilego -->
+ <item>196</item> <!-- Buzzwole -->
+ <item>85</item> <!-- Pheromosa -->
+ <item>144</item> <!-- Xurkitree -->
+ <item>199</item> <!-- Celesteela -->
+ <item>182</item> <!-- Kartana -->
+ <item>99</item> <!-- Guzzlord -->
+ <item>195</item> <!-- Necrozma -->
+ <item>225</item> <!-- Magearna -->
+ <item>190</item> <!-- Marshadow -->
+ <item>133</item> <!-- Poipole -->
+ <item>159</item> <!-- Naganadel -->
+ <item>298</item> <!-- Stakataka -->
+ <item>148</item> <!-- Blacephalon -->
+ <item>177</item> <!-- Zeraora -->
  <item>99</item> <!-- Meltan -->
  <item>190</item> <!-- Melmetal -->
  <item>91</item> <!-- Grookey -->
@@ -2510,8 +2510,8 @@
  <item>149</item> <!-- Klefki -->
  <item>125</item> <!-- Phantump -->
  <item>198</item> <!-- Trevenant -->
- <item>135</item> <!-- Pumpkaboo -->
- <item>163</item> <!-- Gourgeist -->
+ <item>127</item> <!-- Pumpkaboo -->
+ <item>146</item> <!-- Gourgeist -->
  <item>146</item> <!-- Bergmite -->
  <item>216</item> <!-- Avalugg -->
  <item>120</item> <!-- Noibat -->
@@ -2522,92 +2522,92 @@
  <item>137</item> <!-- Diancie -->
  <item>173</item> <!-- Hoopa -->
  <item>190</item> <!-- Volcanion -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
+ <item>169</item> <!-- Rowlet -->
+ <item>186</item> <!-- Dartrix -->
+ <item>186</item> <!-- Decidueye -->
+ <item>128</item> <!-- Litten -->
+ <item>163</item> <!-- Torracat -->
+ <item>216</item> <!-- Incineroar -->
+ <item>137</item> <!-- Popplio -->
+ <item>155</item> <!-- Brionne -->
+ <item>190</item> <!-- Primarina -->
+ <item>111</item> <!-- Pikipek -->
+ <item>146</item> <!-- Trumbeak -->
+ <item>190</item> <!-- Toucannon -->
+ <item>134</item> <!-- Yungoos -->
+ <item>204</item> <!-- Gumshoos -->
+ <item>132</item> <!-- Grubbin -->
+ <item>149</item> <!-- Charjabug -->
+ <item>184</item> <!-- Vikavolt -->
+ <item>132</item> <!-- Crabrawler -->
+ <item>219</item> <!-- Crabominable -->
+ <item>181</item> <!-- Oricorio -->
+ <item>120</item> <!-- Cutiefly -->
+ <item>155</item> <!-- Ribombee -->
+ <item>128</item> <!-- Rockruff -->
+ <item>181</item> <!-- Lycanroc -->
+ <item>128</item> <!-- Wishiwashi -->
+ <item>137</item> <!-- Mareanie -->
+ <item>137</item> <!-- Toxapex -->
+ <item>172</item> <!-- Mudbray -->
+ <item>225</item> <!-- Mudsdale -->
+ <item>116</item> <!-- Dewpider -->
+ <item>169</item> <!-- Araquanid -->
+ <item>120</item> <!-- Fomantis -->
+ <item>172</item> <!-- Lurantis -->
+ <item>120</item> <!-- Morelull -->
+ <item>155</item> <!-- Shiinotic -->
+ <item>134</item> <!-- Salandit -->
+ <item>169</item> <!-- Salazzle -->
+ <item>172</item> <!-- Stufful -->
+ <item>260</item> <!-- Bewear -->
+ <item>123</item> <!-- Bounsweet -->
+ <item>141</item> <!-- Steenee -->
+ <item>176</item> <!-- Tsareena -->
+ <item>139</item> <!-- Comfey -->
+ <item>207</item> <!-- Oranguru -->
+ <item>225</item> <!-- Passimian -->
+ <item>93</item> <!-- Wimpod -->
+ <item>181</item> <!-- Golisopod -->
+ <item>146</item> <!-- Sandygast -->
+ <item>198</item> <!-- Palossand -->
+ <item>146</item> <!-- Pyukumuku -->
+ <item>216</item> <!-- Type Null -->
+ <item>216</item> <!-- Silvally -->
+ <item>155</item> <!-- Minior -->
+ <item>163</item> <!-- Komala -->
+ <item>155</item> <!-- Turtonator -->
+ <item>163</item> <!-- Togedemaru -->
+ <item>146</item> <!-- Mimikyu -->
+ <item>169</item> <!-- Bruxish -->
+ <item>186</item> <!-- Drampa -->
+ <item>172</item> <!-- Dhelmise -->
+ <item>128</item> <!-- Jangmo O -->
+ <item>146</item> <!-- Hakamo O -->
+ <item>181</item> <!-- Kommo O -->
+ <item>172</item> <!-- Tapu Koko -->
+ <item>172</item> <!-- Tapu Lele -->
+ <item>172</item> <!-- Tapu Bulu -->
+ <item>172</item> <!-- Tapu Fini -->
+ <item>125</item> <!-- Cosmog -->
+ <item>125</item> <!-- Cosmoem -->
+ <item>264</item> <!-- Solgaleo -->
+ <item>264</item> <!-- Lunala -->
+ <item>240</item> <!-- Nihilego -->
+ <item>216</item> <!-- Buzzwole -->
+ <item>174</item> <!-- Pheromosa -->
+ <item>195</item> <!-- Xurkitree -->
+ <item>219</item> <!-- Celesteela -->
+ <item>139</item> <!-- Kartana -->
+ <item>440</item> <!-- Guzzlord -->
+ <item>219</item> <!-- Necrozma -->
+ <item>190</item> <!-- Magearna -->
+ <item>207</item> <!-- Marshadow -->
+ <item>167</item> <!-- Poipole -->
+ <item>177</item> <!-- Naganadel -->
+ <item>156</item> <!-- Stakataka -->
+ <item>142</item> <!-- Blacephalon -->
+ <item>204</item> <!-- Zeraora -->
  <item>130</item> <!-- Meltan -->
  <item>264</item> <!-- Melmetal -->
  <item>137</item> <!-- Grookey -->
@@ -3422,92 +3422,92 @@
  <item>-1</item> <!-- Diancie -->
  <item>-1</item> <!-- Hoopa -->
  <item>-1</item> <!-- Volcanion -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
+ <item>-1</item> <!-- Rowlet -->
+ <item>721</item> <!-- Dartrix -->
+ <item>722</item> <!-- Decidueye -->
+ <item>-1</item> <!-- Litten -->
+ <item>724</item> <!-- Torracat -->
+ <item>725</item> <!-- Incineroar -->
+ <item>-1</item> <!-- Popplio -->
+ <item>727</item> <!-- Brionne -->
+ <item>728</item> <!-- Primarina -->
+ <item>-1</item> <!-- Pikipek -->
+ <item>730</item> <!-- Trumbeak -->
+ <item>731</item> <!-- Toucannon -->
+ <item>-1</item> <!-- Yungoos -->
+ <item>733</item> <!-- Gumshoos -->
+ <item>-1</item> <!-- Grubbin -->
+ <item>735</item> <!-- Charjabug -->
+ <item>736</item> <!-- Vikavolt -->
+ <item>-1</item> <!-- Crabrawler -->
+ <item>738</item> <!-- Crabominable -->
+ <item>-1</item> <!-- Oricorio -->
+ <item>-1</item> <!-- Cutiefly -->
+ <item>741</item> <!-- Ribombee -->
+ <item>-1</item> <!-- Rockruff -->
+ <item>743</item> <!-- Lycanroc -->
+ <item>-1</item> <!-- Wishiwashi -->
+ <item>-1</item> <!-- Mareanie -->
+ <item>746</item> <!-- Toxapex -->
+ <item>-1</item> <!-- Mudbray -->
+ <item>748</item> <!-- Mudsdale -->
+ <item>-1</item> <!-- Dewpider -->
+ <item>750</item> <!-- Araquanid -->
+ <item>-1</item> <!-- Fomantis -->
+ <item>752</item> <!-- Lurantis -->
+ <item>-1</item> <!-- Morelull -->
+ <item>754</item> <!-- Shiinotic -->
+ <item>-1</item> <!-- Salandit -->
+ <item>756</item> <!-- Salazzle -->
+ <item>-1</item> <!-- Stufful -->
+ <item>758</item> <!-- Bewear -->
+ <item>-1</item> <!-- Bounsweet -->
+ <item>760</item> <!-- Steenee -->
+ <item>761</item> <!-- Tsareena -->
+ <item>-1</item> <!-- Comfey -->
+ <item>-1</item> <!-- Oranguru -->
+ <item>-1</item> <!-- Passimian -->
+ <item>-1</item> <!-- Wimpod -->
+ <item>766</item> <!-- Golisopod -->
+ <item>-1</item> <!-- Sandygast -->
+ <item>768</item> <!-- Palossand -->
+ <item>-1</item> <!-- Pyukumuku -->
+ <item>-1</item> <!-- Type Null -->
+ <item>771</item> <!-- Silvally -->
+ <item>-1</item> <!-- Minior -->
+ <item>-1</item> <!-- Komala -->
+ <item>-1</item> <!-- Turtonator -->
+ <item>-1</item> <!-- Togedemaru -->
+ <item>-1</item> <!-- Mimikyu -->
+ <item>-1</item> <!-- Bruxish -->
+ <item>-1</item> <!-- Drampa -->
+ <item>-1</item> <!-- Dhelmise -->
+ <item>-1</item> <!-- Jangmo O -->
+ <item>781</item> <!-- Hakamo O -->
+ <item>782</item> <!-- Kommo O -->
+ <item>-1</item> <!-- Tapu Koko -->
+ <item>-1</item> <!-- Tapu Lele -->
+ <item>-1</item> <!-- Tapu Bulu -->
+ <item>-1</item> <!-- Tapu Fini -->
+ <item>-1</item> <!-- Cosmog -->
+ <item>788</item> <!-- Cosmoem -->
+ <item>789</item> <!-- Solgaleo -->
+ <item>789</item> <!-- Lunala -->
+ <item>-1</item> <!-- Nihilego -->
+ <item>-1</item> <!-- Buzzwole -->
+ <item>-1</item> <!-- Pheromosa -->
+ <item>-1</item> <!-- Xurkitree -->
+ <item>-1</item> <!-- Celesteela -->
+ <item>-1</item> <!-- Kartana -->
+ <item>-1</item> <!-- Guzzlord -->
+ <item>-1</item> <!-- Necrozma -->
+ <item>-1</item> <!-- Magearna -->
+ <item>-1</item> <!-- Marshadow -->
+ <item>-1</item> <!-- Poipole -->
+ <item>802</item> <!-- Naganadel -->
+ <item>-1</item> <!-- Stakataka -->
+ <item>-1</item> <!-- Blacephalon -->
+ <item>-1</item> <!-- Zeraora -->
  <item>-1</item> <!-- Meltan -->
  <item>807</item> <!-- Melmetal -->
  <item>-1</item> <!-- Grookey -->
@@ -4308,9 +4308,9 @@
  <item>100</item> <!-- Sliggoo -->
  <item>-1</item> <!-- Goodra -->
  <item>-1</item> <!-- Klefki -->
- <item>50</item> <!-- Phantump -->
+ <item>200</item> <!-- Phantump -->
  <item>-1</item> <!-- Trevenant -->
- <item>50</item> <!-- Pumpkaboo -->
+ <item>200</item> <!-- Pumpkaboo -->
  <item>-1</item> <!-- Gourgeist -->
  <item>50</item> <!-- Bergmite -->
  <item>-1</item> <!-- Avalugg -->
@@ -4322,92 +4322,92 @@
  <item>-1</item> <!-- Diancie -->
  <item>-1</item> <!-- Hoopa -->
  <item>-1</item> <!-- Volcanion -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
+ <item>25</item> <!-- Rowlet -->
+ <item>100</item> <!-- Dartrix -->
+ <item>-1</item> <!-- Decidueye -->
+ <item>25</item> <!-- Litten -->
+ <item>100</item> <!-- Torracat -->
+ <item>-1</item> <!-- Incineroar -->
+ <item>25</item> <!-- Popplio -->
+ <item>100</item> <!-- Brionne -->
+ <item>-1</item> <!-- Primarina -->
+ <item>25</item> <!-- Pikipek -->
+ <item>100</item> <!-- Trumbeak -->
+ <item>-1</item> <!-- Toucannon -->
+ <item>50</item> <!-- Yungoos -->
+ <item>-1</item> <!-- Gumshoos -->
+ <item>25</item> <!-- Grubbin -->
+ <item>100</item> <!-- Charjabug -->
+ <item>-1</item> <!-- Vikavolt -->
+ <item>50</item> <!-- Crabrawler -->
+ <item>-1</item> <!-- Crabominable -->
+ <item>-1</item> <!-- Oricorio -->
+ <item>50</item> <!-- Cutiefly -->
+ <item>-1</item> <!-- Ribombee -->
+ <item>50</item> <!-- Rockruff -->
+ <item>-1</item> <!-- Lycanroc -->
+ <item>-1</item> <!-- Wishiwashi -->
+ <item>50</item> <!-- Mareanie -->
+ <item>-1</item> <!-- Toxapex -->
+ <item>50</item> <!-- Mudbray -->
+ <item>-1</item> <!-- Mudsdale -->
+ <item>50</item> <!-- Dewpider -->
+ <item>-1</item> <!-- Araquanid -->
+ <item>50</item> <!-- Fomantis -->
+ <item>-1</item> <!-- Lurantis -->
+ <item>50</item> <!-- Morelull -->
+ <item>-1</item> <!-- Shiinotic -->
+ <item>50</item> <!-- Salandit -->
+ <item>-1</item> <!-- Salazzle -->
+ <item>400</item> <!-- Stufful -->
+ <item>-1</item> <!-- Bewear -->
+ <item>25</item> <!-- Bounsweet -->
+ <item>100</item> <!-- Steenee -->
+ <item>-1</item> <!-- Tsareena -->
+ <item>-1</item> <!-- Comfey -->
+ <item>-1</item> <!-- Oranguru -->
+ <item>-1</item> <!-- Passimian -->
+ <item>400</item> <!-- Wimpod -->
+ <item>-1</item> <!-- Golisopod -->
+ <item>50</item> <!-- Sandygast -->
+ <item>-1</item> <!-- Palossand -->
+ <item>-1</item> <!-- Pyukumuku -->
+ <item>200</item> <!-- Type Null -->
+ <item>-1</item> <!-- Silvally -->
+ <item>-1</item> <!-- Minior -->
+ <item>-1</item> <!-- Komala -->
+ <item>-1</item> <!-- Turtonator -->
+ <item>-1</item> <!-- Togedemaru -->
+ <item>-1</item> <!-- Mimikyu -->
+ <item>-1</item> <!-- Bruxish -->
+ <item>-1</item> <!-- Drampa -->
+ <item>-1</item> <!-- Dhelmise -->
+ <item>25</item> <!-- Jangmo O -->
+ <item>100</item> <!-- Hakamo O -->
+ <item>-1</item> <!-- Kommo O -->
+ <item>-1</item> <!-- Tapu Koko -->
+ <item>-1</item> <!-- Tapu Lele -->
+ <item>-1</item> <!-- Tapu Bulu -->
+ <item>-1</item> <!-- Tapu Fini -->
+ <item>25</item> <!-- Cosmog -->
+ <item>100</item> <!-- Cosmoem -->
+ <item>-1</item> <!-- Solgaleo -->
+ <item>-1</item> <!-- Lunala -->
+ <item>-1</item> <!-- Nihilego -->
+ <item>-1</item> <!-- Buzzwole -->
+ <item>-1</item> <!-- Pheromosa -->
+ <item>-1</item> <!-- Xurkitree -->
+ <item>-1</item> <!-- Celesteela -->
+ <item>-1</item> <!-- Kartana -->
+ <item>-1</item> <!-- Guzzlord -->
+ <item>-1</item> <!-- Necrozma -->
+ <item>-1</item> <!-- Magearna -->
+ <item>-1</item> <!-- Marshadow -->
+ <item>200</item> <!-- Poipole -->
+ <item>-1</item> <!-- Naganadel -->
+ <item>-1</item> <!-- Stakataka -->
+ <item>-1</item> <!-- Blacephalon -->
+ <item>-1</item> <!-- Zeraora -->
  <item>400</item> <!-- Meltan -->
  <item>-1</item> <!-- Melmetal -->
  <item>25</item> <!-- Grookey -->
@@ -5222,92 +5222,92 @@
  <item>718</item> <!-- Diancie -->
  <item>719</item> <!-- Hoopa -->
  <item>720</item> <!-- Volcanion -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
+ <item>721</item> <!-- Rowlet -->
+ <item>721</item> <!-- Dartrix -->
+ <item>721</item> <!-- Decidueye -->
+ <item>724</item> <!-- Litten -->
+ <item>724</item> <!-- Torracat -->
+ <item>724</item> <!-- Incineroar -->
+ <item>727</item> <!-- Popplio -->
+ <item>727</item> <!-- Brionne -->
+ <item>727</item> <!-- Primarina -->
+ <item>730</item> <!-- Pikipek -->
+ <item>730</item> <!-- Trumbeak -->
+ <item>730</item> <!-- Toucannon -->
+ <item>733</item> <!-- Yungoos -->
+ <item>733</item> <!-- Gumshoos -->
+ <item>735</item> <!-- Grubbin -->
+ <item>735</item> <!-- Charjabug -->
+ <item>735</item> <!-- Vikavolt -->
+ <item>738</item> <!-- Crabrawler -->
+ <item>738</item> <!-- Crabominable -->
+ <item>740</item> <!-- Oricorio -->
+ <item>741</item> <!-- Cutiefly -->
+ <item>741</item> <!-- Ribombee -->
+ <item>743</item> <!-- Rockruff -->
+ <item>743</item> <!-- Lycanroc -->
+ <item>745</item> <!-- Wishiwashi -->
+ <item>746</item> <!-- Mareanie -->
+ <item>746</item> <!-- Toxapex -->
+ <item>748</item> <!-- Mudbray -->
+ <item>748</item> <!-- Mudsdale -->
+ <item>750</item> <!-- Dewpider -->
+ <item>750</item> <!-- Araquanid -->
+ <item>752</item> <!-- Fomantis -->
+ <item>752</item> <!-- Lurantis -->
+ <item>754</item> <!-- Morelull -->
+ <item>754</item> <!-- Shiinotic -->
+ <item>756</item> <!-- Salandit -->
+ <item>756</item> <!-- Salazzle -->
+ <item>758</item> <!-- Stufful -->
+ <item>758</item> <!-- Bewear -->
+ <item>760</item> <!-- Bounsweet -->
+ <item>760</item> <!-- Steenee -->
+ <item>760</item> <!-- Tsareena -->
+ <item>763</item> <!-- Comfey -->
+ <item>764</item> <!-- Oranguru -->
+ <item>765</item> <!-- Passimian -->
+ <item>766</item> <!-- Wimpod -->
+ <item>766</item> <!-- Golisopod -->
+ <item>768</item> <!-- Sandygast -->
+ <item>768</item> <!-- Palossand -->
+ <item>770</item> <!-- Pyukumuku -->
+ <item>771</item> <!-- Type Null -->
+ <item>771</item> <!-- Silvally -->
+ <item>773</item> <!-- Minior -->
+ <item>774</item> <!-- Komala -->
+ <item>775</item> <!-- Turtonator -->
+ <item>776</item> <!-- Togedemaru -->
+ <item>777</item> <!-- Mimikyu -->
+ <item>778</item> <!-- Bruxish -->
+ <item>779</item> <!-- Drampa -->
+ <item>780</item> <!-- Dhelmise -->
+ <item>781</item> <!-- Jangmo O -->
+ <item>781</item> <!-- Hakamo O -->
+ <item>781</item> <!-- Kommo O -->
+ <item>784</item> <!-- Tapu Koko -->
+ <item>785</item> <!-- Tapu Lele -->
+ <item>786</item> <!-- Tapu Bulu -->
+ <item>787</item> <!-- Tapu Fini -->
+ <item>788</item> <!-- Cosmog -->
+ <item>788</item> <!-- Cosmoem -->
+ <item>788</item> <!-- Solgaleo -->
+ <item>788</item> <!-- Lunala -->
+ <item>792</item> <!-- Nihilego -->
+ <item>793</item> <!-- Buzzwole -->
+ <item>794</item> <!-- Pheromosa -->
+ <item>795</item> <!-- Xurkitree -->
+ <item>796</item> <!-- Celesteela -->
+ <item>797</item> <!-- Kartana -->
+ <item>798</item> <!-- Guzzlord -->
+ <item>799</item> <!-- Necrozma -->
+ <item>800</item> <!-- Magearna -->
+ <item>801</item> <!-- Marshadow -->
+ <item>802</item> <!-- Poipole -->
+ <item>802</item> <!-- Naganadel -->
+ <item>804</item> <!-- Stakataka -->
+ <item>805</item> <!-- Blacephalon -->
+ <item>806</item> <!-- Zeraora -->
  <item>807</item> <!-- Meltan -->
  <item>807</item> <!-- Melmetal -->
  <item>809</item> <!-- Grookey -->
@@ -5500,17 +5500,17 @@
  <item>-1</item> <!-- Hypno -->
  <item>-1</item> <!-- Krabby -->
  <item>-1</item> <!-- Kingler -->
- <item>-1</item> <!-- Voltorb -->
- <item>-1</item> <!-- Electrode -->
+ <item>23</item> <!-- Voltorb -->
+ <item>24</item> <!-- Electrode -->
  <item>-1</item> <!-- Exeggcute -->
- <item>23</item> <!-- Exeggutor -->
+ <item>25</item> <!-- Exeggutor -->
  <item>-1</item> <!-- Cubone -->
- <item>24</item> <!-- Marowak -->
+ <item>26</item> <!-- Marowak -->
  <item>-1</item> <!-- Hitmonlee -->
  <item>-1</item> <!-- Hitmonchan -->
  <item>-1</item> <!-- Lickitung -->
  <item>-1</item> <!-- Koffing -->
- <item>25</item> <!-- Weezing -->
+ <item>27</item> <!-- Weezing -->
  <item>-1</item> <!-- Rhyhorn -->
  <item>-1</item> <!-- Rhydon -->
  <item>-1</item> <!-- Chansey -->
@@ -5522,7 +5522,7 @@
  <item>-1</item> <!-- Seaking -->
  <item>-1</item> <!-- Staryu -->
  <item>-1</item> <!-- Starmie -->
- <item>26</item> <!-- Mr Mime -->
+ <item>28</item> <!-- Mr Mime -->
  <item>-1</item> <!-- Scyther -->
  <item>-1</item> <!-- Jynx -->
  <item>-1</item> <!-- Electabuzz -->
@@ -5531,7 +5531,7 @@
  <item>-1</item> <!-- Tauros -->
  <item>-1</item> <!-- Magikarp -->
  <item>-1</item> <!-- Gyarados -->
- <item>-1</item> <!-- Lapras -->
+ <item>29</item> <!-- Lapras -->
  <item>-1</item> <!-- Ditto -->
  <item>-1</item> <!-- Eevee -->
  <item>-1</item> <!-- Vaporeon -->
@@ -5550,7 +5550,7 @@
  <item>-1</item> <!-- Dratini -->
  <item>-1</item> <!-- Dragonair -->
  <item>-1</item> <!-- Dragonite -->
- <item>27</item> <!-- Mewtwo -->
+ <item>30</item> <!-- Mewtwo -->
  <item>-1</item> <!-- Mew -->
  <item>-1</item> <!-- Chikorita -->
  <item>-1</item> <!-- Bayleef -->
@@ -5599,9 +5599,9 @@
  <item>-1</item> <!-- Espeon -->
  <item>-1</item> <!-- Umbreon -->
  <item>-1</item> <!-- Murkrow -->
- <item>28</item> <!-- Slowking -->
+ <item>31</item> <!-- Slowking -->
  <item>-1</item> <!-- Misdreavus -->
- <item>29</item> <!-- Unown -->
+ <item>32</item> <!-- Unown -->
  <item>-1</item> <!-- Wobbuffet -->
  <item>-1</item> <!-- Girafarig -->
  <item>-1</item> <!-- Pineco -->
@@ -5625,7 +5625,7 @@
  <item>-1</item> <!-- Corsola -->
  <item>-1</item> <!-- Remoraid -->
  <item>-1</item> <!-- Octillery -->
- <item>30</item> <!-- Delibird -->
+ <item>33</item> <!-- Delibird -->
  <item>-1</item> <!-- Mantine -->
  <item>-1</item> <!-- Skarmory -->
  <item>-1</item> <!-- Houndour -->
@@ -5643,14 +5643,14 @@
  <item>-1</item> <!-- Magby -->
  <item>-1</item> <!-- Miltank -->
  <item>-1</item> <!-- Blissey -->
- <item>-1</item> <!-- Raikou -->
- <item>-1</item> <!-- Entei -->
- <item>-1</item> <!-- Suicune -->
+ <item>34</item> <!-- Raikou -->
+ <item>35</item> <!-- Entei -->
+ <item>36</item> <!-- Suicune -->
  <item>-1</item> <!-- Larvitar -->
  <item>-1</item> <!-- Pupitar -->
  <item>-1</item> <!-- Tyranitar -->
- <item>-1</item> <!-- Lugia -->
- <item>-1</item> <!-- Ho Oh -->
+ <item>37</item> <!-- Lugia -->
+ <item>38</item> <!-- Ho Oh -->
  <item>-1</item> <!-- Celebi -->
  <item>-1</item> <!-- Treecko -->
  <item>-1</item> <!-- Grovyle -->
@@ -5663,8 +5663,8 @@
  <item>-1</item> <!-- Swampert -->
  <item>-1</item> <!-- Poochyena -->
  <item>-1</item> <!-- Mightyena -->
- <item>31</item> <!-- Zigzagoon -->
- <item>32</item> <!-- Linoone -->
+ <item>39</item> <!-- Zigzagoon -->
+ <item>40</item> <!-- Linoone -->
  <item>-1</item> <!-- Wurmple -->
  <item>-1</item> <!-- Silcoon -->
  <item>-1</item> <!-- Beautifly -->
@@ -5702,7 +5702,7 @@
  <item>-1</item> <!-- Nosepass -->
  <item>-1</item> <!-- Skitty -->
  <item>-1</item> <!-- Delcatty -->
- <item>33</item> <!-- Sableye -->
+ <item>41</item> <!-- Sableye -->
  <item>-1</item> <!-- Mawile -->
  <item>-1</item> <!-- Aron -->
  <item>-1</item> <!-- Lairon -->
@@ -5727,7 +5727,7 @@
  <item>-1</item> <!-- Torkoal -->
  <item>-1</item> <!-- Spoink -->
  <item>-1</item> <!-- Grumpig -->
- <item>34</item> <!-- Spinda -->
+ <item>42</item> <!-- Spinda -->
  <item>-1</item> <!-- Trapinch -->
  <item>-1</item> <!-- Vibrava -->
  <item>-1</item> <!-- Flygon -->
@@ -5751,7 +5751,7 @@
  <item>-1</item> <!-- Armaldo -->
  <item>-1</item> <!-- Feebas -->
  <item>-1</item> <!-- Milotic -->
- <item>35</item> <!-- Castform -->
+ <item>43</item> <!-- Castform -->
  <item>-1</item> <!-- Kecleon -->
  <item>-1</item> <!-- Shuppet -->
  <item>-1</item> <!-- Banette -->
@@ -5786,7 +5786,7 @@
  <item>-1</item> <!-- Groudon -->
  <item>-1</item> <!-- Rayquaza -->
  <item>-1</item> <!-- Jirachi -->
- <item>36</item> <!-- Deoxys -->
+ <item>44</item> <!-- Deoxys -->
  <item>-1</item> <!-- Turtwig -->
  <item>-1</item> <!-- Grotle -->
  <item>-1</item> <!-- Torterra -->
@@ -5812,8 +5812,8 @@
  <item>-1</item> <!-- Rampardos -->
  <item>-1</item> <!-- Shieldon -->
  <item>-1</item> <!-- Bastiodon -->
- <item>37</item> <!-- Burmy -->
- <item>38</item> <!-- Wormadam -->
+ <item>45</item> <!-- Burmy -->
+ <item>46</item> <!-- Wormadam -->
  <item>-1</item> <!-- Mothim -->
  <item>-1</item> <!-- Combee -->
  <item>-1</item> <!-- Vespiquen -->
@@ -5821,9 +5821,9 @@
  <item>-1</item> <!-- Buizel -->
  <item>-1</item> <!-- Floatzel -->
  <item>-1</item> <!-- Cherubi -->
- <item>39</item> <!-- Cherrim -->
- <item>40</item> <!-- Shellos -->
- <item>41</item> <!-- Gastrodon -->
+ <item>47</item> <!-- Cherrim -->
+ <item>48</item> <!-- Shellos -->
+ <item>49</item> <!-- Gastrodon -->
  <item>-1</item> <!-- Ambipom -->
  <item>-1</item> <!-- Drifloon -->
  <item>-1</item> <!-- Drifblim -->
@@ -5879,7 +5879,7 @@
  <item>-1</item> <!-- Probopass -->
  <item>-1</item> <!-- Dusknoir -->
  <item>-1</item> <!-- Froslass -->
- <item>42</item> <!-- Rotom -->
+ <item>50</item> <!-- Rotom -->
  <item>-1</item> <!-- Uxie -->
  <item>-1</item> <!-- Mesprit -->
  <item>-1</item> <!-- Azelf -->
@@ -5887,13 +5887,13 @@
  <item>-1</item> <!-- Palkia -->
  <item>-1</item> <!-- Heatran -->
  <item>-1</item> <!-- Regigigas -->
- <item>43</item> <!-- Giratina -->
+ <item>51</item> <!-- Giratina -->
  <item>-1</item> <!-- Cresselia -->
  <item>-1</item> <!-- Phione -->
  <item>-1</item> <!-- Manaphy -->
  <item>-1</item> <!-- Darkrai -->
- <item>44</item> <!-- Shaymin -->
- <item>45</item> <!-- Arceus -->
+ <item>52</item> <!-- Shaymin -->
+ <item>53</item> <!-- Arceus -->
  <item>-1</item> <!-- Victini -->
  <item>-1</item> <!-- Snivy -->
  <item>-1</item> <!-- Servine -->
@@ -5950,19 +5950,19 @@
  <item>-1</item> <!-- Whimsicott -->
  <item>-1</item> <!-- Petilil -->
  <item>-1</item> <!-- Lilligant -->
- <item>46</item> <!-- Basculin -->
+ <item>54</item> <!-- Basculin -->
  <item>-1</item> <!-- Sandile -->
  <item>-1</item> <!-- Krokorok -->
  <item>-1</item> <!-- Krookodile -->
- <item>47</item> <!-- Darumaka -->
- <item>48</item> <!-- Darmanitan -->
+ <item>55</item> <!-- Darumaka -->
+ <item>56</item> <!-- Darmanitan -->
  <item>-1</item> <!-- Maractus -->
  <item>-1</item> <!-- Dwebble -->
  <item>-1</item> <!-- Crustle -->
  <item>-1</item> <!-- Scraggy -->
  <item>-1</item> <!-- Scrafty -->
  <item>-1</item> <!-- Sigilyph -->
- <item>49</item> <!-- Yamask -->
+ <item>57</item> <!-- Yamask -->
  <item>-1</item> <!-- Cofagrigus -->
  <item>-1</item> <!-- Tirtouga -->
  <item>-1</item> <!-- Carracosta -->
@@ -5985,15 +5985,15 @@
  <item>-1</item> <!-- Vanillite -->
  <item>-1</item> <!-- Vanillish -->
  <item>-1</item> <!-- Vanilluxe -->
- <item>50</item> <!-- Deerling -->
- <item>51</item> <!-- Sawsbuck -->
+ <item>58</item> <!-- Deerling -->
+ <item>59</item> <!-- Sawsbuck -->
  <item>-1</item> <!-- Emolga -->
  <item>-1</item> <!-- Karrablast -->
  <item>-1</item> <!-- Escavalier -->
  <item>-1</item> <!-- Foongus -->
  <item>-1</item> <!-- Amoonguss -->
- <item>52</item> <!-- Frillish -->
- <item>53</item> <!-- Jellicent -->
+ <item>60</item> <!-- Frillish -->
+ <item>61</item> <!-- Jellicent -->
  <item>-1</item> <!-- Alomomola -->
  <item>-1</item> <!-- Joltik -->
  <item>-1</item> <!-- Galvantula -->
@@ -6013,12 +6013,12 @@
  <item>-1</item> <!-- Axew -->
  <item>-1</item> <!-- Fraxure -->
  <item>-1</item> <!-- Haxorus -->
- <item>54</item> <!-- Cubchoo -->
+ <item>62</item> <!-- Cubchoo -->
  <item>-1</item> <!-- Beartic -->
  <item>-1</item> <!-- Cryogonal -->
  <item>-1</item> <!-- Shelmet -->
  <item>-1</item> <!-- Accelgor -->
- <item>55</item> <!-- Stunfisk -->
+ <item>63</item> <!-- Stunfisk -->
  <item>-1</item> <!-- Mienfoo -->
  <item>-1</item> <!-- Mienshao -->
  <item>-1</item> <!-- Druddigon -->
@@ -6041,15 +6041,15 @@
  <item>-1</item> <!-- Cobalion -->
  <item>-1</item> <!-- Terrakion -->
  <item>-1</item> <!-- Virizion -->
- <item>56</item> <!-- Tornadus -->
- <item>57</item> <!-- Thundurus -->
+ <item>64</item> <!-- Tornadus -->
+ <item>65</item> <!-- Thundurus -->
  <item>-1</item> <!-- Reshiram -->
  <item>-1</item> <!-- Zekrom -->
- <item>58</item> <!-- Landorus -->
- <item>59</item> <!-- Kyurem -->
- <item>60</item> <!-- Keldeo -->
- <item>61</item> <!-- Meloetta -->
- <item>62</item> <!-- Genesect -->
+ <item>66</item> <!-- Landorus -->
+ <item>67</item> <!-- Kyurem -->
+ <item>68</item> <!-- Keldeo -->
+ <item>69</item> <!-- Meloetta -->
+ <item>70</item> <!-- Genesect -->
  <item>-1</item> <!-- Chespin -->
  <item>-1</item> <!-- Quilladin -->
  <item>-1</item> <!-- Chesnaught -->
@@ -6068,17 +6068,17 @@
  <item>-1</item> <!-- Spewpa -->
  <item>-1</item> <!-- Vivillon -->
  <item>-1</item> <!-- Litleo -->
- <item>63</item> <!-- Pyroar -->
- <item>-1</item> <!-- Flabebe -->
- <item>-1</item> <!-- Floette -->
- <item>-1</item> <!-- Florges -->
+ <item>71</item> <!-- Pyroar -->
+ <item>72</item> <!-- Flabebe -->
+ <item>73</item> <!-- Floette -->
+ <item>74</item> <!-- Florges -->
  <item>-1</item> <!-- Skiddo -->
  <item>-1</item> <!-- Gogoat -->
  <item>-1</item> <!-- Pancham -->
  <item>-1</item> <!-- Pangoro -->
- <item>64</item> <!-- Furfrou -->
+ <item>75</item> <!-- Furfrou -->
  <item>-1</item> <!-- Espurr -->
- <item>65</item> <!-- Meowstic -->
+ <item>76</item> <!-- Meowstic -->
  <item>-1</item> <!-- Placeholder -->
  <item>-1</item> <!-- Placeholder -->
  <item>-1</item> <!-- Placeholder -->
@@ -6110,8 +6110,8 @@
  <item>-1</item> <!-- Klefki -->
  <item>-1</item> <!-- Phantump -->
  <item>-1</item> <!-- Trevenant -->
- <item>-1</item> <!-- Pumpkaboo -->
- <item>-1</item> <!-- Gourgeist -->
+ <item>77</item> <!-- Pumpkaboo -->
+ <item>78</item> <!-- Gourgeist -->
  <item>-1</item> <!-- Bergmite -->
  <item>-1</item> <!-- Avalugg -->
  <item>-1</item> <!-- Noibat -->
@@ -6120,94 +6120,94 @@
  <item>-1</item> <!-- Yveltal -->
  <item>-1</item> <!-- Placeholder -->
  <item>-1</item> <!-- Diancie -->
- <item>66</item> <!-- Hoopa -->
+ <item>79</item> <!-- Hoopa -->
  <item>-1</item> <!-- Volcanion -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
- <item>-1</item> <!-- Placeholder -->
+ <item>-1</item> <!-- Rowlet -->
+ <item>-1</item> <!-- Dartrix -->
+ <item>-1</item> <!-- Decidueye -->
+ <item>-1</item> <!-- Litten -->
+ <item>-1</item> <!-- Torracat -->
+ <item>-1</item> <!-- Incineroar -->
+ <item>-1</item> <!-- Popplio -->
+ <item>-1</item> <!-- Brionne -->
+ <item>-1</item> <!-- Primarina -->
+ <item>-1</item> <!-- Pikipek -->
+ <item>-1</item> <!-- Trumbeak -->
+ <item>-1</item> <!-- Toucannon -->
+ <item>-1</item> <!-- Yungoos -->
+ <item>-1</item> <!-- Gumshoos -->
+ <item>-1</item> <!-- Grubbin -->
+ <item>-1</item> <!-- Charjabug -->
+ <item>-1</item> <!-- Vikavolt -->
+ <item>-1</item> <!-- Crabrawler -->
+ <item>-1</item> <!-- Crabominable -->
+ <item>80</item> <!-- Oricorio -->
+ <item>-1</item> <!-- Cutiefly -->
+ <item>-1</item> <!-- Ribombee -->
+ <item>-1</item> <!-- Rockruff -->
+ <item>81</item> <!-- Lycanroc -->
+ <item>82</item> <!-- Wishiwashi -->
+ <item>-1</item> <!-- Mareanie -->
+ <item>-1</item> <!-- Toxapex -->
+ <item>-1</item> <!-- Mudbray -->
+ <item>-1</item> <!-- Mudsdale -->
+ <item>-1</item> <!-- Dewpider -->
+ <item>-1</item> <!-- Araquanid -->
+ <item>-1</item> <!-- Fomantis -->
+ <item>-1</item> <!-- Lurantis -->
+ <item>-1</item> <!-- Morelull -->
+ <item>-1</item> <!-- Shiinotic -->
+ <item>-1</item> <!-- Salandit -->
+ <item>-1</item> <!-- Salazzle -->
+ <item>-1</item> <!-- Stufful -->
+ <item>-1</item> <!-- Bewear -->
+ <item>-1</item> <!-- Bounsweet -->
+ <item>-1</item> <!-- Steenee -->
+ <item>-1</item> <!-- Tsareena -->
+ <item>-1</item> <!-- Comfey -->
+ <item>-1</item> <!-- Oranguru -->
+ <item>-1</item> <!-- Passimian -->
+ <item>-1</item> <!-- Wimpod -->
+ <item>-1</item> <!-- Golisopod -->
+ <item>-1</item> <!-- Sandygast -->
+ <item>-1</item> <!-- Palossand -->
+ <item>-1</item> <!-- Pyukumuku -->
+ <item>-1</item> <!-- Type Null -->
+ <item>83</item> <!-- Silvally -->
+ <item>84</item> <!-- Minior -->
+ <item>-1</item> <!-- Komala -->
+ <item>-1</item> <!-- Turtonator -->
+ <item>-1</item> <!-- Togedemaru -->
+ <item>85</item> <!-- Mimikyu -->
+ <item>-1</item> <!-- Bruxish -->
+ <item>-1</item> <!-- Drampa -->
+ <item>-1</item> <!-- Dhelmise -->
+ <item>-1</item> <!-- Jangmo O -->
+ <item>-1</item> <!-- Hakamo O -->
+ <item>-1</item> <!-- Kommo O -->
+ <item>-1</item> <!-- Tapu Koko -->
+ <item>-1</item> <!-- Tapu Lele -->
+ <item>-1</item> <!-- Tapu Bulu -->
+ <item>-1</item> <!-- Tapu Fini -->
+ <item>-1</item> <!-- Cosmog -->
+ <item>-1</item> <!-- Cosmoem -->
+ <item>-1</item> <!-- Solgaleo -->
+ <item>-1</item> <!-- Lunala -->
+ <item>-1</item> <!-- Nihilego -->
+ <item>-1</item> <!-- Buzzwole -->
+ <item>-1</item> <!-- Pheromosa -->
+ <item>-1</item> <!-- Xurkitree -->
+ <item>-1</item> <!-- Celesteela -->
+ <item>-1</item> <!-- Kartana -->
+ <item>-1</item> <!-- Guzzlord -->
+ <item>86</item> <!-- Necrozma -->
+ <item>87</item> <!-- Magearna -->
+ <item>-1</item> <!-- Marshadow -->
+ <item>-1</item> <!-- Poipole -->
+ <item>-1</item> <!-- Naganadel -->
+ <item>-1</item> <!-- Stakataka -->
+ <item>-1</item> <!-- Blacephalon -->
+ <item>-1</item> <!-- Zeraora -->
  <item>-1</item> <!-- Meltan -->
  <item>-1</item> <!-- Melmetal -->
  <item>-1</item> <!-- Grookey -->
@@ -6249,13 +6249,13 @@
  <item>-1</item> <!-- Arrokuda -->
  <item>-1</item> <!-- Barraskewda -->
  <item>-1</item> <!-- Toxel -->
- <item>67</item> <!-- Toxtricity -->
+ <item>88</item> <!-- Toxtricity -->
  <item>-1</item> <!-- Sizzlipede -->
  <item>-1</item> <!-- Centiskorch -->
  <item>-1</item> <!-- Clobbopus -->
  <item>-1</item> <!-- Grapploct -->
- <item>68</item> <!-- Sinistea -->
- <item>69</item> <!-- Polteageist -->
+ <item>89</item> <!-- Sinistea -->
+ <item>90</item> <!-- Polteageist -->
  <item>-1</item> <!-- Hatenna -->
  <item>-1</item> <!-- Hattrem -->
  <item>-1</item> <!-- Hatterene -->
@@ -6275,9 +6275,9 @@
  <item>-1</item> <!-- Snom -->
  <item>-1</item> <!-- Frosmoth -->
  <item>-1</item> <!-- Stonjourner -->
- <item>70</item> <!-- Eiscue -->
- <item>71</item> <!-- Indeedee -->
- <item>72</item> <!-- Morpeko -->
+ <item>91</item> <!-- Eiscue -->
+ <item>92</item> <!-- Indeedee -->
+ <item>93</item> <!-- Morpeko -->
  <item>-1</item> <!-- Cufant -->
  <item>-1</item> <!-- Copperajah -->
  <item>-1</item> <!-- Dracozolt -->
@@ -6288,16 +6288,16 @@
  <item>-1</item> <!-- Dreepy -->
  <item>-1</item> <!-- Drakloak -->
  <item>-1</item> <!-- Dragapult -->
- <item>73</item> <!-- Zacian -->
- <item>74</item> <!-- Zamazenta -->
- <item>75</item> <!-- Eternatus -->
+ <item>94</item> <!-- Zacian -->
+ <item>95</item> <!-- Zamazenta -->
+ <item>96</item> <!-- Eternatus -->
  <item>-1</item> <!-- Kubfu -->
- <item>76</item> <!-- Urshifu -->
+ <item>97</item> <!-- Urshifu -->
  <item>-1</item> <!-- Zarude -->
  <item>-1</item> <!-- Regieleki -->
  <item>-1</item> <!-- Regidrago -->
  <item>-1</item> <!-- Glastrier -->
  <item>-1</item> <!-- Spectrier -->
- <item>77</item> <!-- Calyrex -->
+ <item>98</item> <!-- Calyrex -->
 </integer-array>
 </resources>

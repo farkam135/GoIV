@@ -116,7 +116,7 @@
                 android:gravity="center"
                 tools:layout_width="150dp"/>
 
-            <android.support.v4.widget.Space
+            <View
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:minWidth="42dp"/>
@@ -208,7 +208,7 @@
             android:background="@android:color/darker_gray"/>
 
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -430,7 +430,7 @@
                     app:layout_constraintEnd_toEndOf="@+id/candyXlContainer"
                     app:layout_constraintTop_toBottomOf="@+id/candyXlContainer"
                     android:textAppearance="@style/veryWeakText" />
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     </LinearLayout>

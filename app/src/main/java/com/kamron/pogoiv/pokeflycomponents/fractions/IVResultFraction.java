@@ -1,7 +1,7 @@
 package com.kamron.pogoiv.pokeflycomponents.fractions;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;

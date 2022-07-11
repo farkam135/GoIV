@@ -67,7 +67,7 @@
 
     </LinearLayout>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginTop="8dp">
@@ -113,9 +113,9 @@
             app:layout_constraintTop_toTopOf="parent"
             android:elevation="3dp"/>
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_marginTop="8dp"
         android:layout_height="44dp"
@@ -196,7 +196,7 @@
 
         </LinearLayout>
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     <LinearLayout
@@ -238,7 +238,7 @@
 
         </LinearLayout>
 
-        <android.support.v4.widget.Space
+        <View
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1" />
@@ -274,7 +274,7 @@
 
         </LinearLayout>
 
-        <android.support.v4.widget.Space
+        <View
             android:id="@+id/llPokeSpamSpace"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

@@ -4,8 +4,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -161,10 +161,10 @@ public class OcrManualCalibrationActivity extends AppCompatActivity {
             sfr.arcCenter = new ScanPoint((screenshot.getWidth() / 2), (int) (screenshot.getHeight() * 0.5));
         }
         if (sfr.arcRadius == null) {
-            sfr.arcRadius = new Integer((int) (screenshot.getWidth() * 0.45));
+            sfr.arcRadius = (int) (screenshot.getWidth() * 0.45);
         }
         if (sfr.arcRadius <= 0) {
-            sfr.arcRadius = new Integer((int) (screenshot.getWidth() * 0.45));
+            sfr.arcRadius = (int) (screenshot.getWidth() * 0.45);
         }
 
         if (sfr.infoScreenCardWhitePixelPoint == null) {
@@ -450,18 +450,16 @@ public class OcrManualCalibrationActivity extends AppCompatActivity {
 
         //Create the button for saving & exiting
         saveManualCalibrationButton = findViewById(R.id.saveManualCalibrationButton);
-        saveManualCalibrationButton.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View view) {
-                if (sfr != null && sfr.isCompleteCalibration()) {
-                    GoIVSettings settings = GoIVSettings.getInstance(OcrManualCalibrationActivity.this);
-                    settings.saveScreenCalibrationResults(sfr);
-                    Toast.makeText(OcrManualCalibrationActivity.this,
-                            R.string.ocr_calibration_saved, Toast.LENGTH_LONG).show();
-                }
-                Intent intent = new Intent(getOuter(), MainActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
+        saveManualCalibrationButton.setOnClickListener(view -> {
+            if (sfr != null && sfr.isCompleteCalibration()) {
+                GoIVSettings settings = GoIVSettings.getInstance(OcrManualCalibrationActivity.this);
+                settings.saveScreenCalibrationResults(sfr);
+                Toast.makeText(OcrManualCalibrationActivity.this,
+                        R.string.ocr_calibration_saved, Toast.LENGTH_LONG).show();
             }
+            Intent intent = new Intent(getOuter(), MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
         });
 
         //Add the floating UI with the edit tools
@@ -500,7 +498,7 @@ public class OcrManualCalibrationActivity extends AppCompatActivity {
         sfr = sfrTemp;
         sfrTemp = null;
 
-        /**
+        /*
          * Why do we use this 'screenshotTransferTemp instead of passing the bitmap as a Parceable?
          * Because Parceables have a size limit of 1 MB, which the screenshot is larger than, so it just
          * crashes, and this way avoids writing the image to disk and passing along the file-path.

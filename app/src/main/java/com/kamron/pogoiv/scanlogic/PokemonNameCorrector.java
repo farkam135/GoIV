@@ -3,7 +3,7 @@ package com.kamron.pogoiv.scanlogic;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.google.common.base.Optional;
 
@@ -427,7 +427,7 @@ public class PokemonNameCorrector {
     private ArrayList<Pokemon> getCandyNameEvolutionCostGuess(ArrayList<Pokemon> bestGuessEvolutionLine,
                                                               Optional<Integer> evolutionCost) {
         if (evolutionCost.isPresent()) {
-            ArrayList<Pokemon> PokemonValidOptions = new ArrayList<Pokemon>();
+            ArrayList<Pokemon> PokemonValidOptions = new ArrayList<>();
             for (Pokemon pokemon : bestGuessEvolutionLine) {
                 if (evolutionCost.get().equals(pokemon.candyEvolutionCost)) {
                     PokemonValidOptions.add(pokemon);

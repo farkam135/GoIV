@@ -2,7 +2,7 @@ package com.kamron.pogoiv.widgets;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.support.constraint.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +14,6 @@ import com.kamron.pogoiv.scanlogic.Pokemon;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 
 /**
  * Spinner formatter.
@@ -55,16 +54,13 @@ public class PokemonSpinnerAdapter extends ArrayAdapter<Pokemon> {
      * @return
      */
     private ArrayList<Pokemon> sortByForms(ArrayList<Pokemon> list) {
-        ArrayList<Pokemon> returnerList = new ArrayList<Pokemon>(list);
-        Collections.sort(returnerList, new Comparator<Pokemon>() {
-            @Override public int compare(Pokemon p1, Pokemon p2) {
-                int formSort = p2.formName.compareTo(p1.formName);
-                if (formSort == 0){ //Same form, sort by dex number
-                    return p1.number-p2.number;
-
-                }
-                return formSort;
+        ArrayList<Pokemon> returnerList = new ArrayList<>(list);
+        Collections.sort(returnerList, (p1, p2) -> {
+            int formSort = p2.formName.compareTo(p1.formName);
+            if (formSort == 0){ //Same form, sort by dex number
+                return p1.number-p2.number;
             }
+            return formSort;
         });
         return returnerList;
     }
@@ -148,16 +144,16 @@ public class PokemonSpinnerAdapter extends ArrayAdapter<Pokemon> {
         int colRaw = shortString.hashCode();
         int rndDecIndex = colRaw % 3;
 
-        ArrayList<Integer> colList = new ArrayList(3);
-        colList.add(new Integer(Color.red(colRaw)));
-        colList.add(new Integer(Color.green(colRaw)));
-        colList.add(new Integer(Color.blue(colRaw)));
+        ArrayList<Integer> colList = new ArrayList<>(3);
+        colList.add(Color.red(colRaw));
+        colList.add(Color.green(colRaw));
+        colList.add(Color.blue(colRaw));
 
         if (colList.get(rndDecIndex) > 150) {
-            colList.set(rndDecIndex, new Integer(50));
+            colList.set(rndDecIndex, 50);
         }
         if (colList.get((rndDecIndex + 1) % 3) < 150) {
-            colList.set((rndDecIndex + 1) % 3, new Integer(150));
+            colList.set((rndDecIndex + 1) % 3, 150);
         }
 
         return Color.rgb(colList.get(0), colList.get(1), colList.get(2));

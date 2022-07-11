@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.kamron.pogoiv">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
@@ -59,7 +58,7 @@
             android:theme="@style/AppTheme.NoActionBar"/>
 
         <provider
-            android:name="android.support.v4.content.FileProvider"
+            android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
             android:exported="false"
             android:grantUriPermissions="true">
@@ -79,5 +78,9 @@
             android:noHistory="true"
             android:theme="@style/AppTheme.NoActionBar.fullscreen"/>
     </application>
+
+    <queries>
+        <package android:name="com.nianticlabs.pokemongo" />
+    </queries>
 
 </manifest>

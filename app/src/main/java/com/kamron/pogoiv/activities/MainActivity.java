@@ -9,7 +9,6 @@ import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
@@ -19,22 +18,26 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.annotation.IdRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.internal.BottomNavigationItemView;
-import android.support.design.internal.BottomNavigationMenuView;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.IdRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import com.google.android.material.bottomnavigation.BottomNavigationItemView;
+import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.Fragment;
+import androidx.core.content.ContextCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Display;
@@ -69,10 +72,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String ACTION_START_POKEFLY = "com.kamron.pogoiv.ACTION_START_POKEFLY";
     public static final String ACTION_RESTART_POKEFLY = "com.kamron.pogoiv.ACTION_RESTART_POKEFLY";
 
-    private static final int OVERLAY_PERMISSION_REQ_CODE = 1234;
     private static final int WRITE_STORAGE_REQ_CODE = 1236;
-    private static final int SCREEN_CAPTURE_REQ_CODE = 1235;
-
 
     @BindView(R.id.collapsingToolbarLayout)
     CollapsingToolbarLayout collapsingToolbarLayout;
@@ -92,16 +92,11 @@ public class MainActivity extends AppCompatActivity {
     private boolean skipStartPogo;
     private View alertBadgeView;
 
-    private BottomNavigationView.OnNavigationItemSelectedListener navigationListener = new BottomNavigationView
-            .OnNavigationItemSelectedListener() {
-        @Override public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            return showSection(item.getItemId());
-        }
-    };
+    private final BottomNavigationView.OnItemSelectedListener navigationListener = item -> showSection(item.getItemId());
 
     private final BroadcastReceiver screenGrabberInitializer = new BroadcastReceiver() {
-        @SuppressWarnings("checkstyle:EmptyCatchBlock")
-        @Override public void onReceive(Context context, Intent intent) {
+        @Override
+        public void onReceive(Context context, Intent intent) {
             initScreenGrabber();
         }
     };
@@ -134,6 +129,9 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    private ActivityResultLauncher<Intent> requestOverlayResultLauncher;
+    private ActivityResultLauncher<Intent> requestScreenCaptureResultLauncher;
+
     @SuppressWarnings("unused")
     public static Intent createUpdateDialogIntent(AppUpdate update) { // This method is used in online builds
         Intent updateIntent = new Intent(MainActivity.ACTION_SHOW_UPDATE_DIALOG);
@@ -142,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     boolean hasAllPermissions() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(this)) {
+        if (!Settings.canDrawOverlays(this)) {
             return false;
         }
         if (GoIVSettings.getInstance(this).isManualScreenshotModeEnabled()) {
@@ -154,8 +152,6 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-
-    @TargetApi(Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -174,11 +170,10 @@ public class MainActivity extends AppCompatActivity {
                     .commit();
         }
 
-        bottomNavigation.setOnNavigationItemSelectedListener(navigationListener);
+        bottomNavigation.setOnItemSelectedListener(navigationListener);
 
         runAutoUpdateStartupChecks();
         initiateUserScreenSettings();
-        warnUserFirstLaunchIfNoScreenRecording();
 
         LocalBroadcastManager.getInstance(this).registerReceiver(pokeflyStateChanged,
                 new IntentFilter(Pokefly.ACTION_UPDATE_UI));
@@ -186,6 +181,14 @@ public class MainActivity extends AppCompatActivity {
                 new IntentFilter(ACTION_RESTART_POKEFLY));
 
         runActionOnIntent(getIntent());
+
+        requestOverlayResultLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                this::onRequestOverlayPermission);
+
+        requestScreenCaptureResultLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                this::onRequestScreenCapture);
     }
 
     private boolean showSection(final @IdRes int sectionId) {
@@ -208,25 +211,23 @@ public class MainActivity extends AppCompatActivity {
         if (!currentFragment.getClass().equals(newSectionClass)) {
             // The user requested a section change
 
-            Runnable discardedChangesRunnable = new Runnable() {
-                @Override public void run() {
-                    // Changes discarded, go to the selected section
-                    try {
-                        getSupportFragmentManager().beginTransaction()
-                                .setCustomAnimations(R.animator.fragment_enter_from_top,
-                                        R.animator.fragment_exit_to_bottom)
-                                .replace(R.id.content,
-                                        newSectionClass.newInstance(),
-                                        TAG_FRAGMENT_CONTENT)
-                                .commitAllowingStateLoss();
-                        updateAppBar(newSectionClass);
-                        // Remove the listener so this callback won't be fired when setSelectedItemId() is called
-                        bottomNavigation.setOnNavigationItemSelectedListener(null);
-                        bottomNavigation.setSelectedItemId(sectionId);
-                        bottomNavigation.setOnNavigationItemSelectedListener(navigationListener);
-                    } catch (Exception e) {
-                        Timber.e(e);
-                    }
+            Runnable discardedChangesRunnable = () -> {
+                // Changes discarded, go to the selected section
+                try {
+                    getSupportFragmentManager().beginTransaction()
+                            .setCustomAnimations(R.animator.fragment_enter_from_top,
+                                    R.animator.fragment_exit_to_bottom)
+                            .replace(R.id.content,
+                                    newSectionClass.newInstance(),
+                                    TAG_FRAGMENT_CONTENT)
+                            .commitAllowingStateLoss();
+                    updateAppBar(newSectionClass);
+                    // Remove the listener so this callback won't be fired when setSelectedItemId() is called
+                    bottomNavigation.setOnItemSelectedListener(null);
+                    bottomNavigation.setSelectedItemId(sectionId);
+                    bottomNavigation.setOnItemSelectedListener(navigationListener);
+                } catch (Exception e) {
+                    Timber.e(e);
                 }
             };
 
@@ -258,7 +259,7 @@ public class MainActivity extends AppCompatActivity {
             appBarLayout.setExpanded(false, true);
         }
         // Disable expandable AppBar on Clipboard section
-        CoordinatorLayout.Behavior behavior =
+        CoordinatorLayout.Behavior<?> behavior =
                 ((CoordinatorLayout.LayoutParams) appBarLayout.getLayoutParams()).getBehavior();
         if (behavior instanceof  DisableableAppBarLayoutBehavior) {
             ((DisableableAppBarLayoutBehavior) behavior)
@@ -280,13 +281,12 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Initializes ScreenGrabber once Pokefly has been started
      */
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void initScreenGrabber() {
         // Request screen capture permissions, then, when ready, Pokefly will be started
         MainFragment.updateLaunchButtonText(this, R.string.accept_screen_capture, null);
         MediaProjectionManager projectionManager =
                 (MediaProjectionManager) getSystemService(Context.MEDIA_PROJECTION_SERVICE);
-        startActivityForResult(projectionManager.createScreenCaptureIntent(), SCREEN_CAPTURE_REQ_CODE);
+        requestScreenCaptureResultLauncher.launch(projectionManager.createScreenCaptureIntent());
     }
 
     /**
@@ -296,23 +296,6 @@ public class MainActivity extends AppCompatActivity {
         AppUpdateUtil.deletePreviousApkFile(MainActivity.this);
         if (GoIVSettings.getInstance(this).isAutoUpdateEnabled()) {
             AppUpdateUtil.getInstance().checkForUpdate(this, false);
-        }
-    }
-
-    /**
-     * Shows an alert warning the user about not being on android 5, and that the app is locked into screenshot mode.
-     */
-    private void warnUserFirstLaunchIfNoScreenRecording() {
-        boolean userOnBelowAndroid5 = Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT_WATCH;
-        boolean hasNotShownAndroid5Warning = !GoIVSettings.getInstance(this).hasShownNoScreenRecWarning();
-        if (hasNotShownAndroid5Warning && userOnBelowAndroid5) {
-            new AlertDialog.Builder(this)
-                    .setTitle(android.R.string.dialog_alert_title)
-                    .setMessage(R.string.android_sub5_warning)
-                    .setPositiveButton(android.R.string.ok, null)
-                    .show();
-
-            GoIVSettings.getInstance(this).setHasShownScreenRecWarning();
         }
     }
 
@@ -354,11 +337,10 @@ public class MainActivity extends AppCompatActivity {
      * Requests overlay and storage permissions if android version allows it.
      */
     private void getAllPermissions() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
-                && !Settings.canDrawOverlays(this)) {
+        if (!Settings.canDrawOverlays(this)) {
             Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
                     Uri.parse("package:" + getPackageName()));
-            startActivityForResult(intent, OVERLAY_PERMISSION_REQ_CODE);
+            requestOverlayResultLauncher.launch(intent);
         }
         if (GoIVSettings.getInstance(this).isManualScreenshotModeEnabled()) {
             // In manual screenshot mode external storage write permission is needed
@@ -437,35 +419,36 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Called when another activity has sent a result to this activity.
-     * For example when this activity starts the activity which calls for the MediaProjectionManager, which tells this
-     * class if the screen capture has been enabled.
+     * Handles the activity result from requesting the overlay permission
+     *
+     * @param result the activity result
      */
-    @TargetApi(Build.VERSION_CODES.M)
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
-            case OVERLAY_PERMISSION_REQ_CODE:
-                updateLaunchButtonText(false, null);
-                if (Settings.canDrawOverlays(this)) {
-                    runStartButtonLogic(); // We have obtained the overlay permission: start GoIV!
-                }
-                break;
-            case SCREEN_CAPTURE_REQ_CODE:
-                if (resultCode == RESULT_OK) {
-                    MediaProjectionManager projectionManager = (MediaProjectionManager) getSystemService(
-                            Context.MEDIA_PROJECTION_SERVICE);
-                    MediaProjection mProjection = projectionManager.getMediaProjection(resultCode, data);
-                    screen = ScreenGrabber.init(mProjection, rawDisplayMetrics);
-                    startService(Pokefly.createBeginIntent(this));
-                } else {
-                    updateLaunchButtonText(false, null);
-                }
-                // Launching Pokemon Go here might be a little slower, that right after starting Pokefly, but we need
-                // the MainActivity instance alive to answer the intent from Pokefly
-                startPoGoIfSettingOn();
-                break;
+    protected void onRequestOverlayPermission(ActivityResult result) {
+        updateLaunchButtonText(false, null);
+        if (Settings.canDrawOverlays(this)) {
+            runStartButtonLogic(); // We have obtained the overlay permission: start GoIV!
         }
+    }
+
+    /**
+     * Handles the activity result from requesting screen capture.
+     *
+     * @param result the activity result
+     */
+    protected void onRequestScreenCapture(ActivityResult result) {
+        if (result.getResultCode() == RESULT_OK) {
+            MediaProjectionManager projectionManager = (MediaProjectionManager) getSystemService(
+                    Context.MEDIA_PROJECTION_SERVICE);
+            MediaProjection mProjection = projectionManager.getMediaProjection(result.getResultCode(),
+                    result.getData());
+            screen = ScreenGrabber.init(mProjection, rawDisplayMetrics);
+            startService(Pokefly.createBeginIntent(this));
+        } else {
+            updateLaunchButtonText(false, null);
+        }
+        // Launching Pokemon Go here might be a little slower, that right after starting Pokefly, but we need
+        // the MainActivity instance alive to answer the intent from Pokefly
+        startPoGoIfSettingOn();
     }
 
     /**
@@ -479,7 +462,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.M)
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
@@ -538,12 +520,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Runnable onDiscardChangesRunnable = new Runnable() {
-            @Override public void run() {
-                // User discarded changes
-                MainActivity.super.onBackPressed();
-            }
-        };
+        // User discarded changes
+        Runnable onDiscardChangesRunnable = MainActivity.super::onBackPressed;
         if (!checkUnsavedClipboardBeforeLeaving(onDiscardChangesRunnable)) {
             // No unsaved changes
             super.onBackPressed();
@@ -632,16 +610,9 @@ public class MainActivity extends AppCompatActivity {
             new AlertDialog.Builder(this)
                     .setTitle(android.R.string.dialog_alert_title)
                     .setMessage(R.string.discard_unsaved_changes)
-                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                        @Override public void onClick(DialogInterface dialogInterface, int i) {
-                            runOnUiThread(onDiscardChangesRunnable);
-                        }
-                    })
-                    .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-                        @Override public void onClick(DialogInterface dialogInterface, int i) {
-                            dialogInterface.cancel();
-                        }
-                    })
+                    .setPositiveButton(android.R.string.ok,
+                            (dialogInterface, i) -> runOnUiThread(onDiscardChangesRunnable))
+                    .setNegativeButton(android.R.string.cancel, (dialogInterface, i) -> dialogInterface.cancel())
                     .show();
         }
         return unsavedChanges;

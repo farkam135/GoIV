@@ -5,8 +5,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.NonNull;
-import android.support.v4.widget.Space;
+import androidx.annotation.NonNull;
+
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -22,7 +22,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.common.base.Function;
 import com.google.common.base.Optional;
 import com.google.common.base.Strings;
 import com.kamron.pogoiv.GoIVSettings;
@@ -86,7 +85,7 @@ public class InputFraction extends Fraction implements ReactiveColorListener {
 
     //PokeSpam
     @BindView(R.id.llPokeSpamSpace)
-    Space llPokeSpamSpace;
+    View llPokeSpamSpace;
     @BindView(R.id.llPokeSpamDialogInputContentBox)
     LinearLayout pokeSpamDialogInputContentBox;
 
@@ -114,7 +113,7 @@ public class InputFraction extends Fraction implements ReactiveColorListener {
         ButterKnife.bind(this, rootView);
 
         // Initialize pokemon species spinner
-        pokeInputAdapter = new PokemonSpinnerAdapter(pokefly, R.layout.spinner_pokemon, new ArrayList<Pokemon>());
+        pokeInputAdapter = new PokemonSpinnerAdapter(pokefly, R.layout.spinner_pokemon, new ArrayList<>());
         pokeInputSpinner.setAdapter(pokeInputAdapter);
 
         pokeInputSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -383,12 +382,7 @@ public class InputFraction extends Fraction implements ReactiveColorListener {
     }
 
     private <T> String optionalIntToString(Optional<T> src) {
-        return src.transform(new Function<T, String>() {
-            @Override
-            public String apply(T input) {
-                return input.toString();
-            }
-        }).or("");
+        return src.transform(Object::toString).or("");
     }
 
     /**

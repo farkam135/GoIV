@@ -2,18 +2,17 @@ package com.kamron.pogoiv.activities;
 
 
 import android.annotation.SuppressLint;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import androidx.fragment.app.Fragment;
+import androidx.core.content.ContextCompat;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,7 +41,7 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static android.support.v7.widget.LinearLayoutManager.HORIZONTAL;
+import static androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL;
 
 
 public class ClipboardModifierChildFragment
@@ -140,28 +139,22 @@ public class ClipboardModifierChildFragment
 
         // Set the drawable here since app:srcCompat attribute in XML isn't working and android:src crashes on API 19
         btnAdd.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_add_white_24px));
-        btnAdd.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View v) {
-                addToken();
-            }
-        });
+        btnAdd.setOnClickListener(v -> addToken());
 
         // Set the drawable here since app:srcCompat attribute in XML isn't working and android:src crashes on API 19
         btnMaxEvolution.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_star_white_18dp));
-        btnMaxEvolution.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View v) {
-                maxEvolutionVariant = !maxEvolutionVariant;
-                if (maxEvolutionVariant) {
-                    btnMaxEvolution.setImageDrawable(
-                            ContextCompat.getDrawable(getContext(), R.drawable.ic_star_white_18dp));
-                    Toast.makeText(getContext(), R.string.token_show_max_evo_variant, Toast.LENGTH_SHORT).show();
-                } else {
-                    btnMaxEvolution.setImageDrawable(
-                            ContextCompat.getDrawable(getContext(), R.drawable.ic_star_border_white_18dp));
-                    Toast.makeText(getContext(), R.string.token_show_standard, Toast.LENGTH_SHORT).show();
-                }
-                tokenShowcaseAdapter.setEvolvedVariant(maxEvolutionVariant);
+        btnMaxEvolution.setOnClickListener(v -> {
+            maxEvolutionVariant = !maxEvolutionVariant;
+            if (maxEvolutionVariant) {
+                btnMaxEvolution.setImageDrawable(
+                        ContextCompat.getDrawable(getContext(), R.drawable.ic_star_white_18dp));
+                Toast.makeText(getContext(), R.string.token_show_max_evo_variant, Toast.LENGTH_SHORT).show();
+            } else {
+                btnMaxEvolution.setImageDrawable(
+                        ContextCompat.getDrawable(getContext(), R.drawable.ic_star_border_white_18dp));
+                Toast.makeText(getContext(), R.string.token_show_standard, Toast.LENGTH_SHORT).show();
             }
+            tokenShowcaseAdapter.setEvolvedVariant(maxEvolutionVariant);
         });
     }
 
@@ -227,26 +220,20 @@ public class ClipboardModifierChildFragment
         new AlertDialog.Builder(getContext())
                 .setView(dialogView)
                 .setMessage(R.string.token_input_custom_separator)
-                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override public void onClick(DialogInterface dialogInterface, int i) {
-                        String separator = editText.getText().toString();
-                        if (Strings.isNullOrEmpty(separator)) {
-                            Toast.makeText(getContext(),
-                                    R.string.token_fill_custom_separator, Toast.LENGTH_LONG).show();
-                        } else if (separator.contains(".")) {
-                            Toast.makeText(getContext(),
-                                    R.string.token_not_dot_separator, Toast.LENGTH_LONG).show();
-                        } else {
-                            selectedToken = new SeparatorToken(separator);
-                            addToken();
-                        }
+                .setPositiveButton(android.R.string.ok, (dialogInterface, i) -> {
+                    String separator = editText.getText().toString();
+                    if (Strings.isNullOrEmpty(separator)) {
+                        Toast.makeText(getContext(),
+                                R.string.token_fill_custom_separator, Toast.LENGTH_LONG).show();
+                    } else if (separator.contains(".")) {
+                        Toast.makeText(getContext(),
+                                R.string.token_not_dot_separator, Toast.LENGTH_LONG).show();
+                    } else {
+                        selectedToken = new SeparatorToken(separator);
+                        addToken();
                     }
                 })
-                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-                    @Override public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.cancel();
-                    }
-                })
+                .setNegativeButton(android.R.string.cancel, (dialogInterface, i) -> dialogInterface.cancel())
                 .show();
     }
 
@@ -263,32 +250,26 @@ public class ClipboardModifierChildFragment
         new AlertDialog.Builder(getContext())
                 .setView(dialogView)
                 .setMessage("Please input two symbols, the first representing appraised, and the second unappraised.")
-                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override public void onClick(DialogInterface dialogInterface, int i) {
-                        String text = editText.getText().toString();
-                        if (Strings.isNullOrEmpty(text)) {
-                            Toast.makeText(getContext(),
-                                   "Please input two symbols, the first representing appraised, and the second unappraised.", Toast.LENGTH_LONG).show();
-                        } else if (text.contains(".")) {
-                            Toast.makeText(getContext(),
-                                    R.string.token_not_dot_separator, Toast.LENGTH_LONG).show();
+                .setPositiveButton(android.R.string.ok, (dialogInterface, i) -> {
+                    String text = editText.getText().toString();
+                    if (Strings.isNullOrEmpty(text)) {
+                        Toast.makeText(getContext(),
+                               "Please input two symbols, the first representing appraised, and the second unappraised.", Toast.LENGTH_LONG).show();
+                    } else if (text.contains(".")) {
+                        Toast.makeText(getContext(),
+                                R.string.token_not_dot_separator, Toast.LENGTH_LONG).show();
 
-                        } else if (text.length() <2) {
-                            Toast.makeText(getContext(),
-                                    "Please input two symbols", Toast.LENGTH_LONG).show();
+                    } else if (text.length() <2) {
+                        Toast.makeText(getContext(),
+                                "Please input two symbols", Toast.LENGTH_LONG).show();
 
-                        } else {
-                            selectedToken = new HasBeenAppraisedToken(maxEvolutionVariant, text.substring(0,1),text
-                                    .substring(1,2));
-                            addToken();
-                        }
+                    } else {
+                        selectedToken = new HasBeenAppraisedToken(maxEvolutionVariant, text.substring(0,1),text
+                                .substring(1,2));
+                        addToken();
                     }
                 })
-                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-                    @Override public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.cancel();
-                    }
-                })
+                .setNegativeButton(android.R.string.cancel, (dialogInterface, i) -> dialogInterface.cancel())
                 .show();
     }
 
@@ -306,35 +287,29 @@ public class ClipboardModifierChildFragment
         new AlertDialog.Builder(getContext())
                 .setView(dialogView)
                 .setMessage("Please input max allowed length of pokemon name. ")
-                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override public void onClick(DialogInterface dialogInterface, int i) {
-                        String text = editText.getText().toString();
-                        if (Strings.isNullOrEmpty(text)) {
-                            Toast.makeText(getContext(),
-                                    "Please input max allowed length of pokemon name.", Toast.LENGTH_LONG).show();
-                        } else if (text.contains(".")) {
-                            Toast.makeText(getContext(),
-                                    R.string.token_not_dot_separator, Toast.LENGTH_LONG).show();
+                .setPositiveButton(android.R.string.ok, (dialogInterface, i) -> {
+                    String text = editText.getText().toString();
+                    if (Strings.isNullOrEmpty(text)) {
+                        Toast.makeText(getContext(),
+                                "Please input max allowed length of pokemon name.", Toast.LENGTH_LONG).show();
+                    } else if (text.contains(".")) {
+                        Toast.makeText(getContext(),
+                                R.string.token_not_dot_separator, Toast.LENGTH_LONG).show();
 
-                        }  else {
-                            int input = 0;
-                            try {
-                                input = Integer.parseInt(text);
-                                if (input < 0) { input = 0;}
-                            } catch (NumberFormatException e) {
-                                Toast.makeText(getContext(),
-                                        "Please put a normal number", Toast.LENGTH_LONG).show();
-                            }
-                            selectedToken = new PokemonNameToken(maxEvolutionVariant, input);
-                            addToken();
+                    }  else {
+                        int input = 0;
+                        try {
+                            input = Integer.parseInt(text);
+                            if (input < 0) { input = 0;}
+                        } catch (NumberFormatException e) {
+                            Toast.makeText(getContext(),
+                                    "Please put a normal number", Toast.LENGTH_LONG).show();
                         }
+                        selectedToken = new PokemonNameToken(maxEvolutionVariant, input);
+                        addToken();
                     }
                 })
-                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-                    @Override public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.cancel();
-                    }
-                })
+                .setNegativeButton(android.R.string.cancel, (dialogInterface, i) -> dialogInterface.cancel())
                 .show();
     }
 

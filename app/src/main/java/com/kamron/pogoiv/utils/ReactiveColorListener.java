@@ -5,5 +5,5 @@ package com.kamron.pogoiv.utils;
  */
 public interface ReactiveColorListener {
 
-    public void updateGuiColors();
+    void updateGuiColors();
 }

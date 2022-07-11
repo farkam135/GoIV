@@ -67,7 +67,7 @@ public class PokemonNameToken extends ClipboardToken {
 
     @Override
     public String getStringRepresentation() {
-        return super.getStringRepresentation() + String.valueOf(evolvedPreview) + "_" + String.valueOf(maxLength);
+        return super.getStringRepresentation() + evolvedPreview + "_" + maxLength;
     }
 
     @Override

@@ -8,8 +8,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
@@ -357,11 +357,7 @@ public class ScanFieldAutomaticLocator {
     private static void postMessage(@NonNull Handler handler, @Nullable final ProgressDialog dialog,
                                     @Nullable final String message) {
         if (dialog != null && message != null) {
-            handler.post(new Runnable() {
-                @Override public void run() {
-                    dialog.setMessage(message);
-                }
-            });
+            handler.post(() -> dialog.setMessage(message));
         }
     }
 

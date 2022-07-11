@@ -1,7 +1,7 @@
 package com.kamron.pogoiv.widgets.recyclerviews.layoutmanagers;
 
 import android.content.Context;
-import android.support.v7.widget.GridLayoutManager;
+import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.kamron.pogoiv.widgets.recyclerviews.adapters.TokensShowcaseAdapter;
 

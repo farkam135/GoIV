@@ -12,9 +12,9 @@ import android.media.Image;
 import android.media.ImageReader;
 import android.media.projection.MediaProjection;
 import android.os.Build;
-import android.support.annotation.ColorInt;
-import android.support.annotation.Nullable;
-import android.support.annotation.WorkerThread;
+import androidx.annotation.ColorInt;
+import androidx.annotation.Nullable;
+import androidx.annotation.WorkerThread;
 import android.util.DisplayMetrics;
 
 import java.nio.ByteBuffer;
@@ -33,21 +33,15 @@ public class ScreenGrabber {
     private DisplayMetrics rawDisplayMetrics;
     private VirtualDisplay virtualDisplay;
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private ScreenGrabber(MediaProjection mediaProjection, DisplayMetrics raw) {
         rawDisplayMetrics = raw;
         projection = mediaProjection;
         imageReader = ImageReader.newInstance(rawDisplayMetrics.widthPixels, rawDisplayMetrics.heightPixels,
                 PixelFormat.RGBA_8888, 2);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                virtualDisplay = projection.createVirtualDisplay("screen-mirror", rawDisplayMetrics.widthPixels,
-                        rawDisplayMetrics.heightPixels,
-                        rawDisplayMetrics.densityDpi, DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR, imageReader.getSurface(),
-                        null, null);
-            }
-        }).start();
+        new Thread(() -> virtualDisplay = projection.createVirtualDisplay("screen-mirror", rawDisplayMetrics.widthPixels,
+                rawDisplayMetrics.heightPixels,
+                rawDisplayMetrics.densityDpi, DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR, imageReader.getSurface(),
+                null, null)).start();
     }
 
     public static ScreenGrabber init(MediaProjection mediaProjection, DisplayMetrics raw) {
@@ -67,7 +61,6 @@ public class ScreenGrabber {
         return instance;
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public void exit() {
         if (projection != null) {
             virtualDisplay.release();

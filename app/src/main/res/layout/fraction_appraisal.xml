@@ -71,7 +71,7 @@
 
     </LinearLayout>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/valueLayout"
@@ -193,6 +193,6 @@
                 app:layout_constraintTop_toTopOf="@+id/pbScanning"
                 app:layout_constraintBottom_toBottomOf="@+id/pbScanning"
         />
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>

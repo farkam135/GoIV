@@ -3,7 +3,7 @@ package com.kamron.pogoiv;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.google.common.base.Strings;
 import com.kamron.pogoiv.clipboardlogic.ClipboardToken;
@@ -156,8 +156,7 @@ public class GoIVSettings {
 
     public boolean isManualScreenshotModeEnabled() {
         //XXX unify with code in SettingsActivity.java
-        return Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT_WATCH
-                || prefs.getBoolean(MANUAL_SCREENSHOT_MODE, false);
+        return prefs.getBoolean(MANUAL_SCREENSHOT_MODE, false);
     }
 
     public int playerTeam() {
@@ -326,26 +325,11 @@ public class GoIVSettings {
 
         File fileName = new File(context.getCacheDir(), "appraisalCache.ser");
 
-        FileInputStream fis = null;
-        ObjectInputStream in = null;
-        try {
-            fis = new FileInputStream(fileName);
-            in = new ObjectInputStream(fis);
+        try (FileInputStream fis = new FileInputStream(fileName);
+             ObjectInputStream in = new ObjectInputStream(fis)) {
             appraisalCache = (Map<String, String>) in.readObject();
         } catch (Exception ignored) {
             //Fall-through
-        } finally {
-
-            try {
-                if (fis != null) {
-                    fis.close();
-                }
-                if (in != null) {
-                    in.close();
-                }
-            } catch (Exception ignored) {
-                //Fall-through
-            }
         }
 
         return appraisalCache;

@@ -1,7 +1,7 @@
 package com.kamron.pogoiv.widgets.recyclerviews.adapters;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.ViewGroup;
 
 import com.kamron.pogoiv.clipboardlogic.ClipboardToken;
@@ -45,7 +45,7 @@ public class TokensShowcaseAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         for (ClipboardToken token : possibleTokens) {
             if (!tokenListsByCategoryMap.containsKey(token.getCategory())) {
                 // Init this category list of tokens
-                tokenListsByCategoryMap.put(token.getCategory(), new ArrayList<ClipboardToken>());
+                tokenListsByCategoryMap.put(token.getCategory(), new ArrayList<>());
             }
 
             if (token.maxEv == evolvedVariant || !token.changesOnEvolutionMax()) {

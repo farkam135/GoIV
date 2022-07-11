@@ -3,11 +3,10 @@ package com.kamron.pogoiv.pokeflycomponents.fractions;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.core.content.ContextCompat;
 import android.util.DisplayMetrics;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -395,7 +394,7 @@ public class PowerUpFraction extends Fraction implements ReactiveColorListener {
     private void createExtendedResultEvolutionSpinner() {
         //The evolution picker for seeing estimates of how much cp and cost a pokemon will have at a different evolution
         extendedEvolutionSpinnerAdapter = new PokemonSpinnerAdapter(pokefly, R.layout.spinner_pokemon,
-                new ArrayList<Pokemon>());
+                new ArrayList<>());
         extendedEvolutionSpinner.setAdapter(extendedEvolutionSpinnerAdapter);
 
         extendedEvolutionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -443,12 +442,7 @@ public class PowerUpFraction extends Fraction implements ReactiveColorListener {
         expandedLevelSeekbarBackground.getThumb(1).setValue(levelToSeekbarProgress(Data.MAXIMUM_POKEMON_LEVEL));
 
         // Set empty on touch listener to prevent changing values of Thumb 1
-        expandedLevelSeekbarBackground.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return true;
-            }
-        });
+        expandedLevelSeekbarBackground.setOnTouchListener((v, event) -> true);
     }
 
 

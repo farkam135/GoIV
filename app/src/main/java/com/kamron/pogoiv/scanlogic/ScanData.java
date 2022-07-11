@@ -1,7 +1,7 @@
 package com.kamron.pogoiv.scanlogic;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.google.common.base.Optional;
 import com.kamron.pogoiv.utils.LevelRange;
@@ -49,11 +49,11 @@ public class ScanData {
         this.normalizedPokemonType = StringUtils.normalize(pokemonType);
         this.pokemonGender = pokemonGender;
         if (candyNames == null) {
-            this.candyNames = new ArrayList();
+            this.candyNames = new ArrayList<>();
         } else {
             this.candyNames = candyNames;
         }
-        this.normalizedCandyNames = new ArrayList();
+        this.normalizedCandyNames = new ArrayList<>();
         for (String candyName : this.candyNames) {
             this.normalizedCandyNames.add(StringUtils.normalize(candyName));
         }

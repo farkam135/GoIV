@@ -9,7 +9,6 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.util.Log;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
 
@@ -46,11 +45,8 @@ public class MediaStoreUtils {
             url = cr.insert(EXTERNAL_CONTENT_URI, values);
 
             if (source != null) {
-                OutputStream imageOut = cr.openOutputStream(url);
-                try {
+                try (OutputStream imageOut = cr.openOutputStream(url)) {
                     source.compress(Bitmap.CompressFormat.PNG, 100, imageOut);
-                } finally {
-                    imageOut.close();
                 }
 
                 long id = ContentUris.parseId(url);
@@ -113,8 +109,6 @@ public class MediaStoreUtils {
             thumb.compress(Bitmap.CompressFormat.JPEG, 100, thumbOut);
             thumbOut.close();
             return thumb;
-        } catch (FileNotFoundException ex) {
-            return null;
         } catch (IOException ex) {
             return null;
         }

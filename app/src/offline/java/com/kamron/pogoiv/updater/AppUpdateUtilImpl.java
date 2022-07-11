@@ -3,7 +3,7 @@ package com.kamron.pogoiv.updater;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 /**
  * Stub for AppUpdateUtil in offline builds.

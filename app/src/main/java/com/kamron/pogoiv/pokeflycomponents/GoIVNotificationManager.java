@@ -9,8 +9,8 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.content.ContextCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
@@ -197,45 +197,35 @@ public class GoIVNotificationManager {
                     sendBroadcast(new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS));
                     // Tell the user that the next screenshot will be used to recalibrate GoIV
                     ScreenShotHelper.sShouldRecalibrateWithNextScreenshot = true;
-                    mainThreadHandler.post(new Runnable() {
-                        @Override public void run() {
-                            Toast.makeText(NotificationActionService.this,
-                                    R.string.ocr_calibration_screenshot_mode, Toast.LENGTH_LONG).show();
-                        }
-                    });
+                    mainThreadHandler.post(() -> Toast.makeText(NotificationActionService.this,
+                            R.string.ocr_calibration_screenshot_mode, Toast.LENGTH_LONG).show());
 
                 } else { // Start calibration!
                     // Close the notification shade so we can screenshot pogo
                     sendBroadcast(new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS));
 
-                    mainThreadHandler.post(new Runnable() {
-                        @Override public void run() {
-                            if (pokefly != null
-                                    && pokefly.getScreenWatcher() != null
-                                    && pokefly.getIvButton() != null) {
-                                // Hide IV button: it might interfere
-                                pokefly.getIvButton().setShown(false, false);
-                                // Cancel pending quick IV previews: they might get the IV button to show again
-                                pokefly.getScreenWatcher().cancelPendingScreenScan();
-                            }
+                    mainThreadHandler.post(() -> {
+                        if (pokefly != null
+                                && pokefly.getScreenWatcher() != null
+                                && pokefly.getIvButton() != null) {
+                            // Hide IV button: it might interfere
+                            pokefly.getIvButton().setShown(false, false);
+                            // Cancel pending quick IV previews: they might get the IV button to show again
+                            pokefly.getScreenWatcher().cancelPendingScreenScan();
                         }
                     });
-                    mainThreadHandler.post(new Runnable() {
-                        @Override public void run() {
-                            Toast.makeText(pokefly, R.string.recalibrating_please_wait, Toast.LENGTH_SHORT).show();
+                    mainThreadHandler.post(() ->
+                            Toast.makeText(pokefly, R.string.recalibrating_please_wait, Toast.LENGTH_SHORT).show()
+                    );
+                    mainThreadHandler.postDelayed(() -> {
+                        if (ScreenGrabber.getInstance() == null) {
+                            return; // Don't recalibrate when screen watching isn't running!!!
                         }
-                    });
-                    mainThreadHandler.postDelayed(new Runnable() {
-                        public void run() {
-                            if (ScreenGrabber.getInstance() == null) {
-                                return; // Don't recalibrate when screen watching isn't running!!!
-                            }
 
-                            OcrCalibrationResultActivity.startCalibration(NotificationActionService.this,
-                                    ScreenGrabber.getInstance().grabScreen(),
-                                    pokefly.getCurrentStatusBarHeight(),
-                                    pokefly.getCurrentNavigationBarHeight());
-                        }
+                        OcrCalibrationResultActivity.startCalibration(NotificationActionService.this,
+                                ScreenGrabber.getInstance().grabScreen(),
+                                pokefly.getCurrentStatusBarHeight(),
+                                pokefly.getCurrentNavigationBarHeight());
                     }, 4100);
                 }
             }

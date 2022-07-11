@@ -17,9 +17,10 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
-import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.LocalBroadcastManager;
+import android.os.Looper;
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.util.DisplayMetrics;
 import android.view.ContextThemeWrapper;
 import android.view.Gravity;
@@ -30,7 +31,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.common.base.Optional;
 import com.kamron.pogoiv.clipboardlogic.ClipboardTokenHandler;
@@ -315,7 +315,7 @@ public class Pokefly extends Service {
 
         switch (intent.getAction()) {
             case ACTION_STOP:
-                if (android.os.Build.VERSION.SDK_INT >= 24) {
+                if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     stopForeground(STOP_FOREGROUND_DETACH);
                 }
                 stopSelf();
@@ -347,7 +347,7 @@ public class Pokefly extends Service {
                 } catch (Exception e) {
                     // If for some reason MainActivity failed to make the ScreenGrabber, stop the service.
                     // In this case we delete the notification to pretend it was never there in the first place.
-                    if (android.os.Build.VERSION.SDK_INT >= 24) {
+                    if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                         stopForeground(STOP_FOREGROUND_REMOVE);
                     }
                     stopSelf();
@@ -411,11 +411,9 @@ public class Pokefly extends Service {
             infoLayout.setVisibility(View.VISIBLE);
             //infoLayout.animate().translationY(infoLayout.getHeight()*2).setDuration(0);
             windowManager.addView(infoLayout, layoutParams);
-            infoLayout.animate().translationY(infoLayout.getHeight()*2).setDuration(5).withEndAction(new Runnable() {
-                @Override public void run() {
-                    infoLayout.setVisibility(View.VISIBLE);
-                    infoLayout.animate().translationY(0).setDuration(300);
-                }
+            infoLayout.animate().translationY(infoLayout.getHeight()*2).setDuration(5).withEndAction(() -> {
+                infoLayout.setVisibility(View.VISIBLE);
+                infoLayout.animate().translationY(0).setDuration(300);
             });
             //infoLayout.animate().translationY(infoLayout.getHeight()*3).setDuration(1);
             //infoLayout.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_up));
@@ -427,20 +425,16 @@ public class Pokefly extends Service {
     private void hideInfoLayoutArcPointerAndCard() {
         if (infoLayoutArcPointerVisible) {
 
-            infoLayout.animate().translationY(infoLayout.getHeight()*2).setDuration(300).withEndAction(new Runnable() {
-                @Override public void run() {
-                    infoLayout.setVisibility(View.GONE);
-                    if (fractionManager != null) {
-                        fractionManager.remove();
-                    }
-                    //for some reason, animation looks bugged without this 0 time animation line below.
-                    infoLayout.animate().translationY(infoLayout.getHeight()*2).setDuration(0);
-                    windowManager.removeView(arcPointer);
-                    windowManager.removeView(infoLayout);
-                    infoLayoutArcPointerVisible = false;
-
-
+            infoLayout.animate().translationY(infoLayout.getHeight()*2).setDuration(300).withEndAction(() -> {
+                infoLayout.setVisibility(View.GONE);
+                if (fractionManager != null) {
+                    fractionManager.remove();
                 }
+                //for some reason, animation looks bugged without this 0 time animation line below.
+                infoLayout.animate().translationY(infoLayout.getHeight()*2).setDuration(0);
+                windowManager.removeView(arcPointer);
+                windowManager.removeView(infoLayout);
+                infoLayoutArcPointerVisible = false;
             });
 
         }
@@ -634,16 +628,30 @@ public class Pokefly extends Service {
      * @param message The message to be printed out in the toast
      */
     public void showToastOnPoke(String message){
-
         Context themedContext = new ContextThemeWrapper(this, R.style.AppTheme_Dialog);
         View v = LayoutInflater.from(themedContext).inflate(R.layout.goiv_toast, null);
         ((TextView) v.findViewById(R.id.toastText)).setText(message);
-        Toast customToast = new Toast(this);
-        customToast.setView(v);
-        customToast.setGravity(Gravity.CENTER, 0, (int) (displayMetrics.heightPixels*-0.26));
-        customToast.setDuration(Toast.LENGTH_SHORT);
-        customToast.show();
 
+        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams(
+                WindowManager.LayoutParams.WRAP_CONTENT,
+                WindowManager.LayoutParams.WRAP_CONTENT,
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
+                        ? WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
+                        : WindowManager.LayoutParams.TYPE_PHONE,
+                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
+                PixelFormat.TRANSLUCENT);
+        layoutParams.gravity = Gravity.CENTER;
+        layoutParams.y = (int) (displayMetrics.heightPixels * -0.26);
+
+        windowManager.addView(v, layoutParams);
+
+        v.animate().alpha(1f).setDuration(1000).withEndAction(() -> {
+            final Handler handler = new Handler(Looper.getMainLooper());
+            handler.postDelayed(() -> v.animate().alpha(0f).setDuration(1000).withEndAction(() -> {
+                v.setVisibility(View.GONE);
+                windowManager.removeView(v);
+            }).start(), 2000);
+        }).start();
     }
 
     /**

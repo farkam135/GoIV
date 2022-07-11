@@ -1,11 +1,7 @@
 package com.kamron.pogoiv.pokeflycomponents.ocrhelper;
 
-/**
- * Created by johan on 2017-07-28.
- */
-
 import android.graphics.Rect;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import com.kamron.pogoiv.GoIVSettings;
 
@@ -47,8 +43,8 @@ public class ScanArea {
         if (settings.hasManualScanCalibration()) {
             try {
                 String[] values = settings.getCalibrationValue(calibrationKey).split(",");
-                return new ScanArea(Integer.valueOf(values[0]), Integer.valueOf(values[1]) + offset,
-                        Integer.valueOf(values[2]), Integer.valueOf(values[3]));
+                return new ScanArea(Integer.parseInt(values[0]), Integer.parseInt(values[1]) + offset,
+                        Integer.parseInt(values[2]), Integer.parseInt(values[3]));
             } catch (Exception e) {
                 return null;
             }

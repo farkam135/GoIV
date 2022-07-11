@@ -2,12 +2,12 @@ apply plugin: 'java'
 apply plugin: 'application'
 
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
 dependencies {
     // for ApplicationDatabaseUpdater
-    implementation 'com.google.code.gson:gson:2.8.2'
+    implementation 'com.google.code.gson:gson:2.8.6'
 }
 
 task updateDatabase(type: JavaExec) {

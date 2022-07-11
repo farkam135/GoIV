@@ -3,7 +3,6 @@ package com.kamron.pogoiv.activities;
 import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -16,14 +15,14 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.ColorInt;
-import android.support.annotation.MainThread;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.ColorInt;
+import androidx.annotation.MainThread;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
@@ -100,7 +99,7 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
             return;
         }
 
-        sCalibrationImageUnaltered = bitmap.copy(bitmap.getConfig() ,false);;
+        sCalibrationImageUnaltered = bitmap.copy(bitmap.getConfig() ,false);
         if (bitmap.isMutable()) {
             sCalibrationImage = bitmap;
         } else {
@@ -140,21 +139,18 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
             new Thread(new RecalibrateRunnable(this, dialog)).start();
         }
 
-        saveCalibrationButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                saveCalibrationButton.setVisibility(View.GONE);
-                if (results != null && results.isCompleteCalibration()) {
-                    GoIVSettings settings = GoIVSettings.getInstance(OcrCalibrationResultActivity.this);
-                    settings.saveScreenCalibrationResults(results);
-                    Toast.makeText(OcrCalibrationResultActivity.this,
-                            R.string.ocr_calibration_saved, Toast.LENGTH_LONG).show();
-                    Intent stopIntent = Pokefly.createStopIntent(OcrCalibrationResultActivity.this);
-                    startService(stopIntent);
-                    Intent intent = new Intent(OcrCalibrationResultActivity.this, MainActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
-                }
+        saveCalibrationButton.setOnClickListener(v -> {
+            saveCalibrationButton.setVisibility(View.GONE);
+            if (results != null && results.isCompleteCalibration()) {
+                GoIVSettings settings = GoIVSettings.getInstance(OcrCalibrationResultActivity.this);
+                settings.saveScreenCalibrationResults(results);
+                Toast.makeText(OcrCalibrationResultActivity.this,
+                        R.string.ocr_calibration_saved, Toast.LENGTH_LONG).show();
+                Intent stopIntent = Pokefly.createStopIntent(OcrCalibrationResultActivity.this);
+                startService(stopIntent);
+                Intent intent = new Intent(OcrCalibrationResultActivity.this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
             }
         });
     }
@@ -195,7 +191,7 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
 
             ScanFieldResults results = new ScanFieldAutomaticLocator(
                     sCalibrationImage, sDisplayMetrics.widthPixels, sDisplayMetrics.density)
-                    .scan(mainThreadHandler, dialogRef, new WeakReference<Context>(activity));
+                    .scan(mainThreadHandler, dialogRef, new WeakReference<>(activity));
 
             mainThreadHandler.post(new ResultRunnable(activityRef, dialogRef, results));
         }
@@ -255,13 +251,10 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
                 new AlertDialog.Builder(this)
                         .setTitle(android.R.string.dialog_alert_title)
                         .setMessage(R.string.email_report_require_permission)
-                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                // The user pressed OK, we can try to ask for the permission
-                                ActivityCompat.requestPermissions(OcrCalibrationResultActivity.this,
-                                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, RC_WRITE_EXTERNAL);
-                            }
+                        .setPositiveButton(android.R.string.ok, (dialogInterface, i) -> {
+                            // The user pressed OK, we can try to ask for the permission
+                            ActivityCompat.requestPermissions(OcrCalibrationResultActivity.this,
+                                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, RC_WRITE_EXTERNAL);
                         });
             } else {
                 // Try to ask for the permission
@@ -276,8 +269,7 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
         Uri bmpUri = Uri.parse(bmpPath);
 
         final String os;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
-                && !Strings.isNullOrEmpty(Build.VERSION.BASE_OS)) {
+        if (!Strings.isNullOrEmpty(Build.VERSION.BASE_OS)) {
             os = Build.VERSION.BASE_OS;
         } else {
             os = "Android";

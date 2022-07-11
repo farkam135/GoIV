@@ -4,10 +4,10 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Rect;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.util.Pair;
-import android.support.v7.graphics.Palette;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.util.Pair;
+import androidx.palette.graphics.Palette;
 import android.util.LruCache;
 import android.widget.Toast;
 
@@ -40,7 +40,6 @@ import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.POKEM
 import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.POKEMON_HP_AREA;
 import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.POKEMON_NAME_AREA;
 import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.POKEMON_POWER_UP_CANDY_COST;
-import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.POKEMON_POWER_UP_STARDUST_COST;
 import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.POKEMON_TYPE_AREA;
 
 
@@ -344,7 +343,7 @@ public class OcrHelper {
             double percentTextPixels = amountOfTextPixels / (double) leftOfEvolutionCostImage.getWidth();
             double percentPinkBackground = amountOfPinkBackgroundPixels / (double) leftOfEvolutionCostImage.getWidth();
             boolean isPinkBackground = percentPinkBackground > 0.3;
-            if (percentTextPixels > 0.04 && isPinkBackground== false){
+            if (percentTextPixels > 0.04 && !isPinkBackground){
                 //An evolution stone with '1' cost results in approx 5% text pixels
                 isNewAttackButton = true;
             }
@@ -1195,8 +1194,8 @@ public class OcrHelper {
         LevelRange estimatedLevelRange =
                 refineLevelEstimate(trainerLevel, powerUpCandyCost, estimatedPokemonLevel);
 
-        String uniqueIdentifier = name + type + candyNames.get(0) + candyNames.get(1) + hp.toString() + cp
-                .toString() + powerUpStardustCost.toString() + powerUpCandyCost.toString();
+        String uniqueIdentifier = name + type + candyNames.get(0) + candyNames.get(1) + hp + cp
+                .toString() + powerUpStardustCost + powerUpCandyCost;
 
         return new ScanData(estimatedLevelRange, name, type, candyNames, gender, hp, cp, candyAmount, evolutionCost,
                 powerUpStardustCost, powerUpCandyCost, null, null, is_lucky, uniqueIdentifier);
@@ -1218,39 +1217,34 @@ public class OcrHelper {
        int left = (int) (pokemonImage.getWidth() * 0.4);
        int right = (int) (pokemonImage.getWidth() * 0.6);
 
-        Palette.Filter filter = new Palette.Filter() {
-            @Override public boolean isAllowed(int rgb, @NonNull float[] hsl) {
-                if (hsl[2] > 0.7){
-                    //too bright
-                    return false;
-                }
-                if (hsl[2] < 0.2){
-                    //too dark
-                    return false;
-                }
-                if (hsl[0] > (30/360f) && hsl[0] < (60/360f)){
-                    //Too yellow
-                    return false;
-                }
-
-                return true;
+        Palette.Filter filter = (rgb, hsl) -> {
+            if (hsl[2] > 0.7){
+                //too bright
+                return false;
             }
+            if (hsl[2] < 0.2){
+                //too dark
+                return false;
+            }
+            if (hsl[0] > (30/360f) && hsl[0] < (60/360f)){
+                //Too yellow
+                return false;
+            }
+
+            return true;
         };
-        Palette.from(pokemonImage).setRegion(left, top, right, bot).addFilter(filter).generate(new Palette
-                .PaletteAsyncListener() {
-            public void onGenerated(Palette p) {
-                int color = p.getDarkVibrantColor(0);
-                if (color == 0) { //failed to find dark vibrant color, try getting a dark muted
-                    color = p.getDarkMutedColor(0);
-                } //Couldnt auto find color, use default primary color
-                if (color == 0) {
-                    color = Color.rgb(90, 90, 90);
-                }
-
-                GUIColorFromPokeType.getInstance().setColor(color);
-
-
+        Palette.from(pokemonImage).setRegion(left, top, right, bot).addFilter(filter).generate(p -> {
+            int color = p.getDarkVibrantColor(0);
+            if (color == 0) { //failed to find dark vibrant color, try getting a dark muted
+                color = p.getDarkMutedColor(0);
+            } //Couldnt auto find color, use default primary color
+            if (color == 0) {
+                color = Color.rgb(90, 90, 90);
             }
+
+            GUIColorFromPokeType.getInstance().setColor(color);
+
+
         });
     }
 
@@ -1306,7 +1300,7 @@ public class OcrHelper {
     private static void ensureCorrectLevelArcSettings(@NonNull GoIVSettings settings, int trainerLevel) {
         if (settings.hasManualScanCalibration()) {
             ScanPoint arcInit = new ScanPoint(ARC_INIT_POINT, settings);
-            int arcRadius = Integer.valueOf(settings.getCalibrationValue(ARC_RADIUS));
+            int arcRadius = Integer.parseInt(settings.getCalibrationValue(ARC_RADIUS));
             Data.setupArcPoints(arcInit, arcRadius, trainerLevel);
         }
     }

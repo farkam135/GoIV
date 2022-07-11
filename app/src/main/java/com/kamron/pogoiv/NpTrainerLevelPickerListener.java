@@ -3,7 +3,7 @@ package com.kamron.pogoiv;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
-import android.support.v4.content.LocalBroadcastManager;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.widget.NumberPicker;
 
 import com.kamron.pogoiv.activities.MainActivity;

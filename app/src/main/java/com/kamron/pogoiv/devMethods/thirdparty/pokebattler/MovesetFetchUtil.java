@@ -193,9 +193,8 @@ public class MovesetFetchUtil {
      *
      * @param jsonResponse The json response from pokebattler.
      * @return A treemap with moveset keys and score values.
-     * @throws IOException
      */
-    private TreeMap<MovesetData.Key, Double> parseMovesetJson(JSONObject jsonResponse) throws IOException {
+    private TreeMap<MovesetData.Key, Double> parseMovesetJson(JSONObject jsonResponse) {
         TreeMap<MovesetData.Key, Double> scores = new TreeMap<>();
         try {
             JSONArray moveRankings = jsonResponse.getJSONArray("attackers").getJSONObject(0).getJSONArray("byMove");

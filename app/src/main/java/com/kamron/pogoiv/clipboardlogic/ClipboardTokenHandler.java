@@ -63,11 +63,14 @@ public class ClipboardTokenHandler {
         final ClipboardResultMode resultMode;
 
         final boolean isSingle = scanResult.getIVCombinationsCount() == 1;
+        final boolean isZero = isSingle
+                && scanResult.getIVCombinationAt(0).percentPerfect == 0;
         final boolean isPerfect = isSingle
                 && scanResult.getIVCombinationAt(0).percentPerfect == 100;
 
         // has the user enabled one or more settings for alternative formats and is one of them applicable??
-        if (settings.shouldCopyToClipboardPerfectIV() && isPerfect) {
+        if ((settings.shouldCopyToClipboardPerfectIV() && isPerfect)
+                || (settings.shouldCopyToClipboardZeroIV() && isZero)) {
             resultMode = PERFECT_IV_RESULT;
         } else if (settings.shouldCopyToClipboardSingle() && isSingle) {
             resultMode = SINGLE_RESULT;

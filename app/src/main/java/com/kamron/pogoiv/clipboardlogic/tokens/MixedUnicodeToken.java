@@ -11,7 +11,7 @@ import com.kamron.pogoiv.scanlogic.ScanResult;
 /**
  * Copied from UnicodeToken created by Johan on 2016-09-25.
  * MixedUnicodeToken created by TripSixes on 2017-01-12
- * Represents the lowest possible IV combination with ⓪①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮, but also
+ * Represents the lowest possible IV values per stat with ⓪①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮, but also
  * mixes the filled and non-filled characters depending on if there are multiple or single of
  * a given IV Result list.
  */
@@ -100,9 +100,9 @@ public class MixedUnicodeToken extends ClipboardToken {
             return "";
         }
 
-        return attToUse[lowestIVCombination.att]
-                + defToUse[lowestIVCombination.def]
-                + staToUse[lowestIVCombination.sta];
+        return attToUse[lowestAttackStat]
+                + defToUse[lowestDefenseStat]
+                + staToUse[lowestStaminaStat];
     }
 
     @Override

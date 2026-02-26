@@ -1,15 +1,21 @@
 package com.kamron.pogoiv.pokeflycomponents.fractions;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.Space;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.Spinner;
@@ -23,10 +29,15 @@ import com.kamron.pogoiv.GoIVSettings;
 import com.kamron.pogoiv.Pokefly;
 import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.scanlogic.Data;
+import com.kamron.pogoiv.scanlogic.IVCombination;
 import com.kamron.pogoiv.scanlogic.PokeInfoCalculator;
 import com.kamron.pogoiv.scanlogic.Pokemon;
+import com.kamron.pogoiv.scanlogic.PokemonBase;
 import com.kamron.pogoiv.scanlogic.PokemonNameCorrector;
+import com.kamron.pogoiv.scanlogic.ScanResult;
+import com.kamron.pogoiv.utils.GUIColorFromPokeType;
 import com.kamron.pogoiv.utils.LevelRange;
+import com.kamron.pogoiv.utils.ReactiveColorListener;
 import com.kamron.pogoiv.utils.fractions.Fraction;
 import com.kamron.pogoiv.widgets.PokemonSpinnerAdapter;
 
@@ -35,10 +46,11 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnTextChanged;
 import timber.log.Timber;
 
 
-public class InputFraction extends Fraction {
+public class InputFraction extends Fraction implements ReactiveColorListener {
 
     private PokemonSpinnerAdapter pokeInputAdapter;
     @BindView(R.id.spnPokemonName)
@@ -49,7 +61,10 @@ public class InputFraction extends Fraction {
     AutoCompleteTextView autoCompleteTextView1;
 
     @BindView(R.id.pokePickerToggleSpinnerVsInput)
-    ImageButton pokePickerToggleSpinnerVsInput;
+    ImageView pokePickerToggleSpinnerVsInput;
+
+    @BindView(R.id.inputHeaderBG)
+    LinearLayout inputHeader;
 
     @BindView(R.id.etCp)
     EditText pokemonCPEdit;
@@ -62,6 +77,13 @@ public class InputFraction extends Fraction {
     @BindView(R.id.levelIndicator)
     TextView levelIndicator;
 
+
+    @BindView(R.id.btnCheckIv)
+    Button btnCheckIv;
+
+    @BindView(R.id.appraisalButton)
+    Button appraisalButton;
+
     //PokeSpam
     @BindView(R.id.llPokeSpamSpace)
     Space llPokeSpamSpace;
@@ -72,10 +94,16 @@ public class InputFraction extends Fraction {
     private Pokefly pokefly;
     private PokeInfoCalculator pokeInfoCalculator;
 
+    //since the fragment calls onchanged, ontextchanged etc methods on fragment creation, the
+    //fragment will update and calculate the pokemon several times when the ui is created.
+    //To prevent this, this boolean stops any calculation, until its set to true.
+    private boolean isInitiated = false;
 
     public InputFraction(@NonNull Pokefly pokefly) {
         this.pokefly = pokefly;
         this.pokeInfoCalculator = PokeInfoCalculator.getInstance();
+
+
     }
 
     @Override public int getLayoutResId() {
@@ -89,30 +117,44 @@ public class InputFraction extends Fraction {
         pokeInputAdapter = new PokemonSpinnerAdapter(pokefly, R.layout.spinner_pokemon, new ArrayList<Pokemon>());
         pokeInputSpinner.setAdapter(pokeInputAdapter);
 
+        pokeInputSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                updateIVInputFractionPreview();
+            }
+
+            @Override public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+        });
+
         // Fix arc when level is changed
         createArcAdjuster();
 
         // Setup manual pokemon species input
         initializePokemonAutoCompleteTextView();
 
-        // Guess the species
-        PokemonNameCorrector.PokeDist possiblePoke =
-                new PokemonNameCorrector(PokeInfoCalculator.getInstance()).getPossiblePokemon(Pokefly.scanData);
+        PokemonNameCorrector.PokeDist possiblePoke;
+        // If not-null, then the Pokemon has been manually set, so we shouldn't guess it.
+        if (Pokefly.scanData.getPokemon() != null) {
+            possiblePoke = new PokemonNameCorrector.PokeDist(Pokefly.scanData.getPokemon(), 0);
+        } else {
+            // Guess the species
+            possiblePoke = PokemonNameCorrector.getInstance(pokefly).getPossiblePokemon(Pokefly.scanData);
+        }
 
         // set color based on similarity
         if (possiblePoke.dist == 0) {
-            pokeInputSpinner.setBackgroundColor(Color.parseColor("#ddffdd"));
+            pokeInputSpinner.setBackgroundColor(Color.parseColor("#FFF9F9F9"));
         } else if (possiblePoke.dist < 2) {
-            pokeInputSpinner.setBackgroundColor(Color.parseColor("#ffffcc"));
+            pokeInputSpinner.setBackgroundColor(Color.parseColor("#ffffdd"));
         } else {
-            pokeInputSpinner.setBackgroundColor(Color.parseColor("#ffcccc"));
+            pokeInputSpinner.setBackgroundColor(Color.parseColor("#ffdddd"));
         }
 
         resetToSpinner(); //always have the input as spinner as default
 
         autoCompleteTextView1.setText("");
         pokeInputAdapter.updatePokemonList(
-                pokeInfoCalculator.getEvolutionLine(possiblePoke.pokemon));
+                pokeInfoCalculator.getEvolutionForms(possiblePoke.pokemon));
         int selection = pokeInputAdapter.getPosition(possiblePoke.pokemon);
         pokeInputSpinner.setSelection(selection);
 
@@ -123,11 +165,19 @@ public class InputFraction extends Fraction {
         adjustArcPointerBar(Pokefly.scanData.getEstimatedPokemonLevel().min);
 
         showCandyTextBoxBasedOnSettings();
+
+        GUIColorFromPokeType.getInstance().setListenTo(this);
+        updateGuiColors();
+        isInitiated = true;
+        updateIVInputFractionPreview();
     }
+
+
 
     @Override
     public void onDestroy() {
         saveToPokefly();
+        GUIColorFromPokeType.getInstance().removeListener(this);
     }
 
     @Override
@@ -141,34 +191,39 @@ public class InputFraction extends Fraction {
     }
 
     private void saveToPokefly() {
-        final String hp = pokemonHPEdit.getText().toString();
-        if (!Strings.isNullOrEmpty(hp)) {
-            try {
-                Pokefly.scanData.setPokemonHP(Integer.parseInt(hp));
-            } catch (NumberFormatException e) {
-                Timber.d(e);
+        if (isInitiated){
+            final String hp = pokemonHPEdit.getText().toString();
+            if (!Strings.isNullOrEmpty(hp)) {
+                try {
+                    Pokefly.scanData.setPokemonHP(Integer.parseInt(hp));
+                } catch (NumberFormatException e) {
+                    Timber.d(e);
+                }
+            }
+            final String cp = pokemonCPEdit.getText().toString();
+            if (!Strings.isNullOrEmpty(cp)) {
+                try {
+                    Pokefly.scanData.setPokemonCP(Integer.parseInt(cp));
+                } catch (NumberFormatException e) {
+                    Timber.d(e);
+                }
+            }
+            final String candies = pokemonCandyEdit.getText().toString();
+            if (!Strings.isNullOrEmpty(candies)) {
+                try {
+                    Pokefly.scanData.setPokemonCandyAmount(Integer.parseInt(candies));
+                } catch (NumberFormatException e) {
+                    Timber.d(e);
+                }
+            }
+            Pokemon pokemon = interpretWhichPokemonUserInput();
+            if (pokemon != null) {
+              Pokefly.scanData.setPokemon(pokemon);
+
+
             }
         }
-        final String cp = pokemonCPEdit.getText().toString();
-        if (!Strings.isNullOrEmpty(cp)) {
-            try {
-                Pokefly.scanData.setPokemonCP(Integer.parseInt(cp));
-            } catch (NumberFormatException e) {
-                Timber.d(e);
-            }
-        }
-        final String candies = pokemonCandyEdit.getText().toString();
-        if (!Strings.isNullOrEmpty(candies)) {
-            try {
-                Pokefly.scanData.setPokemonCandyAmount(Integer.parseInt(candies));
-            } catch (NumberFormatException e) {
-                Timber.d(e);
-            }
-        }
-        Pokemon pokemon = interpretWhichPokemonUserInput();
-        if (pokemon != null) {
-            Pokefly.scanData.setPokemonName(pokemon.name);
-        }
+
     }
 
     /**
@@ -179,12 +234,23 @@ public class InputFraction extends Fraction {
     public void toggleSpinnerVsInput() {
         if (autoCompleteTextView1.getVisibility() == View.GONE) {
             autoCompleteTextView1.setVisibility(View.VISIBLE);
+
+
+            Bitmap icon = BitmapFactory.decodeResource(pokefly.getResources(),
+                    R.drawable.toggleselectwrite);
+            pokePickerToggleSpinnerVsInput.setImageBitmap(icon);
             autoCompleteTextView1.requestFocus();
             pokeInputSpinner.setVisibility(View.GONE);
         } else {
             resetToSpinner();
+            Bitmap icon = BitmapFactory.decodeResource(pokefly.getResources(),
+                    R.drawable.toggleselectmenu);
+            pokePickerToggleSpinnerVsInput.setImageBitmap(icon);
         }
+
+        updateGuiColors();
     }
+
 
     private void resetToSpinner() {
         autoCompleteTextView1.setVisibility(View.GONE);
@@ -193,7 +259,52 @@ public class InputFraction extends Fraction {
 
     private void adjustArcPointerBar(double estimatedPokemonLevel) {
         pokefly.setArcPointer(estimatedPokemonLevel);
-        arcAdjustBar.setProgress(Data.maxPokeLevelToIndex(estimatedPokemonLevel));
+        arcAdjustBar.setProgress(Data.levelToLevelIdx(estimatedPokemonLevel));
+        updateIVInputFractionPreview();
+    }
+
+    @OnTextChanged({R.id.etCp, R.id.etHp, R.id.etCandy, R.id.autoCompleteTextView1})
+    public void updateIVFractionSpinnerDueToTextChange() {
+        updateIVInputFractionPreview();
+    }
+
+    /**
+     * Update the text on the 'next' button to indicate quick IV overview
+     */
+    private void updateIVInputFractionPreview() {
+        if(isInitiated){
+            saveToPokefly();
+
+            updateIVPreview(pokefly, btnCheckIv);
+        }
+    }
+
+    public static void updateIVPreview(Pokefly pokefly, Button btnCheckIv) {
+        ScanResult scanResult = null;
+        try {
+            scanResult = pokefly.computeIVWithoutUIChange();
+        } catch (IllegalStateException e) {
+            //Couldn't compute a valid scanresult. This is most likely due to missing HP / CP values
+        }
+
+        // If it couldn't compute a scan result it should behave the same as if there are no valid
+        // IV combinations.
+        int possibleIVs = scanResult == null ? 0 : scanResult.getIVCombinations().size();
+        //btnCheckIv.setEnabled(possibleIVs != 0);
+        if (possibleIVs == 0) {
+            btnCheckIv.setText("? | More info");
+        } else {
+            if (possibleIVs == 1) {
+                IVCombination result = scanResult.getIVCombinations().get(0);
+                btnCheckIv.setText(result.percentPerfect + "% (" + result.att + ":" + result.def + ":" + result.sta + ") | More info");
+            } else if (scanResult.getLowestIVCombination().percentPerfect == scanResult
+                    .getHighestIVCombination().percentPerfect) {
+                btnCheckIv.setText(scanResult.getLowestIVCombination().percentPerfect + "% | More info");
+            } else {
+                btnCheckIv.setText(scanResult.getLowestIVCombination().percentPerfect + "% - " + scanResult
+                        .getHighestIVCombination().percentPerfect + "% | More info");
+            }
+        }
     }
 
     @OnClick(R.id.btnDecrementLevel)
@@ -206,7 +317,7 @@ public class InputFraction extends Fraction {
 
     @OnClick(R.id.btnIncrementLevel)
     public void incrementLevel() {
-        if (Data.maxPokeLevelToIndex(Pokefly.scanData.getEstimatedPokemonLevel().min) < arcAdjustBar.getMax()) {
+        if (Data.levelToLevelIdx(Pokefly.scanData.getEstimatedPokemonLevel().min) < arcAdjustBar.getMax()) {
             Pokefly.scanData.getEstimatedPokemonLevel().inc();
             adjustArcPointerBar(Pokefly.scanData.getEstimatedPokemonLevel().min);
         }
@@ -217,8 +328,8 @@ public class InputFraction extends Fraction {
      */
     private void createArcAdjuster() {
         // The max seek bar value will be the maximum wild pokemon level or the trainer max capture level if higher
-        arcAdjustBar.setMax(Math.max(Data.maxPokeLevelToIndex(Data.MAXIMUM_WILD_POKEMON_LEVEL),
-                Data.trainerLevelToMaxPokeLevelIndex(pokefly.getTrainerLevel())));
+        arcAdjustBar.setMax(Math.max(Data.levelToLevelIdx(Data.MAXIMUM_WILD_POKEMON_LEVEL),
+                Data.levelToLevelIdx(Data.trainerLevelToMaxPokeLevel(pokefly.getTrainerLevel()))));
 
         arcAdjustBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -228,14 +339,17 @@ public class InputFraction extends Fraction {
                 }
                 pokefly.setArcPointer(Pokefly.scanData.getEstimatedPokemonLevel().min);
                 levelIndicator.setText(Pokefly.scanData.getEstimatedPokemonLevel().toString());
+
             }
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
+                btnCheckIv.setText("...");
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
+                updateIVInputFractionPreview();
             }
         });
     }
@@ -286,13 +400,29 @@ public class InputFraction extends Fraction {
      */
     private Pokemon interpretWhichPokemonUserInput() {
         //below picks a pokemon from either the pokemon spinner or the user text input
-        Pokemon pokemon;
+        Pokemon pokemon = null;
         if (pokeInputSpinner.getVisibility() == View.VISIBLE) { //user picked pokemon from spinner
             //This could be pokemon = pokeInputSpinner.getSelectedItem(); if they didn't give it type Object.
             pokemon = pokeInputAdapter.getItem(pokeInputSpinner.getSelectedItemPosition());
         } else { //user typed manually
             String userInput = autoCompleteTextView1.getText().toString();
-            pokemon = pokeInfoCalculator.get(userInput);
+            int lowestDist = Integer.MAX_VALUE;
+            for (PokemonBase poke : pokeInfoCalculator.getPokedex()) {
+                int dist = Data.levenshteinDistance(poke.name, userInput);
+                if (dist < lowestDist) {
+                    lowestDist = dist;
+                    pokemon = poke.forms.get(0);
+                }
+                // Even though the above might've used forms[0], iterate over all forms as the form's name might have
+                // a better distance. There might be a case where forms[1] beats poke.name but not forms[0].
+                for (Pokemon form : poke.forms) {
+                    dist = Data.levenshteinDistance(form.name, userInput);
+                    if (dist < lowestDist) {
+                        lowestDist = dist;
+                        pokemon = form;
+                    }
+                }
+            }
             if (pokemon == null) { //no such pokemon was found, show error toast and abort showing results
                 Toast.makeText(pokefly, userInput + pokefly.getString(R.string.wrong_pokemon_name_input),
                         Toast.LENGTH_SHORT).show();
@@ -321,4 +451,19 @@ public class InputFraction extends Fraction {
         pokefly.closeInfoDialog();
     }
 
+    @Override public void updateGuiColors() {
+        //int c = Color.parseColor("#47253C");
+        int c = GUIColorFromPokeType.getInstance().getColor();
+        inputHeader.setBackgroundColor(c);
+        appraisalButton.setBackgroundColor(c);
+        pokemonCPEdit.setTextColor(c);
+        pokemonHPEdit.setTextColor(c);
+        pokemonCandyEdit.setTextColor(c);
+        btnCheckIv.setBackgroundColor(c);
+
+        PorterDuff.Mode mMode = PorterDuff.Mode.SRC_ATOP;
+        Drawable d = pokePickerToggleSpinnerVsInput.getDrawable();
+        d.setColorFilter(c,mMode);
+
+    }
 }

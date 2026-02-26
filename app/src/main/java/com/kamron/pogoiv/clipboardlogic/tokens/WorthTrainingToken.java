@@ -52,12 +52,12 @@ public class WorthTrainingToken extends ClipboardToken {
     public String getValue(ScanResult ivs, PokeInfoCalculator calc) {
         MUTEX.acquireUninterruptibly();
         if (MAX_HP == 0) {
-            for (final Pokemon pokemon : calc.getPokedex()) {
+            for (final Pokemon pokemon : calc.getPokedexForms()) {
                 MAX_DEF = max(MAX_DEF, pokemon.baseDefense * 15);
                 MAX_ATK = max(MAX_ATK, pokemon.baseAttack * 15);
                 MAX_HP = max(MAX_HP, pokemon.baseStamina * 15);
             }
-            for (final Pokemon pokemon : calc.getPokedex()) {
+            for (final Pokemon pokemon : calc.getPokedexForms()) {
                 BEST = max(BEST, formula(pokemon.baseAttack * 15, pokemon.baseDefense * 15, pokemon.baseStamina * 15));
             }
         }
@@ -93,7 +93,7 @@ public class WorthTrainingToken extends ClipboardToken {
         while (!toVisit.isEmpty()) {
             final Pokemon pokemon = toVisit.pop();
             max = Math.max(max, normalizedResult(pokemon, iv));
-            toVisit.addAll(pokemon.evolutions);
+            toVisit.addAll(pokemon.getEvolutions());
         }
         return max;
     }

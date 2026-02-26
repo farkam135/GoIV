@@ -5,91 +5,13 @@
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-
-    <compatible-screens>
-
-        <!-- all small size screens -->
-        <screen
-            android:screenDensity="xhdpi"
-            android:screenSize="small"/>
-        <screen
-            android:screenDensity="xxhdpi"
-            android:screenSize="small"/>
-        <screen
-            android:screenDensity="xxxhdpi"
-            android:screenSize="small"/>
-        <screen
-            android:screenDensity="420"
-            android:screenSize="small"/>
-        <screen
-            android:screenDensity="480"
-            android:screenSize="small"/>
-        <screen
-            android:screenDensity="560"
-            android:screenSize="small"/>
-        <!-- all normal size screens -->
-        <screen
-            android:screenDensity="xhdpi"
-            android:screenSize="normal"/>
-        <screen
-            android:screenDensity="xxhdpi"
-            android:screenSize="normal"/>
-        <screen
-            android:screenDensity="xxxhdpi"
-            android:screenSize="normal"/>
-        <screen
-            android:screenDensity="420"
-            android:screenSize="normal"/>
-        <screen
-            android:screenDensity="480"
-            android:screenSize="normal"/>
-        <screen
-            android:screenDensity="560"
-            android:screenSize="normal"/>
-        <!-- all large size screens -->
-        <screen
-            android:screenDensity="xhdpi"
-            android:screenSize="large"/>
-        <screen
-            android:screenDensity="xxhdpi"
-            android:screenSize="large"/>
-        <screen
-            android:screenDensity="xxxhdpi"
-            android:screenSize="large"/>
-        <screen
-            android:screenDensity="420"
-            android:screenSize="large"/>
-        <screen
-            android:screenDensity="480"
-            android:screenSize="large"/>
-        <screen
-            android:screenDensity="560"
-            android:screenSize="large"/>
-        <!-- all xlarge size screens -->
-        <screen
-            android:screenDensity="xhdpi"
-            android:screenSize="xlarge"/>
-        <screen
-            android:screenDensity="xxhdpi"
-            android:screenSize="xlarge"/>
-        <screen
-            android:screenDensity="xxxhdpi"
-            android:screenSize="xlarge"/>
-        <screen
-            android:screenDensity="420"
-            android:screenSize="xlarge"/>
-        <screen
-            android:screenDensity="480"
-            android:screenSize="xlarge"/>
-        <screen
-            android:screenDensity="560"
-            android:screenSize="xlarge"/>
-    </compatible-screens>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
         android:name=".PoGoApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/adaptive_icon"
+        android:roundIcon="@mipmap/adaptive_icon_round"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -123,7 +45,8 @@
 
         <service
             android:name=".Pokefly"
-            android:exported="true"/>
+            android:exported="true"
+            android:foregroundServiceType="mediaProjection"/>
         <service
             android:name=".updater.DownloadUpdateService"
             android:exported="false"/>

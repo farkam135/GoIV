@@ -91,37 +91,6 @@
     <string name="copy_to_clip_show_toast_setting_summary">Montre un aperçu de ce qui a été copié dans une petite fenêtre</string>
     <string name="copy_to_clip_show_toast_setting">Montrer aperçu du presse-papier</string>
     <string name="autoAppraisalScanDelay_title">Délai d\'évaluation automatique</string>
-    <string name="autoAppraisalScanDelay_summary">Combien de temps attendre pour que le texte d\'évaluation d\'un Pokémon ait fini d\'apparaître. Les téléphones bas de gamme pourraient demander un délai de 800 ms.</string>
-
-    <!-- Team mystic appraisal strings mv for iv % and ms for strongest stat range-->
-    <string name="mv4">n\'ira pas\ntrès loin</string>
-    <string name="mv3">supérieur à\nla moyenne</string>
-    <string name="mv2">toute mon\nattention</string>
-    <string name="mv1">merveille\ncaptivant</string>
-    <string name="ms4">rien\nd\'anormal</string>
-    <string name="ms3">s\'améliorent\n..vue d\'œil</string>
-    <string name="ms2">je suis\nimpress..</string>
-    <string name="ms1">dépassent..\nmes calculs</string>
-
-    <!-- Team valor appraisal strings mv for iv % and ms for strongest stat range-->
-    <string name="vv4">pas un\ncombattant</string>
-    <string name="vv3">Pokémon solide</string>
-    <string name="vv2">fort..\nêtre fier</string>
-    <string name="vv1">m\'étonne\nbeaucoup</string>
-    <string name="vs4">aideront\npas..</string>
-    <string name="vs3">va faire\n..dégâts</string>
-    <string name="vs2">excellentes\nsuper</string>
-    <string name="vs1">estomaquée\nbravo</string>
-
-    <!-- Team instinct appraisal strings mv for iv % and ms for strongest stat range-->
-    <string name="iv4">devenir\n..meilleur</string>
-    <string name="iv3">plutôt bien</string>
-    <string name="iv2">vraiment fort</string>
-    <string name="iv1">tenir tête\n..meilleurs</string>
-    <string name="is4">un peu basiques</string>
-    <string name="is3">quelques bonnes stats</string>
-    <string name="is2">super élevées</string>
-    <string name="is1">meilleures\n..vues</string>
 
 
     <string name="notification_title_goiv_stopped">GoIV s\'est arrêtée</string>

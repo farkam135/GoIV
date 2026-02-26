@@ -5,6 +5,10 @@ import android.support.annotation.Nullable;
 
 import com.google.common.base.Optional;
 import com.kamron.pogoiv.utils.LevelRange;
+import com.kamron.pogoiv.utils.StringUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A ScanData represents the result of an OCR scan.
@@ -15,9 +19,12 @@ import com.kamron.pogoiv.utils.LevelRange;
 public class ScanData {
     private LevelRange estimatedPokemonLevelRange;
     private String pokemonName;
+    private String normalizedPokemonName;
     private final String pokemonType;
+    private final String normalizedPokemonType;
     private final Pokemon.Gender pokemonGender;
-    private final String candyName;
+    private final List<String> candyNames;
+    private final List<String> normalizedCandyNames;
     private Optional<Integer> pokemonHP;
     private Optional<Integer> pokemonCP;
     private Optional<Integer> pokemonCandyAmount;
@@ -28,17 +35,28 @@ public class ScanData {
     private final String moveCharge;
     private final boolean isLucky;
     private final String uniqueID;
+    private Pokemon pokemon = null;
 
-    public ScanData(LevelRange estimatedPokemonLevel, String pokemonName, String pokemonType, String candyName,
+    public ScanData(LevelRange estimatedPokemonLevel, String pokemonName, String pokemonType, List<String> candyNames,
                     Pokemon.Gender pokemonGender, Optional<Integer> pokemonHP, Optional<Integer> pokemonCP,
                     Optional<Integer> pokemonCandyAmount, Optional<Integer> evolutionCandyCost,
                     Optional<Integer> powerUpStardustCost, Optional<Integer> powerUpCandyCost,
                     String moveFast, String moveCharge, boolean isLucky, String uniqueID) {
         this.estimatedPokemonLevelRange = estimatedPokemonLevel;
         this.pokemonName = pokemonName;
+        this.normalizedPokemonName = StringUtils.normalize(pokemonName);
         this.pokemonType = pokemonType;
+        this.normalizedPokemonType = StringUtils.normalize(pokemonType);
         this.pokemonGender = pokemonGender;
-        this.candyName = candyName;
+        if (candyNames == null) {
+            this.candyNames = new ArrayList();
+        } else {
+            this.candyNames = candyNames;
+        }
+        this.normalizedCandyNames = new ArrayList();
+        for (String candyName : this.candyNames) {
+            this.normalizedCandyNames.add(StringUtils.normalize(candyName));
+        }
         this.pokemonHP = pokemonHP;
         this.pokemonCP = pokemonCP;
         this.pokemonCandyAmount = pokemonCandyAmount;
@@ -51,6 +69,42 @@ public class ScanData {
         this.uniqueID = uniqueID;
     }
 
+    @Override public String toString() {
+        // temporary format for checking OCR result and debugging IV calculations.
+        return String.format("ScanData\n"
+                        + "name:%s\n"
+                        + "type:%s\n"
+                        + "gender:%s\n"
+                        + "cp:%d\n"
+                        + "hp:%d\n"
+                        + "lucky:%B\n\n"
+
+                        + "candy_name:%s or %s\n"
+                        + "candy_amount:%d\n"
+                        + "evolution_candy:%d\n"
+                        + "powerup_candy:%d\n"
+                        + "powerup_stardust:%d\n\n"
+
+                        + "move_fast:%s\n"
+                        + "move_charge:%s\n",
+                pokemonName,
+                pokemonType,
+                pokemonGender,
+                pokemonCP.or(-1),
+                pokemonHP.or(-1),
+                isLucky,
+
+                candyNames.get(0),
+                candyNames.get(1),
+                pokemonCandyAmount.or(-1),
+                evolutionCandyCost.or(-1),
+                powerUpCandyCost.or(-1),
+                powerUpStardustCost.or(-1),
+
+                moveFast,
+                moveCharge);
+    }
+
     public LevelRange getEstimatedPokemonLevel() {
         return estimatedPokemonLevelRange;
     }
@@ -59,25 +113,32 @@ public class ScanData {
         this.estimatedPokemonLevelRange = levelRange;
     }
 
-    public String getPokemonName() {
-        return pokemonName;
+    public String getPokemonName() { return pokemonName; }
+
+    public String getNormalizedPokemonName() {
+        return normalizedPokemonName;
     }
 
     public void setPokemonName(@NonNull String pokemonName) {
         this.pokemonName = pokemonName;
+        this.normalizedPokemonName = StringUtils.normalize(pokemonName);
     }
 
     public String getPokemonType() {
         return pokemonType;
     }
 
+    public String getNormalizedPokemonType() {
+        return normalizedPokemonType;
+    }
+
     public Pokemon.Gender getPokemonGender() {
         return pokemonGender;
     }
 
-    public String getCandyName() {
-        return candyName;
-    }
+    public List<String> getCandyNames() { return candyNames; }
+
+    public List<String> getNormalizedCandyNames() { return normalizedCandyNames; }
 
     public Optional<Integer> getPokemonHP() {
         return pokemonHP;
@@ -137,5 +198,18 @@ public class ScanData {
 
     public Optional<Integer> getEvolutionCandyCost() {
         return evolutionCandyCost;
+    }
+
+    /**
+     * Pokemon value interpreted from the data or user input. Is null right after a scan, needs to be updated by
+     * external factor.
+     * @param p
+     */
+    public void setPokemon(Pokemon p) {
+        pokemon = p;
+    }
+
+    public Pokemon getPokemon(){
+        return pokemon;
     }
 }

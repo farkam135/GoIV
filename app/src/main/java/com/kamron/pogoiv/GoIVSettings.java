@@ -38,6 +38,7 @@ public class GoIVSettings {
     public static final String MANUAL_SCREENSHOT_MODE = "manualScreenshotMode";
     public static final String DELETE_SCREENSHOTS = "deleteScreenshots";
     public static final String COPY_TO_CLIPBOARD = "copyToClipboard";
+    public static final String FAST_COPY_TO_CLIPBOARD = "fastCopyToClipboard";
     public static final String COPY_TO_CLIPBOARD_SINGLE = "copyToClipboardSingle";
     public static final String COPY_TO_CLIPBOARD_PERFECTIV = "copyToClipboardPerfectIv";
     public static final String SEND_CRASH_REPORTS = "sendCrashReports";
@@ -52,7 +53,7 @@ public class GoIVSettings {
     public static final String SHOW_TRANSLATED_POKEMON_NAME = "showTranslatedPokemonName";
     public static final String HAS_WARNED_USER_NO_SCREENREC = "GOIV_hasWarnedUserNoScreenRec";
     public static final String COPY_TO_CLIPBOARD_SHOW_TOAST = "copyToClipboardShowToast";
-    public static final String AUTO_APPRAISAL_SCAN_DELAY = "autoAppraisalScanDelay";
+    public static final String AUTO_APPRAISAL_SCAN_DELAY = "appraisalScanDelay";
     public static final String AUTO_OPEN_APPRAISE_DIALOGUE = "autoOpenAppraiseDialogue";
     public static final String QUICK_IV_PREVIEW = "quick_iv_preview";
     public static final String QUICK_IV_PREVIEW_CLIPBOARD = "quick_iv_preview_clipboard";
@@ -263,6 +264,9 @@ public class GoIVSettings {
     public boolean shouldCopyToClipboard() {
         return prefs.getBoolean(COPY_TO_CLIPBOARD, true);
     }
+    public boolean shouldFastCopyToClipboard() {
+        return prefs.getBoolean(FAST_COPY_TO_CLIPBOARD, false);
+    }
 
     public boolean shouldCopyToClipboardSingle() {
         return prefs.getBoolean(COPY_TO_CLIPBOARD_SINGLE, false);
@@ -281,7 +285,8 @@ public class GoIVSettings {
     }
 
     public boolean isPokeSpamEnabled() {
-        return prefs.getBoolean(POKESPAM_ENABLED, false);
+        //return prefs.getBoolean(POKESPAM_ENABLED, false);
+        return false; // Disabling PokeSpam because of Beyond Update
     }
 
     public boolean shouldAutoOpenExpandedAppraise() {

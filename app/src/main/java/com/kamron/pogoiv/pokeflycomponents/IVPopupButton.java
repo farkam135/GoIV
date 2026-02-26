@@ -135,6 +135,16 @@ public class IVPopupButton extends android.support.v7.widget.AppCompatButton {
 
             setBackgroundGradient(scanResult);
             setTextColorFromIVs(scanResult);
+
+            copyToClipboardIfSettingOn(scanResult);
+        }
+    }
+
+    private void copyToClipboardIfSettingOn(ScanResult scanResult) {
+
+        if (GoIVSettings.getInstance(pokefly).shouldFastCopyToClipboard()){
+
+            pokefly.addClipboardInfoIfSettingOn(scanResult);
         }
     }
 

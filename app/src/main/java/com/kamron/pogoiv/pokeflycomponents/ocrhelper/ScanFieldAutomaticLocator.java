@@ -79,6 +79,7 @@ public class ScanFieldAutomaticLocator {
     private final float screenshotDensity;
     private final int width20Percent;
     private final int width25Percent;
+    private final int width33Percent;
     private final int width50Percent;
     private final int width66Percent;
     private final int width80Percent;
@@ -91,6 +92,7 @@ public class ScanFieldAutomaticLocator {
         screenshotDensity = bmp.getWidth() * displayDensity / displayWidth;
         width20Percent = bmp.getWidth() / 5;
         width25Percent = bmp.getWidth() / 4;
+        width33Percent = bmp.getWidth() / 3;
         width50Percent = bmp.getWidth() / 2;
         width66Percent = bmp.getWidth() / 3 * 2;
         width80Percent = bmp.getWidth() / 5 * 4;
@@ -896,6 +898,14 @@ public class ScanFieldAutomaticLocator {
                 .filter(ByMaxY.of(bmp.getHeight() / 5))
                 // Ensure it is high enough (this filters out the status bar notification icons)
                 .filter(ByMinHeight.of(17.5f * screenshotDensity))
+
+
+                //attempt at cropping out the 'camera' icon so it doesnt make the CP field huge.
+                .filter(ByMaxX.of((int) (bmp.getWidth() * 0.7)))
+                .filter(ByMinX.of((int) (bmp.getWidth() * 0.3)))
+                .filter(ByMaxHeight.of(35f * screenshotDensity))
+
+
                 .toList();
 
         //noinspection PointlessBooleanExpression
@@ -1036,7 +1046,7 @@ public class ScanFieldAutomaticLocator {
             p.setColor(Color.BLUE);
             debugPrintRectList(Collections.singletonList(greyHorizontalLine), c, p);
             debugPrintRectList(Collections.singletonList(powerUpButton), c, p);
-            debugPrintLineVertical(width50Percent, c, p);
+            debugPrintLineVertical(width33Percent, c, p);
             debugPrintLineVertical(greyHorizontalLine.x + greyHorizontalLine.width, c, p);
             debugPrintLineHorizontal(greyHorizontalLine.y + greyHorizontalLine.height, c, p);
             debugPrintLineHorizontal(powerUpButton.y, c, p);
@@ -1045,7 +1055,7 @@ public class ScanFieldAutomaticLocator {
         List<Rect> candidates = FluentIterable.from(boundingRectList)
                 // Keep only bounding rect between 50% of the image width, before the end of the horizontal grey
                 // divider line and below it and above the power up button
-                .filter(Predicates.and(ByMinX.of(width50Percent),
+                .filter(Predicates.and(ByMinX.of(width33Percent),
                         ByMaxX.of(greyHorizontalLine.x + greyHorizontalLine.width),
                         ByMinY.of(greyHorizontalLine.y + greyHorizontalLine.height),
                         ByMaxY.of(powerUpButton.y)))
@@ -1088,9 +1098,9 @@ public class ScanFieldAutomaticLocator {
 
         Rect result = mergeRectList(candidates);
 
-        // Ensure the rect starts at 50% of the width
-        if (result.x > width50Percent) {
-            result.x = width50Percent;
+        // Ensure the rect starts at 33% of the width
+        if (result.x > width33Percent) {
+            result.x = width33Percent;
         }
         // Ensure the rect reaches the 90% of the width
         if (result.x + result.width < width90Percent) {

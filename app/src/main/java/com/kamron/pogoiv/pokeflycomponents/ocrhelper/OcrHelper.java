@@ -7,27 +7,26 @@ import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.util.Pair;
+import android.support.v7.graphics.Palette;
 import android.util.LruCache;
+import android.widget.Toast;
 
 import com.google.common.base.Optional;
 import com.googlecode.tesseract.android.TessBaseAPI;
 import com.kamron.pogoiv.GoIVSettings;
 import com.kamron.pogoiv.Pokefly;
-import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.scanlogic.Data;
 import com.kamron.pogoiv.scanlogic.PokeInfoCalculator;
 import com.kamron.pogoiv.scanlogic.Pokemon;
 import com.kamron.pogoiv.scanlogic.ScanData;
+import com.kamron.pogoiv.utils.GUIColorFromPokeType;
 import com.kamron.pogoiv.utils.LevelRange;
-import com.kamron.pogoiv.utils.StringUtils;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Locale;
-import java.util.Map;
+import java.util.List;
 
 import timber.log.Timber;
 
@@ -41,6 +40,7 @@ import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.POKEM
 import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.POKEMON_HP_AREA;
 import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.POKEMON_NAME_AREA;
 import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.POKEMON_POWER_UP_CANDY_COST;
+import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.POKEMON_POWER_UP_STARDUST_COST;
 import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.POKEMON_TYPE_AREA;
 
 
@@ -51,14 +51,12 @@ import static com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldNames.POKEM
 public class OcrHelper {
 
     private static OcrHelper instance = null;
-    private static String nidoFemale;
-    private static String nidoMale;
-    private static String nidoUngendered;
     private static TessBaseAPI tesseract = null;
     private static boolean isPokeSpamEnabled;
     private static LruCache<String, String> ocrCache;
-    private static LruCache<String, String> appraisalCache;
 
+    private static int DEFAULT_FONT_COLOR = 4680814; //Pokemon go font color, rgb 71,108,110 (approximate)
+    private static int CANT_AFFORD_FONT_COLOR = 16736100; //Pokemon go font color, rgb 255,95,100 (approximate)
 
     private static WeakReference<Pokefly> pokeflyRef;
 
@@ -84,12 +82,7 @@ public class OcrHelper {
             tesseract.setVariable(TessBaseAPI.VAR_CHAR_WHITELIST,
                     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789/-♀♂");
 
-            nidoFemale = pokeInfoCalculator.get(28).name;
-            nidoMale = pokeInfoCalculator.get(31).name;
-            nidoUngendered = nidoFemale.replace("♀", "").toLowerCase();
-
             ocrCache = new LruCache<>(200);
-            appraisalCache = new LruCache<>(200);
 
             instance = new OcrHelper();
         }
@@ -98,11 +91,6 @@ public class OcrHelper {
         GoIVSettings settings = GoIVSettings.getInstance(pokefly);
 
         isPokeSpamEnabled = settings.isPokeSpamEnabled();
-
-        Map<String, String> appraisalMap = settings.loadAppraisalCache();
-        for (Map.Entry<String, String> entry : appraisalMap.entrySet()) {
-            appraisalCache.put(entry.getKey(), entry.getValue());
-        }
 
         return instance;
     }
@@ -115,7 +103,6 @@ public class OcrHelper {
         }
         instance = null;
         ocrCache = null;
-        appraisalCache = null;
     }
 
     /**
@@ -169,50 +156,6 @@ public class OcrHelper {
         return dstBitmap;
     }
 
-    private static Bitmap replaceColors(Bitmap srcBitmap, boolean mutateSrc,
-                                        int r, int g, int b, @Nullable Integer replaceColor,
-                                        @Nullable Float dH, @Nullable Float dS, @Nullable Float dV) {
-        int[] allPixels = new int[srcBitmap.getHeight() * srcBitmap.getWidth()];
-        srcBitmap.getPixels(allPixels, 0, srcBitmap.getWidth(), 0, 0, srcBitmap.getWidth(), srcBitmap.getHeight());
-
-        final int bgColor;
-        if (replaceColor != null) {
-            bgColor = replaceColor;
-        } else {
-            bgColor = allPixels[0]; // Sample the top left color to use as background
-        }
-
-        float[] targetHsv = new float[3];
-        Color.RGBToHSV(r, g, b, targetHsv);
-
-        float[] currentHsv = new float[3];
-        for (int i = 0; i < allPixels.length; i++) {
-            if (allPixels[i] == bgColor) {
-                continue;
-            }
-
-            Color.colorToHSV(allPixels[i], currentHsv);
-
-            if (dH != null && Math.abs(targetHsv[0] - currentHsv[0]) > dH) { // Check hue
-                allPixels[i] = bgColor;
-
-            } else if (dS != null && Math.abs(targetHsv[1] - currentHsv[1]) > dS) { // Check saturation
-                allPixels[i] = bgColor;
-
-            } else if (dV != null && Math.abs(targetHsv[2] - currentHsv[2]) > dV) { // Check value
-                allPixels[i] = bgColor;
-            }
-        }
-
-        Bitmap dstBitmap;
-        if (mutateSrc) {
-            dstBitmap = srcBitmap;
-        } else {
-            dstBitmap = Bitmap.createBitmap(srcBitmap.getWidth(), srcBitmap.getHeight(), srcBitmap.getConfig());
-        }
-        dstBitmap.setPixels(allPixels, 0, srcBitmap.getWidth(), 0, 0, srcBitmap.getWidth(), srcBitmap.getHeight());
-        return dstBitmap;
-    }
 
     /**
      * Scans the arc and tries to determine the pokemon level, returns 1 if nothing found.
@@ -225,7 +168,7 @@ public class OcrHelper {
         double previousEstPokemonLevel = estimatedPokemonLevel + 0.5; // Initial value out of range
         int previousLevelDistance = -1; // Initial value indicating no found white pixels
         for (double estPokemonLevel = estimatedPokemonLevel; estPokemonLevel >= 1.0; estPokemonLevel -= 0.5) {
-            int index = Data.maxPokeLevelToIndex(estPokemonLevel);
+            int index = Data.levelToLevelIdx(estPokemonLevel);
             int x = Data.arcX[index];
             int y = Data.arcY[index];
             int whiteLineDistance = getCardinalWhiteLineDistFromImg(pokemonImage, x, y);
@@ -292,10 +235,12 @@ public class OcrHelper {
      */
     private static Optional<Integer> getPokemonEvolutionCostFromImgUncached(@NonNull Bitmap evolutionCostImage) {
         //clean the image
-        //the dark color used for text in pogo is approximately rgb 76,112,114 if you can afford evo
-        //and the red color is rgb 255 95 100 when you cant afford the evolution
+
+        //Could use DEAFULT_FONT_COLOR, but hardcoded instead
         Bitmap evolutionCostImageCanAfford = replaceColors(evolutionCostImage, false, 68, 105, 108, Color.WHITE, 30,
                 false);
+
+        //Could use CANT_AFFORD_FONT_COLOR, but hardcoded instead.
         Bitmap evolutionCostImageCannotAfford = replaceColors(evolutionCostImage, false, 255, 115, 115, Color.WHITE, 40,
                 false);
 
@@ -342,14 +287,72 @@ public class OcrHelper {
      * @return the evolution cost (or -1 if absent) wrapped in Optional.of(), or Optional.absent() on scan failure
      */
     private static Optional<Integer> getPokemonEvolutionCostFromImg(@NonNull Bitmap pokemonImage,
+
                                                                     @Nullable ScanArea evolutionCostArea) {
         Bitmap evolutionCostImage = null;
+
+        //Since 'new attack' button is at the same place as "evolve" on max evolutions, we need to make sure
+        //We're not wrongly reading a 'new attack' button. Check this by scanning left of evolutionCostImage, and
+        //looking for a specific color that evolve button doesnt have.
+        Bitmap leftOfEvolutionCostImage = null;
         if (evolutionCostArea != null) {
             evolutionCostImage = getImageCrop(pokemonImage, evolutionCostArea);
+
+            leftOfEvolutionCostImage = Bitmap.createBitmap(pokemonImage,
+                    evolutionCostArea.xPoint-evolutionCostArea.width,//-evolutionCostArea.width,
+                    evolutionCostArea.yPoint,
+                    evolutionCostArea.width,
+                    evolutionCostArea.height);
+            //xstart,ystart,xwidth,
+            // ywidth)
+
         }
         if (evolutionCostImage == null) {
             evolutionCostImage = getImageCrop(pokemonImage, 0.625, 0.815, 0.2, 0.03);
         }
+
+        boolean isNewAttackButton = false;
+
+        //Run through a row of pixels to the left of the evolution cost number, to see if there's 'new attack' text
+        //The dark-green ish text for the stardust has the color code rgb: 71 108 110 (not exact near edges & anti
+        // aliasing)
+        //The block counts the number of text pixels, and checks the % that is text. Evolutions that require
+        // evolution stones only have a '1', which should not count as a 'new attack button' field.
+
+       // The color code for 'cant afford' text is approximately rgb 255 95 100
+
+        if (leftOfEvolutionCostImage != null){
+            int middle = leftOfEvolutionCostImage.getHeight()/2;
+            int amountOfTextPixels = 0;
+            int amountOfPinkBackgroundPixels = 0; //evolutions that require items have pink-ish background
+            for (int i = 0; i < leftOfEvolutionCostImage.getWidth(); i++) {
+                int color = leftOfEvolutionCostImage.getPixel(i, middle);
+                boolean normalRange = isInColorRange(color, DEFAULT_FONT_COLOR, 6);
+                boolean cantAffordRange = isInColorRange(color, CANT_AFFORD_FONT_COLOR, 6); //if user
+                //cant afford the stardust cost
+
+                if (isInColorRange(color, Color.rgb(252,231,239), 3)){
+                    amountOfPinkBackgroundPixels++;
+                }
+
+                if (normalRange || cantAffordRange) {
+                    amountOfTextPixels++;
+                }
+
+
+            }
+            double percentTextPixels = amountOfTextPixels / (double) leftOfEvolutionCostImage.getWidth();
+            double percentPinkBackground = amountOfPinkBackgroundPixels / (double) leftOfEvolutionCostImage.getWidth();
+            boolean isPinkBackground = percentPinkBackground > 0.3;
+            if (percentTextPixels > 0.04 && isPinkBackground== false){
+                //An evolution stone with '1' cost results in approx 5% text pixels
+                isNewAttackButton = true;
+            }
+        }
+        if (isNewAttackButton){
+            return Optional.of(-1);
+        }
+
 
         String hash = "candyCost" + hashBitmap(evolutionCostImage);
 
@@ -378,6 +381,31 @@ public class OcrHelper {
             ocrCache.put(hash, ocrResult);
         }
         return result;
+    }
+
+    /**
+     * Checks if the rgb value of an input color is within +- distance on the R, G and B channel.
+     * For example, the color 100,100,100 and the color 100,110,110 distance 15 would fail, because both G and B
+     * channels are outside the range.
+     * @param inputColor
+     * @param matchWithColor
+     * @param allowedDistance
+     * @return
+     */
+    public static boolean isInColorRange(int inputColor, int matchWithColor, int allowedDistance) {
+        int red = Color.red(inputColor);
+        int green = Color.green(inputColor);
+        int blue = Color.blue(inputColor);
+
+        int matchRed = Color.red(matchWithColor);
+        int matchGreen = Color.green(matchWithColor);
+        int matchBlue = Color.blue(matchWithColor);
+
+        boolean redInRange = red > matchRed - allowedDistance && red < matchRed + allowedDistance;
+        boolean blueInRange = blue > matchBlue - allowedDistance && blue < matchBlue + allowedDistance;
+        boolean greenInRange = green > matchGreen - allowedDistance && green < matchGreen + allowedDistance;
+
+        return redInRange && blueInRange && greenInRange;
     }
 
     /**
@@ -435,7 +463,7 @@ public class OcrHelper {
             }
         }
 
-        movesetImage = replaceColors(movesetImage, true, 68, 105, 108, null, 3f, null, 0.1f);
+        movesetImage = replaceColors(movesetImage, true, 68, 105, 108, Color.BLACK, 50, false);
 
         tesseract.setImage(movesetImage);
         tesseract.setPageSegMode(TessBaseAPI.PageSegMode.PSM_SINGLE_BLOCK);
@@ -557,11 +585,17 @@ public class OcrHelper {
         refinedImage.getPixels(pixelArray, 0, refinedImage.getWidth(), 0, refinedImage.getHeight() / 2, refinedImage
                 .getWidth(), 1);
 
+        int numNonWhitePixels = 0;
         for (int pixel : pixelArray) {
             if (pixel != Color.rgb(255, 255, 255)) { // if pixel is not white
-                return false;
+                numNonWhitePixels++;
             }
         }
+        float percentNonWhite = (float) numNonWhitePixels / (float) pixelArray.length;
+        if (percentNonWhite > 0.013){
+            return false;
+        }
+
         return true;
     }
 
@@ -585,8 +619,9 @@ public class OcrHelper {
      * Correct some OCR errors in argument where only numbers are expected.
      */
     private static String fixOcrLettersToNums(String src) {
-        return src.replace("S", "5").replace("s", "5").replace("O", "0").replace("B", "8").replace("o",
-                "0").replace("l", "1").replace("I", "1").replace("i", "1").replace("Z", "2").replaceAll("[^0-9]", "");
+        return src.trim().replace("S", "5").replace("s", "5").replace("O", "0").replace("B", "8")
+                .replace("o", "0").replace("l", "1").replace("I", "1").replace("i", "1").replace("Z", "2")
+                .replaceAll("[^0-9]+$", "");
     }
 
     /**
@@ -613,9 +648,6 @@ public class OcrHelper {
             name = replaceColors(name, true, 68, 105, 108, Color.WHITE, 200, true);
             tesseract.setImage(name);
             pokemonName = fixOcrNumsToLetters(tesseract.getUTF8Text().replace(" ", ""));
-            if (isNidoranName(pokemonName)) {
-                pokemonName = getNidoranGenderName(pokemonGender);
-            }
             ocrCache.put(hash, pokemonName);
         }
         return pokemonName;
@@ -652,7 +684,7 @@ public class OcrHelper {
      * Get the pokemon gender as analysed from a pokemon image.
      *
      * @param pokemonImage The image of the whole screen
-     * @return Optional.of("♂") if the pokémon is male, Optional.of("♀") if female, Optional.absent() otherwise
+     * @return Optional.of(" ♂ ") if the pokémon is male, Optional.of("♀") if female, Optional.absent() otherwise
      */
     public static Pokemon.Gender getPokemonGenderFromImg(@NonNull Bitmap pokemonImage, @Nullable ScanArea genderArea) {
         Bitmap genderImage = null;
@@ -777,27 +809,7 @@ public class OcrHelper {
     }
 
     /**
-     * Get the correctly gendered name of a pokemon.
-     *
-     * @param pokemonGender The gender of the nidoranX.
-     * @return The correct name of the pokemon, with the gender symbol at the end.
-     */
-    @NonNull
-    private static String getNidoranGenderName(Pokemon.Gender pokemonGender) {
-        switch (pokemonGender) {
-            case F: return nidoFemale;
-            case M: return nidoMale;
-            default: return "";
-        }
-    }
-
-    private static boolean isNidoranName(String pokemonName) {
-        return StringUtils.normalize(pokemonName).contains(StringUtils.normalize(nidoUngendered));
-    }
-
-    /**
-     * Gets the candy name from a pokenon image.
-     * The candy name is returned as normalized text.
+     * Gets the candy name from a pokemon image.
      *
      * @param pokemonImage the image of the whole screen
      * @return the candy name, or "" if nothing was found
@@ -819,22 +831,32 @@ public class OcrHelper {
         if (candyName == null) {
             candy = replaceColors(candy, true, 68, 105, 108, Color.WHITE, 200, true);
             tesseract.setImage(candy);
-            String candyText = tesseract.getUTF8Text();
-            String candyWordLocale = pokeflyRef.get().getResources().getString(R.string.candy);
-
-            candyText = fixOcrNumsToLetters(candyText);
-
-            // remove characters not included in pokemon names or candy word. (ex. white space, -, etc)
-            candyText = candyText.replaceAll("[^\\w♂♀]", "");
-
-            candyText = StringUtils.normalize(candyText);
-            candyName = candyText.replace(StringUtils.normalize(candyWordLocale), "");
-            if (isNidoranName(candyName)) {
-                candyName = StringUtils.normalize(getNidoranGenderName(pokemonGender));
-            }
+            candyName = tesseract.getUTF8Text();
+            candyName = fixOcrNumsToLetters(candyName);
             ocrCache.put(hash, candyName);
         }
         return candyName;
+    }
+
+    private static List<String> getCandyNamesFromImg(@NonNull Bitmap pokemonImage,
+                                                     @NonNull Pokemon.Gender pokemonGender,
+                                                     @Nullable ScanArea candyNameArea) {
+        int img_w = pokemonImage.getWidth();
+        int img_h = pokemonImage.getHeight();
+        int area_y = (int)(0.678 * img_h);
+        int area_h = (int)(0.026 * img_h);
+
+        if (candyNameArea != null) {
+            area_y = candyNameArea.yPoint;
+            area_h = candyNameArea.height;
+        }
+
+        // TODO: Get both scan areas from config instead of hacking them like this
+        ScanArea candyNameArea_3 = new ScanArea((int)(0.34*img_w), area_y, (int)(0.31*img_w), area_h);
+        ScanArea candyNameArea_24 = new ScanArea((int)(0.5*img_w), area_y, (int)(0.47*img_w), area_h);
+
+        return Arrays.asList(getCandyNameFromImg(pokemonImage, pokemonGender, candyNameArea_3),
+                             getCandyNameFromImg(pokemonImage, pokemonGender, candyNameArea_24));
     }
 
     /**
@@ -995,11 +1017,9 @@ public class OcrHelper {
         if (mergeRect != null) {
             tesseract.setRectangle(mergeRect);
         }
-        String cpText = tesseract.getUTF8Text();
-        cpText = fixOcrLettersToNums(cpText);
 
         try {
-            return Optional.of(Integer.parseInt(fixOcrLettersToNums(cpText)));
+            return Optional.of(Integer.parseInt(fixOcrLettersToNums(tesseract.getUTF8Text())));
         } catch (NumberFormatException e) {
             return Optional.absent();
         }
@@ -1062,7 +1082,6 @@ public class OcrHelper {
         return Optional.absent();
     }
 
-
     /**
      * scanPokemon
      * Performs OCR on an image of a pokemon and returns the pulled info.
@@ -1075,77 +1094,162 @@ public class OcrHelper {
                                 @NonNull Bitmap pokemonImage,
                                 int trainerLevel,
                                 boolean requestFullScan) {
+
+        if (requestFullScan){
+            rememberGUIAccentColorBasedOnScan(pokemonImage);
+        }
         ensureCorrectLevelArcSettings(settings, trainerLevel); //todo, make it so it doesnt initiate on every scan?
+        int totalOffset = 0;
+        double offsetBase; // offsets are calculated off height of powerup candy cost field. Double to retain precision
+        // Since we only care about height, its fine that we don't know the proper offset yet
+        ScanArea powerUpCandyArea = ScanArea.calibratedFromSettings(POKEMON_POWER_UP_CANDY_COST, settings);
+        if (powerUpCandyArea == null) {
+            offsetBase = 0.0247 * pokemonImage.getHeight();
+            Toast.makeText(pokeflyRef.get(), "Please update GoIV recalibration on a normal unlucky Pokemon with at "
+                    + "most two candy types.", Toast
+                    .LENGTH_SHORT).show();
+        } else {
+            offsetBase = powerUpCandyArea.height;
+        }
 
-        Optional<Integer> powerUpStardustCost = Optional.absent();
-        /*Optional<Integer> powerUpStardustCost = getPokemonPowerUpStardustCostFromImg(tesseract, ocrCache,
-                pokemonImage, ScanArea.calibratedFromSettings(POKEMON_POWER_UP_STARDUST_COST, settings));*/
-        Optional<Integer> powerUpCandyCost = getPokemonPowerUpCandyCostFromImg(pokemonImage,
-                ScanArea.calibratedFromSettings(POKEMON_POWER_UP_CANDY_COST, settings));
+        /* Scan fields more or less top to bottom. */
+        // Level Arc skipped so power up cost can be used to refine
 
-        int luckyOffset = 0;
-        // If no power up cost was found, check by offsetting down by the height of the
+        Optional<Integer> cp = getPokemonCPFromImg(pokemonImage,
+                ScanArea.calibratedFromSettings(POKEMON_CP_AREA, settings));
+
+        // Name skipped for help from gender
+
+        Optional<Integer> hp = getPokemonHPFromImg(pokemonImage,
+                ScanArea.calibratedFromSettings(POKEMON_HP_AREA, settings, 0));
+        // If no hp was found, check by offsetting down by the height of the
         // "LUCKY POKEMON" string, which is slightly higher than the power up candy cost field
-        if (!powerUpCandyCost.isPresent()) {
-            int tempLuckyOffset = (int) (0.0247 * pokemonImage.getHeight() * 1.2); // Default value w/o calibration
-            ScanArea powerUpCandyArea = ScanArea.calibratedFromSettings(POKEMON_POWER_UP_CANDY_COST, settings);
-            if (powerUpCandyArea != null) {
-                tempLuckyOffset = (int) (powerUpCandyArea.height * 1.2);
-            }
+        if (!hp.isPresent()) {
+            int luckyOffset = (int) (offsetBase * 1.2);
+            hp = getPokemonHPFromImg(pokemonImage,
+                    ScanArea.calibratedFromSettings(POKEMON_HP_AREA, settings, totalOffset + luckyOffset));
 
-            powerUpCandyCost = getPokemonPowerUpCandyCostFromImg(pokemonImage,
-                    ScanArea.calibratedFromSettings(POKEMON_POWER_UP_CANDY_COST, settings, tempLuckyOffset));
-            if (powerUpCandyCost.isPresent()) {
+            if (hp.isPresent()) {
                 // Found successfully; assume this is a lucky pokemon and offset all further scans below that line
-                luckyOffset = tempLuckyOffset;
+                totalOffset += luckyOffset;
             }
         }
 
+        Pokemon.Gender gender = getPokemonGenderFromImg(pokemonImage,
+                ScanArea.calibratedFromSettings(POKEMON_GENDER_AREA, settings, totalOffset));
+
+        // Name needs help from gender.
+        String name = getPokemonNameFromImg(pokemonImage, gender,
+                ScanArea.calibratedFromSettings(POKEMON_NAME_AREA, settings)); // Not offset for lucky
+
+        String type = getPokemonTypeFromImg(pokemonImage,
+                ScanArea.calibratedFromSettings(POKEMON_TYPE_AREA, settings, totalOffset));
+
+        List<String> candyNames = getCandyNamesFromImg(pokemonImage, gender,
+                ScanArea.calibratedFromSettings(CANDY_NAME_AREA, settings, totalOffset));
+
+        Optional<Integer> candyAmount;
+        if (requestFullScan && isPokeSpamEnabled) {
+            candyAmount = getCandyAmountFromImg(pokemonImage,
+                    ScanArea.calibratedFromSettings(POKEMON_CANDY_AMOUNT_AREA, settings, totalOffset));
+        } else {
+            candyAmount = Optional.absent();
+        }
+
+        Optional<Integer> powerUpCandyCost = getPokemonPowerUpCandyCostFromImg(pokemonImage,
+                ScanArea.calibratedFromSettings(POKEMON_POWER_UP_CANDY_COST, settings, totalOffset));
+        // Check if candy names wrapped to second line (with one row of candies)
+        if (!powerUpCandyCost.isPresent()) {
+            int candyOffset = (int) (offsetBase * 0.8);
+            powerUpCandyCost = getPokemonPowerUpCandyCostFromImg(pokemonImage,
+                    ScanArea.calibratedFromSettings(POKEMON_POWER_UP_CANDY_COST, settings, totalOffset + candyOffset));
+            if (powerUpCandyCost.isPresent()) {
+                // Found successfully; Assume this pokemon has its candy names wrapped to a second line
+                totalOffset += candyOffset;
+            }
+        }
+        // Check if there's two rows of candies
+        if (!powerUpCandyCost.isPresent()) {
+            // Check if candy names wrapped to second line (with one row of candies)
+            int candyOffset = (int) (powerUpCandyArea.height * 3.2);
+            powerUpCandyCost = getPokemonPowerUpCandyCostFromImg(pokemonImage,
+                    ScanArea.calibratedFromSettings(POKEMON_POWER_UP_CANDY_COST, settings, totalOffset + candyOffset));
+
+            if (powerUpCandyCost.isPresent()) {
+                // Found successfully; Assume this pokemon has two rows of candies
+                totalOffset += candyOffset;
+            }
+        }
+
+        Optional<Integer> powerUpStardustCost = Optional.absent();
+        /*Optional<Integer> powerUpStardustCost = getPokemonPowerUpStardustCostFromImg(pokemonImage,
+                ScanArea.calibratedFromSettings(POKEMON_POWER_UP_STARDUST_COST, settings, totalOffset));*/
+
+        Optional<Integer> evolutionCost = getPokemonEvolutionCostFromImg(pokemonImage,
+                ScanArea.calibratedFromSettings(POKEMON_EVOLUTION_COST_AREA, settings, totalOffset));
+
+        // Level needs help from candy cost
         double estimatedPokemonLevel = getPokemonLevelFromImg(pokemonImage, trainerLevel);
         LevelRange estimatedLevelRange =
                 refineLevelEstimate(trainerLevel, powerUpCandyCost, estimatedPokemonLevel);
 
-        String type = getPokemonTypeFromImg(pokemonImage,
-                ScanArea.calibratedFromSettings(POKEMON_TYPE_AREA, settings, luckyOffset));
-        Pokemon.Gender gender = getPokemonGenderFromImg(pokemonImage,
-                ScanArea.calibratedFromSettings(POKEMON_GENDER_AREA, settings, luckyOffset));
-        String name;
-        if (requestFullScan) {
-            name = getPokemonNameFromImg(pokemonImage, gender,
-                    ScanArea.calibratedFromSettings(POKEMON_NAME_AREA, settings)); // Not offset for lucky
-        } else {
-            name = "";
-        }
-        String candyName = getCandyNameFromImg(pokemonImage, gender,
-                ScanArea.calibratedFromSettings(CANDY_NAME_AREA, settings, luckyOffset));
-        Optional<Integer> hp = getPokemonHPFromImg(pokemonImage,
-                ScanArea.calibratedFromSettings(POKEMON_HP_AREA, settings, luckyOffset));
-        Optional<Integer> cp = getPokemonCPFromImg(pokemonImage,
-                ScanArea.calibratedFromSettings(POKEMON_CP_AREA, settings)); // Not offset for lucky
-        Optional<Integer> candyAmount;
-        if (requestFullScan && isPokeSpamEnabled) {
-            candyAmount = getCandyAmountFromImg(pokemonImage,
-                    ScanArea.calibratedFromSettings(POKEMON_CANDY_AMOUNT_AREA, settings, luckyOffset));
-        } else {
-            candyAmount = Optional.absent();
-        }
-        Optional<Integer> evolutionCost = getPokemonEvolutionCostFromImg(pokemonImage,
-                ScanArea.calibratedFromSettings(POKEMON_EVOLUTION_COST_AREA, settings, luckyOffset));
-        Pair<String, String> moveset = getMovesetFromImg(pokemonImage,
-                estimatedLevelRange,
-                ScanArea.calibratedFromSettings(POKEMON_POWER_UP_CANDY_COST, settings, luckyOffset),
-                ScanArea.calibratedFromSettings(POKEMON_EVOLUTION_COST_AREA, settings, luckyOffset));
-        String moveFast = null;
-        String moveCharge = null;
-        if (moveset != null) {
-            moveFast = moveset.first;
-            moveCharge = moveset.second;
-        }
-        String uniqueIdentifier = name + type + candyName + hp.toString() + cp
+        String uniqueIdentifier = name + type + candyNames.get(0) + candyNames.get(1) + hp.toString() + cp
                 .toString() + powerUpStardustCost.toString() + powerUpCandyCost.toString();
 
-        return new ScanData(estimatedLevelRange, name, type, candyName, gender, hp, cp, candyAmount, evolutionCost,
-                powerUpStardustCost, powerUpCandyCost, moveFast, moveCharge, (luckyOffset != 0), uniqueIdentifier);
+        return new ScanData(estimatedLevelRange, name, type, candyNames, gender, hp, cp, candyAmount, evolutionCost,
+                powerUpStardustCost, powerUpCandyCost, null, null, (totalOffset != 0), uniqueIdentifier);
+    }
+
+    /**
+     * Saves an accent color usable for the GUI overlay in the GUIColorFromPokeType class. The class is async,
+     * so it doesnt update the value in GUIColorFromPokeType instantly.
+     * @param pokemonImage
+     */
+    private void rememberGUIAccentColorBasedOnScan(Bitmap pokemonImage) {
+//        int top = (int) (pokemonImage.getHeight() * 0.30);
+//        int bot = (int) (pokemonImage.getHeight() * 0.35);
+//        int left = (int) (pokemonImage.getWidth() * 0.45);
+//        int right = (int) (pokemonImage.getWidth() * 0.55);
+
+       int top = (int) (pokemonImage.getHeight() * 0.195);
+       int bot = (int) (pokemonImage.getHeight() * 0.35);
+       int left = (int) (pokemonImage.getWidth() * 0.4);
+       int right = (int) (pokemonImage.getWidth() * 0.6);
+
+        Palette.Filter filter = new Palette.Filter() {
+            @Override public boolean isAllowed(int rgb, @NonNull float[] hsl) {
+                if (hsl[2] > 0.7){
+                    //too bright
+                    return false;
+                }
+                if (hsl[2] < 0.2){
+                    //too dark
+                    return false;
+                }
+                if (hsl[0] > (30/360f) && hsl[0] < (60/360f)){
+                    //Too yellow
+                    return false;
+                }
+
+                return true;
+            }
+        };
+        Palette.from(pokemonImage).setRegion(left, top, right, bot).addFilter(filter).generate(new Palette
+                .PaletteAsyncListener() {
+            public void onGenerated(Palette p) {
+                int color = p.getDarkVibrantColor(0);
+                if (color == 0) { //failed to find dark vibrant color, try getting a dark muted
+                    color = p.getDarkMutedColor(0);
+                } //Couldnt auto find color, use default primary color
+                if (color == 0) {
+                    color = Color.rgb(90, 90, 90);
+                }
+
+                GUIColorFromPokeType.getInstance().setColor(color);
+
+
+            }
+        });
     }
 
     /**
@@ -1163,22 +1267,27 @@ public class OcrHelper {
         }
 
         int scannedPowerUpCost = pokemonPowerUpCandyCost.get();
-        if (!Data.isValidPowerUpCandyCost(scannedPowerUpCost)) {
+        boolean matches = false;
+        for (double level = 1; level < Data.MAXIMUM_POKEMON_LEVEL; level += 0.5) {
+            if (Data.costForLevel(level).getAnyCandy() == scannedPowerUpCost) {
+                matches = true;
+                break;
+            }
+        }
+        if (!matches) {
             return new LevelRange(estimatedPokemonLevel); // The scanned power up candy cost is invalid
         }
 
         // If scanned arc-level is maxed out, we need to consider that the pokemon might have an even higher level.
         double higherBound = estimatedPokemonLevel;
         for (double level = estimatedPokemonLevel + 0.5; level <= Data.MAXIMUM_WILD_POKEMON_LEVEL; level += 0.5) {
-            int powerUpCostForLevel = Data.POWER_UP_CANDY_COSTS[Data.maxPokeLevelToIndex(level)];
+            // It either costs candy or candy xl only!
+            int powerUpCostForLevel = Data.costForLevel(level).getAnyCandy();
             if (powerUpCostForLevel == scannedPowerUpCost) {
                 if (higherBound < level) {
                     // Found a higher level with the same candy power up cost
                     higherBound = level;
                 }
-            } else if (powerUpCostForLevel > scannedPowerUpCost) {
-                // Costs are ascending ordered. There won't be a cost equal to the input in the array.
-                break;
             }
         }
 
@@ -1229,47 +1338,6 @@ public class OcrHelper {
             int arcRadius = Integer.valueOf(settings.getCalibrationValue(ARC_RADIUS));
             Data.setupArcPoints(arcInit, arcRadius, trainerLevel);
         }
-    }
-
-    /**
-     * Reads the bottom part of the screen and returns the text there.
-     *
-     * @param screen The full phone screen.
-     * @return String of whats on the bottom of the screen.
-     */
-    public static String getAppraisalText(@NonNull GoIVSettings settings,
-                                          @NonNull Bitmap screen) {
-        double appraisalBoxHeightFactor = 0.13;
-        double appraisalBoxStartYFactor =
-                (double)(screen.getHeight() - getNavigationBarHeight()) / screen.getHeight() - appraisalBoxHeightFactor;
-
-        Bitmap bottom = getImageCrop(screen, 0.05, appraisalBoxStartYFactor, 0.90, appraisalBoxHeightFactor);
-        String hash = "appraisal" + hashBitmap(bottom);
-        String appraisalText = appraisalCache.get(hash);
-
-        if (appraisalText == null) {
-            //68,105,108 is the color of the appraisal text
-            bottom = replaceColors(bottom, true, 68, 105, 108, Color.WHITE, 100, true);
-            tesseract.setImage(bottom);
-            //Set tesseract not single line mode
-            tesseract.setPageSegMode(TessBaseAPI.PageSegMode.PSM_SINGLE_BLOCK);
-            appraisalText = tesseract.getUTF8Text();
-            appraisalCache.put(hash, appraisalText);
-            settings.saveAppraisalCache(appraisalCache.snapshot());
-        }
-
-        return hash + "#" + appraisalText;
-
-    }
-
-    /**
-     * Removes an entry from the ocrCache.
-     *
-     * @param hash The hash of the entry to remove.
-     */
-    public static void removeEntryFromAppraisalCache(@NonNull GoIVSettings settings, @NonNull String hash) {
-        appraisalCache.remove(hash);
-        settings.saveAppraisalCache(appraisalCache.snapshot());
     }
 
     private static int getNavigationBarHeight() {

@@ -118,7 +118,7 @@ public abstract class ClipboardToken {
         //If-else below exists to manage scenario where pokemon has multiple evolution possibilities, so for example
         //If you scan a vaporeon, it has no evolutions, so there's no need to go to the bottom of the evolution chain
         // and find jolteon.. or whatever eeveelution is last.
-        if (poke.evolutions.size() != 0) {
+        if (poke.getEvolutions().size() != 0) {
             ArrayList<Pokemon> evLine = pokeInfoCalculator.getEvolutionLine(poke);
             lastEv = evLine.get(evLine.size() - 1);
         } else {

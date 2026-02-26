@@ -24,7 +24,7 @@ repositories {
  * Apply plugins and other Gradle scripts
  */
 apply plugin: 'com.android.application'
-apply plugin: 'io.fabric'
+//apply plugin: 'io.fabric'
 apply from: '../checkstyle/checkstyle.gradle'
 
 /**
@@ -53,7 +53,7 @@ android {
      * Set configuration for signing release builds with keystore properties defined above
      */
     signingConfigs {
-        releaseConfig {
+        githubConfig {
             keyAlias keystoreProperties['keyAlias']
             keyPassword keystoreProperties['keyPassword']
             storeFile file(keystoreProperties['storeFile'])
@@ -71,8 +71,7 @@ android {
      * Android SDK and build-tools version
      * Update (both Gradle and local SDK) whenever possible
      */
-    compileSdkVersion 27
-    buildToolsVersion '27.0.3'
+    compileSdkVersion 30
 
     /**
      * Build configurations for APK
@@ -82,9 +81,9 @@ android {
      */
     defaultConfig {
         minSdkVersion 19 /*Dont change this unless you know why*/
-        targetSdkVersion 27 /*Dont change this unless you know why*/
-        versionCode 51
-        versionName "5.1.0"
+        targetSdkVersion 29 /*Dont change this unless you know why*/
+        versionCode 69
+        versionName "5.5.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
@@ -98,6 +97,7 @@ android {
 
     productFlavors {
         offline {
+            signingConfig signingConfigs.githubConfig
             applicationId "com.swanberg.pogoiv.nointernet"
             buildConfigField "boolean", "INTERNET_AVAILABLE", "false"
             buildConfigField "boolean", "DISTRIBUTION_GITHUB", "true"
@@ -107,6 +107,7 @@ android {
         }
 
         online {
+            signingConfig signingConfigs.githubConfig
             applicationId "com.swanberg.pogoiv"
             buildConfigField "boolean", "INTERNET_AVAILABLE", "true"
             buildConfigField "boolean", "DISTRIBUTION_GITHUB", "true"
@@ -116,6 +117,7 @@ android {
         }
 
         playstore {
+            signingConfig signingConfigs.playstoreConfig
             applicationId = "org.opensource.goiv"
             buildConfigField "boolean", "INTERNET_AVAILABLE", "true"
             buildConfigField "boolean", "DISTRIBUTION_GITHUB", "false"
@@ -143,8 +145,6 @@ android {
             lintOptions {
                 disable 'MissingTranslation'
             }
-            productFlavors.online.signingConfig signingConfigs.releaseConfig
-            productFlavors.playstore.signingConfig signingConfigs.playstoreConfig
         }
     }
 
@@ -159,6 +159,12 @@ android {
         onlineRelease {
             // Contains the io.fabric.ApiKey meta-data
             manifest.srcFile 'src/onlineRelease/FabricManifest.xml'
+        }
+    }
+
+    android.applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "GoIV-${variant.name}.${variant.versionName}.apk"
         }
     }
 }
@@ -195,7 +201,12 @@ dependencies {
     implementation 'info.hoang8f:android-segmented:1.0.6'
     implementation 'io.apptik.widget:multislider:1.2'
     implementation 'com.pavelsikun:material-seekbar-preference:2.3.0'
+    implementation 'com.android.support:palette-v7:27.1.1'
     implementation project(':openCVLibrary330')
+
+    /* for devMethods.thirdparty.pokebattler, temporally set for All Builds */
+//    implementation 'org.json:json:20160810' //used to generate moveset list
+    implementation 'com.squareup.okhttp3:okhttp:3.7.0'//used to generate moveset list
 
     /**
      * Online Build Dependencies
@@ -220,8 +231,6 @@ dependencies {
     testImplementation 'org.mockito:mockito-core:1.10.19'
     testImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    testImplementation 'org.json:json:20160810' //used to generate moveset list
-    testImplementation 'com.squareup.okhttp3:okhttp:3.7.0'//used to generate moveset list
 }
 
 /**

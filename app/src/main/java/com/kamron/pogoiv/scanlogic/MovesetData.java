@@ -7,12 +7,11 @@ import java.util.Objects;
 
 /**
  * Created by Johan on 2018-02-19.
- * <p>
+ *
  * A class which represents the data of a moveset, which is used by the MoveSetFraction to create the moveset list.
  */
 
 public class MovesetData {
-
     private String fast;
     private String charge;
     private String fastKey;
@@ -23,9 +22,6 @@ public class MovesetData {
     private Double defScore;
     private String fastMoveType;
     private String chargeMoveType;
-
-
-
 
     /**
      * Create a new Moveset.
@@ -38,8 +34,6 @@ public class MovesetData {
         this.charge = charge;
     }
 
-
-
     public MovesetData(String quick,
                        String charge,
                        boolean quickIsLegacy,
@@ -49,16 +43,16 @@ public class MovesetData {
                        String chargeMoveType,
                        String quickMoveType) {
 
-            this.fast = quick;
-            this.charge = charge;
-            this.fastMoveType = quickMoveType;
-            this.chargeMoveType = chargeMoveType;
-            this.fastIsLegacy = quickIsLegacy;
-            this.chargeIsLegacy = chargeIsLegacy;
-            this.atkScore = atkScore;
-            this.defScore = defScore;
-
+        this.fast = quick;
+        this.charge = charge;
+        this.fastMoveType = quickMoveType;
+        this.chargeMoveType = chargeMoveType;
+        this.fastIsLegacy = quickIsLegacy;
+        this.chargeIsLegacy = chargeIsLegacy;
+        this.atkScore = atkScore;
+        this.defScore = defScore;
     }
+
     /**
      * Create a new Moveset.
      *
@@ -159,10 +153,7 @@ public class MovesetData {
         }
     }
 
-
-
-
-    public static class Key implements Comparable<Key>{
+    public static class Key implements Comparable<Key> {
         private final String quick;
         private final String charge;
 
@@ -209,6 +200,7 @@ public class MovesetData {
             return retval;
         }
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -225,6 +217,5 @@ public class MovesetData {
     public int hashCode() {
         return Objects.hash(fast, charge);
     }
-
 
 }

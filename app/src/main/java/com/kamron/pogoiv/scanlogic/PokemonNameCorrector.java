@@ -1,15 +1,20 @@
 package com.kamron.pogoiv.scanlogic;
 
 
+import android.content.Context;
+import android.content.res.Resources;
 import android.support.annotation.NonNull;
 
 import com.google.common.base.Optional;
 
+import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.utils.StringUtils;
 
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import lombok.AllArgsConstructor;
 
@@ -21,10 +26,51 @@ import static com.kamron.pogoiv.scanlogic.Pokemon.Type;
  * Created by pgiarrusso on 5/9/2016.
  */
 public class PokemonNameCorrector {
+    private static PokemonNameCorrector instance;
     private final PokeInfoCalculator pokeInfoCalculator;
+    private final Map<String, Pokemon> normalizedPokemonNameMap;
+    private final Map<String, Pokemon> normalizedCandyPokemons;
+    private final Map<Pokemon.Type, String> normalizedTypeNames;
+    private Resources res;
+    private static String nidoFemale;
+    private static String nidoMale;
+    private static String nidoUngendered;
 
-    public PokemonNameCorrector(PokeInfoCalculator pokeInfoCalculator) {
-        this.pokeInfoCalculator = pokeInfoCalculator;
+    private PokemonNameCorrector(Context context) {
+        this.pokeInfoCalculator = PokeInfoCalculator.getInstance(context);
+
+        // create and cache the pokedex pokemons collection with normalized their names as keys
+        Map<String, Pokemon> pokemap = new HashMap<>();
+        for (PokemonBase pokemon : pokeInfoCalculator.getPokedex()) {
+            pokemap.put(StringUtils.normalize(pokemon.name), pokemon.forms.get(0));
+        }
+        this.normalizedPokemonNameMap = pokemap;
+        this.res = context.getResources();
+
+        nidoFemale = StringUtils.normalize(pokeInfoCalculator.get(28).name);
+        nidoMale = StringUtils.normalize(pokeInfoCalculator.get(31).name);
+        nidoUngendered = nidoFemale.replace("♀", "").toLowerCase();
+
+        // create and cache the normalized pokemon type locale name
+        this.normalizedTypeNames = new EnumMap<>(Pokemon.Type.class);
+        for (int i = 0; i < res.getStringArray(R.array.typeName).length; i++) {
+            this.normalizedTypeNames.put(Pokemon.Type.values()[i],
+                    StringUtils.normalize(res.getStringArray(R.array.typeName)[i]));
+        }
+
+        // create and cache the candy pokemons collection with normalized their names as keys
+        this.normalizedCandyPokemons = new HashMap<>();
+        for (PokemonBase pokemon : pokeInfoCalculator.getCandyPokemons()) {
+            this.normalizedCandyPokemons.put(StringUtils.normalize(pokemon.name), pokemon.forms.get(0));
+        }
+    }
+
+    public static PokemonNameCorrector getInstance(Context context) {
+        if (instance == null) {
+            instance = new PokemonNameCorrector(context);
+        }
+
+        return instance;
     }
 
     /**
@@ -42,15 +88,18 @@ public class PokemonNameCorrector {
      * @return a Pokedist with the best guess of the pokemon
      */
     public PokeDist getPossiblePokemon(@NonNull ScanData scanData) {
+        String normalizedPokemonName = getNormalizedPokemonName(scanData);
+        Pokemon bestGuessCandyPokemon = getBestGuessForCandyPokemon(getNormalizedCandyNames(scanData));
+        String normalizedBestGuessCandyName = StringUtils.normalize(bestGuessCandyPokemon.name);
         ArrayList<Pokemon> bestGuessEvolutionLine = null;
         PokeDist guess;
 
         //1. Check if nickname perfectly matches a pokemon (which means pokemon is probably not renamed)
-        guess = new PokeDist(pokeInfoCalculator.get(scanData.getPokemonName()), 0);
+        guess = new PokeDist(normalizedPokemonNameMap.get(normalizedPokemonName), 0);
 
         //2. See if we can get a perfect match with candy name & upgrade cost
         if (guess.pokemon == null) {
-            bestGuessEvolutionLine = getBestGuessForEvolutionLine(scanData.getCandyName());
+            bestGuessEvolutionLine = pokeInfoCalculator.getEvolutionLine(bestGuessCandyPokemon);
 
             ArrayList<Pokemon> candyNameEvolutionCostGuess =
                     getCandyNameEvolutionCostGuess(bestGuessEvolutionLine, scanData.getEvolutionCandyCost());
@@ -65,46 +114,34 @@ public class PokemonNameCorrector {
             }
         }
 
-
-        //3.  check correction for abnormal pokemon using Pokemon Type (such as eevees evolutions, azuril.)
+        // TODO: Can we make this not hardcoded?
+        //  See ApplicationDatabaseUpdater::printTypeDifferencesSuggestions in devMethods for implementation ideas
+        //3.  check correction for abnormal pokemon using Pokemon Type (such as eevees evolutions)
         if (guess.pokemon == null
-                && StringUtils.normalize(
-                        scanData.getCandyName()).contains(StringUtils.normalize(pokeInfoCalculator.get(132).name))) {
-            HashMap<String, String> eeveelutionCorrection = new HashMap<>();
-            eeveelutionCorrection.put(pokeInfoCalculator.getNormalizedType(Type.WATER),
-                    pokeInfoCalculator.get(133).name); //Vaporeon
-            eeveelutionCorrection.put(pokeInfoCalculator.getNormalizedType(Type.ELECTRIC),
-                    pokeInfoCalculator.get(134).name); //Jolteon
-            eeveelutionCorrection.put(pokeInfoCalculator.getNormalizedType(Type.FIRE),
-                    pokeInfoCalculator.get(135).name); //Flareon
-            eeveelutionCorrection.put(pokeInfoCalculator.getNormalizedType(Type.PSYCHIC),
-                    pokeInfoCalculator.get(195).name); //Espeon
-            eeveelutionCorrection.put(pokeInfoCalculator.getNormalizedType(Type.DARK),
-                    pokeInfoCalculator.get(196).name); //Umbreon
-            // Preparing for the future....
-            // eeveelutionCorrection.put(pokeInfoCalculator.getNormalizedType(Type.GRASS),
-            //         pokeInfoCalculator.get(469).name); //Leafeon
-            // eeveelutionCorrection.put(pokeInfoCalculator.getNormalizedType(Type.ICE),
-            //         pokeInfoCalculator.get(470).name); //Glaceon
-            // eeveelutionCorrection.put(pokeInfoCalculator.getNormalizedType(Type.FAIRY),
-            //         pokeInfoCalculator.get(699).name); //Sylveon
-            String normalizedPokemonType = StringUtils.normalize(scanData.getPokemonType());
-            if (eeveelutionCorrection.containsKey(normalizedPokemonType)) {
-                String name = eeveelutionCorrection.get(normalizedPokemonType);
-                guess = new PokeDist(pokeInfoCalculator.get(name), 0);
+                && normalizedBestGuessCandyName.equals(StringUtils.normalize(pokeInfoCalculator.get(132).name))) {
+            HashMap<String, Integer> eeveelutionCorrection = new HashMap<>();
+            eeveelutionCorrection.put(normalizePokemonType(Type.WATER), 133); //Vaporeon pokedex#
+            eeveelutionCorrection.put(normalizePokemonType(Type.ELECTRIC), 134); //Jolteon pokedex#
+            eeveelutionCorrection.put(normalizePokemonType(Type.FIRE), 135); //Flareon pokedex#
+            eeveelutionCorrection.put(normalizePokemonType(Type.PSYCHIC), 195); //Espeon pokedex#
+            eeveelutionCorrection.put(normalizePokemonType(Type.DARK),196); //Umbreon pokedex#
+            eeveelutionCorrection.put(normalizePokemonType(Type.GRASS), 469); //Leafeon pokedex#
+            eeveelutionCorrection.put(normalizePokemonType(Type.ICE), 470); //Glaceon pokedex#
+            // eeveelutionCorrection.put(normalizePokemonType(Type.FAIRY), 699); //Sylveon pokedex#
+            if (eeveelutionCorrection.containsKey(scanData.getNormalizedPokemonType())) {
+                int eeveelutionPokedexId = eeveelutionCorrection.get(scanData.getNormalizedPokemonType());
+                guess = new PokeDist(pokeInfoCalculator.getForm(eeveelutionPokedexId), 0);
             }
         }
 
         //3.1 Azuril and marill have the same evolution cost, but different types.
-        if (StringUtils.normalize(
-                scanData.getCandyName()).contains(StringUtils.normalize(pokeInfoCalculator.get(182).name))
-                && (scanData.getEvolutionCandyCost().get() != -1)) { //its not an azumarill
-            //if the scanned data contains the type water, it must be a marill, as azuril is normal type.
-            if (StringUtils.normalize(scanData.getPokemonType()).contains(
-                    pokeInfoCalculator.getNormalizedType(Type.WATER))) {
-                guess = new PokeDist(pokeInfoCalculator.get(182), 0);
+        if (normalizedBestGuessCandyName.equals(StringUtils.normalize(pokeInfoCalculator.get(182).name))
+                && (scanData.getEvolutionCandyCost().or(-1) != -1)) { //its not an azumarill
+            //if the scanned data contains the type water, it must be a marill, as azurill is normal type.
+            if (scanData.getNormalizedPokemonType().contains(normalizePokemonType(Type.WATER))) {
+                guess = new PokeDist(pokeInfoCalculator.getForm(182), 0); //marill
             } else {
-                guess = new PokeDist(pokeInfoCalculator.get(297), 0);
+                guess = new PokeDist(pokeInfoCalculator.getForm(297), 0); //azurill
             }
         }
 
@@ -113,7 +150,7 @@ public class PokemonNameCorrector {
         // match without the first character.
         if (guess.pokemon == null && scanData.getEvolutionCandyCost().isPresent()) {
             String textInterpretation = scanData.getEvolutionCandyCost().get().toString();
-            String cleanedInterpretation = textInterpretation.substring(1, textInterpretation.length());
+            String cleanedInterpretation = textInterpretation.substring(1);
             Optional<Integer> cleanedInt;
             try {
                 cleanedInt = Optional.of(Integer.parseInt(cleanedInterpretation));
@@ -136,22 +173,30 @@ public class PokemonNameCorrector {
         //5.  get the pokemon with the closest name within the evolution line guessed from the candy (or candy and
         // cost calculation).
         if (guess.pokemon == null && bestGuessEvolutionLine != null) {
-            guess = getNicknameGuess(scanData.getPokemonName(), bestGuessEvolutionLine);
+            Map<String, Pokemon> pokemap = new HashMap<>();
+            for (Pokemon pokemon : bestGuessEvolutionLine) {
+                String normalizedName = StringUtils.normalize(pokemon.base.name);
+                if (!pokemap.containsKey(normalizedName)) {
+                    pokemap.put(normalizedName, pokemon.base.forms.get(0));
+                }
+            }
+            guess = guessBestPokemonByNormalizedName(normalizedPokemonName, pokemap);
         }
 
 
-        //6. Check if the found pokemon should be alolan variant or not.
+        //6. Check if the found pokemon should be its variant(e.g. Alolan, Galarian, or its specific form) or not.
         if (scanData != null && scanData.getPokemonType() != null) {
-            PokeDist alolanGuess = checkAlolanVariant(guess, scanData);
-            if (alolanGuess != null) {
-                guess = alolanGuess;
+            PokeDist variantGuess = checkVariant(guess, scanData);
+            if (variantGuess != null) {
+                guess = variantGuess;
             }
 
         }
 
         //7. All else failed: make a wild guess based only on closest name match
         if (guess.pokemon == null) {
-            guess = getNicknameGuess(scanData.getPokemonName(), pokeInfoCalculator.getPokedex());
+            // TODO: Filter pokemon by evolution cost/types?
+            guess = guessBestPokemonByNormalizedName(normalizedPokemonName, normalizedPokemonNameMap);
         }
 
 
@@ -159,136 +204,204 @@ public class PokemonNameCorrector {
         return guess;
     }
 
-    private PokeDist checkAlolanVariant(PokeDist guess,
-                                        ScanData scanData) {
+    private String getNormalizedPokemonName(ScanData scanData) {
+        String normalizedPokemonName = scanData.getNormalizedPokemonName();
+
+        // remove characters not included in pokemon names or candy word. (ex. white space, -, etc)
+        normalizedPokemonName = normalizedPokemonName.replaceAll("[^\\w♂♀]", "");
+        if (normalizedPokemonName.contains(nidoUngendered)) {
+            normalizedPokemonName = getNidoranGenderName(scanData.getPokemonGender());
+        }
+
+        return normalizedPokemonName;
+    }
+
+    private List<String> getNormalizedCandyNames(ScanData scanData) {
+        List<String> normalizedCandyNames = new ArrayList<>();
+        for (String normalizedCandyText : scanData.getNormalizedCandyNames()) {
+            normalizedCandyNames.add(getNormalizedCandyName(normalizedCandyText, scanData.getPokemonGender()));
+        }
+
+        return normalizedCandyNames;
+    }
+
+    private String getNormalizedCandyName(String normalizedCandyText, Pokemon.Gender pokemonGender) {
+        String normalizedCandyName;
+        String candyWordLocale = res.getString(R.string.candy);
+
+        // remove characters not included in pokemon names or candy word. (ex. white space, -, etc)
+        normalizedCandyText = normalizedCandyText.replaceAll("[^\\w♂♀]", "");
+        normalizedCandyName = normalizedCandyText.replace(StringUtils.normalize(candyWordLocale), "");
+        if (normalizedCandyName.contains(nidoUngendered)) {
+            normalizedCandyName = getNidoranGenderName(pokemonGender);
+        }
+
+        return normalizedCandyName;
+    }
+
+    /**
+     * Get the correctly gendered name of a pokemon.
+     *
+     * @param pokemonGender The gender of the nidoranX.
+     * @return The correct name of the pokemon, with the gender symbol at the end.
+     */
+    @NonNull
+    private static String getNidoranGenderName(Pokemon.Gender pokemonGender) {
+        switch (pokemonGender) {
+            case F: return nidoFemale;
+            case M: return nidoMale;
+            default: return "";
+        }
+    }
+
+    /**
+     * Returns the normalized type name for such as fire or water, in the correct current locale name.
+     *
+     * @param type The enum for the type to get the correct name for.
+     */
+    private String normalizePokemonType(Pokemon.Type type) {
+        return normalizedTypeNames.get(type);
+    }
+
+    /**
+     * Return the PokeDist pokemon if the scanned type contains the given type. In that case it uses the given form index.
+     *
+     * @param guess Previous guess
+     * @param scanData Scanned data containing the Pokemon's types
+     * @param pokeType The given type which is "unique" for a given form
+     * @param formIndex The corresponding form index, where the type belongs to
+     * @return If the scanned type contains the given type a new PokeDist pokemon using a form of the previous guess.
+     *  Otherwise null.
+     */
+    private PokeDist createFormPokeDist(PokeDist guess, ScanData scanData, Type pokeType, int formIndex) {
+        if (scanData.getNormalizedPokemonType().contains(normalizePokemonType(pokeType))) {
+            return new PokeDist(guess.pokemon.base.forms.get(formIndex), 0);
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Returns a guess based on the given scan data's type and the current "base". It uses the position in the pokeTypes
+     * array as the index for the form. So the first type should match the first form, and so forth.
+     *
+     * @param guess Uses the base Pokemon of this guess for selecting the form
+     * @param scanData Scanned data containing the Pokemon's types
+     * @param pokeTypes An array of Type instances, where the position corresponds to the form's index.
+     * @return A new PokeDist pokemon using the first type which is in the scanned data and the corresponding form. If there
+     *  is no such Pokemon it returns null.
+     */
+    private PokeDist createFormPokeDistances(PokeDist guess, ScanData scanData, Type... pokeTypes) {
+        for (int i = 0; i < pokeTypes.length; i++) {
+            PokeDist dist = createFormPokeDist(guess, scanData, pokeTypes[i], i);
+            if (dist != null) {
+                return dist;
+            }
+        }
+        return null;
+    }
+
+    private PokeDist checkVariant(PokeDist guess, ScanData scanData) {
         try {
             switch (guess.pokemon.number) {
                 case (102): // Exeggutor (dex 103)
                     // check types including dragon
-                    if (StringUtils.normalize(scanData.getPokemonType()).contains(
-                            pokeInfoCalculator.getNormalizedType(Type.DRAGON))) {
-                        return new PokeDist(pokeInfoCalculator.get(guess.pokemon.number).forms.get(0), 0);
-                    }
-                    break;
+                    return createFormPokeDist(guess, scanData, Type.DRAGON, 1);
                 case (18): // Rattata
                     // check types including dark
-                    if (StringUtils.normalize(scanData.getPokemonType()).contains(
-                            pokeInfoCalculator.getNormalizedType(Type.DARK))) {
-                        return new PokeDist(pokeInfoCalculator.get(guess.pokemon.number).forms.get(0), 0);
-                    }
-                    break;
+                    return createFormPokeDist(guess, scanData, Type.DARK, 1);
                 case (19): // Raticate
                     // check types including dark
-                    if (StringUtils.normalize(scanData.getPokemonType()).contains(
-                            pokeInfoCalculator.getNormalizedType(Type.DARK))) {
-                        return new PokeDist(pokeInfoCalculator.get(guess.pokemon.number).forms.get(0), 0);
-                    }
-                    break;
+                    return createFormPokeDist(guess, scanData, Type.DARK, 1);
                 case (25): // Raichu
                     // check types including psychic
-                    if (StringUtils.normalize(scanData.getPokemonType()).contains(
-                            pokeInfoCalculator.getNormalizedType(Type.PSYCHIC))) {
-                        return new PokeDist(pokeInfoCalculator.get(guess.pokemon.number).forms.get(0), 0);
-                    }
-                    break;
+                    return createFormPokeDist(guess, scanData, Type.PSYCHIC, 1);
                 case (26): // Sandshrew
                     // check types including ice
-                    if (StringUtils.normalize(scanData.getPokemonType()).contains(
-                            pokeInfoCalculator.getNormalizedType(Type.ICE))) {
-                        return new PokeDist(pokeInfoCalculator.get(guess.pokemon.number).forms.get(0), 0);
-                    }
-                    break;
+                    return createFormPokeDist(guess, scanData, Type.ICE, 1);
                 case (27): // Sandslash
                     // check types including ice
-                    if (StringUtils.normalize(scanData.getPokemonType()).contains(
-                            pokeInfoCalculator.getNormalizedType(Type.ICE))) {
-                        return new PokeDist(pokeInfoCalculator.get(guess.pokemon.number).forms.get(0), 0);
-                    }
-                    break;
+                    return createFormPokeDist(guess, scanData, Type.ICE, 1);
                 case (36): // Vulpix
                     // check types including ice
-                    if (StringUtils.normalize(scanData.getPokemonType()).contains(
-                            pokeInfoCalculator.getNormalizedType(Type.ICE))) {
-                        return new PokeDist(pokeInfoCalculator.get(guess.pokemon.number).forms.get(0), 0);
-                    }
-                    break;
+                    return createFormPokeDist(guess, scanData, Type.ICE, 1);
                 case (37): // Ninetales
                     // check types including ice
-                    if (StringUtils.normalize(scanData.getPokemonType()).contains(
-                            pokeInfoCalculator.getNormalizedType(Type.ICE))) {
-                        return new PokeDist(pokeInfoCalculator.get(guess.pokemon.number).forms.get(0), 0);
-                    }
-                    break;
+                    return createFormPokeDist(guess, scanData, Type.ICE, 1);
                 case (49): // Diglett
                     // check types including steel
-                    if (StringUtils.normalize(scanData.getPokemonType()).contains(
-                            pokeInfoCalculator.getNormalizedType(Type.STEEL))) {
-                        return new PokeDist(pokeInfoCalculator.get(guess.pokemon.number).forms.get(0), 0);
-                    }
-                    break;
+                    return createFormPokeDist(guess, scanData, Type.STEEL, 1);
                 case (50): // Dugtrio
                     // check types including steel
-                    if (StringUtils.normalize(scanData.getPokemonType()).contains(
-                            pokeInfoCalculator.getNormalizedType(Type.STEEL))) {
-                        return new PokeDist(pokeInfoCalculator.get(guess.pokemon.number).forms.get(0), 0);
-                    }
-                    break;
+                    return createFormPokeDist(guess, scanData, Type.STEEL, 1);
                 case (51): // Meowth
-                    // check types including dark
-                    if (StringUtils.normalize(scanData.getPokemonType()).contains(
-                            pokeInfoCalculator.getNormalizedType(Type.DARK))) {
-                        return new PokeDist(pokeInfoCalculator.get(guess.pokemon.number).forms.get(0), 0);
-                    }
-                    break;
+                    return createFormPokeDistances(guess, scanData, Type.NORMAL, Type.DARK, Type.STEEL);
                 case (52): // Persian
                     // check types including dark
-                    if (StringUtils.normalize(scanData.getPokemonType()).contains(
-                            pokeInfoCalculator.getNormalizedType(Type.DARK))) {
-                        return new PokeDist(pokeInfoCalculator.get(guess.pokemon.number).forms.get(0), 0);
-                    }
-                    break;
+                    return createFormPokeDist(guess, scanData, Type.DARK, 1);
                 case (73): // Geodude
                     // check types including electric
-                    if (StringUtils.normalize(scanData.getPokemonType()).contains(
-                            pokeInfoCalculator.getNormalizedType(Type.ELECTRIC))) {
-                        return new PokeDist(pokeInfoCalculator.get(guess.pokemon.number).forms.get(0), 0);
-                    }
-                    break;
+                    return createFormPokeDist(guess, scanData, Type.ELECTRIC, 1);
                 case (74): // Graveler
                     // check types including electric
-                    if (StringUtils.normalize(scanData.getPokemonType()).contains(
-                            pokeInfoCalculator.getNormalizedType(Type.ELECTRIC))) {
-                        return new PokeDist(pokeInfoCalculator.get(guess.pokemon.number).forms.get(0), 0);
-                    }
-                    break;
+                    return createFormPokeDist(guess, scanData, Type.ELECTRIC, 1);
                 case (75): // Golem
                     // check types including electric
-                    if (StringUtils.normalize(scanData.getPokemonType()).contains(
-                            pokeInfoCalculator.getNormalizedType(Type.ELECTRIC))) {
-                        return new PokeDist(pokeInfoCalculator.get(guess.pokemon.number).forms.get(0), 0);
-                    }
-                    break;
+                    return createFormPokeDist(guess, scanData, Type.ELECTRIC, 1);
+                case (82): // Farfetch'd
+                    return createFormPokeDist(guess, scanData, Type.FIGHTING, 1);
                 case (87): // Grimer
                     // check types including dark
-                    if (StringUtils.normalize(scanData.getPokemonType()).contains(
-                            pokeInfoCalculator.getNormalizedType(Type.DARK))) {
-                        return new PokeDist(pokeInfoCalculator.get(guess.pokemon.number).forms.get(0), 0);
-                    }
-                    break;
+                    return createFormPokeDist(guess, scanData, Type.DARK, 1);
                 case (88): // Muk
                     // check types including dark
-                    if (StringUtils.normalize(scanData.getPokemonType()).contains(
-                            pokeInfoCalculator.getNormalizedType(Type.DARK))) {
-                        return new PokeDist(pokeInfoCalculator.get(guess.pokemon.number).forms.get(0), 0);
-                    }
-                    break;
+                    return createFormPokeDist(guess, scanData, Type.DARK, 1);
                 case (104): // Marowak
                     // check types including fire
-                    if (StringUtils.normalize(scanData.getPokemonType()).contains(
-                            pokeInfoCalculator.getNormalizedType(Type.FIRE))) {
-                        return new PokeDist(pokeInfoCalculator.get(guess.pokemon.number).forms.get(0), 0);
+                    return createFormPokeDist(guess, scanData, Type.FIRE, 1);
+                case (109): // Weezing
+                    return createFormPokeDist(guess, scanData, Type.FAIRY, 1);
+                case (262): // Zigzagoon
+                    return createFormPokeDist(guess, scanData, Type.DARK, 1);
+                case (263): // Linoone
+                    return createFormPokeDist(guess, scanData, Type.DARK, 1);
+                case (412): // Wormadam
+                    return createFormPokeDistances(guess, scanData, Type.DARK, Type.GROUND, Type.STEEL);
+                case (478): // Rotom
+                    return createFormPokeDistances(guess, scanData, Type.GHOST, Type.ICE, Type.FLYING, Type.GRASS,
+                            Type.WATER, Type.FIRE);
+                case (491): // Shayamin
+                    PokeDist dist = createFormPokeDist(guess, scanData, Type.FLYING, 1);
+                    if (dist == null) {
+                        dist = new PokeDist(guess.pokemon.base.forms.get(0), 0);
                     }
-                    break;
+                    return dist;
+                case (492): // Arceus
+                    return createFormPokeDistances(guess, scanData, Type.NORMAL, Type.FIGHTING, Type.FLYING, Type.POISON,
+                            Type.GROUND, Type.ROCK, Type.BUG, Type.GHOST, Type.STEEL, Type.FIRE, Type.WATER, Type.GRASS,
+                            Type.ELECTRIC, Type.PSYCHIC, Type.ICE, Type.DRAGON, Type.DARK, Type.FAIRY);
+                case (553): // Darumaka
+                    return createFormPokeDist(guess, scanData, Type.ICE, 1);
+                case (554): // Darmanitan
+                    dist = createFormPokeDist(guess, scanData, Type.PSYCHIC, 1);
+                    // check Zen Form
+                    if (dist == null) {
+                        // check Standard Form
+                        if (createFormPokeDist(guess, scanData, Type.ICE, 1) == null) {
+                            dist = createFormPokeDist(guess, scanData, Type.FIRE, 0);
+                        }
+                        // check Galarian Standard Form
+                        else if (createFormPokeDist(guess, scanData, Type.FIRE, 1) == null) {
+                            dist = createFormPokeDist(guess, scanData, Type.ICE, 2);
+                        }
+                        // Galarian Zen Form
+                        else {
+                            dist = createFormPokeDist(guess, scanData, Type.ICE, 3);
+                        }
+                    }
+                    return dist;
+                case (617): // Stunfisk
+                    return createFormPokeDist(guess, scanData, Type.STEEL, 1);
 
                 default:
                     // do nothing
@@ -328,39 +441,43 @@ public class PokemonNameCorrector {
     }
 
     /**
-     * A method which returns the best guess at which pokemon it is according to similarity with the nickname
-     * in the given pokemon list.
+     * A method which returns the best guess at which pokemon it is according to similarity with the name
+     * in the given pokemons collection.
      *
-     * @param poketext the nickname to compare with
-     * @param pokemons the pokemon list to search the nickname into.
+     * @param normalizedName the normalized input name to compare with
+     * @param pokemons the pokemons collection with normalized their names as keys to search the normalized name into.
      * @return a pokedist representing the search result.
      */
-
-    private PokeDist getNicknameGuess(String poketext, List<Pokemon> pokemons) {
+    private PokeDist guessBestPokemonByNormalizedName(String normalizedName, Map<String, Pokemon> pokemons) {
         //if there's no perfect match, get the pokemon that best matches the nickname within the best guess evo-line
         Pokemon bestMatchPokemon = null;
         int lowestDist = Integer.MAX_VALUE;
-        for (Pokemon trypoke : pokemons) {
-            int dist = Data.levenshteinDistance(StringUtils.normalize(trypoke.name), StringUtils.normalize(poketext));
+        for (Map.Entry<String, Pokemon> trypoke : pokemons.entrySet()) {
+            int dist = Data.levenshteinDistance(trypoke.getKey(), normalizedName);
             if (dist < lowestDist) {
-                bestMatchPokemon = trypoke;
+                bestMatchPokemon = trypoke.getValue();
                 lowestDist = dist;
+                if (dist == 0) break;
             }
         }
         return new PokeDist(bestMatchPokemon, lowestDist);
     }
 
     /**
-     * Get the evolution line which closest matches the string. The string is supposed to be the base evolution of a
-     * line.
-     *
-     * @param input the base evolution (ex weedle) to find a match for
-     * @return an evolution line which the string best matches the base evolution pokemon name
+     * Takes all the OCR attempts for this pokemon, and returns the pokemon most likely to be the candy pokemon
+     * we scanned, based on the OCR attempt that is closest to an actual pokemon name
+     * @param normalizedCandyNames normalized OCR attempts
+     * @return Pokemon instance most likely to be the scanned pokemon's candy pokemon
      */
-    private ArrayList<Pokemon> getBestGuessForEvolutionLine(String input) {
-        //candy name will only ever match the base evolution, so search in getBasePokemons().
-        PokeDist bestMatch = getNicknameGuess(input, pokeInfoCalculator.getCandyPokemons());
-        return pokeInfoCalculator.getEvolutionLine(bestMatch.pokemon);
+    private Pokemon getBestGuessForCandyPokemon(List<String> normalizedCandyNames) {
+        PokeDist bestMatch = new PokeDist(null, Integer.MAX_VALUE);
+        for (String normalizedCandyName : normalizedCandyNames) {
+            PokeDist current = guessBestPokemonByNormalizedName(normalizedCandyName, normalizedCandyPokemons);
+            if (current.dist < bestMatch.dist) { // TODO: better alg for choosing between guesses?
+                bestMatch = current;
+            }
+        }
+        return pokeInfoCalculator.getCandyPokemon(bestMatch.pokemon);
     }
 
     /**

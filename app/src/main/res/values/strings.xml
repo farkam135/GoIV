@@ -45,7 +45,7 @@
     <string name="delete_screenshots_setting_title">Delete screenshots</string>
     <string name="delete_screenshots_setting_summary">Automatically delete screenshots taken by GoIV</string>
     <string name="copy_to_clipboard_setting_title">Copy smart nickname to clipboard</string>
-    <string name="copy_to_clipboard_setting_summary_new" formatted="false">Automatically add scanned information to your copy &amp; paste clipboard.</string>
+    <string name="copy_to_clipboard_setting_summary_new" formatted="false">Add information to your copy &amp; paste clipboard on full pokemon scan (Press the button).</string>
     <string name="send_crash_reports_setting_title">Send crash reports</string>
     <string name="send_crash_reports_setting_summary">Help the developers improve the application by sending anonymous crash-related information to them and completely anonymous usage stats</string>
     <string name="auto_update_setting_title">Auto-update</string>
@@ -123,7 +123,7 @@
     <string name="copy_to_clip_show_toast_setting_summary">Show a preview of what is copied to the clipboard in a small popup</string>
     <string name="copy_to_clip_show_toast_setting">Show clipboard preview popup</string>
     <string name="autoAppraisalScanDelay_title">Auto appraisal delay</string>
-    <string name="autoAppraisalScanDelay_summary">How long to wait for the appraisal text animation to end. Budget phones might need a 800 ms delay.</string>
+    <string name="autoAppraisalScanDelay_summary">How long to wait for the appraisal animations to end. Budget phones might need a 4000 ms delay.</string>
     <string name="quick_iv_preview_title">Show quick IV preview</string>
     <string name="quick_iv_preview_summary">Display a small preview automatically when on a \'mon screen</string>
     <string name="quick_iv_preview_clipboard_title">Also preview clipboard</string>
@@ -212,7 +212,7 @@
     <string name="ocr_error_pick_pixel_white">Unable to pick white marker pixel color\n</string>
     <string name="ocr_error_locate_pixel_green">Unable to locate green marker pixel\n</string>
     <string name="ocr_error_pick_pixel_green">Unable to pick green marker pixel color\n</string>
-    <string name="ocr_msg_verify">\nATTENTION! Please verify that:\n① The info screen is scrolled all the way up\n② The 3D model doesn\'t cover any important information\n③ Is not a final evolution! I suggest a Pidgey!\n④ Is not lucky</string>
+    <string name="ocr_msg_verify">\nATTENTION! Please verify that:\n① The info screen is scrolled all the way up\n② The 3D model doesn\'t cover any important information\n③ Is not a final evolution! I suggest a Caterpie!\n④ Is not lucky</string>
     <string name="ocr_calibration_saved">Calibration saved!\nRestart GoIV to apply the changes!</string>
     <string name="ocr_finding_name">Finding name area</string>
     <string name="ocr_finding_type">Finding type area</string>
@@ -269,6 +269,7 @@
     <string name="token_msg_mixUnicode_msg2">" This token uses filled characters to represent single values and empty characters to represent the lowest of multiple values. For example, ⓭ in the attack position would mean that all Attack values are 13, while ① in the defense or HP means there are multiple values possible and that 1 is the lowest."</string>
     <string name="token_msg_mixUnicode_msg3">" This token uses empty characters to represent single values and filled characters to represent the lowest of multiple values. For example, ⑪ in the attack position would mean that all Attack values are 11, while ❾ in the defense or HP means there are multiple values possible and that 9 is the lowest."</string>
     <string name="token_msg_perfCP">This token calculates how close your monster is to its max potential, measured by CP. For example, if a monster with max IVs maxes out at 2000cp, but your specific monster maxes out at 1900, then your monster perfection is 95%, so this token returns 95.</string>
+    <string name="token_msg_cp_percentage">This token calculates where your pokemon\'s L40 CP falls between 0% and 100% IV.</string>
     <string name="token_msg_gender">"This token returns the gender of the monster: %1$s if male, %2$s if female, empty otherwise.</string>
     <string name="token_msg_pkmName_msg1">"This token returns the name of the monster, for example if you scan a Dratini, it will return "</string>
     <string name="token_msg_pkmName_msg2">" With the number cap, the length of the monster name can not exceed "</string>
@@ -313,4 +314,15 @@
     <string name="button_clear_to_queue">"Clear queue"</string>
     <string name="button_export_to_pokebattler">Export Queue to PokeBattler</string>
     <string name="manual_calibration_label">Manual calibration</string>
+    <string name="calibration_result_manual_title">Adjust manually</string>
+    <string name="calibration_result_manual_desc">"If automatic calibration fails, you can manually edit the scan fields. Sorry. This feature is in beta, if automatic calibration works for you, it's most likely better to not bother manually changing it."</string>
+    <string name="manual_calibration_field_detail">Click a field for details</string>
+    <string name="manual_calibration_drag_window">"You can drag this window up and down if it's in the way."</string>
+    <string name="manual_calibration_param1">Param1</string>
+    <string name="manual_calibration_param2">Param2</string>
+    <string name="manual_calibration_save_exit">"Save \n&amp; exit"</string>
+    <string name="fast_copy_to_clipboard">fastCopyToClipboard</string>
+    <string name="copy_to_clip_fast">Copy to clipboard on preview</string>
+    <string name="unset">Unset</string>
+    <string name="candyXl">Candy XL</string>
 </resources>

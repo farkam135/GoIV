@@ -20,7 +20,6 @@ import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.widget.CardView;
 import android.util.DisplayMetrics;
 import android.view.ContextThemeWrapper;
 import android.view.Gravity;
@@ -30,6 +29,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.common.base.Optional;
@@ -62,6 +62,8 @@ import com.kamron.pogoiv.utils.fractions.FractionManager;
 
 import java.io.File;
 import java.lang.ref.WeakReference;
+import java.util.Arrays;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -76,7 +78,9 @@ public class Pokefly extends Service {
 
     public static final String ACTION_UPDATE_UI = "com.kamron.pogoiv.ACTION_UPDATE_UI";
     private static final String ACTION_SEND_INFO = "com.kamron.pogoiv.ACTION_SEND_INFO";
+    public static final String ACTION_REQUEST_SCREEN_GRABBER = "com.kamron.pogoiv.ACTION_REQUEST_SCREEN_GRABBER";
     private static final String ACTION_START = "com.kamron.pogoiv.ACTION_START";
+    private static final String ACTION_BEGIN = "com.kamron.pogoiv.ACTION_BEGIN";
     public static final String ACTION_STOP = "com.kamron.pogoiv.ACTION_STOP";
 
     private static final String KEY_TRAINER_LEVEL = "key_trainer_level";
@@ -144,7 +148,7 @@ public class Pokefly extends Service {
 
 
     @BindView(R.id.infoLayout)
-    CardView infoLayout;
+    FrameLayout infoLayout;
     @BindView(R.id.fractionContainer)
     FrameLayout fractionContainer;
 
@@ -197,6 +201,12 @@ public class Pokefly extends Service {
         return intent;
     }
 
+    public static Intent createBeginIntent(@NonNull Context context) {
+        Intent intent = new Intent(context, Pokefly.class);
+        intent.setAction(ACTION_BEGIN);
+        return intent;
+    }
+
     public static Intent createNoInfoIntent() {
         return new Intent(ACTION_SEND_INFO);
     }
@@ -204,7 +214,7 @@ public class Pokefly extends Service {
     public static void populateInfoIntent(Intent intent, ScanData scanData, @NonNull Optional<String> filePath) {
         intent.putExtra(KEY_SEND_INFO_NAME, scanData.getPokemonName());
         intent.putExtra(KEY_SEND_INFO_TYPE, scanData.getPokemonType());
-        intent.putExtra(KEY_SEND_INFO_CANDY, scanData.getCandyName());
+        intent.putExtra(KEY_SEND_INFO_CANDY, scanData.getCandyNames().toArray());
         intent.putExtra(KEY_SEND_INFO_GENDER, scanData.getPokemonGender());
         intent.putExtra(KEY_SEND_INFO_HP, scanData.getPokemonHP());
         intent.putExtra(KEY_SEND_INFO_CP, scanData.getPokemonCP());
@@ -272,8 +282,8 @@ public class Pokefly extends Service {
 
         LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(ACTION_UPDATE_UI));
 
-        pokeInfoCalculator = PokeInfoCalculator.getInstance(this);
-        nameCorrector = new PokemonNameCorrector(pokeInfoCalculator);
+        nameCorrector = PokemonNameCorrector.getInstance(this);
+        pokeInfoCalculator = PokeInfoCalculator.getInstance();
         displayMetrics = getResources().getDisplayMetrics();
         initOcr();
         windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
@@ -303,34 +313,49 @@ public class Pokefly extends Service {
         ivPreviewPrinter = new IVPreviewPrinter(this);
         clipboardTokenHandler = new ClipboardTokenHandler(this);
 
-        if (ACTION_STOP.equals(intent.getAction())) {
-            if (android.os.Build.VERSION.SDK_INT >= 24) {
-                stopForeground(STOP_FOREGROUND_DETACH);
-            }
-            stopSelf();
-            goIVNotificationManager.showPausedNotification();
+        switch (intent.getAction()) {
+            case ACTION_STOP:
+                if (android.os.Build.VERSION.SDK_INT >= 24) {
+                    stopForeground(STOP_FOREGROUND_DETACH);
+                }
+                stopSelf();
+                goIVNotificationManager.showPausedNotification();
+                break;
+            case ACTION_START:
+                GoIVSettings.reloadPreferences(this);
+                trainerLevel = intent.getIntExtra(KEY_TRAINER_LEVEL, Data.MINIMUM_TRAINER_LEVEL);
 
-        } else if (ACTION_START.equals(intent.getAction())) {
-            GoIVSettings.reloadPreferences(this);
-            trainerLevel = intent.getIntExtra(KEY_TRAINER_LEVEL, Data.MINIMUM_TRAINER_LEVEL);
+                setupDisplaySizeInfo();
 
-            setupDisplaySizeInfo();
+                createFlyingComponents();
 
-            createFlyingComponents();
+                goIVNotificationManager.showRunningNotification();
 
-            startedInManualScreenshotMode = GoIVSettings.getInstance(this).isManualScreenshotModeEnabled();
-            /* Assumes MainActivity initialized ScreenGrabber before starting this service. */
-            if (!startedInManualScreenshotMode) {
-                screen = ScreenGrabber.getInstance();
+                startedInManualScreenshotMode = GoIVSettings.getInstance(this).isManualScreenshotModeEnabled();
+                if (!startedInManualScreenshotMode) {
+                    // Ask MainActivity to create a ScreenGrabber for us, and wait for it to finish
+                    LocalBroadcastManager.getInstance(this)
+                            .sendBroadcast(new Intent(ACTION_REQUEST_SCREEN_GRABBER));
+                } else {
+                    appraisalManager = new AppraisalManager(null, this);
+                    screenShotHelper = ScreenShotHelper.start(Pokefly.this);
+                }
+                break;
+            case ACTION_BEGIN:
+                try {
+                    screen = ScreenGrabber.getInstance();
+                } catch (Exception e) {
+                    // If for some reason MainActivity failed to make the ScreenGrabber, stop the service.
+                    // In this case we delete the notification to pretend it was never there in the first place.
+                    if (android.os.Build.VERSION.SDK_INT >= 24) {
+                        stopForeground(STOP_FOREGROUND_REMOVE);
+                    }
+                    stopSelf();
+                }
                 appraisalManager = new AppraisalManager(screen, this);
                 screenWatcher = new ScreenWatcher(this, fractionManager, appraisalManager);
                 screenWatcher.watchScreen();
-
-            } else {
-                appraisalManager = new AppraisalManager(null, this);
-                screenShotHelper = ScreenShotHelper.start(Pokefly.this);
-            }
-            goIVNotificationManager.showRunningNotification();
+                break;
         }
         //We have intent data, it's possible this service will be killed and we would want to recreate it
         //https://github.com/farkam135/GoIV/issues/477
@@ -378,22 +403,46 @@ public class Pokefly extends Service {
 
     private boolean infoLayoutArcPointerVisible = false;
 
-    private void showInfoLayoutArcPointer() {
+    private void showInfoLayoutArcPointerAndCard() {
         if (!infoLayoutArcPointerVisible && arcPointer != null && infoLayout != null) {
             infoLayoutArcPointerVisible = true;
             windowManager.addView(arcPointer, arcParams);
+
+            infoLayout.setVisibility(View.VISIBLE);
+            //infoLayout.animate().translationY(infoLayout.getHeight()*2).setDuration(0);
             windowManager.addView(infoLayout, layoutParams);
+            infoLayout.animate().translationY(infoLayout.getHeight()*2).setDuration(5).withEndAction(new Runnable() {
+                @Override public void run() {
+                    infoLayout.setVisibility(View.VISIBLE);
+                    infoLayout.animate().translationY(0).setDuration(300);
+                }
+            });
+            //infoLayout.animate().translationY(infoLayout.getHeight()*3).setDuration(1);
+            //infoLayout.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_up));
+            //infoLayout.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_up));
+
         }
     }
 
-    private void hideInfoLayoutArcPointer() {
+    private void hideInfoLayoutArcPointerAndCard() {
         if (infoLayoutArcPointerVisible) {
-            if (fractionManager != null) {
-                fractionManager.remove();
-            }
-            windowManager.removeView(arcPointer);
-            windowManager.removeView(infoLayout);
-            infoLayoutArcPointerVisible = false;
+
+            infoLayout.animate().translationY(infoLayout.getHeight()*2).setDuration(300).withEndAction(new Runnable() {
+                @Override public void run() {
+                    infoLayout.setVisibility(View.GONE);
+                    if (fractionManager != null) {
+                        fractionManager.remove();
+                    }
+                    //for some reason, animation looks bugged without this 0 time animation line below.
+                    infoLayout.animate().translationY(infoLayout.getHeight()*2).setDuration(0);
+                    windowManager.removeView(arcPointer);
+                    windowManager.removeView(infoLayout);
+                    infoLayoutArcPointerVisible = false;
+
+
+                }
+            });
+
         }
     }
 
@@ -416,7 +465,7 @@ public class Pokefly extends Service {
         windowManager.removeView(ivButton);
         windowManager.removeView(sizeDetector1);
         windowManager.removeView(sizeDetector2);
-        hideInfoLayoutArcPointer();
+        hideInfoLayoutArcPointerAndCard();
 
         ocr.exit();
         //Now ocr contains an invalid instance hence let's clear it.
@@ -450,7 +499,7 @@ public class Pokefly extends Service {
      */
     public void setArcPointer(double pokeLevel) {
 
-        int index = Data.maxPokeLevelToIndex(pokeLevel);
+        int index = Data.levelToLevelIdx(pokeLevel);
 
         //If the pokemon is overleveled (Raid catch or weather modifier the arc indicator will be stuck at max)
         if (index >= Data.arcX.length) {
@@ -515,7 +564,7 @@ public class Pokefly extends Service {
         if (scanData == null
                 || !scanData.getPokemonCP().isPresent()
                 || !scanData.getPokemonHP().isPresent()) {
-            Toast.makeText(this, R.string.missing_inputs, Toast.LENGTH_SHORT).show();
+            showToastOnPoke(getResources().getString(R.string.missing_inputs));
             return;
         }
 
@@ -534,6 +583,19 @@ public class Pokefly extends Service {
 
         closeKeyboard();
         navigateToIVResultFraction();
+    }
+
+    /**
+     * computes a scanresult with the information currently available in scanData.
+     * @return
+     */
+    public ScanResult computeIVWithoutUIChange(){
+        ScanResult scanReturner = new ScanResult(nameCorrector, scanData);
+        pokeInfoCalculator.getIVPossibilities(scanReturner);
+        if (appraisalManager != null){
+            scanReturner.refineWithAvailableInfoFrom(appraisalManager);
+        }
+        return scanReturner;
     }
 
     /**
@@ -558,15 +620,30 @@ public class Pokefly extends Service {
             String clipResult = clipboardTokenHandler.getClipboardText(scanResult, pokeInfoCalculator);
 
             if (settings.shouldCopyToClipboardShowToast()) {
-                Toast toast = Toast.makeText(this, String.format(getString(R.string.clipboard_copy_toast), clipResult),
-                        Toast.LENGTH_SHORT);
-                toast.setGravity(Gravity.CENTER, 0, 0);
-                toast.show();
+                showToastOnPoke(String.format(getString(R.string.clipboard_copy_toast), clipResult));
             }
 
             ClipData clip = ClipData.newPlainText(clipResult, clipResult);
             clipboard.setPrimaryClip(clip);
         }
+    }
+
+    /**
+     * prints a toast message on the pokemon, in hopes that the toast message doesnt block out any information
+     * (like hp, cp etc)
+     * @param message The message to be printed out in the toast
+     */
+    public void showToastOnPoke(String message){
+
+        Context themedContext = new ContextThemeWrapper(this, R.style.AppTheme_Dialog);
+        View v = LayoutInflater.from(themedContext).inflate(R.layout.goiv_toast, null);
+        ((TextView) v.findViewById(R.id.toastText)).setText(message);
+        Toast customToast = new Toast(this);
+        customToast.setView(v);
+        customToast.setGravity(Gravity.CENTER, 0, (int) (displayMetrics.heightPixels*-0.26));
+        customToast.setDuration(Toast.LENGTH_SHORT);
+        customToast.show();
+
     }
 
     /**
@@ -578,11 +655,7 @@ public class Pokefly extends Service {
 
             String clipResult = clipboardTokenHandler.getClipboardText(scanResult, pokeInfoCalculator);
 
-            Toast toast = Toast.makeText(this, String.format(getString(R.string.clipboard_copy_toast), clipResult),
-                    Toast.LENGTH_SHORT);
-            toast.setGravity(Gravity.CENTER, 0, 0);
-            toast.show();
-
+            showToastOnPoke(String.format(getString(R.string.clipboard_copy_toast), clipResult));
             clipboard.setPrimaryClip(ClipData.newPlainText(clipResult, clipResult));
         }
     }
@@ -600,10 +673,7 @@ public class Pokefly extends Service {
                 clipboard.setPrimaryClip(ClipData.newPlainText(clipResult, clipResult));
 
                 if (settings.shouldCopyToClipboardShowToast()) {
-                    Toast toast = Toast.makeText(this,
-                            String.format(getString(R.string.clipboard_copy_toast), clipResult), Toast.LENGTH_SHORT);
-                    toast.setGravity(Gravity.CENTER, 0, 0);
-                    toast.show();
+                    showToastOnPoke( String.format(getString(R.string.clipboard_copy_toast), clipResult));
                 }
             }
         }
@@ -613,7 +683,7 @@ public class Pokefly extends Service {
      * resets the info dialogue to its default state.
      */
     public void closeInfoDialog() {
-        hideInfoLayoutArcPointer();
+        hideInfoLayoutArcPointerAndCard();
         resetPokeflyStateMachine();
         appraisalManager.reset();
         if (!startedInManualScreenshotMode) {
@@ -658,7 +728,7 @@ public class Pokefly extends Service {
         try {
             ScanData data = ocr.scanPokemon(GoIVSettings.getInstance(this), pokemonImage, trainerLevel, true);
             if (data.isFailed()) {
-                Toast.makeText(Pokefly.this, getString(R.string.scan_pokemon_failed), Toast.LENGTH_SHORT).show();
+                showToastOnPoke(getString(R.string.scan_pokemon_failed));
             }
             Pokefly.populateInfoIntent(info, data, screenShotPath);
         } finally {
@@ -782,7 +852,8 @@ public class Pokefly extends Service {
 
                     String pokemonName = intent.getStringExtra(KEY_SEND_INFO_NAME);
                     String pokemonType = intent.getStringExtra(KEY_SEND_INFO_TYPE);
-                    String candyName = intent.getStringExtra(KEY_SEND_INFO_CANDY);
+                    List<String> candyNames = Arrays.asList(intent.getStringArrayExtra(KEY_SEND_INFO_CANDY));
+
 
                     @SuppressWarnings("unchecked") Optional<String> lScreenShotFile =
                             (Optional<String>) intent.getSerializableExtra(KEY_SEND_SCREENSHOT_FILE);
@@ -825,7 +896,7 @@ public class Pokefly extends Service {
                             new LevelRange(estimatedPokemonLevelMin, estimatedPokemonLevelMax),
                             pokemonName,
                             pokemonType,
-                            candyName,
+                            candyNames,
                             pokemonGender,
                             pokemonHP,
                             pokemonCP,
@@ -844,7 +915,7 @@ public class Pokefly extends Service {
                             infoShownReceived = true;
                         }
                         // Show the overlay window and the arc pointer
-                        showInfoLayoutArcPointer();
+                        showInfoLayoutArcPointerAndCard();
                         // Ensure arc pointer is in the right place
                         setArcPointer(scanData.getEstimatedPokemonLevel().min);
                         // Read user preferences and navigate accordingly

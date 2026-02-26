@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <bool name="use_default_pokemonsname_as_ocrstring">false</bool>
     <string-array name="pokemon">
         <item>Bulbasaur</item>
         <item>Ivysaur</item>
@@ -84,7 +83,7 @@
         <item>Slowbro</item>
         <item>Magnemite</item>
         <item>Magneton</item>
-        <item>Farfetch\'d</item>
+        <item>Farfetch’d</item>
         <item>Doduo</item>
         <item>Dodrio</item>
         <item>Seel</item>
@@ -153,7 +152,6 @@
         <item>Dragonite</item>
         <item>Mewtwo</item>
         <item>Mew</item>
-        <!--gen 2-->
         <item>Chikorita</item>
         <item>Bayleef</item>
         <item>Meganium</item>
@@ -207,7 +205,7 @@
         <item>Wobbuffet</item>
         <item>Girafarig</item>
         <item>Pineco</item>
-        <item>Forretres</item>
+        <item>Forretress</item>
         <item>Dunsparce</item>
         <item>Gligar</item>
         <item>Steelix</item>
@@ -252,9 +250,8 @@
         <item>Pupitar</item>
         <item>Tyranitar</item>
         <item>Lugia</item>
-        <item>Ho-oh</item>
+        <item>Ho-Oh</item>
         <item>Celebi</item>
-        <!--gen 3-->
         <item>Treecko</item>
         <item>Grovyle</item>
         <item>Sceptile</item>
@@ -390,25 +387,338 @@
         <item>Rayquaza</item>
         <item>Jirachi</item>
         <item>Deoxys</item>
-    </string-array>
-    <string-array name="typeName">
-        <!--  0   normal --> <item>NORMAL</item>
-        <!--  1     fire --> <item>FIRE</item>
-        <!--  2    water --> <item>WATER</item>
-        <!--  3    grass --> <item>GRASS</item>
-        <!--  4 electric --> <item>ELECTRIC</item>
-        <!--  5      ice --> <item>ICE</item>
-        <!--  6 fighting --> <item>FIGHTING</item>
-        <!--  7   poison --> <item>POISON</item>
-        <!--  8   ground --> <item>GROUND</item>
-        <!--  9   flying --> <item>FLYING</item>
-        <!-- 10  psychic --> <item>PSYCHIC</item>
-        <!-- 11      bug --> <item>BUG</item>
-        <!-- 12     rock --> <item>ROCK</item>
-        <!-- 13    ghost --> <item>GHOST</item>
-        <!-- 14   dragon --> <item>DRAGON</item>
-        <!-- 15     dark --> <item>DARK</item>
-        <!-- 16    steel --> <item>STEEL</item>
-        <!-- 17    fairy --> <item>FAIRY</item>
+        <item>Turtwig</item>
+        <item>Grotle</item>
+        <item>Torterra</item>
+        <item>Chimchar</item>
+        <item>Monferno</item>
+        <item>Infernape</item>
+        <item>Piplup</item>
+        <item>Prinplup</item>
+        <item>Empoleon</item>
+        <item>Starly</item>
+        <item>Staravia</item>
+        <item>Staraptor</item>
+        <item>Bidoof</item>
+        <item>Bibarel</item>
+        <item>Kricketot</item>
+        <item>Kricketune</item>
+        <item>Shinx</item>
+        <item>Luxio</item>
+        <item>Luxray</item>
+        <item>Budew</item>
+        <item>Roserade</item>
+        <item>Cranidos</item>
+        <item>Rampardos</item>
+        <item>Shieldon</item>
+        <item>Bastiodon</item>
+        <item>Burmy</item>
+        <item>Wormadam</item>
+        <item>Mothim</item>
+        <item>Combee</item>
+        <item>Vespiquen</item>
+        <item>Pachirisu</item>
+        <item>Buizel</item>
+        <item>Floatzel</item>
+        <item>Cherubi</item>
+        <item>Cherrim</item>
+        <item>Shellos</item>
+        <item>Gastrodon</item>
+        <item>Ambipom</item>
+        <item>Drifloon</item>
+        <item>Drifblim</item>
+        <item>Buneary</item>
+        <item>Lopunny</item>
+        <item>Mismagius</item>
+        <item>Honchkrow</item>
+        <item>Glameow</item>
+        <item>Purugly</item>
+        <item>Chingling</item>
+        <item>Stunky</item>
+        <item>Skuntank</item>
+        <item>Bronzor</item>
+        <item>Bronzong</item>
+        <item>Bonsly</item>
+        <item>Mime Jr.</item>
+        <item>Happiny</item>
+        <item>Chatot</item>
+        <item>Spiritomb</item>
+        <item>Gible</item>
+        <item>Gabite</item>
+        <item>Garchomp</item>
+        <item>Munchlax</item>
+        <item>Riolu</item>
+        <item>Lucario</item>
+        <item>Hippopotas</item>
+        <item>Hippowdon</item>
+        <item>Skorupi</item>
+        <item>Drapion</item>
+        <item>Croagunk</item>
+        <item>Toxicroak</item>
+        <item>Carnivine</item>
+        <item>Finneon</item>
+        <item>Lumineon</item>
+        <item>Mantyke</item>
+        <item>Snover</item>
+        <item>Abomasnow</item>
+        <item>Weavile</item>
+        <item>Magnezone</item>
+        <item>Lickilicky</item>
+        <item>Rhyperior</item>
+        <item>Tangrowth</item>
+        <item>Electivire</item>
+        <item>Magmortar</item>
+        <item>Togekiss</item>
+        <item>Yanmega</item>
+        <item>Leafeon</item>
+        <item>Glaceon</item>
+        <item>Gliscor</item>
+        <item>Mamoswine</item>
+        <item>Porygon-Z</item>
+        <item>Gallade</item>
+        <item>Probopass</item>
+        <item>Dusknoir</item>
+        <item>Froslass</item>
+        <item>Rotom</item>
+        <item>Uxie</item>
+        <item>Mesprit</item>
+        <item>Azelf</item>
+        <item>Dialga</item>
+        <item>Palkia</item>
+        <item>Heatran</item>
+        <item>Regigigas</item>
+        <item>Giratina</item>
+        <item>Cresselia</item>
+        <item>Phione</item>
+        <item>Manaphy</item>
+        <item>Darkrai</item>
+        <item>Shaymin</item>
+        <item>Arceus</item>
+        <item>Victini</item>
+        <item>Snivy</item>
+        <item>Servine</item>
+        <item>Serperior</item>
+        <item>Tepig</item>
+        <item>Pignite</item>
+        <item>Emboar</item>
+        <item>Oshawott</item>
+        <item>Dewott</item>
+        <item>Samurott</item>
+        <item>Patrat</item>
+        <item>Watchog</item>
+        <item>Lillipup</item>
+        <item>Herdier</item>
+        <item>Stoutland</item>
+        <item>Purrloin</item>
+        <item>Liepard</item>
+        <item>Pansage</item>
+        <item>Simisage</item>
+        <item>Pansear</item>
+        <item>Simisear</item>
+        <item>Panpour</item>
+        <item>Simipour</item>
+        <item>Munna</item>
+        <item>Musharna</item>
+        <item>Pidove</item>
+        <item>Tranquill</item>
+        <item>Unfezant</item>
+        <item>Blitzle</item>
+        <item>Zebstrika</item>
+        <item>Roggenrola</item>
+        <item>Boldore</item>
+        <item>Gigalith</item>
+        <item>Woobat</item>
+        <item>Swoobat</item>
+        <item>Drilbur</item>
+        <item>Excadrill</item>
+        <item>Audino</item>
+        <item>Timburr</item>
+        <item>Gurdurr</item>
+        <item>Conkeldurr</item>
+        <item>Tympole</item>
+        <item>Palpitoad</item>
+        <item>Seismitoad</item>
+        <item>Throh</item>
+        <item>Sawk</item>
+        <item>Sewaddle</item>
+        <item>Swadloon</item>
+        <item>Leavanny</item>
+        <item>Venipede</item>
+        <item>Whirlipede</item>
+        <item>Scolipede</item>
+        <item>Cottonee</item>
+        <item>Whimsicott</item>
+        <item>Petilil</item>
+        <item>Lilligant</item>
+        <item>Basculin</item>
+        <item>Sandile</item>
+        <item>Krokorok</item>
+        <item>Krookodile</item>
+        <item>Darumaka</item>
+        <item>Darmanitan</item>
+        <item>Maractus</item>
+        <item>Dwebble</item>
+        <item>Crustle</item>
+        <item>Scraggy</item>
+        <item>Scrafty</item>
+        <item>Sigilyph</item>
+        <item>Yamask</item>
+        <item>Cofagrigus</item>
+        <item>Tirtouga</item>
+        <item>Carracosta</item>
+        <item>Archen</item>
+        <item>Archeops</item>
+        <item>Trubbish</item>
+        <item>Garbodor</item>
+        <item>Zorua</item>
+        <item>Zoroark</item>
+        <item>Minccino</item>
+        <item>Cinccino</item>
+        <item>Gothita</item>
+        <item>Gothorita</item>
+        <item>Gothitelle</item>
+        <item>Solosis</item>
+        <item>Duosion</item>
+        <item>Reuniclus</item>
+        <item>Ducklett</item>
+        <item>Swanna</item>
+        <item>Vanillite</item>
+        <item>Vanillish</item>
+        <item>Vanilluxe</item>
+        <item>Deerling</item>
+        <item>Sawsbuck</item>
+        <item>Emolga</item>
+        <item>Karrablast</item>
+        <item>Escavalier</item>
+        <item>Foongus</item>
+        <item>Amoonguss</item>
+        <item>Frillish</item>
+        <item>Jellicent</item>
+        <item>Alomomola</item>
+        <item>Joltik</item>
+        <item>Galvantula</item>
+        <item>Ferroseed</item>
+        <item>Ferrothorn</item>
+        <item>Klink</item>
+        <item>Klang</item>
+        <item>Klinklang</item>
+        <item>Tynamo</item>
+        <item>Eelektrik</item>
+        <item>Eelektross</item>
+        <item>Elgyem</item>
+        <item>Beheeyem</item>
+        <item>Litwick</item>
+        <item>Lampent</item>
+        <item>Chandelure</item>
+        <item>Axew</item>
+        <item>Fraxure</item>
+        <item>Haxorus</item>
+        <item>Cubchoo</item>
+        <item>Beartic</item>
+        <item>Cryogonal</item>
+        <item>Shelmet</item>
+        <item>Accelgor</item>
+        <item>Stunfisk</item>
+        <item>Mienfoo</item>
+        <item>Mienshao</item>
+        <item>Druddigon</item>
+        <item>Golett</item>
+        <item>Golurk</item>
+        <item>Pawniard</item>
+        <item>Bisharp</item>
+        <item>Bouffalant</item>
+        <item>Rufflet</item>
+        <item>Braviary</item>
+        <item>Vullaby</item>
+        <item>Mandibuzz</item>
+        <item>Heatmor</item>
+        <item>Durant</item>
+        <item>Deino</item>
+        <item>Zweilous</item>
+        <item>Hydreigon</item>
+        <item>Larvesta</item>
+        <item>Volcarona</item>
+        <item>Cobalion</item>
+        <item>Terrakion</item>
+        <item>Virizion</item>
+        <item>Tornadus</item>
+        <item>Thundurus</item>
+        <item>Reshiram</item>
+        <item>Zekrom</item>
+        <item>Landorus</item>
+        <item>Kyurem</item>
+        <item>Keldeo</item>
+        <item>Meloetta</item>
+        <item>Genesect</item>
+        <item>Chespin</item>
+        <item>Quilladin</item>
+        <item>Chesnaught</item>
+        <item>Fennekin</item>
+        <item>Braixen</item>
+        <item>Delphox</item>
+        <item>Froakie</item>
+        <item>Frogadier</item>
+        <item>Greninja</item>
+        <item>Bunnelby</item>
+        <item>Diggersby</item>
+        <item>Fletchling</item>
+        <item>Fletchinder</item>
+        <item>Talonflame</item>
+        <item>Scatterbug</item>
+        <item>Spewpa</item>
+        <item>Vivillon</item>
+        <item>Litleo</item>
+        <item>Pyroar</item>
+        <item>Flabébé</item>
+        <item>Floette</item>
+        <item>Florges</item>
+        <item>Skiddo</item>
+        <item>Gogoat</item>
+        <item>Pancham</item>
+        <item>Pangoro</item>
+        <item>Furfrou</item>
+        <item>Espurr</item>
+        <item>Meowstic</item>
+        <item>Spritzee</item>
+        <item>Aromatisse</item>
+        <item>Swirlix</item>
+        <item>Slurpuff</item>
+        <item>Inkay</item>
+        <item>Malamar</item>
+        <item>Binacle</item>
+        <item>Barbaracle</item>
+        <item>Skrelp</item>
+        <item>Dragalge</item>
+        <item>Clauncher</item>
+        <item>Clawitzer</item>
+        <item>Helioptile</item>
+        <item>Heliolisk</item>
+        <item>Tyrunt</item>
+        <item>Tyrantrum</item>
+        <item>Amaura</item>
+        <item>Aurorus</item>
+        <item>Sylveon</item>
+        <item>Hawlucha</item>
+        <item>Dedenne</item>
+        <item>Carbink</item>
+        <item>Goomy</item>
+        <item>Sliggoo</item>
+        <item>Goodra</item>
+        <item>Klefki</item>
+        <item>Phantump</item>
+        <item>Trevenant</item>
+        <item>Bergmite</item>
+        <item>Avalugg</item>
+        <item>Noibat</item>
+        <item>Noivern</item>
+        <item>Xerneas</item>
+        <item>Yveltal</item>
+        <item>Meltan</item>
+        <item>Melmetal</item>
+        <item>Obstagoon</item>
+        <item>Perrserker</item>
+        <item>Sirfetch’d</item>
+        <item>Mr. Rime</item>
+        <item>Runerigus</item>
     </string-array>
 </resources>

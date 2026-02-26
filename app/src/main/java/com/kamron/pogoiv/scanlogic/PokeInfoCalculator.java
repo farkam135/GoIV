@@ -10,15 +10,11 @@ import android.support.annotation.Nullable;
 
 import com.kamron.pogoiv.GoIVSettings;
 import com.kamron.pogoiv.R;
-import com.kamron.pogoiv.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 /**
  * Created by Johan Swanberg on 2016-08-18.
@@ -27,26 +23,26 @@ import java.util.Map;
 public class PokeInfoCalculator {
     private static PokeInfoCalculator instance;
 
-    private ArrayList<Pokemon> pokedex = new ArrayList<>();
+    private ArrayList<PokemonBase> pokedex = new ArrayList<>();
+    private List<Pokemon> formVariantPokemons;
     private String[] pokeNamesWithForm = {};
-    private Map<Pokemon.Type, String> normalizedTypeNames = new EnumMap<>(Pokemon.Type.class);
 
-    /**
-     * Pokemons that aren't evolutions of any other one.
-     */
-    private ArrayList<Pokemon> basePokemons = new ArrayList<>();
+    public static final int MELTAN_INDEX_OFFSET = 7;
+    public static final int MELMETAL_INDEX_OFFSET = 6;
+    public static final int OBSTAGOON_INDEX_OFFSET = 5;
+    public static final int PERRSERKER_INDEX_OFFSET = 4;
+    public static final int SIRFETCHD_INDEX_OFFSET = 3;
+    public static final int MRRIME_INDEX_OFFSET = 2;
+    public static final int RUNERIGUS_INDEX_OFFSET = 1;
 
     /**
      * Pokemons who's name appears as a type of candy.
      * For most, this is the basePokemon (ie: Pidgey candies)
      * For some, this is an original Gen1 Pokemon (ie: Magmar candies, instead of Magby candies)
      */
-    private ArrayList<Pokemon> candyPokemons = new ArrayList<>();
+    private ArrayList<PokemonBase> candyPokemons = new ArrayList<>();
 
-    private HashMap<String, Pokemon> pokemap = new HashMap<>();
-
-
-    public static synchronized @NonNull PokeInfoCalculator getInstance(@NonNull Context context) {
+    protected static synchronized @NonNull PokeInfoCalculator getInstance(@NonNull Context context) {
         if (instance == null) {
             instance = new PokeInfoCalculator(GoIVSettings.getInstance(context), context.getResources());
         }
@@ -73,35 +69,29 @@ public class PokeInfoCalculator {
 
         // create and cache the full pokemon display name list
         ArrayList<String> pokemonNamesArray = new ArrayList<>();
-        for (Pokemon poke : getPokedex()) {
-            for (Pokemon pokemonForm : getForms(poke)) {
+        for (PokemonBase poke : getPokedex()) {
+            for (Pokemon pokemonForm : poke.forms) {
                 pokemonNamesArray.add(pokemonForm.toString());
             }
         }
 
         pokeNamesWithForm = pokemonNamesArray.toArray(new String[pokemonNamesArray.size()]);
-
-        // create and cache the normalized pokemon type locale name
-        for (int i = 0; i < res.getStringArray(R.array.typeName).length; i++) {
-            normalizedTypeNames.put(Pokemon.Type.values()[i],
-                    StringUtils.normalize(res.getStringArray(R.array.typeName)[i]));
-        }
     }
 
-    public List<Pokemon> getPokedex() {
+    public List<PokemonBase> getPokedex() {
         return Collections.unmodifiableList(pokedex);
     }
 
-    public List<Pokemon> getBasePokemons() {
-        return Collections.unmodifiableList(basePokemons);
+    public List<Pokemon> getPokedexForms() {
+        return formVariantPokemons;
     }
 
     /**
-     * Returns the full list of possible candy names.
+     * Returns the full list of pokemons possible candy name.
      *
-     * @return List of all candy names that exist in Pokemon Go
+     * @return List of all candy pokemons that exist in Pokemon Go.
      */
-    public List<Pokemon> getCandyPokemons() {
+    public List<PokemonBase> getCandyPokemons() {
         return Collections.unmodifiableList(candyPokemons);
     }
 
@@ -111,15 +101,32 @@ public class PokeInfoCalculator {
      * @param number the number which this application internally uses to identify pokemon
      * @return The pokemon if valid number, null if no pokemon found.
      */
-    public Pokemon get(int number) {
+    public PokemonBase get(int number) {
         if (number >= 0 && number < pokedex.size()) {
             return pokedex.get(number);
         }
         return null;
     }
 
-    public Pokemon get(String name) {
-        return pokemap.get(StringUtils.normalize(name));
+    /**
+     * Returns the normal form for a given number, working only for pokemons which don't have any forms.
+     *
+     * @param number the number which this application internally uses to identify pokemon
+     * @return Pokemon instance
+     */
+    public Pokemon getForm(int number) {
+        return getForm(number, "");
+    }
+
+    /**
+     * Returns a specific pokemon for a given number and form name.
+     *
+     * @param number the number which this application internally uses to identify pokemon
+     * @param formName the form name of the pokemon
+     * @return Pokemon instance
+     */
+    public Pokemon getForm(int number, String formName) {
+        return get(number).getForm(formName);
     }
 
     public static String[] getPokemonNamesArray(Resources res) {
@@ -177,24 +184,37 @@ public class PokeInfoCalculator {
 
         int pokeListSize = names.length;
         ArrayList<Pokemon> formVariantPokemons = new ArrayList<>();
+
+        // quick hardcoded patch for supporting discontinuous pokedex number pokemons followings
+        //   #808 Meltan
+        //   #809 Melmetal
+        //   #862 Obstagoon
+        //   #863 Perrserker
+        //   #865 Sirfetch'd
+        //   #866 Mr. Rime
+        //   #867 Runerigus
+        // currently GoIV logic expects that pokedex numbers are continuous and less than pokeListSize.
+        // so this patch shifts these to dummy indexes, with pokeListSize offset.
+        candyNamesArray[pokeListSize - MELTAN_INDEX_OFFSET] = pokeListSize - MELTAN_INDEX_OFFSET;
+        candyNamesArray[pokeListSize - MELMETAL_INDEX_OFFSET] = pokeListSize - MELTAN_INDEX_OFFSET;
+        devolution[pokeListSize - MELMETAL_INDEX_OFFSET] = pokeListSize - MELTAN_INDEX_OFFSET;
+        // END patch for supporting discontinuous pokedex number pokemons
+
         for (int i = 0; i < pokeListSize; i++) {
-            Pokemon p = new Pokemon(names[i], displayNames[i], i, attack[i], defense[i], stamina[i], devolution[i],
-                    evolutionCandyCost[i]);
+            PokemonBase p = new PokemonBase(names[i], displayNames[i], i, devolution[i],
+                                            candyNamesArray[i], evolutionCandyCost[i]);
             pokedex.add(p);
-            pokemap.put(StringUtils.normalize(names[i]), p);
-            if (!names[i].equals(displayNames[i])) {
-                pokemap.put(StringUtils.normalize(displayNames[i]), p);
-            }
         }
 
         for (int i = 0; i < pokeListSize; i++) {
             if (devolution[i] != -1) {
-                Pokemon devo = pokedex.get(devolution[i]);
+                PokemonBase devo = pokedex.get(devolution[i]);
                 devo.evolutions.add(pokedex.get(i));
             } else {
                 candyPokemons.add(pokedex.get(candyNamesArray[i]));
-                basePokemons.add(pokedex.get(i));
             }
+
+            PokemonBase base = pokedex.get(i);
 
             //Check for different pokemon forms, such as alolan forms, and add them to the formsCount.
             if (formsCountIndex[i] != -1) {
@@ -206,33 +226,23 @@ public class PokeInfoCalculator {
                 }
 
                 for (int j = 0; j < formsCount[formsCountIndex[i]]; j++) {
-                    String formPokemonName = String.format("%s - %s", // [POKEMON_NAME] - [FORM_NAME]
-                            names[i], res.getStringArray(R.array.formNames)[formsStartIndex + j]);
-                    String formPokemonDisplayName = String.format("%s - %s", // [POKEMON_NAME] - [FORM_NAME]
-                            displayNames[i], res.getStringArray(R.array.formNames)[formsStartIndex + j]);
-                    Pokemon formPokemon = new Pokemon(
-                            formPokemonName, formPokemonDisplayName, i,
+                    Pokemon formPokemon = new Pokemon(base,
+                            res.getStringArray(R.array.formNames)[formsStartIndex + j],
                             res.getIntArray(R.array.formAttack)[formsStartIndex + j],
                             res.getIntArray(R.array.formDefense)[formsStartIndex + j],
-                            res.getIntArray(R.array.formStamina)[formsStartIndex + j],
-                            devolution[i],
-                            evolutionCandyCost[i]);
-                    pokedex.get(i).forms.add(formPokemon);
-                    pokemap.put(StringUtils.normalize(formPokemonName), formPokemon);
-                    if (!formPokemon.equals(formPokemonDisplayName)) {
-                        pokemap.put(StringUtils.normalize(formPokemonDisplayName), formPokemon);
-                    }
+                            res.getIntArray(R.array.formStamina)[formsStartIndex + j]);
+                    base.forms.add(formPokemon);
                     formVariantPokemons.add(formPokemon);
                 }
             }
-        }
-
-        // add evolutions to form variant pokemons instance if the normal form pokemon has its evolutions.
-        for (Pokemon formPokemon : formVariantPokemons) {
-            if (!pokedex.get(formPokemon.number).evolutions.isEmpty()) {
-                formPokemon.evolutions.addAll(pokedex.get(formPokemon.number).evolutions);
+            else
+            {
+                Pokemon normal = new Pokemon(base, "", attack[i], defense[i], stamina[i]);
+                base.forms.add(normal);
             }
         }
+
+        this.formVariantPokemons = Collections.unmodifiableList(formVariantPokemons);
     }
 
     /**
@@ -245,56 +255,26 @@ public class PokeInfoCalculator {
      */
     public UpgradeCost getUpgradeCost(double goalLevel, double estimatedPokemonLevel, boolean isLucky) {
         int neededCandy = 0;
+        int neededCandyXl = 0;
         int neededStarDust = 0;
-        while (estimatedPokemonLevel != goalLevel) {
-            int rank = 5;
-            if ((estimatedPokemonLevel % 10) >= 1 && (estimatedPokemonLevel % 10) <= 2.5) {
-                rank = 1;
-            } else if ((estimatedPokemonLevel % 10) > 2.5 && (estimatedPokemonLevel % 10) <= 4.5) {
-                rank = 2;
-            } else if ((estimatedPokemonLevel % 10) > 4.5 && (estimatedPokemonLevel % 10) <= 6.5) {
-                rank = 3;
-            } else if ((estimatedPokemonLevel % 10) > 6.5 && (estimatedPokemonLevel % 10) <= 8.5) {
-                rank = 4;
-            }
 
-            if (estimatedPokemonLevel <= 10.5) {
-                neededCandy++;
-                neededStarDust += rank * 200;
-            } else if (estimatedPokemonLevel > 10.5 && estimatedPokemonLevel <= 20.5) {
-                neededCandy += 2;
-                neededStarDust += 1000 + (rank * 300);
-            } else if (estimatedPokemonLevel > 20.5 && estimatedPokemonLevel <= 25.5) {
-                neededCandy += 3;
-                neededStarDust += 2500 + (rank * 500);
-            } else if (estimatedPokemonLevel > 25.5 && estimatedPokemonLevel <= 30.5) {
-                neededCandy += 4;
-                neededStarDust += 2500 + (rank * 500);
-            } else if (estimatedPokemonLevel > 30.5 && estimatedPokemonLevel <= 32.5) {
-                neededCandy += 6;
-                neededStarDust += 5000 + (rank * 1000);
-            } else if (estimatedPokemonLevel > 32.5 && estimatedPokemonLevel <= 34.5) {
-                neededCandy += 8;
-                neededStarDust += 5000 + (rank * 1000);
-            } else if (estimatedPokemonLevel > 34.5 && estimatedPokemonLevel <= 36.5) {
-                neededCandy += 10;
-                neededStarDust += 5000 + (rank * 1000);
-            } else if (estimatedPokemonLevel > 36.5 && estimatedPokemonLevel <= 38.5) {
-                neededCandy += 12;
-                neededStarDust += 5000 + (rank * 1000);
-            } else if (estimatedPokemonLevel > 38.5) {
-                neededCandy += 15;
-                neededStarDust += 5000 + (rank * 1000);
-            }
+        int currentLevelIdx = Data.levelToLevelIdx(estimatedPokemonLevel);
+        int goalLevelIdx = Data.levelToLevelIdx(goalLevel);
 
-            estimatedPokemonLevel += 0.5;
+        while (currentLevelIdx < goalLevelIdx) {
+            UpgradeCost costs = Data.costForIndex(currentLevelIdx);
+            neededCandy += costs.candy;
+            neededCandyXl += costs.candyXl;
+            neededStarDust += costs.dust;
+
+            currentLevelIdx++;
         }
 
         if (isLucky) {
             neededStarDust /= 2;
         }
 
-        return new UpgradeCost(neededStarDust, neededCandy);
+        return new UpgradeCost(neededStarDust, neededCandy, neededCandyXl);
     }
 
 
@@ -386,6 +366,15 @@ public class PokeInfoCalculator {
         return new CPRange(cpMin, cpMax);
     }
 
+    private Pokemon getDevolution(Pokemon poke) {
+        if (poke.base.devoNumber >= 0) {
+            PokemonBase devolvedBase = get(poke.base.devoNumber);
+            return devolvedBase.getForm(poke);
+        } else {
+            return null;
+        }
+    }
+
     /**
      * Get the combined cost for evolving all steps between two pokemon, for example the cost from caterpie ->
      * metapod is 12,
@@ -396,21 +385,15 @@ public class PokeInfoCalculator {
      * @return the combined candy cost for all required evolutions
      */
     public int getCandyCostForEvolution(Pokemon start, Pokemon end) {
-        Pokemon devolution = get(end.devoNumber);
-        Pokemon dedevolution = null;
-        if (devolution != null) { //devolution must exist for there to be a devolution of the devolution
-            dedevolution = get(devolution.devoNumber);
-        }
-
-        boolean isEndReallyAfterStart = (devolution == start)
-                || dedevolution == start; //end must be devolution or devolution of devolution of start
         int cost = 0;
-        if (isInSameEvolutionChain(start, end) && isEndReallyAfterStart) {
-            while (start != end) { //move backwards from end until you've reached start
-                Pokemon beforeEnd = get(end.devoNumber);
-                cost += beforeEnd.candyEvolutionCost;
-                end = beforeEnd;
+        while (start != end) { //move backwards from end until you've reached start
+            end = getDevolution(end);
+            // Gone through all devolutions from the end but never passed by start -> start and end are not related
+            if (end == null)
+            {
+                return 0;
             }
+            cost += end.candyEvolutionCost;
         }
         return cost;
     }
@@ -423,9 +406,9 @@ public class PokeInfoCalculator {
      * @return true if both pokemon are in the same pokemon evolution tree
      */
     private boolean isInSameEvolutionChain(Pokemon p1, Pokemon p2) {
-        ArrayList<Pokemon> evolutionLine = getEvolutionLine(p1);
-        for (Pokemon poke : evolutionLine) {
-            if (poke.number == p2.number) {
+        ArrayList<PokemonBase> evolutionLine = getEvolutionLine(p1.base);
+        for (PokemonBase base : evolutionLine) {
+            if (base.number == p2.base.number) {
                 return true;
             }
         }
@@ -443,29 +426,51 @@ public class PokeInfoCalculator {
             return poke; //already lowest evolution
         }
 
-        Pokemon devoPoke = get(poke.devoNumber);
-        while (devoPoke.devoNumber >= 0) { //while devol
-            devoPoke = get(devoPoke.devoNumber);
+        Pokemon current;
+        do {
+            current = poke;
+            poke = getDevolution(current);
         }
-        return devoPoke;
+        while (poke != null);
+        return current;
     }
 
     /**
-     * Get all the pokemon forms for a pokemon.
+     * Get the lowest evolution in the chain of a pokemon.
      *
-     * @param poke a pokemon, example Exeggutor
-     * @return all the pokemon forms, in the example would return Exeggutor normal and Exeggutor Alola
+     * @param base a pokemon, example charizard
+     * @return a pokemon, in the example would return charmander
      */
-    private ArrayList<Pokemon> getForms(Pokemon poke) {
-        ArrayList<Pokemon> list = new ArrayList<>();
-        Pokemon normalFormPokemon = pokedex.get(poke.number);
-        list.add(normalFormPokemon);
+    private PokemonBase getLowestEvolution(PokemonBase base) {
+        while (base.devoNumber >= 0) {
+            base = get(base.devoNumber);
+        }
+        return base;
+    }
 
-        if (normalFormPokemon.forms.isEmpty()) {
-            return list; // normal form only
+    /**
+     * Returns the pokemon whose name matches the candy type for the given pokemon
+     *      e.g. getCandyPokemon(Machamp) -> Machop
+     * @param pokemon the pokemon whose candy form is wanted
+     * @return the pokemon that matches the candy type for the given pokemon
+     */
+    public Pokemon getCandyPokemon(Pokemon pokemon) {
+        return getForm(pokemon.candyNameNumber);
+    }
+
+    /**
+     * Returns all forms of all evolutions belonging to the pokemon.
+     *
+     * @param pokemon the pokemon to check the evolution line of
+     * @return a list with pokemon, devolutions and evolutions and forms.
+     */
+    public ArrayList<Pokemon> getEvolutionForms(Pokemon pokemon) {
+        ArrayList<Pokemon> list = new ArrayList<>();
+
+        for (PokemonBase base : getEvolutionLine(pokemon.base)) {
+            list.addAll(base.forms);
         }
 
-        list.addAll(normalFormPokemon.forms);
         return list;
     }
 
@@ -473,17 +478,36 @@ public class PokeInfoCalculator {
      * Returns the evolution line of a pokemon.
      *
      * @param poke the pokemon to check the evolution line of
-     * @return a list with pokemon, input pokemon plus its evolutions
+     * @return a list with pokemon, input pokemon plus its (d)evolutions
      */
     public ArrayList<Pokemon> getEvolutionLine(Pokemon poke) {
-        poke = getLowestEvolution(poke);
-
         ArrayList<Pokemon> list = new ArrayList<>();
-        list.addAll(getForms(poke));
-        for (Pokemon evolution2nd : poke.evolutions) {
-            list.addAll(getForms(evolution2nd));
-            for (Pokemon evolution3rd : evolution2nd.evolutions) {
-                list.addAll(getForms(evolution3rd));
+
+        for (PokemonBase base : getEvolutionLine(poke.base)) {
+            Pokemon form = base.getForm(poke);
+            if (form != null) {
+                list.add(form);
+            }
+        }
+
+        return list;
+    }
+
+    /**
+     * Returns the evolution line of a pokemon.
+     *
+     * @param base the pokemon to check the evolution line of
+     * @return a list with pokemon, input pokemon plus its evolutions
+     */
+    public ArrayList<PokemonBase> getEvolutionLine(PokemonBase base) {
+        base = getLowestEvolution(base);
+
+        ArrayList<PokemonBase> list = new ArrayList<>();
+        list.add(base);
+        for (PokemonBase evolution2nd : base.evolutions) {
+            list.add(evolution2nd);
+            for (PokemonBase evolution3rd : evolution2nd.evolutions) {
+                list.add(evolution3rd);
             }
         }
 
@@ -506,14 +530,5 @@ public class PokeInfoCalculator {
         int lowHp = (int) Math.max(
                 Math.floor((selectedPokemon.baseStamina + scanResult.getIVStaminaLow()) * lvlScalar), 10);
         return Math.round((highHp + lowHp) / 2f);
-    }
-
-    /**
-     * Returns the normalized type name for such as fire or water, in the correct current locale name.
-     *
-     * @param type The enum for the type to get the correct name for.
-     */
-    public String getNormalizedType(Pokemon.Type type) {
-        return normalizedTypeNames.get(type);
     }
 }

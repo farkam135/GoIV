@@ -35,11 +35,13 @@ import android.widget.Toast;
 import com.google.common.base.Strings;
 import com.kamron.pogoiv.BuildConfig;
 import com.kamron.pogoiv.GoIVSettings;
+import com.kamron.pogoiv.Pokefly;
 import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanArea;
 import com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldAutomaticLocator;
 import com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanFieldResults;
 import com.kamron.pogoiv.pokeflycomponents.ocrhelper.ScanPoint;
+import com.kamron.pogoiv.scanlogic.Data;
 import com.kamron.pogoiv.utils.MediaStoreUtils;
 
 import java.lang.ref.WeakReference;
@@ -78,8 +80,6 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
     Button saveCalibrationButton;
     @BindView(R.id.ocr_result_image)
     ImageView resultImageView;
-    @BindView(R.id.backToGoivButton)
-    Button backToGoivButton;
     @BindView(R.id.backButton)
     Button backButton;
     @BindView(R.id.errorField)
@@ -144,12 +144,16 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 saveCalibrationButton.setVisibility(View.GONE);
-                backToGoivButton.setVisibility(View.VISIBLE);
                 if (results != null && results.isCompleteCalibration()) {
                     GoIVSettings settings = GoIVSettings.getInstance(OcrCalibrationResultActivity.this);
                     settings.saveScreenCalibrationResults(results);
                     Toast.makeText(OcrCalibrationResultActivity.this,
                             R.string.ocr_calibration_saved, Toast.LENGTH_LONG).show();
+                    Intent stopIntent = Pokefly.createStopIntent(OcrCalibrationResultActivity.this);
+                    startService(stopIntent);
+                    Intent intent = new Intent(OcrCalibrationResultActivity.this, MainActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
                 }
             }
         });
@@ -229,12 +233,6 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
         }
     }
 
-    @OnClick(R.id.backToGoivButton)
-    void goToGoIV() {
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-    }
 
 
 
@@ -363,8 +361,8 @@ public class OcrCalibrationResultActivity extends AppCompatActivity {
             p.setStyle(Paint.Style.STROKE);
             p.setStrokeWidth(sDisplayMetrics.density);
             p.setColor(color);
-            RectF oval = new RectF(point.xCoord - radius, point.yCoord - radius,
-                    point.xCoord + radius, point.yCoord + radius);
+            RectF oval = new RectF(point.xCoord - radius, point.yCoord - (radius* Data.LEVEL_ARC_SQUISH_FACTOR),
+                    point.xCoord + radius, point.yCoord + (radius* Data.LEVEL_ARC_SQUISH_FACTOR));
             c.drawArc(oval, 180, 180, false, p);
         }
     }

@@ -394,7 +394,9 @@
         "DEOXYS_ATTACK_FORM": "Deoxys - Атака",
         "DEOXYS_DEFENSE_FORM": "Deoxys - Защита",
         "DEOXYS_SPEED_FORM": "Deoxys - Скорость",
-        "undefined": " "
+        "undefined": " ",
+        "EXEGGUTOR_ALOLA_FORM": "Экзегутор Алола",
+        "EXEGGUTOR_NORMAL_FORM": "Экзегутор Канто"
     },
     "moves": {
         "ACID_FAST": "Acid",

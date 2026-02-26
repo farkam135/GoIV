@@ -152,7 +152,6 @@
         <item>Dragoran</item>
         <item>Mewtu</item>
         <item>Mew</item>
-        <!--gen 2-->
         <item>Endivie</item>
         <item>Lorblatt</item>
         <item>Meganie</item>
@@ -251,9 +250,8 @@
         <item>Pupitar</item>
         <item>Despotar</item>
         <item>Lugia</item>
-        <item>Ho-oh</item>
+        <item>Ho-Oh</item>
         <item>Celebi</item>
-        <!--gen 3-->
         <item>Geckarbor</item>
         <item>Reptain</item>
         <item>Gewaldro</item>
@@ -389,25 +387,338 @@
         <item>Rayquaza</item>
         <item>Jirachi</item>
         <item>Deoxys</item>
-    </string-array>
-    <string-array name="typeName">
-        <!--  0   normal --> <item>NORMAL</item>
-        <!--  1     fire --> <item>FEUER</item>
-        <!--  2    water --> <item>WASSER</item>
-        <!--  3    grass --> <item>PFLANZE</item>
-        <!--  4 electric --> <item>ELEKTRO</item>
-        <!--  5      ice --> <item>EIS</item>
-        <!--  6 fighting --> <item>KAMPF</item>
-        <!--  7   poison --> <item>GIFT</item>
-        <!--  8   ground --> <item>BODEN</item>
-        <!--  9   flying --> <item>FLUG</item>
-        <!-- 10  psychic --> <item>PSYCHO</item>
-        <!-- 11      bug --> <item>KÄFER</item>
-        <!-- 12     rock --> <item>GESTEIN</item>
-        <!-- 13    ghost --> <item>GEIST</item>
-        <!-- 14   dragon --> <item>DRACHE</item>
-        <!-- 15     dark --> <item>UNLICHT</item>
-        <!-- 16    steel --> <item>STAHL</item>
-        <!-- 17    fairy --> <item>FEE</item>
+        <item>Chelast</item>
+        <item>Chelcarain</item>
+        <item>Chelterrar</item>
+        <item>Panflam</item>
+        <item>Panpyro</item>
+        <item>Panferno</item>
+        <item>Plinfa</item>
+        <item>Pliprin</item>
+        <item>Impoleon</item>
+        <item>Staralili</item>
+        <item>Staravia</item>
+        <item>Staraptor</item>
+        <item>Bidiza</item>
+        <item>Bidifas</item>
+        <item>Zirpurze</item>
+        <item>Zirpeise</item>
+        <item>Sheinux</item>
+        <item>Luxio</item>
+        <item>Luxtra</item>
+        <item>Knospi</item>
+        <item>Roserade</item>
+        <item>Koknodon</item>
+        <item>Rameidon</item>
+        <item>Schilterus</item>
+        <item>Bollterus</item>
+        <item>Burmy</item>
+        <item>Burmadame</item>
+        <item>Moterpel</item>
+        <item>Wadribie</item>
+        <item>Honweisel</item>
+        <item>Pachirisu</item>
+        <item>Bamelin</item>
+        <item>Bojelin</item>
+        <item>Kikugi</item>
+        <item>Kinoso</item>
+        <item>Schalellos</item>
+        <item>Gastrodon</item>
+        <item>Ambidiffel</item>
+        <item>Driftlon</item>
+        <item>Drifzepeli</item>
+        <item>Haspiror</item>
+        <item>Schlapor</item>
+        <item>Traunmagil</item>
+        <item>Kramshef</item>
+        <item>Charmian</item>
+        <item>Shnurgarst</item>
+        <item>Klingplim</item>
+        <item>Skunkapuh</item>
+        <item>Skuntank</item>
+        <item>Bronzel</item>
+        <item>Bronzong</item>
+        <item>Mobai</item>
+        <item>Pantimimi</item>
+        <item>Wonneira</item>
+        <item>Plaudagei</item>
+        <item>Kryppuk</item>
+        <item>Kaumalat</item>
+        <item>Knarksel</item>
+        <item>Knakrack</item>
+        <item>Mampfaxo</item>
+        <item>Riolu</item>
+        <item>Lucario</item>
+        <item>Hippopotas</item>
+        <item>Hippoterus</item>
+        <item>Pionskora</item>
+        <item>Piondragi</item>
+        <item>Glibunkel</item>
+        <item>Toxiquak</item>
+        <item>Venuflibis</item>
+        <item>Finneon</item>
+        <item>Lumineon</item>
+        <item>Mantirps</item>
+        <item>Shnebedeck</item>
+        <item>Rexblisar</item>
+        <item>Snibunna</item>
+        <item>Magnezone</item>
+        <item>Schlurplek</item>
+        <item>Rihornior</item>
+        <item>Tangoloss</item>
+        <item>Elevoltek</item>
+        <item>Magbrant</item>
+        <item>Togekiss</item>
+        <item>Yanmega</item>
+        <item>Folipurba</item>
+        <item>Glaziola</item>
+        <item>Skorgro</item>
+        <item>Mamutel</item>
+        <item>Porygon-Z</item>
+        <item>Galagladi</item>
+        <item>Voluminas</item>
+        <item>Zwirrfinst</item>
+        <item>Frosdedje</item>
+        <item>Rotom</item>
+        <item>Selfe</item>
+        <item>Vesprit</item>
+        <item>Tobutz</item>
+        <item>Dialga</item>
+        <item>Palkia</item>
+        <item>Heatran</item>
+        <item>Regigigas</item>
+        <item>Giratina</item>
+        <item>Cresselia</item>
+        <item>Phione</item>
+        <item>Manaphy</item>
+        <item>Darkrai</item>
+        <item>Shaymin</item>
+        <item>Arceus</item>
+        <item>Victini</item>
+        <item>Serpifeu</item>
+        <item>Efoserp</item>
+        <item>Serpiroyal</item>
+        <item>Floink</item>
+        <item>Ferkokel</item>
+        <item>Flambirex</item>
+        <item>Ottaro</item>
+        <item>Zwottronin</item>
+        <item>Admurai</item>
+        <item>Nagelotz</item>
+        <item>Kukmarda</item>
+        <item>Yorkleff</item>
+        <item>Terribark</item>
+        <item>Bissbark</item>
+        <item>Felilou</item>
+        <item>Kleoparda</item>
+        <item>Vegimak</item>
+        <item>Vegichita</item>
+        <item>Grillmak</item>
+        <item>Grillchita</item>
+        <item>Sodamak</item>
+        <item>Sodachita</item>
+        <item>Somniam</item>
+        <item>Somnivora</item>
+        <item>Dusselgurr</item>
+        <item>Navitaub</item>
+        <item>Fasasnob</item>
+        <item>Elezeba</item>
+        <item>Zebritz</item>
+        <item>Kiesling</item>
+        <item>Sedimantur</item>
+        <item>Brockoloss</item>
+        <item>Fleknoil</item>
+        <item>Fletiamo</item>
+        <item>Rotomurf</item>
+        <item>Stalobor</item>
+        <item>Ohrdoch</item>
+        <item>Praktibalk</item>
+        <item>Strepoli</item>
+        <item>Meistagrif</item>
+        <item>Schallquap</item>
+        <item>Mebrana</item>
+        <item>Branawarz</item>
+        <item>Jiutesto</item>
+        <item>Karadonis</item>
+        <item>Strawickl</item>
+        <item>Folikon</item>
+        <item>Matrifol</item>
+        <item>Toxiped</item>
+        <item>Rollum</item>
+        <item>Cerapendra</item>
+        <item>Waumboll</item>
+        <item>Elfun</item>
+        <item>Lilminip</item>
+        <item>Dressella</item>
+        <item>Barschuft</item>
+        <item>Ganovil</item>
+        <item>Rokkaiman</item>
+        <item>Rabigator</item>
+        <item>Flampion</item>
+        <item>Flampivian</item>
+        <item>Maracamba</item>
+        <item>Lithomith</item>
+        <item>Castellith</item>
+        <item>Zurrokex</item>
+        <item>Irokex</item>
+        <item>Symvolara</item>
+        <item>Makabaja</item>
+        <item>Echnatoll</item>
+        <item>Galapaflos</item>
+        <item>Karippas</item>
+        <item>Flapteryx</item>
+        <item>Aeropteryx</item>
+        <item>Unratütox</item>
+        <item>Deponitox</item>
+        <item>Zorua</item>
+        <item>Zoroark</item>
+        <item>Picochilla</item>
+        <item>Chillabell</item>
+        <item>Mollimorba</item>
+        <item>Hypnomorba</item>
+        <item>Morbitesse</item>
+        <item>Monozyto</item>
+        <item>Mitodos</item>
+        <item>Zytomega</item>
+        <item>Piccolente</item>
+        <item>Swaroness</item>
+        <item>Gelatini</item>
+        <item>Gelatroppo</item>
+        <item>Gelatwino</item>
+        <item>Sesokitz</item>
+        <item>Kronjuwild</item>
+        <item>Emolga</item>
+        <item>Laukaps</item>
+        <item>Cavalanzas</item>
+        <item>Tarnpignon</item>
+        <item>Hutsassa</item>
+        <item>Quabbel</item>
+        <item>Apoquallyp</item>
+        <item>Mamolida</item>
+        <item>Wattzapf</item>
+        <item>Voltula</item>
+        <item>Kastadur</item>
+        <item>Tentantel</item>
+        <item>Klikk</item>
+        <item>Kliklak</item>
+        <item>Klikdiklak</item>
+        <item>Zapplardin</item>
+        <item>Zapplalek</item>
+        <item>Zapplarang</item>
+        <item>Pygraulon</item>
+        <item>Megalon</item>
+        <item>Lichtel</item>
+        <item>Laternecto</item>
+        <item>Skelabra</item>
+        <item>Milza</item>
+        <item>Sharfax</item>
+        <item>Maxax</item>
+        <item>Petznief</item>
+        <item>Siberio</item>
+        <item>Frigometri</item>
+        <item>Schnuthelm</item>
+        <item>Hydragil</item>
+        <item>Flunschlik</item>
+        <item>Lin-Fu</item>
+        <item>Wie-Shu</item>
+        <item>Shardrago</item>
+        <item>Golbit</item>
+        <item>Golgantes</item>
+        <item>Gladiantri</item>
+        <item>Caesurio</item>
+        <item>Bisofank</item>
+        <item>Geronimatz</item>
+        <item>Washakwil</item>
+        <item>Skallyk</item>
+        <item>Grypheldis</item>
+        <item>Furnifraß</item>
+        <item>Fermicula</item>
+        <item>Kapuno</item>
+        <item>Duodino</item>
+        <item>Trikephalo</item>
+        <item>Ignivor</item>
+        <item>Ramoth</item>
+        <item>Kobalium</item>
+        <item>Terrakium</item>
+        <item>Viridium</item>
+        <item>Boreos</item>
+        <item>Voltolos</item>
+        <item>Reshiram</item>
+        <item>Zekrom</item>
+        <item>Demeteros</item>
+        <item>Kyurem</item>
+        <item>Keldeo</item>
+        <item>Meloetta</item>
+        <item>Genesect</item>
+        <item>Igamaro</item>
+        <item>Igastarnish</item>
+        <item>Brigaron</item>
+        <item>Fynx</item>
+        <item>Rutena</item>
+        <item>Fennexis</item>
+        <item>Froxy</item>
+        <item>Amphizel</item>
+        <item>Quajutsu</item>
+        <item>Scoppel</item>
+        <item>Grebbit</item>
+        <item>Dartiri</item>
+        <item>Dartignis</item>
+        <item>Fiaro</item>
+        <item>Purmel</item>
+        <item>Puponcho</item>
+        <item>Vivillon</item>
+        <item>Leufeo</item>
+        <item>Pyroleo</item>
+        <item>Flabébé</item>
+        <item>Floette</item>
+        <item>Florges</item>
+        <item>Mähikel</item>
+        <item>Chevrumm</item>
+        <item>Pam-Pam</item>
+        <item>Pandagro</item>
+        <item>Coiffwaff</item>
+        <item>Psiau</item>
+        <item>Psiaugon</item>
+        <item>Parfi</item>
+        <item>Parfinesse</item>
+        <item>Flauschling</item>
+        <item>Sabbaione</item>
+        <item>Iscalar</item>
+        <item>Calamanero</item>
+        <item>Bithora</item>
+        <item>Thanathora</item>
+        <item>Algitt</item>
+        <item>Tandrak</item>
+        <item>Scampisto</item>
+        <item>Wummer</item>
+        <item>Eguana</item>
+        <item>Elezard</item>
+        <item>Balgoras</item>
+        <item>Monargoras</item>
+        <item>Amarino</item>
+        <item>Amagarga</item>
+        <item>Feelinara</item>
+        <item>Resladero</item>
+        <item>Dedenne</item>
+        <item>Rocara</item>
+        <item>Viscora</item>
+        <item>Viscargot</item>
+        <item>Viscogon</item>
+        <item>Clavion</item>
+        <item>Paragoni</item>
+        <item>Trombork</item>
+        <item>Arktip</item>
+        <item>Arktilas</item>
+        <item>eF-eM</item>
+        <item>UHaFnir</item>
+        <item>Xerneas</item>
+        <item>Yveltal</item>
+        <item>Meltan</item>
+        <item>Melmetal</item>
+        <item>Barrikadax</item>
+        <item>Mauzinger</item>
+        <item>Lauchzelot</item>
+        <item>Pantifrost</item>
+        <item>Oghnatoll</item>
     </string-array>
 </resources>

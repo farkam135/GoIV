@@ -99,6 +99,13 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    private final BroadcastReceiver screenGrabberInitializer = new BroadcastReceiver() {
+        @SuppressWarnings("checkstyle:EmptyCatchBlock")
+        @Override public void onReceive(Context context, Intent intent) {
+            initScreenGrabber();
+        }
+    };
+
     private final BroadcastReceiver pokeflyStateChanged = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -266,9 +273,20 @@ public class MainActivity extends AppCompatActivity {
     private void initiateUserScreenSettings() {
         WindowManager windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
         rawDisplayMetrics = new DisplayMetrics();
-        //noinspection ConstantConditions
         Display display = windowManager.getDefaultDisplay();
         display.getRealMetrics(rawDisplayMetrics);
+    }
+
+    /**
+     * Initializes ScreenGrabber once Pokefly has been started
+     */
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void initScreenGrabber() {
+        // Request screen capture permissions, then, when ready, Pokefly will be started
+        MainFragment.updateLaunchButtonText(this, R.string.accept_screen_capture, null);
+        MediaProjectionManager projectionManager =
+                (MediaProjectionManager) getSystemService(Context.MEDIA_PROJECTION_SERVICE);
+        startActivityForResult(projectionManager.createScreenCaptureIntent(), SCREEN_CAPTURE_REQ_CODE);
     }
 
     /**
@@ -318,16 +336,11 @@ public class MainActivity extends AppCompatActivity {
 
     @SuppressLint("NewApi")
     private void startGoIV() {
+        startPokeFly();
+
         boolean screenshotMode = GoIVSettings.getInstance(this).isManualScreenshotModeEnabled();
         if (screenshotMode) {
-            startPokeFly();
-
-        } else { // Start screen capture then, when ready, Pokefly will be started
-            MainFragment.updateLaunchButtonText(this, R.string.accept_screen_capture, null);
-            MediaProjectionManager projectionManager =
-                    (MediaProjectionManager) getSystemService(Context.MEDIA_PROJECTION_SERVICE);
-            //noinspection ConstantConditions
-            startActivityForResult(projectionManager.createScreenCaptureIntent(), SCREEN_CAPTURE_REQ_CODE);
+            startPoGoIfSettingOn();
         }
     }
 
@@ -382,11 +395,14 @@ public class MainActivity extends AppCompatActivity {
         initRecalibrationAlertBadge();
         LocalBroadcastManager.getInstance(this).registerReceiver(showUpdateDialog,
                 new IntentFilter(ACTION_SHOW_UPDATE_DIALOG));
+        LocalBroadcastManager.getInstance(this).registerReceiver(screenGrabberInitializer,
+                new IntentFilter(Pokefly.ACTION_REQUEST_SCREEN_GRABBER));
     }
 
     @Override
     protected void onPause() {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(showUpdateDialog);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(screenGrabberInitializer);
         super.onPause();
     }
 
@@ -395,8 +411,6 @@ public class MainActivity extends AppCompatActivity {
      */
     private void startPokeFly() {
         MainFragment.updateLaunchButtonText(this, R.string.main_starting, false);
-
-        startPoGoIfSettingOn();
 
         Intent intent = Pokefly
                 .createStartIntent(this, GoIVSettings.getInstance(this).getLevel());
@@ -430,24 +444,27 @@ public class MainActivity extends AppCompatActivity {
     @TargetApi(Build.VERSION_CODES.M)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == OVERLAY_PERMISSION_REQ_CODE) {
-            updateLaunchButtonText(false, null);
-            if (Settings.canDrawOverlays(this)) {
-                runStartButtonLogic(); // We have obtained the overlay permission: start GoIV!
-            }
-
-        } else if (requestCode == SCREEN_CAPTURE_REQ_CODE) {
-            if (resultCode == RESULT_OK) {
-                MediaProjectionManager projectionManager = (MediaProjectionManager) getSystemService(
-                        Context.MEDIA_PROJECTION_SERVICE);
-                //noinspection ConstantConditions
-                MediaProjection mProjection = projectionManager.getMediaProjection(resultCode, data);
-                screen = ScreenGrabber.init(mProjection, rawDisplayMetrics);
-
-                startPokeFly();
-            } else {
+        switch (requestCode) {
+            case OVERLAY_PERMISSION_REQ_CODE:
                 updateLaunchButtonText(false, null);
-            }
+                if (Settings.canDrawOverlays(this)) {
+                    runStartButtonLogic(); // We have obtained the overlay permission: start GoIV!
+                }
+                break;
+            case SCREEN_CAPTURE_REQ_CODE:
+                if (resultCode == RESULT_OK) {
+                    MediaProjectionManager projectionManager = (MediaProjectionManager) getSystemService(
+                            Context.MEDIA_PROJECTION_SERVICE);
+                    MediaProjection mProjection = projectionManager.getMediaProjection(resultCode, data);
+                    screen = ScreenGrabber.init(mProjection, rawDisplayMetrics);
+                    startService(Pokefly.createBeginIntent(this));
+                } else {
+                    updateLaunchButtonText(false, null);
+                }
+                // Launching Pokemon Go here might be a little slower, that right after starting Pokefly, but we need
+                // the MainActivity instance alive to answer the intent from Pokefly
+                startPoGoIfSettingOn();
+                break;
         }
     }
 

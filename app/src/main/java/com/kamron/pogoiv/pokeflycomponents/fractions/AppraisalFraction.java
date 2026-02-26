@@ -3,72 +3,78 @@ package com.kamron.pogoiv.pokeflycomponents.fractions;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.Switch;
+import android.widget.ProgressBar;
+import android.widget.SeekBar;
 
-import com.kamron.pogoiv.GoIVSettings;
+import android.widget.TextView;
+import butterknife.OnCheckedChanged;
 import com.kamron.pogoiv.Pokefly;
 import com.kamron.pogoiv.R;
 import com.kamron.pogoiv.pokeflycomponents.AppraisalManager;
+import com.kamron.pogoiv.scanlogic.IVCombination;
+import com.kamron.pogoiv.scanlogic.ScanResult;
+import com.kamron.pogoiv.utils.GUIColorFromPokeType;
+import com.kamron.pogoiv.utils.ReactiveColorListener;
 import com.kamron.pogoiv.utils.fractions.MovableFraction;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 import butterknife.OnTouch;
 
 import static com.kamron.pogoiv.GoIVSettings.APPRAISAL_WINDOW_POSITION;
 
 
-public class AppraisalFraction extends MovableFraction implements AppraisalManager.OnAppraisalEventListener {
+public class AppraisalFraction extends MovableFraction implements AppraisalManager.OnAppraisalEventListener,
+        ReactiveColorListener {
 
-    @BindView(R.id.appraisalIVRangeGroup)
-    RadioGroup appraisalIVRangeGroup;
+    @BindView(R.id.btnCheckIv)
+    Button btnCheckIv;
+    @BindView(R.id.statsButton)
+    Button statsButton;
+    @BindView(R.id.pbScanning)
+    ProgressBar pbScanning;
+    @BindView(R.id.btnRetry)
+    ImageView btnRetry;
 
-    @BindView(R.id.appraisalIVRange4)
-    RadioButton appraisalIVRange4;
-    @BindView(R.id.appraisalIVRange3)
-    RadioButton appraisalIVRange3;
-    @BindView(R.id.appraisalIVRange2)
-    RadioButton appraisalIVRange2;
-    @BindView(R.id.appraisalIVRange1)
-    RadioButton appraisalIVRange1;
+    @BindView(R.id.headerAppraisal)
+    LinearLayout headerAppraisal;
 
-    @BindView(R.id.attDefStaLayout)
-    LinearLayout attDefStaLayout;
+    @BindView(R.id.valueLayout)
+    ConstraintLayout spinnerLayout;
 
-    @BindView(R.id.attCheckbox)
-    CheckBox attCheckbox;
-    @BindView(R.id.defCheckbox)
-    CheckBox defCheckbox;
-    @BindView(R.id.staCheckbox)
-    CheckBox staCheckbox;
-
-    @BindView(R.id.appraisalStatsGroup)
-    RadioGroup appraisalStatsGroup;
-
-    @BindView(R.id.appraisalStat4)
-    RadioButton appraisalStat4;
-    @BindView(R.id.appraisalStat3)
-    RadioButton appraisalStat3;
-    @BindView(R.id.appraisalStat2)
-    RadioButton appraisalStat2;
-    @BindView(R.id.appraisalStat1)
-    RadioButton appraisalStat1;
-
-    @BindView(R.id.eggRaidSwitch)
-    Switch eggRaidSwitch;
+    @BindView(R.id.atkEnabled)
+    CheckBox atkEnabled;
+    @BindView(R.id.atkSeek)
+    SeekBar atkSeek;
+    @BindView(R.id.atkValue)
+    TextView atkValue;
+    @BindView(R.id.defEnabled)
+    CheckBox defEnabled;
+    @BindView(R.id.defSeek)
+    SeekBar defSeek;
+    @BindView(R.id.defValue)
+    TextView defValue;
+    @BindView(R.id.staEnabled)
+    CheckBox staEnabled;
+    @BindView(R.id.staSeek)
+    SeekBar staSeek;
+    @BindView(R.id.staValue)
+    TextView staValue;
 
 
     private Pokefly pokefly;
     private AppraisalManager appraisalManager;
+    private boolean insideUpdate = false;
 
 
     public AppraisalFraction(@NonNull Pokefly pokefly,
@@ -93,60 +99,54 @@ public class AppraisalFraction extends MovableFraction implements AppraisalManag
     public void onCreate(@NonNull View rootView) {
         ButterKnife.bind(this, rootView);
 
-        // Restore any previously selected appraisal info
-        selectIVSumRange(appraisalManager.appraisalIVSumRange);
-        for (AppraisalManager.HighestStat highestStat : appraisalManager.highestStats) {
-            selectHighestStat(highestStat);
-        }
-        selectIVValueRange(appraisalManager.appraisalHighestStatValueRange);
-        for (AppraisalManager.StatModifier statModifier : appraisalManager.statModifiers) {
-            selectStatModifier(statModifier);
-        }
+        SeekBar.OnSeekBarChangeListener listener = new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if (!insideUpdate) {
+                    if (appraisalManager.attack != atkSeek.getProgress()) {
+                        appraisalManager.attackValid = true;
+                    }
+                    appraisalManager.attack = atkSeek.getProgress();
+                    if (appraisalManager.defense != defSeek.getProgress()) {
+                        appraisalManager.defenseValid = true;
+                    }
+                    appraisalManager.defense = defSeek.getProgress();
+                    if (appraisalManager.stamina != staSeek.getProgress()) {
+                        appraisalManager.staminaValid = true;
+                    }
+                    appraisalManager.stamina = staSeek.getProgress();
+                    updateValueTexts();
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                // Nothing to do here
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                // Nothing to do here
+            }
+        };
+
+        atkSeek.setOnSeekBarChangeListener(listener);
+        defSeek.setOnSeekBarChangeListener(listener);
+        staSeek.setOnSeekBarChangeListener(listener);
+        setSpinnerSelection();
 
         // Listen for new appraisal info
         appraisalManager.addOnAppraisalEventListener(this);
+        btnRetry.setImageResource(R.drawable.ic_play_circle_outline_24px);
 
-        // Load the correct phrases from the text resources depending on what team is stored in app settings
-        switch (GoIVSettings.getInstance(pokefly).playerTeam()) {
-            case 0: // Mystic
-                appraisalIVRange4.setText(R.string.mv4);
-                appraisalIVRange3.setText(R.string.mv3);
-                appraisalIVRange2.setText(R.string.mv2);
-                appraisalIVRange1.setText(R.string.mv1);
-                appraisalStat1.setText(R.string.ms1);
-                appraisalStat2.setText(R.string.ms2);
-                appraisalStat3.setText(R.string.ms3);
-                appraisalStat4.setText(R.string.ms4);
-                break;
-
-            case 1: // Valor
-                appraisalIVRange4.setText(R.string.vv4);
-                appraisalIVRange3.setText(R.string.vv3);
-                appraisalIVRange2.setText(R.string.vv2);
-                appraisalIVRange1.setText(R.string.vv1);
-                appraisalStat1.setText(R.string.vs1);
-                appraisalStat2.setText(R.string.vs2);
-                appraisalStat3.setText(R.string.vs3);
-                appraisalStat4.setText(R.string.vs4);
-                break;
-
-            default:
-            case 2: // Instinct
-                appraisalIVRange4.setText(R.string.iv4);
-                appraisalIVRange3.setText(R.string.iv3);
-                appraisalIVRange2.setText(R.string.iv2);
-                appraisalIVRange1.setText(R.string.iv1);
-                appraisalStat1.setText(R.string.is1);
-                appraisalStat2.setText(R.string.is2);
-                appraisalStat3.setText(R.string.is3);
-                appraisalStat4.setText(R.string.is4);
-                break;
-        }
+        GUIColorFromPokeType.getInstance().setListenTo(this);
+        updateGuiColors();
     }
 
     @Override
     public void onDestroy() {
         appraisalManager.removeOnAppraisalEventListener(this);
+        GUIColorFromPokeType.getInstance().removeListener(this);
     }
 
     @Override
@@ -159,107 +159,65 @@ public class AppraisalFraction extends MovableFraction implements AppraisalManag
         return 0;
     }
 
-    @Override
-    public void selectIVSumRange(AppraisalManager.IVSumRange range) {
-        switch (range) {
-            case RANGE_37_45:
-                appraisalIVRange1.setChecked(true);
-                break;
-            case RANGE_30_36:
-                appraisalIVRange2.setChecked(true);
-                break;
-            case RANGE_23_29:
-                appraisalIVRange3.setChecked(true);
-                break;
-            case RANGE_0_22:
-                appraisalIVRange4.setChecked(true);
-                break;
-            default:
-            case UNKNOWN:
-                appraisalIVRangeGroup.clearCheck();
-                break;
-        }
-    }
-
-    @Override
-    public void selectHighestStat(AppraisalManager.HighestStat stat) {
-        switch (stat) {
-            case ATK:
-                attCheckbox.setChecked(true);
-                break;
-            case DEF:
-                defCheckbox.setChecked(true);
-                break;
-            case STA:
-                staCheckbox.setChecked(true);
-                break;
-            default:
-                break;
-        }
-    }
-
-    @Override
-    public void selectIVValueRange(AppraisalManager.IVValueRange range) {
-        switch (range) {
-            case RANGE_15:
-                appraisalStat1.setChecked(true);
-                break;
-            case RANGE_13_14:
-                appraisalStat2.setChecked(true);
-                break;
-            case RANGE_8_12:
-                appraisalStat3.setChecked(true);
-                break;
-            case RANGE_0_7:
-                appraisalStat4.setChecked(true);
-                break;
-            default:
-            case UNKNOWN:
-                appraisalStatsGroup.clearCheck();
-                break;
-        }
-    }
-
-    private void selectStatModifier(AppraisalManager.StatModifier modifier) {
-        switch (modifier) {
-            case EGG_OR_RAID:
-                eggRaidSwitch.setChecked(true);
-                break;
-            case WEATHER_BOOST:
-                // TODO weatherSwitch.setChecked(true);
-                break;
-            default:
-                break;
-        }
-    }
-
     /**
      * Sets the background for the appropriate checkbox group depending on where we are at in the appraisal process.
      */
     @Override
     public void highlightActiveUserInterface() {
-        resetActivatedUserInterface();
-        if (appraisalManager.appraisalIVSumRange == AppraisalManager.IVSumRange.UNKNOWN) {
-            // Percent range not completed yet
-            appraisalIVRangeGroup.setBackgroundResource(R.drawable.highlight_rectangle);
-        } else if (appraisalManager.appraisalHighestStatValueRange == AppraisalManager.IVValueRange.UNKNOWN) {
-            // Highest stat IV value range not completed yet
-            attDefStaLayout.setBackgroundResource(R.drawable.highlight_rectangle);
-        } else {
-            // Highest stat IV value range completed
-            appraisalStatsGroup.setBackgroundResource(R.drawable.highlight_rectangle);
+        spinnerLayout.setBackgroundResource(R.drawable.highlight_rectangle);
+        pbScanning.setVisibility(View.VISIBLE);
+        btnRetry.setVisibility(View.INVISIBLE);
+    }
+
+
+    /**
+     * Update the text on the 'next' button to indicate quick IV overview
+     */
+    private void updateIVPreviewInButton() {
+        InputFraction.updateIVPreview(pokefly, btnCheckIv);
+    }
+
+    @OnCheckedChanged({R.id.atkEnabled, R.id.defEnabled, R.id.staEnabled})
+    public void onEnabled() {
+        if (!insideUpdate) {
+            appraisalManager.attackValid = atkEnabled.isChecked();
+            appraisalManager.defenseValid = defEnabled.isChecked();
+            appraisalManager.staminaValid = staEnabled.isChecked();
+            updateIVPreviewInButton();
         }
     }
 
-    /**
-     * Disables any background highlight that had previously been set.  This method is used as a quick way to remove
-     * all backgrounds prior to setting again or when the auto appraisal process has completed.
-     */
     @Override
-    public void resetActivatedUserInterface() {
-        appraisalIVRangeGroup.setBackground(null);
-        attDefStaLayout.setBackground(null);
-        appraisalStatsGroup.setBackground(null);
+    public void refreshSelection() {
+        setSpinnerSelection();
+        spinnerLayout.setBackground(null);
+        pbScanning.setVisibility(View.INVISIBLE);
+        btnRetry.setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * Updates the checkboxes, labels and IV preview in the button.
+     */
+    private void updateValueTexts() {
+        atkValue.setText(String.valueOf(appraisalManager.attack));
+        defValue.setText(String.valueOf(appraisalManager.defense));
+        staValue.setText(String.valueOf(appraisalManager.stamina));
+        atkEnabled.setChecked(appraisalManager.attackValid);
+        defEnabled.setChecked(appraisalManager.defenseValid);
+        staEnabled.setChecked(appraisalManager.staminaValid);
+        updateIVPreviewInButton();
+    }
+
+    /**
+     * Sets the progress bars and calls {@code updateValueTexts()}, mainly used to update it from the outside.
+     */
+    private void setSpinnerSelection() {
+        insideUpdate = true;
+        updateValueTexts();
+        atkSeek.setProgress(appraisalManager.attack);
+        defSeek.setProgress(appraisalManager.defense);
+        staSeek.setProgress(appraisalManager.stamina);
+        insideUpdate = false;
     }
 
     @OnTouch({R.id.positionHandler, R.id.additionalRefiningHeader})
@@ -267,104 +225,7 @@ public class AppraisalFraction extends MovableFraction implements AppraisalManag
         return super.onTouch(v, event);
     }
 
-    @OnCheckedChanged(R.id.appraisalIVRange1)
-    void onIVRange1(boolean checked) {
-        if (checked) {
-            appraisalManager.appraisalIVSumRange = AppraisalManager.IVSumRange.RANGE_37_45;
-        }
-    }
-
-    @OnCheckedChanged(R.id.appraisalIVRange2)
-    void onIVRange2(boolean checked) {
-        if (checked) {
-            appraisalManager.appraisalIVSumRange = AppraisalManager.IVSumRange.RANGE_30_36;
-        }
-    }
-
-    @OnCheckedChanged(R.id.appraisalIVRange3)
-    void onIVRange3(boolean checked) {
-        if (checked) {
-            appraisalManager.appraisalIVSumRange = AppraisalManager.IVSumRange.RANGE_23_29;
-        }
-    }
-
-    @OnCheckedChanged(R.id.appraisalIVRange4)
-    void onIVRange4(boolean checked) {
-        if (checked) {
-            appraisalManager.appraisalIVSumRange = AppraisalManager.IVSumRange.RANGE_0_22;
-        }
-    }
-
-    @OnCheckedChanged(R.id.attCheckbox)
-    void attChecked(boolean checked) {
-        if (checked) {
-            appraisalManager.highestStats.add(AppraisalManager.HighestStat.ATK);
-        } else {
-            appraisalManager.highestStats.remove(AppraisalManager.HighestStat.ATK);
-        }
-    }
-
-    @OnCheckedChanged(R.id.defCheckbox)
-    void defChecked(boolean checked) {
-        if (checked) {
-            appraisalManager.highestStats.add(AppraisalManager.HighestStat.DEF);
-        } else {
-            appraisalManager.highestStats.remove(AppraisalManager.HighestStat.DEF);
-        }
-    }
-
-    @OnCheckedChanged(R.id.staCheckbox)
-    void staChecked(boolean checked) {
-        if (checked) {
-            appraisalManager.highestStats.add(AppraisalManager.HighestStat.STA);
-        } else {
-            appraisalManager.highestStats.remove(AppraisalManager.HighestStat.STA);
-        }
-    }
-
-    @OnCheckedChanged(R.id.appraisalStat1)
-    void onStatRange1(boolean checked) {
-        if (checked) {
-            appraisalManager.appraisalHighestStatValueRange = AppraisalManager.IVValueRange.RANGE_15;
-        }
-    }
-
-    @OnCheckedChanged(R.id.appraisalStat2)
-    void onStatRange2(boolean checked) {
-        if (checked) {
-            appraisalManager.appraisalHighestStatValueRange = AppraisalManager.IVValueRange.RANGE_13_14;
-        }
-    }
-
-    @OnCheckedChanged(R.id.appraisalStat3)
-    void onStatRange3(boolean checked) {
-        if (checked) {
-            appraisalManager.appraisalHighestStatValueRange = AppraisalManager.IVValueRange.RANGE_8_12;
-        }
-    }
-
-    @OnCheckedChanged(R.id.appraisalStat4)
-    void onStatRange4(boolean checked) {
-        if (checked) {
-            appraisalManager.appraisalHighestStatValueRange = AppraisalManager.IVValueRange.RANGE_0_7;
-        }
-    }
-
-    @OnClick(R.id.eggRaidText)
-    void toggleRaidSwitch() {
-        eggRaidSwitch.toggle();
-    }
-
-    @OnCheckedChanged(R.id.eggRaidSwitch)
-    void onEggOrRaid(boolean checked) {
-        if (checked) {
-            appraisalManager.statModifiers.add(AppraisalManager.StatModifier.EGG_OR_RAID);
-        } else {
-            appraisalManager.statModifiers.remove(AppraisalManager.StatModifier.EGG_OR_RAID);
-        }
-    }
-
-    @OnClick({R.id.statsButton, R.id.btnBackAppr})
+    @OnClick({R.id.statsButton})
     void onStats() {
         pokefly.navigateToInputFraction();
     }
@@ -379,4 +240,20 @@ public class AppraisalFraction extends MovableFraction implements AppraisalManag
         pokefly.computeIv();
     }
 
+    @OnClick(R.id.btnRetry)
+    void onRetryClick() {
+        if (appraisalManager.isRunning()) {
+            appraisalManager.stop();
+        } else {
+            appraisalManager.start();
+        }
+    }
+
+    @Override public void updateGuiColors() {
+
+        int c = GUIColorFromPokeType.getInstance().getColor();
+        btnCheckIv.setBackgroundColor(c);
+        statsButton.setBackgroundColor(c);
+        headerAppraisal.setBackgroundColor(c);
+    }
 }
